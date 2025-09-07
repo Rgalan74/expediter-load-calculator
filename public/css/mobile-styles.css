@@ -1,0 +1,514 @@
+/* =========================================================
+   MOBILE-STYLES.CSS - OPTIMIZACIÓN COMPLETA PARA MÓVILES
+   ========================================================= */
+
+/* 📱 VARIABLES MÓVILES */
+:root {
+  --mobile-touch-size: 44px;     /* Tamaño mínimo táctil */
+  --mobile-spacing: 1rem;        /* Espaciado estándar móvil */
+  --mobile-padding: 0.75rem;     /* Padding interno móvil */
+  --mobile-font-base: 16px;      /* Tamaño base para evitar zoom */
+  --mobile-font-small: 14px;     /* Texto pequeño legible */
+  --mobile-border-radius: 8px;   /* Bordes más suaves en móvil */
+}
+
+/* 📱 LAYOUT RESPONSIVE MEJORADO */
+@media (max-width: 768px) {
+  
+  /* === HEADER MÓVIL === */
+  header .max-w-7xl {
+    padding: 0.5rem 1rem;
+  }
+  
+  header .flex {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  header .text-3xl {
+    font-size: 1.25rem !important;
+    line-height: 1.2;
+  }
+  
+  header img {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+  }
+  
+  /* === NAVEGACIÓN TABS MÓVIL === */
+  nav {
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  nav .max-w-7xl {
+    padding: 0.5rem 1rem;
+    display: flex;
+    gap: 0.5rem;
+    min-width: max-content;
+  }
+  
+  nav .tab-link {
+    font-size: 0.875rem !important;
+    padding: 0.5rem 1rem !important;
+    white-space: nowrap;
+    min-width: var(--mobile-touch-size);
+    min-height: var(--mobile-touch-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--mobile-border-radius);
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+  }
+  
+  nav .tab-link.text-blue-600,
+  nav .tab-link:active {
+    background: #3b82f6;
+    color: white !important;
+    border-color: #3b82f6;
+  }
+  
+  /* === CONTENIDO PRINCIPAL MÓVIL === */
+  main {
+    padding: 0.5rem !important;
+    margin-top: 0.5rem !important;
+  }
+  
+  .tab-content {
+    gap: 1rem;
+    padding: 0;
+  }
+  
+  /* === CARDS Y SECCIONES MÓVIL === */
+  .card-section,
+  .tab-content .bg-white,
+  .tab-content .bg-gray-50 {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: var(--mobile-border-radius);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  /* === CALCULADORA MÓVIL === */
+  .calculator-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .form-group label {
+    font-size: var(--mobile-font-small);
+    font-weight: 600;
+    color: #374151;
+  }
+  
+  .form-input,
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  textarea,
+  select {
+    font-size: var(--mobile-font-base) !important;
+    padding: 0.75rem !important;
+    min-height: var(--mobile-touch-size) !important;
+    border: 1px solid #d1d5db;
+    border-radius: var(--mobile-border-radius);
+    width: 100%;
+    background: white;
+    transition: border-color 0.2s ease;
+  }
+  
+  .form-input:focus,
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  /* === BOTONES MÓVIL === */
+  button,
+  .btn-primary,
+  .btn-success,
+  .btn-danger {
+    font-size: var(--mobile-font-base) !important;
+    padding: 0.75rem 1.5rem !important;
+    min-height: var(--mobile-touch-size) !important;
+    border-radius: var(--mobile-border-radius);
+    font-weight: 600;
+    transition: all 0.2s ease;
+    touch-action: manipulation; /* Previene zoom en doble tap */
+  }
+  
+  /* Botones en fila para móvil */
+  .button-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .button-group.single {
+    grid-template-columns: 1fr;
+  }
+  
+  /* === PANEL DE DECISIÓN MÓVIL === */
+  #decisionPanel {
+    padding: 1rem !important;
+    margin: 1rem 0;
+    border-radius: var(--mobile-border-radius);
+  }
+  
+  #decisionPanel .grid {
+    display: block !important;
+  }
+  
+  #decisionPanel .grid > div {
+    margin-bottom: 0.75rem;
+  }
+  
+  #quickPrice {
+    font-size: 2rem !important;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+  
+  #decisionContainer h3 {
+    font-size: 1.25rem !important;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  #decisionSubtitle {
+    font-size: 0.875rem !important;
+    text-align: center;
+    opacity: 0.9;
+  }
+  
+  /* Información compacta en móvil */
+  .decision-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+  
+  .decision-stats .stat {
+    text-align: center;
+    padding: 0.5rem;
+    background: rgba(255,255,255,0.2);
+    border-radius: var(--mobile-border-radius);
+  }
+  
+  .decision-stats .stat-label {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    display: block;
+  }
+  
+  .decision-stats .stat-value {
+    font-size: 1rem;
+    font-weight: 600;
+    display: block;
+  }
+  
+  /* === TABLAS MÓVIL === */
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--mobile-border-radius);
+    border: 1px solid #e5e7eb;
+  }
+  
+  table {
+    min-width: 600px; /* Ancho mínimo para scroll horizontal */
+    font-size: 0.875rem;
+  }
+  
+  th, td {
+    padding: 0.5rem !important;
+    font-size: 0.875rem !important;
+    white-space: nowrap;
+  }
+  
+  /* Columnas prioritarias más anchas en móvil */
+  .col-route { min-width: 120px; }
+  .col-company { min-width: 100px; }
+  .col-date { min-width: 80px; }
+  .col-miles { min-width: 70px; }
+  .col-profit { min-width: 80px; }
+  
+  /* === RESULTADOS DE CÁLCULO MÓVIL === */
+  .results-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: #f9fafb;
+    border-radius: var(--mobile-border-radius);
+    border: 1px solid #e5e7eb;
+  }
+  
+  .result-label {
+    font-size: var(--mobile-font-small);
+    color: #6b7280;
+    font-weight: 500;
+  }
+  
+  .result-value {
+    font-size: var(--mobile-font-base);
+    font-weight: 600;
+    color: #111827;
+  }
+  
+  /* === MAPA MÓVIL === */
+  #map {
+    height: 250px !important; /* Más compacto en móvil */
+    border-radius: var(--mobile-border-radius);
+  }
+  
+  /* === TIPOGRAFÍA MÓVIL === */
+  h1 { font-size: 1.875rem !important; }
+  h2 { font-size: 1.5rem !important; }
+  h3 { font-size: 1.25rem !important; }
+  
+  .text-3xl { font-size: 1.5rem !important; }
+  .text-2xl { font-size: 1.25rem !important; }
+  .text-xl { font-size: 1.125rem !important; }
+  .text-lg { font-size: 1rem !important; }
+  .text-base { font-size: var(--mobile-font-base) !important; }
+  .text-sm { font-size: var(--mobile-font-small) !important; }
+  
+  /* === ESPACIADO MÓVIL === */
+  .space-y-8 > * + * { margin-top: 1.5rem !important; }
+  .space-y-6 > * + * { margin-top: 1rem !important; }
+  .space-y-4 > * + * { margin-top: 0.75rem !important; }
+  
+  .mb-8 { margin-bottom: 1.5rem !important; }
+  .mb-6 { margin-bottom: 1rem !important; }
+  .mb-4 { margin-bottom: 0.75rem !important; }
+  
+  /* === UTILIDADES MÓVILES === */
+  .mobile-hidden { display: none !important; }
+  .mobile-block { display: block !important; }
+  .mobile-flex { display: flex !important; }
+  .mobile-grid { display: grid !important; }
+  
+  /* === MENSAJES Y ALERTAS MÓVIL === */
+  .message-success,
+  .message-error,
+  .message-info {
+    padding: 0.75rem;
+    border-radius: var(--mobile-border-radius);
+    font-size: var(--mobile-font-small);
+    margin: 0.5rem 0;
+  }
+  
+  /* === ESTADÍSTICAS DASHBOARD MÓVIL === */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  
+  .stat-card {
+    padding: 1rem;
+    text-align: center;
+    background: white;
+    border-radius: var(--mobile-border-radius);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827;
+  }
+  
+  .stat-label {
+    font-size: 0.75rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  /* === GRÁFICOS MÓVIL === */
+  .chart-container {
+    height: 250px;
+    margin: 1rem 0;
+  }
+  
+  /* === LOADING STATES MÓVIL === */
+  .spinner {
+    width: 30px;
+    height: 30px;
+  }
+  
+  /* === FORMULARIO DE AUTENTICACIÓN MÓVIL === */
+  .auth-container {
+    padding: 1rem !important;
+    margin: 1rem !important;
+  }
+  
+  .auth-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .auth-tab {
+    flex: 1;
+    padding: 0.75rem;
+    text-align: center;
+    font-size: var(--mobile-font-small);
+    border-radius: var(--mobile-border-radius);
+  }
+}
+
+/* 📱 OPTIMIZACIONES ESPECÍFICAS PARA PANTALLAS MUY PEQUEÑAS */
+@media (max-width: 480px) {
+  
+  :root {
+    --mobile-spacing: 0.75rem;
+    --mobile-padding: 0.5rem;
+  }
+  
+  header .text-3xl {
+    font-size: 1rem !important;
+  }
+  
+  nav .tab-link {
+    font-size: 0.75rem !important;
+    padding: 0.5rem 0.75rem !important;
+  }
+  
+  .card-section,
+  .tab-content .bg-white,
+  .tab-content .bg-gray-50 {
+    padding: 0.75rem;
+  }
+  
+  #quickPrice {
+    font-size: 1.75rem !important;
+  }
+  
+  .button-group {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+/* 📱 ORIENTACIÓN LANDSCAPE EN MÓVIL */
+@media (max-width: 768px) and (orientation: landscape) {
+  
+  header .max-w-7xl {
+    padding: 0.25rem 1rem;
+  }
+  
+  nav .max-w-7xl {
+    padding: 0.25rem 1rem;
+  }
+  
+  nav .tab-link {
+    padding: 0.375rem 0.75rem !important;
+    font-size: 0.75rem !important;
+  }
+  
+  main {
+    margin-top: 0.25rem !important;
+  }
+  
+  #map {
+    height: 200px !important;
+  }
+}
+
+/* 📱 ACCESIBILIDAD MÓVIL */
+@media (max-width: 768px) {
+  
+  /* Aumentar área táctil para enlaces pequeños */
+  a, button, .tab-link {
+    min-width: var(--mobile-touch-size);
+    min-height: var(--mobile-touch-size);
+  }
+  
+  /* Mejorar contraste en pantallas pequeñas */
+  .text-gray-500 {
+    color: #4b5563 !important;
+  }
+  
+  .text-gray-400 {
+    color: #6b7280 !important;
+  }
+  
+  /* Focus visible mejorado para navegación por teclado */
+  *:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+}
+
+/* 📱 ANIMACIONES SUAVES PARA MÓVIL */
+@media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
+  
+  .tab-content {
+    transition: opacity 0.2s ease;
+  }
+  
+  .tab-content.tab-active {
+    animation: fadeInMobile 0.3s ease;
+  }
+  
+  @keyframes fadeInMobile {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  button:active {
+    transform: scale(0.98);
+  }
+}
+
+/* 📱 PRINT STYLES PARA MÓVIL */
+@media print {
+  nav, header button {
+    display: none !important;
+  }
+  
+  .tab-content {
+    display: block !important;
+  }
+  
+  * {
+    color: black !important;
+    background: white !important;
+  }
+}
