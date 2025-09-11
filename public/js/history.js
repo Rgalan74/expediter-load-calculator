@@ -482,74 +482,98 @@ function editLoad(loadId) {
   setupEditModalCalculations();
 }
 
-
 // ✅ Llenar formulario de edición
 function populateEditForm(load) {
-    // Campos básicos
-    document.getElementById('editDate').value = load.date || '';
-    document.getElementById('editLoadNumber').value = load.loadNumber || '';
-    document.getElementById('editOrigin').value = load.origin || '';
-    document.getElementById('editDestination').value = load.destination || '';
-    
-    // Millas
-    document.getElementById('editLoadedMiles').value = load.loadedMiles || 0;
-    document.getElementById('editDeadheadMiles').value = load.deadheadMiles || 0;
-    document.getElementById('editTotalMiles').value = load.totalMiles || 0;
-    
-    // Financiero
-    document.getElementById('editRpm').value = load.rpm || 0;
-    document.getElementById('editTotalCharge').value = load.totalCharge || 0;
-    document.getElementById('editTolls').value = load.tolls || 0;
-    document.getElementById('editOtherCosts').value = load.otherCosts || 0;
-    
-    // Empresa y notas
-    document.getElementById('editCompanyName').value = load.companyName || '';
-    document.getElementById('editNotes').value = load.notes || '';
-    document.getElementById('editRepositionMiles').value = load.repositionMiles || 0;
+  // Campos básicos
+  document.getElementById('editDate').value = load.date || '';
+  document.getElementById('editLoadNumber').value = load.loadNumber || '';
+  document.getElementById('editOrigin').value = load.origin || '';
+  document.getElementById('editDestination').value = load.destination || '';
+  
+  // Millas
+  document.getElementById('editLoadedMiles').value = load.loadedMiles || 0;
+  document.getElementById('editDeadheadMiles').value = load.deadheadMiles || 0;
+  document.getElementById('editTotalMiles').value = load.totalMiles || 0;
+  
+  // Financiero
+  document.getElementById('editRpm').value = load.rpm || 0;
+  document.getElementById('editTotalCharge').value = load.totalCharge || 0;
+  document.getElementById('editTolls').value = load.tolls || 0;
+  document.getElementById('editOtherCosts').value = load.otherCosts || 0;
+  
+  // Empresa y notas
+  document.getElementById('editCompanyName').value = load.companyName || '';
+  document.getElementById('editNotes').value = load.notes || '';
+  document.getElementById('editRepositionMiles').value = load.repositionMiles || 0;
 
-    // Calcular valores iniciales
+  // ✅ Actualizar cálculos iniciales (si existe la función)
+  if (typeof updateEditCalculations === "function") {
     updateEditCalculations();
+  }
 }
+
+let lastEditedField = null; // 👈 variable global dentro de history.js
+
+// ✅ Actualizar cálculos en tiempo real (flexible)
+function updateEditCalculations() {
+  const loadedMiles = parseFloat(document.getElementById('editLoadedMiles')?.value) || 0;
+  const deadheadMiles = parseFloat(document.getElementById('editDeadheadMiles')?.value) || 0;
+  let rpm = parseFloat(document.getElementById('editRpm')?.value) || 0;
+  let totalCharge = parseFloat(document.getElementById('editTotalCharge')?.value) || 0;
+  const tolls = parseFloat(document.getElementById('editTolls')?.value) || 0;
+  const otherCosts = parseFloat(document.getElementById('editOtherCosts')?.value) || 0;
+
+  const totalMiles = loadedMiles + deadheadMiles;
+
+  // 🔄 Usar el último campo editado para decidir
+  if (lastEditedField === 'editRpm' && totalMiles > 0) {
+    totalCharge = (rpm * totalMiles) + tolls + otherCosts;
+    document.getElementById('editTotalCharge').value = totalCharge.toFixed(2);
+  } 
+  else if (lastEditedField === 'editTotalCharge' && totalMiles > 0) {
+    rpm = (totalCharge - tolls - otherCosts) / totalMiles;
+    document.getElementById('editRpm').value = rpm.toFixed(2);
+  }
+
+  // Cálculos de costos
+  const operatingCost = totalMiles * 0.33;
+  const fuelCost = totalMiles * 0.18;
+  const totalExpenses = operatingCost + fuelCost + tolls + otherCosts;
+  const netProfit = totalCharge - totalExpenses;
+  const profitMargin = totalCharge > 0 ? (netProfit / totalCharge) * 100 : 0;
+
+  // ✅ Actualizar campos calculados
+  document.getElementById('editTotalMiles').value = totalMiles;
+  document.getElementById('editOperatingCost').textContent = '$' + operatingCost.toFixed(2);
+  document.getElementById('editFuelCost').textContent = '$' + fuelCost.toFixed(2);
+  document.getElementById('editNetProfit').textContent = '$' + netProfit.toFixed(2);
+  document.getElementById('editProfitMargin').textContent = profitMargin.toFixed(1) + '%';
+}
+
 
 // ✅ Configurar auto-cálculo
 function setupEditModalCalculations() {
-    const fieldsToWatch = ['editLoadedMiles', 'editDeadheadMiles', 'editRpm', 'editTolls', 'editOtherCosts'];
-    
-    fieldsToWatch.forEach(fieldId => {
-        const field = document.getElementById(fieldId);
-        if (field) {
-            field.addEventListener('input', updateEditCalculations);
-        }
-    });
+  const fieldsToWatch = [
+    'editLoadedMiles',
+    'editDeadheadMiles',
+    'editRpm',
+    'editTotalCharge',
+    'editTolls',
+    'editOtherCosts'
+  ];
+
+  fieldsToWatch.forEach(fieldId => {
+    const field = document.getElementById(fieldId);
+    if (field) {
+      field.addEventListener('input', () => {
+        lastEditedField = fieldId;   // 👈 recordar cuál fue modificado
+        updateEditCalculations();
+      });
+    }
+  });
 }
 
-// ✅ Actualizar cálculos en tiempo real
-function updateEditCalculations() {
-    const loadedMiles = parseFloat(document.getElementById('editLoadedMiles').value) || 0;
-    const deadheadMiles = parseFloat(document.getElementById('editDeadheadMiles').value) || 0;
-    const rpm = parseFloat(document.getElementById('editRpm').value) || 0;
-    const tolls = parseFloat(document.getElementById('editTolls').value) || 0;
-    const otherCosts = parseFloat(document.getElementById('editOtherCosts').value) || 0;
-    
-    const totalMiles = loadedMiles + deadheadMiles;
-    const baseIncome = rpm * totalMiles;
-    const totalCharge = baseIncome + tolls + otherCosts;
-    const operatingCost = totalMiles * 0.33;
-    const fuelCost = totalMiles * 0.18;
-    const totalExpenses = operatingCost + fuelCost + tolls + otherCosts;
-    const netProfit = totalCharge - totalExpenses;
-    const profitMargin = totalCharge > 0 ? (netProfit / totalCharge) * 100 : 0;
-    
-    // Actualizar campos calculados
-    document.getElementById('editTotalMiles').value = totalMiles;
-    document.getElementById('editTotalCharge').value = totalCharge.toFixed(2);
-    document.getElementById('editOperatingCost').textContent = '$' + operatingCost.toFixed(2);
-    document.getElementById('editFuelCost').textContent = '$' + fuelCost.toFixed(2);
-    document.getElementById('editNetProfit').textContent = '$' + netProfit.toFixed(2);
-    document.getElementById('editProfitMargin').textContent = profitMargin.toFixed(1) + '%';
-}
-
-// ✅ Guardar cambios (CORREGIDO - actualiza en la misma colección "loads")
+// ✅ Guardar cambios desde el modal de edición
 async function saveEditedLoad() {
   try {
     if (!currentEditingLoad || !currentEditingLoad.id) {
@@ -560,96 +584,87 @@ async function saveEditedLoad() {
     if (!user) throw new Error("Usuario no autenticado");
 
     console.log("🔎 saveEditedLoad ejecutado, currentEditingLoad:", currentEditingLoad);
-    console.log("💾 Guardando cambios de:", currentEditingLoad.id);
 
-    // Obtener valores del formulario
-    const loadedMiles = parseFloat(document.getElementById('editLoadedMiles').value) || 0;
-    const deadheadMiles = parseFloat(document.getElementById('editDeadheadMiles').value) || 0;
+    // 👇 Leer valores del modal
+    const loadedMiles = parseFloat(document.getElementById('editLoadedMiles')?.value) || 0;
+    const deadheadMiles = parseFloat(document.getElementById('editDeadheadMiles')?.value) || 0;
     const totalMiles = loadedMiles + deadheadMiles;
-    const rpm = parseFloat(document.getElementById('editRpm').value) || 0;
-    const tolls = parseFloat(document.getElementById('editTolls').value) || 0;
-    const otherCosts = parseFloat(document.getElementById('editOtherCosts').value) || 0;
-    const repositionMiles = parseFloat(document.getElementById('editRepositionMiles').value) || 0;
 
-    // Validaciones
-    if (!document.getElementById('editOrigin').value.trim()) {
-      throw new Error('El origen es requerido');
-    }
-    if (!document.getElementById('editDestination').value.trim()) {
-      throw new Error('El destino es requerido');
-    }
-    if (totalMiles <= 0) {
-      throw new Error('Las millas totales deben ser mayores a 0');
-    }
-    if (rpm <= 0) {
-      throw new Error('El RPM debe ser mayor a 0');
+    let rpm = parseFloat(document.getElementById('editRpm')?.value) || 0;
+    let totalCharge = parseFloat(document.getElementById('editTotalCharge')?.value) || 0;
+    const tolls = parseFloat(document.getElementById('editTolls')?.value) || 0;
+    const otherCosts = parseFloat(document.getElementById('editOtherCosts')?.value) || 0;
+    const repositionMiles = parseFloat(document.getElementById('editRepositionMiles')?.value) || 0;
+
+    const companyName = document.getElementById('editCompanyName')?.value.trim() || '';
+    const notes = document.getElementById('editNotes')?.value.trim() || '';
+    const editedDate = document.getElementById('editDate')?.value || new Date().toISOString().split('T')[0];
+    const loadNumber = document.getElementById('editLoadNumber')?.value.trim() || '';
+    const origin = document.getElementById('editOrigin')?.value.trim() || '';
+    const destination = document.getElementById('editDestination')?.value.trim() || '';
+
+    if (!origin || !destination) throw new Error('Origen y destino son requeridos');
+    if (totalMiles <= 0) throw new Error('Las millas totales deben ser mayores a 0');
+
+    // 🔄 Recalcular flexible RPM ↔ Total
+    if (lastEditedField === 'editRpm' && totalMiles > 0) {
+      totalCharge = (rpm * totalMiles) + tolls + otherCosts;
+    } else if (lastEditedField === 'editTotalCharge' && totalMiles > 0) {
+      rpm = (totalCharge - tolls - otherCosts) / totalMiles;
+    } else if (rpm > 0 && totalMiles > 0) {
+      totalCharge = (rpm * totalMiles) + tolls + otherCosts;
     }
 
-    // Calcular valores financieros
-    const baseIncome = rpm * totalMiles;
-    const totalCharge = baseIncome + tolls + otherCosts;
+    // ✅ Costos y ganancias
     const operatingCost = totalMiles * 0.33;
     const fuelCost = totalMiles * 0.18;
     const totalExpenses = operatingCost + fuelCost + tolls + otherCosts;
     const netProfit = totalCharge - totalExpenses;
     const profitMargin = totalCharge > 0 ? (netProfit / totalCharge) * 100 : 0;
 
-    // 📅 Capturar fecha del modal
-    const editedDate = document.getElementById('editDate')?.value || new Date().toISOString().split('T')[0];
-    console.log("📅 Fecha editada que se va a guardar:", editedDate);
-    console.log("🚚 Reposicionamiento guardado:", repositionMiles);
-
-    // Datos actualizados
+    // 📦 Objeto actualizado
     const updatedData = {
       date: editedDate,
-      loadNumber: document.getElementById('editLoadNumber').value.trim(),
-      origin: document.getElementById('editOrigin').value.trim(),
-      destination: document.getElementById('editDestination').value.trim(),
+      loadNumber,
+      origin,
+      destination,
       loadedMiles,
       deadheadMiles,
       totalMiles,
       rpm,
+      totalCharge,
       tolls,
       otherCosts,
-      totalCharge,
+      repositionMiles,
       operatingCost,
       fuelCost,
+      totalExpenses,
       netProfit,
       profit: netProfit,
       profitMargin,
-      companyName: document.getElementById('editCompanyName').value.trim(),
-      notes: document.getElementById('editNotes').value.trim(),
-      repositionMiles,
+      companyName,
+      notes,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      
     };
-    
 
-    // ✅ Guardar en la colección "loads"
-    const docRef = firebase.firestore()
-      .collection("loads")
-      .doc(currentEditingLoad.id);
-
+    // ✅ Guardar en Firestore
+    const docRef = firebase.firestore().collection("loads").doc(currentEditingLoad.id);
     await docRef.set(updatedData, { merge: true });
 
-    // Actualizar datos locales
+    // ✅ Actualizar en memoria
     const loadIndex = allData.findIndex(l => l.id === currentEditingLoad.id);
     if (loadIndex !== -1) {
       allData[loadIndex] = { ...allData[loadIndex], ...updatedData };
     }
 
-    // Cerrar modal y mostrar mensaje
     closeEditModal();
     showHistoryMessage("✅ Carga actualizada exitosamente", "success");
-
-    // Refrescar vista
     renderFilteredImmediate();
 
-    // Notificar otras pestañas
     setTimeout(() => {
       if (currentEditingLoad && currentEditingLoad.id) {
-        document.dispatchEvent(new CustomEvent('loadSaved', { 
-          detail: { loadId: currentEditingLoad.id, action: 'updated' } 
+        document.dispatchEvent(new CustomEvent('loadSaved', {
+          detail: { loadId: currentEditingLoad.id, action: 'updated' }
         }));
       }
     }, 500);
@@ -661,21 +676,24 @@ async function saveEditedLoad() {
 }
 
 
-
-
 // ✅ Cerrar modal
 function closeEditModal() {
-    document.getElementById('editModal').classList.add('hidden');
-    currentEditingLoad = null;
+  const modal = document.getElementById('editModal');
+  if (modal) {
+    modal.classList.add('hidden');
+  }
+  currentEditingLoad = null;
 }
 
 // ✅ Cerrar con clic fuera del modal
 document.addEventListener('click', function(event) {
-    const modal = document.getElementById('editModal');
-    if (modal && event.target === modal) {
-        closeEditModal();
-    }
+  const modal = document.getElementById('editModal');
+  if (modal && event.target === modal) {
+    closeEditModal();
+  }
 });
+
+
 
 console.log("✅ Funciones completas del modal cargadas");
 
