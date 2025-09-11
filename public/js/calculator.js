@@ -176,21 +176,28 @@ async function calculate() {
     let loadedMiles = Number(document.getElementById('loadedMiles')?.value || 0);
     let deadheadMiles = Number(document.getElementById('deadheadMiles')?.value || 0);
     let rpm = Number(document.getElementById('rpm')?.value || 0);
-    let rate = Number(document.getElementById('rate')?.value || 0);  // 👈 asegúrate de tener campo rate
+    let rate = Number(document.getElementById('rate')?.value || 0);  
     const tolls = Number(document.getElementById('tolls')?.value || 0);
     const others = Number(document.getElementById('otherCosts')?.value || 0);
 
-    // ✅ Validaciones suaves
+    // ✅ Definir totalMiles ANTES de validaciones
+    const totalMiles = loadedMiles + deadheadMiles;
+
+    // 👉 Condición mínima antes de mostrar resultados
+    if (!origin || !destination || totalMiles <= 0 || (rpm <= 0 && rate <= 0)) {
+      hideDecisionPanel(); 
+      return;
+    }
+
+    // ✅ Validaciones suaves (ya con totalMiles calculado)
     if (!origin || !destination) {
       console.log("⚠️ Faltan origen/destino, no se ejecuta cálculo.");
       return;
     }
-    if (loadedMiles + deadheadMiles <= 0) {
+    if (totalMiles <= 0) {
       console.log("⚠️ Millas inválidas, no se ejecuta cálculo.");
       return;
     }
-
-    const totalMiles = loadedMiles + deadheadMiles;
 
     // ✅ Ajuste de lógica Rate / RPM
     if (rpm > 0 && rate === 0) {
@@ -246,6 +253,59 @@ async function calculate() {
   }
 }
 
+// ✅ Mantener sincronía entre Rate y RPM + disparar cálculo completo
+function syncRateAndRpm() {
+  const loadedMilesEl = document.getElementById('loadedMiles');
+  const deadheadMilesEl = document.getElementById('deadheadMiles');
+  const rpmEl = document.getElementById('rpm');
+  const rateEl = document.getElementById('rate');
+
+  function recalc() {
+    const loadedMiles = Number(loadedMilesEl?.value || 0);
+    const deadheadMiles = Number(deadheadMilesEl?.value || 0);
+    const totalMiles = loadedMiles + deadheadMiles;
+
+    if (!rpmEl || !rateEl || totalMiles <= 0) return;
+
+    // cuando cambia RPM → recalcula Rate
+    rpmEl.addEventListener("input", () => {
+      const rpmVal = parseFloat(rpmEl.value) || 0;
+      if (totalMiles > 0) {
+        rateEl.value = (rpmVal * totalMiles).toFixed(2);
+      }
+      calculate(); // recalcular precios/ganancia
+    });
+
+    // cuando cambia Rate → recalcula RPM
+    rateEl.addEventListener("input", () => {
+      const rateVal = parseFloat(rateEl.value) || 0;
+      if (totalMiles > 0) {
+        rpmEl.value = (rateVal / totalMiles).toFixed(2);
+      }
+      calculate();
+    });
+  }
+
+  // recalcular al cambiar millas también
+  loadedMilesEl?.addEventListener("input", () => {
+    recalc();
+    calculate();
+  });
+  deadheadMilesEl?.addEventListener("input", () => {
+    recalc();
+    calculate();
+  });
+
+  recalc();
+}
+
+// ✅ Inicializar cuando cargue la página
+document.addEventListener("DOMContentLoaded", syncRateAndRpm);
+
+
+// ✅ Inicializar cuando se cambia millaje también
+document.getElementById('loadedMiles')?.addEventListener("input", syncRateAndRpm);
+document.getElementById('deadheadMiles')?.addEventListener("input", syncRateAndRpm);
 
 
 // ✅ Exponer globalmente
@@ -443,6 +503,7 @@ async function saveLoad(existingLoadId = null) {
     const loadedMiles = document.getElementById('loadedMiles')?.value;
     const deadheadMiles = document.getElementById('deadheadMiles')?.value;
     const rpm = document.getElementById('rpm')?.value;
+    const rate = document.getElementById('rate')?.value || '0';  // 👈 nuevo
     const tolls = document.getElementById('tolls')?.value || '0';
     const others = document.getElementById('otherCosts')?.value || '0';
     const loadNumber = document.getElementById('loadNumber')?.value?.trim() || '';
@@ -485,9 +546,23 @@ if (
 
     // Cálculos
     const totalMiles = Number(loadedMiles) + Number(deadheadMiles);
-    const baseIncome = Number(rpm) * totalMiles;
-    const additionalCosts = Number(tolls) + Number(others);
-    const totalCharge = baseIncome + additionalCosts;
+
+let baseIncome;
+let finalRpm;
+
+// ✅ Si hay rate, calculamos RPM
+if (Number(rate) > 0 && totalMiles > 0) {
+  baseIncome = Number(rate);
+  finalRpm = baseIncome / totalMiles;
+} else {
+  // ✅ Si no hay rate, usamos RPM
+  finalRpm = Number(rpm);
+  baseIncome = finalRpm * totalMiles;
+}
+
+const additionalCosts = Number(tolls) + Number(others);
+const totalCharge = baseIncome + additionalCosts;
+
 
     const fuelCost = totalMiles * TU_COSTO_REAL.combustible;
     const operatingCost = totalMiles * (
@@ -513,7 +588,8 @@ if (
       loadedMiles: Number(loadedMiles),
       deadheadMiles: Number(deadheadMiles),
       totalMiles,
-      rpm: Number(rpm),
+      rate: Number(rate),
+      rpm: finalRpm,
       baseIncome,
       tolls: Number(tolls),
       otherCosts: Number(others),

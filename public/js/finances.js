@@ -78,22 +78,31 @@ async function loadFinancialData(period = "all") {
     expenses = expenses.filter(e => e.date?.substring(0, 7) === period);
   }
 
-  // ==============================
-  // 3. KPIs
-  // ==============================
-  const totalRevenue = loads.reduce((s, l) => s + l.totalCharge, 0);
-  const totalExpenses = expenses.reduce((s, e) => s + (e.amount || 0), 0);
-  const totalProfit = loads.reduce((s, l) => s + l.netProfit, 0);
-  const totalMiles = loads.reduce((s, l) => s + l.totalMiles, 0);
+// ==============================
+// 3. KPIs CORREGIDOS
+// ==============================
 
-  const kpis = {
-    totalRevenue,
-    totalExpenses,
-    netProfit: totalProfit - totalExpenses,
-    margin: totalRevenue > 0 ? ((totalProfit - totalExpenses) / totalRevenue) * 100 : 0,
-    totalMiles,
-    avgRpm: totalMiles > 0 ? totalRevenue / totalMiles : 0
-  };
+// 💵 Ingresos = suma de lo que facturaste
+const totalRevenue = loads.reduce((s, l) => s + (l.totalCharge || 0), 0);
+
+// 💸 Gastos = SOLO los que tú subes manualmente
+const totalExpenses = expenses.reduce((s, e) => s + (e.amount || 0), 0);
+
+// 🟢 Ganancia neta = ingresos - gastos manuales
+const netProfit = totalRevenue - totalExpenses;
+
+// 📊 Otras métricas
+const totalMiles = loads.reduce((s, l) => s + (l.totalMiles || 0), 0);
+const avgRpm = totalMiles > 0 ? totalRevenue / totalMiles : 0;
+
+const kpis = {
+  totalRevenue,
+  totalExpenses,
+  netProfit,
+  margin: totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0,
+  totalMiles,
+  avgRpm
+};
 
   return { loads, expenses, kpis };
 }
@@ -295,26 +304,20 @@ function loadExpensesForFinances(dateRange) {
 }
 
 
-
 function updateExpenseCategories() {
     debugFinances("💳 Actualizando categorías de gastos...");
-    
+
     var categories = {
         fuel: 0,
         maintenance: 0,
         food: 0,
         other: 0
     };
-    
-    financesData.forEach(function(load) {
-        categories.fuel += load.fuelCost || 0;
-        categories.other += (load.tolls || 0) + (load.otherCosts || 0);
-    });
-    
+
     expensesData.forEach(function(expense) {
         var amount = expense.amount || 0;
         var type = (expense.type || '').toLowerCase();
-        
+
         switch (type) {
             case 'fuel':
                 categories.fuel += amount;
@@ -326,23 +329,21 @@ function updateExpenseCategories() {
             case 'lodging':
                 categories.food += amount;
                 break;
-            case 'tolls':
-            case 'insurance':
-            case 'permits':
-            case 'other':
             default:
                 categories.other += amount;
                 break;
         }
     });
-    
+
     updateElement('fuelExpenses', formatCurrency(categories.fuel));
     updateElement('maintenanceExpenses', formatCurrency(categories.maintenance));
     updateElement('foodExpenses', formatCurrency(categories.food));
     updateElement('otherExpenses', formatCurrency(categories.other));
-    
+
     debugFinances("✅ Categorías actualizadas:", categories);
 }
+
+
 
 function renderExpensesList() {
     debugFinances("📋 Renderizando lista de gastos...");
@@ -414,24 +415,23 @@ function updateCashFlowChart() {
         debugFinances("❌ Canvas cashFlowChart no encontrado");
         return;
     }
-    
+
     debugFinances("📈 Creando gráfico de flujo de efectivo...");
-    
+
     if (cashFlowChart && typeof cashFlowChart.destroy === 'function') {
         cashFlowChart.destroy();
     }
-    
+
     var monthlyData = {};
-    
+
     financesData.forEach(function(load) {
         var month = load.date.substring(0, 7);
         if (!monthlyData[month]) {
             monthlyData[month] = { revenue: 0, expenses: 0 };
         }
         monthlyData[month].revenue += load.totalCharge;
-        monthlyData[month].expenses += load.fuelCost + load.operatingCost + load.tolls + load.otherCosts;
     });
-    
+
     expensesData.forEach(function(expense) {
         var month = expense.date.substring(0, 7);
         if (!monthlyData[month]) {
@@ -439,88 +439,57 @@ function updateCashFlowChart() {
         }
         monthlyData[month].expenses += expense.amount;
     });
-    
+
     var labels = Object.keys(monthlyData).sort();
-    var revenues = labels.map(function(month) {
-        return monthlyData[month].revenue;
-    });
-    var expenses = labels.map(function(month) {
-        return monthlyData[month].expenses;
-    });
-    var profits = labels.map(function(month) {
-        return monthlyData[month].revenue - monthlyData[month].expenses;
-    });
-    
+    var revenues = labels.map(month => monthlyData[month].revenue);
+    var expenses = labels.map(month => monthlyData[month].expenses);
+    var profits = labels.map(month => monthlyData[month].revenue - monthlyData[month].expenses);
+
     if (labels.length === 0) {
         debugFinances("⚠️ No hay datos para el gráfico");
         canvas.parentElement.innerHTML = '<div class="text-center text-gray-500 p-8">No hay datos para mostrar</div>';
         return;
     }
-    
+
     try {
         cashFlowChart = new Chart(canvas, {
             type: 'line',
             data: {
                 labels: labels,
                 datasets: [
-                    {
-                        label: 'Ingresos',
-                        data: revenues,
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        tension: 0.3
-                    },
-                    {
-                        label: 'Gastos',
-                        data: expenses,
-                        borderColor: '#ef4444',
-                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                        tension: 0.3
-                    },
-                    {
-                        label: 'Ganancia',
-                        data: profits,
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        tension: 0.3
-                    }
+                    { label: 'Ingresos', data: revenues, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', tension: 0.3 },
+                    { label: 'Gastos', data: expenses, borderColor: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.1)', tension: 0.3 },
+                    { label: 'Ganancia', data: profits, borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.1)', tension: 0.3 }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'top' }
-                },
+                plugins: { legend: { position: 'top' } },
                 scales: {
                     y: {
                         beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return '$' + value.toLocaleString();
-                            }
-                        }
+                        ticks: { callback: value => '$' + value.toLocaleString() }
                     }
                 }
             }
         });
-        
         debugFinances("✅ Gráfico de flujo de efectivo creado");
-        
     } catch (error) {
         debugFinances("❌ Error creando gráfico de flujo de efectivo:", error);
     }
 }
 
+
 function updateExpenseBreakdownChart() {
-   var canvas = document.getElementById('expenseChart');
+    var canvas = document.getElementById('expenseBreakdownChart');
     if (!canvas) {
-       debugFinances("❌ Canvas expenseChart no encontrado");
+        debugFinances("❌ Canvas expenseBreakdownChart no encontrado");
         return;
     }
-    
+
     debugFinances("🥧 Creando gráfico de distribución de gastos...");
-    
+
     // 🔧 Destruir instancia previa
     if (expenseChartInstance && typeof expenseChartInstance.destroy === "function") {
         expenseChartInstance.destroy();
@@ -534,52 +503,34 @@ function updateExpenseBreakdownChart() {
         'Seguros': 0,
         'Otros': 0
     };
-    
-    financesData.forEach(function(load) {
-        categories['Combustible'] += load.fuelCost;
-        categories['Peajes'] += load.tolls;
-        categories['Otros'] += load.otherCosts;
-    });
-    
-    expensesData.forEach(function(expense) {
+
+    (expensesData || []).forEach(function(expense) {
         var type = (expense.type || '').toLowerCase();
+        var amount = Number(expense.amount) || 0; // ✅ forzar número
         switch (type) {
-            case 'fuel':
-                categories['Combustible'] += expense.amount;
-                break;
-            case 'maintenance':
-                categories['Mantenimiento'] += expense.amount;
-                break;
+            case 'fuel': categories['Combustible'] += amount; break;
+            case 'maintenance': categories['Mantenimiento'] += amount; break;
             case 'food':
-            case 'lodging':
-                categories['Comida/Hospedaje'] += expense.amount;
-                break;
-            case 'tolls':
-                categories['Peajes'] += expense.amount;
-                break;
-            case 'insurance':
-                categories['Seguros'] += expense.amount;
-                break;
-            default:
-                categories['Otros'] += expense.amount;
-                break;
+            case 'lodging': categories['Comida/Hospedaje'] += amount; break;
+            case 'tolls': categories['Peajes'] += amount; break;
+            case 'insurance': categories['Seguros'] += amount; break;
+            default: categories['Otros'] += amount; break;
         }
     });
-    
+
     var labels = Object.keys(categories);
     var data = Object.values(categories);
     var colors = ['#f97316', '#3b82f6', '#facc15', '#a855f7', '#10b981', '#6b7280'];
-    
-    var totalExpenses = data.reduce(function(a, b) {
-        return a + b;
-    }, 0);
-    
+
+    var totalExpenses = data.reduce((a, b) => a + b, 0);
+
     if (totalExpenses === 0) {
         debugFinances("⚠️ No hay gastos para el gráfico de distribución");
         canvas.parentElement.innerHTML = '<div class="text-center text-gray-500 p-8">No hay gastos para mostrar</div>';
         return;
     }
-    
+    console.log("💡 DEBUG Chart Data", { labels, data, totalExpenses });
+
     try {
         expenseChartInstance = new Chart(canvas, {
             type: 'doughnut',
@@ -596,16 +547,12 @@ function updateExpenseBreakdownChart() {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        position: 'bottom'
-                    },
+                    legend: { position: 'bottom' },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
                                 var value = context.parsed;
-                                var total = context.dataset.data.reduce(function(a, b) {
-                                    return a + b;
-                                }, 0);
+                                var total = context.dataset.data.reduce((a, b) => a + b, 0);
                                 var percentage = ((value / total) * 100).toFixed(1);
                                 return context.label + ': ' + formatCurrency(value) + ' (' + percentage + '%)';
                             }
@@ -614,13 +561,12 @@ function updateExpenseBreakdownChart() {
                 }
             }
         });
-        
         debugFinances("✅ Gráfico de distribución de gastos creado");
-        
     } catch (error) {
         debugFinances("❌ Error creando gráfico de distribución:", error);
     }
 }
+
 
 
 
@@ -639,10 +585,8 @@ function updateBusinessMetrics() {
         return sum + load.totalCharge;
     }, 0);
     
-    var totalExpenses = financesData.reduce(function(sum, load) {
-        return sum + load.fuelCost + load.operatingCost + load.tolls + load.otherCosts;
-    }, 0) + expensesData.reduce(function(sum, expense) {
-        return sum + expense.amount;
+    var totalExpenses = expensesData.reduce(function(sum, expense) {
+    return sum + (expense.amount || 0);
     }, 0);
     
     var costPerMile = totalMiles > 0 ? totalExpenses / totalMiles : 0;
@@ -818,197 +762,230 @@ function editExpense(id) {
 
 function generatePLReport() {
     debugFinances("📊 Generando Estado de Resultados...");
-    
+
     if (!financesData || !expensesData) {
         alert("No hay datos suficientes para generar el reporte");
         return;
     }
-    
+
+    // 💵 Ingresos = total de cargas
     var totalRevenue = financesData.reduce(function(sum, load) {
         return sum + (load.totalCharge || 0);
     }, 0);
-    
-    var totalExpenses = financesData.reduce(function(sum, load) {
-        return sum + (load.fuelCost || 0) + (load.operatingCost || 0) + (load.tolls || 0) + (load.otherCosts || 0);
-    }, 0) + expensesData.reduce(function(sum, exp) {
+
+    // 💸 Gastos = SOLO los manuales
+    var totalExpenses = expensesData.reduce(function(sum, exp) {
         return sum + (exp.amount || 0);
     }, 0);
-    
+
+    // 🟢 Ganancia neta real
     var netProfit = totalRevenue - totalExpenses;
     var margin = totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0;
-    
+
+    // 📊 Métricas adicionales
+    var totalMiles = financesData.reduce(function(sum, load) {
+        return sum + (load.totalMiles || 0);
+    }, 0);
+    var avgRpm = totalMiles > 0 ? totalRevenue / totalMiles : 0;
+    var costPerMile = totalMiles > 0 ? totalExpenses / totalMiles : 0;
+
+    // 📊 Desglose de gastos por categoría
+    var categories = {};
+    expensesData.forEach(function(exp) {
+        var type = (exp.type || "otros").toLowerCase();
+        categories[type] = (categories[type] || 0) + (exp.amount || 0);
+    });
+
     var reportWindow = window.open('', '_blank', 'width=800,height=600');
     var currentDate = new Date().toLocaleDateString();
-    var totalMiles = financesData.reduce(function(sum, load) {
-        return sum + load.totalMiles;
-    }, 0);
-    
-    reportWindow.document.write(
-        '<!DOCTYPE html>' +
-        '<html>' +
-        '<head>' +
-            '<title>Estado de Resultados</title>' +
-            '<style>' +
-                'body{font-family:Arial,sans-serif;margin:20px}' +
-                '.header{text-align:center;margin-bottom:30px}' +
-                '.table{width:100%;border-collapse:collapse}' +
-                '.table th,.table td{padding:10px;text-align:left;border-bottom:1px solid #ddd}' +
-                '.table th{background-color:#f5f5f5}' +
-                '.total{font-weight:bold;background-color:#f0f0f0}' +
-                '.positive{color:green}' +
-                '.negative{color:red}' +
-            '</style>' +
-        '</head>' +
-        '<body>' +
-            '<div class="header">' +
-                '<h1>ESTADO DE RESULTADOS</h1>' +
-                '<p>Negocio Expediter</p>' +
-                '<p>Fecha: ' + currentDate + '</p>' +
-            '</div>' +
-            '<table class="table">' +
-                '<tr><th colspan="2">INGRESOS</th></tr>' +
-                '<tr><td>Ingresos por Cargas</td><td>$' + totalRevenue.toFixed(2) + '</td></tr>' +
-                '<tr class="total"><td>TOTAL INGRESOS</td><td>$' + totalRevenue.toFixed(2) + '</td></tr>' +
-                '<tr><th colspan="2">GASTOS</th></tr>' +
-                '<tr><td>Total Gastos</td><td>$' + totalExpenses.toFixed(2) + '</td></tr>' +
-                '<tr class="total"><td>TOTAL GASTOS</td><td>$' + totalExpenses.toFixed(2) + '</td></tr>' +
-                '<tr class="total"><td>UTILIDAD NETA</td><td class="' + (netProfit >= 0 ? 'positive' : 'negative') + '">$' + netProfit.toFixed(2) + '</td></tr>' +
-                '<tr><td>Margen</td><td>' + margin.toFixed(1) + '%</td></tr>' +
-            '</table>' +
-            '<div style="margin-top:30px">' +
-                '<h3>RESUMEN OPERATIVO</h3>' +
-                '<table class="table">' +
-                    '<tr><td>Total de Cargas</td><td>' + financesData.length + '</td></tr>' +
-                    '<tr><td>Total de Millas</td><td>' + totalMiles.toLocaleString() + '</td></tr>' +
-                    '<tr><td>RPM Promedio</td><td>$' + (totalMiles > 0 ? (totalRevenue / totalMiles).toFixed(2) : '0.00') + '</td></tr>' +
-                    '<tr><td>Costo por Milla</td><td>$' + (totalMiles > 0 ? (totalExpenses / totalMiles).toFixed(2) : '0.00') + '</td></tr>' +
-                '</table>' +
-            '</div>' +
-            '<div style="text-align:center;margin:40px 0">' +
-                '<button onclick="window.print()" style="background-color:#007bff;color:white;padding:10px 20px;border:none;border-radius:5px;cursor:pointer">' +
-                    'Imprimir' +
-                '</button>' +
-            '</div>' +
-        '</body>' +
-        '</html>'
-    );
-    
+
+    reportWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Estado de Resultados</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                .header { text-align: center; margin-bottom: 30px; }
+                .table { width: 100%; border-collapse: collapse; }
+                .table th, .table td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+                .table th { background-color: #f5f5f5; }
+                .total { font-weight: bold; background-color: #f0f0f0; }
+                .positive { color: green; }
+                .negative { color: red; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>ESTADO DE RESULTADOS</h1>
+                <p>Negocio Expediter</p>
+                <p>Fecha: ${currentDate}</p>
+            </div>
+
+            <table class="table">
+                <tr><th colspan="2">INGRESOS</th></tr>
+                <tr><td>Ingresos por Cargas</td><td>$${totalRevenue.toFixed(2)}</td></tr>
+                <tr class="total"><td>TOTAL INGRESOS</td><td>$${totalRevenue.toFixed(2)}</td></tr>
+
+                <tr><th colspan="2">GASTOS</th></tr>
+                ${Object.entries(categories).map(([cat, val]) => `
+                    <tr><td>${cat.charAt(0).toUpperCase() + cat.slice(1)}</td><td>$${val.toFixed(2)}</td></tr>
+                `).join("")}
+                <tr class="total"><td>TOTAL GASTOS</td><td>$${totalExpenses.toFixed(2)}</td></tr>
+
+                <tr><th colspan="2">RESULTADO</th></tr>
+                <tr class="total ${netProfit >= 0 ? "positive" : "negative"}">
+                    <td>Ganancia Neta</td><td>$${netProfit.toFixed(2)}</td>
+                </tr>
+                <tr><td>Margen</td><td>${margin.toFixed(1)}%</td></tr>
+            </table>
+
+            <div style="margin-top:30px">
+                <h3>RESUMEN OPERATIVO</h3>
+                <table class="table">
+                    <tr><td>Total de Cargas</td><td>${financesData.length}</td></tr>
+                    <tr><td>Total de Millas</td><td>${totalMiles.toLocaleString()}</td></tr>
+                    <tr><td>RPM Promedio</td><td>$${avgRpm.toFixed(2)}</td></tr>
+                    <tr><td>Costo por Milla</td><td>$${costPerMile.toFixed(2)}</td></tr>
+                </table>
+            </div>
+
+            <div style="text-align:center;margin:40px 0">
+                <button onclick="window.print()" 
+                        style="background-color:#007bff;color:white;padding:10px 20px;border:none;border-radius:5px;cursor:pointer">
+                    Imprimir
+                </button>
+            </div>
+        </body>
+        </html>
+    `);
+
     reportWindow.document.close();
     debugFinances("✅ Estado de Resultados generado");
 }
 
 function generateTaxReport() {
     debugFinances("🧾 Generando Reporte de Impuestos...");
-    
+
     if (!financesData || !expensesData) {
         alert("No hay datos suficientes para generar el reporte");
         return;
     }
-    
-    var deductibleExpenses = expensesData.filter(function(exp) {
-        return exp.deductible !== false;
-    });
-    
-    var totalDeductible = deductibleExpenses.reduce(function(sum, exp) {
-        return sum + (exp.amount || 0);
-    }, 0);
-    
+
+    // 📌 Ingresos brutos
     var totalRevenue = financesData.reduce(function(sum, load) {
         return sum + (load.totalCharge || 0);
     }, 0);
-    
+
+    // 📌 Millas totales
     var totalMiles = financesData.reduce(function(sum, load) {
         return sum + (load.totalMiles || 0);
     }, 0);
-    
-    var fuelDeductions = financesData.reduce(function(sum, load) {
-        return sum + (load.fuelCost || 0);
-    }, 0) + deductibleExpenses.filter(function(e) {
-        return e.type === 'fuel';
-    }).reduce(function(sum, e) {
-        return sum + e.amount;
+
+    // 📌 Filtrar solo gastos deducibles manuales
+    var deductibleExpenses = expensesData.filter(function(exp) {
+        return exp.deductible !== false; // por defecto true si no se marca
+    });
+
+    var totalDeductible = deductibleExpenses.reduce(function(sum, exp) {
+        return sum + (exp.amount || 0);
     }, 0);
-    
-    var maintenanceDeductions = deductibleExpenses.filter(function(e) {
-        return e.type === 'maintenance';
-    }).reduce(function(sum, e) {
-        return sum + e.amount;
-    }, 0);
-    
-    var reportWindow = window.open('', '_blank', 'width=800,height=700');
+
+    // 📌 Desglose de categorías deducibles
+    var fuelDeductions = deductibleExpenses
+        .filter(e => (e.type || "").toLowerCase() === "fuel")
+        .reduce((s, e) => s + (e.amount || 0), 0);
+
+    var maintenanceDeductions = deductibleExpenses
+        .filter(e => (e.type || "").toLowerCase() === "maintenance")
+        .reduce((s, e) => s + (e.amount || 0), 0);
+
+    var otherDeductions = totalDeductible - fuelDeductions - maintenanceDeductions;
+
+    // 📌 Crear reporte
+    var reportWindow = window.open("", "_blank", "width=800,height=700");
     var currentDate = new Date().toLocaleDateString();
-    
-    reportWindow.document.write(
-        '<!DOCTYPE html>' +
-        '<html>' +
-        '<head>' +
-            '<title>Reporte Fiscal</title>' +
-            '<style>' +
-                'body{font-family:Arial,sans-serif;margin:20px}' +
-                '.header{text-align:center;margin-bottom:30px}' +
-                '.table{width:100%;border-collapse:collapse;margin-bottom:20px}' +
-                '.table th,.table td{padding:8px;text-align:left;border-bottom:1px solid #ddd}' +
-                '.table th{background-color:#f5f5f5}' +
-                '.total{font-weight:bold;background-color:#f0f0f0}' +
-                '.note{font-size:12px;color:#666;font-style:italic}' +
-            '</style>' +
-        '</head>' +
-        '<body>' +
-            '<div class="header">' +
-                '<h1>REPORTE FISCAL</h1>' +
-                '<p>Negocio Expediter</p>' +
-                '<p>Fecha: ' + currentDate + '</p>' +
-            '</div>' +
-            '<h2>RESUMEN DE INGRESOS</h2>' +
-            '<table class="table">' +
-                '<tr><td>Ingresos Brutos</td><td>$' + totalRevenue.toFixed(2) + '</td></tr>' +
-                '<tr><td>Total Millas</td><td>' + totalMiles.toLocaleString() + '</td></tr>' +
-                '<tr><td>RPM Promedio</td><td>$' + (totalMiles > 0 ? (totalRevenue / totalMiles).toFixed(2) : '0.00') + '</td></tr>' +
-                '<tr><td>Total de Cargas</td><td>' + financesData.length + '</td></tr>' +
-            '</table>' +
-            '<h2>GASTOS DEDUCIBLES</h2>' +
-            '<table class="table">' +
-                '<tr><td>Combustible</td><td>$' + fuelDeductions.toFixed(2) + '</td></tr>' +
-                '<tr><td>Mantenimiento</td><td>$' + maintenanceDeductions.toFixed(2) + '</td></tr>' +
-                '<tr><td>Otros Gastos Deducibles</td><td>$' + (totalDeductible - fuelDeductions - maintenanceDeductions).toFixed(2) + '</td></tr>' +
-                '<tr class="total"><td>TOTAL DEDUCCIONES</td><td>$' + totalDeductible.toFixed(2) + '</td></tr>' +
-            '</table>' +
-            '<h2>RESUMEN FISCAL</h2>' +
-            '<table class="table">' +
-                '<tr><td>Ingresos Netos (después de deducciones)</td><td>$' + (totalRevenue - totalDeductible).toFixed(2) + '</td></tr>' +
-                '<tr><td>Porcentaje de Deducciones</td><td>' + (totalRevenue > 0 ? ((totalDeductible / totalRevenue) * 100).toFixed(1) : '0') + '%</td></tr>' +
-            '</table>' +
-            '<div class="note">' +
-                '<p><strong>Nota:</strong> Este reporte es solo para referencia. Consulte con un contador profesional.</p>' +
-            '</div>' +
-            '<div style="text-align:center;margin:40px 0">' +
-                '<button onclick="window.print()" style="background-color:#007bff;color:white;padding:10px 20px;border:none;border-radius:5px;cursor:pointer">' +
-                    'Imprimir' +
-                '</button>' +
-            '</div>' +
-        '</body>' +
-        '</html>'
-    );
-    
+
+    reportWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Reporte Fiscal</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 20px; }
+                .header { text-align: center; margin-bottom: 30px; }
+                .table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                .table th, .table td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
+                .table th { background-color: #f5f5f5; }
+                .total { font-weight: bold; background-color: #f0f0f0; }
+                .note { font-size: 12px; color: #666; font-style: italic; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <h1>REPORTE FISCAL</h1>
+                <p>Negocio Expediter</p>
+                <p>Fecha: ${currentDate}</p>
+            </div>
+
+            <h2>RESUMEN DE INGRESOS</h2>
+            <table class="table">
+                <tr><td>Ingresos Brutos</td><td>$${totalRevenue.toFixed(2)}</td></tr>
+                <tr><td>Total Millas</td><td>${totalMiles.toLocaleString()}</td></tr>
+                <tr><td>RPM Promedio</td><td>$${totalMiles > 0 ? (totalRevenue / totalMiles).toFixed(2) : "0.00"}</td></tr>
+                <tr><td>Total de Cargas</td><td>${financesData.length}</td></tr>
+            </table>
+
+            <h2>GASTOS DEDUCIBLES</h2>
+            <table class="table">
+                <tr><td>Combustible</td><td>$${fuelDeductions.toFixed(2)}</td></tr>
+                <tr><td>Mantenimiento</td><td>$${maintenanceDeductions.toFixed(2)}</td></tr>
+                <tr><td>Otros Gastos Deducibles</td><td>$${otherDeductions.toFixed(2)}</td></tr>
+                <tr class="total"><td>TOTAL DEDUCCIONES</td><td>$${totalDeductible.toFixed(2)}</td></tr>
+            </table>
+
+            <h2>RESUMEN FISCAL</h2>
+            <table class="table">
+                <tr><td>Ingresos Netos (después de deducciones)</td><td>$${(totalRevenue - totalDeductible).toFixed(2)}</td></tr>
+                <tr><td>Porcentaje de Deducciones</td><td>${totalRevenue > 0 ? ((totalDeductible / totalRevenue) * 100).toFixed(1) : "0"}%</td></tr>
+            </table>
+
+            <div class="note">
+                <p><strong>Nota:</strong> Este reporte es solo para referencia. Consulte con un contador profesional.</p>
+            </div>
+
+            <div style="text-align:center;margin:40px 0">
+                <button onclick="window.print()" style="background-color:#007bff;color:white;padding:10px 20px;border:none;border-radius:5px;cursor:pointer">
+                    Imprimir
+                </button>
+            </div>
+        </body>
+        </html>
+    `);
+
     reportWindow.document.close();
     debugFinances("✅ Reporte fiscal generado");
 }
 
+
+
 function exportFinancialData() {
     debugFinances("📤 Exportando datos financieros...");
-    
+
     if (!financesData || !expensesData) {
         alert("No hay datos suficientes para exportar");
         return;
     }
-    
+
     var csvData = [];
-    
+
+    // =======================
+    // 1. Ingresos (cargas)
+    // =======================
     csvData.push([
-        'Fecha', 'Origen', 'Destino', 'Millas', 'RPM', 'Ingresos', 
-        'Costo Combustible', 'Costo Operativo', 'Peajes', 'Otros', 'Ganancia'
+        'Fecha', 'Origen', 'Destino', 'Millas', 'RPM', 'Ingresos'
     ]);
-    
+
     financesData.forEach(function(load) {
         csvData.push([
             load.date || '',
@@ -1016,46 +993,51 @@ function exportFinancialData() {
             (load.destination || '').replace(/,/g, ' '),
             load.totalMiles || 0,
             load.rpm || 0,
-            load.totalCharge || 0,
-            load.fuelCost || 0,
-            load.operatingCost || 0,
-            load.tolls || 0,
-            load.otherCosts || 0,
-            load.netProfit || 0
+            load.totalCharge || 0
         ]);
     });
-    
+
+    // =======================
+    // 2. Gastos manuales
+    // =======================
     csvData.push(['']);
-    csvData.push(['=== GASTOS ADICIONALES ===']);
-    csvData.push(['Fecha', 'Categoria', 'Descripcion', 'Monto']);
-    
+    csvData.push(['=== GASTOS MANUALES ===']);
+    csvData.push(['Fecha', 'Categoria', 'Descripcion', 'Monto', 'Deducible']);
+
     expensesData.forEach(function(expense) {
         csvData.push([
             expense.date || '',
             expense.type || '',
             (expense.description || '').replace(/,/g, ' '),
-            expense.amount || 0
+            expense.amount || 0,
+            expense.deductible === false ? 'No' : 'Sí'
         ]);
     });
-    
+
+    // =======================
+    // 3. Resumen
+    // =======================
     var totalRevenue = financesData.reduce(function(sum, load) {
         return sum + (load.totalCharge || 0);
     }, 0);
-    
-    var totalExpenses = financesData.reduce(function(sum, load) {
-        return sum + (load.fuelCost || 0) + (load.operatingCost || 0) + (load.tolls || 0) + (load.otherCosts || 0);
-    }, 0) + expensesData.reduce(function(sum, exp) {
+
+    var totalExpenses = expensesData.reduce(function(sum, exp) {
         return sum + (exp.amount || 0);
     }, 0);
-    
+
+    var netProfit = totalRevenue - totalExpenses;
+
     csvData.push(['']);
     csvData.push(['=== RESUMEN ===']);
     csvData.push(['Total Ingresos', totalRevenue.toFixed(2)]);
     csvData.push(['Total Gastos', totalExpenses.toFixed(2)]);
-    csvData.push(['Ganancia Neta', (totalRevenue - totalExpenses).toFixed(2)]);
+    csvData.push(['Ganancia Neta', netProfit.toFixed(2)]);
     csvData.push(['Total Cargas', financesData.length]);
-    csvData.push(['Total Gastos Adicionales', expensesData.length]);
-    
+    csvData.push(['Total Gastos', expensesData.length]);
+
+    // =======================
+    // 4. Generar archivo CSV
+    // =======================
     var csvContent = csvData.map(function(row) {
         return row.map(function(cell) {
             var cellStr = String(cell);
@@ -1065,21 +1047,22 @@ function exportFinancialData() {
             return cellStr;
         }).join(',');
     }).join('\n');
-    
+
     var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     var link = document.createElement('a');
     var url = URL.createObjectURL(blob);
-    
+
     link.setAttribute('href', url);
     link.setAttribute('download', 'finanzas-expediter-' + new Date().toISOString().split('T')[0] + '.csv');
     link.style.visibility = 'hidden';
-    
+
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    
+
     debugFinances("✅ Datos exportados exitosamente");
 }
+
 
 document.addEventListener("DOMContentLoaded", function() {
     debugFinances("📋 DOM cargado - Configurando event listeners");
@@ -1162,26 +1145,13 @@ function debugFinancesElements() {
 
 function updateFinancialKPIs() {
     console.log("✅ Entró a updateFinancialKPIs CORREGIDA");
-    
+
     const totalRevenue = financesData.reduce((sum, load) => sum + (load.totalCharge || 0), 0);
-    const totalExpenses = financesData.reduce((sum, load) =>
-        sum + (load.fuelCost || 0) + (load.operatingCost || 0) + (load.tolls || 0) + (load.otherCosts || 0), 0
-    ) + expensesData.reduce((sum, exp) => sum + (exp.amount || 0), 0);
+    const totalExpenses = expensesData.reduce((sum, exp) => sum + (exp.amount || 0), 0);
 
     const netProfit = totalRevenue - totalExpenses;
     const margin = totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0;
 
-    // ✅ FUNCIÓN HELPER PARA FINANCES - SOLUCION AL PROBLEMA DE ELEMENTOS DUPLICADOS
-    const updateElementInFinances = (id, value) => {
-        const element = document.querySelector(`#finances #${id}`);
-        if (element) {
-            element.textContent = value;
-            return true;
-        }
-        return false;
-    };
-
-    // Función para formatear moneda
     const formatCurrency = (amount) => {
         if (isNaN(amount) || amount === null || amount === undefined) {
             return '$0.00';
@@ -1192,48 +1162,54 @@ function updateFinancialKPIs() {
         }).format(amount);
     };
 
-    // ✅ ACTUALIZAR TODOS LOS ELEMENTOS EN FINANCES ESPECÍFICAMENTE
+    const updateElementInFinances = (id, value) => {
+        const element = document.querySelector(`#finances #${id}`);
+        if (element) {
+            element.textContent = value;
+        }
+    };
+
     updateElementInFinances('totalRevenue', formatCurrency(totalRevenue));
     updateElementInFinances('totalExpensesSummary', formatCurrency(totalExpenses));
     updateElementInFinances('profitMarginPercent', `${margin.toFixed(1)}%`);
 
-    // ✅ GANANCIA NETA CON ESTILOS ESPECÍFICOS PARA FINANCES
     const netProfitEl = document.querySelector('#finances #netProfit');
     if (netProfitEl) {
         netProfitEl.textContent = formatCurrency(netProfit);
         netProfitEl.style.fontWeight = 'bold';
         netProfitEl.style.fontSize = '1.8rem';
         netProfitEl.style.textAlign = 'center';
-
-        if (netProfit > 0) {
-            netProfitEl.style.color = 'green';
-        } else if (netProfit < 0) {
-            netProfitEl.style.color = 'red';
-        } else {
-            netProfitEl.style.color = '#6b7280';
-        }
+        netProfitEl.style.color = netProfit > 0 ? 'green' : (netProfit < 0 ? 'red' : '#6b7280');
     }
 }
+
 function populateYearSelect() {
     console.log("📅 Poblando selector de años...");
 
-    if (!window.financesData || window.financesData.length === 0) {
+    if ((!window.financesData || window.financesData.length === 0) &&
+        (!window.expensesData || window.expensesData.length === 0)) {
         console.log("⚠️ No hay datos financieros para extraer años");
         return;
     }
 
-    const years = [...new Set(window.financesData.map(load => {
-        const date = load.date || '';
-        return date.slice(0, 4); // solo el año
-    }).filter(year => year && year !== ''))].sort().reverse();
+    const yearsFromLoads = (window.financesData || [])
+        .filter(l => l.date)
+        .map(l => new Date(l.date).toISOString().slice(0,4));
+
+    const yearsFromExpenses = (window.expensesData || [])
+        .filter(e => e.date)
+        .map(e => new Date(e.date).toISOString().slice(0,4));
+
+    const years = [...new Set([...yearsFromLoads, ...yearsFromExpenses])]
+        .filter(y => y)
+        .sort()
+        .reverse();
 
     const yearSelect = document.getElementById("yearSelect");
     if (!yearSelect) return;
 
-    // Limpiar y agregar opción "Todos"
     yearSelect.innerHTML = '<option value="">📊 Todos los Años</option>';
 
-    // Agregar años encontrados
     years.forEach(year => {
         const option = document.createElement('option');
         option.value = year;
@@ -1243,10 +1219,9 @@ function populateYearSelect() {
 
     console.log(`✅ Años disponibles: ${years.join(', ')}`);
 
-    // Auto-seleccionar el año más reciente si hay datos
     if (years.length > 0) {
         yearSelect.value = years[0];
-        updateMonthOptions(); // también llama al otro filtro
+        updateMonthOptions(); 
     }
 }
 
@@ -1261,18 +1236,24 @@ function updateMonthOptions() {
         return;
     }
 
-    // Limpiar y agregar opción inicial
+    // ✅ Siempre dejamos la opción de "Todos los Meses"
     monthSelect.innerHTML = '<option value="">📊 Todos los Meses</option>';
 
-    if (!year || !window.financesData) {
-        console.warn("⚠️ No hay año seleccionado o datos disponibles");
-        return;
-    }
+    if (!year) return;
 
-    const months = [...new Set(window.financesData
-        .filter(load => load.date && load.date.startsWith(year))
-        .map(load => load.date.slice(5, 7))
-    )].sort();
+
+    const monthsFromLoads = (window.financesData || [])
+        .filter(l => l.date)
+        .map(l => new Date(l.date).toISOString().slice(0,7))
+        .filter(m => m.startsWith(year));
+
+    const monthsFromExpenses = (window.expensesData || [])
+        .filter(e => e.date)
+        .map(e => new Date(e.date).toISOString().slice(0,7))
+        .filter(m => m.startsWith(year));
+
+    const allMonths = [...new Set([...monthsFromLoads, ...monthsFromExpenses])]
+        .sort((a, b) => new Date(a + "-01") - new Date(b + "-01"));
 
     const monthNames = {
         '01': 'Enero', '02': 'Febrero', '03': 'Marzo', '04': 'Abril',
@@ -1280,47 +1261,43 @@ function updateMonthOptions() {
         '09': 'Septiembre', '10': 'Octubre', '11': 'Noviembre', '12': 'Diciembre'
     };
 
-    // Agregar opciones al selector
-    months.forEach(month => {
+    allMonths.forEach(m => {
+        const month = m.slice(5,7);
         const option = document.createElement('option');
         option.value = month;
         option.textContent = `📅 ${monthNames[month] || month}`;
         monthSelect.appendChild(option);
     });
 
-    console.log(`✅ Meses para ${year}: ${months.join(', ')}`);
+    console.log(`✅ Meses para ${year}: ${allMonths.join(', ')}`);
 
-   if (months.length > 0) {
-    const latestMonth = months[months.length - 1];
-    monthSelect.value = latestMonth;
-    
-    // Forzar visualmente como seleccionada
-    const selectedOption = [...monthSelect.options].find(opt => opt.value === latestMonth);
-    if (selectedOption) selectedOption.selected = true;
+    if (allMonths.length > 0) {
+        const latestMonth = allMonths[allMonths.length - 1].slice(5,7);
+        monthSelect.value = latestMonth;
+        filterByYearMonth();
+    }
+}
 
-    console.log(`📌 Seleccionando mes más reciente: ${latestMonth}`);
-    filterByYearMonth();
-}
-}
+
 
 // ✅ REEMPLAZO COMPLETO PARA PASO 3
 // En finances.js busca la función filterByYearMonth() y reemplázala con esto:
 
 function filterByYearMonth() {
-    console.log("🔄 [FIXED v3] === INICIO filterByYearMonth CORREGIDO ===");
+    console.log("🔄 [CLEAN] === INICIO filterByYearMonth CORREGIDO ===");
 
     const yearSelect = document.getElementById("yearSelect");
     const monthSelect = document.getElementById("monthSelect");
     
     if (!yearSelect || !monthSelect) {
-        console.error("❌ [FIXED] Selectores no encontrados");
+        console.error("❌ [CLEAN] Selectores no encontrados");
         return;
     }
 
     const year = yearSelect.value;
     const month = monthSelect.value;
 
-    console.log("📅 [FIXED v3] Filtros seleccionados:", { year, month });
+    console.log("📅 [CLEAN] Filtros seleccionados:", { year, month });
 
     let periodText = "Todos los datos";
     let selectedPeriod = "";
@@ -1344,7 +1321,7 @@ function filterByYearMonth() {
 
     if (periodInfo) {
         periodInfo.textContent = `Analizando: ${periodText}`;
-        console.log("📊 [FIXED v3] Período actualizado:", periodText);
+        console.log("📊 [CLEAN] Período actualizado:", periodText);
     }
     
     if (periodSummary) {
@@ -1352,38 +1329,68 @@ function filterByYearMonth() {
     }
 
     // ✅ FILTRAR DATOS CORRECTAMENTE
-    let filteredLoads = window.financesData || [];
-    let filteredExpenses = window.expensesData || [];
+let filteredLoads = window.financesData || [];
+let filteredExpenses = window.expensesData || [];
 
-    if (selectedPeriod) {
-        filteredLoads = filteredLoads.filter(load => {
-            const loadDate = load.date || '';
-            return loadDate.startsWith(selectedPeriod);
-        });
-        
-        filteredExpenses = filteredExpenses.filter(exp => {
-            const expDate = exp.date || '';
-            return expDate.startsWith(selectedPeriod);
-        });
-    }
+if (year && month) {
+    // 🔎 Filtrar por mes específico (YYYY-MM)
+    filteredLoads = filteredLoads.filter(load => {
+        if (!load.date) return false;
+        try {
+            const normalized = new Date(load.date).toISOString().substring(0, 7);
+            return normalized === `${year}-${month}`;
+        } catch {
+            return false;
+        }
+    });
 
-    console.log("📊 [FIXED v3] Datos filtrados:", {
+    filteredExpenses = filteredExpenses.filter(exp => {
+        if (!exp.date) return false;
+        try {
+            const normalized = new Date(exp.date).toISOString().substring(0, 7);
+            return normalized === `${year}-${month}`;
+        } catch {
+            return false;
+        }
+    });
+} else if (year && !month) {
+    // 🔎 Filtrar por todo el año (YYYY)
+    filteredLoads = filteredLoads.filter(load => {
+        if (!load.date) return false;
+        try {
+            const normalized = new Date(load.date).toISOString().substring(0, 4);
+            return normalized === year;
+        } catch {
+            return false;
+        }
+    });
+
+    filteredExpenses = filteredExpenses.filter(exp => {
+        if (!exp.date) return false;
+        try {
+            const normalized = new Date(exp.date).toISOString().substring(0, 4);
+            return normalized === year;
+        } catch {
+            return false;
+        }
+    });
+}
+// else: no filtramos nada, se quedan todos
+    
+
+    console.log("📊 [CLEAN] Datos filtrados:", {
         loads: filteredLoads.length,
         expenses: filteredExpenses.length,
         period: selectedPeriod
     });
 
-    // ✅ CALCULAR TOTALES DEL PERÍODO FILTRADO
+    // ✅ CALCULAR TOTALES DEL PERÍODO (solo gastos manuales)
     const totalRevenue = filteredLoads.reduce((sum, load) => sum + (Number(load.totalCharge) || 0), 0);
-    const totalExpensesFromLoads = filteredLoads.reduce((sum, load) => 
-        sum + (Number(load.fuelCost) || 0) + (Number(load.operatingCost) || 0) + 
-              (Number(load.tolls) || 0) + (Number(load.otherCosts) || 0), 0);
-    const totalExpensesFromExpenses = filteredExpenses.reduce((sum, exp) => sum + (Number(exp.amount) || 0), 0);
-    const totalExpenses = totalExpensesFromLoads + totalExpensesFromExpenses;
+    const totalExpenses = filteredExpenses.reduce((sum, exp) => sum + (Number(exp.amount) || 0), 0);
     const netProfit = totalRevenue - totalExpenses;
     const margin = totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0;
 
-    console.log("💰 [FIXED v3] Totales calculados:", {
+    console.log("💰 [CLEAN] Totales calculados:", {
         revenue: totalRevenue.toFixed(2),
         expenses: totalExpenses.toFixed(2),
         netProfit: netProfit.toFixed(2),
@@ -1401,35 +1408,16 @@ function filterByYearMonth() {
         }).format(amount);
     }
 
-    // ✅ BUSCAR EL ELEMENTO NETPROFIT CORRECTO (EL VISIBLE)
-    const todosNetProfit = document.querySelectorAll('[id="netProfit"]');
-    let netProfitEl = null;
-    
-    todosNetProfit.forEach(el => {
-        if (el.offsetWidth > 0 && el.offsetHeight > 0) {
-            netProfitEl = el;
-            console.log('✅ [FIXED v3] Encontrado netProfit VISIBLE:', el);
-        }
-    });
-
+    // ✅ ACTUALIZAR KPI visibles
+    const netProfitEl = document.querySelector('#finances #netProfit');
     if (netProfitEl) {
         netProfitEl.textContent = formatCurrency(netProfit);
         netProfitEl.style.fontSize = '2rem';
         netProfitEl.style.fontWeight = 'bold';
         netProfitEl.style.textAlign = 'center';
-        
-        if (netProfit >= 0) {
-            netProfitEl.style.color = '#16a34a';
-        } else {
-            netProfitEl.style.color = '#dc2626';
-        }
-        
-        console.log(`✅ [FIXED v3] Net Profit VISIBLE actualizado: ${formatCurrency(netProfit)}`);
-    } else {
-        console.log('❌ [FIXED v3] No se encontró netProfit visible');
+        netProfitEl.style.color = netProfit >= 0 ? '#16a34a' : '#dc2626';
     }
 
-    // ✅ ACTUALIZAR OTROS ELEMENTOS CON TAMAÑOS UNIFORMES
     const elementosFinances = [
         { id: 'totalRevenue', value: formatCurrency(totalRevenue) },
         { id: 'totalExpensesSummary', value: formatCurrency(totalExpenses) },
@@ -1443,40 +1431,31 @@ function filterByYearMonth() {
             el.style.fontSize = '2rem';
             el.style.fontWeight = 'bold';
             el.style.textAlign = 'center';
-            console.log(`✅ [FIXED v3] ${item.id}: ${item.value}`);
+            console.log(`✅ [CLEAN] ${item.id}: ${item.value}`);
         }
     });
 
     // ✅ ACTUALIZAR CATEGORÍAS DE GASTOS (solo manuales)
-const categories = { fuel: 0, maintenance: 0, food: 0, other: 0 };
+    const categories = { fuel: 0, maintenance: 0, food: 0, other: 0 };
 
-// ❌ Ya no sumamos fuelCost automático de las cargas
-filteredLoads.forEach(load => {
-    categories.other += (Number(load.tolls) || 0) + (Number(load.otherCosts) || 0);
-});
+    filteredExpenses.forEach(expense => {
+        const amount = Number(expense.amount) || 0;
+        const type = (expense.type || '').toLowerCase();
+        
+        switch (type) {
+            case 'fuel': categories.fuel += amount; break;
+            case 'maintenance': categories.maintenance += amount; break;
+            case 'food':
+            case 'lodging': categories.food += amount; break;
+            default: categories.other += amount; break;
+        }
+    });
 
-filteredExpenses.forEach(expense => {
-    const amount = Number(expense.amount) || 0;
-    const type = (expense.type || '').toLowerCase();
-    
-    switch (type) {
-        case 'fuel': categories.fuel += amount; break;
-        case 'maintenance': categories.maintenance += amount; break;
-        case 'food':
-        case 'lodging': categories.food += amount; break;
-        default: categories.other += amount; break;
-    }
-});
-
-
-    // Actualizar elementos de categorías
     const updateElementInFinances = (id, value) => {
         const element = document.querySelector(`#finances #${id}`);
         if (element) {
             element.textContent = value;
-            return true;
         }
-        return false;
     };
 
     updateElementInFinances('fuelExpenses', formatCurrency(categories.fuel));
@@ -1484,7 +1463,7 @@ filteredExpenses.forEach(expense => {
     updateElementInFinances('foodExpenses', formatCurrency(categories.food));
     updateElementInFinances('otherExpenses', formatCurrency(categories.other));
 
-    console.log("✅ [FIXED v3] Categorías actualizadas:", categories);
+    console.log("✅ [CLEAN] Categorías actualizadas:", categories);
 
     // ✅ ACTUALIZAR LISTA DE GASTOS
     const expensesList = document.getElementById('expensesList');
@@ -1513,7 +1492,7 @@ filteredExpenses.forEach(expense => {
             
             expensesList.innerHTML = rows.join('');
         }
-        console.log("✅ [FIXED v3] Lista de gastos actualizada");
+        console.log("✅ [CLEAN] Lista de gastos actualizada");
     }
 
     // ✅ ACTUALIZAR MÉTRICAS DE NEGOCIO
@@ -1527,8 +1506,9 @@ filteredExpenses.forEach(expense => {
     updateElementInFinances('averageRPM', '$' + averageRPM.toFixed(2));
     updateElementInFinances('efficiency', efficiency.toFixed(1) + '%');
 
-    console.log("🔄 [FIXED v3] === FIN filterByYearMonth CORREGIDO ===");
+    console.log("🔄 [CLEAN] === FIN filterByYearMonth CORREGIDO ===");
 }
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
