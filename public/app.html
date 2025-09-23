@@ -210,47 +210,53 @@
 
 
   <!-- Navigation tabs (solo desktop) -->
-<nav class="hidden md:block border-t border-gray-200 bg-white">
+<nav class="hidden md:block border-t border-gray-200 bg-white relative overflow-visible">
   <div class="max-w-7xl mx-auto px-2 md:px-6 flex gap-2 md:gap-8 py-2 md:py-3 overflow-x-auto">
-      <button class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap" data-tab="calculator">
-        <span class="md:hidden">📊</span>
-        <span class="hidden md:inline">Calculadora</span>
-        <span class="md:hidden ml-1">Calc</span>
-      </button>
-      <button class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap" data-tab="history">
-        <span class="md:hidden">📋</span>
-        <span class="hidden md:inline">Historial</span>
-        <span class="md:hidden ml-1">Hist</span>
-      </button>
-      <button class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap" data-tab="dashboard">
-        <span class="md:hidden">📈</span>
-        <span class="hidden md:inline">Dashboard</span>
-        <span class="md:hidden ml-1">Stats</span>
-      </button>
-      <button class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap" data-tab="finances">
-        <span class="md:hidden">💰</span>
-        <span class="hidden md:inline">Finanzas</span>
-        <span class="md:hidden ml-1">$$$</span>
-      </button>
-      <button class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap" data-tab="zones">
-        <span class="md:hidden">🗺️</span>
-        <span class="hidden md:inline">Zonas</span>
-        <span class="md:hidden ml-1">Map</span>
-      </button>
-      <button class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap" data-tab="settings">
-        <span class="md:hidden">⚙️</span>
-        <span class="hidden md:inline">Configuración</span>
-        <span class="md:hidden ml-1">Set</span>
-      </button>
-    </div>
-  </nav>
+
+    <!-- Calculadora -->
+    <button class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap" data-tab="calculator">
+      <span class="md:hidden">📊</span>
+      <span class="hidden md:inline">Calculadora</span>
+      <span class="md:hidden ml-1">Calc</span>
+    </button>
+
+    <!-- Historial -->
+    <button class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap" data-tab="history">
+      <span class="md:hidden">📋</span>
+      <span class="hidden md:inline">Historial</span>
+      <span class="md:hidden ml-1">Hist</span>
+    </button>
+
+    <!-- Finanzas -->
+    <button class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap" data-tab="finances">
+      <span class="md:hidden">💰</span>
+      <span class="hidden md:inline">Finanzas</span>
+      <span class="md:hidden ml-1">Fins</span>
+    </button>
+
+    <!-- Zonas -->
+    <button class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap" data-tab="zones">
+      <span class="md:hidden">🗺️</span>
+      <span class="hidden md:inline">Zonas</span>
+      <span class="md:hidden ml-1">Map</span>
+    </button>
+
+    <!-- Configuración -->
+    <button class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap" data-tab="settings">
+      <span class="md:hidden">⚙️</span>
+      <span class="hidden md:inline">Configuración</span>
+      <span class="md:hidden ml-1">Set</span>
+    </button>
+
+  </div>
+</nav>
+
 
   <div id="mobileMenu"
      class="md:hidden hidden flex-col px-4 pb-4 space-y-2 bg-white text-sm font-semibold text-gray-900 shadow
             transform transition-all duration-300 ease-in-out origin-top scale-y-0 opacity-0">
   <button class="tab-link text-left w-full hover:text-blue-600" data-tab="calculator">📊 Calculadora</button>
   <button class="tab-link text-left w-full hover:text-blue-600" data-tab="history">📋 Historial</button>
-  <button class="tab-link text-left w-full hover:text-blue-600" data-tab="dashboard">📈 Dashboard</button>
   <button class="tab-link text-left w-full hover:text-blue-600" data-tab="finances">💰 Finanzas</button>
   <button class="tab-link text-left w-full hover:text-blue-600" data-tab="zones">🗺️ Zonas</button>
   <button class="tab-link text-left w-full hover:text-blue-600" data-tab="settings">⚙️ Configuración</button>
@@ -672,343 +678,341 @@
     </div>
 
   </div>
-</section>
+</section>       
 
-
-            <!-- Dashboard Tab -->
-<section id="dashboard" class="tab-content hidden">
-   <div class="w-full px-6 py-6 space-y-8">
-    
-    <!-- Título principal -->
-   <div class="section-header text-center">
-      <h2 class="font-bold mb-4">📈 Dashboard</h2>
-      <p class="subtitle">Análisis e insights de tu negocio expediter</p>
-    </div>
-
-    <!-- Month Selector -->
-   <div class="card-section">
-  <label for="dashboardMonthSelect" class="block text-base font-medium text-gray-700 mb-2">
-    Seleccionar Mes:
-  </label>
-  <select class="border rounded px-3 py-2 w-60 text-base" id="dashboardMonthSelect" name="dashboardMonthSelect">
-    <option value="all">Todos los Meses</option>
-  </select>
-</div>
-
-
-    <!-- Key metrics -->
-    <div class="card-section">
-  <h3 class="text-2xl font-semibold mb-4">📅 Resumen Mensual</h3>
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-    
-    <div class="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-      <h4 class="text-sm font-medium text-green-700 mb-1">Ingresos Totales</h4>
-      <p class="kpi-value text-green-800" id="monthlyRevenue">$0.00</p>
-      <p class="text-xs text-green-600 mt-1">Monto bruto acumulado</p>
-    </div>
-    
-    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
-      <h4 class="text-sm font-medium text-blue-700 mb-1">Millas Totales</h4>
-      <p class="kpi-value text-blue-800" id="monthlyMiles">0</p>
-      <p class="text-xs text-blue-600 mt-1">Distancia recorrida</p>
-    </div>
-    
-    <div class="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
-      <h4 class="text-sm font-medium text-red-700 mb-1">Gastos Totales</h4>
-      <p class="kpi-value text-red-800" id="monthlyExpenses">$0.00</p>
-      <p class="text-xs text-red-600 mt-1">Costos operativos</p>
-    </div>
-    
-    <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 text-center">
-      <h4 class="text-sm font-medium text-indigo-700 mb-1">Ganancia Neta</h4>
-      <p class="kpi-value text-indigo-800" id="monthlyProfit">$0.00</p>
-      <p class="text-xs text-indigo-600 mt-1">Después de gastos</p>
-    </div>
-    
-  </div>
-</div>
-
-
-    <!-- Chart -->
-    <div class="card-section">
-      <h3 class="text-2xl font-semibold mb-4">📈 Gráfico de Rendimiento</h3>
-      <div class="w-full h-96 bg-gray-50 rounded-lg p-4">
-        <canvas id="combinedChart"></canvas>
-      </div>
-    </div>
-
-    <!-- Expense Chart -->
-    <div class="card-section">
-      <h3 class="text-2xl font-semibold mb-4">💰 Distribución de Gastos</h3>
-      <div class="w-full h-72 bg-gray-50 rounded-lg p-4">
-        <canvas id="expenseChart"></canvas>
-      </div>
-    </div>
-
-    <!-- Nueva sección de métricas -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-  <div class="bg-white rounded-lg shadow p-4">
-    <h3 class="font-bold mb-2">📈 Tendencia de RPM</h3>
-    <canvas id="rpmTrendChart"></canvas>
-  </div>
-
-  <div class="bg-white rounded-lg shadow p-4">
-    <h3 class="font-bold mb-2">🏢 Ranking de Compañías</h3>
-    <table class="w-full text-sm">
-      <thead>
-        <tr class="text-left border-b">
-          <th class="p-2">Compañía</th>
-          <th class="p-2">Cargas</th>
-          <th class="p-2">Profit Promedio</th>
-        </tr>
-      </thead>
-      <tbody id="companyRankingBody"></tbody>
-    </table>
-  </div>
-</div>
-
-<!-- Eficiencia -->
-<div class="bg-white rounded-lg shadow p-4 mt-6 text-center">
-  <h3 class="font-bold">⚙️ Eficiencia</h3>
-  <p id="dashEfficiency" class="text-2xl font-bold text-blue-600">0%</p>
-</div>
-
-    <!-- Top Routes -->
-    <div class="card-section">
-      <h3 class="text-2xl font-semibold mb-4">🏆 Mejores Rutas (RPM Promedio)</h3>
-      <div class="overflow-x-auto">
-        <table class="min-w-full text-base border border-gray-300">
-          <thead class="bg-gray-200 text-gray-700">
-            <tr>
-              <th class="p-3 text-left">Ruta</th>
-              <th class="p-3 text-left">Compañía</th>
-              <th class="p-3 text-left">Cargas</th>
-              <th class="p-3 text-left">RPM Promedio</th>
-              <th class="p-3 text-left">Ganancia Total</th>
-            </tr>
-          </thead>
-          <tbody id="topRoutesBody">
-            <tr>
-              <td colspan="5" class="p-4 text-center text-gray-500">
-                Sin datos disponibles. ¡Crea algunas cargas primero!
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-
-            <!-- Finances Tab -->
+<!-- 📊 Sección Finanzas -->
 <section id="finances" class="tab-content hidden">
-      <div class="w-full px-6 py-6 space-y-8">
-        <!-- Header -->
-        <div class="section-header text-center">
-            <h2 class="font-bold mb-4">💰 Finanzas del Negocio</h2>
-            <p class="subtitle">Gestión contable completa para tu negocio expediter</p>
+  <div class="w-full px-6 py-6 space-y-6">
+
+    <!-- Submenú interno -->
+    <div class="flex gap-4 border-b pb-2">
+      <button class="fin-subtab px-4 py-2 rounded-md bg-blue-100 font-semibold" data-subtab="summary">📊 Resumen</button>
+      <button class="fin-subtab px-4 py-2 rounded-md hover:bg-gray-100" data-subtab="reports">🧾 Reportes</button>
+      <button class="fin-subtab px-4 py-2 rounded-md hover:bg-gray-100" data-subtab="accounts">💵 Cuentas</button>
+    </div>
+
+    <!-- 📊 Contenido RESUMEN -->
+    <div id="finances-summary" class="fin-subcontent">
+    
+      <!-- ✅ Selector Unificado (Resumen) -->
+      <div class="card-section">
+        <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+          <!-- Año -->
+          <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+            <label for="yearSelect" class="block text-sm font-medium text-gray-700 mb-1">📅 Año</label>
+            <select id="yearSelect" class="border border-gray-300 rounded px-3 py-2 w-32"></select>
+          </div>
+
+          <!-- Mes -->
+          <div>
+            <label for="monthSelect" class="block text-sm font-medium text-gray-700 mb-1">📅 Mes</label>
+            <select id="monthSelect" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
+          </div>
+
+          <!-- Botón -->
+          <div class="flex items-end">
+            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
+                    onclick="applyPeriod('global')">
+              🔄 Actualizar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info de actualización -->
+      <div class="text-right">
+        <span id="lastUpdated" class="text-sm text-gray-500">Actualizado: --</span>
+      </div>
+
+      <!-- Resumen del período -->
+      <div id="periodSummary" class="mt-3 text-sm bg-blue-50 border border-blue-200 rounded p-3 hidden">
+        <div class="flex items-center gap-2">
+          <span class="text-blue-600">📊</span>
+          <span id="periodInfo" class="text-blue-800 font-medium">Analizando datos...</span>
+        </div>
+      </div>
+
+      <!-- KPIs UNIFICADOS - Sin duplicaciones -->
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+        <!-- Ingresos -->
+        <div class="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
+          <h4 class="text-xs font-medium text-green-700 mb-1">Ingresos</h4>
+          <p class="text-lg font-bold text-green-800" id="totalRevenue">$0.00</p>
+        </div>
+        
+        <!-- Gastos -->
+        <div class="bg-red-50 border border-red-200 rounded-lg p-3 text-center">
+          <h4 class="text-xs font-medium text-red-700 mb-1">Gastos</h4>
+          <p class="text-lg font-bold text-red-800" id="totalExpensesSummary">$0.00</p>
+        </div>
+        
+        <!-- Ganancia -->
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-center">
+          <h4 class="text-xs font-medium text-blue-700 mb-1">Ganancia</h4>
+          <p class="text-lg font-bold text-blue-800" id="netProfit">$0.00</p>
+        </div>
+        
+        <!-- Millas -->
+        <div class="bg-purple-50 border border-purple-200 rounded-lg p-3 text-center">
+          <h4 class="text-xs font-medium text-purple-700 mb-1">Millas</h4>
+          <p class="text-lg font-bold text-purple-800" id="totalMiles">0</p>
+        </div>
+        
+        <!-- RPM -->
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-center">
+          <h4 class="text-xs font-medium text-yellow-700 mb-1">RPM</h4>
+          <p class="text-lg font-bold text-yellow-800" id="avgRpm">$0.00</p>
+        </div>
+      </div>
+
+      <!-- Gestión de Gastos -->
+      <div class="card-section">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold">💳 Gestión de Gastos</h3>
+          <button onclick="openExpenseModal()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+            ➕ Agregar Gasto
+          </button>
         </div>
 
-       <!-- ✅ NUEVO SELECTOR UNIFICADO -->
- <div class="card-section">
+        <!-- Lista de gastos recientes -->
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-sm border border-gray-300">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="p-2 text-left">Fecha</th>
+                <th class="p-2 text-left">Categoría</th>
+                <th class="p-2 text-left">Descripción</th>
+                <th class="p-2 text-left">Monto</th>
+                <th class="p-2 text-left">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="expensesList">
+              <tr>
+                <td colspan="5" class="p-4 text-center text-gray-500">
+                  No hay gastos registrados para este período
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Gráficos Principales -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Cash Flow Chart -->
+        <div class="card-section">
+          <h3 class="text-lg font-semibold mb-4">📈 Rendimiento Financiero</h3>
+          <div id="cashFlowChartContainer" class="h-96 bg-gray-50 rounded-lg p-4">
+            <canvas id="cashFlowChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Expense Breakdown -->
+        <div class="card-section">
+          <h3 class="text-lg font-semibold mb-4">🥧 Distribución de Gastos</h3>
+          <div id="expenseBreakdownChartContainer" class="h-96 bg-gray-50 rounded-lg p-4">
+            <canvas id="expenseBreakdownChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gráficos del Dashboard Integrados -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        <!-- RPM Trends -->
+        <div class="card-section">
+          <h3 class="text-lg font-semibold mb-4">📈 Tendencia RPM</h3>
+          <div class="h-80 bg-gray-50 rounded-lg p-4">
+            <canvas id="rpmTrendChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Distribución de Cargas -->
+        <div class="card-section">
+          <h3 class="text-lg font-semibold mb-4">🎯 Distribución de Cargas</h3>
+          <div class="h-80 bg-gray-50 rounded-lg p-4">
+            <canvas id="loadDistributionChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Métricas Adicionales (Solo las que faltan) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 text-center">
+          <h4 class="text-sm font-medium text-indigo-700 mb-1">📏 Costo por Milla</h4>
+          <p class="text-xl font-bold text-indigo-800" id="costPerMile">$0.00</p>
+          <p class="text-xs text-indigo-600 mt-1">Incluye todos los gastos</p>
+        </div>
+        <div class="bg-pink-50 border border-pink-200 rounded-lg p-4 text-center">
+          <h4 class="text-sm font-medium text-pink-700 mb-1">⚡ Eficiencia</h4>
+          <p class="text-xl font-bold text-pink-800" id="efficiency">0%</p>
+          <p class="text-xs text-pink-600 mt-1">Análisis operativo</p>
+        </div>
+      </div>
+
+    </div>
+
+       <!-- 🧾 Contenido REPORTES -->
+     <div id="finances-reports" class="fin-subcontent hidden space-y-6">
+
+<!-- ✅ Selector Unificado (Reportes) -->
+<div class="card-section">
   <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+
+    <!-- Año -->
     <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+      <label for="reportYear" class="block text-sm font-medium text-gray-700 mb-1">📅 Año</label>
+      <select id="reportYear" class="border border-gray-300 rounded px-3 py-2 w-32"></select>
+    </div>
+
+    <!-- Mes -->
+    <div>
+      <label for="reportMonth" class="block text-sm font-medium text-gray-700 mb-1">📅 Mes</label>
+      <select id="reportMonth" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
+    </div>
+
+    <!-- Botón -->
+    <div class="flex items-end">
+      <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
+              onclick="applyPeriod('reports')">
+        🔄 Actualizar
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+  <!-- 📘 Tarjetas horizontales -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <!-- 📘 Estado de Resultados -->
+    <div class="card-section flex flex-col justify-between">
       <div>
-        <label for="yearSelect" class="block text-sm font-medium text-gray-700 mb-1">📅 Año</label>
-        <select id="yearSelect" class="border border-gray-300 rounded px-3 py-2 w-32" onchange="updateMonthOptions()">
-          <option value="">Todos</option>
-        </select>
+        <h3 class="text-lg font-semibold mb-4">📘 Estado de Resultados</h3>
+        <p class="text-gray-600">
+          Ingresos, costos y utilidad neta del período seleccionado.
+        </p>
+        <div id="plReportPreview" class="mt-4 text-sm text-gray-800">
+          <em>Seleccione filtros y genere el reporte.</em>
+        </div>
       </div>
-      <div>
-        <label for="monthSelect" class="block text-sm font-medium text-gray-700 mb-1">📅 Mes</label>
-        <select id="monthSelect" class="border border-gray-300 rounded px-3 py-2 w-40" onchange="filterByYearMonth()">
-          <option value="">Todos</option>
-        </select>
-      </div>
-      <div class="flex items-end">
-        <button onclick="loadFinancesData()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium">
-          🔄 Actualizar
+      <div class="mt-4">
+        <button onclick="generatePLReport()" 
+                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full">
+          📘 Generar Reporte
         </button>
       </div>
     </div>
 
-    <!-- Info de actualización -->
-    <div class="text-right">
-      <span id="lastUpdated" class="text-sm text-gray-500">Actualizado: --</span>
+    <!-- 🧾 Reporte de Impuestos -->
+    <div class="card-section flex flex-col justify-between">
+      <div>
+        <h3 class="text-lg font-semibold mb-4">🧾 Reporte de Impuestos</h3>
+        <p class="text-gray-600">
+          Deducciones y base imponible.
+        </p>
+      </div>
+      <div class="mt-4">
+        <button onclick="generateTaxReport()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full">
+           🧾 Calcular Impuestos
+        </button>
+      </div>
+    </div>
+
+    <!-- 📤 Exportaciones -->
+    <div class="card-section flex flex-col justify-between">
+      <div>
+        <h3 class="text-lg font-semibold mb-4">📤 Exportaciones</h3>
+        <p class="text-gray-600">
+          Exportar datos contables.
+        </p>
+      </div>
+      <div class="mt-4">
+        <button class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 w-full">
+          Exportar a Excel
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+     <!-- Contenedor dinámico para mostrar el Estado de Resultados -->
+   <div id="reportContent" class="card-section bg-white border rounded-lg p-6 hidden">
+   <!-- Aquí se insertará el Estado de Resultados -->
+    </div>
+
+    </div>
+
+    <!-- 💵 Contenido CUENTAS -->
+    <div id="finances-accounts" class="fin-subcontent hidden space-y-6">
+
+   <!-- ✅ Selector Unificado (Cuentas) -->
+<div class="card-section">
+  <!-- Primera fila: Filtros de fecha -->
+  <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-4">
+    <!-- Año -->
+    <div class="flex flex-col">
+      <label for="accountsYear" class="block text-sm font-medium text-gray-700 mb-1">📅 Año</label>
+      <select id="accountsYear" class="border border-gray-300 rounded px-3 py-2 w-32"></select>
+    </div>
+
+    <!-- Mes -->
+    <div class="flex flex-col">
+      <label for="accountsMonth" class="block text-sm font-medium text-gray-700 mb-1">📅 Mes</label>
+      <select id="accountsMonth" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
+    </div>
+
+    <!-- Botón Actualizar -->
+    <div class="flex items-end">
+      <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
+              onclick="applyPeriod('accounts')">
+        🔄 Actualizar
+      </button>
     </div>
   </div>
 
-  <!-- Resumen del período -->
-  <div id="periodSummary" class="mt-3 text-sm bg-blue-50 border border-blue-200 rounded p-3 hidden">
-    <div class="flex items-center gap-2">
-      <span class="text-blue-600">📊</span>
-      <span id="periodInfo" class="text-blue-800 font-medium">Analizando datos...</span>
+  <!-- Segunda fila: Filtros adicionales -->
+  <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+    <!-- Estado -->
+    <div class="flex flex-col">
+      <label for="accountsStatus" class="block text-sm font-medium text-gray-700 mb-1">📊 Estado</label>
+      <select id="accountsStatus" class="border border-gray-300 rounded px-3 py-2 w-32">
+        <option value="">Todos</option>
+        <option value="pending">Pendientes</option>
+        <option value="overdue">Vencidas</option>
+        <option value="paid">Pagadas</option>
+      </select>
+    </div>
+
+    <!-- Compañía -->
+    <div class="flex flex-col">
+      <label for="accountsCompany" class="block text-sm font-medium text-gray-700 mb-1">🏢 Compañía</label>
+      <select id="accountsCompany" class="border border-gray-300 rounded px-3 py-2 w-40">
+        <option value="">Todas</option>
+      </select>
+    </div>
+
+    <!-- Ordenamiento -->
+    <div class="flex flex-col">
+      <label for="accountsSort" class="block text-sm font-medium text-gray-700 mb-1">🔄 Ordenar por</label>
+      <select id="accountsSort" class="border border-gray-300 rounded px-3 py-2 w-40">
+        <option value="date-desc">Fecha (Reciente)</option>
+        <option value="date-asc">Fecha (Antigua)</option>
+        <option value="amount-desc">Monto (Mayor)</option>
+        <option value="amount-asc">Monto (Menor)</option>
+        <option value="company">Compañía A-Z</option>
+        <option value="overdue">Más Vencidas</option>
+      </select>
     </div>
   </div>
- </div>
+</div>  
 
+    <div id="accountsList" class="space-y-6">
+         <!-- El dashboard se inserta aquí -->
+     </div>
 
-
-
-        <!-- KPIs Ejecutivos -->
-        <div class="card-section">
-            <h3 class="text-lg font-semibold mb-4">📊 Resumen Ejecutivo</h3>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div class="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-                    <h4 class="text-sm font-medium text-green-700 mb-1">Ingresos Totales</h4>
-                    <p class="text-2xl font-bold text-green-800" id="totalRevenue">$0.00</p>
-                    <p class="text-xs text-green-600 mt-1" id="revenueChange">+0% vs período anterior</p>
-                </div>
-                <div class="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
-                    <h4 class="text-sm font-medium text-red-700 mb-1">Gastos Totales</h4>
-                    <p class="text-2xl font-bold text-red-800" id="totalExpensesSummary">$0.00</p>
-                    <p class="text-xs text-red-600 mt-1" id="expenseChange">+0% vs período anterior</p>
-                </div>
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
-                    <h4 class="text-sm font-medium text-blue-700 mb-1">Ganancia Neta</h4>
-                    <p class="text-2xl font-bold" id="netProfit">$0.00</p>
-                    <p class="text-xs text-blue-600 mt-1" id="profitChange">+0% vs período anterior</p>
-                </div>
-                <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center">
-                    <h4 class="text-sm font-medium text-purple-700 mb-1">Margen de Ganancia</h4>
-                    <p class="text-2xl font-bold text-purple-800" id="profitMarginPercent">0%</p>
-                    <p class="text-xs text-purple-600 mt-1" id="marginChange">+0% vs período anterior</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Gestión de Gastos -->
-        <div class="card-section">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold">💳 Gestión de Gastos</h3>
-                <button onclick="openExpenseModal()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-                    ➕ Agregar Gasto
-                </button>
-            </div>
-
-            <!-- Categorías de gastos -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                <div class="bg-orange-50 border border-orange-200 rounded p-3 text-center">
-                    <h4 class="text-sm font-medium text-orange-700">🚚 Combustible</h4>
-                    <p class="text-lg font-bold text-orange-800" id="fuelExpenses">$0.00</p>
-                </div>
-                <div class="bg-blue-50 border border-blue-200 rounded p-3 text-center">
-                    <h4 class="text-sm font-medium text-blue-700">🔧 Mantenimiento</h4>
-                    <p class="text-lg font-bold text-blue-800" id="maintenanceExpenses">$0.00</p>
-                </div>
-                <div class="bg-yellow-50 border border-yellow-200 rounded p-3 text-center">
-                    <h4 class="text-sm font-medium text-yellow-700">🍔 Comida</h4>
-                    <p class="text-lg font-bold text-yellow-800" id="foodExpenses">$0.00</p>
-                </div>
-                <div class="bg-gray-50 border border-gray-200 rounded p-3 text-center">
-                    <h4 class="text-sm font-medium text-gray-700">🏨 Otros</h4>
-                    <p class="text-lg font-bold text-gray-800" id="otherExpenses">$0.00</p>
-                </div>
-            </div>
-
-            <!-- Lista de gastos recientes -->
-            <div class="overflow-x-auto">
-                <table class="min-w-full text-sm border border-gray-300">
-                    <thead class="bg-gray-100">
-                        <tr>
-                            <th class="p-2 text-left">Fecha</th>
-                            <th class="p-2 text-left">Categoría</th>
-                            <th class="p-2 text-left">Descripción</th>
-                            <th class="p-2 text-left">Monto</th>
-                            <th class="p-2 text-left">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="expensesList">
-                        <tr>
-                            <td colspan="5" class="p-4 text-center text-gray-500">
-                                No hay gastos registrados para este período
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Reportes Financieros -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <!-- Cash Flow Chart -->
-            <div class="card-section">
-                <h3 class="text-lg font-semibold mb-4">📈 Flujo de Efectivo</h3>
-                <div class="h-64 bg-gray-50 rounded-lg p-4">
-                    <canvas id="cashFlowChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Expense Breakdown -->
-            <div class="card-section">
-                <h3 class="text-lg font-semibold mb-4">🥧 Distribución de Gastos</h3>
-                <div class="h-64 bg-gray-50 rounded-lg p-4">
-                    <canvas id="expenseBreakdownChart"></canvas>
-                </div>
-            </div>
-        </div>
-    
-
-        <!-- Reportes y Exportación -->
-        <div class="card-section">
-            <h3 class="text-lg font-semibold mb-4">📄 Reportes y Exportación</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <button onclick="generatePLReport()" class="bg-blue-600 text-white px-4 py-3 rounded hover:bg-blue-700">
-                📘 Resumen Financiero
-                </button>
-                <button onclick="generateTaxReport()" class="bg-green-600 text-white px-4 py-3 rounded hover:bg-green-700">
-                    🧾 Reporte de Impuestos
-                </button>
-                <button onclick="exportFinancialData()" class="bg-purple-600 text-white px-4 py-3 rounded hover:bg-purple-700">
-                    📤 Exportar Excel
-                </button>
-            </div>
-            
-        </div>
-
-        <!-- Métricas Avanzadas -->
-        <div class="card-section">
-            <h3 class="text-lg font-semibold mb-4">🎯 Métricas del Negocio</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4">
-                    <h4 class="text-sm font-medium text-indigo-700 mb-3">📏 Costo por Milla</h4>
-                    <p class="text-xl font-bold text-indigo-800" id="costPerMile">$0.00</p>
-                    <p class="text-xs text-indigo-600 mt-1">Incluye todos los gastos</p>
-                </div>
-                <div class="bg-teal-50 border border-teal-200 rounded-lg p-4">
-                    <h4 class="text-sm font-medium text-teal-700 mb-3">💰 RPM Promedio</h4>
-                    <p class="text-xl font-bold text-teal-800" id="averageRPM">$0.00</p>
-                    <p class="text-xs text-teal-600 mt-1">Revenue per mile</p>
-                </div>
-                <div class="bg-pink-50 border border-pink-200 rounded-lg p-4">
-                    <h4 class="text-sm font-medium text-pink-700 mb-3">⚡ Eficiencia</h4>
-                    <p class="text-xl font-bold text-pink-800" id="efficiency">0%</p>
-                    <p class="text-xs text-pink-600 mt-1">Millas cargadas vs totales</p>
-                </div>
-            
-            </div>
-        </div>
-    </div>
-    <!-- 🔍 Botón de análisis completo -->
-<div class="mt-10 text-center">
-  <button onclick="completeAnalysis()" class="bg-blue-700 hover:bg-blue-800 text-white font-semibold px-6 py-2 rounded shadow">
-    📈 Ver análisis completo
-  </button>
-</div>
- <!-- 📊 Tarjeta extendida de análisis -->
-                    <div id="analysisCard" class="bg-white border border-gray-200 rounded-lg shadow p-6 space-y-3 mt-6 hidden">
-                    <div class="flex justify-between items-center mb-2">
-                    <h3 class="text-lg font-bold text-blue-700">📊 Análisis de Rentabilidad Mensual</h3>
-                    <button onclick="printSection('analysisCard')" class="text-sm bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-1 rounded border">
-                    🖨️ Imprimir
-                    </button>
-                    </div>
-                    <div id="analysisContent" class="text-sm text-gray-800 space-y-2">
-                    <!-- Contenido dinámico generado desde JS -->
-                    </div>
-                    </div>
+   </div>
+  </div>
 </section>
 
 <!-- ✅ MODAL PARA AGREGAR GASTOS -->

@@ -193,7 +193,7 @@ function requireAuth() {
   return window.currentUser;
 }
 
-// ✅ Función para cargar datos iniciales
+// ✅ Función para cargar datos iniciales 
 function loadInitialData() {
   debugLog("📂 Cargando datos iniciales...");
   
@@ -205,15 +205,21 @@ function loadInitialData() {
   // Esperar a que main.js esté listo
   if (typeof window.openTab === 'function') {
     debugLog("✅ main.js disponible, cargando tab data");
-   const currentTab = document.querySelector('.tab-link.text-blue-600')?.getAttribute('data-tab') || window.appState.currentTab || 'calculator';
+    const currentTab = document.querySelector('.tab-link.text-blue-600')?.getAttribute('data-tab') 
+      || window.appState.currentTab 
+      || 'calculator';
     if (typeof window.loadTabData === 'function') {
       window.loadTabData(currentTab);
     }
   } else {
-    debugLog("⏳ Esperando main.js...");
-    setTimeout(loadInitialData, 500);
+    debugLog("⏳ Esperando main.js (evento)...");
+    document.addEventListener("mainJsReady", () => {
+      debugLog("✅ main.js listo, ejecutando loadInitialData...");
+      loadInitialData();
+    }, { once: true });
   }
 }
+
 
 // ✅ Debug function para verificar estado
 function debugAuthState() {

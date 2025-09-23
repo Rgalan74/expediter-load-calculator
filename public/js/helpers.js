@@ -122,12 +122,45 @@ function formatMonth(date) {
   try {
     const d = new Date(date);
     if (isNaN(d.getTime())) return "";
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
   } catch (error) {
     console.error("Error formatting month:", error);
     return "";
   }
 }
+
+// === UTC Date helpers (robustos para string, Date y Firestore Timestamp) ===
+function toDateLikeUTC(value) {
+  if (!value) return null;
+  if (value instanceof Date) return value;                 // Date
+  if (typeof value === "string" || typeof value === "number") {
+    const d = new Date(value);                             // ISO string / ms
+    return isNaN(d) ? null : d;
+  }
+  if (typeof value === "object" && typeof value.toDate === "function") {
+    const d = value.toDate();                              // Firestore Timestamp
+    return isNaN(d) ? null : d;
+  }
+  return null;
+}
+
+function getUTCPeriod(value) {
+  const d = toDateLikeUTC(value);
+  if (!d) return "";
+  const y = d.getUTCFullYear();
+  const m = String(d.getUTCMonth() + 1).padStart(2, "0");
+  return `${y}-${m}`;
+}
+
+// Si existe formatMonth en tu código, lo alineamos a UTC:
+function formatMonth(date) {
+  return getUTCPeriod(date);
+}
+
+// exposición global por si otros archivos lo usan
+window.getUTCPeriod = getUTCPeriod;
+window.toDateLikeUTC = toDateLikeUTC;
+
 
 const CANADIAN_PROVINCES_LIST = [
   "AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"
@@ -142,25 +175,25 @@ function populateMonthSelector(filteredData = [], selectorId = "monthSelector") 
 
   const months = new Set();
   filteredData.forEach(load => {
-    if (load.date && typeof load.date === 'string' && load.date.length >= 7) {
-      months.add(load.date.substring(0, 7));
-    }
+    const month = normalizeDate(load.date, "month");
+    if (month) months.add(month);
   });
 
   const sortedMonths = Array.from(months).sort((a, b) => b.localeCompare(a));
-  
+
   // Clear existing options
   selector.innerHTML = '<option value="all">Todos</option>';
-  
+
   sortedMonths.forEach(month => {
-    const option = document.createElement('option');
+    const option = document.createElement("option");
     option.value = month;
     option.textContent = month;
     selector.appendChild(option);
   });
-  
+
   console.log(`Populated ${selectorId} with ${sortedMonths.length} months`);
 }
+
 
 function validateEmail(email) {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

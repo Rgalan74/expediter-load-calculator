@@ -304,3 +304,21 @@ body {
   font-weight: 700;
   line-height: 1.3;
 }
+
+.dropdown-finanzas {
+  position: absolute;
+  top: 100%;  /* justo debajo del botón */
+  left: 0;    /* alineado a la izquierda */
+}
+
+#dashboard canvas {
+  max-height: 400px !important;
+  height: 400px !important;
+  width: 100% !important;
+}
+
+#dashboard .h-80, #dashboard .h-96 {
+  height: 20rem !important;
+  max-height: 20rem !important;
+  overflow: hidden !important;
+}
