@@ -29,24 +29,35 @@ function ensureCanvasExists() {
   }
 }
 
-// ✅ Función principal (consume el motor)
+// ==============================
+// 🔧 FUNCIÓN PRINCIPAL updateDashboard MEJORADA
+// ==============================
 async function updateDashboard(period = "all") {
   try {
     console.log(`📈 Updating dashboard for period: ${period}`);
 
-    const { loads } = await loadFinancialData(period);
+    // Cargar datos financieros
+    const data = await window.loadFinancialData(period);
+    const loads = data?.loads || [];
 
-    // ✅ Poblar el selector con las cargas recibidas
-    populateDashboardMonthSelector(loads);
+    if (loads.length === 0) {
+      console.warn("⚠️ No hay cargas disponibles para el dashboard");
+      showDashboardEmpty();
+      return;
+    }
 
-    // Dibujar gráficos y resúmenes
+    console.log(`📊 Dashboard procesando ${loads.length} cargas`);
+
+    // Asegurar que los canvas existan
     ensureCanvasExists();
+
+    // Actualizar componentes del dashboard
     drawChart(loads);
     fetchMonthlySummary(loads);
     renderTopRoutes(loads);
     fetchExpenseDataAndRender(loads);
 
-    // Nuevas métricas operativas
+    // Nuevas métricas (ahora con parámetros correctos)
     renderRpmTrend(loads);
     renderCompanyRanking(loads);
     renderEfficiency(loads);
@@ -56,86 +67,248 @@ async function updateDashboard(period = "all") {
     console.error("❌ Error updating dashboard:", err);
     showDashboardError(err.message || "Error desconocido");
   }
+  fixDashboardMonthSelector();
+}
+
+// ==============================
+// 🔧 FUNCIÓN PARA ELEMENTOS VACÍOS
+// ==============================
+function showDashboardEmpty() {
+  const chartCanvas = document.getElementById('combinedChart');
+  const topRoutesBody = document.getElementById('topRoutesBody');
+  
+  if (chartCanvas && chartCanvas.parentElement) {
+    chartCanvas.parentElement.innerHTML = `
+      <div class="bg-gray-50 border border-gray-200 rounded p-4 text-center h-80 flex items-center justify-center">
+        <div>
+          <p class="text-gray-600 mb-2">📊 No hay datos disponibles</p>
+          <p class="text-gray-500 text-sm">Crea algunas cargas primero para ver el dashboard</p>
+        </div>
+      </div>
+    `;
+  }
+  
+  if (topRoutesBody) {
+    topRoutesBody.innerHTML = `
+      <tr>
+        <td colspan="5" class="p-4 text-center text-gray-500">
+          📋 No hay cargas para analizar
+        </td>
+      </tr>
+    `;
+  }
+
+  // Limpiar métricas
+  ['monthlyRevenue', 'monthlyMiles', 'monthlyExpenses', 'monthlyProfit'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = '$0.00';
+  });
 }
 
 
+// ==============================
+// 📈 FUNCIÓN renderRpmTrend CORREGIDA
+// ==============================
+function renderRpmTrend(loads = []) {
+  if (!loads || loads.length === 0) {
+    console.log("⚠️ renderRpmTrend: No hay cargas para procesar");
+    return;
+  }
 
-renderRpmTrend(loads);
-renderCompanyRanking(loads);
-renderEfficiency(loads);
-
-
-function renderRpmTrend(loads) {
+  console.log("📈 renderRpmTrend ejecutándose con", loads.length, "cargas");
+  
   const grouped = {};
   loads.forEach(l => {
-    const month = l.date?.substring(0, 7);
+    const month = l.date ? l.date.substring(0, 7) : null;
+    if (!month) return;
+
     if (!grouped[month]) grouped[month] = { rpmSum: 0, count: 0 };
-    grouped[month].rpmSum += l.rpm;
+    grouped[month].rpmSum += l.rpm || 0;
     grouped[month].count++;
   });
 
   const labels = Object.keys(grouped).sort();
-  const values = labels.map(m => grouped[m].rpmSum / grouped[m].count);
+  const values = labels.map(m => grouped[m].count > 0 ? grouped[m].rpmSum / grouped[m].count : 0);
 
+  console.log("📊 RPM Trend data:", { labels, values });
+
+  // Crear/actualizar gráfico si el canvas existe
   const canvas = document.getElementById("rpmTrendChart");
-  if (!canvas) return;
-
-  // 👇 Destruir gráfico previo si existe
-  if (rpmTrendChartInstance && typeof rpmTrendChartInstance.destroy === "function") {
-    rpmTrendChartInstance.destroy();
+  if (!canvas) {
+    console.warn("⚠️ Canvas #rpmTrendChart no encontrado");
+    return;
   }
 
-  rpmTrendChartInstance = new Chart(canvas, {
-    type: "line",
-    data: {
-      labels,
-      datasets: [{
-        label: "RPM promedio",
-        data: values,
-        borderColor: "#3b82f6",
-        tension: 0.3
-      }]
+  // Destruir gráfico previo si existe
+  if (window.rpmTrendChartInstance && typeof window.rpmTrendChartInstance.destroy === 'function') {
+    window.rpmTrendChartInstance.destroy();
+  }
+
+  // Crear nuevo gráfico si Chart.js está disponible
+  if (typeof Chart !== 'undefined') {
+    try {
+      window.rpmTrendChartInstance = new Chart(canvas, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'RPM Promedio',
+            data: values,
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            tension: 0.1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'top' } }
+        }
+      });
+      console.log("✅ Gráfico RPM Trend creado");
+    } catch (error) {
+      console.error("❌ Error creando gráfico RPM:", error);
     }
-  });
+  }
 }
 
+// ==============================
+// 🏢 FUNCIÓN renderCompanyRanking CORREGIDA
+// ==============================
+function renderCompanyRanking(loads = []) {
+  if (!loads || loads.length === 0) {
+    console.log("⚠️ renderCompanyRanking: No hay cargas para procesar");
+    return;
+  }
 
-function renderCompanyRanking(loads) {
-  const stats = {};
+  console.log("🏢 renderCompanyRanking ejecutándose con", loads.length, "cargas");
+  
+  const companies = {};
   loads.forEach(l => {
-    const c = l.companyName || "—";
-    if (!stats[c]) stats[c] = { profit: 0, count: 0 };
-    stats[c].profit += l.netProfit;
-    stats[c].count++;
+    const company = l.companyName || 'Sin empresa';
+    if (!companies[company]) {
+      companies[company] = { revenue: 0, count: 0, profit: 0 };
+    }
+    companies[company].revenue += l.totalCharge || 0;
+    companies[company].profit += l.netProfit || 0;
+    companies[company].count++;
   });
 
-  const top = Object.entries(stats)
-    .map(([name, s]) => ({ name, avgProfit: s.profit / s.count, count: s.count }))
-    .sort((a, b) => b.avgProfit - a.avgProfit)
+  const ranking = Object.entries(companies)
+    .map(([name, data]) => ({ 
+      name, 
+      revenue: data.revenue,
+      profit: data.profit,
+      count: data.count,
+      avgPerLoad: data.count > 0 ? data.revenue / data.count : 0
+    }))
+    .sort((a, b) => b.revenue - a.revenue)
     .slice(0, 5);
 
-  const body = document.getElementById("companyRankingBody");
-  body.innerHTML = "";
-  top.forEach(r => {
-    body.innerHTML += `<tr>
-      <td class="p-2">${r.name}</td>
-      <td class="p-2">${r.count}</td>
-      <td class="p-2">$${r.avgProfit.toFixed(2)}</td>
-    </tr>`;
-  });
+  console.log("🏆 Company ranking:", ranking);
+
+  // Actualizar tabla si existe
+  const tableBody = document.getElementById("companyRankingBody");
+  if (tableBody) {
+    tableBody.innerHTML = "";
+    ranking.forEach((company, index) => {
+      const row = document.createElement("tr");
+      row.className = index % 2 === 0 ? "bg-gray-50" : "bg-white";
+      row.innerHTML = `
+        <td class="p-2 font-medium">${company.name}</td>
+        <td class="p-2">${company.count}</td>
+        <td class="p-2">$${company.revenue.toFixed(2)}</td>
+        <td class="p-2">$${company.avgPerLoad.toFixed(2)}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+  }
 }
 
-function renderEfficiency(loads) {
-  const totalMiles = loads.reduce((s, l) => s + (Number(l.totalMiles) || 0), 0);
-  const repositionMiles = loads.reduce((s, l) => s + (Number(l.repositionMiles) || 0), 0);
+// ==============================
+// ⚡ FUNCIÓN renderEfficiency CORREGIDA
+// ==============================
+function renderEfficiency(loads = []) {
+  if (!loads || loads.length === 0) {
+    console.log("⚠️ renderEfficiency: No hay cargas para procesar");
+    return;
+  }
 
-  const efficiency = totalMiles > 0 
-    ? ((totalMiles - repositionMiles) / totalMiles) * 100 
-    : 0;
+  console.log("⚡ renderEfficiency ejecutándose con", loads.length, "cargas");
+  
+  const totalMiles = loads.reduce((sum, l) => sum + (l.totalMiles || 0), 0);
+  const repositionMiles = loads.reduce((sum, l) => sum + (l.repositionMiles || 0), 0);
+  const loadedMiles = loads.reduce((sum, l) => sum + (l.loadedMiles || 0), 0);
+  
+  // Calcular eficiencia de múltiples formas
+  const efficiency1 = totalMiles > 0 ? ((totalMiles - repositionMiles) / totalMiles) * 100 : 0;
+  const efficiency2 = totalMiles > 0 ? (loadedMiles / totalMiles) * 100 : 0;
+  
+  // Usar la eficiencia que tenga sentido
+  const efficiency = loadedMiles > 0 ? efficiency2 : efficiency1;
 
-  console.log("⚙️ Efficiency debug:", { totalMiles, repositionMiles, efficiency });
+  console.log("📊 Efficiency debug:", { 
+    totalMiles, 
+    repositionMiles, 
+    loadedMiles, 
+    efficiency: efficiency.toFixed(1) + "%" 
+  });
 
-  updateElement("dashEfficiency", efficiency.toFixed(1) + "%");
+  // Actualizar elementos DOM
+  const updateEfficiencyElement = (id, value) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.textContent = value;
+      console.log(`✅ Actualizado ${id}: ${value}`);
+    }
+  };
+
+  updateEfficiencyElement("dashEfficiency", efficiency.toFixed(1) + "%");
+  updateEfficiencyElement("efficiency", efficiency.toFixed(1) + "%");
+}
+
+function fixDashboardMonthSelector() {
+  const monthSelect = document.getElementById("dashboardMonthSelect");
+  if (!monthSelect) return;
+
+  // Limpiar selector
+  monthSelect.innerHTML = '<option value="all">Todos los Meses</option>';
+
+  // Obtener meses de los datos cargados
+  if (window.allFinancesData && window.allFinancesData.length > 0) {
+    const months = new Set();
+    
+    window.allFinancesData.forEach(load => {
+      if (load.date) {
+        const month = load.date.substring(0, 7); // YYYY-MM
+        months.add(month);
+      }
+    });
+
+    const sortedMonths = Array.from(months).sort((a, b) => b.localeCompare(a));
+    
+    sortedMonths.forEach(month => {
+      const option = document.createElement("option");
+      option.value = month;
+      option.textContent = month;
+      monthSelect.appendChild(option);
+    });
+
+    console.log(`✅ Selector poblado con ${sortedMonths.length + 1} opciones`);
+  }
+
+  // Agregar event listener
+  monthSelect.removeEventListener("change", handleDashboardMonthChange);
+  monthSelect.addEventListener("change", handleDashboardMonthChange);
+}
+
+function handleDashboardMonthChange(event) {
+  const selectedMonth = event.target.value;
+  console.log(`📅 CAMBIO DE MES: ${selectedMonth}`);
+  
+  if (typeof window.loadDashboardData === 'function') {
+    window.loadDashboardData(selectedMonth);
+  }
 }
 
 function populateDashboardMonthSelector(loads) {
@@ -153,12 +326,11 @@ function populateDashboardMonthSelector(loads) {
   // Limpiar y agregar "Todos los Meses"
   monthSelect.innerHTML = '<option value="all">Todos los Meses</option>';
 
-  // Extraer meses únicos
+  // Extraer meses únicos normalizados
   const months = new Set();
   loads.forEach(load => {
-    if (load.date && typeof load.date === "string" && load.date.length >= 7) {
-      months.add(load.date.substring(0, 7));
-    }
+    const month = normalizeDate(load.date); // 👈 usamos la función global
+    if (month) months.add(month);
   });
 
   const sortedMonths = Array.from(months).sort((a, b) => b.localeCompare(a));
@@ -173,16 +345,12 @@ function populateDashboardMonthSelector(loads) {
   });
 
   // Restaurar selección previa si aplica
-  if (currentValue && [...months, "all"].includes(currentValue)) {
+  if (currentValue && (months.has(currentValue) || currentValue === "all")) {
     monthSelect.value = currentValue;
   }
 
   console.log("📅 Selector final:", [...monthSelect.options].map(o => o.value));
 }
-
-
-
-
 
 // ✅ Gráfico combinado (ingresos, gastos, millas)
 function drawChart(loads) {
@@ -197,8 +365,10 @@ function drawChart(loads) {
 
   const grouped = {};
   loads.forEach(load => {
-    const loadMonth = load.date?.substring(0, 7) || "2025-01";
-    if (!grouped[loadMonth]) grouped[loadMonth] = { profit: 0, miles: 0, revenue: 0, expenses: 0 };
+    const loadMonth = normalizeDate(load.date) || "2025-01"; // 👈 usamos normalizeDate
+    if (!grouped[loadMonth]) {
+      grouped[loadMonth] = { profit: 0, miles: 0, revenue: 0, expenses: 0 };
+    }
 
     grouped[loadMonth].profit += load.netProfit;
     grouped[loadMonth].miles += load.totalMiles;
@@ -213,9 +383,8 @@ function drawChart(loads) {
 
   if (labels.length === 0) return showEmptyChart(canvas.parentElement, "📊 No hay datos");
   if (chartInstance && typeof chartInstance.destroy === "function") {
-  chartInstance.destroy();
-}
-
+    chartInstance.destroy();
+  }
 
   chartInstance = new Chart(canvas, {
     type: "bar",
@@ -237,6 +406,7 @@ function drawChart(loads) {
     }
   });
 }
+
 
 // ✅ Resumen mensual
 function fetchMonthlySummary(loads) {
@@ -366,6 +536,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("📈 Dashboard.js DOM loaded");
+  
+  // Configurar selectores con delay
+  setTimeout(() => {
+    fixDashboardMonthSelector();
+  }, 2000);
+});
+
 // ✅ Función puente para tabs.js
 function loadDashboardData(period = "all") {
   console.log("📊 loadDashboardData ejecutado con:", period);
@@ -373,15 +552,19 @@ function loadDashboardData(period = "all") {
 }
 window.loadDashboardData = loadDashboardData;
 
-
-
-// ✅ Exponer global
+// ==============================
+// 🚀 EXPORTAR FUNCIONES GLOBALMENTE
+// ==============================
 window.updateDashboard = updateDashboard;
 window.drawChart = drawChart;
 window.fetchMonthlySummary = fetchMonthlySummary;
 window.renderTopRoutes = renderTopRoutes;
 window.ensureCanvasExists = ensureCanvasExists;
+window.renderRpmTrend = renderRpmTrend;
+window.renderCompanyRanking = renderCompanyRanking;
+window.renderEfficiency = renderEfficiency;
+window.fixDashboardMonthSelector = fixDashboardMonthSelector;
+window.handleDashboardMonthChange = handleDashboardMonthChange;
 
-console.log("✅ Dashboard.js FINAL WORKING version loaded successfully");
-
-console.log("🏁 dashboard.js FIN cargado");
+console.log("✅ Dashboard.js corregido - Sin errores de 'loads is not defined'");
+console.log("🚀 dashboard.js FIN cargado");

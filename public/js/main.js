@@ -59,13 +59,12 @@ function loadTabData(tabId) {
     console.log(`⚠️ [MAIN] Tab ${tabId} not visible, skipping data load`);
     return;
   }
-  
-  // Verificar usuario antes de cargar datos
+
   if (!window.currentUser && tabId !== 'calculator') {
     console.log(`⚠️ [MAIN] No user available for ${tabId}, skipping data load`);
     return;
   }
-  
+
   try {
     switch (tabId) {
       case 'calculator':
@@ -74,86 +73,57 @@ function loadTabData(tabId) {
         
       case 'history':
         console.log("📋 [MAIN] Loading history data...");
-        if (typeof getLoadHistory === 'function') {
-          getLoadHistory();
-        } else {
-          console.warn("❌ [MAIN] getLoadHistory function not available");
-        }
+        if (typeof getLoadHistory === 'function') getLoadHistory();
         break;
-        
-      case 'dashboard':
-        console.log("📈 [MAIN] Loading dashboard data...");
+
+      case 'finances':
+        console.log("💰 [MAIN] Tab Finanzas abierta, activando Resumen...");
+        initPeriodSelectors("global");
+
+        const y = document.getElementById('yearSelect')?.value;
+        const m = document.getElementById('monthSelect')?.value;
+        const period = (y && m) ? `${y}-${String(m).padStart(2,'0')}` : "all";
+
+        if (typeof window.loadFinancesData === "function") {
+        console.log("💰 [MAIN] Auto-cargando Finanzas con período:", period);
+        window.loadFinancesData(period).then(r => {
+        updateFinancialKPIs(r.kpis);
+        updateExpenseCategories();
+        renderExpensesList(r.expenses);
+        updateFinancialCharts("global");   // 👈 forzamos la gráfica
+        updateBusinessMetrics();
+        }).catch(err => {
+        console.error("❌ Error cargando datos financieros:", err);
+      });
+      }
+      break;
+
+      case 'reports':
+        console.log("🧾 [MAIN] Opening Finances REPORTS tab");
         setTimeout(() => {
-          if (typeof loadDashboardData === 'function') {
-            loadDashboardData();
-          } else {
-            console.warn("❌ [MAIN] loadDashboardData function not available");
-          }
+          initPeriodSelectors("reports");
+          if (typeof generatePLReport === "function") generatePLReport();
         }, 200);
         break;
-        
-      case 'finances':
-        console.log("💰 [MAIN] Loading finances data...");
-        setTimeout(() => {
-          if (typeof loadFinancesData === 'function') {
-            console.log("💰 [MAIN] loadFinancesData function found, executing...");
-            
-            // Verificar dependencias críticas
-            if (typeof firebase === 'undefined') {
-              console.error("❌ [MAIN] Firebase not available for finances");
-              return;
-            }
-            
-            if (!window.currentUser) {
-              console.error("❌ [MAIN] No user available for finances");
-              return;
-            }
-            
-            // ✅ VERIFICAR LOS NUEVOS ELEMENTOS DOM (yearSelect y monthSelect)
-            const requiredElements = ['totalRevenue', 'totalExpensesSummary', 'netProfit'];
-            const missingElements = requiredElements.filter(id => !document.getElementById(id));
-            
-            if (missingElements.length > 0) {
-              console.error("❌ [MAIN] Missing DOM elements for finances:", missingElements);
-              console.log("⚠️ [MAIN] Continuando con elementos faltantes...");
-            }
-            
-            console.log("✅ [MAIN] All critical dependencies ready, loading finances data...");
-            loadFinancesData();
-            if (!window.hasDebuggedFinances) {
-  debugFinancesSetup(); // Solo se ejecuta una vez
-  window.hasDebuggedFinances = true;
-}
 
-          } else {
-            console.warn("❌ [MAIN] loadFinancesData function not available");
-            console.log("🔍 [MAIN] Available functions:", {
-              loadFinancesData: typeof loadFinancesData,
-              firebase: typeof firebase,
-              currentUser: !!window.currentUser
-            });
-          }
-        }, 500);
+      case 'accounts':
+        console.log("💵 [MAIN] Opening Finances ACCOUNTS tab");
+        setTimeout(() => {
+          initPeriodSelectors("accounts");
+          if (typeof loadAccountsData === "function") loadAccountsData();
+        }, 200);
         break;
-        
+
       case 'zones':
         console.log("🗺️ [MAIN] Loading zones data...");
-        if (typeof loadZonesData === 'function') {
-          loadZonesData();
-        } else {
-          console.warn("❌ [MAIN] loadZonesData function not available");
-        }
+        if (typeof loadZonesData === 'function') loadZonesData();
         break;
-        
+
       case 'settings':
         console.log("⚙️ [MAIN] Loading settings...");
-        if (typeof loadSettings === 'function') {
-          loadSettings();
-        } else {
-          console.warn("❌ [MAIN] loadSettings function not available");
-        }
+        if (typeof loadSettings === 'function') loadSettings();
         break;
-        
+
       default:
         console.log(`🤷 [MAIN] No specific handler for tab: ${tabId}`);
     }
@@ -165,34 +135,82 @@ function loadTabData(tabId) {
   }
 }
 
+
+
 // ✅ Setup navegación
 function setupNavigation() {
   console.log("🚀 [MAIN] Setting up navigation");
   
-  const tabButtons = document.querySelectorAll(".tab-link");
+  const tabButtons = document.querySelectorAll(".tab-link, .tab-btn:not(.dropdown-finanzas .tab-btn)");
   
   tabButtons.forEach((btn) => {
+    const tabId = btn.getAttribute("data-tab");
+
+    // 👉 Si no tiene data-tab, ignorar el botón (ej: Finanzas ▾)
+    if (!tabId) {
+      console.log("[MAIN] Tab button missing data-tab attribute, skipping:", btn);
+      return;
+    }
+
     btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      
-      const tabId = btn.getAttribute("data-tab");
-      if (!tabId) {
-        console.warn("[MAIN] Tab button missing data-tab attribute");
-        return;
-      }
-      
-      console.log(`🔘 [MAIN] Tab button clicked: ${tabId}`);
-      
-      // Actualizar estado visual
-      updateTabButtonState(btn);
-      
-      // Abrir la tab
-      openTab(tabId);
+  e.preventDefault();
+  console.log(`🔘 [MAIN] Tab button clicked: ${tabId}`);
+  
+  // Actualizar estado visual
+  updateTabButtonState(btn);
+  
+  // Abrir la tab correspondiente
+  openTab(tabId);
+
+  // ✅ Si el botón pertenece al menú desplegable de Finanzas → cerrar menú
+  const dropdown = document.querySelector(".dropdown-finanzas");
+  if (dropdown && dropdown.contains(btn)) {
+    dropdown.classList.add("hidden");
+    console.log("📂 [MAIN] Dropdown de Finanzas cerrado tras seleccionar:", tabId);
+  }
+  if (btn.classList.contains("tab-btn")) {
+  const parentDropdown = btn.closest(".dropdown-finanzas");
+  if (parentDropdown) {
+    parentDropdown.querySelectorAll(".tab-btn").forEach((subBtn) => {
+      subBtn.classList.remove("bg-blue-50", "text-blue-600", "font-bold");
     });
+    btn.classList.add("bg-blue-50", "text-blue-600", "font-bold");
+  }
+}
+
+});
+
   });
 
   console.log("✅ [MAIN] Navigation setup completed");
 }
+// ✅ Toggle para el menú de Finanzas usando posición FIXED
+document.addEventListener("DOMContentLoaded", () => {
+  const finanzasBtn = document.getElementById("finanzasMenuBtn");
+  const dropdown = document.querySelector(".dropdown-finanzas");
+
+  if (finanzasBtn && dropdown) {
+    finanzasBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      // Calcular posición bajo el botón
+      const rect = finanzasBtn.getBoundingClientRect();
+      dropdown.style.top = `${rect.bottom + 5}px`; // 5px de espacio
+      dropdown.style.left = `${rect.left}px`;
+
+      dropdown.classList.toggle("hidden");
+    });
+
+    // 👉 Cerrar al hacer click fuera
+    document.addEventListener("click", (e) => {
+      if (!finanzasBtn.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.add("hidden");
+      }
+    });
+  }
+});
+
+
 
 function updateTabButtonState(activeButton) {
   // Remover estado activo de todos los botones
@@ -248,6 +266,16 @@ function setupInitialApp() {
   } catch (error) {
     console.error("❌ [MAIN] Error during app setup:", error);
   }
+  // ✅ Avisar que main.js ya terminó de inicializar
+window.mainJsReady = true;
+document.dispatchEvent(new Event("mainJsReady"));
+if (typeof debugLog === "function") {
+  debugLog("🚀 mainJsReady disparado desde main.js");
+} else {
+  console.log("🚀 mainJsReady disparado desde main.js");
+}
+
+
 }
 
 // ✅ FUNCIÓN MEJORADA - loadInitialData
@@ -265,13 +293,25 @@ function loadInitialData() {
   }
 }
 
-// ✅ FUNCIÓN DE DEBUG SIMPLIFICADA (SIN BUCLE INFINITO)
+// ✅ FUNCIÓN DE DEBUG SIMPLIFICADA (ADAPTADA A 3 SUBTABS)
 function debugFinancesSetup() {
   console.log("🔍 [MAIN] === DEBUGGING FINANCES SETUP ===");
   console.log("📋 DOM elements check:");
   
   const criticalElements = [
-    'financesPeriodSelect',
+    // Resumen
+    'yearSelect',
+    'monthSelect',
+
+    // Reportes
+    'reportYear',
+    'reportMonth',
+
+    // Cuentas
+    'accountsYear',
+    'accountsMonth',
+
+    // KPIs y gráficos
     'totalRevenue', 
     'totalExpenses', 
     'netProfit',
@@ -350,16 +390,17 @@ window.debugApp = () => {
   });
 };
 
-// ✅ FUNCIÓN DE DEBUG MANUAL (SIN LLAMAR A LOADFINANCESDATA)
+// Comentar o eliminar esta función que está en bucle infinito
+/*
 window.debugFinances = () => {
   if (!window.hasDebuggedFinances) {
     debugFinancesSetup();
     window.hasDebuggedFinances = true;
   }
-
-  console.log("🔍 [MAIN] Manual debug completed. To load finances manually, run:");
+  console.log("Manual debug completed. To load finances manually, run:");
   console.log("window.loadFinancesData()");
 };
+*/
 
 
 // ✅ FUNCIÓN MANUAL PARA CARGAR FINANZAS
@@ -375,17 +416,78 @@ window.manualLoadFinances = () => {
   }
 };
 
+// ✅ Submenú interno de Finanzas
+document.addEventListener("DOMContentLoaded", () => {
+  const subtabButtons = document.querySelectorAll(".fin-subtab");
+  const subtabContents = document.querySelectorAll(".fin-subcontent");
 
-document.getElementById("menuToggle")?.addEventListener("click", () => {
-  const menu = document.getElementById("mobileMenu");
-  if (menu) {
-    menu.classList.toggle("hidden");
+function activateSubtab(target) {
+  console.log("🔎 DEBUG activateSubtab → target:", target);
+
+  // Resetear botones
+  subtabButtons.forEach(b => b.classList.remove("bg-blue-100", "font-semibold"));
+  const btn = document.querySelector(`.fin-subtab[data-subtab='${target}']`);
+  if (btn) {
+    btn.classList.add("bg-blue-100", "font-semibold");
   }
+
+  // Mostrar solo el contenido seleccionado
+  subtabContents.forEach(c => c.classList.add("hidden"));
+  const content = document.getElementById(`finances-${target}`);
+  console.log("📌 DEBUG subtab content:", content);
+  if (content) {
+    content.classList.remove("hidden");
+  }
+
+  console.log(`📂 [FINANCES] Subtab activado: ${target}`);
+
+  if (target === "summary") {
+  console.log("💰 [FINANCES] Entrando a summary");
+  initPeriodSelectors("global");
+  setTimeout(() => {
+    console.log("💰 [FINANCES] Ejecutando loadFinancesData desde summary");
+    window.loadFinancesData?.("all");
+  }, 200);
+}
+
+
+  if (target === "reports") {
+    console.log("🧾 [FINANCES] Entrando a reports");
+    initPeriodSelectors("reports");
+    if (typeof generatePLReport === "function") {
+      generatePLReport();
+    } else {
+      console.warn("⚠️ generatePLReport no existe");
+    }
+  }
+
+  if (target === "accounts") {
+    console.log("💵 [FINANCES] Entrando a accounts");
+    initPeriodSelectors("accounts");
+    if (typeof loadAccountsData === "function") {
+      loadAccountsData();
+    } else {
+      console.warn("⚠️ loadAccountsData no existe");
+    }
+  }
+}
+
+
+  // Evento click en botones
+  subtabButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.getAttribute("data-subtab");
+      activateSubtab(target);
+    });
+  });
+
+  // ✅ Mostrar "Resumen" por defecto al entrar en Finanzas
+  document.addEventListener("financesOpened", () => {
+    activateSubtab("summary");
+  });
 });
 
 
-// ✅ MARCAR QUE MAIN.JS ESTÁ LISTO
-window.mainJsReady = true;
-window.functionsReady = true;
 
-console.log("✅ [MAIN] main.js loaded successfully");
+
+

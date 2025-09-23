@@ -220,25 +220,25 @@ function populateHistoryMonthSelector() {
   }
 
   const months = new Set();
-  allData.forEach(load => {
-    if (load.date && typeof load.date === 'string' && load.date.length >= 7) {
-      months.add(load.date.substring(0, 7));
-    }
+  (allData || []).forEach(load => {
+    const month = normalizeDate(load.date, "month"); // 👈 usamos función unificada
+    if (month) months.add(month);
   });
 
   const sortedMonths = Array.from(months).sort((a, b) => b.localeCompare(a));
-  
+
   selector.innerHTML = '<option value="">Todos los Meses</option>';
-  
+
   sortedMonths.forEach(month => {
-    const option = document.createElement('option');
+    const option = document.createElement("option");
     option.value = month;
     option.textContent = month;
     selector.appendChild(option);
   });
-  
+
   console.log(`✅ Populated month selector with ${sortedMonths.length} months`);
 }
+
 
 function renderFiltered() {
   renderFilteredImmediate();

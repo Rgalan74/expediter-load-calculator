@@ -507,6 +507,28 @@ async function saveLoad(existingLoadId = null) {
     const tolls = document.getElementById('tolls')?.value || '0';
     const others = document.getElementById('otherCosts')?.value || '0';
     const loadNumber = document.getElementById('loadNumber')?.value?.trim() || '';
+    // Calcular fecha de pago esperada (viernes de la semana siguiente)
+function calculatePaymentDate(loadDate) {
+  const date = new Date(loadDate);
+  const dayOfWeek = date.getDay(); // 0=Domingo, 1=Lunes, ..., 6=Sábado
+  
+  // Si es domingo, mover al lunes siguiente
+  if (dayOfWeek === 0) {
+    date.setDate(date.getDate() + 1);
+  }
+  
+  // Calcular el viernes de la semana siguiente
+  const daysUntilNextFriday = (5 - date.getDay() + 7) % 7 + 7;
+  const paymentDate = new Date(date);
+  paymentDate.setDate(date.getDate() + daysUntilNextFriday);
+  
+  return paymentDate.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+}
+
+    // Nuevos campos de pago
+    const paymentStatus = 'pending';
+    const expectedPaymentDate = calculatePaymentDate(new Date());
+    const actualPaymentDate = null;
     const companyName = document.getElementById('companyName')?.value?.trim() || '';
     const notes = document.getElementById('notes')?.value?.trim() || '';
 
@@ -577,7 +599,10 @@ const totalCharge = baseIncome + additionalCosts;
 
     // Objeto de carga
     const loadData = {
-      loadNumber,
+      loadNumber: loadNumber,
+      paymentStatus: paymentStatus,
+      expectedPaymentDate: expectedPaymentDate,
+      actualPaymentDate: actualPaymentDate,
       companyName,
       origin,
       destination,
@@ -604,6 +629,7 @@ const totalCharge = baseIncome + additionalCosts;
       date: loadDate || new Date().toISOString().split("T")[0], // 👈 aseguramos siempre fecha
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       status: 'completed'
+      
     };
 
     // Guardar en Firebase

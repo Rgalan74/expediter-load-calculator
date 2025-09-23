@@ -1,13 +1,16 @@
 // ✅ tabs.js - Versión CORREGIDA - Abre Calculator por defecto
 
+// ✅ Activar tab CALCULATOR por defecto
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("🔗 Tabs.js DOM loaded - Waiting for main.js to load...");
-  
-  // ✅ ESPERAR MÁS TIEMPO para que main.js se cargue completamente
   setTimeout(() => {
-    checkMainJsAvailability();
-  }, 800); // Aumentar delay significativamente
+    const defaultTab = document.querySelector('[data-tab="calculator"]');
+    if (defaultTab) {
+      defaultTab.click();
+      console.log("📊 Tab por defecto: Calculadora");
+    }
+  }, 800);
 });
+
 
 function checkMainJsAvailability() {
   // ✅ Verificar múltiples veces si main.js está disponible
@@ -119,11 +122,12 @@ function tryLoadTabData(tabId) {
         }
         break;
 
-     case 'dashboard':
-       console.log("📊 Opening Dashboard tab");
-       updateDashboard("all");
-       break;
-
+      case 'dashboard':
+        console.log("📊 Opening Dashboard tab (fallback)");
+        if (typeof window.updateDashboard === 'function') {
+          window.updateDashboard("all");
+        }
+        break;
 
       case 'zones':
         if (typeof window.loadZonesData === 'function') {
@@ -139,22 +143,15 @@ function tryLoadTabData(tabId) {
         }
         break;
 
-      case 'finances':
-        if (typeof window.loadFinancesData === 'function') {
-          console.log("📊 Loading finances data via global function");
-          window.loadFinancesData();
-        } else {
-          console.warn("❌ loadFinancesData function not available");
-        }
-        break;
+      // 🚫 IMPORTANTE: eliminamos los case de finances-summary / reports / accounts
+      // porque ahora esos están manejados SOLO en main.js
 
       default:
-        console.log(`No specific handler for tab: ${tabId}`);
+        console.log(`No specific handler for tab: ${tabId} (fallback mode)`);
     }
   } catch (error) {
-    console.error(`Error loading data for tab ${tabId} in fallback mode:`, error);
+    console.error(`❌ Error loading data for tab ${tabId} in fallback mode:`, error);
   }
 }
 
-
-console.log("✅ Tabs.js FIXED VERSION - Default tab set to CALCULATOR");
+console.log("✅ Tabs.js CLEAN VERSION - Fallback only, Calculator default");
