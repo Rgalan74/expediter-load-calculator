@@ -36,6 +36,9 @@ function ensurePaymentFields(loads) {
   });
 }
 
+// ✅ FUNCIÓN loadFinancialData CORREGIDA DEFINITIVA
+// Reemplazar en finances.js
+
 async function loadFinancialData(period = "all") {
   if (!window.currentUser) throw new Error("Usuario no autenticado");
   const uid = window.currentUser.uid;
@@ -61,6 +64,12 @@ async function loadFinancialData(period = "all") {
     return {
       id: doc.id,
       date: date,
+      loadNumber: data.loadNumber || "",
+      companyName: data.companyName || "",
+      origin: data.origin || "-",
+      destination: data.destination || "-",
+      
+      // ✅ CAMPOS FINANCIEROS
       totalMiles: Number(data.totalMiles || 0),
       totalCharge: Number(data.totalCharge || 0),
       netProfit: Number(data.netProfit || 0),
@@ -70,61 +79,94 @@ async function loadFinancialData(period = "all") {
       tolls: Number(data.tolls || 0),
       otherCosts: Number(data.otherCosts || 0),
       loadedMiles: Number(data.loadedMiles || 0),
-      origin: data.origin || "-",
-      destination: data.destination || "-",
-      companyName: data.companyName || "",
-      notes: data.notes || "",
-      loadNumber: data.loadNumber || ""
+      
+      // ✅ CAMPOS DE PAGO - ESTE ES EL FIX PRINCIPAL
+      paymentStatus: data.paymentStatus || "pending",
+      actualPaymentDate: data.actualPaymentDate || null,    // 🎯 CAMPO CRÍTICO
+      paymentDate: data.paymentDate || null,
+      expectedPaymentDate: data.expectedPaymentDate || null
     };
   });
 
-  // Cargar todos los gastos
-  const expSnapshot = await window.db.collection("expenses").where("userId", "==", uid).get();
-  allExpensesData = expSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  // Procesar para añadir campos de pago faltantes
+  allFinancesData = ensurePaymentFields(allFinancesData);
 
-  // Filtrar para UI
-  let loads, expenses;
+  // Actualizar variables globales para compatibilidad
+  window.allFinancesData = allFinancesData;
+  
+  // Filtrar por período si se especifica
+  let filteredData = allFinancesData;
   if (period !== "all") {
-    loads = allFinancesData.filter(l => l.date.startsWith(period));
-    expenses = allExpensesData.filter(e => e.date && e.date.startsWith(period));
-  } else {
-    loads = [...allFinancesData];
-    expenses = [...allExpensesData];
+    filteredData = allFinancesData.filter(load => {
+      const loadDate = load.date;
+      if (period.includes("-")) {
+        // Formato YYYY-MM
+        return loadDate.startsWith(period);
+      } else {
+        // Solo año YYYY
+        return loadDate.startsWith(period);
+      }
+    });
   }
 
-  // KPIs
-  const totalRevenue = loads.reduce((s, l) => s + (l.totalCharge || 0), 0);
-  const totalExpenses = expenses.reduce((s, e) => s + (e.amount || 0), 0);
-  const netProfit = totalRevenue - totalExpenses;
-  const totalMiles = loads.reduce((s, l) => s + (l.totalMiles || 0), 0);
+  // Cargar gastos
+  const expenseSnapshot = await window.db.collection("expenses").where("userId", "==", uid).get();
+  
+  allExpensesData = expenseSnapshot.docs.map(doc => {
+    const data = doc.data();
+    let date = data.date;
+    
+    if (!date && data.createdAt) {
+      try {
+        date = data.createdAt.toDate().toISOString().split("T")[0];
+      } catch (e) {
+        date = new Date().toISOString().split("T")[0];
+      }
+    }
+    if (!date) date = new Date().toISOString().split("T")[0];
 
-  const expensesByType = expenses.reduce((acc, e) => {
-    const type = e.type || "other";
-    acc[type] = (acc[type] || 0) + (e.amount || 0);
-    return acc;
-  }, {});
+    return {
+      id: doc.id,
+      date: date,
+      amount: Number(data.amount || 0),
+      type: data.type || "",
+      category: data.category || data.type || "",
+      description: data.description || "",
+      deductible: data.deductible || false
+    };
+  });
 
-  const kpis = {
-    totalRevenue, totalExpenses, netProfit,
-    margin: totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0,
-    totalMiles,
-    averageRPM: totalMiles > 0 ? totalRevenue / totalMiles : 0,
-    costPerMile: totalMiles > 0 ? totalExpenses / totalMiles : 0,
-    efficiency: totalMiles > 0 ? (loads.reduce((s, l) => s + (l.loadedMiles || 0), 0) / totalMiles) * 100 : 0,
-    expensesByType
-  };
+  // Filtrar gastos por período
+  let filteredExpenses = allExpensesData;
+  if (period !== "all") {
+    filteredExpenses = allExpensesData.filter(expense => {
+      const expenseDate = expense.date;
+      if (period.includes("-")) {
+        return expenseDate.startsWith(period);
+      } else {
+        return expenseDate.startsWith(period);
+      }
+    });
+  }
 
   // Actualizar variables globales
-  window.financesData = loads;
-  window.expensesData = expenses;
-  window.allFinancesData = allFinancesData;
+  window.financesData = filteredData;
+  window.expensesData = filteredExpenses;
   window.allExpensesData = allExpensesData;
-  window.allFinancesData = ensurePaymentFields(window.allFinancesData);
 
-  console.log("Total en memoria:", allFinancesData.length, "cargas,", allExpensesData.length, "gastos");
-  console.log("Filtrados para UI:", loads.length, "cargas,", expenses.length, "gastos");
+  console.log(`✅ Datos cargados: ${filteredData.length} cargas, ${filteredExpenses.length} gastos`);
+  console.log(`📊 Cargas con actualPaymentDate: ${allFinancesData.filter(load => load.actualPaymentDate).length}`);
 
-  return { loads, expenses, kpis };
+  return {
+    loads: filteredData,
+    expenses: filteredExpenses,
+    kpis: {
+      totalRevenue: filteredData.reduce((sum, load) => sum + load.totalCharge, 0),
+      totalExpenses: filteredExpenses.reduce((sum, exp) => sum + exp.amount, 0),
+      netProfit: filteredData.reduce((sum, load) => sum + load.netProfit, 0),
+      totalMiles: filteredData.reduce((sum, load) => sum + load.totalMiles, 0)
+    }
+  };
 }
 
 
@@ -2207,7 +2249,8 @@ async function loadAccountsData() {
   });
 
   console.log(`Procesando ${filteredLoads.length} cargas para cuentas (filtradas y ordenadas)`);
-  
+
+  renderAccountsSummaryCards(filteredLoads);
   renderPendingLoads(filteredLoads);
   console.log("✅ Datos de cuentas cargados");
 }
@@ -2257,21 +2300,25 @@ document.addEventListener("DOMContentLoaded", () => {
 // Exponer la función globalmente
 window.populateCompanyFilter = populateCompanyFilter;
 
+// ✅ 1. FUNCIÓN markAsPaid CORREGIDA
 async function markAsPaid(loadId) {
   try {
     const paymentDate = new Date().toISOString().split('T')[0];
     
+    // ✅ CORREGIDO: Guardar actualPaymentDate + paymentDate
     await firebase.firestore().collection("loads").doc(loadId).update({
       paymentStatus: "paid",
-      paymentDate: paymentDate,
+      actualPaymentDate: paymentDate,  // ✅ CAMPO CORRECTO para filtro
+      paymentDate: paymentDate,        // ✅ Mantener por compatibilidad
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     });
 
-    // Actualizar en memoria
+    // ✅ CORREGIDO: Actualizar en memoria ambos campos
     const load = window.allFinancesData.find(l => l.id === loadId);
     if (load) {
       load.paymentStatus = "paid";
-      load.paymentDate = paymentDate;
+      load.actualPaymentDate = paymentDate;  // ✅ CAMPO CORRECTO
+      load.paymentDate = paymentDate;        // ✅ Compatibilidad
     }
 
     console.log("✅ Carga marcada como pagada:", loadId);
@@ -2286,6 +2333,7 @@ async function markAsPaid(loadId) {
 // Exponer funciones globalmente
 window.loadAccountsData = loadAccountsData;
 window.markAsPaid = markAsPaid;
+
 
 
 function updateAccountsSummary(summary) {
@@ -2771,16 +2819,54 @@ function updatePaymentStatus(load) {
   return 'pending';
 }
 
+// ===============================
+// 🔧 FUNCIONES CORREGIDAS PARA finances.js
+// ===============================
+
+// ✅ 1. FUNCIÓN markAsPaid CORREGIDA
+async function markAsPaid(loadId) {
+  try {
+    const paymentDate = new Date().toISOString().split('T')[0];
+    
+    // ✅ CORREGIDO: Guardar actualPaymentDate + paymentDate
+    await firebase.firestore().collection("loads").doc(loadId).update({
+      paymentStatus: "paid",
+      actualPaymentDate: paymentDate,  // ✅ CAMPO CORRECTO para filtro
+      paymentDate: paymentDate,        // ✅ Mantener por compatibilidad
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    // ✅ CORREGIDO: Actualizar en memoria ambos campos
+    const load = window.allFinancesData.find(l => l.id === loadId);
+    if (load) {
+      load.paymentStatus = "paid";
+      load.actualPaymentDate = paymentDate;  // ✅ CAMPO CORRECTO
+      load.paymentDate = paymentDate;        // ✅ Compatibilidad
+    }
+
+    console.log("✅ Carga marcada como pagada:", loadId);
+    loadAccountsData();
+    showMessage("Carga marcada como pagada exitosamente", "success");
+  } catch (error) {
+    console.error("❌ Error marcando como pagada:", error);
+    showMessage("Error al marcar como pagada", "error");
+  }
+}
+
+// ✅ 2. FUNCIÓN renderPendingLoads CORREGIDA  
 function renderPendingLoads(loads) {
   const listEl = document.getElementById("accountsList");
   if (!listEl) return;
 
   console.log("🔄 Organizando datos de cuentas...");
 
+  // Obtener filtro actual
+  const statusFilter = document.getElementById("accountsStatus")?.value || "";
+  
   // Separar cargas por estado de pago
-  const allLoads = loads.filter(load => load.paymentStatus);
-  const pendingLoads = allLoads.filter(load => load.paymentStatus === 'pending');
-  const paidLoads = allLoads.filter(load => load.paymentStatus === 'paid');
+  const allLoads = loads.filter(load => load.paymentStatus || load.actualPaymentDate);
+  const pendingLoads = allLoads.filter(load => !load.actualPaymentDate && load.paymentStatus !== 'paid');
+  const paidLoads = allLoads.filter(load => load.actualPaymentDate || load.paymentStatus === 'paid');
   
   // Identificar cargas vencidas (pendientes que ya pasaron su fecha)
   const today = new Date();
@@ -2789,87 +2875,66 @@ function renderPendingLoads(loads) {
     const expectedDate = new Date(load.expectedPaymentDate);
     return today > expectedDate;
   });
-  
-  // Cargas realmente pendientes (no vencidas)
-  const activePending = pendingLoads.filter(load => {
-    if (!load.expectedPaymentDate) return true;
-    const expectedDate = new Date(load.expectedPaymentDate);
-    return today <= expectedDate;
-  });
 
-  // Calcular totales
-  const totalPending = activePending.reduce((sum, load) => sum + (Number(load.totalCharge) || 0), 0);
-  const totalOverdue = overdueLoads.reduce((sum, load) => sum + (Number(load.totalCharge) || 0), 0);
-  const totalPaid = paidLoads.reduce((sum, load) => sum + (Number(load.totalCharge) || 0), 0);
+  console.log(`📊 Cargas organizadas: ${pendingLoads.length} pendientes, ${overdueLoads.length} vencidas, ${paidLoads.length} pagadas`);
 
-  console.log(`📊 Cargas organizadas: ${activePending.length} pendientes, ${overdueLoads.length} vencidas, ${paidLoads.length} pagadas`);
+  // ✅ RENDERIZAR SEGÚN EL FILTRO SELECCIONADO
+  let html = '';
 
-  listEl.innerHTML = `
-    <!-- Header del Sistema de Cuentas -->
-    <div class="mb-6">
-      <h2 class="text-2xl font-bold text-gray-900 mb-2">💰 Sistema de Cuentas por Cobrar</h2>
-      <p class="text-gray-600">Gestión de pagos por compañía - Se paga cada viernes de la semana siguiente</p>
-    </div>
+  if (statusFilter === 'paid') {
+    // 🟢 MOSTRAR SOLO CARGAS PAGADAS
+    if (paidLoads.length === 0) {
+      html = `
+        <div class="text-center py-12">
+          <div class="text-6xl mb-4">✅</div>
+          <h3 class="text-xl font-semibold text-gray-600 mb-2">No hay cargas pagadas</h3>
+          <p class="text-gray-500">Las cargas pagadas aparecerán aquí</p>
+        </div>
+      `;
+    } else {
+      const rows = paidLoads.map(load => `
+        <tr class="bg-green-50">
+          <td class="p-2 text-sm">${load.date}</td>
+          <td class="p-2 text-sm">${load.companyName || '-'}</td>
+          <td class="p-2 text-sm">${load.loadNumber || '-'}</td>
+          <td class="p-2 text-sm font-semibold text-green-900">${formatCurrency(load.totalCharge)}</td>
+          <td class="p-2 text-sm">${load.actualPaymentDate || load.paymentDate || '-'}</td>
+          <td class="p-2 text-sm text-green-600 font-medium">✅ Pagada</td>
+        </tr>
+      `).join('');
 
-    <!-- Dashboard Principal -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-      <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-lg">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <span class="text-2xl">⏳</span>
-          </div>
-          <div class="ml-3">
-            <p class="text-sm font-medium text-yellow-800">Por Cobrar</p>
-            <p class="text-2xl font-bold text-yellow-900">${formatCurrency(totalPending)}</p>
-            <p class="text-xs text-yellow-600">${activePending.length} cargas</p>
+      html = `
+        <div class="mb-4">
+          <h3 class="text-lg font-bold text-green-700 mb-4">✅ Cargas Pagadas (${paidLoads.length})</h3>
+          <div class="bg-green-50 border border-green-200 rounded-lg overflow-hidden">
+            <table class="min-w-full">
+              <thead class="bg-green-100">
+                <tr>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Fecha</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Compañía</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Número</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Monto</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Fecha Pago</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Estado</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-green-200">
+                ${rows}
+              </tbody>
+            </table>
           </div>
         </div>
-      </div>
-      
-      <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <span class="text-2xl">🚨</span>
-          </div>
-          <div class="ml-3">
-            <p class="text-sm font-medium text-red-800">Vencidas</p>
-            <p class="text-2xl font-bold text-red-900">${formatCurrency(totalOverdue)}</p>
-            <p class="text-xs text-red-600">${overdueLoads.length} cargas</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <span class="text-2xl">✅</span>
-          </div>
-          <div class="ml-3">
-            <p class="text-sm font-medium text-green-800">Cobradas</p>
-            <p class="text-2xl font-bold text-green-900">${formatCurrency(totalPaid)}</p>
-            <p class="text-xs text-green-600">${paidLoads.length} cargas</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <span class="text-2xl">💼</span>
-          </div>
-          <div class="ml-3">
-            <p class="text-sm font-medium text-blue-800">Total Facturado</p>
-            <p class="text-2xl font-bold text-blue-900">${formatCurrency(totalPending + totalOverdue + totalPaid)}</p>
-            <p class="text-xs text-blue-600">${allLoads.length} cargas</p>
-          </div>
-        </div>
-      </div>
-    </div>
+      `;
+    }
+  } else {
+    // 🟡 MOSTRAR PENDIENTES Y VENCIDAS (código original)
+    const activePending = pendingLoads.filter(load => !overdueLoads.includes(load));
+    const totalPaid = paidLoads.reduce((sum, load) => sum + (load.totalCharge || 0), 0);
 
-    <!-- Prioridades de Cobro -->
-    ${overdueLoads.length > 0 ? `
+    // Estado de Cargas Vencidas
+    html += overdueLoads.length > 0 ? `
       <div class="mb-8">
-        <h3 class="text-lg font-bold text-red-700 mb-4">🚨 URGENTE - Cargas Vencidas</h3>
+        <h3 class="text-lg font-bold text-red-700 mb-4">🚨 Cargas Vencidas (${overdueLoads.length})</h3>
         <div class="bg-red-50 border border-red-200 rounded-lg overflow-hidden">
           <table class="min-w-full">
             <thead class="bg-red-100">
@@ -2878,22 +2943,20 @@ function renderPendingLoads(loads) {
                 <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Compañía</th>
                 <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Número</th>
                 <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Monto</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Debía Pagarse</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Días Atraso</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Vencida Desde</th>
                 <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Acción</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-red-200">
               ${overdueLoads.map(load => {
-                const daysLate = Math.ceil((today - new Date(load.expectedPaymentDate)) / (1000 * 60 * 60 * 24));
+                const daysOverdue = calculateOverdueDays(load.expectedPaymentDate);
                 return `
                   <tr class="bg-red-50">
                     <td class="px-4 py-3 text-sm">${load.date}</td>
                     <td class="px-4 py-3 text-sm font-medium">${load.companyName || '-'}</td>
                     <td class="px-4 py-3 text-sm">${load.loadNumber || '-'}</td>
                     <td class="px-4 py-3 text-sm font-bold text-red-900">${formatCurrency(load.totalCharge)}</td>
-                    <td class="px-4 py-3 text-sm">${load.expectedPaymentDate}</td>
-                    <td class="px-4 py-3 text-sm font-bold text-red-700">${daysLate} días</td>
+                    <td class="px-4 py-3 text-sm text-red-600">${daysOverdue} días</td>
                     <td class="px-4 py-3 text-sm">
                       <button onclick="markAsPaid('${load.id}')" 
                               class="bg-green-600 text-white px-3 py-1 rounded text-xs hover:bg-green-700">
@@ -2907,12 +2970,12 @@ function renderPendingLoads(loads) {
           </table>
         </div>
       </div>
-    ` : ''}
+    ` : '';
 
-    <!-- Cargas Pendientes Normales -->
-    ${activePending.length > 0 ? `
+    // Estado de Cargas Pendientes
+    html += activePending.length > 0 ? `
       <div class="mb-8">
-        <h3 class="text-lg font-bold text-yellow-700 mb-4">⏳ Cargas Pendientes de Pago</h3>
+        <h3 class="text-lg font-bold text-yellow-700 mb-4">⏳ Cargas Pendientes de Pago (${activePending.length})</h3>
         <div class="bg-yellow-50 border border-yellow-200 rounded-lg overflow-hidden">
           <table class="min-w-full">
             <thead class="bg-yellow-100">
@@ -2945,10 +3008,10 @@ function renderPendingLoads(loads) {
           </table>
         </div>
       </div>
-    ` : ''}
+    ` : '';
 
-    <!-- Estado de Cargas Pagadas (Solo resumen) -->
-    ${paidLoads.length > 0 ? `
+    // Resumen de Cargas Pagadas (solo cuando no es el filtro "paid")
+    html += paidLoads.length > 0 ? `
       <div class="mb-8">
         <h3 class="text-lg font-bold text-green-700 mb-4">✅ Resumen de Cargas Pagadas</h3>
         <div class="bg-green-50 border border-green-200 rounded-lg p-4">
@@ -2958,17 +3021,28 @@ function renderPendingLoads(loads) {
           </p>
         </div>
       </div>
-    ` : ''}
+    ` : '';
 
-    ${allLoads.length === 0 ? `
-      <div class="text-center py-12">
-        <div class="text-6xl mb-4">💼</div>
-        <h3 class="text-xl font-semibold text-gray-600 mb-2">No hay cargas por gestionar</h3>
-        <p class="text-gray-500">Las cargas aparecerán aquí cuando tengan información de pago</p>
-      </div>
-    ` : ''}
-  `;
+    // Mensaje cuando no hay cargas
+    if (allLoads.length === 0) {
+      html = `
+        <div class="text-center py-12">
+          <div class="text-6xl mb-4">💼</div>
+          <h3 class="text-xl font-semibold text-gray-600 mb-2">No hay cargas por gestionar</h3>
+          <p class="text-gray-500">Las cargas aparecerán aquí cuando tengan información de pago</p>
+        </div>
+      `;
+    }
+  }
+
+  listEl.innerHTML = html;
 }
+
+// ✅ Sobrescribir la función global
+window.renderPendingLoads = renderPendingLoads;
+
+console.log("🔧 Función renderPendingLoads corregida y aplicada");
+console.log("Ahora prueba cambiar el filtro a 'Pagadas'");
 
 // Actualizar la función loadAccountsData para usar las nuevas funciones
 function loadAccountsDataImproved() {
@@ -3004,6 +3078,93 @@ function loadAccountsDataImproved() {
     const paidLoads = filteredLoads.filter(load => load.actualPaymentDate);
     renderPaidLoads(paidLoads);
   }
+}
+
+// ✅ FUNCIÓN PARA CREAR TARJETAS DE RESUMEN EN CUENTAS
+// Agregar a finances.js
+
+function renderAccountsSummaryCards(loads) {
+  const summaryEl = document.getElementById("accountsSummaryCards");
+  if (!summaryEl) {
+    console.log("❌ Elemento accountsSummaryCards no encontrado");
+    return;
+  }
+
+  console.log("📊 Renderizando tarjetas de resumen...");
+
+  // Separar cargas por estado
+  const paidLoads = loads.filter(load => load.actualPaymentDate);
+  const pendingLoads = loads.filter(load => !load.actualPaymentDate && load.paymentStatus !== 'paid');
+  
+  // Identificar vencidas
+  const today = new Date();
+  const overdueLoads = pendingLoads.filter(load => {
+    if (!load.expectedPaymentDate) return false;
+    const expectedDate = new Date(load.expectedPaymentDate);
+    return today > expectedDate;
+  });
+
+  // Cargas pendientes activas (no vencidas)
+  const activePendingLoads = pendingLoads.filter(load => !overdueLoads.includes(load));
+
+  // Calcular totales
+  const paidTotal = paidLoads.reduce((sum, load) => sum + (load.totalCharge || 0), 0);
+  const pendingTotal = activePendingLoads.reduce((sum, load) => sum + (load.totalCharge || 0), 0);
+  const overdueTotal = overdueLoads.reduce((sum, load) => sum + (load.totalCharge || 0), 0);
+
+  console.log(`📊 Resumen: ${paidLoads.length} pagadas, ${activePendingLoads.length} pendientes, ${overdueLoads.length} vencidas`);
+
+  // Renderizar tarjetas
+  summaryEl.innerHTML = `
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      
+      <!-- Tarjeta: Pagadas -->
+      <div class="bg-green-50 border-2 border-green-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-sm font-medium text-green-700 uppercase tracking-wide">✅ Pagadas</h3>
+        </div>
+        <div class="mt-2">
+          <p class="text-3xl font-bold text-green-900">${paidLoads.length}</p>
+          <p class="text-sm text-green-600 mt-1">cargas</p>
+        </div>
+        <div class="mt-3 pt-3 border-t border-green-200">
+          <p class="text-lg font-semibold text-green-800">${formatCurrency(paidTotal)}</p>
+          <p class="text-xs text-green-600">Monto total cobrado</p>
+        </div>
+      </div>
+
+      <!-- Tarjeta: Pendientes -->
+      <div class="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-sm font-medium text-yellow-700 uppercase tracking-wide">⏳ Pendientes</h3>
+        </div>
+        <div class="mt-2">
+          <p class="text-3xl font-bold text-yellow-900">${activePendingLoads.length}</p>
+          <p class="text-sm text-yellow-600 mt-1">cargas</p>
+        </div>
+        <div class="mt-3 pt-3 border-t border-yellow-200">
+          <p class="text-lg font-semibold text-yellow-800">${formatCurrency(pendingTotal)}</p>
+          <p class="text-xs text-yellow-600">Por cobrar</p>
+        </div>
+      </div>
+
+      <!-- Tarjeta: Vencidas -->
+      <div class="bg-red-50 border-2 border-red-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-sm font-medium text-red-700 uppercase tracking-wide">🚨 Vencidas</h3>
+        </div>
+        <div class="mt-2">
+          <p class="text-3xl font-bold text-red-900">${overdueLoads.length}</p>
+          <p class="text-sm text-red-600 mt-1">cargas</p>
+        </div>
+        <div class="mt-3 pt-3 border-t border-red-200">
+          <p class="text-lg font-semibold text-red-800">${formatCurrency(overdueTotal)}</p>
+          <p class="text-xs text-red-600">En mora</p>
+        </div>
+      </div>
+
+    </div>
+  `;
 }
 
 // Exponer las funciones globalmente

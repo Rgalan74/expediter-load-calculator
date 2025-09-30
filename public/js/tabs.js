@@ -122,14 +122,7 @@ function tryLoadTabData(tabId) {
         }
         break;
 
-      case 'dashboard':
-        console.log("📊 Opening Dashboard tab (fallback)");
-        if (typeof window.updateDashboard === 'function') {
-          window.updateDashboard("all");
-        }
-        break;
-
-      case 'zones':
+          case 'zones':
         if (typeof window.loadZonesData === 'function') {
           console.log("🗺️ Loading zones data via global function");
           window.loadZonesData();

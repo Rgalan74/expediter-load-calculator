@@ -166,6 +166,15 @@
       #decisionContainer .text-xl { font-size: 1.25rem !important; }
     }
   </style>
+  <style>
+@media (max-width: 768px) {
+    #zones #interactiveMap {
+        height: 400px !important;
+        max-height: 400px !important;
+        width: 100% !important;
+    }
+}
+</style>
 </head>
 
 <body class="bg-gray-100 text-gray-900">
@@ -1007,6 +1016,11 @@
   </div>
 </div>  
 
+<!-- 📊 Tarjetas de Resumen -->
+<div id="accountsSummaryCards" class="mt-6">
+  <!-- Las tarjetas se generarán aquí dinámicamente -->
+</div>
+
     <div id="accountsList" class="space-y-6">
          <!-- El dashboard se inserta aquí -->
      </div>
@@ -1173,167 +1187,285 @@
 
             <!-- Settings Tab -->
 <section id="settings" class="tab-content hidden">
-     <div class="w-full px-6 py-6 space-y-8">
+    <div class="w-full px-6 py-6 space-y-8">
         <div class="section-header text-center">
-            <h2 class="font-bold mb-4">⚙️ Configuración</h2>
-            <p class="subtitle">Personaliza tus costos y parámetros</p>
+            <h2 class="font-bold mb-4">⚙️ Configuración de Tu Negocio</h2>
+            <p class="subtitle">Personaliza la app según tu tipo de operación y costos reales</p>
         </div>
 
-        <!-- Cost configuration -->
+        <!-- Mensaje de confirmación -->
+        <div id="configMessage" class="config-message" style="display: none;"></div>
+
+        <!-- 1. PERFIL DE OPERACIÓN -->
         <div class="card-section">
-  <h3 class="text-lg font-semibold mb-4">💰 Configuración de Costos</h3>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-    <div>
-      <label for="operatingCostSetting" class="block text-sm font-medium text-gray-700 mb-2">
-        Costo Operativo por Milla
-      </label>
-      <input type="number" id="operatingCostSetting" name="operatingCostSetting"
-             step="0.01" value="0.33" readonly
-             class="border p-3 w-full rounded-lg">
-    </div>
-
-    <div>
-      <label for="fuelCostSetting" class="block text-sm font-medium text-gray-700 mb-2">
-        Costo Combustible por Milla
-      </label>
-      <input type="number" id="fuelCostSetting" name="fuelCostSetting"
-             step="0.01" value="0.18"
-             class="border p-3 w-full rounded-lg">
-    </div>
-
-    <div>
-      <label for="monthlyMilesSetting" class="block text-sm font-medium text-gray-700 mb-2">
-        📅 Volumen de Millas Mensuales
-      </label>
-      <input type="number" id="monthlyMilesSetting" name="monthlyMilesSetting"
-             step="100" value="6000"
-             class="border p-3 w-full rounded-lg">
-    </div>
-
-  </div>
-</div>
-
-
-
-        <!-- ✅ NUEVA SECCIÓN: Costos Reales -->
-        <div class="card-section">
-  <h3 class="text-lg font-semibold mb-4">📊 Configuración de Costos Reales</h3>
-
-  <!-- Info -->
-  <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-    <p class="text-sm text-blue-700 mb-3">
-      <strong>💡 ¿Qué son los costos reales?</strong><br>
-      En lugar de usar costos estimados fijos, la app puede calcular automáticamente tus costos reales basándose en:
-    </p>
-    <ul class="text-xs text-blue-600 list-disc ml-4 space-y-1">
-      <li><strong>Combustible:</strong> Promedio real de tus cargas + gastos de combustible</li>
-      <li><strong>Mantenimiento:</strong> Gastos reales de mantenimiento divididos entre millas</li>
-      <li><strong>Actualización:</strong> Se recalcula automáticamente cada vez que haces una carga</li>
-    </ul>
-  </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-    <!-- Checkbox -->
-    <div>
-      <div class="flex items-center mb-3">
-        <input type="checkbox" id="useRealCosts" name="useRealCosts" class="mr-3" checked>
-        <label for="useRealCosts" class="text-sm font-medium text-gray-700">
-          ✅ Usar costos reales en calculadora
-        </label>
-      </div>
-      <p class="text-xs text-gray-500 mb-4">
-        Cuando está activado, la calculadora usa tus costos reales en lugar de los valores fijos configurados arriba.
-      </p>
-    </div>
-
-    <!-- Selector -->
-    <div>
-      <label for="realCostsPeriod" class="block text-sm font-medium text-gray-700 mb-2">
-        📅 Período para calcular costos
-      </label>
-      <select id="realCostsPeriod" name="realCostsPeriod" class="border p-3 w-full rounded-lg">
-        <option value="1">Último mes</option>
-        <option value="3" selected>Últimos 3 meses (recomendado)</option>
-        <option value="6">Últimos 6 meses</option>
-        <option value="12">Último año</option>
-      </select>
-      <p class="text-xs text-gray-500 mt-1">
-        Período de tiempo usado para calcular el promedio de costos reales
-      </p>
-    </div>
-  </div>
-
-  <!-- Indicadores -->
-  <div class="mt-6 p-4 bg-gray-50 rounded-lg">
-    <h4 class="font-semibold text-gray-800 mb-3">📈 Costos Reales Actuales:</h4>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-
-      <div class="bg-white p-3 rounded border">
-        <span class="text-gray-600">⛽ Combustible Real:</span>
-        <div id="currentRealFuelCost" class="font-bold text-blue-600">Calculando...</div>
-      </div>
-
-      <div class="bg-white p-3 rounded border">
-        <span class="text-gray-600">🔧 Mantenimiento Real:</span>
-        <div id="currentRealMaintenanceCost" class="font-bold text-green-600">Calculando...</div>
-      </div>
-
-      <div class="bg-white p-3 rounded border">
-        <span class="text-gray-600">📊 Última actualización:</span>
-        <div id="lastRealCostUpdate" class="font-bold text-purple-600">--</div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-
-        <!-- Profile information -->
-        <div class="card-section">
-            <h3 class="text-lg font-semibold mb-4">👤 Información del Perfil</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Nombre de la Empresa</label>
-                    <input type="text" class="border p-3 w-full rounded-lg" id="companyNameSetting" placeholder="Nombre de tu empresa">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Número de Teléfono</label>
-                    <input type="tel" class="border p-3 w-full rounded-lg" id="phoneSetting" placeholder="Tu número de teléfono">
-                </div>
-            </div>
+            <h3 class="text-lg font-semibold mb-4">🚛 Perfil de Operación</h3>
             
-            <!-- Preferences -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                <div class="flex items-center">
-                    <input type="checkbox" id="emailNotifications" class="mr-2">
-                    <label for="emailNotifications" class="text-sm text-gray-700">Notificaciones por email</label>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label for="vehicleType" class="block text-sm font-medium text-gray-700 mb-2">
+                        Tipo de Vehículo
+                    </label>
+                    <select id="vehicleType" name="vehicleType" onchange="loadVehicleTemplate(this.value)"
+                            class="border p-3 w-full rounded-lg">
+                        <option value="van">Van/Sprinter</option>
+                        <option value="boxtruck">Box Truck</option>
+                        <option value="semi">Semi Trailer</option>
+                        <option value="hotshot">Hotshot Pickup</option>
+                    </select>
+                    <p class="text-xs text-gray-500 mt-1">Carga plantilla de costos típicos</p>
                 </div>
-                <div class="flex items-center">
-                    <input type="checkbox" id="autoSave" class="mr-2" checked>
-                    <label for="autoSave" class="text-sm text-gray-700">Auto-guardar cargas</label>
+
+                <div>
+                    <label for="businessName" class="block text-sm font-medium text-gray-700 mb-2">
+                        Nombre del Negocio
+                    </label>
+                    <input type="text" id="businessName" name="businessName" 
+                           placeholder="Tu empresa LLC"
+                           class="border p-3 w-full rounded-lg">
+                </div>
+
+                <div>
+                    <label for="operatingState" class="block text-sm font-medium text-gray-700 mb-2">
+                        Estado Base
+                    </label>
+                    <select id="operatingState" name="operatingState"
+                            class="border p-3 w-full rounded-lg">
+                        <option value="FL">Florida</option>
+                        <option value="TX">Texas</option>
+                        <option value="CA">California</option>
+                        <option value="NY">New York</option>
+                        <option value="other">Otro</option>
+                    </select>
                 </div>
             </div>
         </div>
 
-        <!-- ✅ Único bloque de acción -->
+        <!-- 2. COSTOS FIJOS MENSUALES -->
         <div class="card-section">
-            <div class="flex flex-col sm:flex-row gap-4">
-                <button onclick="saveUserSettings()" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-semibold">
+            <h3 class="text-lg font-semibold mb-4">💰 Costos Fijos Mensuales</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <div>
+                        <label for="vehiclePayment" class="block text-sm font-medium text-gray-700 mb-2">
+                            Pago del Vehículo
+                        </label>
+                        <input type="number" id="vehiclePayment" name="vehiclePayment" 
+                               step="1" value="800" oninput="calculateTotals()"
+                               class="border p-3 w-full rounded-lg">
+                    </div>
+
+                    <div>
+                        <label for="insurance" class="block text-sm font-medium text-gray-700 mb-2">
+                            Seguro Mensual
+                        </label>
+                        <input type="number" id="insurance" name="insurance" 
+                               step="1" value="1250" oninput="calculateTotals()"
+                               class="border p-3 w-full rounded-lg">
+                    </div>
+
+                    <div>
+                        <label for="licenses" class="block text-sm font-medium text-gray-700 mb-2">
+                            Licencias/Permisos
+                        </label>
+                        <input type="number" id="licenses" name="licenses" 
+                               step="1" value="150" oninput="calculateTotals()"
+                               class="border p-3 w-full rounded-lg">
+                    </div>
+
+                    <div>
+                        <label for="otherFixed" class="block text-sm font-medium text-gray-700 mb-2">
+                            Otros Gastos Fijos
+                        </label>
+                        <input type="number" id="otherFixed" name="otherFixed" 
+                               step="1" value="200" oninput="calculateTotals()"
+                               class="border p-3 w-full rounded-lg">
+                        <p class="text-xs text-gray-500 mt-1">Teléfono, internet, etc.</p>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h4 class="font-semibold text-blue-800 mb-3">📊 Resumen Automático</h4>
+                    
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span>Total Fijo Mensual:</span>
+                            <span id="totalFixed" class="font-bold">$2,400</span>
+                        </div>
+                        
+                        <div class="flex justify-between">
+                            <span>Costo Fijo por Milla:</span>
+                            <span id="fixedCostPerMile" class="font-bold text-blue-600">$0.300</span>
+                        </div>
+                        
+                        <div class="text-xs text-blue-600 mt-2">
+                            * Basado en tus millas mensuales objetivo
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. COSTOS VARIABLES POR MILLA -->
+        <div class="card-section">
+            <h3 class="text-lg font-semibold mb-4">⛽ Costos Variables por Milla</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                        <h4 class="font-semibold text-yellow-800 mb-2">Combustible</h4>
+                        
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label for="fuelMPG" class="block text-xs font-medium text-gray-700 mb-1">
+                                    MPG de tu vehículo
+                                </label>
+                                <input type="number" id="fuelMPG" name="fuelMPG" 
+                                       step="0.1" value="18" oninput="calculateFuelCost()"
+                                       class="border p-2 w-full rounded text-sm">
+                            </div>
+                            
+                            <div>
+                                <label for="fuelPricePerGallon" class="block text-xs font-medium text-gray-700 mb-1">
+                                    Precio por galón
+                                </label>
+                                <input type="number" id="fuelPricePerGallon" name="fuelPricePerGallon" 
+                                       step="0.01" value="3.50" oninput="calculateFuelCost()"
+                                       class="border p-2 w-full rounded text-sm">
+                            </div>
+                        </div>
+                        
+                        <div class="mt-2 text-center">
+                            <span class="text-xs text-yellow-700">Costo calculado: </span>
+                            <span id="calculatedFuelCost" class="font-bold text-yellow-800">$0.194/mi</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="maintenancePerMile" class="block text-sm font-medium text-gray-700 mb-2">
+                            Mantenimiento ($/milla)
+                        </label>
+                        <input type="number" id="maintenancePerMile" name="maintenancePerMile" 
+                               step="0.001" value="0.080"
+                               class="border p-3 w-full rounded-lg">
+                        <p class="text-xs text-gray-500 mt-1">Cambios de aceite, filtros, etc.</p>
+                    </div>
+
+                    <div>
+                        <label for="tiresPerMile" class="block text-sm font-medium text-gray-700 mb-2">
+                            Llantas ($/milla)
+                        </label>
+                        <input type="number" id="tiresPerMile" name="tiresPerMile" 
+                               step="0.001" value="0.060"
+                               class="border p-3 w-full rounded-lg">
+                        <p class="text-xs text-gray-500 mt-1">Promedio de vida útil</p>
+                    </div>
+
+                    <div>
+                        <label for="repairsPerMile" class="block text-sm font-medium text-gray-700 mb-2">
+                            Reparaciones ($/milla)
+                        </label>
+                        <input type="number" id="repairsPerMile" name="repairsPerMile" 
+                               step="0.001" value="0.040"
+                               class="border p-3 w-full rounded-lg">
+                        <p class="text-xs text-gray-500 mt-1">Emergencias y averías</p>
+                    </div>
+                </div>
+
+                <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <h4 class="font-semibold text-green-800 mb-3">🎯 Configuración de Costos</h4>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="useRealCosts" name="useRealCosts" 
+                                   checked class="mr-3">
+                            <label for="useRealCosts" class="text-sm font-medium text-gray-700">
+                                Usar costos reales calculados
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <label for="realCostsPeriod" class="block text-sm font-medium text-gray-700 mb-2">
+                                Período para cálculo automático
+                            </label>
+                            <select id="realCostsPeriod" name="realCostsPeriod"
+                                    class="border p-2 w-full rounded text-sm">
+                                <option value="1">Último mes</option>
+                                <option value="3" selected>Últimos 3 meses</option>
+                                <option value="6">Últimos 6 meses</option>
+                                <option value="12">Último año</option>
+                            </select>
+                        </div>
+                        
+                        <div class="text-xs text-green-600 mt-2">
+                            Cuando está activado, la app calcula tus costos reales basados en tus viajes y gastos registrados.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. METAS DE NEGOCIO -->
+        <div class="card-section">
+            <h3 class="text-lg font-semibold mb-4">🎯 Metas de Negocio</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label for="targetRPM" class="block text-sm font-medium text-gray-700 mb-2">
+                        RPM Mínimo Objetivo
+                    </label>
+                    <input type="number" id="targetRPM" name="targetRPM" 
+                           step="0.01" value="1.25"
+                           class="border p-3 w-full rounded-lg">
+                    <p class="text-xs text-gray-500 mt-1">Tarifa mínima que aceptas</p>
+                </div>
+
+                <div>
+                    <label for="monthlyMilesGoal" class="block text-sm font-medium text-gray-700 mb-2">
+                        Millas Mensuales Objetivo
+                    </label>
+                    <input type="number" id="monthlyMilesGoal" name="monthlyMilesGoal" 
+                           step="100" value="8000" oninput="calculateTotals()"
+                           class="border p-3 w-full rounded-lg">
+                    <p class="text-xs text-gray-500 mt-1">Meta de millas por mes</p>
+                </div>
+
+                <div>
+                    <label for="targetProfit" class="block text-sm font-medium text-gray-700 mb-2">
+                        Margen de Ganancia (%)
+                    </label>
+                    <input type="number" id="targetProfit" name="targetProfit" 
+                           step="1" value="30" min="0" max="100"
+                           class="border p-3 w-full rounded-lg">
+                    <p class="text-xs text-gray-500 mt-1">Ganancia neta objetivo</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. BOTONES DE ACCIÓN -->
+        <div class="card-section">
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <button onclick="saveUserConfiguration()" 
+                        class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-semibold">
                     💾 Guardar Configuración
                 </button>
-                <button onclick="resetSettings()" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 font-semibold">
-                    🔄 Restablecer por Defecto
+                
+                <button onclick="loadUserConfiguration()" 
+                        class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 font-semibold">
+                    🔄 Recargar Guardada
                 </button>
-                <button onclick="testFirebase()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-semibold">
-                    🧪 Probar Firebase
-                </button>
-                <button onclick="testRealCosts()" class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 font-semibold">
-                    📊 Probar Costos Reales
+                
+                <button onclick="loadVehicleTemplate(document.getElementById('vehicleType').value)" 
+                        class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-semibold">
+                    🚛 Aplicar Plantilla
                 </button>
             </div>
-            <p class="text-sm text-gray-500 mt-2">La configuración se sincroniza automáticamente con tu cuenta</p>
+            
+            <div class="text-center mt-4">
+                <p class="text-sm text-gray-600">
+                    Tu configuración se guarda automáticamente y se sincroniza entre dispositivos
+                </p>
+            </div>
         </div>
     </div>
 </section>
@@ -1511,6 +1643,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
 
     <!-- Chart.js for dashboard -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
@@ -1559,8 +1692,8 @@
 <script src="js/helpers.js"></script>
 <script src="js/settings.js"></script>
 <script src="js/calculator.js"></script>
+<script src="js/userPlans.js"></script>
 <script src="js/history.js"></script>
-<script src="js/dashboard.js"></script>
 <script src="js/finances.js"></script>  <!-- ✅ DEBE ESTAR AQUÍ -->
 <script src="js/zones.js"></script>
 <script src="js/main.js"></script>

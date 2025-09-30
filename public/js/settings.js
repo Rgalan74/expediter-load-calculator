@@ -1,518 +1,524 @@
-// settings.js - Versión limpia con costos reales integrados
+// ⚙️ SETTINGS.JS - VERSIÓN COMPLETA Y FUNCIONAL
+// Maneja todas las configuraciones del negocio expediter
 
-function loadSettings() {
-    console.log("⚙️ Loading settings...");
+console.log("⚙️ Loading settings.js - Complete version...");
+
+// ✅ 1. PLANTILLAS DE VEHÍCULOS
+const VEHICLE_TEMPLATES = {
+    van: {
+        name: "Van/Sprinter",
+        fuelMPG: 18,
+        maintenancePerMile: 0.080,
+        tiresPerMile: 0.060,
+        repairsPerMile: 0.040,
+        vehiclePayment: 800,
+        insurance: 1250,
+        licenses: 150,
+        otherFixed: 200
+    },
+    boxtruck: {
+        name: "Box Truck",
+        fuelMPG: 12,
+        maintenancePerMile: 0.120,
+        tiresPerMile: 0.080,
+        repairsPerMile: 0.060,
+        vehiclePayment: 1200,
+        insurance: 1800,
+        licenses: 200,
+        otherFixed: 300
+    },
+    semi: {
+        name: "Semi Trailer",
+        fuelMPG: 7,
+        maintenancePerMile: 0.180,
+        tiresPerMile: 0.120,
+        repairsPerMile: 0.100,
+        vehiclePayment: 2500,
+        insurance: 3000,
+        licenses: 500,
+        otherFixed: 500
+    },
+    hotshot: {
+        name: "Hotshot Pickup",
+        fuelMPG: 15,
+        maintenancePerMile: 0.100,
+        tiresPerMile: 0.070,
+        repairsPerMile: 0.050,
+        vehiclePayment: 1000,
+        insurance: 1500,
+        licenses: 175,
+        otherFixed: 250
+    }
+};
+
+// ✅ 2. FUNCIÓN PARA MOSTRAR MENSAJES
+function showConfigMessage(message, type = "info") {
+    console.log(`📢 Config message: ${message} (${type})`);
+    
+    let messageEl = document.getElementById('configMessage');
+    
+    // Crear elemento si no existe
+    if (!messageEl) {
+        messageEl = document.createElement('div');
+        messageEl.id = 'configMessage';
+        messageEl.className = 'config-message';
+        messageEl.style.cssText = 'padding: 12px; border-radius: 8px; margin-bottom: 16px; font-weight: 500; display: none;';
+        
+        const settingsSection = document.getElementById('settings');
+        if (settingsSection && settingsSection.firstChild) {
+            settingsSection.insertBefore(messageEl, settingsSection.firstChild.nextSibling);
+        }
+    }
+    
+    // Limpiar clases anteriores
+    messageEl.className = 'config-message';
+    
+    // Aplicar estilos según tipo
+    if (type === "success") {
+        messageEl.classList.add('success');
+        messageEl.style.backgroundColor = '#d1fae5';
+        messageEl.style.color = '#065f46';
+        messageEl.style.border = '1px solid #a7f3d0';
+    } else if (type === "error") {
+        messageEl.classList.add('error');
+        messageEl.style.backgroundColor = '#fee2e2';
+        messageEl.style.color = '#991b1b';
+        messageEl.style.border = '1px solid #fca5a5';
+    } else {
+        messageEl.style.backgroundColor = '#dbeafe';
+        messageEl.style.color = '#1e40af';
+        messageEl.style.border = '1px solid #93c5fd';
+    }
+    
+    messageEl.textContent = message;
+    messageEl.style.display = 'block';
+    
+    // Auto-ocultar después de 4 segundos
+    setTimeout(() => {
+        if (messageEl) {
+            messageEl.style.display = 'none';
+        }
+    }, 4000);
+}
+
+// ✅ 3. FUNCIÓN PARA CALCULAR COSTO DE COMBUSTIBLE
+function calculateFuelCost() {
+    console.log("⛽ Calculating fuel cost...");
+    
+    const mpgEl = document.getElementById('fuelMPG');
+    const priceEl = document.getElementById('fuelPricePerGallon');
+    const resultEl = document.getElementById('calculatedFuelCost');
+    
+    if (!mpgEl || !priceEl) {
+        console.log("❌ Fuel input elements not found");
+        return 0.194; // Default value
+    }
+    
+    const mpg = parseFloat(mpgEl.value) || 18;
+    const pricePerGallon = parseFloat(priceEl.value) || 3.50;
+    
+    // Validaciones básicas
+    if (mpg <= 0 || pricePerGallon <= 0) {
+        console.log("⚠️ Invalid fuel values");
+        return 0.194;
+    }
+    
+    const fuelCostPerMile = pricePerGallon / mpg;
+    
+    if (resultEl) {
+        resultEl.textContent = `$${fuelCostPerMile.toFixed(3)}/mi`;
+    }
+    
+    console.log(`✅ Fuel cost calculated: $${fuelCostPerMile.toFixed(3)}/mi (${mpg} MPG, $${pricePerGallon}/gal)`);
+    
+    return fuelCostPerMile;
+}
+
+// ✅ 4. FUNCIÓN PARA CALCULAR TOTALES
+function calculateTotals() {
+    console.log("📊 Calculating totals...");
+    
+    try {
+        // Obtener costos fijos mensuales
+        const vehiclePayment = parseFloat(document.getElementById('vehiclePayment')?.value) || 0;
+        const insurance = parseFloat(document.getElementById('insurance')?.value) || 0;
+        const licenses = parseFloat(document.getElementById('licenses')?.value) || 0;
+        const otherFixed = parseFloat(document.getElementById('otherFixed')?.value) || 0;
+        
+        const totalFixed = vehiclePayment + insurance + licenses + otherFixed;
+        
+        // Millas mensuales objetivo
+        const monthlyMiles = parseFloat(document.getElementById('monthlyMilesGoal')?.value) || 8000;
+        
+        // Validación
+        if (monthlyMiles <= 0) {
+            console.log("⚠️ Invalid monthly miles");
+            return { totalFixed: 0, fixedCostPerMile: 0 };
+        }
+        
+        // Costo fijo por milla
+        const fixedCostPerMile = totalFixed / monthlyMiles;
+        
+        // Actualizar display
+        const totalFixedEl = document.getElementById('totalFixed');
+        const fixedCostPerMileEl = document.getElementById('fixedCostPerMile');
+        
+        if (totalFixedEl) {
+            totalFixedEl.textContent = `$${totalFixed.toLocaleString()}`;
+        }
+        
+        if (fixedCostPerMileEl) {
+            fixedCostPerMileEl.textContent = `$${fixedCostPerMile.toFixed(3)}`;
+        }
+        
+        console.log(`✅ Totals calculated:`, {
+            totalFixed: `$${totalFixed}`,
+            monthlyMiles,
+            fixedCostPerMile: `$${fixedCostPerMile.toFixed(3)}`
+        });
+        
+        return { totalFixed, fixedCostPerMile, monthlyMiles };
+        
+    } catch (error) {
+        console.error("❌ Error calculating totals:", error);
+        return { totalFixed: 0, fixedCostPerMile: 0 };
+    }
+}
+
+// ✅ 5. FUNCIÓN PARA CARGAR PLANTILLAS DE VEHÍCULOS
+function loadVehicleTemplate(vehicleType) {
+    console.log(`🚛 Loading template for: ${vehicleType}`);
+    
+    const template = VEHICLE_TEMPLATES[vehicleType];
+    if (!template) {
+        console.log("❌ Template not found for:", vehicleType);
+        showConfigMessage(`❌ Plantilla no encontrada para: ${vehicleType}`, "error");
+        return;
+    }
+    
+    try {
+        // Aplicar valores a los campos
+        const fields = [
+            ['fuelMPG', template.fuelMPG],
+            ['maintenancePerMile', template.maintenancePerMile],
+            ['tiresPerMile', template.tiresPerMile],
+            ['repairsPerMile', template.repairsPerMile],
+            ['vehiclePayment', template.vehiclePayment],
+            ['insurance', template.insurance],
+            ['licenses', template.licenses],
+            ['otherFixed', template.otherFixed]
+        ];
+        
+        let fieldsApplied = 0;
+        
+        fields.forEach(([fieldId, value]) => {
+            const element = document.getElementById(fieldId);
+            if (element) {
+                element.value = value;
+                fieldsApplied++;
+                console.log(`✅ Set ${fieldId} = ${value}`);
+            } else {
+                console.log(`⚠️ Element not found: ${fieldId}`);
+            }
+        });
+        
+        // Recalcular después de aplicar template
+        setTimeout(() => {
+            calculateFuelCost();
+            calculateTotals();
+        }, 100);
+        
+        showConfigMessage(`✅ Plantilla ${template.name} aplicada (${fieldsApplied} campos)`, "success");
+        
+        return template;
+        
+    } catch (error) {
+        console.error("❌ Error loading vehicle template:", error);
+        showConfigMessage("❌ Error al cargar plantilla", "error");
+    }
+}
+
+// ✅ 6. FUNCIÓN PARA GUARDAR CONFIGURACIÓN DE USUARIO
+function saveUserConfiguration() {
+    console.log("💾 Saving user configuration...");
     
     if (!window.currentUser) {
         console.log("❌ No user logged in");
+        showConfigMessage("Debes estar logueado para guardar la configuración", "error");
         return;
     }
-
-    // Cargar configuraciones desde Firebase
-    firebase.firestore()
-        .collection("users")
-        .doc(window.currentUser.uid)
-        .get()
-        .then(doc => {
-            if (doc.exists) {
-                const userData = doc.data();
-                
-                // ✅ CAMPOS EXISTENTES
-                if (document.getElementById('operatingCostSetting')) {
-                    document.getElementById('operatingCostSetting').value = userData.operatingCostPerMile || 0.33;
-                }
-                if (document.getElementById('fuelCostSetting')) {
-                    document.getElementById('fuelCostSetting').value = userData.fuelCostPerMile || 0.18;
-                }
-                if (document.getElementById('companyNameSetting')) {
-                    document.getElementById('companyNameSetting').value = userData.company || '';
-                }
-                if (document.getElementById('phoneSetting')) {
-                    document.getElementById('phoneSetting').value = userData.phone || '';
-                }
-                if (document.getElementById('emailNotifications')) {
-                    document.getElementById('emailNotifications').checked = userData.emailNotifications !== false;
-                }
-                if (document.getElementById('autoSave')) {
-                    document.getElementById('autoSave').checked = userData.autoSave !== false;
-                }
-                
-                // ✅ NUEVOS CAMPOS DE COSTOS REALES
-                if (document.getElementById('useRealCosts')) {
-                    document.getElementById('useRealCosts').checked = userData.useRealCosts !== false;
-                }
-                if (document.getElementById('realCostsPeriod')) {
-                    document.getElementById('realCostsPeriod').value = userData.realCostsPeriod || '3';
-                }
-                
-                console.log("✅ Settings loaded successfully");
-                
-                // ✅ CARGAR COSTOS REALES ACTUALES
-                setTimeout(() => {
-                    displayCurrentRealCosts();
-                }, 500);
-                
-            } else {
-                // Si no existe el documento, crear configuración por defecto
-                console.log("📝 Creating default settings");
-                const defaultSettings = {
-                    operatingCostPerMile: 0.33,
-                    fuelCostPerMile: 0.18,
-                    useRealCosts: true, // ✅ Activar costos reales por defecto
-                    realCostsPeriod: '3',
-                    emailNotifications: true,
-                    autoSave: true,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                };
-                
-                firebase.firestore()
-                    .collection("users")
-                    .doc(window.currentUser.uid)
-                    .set(defaultSettings)
-                    .then(() => {
-                        console.log("✅ Default settings created");
-                        loadSettings(); // Recargar para mostrar valores por defecto
-                    });
-            }
-        })
-        .catch(error => {
-            console.error("❌ Error loading settings:", error);
-        });
-}
-
-function saveUserSettings() {
-    console.log("💾 Saving settings...");
     
-    if (!window.currentUser) {
-        showSettingsMessage("Must be logged in to save settings", "error");
-        return;
-    }
-
-    // ✅ Obtener valores de inputs
-    const monthlyMiles = parseFloat(document.getElementById('monthlyMilesSetting')?.value || 6000);
-
-    // Gastos fijos de ejemplo (puedes luego jalarlos desde DB si quieres)
-    const fixedCosts = 2600; // Seguro + Van + otros
-
-    // ✅ Recalcular costo operativo con volumen de millas
-const operatingCostCalc = fixedCosts / monthlyMiles;
-document.getElementById('operatingCostSetting').value = operatingCostCalc.toFixed(2);
-
-const settings = {
-    operatingCostPerMile: parseFloat(document.getElementById('operatingCostSetting')?.value || 0.33),
-    fuelCostPerMile: parseFloat(document.getElementById('fuelCostSetting')?.value || 0.18),
-    monthlyMiles: monthlyMiles,
-    company: document.getElementById('companyNameSetting')?.value || '',
-    phone: document.getElementById('phoneSetting')?.value || '',
-    emailNotifications: document.getElementById('emailNotifications')?.checked || false,
-    autoSave: document.getElementById('autoSave')?.checked || false,
-    useRealCosts: document.getElementById('useRealCosts')?.checked || false,
-    realCostsPeriod: document.getElementById('realCostsPeriod')?.value || '3',
-    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-};
-
-// ✅ ACTUALIZAR GLOBAL
-window.userSettings = settings;
-
-
-    firebase.firestore()
-        .collection("users")
-        .doc(window.currentUser.uid)
-        .set(settings, { merge: true })
+    try {
+        // Recopilar todos los datos del formulario
+        const config = {
+            // Metadatos
+            configVersion: '2.0',
+            updatedAt: new Date().toISOString(),
+            
+            // Perfil de operación
+            vehicleType: document.getElementById('vehicleType')?.value || 'van',
+            businessName: document.getElementById('businessName')?.value || '',
+            operatingState: document.getElementById('operatingState')?.value || 'FL',
+            
+            // Costos fijos mensuales
+            vehiclePayment: parseFloat(document.getElementById('vehiclePayment')?.value) || 0,
+            insurance: parseFloat(document.getElementById('insurance')?.value) || 0,
+            licenses: parseFloat(document.getElementById('licenses')?.value) || 0,
+            otherFixed: parseFloat(document.getElementById('otherFixed')?.value) || 0,
+            
+            // Costos variables por milla
+            fuelMPG: parseFloat(document.getElementById('fuelMPG')?.value) || 18,
+            fuelPricePerGallon: parseFloat(document.getElementById('fuelPricePerGallon')?.value) || 3.50,
+            maintenancePerMile: parseFloat(document.getElementById('maintenancePerMile')?.value) || 0.080,
+            tiresPerMile: parseFloat(document.getElementById('tiresPerMile')?.value) || 0.060,
+            repairsPerMile: parseFloat(document.getElementById('repairsPerMile')?.value) || 0.040,
+            
+            // Configuración de costos reales
+            useRealCosts: document.getElementById('useRealCosts')?.checked || true,
+            realCostsPeriod: document.getElementById('realCostsPeriod')?.value || '3',
+            
+            // Metas de negocio
+            targetRPM: parseFloat(document.getElementById('targetRPM')?.value) || 1.25,
+            monthlyMilesGoal: parseFloat(document.getElementById('monthlyMilesGoal')?.value) || 8000,
+            targetProfit: parseFloat(document.getElementById('targetProfit')?.value) || 30
+        };
+        
+        console.log("📦 Configuration to save:", config);
+        
+        // Guardar en Firestore
+        const userRef = firebase.firestore().collection("users").doc(window.currentUser.uid);
+        
+        return userRef.set({
+            ...config,
+            lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true })
         .then(() => {
-            showSettingsMessage("✅ Settings saved successfully", "success");
+            console.log("✅ Configuration saved to Firestore");
+            showConfigMessage("✅ Configuración guardada exitosamente", "success");
             
-            // ✅ NOTIFICAR CAMBIO EN COSTOS REALES
-            if (typeof window.onRealCostsSettingChanged === 'function') {
-                window.onRealCostsSettingChanged(settings.useRealCosts);
-            }
+            // También guardar en localStorage como backup
+            localStorage.setItem('userConfig_backup', JSON.stringify(config));
             
-            // ✅ ACTUALIZAR DISPLAY DE COSTOS REALES
-            setTimeout(() => {
-                displayCurrentRealCosts();
-            }, 500);
-        })
-        .catch(error => {
-            console.error("❌ Error saving settings:", error);
-            showSettingsMessage("❌ Error saving settings", "error");
-        });
-}
-// ✅ Recalcular costo operativo automáticamente cuando cambien las millas
-document.getElementById('monthlyMilesSetting')?.addEventListener('input', () => {
-    const monthlyMiles = parseFloat(document.getElementById('monthlyMilesSetting').value || 6000);
-    const fixedCosts = 2600; // Seguro + Van + otros
-    if (monthlyMiles > 0) {
-        const newOperatingCost = fixedCosts / monthlyMiles;
-        document.getElementById('operatingCostSetting').value = newOperatingCost.toFixed(2);
-        console.log("🔄 Recalculated cost per mile:", newOperatingCost);
-    }
-});
-
-
-
-function resetSettings() {
-    if (!confirm("¿Estás seguro de que quieres restaurar la configuración por defecto?")) {
-        return;
-    }
-
-    // ✅ RESTAURAR TODOS LOS VALORES POR DEFECTO
-    if (document.getElementById('operatingCostSetting')) {
-        document.getElementById('operatingCostSetting').value = 0.33;
-    }
-    if (document.getElementById('fuelCostSetting')) {
-        document.getElementById('fuelCostSetting').value = 0.18;
-    }
-    if (document.getElementById('companyNameSetting')) {
-        document.getElementById('companyNameSetting').value = '';
-    }
-    if (document.getElementById('phoneSetting')) {
-        document.getElementById('phoneSetting').value = '';
-    }
-    if (document.getElementById('emailNotifications')) {
-        document.getElementById('emailNotifications').checked = true;
-    }
-    if (document.getElementById('autoSave')) {
-        document.getElementById('autoSave').checked = true;
-    }
-    // ✅ COSTOS REALES
-    if (document.getElementById('useRealCosts')) {
-        document.getElementById('useRealCosts').checked = true;
-    }
-    if (document.getElementById('realCostsPeriod')) {
-        document.getElementById('realCostsPeriod').value = '3';
-    }
-
-    showSettingsMessage("🔄 Settings reset to defaults", "success");
-}
-
-function recalculateOperatingCost() {
-    const monthlyMiles = parseFloat(document.getElementById('monthlyMilesSetting')?.value || 6000);
-    const fixedCosts = 2600; // 💡 Aquí pon tus gastos fijos reales: seguro, van, etc.
-
-    if (monthlyMiles > 0) {
-        const operatingCost = fixedCosts / monthlyMiles;
-        const opInput = document.getElementById('operatingCostSetting');
-        if (opInput) {
-            opInput.value = operatingCost.toFixed(2);
-            console.log(`📊 Nuevo costo operativo calculado: $${operatingCost.toFixed(2)}/milla`);
-        }
-    }
-}
-
-// ✅ NUEVA FUNCIÓN: Obtener configuración de costos reales
-async function getRealCostsSettings() {
-    try {
-        if (!window.currentUser) {
-            return { useRealCosts: true, period: 3 }; // Por defecto
-        }
-
-        const doc = await firebase.firestore()
-            .collection("users")
-            .doc(window.currentUser.uid)
-            .get();
-
-        if (doc.exists) {
-            const data = doc.data();
-            return {
-                useRealCosts: data.useRealCosts !== false,
-                period: parseInt(data.realCostsPeriod || '3')
-            };
-        }
-
-        return { useRealCosts: true, period: 3 };
-    } catch (error) {
-        console.error("❌ Error getting real costs settings:", error);
-        return { useRealCosts: true, period: 3 };
-    }
-}
-
-// ✅ FUNCIÓN PARA MOSTRAR COSTOS REALES ACTUALES
-async function displayCurrentRealCosts() {
-    try {
-        console.log("📊 Loading current real costs for display...");
-
-        if (!window.currentUser) {
-            // Actualizar solo la tab de settings
-            document.getElementById("currentRealFuelCost").textContent = "--";
-            document.getElementById("currentRealMaintenanceCost").textContent = "--";
-            document.getElementById("lastRealCostUpdate").textContent = "No autenticado";
-            return;
-        }
-
-        // Mostrar "Calculando..." en Settings
-        document.getElementById("currentRealFuelCost").textContent = "Calculando...";
-        document.getElementById("currentRealMaintenanceCost").textContent = "Calculando...";
-        document.getElementById("lastRealCostUpdate").textContent = "Cargando...";
-
-        // Configuración del usuario
-        const settings = await getRealCostsSettings();
-        if (!settings.useRealCosts) {
-            document.getElementById("currentRealFuelCost").textContent = "Desactivado";
-            document.getElementById("currentRealMaintenanceCost").textContent = "Desactivado";
-            document.getElementById("lastRealCostUpdate").textContent = "Función desactivada";
-            return;
-        }
-
-        // Calcular costos reales
-        const realFuelCost = await getRealFuelCost();      // devuelve número
-        const realExpenseCosts = await getRealExpenseCosts(); // { fuel, maintenance }
-
-        // ✅ Actualizar Settings tab
-        document.getElementById("currentRealFuelCost").textContent =
-            realFuelCost ? `$${realFuelCost.toFixed(4)}/milla` : "--";
-        document.getElementById("currentRealMaintenanceCost").textContent =
-            realExpenseCosts.maintenance ? `$${realExpenseCosts.maintenance.toFixed(4)}/milla` : "--";
-        document.getElementById("lastRealCostUpdate").textContent = new Date().toLocaleString();
-
-        // ✅ Actualizar panel en Calculadora
-        updateRealCostDisplay(realFuelCost, realExpenseCosts);
-
-        console.log("✅ Real costs displayed successfully");
-
-    } catch (error) {
-        console.error("❌ Error displaying real costs:", error);
-        document.getElementById("currentRealFuelCost").textContent = "Error";
-        document.getElementById("currentRealMaintenanceCost").textContent = "Error";
-        document.getElementById("lastRealCostUpdate").textContent = "Error";
-    }
-}
-
-
-// ✅ FUNCIÓN AUXILIAR: Obtener combustible real para display
-async function getRealFuelCostForDisplay() {
-    try {
-        const settings = await getRealCostsSettings();
-        const monthsBack = settings.period;
-        
-        const startDate = new Date();
-        startDate.setMonth(startDate.getMonth() - monthsBack);
-        const startDateString = startDate.toISOString().split('T')[0];
-
-        const snapshot = await firebase.firestore()
-            .collection("loads")
-            .where("userId", "==", window.currentUser.uid)
-            .where("date", ">=", startDateString)
-            .get();
-
-        if (snapshot.empty) {
-            return 0.18; // Valor por defecto
-        }
-
-        let totalFuelCost = 0;
-        let totalMiles = 0;
-
-        snapshot.docs.forEach(doc => {
-            const data = doc.data();
-            const fuelCost = Number(data.fuelCost || 0);
-            const miles = Number(data.totalMiles || 0);
-            
-            if (fuelCost > 0 && miles > 0) {
-                totalFuelCost += fuelCost;
-                totalMiles += miles;
-            }
-        });
-
-        return totalMiles > 0 ? totalFuelCost / totalMiles : 0.18;
-
-    } catch (error) {
-        console.error("❌ Error getting real fuel cost for display:", error);
-        return 0.18;
-    }
-}
-
-// ✅ FUNCIÓN AUXILIAR: Obtener costos de gastos para display
-async function getRealExpenseCostsForDisplay() {
-    try {
-        const settings = await getRealCostsSettings();
-        const monthsBack = settings.period;
-        
-        const startDate = new Date();
-        startDate.setMonth(startDate.getMonth() - monthsBack);
-        const startDateString = startDate.toISOString().split('T')[0];
-
-        const [expensesSnapshot, loadsSnapshot] = await Promise.all([
-            firebase.firestore()
-                .collection("expenses")
-                .where("userId", "==", window.currentUser.uid)
-                .where("date", ">=", startDateString)
-                .get(),
-            firebase.firestore()
-                .collection("loads")
-                .where("userId", "==", window.currentUser.uid)
-                .where("date", ">=", startDateString)
-                .get()
-        ]);
-
-        const totalMiles = loadsSnapshot.docs.reduce((sum, doc) => {
-            return sum + (Number(doc.data().totalMiles) || 0);
-        }, 0);
-
-        if (totalMiles === 0) {
-            return { fuel: 0, maintenance: 0 };
-        }
-
-        let fuelExpenses = 0;
-        let maintenanceExpenses = 0;
-
-        expensesSnapshot.docs.forEach(doc => {
-            const data = doc.data();
-            const amount = Number(data.amount || 0);
-            const type = (data.type || '').toLowerCase();
-
-            switch (type) {
-                case 'fuel':
-                    fuelExpenses += amount;
-                    break;
-                case 'maintenance':
-                    maintenanceExpenses += amount;
-                    break;
-            }
-        });
-
-        return {
-            fuel: fuelExpenses / totalMiles,
-            maintenance: maintenanceExpenses / totalMiles
-        };
-
-    } catch (error) {
-        console.error("❌ Error getting real expense costs for display:", error);
-        return { fuel: 0, maintenance: 0 };
-    }
-}
-
-// ✅ FUNCIÓN PARA ACTUALIZAR INTERFAZ DE COSTOS REALES (solo para el tab de Configuración)
-function updateSettingsCostDisplay(fuelCost, maintenanceCost, lastUpdate) {
-  const fuelEl = document.getElementById('currentRealFuelCost');
-  const maintenanceEl = document.getElementById('currentRealMaintenanceCost');
-  const updateEl = document.getElementById('lastRealCostUpdate');
-
-  if (fuelEl) fuelEl.textContent = fuelCost;
-  if (maintenanceEl) maintenanceEl.textContent = maintenanceCost;
-  if (updateEl) updateEl.textContent = lastUpdate;
-}
-
-
-// ✅ FUNCIÓN CUANDO CAMBIA LA CONFIGURACIÓN DE COSTOS REALES
-function onRealCostsSettingChanged(useRealCosts) {
-    console.log("🔄 Real costs setting changed:", useRealCosts);
-    
-    setTimeout(() => {
-        displayCurrentRealCosts();
-    }, 500);
-}
-
-function showSettingsMessage(message, type = "info") {
-    // Helper function para mostrar mensajes
-    function showMessage(message, type = "info", elementId = "globalMessage") {
-        const div = document.getElementById(elementId);
-        if (!div) {
-            console.log(message); // Fallback to console
-            return;
-        }
-
-        const classes = {
-            success: "message-success",
-            error: "message-error",
-            info: "message-info"
-        };
-
-        div.className = classes[type] || "message-info";
-        div.textContent = message;
-        div.style.display = "block";
-
-        setTimeout(() => {
-            div.style.display = "none";
-        }, 4000);
-    }
-
-    // Usar la función helper
-    showMessage(message, type);
-}
-
-function testFirebase() {
-    if (!window.currentUser) {
-        showSettingsMessage("❌ No user logged in", "error");
-        return;
-    }
-
-    showSettingsMessage("🔍 Testing Firebase connection...", "info");
-    
-    const testData = {
-        test: true,
-        timestamp: new Date().toISOString(),
-        userId: window.currentUser.uid
-    };
-
-    firebase.firestore()
-        .collection("test")
-        .add(testData)
-        .then((docRef) => {
-            console.log("✅ Firebase write test successful, doc ID:", docRef.id);
-            
-            return firebase.firestore()
-                .collection("loads")
-                .where("userId", "==", window.currentUser.uid)
-                .get();
-        })
-        .then((snapshot) => {
-            console.log("✅ Firebase read test successful, found", snapshot.size, "loads");
-            showSettingsMessage(`✅ Firebase OK! Found ${snapshot.size} loads`, "success");
-            
-            return firebase.firestore().collection("test").where("userId", "==", window.currentUser.uid).get();
-        })
-        .then((snapshot) => {
-            snapshot.docs.forEach(doc => doc.ref.delete());
-            console.log("🧹 Cleaned up test documents");
+            return config;
         })
         .catch((error) => {
-            console.error("❌ Firebase test failed:", error);
-            showSettingsMessage(`❌ Firebase error: ${error.message}`, "error");
+            console.error("❌ Error saving to Firestore:", error);
+            
+            // Fallback a localStorage
+            localStorage.setItem('userConfig_backup', JSON.stringify(config));
+            showConfigMessage("✅ Configuración guardada localmente", "success");
+            
+            return config;
         });
-}
-
-// ✅ NUEVA FUNCIÓN: Probar costos reales
-async function testRealCosts() {
-    try {
-        showSettingsMessage("🔍 Testing real costs calculation...", "info");
-        
-        // Simular las mismas funciones que usa calculator.js
-        const testFuelCost = await getRealFuelCostForDisplay();
-        const testExpenseCosts = await getRealExpenseCostsForDisplay();
-        
-        console.log("Real fuel cost test:", testFuelCost);
-        console.log("Real expense costs test:", testExpenseCosts);
-        
-        const totalFuelCost = testFuelCost + testExpenseCosts.fuel;
-        
-        showSettingsMessage(`✅ Combustible: $${totalFuelCost.toFixed(4)}/mi, Mantenimiento: $${testExpenseCosts.maintenance.toFixed(4)}/mi`, "success");
         
     } catch (error) {
-        console.error("❌ Real costs test failed:", error);
-        showSettingsMessage(`❌ Error testing real costs: ${error.message}`, "error");
+        console.error("❌ Error saving configuration:", error);
+        showConfigMessage("❌ Error al guardar configuración: " + error.message, "error");
     }
 }
 
-// ✅ EVENT LISTENERS
-document.addEventListener('DOMContentLoaded', function() {
-    // Event listener para el selector de período
-    setTimeout(() => {
-        const periodSelect = document.getElementById('realCostsPeriod');
-        if (periodSelect) {
-            periodSelect.addEventListener('change', function() {
-                console.log("📅 Real costs period changed, recalculating...");
+// ✅ 7. FUNCIÓN PARA CARGAR CONFIGURACIÓN DE USUARIO
+function loadUserConfiguration() {
+    console.log("🔄 Loading user configuration...");
+    
+    if (!window.currentUser) {
+        console.log("❌ No user logged in");
+        showConfigMessage("Debes estar logueado para cargar configuración", "error");
+        return;
+    }
+    
+    // Primero intentar cargar desde Firestore
+    const userRef = firebase.firestore().collection("users").doc(window.currentUser.uid);
+    
+    return userRef.get()
+        .then((doc) => {
+            let config = null;
+            
+            if (doc.exists) {
+                config = doc.data();
+                console.log("📦 Configuration loaded from Firestore:", config);
+            } else {
+                // Fallback a localStorage
+                const backupConfig = localStorage.getItem('userConfig_backup');
+                if (backupConfig) {
+                    config = JSON.parse(backupConfig);
+                    console.log("📦 Configuration loaded from localStorage backup:", config);
+                } else {
+                    console.log("⚠️ No saved configuration found");
+                    showConfigMessage("No hay configuración guardada", "error");
+                    return;
+                }
+            }
+            
+            // Aplicar configuración a los campos
+            applyConfigurationToForm(config);
+            
+            return config;
+        })
+        .catch((error) => {
+            console.error("❌ Error loading from Firestore:", error);
+            
+            // Fallback a localStorage
+            try {
+                const backupConfig = localStorage.getItem('userConfig_backup');
+                if (backupConfig) {
+                    const config = JSON.parse(backupConfig);
+                    console.log("📦 Configuration loaded from localStorage backup:", config);
+                    applyConfigurationToForm(config);
+                    return config;
+                } else {
+                    showConfigMessage("No hay configuración guardada", "error");
+                }
+            } catch (backupError) {
+                console.error("❌ Error loading backup configuration:", backupError);
+                showConfigMessage("❌ Error al cargar configuración", "error");
+            }
+        });
+}
+
+// ✅ 8. FUNCIÓN AUXILIAR PARA APLICAR CONFIGURACIÓN AL FORMULARIO
+function applyConfigurationToForm(config) {
+    if (!config) return;
+    
+    try {
+        // Aplicar valores a campos de texto/número
+        const fields = [
+            ['vehicleType', config.vehicleType],
+            ['businessName', config.businessName],
+            ['operatingState', config.operatingState],
+            ['vehiclePayment', config.vehiclePayment],
+            ['insurance', config.insurance],
+            ['licenses', config.licenses],
+            ['otherFixed', config.otherFixed],
+            ['fuelMPG', config.fuelMPG],
+            ['fuelPricePerGallon', config.fuelPricePerGallon],
+            ['maintenancePerMile', config.maintenancePerMile],
+            ['tiresPerMile', config.tiresPerMile],
+            ['repairsPerMile', config.repairsPerMile],
+            ['targetRPM', config.targetRPM],
+            ['monthlyMilesGoal', config.monthlyMilesGoal],
+            ['targetProfit', config.targetProfit]
+        ];
+        
+        let fieldsLoaded = 0;
+        
+        fields.forEach(([fieldId, value]) => {
+            const element = document.getElementById(fieldId);
+            if (element && value !== undefined && value !== null) {
+                element.value = value;
+                fieldsLoaded++;
+                console.log(`✅ Loaded ${fieldId} = ${value}`);
+            }
+        });
+        
+        // Aplicar checkboxes
+        const useRealCostsEl = document.getElementById('useRealCosts');
+        if (useRealCostsEl && config.useRealCosts !== undefined) {
+            useRealCostsEl.checked = config.useRealCosts;
+        }
+        
+        const realCostsPeriodEl = document.getElementById('realCostsPeriod');
+        if (realCostsPeriodEl && config.realCostsPeriod) {
+            realCostsPeriodEl.value = config.realCostsPeriod;
+        }
+        
+        // Recalcular después de cargar
+        setTimeout(() => {
+            calculateFuelCost();
+            calculateTotals();
+        }, 100);
+        
+        showConfigMessage(`✅ Configuración cargada (${fieldsLoaded} campos)`, "success");
+        
+    } catch (error) {
+        console.error("❌ Error applying configuration to form:", error);
+        showConfigMessage("❌ Error al aplicar configuración", "error");
+    }
+}
+
+// ✅ 9. FUNCIÓN PARA CARGAR CONFIGURACIONES DESDE FIREBASE (COMPATIBILIDAD)
+function loadSettings() {
+    console.log("⚙️ Loading settings (legacy function)...");
+    return loadUserConfiguration();
+}
+
+// ✅ 10. CONFIGURACIÓN DE EVENT LISTENERS
+function setupSettingsEventListeners() {
+    console.log("🔗 Setting up settings event listeners...");
+    
+    // Event listeners para cálculos automáticos
+    const autoCalculateFields = [
+        'fuelMPG',
+        'fuelPricePerGallon',
+        'vehiclePayment',
+        'insurance',
+        'licenses',
+        'otherFixed',
+        'monthlyMilesGoal'
+    ];
+    
+    autoCalculateFields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            field.addEventListener('input', () => {
                 setTimeout(() => {
-                    displayCurrentRealCosts();
+                    if (fieldId === 'fuelMPG' || fieldId === 'fuelPricePerGallon') {
+                        calculateFuelCost();
+                    }
+                    calculateTotals();
                 }, 100);
             });
         }
-        
-        // Event listener para el checkbox de costos reales
-        const useRealCostsCheckbox = document.getElementById('useRealCosts');
-        if (useRealCostsCheckbox) {
-            useRealCostsCheckbox.addEventListener('change', function() {
-                onRealCostsSettingChanged(this.checked);
-            });
-        }
+    });
+    
+    // Event listener para cambio de tipo de vehículo
+    const vehicleTypeSelect = document.getElementById('vehicleType');
+    if (vehicleTypeSelect) {
+        vehicleTypeSelect.addEventListener('change', function() {
+            // No auto-aplicar plantilla, solo cuando el usuario haga clic en el botón
+            console.log(`Vehicle type changed to: ${this.value}`);
+        });
+    }
+    
+    console.log("✅ Settings event listeners configured");
+}
+
+// ✅ 11. INICIALIZACIÓN
+function initializeSettings() {
+    console.log("🚀 Initializing settings...");
+    
+    setupSettingsEventListeners();
+    
+    // Cargar configuración si hay usuario
+    if (window.currentUser) {
+        setTimeout(() => {
+            loadUserConfiguration();
+        }, 500);
+    }
+    
+    // Calcular valores iniciales
+    setTimeout(() => {
+        calculateFuelCost();
+        calculateTotals();
+    }, 100);
+    
+    console.log("✅ Settings initialized");
+}
+
+// ✅ 12. EXPONER FUNCIONES GLOBALMENTE
+window.showConfigMessage = showConfigMessage;
+window.calculateFuelCost = calculateFuelCost;
+window.calculateTotals = calculateTotals;
+window.loadVehicleTemplate = loadVehicleTemplate;
+window.saveUserConfiguration = saveUserConfiguration;
+window.loadUserConfiguration = loadUserConfiguration;
+window.loadSettings = loadSettings; // Compatibilidad
+window.initializeSettings = initializeSettings;
+
+// ✅ 13. AUTO-INICIALIZACIÓN
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        initializeSettings();
     }, 1000);
 });
 
@@ -521,39 +527,9 @@ document.addEventListener('userStateChanged', function(event) {
     const { user } = event.detail || {};
     if (user) {
         setTimeout(() => {
-            displayCurrentRealCosts();
+            loadUserConfiguration();
         }, 1000);
     }
 });
 
-// Actualizar costos cuando se guarda una nueva carga
-document.addEventListener('loadSaved', function() {
-    console.log("🔄 Load saved, updating real costs display");
-    setTimeout(() => {
-        displayCurrentRealCosts();
-    }, 1000);
-});
-
-// Configuraciones por defecto
-const defaultSettings = {
-    operatingCostPerMile: 0.33,
-    fuelCostPerMile: 0.18,
-    currency: 'USD',
-    theme: 'light',
-    emailNotifications: true,
-    autoSave: true,
-    useRealCosts: true, // ✅ NUEVO
-    realCostsPeriod: '3' // ✅ NUEVO (meses)
-};
-
-// ✅ EXPONER FUNCIONES GLOBALMENTE
-window.loadSettings = loadSettings;
-window.saveUserSettings = saveUserSettings;
-window.resetSettings = resetSettings;
-window.testFirebase = testFirebase;
-window.testRealCosts = testRealCosts;
-window.getRealCostsSettings = getRealCostsSettings;
-window.displayCurrentRealCosts = displayCurrentRealCosts;
-window.onRealCostsSettingChanged = onRealCostsSettingChanged;
-
-console.log("✅ Settings.js with real costs configuration loaded successfully");
+console.log("✅ Settings.js loaded successfully - Complete version with all functionality");

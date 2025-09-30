@@ -38,7 +38,7 @@ function loadZonesData() {
             
             // Configurar layout responsivo después de que carga el mapa
             setTimeout(() => {
-                setupResponsiveMapLayout();
+            setupResponsiveMapLayout();
             }, 500);
             
             zonesDataLoaded = true;
@@ -306,7 +306,7 @@ function pintarEstados(svgDoc) {
     console.log(`✅ Estados pintados con colores: ${statesPainted}`);
 }
 
-// ✅ FUNCIÓN LAYOUT RESPONSIVO (AHORA FUERA DE PINTARESTADOS)
+// ✅ FUNCIÓN LAYOUT RESPONSIVO - VERSIÓN CORREGIDA PARA MOBILE
 function setupResponsiveMapLayout() {
     const mapObject = document.getElementById('interactiveMap');
     if (!mapObject) return;
@@ -318,50 +318,119 @@ function setupResponsiveMapLayout() {
     console.log("🎯 Configurando layout responsivo del mapa...");
     
     if (mapContainer && panelLateral) {
-        // Configurar contenedor del mapa (75% del espacio)
-        mapContainer.className = mapContainer.className.replace('flex-1', 'flex-[3]');
-        mapContainer.style.minWidth = '600px';
+        // Detectar si es mobile
+        const isMobile = window.innerWidth <= 768;
         
-        // Configurar el mapa
-        mapObject.style.width = '100%';
-        mapObject.style.height = '500px';
-        mapObject.style.minWidth = '500px';
-        mapObject.style.maxWidth = '100%';
-        
-        // Configurar panel lateral (25% del espacio)
-        panelLateral.style.flex = '1';
-        panelLateral.style.maxWidth = '280px';
-        panelLateral.style.minWidth = '220px';
-        
-        // Event listener para resize
+        if (isMobile) {
+            console.log("📱 Modo mobile detectado - aplicando layout mobile");
+            
+            // SOLUCIÓN FINAL MOBILE
+            mapContainer.style.minWidth = 'unset';
+            mapContainer.style.width = '100%';
+            mapContainer.style.padding = '0.5rem 0';
+            mapContainer.style.paddingLeft = '0';
+            mapContainer.style.paddingRight = '0';
+            mapContainer.style.margin = '0';
+            mapContainer.style.marginLeft = '-1rem';
+            mapContainer.style.marginRight = '-1rem';
+            
+            // Forzar flex-direction column en mobile
+            if (flexContainer) {
+                flexContainer.style.flexDirection = 'column';
+                flexContainer.style.gap = '1rem';
+                flexContainer.style.paddingLeft = '0.5rem';
+                flexContainer.style.paddingRight = '0.5rem';
+            }
+            
+            // Mapa responsive en mobile
+            mapObject.style.width = '100%';
+            mapObject.style.height = '400px';
+            mapObject.style.setProperty('height', '400px', 'important');
+            mapObject.style.maxWidth = 'none';
+            mapObject.style.margin = '0 auto';
+            mapObject.style.display = 'block';
+            
+            // Panel lateral debajo en mobile
+            panelLateral.style.width = '100%';
+            panelLateral.style.maxWidth = 'none';
+            panelLateral.style.marginTop = '1rem';
+            panelLateral.style.order = '2';
+            
+
+        } else {
+            console.log("💻 Modo desktop detectado - aplicando layout desktop");
+            
+            // DESKTOP: Layout original CORREGIDO
+            mapContainer.className = mapContainer.className.replace('flex-1', 'flex-[3]');
+            mapContainer.style.minWidth = '600px';
+            
+            // LIMPIAR estilos mobile que pueden interferir
+            mapContainer.style.marginLeft = '';
+            mapContainer.style.marginRight = '';
+            mapContainer.style.padding = '';
+            mapContainer.style.paddingLeft = '';
+            mapContainer.style.paddingRight = '';
+            
+            // Restaurar estilos desktop originales
+            mapContainer.style.padding = '2rem';
+            
+            // Configurar el mapa
+            mapObject.style.width = '100%';
+            mapObject.style.height = '500px';
+            mapObject.style.minWidth = '500px';
+            mapObject.style.maxWidth = '100%';
+            mapObject.style.margin = '';
+            mapObject.style.display = '';
+            
+            // Configurar panel lateral (25% del espacio)
+            panelLateral.style.flex = '1';
+            panelLateral.style.maxWidth = '280px';
+            panelLateral.style.minWidth = '220px';
+            panelLateral.style.width = '';
+            panelLateral.style.marginTop = '';
+            panelLateral.style.order = '';
+            
+            // Limpiar estilos del flex container mobile
+            if (flexContainer) {
+                flexContainer.style.flexDirection = '';
+                flexContainer.style.gap = '';
+                flexContainer.style.paddingLeft = '';
+                flexContainer.style.paddingRight = '';
+            }
+            
+            // Responsive para pantallas pequeñas (solo desktop)
+            const mediaQuery = window.matchMedia('(max-width: 1024px)');
+            function handleResponsive(e) {
+                if (e.matches) {
+                    mapObject.style.height = '400px';
+                    mapObject.style.minWidth = '300px';
+                    panelLateral.style.maxWidth = 'none';
+                } else {
+                    mapObject.style.height = '500px';
+                    mapObject.style.minWidth = '500px';
+                    panelLateral.style.maxWidth = '280px';
+                }
+            }
+            
+            mediaQuery.addListener(handleResponsive);
+            handleResponsive(mediaQuery);
+        }
+        // Event listener para resize MEJORADO
         let resizeTimeout;
-        window.addEventListener('resize', function() {
+        const handleResize = () => {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
-                if (mapObject.offsetWidth < 280) {
-                    mapObject.style.width = '280px';
-                }
+                // Volver a aplicar layout según nuevo tamaño
+                setupResponsiveMapLayout();
             }, 150);
-        });
+        };
         
-        // Responsive para pantallas pequeñas
-        const mediaQuery = window.matchMedia('(max-width: 1024px)');
-        function handleResponsive(e) {
-            if (e.matches) {
-                mapObject.style.height = '400px';
-                mapObject.style.minWidth = '300px';
-                panelLateral.style.maxWidth = 'none';
-            } else {
-                mapObject.style.height = '500px';
-                mapObject.style.minWidth = '500px';
-                panelLateral.style.maxWidth = '280px';
-            }
-        }
+        // Remover listener anterior si existe
+        window.removeEventListener('resize', window.mapResizeHandler);
+        window.mapResizeHandler = handleResize;
+        window.addEventListener('resize', handleResize);
         
-        mediaQuery.addListener(handleResponsive);
-        handleResponsive(mediaQuery);
-        
-        console.log("✅ Layout responsivo configurado - Mapa 75%, Panel 25%");
+        console.log("✅ Layout responsivo configurado correctamente");
     }
 }
 
@@ -454,6 +523,8 @@ function showMapLoadError() {
         `;
     }
 }
+
+
 
 // ✅ EXPONER FUNCIONES GLOBALMENTE
 window.loadZonesData = loadZonesData;

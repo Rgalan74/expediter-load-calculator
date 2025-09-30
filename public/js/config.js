@@ -64,6 +64,16 @@ function initializeFirebaseAuth() {
     
     auth = firebase.auth();
     db = firebase.firestore();
+
+    // ✅ Inicializar Analytics
+    let analytics = null;
+    try {
+    analytics = firebase.analytics();
+    window.analytics = analytics;
+    console.log('✅ Firebase Analytics inicializado');
+    } catch (error) {
+    console.warn('⚠️ Analytics no disponible:', error.message);
+    }
     
     // ✅ CONFIGURAR PERSISTENCIA EXPLÍCITAMENTE
     auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
@@ -81,8 +91,30 @@ function initializeFirebaseAuth() {
   }
 }
 
-// ✅ Setup del listener de autenticación
-function setupAuthListener() {
+// ✅ Función de tracking universal
+function trackEvent(eventName, params = {}) {
+    const enrichedParams = {
+        ...params,
+        timestamp: new Date().toISOString(),
+        userId: window.currentUser?.uid || 'anonymous'
+    };
+    
+    if (analytics) {
+        try {
+            analytics.logEvent(eventName, enrichedParams);
+            console.log('📊 Analytics:', eventName, enrichedParams);
+        } catch (error) {
+            console.log('📊 Event (fallback):', eventName, enrichedParams);
+        }
+    } else {
+        console.log('📊 Event:', eventName, enrichedParams);
+    }
+}
+
+window.trackEvent = trackEvent;
+
+// ✅ Setup del listener de autenticación CON SISTEMA DE PLANES
+async function setupAuthListener() {
   debugLog("👂 Configurando auth listener...");
   
   // ✅ TIMEOUT DE SEGURIDAD
@@ -95,7 +127,7 @@ function setupAuthListener() {
     }
   }, 5000); // 5 segundos máximo
   
-  auth.onAuthStateChanged((user) => {
+  auth.onAuthStateChanged(async (user) => {
     clearTimeout(authTimeout); // Cancelar timeout
     authCheckComplete = true;
     authInitialized = true;
@@ -110,6 +142,38 @@ function setupAuthListener() {
       });
       
       setCurrentUser(user);
+      
+      // ✅ AGREGAR: Cargar plan del usuario
+      try {
+        debugLog("📋 Cargando plan del usuario...");
+        window.userPlan = await getUserPlan(user.uid);
+        debugLog("✅ Plan cargado:", window.userPlan.name);
+        
+        // Inicializar si es usuario nuevo
+        if (!window.userPlan.userId) {
+          debugLog("🆕 Usuario nuevo, inicializando plan...");
+          await initializeUserPlan(user.uid, user.email);
+          window.userPlan = await getUserPlan(user.uid);
+        }
+        
+        // Track login event
+        if (window.trackEvent) {
+          trackEvent('user_login', {
+            plan: window.userPlan.id,
+            loads_this_month: window.userPlan.loadsThisMonth
+          });
+        }
+        
+      } catch (error) {
+        debugLog("❌ Error cargando plan:", error);
+        // Default a plan gratuito en caso de error
+        window.userPlan = window.PLANS?.free || {
+          id: 'free',
+          name: 'Plan Gratuito',
+          limits: { maxLoadsPerMonth: 50, hasFinances: false, hasZones: false }
+        };
+      }
+      
       showAppContent();
       
       // Cargar datos después de mostrar app
@@ -120,6 +184,7 @@ function setupAuthListener() {
     } else {
       debugLog("❌ No hay usuario autenticado");
       setCurrentUser(null);
+      window.userPlan = null; // ✅ Limpiar plan
       showLoginScreen();
       
       // Solo redirigir después de un delay si no estamos en auth.html
