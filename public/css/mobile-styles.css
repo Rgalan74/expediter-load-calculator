@@ -10,14 +10,83 @@
   --mobile-font-base: 16px;      /* Tamaño base para evitar zoom */
   --mobile-font-small: 14px;     /* Texto pequeño legible */
   --mobile-border-radius: 8px;   /* Bordes más suaves en móvil */
+  
+  /* 🔤 SISTEMA TIPOGRÁFICO UNIFICADO */
+  --font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Liberation Mono", monospace;
+  
+  /* Escala tipográfica mobile-first */
+  --text-xs: 0.75rem;      /* 12px */
+  --text-sm: 0.875rem;     /* 14px */
+  --text-base: 1rem;       /* 16px - BASE */
+  --text-lg: 1.125rem;     /* 18px */
+  --text-xl: 1.25rem;      /* 20px */
+  --text-2xl: 1.5rem;      /* 24px */
+  --text-3xl: 1.875rem;    /* 30px */
+  --text-4xl: 2.25rem;     /* 36px */
+  
+  /* Pesos consistentes */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  /* Alturas de línea */
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
 }
 
-/* 📱 LAYOUT RESPONSIVE MEJORADO */
+/* 🎨 RESET Y BASE TIPOGRÁFICA */
+* {
+  font-family: var(--font-family-primary) !important;
+}
+
+/* 📱 OPTIMIZACIÓN DE ANCHO - APROVECHAMIENTO MÁXIMO */
 @media (max-width: 768px) {
+  
+  /* === CONTENEDORES PRINCIPALES === */
+  main {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    margin-top: 0.5rem !important;
+  }
+  
+  /* Secciones de tabs - aprovechar más ancho */
+  .tab-content {
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
+    gap: 1rem;
+    padding: 0;
+  }
+  
+  /* Tarjetas/Cards - más anchas */
+  .card-section,
+  .tab-content .bg-white,
+  .tab-content .bg-gray-50,
+  .bg-white.rounded-lg,
+  .bg-gray-50.rounded-lg {
+    margin-left: 0.25rem !important;
+    margin-right: 0.25rem !important;
+    max-width: calc(100vw - 1rem) !important;
+    padding: 0.75rem !important;
+    margin-bottom: 1rem;
+    border-radius: var(--mobile-border-radius);
+  }
+  
+  /* Contenedores con max-width específicos */
+  .max-w-screen-2xl,
+  .max-w-7xl,
+  .max-w-6xl,
+  .max-w-4xl {
+    max-width: 100% !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
   
   /* === HEADER MÓVIL === */
   header .max-w-7xl {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem !important;
   }
   
   header .flex {
@@ -26,8 +95,8 @@
   }
   
   header .text-3xl {
-    font-size: 1.25rem !important;
-    line-height: 1.2;
+    font-size: var(--text-xl) !important;
+    line-height: var(--leading-tight);
   }
   
   header img {
@@ -44,14 +113,15 @@
   }
   
   nav .max-w-7xl {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem !important;
     display: flex;
     gap: 0.5rem;
     min-width: max-content;
   }
   
   nav .tab-link {
-    font-size: 0.875rem !important;
+    font-size: var(--text-sm) !important;
+    font-weight: var(--font-medium) !important;
     padding: 0.5rem 1rem !important;
     white-space: nowrap;
     min-width: var(--mobile-touch-size);
@@ -63,6 +133,7 @@
     background: #f9fafb;
     border: 1px solid #e5e7eb;
     transition: all 0.2s ease;
+    line-height: var(--leading-normal);
   }
   
   nav .tab-link.text-blue-600,
@@ -72,69 +143,54 @@
     border-color: #3b82f6;
   }
   
-  /* === CONTENIDO PRINCIPAL MÓVIL === */
-  main {
-    padding: 0.5rem !important;
-    margin-top: 0.5rem !important;
+  /* === JERARQUÍA TIPOGRÁFICA MÓVIL === */
+  
+  /* Títulos principales */
+  h1, .text-4xl, .text-3xl {
+    font-size: var(--text-2xl) !important;
+    font-weight: var(--font-bold) !important;
+    line-height: var(--leading-tight) !important;
+    margin-bottom: 1rem !important;
+    color: #111827 !important;
   }
   
-  .tab-content {
-    gap: 1rem;
-    padding: 0;
+  /* Subtítulos */
+  h2, .text-2xl, .text-xl {
+    font-size: var(--text-xl) !important;
+    font-weight: var(--font-semibold) !important;
+    line-height: var(--leading-tight) !important;
+    margin-bottom: 0.75rem !important;
+    color: #111827 !important;
   }
   
-  /* === CARDS Y SECCIONES MÓVIL === */
-  .card-section,
-  .tab-content .bg-white,
-  .tab-content .bg-gray-50 {
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border-radius: var(--mobile-border-radius);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  /* Títulos de sección */
+  h3, .text-lg {
+    font-size: var(--text-lg) !important;
+    font-weight: var(--font-semibold) !important;
+    line-height: var(--leading-normal) !important;
+    margin-bottom: 0.5rem !important;
+    color: #111827 !important;
   }
   
-  /* === CALCULADORA MÓVIL === */
-  .calculator-form {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
+  /* Texto base */
+  p, div, span, .text-base {
+    font-size: var(--text-base) !important;
+    font-weight: var(--font-normal) !important;
+    line-height: var(--leading-normal) !important;
   }
   
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  /* Texto secundario */
+  .text-sm, small {
+    font-size: var(--text-sm) !important;
+    font-weight: var(--font-normal) !important;
+    line-height: var(--leading-normal) !important;
   }
   
-  .form-group label {
-    font-size: var(--mobile-font-small);
-    font-weight: 600;
-    color: #374151;
-  }
-  
-  .form-input,
-  input[type="text"],
-  input[type="number"],
-  input[type="email"],
-  textarea,
-  select {
-    font-size: var(--mobile-font-base) !important;
-    padding: 0.75rem !important;
-    min-height: var(--mobile-touch-size) !important;
-    border: 1px solid #d1d5db;
-    border-radius: var(--mobile-border-radius);
-    width: 100%;
-    background: white;
-    transition: border-color 0.2s ease;
-  }
-  
-  .form-input:focus,
-  input:focus,
-  textarea:focus,
-  select:focus {
-    outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  /* Texto pequeño (solo para metadata) */
+  .text-xs {
+    font-size: var(--text-xs) !important;
+    font-weight: var(--font-normal) !important;
+    line-height: var(--leading-normal) !important;
   }
   
   /* === BOTONES MÓVIL === */
@@ -142,25 +198,76 @@
   .btn-primary,
   .btn-success,
   .btn-danger {
-    font-size: var(--mobile-font-base) !important;
-    padding: 0.75rem 1.5rem !important;
+    font-size: var(--text-base) !important;
+    font-weight: var(--font-medium) !important;
+    line-height: var(--leading-normal) !important;
     min-height: var(--mobile-touch-size) !important;
+    padding: 0.75rem 1rem !important;
     border-radius: var(--mobile-border-radius);
-    font-weight: 600;
     transition: all 0.2s ease;
     touch-action: manipulation; /* Previene zoom en doble tap */
   }
   
-  /* Botones en fila para móvil */
+  /* Botones pequeños */
+  button.text-sm, .btn-sm {
+    font-size: var(--text-sm) !important;
+    font-weight: var(--font-medium) !important;
+    min-height: 40px !important;
+    padding: 0.625rem 0.875rem !important;
+  }
+  
+  /* === INPUTS Y FORMS === */
+  input, select, textarea {
+    font-size: var(--text-base) !important;
+    font-weight: var(--font-normal) !important;
+    line-height: var(--leading-normal) !important;
+    min-height: var(--mobile-touch-size) !important;
+    padding: 0.75rem !important;
+    width: 100% !important;
+    min-width: unset !important;
+    border: 1px solid #d1d5db;
+    border-radius: var(--mobile-border-radius);
+    background: white;
+  }
+  
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  /* Labels */
+  label {
+    font-size: var(--text-sm) !important;
+    font-weight: var(--font-medium) !important;
+    line-height: var(--leading-normal) !important;
+    margin-bottom: 0.25rem !important;
+    display: block !important;
+    color: #374151;
+  }
+  
+  /* === GRIDS Y LAYOUTS === */
+  .grid {
+    gap: 0.75rem !important;
+  }
+  
+  /* Botones en grupo */
   .button-group {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
+    gap: 0.5rem !important;
     margin-top: 1rem;
   }
   
   .button-group.single {
     grid-template-columns: 1fr;
+  }
+  
+  /* === KPIs Y NÚMEROS GRANDES === */
+  .kpi-value, .text-3xl.font-bold, .text-2xl.font-bold {
+    font-size: var(--text-2xl) !important;
+    font-weight: var(--font-bold) !important;
+    line-height: var(--leading-tight) !important;
   }
   
   /* === PANEL DE DECISIÓN MÓVIL === */
@@ -179,48 +286,24 @@
   }
   
   #quickPrice {
-    font-size: 2rem !important;
+    font-size: var(--text-2xl) !important;
     margin-bottom: 0.5rem;
     text-align: center;
+    font-weight: var(--font-bold);
+    line-height: var(--leading-tight);
   }
   
   #decisionContainer h3 {
-    font-size: 1.25rem !important;
+    font-size: var(--text-lg) !important;
     text-align: center;
     margin-bottom: 0.5rem;
+    font-weight: var(--font-semibold);
   }
   
   #decisionSubtitle {
-    font-size: 0.875rem !important;
+    font-size: var(--text-sm) !important;
     text-align: center;
     opacity: 0.9;
-  }
-  
-  /* Información compacta en móvil */
-  .decision-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-    margin: 1rem 0;
-  }
-  
-  .decision-stats .stat {
-    text-align: center;
-    padding: 0.5rem;
-    background: rgba(255,255,255,0.2);
-    border-radius: var(--mobile-border-radius);
-  }
-  
-  .decision-stats .stat-label {
-    font-size: 0.75rem;
-    opacity: 0.8;
-    display: block;
-  }
-  
-  .decision-stats .stat-value {
-    font-size: 1rem;
-    font-weight: 600;
-    display: block;
   }
   
   /* === TABLAS MÓVIL === */
@@ -229,87 +312,58 @@
     -webkit-overflow-scrolling: touch;
     border-radius: var(--mobile-border-radius);
     border: 1px solid #e5e7eb;
+    margin-left: -0.5rem !important;
+    margin-right: -0.5rem !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
   }
   
   table {
     min-width: 600px; /* Ancho mínimo para scroll horizontal */
-    font-size: 0.875rem;
+    font-size: var(--text-sm);
   }
   
-  th, td {
+  th {
+    font-size: var(--text-sm) !important;
+    font-weight: var(--font-semibold) !important;
+    line-height: var(--leading-normal) !important;
     padding: 0.5rem !important;
-    font-size: 0.875rem !important;
+  }
+  
+  td {
+    font-size: var(--text-sm) !important;
+    font-weight: var(--font-normal) !important;
+    line-height: var(--leading-normal) !important;
+    padding: 0.5rem !important;
     white-space: nowrap;
   }
   
-  /* Columnas prioritarias más anchas en móvil */
-  .col-route { min-width: 120px; }
-  .col-company { min-width: 100px; }
-  .col-date { min-width: 80px; }
-  .col-miles { min-width: 70px; }
-  .col-profit { min-width: 80px; }
-  
-  /* === RESULTADOS DE CÁLCULO MÓVIL === */
-  .results-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
+  /* === GRÁFICOS MÓVIL === */
+  .h-96, .h-80, .h-64 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    height: 320px !important;
   }
   
-  .result-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem;
-    background: #f9fafb;
-    border-radius: var(--mobile-border-radius);
-    border: 1px solid #e5e7eb;
+  canvas {
+    max-width: 100% !important;
+    width: 100% !important;
   }
   
-  .result-label {
-    font-size: var(--mobile-font-small);
-    color: #6b7280;
-    font-weight: 500;
+  .chart-container {
+    height: 250px;
+    margin: 1rem 0;
   }
-  
-  .result-value {
-    font-size: var(--mobile-font-base);
-    font-weight: 600;
-    color: #111827;
-  }
-  
-  /* === MAPA MÓVIL === */
-  #map {
-    height: 250px !important; /* Más compacto en móvil */
-    border-radius: var(--mobile-border-radius);
-  }
-  
-  /* === TIPOGRAFÍA MÓVIL === */
-  h1 { font-size: 1.875rem !important; }
-  h2 { font-size: 1.5rem !important; }
-  h3 { font-size: 1.25rem !important; }
-  
-  .text-3xl { font-size: 1.5rem !important; }
-  .text-2xl { font-size: 1.25rem !important; }
-  .text-xl { font-size: 1.125rem !important; }
-  .text-lg { font-size: 1rem !important; }
-  .text-base { font-size: var(--mobile-font-base) !important; }
-  .text-sm { font-size: var(--mobile-font-small) !important; }
   
   /* === ESPACIADO MÓVIL === */
-  .space-y-8 > * + * { margin-top: 1.5rem !important; }
-  .space-y-6 > * + * { margin-top: 1rem !important; }
+  .space-y-8 > * + * { margin-top: 1rem !important; }
+  .space-y-6 > * + * { margin-top: 0.75rem !important; }
   .space-y-4 > * + * { margin-top: 0.75rem !important; }
   
   .mb-8 { margin-bottom: 1.5rem !important; }
   .mb-6 { margin-bottom: 1rem !important; }
   .mb-4 { margin-bottom: 0.75rem !important; }
-  
-  /* === UTILIDADES MÓVILES === */
-  .mobile-hidden { display: none !important; }
-  .mobile-block { display: block !important; }
-  .mobile-flex { display: flex !important; }
-  .mobile-grid { display: grid !important; }
   
   /* === MENSAJES Y ALERTAS MÓVIL === */
   .message-success,
@@ -317,15 +371,17 @@
   .message-info {
     padding: 0.75rem;
     border-radius: var(--mobile-border-radius);
-    font-size: var(--mobile-font-small);
+    font-size: var(--text-sm);
     margin: 0.5rem 0;
+    font-weight: var(--font-normal);
+    line-height: var(--leading-normal);
   }
   
   /* === ESTADÍSTICAS DASHBOARD MÓVIL === */
   .stats-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
+    gap: 0.5rem !important;
   }
   
   .stat-card {
@@ -337,48 +393,52 @@
   }
   
   .stat-value {
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
     color: #111827;
   }
   
   .stat-label {
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     color: #6b7280;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
   
-  /* === GRÁFICOS MÓVIL === */
-  .chart-container {
-    height: 250px;
-    margin: 1rem 0;
+  /* === COLORES DE TEXTO CONSISTENTES === */
+  
+  /* Texto principal */
+  h1, h2, h3, h4, .text-gray-900 {
+    color: #111827 !important;
   }
   
-  /* === LOADING STATES MÓVIL === */
-  .spinner {
-    width: 30px;
-    height: 30px;
+  /* Texto secundario */
+  .text-gray-600, .text-gray-700 {
+    color: #4b5563 !important;
   }
   
-  /* === FORMULARIO DE AUTENTICACIÓN MÓVIL === */
-  .auth-container {
-    padding: 1rem !important;
-    margin: 1rem !important;
+  /* Texto terciario */
+  .text-gray-500 {
+    color: #6b7280 !important;
   }
   
-  .auth-tabs {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
+  /* Texto metadata */
+  .text-gray-400 {
+    color: #9ca3af !important;
   }
   
-  .auth-tab {
-    flex: 1;
-    padding: 0.75rem;
-    text-align: center;
-    font-size: var(--mobile-font-small);
-    border-radius: var(--mobile-border-radius);
+  /* === ACCESIBILIDAD MÓVIL === */
+  
+  /* Aumentar área táctil para enlaces pequeños */
+  a, button, .tab-link {
+    min-width: var(--mobile-touch-size);
+    min-height: var(--mobile-touch-size);
+  }
+  
+  /* Focus visible mejorado para navegación por teclado */
+  *:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
   }
 }
 
@@ -390,23 +450,31 @@
     --mobile-padding: 0.5rem;
   }
   
-  header .text-3xl {
-    font-size: 1rem !important;
-  }
-  
-  nav .tab-link {
-    font-size: 0.75rem !important;
-    padding: 0.5rem 0.75rem !important;
+  main {
+    padding-left: 0.25rem !important;
+    padding-right: 0.25rem !important;
   }
   
   .card-section,
   .tab-content .bg-white,
   .tab-content .bg-gray-50 {
-    padding: 0.75rem;
+    margin-left: 0.125rem !important;
+    margin-right: 0.125rem !important;
+    padding: 0.5rem !important;
+    border-radius: 0.5rem !important;
+  }
+  
+  header .text-3xl {
+    font-size: var(--text-base) !important;
+  }
+  
+  nav .tab-link {
+    font-size: var(--text-xs) !important;
+    padding: 0.5rem 0.75rem !important;
   }
   
   #quickPrice {
-    font-size: 1.75rem !important;
+    font-size: var(--text-xl) !important;
   }
   
   .button-group {
@@ -417,6 +485,31 @@
   .stats-grid {
     grid-template-columns: 1fr;
     gap: 0.5rem;
+  }
+  
+  /* Grid más compacto en pantallas muy pequeñas */
+  .grid {
+    gap: 0.5rem !important;
+  }
+  
+  /* KPIs más compactos */
+  .kpi-value {
+    font-size: var(--text-xl) !important;
+  }
+}
+
+/* 💻 DESKTOP - tamaños ligeramente más grandes */
+@media (min-width: 769px) {
+  h1, .text-4xl, .text-3xl {
+    font-size: var(--text-3xl) !important;
+  }
+  
+  h2, .text-2xl, .text-xl {
+    font-size: var(--text-2xl) !important;
+  }
+  
+  .kpi-value {
+    font-size: var(--text-3xl) !important;
   }
 }
 
@@ -433,7 +526,7 @@
   
   nav .tab-link {
     padding: 0.375rem 0.75rem !important;
-    font-size: 0.75rem !important;
+    font-size: var(--text-xs) !important;
   }
   
   main {
@@ -442,31 +535,6 @@
   
   #map {
     height: 200px !important;
-  }
-}
-
-/* 📱 ACCESIBILIDAD MÓVIL */
-@media (max-width: 768px) {
-  
-  /* Aumentar área táctil para enlaces pequeños */
-  a, button, .tab-link {
-    min-width: var(--mobile-touch-size);
-    min-height: var(--mobile-touch-size);
-  }
-  
-  /* Mejorar contraste en pantallas pequeñas */
-  .text-gray-500 {
-    color: #4b5563 !important;
-  }
-  
-  .text-gray-400 {
-    color: #6b7280 !important;
-  }
-  
-  /* Focus visible mejorado para navegación por teclado */
-  *:focus {
-    outline: 2px solid #3b82f6;
-    outline-offset: 2px;
   }
 }
 
@@ -511,4 +579,88 @@
     color: black !important;
     background: white !important;
   }
+}
+/* =========================================================
+   FIX ESPECÍFICO PARA ZONES HEAT MAP MOBILE
+   ========================================================= */
+
+/* 🗺️ REEMPLAZAR el CSS genérico anterior con este específico */
+@media (max-width: 768px) {
+    
+    /* Layout principal del mapa - MÁS ESPECÍFICO */
+    #zones div.flex.flex-col.lg\:flex-row.gap-6 {
+        flex-direction: column !important;
+        gap: 1rem !important;
+    }
+    
+    /* Contenedor del mapa con clases específicas */
+    #zones div.flex-1.bg-gray-100.border.rounded.p-8.text-center {
+        padding: 1rem !important;
+        margin: 0 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    /* El objeto SVG del mapa */
+    #zones #interactiveMap {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        display: block !important;
+        height: 400px !important;
+    }
+    
+    /* Panel lateral en mobile */
+    #zones div.w-full.lg\:w-\[300px\] {
+        width: 100% !important;
+        max-width: none !important;
+        margin-top: 1rem !important;
+        order: 2 !important;
+    }
+    
+    /* Legend responsive */
+    #zones div.grid.grid-cols-1.md\:grid-cols-3 {
+        grid-template-columns: 1fr !important;
+        gap: 0.5rem !important;
+    }
+    
+    /* Prevenir overflow */
+    #zones * {
+        box-sizing: border-box !important;
+    }
+}
+@media (max-width: 768px) {
+    #zones #interactiveMap {
+        transform: scale(1.6) !important;
+        transform-origin: center !important;
+        margin: 2rem 0 !important;
+    }
+}
+@media (max-width: 768px) {
+    #zones #interactiveMap {
+        transform: scale(1.6) !important;
+        transform-origin: center !important;
+        margin: 2rem auto !important;
+        display: block !important;
+    }
+}
+@media (max-width: 768px) {
+    #zones .flex-1.bg-gray-100 {
+        padding: 1rem !important;
+        min-height: 300px !important; /* Reducir altura del contenedor */
+    }
+}
+@media (max-width: 768px) {
+    #zones .flex-1.bg-gray-100 {
+        overflow: visible !important;
+    }
+}
+@media (max-width: 768px) {
+    #zones #interactiveMap {
+        transform: scale(1.6) !important;
+        transform-origin: center center !important;
+        margin: 2rem auto !important;
+        position: relative !important;
+        left: 20px !important;
+    }
 }
