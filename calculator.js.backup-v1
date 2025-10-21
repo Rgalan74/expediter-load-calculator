@@ -559,7 +559,7 @@ function calculatePaymentDate(loadDate) {
   const paymentDate = new Date(date);
   paymentDate.setDate(date.getDate() + daysUntilNextFriday);
   
-  return formatDateLocal(paymentDate); // Formato YYYY-MM-DD
+  return paymentDate.toISOString().split('T')[0]; // Formato YYYY-MM-DD
 }
 
     // Nuevos campos de pago
@@ -582,13 +582,13 @@ function calculatePaymentDate(loadDate) {
       } else if (existingLoadId && typeof existingLoadId === "string") {
         // Solo si el ID es vÃ¡lido
         const existingDoc = await window.db.collection('loads').doc(existingLoadId).get();
-        loadDate = existingDoc.exists ? existingDoc.data().date : getTodayDateString();
+        loadDate = existingDoc.exists ? existingDoc.data().date : new Date().toISOString().split('T')[0];
       } else {
-        loadDate = getTodayDateString();
+        loadDate = new Date().toISOString().split('T')[0];
       }
     } catch (err) {
       console.warn("âš ï¸ No se encontrÃ³ campo de fecha, usando hoy:", err);
-      loadDate = getTodayDateString();
+      loadDate = new Date().toISOString().split('T')[0];
     }
 
     // Validaciones
@@ -663,7 +663,7 @@ const totalCharge = baseIncome + additionalCosts;
       netProfit,
       profitPerMile: totalMiles > 0 ? netProfit / totalMiles : 0,
       profitMargin,
-      date: loadDate || getTodayDateString(), // ðŸ‘ˆ aseguramos siempre fecha
+      date: loadDate || new Date().toISOString().split("T")[0], // ðŸ‘ˆ aseguramos siempre fecha
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       status: 'completed'
       
