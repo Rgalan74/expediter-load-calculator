@@ -115,18 +115,18 @@ function showHistoryMessage(message, type = "info") {
   showMessage(message, type, "historyMessage");
 }
 
-// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
-// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
-// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
-// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
-// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
-// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
-// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
-// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
-// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
-// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
-// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
-// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
+function formatDateInput(date) {
+  if (!date) return "";
+  
+  try {
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return "";
+    return d.toISOString().slice(0, 10);
+  } catch (error) {
+    console.error("Error formatting date:", error);
+    return "";
+  }
+}
 
 function formatMonth(date) {
   if (!date) return "";
@@ -239,70 +239,4 @@ function getCanadianProvinceCode(provinceName) {
 }
 
 // Logging de ayuda para helpers.js
-
-// ========================================
-// ✅ NUEVAS FUNCIONES PARA MANEJO CORRECTO DE FECHAS
-// ========================================
-
-/**
- * Obtiene la fecha actual en formato YYYY-MM-DD usando componentes locales
- * Evita problemas de zona horaria al no usar toISOString()
- * @returns {string} Fecha en formato "YYYY-MM-DD"
- */
-function getTodayDateString() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const day = String(now.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
-
-/**
- * Convierte un string de fecha (YYYY-MM-DD) a objeto Date local
- * Evita interpretación incorrecta de zona horaria
- * @param {string} dateStr - Fecha en formato "YYYY-MM-DD"
- * @returns {Date|null} Objeto Date en zona horaria local
- */
-function parseDateStringLocal(dateStr) {
-  if (!dateStr || typeof dateStr !== 'string') return null;
-  
-  const parts = dateStr.split('-');
-  if (parts.length !== 3) return null;
-  
-  const [year, month, day] = parts.map(Number);
-  if (isNaN(year) || isNaN(month) || isNaN(day)) return null;
-  
-  // Crear fecha en zona horaria local (no UTC)
-  return new Date(year, month - 1, day);
-}
-
-/**
- * Formatea un objeto Date a string YYYY-MM-DD usando componentes locales
- * @param {Date|string} date - Fecha a formatear
- * @returns {string} Fecha en formato "YYYY-MM-DD" o string vacío si inválida
- */
-function formatDateLocal(date) {
-  if (!date) return "";
-  
-  try {
-    let d;
-    if (date instanceof Date) {
-      d = date;
-    } else if (typeof date === 'string') {
-      d = parseDateStringLocal(date);
-    } else {
-      return "";
-    }
-    
-    if (!d || isNaN(d.getTime())) return "";
-    
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  } catch (error) {
-    console.error("Error formatting date:", error);
-    return "";
-  }
-}
 console.log('âœ… Helpers.js loaded successfully (normal script)');
