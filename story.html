@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Conoce la historia de Ricardo Galan, creador de Expediter Load Calculator. De handyman a expedite driver y desarrollador.">
+  <meta name="keywords" content="ricardo galan, expediter, desarrollador, historia, cargo van">
+  <meta name="author" content="Galan Cargo Express">
+  <title>Mi Historia | Ricardo Galan - Expediter</title>
+  <link rel="icon" type="image/png" href="img/logo-app.png" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/mobile-styles.css" />
+  <style>
+    .timeline-item {
+      position: relative;
+      padding-left: 3rem;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 0.5rem;
+      top: 0;
+      bottom: -2rem;
+      width: 2px;
+      background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
+    }
+    .timeline-item:last-child::before {
+      background: linear-gradient(to bottom, #3b82f6, transparent);
+    }
+    .timeline-dot {
+      position: absolute;
+      left: 0;
+      top: 0.5rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      border: 3px solid white;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      z-index: 10;
+    }
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+<!-- Header -->
+<header class="bg-white shadow sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <img src="img/logo-app.png" alt="Logo" class="w-14 h-14 rounded-full border border-gray-300 shadow" />
+      <span class="text-xl font-bold text-gray-900 hidden sm:inline">Expediter Load Calculator</span>
+      <span class="text-lg font-bold text-gray-900 sm:hidden">Expediter</span>
+    </div>
+    
+    <!-- MenÃº hamburguesa mÃ³vil -->
+    <button id="mobileMenuBtn" class="sm:hidden text-gray-700 hover:text-blue-600 focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+    
+    <a href="index.html" class="hidden sm:inline-block bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 text-sm transition">
+      â† Volver al inicio
+    </a>
+  </div>
+  
+  <!-- MenÃº mÃ³vil desplegable -->
+  <div id="mobileMenu" class="hidden sm:hidden bg-white border-t border-gray-200">
+    <div class="px-4 py-3 space-y-2">
+      <a href="index.html" class="block text-gray-700 hover:text-blue-600 py-2">â† Volver al inicio</a>
+      <a href="app.html" class="block bg-blue-600 text-white px-4 py-2 rounded-lg text-center hover:bg-blue-700">Comenzar Trial Gratis</a>
+    </div>
+  </div>
+</header>
+
+<!-- Contenido Principal -->
+<main class="max-w-5xl mx-auto px-4 py-12">
+  
+  <!-- Hero Section -->
+  <div class="text-center mb-16">
+    <div class="inline-block bg-gradient-to-r from-blue-100 to-purple-100 rounded-full px-6 py-2 mb-6">
+      <span class="text-sm font-semibold text-blue-700">ðŸ‘¨â€ðŸ’» Mi Historia</span>
+    </div>
+    <h1 class="text-4xl md:text-5xl font-extrabold mb-6">
+      De Handyman a <span class="gradient-text">Expedite Driver</span> y Desarrollador
+    </h1>
+    <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+      Conoce cÃ³mo pasÃ© de trabajar con herramientas a crear una herramienta digital para la comunidad expediter
+    </p>
+  </div>
+
+  <!-- IntroducciÃ³n con foto -->
+  <div class="bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl p-8 md:p-12 text-white mb-16 shadow-2xl">
+    <div class="flex flex-col md:flex-row items-center gap-8">
+      <div class="flex-shrink-0">
+        <!-- ðŸ“¸ PLACEHOLDER DE FOTO - Reemplazar con tu foto real -->
+        <!-- Para agregar tu foto:
+             1. Guarda tu foto en la carpeta img/ con el nombre: foto-ricardo.jpg
+             2. Descomenta la lÃ­nea de abajo y comenta el div placeholder
+             3. AsegÃºrate que la foto sea cuadrada para mejor resultado
+        -->
+        <!-- <div class="w-32 h-32 md:w-40 md:h-40 rounded-full bg-white p-2 shadow-xl">
+          <img src="img/foto-ricardo.jpg" alt="Ricardo Galan" class="w-full h-full rounded-full object-cover" />
+        </div> -->
+        
+        <!-- Placeholder temporal con iniciales -->
+        <div class="w-32 h-32 md:w-40 md:h-40 rounded-full bg-white p-2 shadow-xl">
+          <div class="w-full h-full rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+            <span class="text-5xl md:text-6xl font-bold text-white">RG</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h2 class="text-3xl font-bold mb-4">Hola, soy Ricardo Galan ðŸ‘‹</h2>
+        <p class="text-lg opacity-90 leading-relaxed mb-4">
+          Llevo 5 meses como expedite driver, pero mi historia empieza mucho antes de subirme a una cargo van.
+        </p>
+        <p class="text-lg opacity-90 leading-relaxed">
+          Antes trabajaba como <strong>handyman</strong>. Me gustaba el trabajo, pero la realidad es que el negocio no iba muy bien. LlegÃ³ un punto donde tuve que tomar una decisiÃ³n: seguir luchando con algo que no funcionaba, o emprender algo nuevo.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline de la Historia -->
+  <div class="mb-16">
+    <h2 class="text-3xl font-bold text-center mb-12">Mi Viaje ðŸš€</h2>
+    
+    <div class="space-y-12">
+      
+      <!-- Punto 1: El Punto de Cambio -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="card-hover bg-white rounded-2xl shadow-lg p-8 border-l-4 border-green-500">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-4xl">ðŸŒ</span>
+            <h3 class="text-2xl font-bold text-green-700">El Punto de Cambio</h3>
+          </div>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            Siempre soÃ±Ã© con viajar por todo el mundo para conocer. Cuando descubrÃ­ el <strong>expedite delivery</strong>, vi la oportunidad perfecta: podÃ­a empezar a viajar, conocer todo Estados Unidos y CanadÃ¡, y al mismo tiempo construir un negocio real.
+          </p>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            AdemÃ¡s, me encantan los desafÃ­os y las cosas nuevas. Este negocio lo tenÃ­a todo: independencia, aventura, y la posibilidad de ganar bien si lo hacÃ­as correctamente.
+          </p>
+          <p class="text-gray-700 leading-relaxed font-semibold">
+            AsÃ­ que di el salto.
+          </p>
+        </div>
+      </div>
+
+      <!-- Punto 2: La Realidad -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="card-hover bg-white rounded-2xl shadow-lg p-8 border-l-4 border-yellow-500">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-4xl">âš ï¸</span>
+            <h3 class="text-2xl font-bold text-yellow-700">La Realidad que Nadie te Cuenta</h3>
+          </div>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            Aunque tuve ayuda de un amigo que ya estaba en el negocio, la verdad es que <strong>el comienzo fue muy difÃ­cil</strong>.
+          </p>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            Este negocio es pura experiencia. No hay manual. Tienes que enfrentar los problemas dÃ­a a dÃ­a, lugar por lugar. Cada estado tiene su complejidad, sus rutas, sus costos. <strong>Lo que funciona en Florida no funciona en Michigan.</strong>
+          </p>
+          <div class="bg-yellow-50 rounded-lg p-6 mb-4">
+            <p class="text-gray-700 leading-relaxed mb-3 font-semibold">
+              Pero lo que mÃ¡s me chocÃ³ fue <strong>la forma de dar precios</strong>. Todo varÃ­a segÃºn:
+            </p>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-start gap-2">
+                <span class="text-yellow-600 font-bold">â€¢</span>
+                <span>El lugar (algunos estados pagan 50% mÃ¡s que otros)</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-yellow-600 font-bold">â€¢</span>
+                <span>La hora (entregas nocturnas o fines de semana son diferentes)</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-yellow-600 font-bold">â€¢</span>
+                <span>El peso y tipo de carga</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-yellow-600 font-bold">â€¢</span>
+                <span>La urgencia del cliente</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-yellow-600 font-bold">â€¢</span>
+                <span>Las millas deadhead de regreso</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-yellow-600 font-bold">â€¢</span>
+                <span>Los costos operativos de cada zona</span>
+              </li>
+            </ul>
+          </div>
+          <p class="text-gray-700 leading-relaxed">
+            Es abrumador. Y <strong>aceptÃ© cargas que perdÃ­an dinero</strong> porque no sabÃ­a calcular todo esto correctamente.
+          </p>
+        </div>
+      </div>
+
+      <!-- Punto 3: El Problema -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="card-hover bg-white rounded-2xl shadow-lg p-8 border-l-4 border-purple-500">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-4xl">ðŸ”</span>
+            <h3 class="text-2xl font-bold text-purple-700">El Problema que DecidÃ­ Resolver</h3>
+          </div>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            Desde mis primeros dÃ­as, pensÃ©: <em>"Si hubiera una app para esto, serÃ­a increÃ­ble."</em>
+          </p>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            BusquÃ© en todas partes. Hay miles de apps para camiones grandes, para tracking, para load boards. Pero <strong>no hay nada especÃ­fico para cargo vans y expedite delivery</strong>.
+          </p>
+          <div class="bg-purple-50 rounded-lg p-6 mb-4">
+            <p class="text-gray-700 leading-relaxed mb-3">
+              Necesitaba una herramienta que me dijera:
+            </p>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-start gap-2">
+                <span class="text-purple-600 font-bold">âœ“</span>
+                <span>Â¿Es rentable esta carga o estoy perdiendo dinero?</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-purple-600 font-bold">âœ“</span>
+                <span>Â¿QuÃ© estados me han pagado mejor histÃ³ricamente?</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-purple-600 font-bold">âœ“</span>
+                <span>Â¿CuÃ¡l es mi RPM real despuÃ©s de todos los gastos?</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-purple-600 font-bold">âœ“</span>
+                <span>Â¿DÃ³nde estÃ¡n mis mejores y peores rutas?</span>
+              </li>
+            </ul>
+          </div>
+          <p class="text-gray-700 leading-relaxed font-semibold">
+            Como no existÃ­a, decidÃ­ crearla.
+          </p>
+        </div>
+      </div>
+
+      <!-- Punto 4: Mi Otra PasiÃ³n -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="card-hover bg-white rounded-2xl shadow-lg p-8 border-l-4 border-blue-500">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-4xl">ðŸ’»</span>
+            <h3 class="text-2xl font-bold text-blue-700">Mi Otra PasiÃ³n: La ProgramaciÃ³n</h3>
+          </div>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            AquÃ­ es donde todo encajÃ³ perfectamente.
+          </p>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            Soy <strong>informÃ¡tico</strong>. Me apasiona trabajar en programaciÃ³n y crear contenido. Siempre he disfrutado construir soluciones a problemas reales.
+          </p>
+          <div class="bg-blue-50 rounded-lg p-6 mb-4">
+            <p class="text-gray-700 leading-relaxed mb-3">
+              AsÃ­ que combinÃ© mis dos mundos:
+            </p>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-start gap-2">
+                <span class="text-blue-600 font-bold">â†’</span>
+                <span>Mi experiencia como driver (conocÃ­a el problema de primera mano)</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-blue-600 font-bold">â†’</span>
+                <span>Mis habilidades como desarrollador (podÃ­a crear la soluciÃ³n)</span>
+              </li>
+            </ul>
+          </div>
+          <p class="text-gray-700 leading-relaxed text-xl font-bold text-blue-700">
+            Y naciÃ³ <strong>Expediter Load Calculator</strong>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Punto 5: Mi MisiÃ³n -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="card-hover bg-gradient-to-br from-green-50 to-blue-50 rounded-2xl shadow-lg p-8 border-l-4 border-green-500">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-4xl">ðŸŽ¯</span>
+            <h3 class="text-2xl font-bold text-green-700">Mi MisiÃ³n</h3>
+          </div>
+          <p class="text-gray-700 leading-relaxed mb-4 text-lg">
+            Esta app es la herramienta que deseÃ© tener el dÃ­a 1.
+          </p>
+          <p class="text-gray-700 leading-relaxed mb-4">
+            Mi objetivo es simple: <strong>ayudarte a no cometer los mismos errores que yo cometÃ­</strong>.
+          </p>
+          <div class="bg-white rounded-lg p-6 mb-4 shadow-sm">
+            <p class="text-gray-700 leading-relaxed mb-3 font-semibold">
+              Quiero que puedas:
+            </p>
+            <ul class="space-y-3 text-gray-700">
+              <li class="flex items-start gap-3">
+                <span class="text-green-600 font-bold text-xl">âœ“</span>
+                <span>Calcular la rentabilidad de cada carga antes de aceptarla</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-green-600 font-bold text-xl">âœ“</span>
+                <span>Identificar quÃ© zonas son mejores para tu negocio</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-green-600 font-bold text-xl">âœ“</span>
+                <span>Llevar un control profesional de tu operaciÃ³n</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="text-green-600 font-bold text-xl">âœ“</span>
+                <span>Tomar decisiones basadas en datos, no en intuiciÃ³n</span>
+              </li>
+            </ul>
+          </div>
+          <p class="text-gray-700 leading-relaxed text-lg">
+            Si estÃ¡s empezando como yo, o si ya tienes experiencia pero quieres optimizar tu negocio, esta app es para ti.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA Final -->
+  <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-12 text-center text-white shadow-2xl mb-16">
+    <h2 class="text-3xl md:text-4xl font-bold mb-4">Â¿Te identificas con mi historia?</h2>
+    <p class="text-xl mb-8 opacity-90">Ãšnete a la comunidad y empieza a optimizar tu negocio hoy mismo</p>
+    <a href="app.html" class="inline-block bg-white text-blue-600 px-8 py-4 rounded-lg font-bold text-lg shadow-lg hover:bg-gray-100 transition transform hover:scale-105">
+      Comenzar Trial Gratis
+    </a>
+    <p class="text-sm mt-4 opacity-75">30 dÃ­as de acceso completo Â· Sin tarjeta requerida</p>
+  </div>
+
+  <!-- Testimonial Personal -->
+  <div class="bg-white rounded-2xl shadow-lg p-8 border-t-4 border-blue-500">
+    <div class="flex items-start gap-4">
+      <div class="text-5xl">ðŸ’¡</div>
+      <div>
+        <p class="text-gray-700 leading-relaxed text-lg italic mb-4">
+          "Crear esta app ha sido uno de los proyectos mÃ¡s gratificantes de mi vida. Cada vez que un driver me dice que le ayudÃ³ a tomar mejores decisiones o que evitÃ³ una carga perdedora, siento que el esfuerzo valiÃ³ la pena."
+        </p>
+        <p class="font-bold text-gray-900">â€” Ricardo Galan</p>
+        <p class="text-sm text-gray-500">Expedite Driver & Developer</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-gray-300 py-12 mt-16">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      
+      <!-- Columna 1: Logo y descripciÃ³n -->
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <img src="img/logo-app.png" alt="Logo" class="w-10 h-10 rounded-full" />
+          <span class="text-white font-bold text-lg">Expediter</span>
+        </div>
+        <p class="text-sm text-gray-400 leading-relaxed">
+          La herramienta definitiva para calcular la rentabilidad de tus cargas y optimizar tu negocio de expedite delivery.
+        </p>
+      </div>
+
+      <!-- Columna 2: Enlaces RÃ¡pidos -->
+      <div>
+        <h4 class="text-white font-semibold mb-4">NavegaciÃ³n</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="index.html" class="hover:text-white transition">Inicio</a></li>
+          <li><a href="app.html" class="hover:text-white transition">App</a></li>
+          <li><a href="plans.html" class="hover:text-white transition">Planes</a></li>
+          <li><a href="resources.html" class="hover:text-white transition">Recursos</a></li>
+          <li><a href="faq.html" class="hover:text-white transition">FAQ</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: Legal -->
+      <div>
+        <h4 class="text-white font-semibold mb-4">Legal</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="privacy.html" class="hover:text-white transition">Privacidad</a></li>
+          <li><a href="terms.html" class="hover:text-white transition">TÃ©rminos</a></li>
+          <li><a href="contact.html" class="hover:text-white transition">Contacto</a></li>
+          <li><a href="story.html" class="hover:text-white transition">Nuestra Historia</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 4: Redes Sociales -->
+      <div>
+        <h4 class="text-white font-semibold mb-4">SÃ­guenos</h4>
+        <div class="flex gap-4 mb-4">
+          <a href="#" class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="#" class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center hover:bg-blue-500 transition">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+          </a>
+          <a href="#" class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700 transition">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+        </div>
+        <p class="text-xs text-gray-500">
+          <a href="mailto:galan.expediter@gmail.com" class="hover:text-white transition">galan.expediter@gmail.com</a>
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Copyright -->
+    <div class="border-t border-gray-800 pt-8 text-center text-sm text-gray-500">
+      <p>&copy; 2024 Expediter Load Calculator. Todos los derechos reservados.</p>
+      <p class="mt-2">Desarrollado con â¤ï¸ para la comunidad expediter</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Script para menÃº mÃ³vil -->
+<script>
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  
+  mobileMenuBtn?.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+</script>
+
+</body>
+</html>

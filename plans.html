@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Planes y precios de Expediter Load Calculator. Trial gratis 30 dÃ­as, Plan Profesional $15/mes y Academy $25/mes con curso incluido.">
+  <meta name="keywords" content="expediter, planes, precios, suscripciÃ³n, trial gratis, profesional, academy, cargo van">
+  <meta name="author" content="Galan Expediter">
+  <title>Planes y Precios | Expediter Load Calculator</title>
+  <link rel="icon" type="image/png" href="img/logo-app.png" />
+  <link rel="apple-touch-icon" href="img/logo-app.png" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/mobile-styles.css" />
+  <style>
+    /* Animaciones y estilos custom */
+    .plan-card {
+      transition: all 0.3s ease;
+    }
+    .plan-card:hover {
+      transform: translateY(-8px);
+    }
+    .popular-badge {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
+      50% { opacity: 0.9; transform: translateX(-50%) scale(1.05); }
+    }
+    .feature-check {
+      color: #10b981;
+      font-weight: bold;
+    }
+    .feature-cross {
+      color: #ef4444;
+      font-weight: bold;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .comparison-table tr:hover {
+      background-color: #f9fafb;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+<!-- Header con menÃº hamburguesa -->
+<header class="bg-white shadow sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <img src="img/logo-app.png" alt="Logo" class="w-14 h-14 rounded-full border border-gray-300 shadow" />
+      <span class="text-xl font-bold text-gray-900 hidden sm:inline">Expediter Load Calculator</span>
+      <span class="text-lg font-bold text-gray-900 sm:hidden">Expediter</span>
+    </div>
+    
+    <!-- NavegaciÃ³n desktop -->
+    <nav class="hidden md:flex items-center gap-6">
+      <a href="index.html" class="text-gray-700 hover:text-green-600 font-medium">Inicio</a>
+      <a href="about.html" class="text-gray-700 hover:text-green-600 font-medium">La App</a>
+      <a href="story.html" class="text-gray-700 hover:text-green-600 font-medium">Mi Historia</a>
+      <a href="resources.html" class="text-gray-700 hover:text-green-600 font-medium">Recursos</a>
+      <a href="faq.html" class="text-gray-700 hover:text-green-600 font-medium">FAQ</a>
+      <a href="auth.html" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition">
+        Comenzar Gratis
+      </a>
+    </nav>
+
+    <!-- BotÃ³n hamburguesa mobile -->
+    <button id="mobileMenuBtn" class="md:hidden text-gray-700 hover:text-green-600 focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- MenÃº mÃ³vil desplegable -->
+  <div id="mobileMenu" class="md:hidden hidden bg-white border-t border-gray-200">
+    <div class="px-4 py-3 space-y-2">
+      <a href="index.html" class="block text-gray-700 hover:text-green-600 py-2">Inicio</a>
+      <a href="about.html" class="block text-gray-700 hover:text-green-600 py-2">La App</a>
+      <a href="story.html" class="block text-gray-700 hover:text-green-600 py-2">Mi Historia</a>
+      <a href="resources.html" class="block text-gray-700 hover:text-green-600 py-2">Recursos</a>
+      <a href="faq.html" class="block text-gray-700 hover:text-green-600 py-2">FAQ</a>
+      <a href="auth.html" class="block bg-green-600 text-white px-4 py-2 rounded-lg text-center hover:bg-green-700">
+        Comenzar Gratis
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- Hero Section -->
+<section class="bg-gradient-to-br from-blue-600 to-purple-700 text-white py-20">
+  <div class="max-w-7xl mx-auto px-4 text-center">
+    <span class="inline-block bg-white/20 backdrop-blur text-white px-4 py-1 rounded-full text-sm font-medium mb-4">
+      ðŸ’Ž Planes y Precios
+    </span>
+    <h1 class="text-4xl md:text-6xl font-bold mb-6">
+      Elige el Plan Perfecto<br />para Tu Negocio
+    </h1>
+    <p class="text-xl text-blue-100 max-w-3xl mx-auto mb-8">
+      Comienza con <strong>30 dÃ­as gratis</strong> de acceso completo.<br />
+      DespuÃ©s elige el plan que mejor se adapte a tu ritmo de trabajo.
+    </p>
+    <div class="flex flex-wrap items-center justify-center gap-4 text-sm">
+      <span class="flex items-center gap-2">
+        <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+        </svg>
+        Sin tarjeta para probar
+      </span>
+      <span class="flex items-center gap-2">
+        <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+        </svg>
+        Cancela cuando quieras
+      </span>
+      <span class="flex items-center gap-2">
+        <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+        </svg>
+        Sin contratos
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Cards -->
+<main class="max-w-7xl mx-auto px-4 py-16 -mt-10">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+    
+    <!-- Trial 30 DÃ­as -->
+    <div class="plan-card bg-white border-2 border-green-400 rounded-2xl shadow-lg p-8 hover:shadow-2xl">
+      <div class="text-center mb-6">
+        <span class="inline-block text-5xl mb-3">ðŸŽ</span>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">Trial 30 DÃ­as</h2>
+        <p class="text-gray-500 text-sm mb-4">Prueba sin compromiso</p>
+        <div class="mb-4">
+          <span class="text-5xl font-extrabold text-green-600">$0</span>
+          <span class="text-gray-500 text-lg">/30 dÃ­as</span>
+        </div>
+        <p class="text-sm text-green-600 font-semibold">Acceso completo temporal</p>
+      </div>
+      
+      <div class="border-t border-gray-200 pt-6">
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-start gap-2 text-sm">
+            <span class="feature-check text-lg">âœ“</span>
+            <span><strong>Todo incluido por 30 dÃ­as</strong></span>
+          </li>
+          <li class="flex items-start gap-2 text-sm">
+            <span class="feature-check text-lg">âœ“</span>
+            <span>Cargas ilimitadas</span>
+          </li>
+          <li class="flex items-start gap-2 text-sm">
+            <span class="feature-check text-lg">âœ“</span>
+            <span>Sistema de finanzas</span>
+          </li>
+          <li class="flex items-start gap-2 text-sm">
+            <span class="feature-check text-lg">âœ“</span>
+            <span>Mapa de zonas rentables</span>
+          </li>
+          <li class="flex items-start gap-2 text-sm">
+            <span class="feature-check text-lg">âœ“</span>
+            <span>Reportes avanzados</span>
+          </li>
+          <li class="flex items-start gap-2 text-sm">
+            <span class="feature-check text-lg">âœ“</span>
+            <span>ExportaciÃ³n Excel/CSV</span>
+          </li>
+          <li class="flex items-start gap-2 text-sm text-gray-500">
+            <span>â±ï¸</span>
+            <span>DespuÃ©s elige un plan</span>
+          </li>
+        </ul>
+        
+        <a href="auth.html" class="block w-full bg-green-600 text-white text-center py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition shadow-lg">
+          Comenzar Trial Gratis
+        </a>
+      </div>
+    </div>
+
+    <!-- Plan Profesional (POPULAR) -->
+    <div class="plan-card bg-white border-4 border-blue-600 rounded-2xl shadow-2xl p-8 hover:shadow-2xl relative transform md:scale-105">
+      <div class="popular-badge absolute -top-4 left-1/2 transform -translate-x-1/2 text-white px-6 py-1 rounded-full text-sm font-bold shadow-lg">
+        ðŸ”¥ MÃS POPULAR
+      </div>
+      
+      <div class="text-center mb-6 mt-2">
+        <span class="inline-block text-5xl mb-3">ðŸšš</span>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">Profesional</h2>
+        <p class="text-gray-500 text-sm mb-4">App completa sin lÃ­mites</p>
+        <div class="mb-4">
+          <span class="text-5xl font-extrabold gradient-text">$15</span>
+          <span class="text-gray-500 text-lg">/mes</span>
+        </div>
+        <p class="text-sm text-blue-600 font-semibold">El favorito de los expediters</p>
+      </div>
+      
+      <div class="border-t border-gray-200 pt-6">
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-start gap-2 text-sm">
+            <span class="feature-check text-lg">âœ“</span>
+            <span><strong>Cargas ilimitadas</strong></span>
+          </li>
+          <li class="flex items-start gap-2 text-sm">
+            <span class="feature-check text-lg">âœ“</span>
+            <span>Sistema de finanzas completo</span>
+          </li>
+          <li class="flex items-start gap-2 text-sm">
+            <span class="feature-check text-lg">âœ“</span>
+            <span>Cuentas por cobrar/pagar</span>
+          </li>
+          <li class="flex items-start gap-2 text-sm">
+            <span class="feature-check text-lg">âœ“</span>
+            <span>Mapa de zonas rentables</span>
+          </li>
+          <li class="flex items-start gap-2 text-sm">
+            <span class="feature-check text-lg">âœ“</span>
+            <span>Reportes y estadÃ­sticas</span>
+          </li>
+          <li class="flex items-start gap-2 text-sm">
+            <span class="feature-check text-lg">âœ“</span>
+            <span>ExportaciÃ³n Excel/CSV</span>
+          </li>
+          <li class="flex items-start gap-2 text-sm">
+            <span class="feature-check text-lg">âœ“</span>
+            <span>Soporte por email</span>
+          </li>
+        </ul>
+        
+        <button class="block w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center py-3 px-6 rounded-lg font-bold shadow-lg hover:shadow-xl transition transform hover:scale-105">
+          PrÃ³ximamente
+        </button>
+      </div>
+    </div>
+
+    <!-- Plan Academy -->
+    <div class="plan-card bg-white border-2 border-purple-400 rounded-2xl shadow-lg p-8 hover:shadow-2xl">
+      <div class="text-center mb-6">
+        <span class="inline-block text-5xl mb-3">ðŸŽ“</span>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">Academy</h2>
+        <p class="text-gray-500 text-sm mb-4">Todo incluido + educaciÃ³n</p>
+        <div class="mb-4">
+          <span class="text-5xl font-extrabold text-purple-600">$25</span>
+          <span class="text-gray-500 text-lg">/mes</span>
+        </div>
+        <p class="text-sm text-purple-600 font-semibold">Aprende y gana mÃ¡s</p>
+      </div>
+      
+      <div class="border-t border-gray-200 pt-6">
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-start gap-2 text-sm font-semibold text-purple-600">
+            <span class="text-lg">â˜…</span>
+            <span>Todo del Profesional PLUS:</span>
+          </li>
+          <li class="flex items-start gap-2 text-sm">
+            <span class="feature-check text-lg">âœ“</span>
+            <span><strong>Curso expedite delivery</strong></span>
+          </li>
+          <li class="flex items-start gap-2 text-sm">
+            <span class="feature-check text-lg">âœ“</span>
+            <span>Biblioteca de recursos</span>
+          </li>
+          <li class="flex items-start gap-2 text-sm">
+            <span class="feature-check text-lg">âœ“</span>
+            <span>Videos tutoriales</span>
+          </li>
+          <li class="flex items-start gap-2 text-sm">
+            <span class="feature-check text-lg">âœ“</span>
+            <span>Soporte prioritario 1-on-1</span>
+          </li>
+          <li class="flex items-start gap-2 text-sm">
+            <span class="feature-check text-lg">âœ“</span>
+            <span>Actualizaciones mensuales</span>
+          </li>
+          <li class="flex items-start gap-2 text-sm">
+            <span class="feature-check text-lg">âœ“</span>
+            <span>Acceso anticipado a features</span>
+          </li>
+        </ul>
+        
+        <button class="block w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white text-center py-3 px-6 rounded-lg font-bold shadow-lg hover:shadow-xl transition transform hover:scale-105">
+          PrÃ³ximamente
+        </button>
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- Tabla Comparativa -->
+  <div class="bg-white rounded-2xl shadow-xl p-8 mb-16">
+    <h2 class="text-3xl font-bold text-center mb-10">ComparaciÃ³n Detallada de Planes</h2>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full comparison-table">
+        <thead>
+          <tr class="border-b-2 border-gray-200">
+            <th class="py-4 px-4 text-left font-semibold text-gray-900">CaracterÃ­sticas</th>
+            <th class="py-4 px-4 text-center font-semibold text-green-600">Trial 30d</th>
+            <th class="py-4 px-4 text-center font-semibold text-blue-600">Profesional</th>
+            <th class="py-4 px-4 text-center font-semibold text-purple-600">Academy</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr>
+            <td class="py-4 px-4 font-medium">DuraciÃ³n</td>
+            <td class="py-4 px-4 text-center">30 dÃ­as</td>
+            <td class="py-4 px-4 text-center">Mensual</td>
+            <td class="py-4 px-4 text-center">Mensual</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="py-4 px-4 font-medium">Calculadora completa</td>
+            <td class="py-4 px-4 text-center text-green-600 text-xl font-bold">âœ“</td>
+            <td class="py-4 px-4 text-center text-green-600 text-xl font-bold">âœ“</td>
+            <td class="py-4 px-4 text-center text-green-600 text-xl font-bold">âœ“</td>
+          </tr>
+          <tr>
+            <td class="py-4 px-4 font-medium">Cargas por mes</td>
+            <td class="py-4 px-4 text-center font-semibold text-green-600">Ilimitadas</td>
+            <td class="py-4 px-4 text-center font-semibold text-blue-600">Ilimitadas</td>
+            <td class="py-4 px-4 text-center font-semibold text-purple-600">Ilimitadas</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="py-4 px-4 font-medium">Sistema de finanzas</td>
+            <td class="py-4 px-4 text-center text-green-600 text-xl font-bold">âœ“</td>
+            <td class="py-4 px-4 text-center text-green-600 text-xl font-bold">âœ“</td>
+            <td class="py-4 px-4 text-center text-green-600 text-xl font-bold">âœ“</td>
+          </tr>
+          <tr>
+            <td class="py-4 px-4 font-medium">Mapa de zonas rentables</td>
+            <td class="py-4 px-4 text-center text-green-600 text-xl font-bold">âœ“</td>
+            <td class="py-4 px-4 text-center text-green-600 text-xl font-bold">âœ“</td>
+            <td class="py-4 px-4 text-center text-green-600 text-xl font-bold">âœ“</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="py-4 px-4 font-medium">Reportes avanzados</td>
+            <td class="py-4 px-4 text-center text-green-600 text-xl font-bold">âœ“</td>
+            <td class="py-4 px-4 text-center text-green-600 text-xl font-bold">âœ“</td>
+            <td class="py-4 px-4 text-center text-green-600 text-xl font-bold">âœ“</td>
+          </tr>
+          <tr>
+            <td class="py-4 px-4 font-medium">ExportaciÃ³n Excel/CSV</td>
+            <td class="py-4 px-4 text-center text-green-600 text-xl font-bold">âœ“</td>
+            <td class="py-4 px-4 text-center text-green-600 text-xl font-bold">âœ“</td>
+            <td class="py-4 px-4 text-center text-green-600 text-xl font-bold">âœ“</td>
+          </tr>
+          <tr class="bg-blue-50">
+            <td class="py-4 px-4 font-semibold text-blue-700">ðŸŽ“ Curso Expedite Delivery</td>
+            <td class="py-4 px-4 text-center text-red-500 text-xl font-bold">âœ—</td>
+            <td class="py-4 px-4 text-center text-red-500 text-xl font-bold">âœ—</td>
+            <td class="py-4 px-4 text-center text-green-600 text-xl font-bold">âœ“</td>
+          </tr>
+          <tr class="bg-purple-50">
+            <td class="py-4 px-4 font-semibold text-purple-700">ðŸ“š Biblioteca de recursos</td>
+            <td class="py-4 px-4 text-center text-red-500 text-xl font-bold">âœ—</td>
+            <td class="py-4 px-4 text-center text-red-500 text-xl font-bold">âœ—</td>
+            <td class="py-4 px-4 text-center text-green-600 text-xl font-bold">âœ“</td>
+          </tr>
+          <tr>
+            <td class="py-4 px-4 font-semibold text-purple-700">ðŸ’¬ Soporte prioritario 1-on-1</td>
+            <td class="py-4 px-4 text-center text-red-500 text-xl font-bold">âœ—</td>
+            <td class="py-4 px-4 text-center text-red-500 text-xl font-bold">âœ—</td>
+            <td class="py-4 px-4 text-center text-green-600 text-xl font-bold">âœ“</td>
+          </tr>
+          <tr class="bg-gray-50">
+            <td class="py-4 px-4 font-medium">Actualizaciones de contenido</td>
+            <td class="py-4 px-4 text-center">-</td>
+            <td class="py-4 px-4 text-center">App</td>
+            <td class="py-4 px-4 text-center font-semibold text-purple-600">App + Curso</td>
+          </tr>
+          <tr>
+            <td class="py-4 px-4 font-medium">Acceso anticipado features</td>
+            <td class="py-4 px-4 text-center text-red-500 text-xl font-bold">âœ—</td>
+            <td class="py-4 px-4 text-center text-red-500 text-xl font-bold">âœ—</td>
+            <td class="py-4 px-4 text-center text-green-600 text-xl font-bold">âœ“</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FAQ Section -->
+  <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 mb-16">
+    <h2 class="text-3xl font-bold text-center mb-10">Preguntas Frecuentes sobre Precios</h2>
+    
+    <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+      <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition">
+        <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+          <span class="text-2xl">ðŸŽ</span>
+          Â¿CÃ³mo funciona el trial de 30 dÃ­as?
+        </h3>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          Obtienes acceso completo a todas las funciones del plan Profesional gratis por 30 dÃ­as. No necesitas tarjeta para comenzar. DespuÃ©s eliges si continuar con un plan de pago.
+        </p>
+      </div>
+      
+      <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition">
+        <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+          <span class="text-2xl">ðŸ’³</span>
+          Â¿Necesito tarjeta para el trial?
+        </h3>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          No, el trial de 30 dÃ­as no requiere tarjeta de crÃ©dito. Solo crea tu cuenta y empieza a usar todas las funciones sin compromiso.
+        </p>
+      </div>
+      
+      <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition">
+        <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+          <span class="text-2xl">ðŸŽ“</span>
+          Â¿QuÃ© incluye el plan Academy?
+        </h3>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          Incluye todo del plan Profesional mÃ¡s un curso completo de expedite delivery, biblioteca de recursos, soporte prioritario 1-on-1, y actualizaciones mensuales de contenido educativo.
+        </p>
+      </div>
+      
+      <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition">
+        <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+          <span class="text-2xl">ðŸ”„</span>
+          Â¿Puedo cambiar de plan despuÃ©s?
+        </h3>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          SÃ­, puedes actualizar o bajar de plan en cualquier momento. Si cambias de Profesional a Academy, el acceso al curso se activa inmediatamente.
+        </p>
+      </div>
+      
+      <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition">
+        <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+          <span class="text-2xl">ðŸ“…</span>
+          Â¿CÃ³mo funciona la facturaciÃ³n?
+        </h3>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          Cuando los pagos estÃ©n activos, se facturarÃ¡ mensualmente. Sin contratos ni cargos ocultos. Cancela cuando quieras sin penalizaciones.
+        </p>
+      </div>
+      
+      <div class="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition">
+        <h3 class="font-bold text-lg mb-3 flex items-center gap-2">
+          <span class="text-2xl">ðŸ’°</span>
+          Â¿Vale la pena el plan Academy?
+        </h3>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          SÃ­, especialmente si estÃ¡s comenzando. El curso solo valdrÃ­a mÃ¡s de $100, y lo obtienes por solo $10 extra al mes, mÃ¡s soporte personalizado y recursos exclusivos.
+        </p>
+      </div>
+    </div>
+    
+    <div class="text-center mt-10">
+      <a href="faq.html" class="text-blue-600 hover:text-blue-700 font-semibold underline text-lg">
+        Ver todas las preguntas frecuentes â†’
+      </a>
+    </div>
+  </div>
+
+  <!-- CTA Final -->
+  <div class="bg-gradient-to-r from-green-600 to-blue-600 rounded-3xl p-12 text-center text-white shadow-2xl">
+    <h2 class="text-3xl md:text-4xl font-bold mb-4">
+      Â¿Listo para Optimizar tu Negocio?
+    </h2>
+    <p class="text-xl mb-8 text-green-100">
+      Ãšnete a cientos de expediters que ya estÃ¡n maximizando sus ganancias
+    </p>
+    <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+      <a href="auth.html" class="bg-white text-green-600 px-8 py-4 rounded-lg font-bold text-lg shadow-lg hover:shadow-xl transition transform hover:scale-105">
+        Empezar Trial de 30 DÃ­as
+      </a>
+      <a href="contact.html" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-white/10 transition">
+        Tengo Preguntas
+      </a>
+    </div>
+    <p class="text-sm mt-6 text-green-100">
+      No se requiere tarjeta de crÃ©dito â€¢ Sin contratos â€¢ Cancela cuando quieras
+    </p>
+  </div>
+</main>
+
+<!-- Footer Profesional -->
+<footer class="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-12 mt-16">
+  <div class="max-w-7xl mx-auto px-4">
+    
+    <!-- Grid Principal -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      
+      <!-- Columna 1: Logo y DescripciÃ³n -->
+      <div class="text-center md:text-left">
+        <div class="flex items-center justify-center md:justify-start gap-3 mb-4">
+          <img src="img/logo-app.png" alt="Logo" class="w-12 h-12 rounded-full border-2 border-green-400 shadow-lg" />
+          <div>
+            <h3 class="text-lg font-bold text-white">Expediter Load Calculator</h3>
+            <p class="text-xs text-gray-400">By Galan Expediter</p>
+          </div>
+        </div>
+        <p class="text-sm text-gray-400 leading-relaxed max-w-xs mx-auto md:mx-0">
+          La herramienta profesional para optimizar tu negocio de expedite delivery. Calcula, analiza y maximiza tus ganancias.
+        </p>
+      </div>
+
+      <!-- Columna 2: Enlaces RÃ¡pidos -->
+      <div class="text-center">
+        <h4 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4">Enlaces RÃ¡pidos</h4>
+        <ul class="space-y-2">
+          <li><a href="about.html" class="text-gray-400 hover:text-green-400 transition text-sm">La App</a></li>
+          <li><a href="story.html" class="text-gray-400 hover:text-green-400 transition text-sm">Mi Historia</a></li>
+          <li><a href="resources.html" class="text-gray-400 hover:text-green-400 transition text-sm">Recursos</a></li>
+          <li><a href="plans.html" class="text-gray-400 hover:text-green-400 transition text-sm">Planes</a></li>
+          <li><a href="faq.html" class="text-gray-400 hover:text-green-400 transition text-sm">FAQ</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: Legal y Contacto -->
+      <div class="text-center md:text-right">
+        <h4 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4">Legal & Contacto</h4>
+        <ul class="space-y-2 mb-4">
+          <li><a href="contact.html" class="text-gray-400 hover:text-green-400 transition text-sm">ðŸ“§ Contacto</a></li>
+          <li><a href="privacy.html" class="text-gray-400 hover:text-green-400 transition text-sm">ðŸ”’ Privacidad</a></li>
+          <li><a href="mailto:galan.expediter@gmail.com" class="text-gray-400 hover:text-green-400 transition text-sm">âœ‰ï¸ galan.expediter@gmail.com</a></li>
+        </ul>
+        
+        <!-- Redes Sociales -->
+        <div class="flex justify-center md:justify-end gap-3 mt-4">
+          <a href="https://www.instagram.com/galan.expediter" target="_blank" rel="noopener" class="bg-gradient-to-br from-purple-600 to-pink-500 w-10 h-10 rounded-lg flex items-center justify-center hover:shadow-lg transition transform hover:scale-110">
+            <span class="text-white text-sm font-bold">IG</span>
+          </a>
+          <a href="https://www.tiktok.com/@galan.expediter" target="_blank" rel="noopener" class="bg-black w-10 h-10 rounded-lg flex items-center justify-center hover:shadow-lg transition transform hover:scale-110">
+            <span class="text-white text-sm font-bold">TT</span>
+          </a>
+          <a href="https://www.youtube.com/@galanexpediter" target="_blank" rel="noopener" class="bg-red-600 w-10 h-10 rounded-lg flex items-center justify-center hover:shadow-lg transition transform hover:scale-110">
+            <span class="text-white text-sm font-bold">YT</span>
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61577765701818" target="_blank" rel="noopener" class="bg-blue-600 w-10 h-10 rounded-lg flex items-center justify-center hover:shadow-lg transition transform hover:scale-110">
+            <span class="text-white text-sm font-bold">FB</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- LÃ­nea divisora -->
+    <div class="border-t border-gray-700 pt-8">
+      <div class="text-center">
+        <p class="text-sm text-gray-400">
+          Â© 2025 Expediter Load Calculator. Creado por Galan Expediter. Todos los derechos reservados.
+        </p>
+        <div class="mt-4 flex justify-center gap-4">
+          <a href="https://beacons.ai/galan.expediter" target="_blank" rel="noopener" class="text-gray-400 hover:text-green-400 transition text-xs">
+            ðŸ”— Todos mis links
+          </a>
+          <span class="text-gray-600">â€¢</span>
+          <a href="app.html" class="text-gray-400 hover:text-green-400 transition text-xs">
+            ðŸ“± Ir a la App
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Script para menÃº mÃ³vil -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', function() {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+  });
+</script>
+
+</body>
+</html>

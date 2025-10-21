@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Recursos educativos para expediteros: GuÃ­as, estrategias, tutoriales y herramientas para maximizar tu negocio de transporte.">
+  <meta name="keywords" content="expediter, recursos, guÃ­as, tutoriales, estrategias, tips, cargo van, transporte">
+  <meta name="author" content="Galan Expediter">
+  <title>Recursos para Expediteros | Expediter Load Calculator</title>
+  <link rel="icon" type="image/png" href="img/logo-app.png" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .resource-card {
+      transition: all 0.3s ease;
+    }
+    .resource-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    .badge-soon {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+<!-- Header -->
+<header class="bg-white shadow sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <img src="img/logo-app.png" alt="Logo" class="w-14 h-14 rounded-full border border-gray-300 shadow" />
+      <span class="text-xl font-bold text-gray-900 hidden sm:inline">Expediter Load Calculator</span>
+      <span class="text-lg font-bold text-gray-900 sm:hidden">Expediter</span>
+    </div>
+    
+    <!-- NavegaciÃ³n desktop -->
+    <nav class="hidden md:flex items-center gap-6">
+      <a href="index.html" class="text-gray-700 hover:text-green-600 font-medium">Inicio</a>
+      <a href="about.html" class="text-gray-700 hover:text-green-600 font-medium">La App</a>
+      <a href="story.html" class="text-gray-700 hover:text-green-600 font-medium">Mi Historia</a>
+      <a href="plans.html" class="text-gray-700 hover:text-green-600 font-medium">Planes</a>
+      <a href="faq.html" class="text-gray-700 hover:text-green-600 font-medium">FAQ</a>
+      <a href="auth.html" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition">
+        Comenzar Gratis
+      </a>
+    </nav>
+
+    <!-- BotÃ³n hamburguesa mobile -->
+    <button id="mobileMenuBtn" class="md:hidden text-gray-700 hover:text-green-600 focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- MenÃº mÃ³vil desplegable -->
+  <div id="mobileMenu" class="md:hidden hidden bg-white border-t border-gray-200">
+    <div class="px-4 py-3 space-y-2">
+      <a href="index.html" class="block text-gray-700 hover:text-green-600 py-2">Inicio</a>
+      <a href="about.html" class="block text-gray-700 hover:text-green-600 py-2">La App</a>
+      <a href="story.html" class="block text-gray-700 hover:text-green-600 py-2">Mi Historia</a>
+      <a href="plans.html" class="block text-gray-700 hover:text-green-600 py-2">Planes</a>
+      <a href="faq.html" class="block text-gray-700 hover:text-green-600 py-2">FAQ</a>
+      <a href="auth.html" class="block bg-green-600 text-white px-4 py-2 rounded-lg text-center hover:bg-green-700">
+        Comenzar Gratis
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- Hero Section -->
+<section class="bg-gradient-to-br from-green-600 to-teal-700 text-white py-20">
+  <div class="max-w-7xl mx-auto px-4 text-center">
+    <span class="inline-block bg-white/20 backdrop-blur text-white px-4 py-1 rounded-full text-sm font-medium mb-4">
+      ðŸ“š Centro de Recursos
+    </span>
+    <h1 class="text-4xl md:text-6xl font-bold mb-6">
+      Aprende, Crece y<br />Maximiza tus Ganancias
+    </h1>
+    <p class="text-xl text-green-100 max-w-3xl mx-auto mb-8">
+      GuÃ­as, estrategias, tutoriales y herramientas diseÃ±adas para ayudarte a tener Ã©xito como expediter profesional.
+    </p>
+  </div>
+</section>
+
+<!-- Recursos Grid -->
+<main class="max-w-7xl mx-auto px-4 py-16">
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+    <!-- Card 1: GuÃ­as Completas -->
+    <div class="resource-card bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+      <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-6 text-center">
+        <div class="text-6xl mb-3">ðŸ“–</div>
+        <h3 class="text-2xl font-bold text-white">GuÃ­as Completas</h3>
+      </div>
+      <div class="p-6">
+        <p class="text-gray-600 mb-4 leading-relaxed">
+          Aprende paso a paso cÃ³mo usar la calculadora, optimizar rutas, y gestionar tu negocio de manera eficiente.
+        </p>
+        <ul class="text-sm text-gray-500 space-y-2 mb-4">
+          <li>âœ“ GuÃ­a de inicio rÃ¡pido</li>
+          <li>âœ“ CÃ³mo usar cada funciÃ³n</li>
+          <li>âœ“ Mejores prÃ¡cticas</li>
+          <li>âœ“ Casos de estudio reales</li>
+        </ul>
+        <span class="badge-soon text-white text-xs px-3 py-1 rounded-full font-semibold inline-block">
+          PrÃ³ximamente
+        </span>
+      </div>
+    </div>
+
+    <!-- Card 2: Tips & Estrategias -->
+    <div class="resource-card bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+      <div class="bg-gradient-to-br from-green-500 to-green-600 p-6 text-center">
+        <div class="text-6xl mb-3">ðŸ’¡</div>
+        <h3 class="text-2xl font-bold text-white">Tips & Estrategias</h3>
+      </div>
+      <div class="p-6">
+        <p class="text-gray-600 mb-4 leading-relaxed">
+          Estrategias probadas para cotizar mejor, negociar tarifas mÃ¡s altas, y maximizar tu RPM en cada viaje.
+        </p>
+        <ul class="text-sm text-gray-500 space-y-2 mb-4">
+          <li>âœ“ CÃ³mo cotizar inteligentemente</li>
+          <li>âœ“ NegociaciÃ³n de tarifas</li>
+          <li>âœ“ CuÃ¡ndo decir NO a una carga</li>
+          <li>âœ“ OptimizaciÃ³n de rutas</li>
+        </ul>
+        <span class="badge-soon text-white text-xs px-3 py-1 rounded-full font-semibold inline-block">
+          PrÃ³ximamente
+        </span>
+      </div>
+    </div>
+
+    <!-- Card 3: Videos Tutoriales -->
+    <div class="resource-card bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+      <div class="bg-gradient-to-br from-red-500 to-red-600 p-6 text-center">
+        <div class="text-6xl mb-3">ðŸŽ¥</div>
+        <h3 class="text-2xl font-bold text-white">Videos Tutoriales</h3>
+      </div>
+      <div class="p-6">
+        <p class="text-gray-600 mb-4 leading-relaxed">
+          Tutoriales en video que te muestran cÃ³mo usar cada secciÃ³n de la app y consejos prÃ¡cticos del dÃ­a a dÃ­a.
+        </p>
+        <ul class="text-sm text-gray-500 space-y-2 mb-4">
+          <li>âœ“ Tutoriales de la app</li>
+          <li>âœ“ Tips de campo</li>
+          <li>âœ“ Casos reales</li>
+          <li>âœ“ Q&A en vivo</li>
+        </ul>
+        <span class="badge-soon text-white text-xs px-3 py-1 rounded-full font-semibold inline-block">
+          PrÃ³ximamente
+        </span>
+      </div>
+    </div>
+
+    <!-- Card 4: Plantillas & Herramientas -->
+    <div class="resource-card bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+      <div class="bg-gradient-to-br from-purple-500 to-purple-600 p-6 text-center">
+        <div class="text-6xl mb-3">ðŸ“Š</div>
+        <h3 class="text-2xl font-bold text-white">Plantillas & Herramientas</h3>
+      </div>
+      <div class="p-6">
+        <p class="text-gray-600 mb-4 leading-relaxed">
+          Descarga plantillas de Excel, calculadoras auxiliares, y herramientas para gestionar tu negocio.
+        </p>
+        <ul class="text-sm text-gray-500 space-y-2 mb-4">
+          <li>âœ“ Plantillas de Excel</li>
+          <li>âœ“ Calculadoras de costos</li>
+          <li>âœ“ Checklist pre-viaje</li>
+          <li>âœ“ Plantillas de impuestos</li>
+        </ul>
+        <span class="badge-soon text-white text-xs px-3 py-1 rounded-full font-semibold inline-block">
+          PrÃ³ximamente
+        </span>
+      </div>
+    </div>
+
+    <!-- Card 5: Zonas Rentables -->
+    <div class="resource-card bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+      <div class="bg-gradient-to-br from-yellow-500 to-orange-500 p-6 text-center">
+        <div class="text-6xl mb-3">ðŸ—ºï¸</div>
+        <h3 class="text-2xl font-bold text-white">Zonas Rentables</h3>
+      </div>
+      <div class="p-6">
+        <p class="text-gray-600 mb-4 leading-relaxed">
+          AnÃ¡lisis de las mejores zonas para trabajar, mercados mÃ¡s activos, y Ã¡reas a evitar segÃºn la temporada.
+        </p>
+        <ul class="text-sm text-gray-500 space-y-2 mb-4">
+          <li>âœ“ Mejores mercados USA</li>
+          <li>âœ“ Zonas por temporada</li>
+          <li>âœ“ Dead zones a evitar</li>
+          <li>âœ“ Rutas mÃ¡s rentables</li>
+        </ul>
+        <span class="badge-soon text-white text-xs px-3 py-1 rounded-full font-semibold inline-block">
+          PrÃ³ximamente
+        </span>
+      </div>
+    </div>
+
+    <!-- Card 6: GestiÃ³n Financiera -->
+    <div class="resource-card bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+      <div class="bg-gradient-to-br from-teal-500 to-cyan-600 p-6 text-center">
+        <div class="text-6xl mb-3">ðŸ’°</div>
+        <h3 class="text-2xl font-bold text-white">GestiÃ³n Financiera</h3>
+      </div>
+      <div class="p-6">
+        <p class="text-gray-600 mb-4 leading-relaxed">
+          Aprende a manejar tus finanzas, preparar impuestos, ahorrar inteligentemente, y gestionar tu contabilidad.
+        </p>
+        <ul class="text-sm text-gray-500 space-y-2 mb-4">
+          <li>âœ“ PreparaciÃ³n de impuestos</li>
+          <li>âœ“ Deducciones fiscales</li>
+          <li>âœ“ Presupuesto y ahorro</li>
+          <li>âœ“ Contabilidad bÃ¡sica</li>
+        </ul>
+        <span class="badge-soon text-white text-xs px-3 py-1 rounded-full font-semibold inline-block">
+          PrÃ³ximamente
+        </span>
+      </div>
+    </div>
+
+    <!-- Card 7: Apps Recomendadas -->
+    <div class="resource-card bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+      <div class="bg-gradient-to-br from-pink-500 to-rose-600 p-6 text-center">
+        <div class="text-6xl mb-3">ðŸ“±</div>
+        <h3 class="text-2xl font-bold text-white">Apps Recomendadas</h3>
+      </div>
+      <div class="p-6">
+        <p class="text-gray-600 mb-4 leading-relaxed">
+          Las mejores apps complementarias para navegaciÃ³n, finanzas, bÃºsqueda de carga, y gestiÃ³n del negocio.
+        </p>
+        <ul class="text-sm text-gray-500 space-y-2 mb-4">
+          <li>âœ“ Apps de navegaciÃ³n</li>
+          <li>âœ“ Load boards</li>
+          <li>âœ“ Finanzas y contabilidad</li>
+          <li>âœ“ Productividad</li>
+        </ul>
+        <span class="badge-soon text-white text-xs px-3 py-1 rounded-full font-semibold inline-block">
+          PrÃ³ximamente
+        </span>
+      </div>
+    </div>
+
+    <!-- Card 8: Blog & ArtÃ­culos -->
+    <div class="resource-card bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+      <div class="bg-gradient-to-br from-indigo-500 to-blue-600 p-6 text-center">
+        <div class="text-6xl mb-3">ðŸ“š</div>
+        <h3 class="text-2xl font-bold text-white">Blog & ArtÃ­culos</h3>
+      </div>
+      <div class="p-6">
+        <p class="text-gray-600 mb-4 leading-relaxed">
+          ArtÃ­culos sobre la industria, tendencias del mercado, noticias relevantes, y experiencias de la carretera.
+        </p>
+        <ul class="text-sm text-gray-500 space-y-2 mb-4">
+          <li>âœ“ Noticias del industry</li>
+          <li>âœ“ Tendencias del mercado</li>
+          <li>âœ“ Historias de Ã©xito</li>
+          <li>âœ“ Consejos semanales</li>
+        </ul>
+        <span class="badge-soon text-white text-xs px-3 py-1 rounded-full font-semibold inline-block">
+          PrÃ³ximamente
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CTA Section -->
+  <div class="mt-16 bg-gradient-to-r from-green-600 to-teal-600 rounded-2xl p-12 text-center text-white shadow-2xl">
+    <h2 class="text-3xl md:text-4xl font-bold mb-4">
+      Â¿Listo para Empezar?
+    </h2>
+    <p class="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
+      Accede a la calculadora y empieza a optimizar tus cargas hoy mismo. Comienza gratis por 30 dÃ­as.
+    </p>
+    <a href="auth.html" class="inline-block bg-white text-green-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition transform hover:scale-105 shadow-lg">
+      Comenzar Gratis â†’
+    </a>
+  </div>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-12 mt-16">
+  <div class="max-w-7xl mx-auto px-4">
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      
+      <!-- Columna 1: Logo y DescripciÃ³n -->
+      <div class="text-center md:text-left">
+        <div class="flex items-center justify-center md:justify-start gap-3 mb-4">
+          <img src="img/logo-app.png" alt="Logo" class="w-12 h-12 rounded-full border-2 border-green-400 shadow-lg" />
+          <div>
+            <h3 class="text-lg font-bold text-white">Expediter Load Calculator</h3>
+            <p class="text-xs text-gray-400">By Galan Expediter</p>
+          </div>
+        </div>
+        <p class="text-sm text-gray-400 leading-relaxed max-w-xs mx-auto md:mx-0">
+          La herramienta profesional para optimizar tu negocio de expedite delivery. Calcula, analiza y maximiza tus ganancias.
+        </p>
+      </div>
+
+      <!-- Columna 2: Enlaces RÃ¡pidos -->
+      <div class="text-center">
+        <h4 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4">Enlaces RÃ¡pidos</h4>
+        <ul class="space-y-2">
+          <li><a href="about.html" class="text-gray-400 hover:text-green-400 transition text-sm">La App</a></li>
+          <li><a href="story.html" class="text-gray-400 hover:text-green-400 transition text-sm">Mi Historia</a></li>
+          <li><a href="resources.html" class="text-gray-400 hover:text-green-400 transition text-sm">Recursos</a></li>
+          <li><a href="plans.html" class="text-gray-400 hover:text-green-400 transition text-sm">Planes</a></li>
+          <li><a href="faq.html" class="text-gray-400 hover:text-green-400 transition text-sm">FAQ</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: Legal y Contacto -->
+      <div class="text-center md:text-right">
+        <h4 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4">Legal & Contacto</h4>
+        <ul class="space-y-2 mb-4">
+          <li><a href="contact.html" class="text-gray-400 hover:text-green-400 transition text-sm">ðŸ“§ Contacto</a></li>
+          <li><a href="privacy.html" class="text-gray-400 hover:text-green-400 transition text-sm">ðŸ”’ Privacy Policy</a></li>
+          <li><a href="mailto:galan.expediter@gmail.com" class="text-gray-400 hover:text-green-400 transition text-sm">âœ‰ï¸ galan.expediter@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Separador -->
+    <div class="border-t border-gray-700 pt-8">
+      
+      <!-- Redes Sociales -->
+      <div class="mb-6">
+        <p class="text-center text-gray-400 text-sm mb-4">SÃ­gueme en redes sociales</p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a href="https://instagram.com/galan.expediter" target="_blank" rel="noopener" 
+             class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:shadow-lg transform hover:scale-105 transition duration-200">
+            ðŸ“¸ Instagram
+          </a>
+          <a href="https://tiktok.com/@galan.expediter" target="_blank" rel="noopener"
+             class="bg-gray-900 border border-gray-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:shadow-lg transform hover:scale-105 transition duration-200">
+            ðŸŽµ TikTok
+          </a>
+          <a href="https://youtube.com/@galanexpediter" target="_blank" rel="noopener"
+             class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:shadow-lg transform hover:scale-105 transition duration-200">
+            â–¶ï¸ YouTube
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61577765701818" target="_blank" rel="noopener"
+             class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:shadow-lg transform hover:scale-105 transition duration-200">
+            ðŸ‘¥ Facebook
+          </a>
+          <a href="https://beacons.ai/galan.expediter" target="_blank" rel="noopener"
+             class="bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:shadow-lg transform hover:scale-105 transition duration-200">
+            ðŸ”— Todos los Links
+          </a>
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="text-center border-t border-gray-700 pt-6">
+        <p class="text-gray-500 text-sm">
+          Â© 2025 Expediter Load Calculator. Created by Galan Expediter
+        </p>
+        <div class="mt-2 flex justify-center gap-4 text-xs">
+          <a href="https://beacons.ai/galan.expediter" target="_blank" rel="noopener" class="text-gray-400 hover:text-green-400 transition text-xs">
+            ðŸ”— Todos mis links
+          </a>
+          <span class="text-gray-600">â€¢</span>
+          <a href="app.html" class="text-gray-400 hover:text-green-400 transition text-xs">
+            ðŸ“± Ir a la App
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Script para menÃº mÃ³vil -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', function() {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+  });
+</script>
+
+</body>
+</html>
