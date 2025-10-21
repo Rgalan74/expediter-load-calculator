@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Preguntas frecuentes sobre Expediter Load Calculator. Encuentra respuestas sobre planes, privacidad, uso y mÃ¡s.">
+  <meta name="keywords" content="FAQ, preguntas frecuentes, expediter, ayuda, soporte">
+  <meta name="author" content="Galan Cargo Express">
+  <title>Preguntas Frecuentes | Expediter Load Calculator</title>
+  <link rel="icon" type="image/png" href="img/logo-app.png" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/mobile-styles.css" />
+  <style>
+    .faq-item {
+      transition: all 0.3s ease;
+    }
+    .faq-question {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .faq-question:hover {
+      background-color: #f9fafb;
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .faq-answer.active {
+      max-height: 1000px;
+    }
+    .faq-icon {
+      transition: transform 0.3s ease;
+    }
+    .faq-icon.active {
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+<!-- Header -->
+<header class="bg-white shadow sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <img src="img/logo-app.png" alt="Logo" class="w-14 h-14 rounded-full border border-gray-300 shadow" />
+      <span class="text-xl font-bold text-gray-900 hidden sm:inline">Expediter Load Calculator</span>
+      <span class="text-lg font-bold text-gray-900 sm:hidden">Expediter</span>
+    </div>
+    
+    <!-- MenÃº hamburguesa mÃ³vil -->
+    <button id="mobileMenuBtn" class="sm:hidden text-gray-700 hover:text-blue-600 focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+    
+    <a href="index.html" class="hidden sm:inline-block bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 text-sm transition">
+      â† Volver al inicio
+    </a>
+  </div>
+  
+  <!-- MenÃº mÃ³vil desplegable -->
+  <div id="mobileMenu" class="hidden sm:hidden bg-white border-t border-gray-200">
+    <div class="px-4 py-3 space-y-2">
+      <a href="index.html" class="block text-gray-700 hover:text-blue-600 py-2">â† Volver al inicio</a>
+      <a href="app.html" class="block bg-blue-600 text-white px-4 py-2 rounded-lg text-center hover:bg-blue-700">Comenzar Trial Gratis</a>
+    </div>
+  </div>
+</header>
+
+<!-- Contenido Principal -->
+<main class="max-w-4xl mx-auto px-4 py-12">
+  
+  <!-- Hero Section -->
+  <div class="text-center mb-16">
+    <div class="inline-block bg-gradient-to-r from-blue-100 to-purple-100 rounded-full px-6 py-2 mb-6">
+      <span class="text-sm font-semibold text-blue-700">â“ Centro de Ayuda</span>
+    </div>
+    <h1 class="text-4xl md:text-5xl font-extrabold mb-6">
+      Preguntas Frecuentes
+    </h1>
+    <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+      Encuentra respuestas rÃ¡pidas a las preguntas mÃ¡s comunes sobre Expediter Load Calculator
+    </p>
+  </div>
+
+  <!-- CategorÃ­a 1: Sobre la App -->
+  <div class="mb-12">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+        <span class="text-2xl">ðŸ“±</span>
+      </div>
+      <h2 class="text-2xl font-bold text-blue-700">Sobre la App</h2>
+    </div>
+    
+    <div class="space-y-4">
+      
+      <!-- Pregunta 1 -->
+      <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div class="faq-question flex items-center justify-between p-5" onclick="toggleFaq(this)">
+          <h3 class="text-lg font-semibold text-gray-900 pr-4">Â¿Necesito descargar algo?</h3>
+          <svg class="faq-icon w-6 h-6 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer">
+          <div class="p-5 pt-0 text-gray-700 leading-relaxed">
+            No. Expediter Load Calculator es una aplicaciÃ³n web que funciona directamente en tu navegador. Solo necesitas abrir el link y empezar a usarla. Sin descargas, sin instalaciÃ³n de archivos.
+          </div>
+        </div>
+      </div>
+
+      <!-- Pregunta 2 -->
+      <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div class="faq-question flex items-center justify-between p-5" onclick="toggleFaq(this)">
+          <h3 class="text-lg font-semibold text-gray-900 pr-4">Â¿La app funciona offline?</h3>
+          <svg class="faq-icon w-6 h-6 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer">
+          <div class="p-5 pt-0 text-gray-700 leading-relaxed">
+            No. Necesitas conexiÃ³n a internet para usar la app porque los datos se sincronizan en tiempo real con la nube. Esto te permite acceder a tu informaciÃ³n desde cualquier dispositivo.
+          </div>
+        </div>
+      </div>
+
+      <!-- Pregunta 3 -->
+      <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div class="faq-question flex items-center justify-between p-5" onclick="toggleFaq(this)">
+          <h3 class="text-lg font-semibold text-gray-900 pr-4">Â¿En quÃ© dispositivos funciona?</h3>
+          <svg class="faq-icon w-6 h-6 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer">
+          <div class="p-5 pt-0 text-gray-700 leading-relaxed">
+            Funciona en cualquier dispositivo con navegador web moderno: telÃ©fonos (iPhone/Android), tablets, computadoras (Windows/Mac/Linux). La interfaz se adapta automÃ¡ticamente al tamaÃ±o de tu pantalla.
+          </div>
+        </div>
+      </div>
+
+      <!-- Pregunta 4 -->
+      <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div class="faq-question flex items-center justify-between p-5" onclick="toggleFaq(this)">
+          <h3 class="text-lg font-semibold text-gray-900 pr-4">Â¿Puedo instalarla en mi telÃ©fono?</h3>
+          <svg class="faq-icon w-6 h-6 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer">
+          <div class="p-5 pt-0 text-gray-700 leading-relaxed">
+            <p class="mb-2">SÃ­. Aunque no es obligatorio, puedes "instalarla" para acceso mÃ¡s rÃ¡pido:</p>
+            <ul class="list-disc ml-6 space-y-1 mb-2">
+              <li><strong>En mÃ³vil:</strong> Abre el menÃº del navegador â†’ "Agregar a pantalla de inicio"</li>
+              <li><strong>En computadora:</strong> Busca el Ã­cono de instalaciÃ³n en la barra de direcciÃ³n del navegador</li>
+            </ul>
+            <p>La app se abrirÃ¡ como si fuera una app nativa, sin la barra del navegador.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CategorÃ­a 2: Planes y Precios -->
+  <div class="mb-12">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+        <span class="text-2xl">ðŸ’°</span>
+      </div>
+      <h2 class="text-2xl font-bold text-green-700">Planes y Precios</h2>
+    </div>
+    
+    <div class="space-y-4">
+      
+      <!-- Pregunta 1 -->
+      <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div class="faq-question flex items-center justify-between p-5" onclick="toggleFaq(this)">
+          <h3 class="text-lg font-semibold text-gray-900 pr-4">Â¿CÃ³mo funciona el trial de 30 dÃ­as?</h3>
+          <svg class="faq-icon w-6 h-6 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer">
+          <div class="p-5 pt-0 text-gray-700 leading-relaxed">
+            Obtienes acceso completo a todas las funciones del plan Profesional gratis por 30 dÃ­as. No necesitas tarjeta para comenzar. DespuÃ©s de los 30 dÃ­as, puedes elegir el plan Profesional ($15/mes) o Academy ($25/mes) para seguir usando la app.
+          </div>
+        </div>
+      </div>
+
+      <!-- Pregunta 2 -->
+      <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div class="faq-question flex items-center justify-between p-5" onclick="toggleFaq(this)">
+          <h3 class="text-lg font-semibold text-gray-900 pr-4">Â¿Necesito tarjeta para el trial?</h3>
+          <svg class="faq-icon w-6 h-6 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer">
+          <div class="p-5 pt-0 text-gray-700 leading-relaxed">
+            No. El trial de 30 dÃ­as no requiere tarjeta de crÃ©dito. Solo crea tu cuenta y empieza a usar todas las funciones sin compromiso.
+          </div>
+        </div>
+      </div>
+
+      <!-- Pregunta 3 -->
+      <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div class="faq-question flex items-center justify-between p-5" onclick="toggleFaq(this)">
+          <h3 class="text-lg font-semibold text-gray-900 pr-4">Â¿CuÃ¡l es la diferencia entre Profesional y Academy?</h3>
+          <svg class="faq-icon w-6 h-6 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer">
+          <div class="p-5 pt-0 text-gray-700 leading-relaxed">
+            <p class="mb-2"><strong>Profesional ($15/mes)</strong> incluye toda la app: calculadora, finanzas, zonas rentables, reportes y exportaciÃ³n.</p>
+            <p><strong>Academy ($25/mes)</strong> incluye todo lo del Profesional MÃS un curso completo de expedite delivery, biblioteca de recursos, soporte prioritario 1-on-1, y actualizaciones de contenido mensuales.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pregunta 4 -->
+      <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div class="faq-question flex items-center justify-between p-5" onclick="toggleFaq(this)">
+          <h3 class="text-lg font-semibold text-gray-900 pr-4">Â¿Puedo cambiar de plan despuÃ©s?</h3>
+          <svg class="faq-icon w-6 h-6 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer">
+          <div class="p-5 pt-0 text-gray-700 leading-relaxed">
+            SÃ­. Puedes actualizar o bajar de plan en cualquier momento. Si cambias de Profesional a Academy, el acceso al curso y recursos se activa inmediatamente. Si bajas de plan, mantienes el acceso hasta el final de tu perÃ­odo de facturaciÃ³n actual.
+          </div>
+        </div>
+      </div>
+
+      <!-- Pregunta 5 -->
+      <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div class="faq-question flex items-center justify-between p-5" onclick="toggleFaq(this)">
+          <h3 class="text-lg font-semibold text-gray-900 pr-4">Â¿CÃ³mo funciona la facturaciÃ³n?</h3>
+          <svg class="faq-icon w-6 h-6 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer">
+          <div class="p-5 pt-0 text-gray-700 leading-relaxed">
+            Cuando los pagos estÃ©n activos, se facturarÃ¡ mensualmente de forma automÃ¡tica. Sin contratos ni cargos ocultos. Puedes cancelar tu suscripciÃ³n en cualquier momento desde tu perfil.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CategorÃ­a 3: Seguridad y Privacidad -->
+  <div class="mb-12">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+        <span class="text-2xl">ðŸ”’</span>
+      </div>
+      <h2 class="text-2xl font-bold text-purple-700">Seguridad y Privacidad</h2>
+    </div>
+    
+    <div class="space-y-4">
+      
+      <!-- Pregunta 1 -->
+      <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div class="faq-question flex items-center justify-between p-5" onclick="toggleFaq(this)">
+          <h3 class="text-lg font-semibold text-gray-900 pr-4">Â¿Mis datos estÃ¡n seguros?</h3>
+          <svg class="faq-icon w-6 h-6 text-purple-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer">
+          <div class="p-5 pt-0 text-gray-700 leading-relaxed">
+            SÃ­. Usamos Firebase (Google) para almacenar tus datos, que cuenta con los mÃ¡s altos estÃ¡ndares de seguridad. Tus datos estÃ¡n encriptados en trÃ¡nsito y en reposo. Solo tÃº tienes acceso a tu informaciÃ³n.
+          </div>
+        </div>
+      </div>
+
+      <!-- Pregunta 2 -->
+      <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div class="faq-question flex items-center justify-between p-5" onclick="toggleFaq(this)">
+          <h3 class="text-lg font-semibold text-gray-900 pr-4">Â¿Comparten mi informaciÃ³n con terceros?</h3>
+          <svg class="faq-icon w-6 h-6 text-purple-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer">
+          <div class="p-5 pt-0 text-gray-700 leading-relaxed">
+            No. Nunca vendemos, compartimos o alquilamos tu informaciÃ³n personal o de negocio a terceros. Tus datos de cargas, rutas y finanzas son completamente privados.
+          </div>
+        </div>
+      </div>
+
+      <!-- Pregunta 3 -->
+      <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div class="faq-question flex items-center justify-between p-5" onclick="toggleFaq(this)">
+          <h3 class="text-lg font-semibold text-gray-900 pr-4">Â¿Puedo exportar mis datos?</h3>
+          <svg class="faq-icon w-6 h-6 text-purple-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer">
+          <div class="p-5 pt-0 text-gray-700 leading-relaxed">
+            SÃ­. Puedes exportar tu historial de cargas en formato CSV o Excel con formato avanzado. Tus datos son tuyos y puedes llevarlos donde quieras.
+          </div>
+        </div>
+      </div>
+
+      <!-- Pregunta 4 -->
+      <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div class="faq-question flex items-center justify-between p-5" onclick="toggleFaq(this)">
+          <h3 class="text-lg font-semibold text-gray-900 pr-4">Â¿QuÃ© pasa si borro mi cuenta?</h3>
+          <svg class="faq-icon w-6 h-6 text-purple-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer">
+          <div class="p-5 pt-0 text-gray-700 leading-relaxed">
+            Si decides borrar tu cuenta, todos tus datos se eliminan permanentemente de nuestros servidores en un plazo de 30 dÃ­as. Este proceso es irreversible, asÃ­ que asegÃºrate de exportar cualquier informaciÃ³n importante antes.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CategorÃ­a 4: Sobre el Uso -->
+  <div class="mb-12">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+        <span class="text-2xl">âš™ï¸</span>
+      </div>
+      <h2 class="text-2xl font-bold text-orange-700">Sobre el Uso</h2>
+    </div>
+    
+    <div class="space-y-4">
+      
+      <!-- Pregunta 1 -->
+      <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div class="faq-question flex items-center justify-between p-5" onclick="toggleFaq(this)">
+          <h3 class="text-lg font-semibold text-gray-900 pr-4">Â¿CÃ³mo calculo una carga?</h3>
+          <svg class="faq-icon w-6 h-6 text-orange-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer">
+          <div class="p-5 pt-0 text-gray-700 leading-relaxed">
+            <p class="mb-2">Es muy simple:</p>
+            <ol class="list-decimal ml-6 space-y-1">
+              <li>Ingresa origen y destino</li>
+              <li>La app calcula automÃ¡ticamente las millas</li>
+              <li>Ingresa el precio que te ofrecen y tus costos</li>
+              <li>Ve al instante si es rentable o no</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pregunta 2 -->
+      <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div class="faq-question flex items-center justify-between p-5" onclick="toggleFaq(this)">
+          <h3 class="text-lg font-semibold text-gray-900 pr-4">Â¿CÃ³mo sÃ© quÃ© zonas son rentables?</h3>
+          <svg class="faq-icon w-6 h-6 text-orange-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer">
+          <div class="p-5 pt-0 text-gray-700 leading-relaxed">
+            La funciÃ³n de "Mapa de Zonas Rentables" analiza tu historial de cargas y te muestra en un mapa interactivo quÃ© estados te han pagado mejor segÃºn tu RPM promedio. Puedes ver de un vistazo dÃ³nde deberÃ­as buscar mÃ¡s cargas.
+          </div>
+        </div>
+      </div>
+
+      <!-- Pregunta 3 -->
+      <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div class="faq-question flex items-center justify-between p-5" onclick="toggleFaq(this)">
+          <h3 class="text-lg font-semibold text-gray-900 pr-4">Â¿Puedo editar cargas guardadas?</h3>
+          <svg class="faq-icon w-6 h-6 text-orange-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer">
+          <div class="p-5 pt-0 text-gray-700 leading-relaxed">
+            SÃ­. Todas las cargas guardadas en tu historial pueden editarse o eliminarse en cualquier momento. Ãštil si necesitas corregir algÃºn dato o actualizar informaciÃ³n.
+          </div>
+        </div>
+      </div>
+
+      <!-- Pregunta 4 -->
+      <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div class="faq-question flex items-center justify-between p-5" onclick="toggleFaq(this)">
+          <h3 class="text-lg font-semibold text-gray-900 pr-4">Â¿La app me ayuda a encontrar cargas?</h3>
+          <svg class="faq-icon w-6 h-6 text-orange-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer">
+          <div class="p-5 pt-0 text-gray-700 leading-relaxed">
+            No. Expediter Load Calculator no es un load board. Es una calculadora y sistema de gestiÃ³n. Te ayuda a evaluar si una carga que YA encontraste es rentable, y a llevar control de tu negocio. Para encontrar cargas, usa load boards como DAT, Truckstop, o trabaja con brokers.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CategorÃ­a 5: Soporte -->
+  <div class="mb-12">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+        <span class="text-2xl">ðŸ’¬</span>
+      </div>
+      <h2 class="text-2xl font-bold text-red-700">Soporte</h2>
+    </div>
+    
+    <div class="space-y-4">
+      
+      <!-- Pregunta 1 -->
+      <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div class="faq-question flex items-center justify-between p-5" onclick="toggleFaq(this)">
+          <h3 class="text-lg font-semibold text-gray-900 pr-4">Â¿CÃ³mo contacto con soporte?</h3>
+          <svg class="faq-icon w-6 h-6 text-red-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer">
+          <div class="p-5 pt-0 text-gray-700 leading-relaxed">
+            <p class="mb-2">Puedes contactarme directamente a travÃ©s de:</p>
+            <ul class="list-disc ml-6 space-y-1 mb-2">
+              <li>Email: <a href="mailto:galan.expediter@gmail.com" class="text-blue-600 hover:underline">galan.expediter@gmail.com</a></li>
+              <li>Instagram: <a href="https://instagram.com/galan.expediter" target="_blank" rel="noopener" class="text-blue-600 hover:underline">@galan.expediter</a></li>
+              <li>TikTok: <a href="https://tiktok.com/@galan.expediter" target="_blank" rel="noopener" class="text-blue-600 hover:underline">@galan.expediter</a></li>
+              <li>YouTube: <a href="https://youtube.com/@galan.expediter" target="_blank" rel="noopener" class="text-blue-600 hover:underline">@galan.expediter</a></li>
+            </ul>
+            <p>Respondo personalmente todos los mensajes. TambiÃ©n puedes dejar comentarios en mis videos con preguntas.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pregunta 2 -->
+      <div class="faq-item bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <div class="faq-question flex items-center justify-between p-5" onclick="toggleFaq(this)">
+          <h3 class="text-lg font-semibold text-gray-900 pr-4">Â¿HabrÃ¡ mÃ¡s funciones prÃ³ximamente?</h3>
+          <svg class="faq-icon w-6 h-6 text-red-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer">
+          <div class="p-5 pt-0 text-gray-700 leading-relaxed">
+            <p class="mb-2">SÃ­. Estoy trabajando constantemente en mejorar la app. Algunas funciones planeadas:</p>
+            <ul class="list-disc ml-6 space-y-1 mb-2">
+              <li>IntegraciÃ³n con load boards populares</li>
+              <li>Alertas automÃ¡ticas de zonas rentables</li>
+              <li>Comunidad de drivers para compartir experiencias</li>
+              <li>App mÃ³vil nativa</li>
+            </ul>
+            <p>Â¿Tienes sugerencias? ContÃ¡ctame en redes sociales.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA Final -->
+  <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-12 text-center text-white shadow-2xl mb-16">
+    <h2 class="text-3xl md:text-4xl font-bold mb-4">Â¿No encontraste tu respuesta?</h2>
+    <p class="text-xl mb-8 opacity-90">ContÃ¡ctame directamente o prueba la app con 30 dÃ­as gratis</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="app.html" class="inline-block bg-white text-blue-600 px-8 py-4 rounded-lg font-bold text-lg shadow-lg hover:bg-gray-100 transition transform hover:scale-105">
+        Comenzar Trial Gratis
+      </a>
+      <a href="contact.html" class="inline-block bg-blue-700 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg hover:bg-blue-800 transition border-2 border-white transform hover:scale-105">
+        Contactar Soporte
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-gray-300 py-12">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      
+      <!-- Columna 1: Logo y descripciÃ³n -->
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <img src="img/logo-app.png" alt="Logo" class="w-10 h-10 rounded-full" />
+          <span class="text-white font-bold text-lg">Expediter</span>
+        </div>
+        <p class="text-sm text-gray-400 leading-relaxed">
+          La herramienta definitiva para calcular la rentabilidad de tus cargas y optimizar tu negocio de expedite delivery.
+        </p>
+      </div>
+
+      <!-- Columna 2: Enlaces RÃ¡pidos -->
+      <div>
+        <h4 class="text-white font-semibold mb-4">NavegaciÃ³n</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="index.html" class="hover:text-white transition">Inicio</a></li>
+          <li><a href="app.html" class="hover:text-white transition">App</a></li>
+          <li><a href="plans.html" class="hover:text-white transition">Planes</a></li>
+          <li><a href="resources.html" class="hover:text-white transition">Recursos</a></li>
+          <li><a href="faq.html" class="hover:text-white transition">FAQ</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: Legal -->
+      <div>
+        <h4 class="text-white font-semibold mb-4">Legal</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="privacy.html" class="hover:text-white transition">Privacidad</a></li>
+          <li><a href="terms.html" class="hover:text-white transition">TÃ©rminos</a></li>
+          <li><a href="contact.html" class="hover:text-white transition">Contacto</a></li>
+          <li><a href="story.html" class="hover:text-white transition">Nuestra Historia</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 4: Redes Sociales -->
+      <div>
+        <h4 class="text-white font-semibold mb-4">SÃ­guenos</h4>
+        <div class="flex gap-4 mb-4">
+          <a href="#" title="Facebook" class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="#" title="Twitter" class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center hover:bg-blue-500 transition">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+          </a>
+          <a href="#" title="YouTube" class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700 transition">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+        </div>
+        <p class="text-xs text-gray-500">
+          <a href="mailto:galan.expediter@gmail.com" class="hover:text-white transition">galan.expediter@gmail.com</a>
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Copyright -->
+    <div class="border-t border-gray-800 pt-8 text-center text-sm text-gray-500">
+      <p>&copy; 2024 Expediter Load Calculator. Todos los derechos reservados.</p>
+      <p class="mt-2">Desarrollado con â¤ï¸ para la comunidad expediter</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script>
+  // MenÃº mÃ³vil
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  
+  mobileMenuBtn?.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+
+  // Accordion FAQ
+  function toggleFaq(element) {
+    const answer = element.nextElementSibling;
+    const icon = element.querySelector('.faq-icon');
+    const allAnswers = document.querySelectorAll('.faq-answer');
+    const allIcons = document.querySelectorAll('.faq-icon');
+    
+    // Cerrar todos los demÃ¡s
+    allAnswers.forEach(item => {
+      if (item !== answer) {
+        item.classList.remove('active');
+      }
+    });
+    
+    allIcons.forEach(item => {
+      if (item !== icon) {
+        item.classList.remove('active');
+      }
+    });
+    
+    // Toggle el actual
+    answer.classList.toggle('active');
+    icon.classList.toggle('active');
+  }
+</script>
+
+</body>
+</html>
