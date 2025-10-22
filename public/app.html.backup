@@ -1697,7 +1697,7 @@
 <script src="js/finances.js"></script>  <!-- ✅ DEBE ESTAR AQUÍ -->
 <script src="js/zones.js"></script>
 <script src="js/main.js"></script>
-<!-- <script src="js/tabs.js"></script> REMOVED: tabs.js functionality merged into main.js -->
+<script src="js/tabs.js"></script>
  <script src="js/mobile.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
