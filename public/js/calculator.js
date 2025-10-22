@@ -1,7 +1,7 @@
-// 🚀 CALCULATOR.JS - VERSIÓN INTEGRADA COMPLETA
+// ðŸš€ CALCULATOR.JS - VERSIÃ“N INTEGRADA COMPLETA
 // Combina: Costos reales + Todas las funcionalidades existentes
 
-// ✅ TUS COSTOS OPERATIVOS REALES CONFIRMADOS
+// âœ… TUS COSTOS OPERATIVOS REALES CONFIRMADOS
 const TU_COSTO_REAL = {
   combustible: 0.194,      // Real confirmado de tus gastos
   mantenimiento: 0.010,    // Sin gomas (regular)
@@ -11,9 +11,9 @@ const TU_COSTO_REAL = {
   TOTAL: 0.526            // $/mi total real
 };
 
-// ✅ FUNCIÓN: Calcular tiempo de viaje real
+// âœ… FUNCIÃ“N: Calcular tiempo de viaje real
 function calcularTiempoReal(millas) {
-  const paradasCombustible = Math.floor(millas / 300); // Cada 300mi como haces tú
+  const paradasCombustible = Math.floor(millas / 300); // Cada 300mi como haces tÃº
   const tiempoManejo = millas / 75; // 75 mph promedio autopista (95% de tu tiempo)
   const tiempoParadas = paradasCombustible * 0.5; // 30 min por parada
   const tiempoTotal = tiempoManejo + tiempoParadas;
@@ -25,20 +25,20 @@ function calcularTiempoReal(millas) {
   };
 }
 
-// ✅ FUNCIÓN: Reglas de decisión inteligentes basadas en tu estrategia real
+// âœ… FUNCIÃ“N: Reglas de decisiÃ³n inteligentes basadas en tu estrategia real
 function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
   const {
-    tiempoSinCarga = 0,      // días sin carga
+    tiempoSinCarga = 0,      // dÃ­as sin carga
     areaMala = false,        // Miami, Sur FL, etc.
-    relocalizaBuena = false, // ¿Te saca hacia área buena?
+    relocalizaBuena = false, // Â¿Te saca hacia Ã¡rea buena?
     alternativasLimitadas = false
   } = factoresAdicionales;
   
-  // Costos por días sin trabajar
-  const costoFijoPorDia = 95; // $95/día en gastos fijos
+  // Costos por dÃ­as sin trabajar
+  const costoFijoPorDia = 95; // $95/dÃ­a en gastos fijos
   const penalizacionEspera = tiempoSinCarga * costoFijoPorDia;
   
-  // ✅ UMBRALES AJUSTADOS AL MERCADO ACTUAL
+  // âœ… UMBRALES AJUSTADOS AL MERCADO ACTUAL
   let umbralAcepta = 0.85;
   let umbralEvalua = 0.75;
   let umbralRelocalizacion = 0.70;
@@ -50,42 +50,42 @@ function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
     umbralEvalua = 1.00;
     umbralRelocalizacion = 0.90;
   } else if (millas > 600) {
-    // Cargas largas - más flexibles
+    // Cargas largas - mÃ¡s flexibles
     umbralAcepta = 0.80;
     umbralEvalua = 0.70;
     umbralRelocalizacion = 0.65;
   }
   
-  // ✅ LÓGICA DE DECISIÓN INTELIGENTE
+  // âœ… LÃ“GICA DE DECISIÃ“N INTELIGENTE
   if (rpm >= umbralAcepta) {
     return {
       decision: "ACEPTA",
       level: "accept",
-      icon: "✅",
+      icon: "âœ…",
       color: "decision-accept",
       razon: obtenerRazonDetallada("accept", rpm, millas, factoresAdicionales),
       confianza: "Alta"
     };
   }
   
-  // Evaluar factores especiales para RPM más bajos
+  // Evaluar factores especiales para RPM mÃ¡s bajos
   if (rpm >= umbralRelocalizacion) {
     let puntaje = 0;
     let razones = [];
     
     if (tiempoSinCarga >= 1) {
       puntaje += 30;
-      razones.push(`${tiempoSinCarga} día(s) sin carga = $${(tiempoSinCarga * costoFijoPorDia).toFixed(0)} en gastos fijos`);
+      razones.push(`${tiempoSinCarga} dÃ­a(s) sin carga = $${(tiempoSinCarga * costoFijoPorDia).toFixed(0)} en gastos fijos`);
     }
     
     if (areaMala) {
       puntaje += 25;
-      razones.push("Área mala confirmada (Miami, Sur FL)");
+      razones.push("Ãrea mala confirmada (Miami, Sur FL)");
     }
     
     if (relocalizaBuena) {
       puntaje += 30;
-      razones.push("Te relocaliza hacia área buena");
+      razones.push("Te relocaliza hacia Ã¡rea buena");
     }
     
     if (alternativasLimitadas) {
@@ -95,9 +95,9 @@ function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
     
     if (rpm >= umbralEvalua || puntaje >= 40) {
       return {
-        decision: puntaje >= 40 ? "EVALÚA RELOCALIZACIÓN" : "EVALÚA",
+        decision: puntaje >= 40 ? "EVALÃšA RELOCALIZACIÃ“N" : "EVALÃšA",
         level: "warning",
-        icon: "⚠️",
+        icon: "âš ï¸",
         color: "decision-warning",
         razon: obtenerRazonDetallada("warning", rpm, millas, factoresAdicionales, razones),
         confianza: puntaje >= 60 ? "Media-Alta" : "Media",
@@ -109,14 +109,14 @@ function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
   return {
     decision: "RECHAZA",
     level: "reject", 
-    icon: "❌",
+    icon: "âŒ",
     color: "decision-reject",
     razon: obtenerRazonDetallada("reject", rpm, millas, factoresAdicionales),
     confianza: "Alta"
   };
 }
 
-// ✅ FUNCIÓN: Generar razones detalladas
+// âœ… FUNCIÃ“N: Generar razones detalladas
 function obtenerRazonDetallada(nivel, rpm, millas, factores, razonesEspeciales = []) {
   const categoria = millas <= 400 ? "corta" : millas <= 600 ? "media" : "larga";
   const gananciaEstimada = rpm - TU_COSTO_REAL.TOTAL;
@@ -127,7 +127,7 @@ function obtenerRazonDetallada(nivel, rpm, millas, factores, razonesEspeciales =
   if (nivel === "accept") {
     razon += `Excelente RPM $${rpm.toFixed(2)}/mi. Ganancia estimada: $${gananciaTotal.toFixed(0)}`;
   } else if (nivel === "warning") {
-    razon += `RPM $${rpm.toFixed(2)}/mi en límite. Ganancia: $${gananciaTotal.toFixed(0)}`;
+    razon += `RPM $${rpm.toFixed(2)}/mi en lÃ­mite. Ganancia: $${gananciaTotal.toFixed(0)}`;
     if (razonesEspeciales.length > 0) {
       razon += `. Factores a favor: ${razonesEspeciales.join(", ")}`;
     }
@@ -141,7 +141,7 @@ function obtenerRazonDetallada(nivel, rpm, millas, factores, razonesEspeciales =
   return razon;
 }
 
-// ✅ FUNCIÓN: Detectar factores especiales automáticamente
+// âœ… FUNCIÃ“N: Detectar factores especiales automÃ¡ticamente
 function detectarFactoresEspeciales(origin, destination) {
   const areasMalas = ['miami', 'south florida', 'key west', 'fort myers'];
   const areasBuilenas = ['georgia', 'atlanta', 'texas', 'dallas', 'houston', 'charlotte'];
@@ -159,16 +159,16 @@ function detectarFactoresEspeciales(origin, destination) {
   return {
     areaMala: origenMalo,
     relocalizaBuena: origenMalo && destinoBueno,
-    // tiempoSinCarga y alternativasLimitadas requerirían input del usuario
+    // tiempoSinCarga y alternativasLimitadas requerirÃ­an input del usuario
     tiempoSinCarga: 0,
     alternativasLimitadas: false
   };
 }
 
-// ✅ FUNCIÓN PRINCIPAL: Calculate con costos reales
+// âœ… FUNCIÃ“N PRINCIPAL: Calculate con costos reales
 async function calculate() {
   try {
-    console.log("🚀 Calculando con costos reales confirmados...");
+    console.log("ðŸš€ Calculando con costos reales confirmados...");
 
     // Obtener valores de los campos
     const origin = document.getElementById('origin')?.value?.trim() || '';
@@ -180,39 +180,39 @@ async function calculate() {
     const tolls = Number(document.getElementById('tolls')?.value || 0);
     const others = Number(document.getElementById('otherCosts')?.value || 0);
 
-    // ✅ Definir totalMiles ANTES de validaciones
+    // âœ… Definir totalMiles ANTES de validaciones
     const totalMiles = loadedMiles + deadheadMiles;
 
-    // 👉 Condición mínima antes de mostrar resultados
+    // ðŸ‘‰ CondiciÃ³n mÃ­nima antes de mostrar resultados
     if (!origin || !destination || totalMiles <= 0 || (rpm <= 0 && rate <= 0)) {
       hideDecisionPanel(); 
       return;
     }
 
-    // ✅ Validaciones suaves (ya con totalMiles calculado)
+    // âœ… Validaciones suaves (ya con totalMiles calculado)
     if (!origin || !destination) {
-      console.log("⚠️ Faltan origen/destino, no se ejecuta cálculo.");
+      console.log("âš ï¸ Faltan origen/destino, no se ejecuta cÃ¡lculo.");
       return;
     }
     if (totalMiles <= 0) {
-      console.log("⚠️ Millas inválidas, no se ejecuta cálculo.");
+      console.log("âš ï¸ Millas invÃ¡lidas, no se ejecuta cÃ¡lculo.");
       return;
     }
 
-    // ✅ Ajuste de lógica Rate / RPM
+    // âœ… Ajuste de lÃ³gica Rate / RPM
     if (rpm > 0 && rate === 0) {
-      // Si solo hay RPM → calcular Rate redondeado
+      // Si solo hay RPM â†’ calcular Rate redondeado
       rate = Math.round(rpm * loadedMiles);
     } else if (rate > 0 && loadedMiles > 0) {
-      // Si hay Rate → calcular RPM con 2 decimales
+      // Si hay Rate â†’ calcular RPM con 2 decimales
       rpm = Math.round((rate / loadedMiles) * 100) / 100;
     }
 
-    // Cálculo de ingresos
+    // CÃ¡lculo de ingresos
     const baseIncome = rate;
     const totalCharge = baseIncome + tolls + others;
 
-    // ✅ Usar tus costos reales confirmados
+    // âœ… Usar tus costos reales confirmados
     const fuelCost = totalMiles * TU_COSTO_REAL.combustible;
     const maintenanceCost = totalMiles * (TU_COSTO_REAL.mantenimiento + TU_COSTO_REAL.reservaGomas);
     const foodCost = totalMiles * TU_COSTO_REAL.comida;
@@ -231,7 +231,7 @@ async function calculate() {
       totalExpenses, netProfit, margin, profitPerMile, actualRPM, rpm, rate
     });
 
-    // ✅ Mostrar panel de decisión
+    // âœ… Mostrar panel de decisiÃ³n
     showDecisionPanel({
       totalCharge,
       netProfit,
@@ -246,72 +246,110 @@ async function calculate() {
     // Actualizar mapa
     updateMap();
 
-    console.log("✅ Cálculo completado con costos reales");
+    console.log("âœ… CÃ¡lculo completado con costos reales");
   } catch (error) {
-    console.error('❌ Error en cálculo:', error);
+    console.error('âŒ Error en cÃ¡lculo:', error);
     showError(error.message);
   }
 }
 
-// ✅ Mantener sincronía entre Rate y RPM + disparar cálculo completo
+// âœ… Mantener sincronÃ­a entre Rate y RPM + disparar cÃ¡lculo completo CON DELAY
+let calculateTimeout;
+let listenersAdded = false; // Evitar duplicar event listeners
+
 function syncRateAndRpm() {
   const loadedMilesEl = document.getElementById('loadedMiles');
   const deadheadMilesEl = document.getElementById('deadheadMiles');
   const rpmEl = document.getElementById('rpm');
   const rateEl = document.getElementById('rate');
+  const tripMilesEl = document.getElementById('tripMiles');
 
-  function recalc() {
+  if (!rpmEl || !rateEl || !loadedMilesEl) return;
+
+  // FunciÃ³n para calcular con delay (debounce) - espera que el usuario termine de escribir
+  function triggerCalculate() {
+    clearTimeout(calculateTimeout);
+    calculateTimeout = setTimeout(() => {
+      calculate();
+    }, 800); // Espera 800ms despuÃ©s de que dejes de escribir
+  }
+
+  // FunciÃ³n para actualizar millas totales en pantalla
+  function updateTotalMiles() {
     const loadedMiles = Number(loadedMilesEl?.value || 0);
     const deadheadMiles = Number(deadheadMilesEl?.value || 0);
     const totalMiles = loadedMiles + deadheadMiles;
-
-    if (!rpmEl || !rateEl || totalMiles <= 0) return;
-
-    // cuando cambia RPM → recalcula Rate
-    rpmEl.addEventListener("input", () => {
-      const rpmVal = parseFloat(rpmEl.value) || 0;
-      if (totalMiles > 0) {
-        rateEl.value = (rpmVal * totalMiles).toFixed(2);
-      }
-      calculate(); // recalcular precios/ganancia
-    });
-
-    // cuando cambia Rate → recalcula RPM
-    rateEl.addEventListener("input", () => {
-      const rateVal = parseFloat(rateEl.value) || 0;
-      if (totalMiles > 0) {
-        rpmEl.value = (rateVal / totalMiles).toFixed(2);
-      }
-      calculate();
-    });
+    
+    if (tripMilesEl) {
+      tripMilesEl.textContent = totalMiles.toLocaleString();
+    }
+    
+    return { loadedMiles, totalMiles };
   }
 
-  // recalcular al cambiar millas también
-  loadedMilesEl?.addEventListener("input", () => {
-    recalc();
-    calculate();
-  });
-  deadheadMilesEl?.addEventListener("input", () => {
-    recalc();
-    calculate();
-  });
+  // Solo agregar listeners UNA VEZ
+  if (!listenersAdded) {
+    // Cuando cambia RPM â†’ recalcula Rate
+    rpmEl.addEventListener("input", () => {
+      const { loadedMiles } = updateTotalMiles();
+      const rpm = parseFloat(rpmEl.value) || 0;
+      
+      if (loadedMiles > 0 && rpm > 0) {
+        rateEl.value = (rpm * loadedMiles).toFixed(2);
+      }
+      triggerCalculate();
+    });
 
-  recalc();
+    // Cuando cambia Rate â†’ recalcula RPM
+    rateEl.addEventListener("input", () => {
+      const { loadedMiles } = updateTotalMiles();
+      const rate = parseFloat(rateEl.value) || 0;
+      
+      if (loadedMiles > 0 && rate > 0) {
+        rpmEl.value = (rate / loadedMiles).toFixed(2);
+      }
+      triggerCalculate();
+    });
+
+    // Cuando cambian las millas â†’ actualiza Rate/RPM y recalcula
+    loadedMilesEl.addEventListener("input", () => {
+      const { loadedMiles } = updateTotalMiles();
+      
+      if (loadedMiles > 0) {
+        const rpm = parseFloat(rpmEl.value) || 0;
+        const rate = parseFloat(rateEl.value) || 0;
+        
+        // Si hay RPM, actualizar Rate
+        if (rpm > 0) {
+          rateEl.value = (rpm * loadedMiles).toFixed(2);
+        }
+        // Si hay Rate, actualizar RPM
+        else if (rate > 0) {
+          rpmEl.value = (rate / loadedMiles).toFixed(2);
+        }
+      }
+      triggerCalculate();
+    });
+
+    deadheadMilesEl?.addEventListener("input", () => {
+      updateTotalMiles();
+      triggerCalculate();
+    });
+
+    listenersAdded = true;
+  }
+
+  // Actualizar millas al iniciar
+  updateTotalMiles();
 }
 
-// ✅ Inicializar cuando cargue la página
+// âœ… Inicializar cuando cargue la pÃ¡gina
 document.addEventListener("DOMContentLoaded", syncRateAndRpm);
 
-
-// ✅ Inicializar cuando se cambia millaje también
-document.getElementById('loadedMiles')?.addEventListener("input", syncRateAndRpm);
-document.getElementById('deadheadMiles')?.addEventListener("input", syncRateAndRpm);
-
-
-// ✅ Exponer globalmente
+// âœ… Exponer globalmente
 window.calculate = calculate;
 
-// ✅ FUNCIÓN: Actualizar resultados principales (mantiene compatibilidad con UI existente)
+// âœ… FUNCIÃ“N: Actualizar resultados principales (mantiene compatibilidad con UI existente)
 function updateMainResults(data) {
   const updates = {
     tripMiles: data.totalMiles.toLocaleString(),
@@ -331,7 +369,7 @@ function updateMainResults(data) {
     // Calcular tiempo real
     estimatedTime: calcularTiempoReal(data.totalMiles).formato,
     fuelStops: calcularTiempoReal(data.totalMiles).paradas.toString(),
-    tripDays: Math.ceil(calcularTiempoReal(data.totalMiles).horasTotal / 11).toString() // 11h de manejo por día
+    tripDays: Math.ceil(calcularTiempoReal(data.totalMiles).horasTotal / 11).toString() // 11h de manejo por dÃ­a
   };
 
   Object.entries(updates).forEach(([id, value]) => {
@@ -343,11 +381,11 @@ function updateMainResults(data) {
   updateProfitabilityStatus(data.margin);
 }
 
-// ✅ FUNCIÓN: Panel de decisión mejorado (combina ambas versiones)
+// âœ… FUNCIÃ“N: Panel de decisiÃ³n mejorado (combina ambas versiones)
 function showDecisionPanel(calculationData = {}) {
   const panel = document.getElementById('decisionPanel');
   if (!panel) {
-    console.warn("Panel de decisión no encontrado");
+    console.warn("Panel de decisiÃ³n no encontrado");
     return;
   }
 
@@ -363,26 +401,26 @@ function showDecisionPanel(calculationData = {}) {
     destination = ""
   } = calculationData;
 
-  // ✅ Cálculos corregidos con TUS números reales
+  // âœ… CÃ¡lculos corregidos con TUS nÃºmeros reales
   const rpm = actualRPM || (totalMiles > 0 ? totalCharge / totalMiles : 0);
   const tiempo = calcularTiempoReal(totalMiles);
 
-  // ✅ Detectar factores especiales automáticamente
+  // âœ… Detectar factores especiales automÃ¡ticamente
   const factoresEspeciales = detectarFactoresEspeciales(origin, destination);
 
-  // ✅ Decisión inteligente
+  // âœ… DecisiÃ³n inteligente
   const decision = getDecisionInteligente(rpm, totalMiles, factoresEspeciales);
 
-  // ✅ Actualizar DOM con IDs existentes
+  // âœ… Actualizar DOM con IDs existentes
   const elementos = {
     decisionIcon: decision.icon,
     decisionText: decision.decision,
-    decisionSubtitle: `🎯 ${totalMiles}mi • RPM $${rpm.toFixed(2)}/mi`,
+    decisionSubtitle: `ðŸŽ¯ ${totalMiles}mi â€¢ RPM $${rpm.toFixed(2)}/mi`,
     quickPrice: `$${Math.round(totalCharge)}`,
     quickNetProfit: `$${netProfit.toFixed(2)}`,
     quickProfitPerMile: `$${profitPerMile.toFixed(2)}`,
     quickProfitMargin: `${profitMargin.toFixed(1)}%`,
-    timeAndStops: `⏰ ${tiempo.formato} • ⛽ ${tiempo.paradas} parada${tiempo.paradas !== 1 ? 's' : ''}`,
+    timeAndStops: `â° ${tiempo.formato} â€¢ â›½ ${tiempo.paradas} parada${tiempo.paradas !== 1 ? 's' : ''}`,
     realRPMInfo: `RPM Real: $${rpm.toFixed(2)}`,
     decisionReason: decision.razon
   };
@@ -395,7 +433,7 @@ function showDecisionPanel(calculationData = {}) {
     }
   });
 
-  // Aplicar color de decisión
+  // Aplicar color de decisiÃ³n
   const container = document.getElementById('decisionContainer');
   if (container) {
     container.classList.remove('decision-accept', 'decision-warning', 'decision-reject');
@@ -404,20 +442,19 @@ function showDecisionPanel(calculationData = {}) {
 
   // Mostrar panel
   panel.classList.remove('hidden');
-  panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-  console.log(`🎯 Decisión inteligente: ${decision.decision} - RPM $${rpm.toFixed(2)}/mi - Ganancia $${netProfit.toFixed(0)}`);
+  console.log(`ðŸŽ¯ DecisiÃ³n inteligente: ${decision.decision} - RPM $${rpm.toFixed(2)}/mi - Ganancia $${netProfit.toFixed(0)}`);
 }
 
 
-// ✅ Exponer globalmente (importante para que funcione oninput="...")
+// âœ… Exponer globalmente (importante para que funcione oninput="...")
 window.showDestinationNotes = showDestinationNotes;
 
 // ========================================
-// ✅ MANTENER TODAS LAS FUNCIONES EXISTENTES
+// âœ… MANTENER TODAS LAS FUNCIONES EXISTENTES
 // ========================================
 
-// ✅ FUNCIÓN: Copiar precio al portapapeles (MANTENER)
+// âœ… FUNCIÃ“N: Copiar precio al portapapeles (MANTENER)
 function copyPriceToClipboard() {
     const totalChargeEl = document.getElementById('totalCharge');
     if (!totalChargeEl) {
@@ -433,18 +470,18 @@ function copyPriceToClipboard() {
         const originalText = button.textContent;
         const originalClass = button.className;
         
-        button.textContent = '✅ COPIADO';
+        button.textContent = 'âœ… COPIADO';
         button.className = originalClass + ' copy-feedback';
         
-        // Revertir después de 2 segundos
+        // Revertir despuÃ©s de 2 segundos
         setTimeout(() => {
             button.textContent = originalText;
             button.className = originalClass;
         }, 2000);
         
-        console.log(`💰 Precio copiado: ${price}`);
+        console.log(`ðŸ’° Precio copiado: ${price}`);
         
-        // Opcional: Mostrar notificación
+        // Opcional: Mostrar notificaciÃ³n
         if (typeof showMessage === 'function') {
             showMessage(`Precio ${price} copiado al portapapeles`, 'success');
         }
@@ -455,7 +492,7 @@ function copyPriceToClipboard() {
     });
 }
 
-// ✅ FUNCIÓN: Aceptar y guardar automáticamente (MANTENER)
+// âœ… FUNCIÃ“N: Aceptar y guardar automÃ¡ticamente (MANTENER)
 function acceptAndSave() {
     if (typeof saveLoad === 'function') {
         saveLoad();
@@ -464,25 +501,25 @@ function acceptAndSave() {
         const button = event.target;
         const originalText = button.textContent;
         
-        button.textContent = '✅ GUARDANDO...';
+        button.textContent = 'âœ… GUARDANDO...';
         button.disabled = true;
         
         setTimeout(() => {
-            button.textContent = '✅ GUARDADO';
+            button.textContent = 'âœ… GUARDADO';
             setTimeout(() => {
                 button.textContent = originalText;
                 button.disabled = false;
             }, 2000);
         }, 1000);
         
-        console.log('💾 Carga aceptada y guardada');
+        console.log('ðŸ’¾ Carga aceptada y guardada');
     } else {
-        console.warn("Función saveLoad no disponible");
+        console.warn("FunciÃ³n saveLoad no disponible");
         alert("Error: No se puede guardar la carga");
     }
 }
 
-// ✅ FUNCIÓN: Ocultar panel de decisión (MANTENER)
+// âœ… FUNCIÃ“N: Ocultar panel de decisiÃ³n (MANTENER)
 function hideDecisionPanel() {
     const panel = document.getElementById('decisionPanel');
     if (panel) {
@@ -490,11 +527,11 @@ function hideDecisionPanel() {
     }
 }
 
-// ✅ Función para guardar carga (crear o editar)
+// âœ… FunciÃ³n para guardar carga (crear o editar)
 async function saveLoad(existingLoadId = null) {
   try {
     if (typeof window.db === 'undefined') {
-      throw new Error('Base de datos no disponible. Inicia sesión primero.');
+      throw new Error('Base de datos no disponible. Inicia sesiÃ³n primero.');
     }
 
     // Obtener datos del formulario
@@ -503,14 +540,14 @@ async function saveLoad(existingLoadId = null) {
     const loadedMiles = document.getElementById('loadedMiles')?.value;
     const deadheadMiles = document.getElementById('deadheadMiles')?.value;
     const rpm = document.getElementById('rpm')?.value;
-    const rate = document.getElementById('rate')?.value || '0';  // 👈 nuevo
+    const rate = document.getElementById('rate')?.value || '0';  // ðŸ‘ˆ nuevo
     const tolls = document.getElementById('tolls')?.value || '0';
     const others = document.getElementById('otherCosts')?.value || '0';
     const loadNumber = document.getElementById('loadNumber')?.value?.trim() || '';
     // Calcular fecha de pago esperada (viernes de la semana siguiente)
 function calculatePaymentDate(loadDate) {
   const date = new Date(loadDate);
-  const dayOfWeek = date.getDay(); // 0=Domingo, 1=Lunes, ..., 6=Sábado
+  const dayOfWeek = date.getDay(); // 0=Domingo, 1=Lunes, ..., 6=SÃ¡bado
   
   // Si es domingo, mover al lunes siguiente
   if (dayOfWeek === 0) {
@@ -522,7 +559,7 @@ function calculatePaymentDate(loadDate) {
   const paymentDate = new Date(date);
   paymentDate.setDate(date.getDate() + daysUntilNextFriday);
   
-  return paymentDate.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+  return formatDateLocal(paymentDate); // Formato YYYY-MM-DD
 }
 
     // Nuevos campos de pago
@@ -532,7 +569,7 @@ function calculatePaymentDate(loadDate) {
     const companyName = document.getElementById('companyName')?.value?.trim() || '';
     const notes = document.getElementById('notes')?.value?.trim() || '';
 
-    // 📅 Manejo de fechas
+    // ðŸ“… Manejo de fechas
     let loadDate;
     try {
       const dateInputEl = document.getElementById('dateInput');
@@ -543,15 +580,15 @@ function calculatePaymentDate(loadDate) {
       } else if (editDateEl && editDateEl.value) {
         loadDate = editDateEl.value.trim();
       } else if (existingLoadId && typeof existingLoadId === "string") {
-        // Solo si el ID es válido
+        // Solo si el ID es vÃ¡lido
         const existingDoc = await window.db.collection('loads').doc(existingLoadId).get();
-        loadDate = existingDoc.exists ? existingDoc.data().date : new Date().toISOString().split('T')[0];
+        loadDate = existingDoc.exists ? existingDoc.data().date : getTodayDateString();
       } else {
-        loadDate = new Date().toISOString().split('T')[0];
+        loadDate = getTodayDateString();
       }
     } catch (err) {
-      console.warn("⚠️ No se encontró campo de fecha, usando hoy:", err);
-      loadDate = new Date().toISOString().split('T')[0];
+      console.warn("âš ï¸ No se encontrÃ³ campo de fecha, usando hoy:", err);
+      loadDate = getTodayDateString();
     }
 
     // Validaciones
@@ -566,18 +603,18 @@ if (
 }
 
 
-    // Cálculos
+    // CÃ¡lculos
     const totalMiles = Number(loadedMiles) + Number(deadheadMiles);
 
 let baseIncome;
 let finalRpm;
 
-// ✅ Si hay rate, calculamos RPM
+// âœ… Si hay rate, calculamos RPM
 if (Number(rate) > 0 && totalMiles > 0) {
   baseIncome = Number(rate);
   finalRpm = baseIncome / totalMiles;
 } else {
-  // ✅ Si no hay rate, usamos RPM
+  // âœ… Si no hay rate, usamos RPM
   finalRpm = Number(rpm);
   baseIncome = finalRpm * totalMiles;
 }
@@ -626,7 +663,7 @@ const totalCharge = baseIncome + additionalCosts;
       netProfit,
       profitPerMile: totalMiles > 0 ? netProfit / totalMiles : 0,
       profitMargin,
-      date: loadDate || new Date().toISOString().split("T")[0], // 👈 aseguramos siempre fecha
+      date: loadDate || getTodayDateString(), // ðŸ‘ˆ aseguramos siempre fecha
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       status: 'completed'
       
@@ -641,7 +678,7 @@ const totalCharge = baseIncome + additionalCosts;
       console.log('Carga guardada con ID:', doc.id);
     }
 
-    window.showMessage?.('✅ Carga guardada', 'success');
+    window.showMessage?.('âœ… Carga guardada', 'success');
 
     setTimeout(() => {
       document.dispatchEvent(new CustomEvent('loadSaved'));
@@ -678,7 +715,7 @@ function getStateFromLocation(location) {
     return '';
 }
 
-// ✅ FUNCIÓN: Actualizar estado de rentabilidad (MANTENER)
+// âœ… FUNCIÃ“N: Actualizar estado de rentabilidad (MANTENER)
 function updateProfitabilityStatus(margin) {
     const statusEl = document.getElementById('profitabilityStatus');
     if (!statusEl) return;
@@ -694,9 +731,9 @@ function updateProfitabilityStatus(margin) {
     } else if (margin >= 0) {
         status = 'Marginal';
         className = 'text-yellow-700 bg-yellow-100';
-        warning = ' - Evalúa destino';
+        warning = ' - EvalÃºa destino';
     } else {
-        status = 'Pérdida';
+        status = 'PÃ©rdida';
         className = 'text-red-700 bg-red-100';
         warning = ' - Rechaza';
     }
@@ -705,7 +742,7 @@ function updateProfitabilityStatus(margin) {
     statusEl.className = className;
 }
 
-// ✅ FUNCIÓN: Limpiar formulario (MANTENER NOMBRE ORIGINAL)
+// âœ… FUNCIÃ“N: Limpiar formulario (MANTENER NOMBRE ORIGINAL)
 function clearForm() {
     console.log('Limpiando formulario...');
     
@@ -731,44 +768,44 @@ function clearForm() {
     console.log('Formulario limpiado');
     hideDecisionPanel();
 
-    // 👇 Ocultar también el cuadro de notas
+    // ðŸ‘‡ Ocultar tambiÃ©n el cuadro de notas
     hideNotesBox();
 }
 
 
 // ========================================
-// ✅ FUNCIONES DE GOOGLE MAPS (MANTENER TODAS)
+// âœ… FUNCIONES DE GOOGLE MAPS (MANTENER TODAS)
 // ========================================
 
-// ✅ Variables globales para Google Maps
+// âœ… Variables globales para Google Maps
 let googleMap, directionsService, directionsRenderer;
 
-// ✅ FUNCIÓN: Actualizar mapa
+// âœ… FUNCIÃ“N: Actualizar mapa
 function updateMap() {
     const origin = document.getElementById('origin')?.value?.trim();
     const destination = document.getElementById('destination')?.value?.trim();
     
     if (!origin || !destination) {
-        console.log("⏳ Cannot update map: missing origin or destination");
+        console.log("â³ Cannot update map: missing origin or destination");
         return;
     }
     
     if (googleMap && directionsService && directionsRenderer) {
         showRouteOnMap(origin, destination);
     } else {
-        console.warn("⚠️ Map not ready, showing fallback");
+        console.warn("âš ï¸ Map not ready, showing fallback");
         showMapFallback(origin, destination);
     }
 }
 
-// ✅ FALLBACK para cuando el mapa no esté listo
+// âœ… FALLBACK para cuando el mapa no estÃ© listo
 function showMapFallback(origin, destination) {
     const mapContainer = document.getElementById('map');
     if (mapContainer) {
         mapContainer.innerHTML = `
             <div class="w-full h-96 bg-blue-50 border-2 border-blue-200 rounded-lg flex items-center justify-center">
                 <div class="text-center p-6">
-                    <h3 class="text-lg font-semibold text-blue-800 mb-2">🗺️ Ruta: ${origin} → ${destination}</h3>
+                    <h3 class="text-lg font-semibold text-blue-800 mb-2">ðŸ—ºï¸ Ruta: ${origin} â†’ ${destination}</h3>
                     <p class="text-blue-600 mb-4">Mapa en proceso de carga...</p>
                     <button onclick="openGoogleMapsDirections()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                         Ver en Google Maps
@@ -779,7 +816,7 @@ function showMapFallback(origin, destination) {
     }
 }
 
-// ✅ FUNCIÓN: Abrir Google Maps (MANTENER)
+// âœ… FUNCIÃ“N: Abrir Google Maps (MANTENER)
 function openGoogleMapsDirections() {
     const origin = document.getElementById('origin').value.trim();
     const destination = document.getElementById('destination').value.trim();
@@ -790,7 +827,7 @@ function openGoogleMapsDirections() {
     }
 }
 
-// ✅ FUNCIÓN: Mostrar ruta en mapa
+// âœ… FUNCIÃ“N: Mostrar ruta en mapa
 function showRouteOnMap(origin, destination) {
     if (!directionsService || !directionsRenderer) {
         console.warn("Google Maps services not ready");
@@ -809,18 +846,18 @@ function showRouteOnMap(origin, destination) {
         if (status === 'OK') {
             directionsRenderer.setDirections(result);
             
-            // Calcular distancia automáticamente si está disponible
+            // Calcular distancia automÃ¡ticamente si estÃ¡ disponible
             const route = result.routes[0];
             const distance = route.legs[0].distance.value * 0.000621371; // metros a millas
             
-            // Actualizar campo de millas si está vacío
+            // Actualizar campo de millas si estÃ¡ vacÃ­o
             const loadedMilesEl = document.getElementById('loadedMiles');
             if (loadedMilesEl && !loadedMilesEl.value) {
                 loadedMilesEl.value = Math.round(distance);
                 updateTotalMiles();
             }
             
-            console.log(`🗺️ Ruta calculada: ${Math.round(distance)} millas`);
+            console.log(`ðŸ—ºï¸ Ruta calculada: ${Math.round(distance)} millas`);
         } else {
             console.error('Error calculando ruta:', status);
             showMapFallback(origin, destination);
@@ -828,13 +865,29 @@ function showRouteOnMap(origin, destination) {
     });
 }
 
-// ✅ FUNCIÓN: Calcular distancia automáticamente
+// âœ… FUNCIÃ“N: Calcular distancia automÃ¡ticamente
 function calculateDistanceAutomatically() {
-    const origin = document.getElementById('origin')?.value?.trim();
-    const destination = document.getElementById('destination')?.value?.trim();
+    // Intentar obtener de inputs ocultos primero (nuevo sistema)
+    let origin = document.getElementById('origin-value')?.value?.trim();
+    let destination = document.getElementById('destination-value')?.value?.trim();
     
-    if (!origin || !destination) return;
+    // Fallback a inputs normales (sistema legacy)
+    if (!origin) origin = document.getElementById('origin')?.value?.trim();
+    if (!destination) destination = document.getElementById('destination')?.value?.trim();
     
+    if (!origin || !destination) {
+        console.log("âš ï¸ Faltan origin/destination para calcular");
+        return;
+    }
+    
+    // Si hay funciÃ³n especÃ­fica para hidden values, usarla
+    if (typeof calculateDistanceFromHidden === 'function' && 
+        document.getElementById('origin-value')?.value) {
+        calculateDistanceFromHidden(origin, destination);
+        return;
+    }
+    
+    // MÃ©todo estÃ¡ndar
     if (typeof google !== 'undefined' && google.maps && google.maps.DistanceMatrixService) {
         const service = new google.maps.DistanceMatrixService();
         
@@ -847,20 +900,20 @@ function calculateDistanceAutomatically() {
             avoidTolls: false
         }, (response, status) => {
             if (status === 'OK' && response.rows[0].elements[0].status === 'OK') {
-                const distance = response.rows[0].elements[0].distance.value * 0.000621371; // metros a millas
+                const distance = response.rows[0].elements[0].distance.value * 0.000621371;
                 
                 const loadedMilesEl = document.getElementById('loadedMiles');
                 if (loadedMilesEl && !loadedMilesEl.value) {
                     loadedMilesEl.value = Math.round(distance);
                     updateTotalMiles();
-                    console.log(`📍 Distancia calculada automáticamente: ${Math.round(distance)} millas`);
+                    console.log(`ðŸ“ Distancia calculada: ${Math.round(distance)} millas`);
                 }
             }
         });
     }
 }
 
-// ✅ FUNCIÓN: Actualizar total de millas
+// âœ… FUNCIÃ“N: Actualizar total de millas
 function updateTotalMiles() {
     const loadedMiles = Number(document.getElementById('loadedMiles')?.value || 0);
     const deadheadMiles = Number(document.getElementById('deadheadMiles')?.value || 0);
@@ -872,7 +925,7 @@ function updateTotalMiles() {
     }
 }
 
-// ✅ FUNCIÓN: Inicializar Google Maps
+// âœ… FUNCIÃ“N: Inicializar Google Maps
 function initGoogleMaps() {
     try {
         if (typeof google === 'undefined') {
@@ -902,88 +955,191 @@ function initGoogleMaps() {
         
         directionsRenderer.setMap(googleMap);
         
-        console.log("✅ Google Maps inicializado correctamente");
+        console.log("âœ… Google Maps inicializado correctamente");
         
-        // Configurar autocompletado después de inicializar el mapa
-        setTimeout(setupGoogleAutocomplete, 1000);
+        // Configurar autocompletado despuÃ©s de inicializar el mapa
+        // Solo si no se ha configurado ya (evitar duplicados)
+        if (!window.autocompleteConfigured) {
+            window.autocompleteConfigured = true;
+            setTimeout(setupGoogleAutocomplete, 1000);
+        }
         
     } catch (error) {
         console.error("Error inicializando Google Maps:", error);
     }
 }
 
-// ✅ FUNCIÓN: Configurar autocompletado de Google Places
-function setupGoogleAutocomplete() {
+// âœ… FUNCIÃ“N: Entry point oficial para Google Maps callback
+function initMap() {
+    console.log("âœ… initMap() llamado por Google Maps API");
+    initGoogleMaps();
+}
+
+// Exponer initMap globalmente para el callback de Google Maps
+window.initMap = initMap;
+
+// âœ… FUNCIÃ“N: Configurar autocompletado de Google Places
+// NOTA: PlaceAutocompleteElement no se inicializa correctamente (shadow DOM vacÃ­o)
+// Usando mÃ©todo Autocomplete legacy que funciona perfectamente
+async function setupGoogleAutocomplete() {
   try {
     if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
       console.warn("Google Places API no disponible");
       return;
     }
 
+    console.log("ðŸ”„ Configurando Autocomplete (mÃ©todo legacy)...");
+    
     const originInput = document.getElementById('origin');
     const destinationInput = document.getElementById('destination');
 
-    if (originInput && destinationInput) {
-      const originAutocomplete = new google.maps.places.Autocomplete(originInput, {
-        types: ['geocode'], // 👈 acepta ZIP y ciudades
-        componentRestrictions: { country: ['us', 'ca'] }
-      });
-
-      const destinationAutocomplete = new google.maps.places.Autocomplete(destinationInput, {
-        types: ['geocode'],
-        componentRestrictions: { country: ['us', 'ca'] }
-      });
-
-      // ✅ Normaliza el valor seleccionado del Autocomplete (ciudad + estado)
-      function normalizePlace(inputEl, place) {
-        if (place && place.address_components) {
-          let city = "";
-          let state = "";
-
-          place.address_components.forEach(c => {
-            if (c.types.includes("locality")) city = c.long_name;
-            if (c.types.includes("administrative_area_level_1")) state = c.short_name;
-          });
-
-          // Fallback: si no hay city (solo ZIP), usa el postal_code
-          if (!city) {
-            const postal = place.address_components.find(c => c.types.includes("postal_code"));
-            if (postal) city = postal.long_name;
-          }
-
-          if (city && state) {
-            const formatted = `${city}, ${state}`;
-            inputEl.value = formatted; // 👈 Sobrescribimos limpio
-          }
-        }
-      }
-
-      originAutocomplete.addListener('place_changed', () => {
-        normalizePlace(originInput, originAutocomplete.getPlace());
-        setTimeout(() => calculateDistanceAutomatically(), 500);
-      });
-
-      destinationAutocomplete.addListener('place_changed', () => {
-        normalizePlace(destinationInput, destinationAutocomplete.getPlace());
-
-        // 👇 Disparar búsqueda de notas con el valor final ya limpio
-        if (destinationInput.value.trim()) {
-          console.log("📌 Google Autocomplete seleccionado:", destinationInput.value);
-          showDestinationNotes(destinationInput.value.trim());
-        }
-
-        setTimeout(() => calculateDistanceAutomatically(), 500);
-      });
-
-      console.log("✅ Autocompletado de Google Places configurado (ciudades + ZIP)");
+    if (!originInput || !destinationInput) {
+      console.warn("Inputs de origin/destination no encontrados");
+      return;
     }
+
+    // Si son elementos gmp-place-autocomplete, reemplazarlos con inputs normales
+    if (originInput.tagName === 'GMP-PLACE-AUTOCOMPLETE') {
+      const newOrigin = document.createElement('input');
+      newOrigin.type = 'text';
+      newOrigin.id = 'origin';
+      newOrigin.className = originInput.className;
+      newOrigin.placeholder = originInput.getAttribute('placeholder') || 'Origen (ej: Miami, FL)';
+      newOrigin.autocomplete = 'off';
+      originInput.parentNode.replaceChild(newOrigin, originInput);
+      console.log("âœ… Origin convertido a input normal");
+    }
+
+    if (destinationInput.tagName === 'GMP-PLACE-AUTOCOMPLETE') {
+      const newDest = document.createElement('input');
+      newDest.type = 'text';
+      newDest.id = 'destination';
+      newDest.className = destinationInput.className;
+      newDest.placeholder = destinationInput.getAttribute('placeholder') || 'Destino (ej: Atlanta, GA)';
+      newDest.autocomplete = 'off';
+      destinationInput.parentNode.replaceChild(newDest, destinationInput);
+      console.log("âœ… Destination convertido a input normal");
+    }
+
+    // Ahora configurar con el mÃ©todo legacy
+    setupLegacyAutocomplete();
+    
   } catch (error) {
     console.error("Error configurando autocompletado:", error);
   }
 }
 
+// ðŸ”„ FUNCIÃ“N FALLBACK: Autocomplete legacy si falla el nuevo
+function setupLegacyAutocomplete() {
+  try {
+    console.log("ðŸ”„ Configurando Autocomplete legacy...");
+    
+    const originInput = document.getElementById('origin');
+    const destinationInput = document.getElementById('destination');
 
-// ✅ FUNCIÓN: Sincronizar vista de rentabilidad
+    if (!originInput || !destinationInput) return;
+
+    const originAutocomplete = new google.maps.places.Autocomplete(originInput, {
+      types: ['geocode'],
+      componentRestrictions: { country: ['us', 'ca'] }
+    });
+
+    const destinationAutocomplete = new google.maps.places.Autocomplete(destinationInput, {
+      types: ['geocode'],
+      componentRestrictions: { country: ['us', 'ca'] }
+    });
+
+    function normalizePlace(inputEl, place) {
+      if (place && place.address_components) {
+        let city = "";
+        let state = "";
+
+        place.address_components.forEach(c => {
+          if (c.types.includes("locality")) city = c.long_name;
+          if (c.types.includes("administrative_area_level_1")) state = c.short_name;
+        });
+
+        if (!city) {
+          const postal = place.address_components.find(c => c.types.includes("postal_code"));
+          if (postal) city = postal.long_name;
+        }
+
+        if (city && state) {
+          inputEl.value = `${city}, ${state}`;
+        }
+      }
+    }
+
+    originAutocomplete.addListener('place_changed', () => {
+      normalizePlace(originInput, originAutocomplete.getPlace());
+      setTimeout(() => calculateDistanceAutomatically(), 500);
+    });
+
+    destinationAutocomplete.addListener('place_changed', () => {
+      normalizePlace(destinationInput, destinationAutocomplete.getPlace());
+      
+      if (destinationInput.value.trim()) {
+        showDestinationNotes(destinationInput.value.trim());
+      }
+      
+      setTimeout(() => calculateDistanceAutomatically(), 500);
+    });
+
+    console.log("âœ… Autocomplete legacy configurado");
+  } catch (error) {
+    console.error("Error en legacy autocomplete:", error);
+  }
+}
+
+// ðŸ†• FUNCIÃ“N: Calcular distancia usando valores de inputs ocultos
+function calculateDistanceFromHidden(origin, destination) {
+  if (!origin || !destination) {
+    console.warn("âš ï¸ Faltan valores para calcular");
+    return;
+  }
+  
+  console.log("ðŸ“ Calculando distancia:", origin, "â†’", destination);
+  
+  if (!google.maps.DistanceMatrixService) {
+    console.error("âŒ DistanceMatrixService no disponible");
+    return;
+  }
+  
+  const service = new google.maps.DistanceMatrixService();
+  
+  service.getDistanceMatrix({
+    origins: [origin],
+    destinations: [destination],
+    travelMode: google.maps.TravelMode.DRIVING,
+    unitSystem: google.maps.UnitSystem.IMPERIAL,
+    avoidHighways: false,
+    avoidTolls: false
+  }, (response, status) => {
+    if (status === 'OK' && response.rows[0].elements[0].status === 'OK') {
+      const distanceMiles = Math.round(response.rows[0].elements[0].distance.value * 0.000621371);
+      
+      console.log(`âœ… Distancia calculada: ${distanceMiles} millas`);
+      
+      const loadedMilesEl = document.getElementById('loadedMiles');
+      if (loadedMilesEl && !loadedMilesEl.value) {
+        loadedMilesEl.value = distanceMiles;
+        loadedMilesEl.dispatchEvent(new Event('input', { bubbles: true }));
+        
+        if (typeof updateTotalMiles === 'function') {
+          updateTotalMiles();
+        }
+        
+        console.log("âœ… Millas actualizadas en el campo");
+      }
+    } else {
+      console.error("âŒ Error calculando distancia:", status);
+    }
+  });
+}
+
+
+
+// âœ… FUNCIÃ“N: Sincronizar vista de rentabilidad
 function syncRentabilityCardSingleView() {
     const rentCard = document.getElementById('rentabilityCard');
     if (rentCard) {
@@ -993,11 +1149,11 @@ function syncRentabilityCardSingleView() {
 }
 
 // ========================================
-// ✅ CONFIGURACIÓN DE EVENTOS (MANTENER COMPLETA)
+// âœ… CONFIGURACIÃ“N DE EVENTOS (MANTENER COMPLETA)
 // ========================================
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Calculator integrado cargado - configurando eventos');
+    console.log('ðŸš€ Calculator integrado cargado - configurando eventos');
     
     setTimeout(function() {
         // Configurar botones principales
@@ -1007,20 +1163,20 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (calculateBtn) {
             calculateBtn.addEventListener('click', calculate);
-            console.log('✅ Botón calcular configurado con costos reales');
+            console.log('âœ… BotÃ³n calcular configurado con costos reales');
         }
         
         if (saveBtn) {
             saveBtn.addEventListener('click', saveLoad);
-            console.log('✅ Botón guardar configurado');
+            console.log('âœ… BotÃ³n guardar configurado');
         }
         
         if (clearBtn) {
             clearBtn.addEventListener('click', clearForm);
-            console.log('✅ Botón limpiar configurado');
+            console.log('âœ… BotÃ³n limpiar configurado');
         }
         
-        // Configurar auto-cálculo de millas totales
+        // Configurar auto-cÃ¡lculo de millas totales
         const loadedInput = document.getElementById('loadedMiles');
         const deadheadInput = document.getElementById('deadheadMiles');
         
@@ -1028,10 +1184,10 @@ document.addEventListener('DOMContentLoaded', function() {
             [loadedInput, deadheadInput].forEach(input => {
                 input.addEventListener('input', updateTotalMiles);
             });
-            console.log('✅ Auto-cálculo de millas totales configurado');
+            console.log('âœ… Auto-cÃ¡lculo de millas totales configurado');
         }
         
-        // Configurar validación en tiempo real
+        // Configurar validaciÃ³n en tiempo real
         const requiredFields = ['origin', 'destination', 'loadedMiles', 'deadheadMiles', 'rpm'];
         requiredFields.forEach(fieldId => {
             const field = document.getElementById(fieldId);
@@ -1048,66 +1204,15 @@ document.addEventListener('DOMContentLoaded', function() {
         
     }, 500);
     
-    // Configurar autocompletado de Google Maps con retraso
-    setTimeout(() => {
-        if (typeof google !== 'undefined' && google.maps && google.maps.places) {
-            setupGoogleAutocomplete();
-        } else {
-            console.log("🔄 Google Maps API aún no cargada, configurando autocompletado permanente...");
-            
-            // Configurar autocompletado permanente
-            const checkGoogleMaps = setInterval(() => {
-                if (typeof google !== 'undefined' && google.maps && google.maps.places) {
-                    clearInterval(checkGoogleMaps);
-                    
-                    const originInput = document.getElementById('origin');
-                    const destinationInput = document.getElementById('destination');
-                    
-                    if (originInput && destinationInput) {
-                        const originAutocomplete = new google.maps.places.Autocomplete(originInput, {
-                            types: ['(cities)'],
-                            componentRestrictions: { country: ['us', 'ca'] }
-                        });
-                        
-                        const destinationAutocomplete = new google.maps.places.Autocomplete(destinationInput, {
-                            types: ['(cities)'],
-                            componentRestrictions: { country: ['us', 'ca'] }
-                        });
-                        
-                        originAutocomplete.addListener('place_changed', () => {
-                            setTimeout(() => {
-                                calculateDistanceAutomatically();
-                            }, 500);
-                        });
-                        
-                        destinationAutocomplete.addListener('place_changed', () => {
-                            setTimeout(() => {
-                                calculateDistanceAutomatically();
-                            }, 500);
-                        });
-                        
-                        console.log("✅ Autocompletado permanente configurado");
-                    }
-                }
-            }, 3000);
-        }
-    }, 3000);
+    // NO configurar autocompletado aquÃ­ - se hace automÃ¡ticamente cuando Google Maps carga via callback
     
     // Sincronizar vista de rentabilidad
     syncRentabilityCardSingleView();
 });
 
-// ✅ INICIALIZAR MAPA con retraso
-setTimeout(() => {
-    if (typeof window.initMap === 'function') {
-        console.log("🗺️ Inicializando mapa...");
-        window.initMap();
-    } else if (typeof google !== 'undefined') {
-        initGoogleMaps();
-    }
-}, 500);
+// NO inicializar mapa manualmente - Google Maps lo hace via callback a initMap()
 
-// 🔄 Autocalculado en todos los campos de la calculadora
+// ðŸ”„ Autocalculado en todos los campos de la calculadora
 // ----------------------------------------------------
 function setupAutoCalculation() {
   const fields = [
@@ -1119,7 +1224,7 @@ function setupAutoCalculation() {
     if (typeof window.calculate === "function") {
       window.calculate();
     } else {
-      console.warn("⚠️ calculate() no está disponible todavía");
+      console.warn("âš ï¸ calculate() no estÃ¡ disponible todavÃ­a");
     }
   }, 400);
 
@@ -1131,14 +1236,14 @@ function setupAutoCalculation() {
     }
   });
 
-  console.log("⚡ Auto cálculo configurado en la calculadora");
+  console.log("âš¡ Auto cÃ¡lculo configurado en la calculadora");
 }
 
 function initAutoCalculation() {
   if (typeof window.calculate === "function") {
     setupAutoCalculation();
   } else {
-    console.log("⏳ Esperando a calculate...");
+    console.log("â³ Esperando a calculate...");
     setTimeout(initAutoCalculation, 300);
   }
 }
@@ -1146,53 +1251,53 @@ function initAutoCalculation() {
 document.addEventListener("DOMContentLoaded", initAutoCalculation);
 
 
-// 👉 Exponer globalmente
+// ðŸ‘‰ Exponer globalmente
 window.showDestinationNotes = showDestinationNotes;
 
 // =============================
-// 📝 Funciones para Modal de Notas
+// ðŸ“ Funciones para Modal de Notas
 // =============================
 
 // Variable global para recordar el destino actual
 let currentDestinationKey = "";
 
-// ✅ Normalizar destinos (para usar como key uniforme en Firestore)
+// âœ… Normalizar destinos (para usar como key uniforme en Firestore)
 function normalizeDestination(value) {
   if (!value) return "";
 
   return value
     .trim()
     .toLowerCase()
-    .replace(/,?\s*(ee\.?\s*uu\.?|usa|united states)/gi, "") // quitar país
+    .replace(/,?\s*(ee\.?\s*uu\.?|usa|united states)/gi, "") // quitar paÃ­s
     .replace(/,/g, "")   // quitar comas
     .replace(/\s+/g, " "); // normalizar espacios
 }
 
 
 
-// 🔄 Obtener notas de Firebase para un destino (por key normalizado)
+// ðŸ”„ Obtener notas de Firebase para un destino (por key normalizado)
 async function getNotesForDestination(normalizedKey) {
   try {
     const snapshot = await firebase.firestore()
       .collection("notes")
       .where("userId", "==", window.currentUser.uid)
-      .where("key", "==", normalizedKey)   // 👈 búsqueda exacta con clave uniforme
+      .where("key", "==", normalizedKey)   // ðŸ‘ˆ bÃºsqueda exacta con clave uniforme
       .orderBy("createdAt", "desc")
       .get();
 
     return snapshot;
   } catch (error) {
-    console.error("❌ Error en getNotesForDestination:", error);
+    console.error("âŒ Error en getNotesForDestination:", error);
     return { empty: true, docs: [] };
   }
 }
 
-// 📍 Cuadro amarillo de información rápida (solo contador)
+// ðŸ“ Cuadro amarillo de informaciÃ³n rÃ¡pida (solo contador)
 async function showDestinationNotes(destination) {
   if (!destination) return;
 
   const normalized = normalizeDestination(destination);
-  console.log("🔎 showDestinationNotes ejecutado con:", destination, "➡️ normalizado:", normalized);
+  console.log("ðŸ”Ž showDestinationNotes ejecutado con:", destination, "âž¡ï¸ normalizado:", normalized);
 
   const snapshot = await firebase.firestore()
     .collection("notes")
@@ -1206,22 +1311,22 @@ async function showDestinationNotes(destination) {
     return keyNorm === normalized || destNorm === normalized;
   });
 
-  console.log("✅ Notas filtradas para", normalized, ":", notes.length);
+  console.log("âœ… Notas filtradas para", normalized, ":", notes.length);
 
   const box = document.getElementById("previousNoteBox");
   const status = document.getElementById("notesStatusText");
 
   if (notes.length > 0) {
-    status.textContent = `📌 ${notes.length} nota(s) guardada(s) para este destino`;
+    status.textContent = `ðŸ“Œ ${notes.length} nota(s) guardada(s) para este destino`;
     box.classList.remove("hidden");
   } else {
-    status.textContent = "ℹ️ No hay notas para este destino.";
+    status.textContent = "â„¹ï¸ No hay notas para este destino.";
     box.classList.remove("hidden");
   }
 }
 
 
-// 📖 Modal de Notas
+// ðŸ“– Modal de Notas
 async function openNotesModal(destination) {
   currentDestinationKey = normalizeDestination(destination);
 
@@ -1231,13 +1336,13 @@ async function openNotesModal(destination) {
 
   if (!currentDestinationKey) {
     title.textContent = "Notas";
-    list.innerHTML = `<p class="text-gray-500 text-sm">⚠️ No se especificó un destino.</p>`;
+    list.innerHTML = `<p class="text-gray-500 text-sm">âš ï¸ No se especificÃ³ un destino.</p>`;
     modal.classList.remove("hidden");
     modal.classList.add("flex");
     return;
   }
 
-  // 👇 mostramos el destino original en el título, pero usamos el key para buscar
+  // ðŸ‘‡ mostramos el destino original en el tÃ­tulo, pero usamos el key para buscar
   title.textContent = `Notas para ${destination}`;
   list.innerHTML = `<p class="text-gray-500 text-sm">Cargando notas...</p>`;
   modal.classList.remove("hidden");
@@ -1246,7 +1351,7 @@ async function openNotesModal(destination) {
   const snapshot = await getNotesForDestination(currentDestinationKey);
 
   if (snapshot.empty) {
-    list.innerHTML = `<p class="text-gray-500 text-sm">No hay notas registradas aún.</p>`;
+    list.innerHTML = `<p class="text-gray-500 text-sm">No hay notas registradas aÃºn.</p>`;
   } else {
     let html = "";
     snapshot.forEach(doc => {
@@ -1260,8 +1365,8 @@ async function openNotesModal(destination) {
             </p>
           </div>
           <div class="flex gap-2">
-            <button class="text-blue-600 text-xs" onclick="editNote('${doc.id}', '${data.note}')">✏️</button>
-            <button class="text-red-600 text-xs" onclick="deleteNote('${doc.id}')">🗑️</button>
+            <button class="text-blue-600 text-xs" onclick="editNote('${doc.id}', '${data.note}')">âœï¸</button>
+            <button class="text-red-600 text-xs" onclick="deleteNote('${doc.id}')">ðŸ—‘ï¸</button>
           </div>
         </div>
       `;
@@ -1270,26 +1375,26 @@ async function openNotesModal(destination) {
   }
 }
 
-// ❌ Cerrar modal
+// âŒ Cerrar modal
 function closeNotesModal() {
   const modal = document.getElementById("notesModal");
   modal.classList.add("hidden");
   modal.classList.remove("flex");
 }
 
-// ➕ Añadir nueva nota
+// âž• AÃ±adir nueva nota
 async function addNoteToDestination(key) {
   const textarea = document.getElementById("newNoteModalInput");
   const note = textarea.value.trim();
-  if (!note) return alert("La nota no puede estar vacía");
+  if (!note) return alert("La nota no puede estar vacÃ­a");
 
   try {
     const rawDestination = document.getElementById("destination")?.value?.trim() || key;
 
     await firebase.firestore().collection("notes").add({
       userId: window.currentUser.uid,
-      key: normalizeDestination(rawDestination), // 👈 clave uniforme para búsquedas
-      destination: rawDestination,               // 👈 lo que ves en el input
+      key: normalizeDestination(rawDestination), // ðŸ‘ˆ clave uniforme para bÃºsquedas
+      destination: rawDestination,               // ðŸ‘ˆ lo que ves en el input
       note: note,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
@@ -1298,19 +1403,19 @@ async function addNoteToDestination(key) {
     openNotesModal(rawDestination);
     showDestinationNotes(rawDestination);
   } catch (error) {
-    console.error("❌ Error guardando nota:", error);
+    console.error("âŒ Error guardando nota:", error);
     alert("Error guardando nota");
   }
 }
 
-// ✅ Escuchar cambios en el destino (blur + change)
+// âœ… Escuchar cambios en el destino (blur + change)
 function handleDestinationChange(e) {
   const dest = e.target.value.trim();
   if (dest && dest.length > 3) {
-    console.log("🔎 Detectado destino válido:", dest);
+    console.log("ðŸ”Ž Detectado destino vÃ¡lido:", dest);
     showDestinationNotes(dest);
   } else {
-    console.log("⚠️ Destino muy corto, no se buscan notas:", dest);
+    console.log("âš ï¸ Destino muy corto, no se buscan notas:", dest);
   }
 }
 
@@ -1318,7 +1423,7 @@ const destInput = document.getElementById("destination");
 destInput?.addEventListener("blur", handleDestinationChange);
 destInput?.addEventListener("change", handleDestinationChange);
 
-// ✏️ Editar nota
+// âœï¸ Editar nota
 async function editNote(noteId, oldText) {
   const nuevoTexto = prompt("Editar nota:", oldText);
   if (!nuevoTexto) return;
@@ -1332,13 +1437,13 @@ async function editNote(noteId, oldText) {
     openNotesModal(currentDestinationKey);
     showDestinationNotes(document.getElementById("destination")?.value?.trim());
   } catch (error) {
-    console.error("❌ Error editando nota:", error);
+    console.error("âŒ Error editando nota:", error);
   }
 }
 
-// 🗑️ Eliminar nota
+// ðŸ—‘ï¸ Eliminar nota
 async function deleteNote(noteId) {
-  if (!confirm("¿Eliminar esta nota?")) return;
+  if (!confirm("Â¿Eliminar esta nota?")) return;
 
   try {
     await firebase.firestore().collection("notes").doc(noteId).delete();
@@ -1346,11 +1451,11 @@ async function deleteNote(noteId) {
     openNotesModal(currentDestinationKey);
     showDestinationNotes(document.getElementById("destination")?.value?.trim());
   } catch (error) {
-    console.error("❌ Error eliminando nota:", error);
+    console.error("âŒ Error eliminando nota:", error);
   }
 }
 
-// 👉 Exponer globalmente
+// ðŸ‘‰ Exponer globalmente
 window.showDestinationNotes = showDestinationNotes;
 window.openNotesModal = openNotesModal;
 window.closeNotesModal = closeNotesModal;
@@ -1359,11 +1464,11 @@ window.editNote = editNote;
 window.deleteNote = deleteNote;
 
 
-// 🔎 DEBUG: inspeccionar notas en Firestore
+// ðŸ”Ž DEBUG: inspeccionar notas en Firestore
 async function debugNotas() {
   const uid = window.currentUser?.uid;
   if (!uid) {
-    console.warn("⚠️ Usuario no autenticado");
+    console.warn("âš ï¸ Usuario no autenticado");
     return;
   }
 
@@ -1373,8 +1478,8 @@ async function debugNotas() {
     .where("userId", "==", uid)
     .get();
 
-  console.log("📂 TOTAL notas encontradas:", allNotes.docs.length);
-  allNotes.docs.forEach(doc => console.log("➡️ Nota:", doc.id, doc.data()));
+  console.log("ðŸ“‚ TOTAL notas encontradas:", allNotes.docs.length);
+  allNotes.docs.forEach(doc => console.log("âž¡ï¸ Nota:", doc.id, doc.data()));
 
   // 2. Buscar exactamente por destination
   const snapDest = await firebase.firestore()
@@ -1383,33 +1488,33 @@ async function debugNotas() {
     .where("destination", "==", "Miami, FL")
     .get();
 
-  console.log("📂 Resultado destination='Miami, FL':", snapDest.docs.length);
-  snapDest.docs.forEach(doc => console.log("➡️ Dest:", doc.id, doc.data()));
+  console.log("ðŸ“‚ Resultado destination='Miami, FL':", snapDest.docs.length);
+  snapDest.docs.forEach(doc => console.log("âž¡ï¸ Dest:", doc.id, doc.data()));
 
-  // 3. Buscar por key (mayúsculas)
+  // 3. Buscar por key (mayÃºsculas)
   const snapKey = await firebase.firestore()
     .collection("notes")
     .where("userId", "==", uid)
     .where("key", "==", "MIAMI, FL")
     .get();
 
-  console.log("📂 Resultado key='MIAMI, FL':", snapKey.docs.length);
-  snapKey.docs.forEach(doc => console.log("➡️ Key:", doc.id, doc.data()));
+  console.log("ðŸ“‚ Resultado key='MIAMI, FL':", snapKey.docs.length);
+  snapKey.docs.forEach(doc => console.log("âž¡ï¸ Key:", doc.id, doc.data()));
 }
 
 let notesTimeout;
 
-// 🔄 Ejecuta showDestinationNotes con delay (debounce)
+// ðŸ”„ Ejecuta showDestinationNotes con delay (debounce)
 function showDestinationNotesDebounced(value) {
   clearTimeout(notesTimeout);
   notesTimeout = setTimeout(() => {
     showDestinationNotes(value);
-  }, 600); // espera 600ms después de dejar de escribir
+  }, 600); // espera 600ms despuÃ©s de dejar de escribir
 }
 
 
 // ========================================
-// ✅ EXPOSICIÓN DE FUNCIONES GLOBALES (MANTENER TODAS)
+// âœ… EXPOSICIÃ“N DE FUNCIONES GLOBALES (MANTENER TODAS)
 // ========================================
 
 // Funciones principales
@@ -1422,12 +1527,14 @@ window.updateMap = updateMap;
 window.openGoogleMapsDirections = openGoogleMapsDirections;
 window.initGoogleMaps = initGoogleMaps;
 window.setupGoogleAutocomplete = setupGoogleAutocomplete;
+window.setupLegacyAutocomplete = setupLegacyAutocomplete;
 window.calculateDistanceAutomatically = calculateDistanceAutomatically;
+window.calculateDistanceFromHidden = calculateDistanceFromHidden;
 window.showRouteOnMap = showRouteOnMap;
 window.updateTotalMiles = updateTotalMiles;
 window.showMapFallback = showMapFallback;
 
-// Funciones del panel de decisión
+// Funciones del panel de decisiÃ³n
 window.showDecisionPanel = showDecisionPanel;
 window.hideDecisionPanel = hideDecisionPanel;
 window.copyPriceToClipboard = copyPriceToClipboard;
@@ -1439,4 +1546,4 @@ window.calcularTiempoReal = calcularTiempoReal;
 window.getDecisionInteligente = getDecisionInteligente;
 window.detectarFactoresEspeciales = detectarFactoresEspeciales;
 
-console.log('✅ Calculator.js INTEGRADO cargado completamente - Costos reales + Funcionalidad completa');
+console.log('âœ… Calculator.js INTEGRADO cargado completamente - Costos reales + Funcionalidad completa');

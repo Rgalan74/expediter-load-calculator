@@ -1,6 +1,6 @@
-// ✅ helpers.js - Script normal sin ES6 modules
+// âœ… helpers.js - Script normal sin ES6 modules
 
-// ✅ Funciones de utilidad globales
+// âœ… Funciones de utilidad globales
 
 function formatAmount(amount) {
   if (isNaN(amount) || amount === null || amount === undefined) {
@@ -10,7 +10,6 @@ function formatAmount(amount) {
 }
 
 function updateElement(id, value) {
-  console.log("🟢 updateElement ejecutada desde helpers.js con id:", id, "valor:", value);
   const el = document.getElementById(id);
   if (el) {
     el.textContent = value;
@@ -81,40 +80,53 @@ function getStateCode(location) {
     return cleaned;
   }
   
-  // Split by comma and get the last part (usually the state)
+  // Split by comma and get parts
   const parts = cleaned.split(',').map(part => part.trim());
+  
   if (parts.length >= 2) {
-    const statePart = parts[parts.length - 1];
-    
-    // Check if it's already a state code
-    if (/^[A-Z]{2}$/.test(statePart)) {
-      return statePart;
+    // Try each part from right to left, skipping "USA", "US", "UNITED STATES"
+    for (let i = parts.length - 1; i >= 0; i--) {
+      const part = parts[i];
+      
+      // Skip common country identifiers
+      if (part === 'USA' || part === 'US' || part === 'UNITED STATES') {
+        continue;
+      }
+      
+      // Check if it's a 2-letter state code
+      if (/^[A-Z]{2}$/.test(part)) {
+        return part;
+      }
+      
+      // Try to convert from state name
+      const code = getStateCodeFromName(part);
+      if (code) {
+        return code;
+      }
     }
-    
-    // Try to convert from state name
-    return getStateCodeFromName(statePart);
   }
   
   // If no comma, try to convert the whole string as a state name
   return getStateCodeFromName(cleaned);
 }
 
+
 function showHistoryMessage(message, type = "info") {
   showMessage(message, type, "historyMessage");
 }
 
-function formatDateInput(date) {
-  if (!date) return "";
-  
-  try {
-    const d = new Date(date);
-    if (isNaN(d.getTime())) return "";
-    return d.toISOString().slice(0, 10);
-  } catch (error) {
-    console.error("Error formatting date:", error);
-    return "";
-  }
-}
+// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
+// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
+// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
+// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
+// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
+// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
+// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
+// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
+// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
+// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
+// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
+// ❌ DEPRECATED - Usar formatDateLocal() en su lugar
 
 function formatMonth(date) {
   if (!date) return "";
@@ -127,6 +139,40 @@ function formatMonth(date) {
     console.error("Error formatting month:", error);
     return "";
   }
+}
+
+// ðŸ†• NUEVA FUNCIÃ“N CENTRALIZADA - NormalizaciÃ³n de fechas de cargas
+// Esta funciÃ³n maneja todos los casos posibles de fechas en el sistema
+function normalizeLoadDate(loadData) {
+  let date = loadData.date;
+  
+  // Si no hay date, intentar con createdAt
+  if (!date && loadData.createdAt) {
+    try {
+      // Si es un Timestamp de Firestore
+      if (typeof loadData.createdAt.toDate === 'function') {
+        date = loadData.createdAt.toDate().toISOString().split('T')[0];
+      } 
+      // Si tiene seconds (formato alternativo de Firestore)
+      else if (loadData.createdAt.seconds) {
+        date = new Date(loadData.createdAt.seconds * 1000).toISOString().split('T')[0];
+      }
+      // Si ya es un string
+      else if (typeof loadData.createdAt === 'string') {
+        date = new Date(loadData.createdAt).toISOString().split('T')[0];
+      }
+    } catch (e) {
+      console.warn('âš ï¸ Error normalizando fecha:', e);
+      date = new Date().toISOString().split('T')[0];
+    }
+  }
+  
+  // Si aÃºn no hay fecha, usar fecha actual
+  if (!date) {
+    date = new Date().toISOString().split('T')[0];
+  }
+  
+  return date;
 }
 
 // === UTC Date helpers (robustos para string, Date y Firestore Timestamp) ===
@@ -144,212 +190,119 @@ function toDateLikeUTC(value) {
   return null;
 }
 
-function getUTCPeriod(value) {
+function getUTCPeriod(value, mode = "month") {
   const d = toDateLikeUTC(value);
-  if (!d) return "";
+  if (!d) return null;
   const y = d.getUTCFullYear();
   const m = String(d.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(d.getUTCDate()).padStart(2, "0");
+  if (mode === "year") return `${y}`;
+  if (mode === "day") return `${y}-${m}-${day}`;
   return `${y}-${m}`;
 }
 
-// Si existe formatMonth en tu código, lo alineamos a UTC:
-function formatMonth(date) {
-  return getUTCPeriod(date);
+function formatCurrency(value) {
+  if (value === null || value === undefined || isNaN(value)) return "$0.00";
+  return `$${Number(value).toFixed(2)}`;
 }
 
-// exposición global por si otros archivos lo usan
-window.getUTCPeriod = getUTCPeriod;
-window.toDateLikeUTC = toDateLikeUTC;
-
-
-const CANADIAN_PROVINCES_LIST = [
-  "AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"
-];
-
-function populateMonthSelector(filteredData = [], selectorId = "monthSelector") {
-  const selector = document.getElementById(selectorId);
-  if (!selector) {
-    console.warn(`Month selector not found: ${selectorId}`);
-    return;
-  }
-
-  const months = new Set();
-  filteredData.forEach(load => {
-    const month = normalizeDate(load.date, "month");
-    if (month) months.add(month);
-  });
-
-  const sortedMonths = Array.from(months).sort((a, b) => b.localeCompare(a));
-
-  // Clear existing options
-  selector.innerHTML = '<option value="all">Todos</option>';
-
-  sortedMonths.forEach(month => {
-    const option = document.createElement("option");
-    option.value = month;
-    option.textContent = month;
-    selector.appendChild(option);
-  });
-
-  console.log(`Populated ${selectorId} with ${sortedMonths.length} months`);
-}
-
-
-function validateEmail(email) {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(email);
-}
-
-function formatCurrency(amount, currency = 'USD') {
-  if (isNaN(amount) || amount === null || amount === undefined) {
-    return '$0.00';
-  }
-  
-  try {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: currency
-    }).format(amount);
-  } catch (error) {
-    return `$${formatAmount(amount)}`;
-  }
-}
-
-function formatNumber(number, decimals = 0) {
-  if (isNaN(number) || number === null || number === undefined) {
-    return '0';
-  }
-  
-  return new Intl.NumberFormat('en-US', {
-    minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals
-  }).format(number);
-}
-
-function debounce(func, wait) {
-  let timeout;
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
+// ConversiÃ³n de cÃ³digos de provincia canadiense
+function getCanadianProvinceCode(provinceName) {
+  const provinceMap = {
+    'ALBERTA': 'AB',
+    'BRITISH COLUMBIA': 'BC',
+    'MANITOBA': 'MB',
+    'NEW BRUNSWICK': 'NB',
+    'NEWFOUNDLAND AND LABRADOR': 'NL',
+    'NORTHWEST TERRITORIES': 'NT',
+    'NOVA SCOTIA': 'NS',
+    'NUNAVUT': 'NU',
+    'ONTARIO': 'ON',
+    'PRINCE EDWARD ISLAND': 'PE',
+    'QUEBEC': 'QC',
+    'SASKATCHEWAN': 'SK',
+    'YUKON': 'YT'
   };
-}
-
-function throttle(func, limit) {
-  let inThrottle;
-  return function() {
-    const args = arguments;
-    const context = this;
-    if (!inThrottle) {
-      func.apply(context, args);
-      inThrottle = true;
-      setTimeout(() => inThrottle = false, limit);
-    }
-  };
-}
-
-function isCanadianProvince(code) {
-  return CANADIAN_PROVINCES_LIST.includes(code?.toUpperCase());
-}
-
-function calculateDistance(lat1, lon1, lat2, lon2) {
-  const R = 3959; // Earth's radius in miles
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLon/2) * Math.sin(dLon/2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  return R * c;
-}
-
-function handleError(error, context = '') {
-  console.error(`Error in ${context}:`, error);
   
-  let message = 'Se produjo un error inesperado';
-  
-  if (error.code) {
-    switch (error.code) {
-      case 'permission-denied':
-        message = 'No tienes permisos para realizar esta acción';
-        break;
-      case 'not-found':
-        message = 'Los datos solicitados no se encontraron';
-        break;
-      case 'network-request-failed':
-        message = 'Error de conexión. Verifica tu internet';
-        break;
-      default:
-        message = error.message || message;
-    }
-  } else if (error.message) {
-    message = error.message;
+  if (!provinceName || typeof provinceName !== 'string') {
+    return "";
   }
   
-  showMessage(message, 'error');
-  return message;
+  const cleaned = provinceName.trim().toUpperCase();
+  
+  // If already a 2-letter code, return it
+  if (/^[A-Z]{2}$/.test(cleaned)) {
+    return cleaned;
+  }
+  
+  return provinceMap[cleaned] || "";
 }
 
-console.log("✅ Helpers.js loaded successfully (normal script)");
+// Logging de ayuda para helpers.js
 
-async function resolveZipToPlace(zip) {
+// ========================================
+// ✅ NUEVAS FUNCIONES PARA MANEJO CORRECTO DE FECHAS
+// ========================================
+
+/**
+ * Obtiene la fecha actual en formato YYYY-MM-DD usando componentes locales
+ * Evita problemas de zona horaria al no usar toISOString()
+ * @returns {string} Fecha en formato "YYYY-MM-DD"
+ */
+function getTodayDateString() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+/**
+ * Convierte un string de fecha (YYYY-MM-DD) a objeto Date local
+ * Evita interpretación incorrecta de zona horaria
+ * @param {string} dateStr - Fecha en formato "YYYY-MM-DD"
+ * @returns {Date|null} Objeto Date en zona horaria local
+ */
+function parseDateStringLocal(dateStr) {
+  if (!dateStr || typeof dateStr !== 'string') return null;
+  
+  const parts = dateStr.split('-');
+  if (parts.length !== 3) return null;
+  
+  const [year, month, day] = parts.map(Number);
+  if (isNaN(year) || isNaN(month) || isNaN(day)) return null;
+  
+  // Crear fecha en zona horaria local (no UTC)
+  return new Date(year, month - 1, day);
+}
+
+/**
+ * Formatea un objeto Date a string YYYY-MM-DD usando componentes locales
+ * @param {Date|string} date - Fecha a formatear
+ * @returns {string} Fecha en formato "YYYY-MM-DD" o string vacío si inválida
+ */
+function formatDateLocal(date) {
+  if (!date) return "";
+  
   try {
-    const response = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?address=${zip}&key=TU_API_KEY`
-    );
-    const data = await response.json();
-
-    if (data.results && data.results.length > 0) {
-      const postalResult = data.results.find(r => r.types.includes("postal_code"));
-      if (postalResult) {
-        let city = "";
-        let state = "";
-
-        postalResult.address_components.forEach(c => {
-          if (c.types.includes("locality")) city = c.long_name; // Ciudad
-          if (c.types.includes("administrative_area_level_1")) state = c.short_name; // Estado
-        });
-
-        if (city && state) {
-          return `${city}, ${state}`;   // 👈 solo Ciudad + Estado
-        }
-      }
+    let d;
+    if (date instanceof Date) {
+      d = date;
+    } else if (typeof date === 'string') {
+      d = parseDateStringLocal(date);
+    } else {
+      return "";
     }
-  } catch (err) {
-    console.error("❌ Error resolviendo ZIP:", err);
-  }
-  return zip; // fallback → si falla, al menos devuelve el ZIP
-}
-// ✅ Verificar cargas del usuario actual
-async function checkUserLoads() {
-  if (!window.currentUser) {
-    console.error("❌ No hay usuario autenticado. Inicia sesión primero.");
-    return;
-  }
-
-  try {
-    const snapshot = await firebase.firestore()
-      .collection("loads")
-      .where("userId", "==", window.currentUser.uid)
-      .get();
-
-    console.log(`📦 Total de cargas para este usuario: ${snapshot.size}`);
-
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      console.log(`🔹 ${doc.id} | ${data.origin} ➝ ${data.destination} | Nota: ${data.notes || "—"}`);
-    });
-
+    
+    if (!d || isNaN(d.getTime())) return "";
+    
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   } catch (error) {
-    console.error("❌ Error verificando cargas:", error);
+    console.error("Error formatting date:", error);
+    return "";
   }
 }
-
-// 👉 Exponer globalmente para usar desde consola
-window.checkUserLoads = checkUserLoads;
-
-
-
+console.log('âœ… Helpers.js loaded successfully (normal script)');
