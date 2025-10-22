@@ -668,7 +668,6 @@
           <thead class="bg-gray-100 text-gray-700">
   <tr>
     <th class="p-2 text-left">Fecha</th>
-    <th class="p-2 text-left">Load #</th>
     <th class="p-2 text-left">Origen</th>
     <th class="p-2 text-left">Destino</th>
     <th class="p-2 text-left">Compañía</th> <!-- 🆕 movida aquí -->
