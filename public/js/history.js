@@ -165,7 +165,7 @@ function setLoadingState(isLoading) {
   if (isLoading) {
     loadList.innerHTML = `
       <tr>
-        <td colspan="11" class="p-4 text-center text-gray-500">
+        <td colspan="9" class="p-4 text-center text-gray-500">
           <div class="spinner mx-auto mb-2"></div>
           Cargando historial...
         </td>
@@ -180,7 +180,7 @@ function showHistoryEmpty() {
   
   loadList.innerHTML = `
     <tr>
-      <td colspan="11" class="p-4 text-center text-gray-500">
+      <td colspan="9" class="p-4 text-center text-gray-500">
         📋 No hay cargas para analizar. ¡Crea algunas cargas primero!
       </td>
     </tr>
@@ -200,7 +200,7 @@ function setErrorState(message) {
   
   loadList.innerHTML = `
     <tr>
-      <td colspan="11" class="p-4 text-center">
+      <td colspan="9" class="p-4 text-center">
         <div class="bg-red-50 border border-red-200 rounded p-4">
           <p class="text-red-600 font-semibold">❌ ${message}</p>
           <button onclick="getLoadHistory()" class="mt-3 bg-red-500 text-white px-4 py-2 rounded text-sm hover:bg-red-600">
@@ -284,7 +284,7 @@ function renderHistoryTable() {
   }
 
   if (!Array.isArray(filteredData) || filteredData.length === 0) {
-    table.innerHTML = '<tr><td colspan="11" class="p-4 text-center text-gray-500">No hay datos disponibles con los filtros actuales.</td></tr>';
+    table.innerHTML = '<tr><td colspan="9" class="p-4 text-center text-gray-500">No hay datos disponibles con los filtros actuales.</td></tr>';
     return;
   }
 
@@ -314,10 +314,6 @@ function renderHistoryTable() {
     <td class="p-2 text-sm border-b">${safeLoad.totalMiles.toLocaleString()}</td>
     <td class="p-2 text-sm border-b">$${formatAmount(safeLoad.rpm)}</td>
     <td class="p-2 text-sm border-b">$${formatAmount(safeLoad.totalCharge)}</td>
-    <td class="p-2 text-sm border-b ${safeLoad.netProfit >= 0 ? 'text-green-600' : 'text-red-600'}">
-      $${formatAmount(safeLoad.netProfit)}
-    </td>
-    <td class="p-2 text-sm border-b">$${formatAmount(safeLoad.fuelCost)}</td>
     <td class="p-2 text-sm border-b flex gap-2">
       <button class="text-purple-600 hover:underline" onclick="openNotesModal('${safeLoad.destination}')">📓 Notas</button>
       <button class="text-blue-600 hover:underline" onclick="editLoad('${safeLoad.id}')">✏️ Editar</button>
@@ -333,7 +329,7 @@ function renderHistoryTable() {
     console.log(`✅ History table rendered successfully with ${filteredData.length} rows`);
   } catch (error) {
     console.error("❌ Error rendering history table:", error);
-    table.innerHTML = '<tr><td colspan="11" class="p-4 text-center text-red-500">Error al mostrar los datos.</td></tr>';
+    table.innerHTML = '<tr><td colspan="9" class="p-4 text-center text-red-500">Error al mostrar los datos.</td></tr>';
   }
 }
 
@@ -372,7 +368,7 @@ function exportToCSV() {
   }
 
   try {
-    const headers = ['Fecha', 'Número de Carga', 'Origen', 'Destino', 'Millas', 'RPM', 'Tarifa', 'Ganancia', 'Empresa'];
+    const headers = ['Fecha', 'Número de Carga', 'Origen', 'Destino', 'Millas', 'RPM', 'Tarifa', 'Empresa'];
     const csvContent = [
       headers.join(','),
       ...filteredData.map(load => [
@@ -383,7 +379,6 @@ function exportToCSV() {
         load.totalMiles || 0,
         load.rpm || 0,
         load.totalCharge || 0,
-        load.netProfit || 0,
         `"${(load.companyName || '').replace(/"/g, '""')}"`
       ].join(','))
     ].join('\n');

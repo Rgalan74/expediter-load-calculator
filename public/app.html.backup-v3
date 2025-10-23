@@ -675,6 +675,8 @@
     <th class="p-2 text-left">Millas</th>
     <th class="p-2 text-left">RPM</th>
     <th class="p-2 text-left">Tarifa</th>
+    <th class="p-2 text-left">Ganancia</th>
+    <th class="p-2 text-left">Combustible</th>
     <th class="p-2 text-left">Acciones</th>
   </tr>
 </thead>
