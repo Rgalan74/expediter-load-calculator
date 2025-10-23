@@ -293,9 +293,10 @@ function renderHistoryTable() {
       const safeLoad = {
   id: load.id || '',
   date: load.date || '-',
+  loadNumber: load.loadNumber || '',   // ✅ AGREGADO - Número de carga
   origin: load.origin || '-',
   destination: load.destination || '-',
-  companyName: load.companyName || '-',   // 🆕 agregado
+  companyName: load.companyName || '-',
   totalMiles: load.totalMiles || 0,
   rpm: load.rpm || 0,
   totalCharge: load.totalCharge || 0,
