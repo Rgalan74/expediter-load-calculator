@@ -307,7 +307,7 @@ function renderHistoryTable() {
       return `
   <tr class="hover:bg-gray-50">
     <td class="p-2 text-sm border-b">${safeLoad.date}</td>
-    <td class="p-2 text-sm border-b">${safeLoad.loadNumber || safeLoad.id || "-"}</td>
+    <td class="p-2 text-sm border-b">${safeLoad.loadNumber || "-"}</td>
     <td class="p-2 text-sm border-b">${safeLoad.origin}</td>
     <td class="p-2 text-sm border-b">${safeLoad.destination}</td>
     <td class="p-2 text-sm border-b">${safeLoad.companyName}</td> <!-- 🆕 aquí -->
