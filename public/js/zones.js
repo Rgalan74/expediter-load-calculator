@@ -1,4 +1,4 @@
-// âœ… zones.js - VERSIÃ“N COMPLETAMENTE CORREGIDA
+//  zones.js - VERSIN COMPLETAMENTE CORREGIDA
 
 // Variables globales
 let rpmPorEstado = {};
@@ -6,67 +6,24 @@ let resumenPorEstado = {};
 let zonesDataLoaded = false;
 let currentZoneSort = { column: '', asc: true };
 
-// ========================================
-// ðŸ—ºï¸ FUNCIÃ“N CRÃTICA: Extraer cÃ³digo de estado
-// ========================================
-function getStateCode(location) {
-    if (!location) return null;
-    
-    // Diccionario de cÃ³digos de estado
-    const stateCodes = {
-        'AL': 'AL', 'AK': 'AK', 'AZ': 'AZ', 'AR': 'AR', 'CA': 'CA',
-        'CO': 'CO', 'CT': 'CT', 'DE': 'DE', 'FL': 'FL', 'GA': 'GA',
-        'HI': 'HI', 'ID': 'ID', 'IL': 'IL', 'IN': 'IN', 'IA': 'IA',
-        'KS': 'KS', 'KY': 'KY', 'LA': 'LA', 'ME': 'ME', 'MD': 'MD',
-        'MA': 'MA', 'MI': 'MI', 'MN': 'MN', 'MS': 'MS', 'MO': 'MO',
-        'MT': 'MT', 'NE': 'NE', 'NV': 'NV', 'NH': 'NH', 'NJ': 'NJ',
-        'NM': 'NM', 'NY': 'NY', 'NC': 'NC', 'ND': 'ND', 'OH': 'OH',
-        'OK': 'OK', 'OR': 'OR', 'PA': 'PA', 'RI': 'RI', 'SC': 'SC',
-        'SD': 'SD', 'TN': 'TN', 'TX': 'TX', 'UT': 'UT', 'VT': 'VT',
-        'VA': 'VA', 'WA': 'WA', 'WV': 'WV', 'WI': 'WI', 'WY': 'WY',
-        'DC': 'DC'
-    };
-    
-    // Limpiar y normalizar
-    const cleaned = location.trim().toUpperCase();
-    
-    // PatrÃ³n 1: "Miami, FL" o "Miami, FL, USA"
-    const pattern1 = /,\s*([A-Z]{2})(?:\s*,|\s*$)/;
-    const match1 = cleaned.match(pattern1);
-    if (match1 && stateCodes[match1[1]]) {
-        return match1[1];
-    }
-    
-    // PatrÃ³n 2: "FL" (solo cÃ³digo)
-    if (cleaned.length === 2 && stateCodes[cleaned]) {
-        return cleaned;
-    }
-    
-    // PatrÃ³n 3: "Miami FL" (sin coma)
-    const pattern3 = /\s([A-Z]{2})(?:\s|$)/;
-    const match3 = cleaned.match(pattern3);
-    if (match3 && stateCodes[match3[1]]) {
-        return match3[1];
-    }
-    
-    // Si no encuentra, retornar null
-    console.warn(`âš ï¸ No se pudo extraer estado de: "${location}"`);
-    return null;
-}
 
-// Exponer globalmente
-window.getStateCode = getStateCode;
+// ✅ USAR getStateCode de helpers.js (es global)
+// La función ya está disponible globalmente desde helpers.js
+// No necesitamos duplicar el código aquí
 
-// FunciÃ³n principal para cargar datos de zonas
+// Si necesitas funcionalidad específica de zones, agrega aquí
+// pero para el caso general, usa window.getStateCode() de helpers.js
+
+// Funcin principal para cargar datos de zonas
 function loadZonesData() {
     if (zonesDataLoaded) {
-        console.log("ðŸ—ºï¸ Zones data already loaded, skipping");
+        debugLog(" Zones data already loaded, skipping");
         return;
     }
 
     if (!window.currentUser) {
-        console.log("âŒ No user logged in for zones");
-        showZonesEmpty("Debe iniciar sesiÃ³n para ver las zonas");
+        debugLog(" No user logged in for zones");
+        showZonesEmpty("Debe iniciar sesin para ver las zonas");
         return;
     }
 
@@ -86,8 +43,11 @@ function loadZonesData() {
             calcularEstadisticas(loads);
             renderZonesTable();
             initializeMap();
+            // Inicializar mapa de ciudades
+            initializeCitiesMap();
+            loadCitiesData();
             
-            // Configurar layout responsivo despuÃ©s de que carga el mapa
+            // Configurar layout responsivo despus de que carga el mapa
             setTimeout(() => {
             setupResponsiveMapLayout();
             }, 500);
@@ -95,12 +55,12 @@ function loadZonesData() {
             zonesDataLoaded = true;
         })
         .catch(error => {
-            console.error("âŒ Error loading zones data:", error);
+            console.error(" Error loading zones data:", error);
             showZonesError("Error cargando datos: " + error.message);
         });
 }
 
-// Calcular estadÃ­sticas por estado
+// Calcular estadsticas por estado
 function calcularEstadisticas(loads) {
     rpmPorEstado = {};
     resumenPorEstado = {};
@@ -146,7 +106,7 @@ function renderZonesTable() {
     const rows = Object.entries(resumenPorEstado).map(([state, stats]) => {
         const avgRpm = rpmPorEstado[state] || 0;
         const label = avgRpm < 0.75 ? "Zona roja" : avgRpm < 1.05 ? "Zona amarilla" : "Zona verde";
-        const zoneClass = avgRpm < 0.75 ? "bg-red-100" : avgRpm < 1.05 ? "bg-yellow-100" : "bg-green-100";
+        const zoneClass = avgRpm < 0.75 ? "zone-red" : avgRpm < 1.05 ? "zone-yellow" : "zone-green";
 
         return {
             state,
@@ -175,10 +135,10 @@ function renderZonesTable() {
             <td class="p-2">${row.label}</td>
             <td class="p-2">${row.count}</td>
             <td class="p-2">$${row.avgRpm.toFixed(2)}</td>
-            <td class="p-2 text-green-600">$${row.profit.toFixed(2)}</td>
+            <td class="p-2 ${row.profit >= 0 ? 'text-green-600' : 'text-red-600'}">$${row.profit.toFixed(2)}</td>
             <td class="p-2">
                 <div class="h-2 w-full bg-gray-200 rounded">
-                    <div class="h-2 rounded ${row.avgRpm >= 1.05 ? 'bg-green-500' : row.avgRpm >= 0.75 ? 'bg-yellow-500' : 'bg-red-500'}" style="width: ${Math.min((row.avgRpm / 2) * 100, 100)}%"></div>
+                    <div class="h-2 rounded ${row.avgRpm >= 1.05 ? 'bg-green-500' : row.avgRpm >= 0.75 ? 'bg-yellow-500' : 'bg-red-500'}" style="width: ${Math.max(8, Math.min((row.avgRpm / 2) * 100, 100))}%"></div>
                 </div>
             </td>
         `;
@@ -187,7 +147,7 @@ function renderZonesTable() {
     });
 }
 
-// FunciÃ³n initializeMap mejorada con hover
+// Funcin initializeMap mejorada con hover
 function initializeMap() {
     const mapObject = document.getElementById("interactiveMap");
     if (!mapObject) return;
@@ -203,11 +163,11 @@ function initializeMap() {
     }
 }
 
-// Nueva funciÃ³n para configurar interactividad
+// Nueva funcin para configurar interactividad
 function setupMapInteractivity(svgDoc) {
     if (!svgDoc) return;
     
-    // Crear panel de informaciÃ³n si no existe
+    // Crear panel de informacin si no existe
     setupInfoPanel();
     
     // Configurar hover para cada estado con datos
@@ -223,7 +183,7 @@ function setupMapInteractivity(svgDoc) {
             
             // Event listeners
             stateElement.addEventListener('mouseenter', function() {
-                console.log(`ðŸ–±ï¸ Hover en ${stateCode}`);
+                debugLog(` Hover en ${stateCode}`);
                 this.style.stroke = '#1f2937';
                 this.style.strokeWidth = '3';
                 showStateInfo(stateCode, rpm, resumen);
@@ -235,16 +195,16 @@ function setupMapInteractivity(svgDoc) {
             });
             
             stateElement.addEventListener('click', function() {
-                console.log(`ðŸ–±ï¸ Click en ${stateCode}`);
+                debugLog(` Click en ${stateCode}`);
                 showStateInfo(stateCode, rpm, resumen, true);
             });
         }
     });
     
-    console.log("âœ… Interactividad del mapa configurada");
+    debugLog(" Interactividad del mapa configurada");
 }
 
-// FunciÃ³n para crear panel de informaciÃ³n
+// Funcin para crear panel de informacin
 function setupInfoPanel() {
     let infoPanel = document.getElementById('stateInfoPanel');
     
@@ -257,7 +217,7 @@ function setupInfoPanel() {
             infoPanel.id = 'stateInfoPanel';
             infoPanel.className = 'mt-4 p-4 bg-white border border-gray-200 rounded-lg shadow-sm';
             infoPanel.innerHTML = `
-                <h4 class="font-semibold text-lg mb-3 text-gray-800">ðŸ“ InformaciÃ³n del Estado</h4>
+                <h4 class="font-semibold text-lg mb-3 text-gray-800"> Informacin del Estado</h4>
                 <div id="stateDetails" class="text-gray-500 text-center">
                     <p class="text-sm">Pasa el cursor sobre un estado para ver detalles</p>
                 </div>
@@ -267,14 +227,14 @@ function setupInfoPanel() {
     }
 }
 
-// FunciÃ³n para mostrar informaciÃ³n del estado
+// Funcin para mostrar informacin del estado
 function showStateInfo(stateCode, rpm, resumen, isClick = false) {
     const detailsDiv = document.getElementById('stateDetails');
     if (!detailsDiv) return;
     
     const zoneLabel = rpm >= 1.05 ? 'Zona Verde' : rpm >= 0.75 ? 'Zona Amarilla' : 'Zona Roja';
     const zoneColor = rpm >= 1.05 ? 'text-green-600' : rpm >= 0.75 ? 'text-yellow-600' : 'text-red-600';
-    const zoneIcon = rpm >= 1.05 ? 'ðŸŸ¢' : rpm >= 0.75 ? 'ðŸŸ¡' : 'ðŸ”´';
+    const zoneIcon = rpm >= 1.05 ? '' : rpm >= 0.75 ? '' : '';
     
     detailsDiv.innerHTML = `
         <div class="text-left space-y-3">
@@ -301,14 +261,14 @@ function showStateInfo(stateCode, rpm, resumen, isClick = false) {
     `;
 }
 
-// âœ… FUNCIÃ“N PINTARESTADOS CORREGIDA
+//  FUNCIN PINTARESTADOS CORREGIDA
 function pintarEstados(svgDoc) {
     if (!svgDoc) {
-        console.warn("âŒ [ZONES] SVG document no disponible para pintado");
+        console.warn(" [ZONES] SVG document no disponible para pintado");
         return;
     }
 
-    console.log("ðŸŽ¨ [ZONES] Iniciando pintado de estados...");
+    debugLog(" [ZONES] Iniciando pintado de estados...");
 
     // Resetear estilos antes de pintar
     const allElements = svgDoc.querySelectorAll('[id]');
@@ -328,7 +288,7 @@ function pintarEstados(svgDoc) {
 
         let color = rpm < 0.75 ? '#dc2626' : rpm < 1.05 ? '#facc15' : '#16a34a';
 
-        // Aplicar mÃºltiples mÃ©todos
+        // Aplicar mltiples mtodos
         element.setAttribute('fill', color);
         element.setAttribute('stroke', '#374151');
         element.setAttribute('stroke-width', '1');
@@ -342,7 +302,7 @@ function pintarEstados(svgDoc) {
         element.style.opacity = '1';
         
         statesPainted++;
-        console.log(`ðŸŽ¨ ${stateCode}: RPM $${rpm.toFixed(2)} = ${color}`);
+        debugLog(` ${stateCode}: RPM $${rpm.toFixed(2)} = ${color}`);
     });
 
     // Forzar refresh del SVG
@@ -351,13 +311,13 @@ function pintarEstados(svgDoc) {
         svgElement.style.display = 'none';
         svgElement.offsetHeight;
         svgElement.style.display = '';
-        console.log("ðŸ”„ [ZONES] SVG refresh forzado");
+        debugLog(" [ZONES] SVG refresh forzado");
     }
 
-    console.log(`âœ… Estados pintados con colores: ${statesPainted}`);
+    debugLog(` Estados pintados con colores: ${statesPainted}`);
 }
 
-// âœ… FUNCIÃ“N LAYOUT RESPONSIVO - VERSIÃ“N CORREGIDA PARA MOBILE
+//  FUNCIN LAYOUT RESPONSIVO - VERSIN CORREGIDA PARA MOBILE
 function setupResponsiveMapLayout() {
     const mapObject = document.getElementById('interactiveMap');
     if (!mapObject) return;
@@ -366,16 +326,16 @@ function setupResponsiveMapLayout() {
     const flexContainer = mapContainer?.parentElement;
     const panelLateral = flexContainer?.children[1];
     
-    console.log("ðŸŽ¯ Configurando layout responsivo del mapa...");
+    debugLog(" Configurando layout responsivo del mapa...");
     
     if (mapContainer && panelLateral) {
         // Detectar si es mobile
         const isMobile = window.innerWidth <= 768;
         
         if (isMobile) {
-            console.log("ðŸ“± Modo mobile detectado - aplicando layout mobile");
+            debugLog(" Modo mobile detectado - aplicando layout mobile");
             
-            // SOLUCIÃ“N FINAL MOBILE
+            // SOLUCIN FINAL MOBILE
             mapContainer.style.minWidth = 'unset';
             mapContainer.style.width = '100%';
             mapContainer.style.padding = '0.5rem 0';
@@ -409,7 +369,7 @@ function setupResponsiveMapLayout() {
             
 
         } else {
-            console.log("ðŸ’» Modo desktop detectado - aplicando layout desktop");
+            debugLog(" Modo desktop detectado - aplicando layout desktop");
             
             // DESKTOP: Layout original CORREGIDO
             mapContainer.className = mapContainer.className.replace('flex-1', 'flex-[3]');
@@ -449,7 +409,7 @@ function setupResponsiveMapLayout() {
                 flexContainer.style.paddingRight = '';
             }
             
-            // Responsive para pantallas pequeÃ±as (solo desktop)
+            // Responsive para pantallas pequeas (solo desktop)
             const mediaQuery = window.matchMedia('(max-width: 1024px)');
             function handleResponsive(e) {
                 if (e.matches) {
@@ -471,7 +431,7 @@ function setupResponsiveMapLayout() {
         const handleResize = () => {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
-                // Volver a aplicar layout segÃºn nuevo tamaÃ±o
+                // Volver a aplicar layout segn nuevo tamao
                 setupResponsiveMapLayout();
             }, 150);
         };
@@ -481,7 +441,7 @@ function setupResponsiveMapLayout() {
         window.mapResizeHandler = handleResize;
         window.addEventListener('resize', handleResize);
         
-        console.log("âœ… Layout responsivo configurado correctamente");
+        debugLog(" Layout responsivo configurado correctamente");
     }
 }
 
@@ -514,7 +474,7 @@ function showZonesEmpty(message) {
 function showZonesError(message) {
     const body = document.getElementById("zoneDataBody");
     if (body) {
-        body.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-600">âŒ ${message}</td></tr>`;
+        body.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-600"> ${message}</td></tr>`;
     }
 }
 
@@ -530,9 +490,9 @@ function resetZonesData() {
     currentZoneSort = { column: '', asc: true };
 }
 
-// FunciÃ³n para verificar que el pintado fue exitoso
+// Funcin para verificar que el pintado fue exitoso
 function verifyPainting(svgDoc) {
-    console.log("ðŸ” [ZONES] Verificando resultado del pintado...");
+    debugLog(" [ZONES] Verificando resultado del pintado...");
     
     let successCount = 0;
     let totalStates = Object.keys(rpmPorEstado).length;
@@ -550,14 +510,14 @@ function verifyPainting(svgDoc) {
     const successRate = (successCount / totalStates) * 100;
     
     if (successRate >= 90) {
-        console.log(`âœ… [ZONES] Pintado verificado: ${successCount}/${totalStates} estados`);
+        debugLog(` [ZONES] Pintado verificado: ${successCount}/${totalStates} estados`);
     } else {
-        console.warn(`âš ï¸ [ZONES] Pintado incompleto: ${successCount}/${totalStates} estados`);
+        console.warn(` [ZONES] Pintado incompleto: ${successCount}/${totalStates} estados`);
     }
 }
 
 // ========================================
-// ðŸ—ºï¸ MAPA DE CIUDADES CON GOOGLE MAPS
+//  MAPA DE CIUDADES CON GOOGLE MAPS
 // ========================================
 
 let zonesMap = null;
@@ -568,11 +528,11 @@ let cityDataByDestination = {};
 function initializeCitiesMap() {
     const mapElement = document.getElementById('citiesMap');
     if (!mapElement) {
-        console.warn("âŒ Elemento citiesMap no encontrado");
+        console.warn(" Elemento citiesMap no encontrado");
         // Intentar crearlo si el contenedor existe
         const container = document.getElementById('citiesMapContainer');
         if (container && !container.querySelector('#citiesMap')) {
-            console.log("ðŸ”§ Creando elemento citiesMap...");
+            debugLog(" Creando elemento citiesMap...");
             container.innerHTML = '<div id="citiesMap" class="w-full h-96 rounded-lg border-2 border-gray-300 bg-gray-100"></div>';
             // Esperar un momento y reintentar
             setTimeout(initializeCitiesMap, 100);
@@ -583,7 +543,7 @@ function initializeCitiesMap() {
     }
 
     if (typeof google === 'undefined' || !google.maps) {
-        console.warn("âŒ Google Maps no estÃ¡ disponible");
+        console.warn(" Google Maps no est disponible");
         return;
     }
 
@@ -600,13 +560,13 @@ function initializeCitiesMap() {
         ]
     });
 
-    console.log("âœ… Mapa de ciudades inicializado");
+    debugLog(" Mapa de ciudades inicializado");
 }
 
 // Cargar y mostrar ciudades en el mapa
 function loadCitiesData() {
     if (!window.currentUser) {
-        console.log("âŒ No user logged in");
+        debugLog(" No user logged in");
         return;
     }
 
@@ -626,10 +586,10 @@ function loadCitiesData() {
             processCitiesData(loads);
             showCitiesOnMap();
             renderCitiesTable();
-            hideCitiesLoading(); // âœ… AGREGADO
+            hideCitiesLoading(); //  AGREGADO
         })
         .catch(error => {
-            console.error("âŒ Error loading cities:", error);
+            console.error(" Error loading cities:", error);
             showCitiesError(error.message);
         });
 }
@@ -638,8 +598,9 @@ function loadCitiesData() {
 function processCitiesData(loads) {
     cityDataByDestination = {};
 
-    loads.forEach(load => {
-        const dest = load.destination;
+     loads.forEach(load => {
+        // Normalizar destino (quitar ", USA" para evitar duplicados)
+        const dest = load.destination?.replace(/, USA$/i, '');
         if (!dest) return;
 
         if (!cityDataByDestination[dest]) {
@@ -668,7 +629,7 @@ function processCitiesData(loads) {
         data.avgRPM = data.count > 0 ? data.totalRPM / data.count : 0;
     });
 
-    console.log(`âœ… Procesadas ${Object.keys(cityDataByDestination).length} ciudades`);
+    debugLog(` Procesadas ${Object.keys(cityDataByDestination).length} ciudades`);
 }
 
 // Mostrar ciudades en el mapa
@@ -694,7 +655,7 @@ async function showCitiesOnMap() {
                 bounds.extend(result);
             }
         } catch (error) {
-            console.warn(`âš ï¸ No se pudo geocodificar: ${destination}`);
+            console.warn(` No se pudo geocodificar: ${destination}`);
         }
     }
 
@@ -703,7 +664,7 @@ async function showCitiesOnMap() {
         zonesMap.fitBounds(bounds);
     }
 
-    console.log(`âœ… ${cityMarkers.length} marcadores en el mapa`);
+    debugLog(` ${cityMarkers.length} marcadores en el mapa`);
 }
 
 // Geocodificar ciudad
@@ -729,7 +690,7 @@ function createCityMarker(location, data) {
         title: `${data.city} (${data.count} cargas)`,
         icon: {
             path: google.maps.SymbolPath.CIRCLE,
-            scale: 8 + (data.count * 0.5), // TamaÃ±o basado en cantidad
+            scale: 8 + (data.count * 0.5), // Tamao basado en cantidad
             fillColor: color,
             fillOpacity: 0.8,
             strokeColor: 'white',
@@ -752,8 +713,8 @@ function createCityMarker(location, data) {
 
 // Crear contenido del InfoWindow
 function createInfoWindowContent(data) {
-    const zoneLabel = data.avgRPM >= 1.05 ? 'ðŸŸ¢ Zona Verde' : 
-                      data.avgRPM >= 0.75 ? 'ðŸŸ¡ Zona Amarilla' : 'ðŸ”´ Zona Roja';
+    const zoneLabel = data.avgRPM >= 1.05 ? ' Zona Verde' : 
+                      data.avgRPM >= 0.75 ? ' Zona Amarilla' : ' Zona Roja';
     
     return `
         <div style="padding: 10px; min-width: 200px;">
@@ -765,7 +726,7 @@ function createInfoWindowContent(data) {
                 <p style="margin: 4px 0;">Ganancia Total: <strong style="color: green;">$${data.totalProfit.toFixed(2)}</strong></p>
             </div>
             <p style="margin: 8px 0; text-align: center; color: #6b7280; font-size: 12px;">
-                Click para ver todas las cargas â†’
+                Click para ver todas las cargas 
             </p>
         </div>
     `;
@@ -784,15 +745,15 @@ function showCityLoadsModal(data) {
             <div class="flex justify-between items-start mb-2">
                 <div>
                     <span class="font-semibold text-gray-800">#${i + 1}</span>
-                    <span class="text-sm text-gray-600 ml-2">${load.origin || 'N/A'} â†’ ${load.destination}</span>
+                    <span class="text-sm text-gray-600 ml-2">${load.origin || 'N/A'}  ${load.destination}</span>
                 </div>
                 <span class="text-sm font-semibold ${load.rpm >= 1.05 ? 'text-green-600' : load.rpm >= 0.75 ? 'text-yellow-600' : 'text-red-600'}">
                     $${(load.rpm || 0).toFixed(2)}/mi
                 </span>
             </div>
             <div class="grid grid-cols-3 gap-2 text-xs text-gray-600">
-                <div>ðŸ“ ${load.loadedMiles || 0} mi</div>
-                <div>ðŸ’° $${(load.totalCharge || 0).toFixed(2)}</div>
+                <div> ${load.loadedMiles || 0} mi</div>
+                <div> $${(load.totalCharge || 0).toFixed(2)}</div>
                 <div class="text-green-600 font-semibold">+$${(load.profit || 0).toFixed(2)}</div>
             </div>
         </div>
@@ -803,10 +764,10 @@ function showCityLoadsModal(data) {
             <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6">
                 <div class="flex justify-between items-start">
                     <div>
-                        <h2 class="text-2xl font-bold mb-2">ðŸ“ ${data.city}</h2>
+                        <h2 class="text-2xl font-bold mb-2"> ${data.city}</h2>
                         <p class="text-blue-100">Total de ${data.count} cargas</p>
                     </div>
-                    <button onclick="this.closest('.fixed').remove()" class="text-white hover:text-gray-200 text-3xl">Ã—</button>
+                    <button onclick="this.closest('.fixed').remove()" class="text-white hover:text-gray-200 text-3xl"></button>
                 </div>
             </div>
             
@@ -826,7 +787,7 @@ function showCityLoadsModal(data) {
             </div>
             
             <div class="flex-1 overflow-y-auto p-6">
-                <h3 class="font-semibold mb-4 text-gray-700">ðŸ“¦ Historial de Cargas</h3>
+                <h3 class="font-semibold mb-4 text-gray-700"> Historial de Cargas</h3>
                 ${loadsHTML}
             </div>
             
@@ -852,7 +813,7 @@ function renderCitiesTable() {
     tbody.innerHTML = sortedCities.map((data, i) => {
         const zoneColor = data.avgRPM >= 1.05 ? 'text-green-600' : 
                          data.avgRPM >= 0.75 ? 'text-yellow-600' : 'text-red-600';
-        const zoneIcon = data.avgRPM >= 1.05 ? 'ðŸŸ¢' : data.avgRPM >= 0.75 ? 'ðŸŸ¡' : 'ðŸ”´';
+        const zoneIcon = data.avgRPM >= 1.05 ? '' : data.avgRPM >= 0.75 ? '' : '';
 
         return `
             <tr class="hover:bg-gray-50 cursor-pointer" onclick="focusCityOnMap('${data.city}')">
@@ -954,18 +915,18 @@ function showCitiesError(message) {
     }
 }
 
-// FunciÃ³n para mostrar error de carga del mapa
+// Funcin para mostrar error de carga del mapa
 function showMapLoadError() {
     const mapContainer = document.querySelector('#interactiveMap').parentElement;
     if (mapContainer) {
         mapContainer.innerHTML = `
             <div class="w-full h-80 bg-red-50 border border-red-200 rounded-lg flex items-center justify-center">
                 <div class="text-center p-6">
-                    <div class="text-4xl mb-3">âŒ</div>
+                    <div class="text-4xl mb-3"></div>
                     <h3 class="text-lg font-semibold text-red-700 mb-2">Error cargando mapa SVG</h3>
                     <p class="text-red-600 mb-4">El mapa de zonas no pudo cargar correctamente</p>
                     <button onclick="retryZones()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-                        ðŸ”„ Reintentar
+                         Reintentar
                     </button>
                 </div>
             </div>
@@ -975,7 +936,7 @@ function showMapLoadError() {
 
 
 
-// âœ… EXPONER FUNCIONES GLOBALMENTE
+//  EXPONER FUNCIONES GLOBALMENTE
 window.loadZonesData = loadZonesData;
 window.calcularEstadisticas = calcularEstadisticas;
 window.pintarEstados = pintarEstados;
@@ -993,7 +954,7 @@ window.showStateInfo = showStateInfo;
 window.verifyPainting = verifyPainting;
 window.showMapLoadError = showMapLoadError;
 
-// ðŸ—ºï¸ Nuevas funciones de mapa de ciudades
+//  Nuevas funciones de mapa de ciudades
 window.initializeCitiesMap = initializeCitiesMap;
 window.loadCitiesData = loadCitiesData;
 window.showCitiesOnMap = showCitiesOnMap;
@@ -1005,4 +966,4 @@ window.hideCitiesLoading = hideCitiesLoading;
 window.showCitiesEmpty = showCitiesEmpty;
 window.showCitiesError = showCitiesError;
 
-console.log("âœ… Zones.js cargado completamente (VERSIÃ“N CORREGIDA + Mapa de Ciudades)");
+debugLog(" Zones.js cargado completamente (VERSIN CORREGIDA + Mapa de Ciudades)");

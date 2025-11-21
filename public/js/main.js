@@ -1,523 +1,602 @@
-// âœ… main.js - VERSIÃ“N CORREGIDA SIN BUCLE INFINITO
+//  main.js - VERSIÍ CORREGIDA SIN BUCLE INFINITO
 
-// Estado global de la aplicaciÃ³n
+// Estado global de la aplicación
 let appState = {
-  currentTab: 'calculator',
-  isLoading: false
+ currentTab: 'calculator',
+ isLoading: false
 };
-// Control para evitar repeticiÃ³n de debug
+// Control para evitar repetición de debug
 window.hasDebuggedFinances = false;
 
-// ✅ HELPER FUNCTION - Esperar a que una función esté disponible (resuelve race conditions)
+// HELPER FUNCTION - Esperar a que una función esté disponible (resuelve race conditions)
 function waitForFunction(funcName, timeout = 5000) {
-  return new Promise((resolve, reject) => {
-    const start = Date.now();
-    let attempts = 0;
-    
-    const check = () => {
-      attempts++;
-      const elapsed = Date.now() - start;
-      
-      if (typeof window[funcName] === 'function') {
-        console.log(`✅ [MAIN] Function '${funcName}' available after ${attempts} attempts (${elapsed}ms)`);
-        resolve();
-      } else if (elapsed > timeout) {
-        console.warn(`⚠️ [MAIN] Timeout: '${funcName}' not available after ${timeout}ms`);
-        reject(new Error(`Timeout waiting for ${funcName}`));
-      } else {
-        setTimeout(check, 50); // Revisar cada 50ms
-      }
-    };
-    
-    check();
-  });
+ return new Promise((resolve, reject) => {
+ const start = Date.now();
+ let attempts = 0;
+ 
+ const check = () => {
+ attempts++;
+ const elapsed = Date.now() - start;
+ 
+ if (typeof window[funcName] === 'function') {
+ debugLog(` [MAIN] Function '${funcName}' available after ${attempts} attempts (${elapsed}ms)`);
+ resolve();
+ } else if (elapsed > timeout) {
+ console.warn(` [MAIN] Timeout: '${funcName}' not available after ${timeout}ms`);
+ reject(new Error(`Timeout waiting for ${funcName}`));
+ } else {
+ setTimeout(check, 50); // Revisar cada 50ms
+ }
+ };
+ 
+ check();
+ });
 }
 
-// âœ… FUNCIÃ“N PRINCIPAL - openTab (MEJORADA)
+//  FUNCIÍ PRINCIPAL - openTab (MEJORADA)
 function openTab(tabId) {
-  console.log(`ðŸ”„ [MAIN] Opening tab: ${tabId}`);
-  
-  try {
-    if (appState.isLoading) {
-      console.log("[MAIN] App is loading, ignoring tab change");
-      return;
-    }
-    
-    // Ocultar todas las tabs
-    document.querySelectorAll('.tab-content').forEach(tab => {
-      tab.classList.remove('tab-active');
-      tab.classList.add('hidden');
-    });
-    
-    // Mostrar la tab seleccionada
-    const targetTab = document.getElementById(tabId);
-    if (targetTab) {
-      targetTab.classList.add('tab-active');
-      targetTab.classList.remove('hidden');
-      appState.currentTab = tabId;
-      console.log(`âœ… [MAIN] Tab ${tabId} activated`);
-    } else {
-      console.error(`âŒ [MAIN] Tab element not found: ${tabId}`);
-      return;
-    }
+ debugLog(` [MAIN] Opening tab: ${tabId}`);
+ 
+ try {
+ if (appState.isLoading) {
+ debugLog("[MAIN] App is loading, ignoring tab change");
+ return;
+ }
+ 
+ // Ocultar todas las tabs
+ document.querySelectorAll('.tab-content').forEach(tab => {
+ tab.classList.remove('tab-active');
+ tab.classList.add('hidden');
+ });
+ 
+ // Mostrar la tab seleccionada
+ const targetTab = document.getElementById(tabId);
+ if (targetTab) {
+ targetTab.classList.add('tab-active');
+ targetTab.classList.remove('hidden');
+ appState.currentTab = tabId;
+ debugLog(` [MAIN] Tab ${tabId} activated`);
+ } else {
+ console.error(`Â [MAIN] Tab element not found: ${tabId}`);
+ return;
+ }
 
-    // âœ… CARGAR DATOS CON VERIFICACIÃ“N DE USUARIO
-    if (window.currentUser) {
-      loadTabData(tabId);
-    } else {
-      console.warn(`âš ï¸ [MAIN] No user available for tab ${tabId}, will load when user is ready`);
-    }
-    
-  } catch (error) {
-    console.error(`âŒ [MAIN] Error opening tab ${tabId}:`, error);
-    showMessage("Error al cambiar de pestaÃ±a", "error");
-  }
+ //  CARGAR DATOS CON VERIFICACIÍ DE USUARIO
+ if (window.currentUser) {
+ loadTabData(tabId);
+ } else {
+ console.warn(` [MAIN] No user available for tab ${tabId}, will load when user is ready`);
+ }
+ 
+ } catch (error) {
+ console.error(`Â [MAIN] Error opening tab ${tabId}:`, error);
+ showMessage("Error al cambiar de pestaña", "error");
+ }
 }
 
-// âœ… FUNCIÃ“N MEJORADA - Cargar datos de tab
+//  FUNCIÍ MEJORADA - Cargar datos de tab
 async function loadTabData(tabId) {
-  console.log(`ðŸ“‚ [MAIN] Loading data for tab: ${tabId}`);
-  
-  // Verificar que la tab estÃ© visible
-  const tabElement = document.getElementById(tabId);
-  if (!tabElement || tabElement.classList.contains('hidden')) {
-    console.log(`âš ï¸ [MAIN] Tab ${tabId} not visible, skipping data load`);
-    return;
-  }
+ debugLog(` [MAIN] Loading data for tab: ${tabId}`);
+ 
+ // Verificar que la tab esté visible
+ const tabElement = document.getElementById(tabId);
+ if (!tabElement || tabElement.classList.contains('hidden')) {
+ debugLog(` [MAIN] Tab ${tabId} not visible, skipping data load`);
+ return;
+ }
 
-  if (!window.currentUser && tabId !== 'calculator') {
-    console.log(`âš ï¸ [MAIN] No user available for ${tabId}, skipping data load`);
-    return;
-  }
+ if (!window.currentUser && tabId !== 'calculator') {
+ debugLog(` [MAIN] No user available for ${tabId}, skipping data load`);
+ return;
+ }
 
-  try {
-    switch (tabId) {
-      case 'calculator':
-        console.log("ðŸ“Š [MAIN] Calculator tab - no data loading needed");
-        break;
-        
-      case 'history':
-        console.log("ðŸ“‹ [MAIN] Loading history data...");
-        if (typeof getLoadHistory === 'function') getLoadHistory();
-        break;
+ try {
+ switch (tabId) {
+ case 'calculator':
+ debugLog(" [MAIN] Calculator tab - no data loading needed");
+ break;
+ 
+ case 'history':
+ debugLog(" [MAIN] Loading history data...");
+ if (typeof getLoadHistory === 'function') getLoadHistory();
+ break;
 
-      case 'finances':
-        console.log("💰 [MAIN] Tab Finanzas abierta, activando Resumen...");
-        initPeriodSelectors("global");
+ case 'finances':
+ debugLog(" [MAIN] Tab Finanzas abierta, activando Resumen...");
+ initPeriodSelectors("global");
 
-        // ✅ La carga de datos ahora usa caché inteligente
-        const y = document.getElementById('yearSelect')?.value;
-        const m = document.getElementById('monthSelect')?.value;
-        const period = (y && m) ? `${y}-${String(m).padStart(2,'0')}` : "all";
+ // La carga de datos ahora usa caché inteligente
+ const y = document.getElementById('yearSelect')?.value;
+ const m = document.getElementById('monthSelect')?.value;
+ const period = (y && m) ? `${y}-${String(m).padStart(2,'0')}` : "all";
 
-        // ✅ SOLUCIÓN RACE CONDITION: Esperar a que loadFinancesData esté disponible
-        try {
-          console.log("💰 [MAIN] Esperando loadFinancesData...");
-          await waitForFunction('loadFinancesData', 5000);
-          
-          console.log("💰 [MAIN] Auto-cargando Finanzas con período:", period);
-          const result = await window.loadFinancesData(period);
-          
-          updateFinancialKPIs(result.kpis);
-          updateExpenseCategories();
-          renderExpensesList(result.expenses);
-          updateFinancialCharts("global");
-          updateBusinessMetrics();
-          
-          console.log("✅ [MAIN] Datos financieros cargados exitosamente");
-        } catch (err) {
-          console.error("❌ [MAIN] Error cargando datos financieros:", err);
-          if (typeof showMessage === 'function') {
-            showMessage("Error al cargar datos financieros. Por favor recarga la página.", "error");
-          }
-        }
-        break;
+ // SOLUCIÃ“N RACE CONDITION: Esperar a que loadFinancesData esté disponible
+ try {
+ debugLog(" [MAIN] Esperando loadFinancesData...");
+ await waitForFunction('loadFinancesData', 5000);
+ 
+ debugLog(" [MAIN] Auto-cargando Finanzas con período:", period);
+ const result = await window.loadFinancesData(period);
+ 
+ updateFinancialKPIs(result.kpis);
+ updateExpenseCategories();
+ renderExpensesList(result.expenses);
+ updateFinancialCharts("global");
+ updateBusinessMetrics();
+ 
+ debugLog(" [MAIN] Datos financieros cargados exitosamente");
+ } catch (err) {
+ console.error(" [MAIN] Error cargando datos financieros:", err);
+ if (typeof showMessage === 'function') {
+ showMessage("Error al cargar datos financieros. Por favor recarga la página.", "error");
+ }
+ }
+ break;
 
-      case 'reports':
-        console.log("ðŸ§¾ [MAIN] Opening Finances REPORTS tab");
-        setTimeout(() => {
-          initPeriodSelectors("reports");
-          if (typeof generatePLReport === "function") generatePLReport();
-        }, 200);
-        break;
+ case 'reports':
+ debugLog(" [MAIN] Opening Finances REPORTS tab");
+ setTimeout(() => {
+ initPeriodSelectors("reports");
+ if (typeof generatePLReport === "function") generatePLReport();
+ }, 200);
+ break;
 
-      case 'accounts':
-        console.log("ðŸ’µ [MAIN] Opening Finances ACCOUNTS tab");
-        setTimeout(() => {
-          initPeriodSelectors("accounts");
-          if (typeof loadAccountsData === "function") loadAccountsData();
-        }, 200);
-        break;
+ case 'accounts':
+ debugLog(" [MAIN] Opening Finances ACCOUNTS tab");
+ setTimeout(() => {
+ initPeriodSelectors("accounts");
+ if (typeof loadAccountsData === "function") loadAccountsData();
+ }, 200);
+ break;
 
-      case 'zones':
-        console.log("ðŸ—ºï¸ [MAIN] Loading zones data...");
-        if (typeof loadZonesData === 'function') loadZonesData();
-        break;
+ case 'zones':
+ debugLog(" [MAIN] Loading zones data...");
+ if (typeof loadZonesData === 'function') loadZonesData();
+ break;
 
-      case 'settings':
-        console.log("âš™ï¸ [MAIN] Loading settings...");
-        if (typeof loadSettings === 'function') loadSettings();
-        break;
+ case 'settings':
+ debugLog(" [MAIN] Loading settings...");
+ if (typeof loadSettings === 'function') loadSettings();
+ break;
 
-      default:
-        console.log(`ðŸ¤· [MAIN] No specific handler for tab: ${tabId}`);
-    }
-  } catch (error) {
-    console.error(`âŒ [MAIN] Error loading data for tab ${tabId}:`, error);
-    if (typeof showMessage === 'function') {
-      showMessage(`Error cargando ${tabId}`, "error");
-    }
-  }
+ default:
+ debugLog(` [MAIN] No specific handler for tab: ${tabId}`);
+ }
+ } catch (error) {
+ console.error(`Â [MAIN] Error loading data for tab ${tabId}:`, error);
+ if (typeof showMessage === 'function') {
+ showMessage(`Error cargando ${tabId}`, "error");
+ }
+ }
 }
 
 
 
-// âœ… Setup navegaciÃ³n
+//  Setup navegación
 function setupNavigation() {
-  console.log("ðŸš€ [MAIN] Setting up navigation");
-  
-  const tabButtons = document.querySelectorAll(".tab-link, .tab-btn:not(.dropdown-finanzas .tab-btn)");
-  
-  tabButtons.forEach((btn) => {
-    const tabId = btn.getAttribute("data-tab");
+ debugLog(" [MAIN] Setting up navigation");
+ 
+ const tabButtons = document.querySelectorAll(".tab-link, .tab-btn:not(.dropdown-finanzas .tab-btn)");
+ 
+ tabButtons.forEach((btn) => {
+ const tabId = btn.getAttribute("data-tab");
 
-    // ðŸ‘‰ Si no tiene data-tab, ignorar el botÃ³n (ej: Finanzas â–¾)
-    if (!tabId) {
-      console.log("[MAIN] Tab button missing data-tab attribute, skipping:", btn);
-      return;
-    }
+ //  Si no tiene data-tab, ignorar el botón (ej: Finanzas 
+ if (!tabId) {
+ debugLog("[MAIN] Tab button missing data-tab attribute, skipping:", btn);
+ return;
+ }
 
-    btn.addEventListener("click", (e) => {
-  e.preventDefault();
-  console.log(`ðŸ”˜ [MAIN] Tab button clicked: ${tabId}`);
-  
-  // Actualizar estado visual
-  updateTabButtonState(btn);
-  
-  // Abrir la tab correspondiente
-  openTab(tabId);
+ btn.addEventListener("click", (e) => {
+ e.preventDefault();
+ debugLog(` [MAIN] Tab button clicked: ${tabId}`);
+ 
+ // Actualizar estado visual
+ updateTabButtonState(btn);
+ 
+ // Abrir la tab correspondiente
+ openTab(tabId);
 
-  // âœ… Si el botÃ³n pertenece al menÃº desplegable de Finanzas â†’ cerrar menÃº
-  const dropdown = document.querySelector(".dropdown-finanzas");
-  if (dropdown && dropdown.contains(btn)) {
-    dropdown.classList.add("hidden");
-    console.log("ðŸ“‚ [MAIN] Dropdown de Finanzas cerrado tras seleccionar:", tabId);
-  }
-  if (btn.classList.contains("tab-btn")) {
-  const parentDropdown = btn.closest(".dropdown-finanzas");
-  if (parentDropdown) {
-    parentDropdown.querySelectorAll(".tab-btn").forEach((subBtn) => {
-      subBtn.classList.remove("bg-blue-50", "text-blue-600", "font-bold");
-    });
-    btn.classList.add("bg-blue-50", "text-blue-600", "font-bold");
-  }
+ //  Si el botón pertenece al menÍº desplegable de Finanzas  cerrar menÍº
+ const dropdown = document.querySelector(".dropdown-finanzas");
+ if (dropdown && dropdown.contains(btn)) {
+ dropdown.classList.add("hidden");
+ debugLog(" [MAIN] Dropdown de Finanzas cerrado tras seleccionar:", tabId);
+ }
+ if (btn.classList.contains("tab-btn")) {
+ const parentDropdown = btn.closest(".dropdown-finanzas");
+ if (parentDropdown) {
+ parentDropdown.querySelectorAll(".tab-btn").forEach((subBtn) => {
+ subBtn.classList.remove("bg-blue-50", "text-blue-600", "font-bold");
+ });
+ btn.classList.add("bg-blue-50", "text-blue-600", "font-bold");
+ }
 }
 
 });
 
-  });
+ });
 
-  console.log("âœ… [MAIN] Navigation setup completed");
+ debugLog(" [MAIN] Navigation setup completed");
 }
-// âœ… Toggle para el menÃº de Finanzas usando posiciÃ³n FIXED
+//  Toggle para el menú de Finanzas usando posición FIXED
 document.addEventListener("DOMContentLoaded", () => {
+ initializeOnce('main-finances-dropdown', () => {
   const finanzasBtn = document.getElementById("finanzasMenuBtn");
   const dropdown = document.querySelector(".dropdown-finanzas");
 
   if (finanzasBtn && dropdown) {
-    finanzasBtn.addEventListener("click", (e) => {
-      e.preventDefault();
+   finanzasBtn.addEventListener("click", (e) => {
+    e.preventDefault();
 
-      // Calcular posiciÃ³n bajo el botÃ³n
-      const rect = finanzasBtn.getBoundingClientRect();
-      dropdown.style.top = `${rect.bottom + 5}px`; // 5px de espacio
-      dropdown.style.left = `${rect.left}px`;
+    // Calcular posición bajo el botón
+    const rect = finanzasBtn.getBoundingClientRect();
+    dropdown.style.top = `${rect.bottom + 5}px`; // 5px de espacio
+    dropdown.style.left = `${rect.left}px`;
 
-      dropdown.classList.toggle("hidden");
-    });
+    dropdown.classList.toggle("hidden");
+   });
 
-    // ðŸ‘‰ Cerrar al hacer click fuera
-    document.addEventListener("click", (e) => {
-      if (!finanzasBtn.contains(e.target) && !dropdown.contains(e.target)) {
-        dropdown.classList.add("hidden");
-      }
-    });
+   //  Cerrar al hacer click fuera
+   document.addEventListener("click", (e) => {
+    if (!finanzasBtn.contains(e.target) && !dropdown.contains(e.target)) {
+     dropdown.classList.add("hidden");
+    }
+   });
   }
+ });
 });
-
 
 
 function updateTabButtonState(activeButton) {
-  // Remover estado activo de todos los botones
-  document.querySelectorAll(".tab-link").forEach((b) => {
-    b.classList.remove("text-blue-600", "font-bold");
-    b.classList.add("text-gray-700");
-  });
-  
-  // Activar el botÃ³n seleccionado
-  activeButton.classList.remove("text-gray-700");
-  activeButton.classList.add("text-blue-600", "font-bold");
+ // Remover estado activo de todos los botones
+ document.querySelectorAll(".tab-link").forEach((b) => {
+ b.classList.remove("text-blue-600", "font-bold");
+ b.classList.add("text-gray-700");
+ });
+ 
+ // Activar el botón seleccionado
+ activeButton.classList.remove("text-gray-700");
+ activeButton.classList.add("text-blue-600", "font-bold");
 }
 
-// âœ… Setup del logout button
+//  Setup del logout button
 function setupLogout() {
-  const logoutBtn = document.getElementById('logoutBtn');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', async () => {
-      console.log("ðŸšª [MAIN] Logging out...");
-      
-      try {
-        if (auth) {
-          await auth.signOut();
-          console.log("âœ… [MAIN] User signed out successfully");
-          window.location.href = 'auth.html';
-        }
-      } catch (error) {
-        console.error("âŒ [MAIN] Error signing out:", error);
-        showMessage("Error al cerrar sesiÃ³n", "error");
-      }
-    });
-    console.log("âœ… [MAIN] Logout button configured");
-  }
+ const logoutBtn = document.getElementById('logoutBtn');
+ if (logoutBtn) {
+ logoutBtn.addEventListener('click', async () => {
+ debugLog(" [MAIN] Logging out...");
+ 
+ try {
+ if (auth) {
+ await auth.signOut();
+ debugLog(" [MAIN] User signed out successfully");
+ window.location.href = 'auth.html';
+ }
+ } catch (error) {
+ console.error("Â [MAIN] Error signing out:", error);
+ showMessage("Error al cerrar sesión", "error");
+ }
+ });
+ debugLog(" [MAIN] Logout button configured");
+ }
 }
 
-// âœ… Setup inicial de la app
+//  Setup inicial de la app
 function setupInitialApp() {
-  console.log("ðŸš€ [MAIN] Setting up initial app...");
-  
-  try {
-    setupNavigation();
-    setupLogout();
-    
-    // Setup tab inicial (calculadora)
-    const defaultBtn = document.querySelector('[data-tab="calculator"]');
-    if (defaultBtn) {
-      updateTabButtonState(defaultBtn);
-      openTab("calculator");
-      console.log("ðŸš€ [MAIN] Tab inicial abierta: calculator");
-    }
-    
-    console.log("âœ… [MAIN] Initial app setup completed");
-  } catch (error) {
-    console.error("âŒ [MAIN] Error during app setup:", error);
-  }
-  // âœ… Avisar que main.js ya terminÃ³ de inicializar
+ debugLog(" [MAIN] Setting up initial app...");
+ 
+ try {
+ setupNavigation();
+ setupLogout();
+ 
+ // Setup tab inicial (calculadora)
+ const defaultBtn = document.querySelector('[data-tab="calculator"]');
+ if (defaultBtn) {
+ updateTabButtonState(defaultBtn);
+ openTab("calculator");
+ debugLog(" [MAIN] Tab inicial abierta: calculator");
+ }
+ 
+ debugLog(" [MAIN] Initial app setup completed");
+ } catch (error) {
+ console.error("Â [MAIN] Error during app setup:", error);
+ }
+ //  Avisar que main.js ya terminó de inicializar
 window.mainJsReady = true;
 document.dispatchEvent(new Event("mainJsReady"));
 if (typeof debugLog === "function") {
-  debugLog("ðŸš€ mainJsReady disparado desde main.js");
+ debugLog(" mainJsReady disparado desde main.js");
 } else {
-  console.log("ðŸš€ mainJsReady disparado desde main.js");
+ debugLog(" mainJsReady disparado desde main.js");
 }
 
 
 }
 
-// âœ… FUNCIÃ“N MEJORADA - loadInitialData
+//  FUNCIÍ MEJORADA - loadInitialData
 function loadInitialData() {
-  console.log("ðŸ”„ [MAIN] Loading initial data after authentication");
-  
-  if (window.currentUser && appState.currentTab) {
-    console.log(`ðŸ“‚ [MAIN] Loading data for current tab: ${appState.currentTab}`);
-    loadTabData(appState.currentTab);
-  } else {
-    console.warn("âš ï¸ [MAIN] Cannot load initial data:", {
-      user: !!window.currentUser,
-      currentTab: appState.currentTab
-    });
-  }
+ debugLog(" [MAIN] Loading initial data after authentication");
+ 
+ if (window.currentUser && appState.currentTab) {
+ debugLog(` [MAIN] Loading data for current tab: ${appState.currentTab}`);
+ loadTabData(appState.currentTab);
+ } else {
+ console.warn(" [MAIN] Cannot load initial data:", {
+ user: !!window.currentUser,
+ currentTab: appState.currentTab
+ });
+ }
 }
 
-// âœ… FUNCIÃ“N DE DEBUG SIMPLIFICADA (ADAPTADA A 3 SUBTABS)
+//  FUNCIÍ DE DEBUG SIMPLIFICADA (ADAPTADA A 3 SUBTABS)
 function debugFinancesSetup() {
-  console.log("ðŸ” [MAIN] === DEBUGGING FINANCES SETUP ===");
-  console.log("ðŸ“‹ DOM elements check:");
-  
-  const criticalElements = [
-    // Resumen
-    'yearSelect',
-    'monthSelect',
+ debugLog(" [MAIN] === DEBUGGING FINANCES SETUP ===");
+ debugLog(" DOM elements check:");
+ 
+ const criticalElements = [
+ // Resumen
+ 'yearSelect',
+ 'monthSelect',
 
-    // Reportes
-    'reportYear',
-    'reportMonth',
+ // Reportes
+ 'reportYear',
+ 'reportMonth',
 
-    // Cuentas
-    'accountsYear',
-    'accountsMonth',
+ // Cuentas
+ 'accountsYear',
+ 'accountsMonth',
 
-    // KPIs y grÃ¡ficos
-    'totalRevenue', 
-    'totalExpenses', 
-    'netProfit',
-    'profitMarginPercent',
-    'cashFlowChart',
-    'expenseBreakdownChart'
-  ];
-  
-  criticalElements.forEach(id => {
-    const element = document.getElementById(id);
-    console.log(`  ${id}: ${element ? 'âœ… Found' : 'âŒ Missing'}`);
-  });
-  
-  console.log("ðŸ”§ Functions check:");
-  console.log(`  loadFinancesData: ${typeof loadFinancesData}`);
-  console.log(`  firebase: ${typeof firebase}`);
-  console.log(`  Chart: ${typeof Chart}`);
-  
-  console.log("ðŸ‘¤ User check:");
-  console.log(`  currentUser: ${window.currentUser?.email || 'null'}`);
-  
-  console.log("=====================================");
+ // KPIs y grÍ¡ficos
+ 'totalRevenue', 
+ 'totalExpenses', 
+ 'netProfit',
+ 'profitMarginPercent',
+ 'cashFlowChart',
+ 'expenseBreakdownChart'
+ ];
+ 
+ criticalElements.forEach(id => {
+ const element = document.getElementById(id);
+ debugLog(` ${id}: ${element ? ' Found' : 'Â Missing'}`);
+ });
+ 
+ debugLog(" Functions check:");
+ debugLog(` loadFinancesData: ${typeof loadFinancesData}`);
+ debugLog(` firebase: ${typeof firebase}`);
+ debugLog(` Chart: ${typeof Chart}`);
+ 
+ debugLog(" User check:");
+ debugLog(` currentUser: ${window.currentUser?.email || 'null'}`);
+ 
+ debugLog("=====================================");
 }
 
-// âœ… Event listeners para refrescar cuando se guarde una carga
+//  Event listeners para refrescar cuando se guarde una carga
 document.addEventListener('loadSaved', () => {
-  console.log("ðŸ”„ [MAIN] Load saved, refreshing current tab data");
-  if (window.currentUser && appState.currentTab) {
-    loadTabData(appState.currentTab);
-  }
+ debugLog(" [MAIN] Load saved, refreshing current tab data");
+ if (window.currentUser && appState.currentTab) {
+ loadTabData(appState.currentTab);
+ }
 });
 
-// âœ… NUEVO EVENT LISTENER - Cuando el usuario se autentica
+//  NUEVO EVENT LISTENER - Cuando el usuario se autentica
 document.addEventListener('userStateChanged', (event) => {
-  const { user } = event.detail || {};
-  console.log("ðŸ‘¤ [MAIN] User state changed:", user?.email || 'logged out');
-  
-  if (user) {
-    console.log("âœ… [MAIN] User authenticated, loading current tab data");
-    setTimeout(() => {
-      loadInitialData();
-    }, 1000);
-  }
+ const { user } = event.detail || {};
+ debugLog(" [MAIN] User state changed:", user?.email || 'logged out');
+ 
+ if (user) {
+ debugLog(" [MAIN] User authenticated, loading current tab data");
+ setTimeout(() => {
+ loadInitialData();
+ }, 1000);
+ }
 });
 
-// âœ… InicializaciÃ³n cuando DOM estÃ© listo
+//  Inicialización cuando DOM esté listo
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("ðŸš€ [MAIN] DOM loaded - Setting up app");
+ initializeOnce('main-setup-app', () => {
+  debugLog(" [MAIN] DOM loaded - Setting up app");
   
   // Setup inmediato
   setupInitialApp();
+ });
 });
 
-// âœ… Debug utilities MEJORADAS (SIN BUCLES)
+//  Debug utilities MEJORADAS (SIN BUCLES)
 window.appState = appState;
 window.debugApp = () => {
-  console.log("ðŸ› [MAIN] Debug:", {
-    currentTab: appState.currentTab,
-    currentUser: window.currentUser?.email || 'null',
-    availableFunctions: {
-      getLoadHistory: typeof getLoadHistory,
-      loadDashboardData: typeof loadDashboardData,
-      loadFinancesData: typeof loadFinancesData,
-      loadZonesData: typeof loadZonesData,
-      openTab: typeof openTab
-    },
-    domElements: {
-      financesPeriodSelect: !!document.getElementById('financesPeriodSelect'),
-      totalRevenue: !!document.getElementById('totalRevenue'),
-      cashFlowChart: !!document.getElementById('cashFlowChart')
-    },
-    libraries: {
-      firebase: typeof firebase,
-      Chart: typeof Chart
-    }
-  });
+ debugLog(" [MAIN] Debug:", {
+ currentTab: appState.currentTab,
+ currentUser: window.currentUser?.email || 'null',
+ availableFunctions: {
+ getLoadHistory: typeof getLoadHistory,
+ loadDashboardData: typeof loadDashboardData,
+ loadFinancesData: typeof loadFinancesData,
+ loadZonesData: typeof loadZonesData,
+ openTab: typeof openTab
+ },
+ domElements: {
+ financesPeriodSelect: !!document.getElementById('financesPeriodSelect'),
+ totalRevenue: !!document.getElementById('totalRevenue'),
+ cashFlowChart: !!document.getElementById('cashFlowChart')
+ },
+ libraries: {
+ firebase: typeof firebase,
+ Chart: typeof Chart
+ }
+ });
 };
 
-// Comentar o eliminar esta funciÃ³n que estÃ¡ en bucle infinito
+// Comentar o eliminar esta función que estÍ¡ en bucle infinito
 /*
 window.debugFinances = () => {
-  if (!window.hasDebuggedFinances) {
-    debugFinancesSetup();
-    window.hasDebuggedFinances = true;
-  }
-  console.log("Manual debug completed. To load finances manually, run:");
-  console.log("window.loadFinancesData()");
+ if (!window.hasDebuggedFinances) {
+ debugFinancesSetup();
+ window.hasDebuggedFinances = true;
+ }
+ debugLog("Manual debug completed. To load finances manually, run:");
+ debugLog("window.loadFinancesData()");
 };
 */
 
 
-// âœ… FUNCIÃ“N MANUAL PARA CARGAR FINANZAS
+//  FUNCION MANUAL PARA CARGAR FINANZAS
 window.manualLoadFinances = () => {
-  if (typeof loadFinancesData === 'function' && window.currentUser) {
-    console.log("ðŸ§ª [MAIN] Manual finances load...");
-    loadFinancesData();
-  } else {
-    console.error("âŒ [MAIN] Cannot load finances manually:", {
-      function: typeof loadFinancesData,
-      user: !!window.currentUser
-    });
-  }
+ if (typeof loadFinancesData === 'function' && window.currentUser) {
+ debugLog(" [MAIN] Manual finances load...");
+ loadFinancesData();
+ } else {
+ console.error("Â [MAIN] Cannot load finances manually:", {
+ function: typeof loadFinancesData,
+ user: !!window.currentUser
+ });
+ }
 };
 
-// âœ… SubmenÃº interno de Finanzas
+//  Submenu interno de Finanzas
 document.addEventListener("DOMContentLoaded", () => {
+ initializeOnce('main-finances-subtabs', () => {
   const subtabButtons = document.querySelectorAll(".fin-subtab");
   const subtabContents = document.querySelectorAll(".fin-subcontent");
 
-function activateSubtab(target) {
-  console.log("ðŸ”Ž DEBUG activateSubtab â†’ target:", target);
+  function activateSubtab(target) {
+   debugLog(" DEBUG activateSubtab  target:", target);
 
-  // Resetear botones
-  subtabButtons.forEach(b => b.classList.remove("bg-blue-100", "font-semibold"));
-  const btn = document.querySelector(`.fin-subtab[data-subtab='${target}']`);
-  if (btn) {
-    btn.classList.add("bg-blue-100", "font-semibold");
-  }
+   // Resetear botones
+   subtabButtons.forEach(b => b.classList.remove("bg-blue-50", "font-semibold"));
+   const btn = document.querySelector(`.fin-subtab[data-subtab='${target}']`);
+   if (btn) {
+    btn.classList.add("bg-blue-50", "font-semibold");
+   }
 
-  // Mostrar solo el contenido seleccionado
-  subtabContents.forEach(c => c.classList.add("hidden"));
-  const content = document.getElementById(`finances-${target}`);
-  console.log("ðŸ“Œ DEBUG subtab content:", content);
-  if (content) {
+   // Mostrar solo el contenido seleccionado
+   subtabContents.forEach(c => c.classList.add("hidden"));
+   const content = document.getElementById(`finances-${target}`);
+   debugLog(" DEBUG subtab content:", content);
+   if (content) {
     content.classList.remove("hidden");
-  }
+   }
 
-  console.log(`ðŸ“‚ [FINANCES] Subtab activado: ${target}`);
+   debugLog(` [FINANCES] Subtab activado: ${target}`);
 
-  if (target === "summary") {
-  console.log("ðŸ’° [FINANCES] Entrando a summary");
-  initPeriodSelectors("global");
-  setTimeout(() => {
-    console.log("ðŸ’° [FINANCES] Ejecutando loadFinancesData desde summary");
-    window.loadFinancesData?.("all");
-  }, 200);
-}
+   if (target === "summary") {
+    debugLog(" [FINANCES] Entrando a summary");
+    initPeriodSelectors("global");
+    setTimeout(() => {
+     debugLog(" [FINANCES] Ejecutando loadFinancesData desde summary");
+     window.loadFinancesData?.("all");
+    }, 200);
+   }
 
-
-  if (target === "reports") {
-    console.log("ðŸ§¾ [FINANCES] Entrando a reports");
+   if (target === "reports") {
+    debugLog(" [FINANCES] Entrando a reports");
     initPeriodSelectors("reports");
     if (typeof generatePLReport === "function") {
-      generatePLReport();
+     generatePLReport();
     } else {
-      console.warn("âš ï¸ generatePLReport no existe");
+     console.warn(" generatePLReport no existe");
     }
-  }
+   }
 
-  if (target === "accounts") {
-    console.log("ðŸ’µ [FINANCES] Entrando a accounts");
+   if (target === "accounts") {
+    debugLog(" [FINANCES] Entrando a accounts");
     initPeriodSelectors("accounts");
     if (typeof loadAccountsData === "function") {
-      loadAccountsData();
+     loadAccountsData();
     } else {
-      console.warn("âš ï¸ loadAccountsData no existe");
+     console.warn(" loadAccountsData no existe");
     }
+   }
   }
-}
-
 
   // Evento click en botones
   subtabButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const target = btn.getAttribute("data-subtab");
-      activateSubtab(target);
-    });
+   btn.addEventListener("click", () => {
+    const target = btn.getAttribute("data-subtab");
+    activateSubtab(target);
+   });
   });
 
-  // âœ… Mostrar "Resumen" por defecto al entrar en Finanzas
+  //  Mostrar "Resumen" por defecto al entrar en Finanzas
   document.addEventListener("financesOpened", () => {
-    activateSubtab("summary");
+   activateSubtab("summary");
   });
+ });
 });
+
+// ==========================================================
+//  LEX: disparador global desde la burbuja
+//  Usa la pestaña activa para decidir qué hacer
+// ==========================================================
+window.triggerLex = async function () {
+  try {
+    const currentTab = (typeof appState !== 'undefined' && appState.currentTab) 
+      ? appState.currentTab 
+      : 'calculator';
+
+    // Aseguramos que LexAI esté listo si hace falta
+    if (!window.lexAI && window.LexAI) {
+      window.lexAI = new LexAI();
+      await window.lexAI.initializeContext();
+    }
+
+    switch (currentTab) {
+      case 'calculator':
+        if (typeof window.analyzeLexLoad === 'function') {
+          return window.analyzeLexLoad();
+        }
+        if (typeof window.setLexState === 'function') {
+          window.setLexState('warning', {
+            message: 'Abre la calculadora y calcula una carga para poder analizarla 🧮',
+            duration: 5000
+          });
+        }
+        break;
+
+      case 'history':
+        if (typeof window.setLexState === 'function') {
+          window.setLexState('thinking', {
+            message: 'Pronto podré resumirte tus mejores rutas y meses desde el historial 📊',
+            duration: 6000
+          });
+        }
+        break;
+
+      case 'zones':
+        if (typeof window.setLexState === 'function') {
+          window.setLexState('thinking', {
+            message: 'Muy pronto te mostraré las zonas más calientes y frías según tus cargas 🗺️',
+            duration: 6000
+          });
+        }
+        break;
+
+      case 'finances':
+        if (typeof window.setLexState === 'function') {
+          window.setLexState('thinking', {
+            message: 'En breve podré decirte si tu mes va bien o si hay que apretar números 💵',
+            duration: 6000
+          });
+        }
+        break;
+
+      default:
+        if (typeof window.setLexState === 'function') {
+          window.setLexState('idle', {
+            message: 'Abre alguna sección de la app y vuelvo a ayudarte 😉',
+            duration: 4000
+          });
+        }
+        break;
+    }
+  } catch (error) {
+    console.error('[MAIN] Error en triggerLex:', error);
+    if (typeof window.setLexState === 'function') {
+      window.setLexState('warning', {
+        message: 'Algo falló al usar Lex. Revisa la consola del navegador 🛠️',
+        duration: 6000
+      });
+    }
+  }
+};

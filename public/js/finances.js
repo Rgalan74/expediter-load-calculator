@@ -1,4 +1,4 @@
-// finances.js - Versión Completamente Corregida
+// finances.js - Versin Completamente Corregida
 
 var financesData = [];
 var expensesData = [];
@@ -8,11 +8,27 @@ var financesLoaded = false;
 var allFinancesData = [];
 var allExpensesData = [];
 
+//  CONFIGURACIN TEMA OSCURO PARA CHART.JS
+if (typeof Chart !== 'undefined') {
+  Chart.defaults.color = '#cbd5e1';
+  Chart.defaults.borderColor = 'rgba(59, 130, 246, 0.2)';
+  
+  Chart.defaults.plugins.legend.labels.color = '#e2e8f0';
+  Chart.defaults.plugins.legend.labels.font = { weight: '600', size: 13 };
+  Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(15, 23, 42, 0.95)';
+  Chart.defaults.plugins.tooltip.titleColor = '#f1f5f9';
+  Chart.defaults.plugins.tooltip.bodyColor = '#cbd5e1';
+  Chart.defaults.plugins.tooltip.borderColor = 'rgba(59, 130, 246, 0.5)';
+  Chart.defaults.plugins.tooltip.borderWidth = 1;
+  
+  debugLog(' Chart.js configurado con tema oscuro');
+}
+
 // Agregar al INICIO de finances.js
 function ensurePaymentFields(loads) {
   return loads.map(load => {
     if (!load.paymentStatus) {
-      // Calcular fecha de pago automáticamente
+      // Calcular fecha de pago automticamente
       const date = new Date(load.date);
       const dayOfWeek = date.getDay();
       
@@ -36,14 +52,14 @@ function ensurePaymentFields(loads) {
   });
 }
 
-// ✅ FUNCIÓN loadFinancialData CORREGIDA DEFINITIVA
+// OK FUNCIN loadFinancialData CORREGIDA DEFINITIVA
 // Reemplazar en finances.js
 
 async function loadFinancialData(period = "all") {
   if (!window.currentUser) throw new Error("Usuario no autenticado");
   const uid = window.currentUser.uid;
 
-  console.log("📦 Cargando TODOS los datos sin filtrar...");
+  debugLog(" Cargando TODOS los datos sin filtrar...");
 
   // Cargar todas las cargas
   const loadSnapshot = await window.db.collection("loads").where("userId", "==", uid).get();
@@ -69,7 +85,7 @@ async function loadFinancialData(period = "all") {
       origin: data.origin || "-",
       destination: data.destination || "-",
       
-      // ✅ CAMPOS FINANCIEROS
+      // OK CAMPOS FINANCIEROS
       totalMiles: Number(data.totalMiles || 0),
       totalCharge: Number(data.totalCharge || 0),
       netProfit: Number(data.netProfit || 0),
@@ -80,21 +96,21 @@ async function loadFinancialData(period = "all") {
       otherCosts: Number(data.otherCosts || 0),
       loadedMiles: Number(data.loadedMiles || 0),
       
-      // ✅ CAMPOS DE PAGO - ESTE ES EL FIX PRINCIPAL
+      // OK CAMPOS DE PAGO - ESTE ES EL FIX PRINCIPAL
       paymentStatus: data.paymentStatus || "pending",
-      actualPaymentDate: data.actualPaymentDate || null,    // 🎯 CAMPO CRÍTICO
+      actualPaymentDate: data.actualPaymentDate || null,    // [TARGET] CAMPO CRTICO
       paymentDate: data.paymentDate || null,
       expectedPaymentDate: data.expectedPaymentDate || null
     };
   });
 
-  // Procesar para añadir campos de pago faltantes
+  // Procesar para aadir campos de pago faltantes
   allFinancesData = ensurePaymentFields(allFinancesData);
 
   // Actualizar variables globales para compatibilidad
   window.allFinancesData = allFinancesData;
   
-  // Filtrar por período si se especifica
+  // Filtrar por perodo si se especifica
   let filteredData = allFinancesData;
   if (period !== "all") {
     filteredData = allFinancesData.filter(load => {
@@ -103,7 +119,7 @@ async function loadFinancialData(period = "all") {
         // Formato YYYY-MM
         return loadDate.startsWith(period);
       } else {
-        // Solo año YYYY
+        // Solo ao YYYY
         return loadDate.startsWith(period);
       }
     });
@@ -136,7 +152,7 @@ async function loadFinancialData(period = "all") {
     };
   });
 
-  // Filtrar gastos por período
+  // Filtrar gastos por perodo
   let filteredExpenses = allExpensesData;
   if (period !== "all") {
     filteredExpenses = allExpensesData.filter(expense => {
@@ -154,8 +170,8 @@ async function loadFinancialData(period = "all") {
   window.expensesData = filteredExpenses;
   window.allExpensesData = allExpensesData;
 
-  console.log(`✅ Datos cargados: ${filteredData.length} cargas, ${filteredExpenses.length} gastos`);
-  console.log(`📊 Cargas con actualPaymentDate: ${allFinancesData.filter(load => load.actualPaymentDate).length}`);
+  debugLog(`OK Datos cargados: ${filteredData.length} cargas, ${filteredExpenses.length} gastos`);
+  debugLog(` Cargas con actualPaymentDate: ${allFinancesData.filter(load => load.actualPaymentDate).length}`);
 
   return {
     loads: filteredData,
@@ -177,10 +193,10 @@ function getItemPeriodUTC(item) {
 
 
 function debugFinances(message, data) {
-    console.log("💰 [FINANCES] " + message, data || "");
+    debugLog(" [FINANCES] " + message, data || "");
 }
 
-// 🔧 Normalizar fechas con año/mes/día en zona local (evita desfases UTC)
+//  Normalizar fechas con ao/mes/da en zona local (evita desfases UTC)
 function normalizeDate(d, mode = "month") {
   if (!d) return null;
   let dateObj;
@@ -201,7 +217,7 @@ function normalizeDate(d, mode = "month") {
 
     if (mode === "year") return `${y}`;
     if (mode === "day") return `${y}-${m}-${day}`;
-    return `${y}-${m}`; // 👈 por defecto mes en local time
+    return `${y}-${m}`; //  por defecto mes en local time
   } catch {
     return null;
   }
@@ -209,7 +225,7 @@ function normalizeDate(d, mode = "month") {
 
 async function loadFinancesData(period = "all") {
   if (!window.currentUser) {
-    console.error("❌ No hay usuario autenticado");
+    console.error(" No hay usuario autenticado");
     return;
   }
   const uid = window.currentUser.uid;
@@ -267,10 +283,10 @@ async function loadFinancesData(period = "all") {
     };
   });
 
-  console.log("📦 Loads guardadas en memoria:", window.financesData.length);
-  console.log("💳 Expenses guardadas en memoria:", window.expensesData.length);
+  debugLog(" Loads guardadas en memoria:", window.financesData.length);
+  debugLog(" Expenses guardadas en memoria:", window.expensesData.length);
 
-  // === 3. Filtrar por período (si aplica) ===
+  // === 3. Filtrar por perodo (si aplica) ===
   const filteredLoads = (period === "all")
     ? window.financesData
     : window.financesData.filter(l => l.date.startsWith(period));
@@ -290,141 +306,21 @@ async function loadFinancesData(period = "all") {
   };
 }
 
-
-
-
-/* 
-// ============================
-// ❌ Versión vieja - ya no se usa
-// ============================
-... aquí va la función vieja ...
-function loadLoadsForFinances(dateRange) {
-    return new Promise(function(resolve, reject) {
-        debugFinances("📦 Cargando cargas desde Firestore...");
-        
-        firebase.firestore()
-            .collection("loads")
-            .where("userId", "==", window.currentUser.uid)
-            .get()
-            .then(function(snapshot) {
-                debugFinances("📦 Firestore devolvió " + snapshot.docs.length + " cargas");
-                
-                var loads = snapshot.docs.map(function(doc) {
-                    var data = doc.data();
-                    
-                    var loadDate = data.date;
-                    if (!loadDate && data.createdAt) {
-                        try {
-                            loadDate = data.createdAt.toDate().toISOString().split('T')[0];
-                        } catch (e) {
-                            loadDate = new Date().toISOString().split('T')[0];
-                        }
-                    } else if (!loadDate) {
-                        loadDate = new Date().toISOString().split('T')[0];
-                    }
-                    
-                    var totalMiles = Number(data.totalMiles || data.miles || 0);
-                    var rpm = Number(data.rpm || 0);
-                    var baseIncome = rpm * totalMiles;
-                    var tolls = Number(data.tolls || 0);
-                    var otherCosts = Number(data.otherCosts || 0);
-                    var totalCharge = data.totalCharge || (baseIncome + tolls + otherCosts);
-                    
-                    var fuelCost = Number(data.fuelCost || (totalMiles * 0.18));
-                    var operatingCost = Number(data.operatingCost || (totalMiles * 0.33));
-                    var totalExpenses = fuelCost + operatingCost + tolls + otherCosts;
-                    var netProfit = data.netProfit || (totalCharge - totalExpenses);
-                    
-                    return {
-                        id: doc.id,
-                        date: loadDate,
-                        totalCharge: totalCharge,
-                        netProfit: netProfit,
-                        totalMiles: totalMiles,
-                        fuelCost: fuelCost,
-                        operatingCost: operatingCost,
-                        tolls: tolls,
-                        otherCosts: otherCosts,
-                        rpm: rpm,
-                        loadedMiles: Number(data.loadedMiles || data.loaded || 0),
-                        deadheadMiles: Number(data.deadheadMiles || data.deadhead || 0),
-                        origin: data.origin || '',
-                        destination: data.destination || ''
-                    };
-                });
-                
-                if (dateRange.start && dateRange.end) {
-                    debugFinances("📅 Filtrando en memoria: " + dateRange.start + " - " + dateRange.end);
-                    loads = loads.filter(function(load) {
-                        return load.date >= dateRange.start && load.date <= dateRange.end;
-                    });
-                    debugFinances("📅 Filtradas " + loads.length + " cargas para el período");
-                }
-                
-                resolve(loads);
-            })
-            .catch(function(error) {
-                debugFinances("❌ Error cargando cargas:", error);
-                reject(error);
-            });
-    });
-}
-
-
-function loadExpensesForFinances(dateRange) {
-    return new Promise(function(resolve, reject) {
-        debugFinances("💳 Cargando gastos desde Firestore...");
-        
-        firebase.firestore()
-            .collection("expenses")
-            .where("userId", "==", window.currentUser.uid)
-            .get()
-            .then(function(snapshot) {
-                debugFinances("💳 Firestore devolvió " + snapshot.docs.length + " gastos");
-                
-                var expenses = snapshot.docs.map(function(doc) {
-                    var data = doc.data();
-                    return {
-                        id: doc.id,
-                        date: data.date,
-                        type: data.type,
-                        description: data.description,
-                        amount: Number(data.amount || 0),
-                        deductible: data.deductible
-                    };
-                });
-                
-                if (dateRange.start && dateRange.end) {
-                    expenses = expenses.filter(function(expense) {
-                        return expense.date >= dateRange.start && expense.date <= dateRange.end;
-                    });
-                }
-                
-                resolve(expenses);
-            })
-            .catch(function(error) {
-                debugFinances("❌ Error cargando gastos:", error);
-                reject(error);
-            });
-    });
-}
-*/
-
 // ==============================
-// 💳 FUNCIÓN updateExpenseCategories SIMPLIFICADA
+//  FUNCIN updateExpenseCategories SIMPLIFICADA
 // ==============================
 function updateExpenseCategories(expenses = []) {
-  console.log("💳 Actualizando categorías de gastos...");
+  debugLog(" Actualizando categorias de gastos...");
   
   const categories = calculateExpenseCategories(expenses);
-  console.log("✅ Categorías calculadas:", categories);
+  debugLog("OK Categorias calculadas:", categories);
   
-  // Las categorías se procesan para la tabla de gastos y gráficos
+  // Las categoras se procesan para la tabla de gastos y grficos
   // Ya NO intentamos actualizar elementos DOM individuales
   return categories;
 }
 
-// ✅ FUNCIÓN INDEPENDIENTE PARA RENDERIZAR GASTOS
+// OK FUNCIN INDEPENDIENTE PARA RENDERIZAR GASTOS
 function renderExpensesList(filteredExpenses = []) {
     const expensesList = document.getElementById("expensesList");
     if (!expensesList) return;
@@ -433,7 +329,7 @@ function renderExpensesList(filteredExpenses = []) {
         expensesList.innerHTML = `
             <tr>
                 <td colspan="5" class="p-4 text-center text-gray-500">
-                    No hay gastos registrados para este período
+                    No hay gastos registrados para este periodo
                 </td>
             </tr>`;
         return;
@@ -444,14 +340,14 @@ function renderExpensesList(filteredExpenses = []) {
         .slice(0, 10);
 
     const categoryIcons = {
-        fuel: "🚚", maintenance: "🔧", food: "🍔", lodging: "🏨",
-        tolls: "🛣️", insurance: "🛡️", permits: "📋", other: "📦"
+        fuel: "", maintenance: "", food: "", lodging: "",
+        tolls: "", insurance: "", permits: "", other: ""
     };
 
     const rows = sortedExpenses.map(expense => `
         <tr class="hover:bg-gray-50">
             <td class="p-2 text-sm">${expense.date || "-"}</td>
-            <td class="p-2 text-sm">${categoryIcons[expense.type] || "📦"} ${expense.type}</td>
+            <td class="p-2 text-sm">${categoryIcons[expense.type] || ""} ${expense.type}</td>
             <td class="p-2 text-sm">${expense.description || "-"}</td>
             <td class="p-2 text-sm font-semibold">${formatCurrency(expense.amount)}</td>
             <td class="p-2 text-sm">
@@ -462,36 +358,36 @@ function renderExpensesList(filteredExpenses = []) {
     `);
 
     expensesList.innerHTML = rows.join("");
-    debugFinances(`✅ Lista de gastos renderizada: ${rows.length} elementos`);
+    debugFinances(`OK Lista de gastos renderizada: ${rows.length} elementos`);
 }
 
 
 function updateFinancialCharts(context = "global") {
-    debugFinances(`📈 Actualizando gráficos financieros... (contexto: ${context})`);
+    debugFinances(` Actualizando grficos financieros... (contexto: ${context})`);
 
     if (typeof Chart === 'undefined') {
-        debugFinances("❌ Chart.js no está disponible");
+        debugFinances(" Chart.js no est disponible");
         return;
     }
 
     if (!financesData || financesData.length === 0) {
-        debugFinances("⚠️ No hay datos de finanzas para graficar");
+        debugFinances(" No hay datos de finanzas para graficar");
         return;
     }
 
     try {
         if (context === "global" || context === "summary") {
-            updateCashFlowChart(); // ✅ Sin parámetro, que lea los selectores internamente
+            updateCashFlowChart(); // OK Sin parmetro, que lea los selectores internamente
             updateExpenseBreakdownChart();
         }
 
-        debugFinances("✅ Gráficos actualizados exitosamente");
+        debugFinances("OK Grficos actualizados exitosamente");
     } catch (error) {
-        debugFinances("❌ Error actualizando gráficos:", error);
+        debugFinances(" Error actualizando grficos:", error);
     }
 }
 
-// Función corregida para updateCashFlowChart
+// Funcin corregida para updateCashFlowChart
 function updateCashFlowChart() {
   const canvas = document.getElementById('cashFlowChart');
   if (!canvas) {
@@ -524,7 +420,7 @@ function updateCashFlowChart() {
   if (selectedYear && selectedMonth) {
     const currentPeriod = `${selectedYear}-${selectedMonth.padStart(2, '0')}`;
     labels = labels.filter(m => m <= currentPeriod);
-    console.log("Mostrando hasta", currentPeriod, ":", labels);
+    debugLog("Mostrando hasta", currentPeriod, ":", labels);
   }
 
   const revenues = labels.map(m => monthlyData[m].revenue);
@@ -542,7 +438,7 @@ function updateCashFlowChart() {
     cashFlowChart.data.datasets[1].data = expenses;
     cashFlowChart.data.datasets[2].data = profits;
     cashFlowChart.update();
-    console.log("Gráfico actualizado con", labels.length, "meses");
+    debugLog("Grfico actualizado con", labels.length, "meses");
   } else {
     cashFlowChart = new Chart(canvas, {
       type: 'line',
@@ -558,35 +454,29 @@ function updateCashFlowChart() {
         responsive: true,
         maintainAspectRatio: false,
         plugins: { legend: { position: 'top' } },
-        scales: { y: { beginAtZero: true, ticks: { callback: value => '$' + value.toLocaleString() } } }
+        scales: {
+        x: { ticks: { color: "#cbd5e1" }, grid: { color: "rgba(59, 130, 246, 0.1)" } }, y: { beginAtZero: true, ticks: { callback: value => '$' + value.toLocaleString() } } }
       }
     });
-    console.log("Gráfico creado con", labels.length, "meses");
+    debugLog("Grfico creado con", labels.length, "meses");
   }
 }
-
-
-
-
-
-
-
 
 function updateExpenseBreakdownChart() {
     const canvas = document.getElementById('expenseBreakdownChart');
     if (!canvas) {
-        debugFinances("❌ Canvas expenseBreakdownChart no encontrado");
+        debugFinances(" Canvas expenseBreakdownChart no encontrado");
         return;
     }
 
-    debugFinances("🥧 Creando gráfico de distribución de gastos...");
+    debugFinances("PIE Creando grfico de distribucin de gastos...");
 
-    // 🔧 Destruir instancia previa
+    //  Destruir instancia previa
     if (expenseBreakdownChart && typeof expenseBreakdownChart.destroy === "function") {
         expenseBreakdownChart.destroy();
     }
 
-    // Categorías internas
+    // Categoras internas
     const categories = {
         fuel: 0,
         maintenance: 0,
@@ -643,10 +533,34 @@ function updateExpenseBreakdownChart() {
 
     const totalExpenses = data.reduce((a, b) => a + b, 0);
     if (totalExpenses === 0) {
-        debugFinances("⚠️ No hay gastos para el gráfico de distribución");
-        canvas.parentElement.innerHTML = '<div class="text-center text-gray-500 p-8">No hay gastos para mostrar</div>';
-        return;
+    debugFinances(" No hay gastos para el grfico de distribucin");
+    
+    // Destruir gráfico si existe
+    if (expenseBreakdownChart && typeof expenseBreakdownChart.destroy === "function") {
+        expenseBreakdownChart.destroy();
     }
+    
+    // Mostrar mensaje SIN borrar el canvas
+    const container = canvas.parentElement;
+    let messageDiv = container.querySelector('.no-data-message');
+    if (!messageDiv) {
+        messageDiv = document.createElement('div');
+        messageDiv.className = 'no-data-message text-center text-gray-500 p-8 absolute inset-0 flex items-center justify-center';
+        messageDiv.textContent = 'No hay gastos para mostrar';
+        container.style.position = 'relative';
+        container.appendChild(messageDiv);
+    }
+    messageDiv.style.display = 'flex';
+    canvas.style.display = 'none';
+    return;
+}
+
+// Si hay datos, ocultar mensaje y mostrar canvas
+const messageDiv = canvas.parentElement.querySelector('.no-data-message');
+if (messageDiv) {
+    messageDiv.style.display = 'none';
+}
+canvas.style.display = 'block';
 
     try {
         expenseBreakdownChart = new Chart(canvas, {
@@ -678,14 +592,14 @@ function updateExpenseBreakdownChart() {
                 }
             }
         });
-        debugFinances("✅ Gráfico de distribución de gastos creado");
+        debugFinances("OK Grfico de distribucin de gastos creado");
     } catch (error) {
-        debugFinances("❌ Error creando gráfico de distribución:", error);
+        debugFinances(" Error creando grfico de distribucin:", error);
     }
 }
 
 function updateBusinessMetrics() {
-    debugFinances("📊 Actualizando métricas de negocio...");
+    debugFinances(" Actualizando mtricas de negocio...");
 
     const totalMiles = financesData.reduce((sum, load) => sum + Number(load.totalMiles || 0), 0);
     const totalLoadedMiles = financesData.reduce((sum, load) => sum + Number(load.loadedMiles || 0), 0);
@@ -707,12 +621,12 @@ function updateBusinessMetrics() {
         const element = document.getElementById(id);
         if (element) {
             element.textContent = value;
-            debugFinances(`✅ Métrica actualizada ${id}: ${value}`);
+            debugFinances(`OK Mtrica actualizada ${id}: ${value}`);
         }
     });
 
     // Debug agrupado
-    debugFinances("📊 Totales calculados:", {
+    debugFinances(" Totales calculados:", {
         totalMiles,
         totalLoadedMiles,
         totalRevenue,
@@ -723,23 +637,8 @@ function updateBusinessMetrics() {
     });
 }
 
-
-// ==============================
-// 🧮 FUNCIÓN formatCurrency (mantenida)
-// ==============================
-function formatCurrency(amount) {
-  const num = Number(amount);
-  if (isNaN(num) || num === null || num === undefined) {
-    return '$0.00';
-  }
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD'
-  }).format(num);
-}
-
 // ============================
-// 📊 Helper para calcular KPIs
+//  Helper para calcular KPIs
 // ============================
 function calculateKPIs(loads = [], expenses = []) {
   const totalRevenue = loads.reduce((sum, load) => sum + (Number(load.totalCharge) || 0), 0);
@@ -759,36 +658,36 @@ function calculateKPIs(loads = [], expenses = []) {
     avgRpm
   };
 
-  console.log("💰 [KPIs] Calculados:", kpis);
+  debugLog(" [KPIs] Calculados:", kpis);
   return kpis;
 }
 
 function showFinancesMessage(message, type = "info") {
-    debugFinances(`💬 Mensaje: ${message} (${type})`);
+    debugFinances(` Mensaje: ${message} (${type})`);
 
     if (typeof showMessage === "function") {
         showMessage(message, type);
     } else {
         switch (type) {
             case "error":
-                console.error("❌ Finances:", message);
+                console.error(" Finances:", message);
                 break;
             case "success":
-                console.log("✅ Finances:", message);
+                debugLog("OK Finances:", message);
                 break;
             case "warning":
-                console.warn("⚠️ Finances:", message);
+                console.warn(" Finances:", message);
                 break;
             default:
-                console.log("ℹ️ Finances:", message);
+                debugLog(" Finances:", message);
         }
     }
 }
 
 function showFinancesLoading() {
-    debugFinances("🔄 Mostrando estado de carga...");
+    debugFinances(" Mostrando estado de carga...");
 
-    // Todos los elementos que deberían mostrar '...'
+    // Todos los elementos que deberan mostrar '...'
     const elements = [
         "totalRevenue",
         "totalExpensesSummary",
@@ -813,19 +712,19 @@ function showFinancesLoading() {
 }
 
 function hideFinancesLoading() {
-    debugFinances("✅ Finalizando estado de carga (sin reset de valores)");
+    debugFinances("OK Finalizando estado de carga (sin reset de valores)");
 
-    // 👉 Si más adelante quieres manejar spinners, este es el lugar
+    //  Si ms adelante quieres manejar spinners, este es el lugar
     const loadingEls = document.querySelectorAll(".finances-loading");
     loadingEls.forEach(el => el.classList.add("hidden"));
 }
 
 
 function openExpenseModal(expense = null) {
-    debugFinances("📝 Abriendo modal de gastos...");
+    debugFinances(" Abriendo modal de gastos...");
     const modal = document.getElementById('expenseModal');
     if (!modal) {
-        debugFinances("❌ Modal de gastos no encontrado");
+        debugFinances(" Modal de gastos no encontrado");
         return;
     }
 
@@ -839,13 +738,13 @@ function openExpenseModal(expense = null) {
     const amountEl = document.getElementById('expenseAmount');
 
     if (expense) {
-        // 👉 Editar gasto existente
+        //  Editar gasto existente
         dateEl.value = expense.date || new Date().toISOString().split('T')[0];
         typeEl.value = expense.type || "";
         descEl.value = expense.description || "";
         amountEl.value = expense.amount || 0;
     } else {
-        // 👉 Nuevo gasto
+        //  Nuevo gasto
         dateEl.value = new Date().toISOString().split('T')[0];
         typeEl.value = "";
         descEl.value = "";
@@ -854,14 +753,14 @@ function openExpenseModal(expense = null) {
 }
 
 function closeExpenseModal() {
-    debugFinances("❌ Cerrando modal de gastos...");
+    debugFinances(" Cerrando modal de gastos...");
     const modal = document.getElementById("expenseModal");
     if (!modal) return;
 
     // Ocultar modal
     modal.classList.add("hidden");
 
-    // Resetear modo edición
+    // Resetear modo edicin
     modal.dataset.editId = "";
 
     // Limpiar campos del formulario
@@ -873,13 +772,26 @@ function closeExpenseModal() {
 }
 
 async function saveExpenseToFirebase() {
-    const amount = parseFloat(document.getElementById("expenseAmount").value.trim());
-    const type = document.getElementById("expenseType").value.trim().toLowerCase();
-    const description = document.getElementById("expenseDescription").value.trim();
-    const date = document.getElementById("expenseDate").value;
+    // ✅ VERIFICAR QUE LOS ELEMENTOS EXISTEN PRIMERO
+    const amountEl = document.getElementById("expenseAmount");
+    const typeEl = document.getElementById("expenseType");
+    const descEl = document.getElementById("expenseDescription");
+    const dateEl = document.getElementById("expenseDate");
+    
+    // Verificación de elementos antes de acceder a .value
+    if (!amountEl || !typeEl || !descEl || !dateEl) {
+        console.error("❌ Elementos del formulario de gastos no encontrados");
+        showFinancesMessage("Error: Formulario no disponible. Intenta recargar la página.", "error");
+        return;
+    }
+    
+    const amount = parseFloat(amountEl.value.trim());
+    const type = typeEl.value.trim().toLowerCase();
+    const description = descEl.value.trim();
+    const date = dateEl.value;
 
     if (!window.currentUser) {
-        showFinancesMessage("Debe iniciar sesión", "error");
+        showFinancesMessage("Debe iniciar sesin", "error");
         return;
     }
 
@@ -906,20 +818,20 @@ async function saveExpenseToFirebase() {
     try {
         if (editId) {
             await firebase.firestore().collection("expenses").doc(editId).update(expense);
-            debugFinances(`✏️ Gasto actualizado (${editId}):`, expense);
-            showFinancesMessage("✏️ Gasto editado correctamente", "success");
+            debugFinances(` Gasto actualizado (${editId}):`, expense);
+            showFinancesMessage(" Gasto editado correctamente", "success");
         } else {
             const docRef = await firebase.firestore().collection("expenses").add(expense);
-            debugFinances(`✅ Gasto agregado (${docRef.id}):`, expense);
-            showFinancesMessage("✅ Gasto agregado correctamente", "success");
+            debugFinances(`OK Gasto agregado (${docRef.id}):`, expense);
+            showFinancesMessage("OK Gasto agregado correctamente", "success");
         }
 
         if (modal) modal.dataset.editId = ""; // reset
         closeExpenseModal();
         loadFinancesData();
     } catch (error) {
-        debugFinances("❌ Error guardando gasto:", error);
-        showFinancesMessage("❌ No se pudo guardar el gasto", "error");
+        debugFinances(" Error guardando gasto:", error);
+        showFinancesMessage(" No se pudo guardar el gasto", "error");
     } finally {
         if (saveBtn) saveBtn.disabled = false;
     }
@@ -927,21 +839,21 @@ async function saveExpenseToFirebase() {
 
 async function deleteExpense(id) {
     if (!id) {
-        showFinancesMessage("❌ ID de gasto no válido", "error");
+        showFinancesMessage(" ID de gasto no vlido", "error");
         return;
     }
 
-    const confirmDelete = confirm("🗑️ ¿Estás seguro de que deseas eliminar este gasto?");
+    const confirmDelete = confirm(" Ests seguro de que deseas eliminar este gasto?");
     if (!confirmDelete) return;
 
     try {
         await firebase.firestore().collection("expenses").doc(id).delete();
-        debugFinances(`🗑️ Gasto eliminado (${id})`);
-        showFinancesMessage("✅ Gasto eliminado correctamente", "success");
+        debugFinances(` Gasto eliminado (${id})`);
+        showFinancesMessage("OK Gasto eliminado correctamente", "success");
         loadFinancesData();
     } catch (error) {
-        debugFinances("❌ Error al eliminar gasto:", error);
-        showFinancesMessage("❌ No se pudo eliminar el gasto", "error");
+        debugFinances(" Error al eliminar gasto:", error);
+        showFinancesMessage(" No se pudo eliminar el gasto", "error");
     }
 }
 
@@ -950,28 +862,35 @@ async function editExpense(id) {
         const doc = await firebase.firestore().collection("expenses").doc(id).get();
 
         if (!doc.exists) {
-            showFinancesMessage("❌ Gasto no encontrado", "error");
+            showFinancesMessage(" Gasto no encontrado", "error");
             return;
         }
 
         const exp = { id, ...doc.data() };
 
-        // Guardar ID de edición en el modal
+        // Guardar ID de edicin en el modal
         const modal = document.getElementById("expenseModal");
         if (modal) modal.dataset.editId = id;
 
         // Reutilizar openExpenseModal con datos cargados
         openExpenseModal(exp);
 
-        debugFinances(`✏️ Editando gasto (${id}):`, exp);
+        debugFinances(` Editando gasto (${id}):`, exp);
     } catch (err) {
-        debugFinances("❌ Error al editar gasto:", err);
-        showFinancesMessage("❌ No se pudo cargar el gasto", "error");
+        debugFinances(" Error al editar gasto:", err);
+        showFinancesMessage(" No se pudo cargar el gasto", "error");
     }
 }
 
 function generatePLReport() {
-  console.log("📊 Generando Estado de Resultados Profesional...");
+  debugLog(" Generando Estado de Resultados Profesional...");
+
+   // ✅ MOSTRAR LOADING
+  const reportContainer = document.getElementById("plReportContainer");
+  if (reportContainer) {
+    reportContainer.innerHTML = '<div class="flex items-center justify-center p-12"><div class="spinner"></div><p class="ml-3 text-gray-600">Generando reporte...</p></div>';
+    reportContainer.classList.remove("hidden");
+  }
 
   if (!financesData || !expensesData) {
     alert("No hay datos suficientes para generar el reporte");
@@ -982,11 +901,11 @@ function generatePLReport() {
   const filteredLoads = window.financesData || [];
   const filteredExpenses = window.expensesData || [];
 
-  // Período legible
+  // Perodo legible
   const year = document.getElementById("reportYear")?.value || "";
   const month = document.getElementById("reportMonth")?.value || "";
   
-  let periodLabel = "Todos los períodos";
+  let periodLabel = "Todos los perodos";
   if (year && month) {
     const monthNames = {
       "01": "Enero", "02": "Febrero", "03": "Marzo", "04": "Abril",
@@ -995,22 +914,22 @@ function generatePLReport() {
     };
     periodLabel = `${monthNames[month]} ${year}`;
   } else if (year) {
-    periodLabel = `Año ${year}`;
+    periodLabel = `Ao ${year}`;
   }
 
-  // Cálculos financieros
+  // Calculos financieros
   const totalRevenue = filteredLoads.reduce((s, l) => s + (Number(l.totalCharge) || 0), 0);
   const totalExpenses = filteredExpenses.reduce((s, e) => s + (Number(e.amount) || 0), 0);
   const netProfit = totalRevenue - totalExpenses;
   const margin = totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0;
 
-  // Métricas operativas
+  // Metricas operativas
   const totalMiles = filteredLoads.reduce((s, l) => s + (Number(l.totalMiles) || 0), 0);
   const avgRpm = totalMiles > 0 ? totalRevenue / totalMiles : 0;
   const costPerMile = totalMiles > 0 ? totalExpenses / totalMiles : 0;
   const totalLoads = filteredLoads.length;
 
-  // Desglose de gastos por categoría
+  // Desglose de gastos por categora
   const categories = {};
   filteredExpenses.forEach(exp => {
     const type = (exp.type || "other").toLowerCase();
@@ -1018,17 +937,17 @@ function generatePLReport() {
   });
 
   const categoryLabels = {
-    fuel: "🚚 Combustible",
-    maintenance: "🔧 Mantenimiento", 
-    food: "🍔 Comida",
-    lodging: "🏨 Hospedaje",
-    tolls: "🛣️ Peajes",
-    insurance: "🛡️ Seguro",
-    permits: "📋 Permisos",
-    other: "📦 Otros"
+    fuel: "Combustible",
+    maintenance: " Mantenimiento", 
+    food: " Comida",
+    lodging: " Hospedaje",
+    tolls: "Toll Peajes",
+    insurance: "Seguro",
+    permits: " Permisos",
+    other: " Otros"
   };
 
-  // Análisis de distribución de cargas
+  // Anlisis de distribucin de cargas
   let shortHauls = 0, mediumHauls = 0, longHauls = 0;
   filteredLoads.forEach(load => {
     const miles = load.totalMiles || 0;
@@ -1040,7 +959,7 @@ function generatePLReport() {
   // Generar contenido del reporte
   const container = document.getElementById("reportContent");
   if (!container) {
-    console.warn("⚠️ Contenedor reportContent no encontrado");
+    console.warn(" Contenedor reportContent no encontrado");
     return;
   }
 
@@ -1054,36 +973,36 @@ function generatePLReport() {
   container.innerHTML = `
     <!-- Header profesional -->
     <div class="text-center mb-8 border-b pb-6">
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">📊 Estado de Resultados</h1>
+      <h1 class="text-3xl font-bold text-gray-900 mb-2"> Estado de Resultados</h1>
       <h2 class="text-xl text-blue-600 font-semibold mb-2">Expediter Load Calculator</h2>
-      <p class="text-gray-600">Período: <span class="font-semibold">${periodLabel}</span></p>
+      <p class="text-gray-600">Perodo: <span class="font-semibold">${periodLabel}</span></p>
       <p class="text-sm text-gray-500">Generado el ${currentDate}</p>
     </div>
 
     <!-- Resumen ejecutivo -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
       <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
-        <h3 class="text-lg font-semibold text-green-700 mb-2">💰 Ingresos Totales</h3>
+        <h3 class="text-lg font-semibold text-green-700 mb-2"> Ingresos Totales</h3>
         <p class="text-3xl font-bold text-green-900">${formatCurrency(totalRevenue)}</p>
-        <p class="text-sm text-green-600 mt-1">${totalLoads} cargas completadas</p>
+        <p class="text-sm text-green-600 mt-1">${totalLoads} Cargas completadas</p>
       </div>
       
       <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
-        <h3 class="text-lg font-semibold text-red-700 mb-2">💸 Gastos Totales</h3>
+        <h3 class="text-lg font-semibold text-red-700 mb-2"> Gastos Totales</h3>
         <p class="text-3xl font-bold text-red-900">${formatCurrency(totalExpenses)}</p>
         <p class="text-sm text-red-600 mt-1">Gastos operativos reales</p>
       </div>
       
       <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
-        <h3 class="text-lg font-semibold text-blue-700 mb-2">📈 Ganancia Neta</h3>
+        <h3 class="text-lg font-semibold text-blue-700 mb-2"> Ganancia Neta</h3>
         <p class="text-3xl font-bold ${netProfit >= 0 ? 'text-blue-900' : 'text-red-900'}">${formatCurrency(netProfit)}</p>
         <p class="text-sm ${netProfit >= 0 ? 'text-blue-600' : 'text-red-600'} mt-1">Margen: ${margin.toFixed(1)}%</p>
       </div>
     </div>
 
-    <!-- Métricas operativas -->
+    <!-- Mtricas operativas -->
     <div class="mb-8">
-      <h3 class="text-xl font-bold text-gray-900 mb-4">🚛 Métricas Operativas</h3>
+      <h3 class="text-xl font-bold text-gray-900 mb-4"> Metricas Operativas</h3>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="bg-white border border-gray-200 rounded-lg p-4 text-center">
           <p class="text-sm text-gray-600">Millas Totales</p>
@@ -1106,12 +1025,12 @@ function generatePLReport() {
 
     <!-- Desglose de gastos -->
     <div class="mb-8">
-      <h3 class="text-xl font-bold text-gray-900 mb-4">💳 Desglose de Gastos</h3>
+      <h3 class="text-xl font-bold text-gray-900 mb-4"> Desglose de Gastos</h3>
       <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
         <table class="min-w-full">
           <thead class="bg-gray-50">
             <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoría</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoria</th>
               <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Monto</th>
               <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">% del Total</th>
             </tr>
@@ -1141,9 +1060,9 @@ function generatePLReport() {
       </div>
     </div>
 
-    <!-- Análisis de cargas -->
+    <!-- Anlisis de cargas -->
     <div class="mb-8">
-      <h3 class="text-xl font-bold text-gray-900 mb-4">🎯 Análisis de Cargas por Distancia</h3>
+      <h3 class="text-xl font-bold text-gray-900 mb-4"> Analisis de Cargas por Distancia</h3>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-center">
           <p class="text-sm text-yellow-700">Cargas Cortas (&lt;300 mi)</p>
@@ -1163,33 +1082,33 @@ function generatePLReport() {
       </div>
     </div>
 
-    <!-- Botones de acción -->
+    <!-- Botones de accin -->
     <div class="text-center pt-6 border-t">
       <button onclick="window.print()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 mr-4">
-        🖨️ Imprimir Reporte
+         Imprimir Reporte
       </button>
       <button onclick="exportReportToPDF()" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700">
-        📄 Exportar PDF
+         Exportar PDF
       </button>
     </div>
   `;
   
   container.classList.remove("hidden");
-  console.log("✅ Estado de Resultados profesional generado");
+  debugLog("OK Estado de Resultados profesional generado");
 }
 
 function generateTaxReport() {
-  console.log("🧾 Generando Reporte Fiscal para año completo...");
+  debugLog(" Generando Reporte Fiscal para ao completo...");
 
   if (!window.allFinancesData || !window.allExpensesData) {
     alert("No hay datos suficientes para generar el reporte fiscal");
     return;
   }
 
-  // Usar año seleccionado, datos completos del año
+  // Usar ao seleccionado, datos completos del ao
   const year = document.getElementById("reportYear")?.value || new Date().getFullYear().toString();
   
-  // Filtrar por año completo, no por mes
+  // Filtrar por ao completo, no por mes
   const filteredLoads = window.allFinancesData.filter(load => 
     load.date && load.date.startsWith(year)
   );
@@ -1197,7 +1116,7 @@ function generateTaxReport() {
     exp.date && exp.date.startsWith(year)
   );
 
-  console.log(`Procesando datos fiscales para ${year}:`, {
+  debugLog(`Procesando datos fiscales para ${year}:`, {
     cargas: filteredLoads.length,
     gastos: filteredExpenses.length
   });
@@ -1219,7 +1138,7 @@ function generateTaxReport() {
     otherExpenses: 0
   };
 
-  // Categorizar gastos según IRS Schedule C
+  // Categorizar gastos segn IRS Schedule C
   filteredExpenses.forEach(exp => {
     const amount = Number(exp.amount) || 0;
     const type = (exp.type || "other").toLowerCase();
@@ -1266,7 +1185,7 @@ function generateTaxReport() {
 
   const container = document.getElementById("reportContent");
   if (!container) {
-    console.warn("⚠️ Contenedor reportContent no encontrado");
+    console.warn(" Contenedor reportContent no encontrado");
     return;
   }
 
@@ -1371,7 +1290,7 @@ function generateTaxReport() {
         <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
           <h4 class="text-lg font-semibold text-yellow-800 mb-3">Standard Mileage Method</h4>
           <p class="text-3xl font-bold text-yellow-900">$${standardMileageDeduction.toLocaleString('en-US', {minimumFractionDigits: 2})}</p>
-          <p class="text-sm text-yellow-700 mt-2">${totalMiles.toLocaleString()} miles × $0.67/mile (2024 rate)</p>
+          <p class="text-sm text-yellow-700 mt-2">${totalMiles.toLocaleString()} miles  $0.67/mile (2024 rate)</p>
         </div>
         <div class="bg-green-50 border border-green-200 rounded-lg p-6">
           <h4 class="text-lg font-semibold text-green-800 mb-3">Actual Expense Method</h4>
@@ -1412,11 +1331,11 @@ function generateTaxReport() {
     <div class="mb-8 bg-red-50 border border-red-200 rounded-lg p-6">
       <h4 class="text-lg font-bold text-red-800 mb-3">IMPORTANT TAX CONSIDERATIONS</h4>
       <ul class="text-sm text-red-700 space-y-2">
-        <li>• Quarterly estimated tax payments may be required if you owe $1,000+ in taxes</li>
-        <li>• Keep detailed records of all business miles and expenses</li>
-        <li>• Meals while away from home are 50% deductible</li>
-        <li>• Consider maximizing retirement contributions (SEP-IRA, Solo 401k)</li>
-        <li>• This report is for reference only - consult a tax professional</li>
+        <li> -  Quarterly estimated tax payments may be required if you owe $1,000+ in taxes</li>
+        <li> -  Keep detailed records of all business miles and expenses</li>
+        <li> -  Meals while away from home are 50% deductible</li>
+        <li> -  Consider maximizing retirement contributions (SEP-IRA, Solo 401k)</li>
+        <li> -  This report is for reference only - consult a tax professional</li>
       </ul>
     </div>
 
@@ -1438,14 +1357,14 @@ function generateTaxReport() {
   `;
   
   container.classList.remove("hidden");
-  console.log("✅ Reporte fiscal anual generado exitosamente");
+  debugLog("OK Reporte fiscal anual generado exitosamente");
 }
 
 
 
 
 function exportFinancialData() {
-  debugFinances("📤 Exportando datos financieros...");
+  debugFinances(" Exportando datos financieros...");
 
   if (!financesData || !expensesData) {
     alert("No hay datos suficientes para exportar");
@@ -1476,7 +1395,7 @@ function exportFinancialData() {
   // =======================
   csvData.push(['']);
   csvData.push(['=== GASTOS MANUALES ===']);
-  csvData.push(['Fecha', 'Categoría', 'Descripción', 'Monto', 'Deducible']);
+  csvData.push(['Fecha', 'Categora', 'Descripcin', 'Monto', 'Deducible']);
 
   expensesData.forEach(exp => {
     csvData.push([
@@ -1484,7 +1403,7 @@ function exportFinancialData() {
       exp.type || '',
       (exp.description || '').replace(/,/g, ' '),
       formatCurrency(exp.amount || 0),
-      exp.deductible === false ? 'No' : 'Sí'
+      exp.deductible === false ? 'No' : 'S'
     ]);
   });
 
@@ -1531,14 +1450,14 @@ function exportFinancialData() {
   link.click();
   document.body.removeChild(link);
 
-  debugFinances("✅ Datos exportados exitosamente");
+  debugFinances("OK Datos exportados exitosamente");
 }
 
 
 
-// ✅ DEBUG AVANZADO DE FINANZAS
+// OK DEBUG AVANZADO DE FINANZAS
 function debugFinancesElements() {
-    debugFinances("🔍 === DEBUG DE ELEMENTOS DOM FINANCIEROS ===");
+    debugFinances(" === DEBUG DE ELEMENTOS DOM FINANCIEROS ===");
 
     const criticalElements = [
         'totalRevenue',
@@ -1562,24 +1481,24 @@ function debugFinancesElements() {
         return {
             id,
             encontrado: !!el,
-            tag: el ? el.tagName : "❌",
+            tag: el ? el.tagName : "",
             texto: el ? el.textContent.trim() : "N/A"
         };
     });
 
     console.table(results);
 
-    // 📊 Resumen rápido
+    //  Resumen rpido
     const encontrados = results.filter(r => r.encontrado).length;
     const faltantes = results.filter(r => !r.encontrado).map(r => r.id);
-    debugFinances(`📊 Resumen → Encontrados: ${encontrados}/${criticalElements.length}`);
-    if (faltantes.length) debugFinances("❌ Faltantes:", faltantes);
+    debugFinances(` Resumen  Encontrados: ${encontrados}/${criticalElements.length}`);
+    if (faltantes.length) debugFinances(" Faltantes:", faltantes);
 
-    // 🔍 Extra: verificar si los gráficos tienen contexto
+    //  Extra: verificar si los grficos tienen contexto
     ['cashFlowChart','expenseBreakdownChart'].forEach(id => {
         const canvas = document.getElementById(id);
         if (canvas && canvas.getContext) {
-            debugFinances(`🎨 ${id} tiene contexto 2D disponible`);
+            debugFinances(` ${id} tiene contexto 2D disponible`);
         }
     });
 
@@ -1587,12 +1506,12 @@ function debugFinancesElements() {
 }
 
 
-// 📊 FUNCIÓN updateFinancialKPIs LIMPIA
+//  FUNCIN updateFinancialKPIs LIMPIA
 // ==============================
 function updateFinancialKPIs() {
-  console.log("📊 Actualizando KPIs mejorados...");
+  debugLog(" Actualizando KPIs mejorados...");
   
-  // Datos básicos (solo gastos manuales)
+  // Datos bsicos (solo gastos manuales)
   const totalRevenue = financesData.reduce((sum, load) => sum + (load.totalCharge || 0), 0);
   const totalExpenses = expensesData.reduce((sum, exp) => sum + (exp.amount || 0), 0);
   const netProfit = totalRevenue - totalExpenses;
@@ -1601,7 +1520,7 @@ function updateFinancialKPIs() {
   const costPerMile = totalMiles > 0 ? totalExpenses / totalMiles : 0;
   const margin = totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0;
   
-  // Actualizar elementos existentes usando selectores específicos
+  // Actualizar elementos existentes usando selectores especficos
   const updateElementSafe = (id, value) => {
     const element = document.querySelector(`#finances #${id}`) || document.getElementById(id);
     if (element) {
@@ -1616,7 +1535,7 @@ function updateFinancialKPIs() {
   updateElementSafe('totalRevenue', formatCurrency(totalRevenue));
   updateElementSafe('totalExpensesSummary', formatCurrency(totalExpenses));
   updateElementSafe('netProfit', formatCurrency(netProfit));
-  updateElementSafe('profitMarginPercent', margin.toFixed(1) + '%');
+  // updateElementSafe('profitMarginPercent', margin.toFixed(1) + '%'); // Elemento no existe en HTML
   
   // Actualizar nuevos elementos
   updateElementSafe('totalMiles', totalMiles.toLocaleString());
@@ -1627,7 +1546,7 @@ function updateFinancialKPIs() {
   const efficiency = calculateEfficiency();
   updateElementSafe('efficiency', efficiency + '%');
   
-  console.log("✅ KPIs actualizados:", {
+  debugLog("OK KPIs actualizados:", {
     revenue: totalRevenue,
     expenses: totalExpenses,
     profit: netProfit,
@@ -1643,18 +1562,18 @@ function updateFinancialKPIs() {
 
 
 function populateYearSelect() {
-  console.log("📅 Poblando selector de años...");
+  debugLog(" Poblando selector de aos...");
 
-  // 👉 Validar si hay datos
+  //  Validar si hay datos
   const hasLoads = window.financesData && window.financesData.length > 0;
   const hasExpenses = window.expensesData && window.expensesData.length > 0;
 
   if (!hasLoads && !hasExpenses) {
-    console.log("⚠️ No hay datos financieros para extraer años");
+    debugLog(" No hay datos financieros para extraer aos");
     return;
   }
 
-  // 👉 Extraer años de cargas
+  //  Extraer aos de cargas
   const yearsFromLoads = (window.financesData || [])
     .filter(l => l.date)
     .map(l => {
@@ -1665,7 +1584,7 @@ function populateYearSelect() {
       }
     });
 
-  // 👉 Extraer años de gastos
+  //  Extraer aos de gastos
   const yearsFromExpenses = (window.expensesData || [])
     .filter(e => e.date)
     .map(e => {
@@ -1676,59 +1595,59 @@ function populateYearSelect() {
       }
     });
 
-  // 👉 Consolidar años únicos
+  //  Consolidar aos nicos
   const years = [...new Set([...yearsFromLoads, ...yearsFromExpenses])]
     .filter(y => y)
     .sort((a, b) => b - a); // orden descendente
 
   const yearSelect = document.getElementById("yearSelect");
   if (!yearSelect) {
-    console.warn("⚠️ No se encontró el selector de años (yearSelect)");
+    console.warn(" No se encontr el selector de aos (yearSelect)");
     return;
   }
 
-  // 👉 Poblar selector
-  yearSelect.innerHTML = '<option value="">📊 Todos los Años</option>';
+  //  Poblar selector
+  yearSelect.innerHTML = '<option value=""> Todos los Aos</option>';
   years.forEach(year => {
     const option = document.createElement("option");
     option.value = year;
-    option.textContent = `🗓️ ${year}`;
+    option.textContent = ` ${year}`;
     yearSelect.appendChild(option);
   });
 
-  console.log(`✅ Años disponibles: ${years.join(", ")}`);
+  debugLog(`OK Aos disponibles: ${years.join(", ")}`);
 
-  // 👉 Seleccionar el más reciente y actualizar meses
+  //  Seleccionar el ms reciente y actualizar meses
   if (years.length > 0) {
     yearSelect.value = years[0];
     if (typeof updateMonthOptions === "function") {
       updateMonthOptions();
     } else {
-      console.warn("⚠️ updateMonthOptions no está definida aún");
+      console.warn(" updateMonthOptions no est definida an");
     }
   }
 }
 
 function updateMonthOptions() {
-  console.log("📅 Actualizando meses...");
+  debugLog(" Actualizando meses...");
 
   const year = document.getElementById("yearSelect")?.value;
   const monthSelect = document.getElementById("monthSelect");
 
   if (!monthSelect) {
-    console.warn("❌ No se encontró el selector de mes");
+    console.warn(" No se encontr el selector de mes");
     return;
   }
 
-  // ✅ Siempre dejamos la opción de "Todos los Meses"
-  monthSelect.innerHTML = '<option value="">📊 Todos los Meses</option>';
+  // OK Siempre dejamos la opcin de "Todos los Meses"
+  monthSelect.innerHTML = '<option value=""> Todos los Meses</option>';
 
   if (!year) {
-    console.log("⚠️ No hay año seleccionado, solo se muestra 'Todos los Meses'");
+    debugLog(" No hay ao seleccionado, solo se muestra 'Todos los Meses'");
     return;
   }
 
-  // 👉 Extraer meses de cargas
+  //  Extraer meses de cargas
   const monthsFromLoads = (window.financesData || [])
     .filter(l => l.date)
     .map(l => {
@@ -1740,7 +1659,7 @@ function updateMonthOptions() {
     })
     .filter(m => m && m.startsWith(year));
 
-  // 👉 Extraer meses de gastos
+  //  Extraer meses de gastos
   const monthsFromExpenses = (window.expensesData || [])
     .filter(e => e.date)
     .map(e => {
@@ -1752,7 +1671,7 @@ function updateMonthOptions() {
     })
     .filter(m => m && m.startsWith(year));
 
-  // 👉 Consolidar meses únicos y ordenarlos cronológicamente
+  //  Consolidar meses nicos y ordenarlos cronolgicamente
   const allMonths = [...new Set([...monthsFromLoads, ...monthsFromExpenses])]
     .filter(m => m)
     .sort((a, b) => new Date(a + "-01") - new Date(b + "-01"));
@@ -1763,18 +1682,18 @@ function updateMonthOptions() {
     "09": "Septiembre", "10": "Octubre", "11": "Noviembre", "12": "Diciembre"
   };
 
-  // 👉 Poblar selector
+  //  Poblar selector
   allMonths.forEach(m => {
     const month = m.slice(5, 7);
     const option = document.createElement("option");
     option.value = month;
-    option.textContent = `📅 ${monthNames[month] || month}`;
+    option.textContent = ` ${monthNames[month] || month}`;
     monthSelect.appendChild(option);
   });
 
-  console.log(`✅ Meses disponibles para ${year}: ${allMonths.join(", ")}`);
+  debugLog(`OK Meses disponibles para ${year}: ${allMonths.join(", ")}`);
 
-  // 👉 Seleccionar automáticamente el último mes con datos
+  //  Seleccionar automticamente el ltimo mes con datos
   if (allMonths.length > 0) {
     const latestMonth = allMonths[allMonths.length - 1].slice(5, 7);
     monthSelect.value = latestMonth;
@@ -1782,16 +1701,16 @@ function updateMonthOptions() {
     if (typeof filterByYearMonth === "function") {
       filterByYearMonth();
     } else {
-      console.warn("⚠️ filterByYearMonth no está definida aún");
+      console.warn(" filterByYearMonth no est definida an");
     }
   }
 }
 
 // ============================
-// 📅 Selectores de Período Globalizados
+//  Selectores de Perodo Globalizados
 // ============================
 
-// 1. Leer período según contexto
+// 1. Leer perodo segn contexto
 function getSelectedPeriod(context = "global") {
   let year = "", month = "";
 
@@ -1809,8 +1728,8 @@ function getSelectedPeriod(context = "global") {
   return { year, month };
 }
 
-// ✅ Función global para aplicar el filtro (reutilizable en main.js y tabs)
-// 1. Primero actualiza la función applyFilter para que use la nueva lógica
+// OK Funcin global para aplicar el filtro (reutilizable en main.js y tabs)
+// 1. Primero actualiza la funcin applyFilter para que use la nueva lgica
 function applyFilter(context = "global") {
   let yearEl, monthEl;
   if (context === "reports") {
@@ -1829,40 +1748,40 @@ function applyFilter(context = "global") {
   const year = yearEl.value;
   const month = monthEl.value;
   const period = (year && month) ? `${year}-${month}` : (year || "all");
-  console.log(`Filtro aplicado (${context}): ${period}`);
+  debugLog(`Filtro aplicado (${context}): ${period}`);
 
   if (typeof window.loadFinancialData === "function") {
     window.loadFinancialData(period).then(r => {
-      console.log("💰 [FINANCES] ✅ Datos cargados, actualizando UI completa...");
+      debugLog(" [FINANCES] OK Datos cargados, actualizando UI completa...");
       
       // Actualizar KPIs mejorados
-      updateFinancialKPIs(); // Sin parámetros, que use window.financesData
+      updateFinancialKPIs(); // Sin parmetros, que use window.financesData
       updateExpenseCategories();
       renderExpensesList(window.expensesData);
       
-      // Actualizar gráficas principales
+      // Actualizar grficas principales
       setTimeout(() => {
-        updateCashFlowChartEnhanced(); // ✅ Versión mejorada
+        updateCashFlowChartEnhanced(); // OK Versin mejorada
         updateExpenseBreakdownChart();
         
-        // ✅ Nuevos gráficos del Dashboard
+        // OK Nuevos grficos del Dashboard
         updateRpmTrendChart();
         updateLoadDistributionChart();
       }, 100);
       
       updateBusinessMetrics();
       
-      console.log("✅ UI completa de finanzas actualizada");
+      debugLog("OK UI completa de finanzas actualizada");
     }).catch(err => console.error("Error aplicando filtro:", err));
   }
 }
 
 
 
-// ✅ Inicializar selectores con año/mes actual
-// 2. Verificar que los listeners estén bien configurados
+// OK Inicializar selectores con ao/mes actual
+// 2. Verificar que los listeners estn bien configurados
 function initPeriodSelectors(context = "global") {
-  console.log("Inicializando selectores para contexto:", context);
+  debugLog("Inicializando selectores para contexto:", context);
   
   const now = new Date();
   const currentYear = now.getFullYear().toString();
@@ -1900,14 +1819,14 @@ function initPeriodSelectors(context = "global") {
     // Listeners (solo una vez)
     if (!yearEl.hasListener) {
       yearEl.addEventListener("change", () => {
-        console.log("Año cambiado, aplicando filtro...");
+        debugLog("Ao cambiado, aplicando filtro...");
         applyFilter(context);
       });
       yearEl.hasListener = true;
     }
     if (!monthEl.hasListener) {
       monthEl.addEventListener("change", () => {
-        console.log("Mes cambiado, aplicando filtro...");
+        debugLog("Mes cambiado, aplicando filtro...");
         applyFilter(context);
       });
       monthEl.hasListener = true;
@@ -1919,14 +1838,14 @@ function initPeriodSelectors(context = "global") {
 }
 
 
-// 3. Aplicar período según contexto
+// 3. Aplicar perodo segn contexto
 function applyPeriod(context) {
   const { year, month } = getSelectedPeriod(context);
-  console.log(`📅 Filtro aplicado (${context}):`, year || "Todos", month || "Todos");
+  debugLog(` Filtro aplicado (${context}):`, year || "Todos", month || "Todos");
 
   if (context === "global") {
   const period = (year && month) ? `${year}-${month}` : (year || "all");
-  console.log("🕒 Period final:", period);
+  debugLog(" Period final:", period);
 
   if (typeof window.loadFinancialData === "function") {
     window.loadFinancialData(period).then(r => {
@@ -1935,7 +1854,7 @@ function applyPeriod(context) {
       updateFinancialCharts();
       updateBusinessMetrics();
     }).catch(err => {
-      console.error("❌ Error aplicando filtro global:", err);
+      console.error(" Error aplicando filtro global:", err);
     });
   }
                         
@@ -1945,17 +1864,17 @@ function applyPeriod(context) {
     if (typeof loadAccountsData === "function") {
       loadAccountsData();
     } else {
-      console.warn("⚠️ loadAccountsData no implementado aún");
+      console.warn(" loadAccountsData no implementado an");
     }
   }
 }
 
 
-// ✅ FUNCIÓN GLOBAL PARA TODOS LOS CONTEXTOS (summary, reports, accounts)
+// OK FUNCIN GLOBAL PARA TODOS LOS CONTEXTOS (summary, reports, accounts)
 function filterByYearMonth(context = "global") {
-  console.log(`🔄 [CLEAN] === INICIO filterByYearMonth (${context}) ===`);
+  debugLog(` [CLEAN] === INICIO filterByYearMonth (${context}) ===`);
 
-  // 🔧 Obtener periodo según contexto
+  //  Obtener periodo segn contexto
   let yearSelect, monthSelect, periodInfo, periodSummary;
 
   switch (context) {
@@ -1976,7 +1895,7 @@ function filterByYearMonth(context = "global") {
   }
 
   if (!yearSelect || !monthSelect) {
-    console.error(`❌ [CLEAN] Selectores no encontrados para contexto: ${context}`);
+    console.error(` [CLEAN] Selectores no encontrados para contexto: ${context}`);
     return;
   }
 
@@ -1985,7 +1904,7 @@ function filterByYearMonth(context = "global") {
 
   
 
-  // ✅ Filtrar datasets
+  // OK Filtrar datasets
   let filteredLoads = window.financesData || [];
   let filteredExpenses = window.expensesData || [];
 
@@ -1997,13 +1916,13 @@ function filterByYearMonth(context = "global") {
     filteredExpenses = filteredExpenses.filter(exp => normalizeDate(exp.date, "year") === year);
   }
 
-  console.log("📊 [CLEAN] Datos filtrados:", {
+  debugLog(" [CLEAN] Datos filtrados:", {
     context,
     loads: filteredLoads.length,
     expenses: filteredExpenses.length
   });
 
-  // 👉 Usar datos según el contexto
+  //  Usar datos segn el contexto
   if (context === "global") {
     const totalRevenue = filteredLoads.reduce((s, l) => s + (Number(l.totalCharge) || 0), 0);
     const totalExpenses = filteredExpenses.reduce((s, e) => s + (Number(e.amount) || 0), 0);
@@ -2024,7 +1943,7 @@ function filterByYearMonth(context = "global") {
   
    
 
-    console.log(`🔄 [CLEAN] === FIN filterByYearMonth (${context}) ===`);
+    debugLog(` [CLEAN] === FIN filterByYearMonth (${context}) ===`);
     return;
   }
 
@@ -2036,10 +1955,10 @@ function filterByYearMonth(context = "global") {
     }
   }
 
-  console.log(`🔄 [CLEAN] === FIN filterByYearMonth (${context}) ===`);
+  debugLog(` [CLEAN] === FIN filterByYearMonth (${context}) ===`);
 }
 
-// ✅ Función auxiliar para calcular KPIs de cargas y gastos
+// OK Funcin auxiliar para calcular KPIs de cargas y gastos
 function calculateKPIs(loads = [], expenses = []) {
   const totalRevenue = loads.reduce((s, l) => s + (Number(l.totalCharge) || 0), 0);
   const totalExpenses = expenses.reduce((s, e) => s + (Number(e.amount) || 0), 0);
@@ -2052,7 +1971,7 @@ function calculateKPIs(loads = [], expenses = []) {
 }
 
 // ==============================
-// 📊 FUNCIÓN updateKPIsUI SIMPLIFICADA
+//  FUNCIN updateKPIsUI SIMPLIFICADA
 // ==============================
 function updateKPIsUI({ totalRevenue, totalExpenses, netProfit, margin }) {
   const netProfitEl = document.querySelector('#finances #netProfit');
@@ -2077,15 +1996,15 @@ function updateKPIsUI({ totalRevenue, totalExpenses, netProfit, margin }) {
       el.style.fontSize = '2rem';
       el.style.fontWeight = 'bold';
       el.style.textAlign = 'center';
-      console.log(`✅ [CLEAN] ${item.id}: ${item.value}`);
+      debugLog(`OK [CLEAN] ${item.id}: ${item.value}`);
     }
   });
 
-  // ✅ ELIMINADO: Referencias a elementos de categorías individuales
+  // OK ELIMINADO: Referencias a elementos de categoras individuales
 }
 
 // ==============================
-// 🧮 FUNCIÓN calculateExpenseCategories (mantenida)
+//  FUNCIN calculateExpenseCategories (mantenida)
 // ==============================
 function calculateExpenseCategories(expenses = []) {
   const categories = {
@@ -2118,14 +2037,14 @@ function calculateExpenseCategories(expenses = []) {
   return categories;
 }
 
-// ✅ Actualizar categorías en la UI
+// OK Actualizar categoras en la UI
 function updateExpenseCategoriesUI(categories) {
   const updateElementInFinances = (id, value) => {
-    const element = document.getElementById(id); // ✅ corregido
+    const element = document.getElementById(id); // OK corregido
     if (element) {
       element.textContent = value;
     } else {
-      console.warn(`⚠️ [FINANCES] Elemento no encontrado: ${id}`);
+      console.warn(` [FINANCES] Elemento no encontrado: ${id}`);
     }
   };
 
@@ -2137,12 +2056,12 @@ function updateExpenseCategoriesUI(categories) {
   updateElementInFinances("permitsExpenses", formatCurrency(categories.permits));
   updateElementInFinances("otherExpenses", formatCurrency(categories.other));
 
-  console.log("✅ [CLEAN] Categorías actualizadas:", categories);
+  debugLog("OK [CLEAN] Categoras actualizadas:", categories);
 }
 
 
 
-// ✅ EXPONER LA FUNCIÓN DE DEBUG GLOBALMENTE
+// OK EXPONER LA FUNCIN DE DEBUG GLOBALMENTE
 window.debugFinancesElements = debugFinancesElements;
 window.loadFinancesData = loadFinancesData;
 window.openExpenseModal = openExpenseModal;
@@ -2155,8 +2074,9 @@ window.generateTaxReport = generateTaxReport;
 window.exportFinancialData = exportFinancialData;
 window.updateFinancialKPIs = updateFinancialKPIs;
 
-// ✅ Manejo de subtabs dentro de Finanzas
+// OK Manejo de subtabs dentro de Finanzas
 document.addEventListener("DOMContentLoaded", () => {
+ initializeOnce('finances-event-listeners', () => {
   document.querySelectorAll('#finances .subtab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       // quitar "active" de todos los botones
@@ -2172,15 +2092,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+});
 
-debugFinances("✅ Finances.js CORREGIDO cargado completamente");
+debugFinances("OK Finances.js CORREGIDO cargado completamente");
 
 // Agregar al final de finances.js
 async function loadAccountsData() {
-  console.log("📋 Cargando datos de cuentas con filtros avanzados...");
+  debugLog(" Cargando datos de cuentas con filtros avanzados...");
   
   if (!window.allFinancesData || window.allFinancesData.length === 0) {
-    console.log("No hay datos de cargas disponibles");
+    debugLog("No hay datos de cargas disponibles");
     return;
   }
 
@@ -2197,10 +2118,10 @@ async function loadAccountsData() {
   const companyFilter = companyEl?.value || "";
   const sortBy = sortEl?.value || "date-desc";
   
-  // Poblar selector de compañías dinámicamente
+  // Poblar selector de compaas dinmicamente
   populateCompanyFilter();
   
-  // Filtrar cargas por período
+  // Filtrar cargas por perodo
   let filteredLoads = window.allFinancesData;
   
   // Filtro por fecha
@@ -2219,7 +2140,7 @@ async function loadAccountsData() {
     });
   }
   
-  // Filtro por compañía
+  // Filtro por compaa
   if (companyFilter) {
     filteredLoads = filteredLoads.filter(load => 
       (load.companyName || "").toLowerCase().includes(companyFilter.toLowerCase())
@@ -2248,19 +2169,19 @@ async function loadAccountsData() {
     }
   });
 
-  console.log(`Procesando ${filteredLoads.length} cargas para cuentas (filtradas y ordenadas)`);
+  debugLog(`Procesando ${filteredLoads.length} cargas para cuentas (filtradas y ordenadas)`);
 
   renderAccountsSummaryCards(filteredLoads);
   renderPendingLoads(filteredLoads);
-  console.log("✅ Datos de cuentas cargados");
+  debugLog("OK Datos de cuentas cargados");
 }
 
-// Función para poblar el selector de compañías
+// Funcin para poblar el selector de compaas
 function populateCompanyFilter() {
   const companyEl = document.getElementById("accountsCompany");
   if (!companyEl || !window.allFinancesData) return;
   
-  // Obtener compañías únicas
+  // Obtener compaas nicas
   const companies = [...new Set(
     window.allFinancesData
       .map(load => load.companyName)
@@ -2285,6 +2206,7 @@ function populateCompanyFilter() {
 
 // Event listeners para los filtros
 document.addEventListener("DOMContentLoaded", () => {
+ initializeOnce('finances-period-selectors', () => {
   const filterElements = ['accountsStatus', 'accountsCompany', 'accountsSort'];
   
   filterElements.forEach(id => {
@@ -2296,36 +2218,37 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+});
 
-// Exponer la función globalmente
+// Exponer la funcin globalmente
 window.populateCompanyFilter = populateCompanyFilter;
 
-// ✅ 1. FUNCIÓN markAsPaid CORREGIDA
+// OK 1. FUNCIN markAsPaid CORREGIDA
 async function markAsPaid(loadId) {
   try {
     const paymentDate = new Date().toISOString().split('T')[0];
     
-    // ✅ CORREGIDO: Guardar actualPaymentDate + paymentDate
+    // OK CORREGIDO: Guardar actualPaymentDate + paymentDate
     await firebase.firestore().collection("loads").doc(loadId).update({
       paymentStatus: "paid",
-      actualPaymentDate: paymentDate,  // ✅ CAMPO CORRECTO para filtro
-      paymentDate: paymentDate,        // ✅ Mantener por compatibilidad
+      actualPaymentDate: paymentDate,  // OK CAMPO CORRECTO para filtro
+      paymentDate: paymentDate,        // OK Mantener por compatibilidad
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     });
 
-    // ✅ CORREGIDO: Actualizar en memoria ambos campos
+    // OK CORREGIDO: Actualizar en memoria ambos campos
     const load = window.allFinancesData.find(l => l.id === loadId);
     if (load) {
       load.paymentStatus = "paid";
-      load.actualPaymentDate = paymentDate;  // ✅ CAMPO CORRECTO
-      load.paymentDate = paymentDate;        // ✅ Compatibilidad
+      load.actualPaymentDate = paymentDate;  // OK CAMPO CORRECTO
+      load.paymentDate = paymentDate;        // OK Compatibilidad
     }
 
-    console.log("✅ Carga marcada como pagada:", loadId);
+    debugLog("OK Carga marcada como pagada:", loadId);
     loadAccountsData();
     showMessage("Carga marcada como pagada exitosamente", "success");
   } catch (error) {
-    console.error("❌ Error marcando como pagada:", error);
+    console.error(" Error marcando como pagada:", error);
     showMessage("Error al marcar como pagada", "error");
   }
 }
@@ -2388,7 +2311,7 @@ function renderPendingPayments(loads) {
         <td class="p-2 text-sm font-semibold">${formatCurrency(load.totalCharge)}</td>
         <td class="p-2 text-sm">${load.dueDate}</td>
         <td class="p-2 text-sm ${statusClass}">
-          ${isOverdue ? `Vencida (${load.daysOverdue} días)` : 'Pendiente'}
+          ${isOverdue ? `Vencida (${load.daysOverdue} das)` : 'Pendiente'}
         </td>
         <td class="p-2 text-sm">
           <button onclick="markAsPaid('${load.id}')" 
@@ -2424,7 +2347,7 @@ function renderPaidLoads(loads) {
   if (loads.length === 0) {
     listEl.innerHTML = `
       <div class="text-center text-gray-500 py-8">
-        No hay cargas pagadas en este período
+        No hay cargas pagadas en este periodo
       </div>
     `;
     return;
@@ -2456,6 +2379,7 @@ function renderPaidLoads(loads) {
 // EVENT LISTENERS
 // ==============================
 document.addEventListener("DOMContentLoaded", () => {
+ initializeOnce('finances-expense-modal', () => {
   // Listeners para botones de Reportes
   const generatePLBtn = document.getElementById("generatePLBtn");
   const generateTaxBtn = document.getElementById("generateTaxBtn");
@@ -2463,37 +2387,39 @@ document.addEventListener("DOMContentLoaded", () => {
   
   if (generatePLBtn) {
     generatePLBtn.addEventListener("click", () => {
-      console.log("Generando Estado de Resultados...");
+      debugLog("Generando Estado de Resultados...");
       generatePLReport();
     });
   }
   
   if (generateTaxBtn) {
     generateTaxBtn.addEventListener("click", () => {
-      console.log("Generando Reporte Fiscal...");
+      debugLog("Generando Reporte Fiscal...");
       generateTaxReport();
     });
   }
   
   if (exportBtn) {
     exportBtn.addEventListener("click", () => {
-      console.log("Exportando datos...");
+      debugLog("Exportando datos...");
       exportFinancialData();
     });
   }
 });
-
-// 👉 Se ejecuta cuando el DOM ya está listo
-document.addEventListener("DOMContentLoaded", () => {
-    debugFinances("📋 DOM cargado - Configurando event listeners");
 });
 
-// 👉 Evento personalizado: cuando se guarda algo (ej: nueva carga o gasto)
+//  Se ejecuta cuando el DOM ya est listo
+document.addEventListener("DOMContentLoaded", () => {
+ initializeOnce('finances-export-buttons', () => {
+    debugFinances(" DOM cargado - Configurando event listeners");
+});
+
+//  Evento personalizado: cuando se guarda algo (ej: nueva carga o gasto)
 document.addEventListener("loadSaved", () => {
-    debugFinances("🔄 loadSaved disparado → refrescando finanzas");
+    debugFinances(" loadSaved disparado  refrescando finanzas");
 
     if (!window.currentUser) {
-        debugFinances("⚠️ No hay usuario logueado, no se recargan finanzas");
+        debugFinances(" No hay usuario logueado, no se recargan finanzas");
         return;
     }
 
@@ -2502,12 +2428,14 @@ document.addEventListener("loadSaved", () => {
             loadFinancesData();
         }, 500);
     } else {
-        debugFinances("⚠️ Finances aún no estaban cargadas al recibir loadSaved");
+        debugFinances(" Finances an no estaban cargadas al recibir loadSaved");
     }
+});
 });
 
 // Event listener para selectores de reportes
 document.addEventListener("DOMContentLoaded", () => {
+ initializeOnce('finances-status-filter', () => {
   const reportYear = document.getElementById("reportYear");
   const reportMonth = document.getElementById("reportMonth");
   
@@ -2537,12 +2465,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+});
 
-// ===== FUNCIÓN DE EFICIENCIA =====
+// ===== FUNCIN DE EFICIENCIA =====
 function calculateEfficiency() {
   if (financesData.length === 0) return 0;
   
-  // Análisis: cargas con buen RPM vs total
+  // Anlisis: cargas con buen RPM vs total
   const goodRpmLoads = financesData.filter(load => {
     const rpm = load.totalMiles > 0 ? load.totalCharge / load.totalMiles : 0;
     return rpm >= 1.0; // RPM mayor a $1.00 se considera bueno
@@ -2551,12 +2480,12 @@ function calculateEfficiency() {
   return Math.round((goodRpmLoads / financesData.length) * 100);
 }
 
-// ===== GRÁFICO COMBINADO MEJORADO =====
+// ===== GRFICO COMBINADO MEJORADO =====
 function updateCashFlowChartEnhanced() {
   const canvas = document.getElementById('cashFlowChart');
   if (!canvas) return;
 
-  // Destruir gráfico existente
+  // Destruir grfico existente
   if (window.cashFlowChart && typeof window.cashFlowChart.destroy === "function") {
     window.cashFlowChart.destroy();
   }
@@ -2592,7 +2521,7 @@ function updateCashFlowChartEnhanced() {
   const expenses = labels.map(month => monthlyData[month].expenses);
   const profits = labels.map(month => monthlyData[month].profit);
 
-  // Crear gráfico (barras si es un mes, líneas si son varios)
+  // Crear grfico (barras si es un mes, lneas si son varios)
   const chartType = labels.length === 1 ? 'bar' : 'line';
   
   window.cashFlowChart = new Chart(canvas, {
@@ -2601,7 +2530,7 @@ function updateCashFlowChartEnhanced() {
       labels: labels,
       datasets: [
         {
-          label: '💰 Ingresos',
+          label: ' Ingresos',
           data: revenues,
           borderColor: '#10b981',
           backgroundColor: chartType === 'bar' ? 'rgba(16, 185, 129, 0.8)' : 'rgba(16, 185, 129, 0.1)',
@@ -2610,7 +2539,7 @@ function updateCashFlowChartEnhanced() {
           borderWidth: chartType === 'bar' ? 2 : 3
         },
         {
-          label: '💸 Gastos',
+          label: ' Gastos',
           data: expenses,
           borderColor: '#ef4444',
           backgroundColor: chartType === 'bar' ? 'rgba(239, 68, 68, 0.8)' : 'rgba(239, 68, 68, 0.1)',
@@ -2619,7 +2548,7 @@ function updateCashFlowChartEnhanced() {
           borderWidth: chartType === 'bar' ? 2 : 3
         },
         {
-          label: '📈 Ganancia',
+          label: ' Ganancia',
           data: profits,
           borderColor: '#3b82f6',
           backgroundColor: chartType === 'bar' ? 'rgba(59, 130, 246, 0.8)' : 'rgba(59, 130, 246, 0.1)',
@@ -2642,6 +2571,7 @@ function updateCashFlowChartEnhanced() {
         }
       },
       scales: {
+        x: { ticks: { color: "#cbd5e1" }, grid: { color: "rgba(59, 130, 246, 0.1)" } },
         y: {
           beginAtZero: true,
           ticks: {
@@ -2654,18 +2584,18 @@ function updateCashFlowChartEnhanced() {
     }
   });
 
-  console.log("✅ Gráfico combinado mejorado actualizado");
+  debugLog("OK Grfico combinado mejorado actualizado");
 }
 
-// ===== GRÁFICO DE TENDENCIA RPM =====
+// ===== GRFICO DE TENDENCIA RPM =====
 function updateRpmTrendChart() {
   const canvas = document.getElementById('rpmTrendChart');
   if (!canvas) {
-    console.log("📈 Canvas rpmTrendChart no encontrado");
+    debugLog(" Canvas rpmTrendChart no encontrado");
     return;
   }
 
-  // Destruir gráfico existente
+  // Destruir grfico existente
   if (window.rpmTrendChart && typeof window.rpmTrendChart.destroy === "function") {
     window.rpmTrendChart.destroy();
   }
@@ -2688,7 +2618,7 @@ function updateRpmTrendChart() {
     return monthlyRpm[month].count > 0 ? monthlyRpm[month].sum / monthlyRpm[month].count : 0;
   });
 
-  // Si solo hay un mes, usar gráfico de barras
+  // Si solo hay un mes, usar grfico de barras
   const chartType = labels.length === 1 ? 'bar' : 'line';
 
   window.rpmTrendChart = new Chart(canvas, {
@@ -2714,6 +2644,7 @@ function updateRpmTrendChart() {
         }
       },
       scales: {
+        x: { ticks: { color: "#cbd5e1" }, grid: { color: "rgba(59, 130, 246, 0.1)" } },
         y: {
           beginAtZero: true,
           ticks: {
@@ -2726,18 +2657,18 @@ function updateRpmTrendChart() {
     }
   });
 
-  console.log("✅ Gráfico RPM Trend actualizado");
+  debugLog("OK Grfico RPM Trend actualizado");
 }
 
-// ===== GRÁFICO DE DISTRIBUCIÓN DE CARGAS =====
+// ===== GRFICO DE DISTRIBUCIN DE CARGAS =====
 function updateLoadDistributionChart() {
   const canvas = document.getElementById('loadDistributionChart');
   if (!canvas) {
-    console.log("🎯 Canvas loadDistributionChart no encontrado");
+    debugLog("[TARGET] Canvas loadDistributionChart no encontrado");
     return;
   }
 
-  // Destruir gráfico existente
+  // Destruir grfico existente
   if (window.loadDistributionChart && typeof window.loadDistributionChart.destroy === "function") {
     window.loadDistributionChart.destroy();
   }
@@ -2789,7 +2720,7 @@ function updateLoadDistributionChart() {
     }
   });
 
-  console.log("✅ Gráfico de distribución de cargas actualizado");
+  debugLog("OK Grfico de distribucin de cargas actualizado");
 }
 
 // ===============================
@@ -2820,45 +2751,45 @@ function updatePaymentStatus(load) {
 }
 
 // ===============================
-// 🔧 FUNCIONES CORREGIDAS PARA finances.js
+//  FUNCIONES CORREGIDAS PARA finances.js
 // ===============================
 
-// ✅ 1. FUNCIÓN markAsPaid CORREGIDA
+// OK 1. FUNCIN markAsPaid CORREGIDA
 async function markAsPaid(loadId) {
   try {
     const paymentDate = new Date().toISOString().split('T')[0];
     
-    // ✅ CORREGIDO: Guardar actualPaymentDate + paymentDate
+    // OK CORREGIDO: Guardar actualPaymentDate + paymentDate
     await firebase.firestore().collection("loads").doc(loadId).update({
       paymentStatus: "paid",
-      actualPaymentDate: paymentDate,  // ✅ CAMPO CORRECTO para filtro
-      paymentDate: paymentDate,        // ✅ Mantener por compatibilidad
+      actualPaymentDate: paymentDate,  // OK CAMPO CORRECTO para filtro
+      paymentDate: paymentDate,        // OK Mantener por compatibilidad
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     });
 
-    // ✅ CORREGIDO: Actualizar en memoria ambos campos
+    // OK CORREGIDO: Actualizar en memoria ambos campos
     const load = window.allFinancesData.find(l => l.id === loadId);
     if (load) {
       load.paymentStatus = "paid";
-      load.actualPaymentDate = paymentDate;  // ✅ CAMPO CORRECTO
-      load.paymentDate = paymentDate;        // ✅ Compatibilidad
+      load.actualPaymentDate = paymentDate;  // OK CAMPO CORRECTO
+      load.paymentDate = paymentDate;        // OK Compatibilidad
     }
 
-    console.log("✅ Carga marcada como pagada:", loadId);
+    debugLog("OK Carga marcada como pagada:", loadId);
     loadAccountsData();
     showMessage("Carga marcada como pagada exitosamente", "success");
   } catch (error) {
-    console.error("❌ Error marcando como pagada:", error);
+    console.error(" Error marcando como pagada:", error);
     showMessage("Error al marcar como pagada", "error");
   }
 }
 
-// ✅ 2. FUNCIÓN renderPendingLoads CORREGIDA  
+// OK 2. FUNCIN renderPendingLoads CORREGIDA  
 function renderPendingLoads(loads) {
   const listEl = document.getElementById("accountsList");
   if (!listEl) return;
 
-  console.log("🔄 Organizando datos de cuentas...");
+  debugLog(" Organizando datos de cuentas...");
 
   // Obtener filtro actual
   const statusFilter = document.getElementById("accountsStatus")?.value || "";
@@ -2876,19 +2807,19 @@ function renderPendingLoads(loads) {
     return today > expectedDate;
   });
 
-  console.log(`📊 Cargas organizadas: ${pendingLoads.length} pendientes, ${overdueLoads.length} vencidas, ${paidLoads.length} pagadas`);
+  debugLog(` Cargas organizadas: ${pendingLoads.length} pendientes, ${overdueLoads.length} vencidas, ${paidLoads.length} pagadas`);
 
-  // ✅ RENDERIZAR SEGÚN EL FILTRO SELECCIONADO
+  // OK RENDERIZAR SEGN EL FILTRO SELECCIONADO
   let html = '';
 
   if (statusFilter === 'paid') {
-    // 🟢 MOSTRAR SOLO CARGAS PAGADAS
+    //  MOSTRAR SOLO CARGAS PAGADAS
     if (paidLoads.length === 0) {
       html = `
         <div class="text-center py-12">
-          <div class="text-6xl mb-4">✅</div>
+          <div class="text-6xl mb-4">OK</div>
           <h3 class="text-xl font-semibold text-gray-600 mb-2">No hay cargas pagadas</h3>
-          <p class="text-gray-500">Las cargas pagadas aparecerán aquí</p>
+          <p class="text-gray-500">Las cargas pagadas aparecern aqui</p>
         </div>
       `;
     } else {
@@ -2899,20 +2830,20 @@ function renderPendingLoads(loads) {
           <td class="p-2 text-sm">${load.loadNumber || '-'}</td>
           <td class="p-2 text-sm font-semibold text-green-900">${formatCurrency(load.totalCharge)}</td>
           <td class="p-2 text-sm">${load.actualPaymentDate || load.paymentDate || '-'}</td>
-          <td class="p-2 text-sm text-green-600 font-medium">✅ Pagada</td>
+          <td class="p-2 text-sm text-green-600 font-medium">OK Pagada</td>
         </tr>
       `).join('');
 
       html = `
         <div class="mb-4">
-          <h3 class="text-lg font-bold text-green-700 mb-4">✅ Cargas Pagadas (${paidLoads.length})</h3>
-          <div class="bg-green-50 border border-green-200 rounded-lg overflow-hidden">
+          <h3 class="text-lg font-bold text-green-700 mb-4">Cargas Pagadas (${paidLoads.length})</h3>
+          <div class="bg-green-50 border border-green-200 rounded-lg overflow-x-auto">
             <table class="min-w-full">
               <thead class="bg-green-100">
                 <tr>
                   <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Fecha</th>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Compañía</th>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Número</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Compañia</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Numero</th>
                   <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Monto</th>
                   <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Fecha Pago</th>
                   <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Estado</th>
@@ -2927,24 +2858,24 @@ function renderPendingLoads(loads) {
       `;
     }
   } else {
-    // 🟡 MOSTRAR PENDIENTES Y VENCIDAS (código original)
+    //  MOSTRAR PENDIENTES Y VENCIDAS (cdigo original)
     const activePending = pendingLoads.filter(load => !overdueLoads.includes(load));
     const totalPaid = paidLoads.reduce((sum, load) => sum + (load.totalCharge || 0), 0);
 
     // Estado de Cargas Vencidas
     html += overdueLoads.length > 0 ? `
       <div class="mb-8">
-        <h3 class="text-lg font-bold text-red-700 mb-4">🚨 Cargas Vencidas (${overdueLoads.length})</h3>
-        <div class="bg-red-50 border border-red-200 rounded-lg overflow-hidden">
+        <h3 class="text-lg font-bold text-red-700 mb-4"> Cargas Vencidas (${overdueLoads.length})</h3>
+        <div class="bg-red-50 border border-red-200 rounded-lg overflow-x-auto">
           <table class="min-w-full">
             <thead class="bg-red-100">
               <tr>
                 <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Fecha Carga</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Compañía</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Número</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Compañia</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Numero</th>
                 <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Monto</th>
                 <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Vencida Desde</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Acción</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Accion</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-red-200">
@@ -2956,11 +2887,11 @@ function renderPendingLoads(loads) {
                     <td class="px-4 py-3 text-sm font-medium">${load.companyName || '-'}</td>
                     <td class="px-4 py-3 text-sm">${load.loadNumber || '-'}</td>
                     <td class="px-4 py-3 text-sm font-bold text-red-900">${formatCurrency(load.totalCharge)}</td>
-                    <td class="px-4 py-3 text-sm text-red-600">${daysOverdue} días</td>
+                    <td class="px-4 py-3 text-sm text-red-600">${daysOverdue} das</td>
                     <td class="px-4 py-3 text-sm">
                       <button onclick="markAsPaid('${load.id}')" 
                               class="bg-green-600 text-white px-3 py-1 rounded text-xs hover:bg-green-700">
-                        ✅ Marcar Pagada
+                        OK Marcar Pagada
                       </button>
                     </td>
                   </tr>
@@ -2975,17 +2906,17 @@ function renderPendingLoads(loads) {
     // Estado de Cargas Pendientes
     html += activePending.length > 0 ? `
       <div class="mb-8">
-        <h3 class="text-lg font-bold text-yellow-700 mb-4">⏳ Cargas Pendientes de Pago (${activePending.length})</h3>
-        <div class="bg-yellow-50 border border-yellow-200 rounded-lg overflow-hidden">
+        <h3 class="text-lg font-bold text-yellow-700 mb-4"> Cargas Pendientes de Pago (${activePending.length})</h3>
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg overflow-x-auto">
           <table class="min-w-full">
             <thead class="bg-yellow-100">
               <tr>
                 <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">Fecha Carga</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">Compañía</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">Número</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">Compañia</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">Numero</th>
                 <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">Monto</th>
                 <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">Se Paga El</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">Acción</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">Accion</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-yellow-200">
@@ -2999,7 +2930,7 @@ function renderPendingLoads(loads) {
                   <td class="px-4 py-3 text-sm">
                     <button onclick="markAsPaid('${load.id}')" 
                             class="bg-green-600 text-white px-3 py-1 rounded text-xs hover:bg-green-700">
-                      ✅ Marcar Pagada
+                      Marcar Pagada
                     </button>
                   </td>
                 </tr>
@@ -3010,10 +2941,40 @@ function renderPendingLoads(loads) {
       </div>
     ` : '';
 
-    // Resumen de Cargas Pagadas (solo cuando no es el filtro "paid")
-    html += paidLoads.length > 0 ? `
+    // Tabla completa de Cargas Pagadas cuando filtro es "Todos"
+    html += paidLoads.length > 0 && statusFilter === '' ? `
       <div class="mb-8">
-        <h3 class="text-lg font-bold text-green-700 mb-4">✅ Resumen de Cargas Pagadas</h3>
+        <h3 class="text-lg font-bold text-green-700 mb-4">Cargas Pagadas (${paidLoads.length})</h3>
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg overflow-x-auto">
+          <table class="min-w-full">
+            <thead class="bg-green-100">
+              <tr>
+                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Fecha</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Compañía</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Número</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Monto</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Fecha Pago</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Estado</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-green-200">
+              ${paidLoads.map(load => `
+                <tr class="bg-green-50">
+                  <td class="p-2 text-sm">${load.date}</td>
+                  <td class="p-2 text-sm">${load.companyName || '-'}</td>
+                  <td class="p-2 text-sm">${load.loadNumber || '-'}</td>
+                  <td class="p-2 text-sm font-semibold text-green-900">${formatCurrency(load.totalCharge)}</td>
+                  <td class="p-2 text-sm">${load.actualPaymentDate || load.paymentDate || '-'}</td>
+                  <td class="p-2 text-sm text-green-600 font-medium">✓ Pagada</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    ` : paidLoads.length > 0 ? `
+      <div class="mb-8">
+        <h3 class="text-lg font-bold text-green-700 mb-4">Resumen de Cargas Pagadas</h3>
         <div class="bg-green-50 border border-green-200 rounded-lg p-4">
           <p class="text-green-800">
             <strong>${paidLoads.length} cargas</strong> han sido pagadas por un total de 
@@ -3027,9 +2988,9 @@ function renderPendingLoads(loads) {
     if (allLoads.length === 0) {
       html = `
         <div class="text-center py-12">
-          <div class="text-6xl mb-4">💼</div>
+          <div class="text-6xl mb-4"></div>
           <h3 class="text-xl font-semibold text-gray-600 mb-2">No hay cargas por gestionar</h3>
-          <p class="text-gray-500">Las cargas aparecerán aquí cuando tengan información de pago</p>
+          <p class="text-gray-500">Las cargas aparecen aqui cuando tengan informacion de pago</p>
         </div>
       `;
     }
@@ -3038,28 +2999,28 @@ function renderPendingLoads(loads) {
   listEl.innerHTML = html;
 }
 
-// ✅ Sobrescribir la función global
+// OK Sobrescribir la funcin global
 window.renderPendingLoads = renderPendingLoads;
 
-console.log("🔧 Función renderPendingLoads corregida y aplicada");
-console.log("Ahora prueba cambiar el filtro a 'Pagadas'");
+debugLog(" Funcin renderPendingLoads corregida y aplicada");
+debugLog("Ahora prueba cambiar el filtro a 'Pagadas'");
 
-// Actualizar la función loadAccountsData para usar las nuevas funciones
+// Actualizar la funcin loadAccountsData para usar las nuevas funciones
 function loadAccountsDataImproved() {
-  console.log("📋 Cargando sistema de cuentas mejorado...");
+  debugLog(" Cargando sistema de cuentas mejorado...");
   
   if (!window.allFinancesData || window.allFinancesData.length === 0) {
-    console.log("No hay datos de cargas disponibles");
+    debugLog("No hay datos de cargas disponibles");
     return;
   }
 
-  // Obtener período seleccionado
+  // Obtener perodo seleccionado
   const yearEl = document.getElementById("accountsYear");
   const monthEl = document.getElementById("accountsMonth");
   const year = yearEl?.value || "";
   const month = monthEl?.value || "";
   
-  // Filtrar cargas por período
+  // Filtrar cargas por perodo
   let filteredLoads = window.allFinancesData;
   if (year && month) {
     const period = `${year}-${month.padStart(2, '0')}`;
@@ -3068,29 +3029,29 @@ function loadAccountsDataImproved() {
     filteredLoads = filteredLoads.filter(load => load.date && load.date.startsWith(year));
   }
 
-  console.log(`Procesando ${filteredLoads.length} cargas para cuentas`);
+  debugLog(`Procesando ${filteredLoads.length} cargas para cuentas`);
 
   // Renderizar cargas pendientes y pagadas
   renderPendingLoads(filteredLoads);
   
-  // Si existe renderPaidLoads, también actualizarla
+  // Si existe renderPaidLoads, tambin actualizarla
   if (typeof renderPaidLoads === 'function') {
     const paidLoads = filteredLoads.filter(load => load.actualPaymentDate);
     renderPaidLoads(paidLoads);
   }
 }
 
-// ✅ FUNCIÓN PARA CREAR TARJETAS DE RESUMEN EN CUENTAS
+// OK FUNCIN PARA CREAR TARJETAS DE RESUMEN EN CUENTAS
 // Agregar a finances.js
 
 function renderAccountsSummaryCards(loads) {
   const summaryEl = document.getElementById("accountsSummaryCards");
   if (!summaryEl) {
-    console.log("❌ Elemento accountsSummaryCards no encontrado");
+    debugLog(" Elemento accountsSummaryCards no encontrado");
     return;
   }
 
-  console.log("📊 Renderizando tarjetas de resumen...");
+  debugLog(" Renderizando tarjetas de resumen...");
 
   // Separar cargas por estado
   const paidLoads = loads.filter(load => load.actualPaymentDate);
@@ -3112,7 +3073,7 @@ function renderAccountsSummaryCards(loads) {
   const pendingTotal = activePendingLoads.reduce((sum, load) => sum + (load.totalCharge || 0), 0);
   const overdueTotal = overdueLoads.reduce((sum, load) => sum + (load.totalCharge || 0), 0);
 
-  console.log(`📊 Resumen: ${paidLoads.length} pagadas, ${activePendingLoads.length} pendientes, ${overdueLoads.length} vencidas`);
+  debugLog(` Resumen: ${paidLoads.length} pagadas, ${activePendingLoads.length} pendientes, ${overdueLoads.length} vencidas`);
 
   // Renderizar tarjetas
   summaryEl.innerHTML = `
@@ -3121,7 +3082,7 @@ function renderAccountsSummaryCards(loads) {
       <!-- Tarjeta: Pagadas -->
       <div class="bg-green-50 border-2 border-green-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
         <div class="flex items-center justify-between mb-2">
-          <h3 class="text-sm font-medium text-green-700 uppercase tracking-wide">✅ Pagadas</h3>
+          <h3 class="text-sm font-medium text-green-700 uppercase tracking-wide">Pagadas</h3>
         </div>
         <div class="mt-2">
           <p class="text-3xl font-bold text-green-900">${paidLoads.length}</p>
@@ -3136,7 +3097,7 @@ function renderAccountsSummaryCards(loads) {
       <!-- Tarjeta: Pendientes -->
       <div class="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
         <div class="flex items-center justify-between mb-2">
-          <h3 class="text-sm font-medium text-yellow-700 uppercase tracking-wide">⏳ Pendientes</h3>
+          <h3 class="text-sm font-medium text-yellow-700 uppercase tracking-wide"> Pendientes</h3>
         </div>
         <div class="mt-2">
           <p class="text-3xl font-bold text-yellow-900">${activePendingLoads.length}</p>
@@ -3151,7 +3112,7 @@ function renderAccountsSummaryCards(loads) {
       <!-- Tarjeta: Vencidas -->
       <div class="bg-red-50 border-2 border-red-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
         <div class="flex items-center justify-between mb-2">
-          <h3 class="text-sm font-medium text-red-700 uppercase tracking-wide">🚨 Vencidas</h3>
+          <h3 class="text-sm font-medium text-red-700 uppercase tracking-wide"> Vencidas</h3>
         </div>
         <div class="mt-2">
           <p class="text-3xl font-bold text-red-900">${overdueLoads.length}</p>
@@ -3172,4 +3133,3 @@ window.calculateOverdueDays = calculateOverdueDays;
 window.updatePaymentStatus = updatePaymentStatus;
 window.renderPendingLoads = renderPendingLoads;
 window.loadAccountsDataImproved = loadAccountsDataImproved;
-
