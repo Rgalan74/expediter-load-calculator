@@ -10,14 +10,14 @@
   <meta name="theme-color" content="#3b82f6">
   <meta name="apple-mobile-web-app-title" content="Expediter Load Calculator">
 
-  <!-- 📝 SEO -->
+  <!-- 🔍 SEO -->
   <meta name="description" content="Panel de control para expediteros. Calcula cargas, visualiza zonas, historial y estadísticas.">
   <meta name="author" content="Galan Cargo Express">
 
-  <!-- 🔖 Título -->
+  <!-- 📖 Título -->
   <title>App | Expediter Load Calculator</title>
 
-  <!-- 📷 Icono -->
+  <!-- 🔍· Icono -->
   <link rel="icon" type="image/png" href="img/logo-app.png">
 
   <!-- 🎨 Estilos -->
@@ -174,6 +174,12 @@
         width: 100% !important;
     }
 }
+/* === Badge de zonas (colores más intensos y contrastantes) === */
+#decisionContainer #zoneBadgeHTML .text-green-300  { color: #22c55e !important; }   /* Verde intenso  */
+#decisionContainer #zoneBadgeHTML .text-yellow-300 { color: #eab308 !important; }   /* Amarillo cálido */
+#decisionContainer #zoneBadgeHTML .text-red-300    { color: #dc2626 !important; }   /* Rojo fuerte     */
+#decisionContainer #zoneBadgeHTML .text-gray-300   { color: #9ca3af !important; }   /* Gris neutro     */
+
 </style>
 </head>
 
@@ -187,29 +193,36 @@
     <div id="appContent" class="hidden">
    <!-- Header -->
 <header class="w-full z-50 bg-white shadow">
-  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+  <div class="max-w-7xl mx-auto px-2 py-2 md:px-4 md:py-4 flex items-center justify-between">
 
     <!-- Logo + Nombre -->
     <div class="flex items-center gap-2">
-      <img src="img/logo-app.png" alt="Logo" class="w-16 h-16 rounded-full border border-gray-300 shadow">
-      <span class="text-3xl font-bold text-gray-900">Expediter Load Calculator</span>
+      <img src="img/logo-app.png" alt="Logo" class="w-9 h-9 md:w-16 md:h-16 rounded-full border border-gray-300 shadow">
+      <span class="text-lg md:text-3xl font-bold text-gray-900">
+        <span class="md:hidden">Load Calculator</span>
+        <span class="hidden md:inline">Expediter Load Calculator</span>
+      </span>
     </div>
 
     <!-- Botones de acción -->
-    <div class="flex items-center justify-between w-full md:w-auto ml-auto">
+    <div class="flex items-center gap-3 md:justify-between md:w-auto ml-auto">
       
       <!-- Botón hamburguesa (solo móvil, izquierda) -->
       <button id="menuToggle"
-        class="md:hidden text-gray-800 focus:outline-none text-3xl leading-none">
-        ☰
-      </button>
+        class="md:hidden text-gray-800 focus:outline-none text-3xl leading-none">☰</button>
 
       <!-- Botón logout (siempre a la derecha) -->
       <button id="logoutBtn"
-        class="bg-red-500 hover:bg-red-600 text-white 
-               px-3 py-1 md:px-6 md:py-2 
-               rounded text-sm font-medium ml-auto">
-        Cerrar sesión
+        class="p-1 bg-transparent border-0 hover:opacity-70 
+               md:bg-white md:hover:bg-gray-50 md:text-red-600 
+               md:border-2 md:border-red-500 md:hover:border-red-600 
+               md:px-4 md:py-2 md:rounded md:text-sm md:font-medium 
+               flex items-center gap-2 ml-auto transition-all focus:outline-none">
+        <!-- Ícono en mobile y desktop -->
+        <img src="img/logout-icon.png" alt="Logout" class="w-8 h-8" 
+             style="filter: brightness(0) saturate(100%) invert(1);">
+        <!-- Texto solo en desktop -->
+        <span class="hidden md:inline text-base">Cerrar sesión</span>
       </button>
     </div>
 
@@ -224,14 +237,14 @@
 
     <!-- Calculadora -->
     <button class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap" data-tab="calculator">
-      <span class="md:hidden">📊</span>
+      <span class="md:hidden">🧮</span>
       <span class="hidden md:inline">Calculadora</span>
       <span class="md:hidden ml-1">Calc</span>
     </button>
 
     <!-- Historial -->
     <button class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap" data-tab="history">
-      <span class="md:hidden">📋</span>
+      <span class="md:hidden">📜</span>
       <span class="hidden md:inline">Historial</span>
       <span class="md:hidden ml-1">Hist</span>
     </button>
@@ -264,8 +277,8 @@
   <div id="mobileMenu"
      class="md:hidden hidden flex-col px-4 pb-4 space-y-2 bg-white text-sm font-semibold text-gray-900 shadow
             transform transition-all duration-300 ease-in-out origin-top scale-y-0 opacity-0">
-  <button class="tab-link text-left w-full hover:text-blue-600" data-tab="calculator">📊 Calculadora</button>
-  <button class="tab-link text-left w-full hover:text-blue-600" data-tab="history">📋 Historial</button>
+  <button class="tab-link text-left w-full hover:text-blue-600" data-tab="calculator">🧮 Calculadora</button>
+  <button class="tab-link text-left w-full hover:text-blue-600" data-tab="history">📜 Historial</button>
   <button class="tab-link text-left w-full hover:text-blue-600" data-tab="finances">💰 Finanzas</button>
   <button class="tab-link text-left w-full hover:text-blue-600" data-tab="zones">🗺️ Zonas</button>
   <button class="tab-link text-left w-full hover:text-blue-600" data-tab="settings">⚙️ Configuración</button>
@@ -286,16 +299,16 @@
     
     <!-- Encabezado -->
     <div class="section-header text-center">
-     <h2 class="font-bold mb-4">📊 Calculadora de Cargas</h2>
+     <h2 class="font-bold mb-4">🧮 Calculadora de Cargas</h2>
       <p class="subtitle">Cálculos con decisión automática</p>
     </div>
     
     <!-- Grid padre de las 3 tarjetas -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-      <!-- 📍 Información de Ruta -->
+      <!-- 🔍 Información de Ruta -->
 <div class="card-section lg:col-span-2">
-  <h3 class="text-2xl font-bold mb-4">📍 Información de Ruta</h3>
+  <h3 class="text-2xl font-bold mb-4">🔍 Información de Ruta</h3>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
     
     <!-- Origen y destino -->
@@ -316,14 +329,14 @@
       <input class="border p-3 w-full rounded-lg text-base placeholder:text-sm" 
              id="companyName" placeholder="Empresa (opcional)">
 
-      <!-- 📝 Notas previas (CRUD) -->
-     <!-- 📌 Cuadro amarillo en calculadora -->
+      <!-- 🔍 Notas previas (CRUD) -->
+     <!-- 🔍Œ Cuadro amarillo en calculadora -->
 <div id="previousNoteBox"
      class="p-3 rounded-lg bg-yellow-50 border border-yellow-200 text-sm text-gray-800 hidden">
   <p id="notesStatusText">ℹ️ No hay notas para este destino.</p>
   <button onclick="openNotesModal(document.getElementById('destination').value)"
           class="mt-2 bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
-    📖 Ver Notas
+    🔍– Ver Notas
   </button>
 </div>
 
@@ -331,9 +344,9 @@
   </div>
 </div>
 
-      <!-- 📏 Información de Millas -->
+      <!-- 🔍 Información de Millas -->
       <div class="card-section col-span-1">
-        <h3 class="text-2xl font-bold mb-4">📏 Información de Millas</h3>
+        <h3 class="text-2xl font-bold mb-4">🔍 Información de Millas</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label class="block text-gray-700 text-base font-medium mb-2">Millas Cotizadas *</label>
@@ -390,6 +403,7 @@
             <div>
               <div id="decisionText" class="text-xl font-bold">ANALIZAR</div>
               <div id="decisionSubtitle" class="text-sm text-blue-100">🎯 Evaluando carga...</div>
+              <div id="zoneBadgeHTML" class="text-sm mt-2 flex justify-center"></div>
             </div>
           </div>
           <div class="text-right">
@@ -416,7 +430,7 @@
 
         <!-- Info adicional -->
         <div class="flex justify-between items-center text-sm text-blue-100 mb-4">
-          <span id="timeAndStops">⏰ -- • ⛽ --</span>
+          <span id="timeAndStops">â° -- • â›½ --</span>
           <span id="realRPMInfo">RPM: $--</span>
         </div>
 
@@ -428,17 +442,33 @@
     </div>  
 <!-- 🔹 Botones de acción -->
         <div class="card-section text-center mt-6">
-  <div class="flex flex-col sm:flex-row gap-3 justify-center mb-4">
-    <button id="calculateBtn" class="btn-primary flex-1">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+    
+    <!-- Botón Calcular -->
+    <button id="calculateBtn" class="btn-primary">
       🧮 Calcular con Costos Reales
     </button>
+    
+    <!-- Botón Guardar -->
     <button id="saveBtn" class="btn-success">
       💾 Guardar Carga
     </button>
+    
+    <!-- Botón Limpiar -->
     <button id="clearBtn" class="btn-secondary">
       🧹 Limpiar
     </button>
-  </div>
+    
+    <!-- Botón Lex AI -->
+    <button id="lexAnalyzeBtn" 
+            type="button"
+            onclick="analyzeLexLoad()"
+            class="bg-gradient-to-r from-blue-600 to-purple-700 text-white px-4 py-2.5 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-800 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+      <img src="img/lex/lex-thinking.png" class="w-5 h-5" alt="Lex" onerror="this.style.display='none'">
+      <span>🧠 Analizar con Lex</span>
+    </button>
+      </div>
+      
   <div class="mt-4 text-center">
     <div class="text-sm text-gray-700" id="message"></div>
     <div class="text-sm text-red-600" id="errorMessage"></div>
@@ -498,7 +528,7 @@
     <!-- Rentabilidad (integrada dentro de la tarjeta de resultados) -->
     <div id="rentabilityCard" class="mt-6 bg-green-50 border-2 border-green-200 rounded-xl p-5 rentabilidad-card">
     <div class="flex items-center justify-between mb-3">
-      <h4 class="text-lg font-semibold">📈 Rentabilidad</h4>
+      <h4 class="text-lg font-semibold">🔍ˆ Rentabilidad</h4>
       <span id="rentabilidadBadge" class="text-xs px-2 py-1 rounded bg-white/70">Analizando…</span>
     </div>
 
@@ -522,7 +552,7 @@
     </div>
 
     <div class="flex justify-between items-center mt-4 text-xs opacity-80">
-      <span id="timeAndStopsCard">⏰ 0h • ⛽ 0 paradas</span>
+      <span id="timeAndStopsCard">â° 0h • â›½ 0 paradas</span>
       <span id="realRPMInfoCard">RPM: $0.00</span>
     </div>
     </div>
@@ -532,11 +562,11 @@
         <!-- Trip Details -->
         <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
             <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
-                <h4 class="text-sm font-medium text-purple-700 mb-3">🕒 Tiempo</h4>
+                <h4 class="text-sm font-medium text-purple-700 mb-3">🕑 Tiempo</h4>
                 <p class="text-xl font-bold text-purple-800" id="estimatedTime">0h</p>
             </div>
             <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
-                <h4 class="text-sm font-medium text-orange-700 mb-3">📅 Días</h4>
+                <h4 class="text-sm font-medium text-orange-700 mb-3">🔍… Días</h4>
                 <p class="text-xl font-bold text-orange-800" id="tripDays">0</p>
             </div>
             <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
@@ -589,7 +619,7 @@
 
     <!-- Header -->
     <div class="section-header text-center">
-      <h2 class="font-bold mb-4">📜 Historial de Cargas</h2>
+      <h2 class="font-bold mb-4">🔍 Historial de Cargas</h2>
       <p class="subtitle">Administra y analiza tus registros de cargas</p>
     </div>
     
@@ -621,33 +651,33 @@
 </div>
 
     
-    <!-- 📊 Resumen de Estadísticas (Historial) -->
+    <!-- 🧮 Resumen de Estadísticas (Historial) -->
 <div class="card-section">
-  <h3 class="text-lg font-semibold mb-4">📊 Resumen de Estadísticas</h3>
+  <h3 class="text-lg font-semibold mb-4">🧮 Resumen de Estadísticas</h3>
   <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
     <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 text-center">
       <h4 class="text-sm font-medium text-indigo-700 mb-1">Total Cargas</h4>
-      <p class= "kpi-value text-blue-800"id="sumTotal">0</p>
+      <p class= "kpi-value"id="sumTotal">0</p>
       <p class="text-xs text-indigo-600 mt-1">Cargas completadas</p>
     </div>
     <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-center">
       <h4 class="text-sm font-medium text-yellow-700 mb-1">Millas Totales</h4>
-      <p class="kpi-value text-blue-800" id="sumMiles">0</p>
+      <p class="kpi-value" id="sumMiles">0</p>
       <p class="text-xs text-yellow-600 mt-1">Distancia recorrida</p>
     </div>
     <div class="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
       <h4 class="text-sm font-medium text-green-700 mb-1">Ingresos Totales</h4>
-      <p class="kpi-value text-blue-800" id="sumRevenue">$0</p>
+      <p class="kpi-value" id="sumRevenue">$0</p>
       <p class="text-xs text-green-600 mt-1">Monto bruto acumulado</p>
     </div>
     <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
       <h4 class="text-sm font-medium text-blue-700 mb-1">Ganancias Netas</h4>
-      <p class="kpi-value text-blue-800" id="sumProfit">$0</p>
+      <p class="kpi-value" id="sumProfit">$0</p>
       <p class="text-xs text-blue-600 mt-1">Después de gastos</p>
     </div>
     <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center">
       <h4 class="text-sm font-medium text-purple-700 mb-1">RPM Promedio</h4>
-      <p class="kpi-value text-blue-800" id="sumRpm">$0</p>
+      <p class="kpi-value" id="sumRpm">$0</p>
       <p class="text-xs text-purple-600 mt-1">Dólares por milla</p>
     </div>
   </div>
@@ -657,7 +687,7 @@
     <div class="card-section">
       <div class="flex justify-between items-center mb-4">
         <button id="exportExcelBtn" type="button" class="btn-success w-full sm:w-auto">
-  📤 Exportar a Excel
+  🔍 Exportar a Excel
 </button>
         <p class="text-base text-gray-600">
           Mostrando <span id="filteredCount">0</span> de <span id="totalCount">0</span> cargas
@@ -688,44 +718,43 @@
   </div>
 </section>       
 
-<!-- 📊 Sección Finanzas -->
+<!-- 🧮 Sección Finanzas -->
 <section id="finances" class="tab-content hidden">
   <div class="w-full px-6 py-6 space-y-6">
 
     <!-- Submenú interno -->
     <div class="flex gap-4 border-b pb-2">
-      <button class="fin-subtab px-4 py-2 rounded-md bg-blue-100 font-semibold" data-subtab="summary">📊 Resumen</button>
-      <button class="fin-subtab px-4 py-2 rounded-md hover:bg-gray-100" data-subtab="reports">🧾 Reportes</button>
-      <button class="fin-subtab px-4 py-2 rounded-md hover:bg-gray-100" data-subtab="accounts">💵 Cuentas</button>
+      <button class="fin-subtab px-4 py-2 rounded-md hover:bg-blue-500" data-subtab="summary">🧮 Resumen</button>
+      <button class="fin-subtab px-4 py-2 rounded-md hover:bg-blue-500" data-subtab="reports">🧾 Reportes</button>
+      <button class="fin-subtab px-4 py-2 rounded-md hover:bg-blue-500" data-subtab="accounts">💵 Cuentas</button>
     </div>
 
-    <!-- 📊 Contenido RESUMEN -->
+    <!-- 🧮 Contenido RESUMEN -->
     <div id="finances-summary" class="fin-subcontent">
     
       <!-- ✅ Selector Unificado (Resumen) -->
       <div class="card-section">
-        <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+        <div class="grid grid-cols-2 md:flex md:flex-row gap-4 items-start md:items-center">
           <!-- Año -->
-          <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-            <label for="yearSelect" class="block text-sm font-medium text-gray-700 mb-1">📅 Año</label>
-            <select id="yearSelect" class="border border-gray-300 rounded px-3 py-2 w-32"></select>
+          <div class="flex items-center gap-2">
+            <label for="yearSelect" class="text-sm font-medium text-gray-700"> Año</label>
+            <select id="yearSelect" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
           </div>
 
           <!-- Mes -->
-          <div>
-            <label for="monthSelect" class="block text-sm font-medium text-gray-700 mb-1">📅 Mes</label>
+         <div class="flex items-center gap-2">
+            <label for="monthSelect" class="text-sm font-medium text-gray-700"> Mes</label>
             <select id="monthSelect" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
           </div>
 
           <!-- Botón -->
-          <div class="flex items-end">
-            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
+                     <button class="col-span-2 md:col-span-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
                     onclick="applyPeriod('global')">
-              🔄 Actualizar
+              🔍 Actualizar
             </button>
           </div>
         </div>
-      </div>
+      
 
       <!-- Info de actualización -->
       <div class="text-right">
@@ -735,7 +764,7 @@
       <!-- Resumen del período -->
       <div id="periodSummary" class="mt-3 text-sm bg-blue-50 border border-blue-200 rounded p-3 hidden">
         <div class="flex items-center gap-2">
-          <span class="text-blue-600">📊</span>
+          <span class="text-blue-600">🧮</span>
           <span id="periodInfo" class="text-blue-800 font-medium">Analizando datos...</span>
         </div>
       </div>
@@ -778,7 +807,7 @@
         <div class="flex justify-between items-center mb-4">
           <h3 class="text-lg font-semibold">💳 Gestión de Gastos</h3>
           <button onclick="openExpenseModal()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-            ➕ Agregar Gasto
+         Agregar Gasto
           </button>
         </div>
 
@@ -809,7 +838,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <!-- Cash Flow Chart -->
         <div class="card-section">
-          <h3 class="text-lg font-semibold mb-4">📈 Rendimiento Financiero</h3>
+          <h3 class="text-lg font-semibold mb-4">🔍 Rendimiento Financiero</h3>
           <div id="cashFlowChartContainer" class="h-96 bg-gray-50 rounded-lg p-4">
             <canvas id="cashFlowChart"></canvas>
           </div>
@@ -828,7 +857,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
         <!-- RPM Trends -->
         <div class="card-section">
-          <h3 class="text-lg font-semibold mb-4">📈 Tendencia RPM</h3>
+          <h3 class="text-lg font-semibold mb-4">🔍 Tendencia RPM</h3>
           <div class="h-80 bg-gray-50 rounded-lg p-4">
             <canvas id="rpmTrendChart"></canvas>
           </div>
@@ -846,7 +875,7 @@
       <!-- Métricas Adicionales (Solo las que faltan) -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
         <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 text-center">
-          <h4 class="text-sm font-medium text-indigo-700 mb-1">📏 Costo por Milla</h4>
+          <h4 class="text-sm font-medium text-indigo-700 mb-1">🔍 Costo por Milla</h4>
           <p class="text-xl font-bold text-indigo-800" id="costPerMile">$0.00</p>
           <p class="text-xs text-indigo-600 mt-1">Incluye todos los gastos</p>
         </div>
@@ -864,39 +893,37 @@
 
 <!-- ✅ Selector Unificado (Reportes) -->
 <div class="card-section">
-  <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+  <div class="grid grid-cols-2 md:flex md:flex-row gap-4 items-start md:items-center">
 
     <!-- Año -->
-    <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-      <label for="reportYear" class="block text-sm font-medium text-gray-700 mb-1">📅 Año</label>
-      <select id="reportYear" class="border border-gray-300 rounded px-3 py-2 w-32"></select>
+    <div class="flex items-center gap-2">
+      <label for="reportYear" class="text-sm font-medium text-gray-700">Año</label>
+      <select id="reportYear" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
     </div>
 
     <!-- Mes -->
-    <div>
-      <label for="reportMonth" class="block text-sm font-medium text-gray-700 mb-1">📅 Mes</label>
+    <div class="flex items-center gap-2">
+      <label for="reportMonth" class="text-sm font-medium text-gray-700">Mes</label>
       <select id="reportMonth" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
     </div>
 
     <!-- Botón -->
-    <div class="flex items-end">
-      <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
-              onclick="applyPeriod('reports')">
-        🔄 Actualizar
-      </button>
-    </div>
+    <button class="col-span-2 md:col-span-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
+            onclick="applyPeriod('reports')">
+      🔍 Actualizar
+    </button>
 
   </div>
 </div>
 
 
-  <!-- 📘 Tarjetas horizontales -->
+  <!-- 🔍˜ Tarjetas horizontales -->
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-    <!-- 📘 Estado de Resultados -->
+    <!-- 🔍˜ Estado de Resultados -->
     <div class="card-section flex flex-col justify-between">
       <div>
-        <h3 class="text-lg font-semibold mb-4">📘 Estado de Resultados</h3>
+        <h3 class="text-lg font-semibold mb-4">🔍 Estado de Resultados</h3>
         <p class="text-gray-600">
           Ingresos, costos y utilidad neta del período seleccionado.
         </p>
@@ -907,7 +934,7 @@
       <div class="mt-4">
         <button onclick="generatePLReport()" 
                 class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full">
-          📘 Generar Reporte
+          🔍 Generar Reporte
         </button>
       </div>
     </div>
@@ -927,10 +954,10 @@
       </div>
     </div>
 
-    <!-- 📤 Exportaciones -->
+    <!-- 🔍¤ Exportaciones -->
     <div class="card-section flex flex-col justify-between">
       <div>
-        <h3 class="text-lg font-semibold mb-4">📤 Exportaciones</h3>
+        <h3 class="text-lg font-semibold mb-4">🔍 Exportaciones</h3>
         <p class="text-gray-600">
           Exportar datos contables.
         </p>
@@ -954,36 +981,26 @@
     <!-- 💵 Contenido CUENTAS -->
     <div id="finances-accounts" class="fin-subcontent hidden space-y-6">
 
-   <!-- ✅ Selector Unificado (Cuentas) -->
+ <!-- ✅ Selector Unificado (Cuentas) -->
 <div class="card-section">
-  <!-- Primera fila: Filtros de fecha -->
-  <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-4">
+ <div class="grid grid-cols-2 md:flex md:flex-row gap-4 items-start md:items-center">
     <!-- Año -->
-    <div class="flex flex-col">
-      <label for="accountsYear" class="block text-sm font-medium text-gray-700 mb-1">📅 Año</label>
+    <div class="flex items-center gap-2">
+      <label for="accountsYear" class="text-sm font-medium text-gray-700 hidden md:inline">Año</label>
       <select id="accountsYear" class="border border-gray-300 rounded px-3 py-2 w-32"></select>
     </div>
 
     <!-- Mes -->
-    <div class="flex flex-col">
-      <label for="accountsMonth" class="block text-sm font-medium text-gray-700 mb-1">📅 Mes</label>
+    <div class="flex items-center gap-2">
+      <label for="accountsMonth" class="text-sm font-medium text-gray-700 hidden md:inline">Mes</label>
       <select id="accountsMonth" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
     </div>
 
-    <!-- Botón Actualizar -->
-    <div class="flex items-end">
-      <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
-              onclick="applyPeriod('accounts')">
-        🔄 Actualizar
-      </button>
-    </div>
-  </div>
+    
 
-  <!-- Segunda fila: Filtros adicionales -->
-  <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
     <!-- Estado -->
-    <div class="flex flex-col">
-      <label for="accountsStatus" class="block text-sm font-medium text-gray-700 mb-1">📊 Estado</label>
+    <div class="flex items-center gap-2">
+      <label for="accountsStatus" class="text-sm font-medium text-gray-700 hidden md:inline">Estado</label>
       <select id="accountsStatus" class="border border-gray-300 rounded px-3 py-2 w-32">
         <option value="">Todos</option>
         <option value="pending">Pendientes</option>
@@ -992,30 +1009,27 @@
       </select>
     </div>
 
-    <!-- Compañía -->
-    <div class="flex flex-col">
-      <label for="accountsCompany" class="block text-sm font-medium text-gray-700 mb-1">🏢 Compañía</label>
-      <select id="accountsCompany" class="border border-gray-300 rounded px-3 py-2 w-40">
-        <option value="">Todas</option>
-      </select>
-    </div>
-
     <!-- Ordenamiento -->
-    <div class="flex flex-col">
-      <label for="accountsSort" class="block text-sm font-medium text-gray-700 mb-1">🔄 Ordenar por</label>
-      <select id="accountsSort" class="border border-gray-300 rounded px-3 py-2 w-40">
-        <option value="date-desc">Fecha (Reciente)</option>
-        <option value="date-asc">Fecha (Antigua)</option>
-        <option value="amount-desc">Monto (Mayor)</option>
-        <option value="amount-asc">Monto (Menor)</option>
-        <option value="company">Compañía A-Z</option>
-        <option value="overdue">Más Vencidas</option>
-      </select>
+    <div class="flex items-center gap-2">
+      <label for="accountsSort" class="text-sm font-medium text-gray-700 hidden md:inline">Ordenar</label>
+ <select id="accountsSort" class="border border-gray-300 rounded px-3 py-2 w-32 md:w-40">
+  <option value="date-desc">Reciente</option>
+  <option value="date-asc">Fecha</option>
+  <option value="amount-desc">Mayor</option>
+  <option value="amount-asc">Menor</option>
+  <option value="company"> A-Z</option>
+  <option value="overdue">Vencidas</option>
+</select>
     </div>
+   <!-- Botón Actualizar -->
+<button class="col-span-2 md:col-span-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
+        onclick="applyPeriod('accounts')">
+  Actualizar
+</button>
   </div>
-</div>  
+</div>
 
-<!-- 📊 Tarjetas de Resumen -->
+<!-- 🧮 Tarjetas de Resumen -->
 <div id="accountsSummaryCards" class="mt-6">
   <!-- Las tarjetas se generarán aquí dinámicamente -->
 </div>
@@ -1034,7 +1048,7 @@
 
     <!-- Modal Header -->
     <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-      <h3 class="text-lg font-semibold text-gray-900">➕ Agregar Gasto</h3>
+      <h3 class="text-lg font-semibold text-gray-900"> Agregar Gasto</h3>
       <button type="button" onclick="closeExpenseModal()" class="text-gray-400 hover:text-gray-600">
         <span class="text-2xl">&times;</span>
       </button>
@@ -1063,8 +1077,8 @@
             <option value="lodging">🏨 Hospedaje</option>
             <option value="tolls">🛣️ Peajes</option>
             <option value="insurance">🛡️ Seguro</option>
-            <option value="permits">📋 Permisos</option>
-            <option value="other">📦 Otros</option>
+            <option value="permits">📜 Permisos</option>
+            <option value="other">🔍 Otros</option>
           </select>
         </div>
 
@@ -1116,7 +1130,7 @@
                     </div>
 
                     <!-- Map placeholder -->
-                    <div class="flex flex-col lg:flex-row gap-6">
+                    <div class="flex flex-col lg:flex-row gap-10">
                         <div class="flex-1 bg-gray-100 border rounded p-8 text-center">
                             <object id="interactiveMap" data="usa_states_ids_fixed_by_title.svg" type="image/svg+xml" class="w-full h-80">
                                 <p class="text-gray-600">🗺️ Mapa SVG no disponible</p>
@@ -1144,7 +1158,7 @@
                             <div class="w-4 h-4 bg-yellow-400 rounded-full mr-3"></div>
                             <div>
                                 <p class="font-medium text-yellow-800">Zona amarilla</p>
-                                <p class="text-sm text-yellow-600">Entre $0.75 – $1.05 RPM</p>
+                                <p class="text-sm text-yellow-600">Entre $0.75 — $1.05 RPM</p>
                             </div>
                         </div>
                         <div class="flex items-center p-3 bg-green-50 border border-green-200 rounded-lg">
@@ -1158,7 +1172,7 @@
 
                     <!-- Zones table -->
                     <div class="card-section">
-                        <h3 class="text-lg font-semibold mb-4">📍 Tabla de zonas por estado</h3>
+                        <h3 class="text-lg font-semibold mb-4">🔍 Tabla de zonas por estado</h3>
                         <div class="overflow-x-auto">
                             <table class="min-w-full text-sm border border-gray-300">
                                 <thead class="bg-gray-200">
@@ -1181,6 +1195,66 @@
                             </table>
                         </div>
                     </div>
+
+                    <!-- 🆕 MAPA DE CIUDADES CON GOOGLE MAPS -->
+                    <div class="card-section mt-8">
+                        <h3 class="text-lg font-semibold mb-4">🌎 Mapa de Ciudades de Destino</h3>
+                        <p class="text-sm text-gray-600 mb-4">Visualiza todas las ciudades donde has entregado cargas, con marcadores de color según RPM</p>
+                        
+                        <!-- Contenedor del mapa -->
+                        <div id="citiesMapContainer" class="mb-4">
+                            <div id="citiesMap" class="w-full h-96 rounded-lg border-2 border-gray-300 bg-gray-100"></div>
+                        </div>
+                        
+                        <!-- Leyenda del mapa de ciudades -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div class="flex items-center p-3 bg-green-50 border border-green-200 rounded-lg">
+                                <div class="w-4 h-4 bg-green-600 rounded-full mr-3"></div>
+                                <div>
+                                    <p class="font-medium text-green-800">Alta rentabilidad</p>
+                                    <p class="text-sm text-green-600">RPM > $1.05</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                <div class="w-4 h-4 bg-yellow-500 rounded-full mr-3"></div>
+                                <div>
+                                    <p class="font-medium text-yellow-800">Rentabilidad media</p>
+                                    <p class="text-sm text-yellow-600">$0.75 - $1.05 RPM</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-3 bg-red-50 border border-red-200 rounded-lg">
+                                <div class="w-4 h-4 bg-red-600 rounded-full mr-3"></div>
+                                <div>
+                                    <p class="font-medium text-red-800">Baja rentabilidad</p>
+                                    <p class="text-sm text-red-600">RPM < $0.75</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tabla de top ciudades -->
+                        <div class="overflow-x-auto">
+                            <h4 class="text-md font-semibold mb-2">🧮 Top Ciudades por Cargas</h4>
+                            <table class="min-w-full text-sm border border-gray-300">
+                                <thead class="bg-gray-200">
+                                    <tr>
+                                        <th class="p-2 text-left">#</th>
+                                        <th class="p-2 text-left">Ciudad</th>
+                                        <th class="p-2 text-left">Cargas</th>
+                                        <th class="p-2 text-left">RPM Promedio</th>
+                                        <th class="p-2 text-left">Ganancia Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="citiesTableBody">
+                                    <tr>
+                                        <td colspan="4" class="p-4 text-center text-gray-500">
+                                            Cargando datos de ciudades...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
             </section>
 
@@ -1195,7 +1269,7 @@
         <!-- Mensaje de confirmación -->
         <div id="configMessage" class="config-message" style="display: none;"></div>
 
-        <!-- 1. PERFIL DE OPERACIÓN -->
+        <!-- 1. PERFIL DE OPERACIÃ“N -->
         <div class="card-section">
             <h3 class="text-lg font-semibold mb-4">🚛 Perfil de Operación</h3>
             
@@ -1284,7 +1358,7 @@
                 </div>
 
                 <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <h4 class="font-semibold text-blue-800 mb-3">📊 Resumen Automático</h4>
+                    <h4 class="font-semibold text-blue-800 mb-3">🧮 Resumen Automático</h4>
                     
                     <div class="space-y-2 text-sm">
                         <div class="flex justify-between">
@@ -1307,7 +1381,7 @@
 
         <!-- 3. COSTOS VARIABLES POR MILLA -->
         <div class="card-section">
-            <h3 class="text-lg font-semibold mb-4">⛽ Costos Variables por Milla</h3>
+            <h3 class="text-lg font-semibold mb-4"> Costos Variables por Milla</h3>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-4">
@@ -1389,10 +1463,10 @@
                             </label>
                             <select id="realCostsPeriod" name="realCostsPeriod"
                                     class="border p-2 w-full rounded text-sm">
-                                <option value="1">Último mes</option>
-                                <option value="3" selected>Últimos 3 meses</option>
-                                <option value="6">Últimos 6 meses</option>
-                                <option value="12">Último año</option>
+                                <option value="1">Ultimo mes</option>
+                                <option value="3" selected>Ultimos 3 meses</option>
+                                <option value="6">Ultimos 6 meses</option>
+                                <option value="12">Ultimo año</option>
                             </select>
                         </div>
                         
@@ -1441,7 +1515,7 @@
             </div>
         </div>
 
-        <!-- 5. BOTONES DE ACCIÓN -->
+        <!-- 5. BOTONES DE ACCIÃ“N -->
         <div class="card-section">
             <div class="flex flex-col md:flex-row gap-4 justify-center">
                 <button onclick="saveUserConfiguration()" 
@@ -1597,7 +1671,7 @@
 
         <!-- Resultados calculados -->
         <div class="border-t border-gray-200 pt-4">
-          <h4 class="text-md font-medium text-gray-900 mb-3">📊 Cálculos Automáticos</h4>
+          <h4 class="text-md font-medium text-gray-900 mb-3">🧮 Cálculos Automáticos</h4>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
             <div class="bg-gray-50 p-2 rounded">
               <span class="text-gray-600">Costo Operativo:</span>
@@ -1647,13 +1721,13 @@
     <!-- Chart.js for dashboard -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
 
-    <!-- ✅ GOOGLE MAPS SCRIPT CORREGIDO - SIN CALLBACK AUTOMÁTICO -->
+    <!-- ✅ GOOGLE MAPS SCRIPT CORREGIDO - SIN CALLBACK AUTOMÃTICO -->
   <script async defer 
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA05m9CMnMaXhq70oMdQ_8cqao4OhOO62c&libraries=places&callback=initGoogleMaps&loading=async">
 </script>
 
 
-    <!-- ✅ SCRIPT DE INICIALIZACIÓN DE GOOGLE MAPS LIMPIO -->
+    <!-- ✅ SCRIPT DE INICIALIZACIÃ“N DE GOOGLE MAPS LIMPIO -->
     <script>
         // ✅ Función para verificar cuando Google Maps esté listo
         function waitForGoogleMaps() {
@@ -1664,7 +1738,7 @@
                     if (typeof initMap === 'function') {
                         initMap();
                     } else {
-                        console.log("⏳ Esperando función initMap...");
+                        console.log("â³ Esperando función initMap...");
                         setTimeout(() => {
                             if (typeof initMap === 'function') {
                                 initMap();
@@ -1673,7 +1747,7 @@
                     }
                 }, 1000);
             } else {
-                console.log("⏳ Esperando Google Maps API...");
+                console.log("â³ Esperando Google Maps API...");
                 setTimeout(waitForGoogleMaps, 1000);
             }
         }
@@ -1693,9 +1767,12 @@
 <script src="js/calculator.js"></script>
 <script src="js/userPlans.js"></script>
 <script src="js/history.js"></script>
-<script src="js/finances.js"></script>  <!-- ✅ DEBE ESTAR AQUÍ -->
+<script src="js/finances.js"></script>  <!-- ✅ DEBE ESTAR AQUÃ -->
 <script src="js/zones.js"></script>
 <script src="js/main.js"></script>
+<script src="js/lex.js"></script>          <!-- Tu Lex visual existente -->
+<script src="js/lex-ai-brain.js"></script>  <!-- AGREGAR ESTA LÍNEA -->
+
 <!-- <script src="js/tabs.js"></script> REMOVED: tabs.js functionality merged into main.js -->
  <script src="js/mobile.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -1705,7 +1782,34 @@
     const toggle = document.getElementById("menuToggle");
     const menu = document.getElementById("mobileMenu");
 
+    // Función para cerrar el menú móvil
+    function closeMobileMenu() {
+      if (menu && !menu.classList.contains("scale-y-0")) {
+        menu.classList.remove("scale-y-100", "opacity-100");
+        menu.classList.add("scale-y-0", "opacity-0");
+        setTimeout(() => {
+          if (menu.classList.contains("scale-y-0")) {
+            menu.classList.add("hidden");
+          }
+        }, 300);
+      }
+    }
+
+    // Función para mostrar/ocultar botón hamburguesa según el tamaño de pantalla
+    function updateMenuToggle() {
+      if (window.innerWidth >= 768) {
+        toggle.style.display = "none";
+      } else {
+        toggle.style.display = "block";
+      }
+    }
+
     if (toggle && menu) {
+      // Inicializar visibilidad del botón hamburguesa
+      updateMenuToggle();
+      window.addEventListener("resize", updateMenuToggle);
+
+      // Toggle del menú hamburguesa
       toggle.addEventListener("click", () => {
         if (menu.classList.contains("scale-y-0")) {
           // Mostrar menú con animación
@@ -1713,19 +1817,33 @@
           menu.classList.add("scale-y-100", "opacity-100");
         } else {
           // Ocultar menú con animación
-          menu.classList.remove("scale-y-100", "opacity-100");
-          menu.classList.add("scale-y-0", "opacity-0");
-          setTimeout(() => {
-            if (menu.classList.contains("scale-y-0")) {
-              menu.classList.add("hidden");
-            }
-          }, 300); // espera a que termine la animación
+          closeMobileMenu();
+        }
+      });
+
+      // 1. Cerrar menú al hacer clic en cualquier tab del menú móvil
+      const mobileMenuTabs = menu.querySelectorAll(".tab-link");
+      mobileMenuTabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+          closeMobileMenu();
+        });
+      });
+
+      // 2. Cerrar menú al hacer clic fuera de él
+      document.addEventListener("click", (event) => {
+        // Si el menú está visible
+        if (!menu.classList.contains("scale-y-0")) {
+          // Si el clic NO fue en el menú ni en el botón hamburguesa
+          if (!menu.contains(event.target) && !toggle.contains(event.target)) {
+            closeMobileMenu();
+          }
         }
       });
     }
   });
 </script>
-<!-- 📌 Modal de Notas -->
+</script>
+<!-- 🔍Œ Modal de Notas -->
 <div id="notesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
   <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6">
     <!-- Header -->
@@ -1744,5 +1862,33 @@
 </div>
 
 </div>
+<!-- 🔹 Lex AI Assistant (avatar flotante) -->
+<div id="lexAssistant"
+     class="fixed bottom-4 right-4 z-40 flex items-end gap-3 select-none">
+
+  <!-- Globito opcional (lo usaremos más adelante) -->
+  <div id="lexBubble"
+       class="hidden max-w-xs bg-slate-900/85 border border-blue-500/40 text-blue-50 text-xs rounded-2xl shadow-lg px-3 py-2 mb-3 backdrop-blur-md">
+    <p id="lexBubbleText" class="font-medium">
+      Hola, soy Lex. Pronto te ayudaré a decidir tus cargas. 👋
+    </p>
+  </div>
+
+  <!-- Avatar -->
+  <div class="relative">
+    <div class="lex-avatar-shell w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-purple-700 
+                border border-blue-400 shadow-2xl flex items-center justify-center overflow-hidden">
+      <img id="lexAvatarImg"
+           src="img/lex/lex-neutral.png"
+           alt="Lex AI Assistant"
+           class="w-14 h-14 object-contain lex-avatar-img">
+    </div>
+
+    <!-- Puntico de estado -->
+    <span id="lexStatusDot"
+          class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-slate-900 bg-emerald-400 shadow-lg"></span>
+  </div>
+</div>
+
 </body>
 </html>

@@ -214,7 +214,7 @@ async function calculate() {
 
     // âœ… Usar tus costos reales confirmados
     const fuelCost = totalMiles * TU_COSTO_REAL.combustible;
-    const maintenanceCost = totalMiles * (TU_COSTO_REAL.mantenimiento + TU_COSTO_REAL.reservaGomas);
+    const maintenanceCost = totalMiles * (TU_COSTO_REAL.mantenimiento);
     const foodCost = totalMiles * TU_COSTO_REAL.comida;
     const fixedCosts = totalMiles * TU_COSTO_REAL.costosFijos;
 
@@ -356,7 +356,7 @@ function updateMainResults(data) {
     baseIncome: '$' + data.baseIncome.toFixed(2),
     additionalCosts: '$' + (data.tolls + data.others).toFixed(2),
     totalCharge: '$' + data.totalCharge.toFixed(2),
-    operatingCost: '$' + (data.totalMiles * (TU_COSTO_REAL.mantenimiento + TU_COSTO_REAL.reservaGomas + TU_COSTO_REAL.comida + TU_COSTO_REAL.costosFijos)).toFixed(2),
+    operatingCost: '$' + (data.totalMiles * (TU_COSTO_REAL.mantenimiento + TU_COSTO_REAL.comida + TU_COSTO_REAL.costosFijos)).toFixed(2),
     fuelCost: '$' + data.fuelCost.toFixed(2),
     maintenanceCost: '$' + data.maintenanceCost.toFixed(2),
     tollsCost: '$' + data.tolls.toFixed(2),

@@ -1,21 +1,21 @@
 /* =========================================================
-   MOBILE-STYLES.CSS - OPTIMIZACIÓN COMPLETA PARA MÓVILES
+   MOBILE-STYLES.CSS - OPTIMIZACIÃƒâ€œN COMPLETA PARA MÃƒâ€œVILES
    ========================================================= */
 
-/* 📱 VARIABLES MÓVILES */
+/* Ã°Å¸â€œÂ± VARIABLES MÃƒâ€œVILES */
 :root {
-  --mobile-touch-size: 44px;     /* Tamaño mínimo táctil */
-  --mobile-spacing: 1rem;        /* Espaciado estándar móvil */
-  --mobile-padding: 0.75rem;     /* Padding interno móvil */
-  --mobile-font-base: 16px;      /* Tamaño base para evitar zoom */
-  --mobile-font-small: 14px;     /* Texto pequeño legible */
-  --mobile-border-radius: 8px;   /* Bordes más suaves en móvil */
+  --mobile-touch-size: 44px;     /* TamaÃƒÂ±o mÃƒÂ­nimo tÃƒÂ¡ctil */
+  --mobile-spacing: 1rem;        /* Espaciado estÃƒÂ¡ndar mÃƒÂ³vil */
+  --mobile-padding: 0.75rem;     /* Padding interno mÃƒÂ³vil */
+  --mobile-font-base: 16px;      /* TamaÃƒÂ±o base para evitar zoom */
+  --mobile-font-small: 14px;     /* Texto pequeÃƒÂ±o legible */
+  --mobile-border-radius: 8px;   /* Bordes mÃƒÂ¡s suaves en mÃƒÂ³vil */
   
-  /* 🔤 SISTEMA TIPOGRÁFICO UNIFICADO */
+  /* Ã°Å¸â€Â¤ SISTEMA TIPOGRÃƒÂFICO UNIFICADO */
   --font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-family-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Liberation Mono", monospace;
   
-  /* Escala tipográfica mobile-first */
+  /* Escala tipogrÃƒÂ¡fica mobile-first */
   --text-xs: 0.75rem;      /* 12px */
   --text-sm: 0.875rem;     /* 14px */
   --text-base: 1rem;       /* 16px - BASE */
@@ -31,18 +31,18 @@
   --font-semibold: 600;
   --font-bold: 700;
   
-  /* Alturas de línea */
+  /* Alturas de lÃƒÂ­nea */
   --leading-tight: 1.25;
   --leading-normal: 1.5;
   --leading-relaxed: 1.625;
 }
 
-/* 🎨 RESET Y BASE TIPOGRÁFICA */
+/* Ã°Å¸Å½Â¨ RESET Y BASE TIPOGRÃƒÂFICA */
 * {
   font-family: var(--font-family-primary) !important;
 }
 
-/* 📱 OPTIMIZACIÓN DE ANCHO - APROVECHAMIENTO MÁXIMO */
+/* Ã°Å¸â€œÂ± OPTIMIZACIÃƒâ€œN DE ANCHO - APROVECHAMIENTO MÃƒÂXIMO */
 @media (max-width: 768px) {
   
   /* === CONTENEDORES PRINCIPALES === */
@@ -52,7 +52,7 @@
     margin-top: 0.5rem !important;
   }
   
-  /* Secciones de tabs - aprovechar más ancho */
+  /* Secciones de tabs - aprovechar mÃƒÂ¡s ancho */
   .tab-content {
     padding-left: 0.25rem !important;
     padding-right: 0.25rem !important;
@@ -60,7 +60,7 @@
     padding: 0;
   }
   
-  /* Tarjetas/Cards - más anchas */
+  /* Tarjetas/Cards - mÃƒÂ¡s anchas */
   .card-section,
   .tab-content .bg-white,
   .tab-content .bg-gray-50,
@@ -74,7 +74,7 @@
     border-radius: var(--mobile-border-radius);
   }
   
-  /* Contenedores con max-width específicos */
+  /* Contenedores con max-width especÃƒÂ­ficos */
   .max-w-screen-2xl,
   .max-w-7xl,
   .max-w-6xl,
@@ -84,7 +84,7 @@
     padding-right: 0.5rem !important;
   }
   
-  /* === HEADER MÓVIL === */
+  /* === HEADER MÃƒâ€œVIL === */
   header .max-w-7xl {
     padding: 0.5rem !important;
   }
@@ -104,7 +104,7 @@
     height: 2.5rem !important;
   }
   
-  /* === NAVEGACIÓN TABS MÓVIL === */
+  /* === NAVEGACIÃƒâ€œN TABS MÃƒâ€œVIL === */
   nav {
     background: white;
     border-bottom: 1px solid #e5e7eb;
@@ -143,9 +143,9 @@
     border-color: #3b82f6;
   }
   
-  /* === JERARQUÍA TIPOGRÁFICA MÓVIL === */
+  /* === JERARQUÃƒÂA TIPOGRÃƒÂFICA MÃƒâ€œVIL === */
   
-  /* Títulos principales */
+  /* TÃƒÂ­tulos principales */
   h1, .text-4xl, .text-3xl {
     font-size: var(--text-2xl) !important;
     font-weight: var(--font-bold) !important;
@@ -154,7 +154,7 @@
     color: #111827 !important;
   }
   
-  /* Subtítulos */
+  /* SubtÃƒÂ­tulos */
   h2, .text-2xl, .text-xl {
     font-size: var(--text-xl) !important;
     font-weight: var(--font-semibold) !important;
@@ -163,7 +163,7 @@
     color: #111827 !important;
   }
   
-  /* Títulos de sección */
+  /* TÃƒÂ­tulos de secciÃƒÂ³n */
   h3, .text-lg {
     font-size: var(--text-lg) !important;
     font-weight: var(--font-semibold) !important;
@@ -186,14 +186,14 @@
     line-height: var(--leading-normal) !important;
   }
   
-  /* Texto pequeño (solo para metadata) */
+  /* Texto pequeÃƒÂ±o (solo para metadata) */
   .text-xs {
     font-size: var(--text-xs) !important;
     font-weight: var(--font-normal) !important;
     line-height: var(--leading-normal) !important;
   }
   
-  /* === BOTONES MÓVIL === */
+  /* === BOTONES MÃƒâ€œVIL === */
   button,
   .btn-primary,
   .btn-success,
@@ -208,7 +208,7 @@
     touch-action: manipulation; /* Previene zoom en doble tap */
   }
   
-  /* Botones pequeños */
+  /* Botones pequeÃƒÂ±os */
   button.text-sm, .btn-sm {
     font-size: var(--text-sm) !important;
     font-weight: var(--font-medium) !important;
@@ -263,14 +263,14 @@
     grid-template-columns: 1fr;
   }
   
-  /* === KPIs Y NÚMEROS GRANDES === */
+  /* === KPIs Y NÃƒÅ¡MEROS GRANDES === */
   .kpi-value, .text-3xl.font-bold, .text-2xl.font-bold {
     font-size: var(--text-2xl) !important;
     font-weight: var(--font-bold) !important;
     line-height: var(--leading-tight) !important;
   }
   
-  /* === PANEL DE DECISIÓN MÓVIL === */
+  /* === PANEL DE DECISIÃƒâ€œN MÃƒâ€œVIL === */
   #decisionPanel {
     padding: 1rem !important;
     margin: 1rem 0;
@@ -306,7 +306,7 @@
     opacity: 0.9;
   }
   
-  /* === TABLAS MÓVIL === */
+  /* === TABLAS MÃƒâ€œVIL === */
   .table-container {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -319,7 +319,7 @@
   }
   
   table {
-    min-width: 600px; /* Ancho mínimo para scroll horizontal */
+    min-width: 600px; /* Ancho mÃƒÂ­nimo para scroll horizontal */
     font-size: var(--text-sm);
   }
   
@@ -338,7 +338,7 @@
     white-space: nowrap;
   }
   
-  /* === GRÁFICOS MÓVIL === */
+  /* === GRÃƒÂFICOS MÃƒâ€œVIL === */
   .h-96, .h-80, .h-64 {
     margin-left: 0 !important;
     margin-right: 0 !important;
@@ -356,7 +356,7 @@
     margin: 1rem 0;
   }
   
-  /* === ESPACIADO MÓVIL === */
+  /* === ESPACIADO MÃƒâ€œVIL === */
   .space-y-8 > * + * { margin-top: 1rem !important; }
   .space-y-6 > * + * { margin-top: 0.75rem !important; }
   .space-y-4 > * + * { margin-top: 0.75rem !important; }
@@ -365,7 +365,7 @@
   .mb-6 { margin-bottom: 1rem !important; }
   .mb-4 { margin-bottom: 0.75rem !important; }
   
-  /* === MENSAJES Y ALERTAS MÓVIL === */
+  /* === MENSAJES Y ALERTAS MÃƒâ€œVIL === */
   .message-success,
   .message-error,
   .message-info {
@@ -377,7 +377,7 @@
     line-height: var(--leading-normal);
   }
   
-  /* === ESTADÍSTICAS DASHBOARD MÓVIL === */
+  /* === ESTADÃƒÂSTICAS DASHBOARD MÃƒâ€œVIL === */
   .stats-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -427,22 +427,22 @@
     color: #9ca3af !important;
   }
   
-  /* === ACCESIBILIDAD MÓVIL === */
+  /* === ACCESIBILIDAD MÃƒâ€œVIL === */
   
-  /* Aumentar área táctil para enlaces pequeños */
+  /* Aumentar ÃƒÂ¡rea tÃƒÂ¡ctil para enlaces pequeÃƒÂ±os */
   a, button, .tab-link {
     min-width: var(--mobile-touch-size);
     min-height: var(--mobile-touch-size);
   }
   
-  /* Focus visible mejorado para navegación por teclado */
+  /* Focus visible mejorado para navegaciÃƒÂ³n por teclado */
   *:focus {
     outline: 2px solid #3b82f6;
     outline-offset: 2px;
   }
 }
 
-/* 📱 OPTIMIZACIONES ESPECÍFICAS PARA PANTALLAS MUY PEQUEÑAS */
+/* Ã°Å¸â€œÂ± OPTIMIZACIONES ESPECÃƒÂFICAS PARA PANTALLAS MUY PEQUEÃƒâ€˜AS */
 @media (max-width: 480px) {
   
   :root {
@@ -487,18 +487,18 @@
     gap: 0.5rem;
   }
   
-  /* Grid más compacto en pantallas muy pequeñas */
+  /* Grid mÃƒÂ¡s compacto en pantallas muy pequeÃƒÂ±as */
   .grid {
     gap: 0.5rem !important;
   }
   
-  /* KPIs más compactos */
+  /* KPIs mÃƒÂ¡s compactos */
   .kpi-value {
     font-size: var(--text-xl) !important;
   }
 }
 
-/* 💻 DESKTOP - tamaños ligeramente más grandes */
+/* Ã°Å¸â€™Â» DESKTOP - tamaÃƒÂ±os ligeramente mÃƒÂ¡s grandes */
 @media (min-width: 769px) {
   h1, .text-4xl, .text-3xl {
     font-size: var(--text-3xl) !important;
@@ -513,7 +513,7 @@
   }
 }
 
-/* 📱 ORIENTACIÓN LANDSCAPE EN MÓVIL */
+/* Ã°Å¸â€œÂ± ORIENTACIÃƒâ€œN LANDSCAPE EN MÃƒâ€œVIL */
 @media (max-width: 768px) and (orientation: landscape) {
   
   header .max-w-7xl {
@@ -538,7 +538,7 @@
   }
 }
 
-/* 📱 ANIMACIONES SUAVES PARA MÓVIL */
+/* Ã°Å¸â€œÂ± ANIMACIONES SUAVES PARA MÃƒâ€œVIL */
 @media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
   
   .tab-content {
@@ -565,7 +565,7 @@
   }
 }
 
-/* 📱 PRINT STYLES PARA MÓVIL */
+/* Ã°Å¸â€œÂ± PRINT STYLES PARA MÃƒâ€œVIL */
 @media print {
   nav, header button {
     display: none !important;
@@ -581,33 +581,40 @@
   }
 }
 /* =========================================================
-   FIX ESPECÍFICO PARA ZONES HEAT MAP MOBILE
+   FIX ESPECÍFICO PARA ZONES HEAT MAP MOBILE - VERSIÓN FINAL
    ========================================================= */
 
-/* 🗺️ REEMPLAZAR el CSS genérico anterior con este específico */
 @media (max-width: 768px) {
     
-    /* Layout principal del mapa - MÁS ESPECÍFICO */
+    /* Layout principal del mapa */
     #zones div.flex.flex-col.lg\:flex-row.gap-6 {
         flex-direction: column !important;
         gap: 1rem !important;
     }
     
-    /* Contenedor del mapa con clases específicas */
+    /* Contenedor del mapa - Sin fondo, transparente */
     #zones div.flex-1.bg-gray-100.border.rounded.p-8.text-center {
-        padding: 1rem !important;
-        margin: 0 !important;
         width: 100% !important;
+        max-width: 100% !important;
+        background: transparent !important;
+        background-color: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: flex !important;
+        justify-content: center !important;
         box-sizing: border-box !important;
     }
     
-    /* El objeto SVG del mapa */
+    /* El objeto SVG del mapa - Más grande y visible */
     #zones #interactiveMap {
         width: 100% !important;
-        max-width: 100% !important;
-        margin: 0 auto !important;
+        max-width: 480px !important;
+        height: 450px !important;
+        transform: scale(1.35) translateX(-10px) !important;
+        transform-origin: center center !important;
+        margin: 1rem auto !important;
         display: block !important;
-        height: 400px !important;
     }
     
     /* Panel lateral en mobile */
@@ -629,38 +636,249 @@
         box-sizing: border-box !important;
     }
 }
+/* ============================================
+   FIX: BotÃ³n logout sin fondo en mÃ³vil
+   ============================================ */
 @media (max-width: 768px) {
-    #zones #interactiveMap {
-        transform: scale(1.6) !important;
-        transform-origin: center !important;
-        margin: 2rem 0 !important;
-    }
+  #logoutBtn {
+    background: transparent !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    min-height: auto !important;
+    min-width: auto !important;
+    width: auto !important;
+    height: auto !important;
+  }
+  
+  #logoutBtn:hover,
+  #logoutBtn:focus,
+  #logoutBtn:active {
+    background: transparent !important;
+    background-color: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
 }
+
+/* ============================================
+   FIX: Quitar borde azul del icono logout
+   ============================================ */
 @media (max-width: 768px) {
-    #zones #interactiveMap {
-        transform: scale(1.6) !important;
-        transform-origin: center !important;
-        margin: 2rem auto !important;
-        display: block !important;
-    }
+  #logoutBtn,
+  #logoutBtn:focus,
+  #logoutBtn:focus-visible,
+  #logoutBtn img {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  
+  /* Quitar focus visible del botÃ³n logout */
+  #logoutBtn:focus-visible {
+    outline: none !important;
+    outline-offset: 0 !important;
+
+  /* === HEADER MÓVIL - ALINEACIÓN Y ESTILOS === */
+  
+  /* Bajar título para alinear con menú */
+  header span.text-lg {
+    position: relative !important;
+    top: 3px !important;
+    font-size: 1.125rem !important; /* 18px - más grande */
+  }
+  
+  /* Bajar menú hamburguesa */
+  #menuToggle {
+    position: relative !important;
+    top: 6px !important;
+  }
+  
+  /* Ícono de logout en ROJO */
+  #logoutBtn img {
+    filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%) !important;
+  }
+
+  }
+
+  /* === TIPOGRAFÍA RESPONSIVE === */
+  /* H2 - Títulos principales */
+  .tab-content h2 {
+    font-size: 1.5rem !important; /* 24px en móvil vs 32px desktop */
+  }
+  
+  /* H3 - Secciones */
+  .card-section h3 {
+    font-size: 1.25rem !important; /* 20px en móvil vs 24px desktop */
+  }
+  
+  /* H4 - Sub-secciones */
+  .card-section h4 {
+    font-size: 1.125rem !important; /* 18px en móvil vs 20px desktop */
+  }
+  
+  /* Labels */
+  .card-section label,
+  label {
+    font-size: 0.875rem !important; /* 14px en móvil vs 16px desktop */
+  }
+  
+  /* Selects e Inputs */
+  select,
+  input {
+    font-size: 1rem !important; /* 16px - mantener para evitar zoom */
+  }
+
 }
+
+/* ============================================
+   FIX: MenÃº mÃ³vil desplegable MÃS COMPACTO
+   ============================================ */
 @media (max-width: 768px) {
-    #zones .flex-1.bg-gray-100 {
-        padding: 1rem !important;
-        min-height: 300px !important; /* Reducir altura del contenedor */
-    }
+  /* MenÃº desplegable especÃ­fico */
+  #mobileMenu {
+    padding: 8px 8px !important;
+  }
+  
+  /* Botones dentro del menÃº desplegable */
+  #mobileMenu .tab-link,
+  #mobileMenu button {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    padding: 6px 12px !important;
+    min-height: auto !important;
+    height: auto !important;
+    line-height: 1.4 !important;
+    margin-bottom: 2px !important;
+  }
+  
+  #mobileMenu .tab-link:last-child,
+  #mobileMenu button:last-child {
+    margin-bottom: 0 !important;
+  }
 }
+
+/* ============================================
+   OVERRIDE FINAL - PRIORIDAD MÁXIMA MÓVIL
+   ============================================ */
 @media (max-width: 768px) {
-    #zones .flex-1.bg-gray-100 {
-        overflow: visible !important;
-    }
+  
+  /* FORZAR: Título más grande y bajado */
+  header .flex.items-center.gap-2 > span,
+  header span.text-lg,
+  header span[class*="text-lg"] {
+    font-size: 1.125rem !important; /* 18px */
+    position: relative !important;
+    top: 3px !important;
+  }
+  
+  /* FORZAR: Menú hamburguesa bajado */
+  button#menuToggle,
+  #menuToggle.md\:hidden {
+    position: relative !important;
+    top: 6px !important;
+  }
+  
+  /* FORZAR: Ícono logout ROJO */
+  #logoutBtn img,
+  button#logoutBtn img,
+  #logoutBtn > img {
+    filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%) !important;
+  }
 }
+/* ============================================
+   PANEL DE DECISIÓN MÓVIL - OPTIMIZACIÓN COMPLETA
+   ============================================ */
 @media (max-width: 768px) {
-    #zones #interactiveMap {
-        transform: scale(1.6) !important;
-        transform-origin: center center !important;
-        margin: 2rem auto !important;
-        position: relative !important;
-        left: 20px !important;
-    }
+  
+  /* Panel más ancho - márgenes mínimos */
+  #decisionPanel {
+    margin-left: 0.0625rem !important; /* 1px */
+    margin-right: 0.0625rem !important; /* 1px */
+    max-width: calc(100vw - 0.25rem) !important; /* Solo 4px total */
+    width: 100% !important;
+    padding: 0.5rem !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Contenedor interior compacto */
+  #decisionContainer {
+    padding: 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Header compacto */
+  #decisionContainer .flex.items-center.justify-between.mb-4 {
+    gap: 6px !important;
+    margin-bottom: 10px !important;
+  }
+  
+  /* Precio más pequeño */
+  #decisionContainer #quickPrice {
+    font-size: 1.5rem !important; /* 24px */
+    line-height: 1.2 !important;
+  }
+  
+  /* Texto de decisión compacto */
+  #decisionContainer #decisionText {
+    font-size: 0.95rem !important;
+  }
+  
+  /* Ícono más pequeño */
+  #decisionContainer #decisionIcon {
+    font-size: 1.75rem !important;
+  }
+  
+  /* Grid de métricas: 2 columnas en móvil */
+  #decisionContainer .grid.grid-cols-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+  
+  /* Valores de métricas */
+  #decisionContainer .grid > div > div:last-child {
+    font-size: 1.1rem !important;
+  }
+  
+  /* Labels de métricas */
+  #decisionContainer .grid > div > div:first-child {
+    font-size: 0.7rem !important;
+  }
+}
+
+/* ============================
+   LEX - Ajustes específicos para móvil
+   ============================ */
+@media (max-width: 768px) {
+
+  /* Posición del asistente para no tapar botones */
+  #lexAssistant {
+    bottom: 5rem !important;   /* Lo subimos un poco */
+    right: 0.75rem !important; /* Un poco más pegado al borde */
+  }
+
+  /* Avatar un poco más pequeño en móvil */
+  #lexAssistant .lex-avatar-shell {
+    width: 3.25rem !important;   /* ~52px */
+    height: 3.25rem !important;
+  }
+
+  #lexAssistant img.lex-avatar-img {
+    width: 2.75rem !important;   /* ~44px */
+    height: 2.75rem !important;
+  }
+
+  /* Burbuja más compacta y legible en teléfonos */
+  #lexBubble {
+    max-width: 220px !important;
+    font-size: 0.78rem !important;
+    padding: 0.4rem 0.6rem !important;
+  }
+
+  #lexBubbleText {
+    line-height: 1.25 !important;
+  }
 }
