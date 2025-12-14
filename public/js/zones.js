@@ -60,16 +60,18 @@ function loadZonesData() {
         });
 }
 
-// Calcular estadsticas por estado
+// Calcular estadísticas por estado
 function calcularEstadisticas(loads) {
     rpmPorEstado = {};
     resumenPorEstado = {};
 
     loads.forEach(load => {
         const originCode = window.getStateCode(load.origin);
-        const destCode = window.getStateCode(load.destination);
-        let rpm = parseFloat(load.rpm);
-        const profit = parseFloat(load.profit || 0);
+        const destCode   = window.getStateCode(load.destination);
+        let rpm          = parseFloat(load.rpm);
+        const profit     = parseFloat(load.profit || 0);
+        const miles      = parseFloat(load.totalMiles || 0);
+        const revenue    = parseFloat(load.totalCharge || 0);
 
         if ((isNaN(rpm) || rpm === 0) && load.totalCharge && load.totalMiles) {
             rpm = parseFloat(load.totalCharge) / parseFloat(load.totalMiles);
@@ -77,24 +79,49 @@ function calcularEstadisticas(loads) {
 
         if (!originCode || isNaN(rpm)) return;
 
+        // ✅ Acumular RPM para el mapa y la tabla
         if (!rpmPorEstado[originCode]) rpmPorEstado[originCode] = { total: 0, count: 0 };
         rpmPorEstado[originCode].total += rpm;
         rpmPorEstado[originCode].count++;
 
-        if (!resumenPorEstado[destCode]) resumenPorEstado[destCode] = { count: 0, totalProfit: 0 };
-        if (!resumenPorEstado[originCode]) resumenPorEstado[originCode] = { count: 0, totalProfit: 0 };
+        if (!resumenPorEstado[destCode]) {
+            resumenPorEstado[destCode] = { 
+                count: 0, 
+                totalProfit: 0,
+                totalMiles: 0,
+                totalRevenue: 0
+            };
+        }
+        if (!resumenPorEstado[originCode]) {
+            resumenPorEstado[originCode] = { 
+                count: 0, 
+                totalProfit: 0,
+                totalMiles: 0,
+                totalRevenue: 0
+            };
+        }
 
         resumenPorEstado[destCode].count++;
         resumenPorEstado[destCode].totalProfit += isNaN(profit) ? 0 : profit;
+        resumenPorEstado[destCode].totalMiles += isNaN(miles) ? 0 : miles;
+        resumenPorEstado[destCode].totalRevenue += isNaN(revenue) ? 0 : revenue;
+        
         resumenPorEstado[originCode].count++;
         resumenPorEstado[originCode].totalProfit += isNaN(profit) ? 0 : profit;
+        resumenPorEstado[originCode].totalMiles += isNaN(miles) ? 0 : miles;
+        resumenPorEstado[originCode].totalRevenue += isNaN(revenue) ? 0 : revenue;
     });
 
+    // ✅ Calcular promedio de RPM
     Object.keys(rpmPorEstado).forEach(code => {
         const data = rpmPorEstado[code];
         rpmPorEstado[code] = data.total / data.count;
     });
+
+    // 🔥 ESTA LÍNEA ES LA CLAVE
+    return resumenPorEstado;
 }
+
 
 // Renderizar tabla de zonas
 function renderZonesTable() {
@@ -735,7 +762,8 @@ function createInfoWindowContent(data) {
 // Mostrar modal con cargas de la ciudad
 function showCityLoadsModal(data) {
     const modal = document.createElement('div');
-    modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+    modal.className = 'fixed inset-0 flex items-center justify-center z-50 p-6';
+    modal.style.cssText = 'background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px);';
     modal.onclick = (e) => {
         if (e.target === modal) modal.remove();
     };
@@ -934,6 +962,406 @@ function showMapLoadError() {
     }
 }
 
+// ======================================================
+// LEX: Análisis de zonas / heatmap
+// ======================================================
+window.analyzeLexZones = async function () {
+  try {
+    console.log('[LEX-ZONES] Iniciando análisis de zonas…');
+
+    // 1. Asegurar datos de zonas ya calculados
+    //    Preferimos usar resumenPorEstado si ya existe
+    let stats = null;
+
+    if (window.resumenPorEstado && Object.keys(window.resumenPorEstado).length > 0) {
+      stats = window.resumenPorEstado;
+      console.log('[LEX-ZONES] Usando resumenPorEstado existente');
+    } else {
+      // Si no existe, cargamos del historial en Firebase
+      const user = firebase.auth().currentUser;
+      if (!user) {
+        alert('Debes iniciar sesión para analizar las zonas.');
+        return;
+      }
+
+      const db = firebase.firestore();
+      const snapshot = await db
+        .collection('loads')
+        .where('userId', '==', user.uid)
+        .get();
+
+      const loads = [];
+      snapshot.forEach(doc => loads.push({ id: doc.id, ...doc.data() }));
+
+      if (loads.length === 0) {
+        if (window.setLexState) {
+          window.setLexState('sad', {
+            message: 'Todavía no tengo suficientes cargas para analizar tus zonas 🗺️',
+            duration: 5000
+          });
+        }
+        alert('No hay cargas registradas todavía para analizar las zonas.');
+        return;
+      }
+
+      console.log('[LEX-ZONES] Calculando estadísticas desde loads…');
+
+      // Usa tu función original de zonas
+      if (typeof calcularEstadisticas === 'function') {
+        stats = calcularEstadisticas(loads);
+      } else {
+        console.warn('[LEX-ZONES] calcularEstadisticas no está definida');
+        alert('No pude calcular las estadísticas de zonas.');
+        return;
+      }
+    }
+
+    // 2. Preparar análisis en un formato amigable
+    const analysis = prepararAnalisisZonas(stats);
+
+    // 3. Mensaje corto para la burbuja de Lex
+    if (window.setLexState) {
+      let mood = 'thinking';
+      if (analysis.verdes > analysis.rojas) mood = 'happy';
+      else if (analysis.rojas > analysis.verdes) mood = 'warning';
+
+      const resumenCorto =
+        `Estados analizados: ${analysis.total} · ` +
+        `Verdes: ${analysis.verdes} · Amarillas: ${analysis.amarillas} · Rojas: ${analysis.rojas}`;
+
+      window.setLexState(mood, {
+        message: `📊 Esto es lo que veo en tus zonas:\n${resumenCorto}`,
+        duration: 8000
+      });
+    }
+
+    // 4. Mostrar modal detallado (sin depender de window.lexAI)
+    window.showLexZonesModal(analysis);
+
+    console.log('[LEX-ZONES] Análisis completado:', analysis);
+    return analysis;
+  } catch (err) {
+    console.error('[LEX-ZONES] Error:', err);
+    if (window.setLexState) {
+      window.setLexState('warning', {
+        message: 'Tuve un problema al analizar tus zonas 🛠️',
+        duration: 5000
+      });
+    }
+    return null;
+  }
+};
+
+// ======================================================
+// Preparar análisis para Lex (helper interno)
+// ======================================================
+function prepararAnalisisZonas(stats) {
+  let totalMiles = 0;
+  let totalRevenue = 0;
+  let totalProfit = 0;
+  let totalLoads = 0;
+
+  const rows = Object.keys(stats).map(state => {
+    const st = stats[state] || {};
+    const miles = Number(st.totalMiles || 0);
+    const revenue = Number(st.totalRevenue || 0);
+    const profit = Number(st.totalProfit || 0);
+    const count = Number(st.count || 0);
+
+    // Acumular totales
+    totalMiles += miles;
+    totalRevenue += revenue;
+    totalProfit += profit;
+    totalLoads += count;
+
+    const avg = miles > 0 ? revenue / miles : 0;
+
+    let zona = 'amarilla';
+    if (avg >= 1.05) zona = 'verde';
+    else if (avg < 0.75) zona = 'roja';
+
+    return {
+      state,
+      avgRPM: avg,
+      totalProfit: profit,
+      count: count,
+      zona
+    };
+  });
+
+  // Ordenar sin mutar el array original
+  const sortedByRPM = [...rows].sort((a, b) => b.avgRPM - a.avgRPM);
+  const top = sortedByRPM.slice(0, 5);
+  const worst = [...rows].sort((a, b) => a.avgRPM - b.avgRPM).slice(0, 3);
+
+  const verdes = rows.filter(r => r.zona === 'verde').length;
+  const amarillas = rows.filter(r => r.zona === 'amarilla').length;
+  const rojas = rows.filter(r => r.zona === 'roja').length;
+
+  // Calcular RPM promedio global
+  const avgRPM = totalMiles > 0 ? totalRevenue / totalMiles : 0;
+
+  // Generar insights
+  const insights = [];
+  const alerts = [];
+
+  if (verdes > 0) {
+    insights.push(`Tienes ${verdes} zonas verdes con buen RPM (>$1.05/mi)`);
+  }
+  if (top.length > 0) {
+    insights.push(`Tu mejor zona es ${top[0].state} con $${top[0].avgRPM.toFixed(2)}/mi`);
+  }
+  if (totalProfit > 0) {
+    insights.push(`Has generado $${totalProfit.toFixed(0)} en profit total en estas zonas`);
+  }
+
+  if (rojas > 0) {
+    alerts.push(`Tienes ${rojas} zonas rojas con RPM bajo (<$0.75/mi)`);
+  }
+  if (amarillas > verdes) {
+    alerts.push(`La mayoría de tus zonas son amarillas - busca oportunidades para mejorar RPM`);
+  }
+  if (worst.length > 0 && worst[0].avgRPM < 0.70) {
+    alerts.push(`Evita ${worst[0].state} - solo genera $${worst[0].avgRPM.toFixed(2)}/mi`);
+  }
+
+  const summary =
+    `Tienes ${verdes} estados verdes (buen RPM), ` +
+    `${amarillas} amarillos y ${rojas} rojos. ` +
+    (top.length
+      ? `Tus mejores zonas ahora mismo: ${top
+          .map(t => `${t.state} ($${t.avgRPM.toFixed(2)}/mi)`)
+          .join(', ')}.`
+      : 'Necesito más datos para identificar claramente tus mejores zonas.');
+
+  return {
+    rows,
+    top,
+    worst,
+    verdes,
+    amarillas,
+    rojas,
+    total: rows.length,
+    totalMiles,
+    totalRevenue,
+    totalProfit,
+    totalLoads,
+    avgRPM,
+    insights,
+    alerts,
+    summary
+  };
+}
+
+// ======================================================
+// Modal visual para análisis de zonas
+// ======================================================
+window.showLexZonesModal = function (analysis) {
+  const existing = document.getElementById('lexZonesModal');
+  if (existing) existing.remove();
+
+  const safeNumber = (n, dec = 2) => {
+    const v = Number(n);
+    if (!Number.isFinite(v)) return '--';
+    return v.toFixed(dec);
+  };
+
+  const modal = document.createElement('div');
+  modal.id = 'lexZonesModal';
+  modal.className =
+    'fixed inset-0 flex items-center justify-center z-50 p-4';
+style="background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px);" 
+  modal.innerHTML = `
+    <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full flex flex-col" style="max-height:90vh;">
+     
+      <!-- Header con gradiente -->
+      <div class="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 rounded-t-2xl flex-shrink-0">
+        <div class="flex items-center gap-3">
+          <img src="img/lex/lex-thinking.png" class="w-10 h-10 rounded-full bg-white/10 p-1">
+          <div>
+            <h3 class="text-lg font-bold">Análisis de Zonas</h3>
+            <p class="text-xs text-purple-100">
+              Basado en tu historial real de cargas por estado
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 flex-1 overflow-y-auto">
+        <!-- KPIs principales -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+            <p class="text-[10px] text-slate-500 uppercase">Estados analizados</p>
+            <p class="text-lg font-bold text-slate-900">${analysis.total}</p>
+          </div>
+          <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-200">
+            <p class="text-[10px] text-emerald-600 uppercase">Zonas verdes</p>
+            <p class="text-lg font-bold" style="color: #047857 !important;">${analysis.verdes}</p>
+          </div>
+          <div class="bg-yellow-50 p-3 rounded-xl border border-yellow-200">
+            <p class="text-[10px] text-yellow-600 uppercase">Zonas amarillas</p>
+            <p class="text-lg font-bold" style="color: #a16207 !important;">${analysis.amarillas}</p>
+          </div>
+          <div class="bg-red-50 p-3 rounded-xl border border-red-200">
+            <p class="text-[10px] text-red-600 uppercase">Zonas rojas</p>
+            <p class="text-lg font-bold" style="color: #b91c1c !important;">${analysis.rojas}</p>
+          </div>
+        </div>
+
+        <!-- Métricas globales -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div class="bg-blue-50 border border-blue-100 p-4 rounded-xl">
+            <p class="text-xs text-blue-700 font-semibold mb-1">
+              Rendimiento global
+            </p>
+            <p class="text-sm text-slate-800 mb-1">
+              RPM promedio: <span class="font-bold">$${safeNumber(analysis.avgRPM, 2)}/mi</span>
+            </p>
+            <p class="text-xs text-slate-600">
+              Millas: ${safeNumber(analysis.totalMiles, 0)} · Cargas: ${analysis.totalLoads}
+            </p>
+          </div>
+
+          <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-xl">
+            <p class="text-xs text-emerald-700 font-semibold mb-1">
+              Profit total
+            </p>
+            <p class="text-lg font-bold" style="color: #047857 !important;">
+              $${safeNumber(analysis.totalProfit, 0)}
+            </p>
+            <p class="text-xs text-slate-600">
+              Generado en todas las zonas
+            </p>
+          </div>
+
+          <div class="bg-purple-50 border border-purple-100 p-4 rounded-xl">
+            <p class="text-xs text-purple-700 font-semibold mb-1">
+              Ingreso total
+            </p>
+            <p class="text-lg font-bold" style="color: #7e22ce !important;">
+              $${safeNumber(analysis.totalRevenue, 0)}
+            </p>
+            <p class="text-xs text-slate-600">
+              Revenue acumulado
+            </p>
+          </div>
+        </div>
+
+        <!-- Mejores y peores estados -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
+            <p class="text-xs font-semibold text-slate-700 mb-2">&#127942; Mejores estados</p>
+            <ul class="space-y-1">
+              ${
+                analysis.top.length
+                  ? analysis.top
+                      .map(
+                        s => `
+                <li class="text-xs text-emerald-800">
+                  • ${s.state}: $${safeNumber(s.avgRPM, 2)}/mi (${s.count} cargas)
+                </li>`
+                      )
+                      .join('')
+                  : '<li class="text-xs text-slate-500">Aún no tengo suficientes datos para determinar tus mejores estados.</li>'
+              }
+            </ul>
+          </div>
+
+          <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl">
+            <p class="text-xs font-semibold text-amber-800 mb-2">&#9888;&#65039; Estados complicados</p>
+            <ul class="space-y-1">
+              ${
+                analysis.worst.length
+                  ? analysis.worst
+                      .map(
+                        s => `
+                <li class="text-xs text-amber-800">
+                  • ${s.state}: $${safeNumber(s.avgRPM, 2)}/mi (${s.count} cargas)
+                </li>`
+                      )
+                      .join('')
+                  : '<li class="text-xs text-amber-700">No se detectaron estados claramente problemáticos aún.</li>'
+              }
+            </ul>
+          </div>
+        </div>
+
+        <!-- Insights y Alertas -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-xl">
+            <p class="text-xs font-semibold text-emerald-800 mb-2">
+              &#9989; Puntos positivos
+            </p>
+            <ul class="space-y-1 max-h-40 overflow-y-auto pr-1">
+              ${
+                analysis.insights && analysis.insights.length
+                  ? analysis.insights
+                      .map(
+                        (i) =>
+                          `<li class="text-xs text-emerald-800">• ${i}</li>`
+                      )
+                      .join('')
+                  : '<li class="text-xs text-emerald-700">Aún no hay suficientes datos para generar insights.</li>'
+              }
+            </ul>
+          </div>
+
+          <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl">
+            <p class="text-xs font-semibold text-amber-800 mb-2">
+              &#128161; Alertas y oportunidades
+            </p>
+            <ul class="space-y-1 max-h-40 overflow-y-auto pr-1">
+              ${
+                analysis.alerts && analysis.alerts.length
+                  ? analysis.alerts
+                      .map(
+                        (a) =>
+                          `<li class="text-xs text-amber-800">• ${a}</li>`
+                      )
+                      .join('')
+                  : '<li class="text-xs text-amber-700">No se detectaron alertas importantes.</li>'
+              }
+            </ul>
+          </div>
+        </div>
+
+        <!-- Resumen de estrategia -->
+        <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
+          <p class="text-xs font-semibold text-slate-700 mb-1">&#129517; Resumen de estrategia</p>
+          <p class="text-sm text-slate-800">
+            ${analysis.summary}
+          </p>
+        </div>
+      </div>
+
+     <!-- Footer -->
+<div class="p-4 border-t border-slate-700/60 lex-modal-actions">
+  <button 
+    type="button"
+    onclick="window.openLexChatModal()"
+    class="lex-modal-btn lex-modal-btn-primary"
+  >
+    💬 Chat con Lex
+  </button>
+  <button 
+    type="button"
+    onclick="closeLexZonesModal()"
+    class="lex-modal-btn lex-modal-btn-ghost"
+  >
+    ✕ Cerrar
+  </button>  
+</div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+};
+
+window.closeLexZonesModal = function () {
+  const modal = document.getElementById('lexZonesModal');
+  if (modal) modal.remove();
+  if (window.setLexState) window.setLexState('idle');
+};
 
 
 //  EXPONER FUNCIONES GLOBALMENTE

@@ -3128,6 +3128,254 @@ function renderAccountsSummaryCards(loads) {
   `;
 }
 
+// ======================================================
+// LEX: Análisis financiero desde la burbuja
+// ======================================================
+window.analyzeLexFinances = async function () {
+  try {
+    debugFinances(" [LEX-FINANCES] Iniciando análisis financiero con Lex...");
+
+    // Asegurar que LexAI esté listo
+    if (!window.lexAI && typeof LexAI === "function") {
+      window.lexAI = new LexAI();
+      await window.lexAI.initializeContext();
+    }
+
+    // 1. Determinar período actual (según selects de Finanzas)
+    let periodLabel = "todo el período";
+    let periodKey = "all";
+
+    if (typeof getSelectedPeriod === "function") {
+      const { year, month } = getSelectedPeriod("global");
+      if (year && month) {
+        periodKey = `${year}-${month}`;
+        periodLabel = `${year}-${month}`;
+      } else if (year) {
+        periodKey = year;
+        periodLabel = `año ${year}`;
+      }
+    }
+
+    // 2. Asegurar que tenemos datos en memoria (o cargarlos)
+    if (
+      (!Array.isArray(window.financesData) ||
+        window.financesData.length === 0) &&
+      typeof window.loadFinancesData === "function"
+    ) {
+      debugFinances(
+        " [LEX-FINANCES] No había datos cargados, llamando a loadFinancesData..."
+      );
+      const result = await window.loadFinancesData(
+        periodKey === "all" ? "all" : periodKey
+      );
+      window.financesData = result.loads || [];
+      window.expensesData = result.expenses || [];
+    }
+
+    const allLoads = Array.isArray(window.financesData)
+      ? window.financesData.slice()
+      : [];
+    const allExpenses = Array.isArray(window.expensesData)
+      ? window.expensesData.slice()
+      : [];
+
+    // 3. Filtrar por período si no es "all"
+    let loads = allLoads;
+    let expenses = allExpenses;
+
+    if (periodKey !== "all") {
+      loads = allLoads.filter(
+        (l) => typeof l.date === "string" && l.date.startsWith(periodKey)
+      );
+      expenses = allExpenses.filter(
+        (e) => typeof e.date === "string" && e.date.startsWith(periodKey)
+      );
+    }
+
+    if (
+      (!loads || loads.length === 0) &&
+      (!expenses || expenses.length === 0)
+    ) {
+      debugFinances(
+        " [LEX-FINANCES] No hay datos para el período seleccionado"
+      );
+      if (window.setLexState) {
+        window.setLexState("sad", {
+          message: `No tengo datos financieros para ${periodLabel} todavía 😕`,
+          duration: 5000,
+        });
+      }
+      alert("No hay datos financieros en este período para analizar con Lex.");
+      return null;
+    }
+
+    // 4. Calcular KPIs reutilizando la lógica existente
+    let kpis = null;
+    if (typeof calculateKPIs === "function") {
+      kpis = calculateKPIs(loads, expenses);
+    } else {
+      // Fallback muy básico si algo falla
+      const totalRevenue = loads.reduce(
+        (s, l) => s + (Number(l.totalCharge) || 0),
+        0
+      );
+      const totalExpenses = expenses.reduce(
+        (s, e) => s + (Number(e.amount) || 0),
+        0
+      );
+      const netProfit = totalRevenue - totalExpenses;
+      const margin =
+        totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0;
+      const totalMiles = loads.reduce(
+        (s, l) => s + (Number(l.totalMiles) || 0),
+        0
+      );
+      const avgRpm = totalMiles > 0 ? totalRevenue / totalMiles : 0;
+
+      kpis = {
+        totalRevenue,
+        totalExpenses,
+        netProfit,
+        margin,
+        totalMiles,
+        avgRpm,
+      };
+    }
+
+    const numLoads = loads.length;
+    const numExpenses = expenses.length;
+    const avgRevenuePerLoad =
+      numLoads > 0 ? kpis.totalRevenue / numLoads : 0;
+    const avgExpensePerLoad =
+      numLoads > 0 ? kpis.totalExpenses / numLoads : 0;
+
+    // 5. Decidir "estado emocional" de Lex según los números
+    let lexState = "thinking";
+    const margin = Number(kpis.margin || 0);
+    const netProfit = Number(kpis.netProfit || 0);
+
+    const insights = [];
+    const alerts = [];
+
+    if (netProfit <= 0 || margin <= 5) {
+      lexState = "sad";
+      alerts.push(
+        "Este período está muy ajustado o en pérdida. Revisa tarifas mínimas y gastos fijos."
+      );
+    } else if (netProfit > 0 && margin >= 20) {
+      lexState = "happy";
+      insights.push(
+        "Buen margen de ganancia, tu operación se ve saludable en este período."
+      );
+    } else {
+      lexState = "thinking";
+      insights.push(
+        "Período estable, pero con espacio para mejorar margen y control de costos."
+      );
+    }
+
+    if (numLoads > 0 && avgRevenuePerLoad > 0) {
+      insights.push(
+        `Ingreso promedio por carga: $${avgRevenuePerLoad.toFixed(0)}`
+      );
+    }
+    if (numLoads > 0 && avgExpensePerLoad > 0) {
+      alerts.push(
+        `Gasto promedio por carga: $${avgExpensePerLoad.toFixed(0)}`
+      );
+    }
+
+    // 6. Mensaje corto para la burbuja
+    const safeNumber = (n, dec = 0) => {
+      const v = Number(n);
+      if (!Number.isFinite(v)) return "--";
+      return v.toFixed(dec);
+    };
+
+    const parts = [];
+    parts.push(`Período: ${periodLabel}`);
+    parts.push(`Ingresos: $${safeNumber(kpis.totalRevenue, 0)}`);
+    parts.push(`Gastos: $${safeNumber(kpis.totalExpenses, 0)}`);
+    parts.push(`Ganancia: $${safeNumber(kpis.netProfit, 0)}`);
+    parts.push(`Margen: ${safeNumber(kpis.margin, 1)}%`);
+    if (kpis.totalMiles) {
+      parts.push(`RPM: $${safeNumber(kpis.avgRpm, 2)}/mi`);
+    }
+    if (numLoads) {
+      parts.push(`Cargas: ${numLoads}`);
+    }
+    if (numExpenses) {
+      parts.push(`Gastos registrados: ${numExpenses}`);
+    }
+
+    let prefix = "";
+    if (lexState === "happy") {
+      prefix = "✅ Buen período, tus números van bien.\n";
+    } else if (lexState === "sad") {
+      prefix = "⚠️ Ojo, este período está ajustado.\n";
+    } else {
+      prefix = "📊 Te resumo tus finanzas:\n";
+    }
+
+    if (window.setLexState) {
+      window.setLexState(lexState, {
+        message: prefix + parts.join(" · "),
+        duration: 8000,
+      });
+    }
+
+    // 7. Construir análisis para el MODAL de Lex
+    const analysis = {
+      periodLabel,
+      totalRevenue: Number(kpis.totalRevenue || 0),
+      totalExpenses: Number(kpis.totalExpenses || 0),
+      netProfit: Number(kpis.netProfit || 0),
+      margin: Number(kpis.margin || 0),
+      totalMiles: Number(kpis.totalMiles || 0),
+      avgRpm: Number(kpis.avgRpm || 0),
+      numLoads,
+      numExpenses,
+      avgRevenuePerLoad,
+      avgExpensePerLoad,
+      insights,
+      alerts,
+      summary:
+        lexState === "happy"
+          ? "Buen balance entre ingresos y gastos. Mantén este nivel de tarifas y control de costos."
+          : lexState === "sad"
+          ? "Este período se ve apretado. Puede ser buen momento para ajustar tarifas mínimas y revisar tus principales gastos."
+          : "Tus números están en un punto intermedio. Con pequeños ajustes podrías mejorar bastante tu margen.",
+    };
+
+    // 8. Mostrar MODAL financiero de Lex si está disponible
+    if (
+      window.lexAI &&
+      typeof window.lexAI.showFinanceAnalysisModal === "function"
+    ) {
+      window.lexAI.showFinanceAnalysisModal(analysis);
+    }
+
+    debugFinances(" [LEX-FINANCES] Análisis completado:", {
+      kpis,
+      numLoads,
+      numExpenses,
+    });
+
+    return { kpis, loads, expenses, periodKey, periodLabel };
+  } catch (err) {
+    console.error("[LEX-FINANCES] Error en analyzeLexFinances:", err);
+    if (window.setLexState) {
+      window.setLexState("warning", {
+        message: "Tuve un problema al leer tus datos financieros 🛠️",
+        duration: 5000,
+      });
+    }
+    return null;
+  }
+};
+
+
+
 // Exponer las funciones globalmente
 window.calculateOverdueDays = calculateOverdueDays;
 window.updatePaymentStatus = updatePaymentStatus;

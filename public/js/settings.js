@@ -51,7 +51,7 @@ const VEHICLE_TEMPLATES = {
  }
 };
 
-// 2. FUNCIÃ“N PARA MOSTRAR MENSAJES
+// 2. FUNCION PARA MOSTRAR MENSAJES
 function showConfigMessage(message, type = "info") {
  debugLog(` Config message: ${message} (${type})`);
  
@@ -101,7 +101,7 @@ function showConfigMessage(message, type = "info") {
  }, 4000);
 }
 
-// 3. FUNCIÃ“N PARA CALCULAR COSTO DE COMBUSTIBLE
+// 3. FUNCION PARA CALCULAR COSTO DE COMBUSTIBLE
 function calculateFuelCost() {
  debugLog(" Calculating fuel cost...");
  
@@ -134,7 +134,7 @@ function calculateFuelCost() {
  return fuelCostPerMile;
 }
 
-// 4. FUNCIÃ“N PARA CALCULAR TOTALES
+// 4. FUNCION PARA CALCULAR TOTALES
 function calculateTotals() {
  debugLog(" Calculating totals...");
  
@@ -185,7 +185,7 @@ function calculateTotals() {
  }
 }
 
-// 5. FUNCIÃ“N PARA CARGAR PLANTILLAS DE VEHÍCULOS
+// 5. FUNCION PARA CARGAR PLANTILLAS DE VEHÍCULOS
 function loadVehicleTemplate(vehicleType) {
  debugLog(` Loading template for: ${vehicleType}`);
  
@@ -238,7 +238,7 @@ function loadVehicleTemplate(vehicleType) {
  }
 }
 
-// 6. FUNCIÃ“N PARA GUARDAR CONFIGURACIÃ“N DE USUARIO
+// 6. FUNCION PARA GUARDAR CONFIGURACIÃ“N DE USUARIO
 function saveUserConfiguration() {
  debugLog(" Saving user configuration...");
  
@@ -338,7 +338,7 @@ function saveUserConfiguration() {
  }
 }
 
-// 7. FUNCIÃ“N PARA CARGAR CONFIGURACIÃ“N DE USUARIO
+// 7. FUNCION PARA CARGAR CONFIGURACIÃ“N DE USUARIO
 function loadUserConfiguration() {
  debugLog(" Loading user configuration...");
  
@@ -397,7 +397,7 @@ function loadUserConfiguration() {
  });
 }
 
-// 8. FUNCIÃ“N AUXILIAR PARA APLICAR CONFIGURACIÃ“N AL FORMULARIO
+// 8. FUNCION AUXILIAR PARA APLICAR CONFIGURACIÃ“N AL FORMULARIO
 function applyConfigurationToForm(config) {
  if (!config) return;
  
@@ -457,7 +457,7 @@ function applyConfigurationToForm(config) {
  }
 }
 
-// 9. FUNCIÃ“N PARA CARGAR CONFIGURACIONES DESDE FIREBASE (COMPATIBILIDAD)
+// 9. FUNCION PARA CARGAR CONFIGURACIONES DESDE FIREBASE (COMPATIBILIDAD)
 function loadSettings() {
  debugLog(" Loading settings (legacy function)...");
  return loadUserConfiguration();

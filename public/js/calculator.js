@@ -1,4 +1,4 @@
-//  CALCULATOR.JS - VERSIN INTEGRADA COMPLETA
+//  CALCULATOR.JS - VERSION INTEGRADA COMPLETA
 // Combina: Costos reales + Todas las funcionalidades existentes
 
 //  TUS COSTOS OPERATIVOS REALES - Actualizado Nov 2024
@@ -12,23 +12,377 @@ const TU_COSTO_REAL = {
   TOTAL: 0.576            // $/mi total REAL (reserva gomas sale de ganancias)
 };
 
-// ======== DECISIÓN 2025 (realista) ========
+// ======== DECISION 2025 (realista) ========
 let DECISION_MODE = (typeof window !== 'undefined' && window.DECISION_MODE) || 'realista2025';
 
 const COSTO_BASE_MI = 0.55;
 const FLOOR_ESCAPE   = 0.55;
 const FLOOR_ACCEPT   = 0.75;
 
-const ZONAS_VERDES = new Set(['PA','OH','IN','IL','MI','WI','MO','KS','KY']);
-const ZONAS_AMAR   = new Set(['WV','TN','AR','AL','OK','IA','MN']);
-const ZONAS_ROJAS  = new Set(['FL','GA','SC','NC','TX','AZ','NM','CO','CA','WA','OR','ID','WY','MT','ND','SD','UT','NV']);
+// NUEVA CLASIFICACION DE ZONAS basada en experiencia real de Ricardo
+// Core Midwest: Zona Optima donde quieres operar siempre
+const ZONAS_CORE_MIDWEST = new Set(['IL','IN','OH','MI','WI','MN','IA','MO','KS']);
+
+// Extended Midwest: Aceptable, puedes trabajar aqui­ sin problema
+const ZONAS_EXTENDED_MIDWEST = new Set(['PA','KY','TN','AR','OK','AL']);
+
+// Salida Aceptable: Solo en Ultimo caso, pero sales razonablemente
+const ZONAS_SALIDA_OK = new Set(['NC','SC','GA','WV','VA','MD','DE','NJ','NY']);
+
+// TRAP ZONES: Evitar - difI­cil/caro salir - solo con RPM premium
+const ZONAS_TRAP = new Set(['FL','TX','NM','AZ','NV','CA','OR','WA','ID','MT','WY','UT','CO','ND','SD','NE']);
+
+// Mantener compatibilidad con codigo existente
+const ZONAS_VERDES = new Set([...ZONAS_CORE_MIDWEST, ...ZONAS_EXTENDED_MIDWEST]);
+const ZONAS_AMAR   = ZONAS_SALIDA_OK;
+const ZONAS_ROJAS  = ZONAS_TRAP;
+
+// ========================================
+//  FUNCIÓN: Obtener clima del destino
+// ========================================
+async function getWeatherForDestination(destination) {
+  const apiKey = '07e0e0128247442ebd200704250712';
+  const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${destination}&aqi=no`;
+  
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error('Weather API error');
+    }
+    
+    const data = await response.json();
+    const temp = Math.round(data.current.temp_f);
+    const condition = data.current.condition.text;
+    const isSnow = condition.toLowerCase().includes('snow');
+    const isStorm = condition.toLowerCase().includes('storm') || condition.toLowerCase().includes('thunder');
+    const isRain = condition.toLowerCase().includes('rain');
+    
+    // Elegir emoji según condición
+    let emoji = '🌤️';
+    if (isSnow) emoji = '❄️';
+    else if (isStorm) emoji = '⛈️';
+    else if (isRain) emoji = '🌧️';
+    else if (condition.toLowerCase().includes('cloud')) emoji = '☁️';
+    else if (condition.toLowerCase().includes('clear') || condition.toLowerCase().includes('sunny')) emoji = '☀️';
+    
+    // Determinar color del badge
+    let badgeClass = '';
+    if (isSnow || temp <= 32) {
+      badgeClass = 'bg-blue-900/40 border border-blue-400/40'; // Azul para frío/nieve
+    } else if (isStorm) {
+      badgeClass = 'bg-orange-900/40 border border-orange-400/40'; // Naranja para tormentas
+    }
+    
+    return {
+      temp,
+      condition,
+      emoji,
+      badgeClass,
+      text: `${emoji} ${temp}°F • ${condition}`
+    };
+    
+  } catch (error) {
+    console.warn('No se pudo obtener clima:', error);
+    return {
+      temp: null,
+      condition: 'No disponible',
+      emoji: '🌤️',
+      badgeClass: '',
+      text: '🌤️ Clima no disponible'
+    };
+  }
+}
+
+// ========================================
+//  FUNCIÓN: Cargar mapa con ruta y clima
+// ========================================
+async function loadRouteMap() {
+  if (!window.weatherModalData) return;
+  
+  const { origin, destination } = window.weatherModalData;
+  
+  // Inicializar mapa
+  const mapDiv = document.getElementById('routeMap');
+  const map = new google.maps.Map(mapDiv, {
+    zoom: 6,
+    center: { lat: 39.8, lng: -86.1 }, // Centro aproximado USA
+    mapTypeId: 'roadmap'
+  });
+  
+  // Directions Service
+  const directionsService = new google.maps.DirectionsService();
+  const directionsRenderer = new google.maps.DirectionsRenderer({
+    map: map,
+    suppressMarkers: true // Usaremos markers custom con clima
+  });
+  
+  // Calcular ruta
+  const request = {
+    origin: origin,
+    destination: destination,
+    travelMode: 'DRIVING'
+  };
+  
+  directionsService.route(request, async (result, status) => {
+    if (status === 'OK') {
+      directionsRenderer.setDirections(result);
+      
+      const route = result.routes[0];
+      const leg = route.legs[0];
+      
+      // Waypoints: Origen, Medio, Destino
+      const waypoints = [
+        { position: leg.start_location, name: origin, type: 'origin' },
+        { position: route.overview_path[Math.floor(route.overview_path.length / 2)], name: 'Punto Medio', type: 'mid' },
+        { position: leg.end_location, name: destination, type: 'destination' }
+      ];
+      
+      // Obtener clima para cada waypoint
+      const waypointContainer = document.getElementById('waypointWeather');
+      waypointContainer.innerHTML = '<div class="text-sm font-bold text-gray-700 mb-2">Clima en Ruta:</div>';
+      
+      for (const wp of waypoints) {
+        const lat = wp.position.lat();
+        const lng = wp.position.lng();
+        
+        // Llamar WeatherAPI por coordenadas
+        const weatherData = await getWeatherByCoords(lat, lng);
+        
+        if (weatherData) {
+          // Marker con clima
+          const icon = getWeatherMarkerIcon(weatherData.temp, weatherData.condition);
+          
+          const marker = new google.maps.Marker({
+            position: wp.position,
+            map: map,
+            title: `${wp.name}: ${weatherData.temp}°F ${weatherData.condition}`,
+            label: {
+              text: `${weatherData.temp}°F`,
+              color: 'white',
+              fontSize: '12px',
+              fontWeight: 'bold'
+            },
+            icon: icon
+          });
+          
+          // Info en lista
+          waypointContainer.innerHTML += `
+            <div class="bg-gray-50 rounded-lg p-3 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl">${getWeatherEmoji(weatherData.condition)}</span>
+                <div>
+                  <div class="font-semibold text-sm">${wp.name}</div>
+                  <div class="text-xs text-gray-600">${weatherData.condition}</div>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="text-lg font-bold">${weatherData.temp}°F</div>
+                <div class="text-xs text-gray-600">${weatherData.wind} mph viento</div>
+              </div>
+            </div>
+          `;
+        }
+      }
+    } else {
+      console.error('Directions request failed:', status);
+      mapDiv.innerHTML = '<div class="flex items-center justify-center h-full text-red-600">Error cargando ruta</div>';
+    }
+  });
+  
+  window.routeMapLoaded = true;
+  window.routeMap = map;
+}
+
+// ========================================
+//  FUNCIÓN: Ícono de marker según clima
+// ========================================
+function getWeatherMarkerIcon(temp, condition) {
+  let color = '#3b82f6'; // Azul default
+  
+  if (temp <= 32 || condition.toLowerCase().includes('snow')) {
+    color = '#60a5fa'; // Azul claro para frío/nieve
+  } else if (condition.toLowerCase().includes('rain') || condition.toLowerCase().includes('storm')) {
+    color = '#6366f1'; // Índigo para lluvia
+  } else if (temp >= 80) {
+    color = '#f59e0b'; // Naranja para calor
+  }
+  
+  return {
+    path: google.maps.SymbolPath.CIRCLE,
+    scale: 10,
+    fillColor: color,
+    fillOpacity: 0.9,
+    strokeColor: 'white',
+    strokeWeight: 2
+  };
+}
+
+// ========================================
+//  FUNCIÓN: Toggle radar layer (RainViewer)
+// ========================================
+let radarLayer = null;
+
+function toggleRadarLayer() {
+  if (!window.routeMap) return;
+  
+  const button = document.getElementById('radarToggle');
+  
+  if (radarLayer) {
+    // Quitar radar
+    radarLayer.setMap(null);
+    radarLayer = null;
+    button.textContent = '📡 Mostrar Radar';
+    button.className = 'px-3 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition';
+  } else {
+    // Agregar radar de RainViewer
+    fetch('https://api.rainviewer.com/public/weather-maps.json')
+      .then(response => response.json())
+      .then(data => {
+        // Obtener el frame más reciente
+        const lastFrame = data.radar.past[data.radar.past.length - 1];
+        const radarUrl = `https://tilecache.rainviewer.com${lastFrame.path}/256/{z}/{x}/{y}/2/1_1.png`;
+        
+        radarLayer = new google.maps.ImageMapType({
+          getTileUrl: function(coord, zoom) {
+            return radarUrl.replace('{z}', zoom).replace('{x}', coord.x).replace('{y}', coord.y);
+          },
+          tileSize: new google.maps.Size(256, 256),
+          opacity: 0.6,
+          name: 'Radar'
+        });
+        
+        window.routeMap.overlayMapTypes.push(radarLayer);
+        
+        button.textContent = '📡 Ocultar Radar';
+        button.className = 'px-3 py-2 bg-red-600 text-white rounded-lg text-sm font-semibold hover:bg-red-700 transition';
+      })
+      .catch(error => {
+        console.error('Error cargando radar:', error);
+        alert('No se pudo cargar el radar');
+      });
+  }
+}
+
+// Exponer funciones globalmente
+window.switchWeatherTab = switchWeatherTab;
+window.loadRouteMap = loadRouteMap;
+window.toggleRadarLayer = toggleRadarLayer;
+    
+// Exponer globalmente
+window.getWeatherForDestination = getWeatherForDestination;
 
 function getDecisionMode() {
   return (typeof window !== 'undefined' && window.DECISION_MODE) || DECISION_MODE || 'realista2025';
 }
 
+// NUEVA FUNCION: Clasificar zona segun experiencia real
+function clasificarZonaReal(state) {
+  if (!state) return 'DESCONOCIDA';
+  if (ZONAS_CORE_MIDWEST.has(state)) return 'CORE_MIDWEST';
+  if (ZONAS_EXTENDED_MIDWEST.has(state)) return 'EXTENDED_MIDWEST';
+  if (ZONAS_SALIDA_OK.has(state)) return 'SALIDA_OK';
+  if (ZONAS_TRAP.has(state)) return 'TRAP';
+  return 'DESCONOCIDA';
+}
 
-//  FUNCIN: Calcular tiempo de viaje real
+// NUEVA FUNCION: Analizar trap penalty y calcular RPM real del ciclo
+function analizarTrapPenalty(origenState, destinoState, millas, rpm) {
+  const zonaOrigen = clasificarZonaReal(origenState);
+  const zonaDestino = clasificarZonaReal(destinoState);
+  
+  // CASO 1: Sales del Midwest (Core o Extended) hacia TRAP
+  if ((zonaOrigen === 'CORE_MIDWEST' || zonaOrigen === 'EXTENDED_MIDWEST') && 
+      zonaDestino === 'TRAP') {
+    
+    // Costos de salir del TRAP (basado en experiencia real)
+    const millasRegreso = 2200; // Promedio West/Texas al Midwest
+    const rpmSalida = 0.65; // RPM promedio que pagan para salir de TRAP
+    const costoPorMilla = 0.526; // Tu costo operativo real
+    
+    // Revenue del ciclo completo
+    const revenueIda = rpm * millas;
+    const revenueSalida = rpmSalida * millasRegreso;
+    const revenueTotal = revenueIda + revenueSalida;
+    
+    // Costo del ciclo completo
+    const millasTotal = millas + millasRegreso;
+    const costoTotal = millasTotal * costoPorMilla;
+    
+    // RPM real y ganancia del ciclo
+    const rpmRealCiclo = revenueTotal / millasTotal;
+    const gananciaCiclo = revenueTotal - costoTotal;
+    const diasEstimados = Math.ceil(millasTotal / 600); // ~600 mi/di­a promedio
+    const gananciaPorDia = gananciaCiclo / diasEstimados;
+    
+    return {
+      esTrampa: true,
+      rpmOfrecido: rpm,
+      rpmRealCiclo: rpmRealCiclo,
+      millasTotal: millasTotal,
+      revenueTotal: revenueTotal,
+      costoTotal: costoTotal,
+      gananciaCiclo: gananciaCiclo,
+      diasEstimados: diasEstimados,
+      gananciaPorDia: gananciaPorDia,
+      advertencia: `TRAMPA: Te saca del Midwest al ${destinoState}. Costo de regresar incluido.`,
+      detalles: {
+        ida: {millas, rpm, revenue: revenueIda},
+        regreso: {millas: millasRegreso, rpm: rpmSalida, revenue: revenueSalida}
+      }
+    };
+  }
+  
+  // CASO 2: Movimiento dentro del Midwest (Core o Extended)
+  if ((zonaOrigen === 'CORE_MIDWEST' || zonaOrigen === 'EXTENDED_MIDWEST') &&
+      (zonaDestino === 'CORE_MIDWEST' || zonaDestino === 'EXTENDED_MIDWEST')) {
+    return {
+      esTrampa: false,
+      rpmRealCiclo: rpm,
+      nivel: 'OPTIMO',
+      advertencia: `PERFECTO: Te mantienes en zona operativa rentable`,
+      zonaOrigen: zonaOrigen,
+      zonaDestino: zonaDestino
+    };
+  }
+  
+  // CASO 3: Midwest core Salida OK (Carolinas, Atlanta, etc.)
+  if ((zonaOrigen === 'CORE_MIDWEST' || zonaOrigen === 'EXTENDED_MIDWEST') &&
+      zonaDestino === 'SALIDA_OK') {
+    return {
+      esTrampa: false,
+      rpmRealCiclo: rpm,
+      nivel: 'EVALUAR',
+      advertencia: `EVALUAR: Sales del Midwest a ${destinoState}. Sale razonable pero menos cargas cortas.`,
+      minimumRPM: 0.95 // Requiere premium moderado
+    };
+  }
+  
+  // CASO 4: Estas en TRAP y Regresando a Midwest (relocalizacion necesaria)
+  if (zonaOrigen === 'TRAP' && 
+      (zonaDestino === 'CORE_MIDWEST' || zonaDestino === 'EXTENDED_MIDWEST')) {
+    return {
+      esTrampa: false,
+      rpmRealCiclo: rpm,
+      nivel: 'RELOCALIZACION',
+      advertencia: `RELOCALIZACION: Regresando del ${origenState} al Midwest. Necesario para volver a zona rentable.`,
+      minimumRPM: 0.70 // Mas flexible, necesitas salir
+    };
+  }
+  
+  // CASO 5: Dentro de TRAP o entre zonas no ideales
+  return {
+    esTrampa: zonaDestino === 'TRAP',
+    rpmRealCiclo: rpm,
+    nivel: 'NORMAL',
+    zonaOrigen: zonaOrigen,
+    zonaDestino: zonaDestino
+  };
+}
+
+
+
+
+//  FUNCION: Calcular tiempo de viaje real
 function calcularTiempoReal(millas) {
   const paradasCombustible = Math.floor(millas / 300); // Cada 300mi como haces t
   const tiempoManejo = millas / 75; // 75 mph promedio autopista (95% de tu tiempo)
@@ -42,9 +396,9 @@ function calcularTiempoReal(millas) {
   };
 }
 
-//  FUNCIN: Reglas de decisin inteligentes basadas en tu estrategia real
+//  FUNCION: Reglas de decision inteligentes CON ANALISIS DE TRAP LOADS
 function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
-  // Si eliges modo original desde la UI, respetamos tu lógica anterior si existe
+  // Si eliges modo original desde la UI, respetamos tu logica anterior si existe
   if (getDecisionMode() !== 'realista2025' && typeof getDecisionInteligente_original === 'function') {
     return getDecisionInteligente_original(rpm, millas, factoresAdicionales);
   }
@@ -52,27 +406,122 @@ function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
   const {
     zonaOrigen='DESCONOCIDA',
     zonaDestino='DESCONOCIDA',
+    origenState='',
+    destinoState='',
     areaMala=false,
     relocalizaBuena=false,
     tiempoSinCarga=0
   } = factoresAdicionales;
 
-  // Umbrales dinámicos por distancia
+  // NUEVO: Analizar si es carga trampa
+  let trapAnalysis = null;
+  if (origenState && destinoState) {
+    trapAnalysis = analizarTrapPenalty(origenState, destinoState, millas, rpm);
+  }
+
+  // CASO ESPECIAL: Si es TRAMPA, aplicar logica estricta
+  if (trapAnalysis && trapAnalysis.esTrampa) {
+    const rpmMinimo = 1.25; // Necesitas premium para compensar
+    
+    if (rpm < rpmMinimo) {
+      return {
+        decision: "RECHAZA - TRAMPA",
+        level: "reject",
+        icon: "",
+        color: "decision-reject",
+        razon: trapAnalysis.advertencia + `\nRPM ofrecido: $${rpm.toFixed(2)} < Minimo $${rpmMinimo}`,
+        confianza: "Alta",
+        trapAnalysis: trapAnalysis,
+        detallesCiclo: trapAnalysis.detalles ? (`\n ANALISIS DEL CICLO COMPLETO:\nIda: ${trapAnalysis.detalles.ida.millas} mi x $${trapAnalysis.detalles.ida.rpm.toFixed(2)} = $${trapAnalysis.detalles.ida.revenue.toFixed(0)}\nRegreso: ${trapAnalysis.detalles.regreso.millas} mi x $${trapAnalysis.detalles.regreso.rpm.toFixed(2)} = $${trapAnalysis.detalles.regreso.revenue.toFixed(0)}\nTotal: ${trapAnalysis.millasTotal} mi | RPM real: $${trapAnalysis.rpmRealCiclo.toFixed(2)}\nGanancia ciclo: $${trapAnalysis.gananciaCiclo.toFixed(0)} en ${trapAnalysis.diasEstimados} dias ($${trapAnalysis.gananciaPorDia.toFixed(0)}/dia)\n\nMejor esperar cargas en Midwest a $1.00+/mi`) : ""
+      };
+    } else {
+      return {
+        decision: "EVALUA CON MUCHO CUIDADO",
+        level: "warning",
+        icon: "",
+        color: "decision-warning",
+        razon: `RPM $${rpm.toFixed(2)} es bueno, pero te saca del Midwest.\n` + trapAnalysis.advertencia,
+        confianza: "Media",
+        trapAnalysis: trapAnalysis,
+        detallesCiclo: trapAnalysis.detalles ? (`\nANALISIS DEL CICLO COMPLETO:\nIda: ${trapAnalysis.detalles.ida.millas} mi x $${trapAnalysis.detalles.ida.rpm.toFixed(2)} = $${trapAnalysis.detalles.ida.revenue.toFixed(0)}\nRegreso: ${trapAnalysis.detalles.regreso.millas} mi x $${trapAnalysis.detalles.regreso.rpm.toFixed(2)} = $${trapAnalysis.detalles.regreso.revenue.toFixed(0)}\nRPM real del ciclo: $${trapAnalysis.rpmRealCiclo.toFixed(2)}\nGanancia estimada: $${trapAnalysis.gananciaCiclo.toFixed(0)} en ${trapAnalysis.diasEstimados} dias`) : ""
+      };
+    }
+  }
+
+  // âœ… CASO ESPECIAL: Movimiento optimo dentro del Midwest
+  if (trapAnalysis && trapAnalysis.nivel === 'OPTIMO') {
+    const umbralOptimo = millas <= 400 ? 1.00 : 0.85;
+    if (rpm >= umbralOptimo) {
+      return {
+        decision: "ACEPTA",
+        level: "accept",
+        icon: "",
+        color: "decision-accept",
+        razon: trapAnalysis.advertencia + `\nRPM $${rpm.toFixed(2)} excelente para movimiento interno`,
+        confianza: "Alta",
+        trapAnalysis: trapAnalysis
+      };
+    }
+  }
+
+  // âœ… CASO ESPECIAL: Relocalizacion necesaria (saliendo de TRAP)
+  if (trapAnalysis && trapAnalysis.nivel === 'RELOCALIZACION') {
+    if (rpm >= 0.70) {
+      return {
+        decision: "ACEPTA",
+        level: "accept",
+        icon: "",
+        color: "decision-accept",
+        razon: trapAnalysis.advertencia + `\nRPM $${rpm.toFixed(2)} aceptable para salir`,
+        confianza: tiempoSinCarga >= 1 ? "Alta" : "Media-Alta",
+        trapAnalysis: trapAnalysis
+      };
+    }
+  }
+
+  // âœ… CASO ESPECIAL: Salida a zona OK (Carolinas, Atlanta)
+  if (trapAnalysis && trapAnalysis.nivel === 'EVALUAR' && trapAnalysis.minimumRPM) {
+    if (rpm >= trapAnalysis.minimumRPM) {
+      return {
+        decision: "EVALUA",
+        level: "warning",
+        icon: "",
+        color: "decision-warning",
+        razon: trapAnalysis.advertencia + `\nRPM $${rpm.toFixed(2)} aceptable pero evalÃºa alternativas en Midwest`,
+        confianza: "Media",
+        trapAnalysis: trapAnalysis
+      };
+    } else {
+      return {
+        decision: "RECHAZA",
+        level: "reject",
+        icon: "",
+        color: "decision-reject",
+        razon: `Te saca del Midwest. RPM $${rpm.toFixed(2)} < MÃ­nimo $${trapAnalysis.minimumRPM}`,
+        confianza: "Alta"
+      };
+    }
+  }
+
+  // ==============================================================
+  // LOGICA ORIGINAL (para casos no cubiertos por trap analysis)
+  // ==============================================================
+
+  // Umbrales dinamicos por distancia
   let pisoAceptar = FLOOR_ACCEPT; // 0.75 base
   let pisoEscape  = FLOOR_ESCAPE; // 0.55 base
-  // 👉 Si quieres que PA➜OH 0.78 sea ACEPTA, cambia 0.80 → 0.78 en la línea de abajo.
   if (millas <= 400) pisoAceptar = Math.max(pisoAceptar, 0.80);
   if (millas > 800)  pisoAceptar = Math.min(pisoAceptar, 0.72);
 
-  // Si llevas ≥1 día parado, flexibiliza el escape un poco (sin bajar del costo base)
+  // Si llevas ≥ 1 día parado, flexibiliza el escape un poco (sin bajar del costo base)
   if (tiempoSinCarga >= 1) pisoEscape = Math.max(COSTO_BASE_MI, pisoEscape - 0.02);
 
-  // 1) Protección dura: por debajo del costo base
+  // 1) Proteccion dura: por debajo del costo base
   if (rpm < COSTO_BASE_MI - 0.01) {
     return {
       decision: "RECHAZA",
       level: "reject",
-      icon: "❌",
+      icon: "",
       color: "decision-reject",
       razon: `RPM $${rpm.toFixed(2)} < costo $${COSTO_BASE_MI.toFixed(2)}`,
       confianza: "Alta"
@@ -84,9 +533,9 @@ function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
     return {
       decision: "ACEPTA",
       level: "accept",
-      icon: "✅",
+      icon: "",
       color: "decision-accept",
-      razon: `RPM $${rpm.toFixed(2)} ≥ ${pisoAceptar.toFixed(2)} · Destino ${zonaDestino}`,
+      razon: `RPM $${rpm.toFixed(2)} &ge; ${pisoAceptar.toFixed(2)} &middot; Destino ${zonaDestino}`,
       confianza: "Alta"
     };
   }
@@ -95,34 +544,34 @@ function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
   const enRangoEscape = rpm >= pisoEscape && rpm < pisoAceptar;
 
   if (enRangoEscape) {
-    // ROJA → (AMARILLA/VERDE): relocalización
+    // ROJA HACIA (AMARILLA/VERDE): relocalizacion
     if (areaMala && relocalizaBuena) {
       return {
-        decision: "EVALÚA RELOCALIZACIÓN",
+        decision: "EVALUA RELOCALIZACION",
         level: "warning",
-        icon: "⚙️",
+        icon: "",
         color: "decision-warning",
-        razon: `Cubre costos y mueve ${zonaOrigen} ➜ ${zonaDestino}`,
+        razon: `Cubre costos y mueve ${zonaOrigen} → ${zonaDestino}`,
         confianza: tiempoSinCarga >= 1 ? "Alta" : "Media-Alta"
       };
     }
-    // AMARILLA → VERDE o AMARILLA → AMARILLA (útil)
+    // AMARILLA HACIA VERDE o AMARILLA HACIA AMARILLA (Ãºtil)
     if (zonaDestino === 'VERDE' || (zonaOrigen === 'AMARILLA' && zonaDestino === 'AMARILLA')) {
       return {
-        decision: "EVALÚA",
+        decision: "EVALUA",
         level: "warning",
-        icon: "⚠️",
+        icon: "",
         color: "decision-warning",
-        razon: `RPM medio y dirección útil (${zonaOrigen} ➜ ${zonaDestino})`,
+        razon: `RPM medio y direccion Ãºtil (${zonaOrigen} → ${zonaDestino})`,
         confianza: "Media"
       };
     }
-    // ROJA → ROJA (no conviene)
+    // ROJA HACIA ROJA (no conviene)
     if (zonaOrigen === 'ROJA' && zonaDestino === 'ROJA') {
       return {
         decision: "RECHAZA",
         level: "reject",
-        icon: "❌",
+        icon: "",
         color: "decision-reject",
         razon: `RPM bajo y te quedas en ROJA`,
         confianza: "Alta"
@@ -134,15 +583,15 @@ function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
   return {
     decision: "RECHAZA",
     level: "reject",
-    icon: "❌",
+    icon: "",
     color: "decision-reject",
-    razon: `RPM $${rpm.toFixed(2)} por debajo de umbral y sin beneficio de dirección.`,
+    razon: `RPM $${rpm.toFixed(2)} por debajo de umbral y sin beneficio de direccion.`,
     confianza: "Alta"
   };
 }
 
 
-//  FUNCIN: Generar razones detalladas
+//  FUNCION: Generar razones detalladas
 function obtenerRazonDetallada(nivel, rpm, millas, factores, razonesEspeciales = []) {
   const categoria = millas <= 400 ? "corta" : millas <= 600 ? "media" : "larga";
   const gananciaEstimada = rpm - TU_COSTO_REAL.TOTAL;
@@ -167,7 +616,7 @@ function obtenerRazonDetallada(nivel, rpm, millas, factores, razonesEspeciales =
   return razon;
 }
 
-//  FUNCIN: Detectar factores especiales automticamente
+//  FUNCION: Detectar factores especiales automaticamente
 function detectarFactoresEspeciales(origin, destination, { diasSinCarga = 0 } = {}) {
   const sO = getStateFromPlace(origin || '');
   const sD = getStateFromPlace(destination || '');
@@ -185,13 +634,14 @@ function detectarFactoresEspeciales(origin, destination, { diasSinCarga = 0 } = 
     relocalizaBuena: destinoMejorQueOrigen,
     zonaOrigen: zonaO,
     zonaDestino: zonaD,
+    origenState: sO,      // âœ… NUEVO: Pasar estado origen
+    destinoState: sD,     // âœ… NUEVO: Pasar estado destino
     tiempoSinCarga: diasSinCarga,
     alternativasLimitadas: false
   };
 }
 
-
-//  FUNCIN PRINCIPAL: Calculate con costos reales
+//  FUNCIÓN PRINCIPAL: Calculate con costos reales
 async function calculate() {
   try {
     debugLog(" Calculando con costos reales confirmados...");
@@ -209,38 +659,36 @@ async function calculate() {
     //  Definir totalMiles ANTES de validaciones
     const totalMiles = loadedMiles + deadheadMiles;
 
-    //  Condicin mnima antes de mostrar resultados
+    //  Condición mínima antes de mostrar resultados
     if (!origin || !destination || totalMiles <= 0 || (rpm <= 0 && rate <= 0)) {
       hideDecisionPanel(); 
       return;
     }
 
-    //  Validaciones suaves (ya con totalMiles calculado)
+    //  Validaciones suaves
     if (!origin || !destination) {
-      debugLog(" Faltan origen/destino, no se ejecuta clculo.");
+      debugLog(" Faltan origen/destino, no se ejecuta cálculo.");
       return;
     }
     if (totalMiles <= 0) {
-      debugLog(" Millas invlidas, no se ejecuta clculo.");
+      debugLog(" Millas inválidas, no se ejecuta cálculo.");
       return;
     }
 
-    //  Ajuste de lgica Rate / RPM
+    //  Ajuste de lógica Rate / RPM
     if (rpm > 0 && rate === 0) {
-      // Si solo hay RPM  calcular Rate redondeado
-     rate = Math.round(rpm * totalMiles);
+      rate = Math.round(rpm * totalMiles);
     } else if (rate > 0 && totalMiles > 0) {
-      // Si hay Rate  calcular RPM con 2 decimales
       rpm = Math.round((rate / totalMiles) * 100) / 100;
     }
 
-    // Clculo de ingresos
+    // Cálculo de ingresos
     const baseIncome = rate;
     const totalCharge = baseIncome + tolls + others;
 
     //  Usar tus costos reales confirmados
     const fuelCost = totalMiles * TU_COSTO_REAL.combustible;
-    const maintenanceCost = totalMiles * (TU_COSTO_REAL.mantenimiento);
+    const maintenanceCost = totalMiles * TU_COSTO_REAL.mantenimiento;
     const foodCost = totalMiles * TU_COSTO_REAL.comida;
     const fixedCosts = totalMiles * TU_COSTO_REAL.costosFijos;
 
@@ -257,7 +705,16 @@ async function calculate() {
       totalExpenses, netProfit, margin, profitPerMile, actualRPM, rpm, rate
     });
 
-    //  Mostrar panel de decisin
+    // Extraer códigos de estado
+    let originState = '';
+    let destinationState = '';
+    if (typeof window.getStateCode === 'function') {
+      originState = window.getStateCode(origin) || '';
+      destinationState = window.getStateCode(destination) || '';
+    }
+
+    
+    // Mostrar panel simplificado
     showDecisionPanel({
       totalCharge,
       netProfit,
@@ -266,22 +723,37 @@ async function calculate() {
       totalMiles,
       actualRPM,
       origin,
-      destination
+      destination,
+      originState,
+      destinationState
     });
+    
+
+    // Lex listo para ayudar
+    if (typeof window.setLexState === 'function') {
+      window.setLexState('attention', {
+        message: 'Carga calculada. Si quieres mi recomendacion, haz clic en mi',
+        duration: 6000
+      });
+    }
 
     // Actualizar mapa
     updateMap();
 
-    debugLog(" Clculo completado con costos reales");
+    debugLog(" Calculo completado con costos reales");
   } catch (error) {
-    console.error(' Error en clculo:', error);
+    console.error(' Error en calculo:', error);
     showError(error.message);
   }
 }
 
-//  Mantener sincrona entre Rate y RPM + disparar clculo completo CON DELAY
+// ========================================
+//  FUNCIONES AUXILIARES (FUERA DE CALCULATE)
+// ========================================
+
+//  Mantener sincronía entre Rate y RPM
 let calculateTimeout;
-let listenersAdded = false; // Evitar duplicar event listeners
+let listenersAdded = false;
 
 function syncRateAndRpm() {
   const loadedMilesEl = document.getElementById('loadedMiles');
@@ -292,15 +764,17 @@ function syncRateAndRpm() {
 
   if (!rpmEl || !rateEl || !loadedMilesEl) return;
 
-  // Funcin para calcular con delay (debounce) - espera que el usuario termine de escribir
+  // Función para calcular con delay (debounce)
   function triggerCalculate() {
     clearTimeout(calculateTimeout);
     calculateTimeout = setTimeout(() => {
-      calculate();
-    }, 800); // Espera 800ms despus de que dejes de escribir
+      /* calculate(); */ // ← COMENTAR ESTA LÍNEA
+      // Solo actualizar los campos, NO calcular automáticamente
+      updateTotalMiles();
+    }, 800);
   }
 
-  // Funcin para actualizar millas totales en pantalla
+  // Función para actualizar millas totales en pantalla
   function updateTotalMiles() {
     const loadedMiles = Number(loadedMilesEl?.value || 0);
     const deadheadMiles = Number(deadheadMilesEl?.value || 0);
@@ -315,7 +789,7 @@ function syncRateAndRpm() {
 
   // Solo agregar listeners UNA VEZ
   if (!listenersAdded) {
-    // Cuando cambia RPM  recalcula Rate
+    // Cuando cambia RPM → recalcula Rate
     rpmEl.addEventListener("input", () => {
       const { totalMiles } = updateTotalMiles();
       const rpm = parseFloat(rpmEl.value) || 0;
@@ -326,7 +800,7 @@ function syncRateAndRpm() {
       triggerCalculate();
     });
 
-    // Cuando cambia Rate  recalcula RPM
+    // Cuando cambia Rate → recalcula RPM
     rateEl.addEventListener("input", () => {
       const { totalMiles } = updateTotalMiles();
       const rate = parseFloat(rateEl.value) || 0;
@@ -337,7 +811,7 @@ function syncRateAndRpm() {
       triggerCalculate();
     });
 
-    // Cuando cambian las millas  actualiza Rate/RPM y recalcula
+    // Cuando cambian las millas → actualiza Rate/RPM
     loadedMilesEl.addEventListener("input", () => {
       const { loadedMiles, totalMiles } = updateTotalMiles();
       
@@ -345,13 +819,10 @@ function syncRateAndRpm() {
         const rpm = parseFloat(rpmEl.value) || 0;
         const rate = parseFloat(rateEl.value) || 0;
         
-        // Si hay RPM, actualizar Rate
         if (rpm > 0) {
-         rateEl.value = (rpm * totalMiles).toFixed(2);
-        }
-        // Si hay Rate, actualizar RPM
-        else if (rate > 0) {
-        rpmEl.value = (rate / totalMiles).toFixed(2);
+          rateEl.value = (rpm * totalMiles).toFixed(2);
+        } else if (rate > 0) {
+          rpmEl.value = (rate / totalMiles).toFixed(2);
         }
       }
       triggerCalculate();
@@ -369,15 +840,7 @@ function syncRateAndRpm() {
   updateTotalMiles();
 }
 
-//  Inicializar cuando cargue la pgina
-document.addEventListener("DOMContentLoaded", () => {
-    initializeOnce('calculator-sync-rate-rpm', syncRateAndRpm);
-});
-
-//  Exponer globalmente
-window.calculate = calculate;
-
-//  FUNCIN: Actualizar resultados principales (mantiene compatibilidad con UI existente)
+//  FUNCIÓN: Actualizar resultados principales
 function updateMainResults(data) {
   const updates = {
     tripMiles: data.totalMiles.toLocaleString(),
@@ -394,10 +857,9 @@ function updateMainResults(data) {
     profitPerMile: '$' + data.profitPerMile.toFixed(2),
     profitMargin: data.margin.toFixed(1) + '%',
     actualRPM: '$' + data.actualRPM.toFixed(2),
-    // Calcular tiempo real
     estimatedTime: calcularTiempoReal(data.totalMiles).formato,
     fuelStops: calcularTiempoReal(data.totalMiles).paradas.toString(),
-    tripDays: Math.ceil(calcularTiempoReal(data.totalMiles).horasTotal / 11).toString() // 11h de manejo por da
+    tripDays: Math.ceil(calcularTiempoReal(data.totalMiles).horasTotal / 11).toString()
   };
 
   Object.entries(updates).forEach(([id, value]) => {
@@ -405,11 +867,10 @@ function updateMainResults(data) {
     if (element) element.textContent = value;
   });
 
-  // Actualizar estado de rentabilidad
   updateProfitabilityStatus(data.margin);
 }
 
-//  FUNCIÓN: Panel de decisión mejorado (combina ambas versiones)
+//  FUNCIÓN: Panel de decisión con header dinámico
 function showDecisionPanel(calculationData = {}) {
   const panel = document.getElementById('decisionPanel');
   if (!panel) {
@@ -417,79 +878,232 @@ function showDecisionPanel(calculationData = {}) {
     return;
   }
 
-  // Datos con defaults seguros
   const {
     totalCharge = 0,
     netProfit = 0,
-    profitMargin = 0,
-    profitPerMile = 0,
     totalMiles = 0,
     actualRPM = 0,
-    origin = "",
-    destination = ""
+    profitMargin = 0,
+    profitPerMile = 0,
+    origin = '',
+    destination = '',
+    originState = '',
+    destinationState = ''
   } = calculationData;
 
-  // Cálculos corregidos con TUS números reales
-  const rpm = actualRPM || (totalMiles > 0 ? totalCharge / totalMiles : 0);
-  const tiempo = calcularTiempoReal(totalMiles);
+  // Calcular margin si viene como profitMargin
+  const margin = profitMargin || (totalCharge > 0 ? (netProfit / totalCharge) * 100 : 0);
+  
+  // ========== DETERMINAR DECISIÓN ==========
+  let decision = 'EVALUAR';
+  let decisionClasses = ['decision-header-warning'];
+  let decisionIcon = '⚠️';
+  let profitClass = 'profit-section-warning';
+  
+  // Clasificar zonas
+  let zonaOrigen = '';
+  let zonaDestino = '';
+  if (typeof window.clasificarZonaReal === 'function') {
+    zonaOrigen = window.clasificarZonaReal(originState);
+    zonaDestino = window.clasificarZonaReal(destinationState);
+  }
+  
+  // Usar la función getDecisionInteligente que ya tiene todas las reglas
+const decisionData = typeof window.getDecisionInteligente === 'function'
+  ? window.getDecisionInteligente(actualRPM, totalMiles, {
+      zonaOrigen,
+      zonaDestino,
+      origenState: originState,
+      destinoState: destinationState
+    })
+  : null;
 
-  // ✅ Detectar factores especiales automáticamente
-  const factoresEspeciales = detectarFactoresEspeciales(origin, destination);
-
-  // 🏷️ Decisión inteligente
-  const decision = getDecisionInteligente(rpm, totalMiles, factoresEspeciales);
-
-  // 🔤 Actualizar DOM con IDs existentes (SOLO TEXTO)
-  const elementos = {
-    decisionIcon: decision.icon,
-    decisionText: decision.decision,
-    decisionSubtitle: ` ${totalMiles}mi  RPM $${rpm.toFixed(2)}/mi`,
-    // ❌ OJO: NO incluir zoneBadgeHTML aquí (este bucle usa textContent)
-    quickPrice: `$${Math.round(totalCharge)}`,
-    quickNetProfit: `$${netProfit.toFixed(2)}`,
-    quickProfitPerMile: `$${profitPerMile.toFixed(2)}`,
-    quickProfitMargin: `${profitMargin.toFixed(1)}%`,
-    timeAndStops: ` ${tiempo.formato}   ${tiempo.paradas} parada${tiempo.paradas !== 1 ? 's' : ''}`,
-    realRPMInfo: `RPM Real: $${rpm.toFixed(2)}`,
-    decisionReason: decision.razon
-  };
-
-  Object.entries(elementos).forEach(([id, valor]) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = valor; // texto plano
-  });
-
-  // 🏷️ Badge coloreado (HTML): inyectar SIEMPRE con innerHTML y DESPUÉS del bucle
-  const zb = document.getElementById('zoneBadgeHTML');
-  if (zb) {
-    const zonaBadgeHTML = createZoneBadgeHTML(factoresEspeciales);
-    zb.innerHTML = zonaBadgeHTML;
+// Aplicar decisión según el resultado
+if (decisionData) {
+  if (decisionData.level === 'accept') {
+    decision = 'ACEPTAR';
+    decisionClasses = ['decision-header-accept', 'pulse-glow-green'];
+    decisionIcon = '✅';
+    profitClass = 'profit-section-positive';
+  } else if (decisionData.level === 'reject') {
+    decision = 'NO ACEPTAR';
+    decisionClasses = ['decision-header-reject'];
+    decisionIcon = '❌';
+    profitClass = 'profit-section-negative';
+  } else {
+    decision = 'EVALUAR';
+    decisionClasses = ['decision-header-warning'];
+    decisionIcon = '⚠️';
+    profitClass = 'profit-section-warning';
+  }
+} else {
+  // Fallback si no existe la función
+  decision = 'EVALUAR';
+  decisionClasses = ['decision-header-warning'];
+  decisionIcon = '⚠️';
+  profitClass = 'profit-section-warning';
+}
+  // ========== ACTUALIZAR HEADER ==========
+  const header = document.getElementById('decisionHeader');
+  if (header) {
+    header.className = 'p-4 md:p-5';
+    decisionClasses.forEach(cls => header.classList.add(cls));
+  }
+  
+  const titleEl = document.getElementById('decisionTitle');
+  const routeEl = document.getElementById('decisionRoute');
+  const iconEl = document.getElementById('decisionIcon');
+  
+  if (titleEl) titleEl.textContent = decision;
+  if (iconEl) iconEl.textContent = decisionIcon;
+  if (routeEl && origin && destination) {
+    routeEl.textContent = `${origin} → ${destination} • ${totalMiles.toFixed(0)} mi`;
   }
 
-  // 🎨 Aplicar color de decisión al contenedor
-  const container = document.getElementById('decisionContainer');
-  if (container) {
-    container.classList.remove('decision-accept', 'decision-warning', 'decision-reject');
-    container.classList.add(decision.color);
+  // ========== ACTUALIZAR MÉTRICAS ==========
+  const quickPrice = document.getElementById('quickPrice');
+  const quickRPM = document.getElementById('quickRPM');
+  const quickNetProfit = document.getElementById('quickNetProfit');
+  const quickMargin = document.getElementById('quickMargin');
+  const quickProfitPerMile = document.getElementById('quickProfitPerMile');
+
+  if (quickPrice) quickPrice.textContent = `$${Math.round(totalCharge).toLocaleString()}`;
+  if (quickRPM) quickRPM.textContent = `$${actualRPM.toFixed(2)}`;
+  if (quickNetProfit) quickNetProfit.textContent = `$${Math.round(netProfit).toLocaleString()}`;
+  if (quickMargin) quickMargin.textContent = `${margin.toFixed(1)}%`;
+  if (quickProfitPerMile) quickProfitPerMile.textContent = `$${profitPerMile.toFixed(2)}`;
+
+  // ========== CREAR BADGES DINÁMICOS ==========
+  const badgesContainer = document.getElementById('decisionBadges');
+  if (badgesContainer) {
+    let badgesHTML = '';
+    
+    // Badge de zonas
+    if (zonaOrigen && zonaDestino) {
+      const zonaColor = (zonaOrigen === 'CORE_MIDWEST' || zonaOrigen === 'EXTENDED_MIDWEST') && 
+                        (zonaDestino === 'CORE_MIDWEST' || zonaDestino === 'EXTENDED_MIDWEST') 
+                        ? 'bg-green-600/30 border border-green-400/40' 
+                        : zonaDestino === 'TRAP' ? 'bg-red-900/30 border border-red-400/40' : '';
+      
+      const getShort = (z) => z === 'CORE_MIDWEST' ? 'Core' : z === 'EXTENDED_MIDWEST' ? 'Ext' : z === 'TRAP' ? 'TRAP' : '?';
+      badgesHTML += `<span class="${zonaColor} px-2 md:px-3 py-1 rounded-full backdrop-blur whitespace-nowrap">🎯 ${getShort(zonaOrigen)} → ${getShort(zonaDestino)}</span>`;
+    }
+    
+    // Badge de tiempo estimado
+    const estimatedTime = totalMiles > 0 ? `${Math.floor(totalMiles / 50)}h ${Math.round((totalMiles / 50 % 1) * 60)}m` : '0h';
+    badgesHTML += `<span class="px-2 md:px-3 py-1 rounded-full backdrop-blur whitespace-nowrap">⏱️ ${estimatedTime}</span>`;
+    
+    // Badge de clima (se actualizará con API)
+    badgesHTML += `<span id="weatherBadge" class="px-2 md:px-3 py-1 rounded-full backdrop-blur font-semibold whitespace-nowrap cursor-pointer hover:opacity-80 transition" onclick="showWeatherModal('${destination}')">🌤️ Cargando...</span>`;
+
+    badgesContainer.innerHTML = badgesHTML;
+  }
+
+  // ========== ACTUALIZAR COSTOS ==========
+  const fuelCost = totalMiles * TU_COSTO_REAL.combustible;
+  const tolls = Number(document.getElementById('tolls')?.value || 0);
+  const others = Number(document.getElementById('otherCosts')?.value || 0);
+  
+  if (document.getElementById('totalMilesForFuel')) {
+    document.getElementById('totalMilesForFuel').textContent = totalMiles.toFixed(0);
+  }
+  if (document.getElementById('fuelCost')) {
+    document.getElementById('fuelCost').textContent = `$${fuelCost.toFixed(2)}`;
+  }
+  if (document.getElementById('tollsAndOthers')) {
+    document.getElementById('tollsAndOthers').textContent = `$${(tolls + others).toFixed(2)}`;
+  }
+  
+  const fixedCostsValue = totalMiles * (TU_COSTO_REAL.mantenimiento + TU_COSTO_REAL.comida + TU_COSTO_REAL.costosFijos);
+  if (document.getElementById('fixedCosts')) {
+    document.getElementById('fixedCosts').textContent = `$${fixedCostsValue.toFixed(2)}`;
+  }
+  
+  const totalExp = fuelCost + tolls + others + fixedCostsValue;
+  if (document.getElementById('totalExpenses')) {
+    document.getElementById('totalExpenses').textContent = `$${totalExp.toFixed(2)}`;
+  }
+
+  // ========== ACTUALIZAR GANANCIA ==========
+  const profitSection = document.getElementById('profitSection');
+  if (profitSection) {
+    profitSection.className = 'border-2 rounded-lg p-3 md:p-4';
+    profitSection.classList.add(profitClass);
+  }
+
+  if (document.getElementById('profitLabel')) {
+    document.getElementById('profitLabel').textContent = netProfit >= 0 ? '💰 Ganancia Neta' : '💀 Pérdida Neta';
+  }
+
+  if (document.getElementById('netProfit')) {
+    document.getElementById('netProfit').textContent = netProfit >= 0 
+      ? `$${netProfit.toFixed(2)}` 
+      : `-$${Math.abs(netProfit).toFixed(2)}`;
+  }
+
+  if (document.getElementById('profitDetails')) {
+    document.getElementById('profitDetails').textContent = `$${profitPerMile.toFixed(2)}/mi • ${margin.toFixed(1)}% margen`;
+  }
+
+  // Tiempo y paradas
+  const estimatedTime = totalMiles > 0 ? `${Math.floor(totalMiles / 50)}h ${Math.round((totalMiles / 50 % 1) * 60)}m` : '0h';
+  const fuelStops = Math.ceil(totalMiles / 300);
+  
+  if (document.getElementById('estimatedTimeShort')) {
+    document.getElementById('estimatedTimeShort').textContent = `⏱️ ${estimatedTime}`;
+  }
+
+  if (document.getElementById('fuelStopsShort')) {
+    document.getElementById('fuelStopsShort').textContent = `⛽ ${fuelStops} paradas`;
   }
 
   // Mostrar panel
   panel.classList.remove('hidden');
+  
+  debugLog(`✅ Panel mostrado: ${decision} - RPM $${actualRPM.toFixed(2)}/mi - Ganancia $${Math.round(netProfit)}`);
 
-  debugLog(`Decisión inteligente: ${decision.decision} - RPM $${rpm.toFixed(2)}/mi - Ganancia $${netProfit.toFixed(0)}`);
+  // Obtener clima del destino (async)
+  if (destination && typeof window.getWeatherForDestination === 'function') {
+    window.getWeatherForDestination(destination).then(weather => {
+      const weatherBadge = document.getElementById('weatherBadge');
+      if (weatherBadge && weather) {
+        weatherBadge.textContent = weather.text;
+        if (weather.badgeClass) {
+          weatherBadge.className = `px-2 md:px-3 py-1 rounded-full backdrop-blur font-semibold whitespace-nowrap cursor-pointer hover:opacity-80 transition ${weather.badgeClass}`;
+        } else {
+          weatherBadge.className = 'px-2 md:px-3 py-1 rounded-full backdrop-blur font-semibold whitespace-nowrap cursor-pointer hover:opacity-80 transition';
+        }
+        // Actualizar onclick con destino correcto
+        weatherBadge.onclick = () => showWeatherModal(destination, origin);
+      }
+    }).catch(error => {
+      console.error('Error clima:', error);
+      const weatherBadge = document.getElementById('weatherBadge');
+      if (weatherBadge) {
+        weatherBadge.textContent = '🌤️ No disponible';
+      }
+    });
+  }
 }
 
+//  Exponer globalmente
+window.calculate = calculate;
+
+//  Inicializar cuando cargue la página
+document.addEventListener("DOMContentLoaded", () => {
+  initializeOnce('calculator-sync-rate-rpm', syncRateAndRpm);
+});
 
 
-//  Exponer globalmente (importante para que funcione oninput="...")
-window.showDestinationNotes = showDestinationNotes;
+ //  Exponer globalmente (importante para que funcione oninput="...")
+ window.showDestinationNotes = showDestinationNotes;
 
-// ========================================
-//  MANTENER TODAS LAS FUNCIONES EXISTENTES
-// ========================================
+ // ========================================
+ //  MANTENER TODAS LAS FUNCIONES EXISTENTES
+ // ========================================
 
-//  FUNCIN: Copiar precio al portapapeles (MANTENER)
-function copyPriceToClipboard() {
+ //  FUNCION: Copiar precio al portapapeles (MANTENER)
+    function copyPriceToClipboard() {
     const totalChargeEl = document.getElementById('totalCharge');
     if (!totalChargeEl) {
         console.warn("Elemento totalCharge no encontrado");
@@ -524,10 +1138,23 @@ function copyPriceToClipboard() {
         console.error('Error copiando precio:', err);
         alert(`Precio: ${price}\n(Copiado manualmente)`);
     });
-}
 
-//  FUNCIN: Aceptar y guardar automticamente (MANTENER)
-function acceptAndSave() {
+    // Obtener clima del destino (async)
+  if (destination && typeof window.getWeatherForDestination === 'function') {
+    window.getWeatherForDestination(destination).then(weather => {
+      const weatherBadge = document.getElementById('weatherBadge');
+      if (weatherBadge && weather) {
+        weatherBadge.textContent = weather.text;
+        if (weather.badgeClass) {
+          weatherBadge.className = `px-2 md:px-3 py-1 rounded-full backdrop-blur font-semibold whitespace-nowrap ${weather.badgeClass}`;
+        }
+      }
+    });
+  }
+ }
+
+ //  FUNCION: Aceptar y guardar automaticamente (MANTENER)
+    function acceptAndSave() {
     if (typeof saveLoad === 'function') {
         saveLoad();
         
@@ -548,18 +1175,18 @@ function acceptAndSave() {
         
         debugLog(' Carga aceptada y guardada');
     } else {
-        console.warn("Funcin saveLoad no disponible");
-        alert("Error: No se puede guardar la carga");
-    }
-}
+  console.warn("Función saveLoad no disponible");
+  alert("No se puede guardar la carga en este momento. Revisa la sesión e inténtalo de nuevo.");
+ }
+ }
 
-//  FUNCIN: Ocultar panel de decisin (MANTENER)
-function hideDecisionPanel() {
+ //  FUNCION: Ocultar panel de decision (MANTENER)
+ function hideDecisionPanel() {
     const panel = document.getElementById('decisionPanel');
     if (panel) {
         panel.classList.add('hidden');
     }
-}
+ }
 
 //  Funcin para guardar carga (crear o editar)
 async function saveLoad(existingLoadId = null) {
@@ -578,6 +1205,7 @@ async function saveLoad(existingLoadId = null) {
     const tolls = document.getElementById('tolls')?.value || '0';
     const others = document.getElementById('otherCosts')?.value || '0';
     const loadNumber = document.getElementById('loadNumber')?.value?.trim() || '';
+    
     // Calcular fecha de pago esperada (viernes de la semana siguiente)
 function calculatePaymentDate(loadDate) {
   const date = new Date(loadDate);
@@ -596,14 +1224,7 @@ function calculatePaymentDate(loadDate) {
   return formatDateLocal(paymentDate); // Formato YYYY-MM-DD
 }
 
-    // Nuevos campos de pago
-    const paymentStatus = 'pending';
-    const expectedPaymentDate = calculatePaymentDate(new Date());
-    const actualPaymentDate = null;
-    const companyName = document.getElementById('companyName')?.value?.trim() || '';
-    const notes = document.getElementById('notes')?.value?.trim() || '';
-
-    //  Manejo de fechas
+       //  Manejo de fechas
     let loadDate;
     try {
       const dateInputEl = document.getElementById('dateInput');
@@ -621,23 +1242,36 @@ function calculatePaymentDate(loadDate) {
         loadDate = getTodayDateString();
       }
     } catch (err) {
-      console.warn(" No se encontr campo de fecha, usando hoy:", err);
+      console.warn(" No se encontro campo de fecha, usando hoy:", err);
       loadDate = getTodayDateString();
     }
 
+    // Nuevos campos de pago (usando la fecha REAL de la carga)
+const paymentStatus = 'pending';
+const expectedPaymentDate = calculatePaymentDate(loadDate);
+const actualPaymentDate = null;
+const companyName = document.getElementById('companyName')?.value?.trim() || '';
+const notes = document.getElementById('notes')?.value?.trim() || '';
+
+
     // Validaciones
 if (!origin || !destination) throw new Error('Origen y destino son requeridos');
+
+if (!origin || !destination) {
+  throw new Error('Pon origen y destino para guardar la carga 📍');
+}
 
 if (
   loadedMiles === "" || isNaN(loadedMiles) || loadedMiles <= 0 ||
   deadheadMiles === "" || isNaN(deadheadMiles) || deadheadMiles < 0 ||
   rpm === "" || isNaN(rpm) || rpm <= 0
 ) {
-  throw new Error('Millas cargadas, deadhead y RPM son requeridos');
+  throw new Error('Revisa millas cargadas, deadhead y RPM antes de guardar ✅');
 }
 
 
-    // Clculos
+
+    // Calculos
     const totalMiles = Number(loadedMiles) + Number(deadheadMiles);
 
 let baseIncome;
@@ -660,7 +1294,6 @@ const totalCharge = baseIncome + additionalCosts;
     const fuelCost = totalMiles * TU_COSTO_REAL.combustible;
     const operatingCost = totalMiles * (
       TU_COSTO_REAL.mantenimiento +
-      TU_COSTO_REAL.reservaGomas +
       TU_COSTO_REAL.comida +
       TU_COSTO_REAL.costosFijos
     );
@@ -712,11 +1345,11 @@ const totalCharge = baseIncome + additionalCosts;
       debugLog('✅ Carga guardada con ID:', doc.id);
     }
 
-    // 🧠 NUEVO: Actualizar perfil de Lex con la nueva carga
+    // NUEVO: Actualizar perfil de Lex con la nueva carga
     if (window.lexAI && window.lexAI.updateProfileWithLoad) {
       try {
         await window.lexAI.updateProfileWithLoad(loadData);
-        debugLog('🧠 Lex aprendió de esta carga');
+       debugLog('🧠 Lex aprendió de esta carga');
       } catch (error) {
         console.error('⚠️ Error actualizando perfil de Lex:', error);
         // No interrumpir el flujo si falla Lex
@@ -730,23 +1363,25 @@ const totalCharge = baseIncome + additionalCosts;
     }, 500);
 
   } catch (error) {
-    console.error('Error guardando carga:', error);
-    window.showMessage?.('Error: ' + error.message, 'error');
-  }
+  console.error('Error guardando carga:', error);
+  window.showMessage?.('Error al guardar la carga: ' + error.message, 'error');
+}
+
 }
 
 
 
 
 function showError(message) {
-    const errorEl = document.getElementById('errorMessage');
-    if (errorEl) {
-        errorEl.textContent = message;
-        errorEl.style.display = 'block';
-    } else {
-        alert(message);
-    }
+  const errorEl = document.getElementById('errorMessage');
+  if (errorEl) {
+    errorEl.textContent = message;
+    errorEl.style.display = 'block';
+  } else {
+    alert('⚠️ ' + message);
+  }
 }
+
 
 function getStateFromLocation(location) {
     if (!location) return '';
@@ -760,32 +1395,33 @@ function getStateFromLocation(location) {
     return '';
 }
 
-//  FUNCIN: Actualizar estado de rentabilidad (MANTENER)
+//  FUNCION: Actualizar estado de rentabilidad (MANTENER)
 function updateProfitabilityStatus(margin) {
-    const statusEl = document.getElementById('profitabilityStatus');
-    if (!statusEl) return;
-    
-    let status, className, warning = '';
-    
-    if (margin >= 20) {
-        status = 'Excelente';
-        className = 'text-green-700 bg-green-100';
-    } else if (margin >= 10) {
-        status = 'Buena';
-        className = 'text-blue-700 bg-blue-100';
-    } else if (margin >= 0) {
-        status = 'Marginal';
-        className = 'text-yellow-700 bg-yellow-100';
-        warning = ' - Evala destino';
-    } else {
-        status = 'Prdida';
-        className = 'text-red-700 bg-red-100';
-        warning = ' - Rechaza';
-    }
-    
-    statusEl.textContent = status + warning;
-    statusEl.className = className;
+  const statusEl = document.getElementById('profitabilityStatus');
+  if (!statusEl) return;
+  
+  let status, className, warning = '';
+  
+  if (margin >= 20) {
+    status = 'Excelente ganancia 💰';
+    className = 'text-green-700 bg-green-100';
+  } else if (margin >= 10) {
+    status = 'Buena ganancia 👍';
+    className = 'text-blue-700 bg-blue-100';
+  } else if (margin >= 0) {
+    status = 'Margen justo ⚠️';
+    className = 'text-yellow-700 bg-yellow-100';
+    warning = ' · Evalúa el destino';
+  } else {
+    status = 'Pérdida 🚫';
+    className = 'text-red-700 bg-red-100';
+    warning = ' · Mejor rechazar';
+  }
+  
+  statusEl.textContent = status + warning;
+  statusEl.className = className;
 }
+
 
 function clearForm() {
     debugLog('Limpiando formulario...');
@@ -812,10 +1448,10 @@ function clearForm() {
     debugLog('Formulario limpiado');
     hideDecisionPanel();
 
-    // Ocultar también el cuadro de notas
+    // Ocultar tambien el cuadro de notas
     hideNotesBox();
 
-    // 🔥 IMPORTANTE: Resetear la bandera de Lex para permitir que vuelva a avisar
+    //IMPORTANTE: Resetear la bandera de Lex para permitir que vuelva a avisar
     lexNotifiedForCurrentCalc = false;
 }
 
@@ -828,7 +1464,7 @@ function clearForm() {
 //  Variables globales para Google Maps
 let googleMap, directionsService, directionsRenderer;
 
-//  FUNCIN: Actualizar mapa
+//  FUNCION: Actualizar mapa
 function updateMap() {
     const origin = document.getElementById('origin')?.value?.trim();
     const destination = document.getElementById('destination')?.value?.trim();
@@ -846,7 +1482,7 @@ function updateMap() {
     }
 }
 
-//  FALLBACK para cuando el mapa no est listo
+//  FALLBACK para cuando el mapa no este listo
 function showMapFallback(origin, destination) {
     const mapContainer = document.getElementById('map');
     if (mapContainer) {
@@ -864,7 +1500,7 @@ function showMapFallback(origin, destination) {
     }
 }
 
-//  FUNCIN: Abrir Google Maps (MANTENER)
+//  FUNCION: Abrir Google Maps (MANTENER)
 function openGoogleMapsDirections() {
     const origin = document.getElementById('origin').value.trim();
     const destination = document.getElementById('destination').value.trim();
@@ -875,7 +1511,7 @@ function openGoogleMapsDirections() {
     }
 }
 
-//  FUNCIN: Mostrar ruta en mapa
+//  FUNCION: Mostrar ruta en mapa
 function showRouteOnMap(origin, destination) {
     if (!directionsService || !directionsRenderer) {
         console.warn("Google Maps services not ready");
@@ -894,11 +1530,11 @@ function showRouteOnMap(origin, destination) {
         if (status === 'OK') {
             directionsRenderer.setDirections(result);
             
-            // Calcular distancia automticamente si est disponible
+            // Calcular distancia automaticamente si est disponible
             const route = result.routes[0];
             const distance = route.legs[0].distance.value * 0.000621371; // metros a millas
             
-            // Actualizar campo de millas si est vaco
+            // Actualizar campo de millas si esta vacio
             const loadedMilesEl = document.getElementById('loadedMiles');
             if (loadedMilesEl && !loadedMilesEl.value) {
                 loadedMilesEl.value = Math.round(distance);
@@ -913,7 +1549,7 @@ function showRouteOnMap(origin, destination) {
     });
 }
 
-//  FUNCIN: Calcular distancia automticamente
+//  FUNCION: Calcular distancia automaticamente
 function calculateDistanceAutomatically() {
     // Intentar obtener de inputs ocultos primero (nuevo sistema)
     let origin = document.getElementById('origin-value')?.value?.trim();
@@ -935,7 +1571,7 @@ function calculateDistanceAutomatically() {
         return;
     }
     
-    // Mtodo estndar
+    // Metodo estandar
     if (typeof google !== 'undefined' && google.maps && google.maps.DistanceMatrixService) {
         const service = new google.maps.DistanceMatrixService();
         
@@ -961,7 +1597,7 @@ function calculateDistanceAutomatically() {
     }
 }
 
-//  FUNCIN: Actualizar total de millas
+//  FUNCION: Actualizar total de millas
 function updateTotalMiles() {
     const loadedMiles = Number(document.getElementById('loadedMiles')?.value || 0);
     const deadheadMiles = Number(document.getElementById('deadheadMiles')?.value || 0);
@@ -973,7 +1609,7 @@ function updateTotalMiles() {
     }
 }
 
-//  FUNCIN: Inicializar Google Maps
+//  FUNCION: Inicializar Google Maps
 function initGoogleMaps() {
     try {
         if (typeof google === 'undefined') {
@@ -1017,7 +1653,7 @@ function initGoogleMaps() {
     }
 }
 
-//  FUNCIN: Entry point oficial para Google Maps callback
+//  FUNCION: Entry point oficial para Google Maps callback
 function initMap() {
     debugLog(" initMap() llamado por Google Maps API");
     initGoogleMaps();
@@ -1026,7 +1662,7 @@ function initMap() {
 // Exponer initMap globalmente para el callback de Google Maps
 window.initMap = initMap;
 
-//  FUNCIN: Configurar autocompletado de Google Places
+//  FUNCION: Configurar autocompletado de Google Places
 // NOTA: PlaceAutocompleteElement no se inicializa correctamente (shadow DOM vaco)
 // Usando mtodo Autocomplete legacy que funciona perfectamente
 async function setupGoogleAutocomplete() {
@@ -1139,7 +1775,7 @@ function setupLegacyAutocomplete() {
   }
 }
 
-//  FUNCIN: Calcular distancia usando valores de inputs ocultos
+//  FUNCION: Calcular distancia usando valores de inputs ocultos
 function calculateDistanceFromHidden(origin, destination) {
   if (!origin || !destination) {
     console.warn(" Faltan valores para calcular");
@@ -1187,7 +1823,7 @@ function calculateDistanceFromHidden(origin, destination) {
 
 
 
-//  FUNCIN: Sincronizar vista de rentabilidad
+//  FUNCION: Sincronizar vista de rentabilidad
 function syncRentabilityCardSingleView() {
     const rentCard = document.getElementById('rentabilityCard');
     if (rentCard) {
@@ -1212,17 +1848,17 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (calculateBtn) {
             calculateBtn.addEventListener('click', calculate);
-            debugLog(' Botn calcular configurado con costos reales');
+            debugLog(' Boton calcular configurado con costos reales');
         }
         
         if (saveBtn) {
             saveBtn.addEventListener('click', saveLoad);
-            debugLog(' Botn guardar configurado');
+            debugLog(' Boton guardar configurado');
         }
         
         if (clearBtn) {
             clearBtn.addEventListener('click', clearForm);
-            debugLog(' Botn limpiar configurado');
+            debugLog(' Boton limpiar configurado');
         }
         
         // Configurar auto-clculo de millas totales
@@ -1253,7 +1889,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
     }, 500);
     
-    // NO configurar autocompletado aqu - se hace automticamente cuando Google Maps carga via callback
+    // NO configurar autocompletado aqu - se hace automaticamente cuando Google Maps carga via callback
     
     // Sincronizar vista de rentabilidad
     syncRentabilityCardSingleView();
@@ -1344,7 +1980,7 @@ async function getNotesForDestination(normalizedKey) {
   }
 }
 
-//  Cuadro amarillo de informacin rpida (solo contador)
+//  Cuadro amarillo de informacion rpida (solo contador)
 async function showDestinationNotes(destination) {
   if (!destination) return;
 
@@ -1369,12 +2005,12 @@ async function showDestinationNotes(destination) {
   const status = document.getElementById("notesStatusText");
 
   if (notes.length > 0) {
-    status.textContent = ` ${notes.length} nota(s) guardada(s) para este destino`;
-    box.classList.remove("hidden");
-  } else {
-    status.textContent = " No hay notas para este destino.";
-    box.classList.remove("hidden");
-  }
+  status.textContent = `📝 Tienes ${notes.length} nota(s) guardada(s) para este destino`;
+  box.classList.remove("hidden");
+} else {
+  status.textContent = "ℹ️ No hay notas para este destino todavía.";
+  box.classList.remove("hidden");
+}
 }
 
 
@@ -1408,20 +2044,33 @@ async function openNotesModal(destination) {
     let html = "";
     snapshot.forEach(doc => {
       const data = doc.data();
-      html += `
-        <div class="border rounded p-2 flex justify-between items-start">
-          <div>
-            <p class="text-base text-gray-800">${data.note}</p>
-            <p class="text-xs text-gray-500">
-              ${data.createdAt ? data.createdAt.toDate().toLocaleDateString() : ""}
-            </p>
-          </div>
-          <div class="flex gap-2">
-            <button class="text-blue-600 text-xs" onclick="editNote('${doc.id}', '${data.note}')"></button>
-            <button class="text-red-600 text-xs" onclick="deleteNote('${doc.id}')"></button>
-          </div>
-        </div>
-      `;
+    html += `
+  <div class="border rounded p-2 flex justify-between items-start">
+    <div>
+      <p class="text-base text-gray-800">${data.note}</p>
+      <p class="text-xs text-gray-500">
+        ${data.createdAt ? data.createdAt.toDate().toLocaleDateString() : ""}
+      </p>
+    </div>
+    <div class="flex gap-2">
+      <button
+        class="text-blue-600 text-xs"
+        onclick="editNote('${doc.id}', '${data.note.replace(/'/g, "\\'")}')"
+        title="Editar nota"
+      >
+        ✏️
+      </button>
+      <button
+        class="text-red-600 text-xs"
+        onclick="deleteNote('${doc.id}')"
+        title="Eliminar nota"
+      >
+        🗑️
+      </button>
+    </div>
+  </div>
+`;
+
     });
     list.innerHTML = html;
   }
@@ -1434,18 +2083,18 @@ function closeNotesModal() {
   modal.classList.remove("flex");
 }
 
-//  Aadir nueva nota
+//  Añadir nueva nota
 async function addNoteToDestination(key) {
   const textarea = document.getElementById("newNoteModalInput");
   const note = textarea.value.trim();
-  if (!note) return alert("La nota no puede estar vaca");
+  if (!note) return alert("La nota no puede estar vacía ✍️");
 
   try {
     const rawDestination = document.getElementById("destination")?.value?.trim() || key;
 
     await firebase.firestore().collection("notes").add({
       userId: window.currentUser.uid,
-      key: normalizeDestination(rawDestination), //  clave uniforme para bsquedas
+      key: normalizeDestination(rawDestination), //  clave uniforme para busquedas
       destination: rawDestination,               //  lo que ves en el input
       note: note,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -1455,16 +2104,17 @@ async function addNoteToDestination(key) {
     openNotesModal(rawDestination);
     showDestinationNotes(rawDestination);
   } catch (error) {
-    console.error(" Error guardando nota:", error);
-    alert("Error guardando nota");
-  }
+  console.error(" Error guardando nota:", error);
+  alert("Ocurrió un problema guardando la nota. Inténtalo de nuevo.");
+}
+
 }
 
 //  Escuchar cambios en el destino (blur + change)
 function handleDestinationChange(e) {
   const dest = e.target.value.trim();
   if (dest && dest.length > 3) {
-    debugLog(" Detectado destino vlido:", dest);
+    debugLog(" Detectado destino valido:", dest);
     showDestinationNotes(dest);
   } else {
     debugLog(" Destino muy corto, no se buscan notas:", dest);
@@ -1477,7 +2127,7 @@ destInput?.addEventListener("change", handleDestinationChange);
 
 //  Editar nota
 async function editNote(noteId, oldText) {
-  const nuevoTexto = prompt("Editar nota:", oldText);
+  const nuevoTexto = prompt("Editar tu nota:", oldText);
   if (!nuevoTexto) return;
 
   try {
@@ -1503,9 +2153,19 @@ async function deleteNote(noteId) {
     openNotesModal(currentDestinationKey);
     showDestinationNotes(document.getElementById("destination")?.value?.trim());
   } catch (error) {
-    console.error(" Error eliminando nota:", error);
+  console.error(" Error eliminando nota:", error);
+  alert("No se pudo eliminar la nota. Inténtalo otra vez.");
+}
+}
+
+if (typeof window.refreshLexStateNotes === "function") {
+  try {
+    await window.refreshLexStateNotes();
+  } catch (e) {
+    console.warn("[LEX] Error refrescando stateNotes después de cambiar nota:", e);
   }
 }
+
 
 //  Exponer globalmente
 window.showDestinationNotes = showDestinationNotes;
@@ -1599,8 +2259,9 @@ function createZoneBadgeHTML(fx) {
   `;
 }
 
+
 // =========================================================
-// LEX: Detectar cuando la calculadora está lista (IDs reales)
+// LEX: Detectar cuando la calculadora esta lista (IDs reales)
 // =========================================================
 let lexNotifiedForCurrentCalc = false;
 
@@ -1614,7 +2275,7 @@ function calculatorIsReady() {
 
   // Si algo no existe, no hacemos nada
   if (!originEl || !destinationEl || !loadedEl || !deadheadEl || !rpmEl || !rateEl) {
-    console.warn('[LEX] No encontré uno de los campos de la calculadora');
+    console.warn('[LEX] No encontrÃ© uno de los campos de la calculadora');
     return false;
   }
 
@@ -1661,19 +2322,19 @@ function notifyLexCalculatorReady() {
 
   lexNotifiedForCurrentCalc = true;
 
-  // 2) Mensajes y tono según la zona
-  let mensajeSorpresa = 'Oye Ricardo… esta carga se ve interesante 👀';
+  // 2) Mensajes y tono segun la zona
+    let mensajeSorpresa = 'Oye Ricardo… esta carga se ve interesante 🚐';
   let mensajeAlerta   = '¿Quieres que la revise por ti? Haz clic en mí 🧠✨';
 
   if (zonaTipo === 'mala' && destinoEstado) {
     mensajeSorpresa = `Hmm… ${destinoEstado} suele ser complicado para salir 😬`;
     mensajeAlerta   = 'Mejor la revisamos bien antes de decir que sí. Haz clic en mí 🧠⚠️';
   } else if (zonaTipo === 'buena' && destinoEstado) {
-    mensajeSorpresa = `Oye, ${destinoEstado} suele ser buena zona para ti 🔥`;
-    mensajeAlerta   = 'Si quieres, la analizo y vemos si está a la altura de tus números 💰✨';
+    mensajeSorpresa = `Oye, ${destinoEstado} suele ser buena zona para ti ✅`;
+    mensajeAlerta   = 'Si quieres, la analizo y vemos si está a la altura de tus números 📊✨';
   }
 
-  // 3) Cara de sorpresa según la zona
+  // 3) Cara de sorpresa segun la zona
   const estadoLexInicial = (zonaTipo === 'mala') ? 'warning' : 'surprise';
 
   window.setLexState(estadoLexInicial, {
@@ -1681,7 +2342,7 @@ function notifyLexCalculatorReady() {
     duration: 1800
   });
 
-  // 4) Después de la sorpresa, invitación a analizar + animación
+  // 4) DespuÃ©s de la sorpresa, invitacion a analizar + animacion
   setTimeout(() => {
     window.setLexState('alert', {
       message: mensajeAlerta,
@@ -1698,33 +2359,216 @@ function notifyLexCalculatorReady() {
   }, 1800);
 }
 
-// Detectar cambios en todos los inputs importantes
-const calcInputs = [
-  'origin',
-  'destination',
-  'loadedMiles',
-  'deadheadMiles',
-  'rpm',
-  'rate'
-];
+document.addEventListener('DOMContentLoaded', () => {
+  initializeOnce('lex-calculator-input-listeners', () => {
+    const calcInputs = [
+      'origin',
+      'destination',
+      'loadedMiles',
+      'deadheadMiles',
+      'rpm',
+      'rate'
+    ];
 
-calcInputs.forEach(id => {
-  const input = document.getElementById(id);
-  if (!input) {
-    console.warn('[LEX] Input no encontrado al registrar listener:', id);
-    return;
-  }
+    calcInputs.forEach(id => {
+      const input = document.getElementById(id);
+      if (!input) {
+        console.warn('[LEX] Input no encontrado al registrar listener:', id);
+        return;
+      }
 
-  input.addEventListener('input', () => {
-    if (calculatorIsReady()) {
-      notifyLexCalculatorReady();
-    }
+      input.addEventListener('input', () => {
+        if (calculatorIsReady()) {
+          notifyLexCalculatorReady();
+        }
+      });
+    });
+
+    debugLog('[LEX] Listeners de calculadora configurados correctamente');
   });
 });
 
+// ==========================================================
+//  BID CALCULATOR - Estrategia de ofertas en zona trap
+// ==========================================================
+
+// Hubs de escape desde zonas trap
+const HUBS_ESCAPE = {
+  'NV': [
+    { ciudad: 'Wichita, KS', distancia: 1400, costo: 350, rating: 5, zona: 'CORE_MIDWEST' },
+    { ciudad: 'Oklahoma City, OK', distancia: 1500, costo: 365, rating: 5, zona: 'EXTENDED_MIDWEST' },
+    { ciudad: 'Dallas, TX', distancia: 1700, costo: 420, rating: 4, zona: 'EXTENDED_MIDWEST' }
+  ],
+  'CA': [
+    { ciudad: 'Phoenix, AZ', distancia: 400, costo: 150, rating: 2, zona: 'TRAP' },
+    { ciudad: 'Albuquerque, NM', distancia: 800, costo: 250, rating: 3, zona: 'TRAP' },
+    { ciudad: 'Dallas, TX', distancia: 1400, costo: 350, rating: 4, zona: 'EXTENDED_MIDWEST' }
+  ],
+  'AZ': [
+    { ciudad: 'Dallas, TX', distancia: 1000, costo: 280, rating: 4, zona: 'EXTENDED_MIDWEST' },
+    { ciudad: 'Oklahoma City, OK', distancia: 1100, costo: 300, rating: 5, zona: 'EXTENDED_MIDWEST' }
+  ],
+  'OR': [
+    { ciudad: 'Boise, ID', distancia: 400, costo: 150, rating: 2, zona: 'TRAP' },
+    { ciudad: 'Salt Lake City, UT', distancia: 700, costo: 220, rating: 3, zona: 'TRAP' },
+    { ciudad: 'Denver, CO', distancia: 1200, costo: 320, rating: 3, zona: 'TRAP' }
+  ],
+  'WA': [
+    { ciudad: 'Boise, ID', distancia: 500, costo: 170, rating: 2, zona: 'TRAP' },
+    { ciudad: 'Salt Lake City, UT', distancia: 900, costo: 260, rating: 3, zona: 'TRAP' }
+  ]
+};
+
+/**
+ * Calcular oferta estratégica basada en situación actual
+ * @param {string} origenState - Estado origen (ej: 'NV')
+ * @param {string} destinoState - Estado destino (ej: 'KS')
+ * @param {number} millas - Distancia de la carga
+ * @param {number} diasEnTrap - Días que llevas en zona trap
+ * @param {number} profitAcumulado - Profit generado en la zona trap
+ * @returns {object} Recomendación de oferta
+ */
+function calcularOfertaEstrategica(origenState, destinoState, millas, diasEnTrap = 0, profitAcumulado = 0) {
+  const zonaOrigen = clasificarZonaReal(origenState);
+  const zonaDestino = clasificarZonaReal(destinoState);
+  
+  let resultado = {
+    ofertaMinima: 0.60,
+    ofertaRecomendada: 0.75,
+    ofertaMaxima: 0.90,
+    estrategia: 'NORMAL',
+    mensaje: '',
+    razon: '',
+    urgencia: 'BAJA'
+  };
+
+  // CASO 1: Sales de TRAP hacia MIDWEST (tu prioridad)
+  if (zonaOrigen === 'TRAP' && (zonaDestino === 'CORE_MIDWEST' || zonaDestino === 'EXTENDED_MIDWEST')) {
+    
+    // Urgencia según días en trap
+    if (diasEnTrap >= 5) {
+      resultado.urgencia = 'CRÍTICA';
+      resultado.estrategia = 'ESCAPE_AGRESIVO';
+      resultado.ofertaMinima = 0.55;
+      resultado.ofertaRecomendada = 0.60;
+      resultado.ofertaMaxima = 0.70;
+      resultado.mensaje = `ESCAPE CRÍTICO - ${diasEnTrap} días en trap`;
+      resultado.razon = `Llevas ${diasEnTrap} días en zona trap. Prioridad: SALIR YA.\n` +
+                       `Has generado $${profitAcumulado} - puedes "gastar" $300-400 en escape.\n` +
+                       `Oferta agresiva $0.60/mi para competir y SALIR.`;
+    } else if (diasEnTrap >= 3) {
+      resultado.urgencia = 'ALTA';
+      resultado.estrategia = 'ESCAPE_MODERADO';
+      resultado.ofertaMinima = 0.60;
+      resultado.ofertaRecomendada = 0.65;
+      resultado.ofertaMaxima = 0.75;
+      resultado.mensaje = `ESCAPE PRIORITARIO - ${diasEnTrap} días en trap`;
+      resultado.razon = `${diasEnTrap} días en trap - tiempo de salir.\n` +
+                       `Oferta $0.65/mi es competitiva y te saca.\n` +
+                       `Pérdida pequeña (~$200) se recupera en 2 días en Midwest.`;
+    } else {
+      resultado.urgencia = 'MEDIA';
+      resultado.estrategia = 'ESCAPE_SELECTIVO';
+      resultado.ofertaMinima = 0.70;
+      resultado.ofertaRecomendada = 0.75;
+      resultado.ofertaMaxima = 0.85;
+      resultado.mensaje = 'ESCAPE SELECTIVO - Buena oportunidad';
+      resultado.razon = `Aún estás generando profit en trap.\n` +
+                       `Oferta $0.75/mi es razonable para salir sin perder mucho.\n` +
+                       `Solo acepta si quieres reposicionarte al Midwest.`;
+    }
+
+    // Ajuste por profit acumulado
+    if (profitAcumulado >= 600) {
+      resultado.ofertaRecomendada -= 0.05;
+      resultado.razon += `\n\nTienes $${profitAcumulado} de colchón - puedes ser más agresivo.`;
+    }
+
+  }
+
+  // CASO 2: Sales de TRAP hacia otro TRAP (no recomendado)
+  else if (zonaOrigen === 'TRAP' && zonaDestino === 'TRAP') {
+    resultado.urgencia = 'BAJA';
+    resultado.estrategia = 'EVITAR';
+    resultado.ofertaMinima = 1.20;
+    resultado.ofertaRecomendada = 1.30;
+    resultado.ofertaMaxima = 1.50;
+    resultado.mensaje = '⚠️ NO RECOMENDADO - Te mete más profundo';
+    resultado.razon = `Te mueves de trap a trap (${origenState} → ${destinoState}).\n` +
+                     `Solo acepta si RPM es excepcional (>$1.20/mi).\n` +
+                     `Mejor esperar carga hacia Midwest.`;
+  }
+
+  // CASO 3: Dentro de TRAP (movimiento local)
+  else if (zonaOrigen === 'TRAP' && origenState === destinoState) {
+    resultado.urgencia = 'BAJA';
+    resultado.estrategia = 'LOCAL_TRAP';
+    resultado.ofertaMinima = 1.15;
+    resultado.ofertaRecomendada = 1.25;
+    resultado.ofertaMaxima = 1.50;
+    resultado.mensaje = 'Movimiento local en trap';
+    resultado.razon = `Movimiento dentro de ${origenState}.\n` +
+                     `Requiere RPM premium ($1.20+) para que valga la pena.\n` +
+                     `Genera profit mientras esperas escape al Midwest.`;
+  }
+
+  // CASO 4: Desde MIDWEST hacia TRAP (trap load)
+  else if ((zonaOrigen === 'CORE_MIDWEST' || zonaOrigen === 'EXTENDED_MIDWEST') && zonaDestino === 'TRAP') {
+    resultado.urgencia = 'BAJA';
+    resultado.estrategia = 'TRAP_LOAD';
+    resultado.ofertaMinima = 1.25;
+    resultado.ofertaRecomendada = 1.35;
+    resultado.ofertaMaxima = 1.50;
+    resultado.mensaje = '🚨 TRAP LOAD - Requiere premium';
+    resultado.razon = `Te saca del Midwest hacia trap (${destinoState}).\n` +
+                     `Necesitas $1.25+/mi para compensar costo de regresar.\n` +
+                     `Mejor: Esperar cargas dentro del Midwest.`;
+  }
+
+  return resultado;
+}
+
+/**
+ * Obtener hubs de escape recomendados desde estado actual
+ * @param {string} estadoActual - Estado donde estás (ej: 'NV')
+ * @returns {array} Lista de hubs ordenados por rating
+ */
+function obtenerHubsDeEscape(estadoActual) {
+  const hubs = HUBS_ESCAPE[estadoActual] || [];
+  return hubs.sort((a, b) => b.rating - a.rating);
+}
+
+/**
+ * Calcular costo de deadhead a hub específico
+ * @param {number} distancia - Distancia en millas
+ * @param {number} mpg - Millas por galón (default 17)
+ * @param {number} precioGalon - Precio del galón (default 3.00)
+ * @returns {object} Desglose de costos
+ */
+function calcularCostoDeadhead(distancia, mpg = 17, precioGalon = 3.00) {
+  const galones = distancia / mpg;
+  const combustible = galones * precioGalon;
+  const comida = Math.ceil(distancia / 600) * 50; // $50 por día de viaje
+  const total = combustible + comida;
+  
+  return {
+    distancia,
+    galones: Math.round(galones),
+    combustible: Math.round(combustible),
+    comida,
+    total: Math.round(total),
+    diasViaje: Math.ceil(distancia / 600)
+  };
+}
+
+// Exportar funciones globalmente
+window.calcularOfertaEstrategica = calcularOfertaEstrategica;
+window.obtenerHubsDeEscape = obtenerHubsDeEscape;
+window.calcularCostoDeadhead = calcularCostoDeadhead;
+window.HUBS_ESCAPE = HUBS_ESCAPE;
 
 // ========================================
-//  EXPOSICIN DE FUNCIONES GLOBALES (MANTENER TODAS)
+//  EXPOSICION DE FUNCIONES GLOBALES (MANTENER TODAS)
 // ========================================
 
 // Funciones principales
@@ -1744,7 +2588,7 @@ window.showRouteOnMap = showRouteOnMap;
 window.updateTotalMiles = updateTotalMiles;
 window.showMapFallback = showMapFallback;
 
-// Funciones del panel de decisin
+// Funciones del panel de decision
 window.showDecisionPanel = showDecisionPanel;
 window.hideDecisionPanel = hideDecisionPanel;
 window.copyPriceToClipboard = copyPriceToClipboard;
@@ -1755,5 +2599,539 @@ window.TU_COSTO_REAL = TU_COSTO_REAL;
 window.calcularTiempoReal = calcularTiempoReal;
 window.getDecisionInteligente = getDecisionInteligente;
 window.detectarFactoresEspeciales = detectarFactoresEspeciales;
+
+// Funciones de deteccion de trap loads (NUEVAS)
+window.analizarTrapPenalty = analizarTrapPenalty;
+window.clasificarZonaReal = clasificarZonaReal;
+
+// ========================================
+//  CLIMA CON RUTA - VERSION SIN CONFLICTOS
+//  INSTRUCCIONES: 
+//  1. BORRA todo lo que pegaste antes (desde las variables hasta el final)
+//  2. PEGA este código AL FINAL de calculator.js (antes del último debugLog)
+// ========================================
+
+// Variables para clima modal (nombres únicos)
+let weatherModalRouteLoaded = false;
+let weatherModalMap = null;
+let weatherModalDirections = null;
+let weatherModalLayers = {
+    temp: null,
+    precipitation: null,
+    clouds: null,
+    wind: null
+};
+
+// ========================================
+//  FUNCIÓN: Modal de clima con tabs
+// ========================================
+async function showWeatherModal(destination, origin = null) {
+  const apiKey = '07e0e0128247442ebd200704250712';
+  const url = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${destination}&days=3&aqi=no&alerts=yes`;
+  
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Weather API error');
+    
+    const data = await response.json();
+    const current = data.current;
+    const forecast = data.forecast.forecastday;
+    const alerts = data.alerts?.alert || [];
+    
+    const originCity = origin || document.getElementById('origin')?.value || '';
+    
+    // REEMPLAZAR SOLO el modalHTML en showWeatherModal
+// Desde: let modalHTML = `
+// Hasta: `;
+
+let modalHTML = `
+  <div id="weatherModal" class="fixed inset-0 z-50 p-6" style="display: flex; align-items: center; justify-content: center; background-color: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px);" onclick="if(event.target.id==='weatherModal') { this.remove(); document.body.style.overflow = ''; }">
+    <div class="bg-white rounded-2xl shadow-2xl w-full" style="max-width: 896px; height: 600px; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
+      
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-4 rounded-t-2xl" style="flex-shrink: 0;">
+        <div class="flex justify-between items-start">
+          <div>
+            <h2 class="text-xl font-bold">${data.location.name}, ${data.location.region}</h2>
+            <p class="text-blue-100 text-xs mt-1">${new Date().toLocaleDateString('es-US', {weekday: 'short', hour: 'numeric', minute: '2-digit'})}</p>
+          </div>
+          <button onclick="document.getElementById('weatherModal').remove(); document.body.style.overflow = '';" class="text-white/80 hover:text-white text-2xl leading-none">&times;</button>
+        </div>
+        
+        <div class="flex items-center gap-3 mt-3">
+          <img src="https:${current.condition.icon}" alt="${current.condition.text}" class="w-16 h-16">
+          <div>
+            <div class="text-4xl font-bold">${Math.round(current.temp_f)}°F</div>
+            <div class="text-sm text-blue-100">${current.condition.text}</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Tabs -->
+      <div class="flex border-b bg-gray-50" style="flex-shrink: 0;">
+        <button onclick="switchWeatherTab('current')" id="tabCurrent" class="flex-1 px-4 py-3 text-sm font-semibold border-b-2 border-blue-600 text-blue-600">
+          🌤️ Clima Actual
+        </button>
+        ${originCity ? `
+          <button onclick="switchWeatherTab('route')" id="tabRoute" class="flex-1 px-4 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-600 hover:text-blue-600">
+            📍 Ver Ruta
+          </button>
+        ` : ''}
+      </div>
+      
+      <!-- Tab: Clima Actual -->
+      <div id="tabContentCurrent" style="flex: 1; overflow-y: auto; min-height: 0;">
+        ${alerts.length > 0 ? `
+          <div class="bg-red-50 border-l-4 border-red-500 p-3 m-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="text-xl">⚠️</span>
+              <h3 class="font-bold text-red-900 text-sm">Alerta Severa</h3>
+            </div>
+            <p class="text-xs text-red-800">${alerts[0].headline}</p>
+          </div>
+        ` : ''}
+        
+        <div class="p-4 bg-gray-50">
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <div class="bg-white p-2 rounded text-center">
+              <div class="text-gray-600">Sensación</div>
+              <div class="text-lg font-bold">${Math.round(current.feelslike_f)}°F</div>
+            </div>
+            <div class="bg-white p-2 rounded text-center">
+              <div class="text-gray-600">Viento</div>
+              <div class="text-lg font-bold">${Math.round(current.wind_mph)} mph</div>
+            </div>
+            <div class="bg-white p-2 rounded text-center">
+              <div class="text-gray-600">Humedad</div>
+              <div class="text-lg font-bold">${current.humidity}%</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="p-4">
+          <h3 class="font-bold text-sm text-gray-900 mb-2">Próximos 3 Días</h3>
+          <div class="space-y-2">
+            ${forecast.map(day => {
+              const date = new Date(day.date);
+              const dayName = date.toLocaleDateString('es-US', {weekday: 'short', day: 'numeric'});
+              return `
+                <div class="bg-gray-50 rounded-lg p-2 flex items-center justify-between text-xs">
+                  <div class="flex items-center gap-2">
+                    <img src="https:${day.day.condition.icon}" alt="${day.day.condition.text}" class="w-10 h-10">
+                    <div>
+                      <div class="font-semibold">${dayName}</div>
+                      <div class="text-gray-600">${day.day.condition.text}</div>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <div class="font-bold">${Math.round(day.day.maxtemp_f)}° / ${Math.round(day.day.mintemp_f)}°</div>
+                    ${day.day.daily_chance_of_rain > 30 ? `<div class="text-blue-600">🌧️ ${day.day.daily_chance_of_rain}%</div>` : ''}
+                    ${day.day.daily_chance_of_snow > 30 ? `<div class="text-blue-600">❄️ ${day.day.daily_chance_of_snow}%</div>` : ''}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      </div>
+      
+      <!-- Tab: Ver Ruta -->
+      <div id="tabContentRoute" class="hidden" style="flex: 1; overflow-y: auto; min-height: 0;">
+        <div class="p-4 space-y-3">
+          
+          <div id="routeMap" class="w-full rounded-lg bg-gray-200 relative border-2 border-gray-300" style="height: 280px;">
+            <div id="mapLoading" class="absolute inset-0 flex items-center justify-center text-gray-600 bg-gray-100 z-10">
+              <div class="text-center">
+                <div class="text-3xl mb-2">🗺️</div>
+                <div class="text-sm">Cargando mapa...</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-gradient-to-r from-gray-50 to-blue-50 p-3 rounded-lg border border-blue-200">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-bold text-sm text-blue-900">🌦️ Capas de Clima</h3>
+              <button onclick="clearAllWeatherLayers()" class="text-xs text-red-600 hover:text-red-800 font-semibold px-2 py-1 bg-red-50 rounded hover:bg-red-100">
+                🗑️ Limpiar
+              </button>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+              <button onclick="toggleWeatherLayer('temp')" id="btnTemp" class="px-2 py-2 bg-white border-2 border-gray-300 rounded-lg text-xs font-semibold hover:border-orange-500 transition hover:shadow-md">
+                🌡️ Temp
+              </button>
+              <button onclick="toggleWeatherLayer('precipitation')" id="btnPrecipitation" class="px-2 py-2 bg-white border-2 border-gray-300 rounded-lg text-xs font-semibold hover:border-blue-500 transition hover:shadow-md">
+                🌧️ Lluvia
+              </button>
+              <button onclick="toggleWeatherLayer('clouds')" id="btnClouds" class="px-2 py-2 bg-white border-2 border-gray-300 rounded-lg text-xs font-semibold hover:border-gray-500 transition hover:shadow-md">
+                ☁️ Nubes
+              </button>
+              <button onclick="toggleWeatherLayer('wind')" id="btnWind" class="px-2 py-2 bg-white border-2 border-gray-300 rounded-lg text-xs font-semibold hover:border-green-500 transition hover:shadow-md">
+                💨 Viento
+              </button>
+            </div>
+            <div class="mt-2 text-xs text-blue-700 bg-blue-50 p-2 rounded">
+              💡 Activa capas para ver clima en tiempo real sobre la ruta
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-lg border-2 border-gray-300">
+            <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-2 rounded-t-lg">
+              <h3 class="font-bold text-sm">📍 Puntos de Control en Ruta</h3>
+            </div>
+            <div id="waypointWeather" class="p-3 space-y-2">
+              <div class="text-center text-gray-500 text-sm py-4">Cargando clima en puntos clave...</div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+    </div>
+  </div>
+`;
+    
+    
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    
+    // Bloquear scroll del body
+document.body.style.overflow = 'hidden';
+
+// Restaurar scroll al cerrar modal
+const modal = document.getElementById('weatherModal');
+modal.addEventListener('click', (e) => {
+  if (e.target.id === 'weatherModal') {
+    document.body.style.overflow = '';
+  }
+});
+
+// Restaurar scroll al cerrar con X
+const closeBtn = modal.querySelector('button');
+closeBtn.addEventListener('click', () => {
+  document.body.style.overflow = '';
+});
+
+    if (originCity) {
+      window.weatherModalData = {
+        origin: originCity,
+        destination: destination
+      };
+    }
+    
+  } catch (error) {
+    console.error('Error forecast:', error);
+    alert('No se pudo obtener el pronóstico del clima');
+  }
+}
+
+function switchWeatherTab(tab) {
+  document.getElementById('tabCurrent').className = tab === 'current' 
+    ? 'flex-1 px-4 py-3 text-sm font-semibold border-b-2 border-blue-600 text-blue-600'
+    : 'flex-1 px-4 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-600 hover:text-blue-600';
+  
+  if (document.getElementById('tabRoute')) {
+    document.getElementById('tabRoute').className = tab === 'route'
+      ? 'flex-1 px-4 py-3 text-sm font-semibold border-b-2 border-blue-600 text-blue-600'
+      : 'flex-1 px-4 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-600 hover:text-blue-600';
+  }
+  
+  // PRIMERO mostrar el tab
+  document.getElementById('tabContentCurrent').className = tab === 'current' ? 'flex-1 overflow-y-auto' : 'hidden';
+  document.getElementById('tabContentRoute').className = tab === 'route' ? 'flex-1 overflow-hidden flex flex-col' : 'hidden';
+  
+  // DESPUÉS cargar el mapa (con más tiempo)
+  if (tab === 'route' && !weatherModalRouteLoaded) {
+    console.log('🔄 Cargando mapa de ruta...');
+    setTimeout(() => {
+      loadRouteMapWithWeather();
+    }, 300); // Más tiempo para que el DOM se actualice
+  }
+}
+
+// ========================================
+//  MEJORAS: Mapa + Markers + Waypoints Dinámicos
+//  INSTRUCCIONES: REEMPLAZA loadRouteMapWithWeather en calculator.js
+// ========================================
+
+async function loadRouteMapWithWeather() {
+  if (!window.weatherModalData) return;
+  
+  const { origin, destination } = window.weatherModalData;
+  const mapDiv = document.getElementById('routeMap');
+  
+  // Crear mapa
+  weatherModalMap = new google.maps.Map(mapDiv, {
+    zoom: 6,
+    center: { lat: 40.5, lng: -86.5 },
+    mapTypeId: 'roadmap'
+  });
+  
+  const directionsService = new google.maps.DirectionsService();
+  weatherModalDirections = new google.maps.DirectionsRenderer({
+    map: weatherModalMap,
+    suppressMarkers: true,
+    polylineOptions: {
+      strokeColor: '#ef4444',
+      strokeWeight: 7,
+      strokeOpacity: 0.9
+    }
+  });
+  
+  const request = {
+    origin: origin,
+    destination: destination,
+    travelMode: 'DRIVING'
+  };
+  
+  directionsService.route(request, async (result, status) => {
+    if (status === 'OK') {
+      weatherModalDirections.setDirections(result);
+      
+      setTimeout(() => {
+        google.maps.event.trigger(weatherModalMap, 'resize');
+        weatherModalMap.setCenter({ lat: 40.5, lng: -86.5 });
+      }, 500);
+      
+      const loading = document.getElementById('mapLoading');
+      if (loading) loading.remove();
+      
+      const route = result.routes[0];
+      const leg = route.legs[0];
+      const totalMiles = leg.distance.value * 0.000621371; // metros a millas
+      
+      // ✨ CALCULAR WAYPOINTS DINÁMICOS según distancia
+      let numWaypoints = 3; // Default
+      if (totalMiles >= 900) {
+        numWaypoints = 6; // Muy largo
+      } else if (totalMiles >= 600) {
+        numWaypoints = 5;
+      } else if (totalMiles >= 300) {
+        numWaypoints = 4;
+      }
+      
+      console.log(`📏 Distancia: ${totalMiles.toFixed(0)} mi → ${numWaypoints} puntos`);
+      
+      // Crear waypoints distribuidos equitativamente
+      const waypoints = [];
+      const pathLength = route.overview_path.length;
+      
+      for (let i = 0; i < numWaypoints; i++) {
+        let position, name, type;
+        
+        if (i === 0) {
+          // Origen
+          position = leg.start_location;
+          name = origin;
+          type = 'origin';
+        } else if (i === numWaypoints - 1) {
+          // Destino
+          position = leg.end_location;
+          name = destination;
+          type = 'destination';
+        } else {
+          // Puntos intermedios distribuidos equitativamente
+          const fraction = i / (numWaypoints - 1);
+          const index = Math.floor(fraction * (pathLength - 1));
+          position = route.overview_path[index];
+          name = `Punto ${i}`;
+          type = 'mid';
+        }
+        
+        waypoints.push({ position, name, type });
+      }
+      
+      const waypointContainer = document.getElementById('waypointWeather');
+      waypointContainer.innerHTML = `
+        <div class="text-sm font-bold text-gray-700 mb-2">
+          📍 Clima en Ruta (${totalMiles.toFixed(0)} mi • ${numWaypoints} puntos)
+        </div>
+      `;
+      
+      for (const wp of waypoints) {
+        const lat = wp.position.lat();
+        const lng = wp.position.lng();
+        
+        const weatherData = await getWeatherByCoords(lat, lng);
+        
+        if (weatherData) {
+          const markerColor = wp.type === 'origin' ? '#f97316' : wp.type === 'destination' ? '#6b7280' : '#3b82f6';
+          
+          // ✨ MARKER SOLO CON TEMPERATURA GRANDE (sin círculo)
+          const marker = new google.maps.Marker({
+            position: wp.position,
+            map: weatherModalMap,
+            title: `${wp.name}: ${weatherData.temp}°F - ${weatherData.condition}`,
+            label: {
+              text: `${weatherData.temp}°`,
+              color: 'white',
+              fontSize: '16px',
+              fontWeight: 'bold'
+            },
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: 20, // Más grande
+              fillColor: markerColor,
+              fillOpacity: 0.95,
+              strokeColor: 'white',
+              strokeWeight: 3
+            }
+          });
+          
+          // Info Window al hacer click
+          const infowindow = new google.maps.InfoWindow({
+            content: `
+              <div style="padding: 8px; min-width: 150px;">
+                <div style="font-weight: bold; font-size: 14px; margin-bottom: 4px;">${wp.name}</div>
+                <div style="font-size: 24px; font-weight: bold; color: ${markerColor};">${weatherData.temp}°F</div>
+                <div style="font-size: 12px; color: #666; margin-top: 4px;">
+                  ${getWeatherEmoji(weatherData.condition)} ${weatherData.condition}<br>
+                  💨 ${weatherData.wind} mph viento
+                </div>
+              </div>
+            `
+          });
+          
+          marker.addListener('click', () => {
+            infowindow.open(weatherModalMap, marker);
+          });
+          
+          // Lista de ciudades
+          const bgColor = wp.type === 'origin' ? 'bg-orange-50 border-orange-300' : 
+                          wp.type === 'destination' ? 'bg-gray-50 border-gray-300' : 
+                          'bg-blue-50 border-blue-300';
+          
+          waypointContainer.innerHTML += `
+            <div class="${bgColor} rounded-lg p-2 flex items-center justify-between border-2">
+              <div class="flex items-center gap-2">
+                <span class="text-xl">${getWeatherEmoji(weatherData.condition)}</span>
+                <div>
+                  <div class="font-semibold text-xs">${wp.name}</div>
+                  <div class="text-xs text-gray-600">${weatherData.condition}</div>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="text-xl font-bold" style="color: ${markerColor}">${weatherData.temp}°F</div>
+                <div class="text-xs text-gray-600">${weatherData.wind} mph</div>
+              </div>
+            </div>
+          `;
+        }
+      }
+      
+      console.log('✅ Mapa completo con', numWaypoints, 'puntos');
+      
+    } else {
+      console.error('❌ Error de ruta:', status);
+      const loading = document.getElementById('mapLoading');
+      if (loading) loading.innerHTML = '<div class="text-center text-red-600">Error cargando ruta: ' + status + '</div>';
+    }
+  });
+  
+  weatherModalRouteLoaded = true;
+}
+async function getWeatherByCoords(lat, lng) {
+  const apiKey = '07e0e0128247442ebd200704250712';
+  const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${lat},${lng}&aqi=no`;
+  
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    
+    return {
+      temp: Math.round(data.current.temp_f),
+      condition: data.current.condition.text,
+      wind: Math.round(data.current.wind_mph)
+    };
+  } catch (error) {
+    console.error('Error clima:', error);
+    return null;
+  }
+}
+
+function getWeatherEmoji(condition) {
+  const cond = condition.toLowerCase();
+  if (cond.includes('snow')) return '❄️';
+  if (cond.includes('storm') || cond.includes('thunder')) return '⛈️';
+  if (cond.includes('rain')) return '🌧️';
+  if (cond.includes('cloud')) return '☁️';
+  if (cond.includes('clear') || cond.includes('sunny')) return '☀️';
+  return '🌤️';
+}
+
+function toggleWeatherLayer(layerType) {
+  if (!weatherModalMap) return;
+  
+  const OWM_API_KEY = '5d26ae818c1dfb2cc24dec85ccf68338';
+  const button = document.getElementById('btn' + layerType.charAt(0).toUpperCase() + layerType.slice(1));
+  
+  if (weatherModalLayers[layerType]) {
+    // REMOVER CAPA: Encontrar y quitar del array overlayMapTypes
+    const index = weatherModalMap.overlayMapTypes.getArray().indexOf(weatherModalLayers[layerType]);
+    if (index !== -1) {
+      weatherModalMap.overlayMapTypes.removeAt(index);
+    }
+    weatherModalLayers[layerType] = null;
+    button.className = button.className.replace(/border-\w+-500/g, 'border-gray-300').replace('bg-blue-50', '');
+    console.log('✅ Capa', layerType, 'removida');
+  } else {
+    // AGREGAR CAPA
+    const layerMap = {
+      temp: 'temp_new',
+      precipitation: 'precipitation_new',
+      clouds: 'clouds_new',
+      wind: 'wind_new'
+    };
+    
+    const colorMap = {
+      temp: 'orange',
+      precipitation: 'blue',
+      clouds: 'gray',
+      wind: 'green'
+    };
+    
+    weatherModalLayers[layerType] = new google.maps.ImageMapType({
+      getTileUrl: function(coord, zoom) {
+        return `https://tile.openweathermap.org/map/${layerMap[layerType]}/${zoom}/${coord.x}/${coord.y}.png?appid=${OWM_API_KEY}`;
+      },
+      tileSize: new google.maps.Size(256, 256),
+      opacity: 0.75,
+      name: layerType
+    });
+    
+    weatherModalMap.overlayMapTypes.push(weatherModalLayers[layerType]);
+    button.className = button.className.replace('border-gray-300', `border-${colorMap[layerType]}-500`) + ' bg-blue-50';
+    console.log('✅ Capa', layerType, 'agregada');
+  }
+}
+
+function clearAllWeatherLayers() {
+  if (!weatherModalMap) return;
+  
+  Object.keys(weatherModalLayers).forEach(layerType => {
+    if (weatherModalLayers[layerType]) {
+      // Remover del array overlayMapTypes
+      const index = weatherModalMap.overlayMapTypes.getArray().indexOf(weatherModalLayers[layerType]);
+      if (index !== -1) {
+        weatherModalMap.overlayMapTypes.removeAt(index);
+      }
+      weatherModalLayers[layerType] = null;
+      
+      // Resetear botón
+      const button = document.getElementById('btn' + layerType.charAt(0).toUpperCase() + layerType.slice(1));
+      if (button) {
+        button.className = button.className.replace(/border-\w+-500/g, 'border-gray-300').replace('bg-blue-50', '');
+      }
+    }
+  });
+  console.log('🗑️ Todas las capas removidas');
+}
+
+// Exponer funciones
+window.showWeatherModal = showWeatherModal;
+window.switchWeatherTab = switchWeatherTab;
+window.loadRouteMapWithWeather = loadRouteMapWithWeather;
+window.toggleWeatherLayer = toggleWeatherLayer;
+window.clearAllWeatherLayers = clearAllWeatherLayers;
+window.getWeatherByCoords = getWeatherByCoords;
+window.getWeatherEmoji = getWeatherEmoji;
 
 debugLog(' Calculator.js INTEGRADO cargado completamente - Costos reales + Funcionalidad completa');

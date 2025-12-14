@@ -3,7 +3,7 @@
 let allData = [];
 let filteredData = [];
 
-// FUNCIÃ“N PRINCIPAL CORREGIDA - getLoadHistory
+// FUNCION PRINCIPAL CORREGIDA - getLoadHistory
 function getLoadHistory() {
  debugLog(" Starting to load history...");
  
@@ -744,6 +744,88 @@ document.getElementById("exportExcelBtn")?.addEventListener("click", () => {
  });
 });
 
+// ======================================================
+// LEX: Analizar historial desde la burbuja
+// ======================================================
+window.analyzeLexHistory = async function () {
+  try {
+    debugLog(" [LEX-HISTORY] Iniciando análisis de historial con Lex...");
+
+    // Asegurar que LexAI exista
+    if (!window.lexAI && typeof LexAI === 'function') {
+      window.lexAI = new LexAI();
+      await window.lexAI.initializeContext();
+    }
+
+    // Elegir qué datos usar: primero el filtro, si no, todo
+    let dataToAnalyze = [];
+
+    if (Array.isArray(filteredData) && filteredData.length > 0) {
+      dataToAnalyze = filteredData;
+      debugLog(` [LEX-HISTORY] Usando ${filteredData.length} cargas filtradas`);
+    } else if (Array.isArray(allData) && allData.length > 0) {
+      dataToAnalyze = allData;
+      debugLog(` [LEX-HISTORY] Usando todas las ${allData.length} cargas`);
+    } else {
+      // Si no hay datos cargados todavía, intentamos cargarlos
+      if (typeof getLoadHistory === 'function') {
+        debugLog(" [LEX-HISTORY] No había datos, llamando getLoadHistory...");
+        await getLoadHistory();
+
+        if (Array.isArray(filteredData) && filteredData.length > 0) {
+          dataToAnalyze = filteredData;
+        } else if (Array.isArray(allData) && allData.length > 0) {
+          dataToAnalyze = allData;
+        }
+      }
+    }
+
+    // Si sigue sin haber nada, avisamos
+    if (!dataToAnalyze || dataToAnalyze.length === 0) {
+      debugLog(" [LEX-HISTORY] No hay cargas para analizar");
+      if (window.setLexState) {
+        window.setLexState('sad', {
+          message: 'No tengo cargas en el historial para analizar todavía 😕',
+          duration: 4000
+        });
+      }
+      alert('No hay cargas en el historial para analizar con Lex.');
+      return null;
+    }
+
+    // Animación / estado de Lex
+    if (window.setLexState) {
+      window.setLexState('thinking', {
+        message: `Analizando ${dataToAnalyze.length} cargas de tu historial 📚`,
+        duration: 4000
+      });
+    }
+
+    // Llamar al cerebro de Lex (método de la clase LexAI)
+    if (window.lexAI && typeof window.lexAI.analyzeHistoryLoads === 'function') {
+      const result = await window.lexAI.analyzeHistoryLoads(dataToAnalyze);
+      return result;
+    } else {
+      console.warn("[LEX-HISTORY] lexAI o analyzeHistoryLoads no disponibles");
+      if (window.setLexState) {
+        window.setLexState('warning', {
+          message: 'No pude acceder al análisis de historial de Lex ⚙️',
+          duration: 4000
+        });
+      }
+      return null;
+    }
+  } catch (err) {
+    console.error('[LEX-HISTORY] Error en analyzeLexHistory:', err);
+    if (window.setLexState) {
+      window.setLexState('warning', {
+        message: 'Algo falló al analizar el historial con Lex 🛠️',
+        duration: 5000
+      });
+    }
+    return null;
+  }
+};
 
 debugLog(" History.js loaded successfully (CORRECTED VERSION)");
 

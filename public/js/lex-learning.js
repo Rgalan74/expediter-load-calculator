@@ -2,6 +2,70 @@
 // Sistema de aprendizaje automático de Lex basado en datos históricos
 // Sin APIs externas - Todo en Firebase
 
+// ======================================================
+// LEX: Construir stateNotes desde la colección "notes"
+// ======================================================
+const LEX_STATE_CODES = [
+  'AL','AR','AZ','CA','CO','CT','DE','FL','GA','IA','ID','IL','IN','KS','KY',
+  'LA','MA','MD','ME','MI','MN','MO','MS','MT','NC','ND','NE','NH','NJ','NM',
+  'NV','NY','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VA','VT','WA',
+  'WI','WV','WY'
+];
+
+// Extraer código de estado (FL, GA, TX...) desde "Miami, FL"
+function extractStateFromDestination(dest) {
+  if (!dest || typeof dest !== 'string') return null;
+
+  const parts = dest.split(',');
+  if (parts.length < 2) return null;
+
+  const stateRaw = parts[1].trim().toUpperCase(); // "FL"
+  if (LEX_STATE_CODES.includes(stateRaw)) {
+    return stateRaw;
+  }
+  return null;
+}
+
+// Construir mapa { FL: [nota1, nota2], GA: [nota3], ... }
+async function buildStateNotesFromNotesCollection(userId) {
+  const db = firebase.firestore();
+  const snapshot = await db
+    .collection('notes')
+    .where('userId', '==', userId)
+    .orderBy('createdAt', 'asc')
+    .get();
+
+  const stateNotesMap = {};
+
+  snapshot.forEach((doc) => {
+    const data = doc.data();
+    const dest = data.destination || '';
+    const note = (data.note || '').toString().trim();
+
+    if (!note) return;
+
+    const state = extractStateFromDestination(dest);
+    if (!state) return;
+
+    if (!stateNotesMap[state]) {
+      stateNotesMap[state] = [];
+    }
+
+    // Evitar duplicados exactos
+    if (!stateNotesMap[state].includes(note)) {
+      stateNotesMap[state].push(note);
+    }
+  });
+
+  // Limitar a las últimas 3 notas por estado
+  const stateNotes = {};
+  Object.entries(stateNotesMap).forEach(([state, notes]) => {
+    stateNotes[state] = notes.slice(-3);
+  });
+
+  return stateNotes;
+}
+
 // ====================================================================
 // 1. INICIALIZAR PERFIL (Ejecutar una sola vez o cuando se necesite recalcular)
 // ====================================================================
@@ -14,9 +78,11 @@ async function initializeLexProfile() {
   }
 
   try {
+    const uid = window.currentUser.uid; // 🔹 usamos uid varias veces
+
     const loadsSnapshot = await firebase.firestore()
       .collection("loads")
-      .where("userId", "==", window.currentUser.uid)
+      .where("userId", "==", uid)
       .orderBy("date", "asc")
       .get();
     
@@ -101,6 +167,15 @@ async function initializeLexProfile() {
       .filter(([state, stats]) => stats.avgRPM < avgRPM * 0.9 || stats.avgProfit < avgProfit * 0.8)
       .map(([state]) => state)
       .sort();
+
+    // 🔹 NUEVO: construir stateNotes desde la colección "notes"
+    let stateNotes = {};
+    try {
+      stateNotes = await buildStateNotesFromNotesCollection(uid);
+    } catch (err) {
+      console.error('[LEX] Error construyendo stateNotes desde notes:', err);
+      stateNotes = {};
+    }
     
     const profile = {
       version: '1.0',
@@ -124,12 +199,13 @@ async function initializeLexProfile() {
         comida: 0.028,
         costosFijos: 0.346,
         total: 0.576
-      }
+      },
+      stateNotes // 🔹 NUEVO: notas por estado para Lex
     };
     
     await firebase.firestore()
       .collection('lexProfiles')
-      .doc(window.currentUser.uid)
+      .doc(uid)
       .set(profile);
     
     console.log('✅ Perfil de Lex inicializado');
@@ -140,6 +216,31 @@ async function initializeLexProfile() {
     throw error;
   }
 }
+
+async function refreshLexStateNotes() {
+  if (!window.currentUser) {
+    throw new Error('Usuario no autenticado');
+  }
+
+  const uid = window.currentUser.uid;
+  const db = firebase.firestore();
+  const profileRef = db.collection('lexProfiles').doc(uid);
+
+  const stateNotes = await buildStateNotesFromNotesCollection(uid);
+
+  await profileRef.set(
+    {
+      stateNotes,
+      lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+    },
+    { merge: true }
+  );
+
+  console.log('[LEX] stateNotes actualizados desde colección notes:', stateNotes);
+}
+
+window.refreshLexStateNotes = refreshLexStateNotes;
+
 
 // ====================================================================
 // 2. ACTUALIZAR PERFIL (Llamar cada vez que se guarda una carga)
@@ -326,7 +427,8 @@ async function analyzeLoadWithLearning(loadData) {
     } else if (rpm >= profile.avgRPM) {
       recommendation = 'CONSIDERA';
       color = 'yellow';
-      reasons.push(`Cerca de tu promedio ($${profile.avgRPM.toFixed(2)}/mi)`);
+      reasons.push(`Cerca de tu promedio ($${profile.avgsafe(rpm, 2)
+}/mi)`);
     } else {
       recommendation = 'NEGOCIA';
       color = 'yellow';
@@ -339,7 +441,8 @@ async function analyzeLoadWithLearning(loadData) {
         if (vsStateAvg > 10) {
           reasons.push(`✅ Mejor que tus ${stateStats.loads} cargas previas en ${destState}`);
         } else if (vsStateAvg < -10) {
-          reasons.push(`⚠️ Debajo del promedio de ${destState} ($${stateStats.avgRPM.toFixed(2)})`);
+          reasons.push(`⚠️ Debajo del promedio de ${destState} ($${stateStats.avgsafe(rpm, 2)
+})`);
         }
       } else {
         reasons.push(`📍 Solo ${stateStats.loads} carga(s) previa(s) en ${destState}`);
