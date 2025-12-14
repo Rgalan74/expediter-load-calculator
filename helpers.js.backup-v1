@@ -141,7 +141,7 @@ function formatMonth(date) {
   }
 }
 
-// ðŸ†• NUEVA FUNCIÃ“N CENTRALIZADA - NormalizaciÃ³n de fechas de cargas
+// ðŸ†• NUEVA FUNCION CENTRALIZADA - NormalizaciÃ³n de fechas de cargas
 // Esta funciÃ³n maneja todos los casos posibles de fechas en el sistema
 function normalizeLoadDate(loadData) {
   let date = loadData.date;

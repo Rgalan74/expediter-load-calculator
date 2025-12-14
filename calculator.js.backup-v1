@@ -11,7 +11,7 @@ const TU_COSTO_REAL = {
   TOTAL: 0.526            // $/mi total real
 };
 
-// âœ… FUNCIÃ“N: Calcular tiempo de viaje real
+// âœ… FUNCION: Calcular tiempo de viaje real
 function calcularTiempoReal(millas) {
   const paradasCombustible = Math.floor(millas / 300); // Cada 300mi como haces tÃº
   const tiempoManejo = millas / 75; // 75 mph promedio autopista (95% de tu tiempo)
@@ -25,7 +25,7 @@ function calcularTiempoReal(millas) {
   };
 }
 
-// âœ… FUNCIÃ“N: Reglas de decisiÃ³n inteligentes basadas en tu estrategia real
+// âœ… FUNCION: Reglas de decision inteligentes basadas en tu estrategia real
 function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
   const {
     tiempoSinCarga = 0,      // dÃ­as sin carga
@@ -116,7 +116,7 @@ function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
   };
 }
 
-// âœ… FUNCIÃ“N: Generar razones detalladas
+// âœ… FUNCION: Generar razones detalladas
 function obtenerRazonDetallada(nivel, rpm, millas, factores, razonesEspeciales = []) {
   const categoria = millas <= 400 ? "corta" : millas <= 600 ? "media" : "larga";
   const gananciaEstimada = rpm - TU_COSTO_REAL.TOTAL;
@@ -141,7 +141,7 @@ function obtenerRazonDetallada(nivel, rpm, millas, factores, razonesEspeciales =
   return razon;
 }
 
-// âœ… FUNCIÃ“N: Detectar factores especiales automÃ¡ticamente
+// âœ… FUNCION: Detectar factores especiales automÃ¡ticamente
 function detectarFactoresEspeciales(origin, destination) {
   const areasMalas = ['miami', 'south florida', 'key west', 'fort myers'];
   const areasBuilenas = ['georgia', 'atlanta', 'texas', 'dallas', 'houston', 'charlotte'];
@@ -165,7 +165,7 @@ function detectarFactoresEspeciales(origin, destination) {
   };
 }
 
-// âœ… FUNCIÃ“N PRINCIPAL: Calculate con costos reales
+// âœ… FUNCION PRINCIPAL: Calculate con costos reales
 async function calculate() {
   try {
     console.log("ðŸš€ Calculando con costos reales confirmados...");
@@ -231,7 +231,7 @@ async function calculate() {
       totalExpenses, netProfit, margin, profitPerMile, actualRPM, rpm, rate
     });
 
-    // âœ… Mostrar panel de decisiÃ³n
+    // âœ… Mostrar panel de decision
     showDecisionPanel({
       totalCharge,
       netProfit,
@@ -349,7 +349,7 @@ document.addEventListener("DOMContentLoaded", syncRateAndRpm);
 // âœ… Exponer globalmente
 window.calculate = calculate;
 
-// âœ… FUNCIÃ“N: Actualizar resultados principales (mantiene compatibilidad con UI existente)
+// âœ… FUNCION: Actualizar resultados principales (mantiene compatibilidad con UI existente)
 function updateMainResults(data) {
   const updates = {
     tripMiles: data.totalMiles.toLocaleString(),
@@ -381,11 +381,11 @@ function updateMainResults(data) {
   updateProfitabilityStatus(data.margin);
 }
 
-// âœ… FUNCIÃ“N: Panel de decisiÃ³n mejorado (combina ambas versiones)
+// âœ… FUNCION: Panel de decision mejorado (combina ambas versiones)
 function showDecisionPanel(calculationData = {}) {
   const panel = document.getElementById('decisionPanel');
   if (!panel) {
-    console.warn("Panel de decisiÃ³n no encontrado");
+    console.warn("Panel de decision no encontrado");
     return;
   }
 
@@ -408,7 +408,7 @@ function showDecisionPanel(calculationData = {}) {
   // âœ… Detectar factores especiales automÃ¡ticamente
   const factoresEspeciales = detectarFactoresEspeciales(origin, destination);
 
-  // âœ… DecisiÃ³n inteligente
+  // âœ… decision inteligente
   const decision = getDecisionInteligente(rpm, totalMiles, factoresEspeciales);
 
   // âœ… Actualizar DOM con IDs existentes
@@ -433,7 +433,7 @@ function showDecisionPanel(calculationData = {}) {
     }
   });
 
-  // Aplicar color de decisiÃ³n
+  // Aplicar color de decision
   const container = document.getElementById('decisionContainer');
   if (container) {
     container.classList.remove('decision-accept', 'decision-warning', 'decision-reject');
@@ -443,7 +443,7 @@ function showDecisionPanel(calculationData = {}) {
   // Mostrar panel
   panel.classList.remove('hidden');
 
-  console.log(`ðŸŽ¯ DecisiÃ³n inteligente: ${decision.decision} - RPM $${rpm.toFixed(2)}/mi - Ganancia $${netProfit.toFixed(0)}`);
+  console.log(`ðŸŽ¯ decision inteligente: ${decision.decision} - RPM $${rpm.toFixed(2)}/mi - Ganancia $${netProfit.toFixed(0)}`);
 }
 
 
@@ -454,7 +454,7 @@ window.showDestinationNotes = showDestinationNotes;
 // âœ… MANTENER TODAS LAS FUNCIONES EXISTENTES
 // ========================================
 
-// âœ… FUNCIÃ“N: Copiar precio al portapapeles (MANTENER)
+// âœ… FUNCION: Copiar precio al portapapeles (MANTENER)
 function copyPriceToClipboard() {
     const totalChargeEl = document.getElementById('totalCharge');
     if (!totalChargeEl) {
@@ -492,7 +492,7 @@ function copyPriceToClipboard() {
     });
 }
 
-// âœ… FUNCIÃ“N: Aceptar y guardar automÃ¡ticamente (MANTENER)
+// âœ… FUNCION: Aceptar y guardar automÃ¡ticamente (MANTENER)
 function acceptAndSave() {
     if (typeof saveLoad === 'function') {
         saveLoad();
@@ -519,7 +519,7 @@ function acceptAndSave() {
     }
 }
 
-// âœ… FUNCIÃ“N: Ocultar panel de decisiÃ³n (MANTENER)
+// âœ… FUNCION: Ocultar panel de decision (MANTENER)
 function hideDecisionPanel() {
     const panel = document.getElementById('decisionPanel');
     if (panel) {
@@ -715,7 +715,7 @@ function getStateFromLocation(location) {
     return '';
 }
 
-// âœ… FUNCIÃ“N: Actualizar estado de rentabilidad (MANTENER)
+// âœ… FUNCION: Actualizar estado de rentabilidad (MANTENER)
 function updateProfitabilityStatus(margin) {
     const statusEl = document.getElementById('profitabilityStatus');
     if (!statusEl) return;
@@ -742,7 +742,7 @@ function updateProfitabilityStatus(margin) {
     statusEl.className = className;
 }
 
-// âœ… FUNCIÃ“N: Limpiar formulario (MANTENER NOMBRE ORIGINAL)
+// âœ… FUNCION: Limpiar formulario (MANTENER NOMBRE ORIGINAL)
 function clearForm() {
     console.log('Limpiando formulario...');
     
@@ -780,7 +780,7 @@ function clearForm() {
 // âœ… Variables globales para Google Maps
 let googleMap, directionsService, directionsRenderer;
 
-// âœ… FUNCIÃ“N: Actualizar mapa
+// âœ… FUNCION: Actualizar mapa
 function updateMap() {
     const origin = document.getElementById('origin')?.value?.trim();
     const destination = document.getElementById('destination')?.value?.trim();
@@ -816,7 +816,7 @@ function showMapFallback(origin, destination) {
     }
 }
 
-// âœ… FUNCIÃ“N: Abrir Google Maps (MANTENER)
+// âœ… FUNCION: Abrir Google Maps (MANTENER)
 function openGoogleMapsDirections() {
     const origin = document.getElementById('origin').value.trim();
     const destination = document.getElementById('destination').value.trim();
@@ -827,7 +827,7 @@ function openGoogleMapsDirections() {
     }
 }
 
-// âœ… FUNCIÃ“N: Mostrar ruta en mapa
+// âœ… FUNCION: Mostrar ruta en mapa
 function showRouteOnMap(origin, destination) {
     if (!directionsService || !directionsRenderer) {
         console.warn("Google Maps services not ready");
@@ -865,7 +865,7 @@ function showRouteOnMap(origin, destination) {
     });
 }
 
-// âœ… FUNCIÃ“N: Calcular distancia automÃ¡ticamente
+// âœ… FUNCION: Calcular distancia automÃ¡ticamente
 function calculateDistanceAutomatically() {
     // Intentar obtener de inputs ocultos primero (nuevo sistema)
     let origin = document.getElementById('origin-value')?.value?.trim();
@@ -913,7 +913,7 @@ function calculateDistanceAutomatically() {
     }
 }
 
-// âœ… FUNCIÃ“N: Actualizar total de millas
+// âœ… FUNCION: Actualizar total de millas
 function updateTotalMiles() {
     const loadedMiles = Number(document.getElementById('loadedMiles')?.value || 0);
     const deadheadMiles = Number(document.getElementById('deadheadMiles')?.value || 0);
@@ -925,7 +925,7 @@ function updateTotalMiles() {
     }
 }
 
-// âœ… FUNCIÃ“N: Inicializar Google Maps
+// âœ… FUNCION: Inicializar Google Maps
 function initGoogleMaps() {
     try {
         if (typeof google === 'undefined') {
@@ -969,7 +969,7 @@ function initGoogleMaps() {
     }
 }
 
-// âœ… FUNCIÃ“N: Entry point oficial para Google Maps callback
+// âœ… FUNCION: Entry point oficial para Google Maps callback
 function initMap() {
     console.log("âœ… initMap() llamado por Google Maps API");
     initGoogleMaps();
@@ -978,7 +978,7 @@ function initMap() {
 // Exponer initMap globalmente para el callback de Google Maps
 window.initMap = initMap;
 
-// âœ… FUNCIÃ“N: Configurar autocompletado de Google Places
+// âœ… FUNCION: Configurar autocompletado de Google Places
 // NOTA: PlaceAutocompleteElement no se inicializa correctamente (shadow DOM vacÃ­o)
 // Usando mÃ©todo Autocomplete legacy que funciona perfectamente
 async function setupGoogleAutocomplete() {
@@ -1029,7 +1029,7 @@ async function setupGoogleAutocomplete() {
   }
 }
 
-// ðŸ”„ FUNCIÃ“N FALLBACK: Autocomplete legacy si falla el nuevo
+// ðŸ”„  FALLBACK: Autocomplete legacy si falla el nuevo
 function setupLegacyAutocomplete() {
   try {
     console.log("ðŸ”„ Configurando Autocomplete legacy...");
@@ -1091,7 +1091,7 @@ function setupLegacyAutocomplete() {
   }
 }
 
-// ðŸ†• FUNCIÃ“N: Calcular distancia usando valores de inputs ocultos
+// ðŸ†• FUNCION: Calcular distancia usando valores de inputs ocultos
 function calculateDistanceFromHidden(origin, destination) {
   if (!origin || !destination) {
     console.warn("âš ï¸ Faltan valores para calcular");
@@ -1139,7 +1139,7 @@ function calculateDistanceFromHidden(origin, destination) {
 
 
 
-// âœ… FUNCIÃ“N: Sincronizar vista de rentabilidad
+// âœ… FUNCION: Sincronizar vista de rentabilidad
 function syncRentabilityCardSingleView() {
     const rentCard = document.getElementById('rentabilityCard');
     if (rentCard) {
@@ -1534,7 +1534,7 @@ window.showRouteOnMap = showRouteOnMap;
 window.updateTotalMiles = updateTotalMiles;
 window.showMapFallback = showMapFallback;
 
-// Funciones del panel de decisiÃ³n
+// Funciones del panel de decision
 window.showDecisionPanel = showDecisionPanel;
 window.hideDecisionPanel = hideDecisionPanel;
 window.copyPriceToClipboard = copyPriceToClipboard;

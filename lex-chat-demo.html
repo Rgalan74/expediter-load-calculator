@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Demo Lex Chat</title>
+  <!-- Tailwind vía CDN solo para la demo -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 flex items-center justify-center min-h-screen">
+
+  <!-- FONDO OSCURECIDO TIPO MODAL -->
+  <div class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+    <!-- CONTENEDOR PRINCIPAL DEL MODAL DE LEX -->
+    <div class="bg-slate-900/80 backdrop-blur-xl border border-slate-700 rounded-2xl shadow-2xl w-full max-w-xl flex flex-col max-h-[90vh]">
+      
+      <!-- HEADER -->
+      <div class="flex items-center gap-3 px-4 py-3 border-b border-slate-700">
+        <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full bg-slate-800" alt="Lex">
+        <div class="flex-1">
+          <h2 class="text-sm font-semibold text-slate-50">Lex · Copiloto de Cargas</h2>
+          <p class="text-[11px] text-slate-400">
+            Pregúntame sobre esta carga, tus zonas, o tus números.
+          </p>
+        </div>
+        <button class="text-slate-400 text-xs hover:text-slate-100">
+          ✕
+        </button>
+      </div>
+
+      <!-- ÁREA DE CHAT -->
+      <div id="lexChatMessages" class="flex-1 overflow-y-auto px-4 py-3 space-y-3 text-[13px]">
+        <!-- Mensaje inicial de Lex -->
+        <div class="flex items-start gap-2">
+          <div class="w-7 h-7 rounded-full bg-slate-700 flex items-center justify-center text-[11px] text-slate-200">
+            L
+          </div>
+          <div class="bg-slate-800/80 border border-slate-700 rounded-2xl rounded-tl-sm px-3 py-2 max-w-[85%] text-slate-100">
+            <p>Hola Ricardo 👋 Soy Lex. Puedo ayudarte a analizar tu carga, tu historial o tus zonas. ¿Qué quieres revisar ahora?</p>
+          </div>
+        </div>
+
+        <!-- Mensaje de ejemplo del usuario -->
+        <div class="flex items-start gap-2 justify-end">
+          <div class="bg-blue-600 rounded-2xl rounded-tr-sm px-3 py-2 max-w-[85%] text-slate-50">
+            <p>Quiero saber cómo estuvo mi RPM promedio este mes.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- INPUT / CAJA DE MENSAJE -->
+      <form id="lexChatForm" class="border-t border-slate-700 px-3 py-2 flex items-center gap-2">
+        <input
+          id="lexChatInput"
+          type="text"
+          class="flex-1 bg-slate-800 text-slate-100 text-[13px] px-3 py-2 rounded-xl border border-slate-600 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          placeholder="Escríbeme algo como: ¿Vale la pena aceptar esta carga?"
+        />
+        <button
+          type="submit"
+          class="px-3 py-2 rounded-xl bg-blue-600 text-white text-[13px] font-medium hover:bg-blue-500 active:scale-95 transition"
+        >
+          Enviar
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('lexChatForm');
+    const input = document.getElementById('lexChatInput');
+    const messages = document.getElementById('lexChatMessages');
+
+    function appendUserMessage(text) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'flex items-start gap-2 justify-end';
+      wrapper.innerHTML = `
+        <div class="bg-blue-600 rounded-2xl rounded-tr-sm px-3 py-2 max-w-[85%] text-slate-50">
+          <p>${text}</p>
+        </div>
+      `;
+      messages.appendChild(wrapper);
+    }
+
+    function appendLexMessage(text) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'flex items-start gap-2';
+      wrapper.innerHTML = `
+        <div class="w-7 h-7 rounded-full bg-slate-700 flex items-center justify-center text-[11px] text-slate-200">
+          L
+        </div>
+        <div class="bg-slate-800/80 border border-slate-700 rounded-2xl rounded-tl-sm px-3 py-2 max-w-[85%] text-slate-100">
+          <p>${text}</p>
+        </div>
+      `;
+      messages.appendChild(wrapper);
+    }
+
+    function scrollToBottom() {
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendUserMessage(text);
+      input.value = '';
+
+      // Simulación de respuesta de Lex (luego esto se conectará al cerebro real)
+      setTimeout(() => {
+        appendLexMessage('Estoy procesando tu pregunta... luego aquí vendrá la respuesta real basada en tus datos. 😉');
+        scrollToBottom();
+      }, 600);
+
+      scrollToBottom();
+    });
+  </script>
+
+</body>
+</html>

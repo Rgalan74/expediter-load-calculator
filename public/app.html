@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <!-- 📱 PWA / Mobile -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="theme-color" content="#3b82f6">
   <meta name="apple-mobile-web-app-title" content="Expediter Load Calculator">
 
-  <!-- 🔍 SEO -->
-  <meta name="description" content="Panel de control para expediteros. Calcula cargas, visualiza zonas, historial y estadísticas.">
+  <!-- 📝 SEO -->
+  <meta name="description"
+    content="Panel de control para expediteros. Calcula cargas, visualiza zonas, historial y estadísticas.">
   <meta name="author" content="Galan Cargo Express">
 
-  <!-- 📖 Título -->
+  <!-- 🔖 Título -->
   <title>App | Expediter Load Calculator</title>
 
-  <!-- 🔍· Icono -->
+  <!-- 📷 Icono -->
   <link rel="icon" type="image/png" href="img/logo-app.png">
 
   <!-- 🎨 Estilos -->
@@ -33,52 +35,65 @@
       color: white !important;
       box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
     }
+
     .decision-warning {
       background: linear-gradient(135deg, #f59e0b, #d97706) !important;
       color: white !important;
       box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
     }
+
     .decision-reject {
       background: linear-gradient(135deg, #ef4444, #dc2626) !important;
       color: white !important;
       box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
     }
+
     #decisionPanel {
       transition: all 0.5s ease;
       padding: 20px;
     }
+
     #decisionPanel.hidden {
       transform: translateY(-20px);
       opacity: 0;
     }
+
     #quickPrice {
       font-size: 2.5rem;
       margin-bottom: 16px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       line-height: 1;
     }
 
     /* Rentabilidad */
-    .rentabilidad-card { transition: all 0.5s ease; }
+    .rentabilidad-card {
+      transition: all 0.5s ease;
+    }
+
     .rentabilidad-excelente {
       background: linear-gradient(135deg, #dcfce7, #bbf7d0);
       border: 2px solid #16a34a;
       box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
       color: #065f46;
     }
+
     .rentabilidad-buena {
       background: linear-gradient(135deg, #fef3c7, #fde68a);
       border: 2px solid #d97706;
       box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
       color: #92400e;
     }
+
     .rentabilidad-mala {
       background: linear-gradient(135deg, #fecaca, #fca5a5);
       border: 2px solid #dc2626;
       box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
       color: #991b1b;
     }
-    #rentabilityCard { display: none !important; }
+
+    #rentabilityCard {
+      display: none !important;
+    }
 
     /* Animaciones */
     #realCostPanel {
@@ -86,25 +101,51 @@
       padding: 10px;
       margin-top: 10px;
     }
+
     @keyframes slideIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Utilidades */
-    .profit-positive { color: #059669; }
-    .profit-negative { color: #dc2626; }
-    .pulse-success { animation: pulse-success 2s infinite; }
+    .profit-positive {
+      color: #059669;
+    }
+
+    .profit-negative {
+      color: #dc2626;
+    }
+
+    .pulse-success {
+      animation: pulse-success 2s infinite;
+    }
+
     @keyframes pulse-success {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      }
+
+      70% {
+        box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+      }
     }
 
     /* Fondo transparente */
     #decisionContainer .bg-white.bg-opacity-20 {
       background: rgba(255, 255, 255, 0.15) !important;
-      -webkit-backdrop-filter: blur(8px); /* Safari */
-      backdrop-filter: blur(8px);         /* Estándar */
+      -webkit-backdrop-filter: blur(8px);
+      /* Safari */
+      backdrop-filter: blur(8px);
+      /* Estándar */
       border: 1px solid rgba(255, 255, 255, 0.25);
     }
 
@@ -115,16 +156,222 @@
     #decisionContainer #quickPrice,
     #decisionContainer .text-xl.font-bold {
       color: white !important;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
       font-weight: bold;
     }
+
+  /* =====================================================
+   CSS FINAL - Con arreglos de colores
+   Agregar en app.html después de línea 160
+   ===================================================== */
+
+/* Headers dinámicos */
+.decision-header-accept {
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.decision-header-warning {
+  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.decision-header-reject {
+  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* Animación pulse verde */
+.pulse-glow-green {
+  animation: pulse-glow-green 2s infinite;
+}
+
+@keyframes pulse-glow-green {
+  0%, 100% { box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+  50% { box-shadow: 0 4px 20px rgba(16, 185, 129, 0.6); }
+}
+
+/* ARREGLO: KPIs con fondo más visible */
+#decisionHeader .grid > div {
+  background: rgba(255, 255, 255, 0.25) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+/* ARREGLO: Badges con fondo más visible */
+#decisionBadges > span {
+  background: rgba(255, 255, 255, 0.25) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Sección de ganancia - positiva */
+.profit-section-positive {
+  background: linear-gradient(to right, #dcfce7, #d1fae5) !important;
+  border: 2px solid #22c55e !important;
+}
+
+/* ARREGLO: Textos verde oscuro sobre fondo verde claro */
+.profit-section-positive #profitLabel {
+  color: #166534 !important;
+}
+
+.profit-section-positive #netProfit,
+.profit-section-positive #profitDetails {
+  color: #15803d !important;
+}
+
+/* ARREGLO: Tiempo/paradas en gris oscuro (no blanco) */
+.profit-section-positive .text-right div {
+  color: #374151 !important;
+}
+
+/* Sección de ganancia - advertencia */
+.profit-section-warning {
+  background: linear-gradient(to right, #fef3c7, #fde68a) !important;
+  border: 2px solid #eab308 !important;
+}
+
+.profit-section-warning #profitLabel {
+  color: #854d0e !important;
+}
+
+.profit-section-warning #netProfit,
+.profit-section-warning #profitDetails {
+  color: #a16207 !important;
+}
+
+.profit-section-warning .text-right div {
+  color: #374151 !important;
+}
+
+/* Sección de ganancia - negativa */
+.profit-section-negative {
+  background: linear-gradient(to right, #fecaca, #fca5a5) !important;
+  border: 2px solid #ef4444 !important;
+}
+
+.profit-section-negative #profitLabel {
+  color: #991b1b !important;
+}
+
+.profit-section-negative #netProfit,
+.profit-section-negative #profitDetails {
+  color: #b91c1c !important;
+}
+
+.profit-section-negative .text-right div {
+  color: #374151 !important;
+}
+
+/* Responsive móvil */
+@media (max-width: 768px) {
+  .decision-panel {
+    margin-left: 0.25rem !important;
+    margin-right: 0.25rem !important;
+    max-width: calc(100vw - 0.5rem) !important;
+  }
+  
+  #decisionHeader {
+    padding: 0.75rem !important;
+  }
+  
+  #decisionTitle {
+    font-size: 1.25rem !important;
+    line-height: 1.3 !important;
+  }
+  
+  #decisionRoute {
+    font-size: 0.75rem !important;
+  }
+  
+  #quickPrice {
+    font-size: 1.75rem !important;
+  }
+  
+  #decisionIcon {
+    font-size: 2rem !important;
+  }
+  
+  #decisionHeader .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.5rem !important;
+  }
+  
+  #decisionHeader .grid > div > div:last-child {
+    font-size: 1rem !important;
+  }
+  
+  #decisionHeader .grid > div > div:first-child {
+    font-size: 0.625rem !important;
+  }
+  
+  #decisionBadges {
+    gap: 0.375rem !important;
+  }
+  
+  #decisionBadges > span {
+    font-size: 0.75rem !important;
+    padding: 0.25rem 0.5rem !important;
+  }
+  
+  .decision-content {
+    padding: 0.75rem !important;
+  }
+  
+  .costs-section {
+    padding: 0.75rem !important;
+    font-size: 0.875rem !important;
+  }
+  
+  .profit-section {
+    padding: 0.75rem !important;
+  }
+  
+  #netProfit {
+    font-size: 1.75rem !important;
+  }
+  
+  #profitDetails {
+    font-size: 0.6875rem !important;
+  }
+}
+
+/* KPIs - Textos blancos y bold */
+#decisionHeader .grid > div > div:last-child {
+  color: white !important;
+  font-weight: 700 !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#decisionHeader .grid > div > div:first-child {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 500 !important;
+}
+
+/* Título decisión y cotización con sombra */
+#decisionTitle {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+#quickPrice {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Label "Cotización" también con sombra */
+#decisionHeader .text-right .text-xs {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
 
     /* Labels y subtítulos */
     #decisionContainer .text-blue-100,
     #decisionContainer .text-sm,
     #decisionSubtitle {
       color: rgba(255, 255, 255, 0.85) !important;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     }
 
     /* Info adicional */
@@ -134,27 +381,30 @@
       background: rgba(0, 0, 0, 0.15) !important;
       padding: 4px 8px;
       border-radius: 6px;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     }
 
     /* Título principal */
     #decisionText {
       color: white !important;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
       font-weight: bold;
     }
 
     /* Icono */
-    #decisionIcon { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+    #decisionIcon {
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    }
 
     /* Botones */
     #decisionContainer button {
       background: rgba(255, 255, 255, 0.2) !important;
       color: white !important;
       border: 1px solid rgba(255, 255, 255, 0.3) !important;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease;
     }
+
     #decisionContainer button:hover {
       background: rgba(255, 255, 255, 0.3) !important;
       transform: translateY(-1px);
@@ -162,1111 +412,1204 @@
 
     /* Responsive */
     @media (max-width: 640px) {
-      #decisionContainer .text-3xl { font-size: 2rem !important; }
-      #decisionContainer .text-xl { font-size: 1.25rem !important; }
+      #decisionContainer .text-3xl {
+        font-size: 2rem !important;
+      }
+
+      #decisionContainer .text-xl {
+        font-size: 1.25rem !important;
+      }
     }
   </style>
   <style>
-@media (max-width: 768px) {
-    #zones #interactiveMap {
+    @media (max-width: 768px) {
+      #zones #interactiveMap {
         height: 400px !important;
         max-height: 400px !important;
         width: 100% !important;
+      }
     }
-}
-/* === Badge de zonas (colores más intensos y contrastantes) === */
-#decisionContainer #zoneBadgeHTML .text-green-300  { color: #22c55e !important; }   /* Verde intenso  */
-#decisionContainer #zoneBadgeHTML .text-yellow-300 { color: #eab308 !important; }   /* Amarillo cálido */
-#decisionContainer #zoneBadgeHTML .text-red-300    { color: #dc2626 !important; }   /* Rojo fuerte     */
-#decisionContainer #zoneBadgeHTML .text-gray-300   { color: #9ca3af !important; }   /* Gris neutro     */
 
-</style>
+    /* === Badge de zonas (colores más intensos y contrastantes) === */
+    #decisionContainer #zoneBadgeHTML .text-green-300 {
+      color: #22c55e !important;
+    }
+
+    /* Verde intenso  */
+    #decisionContainer #zoneBadgeHTML .text-yellow-300 {
+      color: #eab308 !important;
+    }
+
+    /* Amarillo cálido */
+    #decisionContainer #zoneBadgeHTML .text-red-300 {
+      color: #dc2626 !important;
+    }
+
+    /* Rojo fuerte     */
+    #decisionContainer #zoneBadgeHTML .text-gray-300 {
+      color: #9ca3af !important;
+    }
+
+    /* Gris neutro     */
+  </style>
 </head>
 
 <body class="bg-gray-100 text-gray-900">
-    <!-- Login Screen -->
-    <div id="loginScreen" class="text-center mt-20 text-gray-600 text-xl">
-        <p>Inicia sesión para acceder a tu cuenta</p>
-    </div>
+  <!-- Login Screen -->
+  <div id="loginScreen" class="text-center mt-20 text-gray-600 text-xl">
+    <p>Inicia sesión para acceder a tu cuenta</p>
+  </div>
 
-    <!-- App Content -->
-    <div id="appContent" class="hidden">
-   <!-- Header -->
-<header class="w-full z-50 bg-white shadow">
-  <div class="max-w-7xl mx-auto px-2 py-2 md:px-4 md:py-4 flex items-center justify-between">
+  <!-- App Content -->
+  <div id="appContent" class="hidden">
+    <!-- Header -->
+    <header class="w-full z-50 bg-white shadow">
+      <div class="max-w-7xl mx-auto px-2 py-2 md:px-4 md:py-4 flex items-center justify-between">
 
-    <!-- Logo + Nombre -->
-    <div class="flex items-center gap-2">
-      <img src="img/logo-app.png" alt="Logo" class="w-9 h-9 md:w-16 md:h-16 rounded-full border border-gray-300 shadow">
-      <span class="text-lg md:text-3xl font-bold text-gray-900">
-        <span class="md:hidden">Load Calculator</span>
-        <span class="hidden md:inline">Expediter Load Calculator</span>
-      </span>
-    </div>
+        <!-- Logo + Nombre -->
+        <div class="flex items-center gap-2">
+          <img src="img/logo-app.png" alt="Logo"
+            class="w-9 h-9 md:w-16 md:h-16 rounded-full border border-gray-300 shadow">
+          <span class="text-lg md:text-3xl font-bold text-gray-900">
+            <span class="md:hidden">Load Calculator</span>
+            <span class="hidden md:inline">Expediter Load Calculator</span>
+          </span>
+        </div>
 
-    <!-- Botones de acción -->
-    <div class="flex items-center gap-3 md:justify-between md:w-auto ml-auto">
-      
-      <!-- Botón hamburguesa (solo móvil, izquierda) -->
-      <button id="menuToggle"
-        class="md:hidden text-gray-800 focus:outline-none text-3xl leading-none">☰</button>
+        <!-- Botones de acción -->
+        <div class="flex items-center gap-3 md:justify-between md:w-auto ml-auto">
 
-      <!-- Botón logout (siempre a la derecha) -->
-      <button id="logoutBtn"
-        class="p-1 bg-transparent border-0 hover:opacity-70 
+          <!-- Botón hamburguesa (solo móvil, izquierda) -->
+          <button id="menuToggle" class="md:hidden text-gray-800 focus:outline-none text-3xl leading-none">
+            ☰
+          </button>
+
+          <!-- Botón logout (siempre a la derecha) -->
+          <button id="logoutBtn" class="p-1 bg-transparent border-0 hover:opacity-70 
                md:bg-white md:hover:bg-gray-50 md:text-red-600 
                md:border-2 md:border-red-500 md:hover:border-red-600 
                md:px-4 md:py-2 md:rounded md:text-sm md:font-medium 
                flex items-center gap-2 ml-auto transition-all focus:outline-none">
-        <!-- Ícono en mobile y desktop -->
-        <img src="img/logout-icon.png" alt="Logout" class="w-8 h-8" 
-             style="filter: brightness(0) saturate(100%) invert(1);">
-        <!-- Texto solo en desktop -->
-        <span class="hidden md:inline text-base">Cerrar sesión</span>
-      </button>
-    </div>
-
-  </div>
-   
-
-
-
-  <!-- Navigation tabs (solo desktop) -->
-<nav class="hidden md:block border-t border-gray-200 bg-white relative overflow-visible">
-  <div class="max-w-7xl mx-auto px-2 md:px-6 flex gap-2 md:gap-8 py-2 md:py-3 overflow-x-auto">
-
-    <!-- Calculadora -->
-    <button class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap" data-tab="calculator">
-      <span class="md:hidden">🧮</span>
-      <span class="hidden md:inline">Calculadora</span>
-      <span class="md:hidden ml-1">Calc</span>
-    </button>
-
-    <!-- Historial -->
-    <button class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap" data-tab="history">
-      <span class="md:hidden">📜</span>
-      <span class="hidden md:inline">Historial</span>
-      <span class="md:hidden ml-1">Hist</span>
-    </button>
-
-    <!-- Finanzas -->
-    <button class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap" data-tab="finances">
-      <span class="md:hidden">💰</span>
-      <span class="hidden md:inline">Finanzas</span>
-      <span class="md:hidden ml-1">Fins</span>
-    </button>
-
-    <!-- Zonas -->
-    <button class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap" data-tab="zones">
-      <span class="md:hidden">🗺️</span>
-      <span class="hidden md:inline">Zonas</span>
-      <span class="md:hidden ml-1">Map</span>
-    </button>
-
-    <!-- Configuración -->
-    <button class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap" data-tab="settings">
-      <span class="md:hidden">⚙️</span>
-      <span class="hidden md:inline">Configuración</span>
-      <span class="md:hidden ml-1">Set</span>
-    </button>
-
-  </div>
-</nav>
-
-
-  <div id="mobileMenu"
-     class="md:hidden hidden flex-col px-4 pb-4 space-y-2 bg-white text-sm font-semibold text-gray-900 shadow
-            transform transition-all duration-300 ease-in-out origin-top scale-y-0 opacity-0">
-  <button class="tab-link text-left w-full hover:text-blue-600" data-tab="calculator">🧮 Calculadora</button>
-  <button class="tab-link text-left w-full hover:text-blue-600" data-tab="history">📜 Historial</button>
-  <button class="tab-link text-left w-full hover:text-blue-600" data-tab="finances">💰 Finanzas</button>
-  <button class="tab-link text-left w-full hover:text-blue-600" data-tab="zones">🗺️ Zonas</button>
-  <button class="tab-link text-left w-full hover:text-blue-600" data-tab="settings">⚙️ Configuración</button>
-</div>
-</header>
-
-
-        <!-- Global Messages -->
-        <div id="globalMessage" class="hidden"></div>
-<div id="historyMessage" class="hidden"></div>
-
-
-         <!-- Main Content -->
-        <main class="w-full px-4 mt-6">
-<!-- Calculator Tab -->
-<section id="calculator" class="tab-content">
- <div class="w-full px-6 py-6 space-y-8">
-    
-    <!-- Encabezado -->
-    <div class="section-header text-center">
-     <h2 class="font-bold mb-4">🧮 Calculadora de Cargas</h2>
-      <p class="subtitle">Cálculos con decisión automática</p>
-    </div>
-    
-    <!-- Grid padre de las 3 tarjetas -->
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-      <!-- 🔍 Información de Ruta -->
-<div class="card-section lg:col-span-2">
-  <h3 class="text-2xl font-bold mb-4">🔍 Información de Ruta</h3>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-    
-    <!-- Origen y destino -->
-    <div class="space-y-4">
-      <input class="border p-3 w-full rounded-lg text-base placeholder:text-sm" 
-             id="origin" placeholder="Origen (ej: Miami, FL)">
-      <input class="border p-3 w-full rounded-lg text-base placeholder:text-sm" 
-       id="destination" 
-       placeholder="Destino (ej: Atlanta, GA)" 
-       oninput="showDestinationNotesDebounced(this.value)">
-
-      <input class="border p-3 w-full rounded-lg text-base placeholder:text-sm" 
-             id="loadNumber" placeholder="Número de Carga (opcional)">
-    </div>
-
-    <!-- Empresa + Notas -->
-    <div class="space-y-4">
-      <input class="border p-3 w-full rounded-lg text-base placeholder:text-sm" 
-             id="companyName" placeholder="Empresa (opcional)">
-
-      <!-- 🔍 Notas previas (CRUD) -->
-     <!-- 🔍Œ Cuadro amarillo en calculadora -->
-<div id="previousNoteBox"
-     class="p-3 rounded-lg bg-yellow-50 border border-yellow-200 text-sm text-gray-800 hidden">
-  <p id="notesStatusText">ℹ️ No hay notas para este destino.</p>
-  <button onclick="openNotesModal(document.getElementById('destination').value)"
-          class="mt-2 bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
-    🔍– Ver Notas
-  </button>
-</div>
-
-    </div>
-  </div>
-</div>
-
-      <!-- 🔍 Información de Millas -->
-      <div class="card-section col-span-1">
-        <h3 class="text-2xl font-bold mb-4">🔍 Información de Millas</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label class="block text-gray-700 text-base font-medium mb-2">Millas Cotizadas *</label>
-            <input type="number" id="loadedMiles" placeholder="644" class="border p-3 w-full rounded-lg text-base">
-            <p class="text-xs text-gray-500 mt-1">Incluye loaded + deadhead to pickup</p>
-          </div>
-          <div>
-            <label class="block text-gray-700 text-base font-medium mb-2">Millas Vacías (opcional)</label>
-            <input type="number" id="deadheadMiles" placeholder="0" class="border p-3 w-full rounded-lg text-base">
-            <p class="text-xs text-gray-500 mt-1">Solo si necesitas separar deadhead</p>
-          </div>
-          <div>
-            <label class="block text-gray-700 text-base font-medium mb-2">Total Millas</label>
-            <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-3 text-center">
-              <span id="tripMiles" class="text-2xl font-bold text-blue-800">0</span>
-              <span class="text-blue-600 text-sm ml-1">millas</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 💰 Finanzas -->
-      <div class="card-section col-span-1">
-        <h3 class="text-2xl font-bold mb-4">💰 Información Financiera</h3>
-        <div class="space-y-4">
-          <div>
-            <label class="block text-gray-700 text-base font-medium mb-2">RPM ($/milla) *</label>
-            <input type="number" id="rpm" step="0.01" placeholder="2.20" class="border p-3 w-full rounded-lg text-base">
-          </div>
-          <div>
-             <label class="block text-gray-700 text-base font-medium mb-2">Rate ($)</label>
-             <input type="number" id="rate" step="0.01" placeholder="800" class="border p-3 w-full rounded-lg text-base">
-          </div>
-          <div>
-            <label class="block text-gray-700 text-base font-medium mb-2">Tolls ($)</label>
-            <input type="number" id="tolls" placeholder="25" class="border p-3 w-full rounded-lg text-base">
-          </div>
-          <div>
-            <label class="block text-gray-700 text-base font-medium mb-2">Otros Costos ($)</label>
-            <input type="number" id="otherCosts" placeholder="0" class="border p-3 w-full rounded-lg text-base">
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ⚡ Panel de Decisión -->
-    <div id="decisionPanel" class="hidden">
-      <div id="decisionContainer" class="bg-gradient-to-br from-blue-600 to-purple-700 rounded-lg shadow-lg p-5 text-white">
-      
-        <!-- Header compacto -->
-        <div class="flex items-center justify-between mb-4">
-          <div class="flex items-center gap-3">
-            <div id="decisionIcon" class="text-4xl">⚡</div>
-            <div>
-              <div id="decisionText" class="text-xl font-bold">ANALIZAR</div>
-              <div id="decisionSubtitle" class="text-sm text-blue-100">🎯 Evaluando carga...</div>
-              <div id="zoneBadgeHTML" class="text-sm mt-2 flex justify-center"></div>
-            </div>
-          </div>
-          <div class="text-right">
-            <div class="text-blue-100 text-sm">💰 COTIZAR</div>
-            <div id="quickPrice" class="text-3xl font-bold">$0</div>
-          </div>
-        </div>
-        
-        <!-- Métricas principales -->
-        <div class="grid grid-cols-3 gap-3 mb-4">
-          <div class="bg-white bg-opacity-20 rounded p-3 text-center">
-            <div class="text-blue-100 text-sm">Ganancia</div>
-            <div id="quickNetProfit" class="text-xl font-bold">$0</div>
-          </div>
-          <div class="bg-white bg-opacity-20 rounded p-3 text-center">
-            <div class="text-blue-100 text-sm">$/Milla</div>
-            <div id="quickProfitPerMile" class="text-xl font-bold">$0</div>
-          </div>
-          <div class="bg-white bg-opacity-20 rounded p-3 text-center">
-            <div class="text-blue-100 text-sm">Margen</div>
-            <div id="quickProfitMargin" class="text-xl font-bold">0%</div>
-          </div>
-        </div>
-
-        <!-- Info adicional -->
-        <div class="flex justify-between items-center text-sm text-blue-100 mb-4">
-          <span id="timeAndStops">â° -- • â›½ --</span>
-          <span id="realRPMInfo">RPM: $--</span>
-        </div>
-
-        <!-- Razón de la decisión -->
-        <div id="decisionReason" class="text-center text-base opacity-90 mb-4 min-h-[24px]">
-          Analizando rentabilidad...
-        </div>
-            </div> <!-- ✅ cierre de decisionContainer -->
-    </div>  
-<!-- 🔹 Botones de acción -->
-        <div class="card-section text-center mt-6">
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
-    
-    <!-- Botón Calcular -->
-    <button id="calculateBtn" class="btn-primary">
-      🧮 Calcular con Costos Reales
-    </button>
-    
-    <!-- Botón Guardar -->
-    <button id="saveBtn" class="btn-success">
-      💾 Guardar Carga
-    </button>
-    
-    <!-- Botón Limpiar -->
-    <button id="clearBtn" class="btn-secondary">
-      🧹 Limpiar
-    </button>
-    
-    <!-- Botón Lex AI -->
-    <button id="lexAnalyzeBtn" 
-            type="button"
-            onclick="analyzeLexLoad()"
-            class="bg-gradient-to-r from-blue-600 to-purple-700 text-white px-4 py-2.5 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-800 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
-      <img src="img/lex/lex-thinking.png" class="w-5 h-5" alt="Lex" onerror="this.style.display='none'">
-      <span>🧠 Analizar con Lex</span>
-    </button>
-      </div>
-      
-  <div class="mt-4 text-center">
-    <div class="text-sm text-gray-700" id="message"></div>
-    <div class="text-sm text-red-600" id="errorMessage"></div>
-  </div>
-</div>
-
-
-    <!-- Results Section (manteniendo IDs originales / quick* para el panel) -->
-   <div class="card-section">
-   <h3 class="text-2xl font-semibold mb-6 text-center">🧮 Resultados del Cálculo</h3>
-
-   <!-- Grid principal: Ingresos / Costos -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-    <!-- Ingresos -->
-    <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-5">
-      <h4 class="text-lg font-bold text-blue-800 mb-3 text-center">💰 Ingresos</h4>
-      <div class="space-y-2 text-[15px]">
-        <p class="flex justify-between"><span>Ingreso Base:</span><strong id="baseIncome" class="text-blue-700">$0.00</strong></p>
-        <div id="suggestedPriceSection" class="hidden">
-    <p class="flex justify-between">
-    <span>Precio Sugerido:</span>
-    <strong id="suggestedPrice" class="text-blue-700">$0.00</strong>
-    </p>
-    </div>
-
-        <p class="flex justify-between"><span>Costos Adicionales:</span><strong id="additionalCosts" class="text-blue-700">$0.00</strong></p>
-        <hr class="border-blue-300">
-        <p class="flex justify-between text-lg font-bold text-blue-900">
-          <span>Total a Cobrar:</span><strong id="totalCharge">$0.00</strong>
-        </p>
-      </div>
-    </div>
-
-    <!-- Costos -->
-    <div class="bg-red-50 border-2 border-red-200 rounded-xl p-5">
-      <h4 class="text-lg font-bold text-red-800 mb-3 text-center">💸 Costos</h4>
-      <div class="space-y-2 text-[15px]">
-        <p class="flex justify-between"><span>Operación:</span><strong id="operatingCost" class="text-red-700">$0.00</strong></p>
-        <p class="flex justify-between"><span>Combustible:</span><strong id="fuelCost" class="text-red-700">$0.00</strong></p>
-        <p class="flex justify-between"><span>Mantenimiento:</span><strong id="maintenanceCost" class="text-red-700">$0.00</strong></p>
-        <p class="flex justify-between"><span>Tolls:</span><strong id="tollsCost" class="text-red-700">$0.00</strong></p>
-        <p class="flex justify-between"><span>Otros:</span><strong id="otherCost" class="text-red-700">$0.00</strong></p>
-        <hr class="border-red-300">
-        <p class="flex justify-between text-lg font-bold text-red-900">
-          <span>Total Gastos:</span><strong id="totalExpenses">$0.00</strong>
-        </p>
-      </div>
-    </div>
-    </div>
-
-    <!-- Contenido dinámico (fuera del grid para no romper columnas) -->
-    <div class="mt-5 grid grid-cols-1 gap-5">
-    <div id="costBreakdownContainer" class="col-span-full"></div>
-    <div id="relocationScenariosContainer" class="col-span-full"></div>
-    </div>
-
-    <!-- Rentabilidad (integrada dentro de la tarjeta de resultados) -->
-    <div id="rentabilityCard" class="mt-6 bg-green-50 border-2 border-green-200 rounded-xl p-5 rentabilidad-card">
-    <div class="flex items-center justify-between mb-3">
-      <h4 class="text-lg font-semibold">🔍ˆ Rentabilidad</h4>
-      <span id="rentabilidadBadge" class="text-xs px-2 py-1 rounded bg-white/70">Analizando…</span>
-    </div>
-
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-      <div class="text-center">
-        <p class="opacity-70">Ganancia Neta</p>
-       <p id="quickNetProfitCard" class="text-xl font-bold">$0.00</p>
-      </div>
-      <div class="text-center">
-        <p class="opacity-70">Ganancia/Milla</p>
-        <p id="quickProfitPerMileCard" class="text-xl font-bold">$0.00</p>
-      </div>
-      <div class="text-center">
-        <p class="opacity-70">Margen</p>
-        <p id="quickProfitMarginCard" class="text-xl font-bold">0%</p>
-      </div>
-      <div class="text-center">
-        <p class="opacity-70">Precio Sugerido</p>
-        <p id="quickPriceCard" class="text-xl font-bold">$0</p>
-      </div>
-    </div>
-
-    <div class="flex justify-between items-center mt-4 text-xs opacity-80">
-      <span id="timeAndStopsCard">â° 0h • â›½ 0 paradas</span>
-      <span id="realRPMInfoCard">RPM: $0.00</span>
-    </div>
-    </div>
-    </div>
-
-
-        <!-- Trip Details -->
-        <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
-                <h4 class="text-sm font-medium text-purple-700 mb-3">🕑 Tiempo</h4>
-                <p class="text-xl font-bold text-purple-800" id="estimatedTime">0h</p>
-            </div>
-            <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
-                <h4 class="text-sm font-medium text-orange-700 mb-3">🔍… Días</h4>
-                <p class="text-xl font-bold text-orange-800" id="tripDays">0</p>
-            </div>
-            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                <h4 class="text-sm font-medium text-yellow-700 mb-3">⛽ Paradas</h4>
-                <p class="text-xl font-bold text-yellow-800" id="fuelStops">0</p>
-            </div>
-            <div class="bg-pink-50 border border-pink-200 rounded-lg p-4">
-                <h4 class="text-sm font-medium text-pink-700 mb-3">⚡ Eficiencia</h4>
-                <p class="text-xl font-bold text-pink-800" id="efficiencyCard">0%</p>
-            </div>
-        </div>
-     
-
-     <!-- Map Section -->
-     <div class="card-section">
-        <h3 class="text-xl font-semibold mb-4 text-center">🗺️ Mapa de Ruta</h3>
-        
-        <div class="flex flex-wrap gap-2 mb-4 justify-center">
-            <button onclick="updateMap()" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
-                🔄 Actualizar Mapa
-            </button>
-            <button onclick="openGoogleMapsDirections()" class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600">
-                📱 Abrir en Google Maps
-            </button>
-        </div>
-
-        <div class="relative">
-            <div id="map" class="w-full h-96 rounded-lg border-2 border-gray-300 bg-gray-100"></div>
-            <div id="mapLoading" class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center rounded-lg hidden">
-                <div class="text-center">
-                    <div class="spinner mx-auto mb-2"></div>
-                    <p class="text-gray-600">Cargando mapa...</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="mt-3 text-sm text-gray-600 bg-blue-50 p-3 rounded">
-            <p class="flex items-center gap-2">
-                <span>🗺️</span>
-                <span><strong>Mapa interactivo:</strong> Se muestra la ruta calculada automáticamente</span>
-            </p>
-        </div>
-    </div>
-   </div>
-  </section>  
-  
-  <!-- History Tab -->
-<section id="history" class="tab-content hidden">
-   <div class="w-full px-6 py-6 space-y-8">
-
-    <!-- Header -->
-    <div class="section-header text-center">
-      <h2 class="font-bold mb-4">🔍 Historial de Cargas</h2>
-      <p class="subtitle">Administra y analiza tus registros de cargas</p>
-    </div>
-    
-    <!-- Filters -->
-   <div class="card-section">
-  <h3 class="text-2xl font-semibold mb-4">🔍 Filtros</h3>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-
-    <label for="filterOrigin" class="sr-only">Origen</label>
-    <input type="text" id="filterOrigin" name="filterOrigin"
-           class="border p-3 rounded-lg w-full text-base"
-           placeholder="Origen">
-
-    <label for="filterDestination" class="sr-only">Destino</label>
-    <input type="text" id="filterDestination" name="filterDestination"
-           class="border p-3 rounded-lg w-full text-base"
-           placeholder="Destino">
-
-    <label for="historyMonthSelect" class="sr-only">Mes</label>
-    <select id="historyMonthSelect" name="historyMonthSelect"
-            class="border p-3 rounded-lg w-full text-base">
-      <option value="">Todos</option>
-    </select>
-
-    <button id="filterBtn" type="button" class="btn-primary w-full sm:w-auto">
-  🔍 Filtrar
-</button>
-  </div>
-</div>
-
-    
-    <!-- 🧮 Resumen de Estadísticas (Historial) -->
-<div class="card-section">
-  <h3 class="text-lg font-semibold mb-4">🧮 Resumen de Estadísticas</h3>
-  <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
-    <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 text-center">
-      <h4 class="text-sm font-medium text-indigo-700 mb-1">Total Cargas</h4>
-      <p class= "kpi-value"id="sumTotal">0</p>
-      <p class="text-xs text-indigo-600 mt-1">Cargas completadas</p>
-    </div>
-    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-center">
-      <h4 class="text-sm font-medium text-yellow-700 mb-1">Millas Totales</h4>
-      <p class="kpi-value" id="sumMiles">0</p>
-      <p class="text-xs text-yellow-600 mt-1">Distancia recorrida</p>
-    </div>
-    <div class="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-      <h4 class="text-sm font-medium text-green-700 mb-1">Ingresos Totales</h4>
-      <p class="kpi-value" id="sumRevenue">$0</p>
-      <p class="text-xs text-green-600 mt-1">Monto bruto acumulado</p>
-    </div>
-    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
-      <h4 class="text-sm font-medium text-blue-700 mb-1">Ganancias Netas</h4>
-      <p class="kpi-value" id="sumProfit">$0</p>
-      <p class="text-xs text-blue-600 mt-1">Después de gastos</p>
-    </div>
-    <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center">
-      <h4 class="text-sm font-medium text-purple-700 mb-1">RPM Promedio</h4>
-      <p class="kpi-value" id="sumRpm">$0</p>
-      <p class="text-xs text-purple-600 mt-1">Dólares por milla</p>
-    </div>
-  </div>
-</div>
-    
-    <!-- Table -->
-    <div class="card-section">
-      <div class="flex justify-between items-center mb-4">
-        <button id="exportExcelBtn" type="button" class="btn-success w-full sm:w-auto">
-  🔍 Exportar a Excel
-</button>
-        <p class="text-base text-gray-600">
-          Mostrando <span id="filteredCount">0</span> de <span id="totalCount">0</span> cargas
-        </p>
-      </div>
-      <div class="overflow-x-auto">
-        <table class="w-full min-w-[800px] text-base">
-          <thead class="bg-gray-100 text-gray-700">
-  <tr>
-    <th class="p-2 text-left">Fecha</th>
-    <th class="p-2 text-left">Load #</th>
-    <th class="p-2 text-left">Origen</th>
-    <th class="p-2 text-left">Destino</th>
-    <th class="p-2 text-left">Compañía</th> <!-- 🆕 movida aquí -->
-    <th class="p-2 text-left">Millas</th>
-    <th class="p-2 text-left">RPM</th>
-    <th class="p-2 text-left">Tarifa</th>
-    <th class="p-2 text-left">Acciones</th>
-  </tr>
-</thead>
-          <tbody id="loadList" class="divide-y divide-gray-200 text-base">
-    <!-- Rows will be populated by JavaScript -->
-</tbody>
-        </table>
-      </div>
-    </div>
-
-  </div>
-</section>       
-
-<!-- 🧮 Sección Finanzas -->
-<section id="finances" class="tab-content hidden">
-  <div class="w-full px-6 py-6 space-y-6">
-
-    <!-- Submenú interno -->
-    <div class="flex gap-4 border-b pb-2">
-      <button class="fin-subtab px-4 py-2 rounded-md hover:bg-blue-500" data-subtab="summary">🧮 Resumen</button>
-      <button class="fin-subtab px-4 py-2 rounded-md hover:bg-blue-500" data-subtab="reports">🧾 Reportes</button>
-      <button class="fin-subtab px-4 py-2 rounded-md hover:bg-blue-500" data-subtab="accounts">💵 Cuentas</button>
-    </div>
-
-    <!-- 🧮 Contenido RESUMEN -->
-    <div id="finances-summary" class="fin-subcontent">
-    
-      <!-- ✅ Selector Unificado (Resumen) -->
-      <div class="card-section">
-        <div class="grid grid-cols-2 md:flex md:flex-row gap-4 items-start md:items-center">
-          <!-- Año -->
-          <div class="flex items-center gap-2">
-            <label for="yearSelect" class="text-sm font-medium text-gray-700"> Año</label>
-            <select id="yearSelect" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
-          </div>
-
-          <!-- Mes -->
-         <div class="flex items-center gap-2">
-            <label for="monthSelect" class="text-sm font-medium text-gray-700"> Mes</label>
-            <select id="monthSelect" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
-          </div>
-
-          <!-- Botón -->
-                     <button class="col-span-2 md:col-span-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
-                    onclick="applyPeriod('global')">
-              🔍 Actualizar
-            </button>
-          </div>
-        </div>
-      
-
-      <!-- Info de actualización -->
-      <div class="text-right">
-        <span id="lastUpdated" class="text-sm text-gray-500">Actualizado: --</span>
-      </div>
-
-      <!-- Resumen del período -->
-      <div id="periodSummary" class="mt-3 text-sm bg-blue-50 border border-blue-200 rounded p-3 hidden">
-        <div class="flex items-center gap-2">
-          <span class="text-blue-600">🧮</span>
-          <span id="periodInfo" class="text-blue-800 font-medium">Analizando datos...</span>
-        </div>
-      </div>
-
-      <!-- KPIs UNIFICADOS - Sin duplicaciones -->
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-        <!-- Ingresos -->
-        <div class="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
-          <h4 class="text-xs font-medium text-green-700 mb-1">Ingresos</h4>
-          <p class="text-lg font-bold text-green-800" id="totalRevenue">$0.00</p>
-        </div>
-        
-        <!-- Gastos -->
-        <div class="bg-red-50 border border-red-200 rounded-lg p-3 text-center">
-          <h4 class="text-xs font-medium text-red-700 mb-1">Gastos</h4>
-          <p class="text-lg font-bold text-red-800" id="totalExpensesSummary">$0.00</p>
-        </div>
-        
-        <!-- Ganancia -->
-        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-center">
-          <h4 class="text-xs font-medium text-blue-700 mb-1">Ganancia</h4>
-          <p class="text-lg font-bold text-blue-800" id="netProfit">$0.00</p>
-        </div>
-        
-        <!-- Millas -->
-        <div class="bg-purple-50 border border-purple-200 rounded-lg p-3 text-center">
-          <h4 class="text-xs font-medium text-purple-700 mb-1">Millas</h4>
-          <p class="text-lg font-bold text-purple-800" id="totalMiles">0</p>
-        </div>
-        
-        <!-- RPM -->
-        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-center">
-          <h4 class="text-xs font-medium text-yellow-700 mb-1">RPM</h4>
-          <p class="text-lg font-bold text-yellow-800" id="avgRpm">$0.00</p>
-        </div>
-      </div>
-
-      <!-- Gestión de Gastos -->
-      <div class="card-section">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-lg font-semibold">💳 Gestión de Gastos</h3>
-          <button onclick="openExpenseModal()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-         Agregar Gasto
+            <!-- Ícono en mobile y desktop -->
+            <img src="img/logout-icon.png" alt="Logout" class="w-8 h-8"
+              style="filter: brightness(0) saturate(100%) invert(1);">
+            <!-- Texto solo en desktop -->
+            <span class="hidden md:inline text-base">Cerrar sesión</span>
           </button>
         </div>
 
-        <!-- Lista de gastos recientes -->
-        <div class="overflow-x-auto">
-          <table class="min-w-full text-sm border border-gray-300">
-            <thead class="bg-gray-100">
-              <tr>
-                <th class="p-2 text-left">Fecha</th>
-                <th class="p-2 text-left">Categoría</th>
-                <th class="p-2 text-left">Descripción</th>
-                <th class="p-2 text-left">Monto</th>
-                <th class="p-2 text-left">Acciones</th>
-              </tr>
-            </thead>
-            <tbody id="expensesList">
-              <tr>
-                <td colspan="5" class="p-4 text-center text-gray-500">
-                  No hay gastos registrados para este período
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
       </div>
 
-      <!-- Gráficos Principales -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Cash Flow Chart -->
-        <div class="card-section">
-          <h3 class="text-lg font-semibold mb-4">🔍 Rendimiento Financiero</h3>
-          <div id="cashFlowChartContainer" class="h-96 bg-gray-50 rounded-lg p-4">
-            <canvas id="cashFlowChart"></canvas>
+
+
+
+      <!-- Navigation tabs (solo desktop) -->
+      <nav class="hidden md:block border-t border-gray-200 bg-white relative overflow-visible">
+        <div class="max-w-7xl mx-auto px-2 md:px-6 flex gap-2 md:gap-8 py-2 md:py-3 overflow-x-auto">
+
+          <!-- Calculadora -->
+          <button
+            class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
+            data-tab="calculator">
+            <span class="md:hidden">📊</span>
+            <span class="hidden md:inline">Calculadora</span>
+            <span class="md:hidden ml-1">Calc</span>
+          </button>
+
+          <!-- Historial -->
+          <button
+            class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
+            data-tab="history">
+            <span class="md:hidden">📋</span>
+            <span class="hidden md:inline">Historial</span>
+            <span class="md:hidden ml-1">Hist</span>
+          </button>
+
+          <!-- Finanzas -->
+          <button
+            class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
+            data-tab="finances">
+            <span class="md:hidden">💰</span>
+            <span class="hidden md:inline">Finanzas</span>
+            <span class="md:hidden ml-1">Fins</span>
+          </button>
+
+          <!-- Zonas -->
+          <button
+            class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
+            data-tab="zones">
+            <span class="md:hidden">🗺️</span>
+            <span class="hidden md:inline">Zonas</span>
+            <span class="md:hidden ml-1">Map</span>
+          </button>
+
+          <!-- Configuración -->
+          <button
+            class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
+            data-tab="settings">
+            <span class="md:hidden">⚙️</span>
+            <span class="hidden md:inline">Configuración</span>
+            <span class="md:hidden ml-1">Set</span>
+          </button>
+
+        </div>
+      </nav>
+
+
+      <div id="mobileMenu" class="md:hidden hidden flex-col px-4 pb-4 space-y-2 bg-white text-sm font-semibold text-gray-900 shadow
+            transform transition-all duration-300 ease-in-out origin-top scale-y-0 opacity-0">
+        <button class="tab-link text-left w-full hover:text-blue-600" data-tab="calculator">📊 Calculadora</button>
+        <button class="tab-link text-left w-full hover:text-blue-600" data-tab="history">📋 Historial</button>
+        <button class="tab-link text-left w-full hover:text-blue-600" data-tab="finances">💰 Finanzas</button>
+        <button class="tab-link text-left w-full hover:text-blue-600" data-tab="zones">🗺️ Zonas</button>
+        <button class="tab-link text-left w-full hover:text-blue-600" data-tab="settings">⚙️ Configuración</button>
+      </div>
+    </header>
+
+
+    <!-- Global Messages -->
+    <div id="globalMessage" class="hidden"></div>
+    <div id="historyMessage" class="hidden"></div>
+
+
+    <!-- Main Content -->
+    <main class="w-full px-4 mt-6">
+      <!-- Calculator Tab -->
+      <section id="calculator" class="tab-content">
+        <div class="w-full px-6 py-6 space-y-8">
+
+          <!-- Encabezado -->
+          <div class="section-header text-center">
+            <h2 class="font-bold mb-4">📊 Calculadora de Cargas</h2>
+            <p class="subtitle">Cálculos con decisión automática</p>
           </div>
-        </div>
 
-        <!-- Expense Breakdown -->
-        <div class="card-section">
-          <h3 class="text-lg font-semibold mb-4">🥧 Distribución de Gastos</h3>
-          <div id="expenseBreakdownChartContainer" class="h-96 bg-gray-50 rounded-lg p-4">
-            <canvas id="expenseBreakdownChart"></canvas>
-          </div>
-        </div>
-      </div>
+          <!-- Grid padre de las 3 tarjetas -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-      <!-- Gráficos del Dashboard Integrados -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-        <!-- RPM Trends -->
-        <div class="card-section">
-          <h3 class="text-lg font-semibold mb-4">🔍 Tendencia RPM</h3>
-          <div class="h-80 bg-gray-50 rounded-lg p-4">
-            <canvas id="rpmTrendChart"></canvas>
-          </div>
-        </div>
+            <!-- 📍 Información de Ruta -->
+            <div class="card-section lg:col-span-2">
+              <h3 class="text-2xl font-bold mb-4">📍 Información de Ruta</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-        <!-- Distribución de Cargas -->
-        <div class="card-section">
-          <h3 class="text-lg font-semibold mb-4">🎯 Distribución de Cargas</h3>
-          <div class="h-80 bg-gray-50 rounded-lg p-4">
-            <canvas id="loadDistributionChart"></canvas>
-          </div>
-        </div>
-      </div>
+                <!-- Origen y destino -->
+                <div class="space-y-4">
+                  <input class="border p-3 w-full rounded-lg text-base placeholder:text-sm" id="origin"
+                    placeholder="Origen (ej: Miami, FL)">
+                  <input class="border p-3 w-full rounded-lg text-base placeholder:text-sm" id="destination"
+                    placeholder="Destino (ej: Atlanta, GA)" oninput="showDestinationNotesDebounced(this.value)">
 
-      <!-- Métricas Adicionales (Solo las que faltan) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-        <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 text-center">
-          <h4 class="text-sm font-medium text-indigo-700 mb-1">🔍 Costo por Milla</h4>
-          <p class="text-xl font-bold text-indigo-800" id="costPerMile">$0.00</p>
-          <p class="text-xs text-indigo-600 mt-1">Incluye todos los gastos</p>
-        </div>
-        <div class="bg-pink-50 border border-pink-200 rounded-lg p-4 text-center">
-          <h4 class="text-sm font-medium text-pink-700 mb-1">⚡ Eficiencia</h4>
-          <p class="text-xl font-bold text-pink-800" id="efficiency">0%</p>
-          <p class="text-xs text-pink-600 mt-1">Análisis operativo</p>
-        </div>
-      </div>
+                  <input class="border p-3 w-full rounded-lg text-base placeholder:text-sm" id="loadNumber"
+                    placeholder="Número de Carga (opcional)">
+                </div>
 
-    </div>
+                <!-- Empresa + Notas -->
+                <div class="space-y-4">
+                  <input class="border p-3 w-full rounded-lg text-base placeholder:text-sm" id="companyName"
+                    placeholder="Empresa (opcional)">
 
-       <!-- 🧾 Contenido REPORTES -->
-     <div id="finances-reports" class="fin-subcontent hidden space-y-6">
-
-<!-- ✅ Selector Unificado (Reportes) -->
-<div class="card-section">
-  <div class="grid grid-cols-2 md:flex md:flex-row gap-4 items-start md:items-center">
-
-    <!-- Año -->
-    <div class="flex items-center gap-2">
-      <label for="reportYear" class="text-sm font-medium text-gray-700">Año</label>
-      <select id="reportYear" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
-    </div>
-
-    <!-- Mes -->
-    <div class="flex items-center gap-2">
-      <label for="reportMonth" class="text-sm font-medium text-gray-700">Mes</label>
-      <select id="reportMonth" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
-    </div>
-
-    <!-- Botón -->
-    <button class="col-span-2 md:col-span-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
-            onclick="applyPeriod('reports')">
-      🔍 Actualizar
-    </button>
-
-  </div>
-</div>
-
-
-  <!-- 🔍˜ Tarjetas horizontales -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-    <!-- 🔍˜ Estado de Resultados -->
-    <div class="card-section flex flex-col justify-between">
-      <div>
-        <h3 class="text-lg font-semibold mb-4">🔍 Estado de Resultados</h3>
-        <p class="text-gray-600">
-          Ingresos, costos y utilidad neta del período seleccionado.
-        </p>
-        <div id="plReportPreview" class="mt-4 text-sm text-gray-800">
-          <em>Seleccione filtros y genere el reporte.</em>
-        </div>
-      </div>
-      <div class="mt-4">
-        <button onclick="generatePLReport()" 
-                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full">
-          🔍 Generar Reporte
-        </button>
-      </div>
-    </div>
-
-    <!-- 🧾 Reporte de Impuestos -->
-    <div class="card-section flex flex-col justify-between">
-      <div>
-        <h3 class="text-lg font-semibold mb-4">🧾 Reporte de Impuestos</h3>
-        <p class="text-gray-600">
-          Deducciones y base imponible.
-        </p>
-      </div>
-      <div class="mt-4">
-        <button onclick="generateTaxReport()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full">
-           🧾 Calcular Impuestos
-        </button>
-      </div>
-    </div>
-
-    <!-- 🔍¤ Exportaciones -->
-    <div class="card-section flex flex-col justify-between">
-      <div>
-        <h3 class="text-lg font-semibold mb-4">🔍 Exportaciones</h3>
-        <p class="text-gray-600">
-          Exportar datos contables.
-        </p>
-      </div>
-      <div class="mt-4">
-        <button class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 w-full">
-          Exportar a Excel
-        </button>
-      </div>
-    </div>
-
-  </div>
-
-     <!-- Contenedor dinámico para mostrar el Estado de Resultados -->
-   <div id="reportContent" class="card-section bg-white border rounded-lg p-6 hidden">
-   <!-- Aquí se insertará el Estado de Resultados -->
-    </div>
-
-    </div>
-
-    <!-- 💵 Contenido CUENTAS -->
-    <div id="finances-accounts" class="fin-subcontent hidden space-y-6">
-
- <!-- ✅ Selector Unificado (Cuentas) -->
-<div class="card-section">
- <div class="grid grid-cols-2 md:flex md:flex-row gap-4 items-start md:items-center">
-    <!-- Año -->
-    <div class="flex items-center gap-2">
-      <label for="accountsYear" class="text-sm font-medium text-gray-700 hidden md:inline">Año</label>
-      <select id="accountsYear" class="border border-gray-300 rounded px-3 py-2 w-32"></select>
-    </div>
-
-    <!-- Mes -->
-    <div class="flex items-center gap-2">
-      <label for="accountsMonth" class="text-sm font-medium text-gray-700 hidden md:inline">Mes</label>
-      <select id="accountsMonth" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
-    </div>
-
-    
-
-    <!-- Estado -->
-    <div class="flex items-center gap-2">
-      <label for="accountsStatus" class="text-sm font-medium text-gray-700 hidden md:inline">Estado</label>
-      <select id="accountsStatus" class="border border-gray-300 rounded px-3 py-2 w-32">
-        <option value="">Todos</option>
-        <option value="pending">Pendientes</option>
-        <option value="overdue">Vencidas</option>
-        <option value="paid">Pagadas</option>
-      </select>
-    </div>
-
-    <!-- Ordenamiento -->
-    <div class="flex items-center gap-2">
-      <label for="accountsSort" class="text-sm font-medium text-gray-700 hidden md:inline">Ordenar</label>
- <select id="accountsSort" class="border border-gray-300 rounded px-3 py-2 w-32 md:w-40">
-  <option value="date-desc">Reciente</option>
-  <option value="date-asc">Fecha</option>
-  <option value="amount-desc">Mayor</option>
-  <option value="amount-asc">Menor</option>
-  <option value="company"> A-Z</option>
-  <option value="overdue">Vencidas</option>
-</select>
-    </div>
-   <!-- Botón Actualizar -->
-<button class="col-span-2 md:col-span-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
-        onclick="applyPeriod('accounts')">
-  Actualizar
-</button>
-  </div>
-</div>
-
-<!-- 🧮 Tarjetas de Resumen -->
-<div id="accountsSummaryCards" class="mt-6">
-  <!-- Las tarjetas se generarán aquí dinámicamente -->
-</div>
-
-    <div id="accountsList" class="space-y-6">
-         <!-- El dashboard se inserta aquí -->
-     </div>
-
-   </div>
-  </div>
-</section>
-
-<!-- ✅ MODAL PARA AGREGAR GASTOS -->
-<div id="expenseModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-  <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
-
-    <!-- Modal Header -->
-    <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-      <h3 class="text-lg font-semibold text-gray-900"> Agregar Gasto</h3>
-      <button type="button" onclick="closeExpenseModal()" class="text-gray-400 hover:text-gray-600">
-        <span class="text-2xl">&times;</span>
-      </button>
-    </div>
-
-    <!-- Modal Body -->
-    <div class="px-6 py-4">
-      <div class="space-y-4">
-
-        <!-- Fecha -->
-        <div>
-          <label for="expenseDate" class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
-          <input type="date" id="expenseDate" name="expenseDate"
-                 class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none" required>
-        </div>
-
-        <!-- Categoría -->
-        <div>
-          <label for="expenseType" class="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
-          <select id="expenseType" name="expenseType"
-                  class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none" required>
-            <option value="">Seleccione una categoría</option>
-            <option value="fuel">🚚 Combustible</option>
-            <option value="maintenance">🔧 Mantenimiento</option>
-            <option value="food">🍔 Comida</option>
-            <option value="lodging">🏨 Hospedaje</option>
-            <option value="tolls">🛣️ Peajes</option>
-            <option value="insurance">🛡️ Seguro</option>
-            <option value="permits">📜 Permisos</option>
-            <option value="other">🔍 Otros</option>
-          </select>
-        </div>
-
-        <!-- Monto -->
-        <div>
-          <label for="expenseAmount" class="block text-sm font-medium text-gray-700 mb-1">Monto ($)</label>
-          <input type="number" id="expenseAmount" name="expenseAmount" placeholder="0.00"
-                 step="0.01" min="0"
-                 class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none" required>
-        </div>
-
-        <!-- Descripción -->
-        <div>
-          <label for="expenseDescription" class="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
-          <input type="text" id="expenseDescription" name="expenseDescription"
-                 placeholder="Descripción del gasto"
-                 class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
-        </div>
-
-        <!-- Deducible -->
-        <div class="flex items-center">
-          <input type="checkbox" id="expenseDeductible" name="expenseDeductible" class="mr-2">
-          <label for="expenseDeductible" class="text-sm text-gray-600">Este gasto es deducible</label>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Modal Footer -->
-    <div class="border-t border-gray-200 px-6 py-4 flex flex-col sm:flex-row gap-3 sm:justify-end">
-      <button type="button" onclick="closeExpenseModal()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 order-2 sm:order-1">
-        Cancelar
-      </button>
-      <button type="button" onclick="saveExpenseToFirebase()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 order-1 sm:order-2">
-        💾 Guardar Gasto
-      </button>
-    </div>
-
-  </div>
-</div>
-
-
-            <!-- Zones Tab -->
-            <section id="zones" class="tab-content hidden">
-                 <div class="w-full px-6 py-6 space-y-8">
-                    <div class="section-header text-center">
-                        <h2 class="font-bold mb-4">🗺️ Zonas / Heatmap</h2>
-                       <p class="subtitle">Analiza la rentabilidad por estado con mapa interactivo</p>
-                    </div>
-
-                    <!-- Map placeholder -->
-                    <div class="flex flex-col lg:flex-row gap-10">
-                        <div class="flex-1 bg-gray-100 border rounded p-8 text-center">
-                            <object id="interactiveMap" data="usa_states_ids_fixed_by_title.svg" type="image/svg+xml" class="w-full h-80">
-                                <p class="text-gray-600">🗺️ Mapa SVG no disponible</p>
-                            </object>
-                        </div>
-                        
-                        <div class="w-full lg:w-[300px] bg-gray-50 border border-gray-200 rounded-lg shadow p-4">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-4">ℹ️ Información del Estado</h3>
-                            <div class="text-center text-gray-500">
-                                <p class="text-sm">Pasa el cursor sobre un estado</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Legend -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="flex items-center p-3 bg-red-50 border border-red-200 rounded-lg">
-                            <div class="w-4 h-4 bg-red-600 rounded-full mr-3"></div>
-                            <div>
-                                <p class="font-medium text-red-800">Zona roja</p>
-                                <p class="text-sm text-red-600">Menor a $0.75 RPM</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                            <div class="w-4 h-4 bg-yellow-400 rounded-full mr-3"></div>
-                            <div>
-                                <p class="font-medium text-yellow-800">Zona amarilla</p>
-                                <p class="text-sm text-yellow-600">Entre $0.75 — $1.05 RPM</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center p-3 bg-green-50 border border-green-200 rounded-lg">
-                            <div class="w-4 h-4 bg-green-600 rounded-full mr-3"></div>
-                            <div>
-                                <p class="font-medium text-green-800">Zona verde</p>
-                                <p class="text-sm text-green-600">Mayor a $1.05 RPM</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Zones table -->
-                    <div class="card-section">
-                        <h3 class="text-lg font-semibold mb-4">🔍 Tabla de zonas por estado</h3>
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full text-sm border border-gray-300">
-                                <thead class="bg-gray-200">
-                                    <tr>
-                                        <th class="p-2 text-left cursor-pointer" onclick="sortZonesBy('state')">Estado</th>
-                                        <th class="p-2 text-left">Zona</th>
-                                        <th class="p-2 text-left cursor-pointer" onclick="sortZonesBy('count')">Cargas</th>
-                                        <th class="p-2 text-left cursor-pointer" onclick="sortZonesBy('rpm')">RPM Promedio</th>
-                                        <th class="p-2 text-left cursor-pointer" onclick="sortZonesBy('totalProfit')">Ganancia Total</th>
-                                        <th class="p-2 text-left">Rendimiento</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="zoneDataBody">
-                                    <tr>
-                                        <td colspan="6" class="p-4 text-center text-gray-500">
-                                            Sin datos disponibles. ¡Crea algunas cargas para ver el análisis de zonas!
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- 🆕 MAPA DE CIUDADES CON GOOGLE MAPS -->
-                    <div class="card-section mt-8">
-                        <h3 class="text-lg font-semibold mb-4">🌎 Mapa de Ciudades de Destino</h3>
-                        <p class="text-sm text-gray-600 mb-4">Visualiza todas las ciudades donde has entregado cargas, con marcadores de color según RPM</p>
-                        
-                        <!-- Contenedor del mapa -->
-                        <div id="citiesMapContainer" class="mb-4">
-                            <div id="citiesMap" class="w-full h-96 rounded-lg border-2 border-gray-300 bg-gray-100"></div>
-                        </div>
-                        
-                        <!-- Leyenda del mapa de ciudades -->
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                            <div class="flex items-center p-3 bg-green-50 border border-green-200 rounded-lg">
-                                <div class="w-4 h-4 bg-green-600 rounded-full mr-3"></div>
-                                <div>
-                                    <p class="font-medium text-green-800">Alta rentabilidad</p>
-                                    <p class="text-sm text-green-600">RPM > $1.05</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                                <div class="w-4 h-4 bg-yellow-500 rounded-full mr-3"></div>
-                                <div>
-                                    <p class="font-medium text-yellow-800">Rentabilidad media</p>
-                                    <p class="text-sm text-yellow-600">$0.75 - $1.05 RPM</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center p-3 bg-red-50 border border-red-200 rounded-lg">
-                                <div class="w-4 h-4 bg-red-600 rounded-full mr-3"></div>
-                                <div>
-                                    <p class="font-medium text-red-800">Baja rentabilidad</p>
-                                    <p class="text-sm text-red-600">RPM < $0.75</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Tabla de top ciudades -->
-                        <div class="overflow-x-auto">
-                            <h4 class="text-md font-semibold mb-2">🧮 Top Ciudades por Cargas</h4>
-                            <table class="min-w-full text-sm border border-gray-300">
-                                <thead class="bg-gray-200">
-                                    <tr>
-                                        <th class="p-2 text-left">#</th>
-                                        <th class="p-2 text-left">Ciudad</th>
-                                        <th class="p-2 text-left">Cargas</th>
-                                        <th class="p-2 text-left">RPM Promedio</th>
-                                        <th class="p-2 text-left">Ganancia Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="citiesTableBody">
-                                    <tr>
-                                        <td colspan="4" class="p-4 text-center text-gray-500">
-                                            Cargando datos de ciudades...
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                  <!-- 📝 Notas previas (CRUD) -->
+                  <!-- 📌 Cuadro amarillo en calculadora -->
+                  <div id="previousNoteBox"
+                    class="p-3 rounded-lg bg-yellow-50 border border-yellow-200 text-sm text-gray-800 hidden">
+                    <p id="notesStatusText">ℹ️ No hay notas para este destino.</p>
+                    <button onclick="openNotesModal(document.getElementById('destination').value)"
+                      class="mt-2 bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
+                      📖 Ver Notas
+                    </button>
+                  </div>
 
                 </div>
-            </section>
+              </div>
+            </div>
 
-            <!-- Settings Tab -->
-<section id="settings" class="tab-content hidden">
-    <div class="w-full px-6 py-6 space-y-8">
-        <div class="section-header text-center">
+            <!-- 📏 Información de Millas -->
+            <div class="card-section col-span-1">
+              <h3 class="text-2xl font-bold mb-4">📏 Información de Millas</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-gray-700 text-base font-medium mb-2">Millas Cotizadas *</label>
+                  <input type="number" id="loadedMiles" placeholder="644"
+                    class="border p-3 w-full rounded-lg text-base">
+                  <p class="text-xs text-gray-500 mt-1">Incluye loaded + deadhead to pickup</p>
+                </div>
+                <div>
+                  <label class="block text-gray-700 text-base font-medium mb-2">Millas Vacías (opcional)</label>
+                  <input type="number" id="deadheadMiles" placeholder="0"
+                    class="border p-3 w-full rounded-lg text-base">
+                  <p class="text-xs text-gray-500 mt-1">Solo si necesitas separar deadhead</p>
+                </div>
+                <div>
+                  <label class="block text-gray-700 text-base font-medium mb-2">Total Millas</label>
+                  <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-3 text-center">
+                    <span id="tripMiles" class="text-2xl font-bold text-blue-800">0</span>
+                    <span class="text-blue-600 text-sm ml-1">millas</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 💰 Finanzas -->
+            <div class="card-section col-span-1">
+              <h3 class="text-2xl font-bold mb-4">💰 Información Financiera</h3>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-gray-700 text-base font-medium mb-2">RPM ($/milla) *</label>
+                  <input type="number" id="rpm" step="0.01" placeholder="2.20"
+                    class="border p-3 w-full rounded-lg text-base">
+                </div>
+                <div>
+                  <label class="block text-gray-700 text-base font-medium mb-2">Rate ($)</label>
+                  <input type="number" id="rate" step="0.01" placeholder="800"
+                    class="border p-3 w-full rounded-lg text-base">
+                </div>
+                <div>
+                  <label class="block text-gray-700 text-base font-medium mb-2">Tolls ($)</label>
+                  <input type="number" id="tolls" placeholder="25" class="border p-3 w-full rounded-lg text-base">
+                </div>
+                <div>
+                  <label class="block text-gray-700 text-base font-medium mb-2">Otros Costos ($)</label>
+                  <input type="number" id="otherCosts" placeholder="0" class="border p-3 w-full rounded-lg text-base">
+                </div>
+              </div>
+            </div>
+          </div>
+
+         <!-- Panel de Decisión Nuevo -->
+<div id="decisionPanel" class="hidden mt-6">
+  <div class="bg-white rounded-2xl shadow-xl overflow-hidden decision-panel">
+    
+    <!-- HEADER DINÁMICO -->
+    <div id="decisionHeader" class="p-4 md:p-5">
+      <div class="flex items-start md:items-center justify-between mb-3 gap-2">
+        <div class="flex items-start md:items-center gap-2 md:gap-3 flex-1">
+          <span id="decisionIcon" class="text-3xl md:text-4xl">⚡</span>
+          <div class="flex-1">
+            <h3 id="decisionTitle" class="text-xl md:text-2xl font-bold">CALCULANDO...</h3>
+            <p id="decisionRoute" class="text-white/90 text-xs md:text-sm mt-0.5 md:mt-1"></p>
+          </div>
+        </div>
+        <div class="text-right flex-shrink-0">
+          <div class="text-xs text-white/80">Cotización</div>
+          <div id="quickPrice" class="text-2xl md:text-3xl font-bold">$0</div>
+        </div>
+      </div>
+      
+      <!-- Grid métricas -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-3">
+        <div class="bg-white/20 backdrop-blur rounded-lg p-2 text-center">
+          <div class="text-xs text-white/80">RPM</div>
+          <div id="quickRPM" class="text-lg md:text-xl font-bold">$0.00</div>
+        </div>
+        <div class="bg-white/20 backdrop-blur rounded-lg p-2 text-center">
+          <div class="text-xs text-white/80">Ganancia</div>
+          <div id="quickNetProfit" class="text-lg md:text-xl font-bold">$0</div>
+        </div>
+        <div class="bg-white/20 backdrop-blur rounded-lg p-2 text-center">
+          <div class="text-xs text-white/80">Margen</div>
+          <div id="quickMargin" class="text-lg md:text-xl font-bold">0%</div>
+        </div>
+        <div class="bg-white/20 backdrop-blur rounded-lg p-2 text-center">
+          <div class="text-xs text-white/80">$/Mi</div>
+          <div id="quickProfitPerMile" class="text-lg md:text-xl font-bold">$0.00</div>
+        </div>
+      </div>
+      
+      <!-- Badges -->
+      <div id="decisionBadges" class="flex gap-1.5 md:gap-2 text-xs md:text-sm flex-wrap"></div>
+    </div>
+    
+    <!-- CONTENIDO -->
+    <div class="p-4 md:p-5">
+      
+      <!-- Costos Variables -->
+      <div class="bg-gray-50 border border-gray-200 rounded-lg p-3 md:p-4 mb-3 md:mb-4 costs-section">
+        <h4 class="font-bold text-gray-800 mb-2 md:mb-3 text-sm">💸 Costos Variables</h4>
+        <div class="space-y-1.5 md:space-y-2 text-sm">
+          <div class="flex justify-between items-center">
+            <span class="text-gray-700">⛽ Combustible (<span id="totalMilesForFuel">0</span> mi):</span>
+            <strong id="fuelCost" class="text-red-700">$0.00</strong>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-gray-700">💵 Tolls + Otros:</span>
+            <strong id="tollsAndOthers" class="text-red-700">$0.00</strong>
+          </div>
+          <div class="flex justify-between items-center text-xs text-gray-500">
+            <span>🔧 Costos Fijos incluidos</span>
+            <span id="fixedCosts">$0.00</span>
+          </div>
+          <hr class="border-gray-300">
+          <div class="flex justify-between items-center font-bold">
+            <span class="text-gray-900">Total Gastos:</span>
+            <span id="totalExpenses" class="text-red-900 text-lg">$0.00</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Ganancia Final -->
+      <div id="profitSection" class="border-2 rounded-lg p-3 md:p-4">
+        <div class="flex items-center justify-between">
+          <div class="flex-1">
+            <div class="text-xs mb-1" id="profitLabel">💰 Ganancia Neta</div>
+            <div id="netProfit" class="text-2xl md:text-3xl font-bold">$0.00</div>
+            <div id="profitDetails" class="text-xs mt-1">$0.00/mi • 0% margen</div>
+          </div>
+          <div class="text-right text-xs flex-shrink-0">
+            <div id="estimatedTimeShort">⏱️ 0h</div>
+            <div id="fuelStopsShort">⛽ 0 paradas</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Botón Lex -->
+      <div class="mt-3 md:mt-4 text-center">
+        <button onclick="analyzeLexLoad()" class="bg-gradient-to-r from-blue-600 to-purple-700 text-white px-4 md:px-6 py-2 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-800 transition text-sm w-full md:w-auto min-h-[44px]">
+          🧠 Ver análisis detallado con Lex
+        </button>
+      </div>
+      
+    </div>
+    
+  </div>
+</div>
+          <!-- 🔹 Botones de acción -->
+          <div class="card-section text-center mt-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+
+              <!-- Botón Calcular -->
+              <button id="calculateBtn" class="btn-primary">
+                ⚡ Análisis Rápido
+              </button>
+              <button id="saveBtn" class="btn-success">
+                💾 Guardar Carga
+              </button>
+              <button id="clearBtn" class="btn-secondary">
+                🧹 Limpiar
+              </button>
+
+              <!-- Botón Lex AI -->
+              <button id="lexAnalyzeBtn" type="button" onclick="analyzeLexLoad()"
+                class="bg-gradient-to-r from-blue-600 to-purple-700 text-white px-4 py-2.5 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-800 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                <img src="img/lex/lex-thinking.png" class="w-5 h-5" alt="Lex" onerror="this.style.display='none'">
+                <span>🧠 Analizar con Lex</span>
+              </button>
+            </div>
+            <div class="mt-4 text-center">
+              <div class="text-sm text-gray-700" id="message"></div>
+              <div class="text-sm text-red-600" id="errorMessage"></div>
+            </div>
+          </div>
+
+
+          <!-- Results Section (manteniendo IDs originales / quick* para el panel) -->
+          <div class="card-section">
+            <h3 class="text-2xl font-semibold mb-6 text-center">🧮 Resultados del Cálculo</h3>
+
+            <!-- Grid principal: Ingresos / Costos -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+              <!-- Ingresos -->
+              <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-5">
+                <h4 class="text-lg font-bold text-blue-800 mb-3 text-center">💰 Ingresos</h4>
+                <div class="space-y-2 text-[15px]">
+                  <p class="flex justify-between"><span>Ingreso Base:</span><strong id="baseIncome"
+                      class="text-blue-700">$0.00</strong></p>
+                  <div id="suggestedPriceSection" class="hidden">
+                    <p class="flex justify-between">
+                      <span>Precio Sugerido:</span>
+                      <strong id="suggestedPrice" class="text-blue-700">$0.00</strong>
+                    </p>
+                  </div>
+
+                  <p class="flex justify-between"><span>Costos Adicionales:</span><strong id="additionalCosts"
+                      class="text-blue-700">$0.00</strong></p>
+                  <hr class="border-blue-300">
+                  <p class="flex justify-between text-lg font-bold text-blue-900">
+                    <span>Total a Cobrar:</span><strong id="totalCharge">$0.00</strong>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Costos -->
+              <div class="bg-red-50 border-2 border-red-200 rounded-xl p-5">
+                <h4 class="text-lg font-bold text-red-800 mb-3 text-center">💸 Costos</h4>
+                <div class="space-y-2 text-[15px]">
+                  <p class="flex justify-between"><span>Operación:</span><strong id="operatingCost"
+                      class="text-red-700">$0.00</strong></p>
+                  <p class="flex justify-between"><span>Combustible:</span><strong id="fuelCost"
+                      class="text-red-700">$0.00</strong></p>
+                  <p class="flex justify-between"><span>Mantenimiento:</span><strong id="maintenanceCost"
+                      class="text-red-700">$0.00</strong></p>
+                  <p class="flex justify-between"><span>Tolls:</span><strong id="tollsCost"
+                      class="text-red-700">$0.00</strong></p>
+                  <p class="flex justify-between"><span>Otros:</span><strong id="otherCost"
+                      class="text-red-700">$0.00</strong></p>
+                  <hr class="border-red-300">
+                  <p class="flex justify-between text-lg font-bold text-red-900">
+                    <span>Total Gastos:</span><strong id="totalExpenses">$0.00</strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Contenido dinámico (fuera del grid para no romper columnas) -->
+            <div class="mt-5 grid grid-cols-1 gap-5">
+              <div id="costBreakdownContainer" class="col-span-full"></div>
+              <div id="relocationScenariosContainer" class="col-span-full"></div>
+            </div>
+
+            <!-- Rentabilidad (integrada dentro de la tarjeta de resultados) -->
+            <div id="rentabilityCard"
+              class="mt-6 bg-green-50 border-2 border-green-200 rounded-xl p-5 rentabilidad-card">
+              <div class="flex items-center justify-between mb-3">
+                <h4 class="text-lg font-semibold">📈 Rentabilidad</h4>
+                <span id="rentabilidadBadge" class="text-xs px-2 py-1 rounded bg-white/70">Analizando…</span>
+              </div>
+
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <div class="text-center">
+                  <p class="opacity-70">Ganancia Neta</p>
+                  <p id="quickNetProfitCard" class="text-xl font-bold">$0.00</p>
+                </div>
+                <div class="text-center">
+                  <p class="opacity-70">Ganancia/Milla</p>
+                  <p id="quickProfitPerMileCard" class="text-xl font-bold">$0.00</p>
+                </div>
+                <div class="text-center">
+                  <p class="opacity-70">Margen</p>
+                  <p id="quickProfitMarginCard" class="text-xl font-bold">0%</p>
+                </div>
+                <div class="text-center">
+                  <p class="opacity-70">Precio Sugerido</p>
+                  <p id="quickPriceCard" class="text-xl font-bold">$0</p>
+                </div>
+              </div>
+
+              <div class="flex justify-between items-center mt-4 text-xs opacity-80">
+                <span id="timeAndStopsCard">⏰ 0h • ⛽ 0 paradas</span>
+                <span id="realRPMInfoCard">RPM: $0.00</span>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Trip Details -->
+          <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
+              <h4 class="text-sm font-medium text-purple-700 mb-3">🕒 Tiempo</h4>
+              <p class="text-xl font-bold text-purple-800" id="estimatedTime">0h</p>
+            </div>
+            <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
+              <h4 class="text-sm font-medium text-orange-700 mb-3">📅 Días</h4>
+              <p class="text-xl font-bold text-orange-800" id="tripDays">0</p>
+            </div>
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <h4 class="text-sm font-medium text-yellow-700 mb-3">⛽ Paradas</h4>
+              <p class="text-xl font-bold text-yellow-800" id="fuelStops">0</p>
+            </div>
+            <div class="bg-pink-50 border border-pink-200 rounded-lg p-4">
+              <h4 class="text-sm font-medium text-pink-700 mb-3">⚡ Eficiencia</h4>
+              <p class="text-xl font-bold text-pink-800" id="efficiencyCard">0%</p>
+            </div>
+          </div>
+
+
+          <!-- Map Section -->
+          <div class="card-section">
+            <h3 class="text-xl font-semibold mb-4 text-center">🗺️ Mapa de Ruta</h3>
+
+            <div class="flex flex-wrap gap-2 mb-4 justify-center">
+              <button onclick="updateMap()" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
+                🔄 Actualizar Mapa
+              </button>
+              <button onclick="openGoogleMapsDirections()"
+                class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600">
+                📱 Abrir en Google Maps
+              </button>
+            </div>
+
+            <div class="relative">
+              <div id="map" class="w-full h-96 rounded-lg border-2 border-gray-300 bg-gray-100"></div>
+              <div id="mapLoading"
+                class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center rounded-lg hidden">
+                <div class="text-center">
+                  <div class="spinner mx-auto mb-2"></div>
+                  <p class="text-gray-600">Cargando mapa...</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3 text-sm text-gray-600 bg-blue-50 p-3 rounded">
+              <p class="flex items-center gap-2">
+                <span>🗺️</span>
+                <span><strong>Mapa interactivo:</strong> Se muestra la ruta calculada automáticamente</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- History Tab -->
+      <section id="history" class="tab-content hidden">
+        <div class="w-full px-6 py-6 space-y-8">
+
+          <!-- Header -->
+          <div class="section-header text-center">
+            <h2 class="font-bold mb-4">📜 Historial de Cargas</h2>
+            <p class="subtitle">Administra y analiza tus registros de cargas</p>
+          </div>
+
+          <!-- Filters -->
+          <div class="card-section">
+            <h3 class="text-2xl font-semibold mb-4">🔍 Filtros</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+              <label for="filterOrigin" class="sr-only">Origen</label>
+              <input type="text" id="filterOrigin" name="filterOrigin" class="border p-3 rounded-lg w-full text-base"
+                placeholder="Origen">
+
+              <label for="filterDestination" class="sr-only">Destino</label>
+              <input type="text" id="filterDestination" name="filterDestination"
+                class="border p-3 rounded-lg w-full text-base" placeholder="Destino">
+
+              <label for="historyMonthSelect" class="sr-only">Mes</label>
+              <select id="historyMonthSelect" name="historyMonthSelect" class="border p-3 rounded-lg w-full text-base">
+                <option value="">Todos</option>
+              </select>
+
+              <button id="filterBtn" type="button" class="btn-primary w-full sm:w-auto">
+                🔍 Filtrar
+              </button>
+            </div>
+          </div>
+
+
+          <!-- 📊 Resumen de Estadísticas (Historial) -->
+          <div class="card-section">
+            <h3 class="text-lg font-semibold mb-4">📊 Resumen de Estadísticas</h3>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+              <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 text-center">
+                <h4 class="text-sm font-medium text-indigo-700 mb-1">Total Cargas</h4>
+                <p class="kpi-value text-blue-800" id="sumTotal">0</p>
+                <p class="text-xs text-indigo-600 mt-1">Cargas completadas</p>
+              </div>
+              <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-center">
+                <h4 class="text-sm font-medium text-yellow-700 mb-1">Millas Totales</h4>
+                <p class="kpi-value text-blue-800" id="sumMiles">0</p>
+                <p class="text-xs text-yellow-600 mt-1">Distancia recorrida</p>
+              </div>
+              <div class="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
+                <h4 class="text-sm font-medium text-green-700 mb-1">Ingresos Totales</h4>
+                <p class="kpi-value text-blue-800" id="sumRevenue">$0</p>
+                <p class="text-xs text-green-600 mt-1">Monto bruto acumulado</p>
+              </div>
+              <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+                <h4 class="text-sm font-medium text-blue-700 mb-1">Ganancias Netas</h4>
+                <p class="kpi-value text-blue-800" id="sumProfit">$0</p>
+                <p class="text-xs text-blue-600 mt-1">Después de gastos</p>
+              </div>
+              <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center">
+                <h4 class="text-sm font-medium text-purple-700 mb-1">RPM Promedio</h4>
+                <p class="kpi-value text-blue-800" id="sumRpm">$0</p>
+                <p class="text-xs text-purple-600 mt-1">Dólares por milla</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div class="card-section">
+            <div class="flex justify-between items-center mb-4">
+              <button id="exportExcelBtn" type="button" class="btn-success w-full sm:w-auto">
+                📤 Exportar a Excel
+              </button>
+              <p class="text-base text-gray-600">
+                Mostrando <span id="filteredCount">0</span> de <span id="totalCount">0</span> cargas
+              </p>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full min-w-[800px] text-base">
+                <thead class="bg-gray-100 text-gray-700">
+                  <tr>
+                    <th class="p-2 text-left">Fecha</th>
+                    <th class="p-2 text-left">Load #</th>
+                    <th class="p-2 text-left">Origen</th>
+                    <th class="p-2 text-left">Destino</th>
+                    <th class="p-2 text-left">Compañía</th> <!-- 🆕 movida aquí -->
+                    <th class="p-2 text-left">Millas</th>
+                    <th class="p-2 text-left">RPM</th>
+                    <th class="p-2 text-left">Tarifa</th>
+                    <th class="p-2 text-left">Ganancia</th>
+                    <th class="p-2 text-left">Combustible</th>
+                    <th class="p-2 text-left">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="loadList" class="divide-y divide-gray-200 text-base">
+                  <!-- Rows will be populated by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 📊 Sección Finanzas -->
+      <section id="finances" class="tab-content hidden">
+        <div class="w-full px-6 py-6 space-y-6">
+
+          <!-- Submenú interno -->
+          <div class="flex gap-4 border-b pb-2">
+            <button class="fin-subtab px-4 py-2 rounded-md hover:bg-blue-500" data-subtab="summary">🧮 Resumen</button>
+            <button class="fin-subtab px-4 py-2 rounded-md hover:bg-blue-500" data-subtab="reports">🧾 Reportes</button>
+            <button class="fin-subtab px-4 py-2 rounded-md hover:bg-blue-500" data-subtab="accounts">💵 Cuentas</button>
+          </div>
+
+          <!-- 📊 Contenido RESUMEN -->
+          <div id="finances-summary" class="fin-subcontent">
+
+            <!-- ✅ Selector Unificado (Resumen) -->
+            <div class="card-section">
+              <div class="grid grid-cols-2 md:flex md:flex-row gap-4 items-start md:items-center">
+                <!-- Año -->
+                <div class="flex items-center gap-2">
+                  <label for="yearSelect" class="text-sm font-medium text-gray-700"> Año</label>
+                  <select id="yearSelect" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
+                </div>
+
+                <!-- Mes -->
+                <div class="flex items-center gap-2">
+                  <label for="monthSelect" class="text-sm font-medium text-gray-700"> Mes</label>
+                  <select id="monthSelect" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
+                </div>
+
+                <!-- Botón -->
+                <button
+                  class="col-span-2 md:col-span-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
+                  onclick="applyPeriod('global')">
+                  🔄 Actualizar
+                </button>
+              </div>
+            </div>
+
+            <!-- Info de actualización -->
+            <div class="text-right">
+              <span id="lastUpdated" class="text-sm text-gray-500">Actualizado: --</span>
+            </div>
+
+            <!-- Resumen del período -->
+            <div id="periodSummary" class="mt-3 text-sm bg-blue-50 border border-blue-200 rounded p-3 hidden">
+              <div class="flex items-center gap-2">
+                <span class="text-blue-600">📊</span>
+                <span id="periodInfo" class="text-blue-800 font-medium">Analizando datos...</span>
+              </div>
+            </div>
+
+            <!-- KPIs UNIFICADOS - Sin duplicaciones -->
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+              <!-- Ingresos -->
+              <div class="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
+                <h4 class="text-xs font-medium text-green-700 mb-1">Ingresos</h4>
+                <p class="text-lg font-bold text-green-800" id="totalRevenue">$0.00</p>
+              </div>
+
+              <!-- Gastos -->
+              <div class="bg-red-50 border border-red-200 rounded-lg p-3 text-center">
+                <h4 class="text-xs font-medium text-red-700 mb-1">Gastos</h4>
+                <p class="text-lg font-bold text-red-800" id="totalExpensesSummary">$0.00</p>
+              </div>
+
+              <!-- Ganancia -->
+              <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-center">
+                <h4 class="text-xs font-medium text-blue-700 mb-1">Ganancia</h4>
+                <p class="text-lg font-bold text-blue-800" id="netProfit">$0.00</p>
+              </div>
+
+              <!-- Millas -->
+              <div class="bg-purple-50 border border-purple-200 rounded-lg p-3 text-center">
+                <h4 class="text-xs font-medium text-purple-700 mb-1">Millas</h4>
+                <p class="text-lg font-bold text-purple-800" id="totalMiles">0</p>
+              </div>
+
+              <!-- RPM -->
+              <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-center">
+                <h4 class="text-xs font-medium text-yellow-700 mb-1">RPM</h4>
+                <p class="text-lg font-bold text-yellow-800" id="avgRpm">$0.00</p>
+              </div>
+            </div>
+
+            <!-- Gestión de Gastos -->
+            <div class="card-section">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold">💳 Gestión de Gastos</h3>
+                <button onclick="openExpenseModal()"
+                  class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                  ➕ Agregar Gasto
+                </button>
+              </div>
+
+              <!-- Lista de gastos recientes -->
+              <div class="overflow-x-auto">
+                <table class="min-w-full text-sm border border-gray-300">
+                  <thead class="bg-gray-100">
+                    <tr>
+                      <th class="p-2 text-left">Fecha</th>
+                      <th class="p-2 text-left">Categoría</th>
+                      <th class="p-2 text-left">Descripción</th>
+                      <th class="p-2 text-left">Monto</th>
+                      <th class="p-2 text-left">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="expensesList">
+                    <tr>
+                      <td colspan="5" class="p-4 text-center text-gray-500">
+                        No hay gastos registrados para este período
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Gráficos Principales -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <!-- Cash Flow Chart -->
+              <div class="card-section">
+                <h3 class="text-lg font-semibold mb-4">📈 Rendimiento Financiero</h3>
+                <div id="cashFlowChartContainer" class="h-96 bg-gray-50 rounded-lg p-4">
+                  <canvas id="cashFlowChart"></canvas>
+                </div>
+              </div>
+
+              <!-- Expense Breakdown -->
+              <div class="card-section">
+                <h3 class="text-lg font-semibold mb-4">🥧 Distribución de Gastos</h3>
+                <div id="expenseBreakdownChartContainer" class="h-96 bg-gray-50 rounded-lg p-4">
+                  <canvas id="expenseBreakdownChart"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Gráficos del Dashboard Integrados -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+              <!-- RPM Trends -->
+              <div class="card-section">
+                <h3 class="text-lg font-semibold mb-4">📈 Tendencia RPM</h3>
+                <div class="h-80 bg-gray-50 rounded-lg p-4">
+                  <canvas id="rpmTrendChart"></canvas>
+                </div>
+              </div>
+
+              <!-- Distribución de Cargas -->
+              <div class="card-section">
+                <h3 class="text-lg font-semibold mb-4">🎯 Distribución de Cargas</h3>
+                <div class="h-80 bg-gray-50 rounded-lg p-4">
+                  <canvas id="loadDistributionChart"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Métricas Adicionales (Solo las que faltan) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+              <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 text-center">
+                <h4 class="text-sm font-medium text-indigo-700 mb-1">📏 Costo por Milla</h4>
+                <p class="text-xl font-bold text-indigo-800" id="costPerMile">$0.00</p>
+                <p class="text-xs text-indigo-600 mt-1">Incluye todos los gastos</p>
+              </div>
+              <div class="bg-pink-50 border border-pink-200 rounded-lg p-4 text-center">
+                <h4 class="text-sm font-medium text-pink-700 mb-1">⚡ Eficiencia</h4>
+                <p class="text-xl font-bold text-pink-800" id="efficiency">0%</p>
+                <p class="text-xs text-pink-600 mt-1">Análisis operativo</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 🧾 Contenido REPORTES -->
+          <div id="finances-reports" class="fin-subcontent hidden space-y-6">
+
+            <!-- ✅ Selector Unificado (Reportes) -->
+            <div class="card-section">
+              <div class="grid grid-cols-2 md:flex md:flex-row gap-4 items-start md:items-center">
+
+                <!-- Año -->
+                <div class="flex items-center gap-2">
+                  <label for="reportYear" class="text-sm font-medium text-gray-700">Año</label>
+                  <select id="reportYear" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
+                </div>
+
+                <!-- Mes -->
+                <div class="flex items-center gap-2">
+                  <label for="reportMonth" class="text-sm font-medium text-gray-700">Mes</label>
+                  <select id="reportMonth" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
+                </div>
+
+                <!-- Botón -->
+                <button
+                  class="col-span-2 md:col-span-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
+                  onclick="applyPeriod('reports')">
+                  🔄 Actualizar
+                </button>
+
+              </div>
+            </div>
+
+
+            <!-- 📘 Tarjetas horizontales -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+              <!-- 📘 Estado de Resultados -->
+              <div class="card-section flex flex-col justify-between">
+                <div>
+                  <h3 class="text-lg font-semibold mb-4">📘 Estado de Resultados</h3>
+                  <p class="text-gray-600">
+                    Ingresos, costos y utilidad neta del período seleccionado.
+                  </p>
+                  <div id="plReportPreview" class="mt-4 text-sm text-gray-800">
+                    <em>Seleccione filtros y genere el reporte.</em>
+                  </div>
+                </div>
+                <div class="mt-4">
+                  <button onclick="generatePLReport()"
+                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full">
+                    📘 Generar Reporte
+                  </button>
+                </div>
+              </div>
+
+              <!-- 🧾 Reporte de Impuestos -->
+              <div class="card-section flex flex-col justify-between">
+                <div>
+                  <h3 class="text-lg font-semibold mb-4">🧾 Reporte de Impuestos</h3>
+                  <p class="text-gray-600">
+                    Deducciones y base imponible.
+                  </p>
+                </div>
+                <div class="mt-4">
+                  <button onclick="generateTaxReport()"
+                    class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full">
+                    🧾 Calcular Impuestos
+                  </button>
+                </div>
+              </div>
+
+              <!-- 📤 Exportaciones -->
+              <div class="card-section flex flex-col justify-between">
+                <div>
+                  <h3 class="text-lg font-semibold mb-4">📤 Exportaciones</h3>
+                  <p class="text-gray-600">
+                    Exportar datos contables.
+                  </p>
+                </div>
+                <div class="mt-4">
+                  <button class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 w-full">
+                    Exportar a Excel
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Contenedor dinámico para mostrar el Estado de Resultados -->
+            <div id="reportContent" class="card-section bg-white border rounded-lg p-6 hidden">
+              <!-- Aquí se insertará el Estado de Resultados -->
+            </div>
+
+          </div>
+
+          <!-- 💵 Contenido CUENTAS -->
+          <div id="finances-accounts" class="fin-subcontent hidden space-y-6">
+
+            <!-- ✅ Selector Unificado (Cuentas) -->
+            <div class="card-section">
+              <div class="grid grid-cols-2 md:flex md:flex-row gap-4 items-start md:items-center">
+                <!-- Año -->
+                <div class="flex items-center gap-2">
+                  <label for="accountsYear" class="text-sm font-medium text-gray-700 hidden md:inline">Año</label>
+                  <select id="accountsYear" class="border border-gray-300 rounded px-3 py-2 w-32"></select>
+                </div>
+
+                <!-- Mes -->
+                <div class="flex items-center gap-2">
+                  <label for="accountsMonth" class="text-sm font-medium text-gray-700 hidden md:inline">Mes</label>
+                  <select id="accountsMonth" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
+                </div>
+
+
+
+                <!-- Estado -->
+                <div class="flex items-center gap-2">
+                  <label for="accountsStatus" class="text-sm font-medium text-gray-700 hidden md:inline">Estado</label>
+                  <select id="accountsStatus" class="border border-gray-300 rounded px-3 py-2 w-32">
+                    <option value="">Todos</option>
+                    <option value="pending">Pendientes</option>
+                    <option value="overdue">Vencidas</option>
+                    <option value="paid">Pagadas</option>
+                  </select>
+                </div>
+
+                <!-- Ordenamiento -->
+                <div class="flex items-center gap-2">
+                  <label for="accountsSort" class="text-sm font-medium text-gray-700 hidden md:inline">Ordenar</label>
+                  <select id="accountsSort" class="border border-gray-300 rounded px-3 py-2 w-32 md:w-40">
+                    <option value="date-desc">Reciente</option>
+                    <option value="date-asc">Fecha</option>
+                    <option value="amount-desc">Mayor</option>
+                    <option value="amount-asc">Menor</option>
+                    <option value="company"> A-Z</option>
+                    <option value="overdue">Vencidas</option>
+                  </select>
+                </div>
+                <!-- Botón Actualizar -->
+                <button
+                  class="col-span-2 md:col-span-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
+                  onclick="applyPeriod('accounts')">
+                  Actualizar
+                </button>
+              </div>
+            </div>
+
+            <!-- 📊 Tarjetas de Resumen -->
+            <div id="accountsSummaryCards" class="mt-6">
+              <!-- Las tarjetas se generarán aquí dinámicamente -->
+            </div>
+
+            <div id="accountsList" class="space-y-6">
+              <!-- El dashboard se inserta aquí -->
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ✅ MODAL PARA AGREGAR GASTOS -->
+      <div id="expenseModal"
+        class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
+
+          <!-- Modal Header -->
+          <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-gray-900">➕ Agregar Gasto</h3>
+            <button type="button" onclick="closeExpenseModal()" class="text-gray-400 hover:text-gray-600">
+              <span class="text-2xl">&times;</span>
+            </button>
+          </div>
+
+          <!-- Modal Body -->
+          <div class="px-6 py-4">
+            <div class="space-y-4">
+
+              <!-- Fecha -->
+              <div>
+                <label for="expenseDate" class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
+                <input type="date" id="expenseDate" name="expenseDate"
+                  class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none"
+                  required>
+              </div>
+
+              <!-- Categoría -->
+              <div>
+                <label for="expenseType" class="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
+                <select id="expenseType" name="expenseType"
+                  class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none"
+                  required>
+                  <option value="">Seleccione una categoría</option>
+                  <option value="fuel">🚚 Combustible</option>
+                  <option value="maintenance">🔧 Mantenimiento</option>
+                  <option value="food">🍔 Comida</option>
+                  <option value="lodging">🏨 Hospedaje</option>
+                  <option value="tolls">🛣️ Peajes</option>
+                  <option value="insurance">🛡️ Seguro</option>
+                  <option value="permits">📋 Permisos</option>
+                  <option value="other">📦 Otros</option>
+                </select>
+              </div>
+
+              <!-- Monto -->
+              <div>
+                <label for="expenseAmount" class="block text-sm font-medium text-gray-700 mb-1">Monto ($)</label>
+                <input type="number" id="expenseAmount" name="expenseAmount" placeholder="0.00" step="0.01" min="0"
+                  class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none"
+                  required>
+              </div>
+
+              <!-- Descripción -->
+              <div>
+                <label for="expenseDescription" class="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
+                <input type="text" id="expenseDescription" name="expenseDescription" placeholder="Descripción del gasto"
+                  class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
+              </div>
+
+              <!-- Deducible -->
+              <div class="flex items-center">
+                <input type="checkbox" id="expenseDeductible" name="expenseDeductible" class="mr-2">
+                <label for="expenseDeductible" class="text-sm text-gray-600">Este gasto es deducible</label>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Modal Footer -->
+          <div class="border-t border-gray-200 px-6 py-4 flex flex-col sm:flex-row gap-3 sm:justify-end">
+            <button type="button" onclick="closeExpenseModal()"
+              class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 order-2 sm:order-1">
+              Cancelar
+            </button>
+            <button type="button" onclick="saveExpenseToFirebase()"
+              class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 order-1 sm:order-2">
+              💾 Guardar Gasto
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- Zones Tab -->
+      <section id="zones" class="tab-content hidden">
+        <div class="w-full px-6 py-6 space-y-8">
+          <div class="section-header text-center">
+            <h2 class="font-bold mb-4">🗺️ Zonas / Heatmap</h2>
+            <p class="subtitle">Analiza la rentabilidad por estado con mapa interactivo</p>
+          </div>
+
+          <!-- Map placeholder -->
+          <div class="flex flex-col lg:flex-row gap-10">
+            <div class="flex-1 bg-gray-100 border rounded p-8 text-center">
+              <object id="interactiveMap" data="usa_states_ids_fixed_by_title.svg" type="image/svg+xml"
+                class="w-full h-80">
+                <p class="text-gray-600">🗺️ Mapa SVG no disponible</p>
+              </object>
+            </div>
+
+            <div class="w-full lg:w-[300px] bg-gray-50 border border-gray-200 rounded-lg shadow p-4">
+              <h3 class="text-lg font-semibold text-gray-900 mb-4">ℹ️ Información del Estado</h3>
+              <div class="text-center text-gray-500">
+                <p class="text-sm">Pasa el cursor sobre un estado</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Legend -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="flex items-center p-3 bg-red-50 border border-red-200 rounded-lg">
+              <div class="w-4 h-4 bg-red-600 rounded-full mr-3"></div>
+              <div>
+                <p class="font-medium text-red-800">Zona roja</p>
+                <p class="text-sm text-red-600">Menor a $0.75 RPM</p>
+              </div>
+            </div>
+            <div class="flex items-center p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <div class="w-4 h-4 bg-yellow-400 rounded-full mr-3"></div>
+              <div>
+                <p class="font-medium text-yellow-800">Zona amarilla</p>
+                <p class="text-sm text-yellow-600">Entre $0.75 – $1.05 RPM</p>
+              </div>
+            </div>
+            <div class="flex items-center p-3 bg-green-50 border border-green-200 rounded-lg">
+              <div class="w-4 h-4 bg-green-600 rounded-full mr-3"></div>
+              <div>
+                <p class="font-medium text-green-800">Zona verde</p>
+                <p class="text-sm text-green-600">Mayor a $1.05 RPM</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Zones table -->
+          <div class="card-section">
+            <h3 class="text-lg font-semibold mb-4">📍 Tabla de zonas por estado</h3>
+            <div class="overflow-x-auto">
+              <table class="min-w-full text-sm border border-gray-300">
+                <thead class="bg-gray-200">
+                  <tr>
+                    <th class="p-2 text-left cursor-pointer" onclick="sortZonesBy('state')">Estado</th>
+                    <th class="p-2 text-left">Zona</th>
+                    <th class="p-2 text-left cursor-pointer" onclick="sortZonesBy('count')">Cargas</th>
+                    <th class="p-2 text-left cursor-pointer" onclick="sortZonesBy('rpm')">RPM Promedio</th>
+                    <th class="p-2 text-left cursor-pointer" onclick="sortZonesBy('totalProfit')">Ganancia Total</th>
+                    <th class="p-2 text-left">Rendimiento</th>
+                  </tr>
+                </thead>
+                <tbody id="zoneDataBody">
+                  <tr>
+                    <td colspan="6" class="p-4 text-center text-gray-500">
+                      Sin datos disponibles. ¡Crea algunas cargas para ver el análisis de zonas!
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 🆕 MAPA DE CIUDADES CON GOOGLE MAPS -->
+          <div class="card-section mt-8">
+            <h3 class="text-lg font-semibold mb-4">🌎 Mapa de Ciudades de Destino</h3>
+            <p class="text-sm text-gray-600 mb-4">Visualiza todas las ciudades donde has entregado cargas, con
+              marcadores de color según RPM</p>
+
+            <!-- Contenedor del mapa -->
+            <div id="citiesMapContainer" class="mb-4">
+              <div id="citiesMap" class="w-full h-96 rounded-lg border-2 border-gray-300 bg-gray-100"></div>
+            </div>
+
+            <!-- Leyenda del mapa de ciudades -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+              <div class="flex items-center p-3 bg-green-50 border border-green-200 rounded-lg">
+                <div class="w-4 h-4 bg-green-600 rounded-full mr-3"></div>
+                <div>
+                  <p class="font-medium text-green-800">Alta rentabilidad</p>
+                  <p class="text-sm text-green-600">RPM > $1.05</p>
+                </div>
+              </div>
+              <div class="flex items-center p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <div class="w-4 h-4 bg-yellow-500 rounded-full mr-3"></div>
+                <div>
+                  <p class="font-medium text-yellow-800">Rentabilidad media</p>
+                  <p class="text-sm text-yellow-600">$0.75 - $1.05 RPM</p>
+                </div>
+              </div>
+              <div class="flex items-center p-3 bg-red-50 border border-red-200 rounded-lg">
+                <div class="w-4 h-4 bg-red-600 rounded-full mr-3"></div>
+                <div>
+                  <p class="font-medium text-red-800">Baja rentabilidad</p>
+                  <p class="text-sm text-red-600">RPM < $0.75</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tabla de top ciudades -->
+            <div class="overflow-x-auto">
+              <h4 class="text-md font-semibold mb-2">🧮 Top Ciudades por Cargas</h4>
+              <table class="min-w-full text-sm border border-gray-300">
+                <thead class="bg-gray-200">
+                  <tr>
+                    <th class="p-2 text-left">#</th>
+                    <th class="p-2 text-left">Ciudad</th>
+                    <th class="p-2 text-left">Cargas</th>
+                    <th class="p-2 text-left">RPM Promedio</th>
+                    <th class="p-2 text-left">Ganancia Total</th>
+                  </tr>
+                </thead>
+                <tbody id="citiesTableBody">
+                  <tr>
+                    <td colspan="4" class="p-4 text-center text-gray-500">
+                      Cargando datos de ciudades...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Settings Tab -->
+      <section id="settings" class="tab-content hidden">
+        <div class="w-full px-6 py-6 space-y-8">
+          <div class="section-header text-center">
             <h2 class="font-bold mb-4">⚙️ Configuración de Tu Negocio</h2>
             <p class="subtitle">Personaliza la app según tu tipo de operación y costos reales</p>
-        </div>
-
-        <!-- Mensaje de confirmación -->
+            
+            <!-- Mensaje de confirmación -->
         <div id="configMessage" class="config-message" style="display: none;"></div>
 
         <!-- 1. PERFIL DE OPERACIÃ“N -->
@@ -1767,16 +2110,29 @@
 <script src="js/calculator.js"></script>
 <script src="js/userPlans.js"></script>
 <script src="js/history.js"></script>
-<script src="js/finances.js"></script>  <!-- ✅ DEBE ESTAR AQUÃ -->
+<script src="js/finances.js"></script> 
 <script src="js/zones.js"></script>
 <script src="js/main.js"></script>
-<script src="js/lex.js"></script>          <!-- Tu Lex visual existente -->
-<script src="js/lex-ai-brain.js"></script>  <!-- AGREGAR ESTA LÍNEA -->
+<script src="js/core/agent-base.js"></script>
+<script src="js/core/event-bus.js"></script>
+<script src="js/core/lex-master.js"></script>
+<script src="js/lex-ai-brain.js"></script>
+<script src="js/core/lex-modals.js"></script>
+<script src="js/lex-learning.js"></script>
+<script src="js/lex.js"></script>
+<script src="js/lex-intents.js"></script>
+<script src="js/lex-router.js"></script>
+
+<!-- Agentes -->
+<script src="js/agents/calculator-agent.js"></script>
+<script src="js/agents/history-agent.js"></script>
+<script src="js/agents/zones-agent.js"></script>
+<script src="js/agents/finances-agent.js"></script>
 
 <!-- <script src="js/tabs.js"></script> REMOVED: tabs.js functionality merged into main.js -->
  <script src="js/mobile.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
+            
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const toggle = document.getElementById("menuToggle");
@@ -1842,8 +2198,8 @@
     }
   });
 </script>
-</script>
-<!-- 🔍Œ Modal de Notas -->
+
+<!-- 🔍 Modal de Notas -->
 <div id="notesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
   <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6">
     <!-- Header -->
@@ -1856,39 +2212,62 @@
     <div id="notesListModal" class="space-y-3 max-h-60 overflow-y-auto">
       <p class="text-gray-500 text-sm">No hay notas registradas aún.</p>
     </div>
-
-    
+  
   </div>
 </div>
 
 </div>
-<!-- 🔹 Lex AI Assistant (avatar flotante) -->
-<div id="lexAssistant"
-     class="fixed bottom-4 right-4 z-40 flex items-end gap-3 select-none">
 
-  <!-- Globito opcional (lo usaremos más adelante) -->
-  <div id="lexBubble"
-       class="hidden max-w-xs bg-slate-900/85 border border-blue-500/40 text-blue-50 text-xs rounded-2xl shadow-lg px-3 py-2 mb-3 backdrop-blur-md">
-    <p id="lexBubbleText" class="font-medium">
-      Hola, soy Lex. Pronto te ayudaré a decidir tus cargas. 👋
-    </p>
+          <!-- 🔹 Lex AI Assistant (avatar flotante) -->
+          <div id="lexAssistant" class="fixed bottom-4 right-4 z-60 flex flex-col items-end gap-2 select-none">
+
+          <!-- Globito de mensaje de Lex (encima del avatar) -->
+<div id="lexBubble"
+     class="hidden max-w-xs text-xs rounded-2xl shadow-lg px-3 py-2 mb-2 bg-slate-900/95 border border-slate-700">
+  <p id="lexBubbleText" class="font-medium text-slate-50">
+    Hola, soy Lex. Te ayudaré con tus decisiones de carga. 👋
+  </p>
+
+  <div class="mt-2 flex items-center gap-2">
+    <button
+      id="lexQuickAnalyzeBtn"
+      type="button"
+      class="lex-action-btn lex-btn-analyze"
+      onclick="window.triggerLex && window.triggerLex()"
+    >
+      ⚡ Análisis
+    </button>
+
+    <button
+      id="lexOpenChatBtn"
+      type="button"
+      class="lex-action-btn lex-btn-chat"
+      onclick="window.openLexChatModal && window.openLexChatModal()"
+    >
+      💬 Chat
+    </button>
   </div>
+</div>
 
-  <!-- Avatar -->
-  <div class="relative">
-    <div class="lex-avatar-shell w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-purple-700 
+
+
+            <!-- Avatar -->
+            <div class="relative">
+              <div class="lex-avatar-shell w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-purple-700 
                 border border-blue-400 shadow-2xl flex items-center justify-center overflow-hidden">
-      <img id="lexAvatarImg"
-           src="img/lex/lex-neutral.png"
-           alt="Lex AI Assistant"
-           class="w-14 h-14 object-contain lex-avatar-img">
-    </div>
+                <img id="lexAvatarImg" src="img/lex/lex-neutral.png" alt="Lex AI Assistant"
+                  class="w-14 h-14 object-contain lex-avatar-img">
+              </div>
 
-    <!-- Puntico de estado -->
-    <span id="lexStatusDot"
-          class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-slate-900 bg-emerald-400 shadow-lg"></span>
-  </div>
-</div>
+              <!-- Puntico de estado -->
+              <span id="lexStatusDot"
+                class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-slate-900 bg-emerald-400 shadow-lg">
+              </span>
+            </div>
+          </div>
+
+           
+    
 
 </body>
 </html>

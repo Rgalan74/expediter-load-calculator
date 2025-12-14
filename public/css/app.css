@@ -1189,52 +1189,84 @@ hr,
 #decisionContainer #zoneBadgeHTML .zone-text-red    { color: #dc2626 !important; }
 #decisionContainer #zoneBadgeHTML .zone-text-gray   { color: #9ca3af !important; }
 
-/* === Lex AI Assistant (avatar flotante) === */
+/* =========================================
+   LEX AI Assistant - Estilos unificados
+   ========================================= */
 
+/* Contenedor principal: avatar + burbuja */
 #lexAssistant {
-  z-index: 60;
-  animation: lex-pop-in 0.45s ease-out;
+  position: fixed !important;
+  right: 1rem !important;
+  bottom: 1rem !important;
+
+  z-index: 9999 !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 6px !important;
+
+  /* Truco: el contenedor no captura clics,
+     solo el avatar y la burbuja */
+  pointer-events: none !important;
 }
 
-/* Halo y respiración suave */
+/* El avatar y la burbuja sí son clicables */
+#lexBubble,
 .lex-avatar-shell {
+  pointer-events: auto !important;
+}
+
+/* =========================
+   Avatar / Estado visual
+   ========================= */
+
+.lex-avatar-shell {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 30% 20%, #60a5fa, #1d4ed8);
+  border: 1px solid rgba(147, 197, 253, 0.6);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   box-shadow: 0 0 30px rgba(59, 130, 246, 0.45);
   animation: lex-breathe 3s ease-in-out infinite;
 }
 
-/* Estado “sleep” (lo usaremos después) */
+/* Estado “sleep” */
 .lex-avatar-shell.lex-sleep {
   animation: lex-sleep 5s ease-in-out infinite;
   filter: grayscale(0.3) brightness(0.85);
 }
 
-/* Puntico de estado */
+/* Estado “atención” cuando la calculadora está lista */
+.lex-avatar-shell.lex-attention-pulse {
+  animation: lexPulse 0.6s ease-in-out infinite alternate;
+  box-shadow: 0 0 18px rgba(255, 215, 0, 0.9);
+}
+
+/* Puntico de estado (online / pensando, etc.) */
 #lexStatusDot {
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-/* Animación al aparecer */
+/* Animaciones base */
 @keyframes lex-pop-in {
   from { transform: translateY(20px) scale(0.85); opacity: 0; }
   to   { transform: translateY(0)    scale(1);    opacity: 1; }
 }
 
-/* “Respirar” */
 @keyframes lex-breathe {
   0%, 100% { transform: scale(1); }
   50%      { transform: scale(1.06); }
 }
 
-/* “Dormir” */
 @keyframes lex-sleep {
   0%, 100% { transform: scale(1); opacity: 0.7; }
   50%      { transform: scale(0.95); opacity: 0.5; }
-}
-/* === Lex: modo atención cuando la calculadora está lista === */
-
-.lex-avatar-shell.lex-attention-pulse {
-  animation: lexPulse 0.6s ease-in-out infinite alternate;
-  box-shadow: 0 0 18px rgba(255, 215, 0, 0.9);
 }
 
 @keyframes lexPulse {
@@ -1247,48 +1279,108 @@ hr,
     box-shadow: 0 0 26px rgba(255, 215, 0, 1);
   }
 }
-/* === Lex: burbuja de mensaje (fondo claro translúcido) === */
+
+/* =========================
+   Burbuja de mensaje
+   ========================= */
+
 #lexBubble {
-  background: rgba(255, 255, 255, 0.35) !important; /* fondo blanco casi translúcido */
-  color: #0f172a !important;                       /* texto oscuro para buena lectura */
+  background: rgba(255, 255, 255, 0.55) !important;
+  color: #0f172a !important;
   border-radius: 16px;
-  border: 1px solid rgba(148, 163, 184, 0.4);      /* borde gris azulado suave */
-  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25);  /* sombra flotante */
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25);
+
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+
+  padding: 0.55rem 0.85rem;
+  margin-bottom: 0.6rem;
+  max-width: 22rem;
+
+  font-size: 0.8rem;
+  line-height: 1.3;
 }
 
-/* Texto interno del mensaje de Lex */
 #lexBubbleText {
   font-size: 0.8rem;
   line-height: 1.3;
   color: inherit !important;
 }
 
-/* Ajustes específicos para móvil */
+/* Lex: mensaje de zonas / etiqueta dentro del panel */
+.lex-side-message {
+  background: rgba(255, 255, 255, 0.25) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+
+  color: #ffffff !important;
+  border-radius: 14px;
+
+  padding: 8px 12px;
+  margin: 6px auto 0 !important;  /* centrado, sin empujar a la derecha */
+
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+
+  max-width: 100% !important;
+  font-size: 0.85rem;
+  line-height: 1.3;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+
+/* =========================
+   Modal de análisis Lex
+   ========================= */
+
+#lexAnalysisModal {
+  /* el display lo controla JS (hidden / flex) */
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+#lexAnalysisContent {
+  background: rgba(15, 23, 42, 0.96);
+  color: #e5e7eb;
+  border-radius: 18px;
+}
+
+/* Botón cerrar siempre visible dentro del modal */
+#lexAnalysisCloseBtn {
+  position: sticky;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  margin-left: auto;
+}
+
+/* =========================================
+   Ajustes específicos para móvil
+   ========================================= */
 @media (max-width: 768px) {
+  /* Posición del avatar en móvil */
   #lexAssistant {
-    right: 0.75rem;
-    bottom: 0.75rem;
+    right: 0.75rem !important;
+    bottom: 0.75rem !important;
   }
 
   #lexBubble {
-    max-width: 72vw;            /* que no ocupe todo el ancho */
-    padding: 0.55rem 0.75rem;   /* un poco más compacto en móvil */
-    margin-bottom: 0.4rem;
+    max-width: 72vw;
+    padding: 0.55rem 0.75rem;
+    margin-bottom: 0.6rem !important;
   }
-}
-/* =========================================
-   LEX AI — Modal optimizado para móviles
-   ========================================= */
-@media (max-width: 768px) {
 
   /* Fondo del modal */
   #lexAnalysisModal {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-
     padding: 1rem !important;
   }
 
@@ -1299,20 +1391,16 @@ hr,
     max-height: 88vh !important;
 
     margin: 0 auto !important;
-    border-radius: 18px !important;
-
     overflow-y: auto !important;
     padding: 1rem 1.2rem !important;
   }
 
-  /* Títulos */
   #lexAnalysisContent h2,
   #lexAnalysisContent h3 {
     text-align: center !important;
     margin-bottom: 0.8rem !important;
   }
 
-  /* Botón cerrar siempre visible */
   #lexAnalysisCloseBtn {
     position: sticky !important;
     top: 0 !important;
@@ -1322,23 +1410,232 @@ hr,
     margin-bottom: 0.5rem !important;
   }
 }
-/* === Lex: Mensaje lateral (no la burbuja pegada al avatar) === */
+/* ============================
+   FIX GLOBAL LEX – POSICIÓN
+   ============================ */
+#lexAssistant {
+  position: fixed !important;
+  inset: auto !important;
+  right: 0.75rem !important;
+  bottom: 0.75rem !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  justify-content: flex-end !important;
+  gap: 6px !important;
+
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+
+  transform: none !important;
+  z-index: 9999 !important;
+
+  pointer-events: none !important;  /* el contenedor no bloquea nada */
+}
+
+/* Avatar y burbuja sí reciben clic */
+#lexBubble,
+.lex-avatar-shell {
+  pointer-events: auto !important;
+}
+
+/* Limitar ancho de la burbuja de Lex para que no empuje nada */
+#lexBubble {
+  max-width: 260px !important;
+}
+/* ============================
+   FIX GLOBAL – BADGE DE ZONAS
+   ============================ */
+
+/* Contenedor donde metes el HTML del badge */
+#zoneBadgeHTML {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin-top: 6px !important;
+}
+
+/* El propio cuadrito translúcido */
+#zoneBadgeHTML .lex-side-message,
 .lex-side-message {
-  background: rgba(255, 255, 255, 0.25) !important; /* transparente real */
+  background: rgba(255, 255, 255, 0.25) !important;
   backdrop-filter: blur(6px) !important;
   -webkit-backdrop-filter: blur(6px) !important;
 
   color: #ffffff !important;
   border-radius: 14px;
 
-  padding: 8px 12px;
-  margin-left: 60px;
-  margin-top: 6px;
-
+  padding: 8px 12px !important;
+  margin: 0 !important;                 /* nada de margin-left raro */
   border: 1px solid rgba(255, 255, 255, 0.35);
   box-shadow: 0 4px 16px rgba(0,0,0,0.35);
 
-  max-width: 75%;
+  max-width: 100% !important;           /* que use el ancho del panel */
   font-size: 0.85rem;
   line-height: 1.3;
+
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Un poquito más compacto en móvil */
+@media (max-width: 768px) {
+  #zoneBadgeHTML .lex-side-message,
+  .lex-side-message {
+    font-size: 0.78rem !important;
+    padding: 6px 10px !important;
+  }
+}
+@media (min-width: 1024px) {
+  #lexAnalysisContent {
+    max-width: 650px !important;
+    padding: 32px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  #lexAnalysisContent {
+    max-width: 92vw !important;
+    padding: 20px !important;
+  }
+}
+/* ============================
+   Lex: botones del globito
+   ============================ */
+
+.lex-action-btn {
+  font-size: 0.7rem;
+  line-height: 1;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.45);
+  transform: translateY(0);
+  transition:
+    background 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.1s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+/* Botón de Análisis (azul) */
+.lex-btn-analyze {
+  background: linear-gradient(135deg, #2563eb, #38bdf8);
+  color: #f9fafb;
+  border-color: rgba(191, 219, 254, 0.7);
+}
+
+.lex-btn-analyze:hover {
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.8);
+  transform: translateY(-1px);
+}
+
+.lex-btn-analyze:active {
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.9);
+  transform: translateY(0);
+}
+
+/* Botón de Chat (morado/rosa) */
+.lex-btn-chat {
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  color: #fdf2ff;
+  border-color: rgba(221, 214, 254, 0.7);
+}
+
+.lex-btn-chat:hover {
+  box-shadow: 0 6px 14px rgba(124, 58, 237, 0.85);
+  transform: translateY(-1px);
+}
+
+.lex-btn-chat:active {
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.9);
+  transform: translateY(0);
+}
+/* =========================================
+   LEX MODALS – Botones unificados
+   ========================================= */
+
+.lex-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+
+/* Estilo base de botón de modal */
+.lex-modal-btn {
+  font-size: 0.7rem;
+  line-height: 1;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  transition:
+    background 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.1s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+/* Variante gris / ghost (Cerrar) */
+.lex-modal-btn-ghost {
+  background: rgba(15, 23, 42, 0.85);
+  color: #e5e7eb;
+  border-color: rgba(148, 163, 184, 0.6);
+  box-shadow: 0 3px 8px rgba(15, 23, 42, 0.6);
+}
+
+.lex-modal-btn-ghost:hover {
+  background: rgba(30, 41, 59, 0.95);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.8);
+  transform: translateY(-1px);
+}
+
+.lex-modal-btn-ghost:active {
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.9);
+  transform: translateY(0);
+}
+
+/* Variante principal (Lex) – morado/azulado */
+.lex-modal-btn-primary {
+  background: linear-gradient(135deg, #4f46e5, #ec4899);
+  color: #fdf2ff;
+  border-color: rgba(221, 214, 254, 0.7);
+  box-shadow: 0 4px 12px rgba(76, 29, 149, 0.8);
+}
+
+.lex-modal-btn-primary:hover {
+  box-shadow: 0 6px 16px rgba(76, 29, 149, 0.95);
+  transform: translateY(-1px);
+}
+
+.lex-modal-btn-primary:active {
+  box-shadow: 0 2px 7px rgba(15, 23, 42, 0.9);
+  transform: translateY(0);
+}
+
+/* Extra: versión compacta por si en móvil se ven grandes */
+@media (max-width: 768px) {
+  .lex-modal-btn {
+    font-size: 0.65rem;
+    padding: 3px 8px;
+  }
 }
