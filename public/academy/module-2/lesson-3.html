@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 3: Aceptar, Negociar o Rechazar | Smart Load Academy</title>
+    <link rel="icon" type="image/png" href="../../img/logo-app.png" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.7
+        }
+
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem
+        }
+
+        .breadcrumb {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: .875rem
+        }
+
+        .breadcrumb a {
+            color: #00D9FF;
+            text-decoration: none
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem
+        }
+
+        .lesson-content h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff
+        }
+
+        .lesson-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: .75rem
+        }
+
+        .lesson-content p {
+            margin-bottom: 1.5rem;
+            color: #d0d0d0
+        }
+
+        .lesson-content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem
+        }
+
+        .callout {
+            padding: 1.5rem;
+            border-radius: .75rem;
+            margin: 2rem 0;
+            border-left: 4px solid
+        }
+
+        .callout.tip {
+            background: rgba(0, 217, 255, .1);
+            border-color: #00D9FF
+        }
+
+        .callout.warning {
+            background: rgba(255, 107, 53, .1);
+            border-color: #FF6B35
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: rgba(20, 20, 20, .8);
+            border-radius: .75rem;
+            overflow: hidden
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        th {
+            background: rgba(0, 217, 255, .1);
+            color: #00D9FF;
+            font-weight: 700
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: .75rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all .3s ease
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+            color: #fff
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .2)
+        }
+
+        .lesson-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem
+        }
+    </style>
+</head>
+
+<body>
+    <article class="lesson-container">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 2</a> → Lección 3
+        </nav>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Interpretar el Resultado: Aceptar, Negociar o Rechazar</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 8 min lectura</span>
+                <span>🎓 Módulo 2 - Lección 3</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>🎯 LAS 3 DECISIONES POSIBLES</h2>
+                <p>Después de calcular un load, solo hay 3 outcomes:</p>
+
+                <div style="display:grid;gap:1rem;margin:2rem 0">
+                    <div
+                        style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem;border-left:4px solid #64C864">
+                        <strong>✅ ACEPTAR</strong> → Load cumple o supera tus targets
+                    </div>
+                    <div
+                        style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FFD700">
+                        <strong>⚠️ NEGOCIAR</strong> → Load está cerca pero necesita ajuste
+                    </div>
+                    <div
+                        style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FF6B35">
+                        <strong>❌ RECHAZAR</strong> → Load no es rentable, punto
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>✅ CUÁNDO ACEPTAR INMEDIATAMENTE</h2>
+
+                <div style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>Criterios de "Green Light" - AUTO-ACCEPT si TODAS son true:</strong></p>
+                    <ul style="list-style:none;padding:0">
+                        <li>☐ Profit margin >25%</li>
+                        <li>☐ RPM real >$1.40/mi</li>
+                        <li>☐ Deadhead ratio <15%< /li>
+                        <li>☐ Delivery en zona buena</li>
+                        <li>☐ Hourly rate >$40/hr</li>
+                    </ul>
+                    <p style="margin:0;font-weight:700;text-align:center;margin-top:1rem">Si cumple los 5, NO pierdas
+                        tiempo. ACEPTA.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>⚠️ CUÁNDO NEGOCIAR</h2>
+
+                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>Zona de Negociación:</strong></p>
+                    <ul>
+                        <li>Profit margin: 15-25% (borderline)</li>
+                        <li>RPM real: $1.20-$1.40/mi</li>
+                        <li>O algún factor negativo que podría compensarse con más pago</li>
+                    </ul>
+                </div>
+
+                <h3>💬 SCRIPTS DE NEGOCIACIÓN</h3>
+
+                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
+                    <p><strong>Script #1: Deadhead Alto</strong></p>
+                    <p style="font-style:italic">"El load paga bien, pero tengo 150 millas de deadhead. Para que
+                        funcione con mis números, necesitaría $1,250 en lugar de $1,100. ¿Es posible?"</p>
+                </div>
+
+                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
+                    <p><strong>Script #2: Zona de Delivery Mala</strong></p>
+                    <p style="font-style:italic">"Veo que delivery es en [Zona Muerta]. Típicamente me toma 48 horas
+                        conseguir reload de ahí. ¿Hay flexibilidad en el rate? Pensaba en $1,350 en lugar de $1,200."
+                    </p>
+                </div>
+
+                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
+                    <p><strong>Script #3: Múltiples Stops</strong></p>
+                    <p style="font-style:italic">"Veo que tiene 3 stops. Eso añade 2-3 horas. Mi rate base sería $1,300,
+                        pero con los stops necesitaría $1,450. ¿Podemos trabajar con ese número?"</p>
+                </div>
+
+                <div class="callout tip">
+                    <strong>CLAVE:</strong>
+                    <p style="margin:0">Justifica el incremento con factor específico. No solo "quiero más dinero".</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>❌ CUÁNDO RECHAZAR SIN NEGOCIAR</h2>
+
+                <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>Red Flags Absolutos - INSTANT DECLINE si:</strong></p>
+                    <ul style="list-style:none;padding:0">
+                        <li>☐ Profit margin <10% o negativo</li>
+                        <li>☐ RPM real <$1.10 /mi</li>
+                        <li>☐ Deadhead ratio >25%</li>
+                        <li>☐ Delivery en zona muerta + no hay compensación</li>
+                        <li>☐ Load requiere equipamiento que no tienes</li>
+                        <li>☐ Broker es shady/no confiable</li>
+                    </ul>
+                    <p style="margin-top:1rem;font-weight:700;text-align:center">No hay negociación posible. DECLINE
+                        educadamente.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>📊 MATRIZ DE DECISIÓN COMPLETA</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Profit Margin</th>
+                            <th>RPM Real</th>
+                            <th>Decisión</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background:rgba(100,200,100,.15)">
+                            <td>>30%</td>
+                            <td>>$1.50</td>
+                            <td><strong>✅ ACCEPT INSTANTLY</strong></td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.1)">
+                            <td>25-30%</td>
+                            <td>$1.40-1.50</td>
+                            <td><strong>✅ ACCEPT</strong></td>
+                        </tr>
+                        <tr style="background:rgba(255,215,0,.1)">
+                            <td>20-25%</td>
+                            <td>$1.30-1.40</td>
+                            <td><strong>⚠️ ACCEPT/NEGOTIATE</strong></td>
+                        </tr>
+                        <tr style="background:rgba(255,215,0,.15)">
+                            <td>15-20%</td>
+                            <td>$1.20-1.30</td>
+                            <td><strong>⚠️ NEGOTIATE HARD</strong></td>
+                        </tr>
+                        <tr style="background:rgba(255,107,53,.1)">
+                            <td>10-15%</td>
+                            <td>$1.10-1.20</td>
+                            <td><strong>❌ LIKELY DECLINE</strong></td>
+                        </tr>
+                        <tr style="background:rgba(255,107,53,.15)">
+                            <td>
+                                <10%< /td>
+                            <td>
+                                <$1.10< /td>
+                            <td><strong>❌ INSTANT DECLINE</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>🧠 FACTORES ADICIONALES</h2>
+
+                <h3>1. Contexto de Tiempo</h3>
+                <p><strong>Mismo load, diferentes contextos:</strong></p>
+                <ul>
+                    <li><strong>Lunes 9AM:</strong> Load paga 20% margin → Espera algo mejor ⚠️</li>
+                    <li><strong>Viernes 5PM:</strong> Load paga 20% margin → Acéptalo ✅ (weekend se acerca)</li>
+                </ul>
+
+                <h3>2. Tu Situación Financiera</h3>
+                <ul>
+                    <li>Semana excelente (ya $2,000 profit) → Sé selectivo</li>
+                    <li>Semana mala (solo $600 profit) → Considera marginal loads</li>
+                    <li>Fin de mes (necesitas cash) → Más flexible</li>
+                </ul>
+                <p><strong>PERO:</strong> Nunca aceptes loads que PIERDEN dinero, sin importar situación.</p>
+
+                <h3>3. Carga del Mercado</h3>
+                <ul>
+                    <li><strong>Mercado saturado:</strong> Margins serán más ajustados (20-22% puede ser "bueno")</li>
+                    <li><strong>Mercado apretado:</strong> Puedes pedir premium rates (30-35% margins razonables)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>💡 CONCLUSIÓN CLAVE</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">No todos los loads merecen el mismo
+                        treatment:</p>
+                    <ul style="text-align:left;max-width:500px;margin:0 auto;list-style:none;padding:0">
+                        <li>✅ Excellent loads → Accept en <30 seg</li>
+                        <li>⚠️ Borderline loads → Negotiate con confidence</li>
+                        <li>❌ Bad loads → Decline sin remordimiento</li>
+                    </ul>
+                    <p style="margin-top:1.5rem;font-weight:700">Tu tiempo vale dinero. No lo gastes negociando lo
+                        imposible.</p>
+                    <p style="margin:0;color:#00D9FF">Trust the numbers. Si la app dice RED, casi siempre es RED.</p>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+                completada</button>
+            <nav class="lesson-nav">
+                <a href="lesson-2.html" class="btn btn-secondary">← Lección anterior</a>
+                <a href="lesson-4.html" class="btn btn-primary">Siguiente: Errores comunes →</a>
+            </nav>
+        </footer>
+    </article>
+
+    <script src="../js/academy.js"></script>
+    <script>
+        const MODULE_NUM = 2, LESSON_NUM = 3; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true; alert('¡Lección completada! 🎉') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true } });
+    </script>
+</body>
+
+</html>

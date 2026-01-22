@@ -1,0 +1,293 @@
+/* MOBILE HEADER - SUPER VISIBLE */
+@media (max-width: 768px) {
+
+  /* TÃTULO CON GRADIENTE - TAMAÃ‘O Ã“PTIMO */
+  header span.text-lg,
+  header .text-lg,
+  header span.font-bold,
+  header .font-bold span {
+    font-family: 'Poppins', 'Montserrat', -apple-system, sans-serif !important;
+    font-size: 1.625rem !important;
+    /* 26px - Ã³ptimo */
+    font-weight: 800 !important;
+    /* Extra bold */
+    letter-spacing: -0.02em !important;
+    line-height: 1.15 !important;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    filter: drop-shadow(0 3px 8px rgba(59, 130, 246, 0.5)) drop-shadow(0 0 25px rgba(139, 92, 246, 0.4)) !important;
+    display: inline-block !important;
+  }
+
+  /* Logo proporcional */
+  header picture img,
+  header img.rounded-full {
+    width: 2.5rem !important;
+    /* 40px */
+    height: 2.5rem !important;
+  }
+
+  /* INPUTS SUPER VISIBLES */
+  input:not([type='checkbox']):not([type='radio']),
+  select,
+  textarea {
+    color: #ffffff !important;
+    background-color: rgba(30, 58, 138, 0.5) !important;
+    border: 2px solid rgba(96, 165, 250, 0.4) !important;
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+  }
+
+  input::placeholder,
+  select option:first-child,
+  textarea::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-weight: 400 !important;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    background-color: rgba(30, 58, 138, 0.7) !important;
+    border-color: #60a5fa !important;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.3) !important;
+  }
+
+  /* Labels visibles */
+  label {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+}
+
+  /* Ocultar versión desktop en móvil */
+  header .hidden.md\\:inline {
+    display: none !important;
+  }
+  
+  /* Asegurar que solo se vea versión móvil */
+  header .md\\:hidden {
+    display: inline !important;
+  }
+
+/* FORZAR OCULTAR TEXTO LARGO EN MÓVIL */
+@media (max-width: 768px) {
+  header span.hidden.md\\:inline,
+  header .hidden.md\\:inline {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+}
+
+/* HEADER ALINEACIÓN CENTRADA */
+@media (max-width: 768px) {
+  /* Reducir tamaño del título */
+  header .header-title {
+    font-size: 1.375rem !important; /* 22px */
+  }
+  
+  /* Centrar todo verticalmente */
+  header .flex.items-center {
+    align-items: center !important;
+    display: flex !important;
+  }
+  
+  header img,
+  header picture,
+  header .header-title,
+  header button,
+  header svg {
+    vertical-align: middle !important;
+  }
+  
+  /* Header principal */
+  header > div {
+    align-items: center !important;
+  }
+}
+
+/* CARDS OPTIMIZADAS - ANCHO COMPLETO */
+@media (max-width: 768px) {
+  /* Main content sin padding lateral */
+  main.w-full {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  
+  /* Contenedor de tab sin padding */
+  .tab-content > div {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+  
+  /* Cards principales ocupan todo el ancho */
+  .card-section {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 1rem !important;
+    border-radius: 0.75rem !important;
+  }
+  
+  /* Grid sin gap excesivo */
+  .grid.gap-8 {
+    gap: 1rem !important;
+  }
+  
+  /* Espaciado vertical reducido */
+  .space-y-8 > * + * {
+    margin-top: 1rem !important;
+  }
+  
+  .space-y-4 > * + * {
+    margin-top: 0.75rem !important;
+  }
+}
+
+/* ESTILOS GLOBALES PARA TODAS LAS TABS */
+@media (max-width: 768px) {
+  /* Todas las secciones de tabs */
+  section.tab-content {
+    padding: 0 !important;
+  }
+  
+  section.tab-content > div {
+    padding: 0.5rem !important;
+  }
+  
+  /* History tab */
+  #history .card-section,
+  #history .bg-white,
+  #history .bg-gray-50 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 1rem !important;
+    border-radius: 0.75rem !important;
+  }
+  
+  /* Finances tab */
+  #finances .card-section,
+  #finances .bg-white,
+  #finances .bg-gray-50 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 1rem !important;
+    border-radius: 0.75rem !important;
+  }
+  
+  /* Zones tab */
+  #zones .card-section,
+  #zones .bg-white,
+  #zones .bg-gray-50 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 1rem !important;
+    border-radius: 0.75rem !important;
+  }
+  
+  /* Settings tab */
+  #settings .card-section,
+  #settings .bg-white,
+  #settings .bg-gray-50 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 1rem !important;
+    border-radius: 0.75rem !important;
+  }
+  
+  /* Tablas en todas las tabs */
+  table {
+    width: 100% !important;
+  }
+  
+  .overflow-x-auto {
+    margin-left: -0.5rem !important;
+    margin-right: -0.5rem !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+}
+
+/* OCULTAR DATOS DUPLICADOS EN MÓVIL */
+@media (max-width: 768px) {
+  /* Ocultar Trip Details (ya está en panel de decisión) */
+  #calculator .mt-6.grid.grid-cols-1.md\\:grid-cols-4 {
+    display: none !important;
+  }
+  
+  /* Ocultar métricas adicionales duplicadas en finances */
+  #finances-dashboard .grid.grid-cols-1.md\\:grid-cols-2.gap-6.mt-6 {
+    display: none !important;
+  }
+}
+
+/* OCULTAR TRIP DETAILS POR ID */
+@media (max-width: 768px) {
+  #tripDetailsSection {
+    display: none !important;
+  }
+}
+
+/* OCULTAR RESULTADOS DE CÁLCULO */
+@media (max-width: 768px) {
+  #resultsSection {
+    display: none !important;
+  }
+}
+
+/* OCULTAR SECCIONES DUPLICADAS EN TODAS LAS PANTALLAS */
+#tripDetailsSection,
+#resultsSection {
+  display: none !important;
+}
+
+/* FIX: Select dropdowns en móvil */
+@media (max-width: 768px) {
+  select { color: white !important; background-color: rgba(30, 58, 138, 0.5) !important;
+    -webkit-appearance: menulist !important;
+    appearance: menulist !important;
+  }
+  
+  select option {
+    color: #1f2937 !important;
+    background-color: white !important;
+    padding: 0.5rem !important;
+  }
+  
+  #historyMonthSelect {
+    min-height: 44px !important;
+    font-size: 16px !important;
+  }
+}
+
+
+/* FIX: Select dropdown size en móvil */
+@media (max-width: 768px) {
+  #historyMonthSelect {
+    max-height: 50vh !important;
+    overflow-y: auto !important;
+  }
+  
+  select::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  select::-webkit-scrollbar-thumb {
+    background: rgba(96, 165, 250, 0.5);
+    border-radius: 4px;
+  }
+  
+  /* Limitar tamaño del dropdown nativo */
+  select {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}

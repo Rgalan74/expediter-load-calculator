@@ -46,17 +46,20 @@ function loadZonesData() {
             // Inicializar mapa de ciudades
             initializeCitiesMap();
             loadCitiesData();
-            
+
             // Configurar layout responsivo despus de que carga el mapa
             setTimeout(() => {
-            setupResponsiveMapLayout();
+                setupResponsiveMapLayout();
             }, 500);
-            
+
             zonesDataLoaded = true;
         })
         .catch(error => {
             console.error(" Error loading zones data:", error);
             showZonesError("Error cargando datos: " + error.message);
+            if (window.showToast) {
+                showToast('Error al cargar zonas: ' + error.message, 'error');
+            }
         });
 }
 
@@ -67,11 +70,11 @@ function calcularEstadisticas(loads) {
 
     loads.forEach(load => {
         const originCode = window.getStateCode(load.origin);
-        const destCode   = window.getStateCode(load.destination);
-        let rpm          = parseFloat(load.rpm);
-        const profit     = parseFloat(load.profit || 0);
-        const miles      = parseFloat(load.totalMiles || 0);
-        const revenue    = parseFloat(load.totalCharge || 0);
+        const destCode = window.getStateCode(load.destination);
+        let rpm = parseFloat(load.rpm);
+        const profit = parseFloat(load.profit || 0);
+        const miles = parseFloat(load.totalMiles || 0);
+        const revenue = parseFloat(load.totalCharge || 0);
 
         if ((isNaN(rpm) || rpm === 0) && load.totalCharge && load.totalMiles) {
             rpm = parseFloat(load.totalCharge) / parseFloat(load.totalMiles);
@@ -85,16 +88,16 @@ function calcularEstadisticas(loads) {
         rpmPorEstado[originCode].count++;
 
         if (!resumenPorEstado[destCode]) {
-            resumenPorEstado[destCode] = { 
-                count: 0, 
+            resumenPorEstado[destCode] = {
+                count: 0,
                 totalProfit: 0,
                 totalMiles: 0,
                 totalRevenue: 0
             };
         }
         if (!resumenPorEstado[originCode]) {
-            resumenPorEstado[originCode] = { 
-                count: 0, 
+            resumenPorEstado[originCode] = {
+                count: 0,
                 totalProfit: 0,
                 totalMiles: 0,
                 totalRevenue: 0
@@ -105,7 +108,7 @@ function calcularEstadisticas(loads) {
         resumenPorEstado[destCode].totalProfit += isNaN(profit) ? 0 : profit;
         resumenPorEstado[destCode].totalMiles += isNaN(miles) ? 0 : miles;
         resumenPorEstado[destCode].totalRevenue += isNaN(revenue) ? 0 : revenue;
-        
+
         resumenPorEstado[originCode].count++;
         resumenPorEstado[originCode].totalProfit += isNaN(profit) ? 0 : profit;
         resumenPorEstado[originCode].totalMiles += isNaN(miles) ? 0 : miles;
@@ -193,52 +196,52 @@ function initializeMap() {
 // Nueva funcin para configurar interactividad
 function setupMapInteractivity(svgDoc) {
     if (!svgDoc) return;
-    
+
     // Crear panel de informacin si no existe
     setupInfoPanel();
-    
+
     // Configurar hover para cada estado con datos
     Object.keys(rpmPorEstado).forEach(stateCode => {
         const stateElement = svgDoc.getElementById(stateCode);
-        
+
         if (stateElement) {
             const rpm = rpmPorEstado[stateCode];
             const resumen = resumenPorEstado[stateCode];
-            
+
             // Configurar cursor
             stateElement.style.cursor = 'pointer';
-            
+
             // Event listeners
-            stateElement.addEventListener('mouseenter', function() {
+            stateElement.addEventListener('mouseenter', function () {
                 debugLog(` Hover en ${stateCode}`);
                 this.style.stroke = '#1f2937';
                 this.style.strokeWidth = '3';
                 showStateInfo(stateCode, rpm, resumen);
             });
-            
-            stateElement.addEventListener('mouseleave', function() {
+
+            stateElement.addEventListener('mouseleave', function () {
                 this.style.strokeWidth = '1';
                 this.style.stroke = '#374151';
             });
-            
-            stateElement.addEventListener('click', function() {
+
+            stateElement.addEventListener('click', function () {
                 debugLog(` Click en ${stateCode}`);
                 showStateInfo(stateCode, rpm, resumen, true);
             });
         }
     });
-    
+
     debugLog(" Interactividad del mapa configurada");
 }
 
 // Funcin para crear panel de informacin
 function setupInfoPanel() {
     let infoPanel = document.getElementById('stateInfoPanel');
-    
+
     if (!infoPanel) {
         const mapObject = document.getElementById('interactiveMap');
         const sidebar = mapObject.parentElement.parentElement.children[1];
-        
+
         if (sidebar) {
             infoPanel = document.createElement('div');
             infoPanel.id = 'stateInfoPanel';
@@ -258,11 +261,11 @@ function setupInfoPanel() {
 function showStateInfo(stateCode, rpm, resumen, isClick = false) {
     const detailsDiv = document.getElementById('stateDetails');
     if (!detailsDiv) return;
-    
+
     const zoneLabel = rpm >= 1.05 ? 'Zona Verde' : rpm >= 0.75 ? 'Zona Amarilla' : 'Zona Roja';
     const zoneColor = rpm >= 1.05 ? 'text-green-600' : rpm >= 0.75 ? 'text-yellow-600' : 'text-red-600';
     const zoneIcon = rpm >= 1.05 ? '' : rpm >= 0.75 ? '' : '';
-    
+
     detailsDiv.innerHTML = `
         <div class="text-left space-y-3">
             <div class="text-center">
@@ -310,7 +313,7 @@ function pintarEstados(svgDoc) {
     Object.keys(rpmPorEstado).forEach(stateCode => {
         const element = svgDoc.getElementById(stateCode);
         const rpm = rpmPorEstado[stateCode];
-        
+
         if (!element || isNaN(rpm)) return;
 
         let color = rpm < 0.75 ? '#dc2626' : rpm < 1.05 ? '#facc15' : '#16a34a';
@@ -319,7 +322,7 @@ function pintarEstados(svgDoc) {
         element.setAttribute('fill', color);
         element.setAttribute('stroke', '#374151');
         element.setAttribute('stroke-width', '1');
-        
+
         element.style.fill = color;
         element.style.fillOpacity = '0.8';
         element.style.stroke = '#374151';
@@ -327,7 +330,7 @@ function pintarEstados(svgDoc) {
         element.style.display = '';
         element.style.visibility = 'visible';
         element.style.opacity = '1';
-        
+
         statesPainted++;
         debugLog(` ${stateCode}: RPM $${rpm.toFixed(2)} = ${color}`);
     });
@@ -348,20 +351,20 @@ function pintarEstados(svgDoc) {
 function setupResponsiveMapLayout() {
     const mapObject = document.getElementById('interactiveMap');
     if (!mapObject) return;
-    
+
     const mapContainer = mapObject.parentElement;
     const flexContainer = mapContainer?.parentElement;
     const panelLateral = flexContainer?.children[1];
-    
+
     debugLog(" Configurando layout responsivo del mapa...");
-    
+
     if (mapContainer && panelLateral) {
         // Detectar si es mobile
         const isMobile = window.innerWidth <= 768;
-        
+
         if (isMobile) {
             debugLog(" Modo mobile detectado - aplicando layout mobile");
-            
+
             // SOLUCIN FINAL MOBILE
             mapContainer.style.minWidth = 'unset';
             mapContainer.style.width = '100%';
@@ -371,7 +374,7 @@ function setupResponsiveMapLayout() {
             mapContainer.style.margin = '0';
             mapContainer.style.marginLeft = '-1rem';
             mapContainer.style.marginRight = '-1rem';
-            
+
             // Forzar flex-direction column en mobile
             if (flexContainer) {
                 flexContainer.style.flexDirection = 'column';
@@ -379,7 +382,7 @@ function setupResponsiveMapLayout() {
                 flexContainer.style.paddingLeft = '0.5rem';
                 flexContainer.style.paddingRight = '0.5rem';
             }
-            
+
             // Mapa responsive en mobile
             mapObject.style.width = '100%';
             mapObject.style.height = '400px';
@@ -387,31 +390,31 @@ function setupResponsiveMapLayout() {
             mapObject.style.maxWidth = 'none';
             mapObject.style.margin = '0 auto';
             mapObject.style.display = 'block';
-            
+
             // Panel lateral debajo en mobile
             panelLateral.style.width = '100%';
             panelLateral.style.maxWidth = 'none';
             panelLateral.style.marginTop = '1rem';
             panelLateral.style.order = '2';
-            
+
 
         } else {
             debugLog(" Modo desktop detectado - aplicando layout desktop");
-            
+
             // DESKTOP: Layout original CORREGIDO
             mapContainer.className = mapContainer.className.replace('flex-1', 'flex-[3]');
             mapContainer.style.minWidth = '600px';
-            
+
             // LIMPIAR estilos mobile que pueden interferir
             mapContainer.style.marginLeft = '';
             mapContainer.style.marginRight = '';
             mapContainer.style.padding = '';
             mapContainer.style.paddingLeft = '';
             mapContainer.style.paddingRight = '';
-            
+
             // Restaurar estilos desktop originales
             mapContainer.style.padding = '2rem';
-            
+
             // Configurar el mapa
             mapObject.style.width = '100%';
             mapObject.style.height = '500px';
@@ -419,7 +422,7 @@ function setupResponsiveMapLayout() {
             mapObject.style.maxWidth = '100%';
             mapObject.style.margin = '';
             mapObject.style.display = '';
-            
+
             // Configurar panel lateral (25% del espacio)
             panelLateral.style.flex = '1';
             panelLateral.style.maxWidth = '280px';
@@ -427,7 +430,7 @@ function setupResponsiveMapLayout() {
             panelLateral.style.width = '';
             panelLateral.style.marginTop = '';
             panelLateral.style.order = '';
-            
+
             // Limpiar estilos del flex container mobile
             if (flexContainer) {
                 flexContainer.style.flexDirection = '';
@@ -435,7 +438,7 @@ function setupResponsiveMapLayout() {
                 flexContainer.style.paddingLeft = '';
                 flexContainer.style.paddingRight = '';
             }
-            
+
             // Responsive para pantallas pequeas (solo desktop)
             const mediaQuery = window.matchMedia('(max-width: 1024px)');
             function handleResponsive(e) {
@@ -449,7 +452,7 @@ function setupResponsiveMapLayout() {
                     panelLateral.style.maxWidth = '280px';
                 }
             }
-            
+
             mediaQuery.addListener(handleResponsive);
             handleResponsive(mediaQuery);
         }
@@ -462,12 +465,12 @@ function setupResponsiveMapLayout() {
                 setupResponsiveMapLayout();
             }, 150);
         };
-        
+
         // Remover listener anterior si existe
         window.removeEventListener('resize', window.mapResizeHandler);
         window.mapResizeHandler = handleResize;
         window.addEventListener('resize', handleResize);
-        
+
         debugLog(" Layout responsivo configurado correctamente");
     }
 }
@@ -520,10 +523,10 @@ function resetZonesData() {
 // Funcin para verificar que el pintado fue exitoso
 function verifyPainting(svgDoc) {
     debugLog(" [ZONES] Verificando resultado del pintado...");
-    
+
     let successCount = 0;
     let totalStates = Object.keys(rpmPorEstado).length;
-    
+
     Object.keys(rpmPorEstado).forEach(stateCode => {
         const element = svgDoc.getElementById(stateCode);
         if (element) {
@@ -533,9 +536,9 @@ function verifyPainting(svgDoc) {
             }
         }
     });
-    
+
     const successRate = (successCount / totalStates) * 100;
-    
+
     if (successRate >= 90) {
         debugLog(` [ZONES] Pintado verificado: ${successCount}/${totalStates} estados`);
     } else {
@@ -618,6 +621,9 @@ function loadCitiesData() {
         .catch(error => {
             console.error(" Error loading cities:", error);
             showCitiesError(error.message);
+            if (window.showToast) {
+                showToast('Error al cargar ciudades: ' + error.message, 'error');
+            }
         });
 }
 
@@ -625,7 +631,7 @@ function loadCitiesData() {
 function processCitiesData(loads) {
     cityDataByDestination = {};
 
-     loads.forEach(load => {
+    loads.forEach(load => {
         // Normalizar destino (quitar ", USA" para evitar duplicados)
         const dest = load.destination?.replace(/, USA$/i, '');
         if (!dest) return;
@@ -710,7 +716,7 @@ function geocodeCity(city, geocoder) {
 // Crear marcador de ciudad
 function createCityMarker(location, data) {
     const color = data.avgRPM >= 1.05 ? 'green' : data.avgRPM >= 0.75 ? 'yellow' : 'red';
-    
+
     const marker = new google.maps.Marker({
         position: location,
         map: zonesMap,
@@ -740,9 +746,9 @@ function createCityMarker(location, data) {
 
 // Crear contenido del InfoWindow
 function createInfoWindowContent(data) {
-    const zoneLabel = data.avgRPM >= 1.05 ? ' Zona Verde' : 
-                      data.avgRPM >= 0.75 ? ' Zona Amarilla' : ' Zona Roja';
-    
+    const zoneLabel = data.avgRPM >= 1.05 ? ' Zona Verde' :
+        data.avgRPM >= 0.75 ? ' Zona Amarilla' : ' Zona Roja';
+
     return `
         <div style="padding: 10px; min-width: 200px;">
             <h3 style="margin: 0 0 10px 0; font-size: 16px; font-weight: bold;">${data.city}</h3>
@@ -839,8 +845,8 @@ function renderCitiesTable() {
         .sort((a, b) => b.count - a.count);
 
     tbody.innerHTML = sortedCities.map((data, i) => {
-        const zoneColor = data.avgRPM >= 1.05 ? 'text-green-600' : 
-                         data.avgRPM >= 0.75 ? 'text-yellow-600' : 'text-red-600';
+        const zoneColor = data.avgRPM >= 1.05 ? 'text-green-600' :
+            data.avgRPM >= 0.75 ? 'text-yellow-600' : 'text-red-600';
         const zoneIcon = data.avgRPM >= 1.05 ? '' : data.avgRPM >= 0.75 ? '' : '';
 
         return `
@@ -879,13 +885,13 @@ function showCitiesLoading() {
             loadingOverlay.id = 'citiesMapLoading';
             loadingOverlay.className = 'absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center z-10';
             loadingOverlay.innerHTML = '<div class="text-center"><div class="spinner mx-auto mb-2"></div><p class="text-gray-600">Cargando ciudades...</p></div>';
-            
+
             // Hacer el container relative si no lo es
             const container = mapElement.parentElement;
             if (container && !container.style.position) {
                 container.style.position = 'relative';
             }
-            
+
             container.appendChild(loadingOverlay);
         }
         loadingOverlay.style.display = 'flex';
@@ -909,12 +915,12 @@ function showCitiesEmpty() {
             emptyOverlay.id = 'citiesMapEmpty';
             emptyOverlay.className = 'absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center z-10';
             emptyOverlay.innerHTML = '<div class="text-center p-8 text-gray-500">No hay cargas para mostrar</div>';
-            
+
             const container = mapElement.parentElement;
             if (container && !container.style.position) {
                 container.style.position = 'relative';
             }
-            
+
             container.appendChild(emptyOverlay);
         }
         emptyOverlay.style.display = 'flex';
@@ -930,12 +936,12 @@ function showCitiesError(message) {
             errorOverlay = document.createElement('div');
             errorOverlay.id = 'citiesMapError';
             errorOverlay.className = 'absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center z-10';
-            
+
             const container = mapElement.parentElement;
             if (container && !container.style.position) {
                 container.style.position = 'relative';
             }
-            
+
             container.appendChild(errorOverlay);
         }
         errorOverlay.innerHTML = `<div class="text-center p-8 text-red-600">Error: ${message}</div>`;
@@ -966,212 +972,212 @@ function showMapLoadError() {
 // LEX: Análisis de zonas / heatmap
 // ======================================================
 window.analyzeLexZones = async function () {
-  try {
-    console.log('[LEX-ZONES] Iniciando análisis de zonas…');
+    try {
+        console.log('[LEX-ZONES] Iniciando análisis de zonas…');
 
-    // 1. Asegurar datos de zonas ya calculados
-    //    Preferimos usar resumenPorEstado si ya existe
-    let stats = null;
+        // 1. Asegurar datos de zonas ya calculados
+        //    Preferimos usar resumenPorEstado si ya existe
+        let stats = null;
 
-    if (window.resumenPorEstado && Object.keys(window.resumenPorEstado).length > 0) {
-      stats = window.resumenPorEstado;
-      console.log('[LEX-ZONES] Usando resumenPorEstado existente');
-    } else {
-      // Si no existe, cargamos del historial en Firebase
-      const user = firebase.auth().currentUser;
-      if (!user) {
-        alert('Debes iniciar sesión para analizar las zonas.');
-        return;
-      }
+        if (window.resumenPorEstado && Object.keys(window.resumenPorEstado).length > 0) {
+            stats = window.resumenPorEstado;
+            console.log('[LEX-ZONES] Usando resumenPorEstado existente');
+        } else {
+            // Si no existe, cargamos del historial en Firebase
+            const user = firebase.auth().currentUser;
+            if (!user) {
+                alert('Debes iniciar sesión para analizar las zonas.');
+                return;
+            }
 
-      const db = firebase.firestore();
-      const snapshot = await db
-        .collection('loads')
-        .where('userId', '==', user.uid)
-        .get();
+            const db = firebase.firestore();
+            const snapshot = await db
+                .collection('loads')
+                .where('userId', '==', user.uid)
+                .get();
 
-      const loads = [];
-      snapshot.forEach(doc => loads.push({ id: doc.id, ...doc.data() }));
+            const loads = [];
+            snapshot.forEach(doc => loads.push({ id: doc.id, ...doc.data() }));
 
-      if (loads.length === 0) {
-        if (window.setLexState) {
-          window.setLexState('sad', {
-            message: 'Todavía no tengo suficientes cargas para analizar tus zonas 🗺️',
-            duration: 5000
-          });
+            if (loads.length === 0) {
+                if (window.setLexState) {
+                    window.setLexState('sad', {
+                        message: 'Todavía no tengo suficientes cargas para analizar tus zonas 🗺️',
+                        duration: 5000
+                    });
+                }
+                alert('No hay cargas registradas todavía para analizar las zonas.');
+                return;
+            }
+
+            console.log('[LEX-ZONES] Calculando estadísticas desde loads…');
+
+            // Usa tu función original de zonas
+            if (typeof calcularEstadisticas === 'function') {
+                stats = calcularEstadisticas(loads);
+            } else {
+                console.warn('[LEX-ZONES] calcularEstadisticas no está definida');
+                alert('No pude calcular las estadísticas de zonas.');
+                return;
+            }
         }
-        alert('No hay cargas registradas todavía para analizar las zonas.');
-        return;
-      }
 
-      console.log('[LEX-ZONES] Calculando estadísticas desde loads…');
+        // 2. Preparar análisis en un formato amigable
+        const analysis = prepararAnalisisZonas(stats);
 
-      // Usa tu función original de zonas
-      if (typeof calcularEstadisticas === 'function') {
-        stats = calcularEstadisticas(loads);
-      } else {
-        console.warn('[LEX-ZONES] calcularEstadisticas no está definida');
-        alert('No pude calcular las estadísticas de zonas.');
-        return;
-      }
+        // 3. Mensaje corto para la burbuja de Lex
+        if (window.setLexState) {
+            let mood = 'thinking';
+            if (analysis.verdes > analysis.rojas) mood = 'happy';
+            else if (analysis.rojas > analysis.verdes) mood = 'warning';
+
+            const resumenCorto =
+                `Estados analizados: ${analysis.total} · ` +
+                `Verdes: ${analysis.verdes} · Amarillas: ${analysis.amarillas} · Rojas: ${analysis.rojas}`;
+
+            window.setLexState(mood, {
+                message: `📊 Esto es lo que veo en tus zonas:\n${resumenCorto}`,
+                duration: 8000
+            });
+        }
+
+        // 4. Mostrar modal detallado (sin depender de window.lexAI)
+        window.showLexZonesModal(analysis);
+
+        console.log('[LEX-ZONES] Análisis completado:', analysis);
+        return analysis;
+    } catch (err) {
+        console.error('[LEX-ZONES] Error:', err);
+        if (window.setLexState) {
+            window.setLexState('warning', {
+                message: 'Tuve un problema al analizar tus zonas 🛠️',
+                duration: 5000
+            });
+        }
+        return null;
     }
-
-    // 2. Preparar análisis en un formato amigable
-    const analysis = prepararAnalisisZonas(stats);
-
-    // 3. Mensaje corto para la burbuja de Lex
-    if (window.setLexState) {
-      let mood = 'thinking';
-      if (analysis.verdes > analysis.rojas) mood = 'happy';
-      else if (analysis.rojas > analysis.verdes) mood = 'warning';
-
-      const resumenCorto =
-        `Estados analizados: ${analysis.total} · ` +
-        `Verdes: ${analysis.verdes} · Amarillas: ${analysis.amarillas} · Rojas: ${analysis.rojas}`;
-
-      window.setLexState(mood, {
-        message: `📊 Esto es lo que veo en tus zonas:\n${resumenCorto}`,
-        duration: 8000
-      });
-    }
-
-    // 4. Mostrar modal detallado (sin depender de window.lexAI)
-    window.showLexZonesModal(analysis);
-
-    console.log('[LEX-ZONES] Análisis completado:', analysis);
-    return analysis;
-  } catch (err) {
-    console.error('[LEX-ZONES] Error:', err);
-    if (window.setLexState) {
-      window.setLexState('warning', {
-        message: 'Tuve un problema al analizar tus zonas 🛠️',
-        duration: 5000
-      });
-    }
-    return null;
-  }
 };
 
 // ======================================================
 // Preparar análisis para Lex (helper interno)
 // ======================================================
 function prepararAnalisisZonas(stats) {
-  let totalMiles = 0;
-  let totalRevenue = 0;
-  let totalProfit = 0;
-  let totalLoads = 0;
+    let totalMiles = 0;
+    let totalRevenue = 0;
+    let totalProfit = 0;
+    let totalLoads = 0;
 
-  const rows = Object.keys(stats).map(state => {
-    const st = stats[state] || {};
-    const miles = Number(st.totalMiles || 0);
-    const revenue = Number(st.totalRevenue || 0);
-    const profit = Number(st.totalProfit || 0);
-    const count = Number(st.count || 0);
+    const rows = Object.keys(stats).map(state => {
+        const st = stats[state] || {};
+        const miles = Number(st.totalMiles || 0);
+        const revenue = Number(st.totalRevenue || 0);
+        const profit = Number(st.totalProfit || 0);
+        const count = Number(st.count || 0);
 
-    // Acumular totales
-    totalMiles += miles;
-    totalRevenue += revenue;
-    totalProfit += profit;
-    totalLoads += count;
+        // Acumular totales
+        totalMiles += miles;
+        totalRevenue += revenue;
+        totalProfit += profit;
+        totalLoads += count;
 
-    const avg = miles > 0 ? revenue / miles : 0;
+        const avg = miles > 0 ? revenue / miles : 0;
 
-    let zona = 'amarilla';
-    if (avg >= 1.05) zona = 'verde';
-    else if (avg < 0.75) zona = 'roja';
+        let zona = 'amarilla';
+        if (avg >= 1.05) zona = 'verde';
+        else if (avg < 0.75) zona = 'roja';
+
+        return {
+            state,
+            avgRPM: avg,
+            totalProfit: profit,
+            count: count,
+            zona
+        };
+    });
+
+    // Ordenar sin mutar el array original
+    const sortedByRPM = [...rows].sort((a, b) => b.avgRPM - a.avgRPM);
+    const top = sortedByRPM.slice(0, 5);
+    const worst = [...rows].sort((a, b) => a.avgRPM - b.avgRPM).slice(0, 3);
+
+    const verdes = rows.filter(r => r.zona === 'verde').length;
+    const amarillas = rows.filter(r => r.zona === 'amarilla').length;
+    const rojas = rows.filter(r => r.zona === 'roja').length;
+
+    // Calcular RPM promedio global
+    const avgRPM = totalMiles > 0 ? totalRevenue / totalMiles : 0;
+
+    // Generar insights
+    const insights = [];
+    const alerts = [];
+
+    if (verdes > 0) {
+        insights.push(`Tienes ${verdes} zonas verdes con buen RPM (>$1.05/mi)`);
+    }
+    if (top.length > 0) {
+        insights.push(`Tu mejor zona es ${top[0].state} con $${top[0].avgRPM.toFixed(2)}/mi`);
+    }
+    if (totalProfit > 0) {
+        insights.push(`Has generado $${totalProfit.toFixed(0)} en profit total en estas zonas`);
+    }
+
+    if (rojas > 0) {
+        alerts.push(`Tienes ${rojas} zonas rojas con RPM bajo (<$0.75/mi)`);
+    }
+    if (amarillas > verdes) {
+        alerts.push(`La mayoría de tus zonas son amarillas - busca oportunidades para mejorar RPM`);
+    }
+    if (worst.length > 0 && worst[0].avgRPM < 0.70) {
+        alerts.push(`Evita ${worst[0].state} - solo genera $${worst[0].avgRPM.toFixed(2)}/mi`);
+    }
+
+    const summary =
+        `Tienes ${verdes} estados verdes (buen RPM), ` +
+        `${amarillas} amarillos y ${rojas} rojos. ` +
+        (top.length
+            ? `Tus mejores zonas ahora mismo: ${top
+                .map(t => `${t.state} ($${t.avgRPM.toFixed(2)}/mi)`)
+                .join(', ')}.`
+            : 'Necesito más datos para identificar claramente tus mejores zonas.');
 
     return {
-      state,
-      avgRPM: avg,
-      totalProfit: profit,
-      count: count,
-      zona
+        rows,
+        top,
+        worst,
+        verdes,
+        amarillas,
+        rojas,
+        total: rows.length,
+        totalMiles,
+        totalRevenue,
+        totalProfit,
+        totalLoads,
+        avgRPM,
+        insights,
+        alerts,
+        summary
     };
-  });
-
-  // Ordenar sin mutar el array original
-  const sortedByRPM = [...rows].sort((a, b) => b.avgRPM - a.avgRPM);
-  const top = sortedByRPM.slice(0, 5);
-  const worst = [...rows].sort((a, b) => a.avgRPM - b.avgRPM).slice(0, 3);
-
-  const verdes = rows.filter(r => r.zona === 'verde').length;
-  const amarillas = rows.filter(r => r.zona === 'amarilla').length;
-  const rojas = rows.filter(r => r.zona === 'roja').length;
-
-  // Calcular RPM promedio global
-  const avgRPM = totalMiles > 0 ? totalRevenue / totalMiles : 0;
-
-  // Generar insights
-  const insights = [];
-  const alerts = [];
-
-  if (verdes > 0) {
-    insights.push(`Tienes ${verdes} zonas verdes con buen RPM (>$1.05/mi)`);
-  }
-  if (top.length > 0) {
-    insights.push(`Tu mejor zona es ${top[0].state} con $${top[0].avgRPM.toFixed(2)}/mi`);
-  }
-  if (totalProfit > 0) {
-    insights.push(`Has generado $${totalProfit.toFixed(0)} en profit total en estas zonas`);
-  }
-
-  if (rojas > 0) {
-    alerts.push(`Tienes ${rojas} zonas rojas con RPM bajo (<$0.75/mi)`);
-  }
-  if (amarillas > verdes) {
-    alerts.push(`La mayoría de tus zonas son amarillas - busca oportunidades para mejorar RPM`);
-  }
-  if (worst.length > 0 && worst[0].avgRPM < 0.70) {
-    alerts.push(`Evita ${worst[0].state} - solo genera $${worst[0].avgRPM.toFixed(2)}/mi`);
-  }
-
-  const summary =
-    `Tienes ${verdes} estados verdes (buen RPM), ` +
-    `${amarillas} amarillos y ${rojas} rojos. ` +
-    (top.length
-      ? `Tus mejores zonas ahora mismo: ${top
-          .map(t => `${t.state} ($${t.avgRPM.toFixed(2)}/mi)`)
-          .join(', ')}.`
-      : 'Necesito más datos para identificar claramente tus mejores zonas.');
-
-  return {
-    rows,
-    top,
-    worst,
-    verdes,
-    amarillas,
-    rojas,
-    total: rows.length,
-    totalMiles,
-    totalRevenue,
-    totalProfit,
-    totalLoads,
-    avgRPM,
-    insights,
-    alerts,
-    summary
-  };
 }
 
 // ======================================================
 // Modal visual para análisis de zonas
 // ======================================================
 window.showLexZonesModal = function (analysis) {
-  const existing = document.getElementById('lexZonesModal');
-  if (existing) existing.remove();
+    const existing = document.getElementById('lexZonesModal');
+    if (existing) existing.remove();
 
-  const safeNumber = (n, dec = 2) => {
-    const v = Number(n);
-    if (!Number.isFinite(v)) return '--';
-    return v.toFixed(dec);
-  };
+    const safeNumber = (n, dec = 2) => {
+        const v = Number(n);
+        if (!Number.isFinite(v)) return '--';
+        return v.toFixed(dec);
+    };
 
-  const modal = document.createElement('div');
-  modal.id = 'lexZonesModal';
-  modal.className =
-    'fixed inset-0 flex items-center justify-center z-50 p-4';
-style="background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px);" 
-  modal.innerHTML = `
+    const modal = document.createElement('div');
+    modal.id = 'lexZonesModal';
+    modal.className =
+        'fixed inset-0 flex items-center justify-center z-50 p-4';
+    style = "background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px);"
+    modal.innerHTML = `
     <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full flex flex-col" style="max-height:90vh;">
      
       <!-- Header con gradiente -->
@@ -1252,36 +1258,34 @@ style="background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px);"
           <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
             <p class="text-xs font-semibold text-slate-700 mb-2">&#127942; Mejores estados</p>
             <ul class="space-y-1">
-              ${
-                analysis.top.length
-                  ? analysis.top
-                      .map(
-                        s => `
+              ${analysis.top.length
+            ? analysis.top
+                .map(
+                    s => `
                 <li class="text-xs text-emerald-800">
                   • ${s.state}: $${safeNumber(s.avgRPM, 2)}/mi (${s.count} cargas)
                 </li>`
-                      )
-                      .join('')
-                  : '<li class="text-xs text-slate-500">Aún no tengo suficientes datos para determinar tus mejores estados.</li>'
-              }
+                )
+                .join('')
+            : '<li class="text-xs text-slate-500">Aún no tengo suficientes datos para determinar tus mejores estados.</li>'
+        }
             </ul>
           </div>
 
           <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl">
             <p class="text-xs font-semibold text-amber-800 mb-2">&#9888;&#65039; Estados complicados</p>
             <ul class="space-y-1">
-              ${
-                analysis.worst.length
-                  ? analysis.worst
-                      .map(
-                        s => `
+              ${analysis.worst.length
+            ? analysis.worst
+                .map(
+                    s => `
                 <li class="text-xs text-amber-800">
                   • ${s.state}: $${safeNumber(s.avgRPM, 2)}/mi (${s.count} cargas)
                 </li>`
-                      )
-                      .join('')
-                  : '<li class="text-xs text-amber-700">No se detectaron estados claramente problemáticos aún.</li>'
-              }
+                )
+                .join('')
+            : '<li class="text-xs text-amber-700">No se detectaron estados claramente problemáticos aún.</li>'
+        }
             </ul>
           </div>
         </div>
@@ -1293,16 +1297,15 @@ style="background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px);"
               &#9989; Puntos positivos
             </p>
             <ul class="space-y-1 max-h-40 overflow-y-auto pr-1">
-              ${
-                analysis.insights && analysis.insights.length
-                  ? analysis.insights
-                      .map(
-                        (i) =>
-                          `<li class="text-xs text-emerald-800">• ${i}</li>`
-                      )
-                      .join('')
-                  : '<li class="text-xs text-emerald-700">Aún no hay suficientes datos para generar insights.</li>'
-              }
+              ${analysis.insights && analysis.insights.length
+            ? analysis.insights
+                .map(
+                    (i) =>
+                        `<li class="text-xs text-emerald-800">• ${i}</li>`
+                )
+                .join('')
+            : '<li class="text-xs text-emerald-700">Aún no hay suficientes datos para generar insights.</li>'
+        }
             </ul>
           </div>
 
@@ -1311,16 +1314,15 @@ style="background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px);"
               &#128161; Alertas y oportunidades
             </p>
             <ul class="space-y-1 max-h-40 overflow-y-auto pr-1">
-              ${
-                analysis.alerts && analysis.alerts.length
-                  ? analysis.alerts
-                      .map(
-                        (a) =>
-                          `<li class="text-xs text-amber-800">• ${a}</li>`
-                      )
-                      .join('')
-                  : '<li class="text-xs text-amber-700">No se detectaron alertas importantes.</li>'
-              }
+              ${analysis.alerts && analysis.alerts.length
+            ? analysis.alerts
+                .map(
+                    (a) =>
+                        `<li class="text-xs text-amber-800">• ${a}</li>`
+                )
+                .join('')
+            : '<li class="text-xs text-amber-700">No se detectaron alertas importantes.</li>'
+        }
             </ul>
           </div>
         </div>
@@ -1354,13 +1356,13 @@ style="background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px);"
     </div>
   `;
 
-  document.body.appendChild(modal);
+    document.body.appendChild(modal);
 };
 
 window.closeLexZonesModal = function () {
-  const modal = document.getElementById('lexZonesModal');
-  if (modal) modal.remove();
-  if (window.setLexState) window.setLexState('idle');
+    const modal = document.getElementById('lexZonesModal');
+    if (modal) modal.remove();
+    if (window.setLexState) window.setLexState('idle');
 };
 
 

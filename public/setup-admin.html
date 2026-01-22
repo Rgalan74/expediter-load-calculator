@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Admin - SmartLoad Solution</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .warning-box strong {
+            color: #856404;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .warning-box p {
+            color: #856404;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .info-box strong {
+            color: #0c5460;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .info-box p {
+            color: #0c5460;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin: 20px 0;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .status-message.success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            color: #155724;
+            display: block;
+        }
+
+        .status-message.error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            color: #721c24;
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .steps {
+            margin: 20px 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin: 15px 0;
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-content strong {
+            display: block;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .step-content p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="icon">🔐</div>
+            <h1>Configuración de Administrador</h1>
+            <p class="subtitle">Inicializa tu cuenta como administrador principal</p>
+        </div>
+
+        <div class="warning-box">
+            <strong>⚠️ Atención</strong>
+            <p>Esta página solo debe usarse UNA VEZ para configurar el primer administrador del sistema. Después de eso,
+                los nuevos administradores se asignan desde el panel de administración.</p>
+        </div>
+
+        <div class="info-box">
+            <strong>📋 ¿Qué hace esto?</strong>
+            <p>Asigna el rol de "admin" a tu cuenta, lo que te permite:</p>
+            <ul style="margin-top: 10px; padding-left: 20px;">
+                <li>Skippear el onboarding automáticamente</li>
+                <li>Acceder al panel de administración</li>
+                <li>Asignar roles a otros usuarios</li>
+                <li>Ver y gestionar todos los usuarios</li>
+            </ul>
+        </div>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <strong>Inicia sesión</strong>
+                    <p>Inicia sesión con la cuenta que deseas convertir en administrador</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <strong>Haz clic en "Asignar Rol de Admin"</strong>
+                    <p>El sistema asignará automáticamente el rol de administrador a tu cuenta</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <strong>Verifica y continúa</strong>
+                    <p>Una vez asignado, serás redirigido a la aplicación principal</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p style="margin-top: 15px; color: #666;">Verificando autenticación...</p>
+        </div>
+
+        <div id="loginPrompt" style="display: none;">
+            <p style="text-align: center; color: #666; margin: 20px 0;">
+                Por favor, <a href="./auth.html" style="color: #667eea; font-weight: 600;">inicia sesión</a> para
+                continuar
+            </p>
+        </div>
+
+        <div id="setupForm" style="display: none;">
+            <div class="form-group">
+                <label>Email de tu cuenta:</label>
+                <input type="email" id="userEmail" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>UID de usuario:</label>
+                <input type="text" id="userUID" readonly>
+            </div>
+
+            <button class="btn btn-primary" id="assignAdminBtn">
+                Asignar Rol de Admin
+            </button>
+        </div>
+
+        <div id="statusMessage" class="status-message"></div>
+    </div>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="./js/config.js"></script>
+
+    <script>
+        let currentUser = null;
+        let db = null;
+
+        // Esperar a que Firebase esté listo
+        function initSetup() {
+            if (!window.auth || !window.db) {
+                setTimeout(initSetup, 300);
+                return;
+            }
+
+            db = window.db;
+            document.getElementById('loading').style.display = 'block';
+
+            // Listener de autenticación
+            window.auth.onAuthStateChanged((user) => {
+                if (user) {
+                    currentUser = user;
+                    showSetupForm();
+                } else {
+                    showLoginPrompt();
+                }
+            });
+        }
+
+        function showLoginPrompt() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('loginPrompt').style.display = 'block';
+        }
+
+        function showSetupForm() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('setupForm').style.display = 'block';
+            document.getElementById('userEmail').value = currentUser.email;
+            document.getElementById('userUID').value = currentUser.uid;
+        }
+
+        function showStatus(message, isSuccess) {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.textContent = message;
+            statusDiv.className = 'status-message ' + (isSuccess ? 'success' : 'error');
+        }
+
+        // Asignar rol de admin
+        document.addEventListener('DOMContentLoaded', () => {
+            initSetup();
+
+            document.getElementById('assignAdminBtn').addEventListener('click', async () => {
+                if (!currentUser) {
+                    showStatus('Error: No hay usuario autenticado', false);
+                    return;
+                }
+
+                const btn = document.getElementById('assignAdminBtn');
+                btn.disabled = true;
+                btn.textContent = 'Asignando rol...';
+
+                try {
+                    // Asignar rol de admin
+                    await db.collection('users').doc(currentUser.uid).update({
+                        role: 'admin',
+                        roleAssignedBy: 'system_setup',
+                        roleAssignedAt: new Date(),
+                        permissions: [
+                            'read',
+                            'write',
+                            'delete',
+                            'assign_roles',
+                            'view_all_users',
+                            'edit_all_users',
+                            'view_analytics',
+                            'skip_onboarding',
+                            'access_admin_panel'
+                        ]
+                    });
+
+                    showStatus('✅ Rol de administrador asignado exitosamente. Redirigiendo...', true);
+
+                    // Redirigir a la app después de 2 segundos
+                    setTimeout(() => {
+                        window.location.href = './app.html';
+                    }, 2000);
+
+                } catch (error) {
+                    console.error('Error asignando rol:', error);
+
+                    // Si el usuario no existe, crearlo
+                    if (error.code === 'not-found') {
+                        try {
+                            await db.collection('users').doc(currentUser.uid).set({
+                                uid: currentUser.uid,
+                                email: currentUser.email,
+                                createdAt: new Date(),
+                                role: 'admin',
+                                roleAssignedBy: 'system_setup',
+                                roleAssignedAt: new Date(),
+                                permissions: [
+                                    'read',
+                                    'write',
+                                    'delete',
+                                    'assign_roles',
+                                    'view_all_users',
+                                    'edit_all_users',
+                                    'view_analytics',
+                                    'skip_onboarding',
+                                    'access_admin_panel'
+                                ],
+                                // Defaults
+                                vehicle: {
+                                    type: 'Cargo Van',
+                                    mpg: 18,
+                                    fuelPrice: 3.50,
+                                    isDefault: true
+                                },
+                                costs: {
+                                    fuelCost: 0.19,
+                                    maintenanceCost: 0.12,
+                                    insuranceCost: 0.08,
+                                    depreciationCost: 0.10,
+                                    otherCost: 0.06,
+                                    totalCPM: 0.55,
+                                    insuranceMonthly: 350,
+                                    paymentMonthly: 600,
+                                    maintenanceMonthly: 200,
+                                    phoneData: 80,
+                                    accounting: 50,
+                                    otherMonthly: 100,
+                                    totalFixedMonthly: 1380,
+                                    isDefault: true
+                                },
+                                preferences: {
+                                    operatorProfile: 'not_set',
+                                    minRPM: 1.50,
+                                    targetRPM: 1.60,
+                                    maxDeadhead: 100,
+                                    daysPerMonth: 22,
+                                    milesPerMonth: 10000,
+                                    isDefault: true
+                                },
+                                onboarding: {
+                                    completed: true, // Admin no necesita onboarding
+                                    currentStep: 0,
+                                    startedAt: null,
+                                    completedAt: new Date(),
+                                    skipped: false,
+                                    skipCount: 0,
+                                    lastReminderShown: null
+                                },
+                                analytics: {
+                                    totalCalculations: 0,
+                                    totalSavedLoads: 0,
+                                    lastActive: new Date()
+                                }
+                            });
+
+                            showStatus('✅ Cuenta creada y rol de administrador asignado. Redirigiendo...', true);
+
+                            setTimeout(() => {
+                                window.location.href = './app.html';
+                            }, 2000);
+
+                        } catch (createError) {
+                            showStatus('❌ Error creando cuenta: ' + createError.message, false);
+                            btn.disabled = false;
+                            btn.textContent = 'Asignar Rol de Admin';
+                        }
+                    } else {
+                        showStatus('❌ Error: ' + error.message, false);
+                        btn.disabled = false;
+                        btn.textContent = 'Asignar Rol de Admin';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

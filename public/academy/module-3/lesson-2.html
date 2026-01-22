@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 2: Estados & Flujo de Freight | Smart Load Academy</title>
+    <link rel="icon" type="image/png" href="../../img/logo-app.png" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.7
+        }
+
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem
+        }
+
+        .breadcrumb {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: .875rem
+        }
+
+        .breadcrumb a {
+            color: #00D9FF;
+            text-decoration: none
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem
+        }
+
+        .lesson-content h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff
+        }
+
+        .lesson-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: .75rem
+        }
+
+        .lesson-content p {
+            margin-bottom: 1.5rem;
+            color: #d0d0d0
+        }
+
+        .lesson-content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: rgba(20, 20, 20, .8);
+            border-radius: .75rem;
+            overflow: hidden
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        th {
+            background: rgba(0, 217, 255, .1);
+            color: #00D9FF;
+            font-weight: 700
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: .75rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all .3s ease
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+            color: #fff
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .2)
+        }
+
+        .lesson-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem
+        }
+    </style>
+</head>
+
+<body>
+    <article class="lesson-container">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 3</a> → Lección 2
+        </nav>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Estados Buenos Para Entrar vs Estados Buenos Para Salir</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 11 min lectura</span>
+                <span>🎓 Módulo 3 - Lección 2</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>🔄 EL CONCEPTO DE "DIRECCIÓN DEL FLUJO"</h2>
+                <p>No todos los estados son simétricos. Algunos son:</p>
+                <ul>
+                    <li>✅ Excelentes para RECIBIR freight (buenos rates entrando)</li>
+                    <li>❌ Terribles para SALIR (malos rates, poco freight saliendo)</li>
+                </ul>
+                <p>Y viceversa.</p>
+            </section>
+
+            <section>
+                <h2>📊 LA MATRIZ DE FLUJO</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Categoría</th>
+                            <th>Característica</th>
+                            <th>Ejemplos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background:rgba(100,200,100,.1)">
+                            <td><strong>BALANCED 🟢🟢</strong></td>
+                            <td>Buen freight IN & OUT<br>Best case scenario</td>
+                            <td>Illinois (Chicago), Georgia (Atlanta), Texas (Dallas/Houston), Michigan (Detroit), Ohio
+                            </td>
+                        </tr>
+                        <tr style="background:rgba(255,215,0,.1)">
+                            <td><strong>IMPORT-HEAVY 🟢🔴</strong></td>
+                            <td>Good freight IN<br>Poor freight OUT</td>
+                            <td>California (LA ports), Florida (consumer goods), Arizona (Phoenix distribution)</td>
+                        </tr>
+                        <tr style="background:rgba(255,107,53,.1)">
+                            <td><strong>DEAD ZONES 🔴🔴</strong></td>
+                            <td>Poor freight IN & OUT<br>Avoid unless premium</td>
+                            <td>Montana, Wyoming, West Texas (Laredo, El Paso), Rural Midwest</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p><strong>STRATEGY:</strong></p>
+                <ul>
+                    <li><strong>Balanced:</strong> Build circuit around these</li>
+                    <li><strong>Import-heavy:</strong> Charge premium going IN, have backhaul plan</li>
+                    <li><strong>Dead zones:</strong> Only go if rate compensates repositioning + wait</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>🗺️ FREIGHT FLOW PATTERNS</h2>
+
+                <h3>WEST → EAST (Import dominance)</h3>
+                <ul>
+                    <li>LA/Long Beach ports → Midwest/East Coast</li>
+                    <li>High rates westbound (empty returns)</li>
+                    <li>Lower rates eastbound (competitive)</li>
+                    <li><strong>Strategy:</strong> Favor eastbound loads</li>
+                </ul>
+
+                <h3>HUBS (Balanced in all directions)</h3>
+                <ul>
+                    <li>Chicago, Atlanta, Dallas</li>
+                    <li>Consistent freight 360°</li>
+                    <li>"Safe haven" zones</li>
+                    <li><strong>Strategy:</strong> Always profitable to position here</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>📍 ANÁLISIS ESTADO POR ESTADO</h2>
+
+                <h3>🟢🟢 TIER 1: BALANCED STATES</h3>
+
+                <div style="background:rgba(100,200,100,.05);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
+                    <p><strong>ILLINOIS (Chicago)</strong></p>
+                    <ul>
+                        <li>IN: 🟢🟢 Manufacturing, ag, distribution</li>
+                        <li>OUT: 🟢🟢 Consumer goods, auto parts</li>
+                        <li>Avg rate IN: $1.55/mi</li>
+                        <li>Avg rate OUT: $1.50/mi</li>
+                        <li>Note: Weekend freight slower</li>
+                    </ul>
+                </div>
+
+                <div style="background:rgba(100,200,100,.05);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
+                    <p><strong>GEORGIA (Atlanta)</strong></p>
+                    <ul>
+                        <li>IN: 🟢🟢 Distribution, imports via Savannah</li>
+                        <li>OUT: 🟢🟢 Manufacturing, distribution</li>
+                        <li>Avg rate IN: $1.60/mi</li>
+                        <li>Avg rate OUT: $1.55/mi</li>
+                        <li>Note: Q4 is insane for outbound</li>
+                    </ul>
+                </div>
+
+                <div style="background:rgba(100,200,100,.05);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
+                    <p><strong>MICHIGAN (Detroit)</strong></p>
+                    <ul>
+                        <li>IN: 🟢🟢 Auto parts, manufacturing</li>
+                        <li>OUT: 🟢🟢 Automotive, ag</li>
+                        <li>Avg rate IN: $1.65/mi</li>
+                        <li>Avg rate OUT: $1.60/mi</li>
+                        <li>Note: Q1 retooling = golden period</li>
+                    </ul>
+                </div>
+
+                <h3>🟢🔴 TIER 2: IMPORT-HEAVY</h3>
+
+                <div style="background:rgba(255,215,0,.05);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
+                    <p><strong>CALIFORNIA (LA/Oakland)</strong></p>
+                    <ul>
+                        <li>IN: 🟢🟢 High demand, ports busy</li>
+                        <li>OUT: 🔴 Expensive, competitive</li>
+                        <li>Avg rate IN: $1.70/mi</li>
+                        <li>Avg rate OUT: $1.10/mi (ouch)</li>
+                        <li>Note: Charge premium IN unless backhaul to AZ/NV</li>
+                    </ul>
+                </div>
+
+                <div style="background:rgba(255,215,0,.05);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
+                    <p><strong>FLORIDA (Miami/Orlando/Tampa)</strong></p>
+                    <ul>
+                        <li>IN: 🟢 Consumer goods, seasonal</li>
+                        <li>OUT: 🔴 Limited manufacturing</li>
+                        <li>Avg rate IN: $1.50/mi (seasonal $1.80 in winter)</li>
+                        <li>Avg rate OUT: $1.05/mi</li>
+                        <li>Note: Q1 snowbird season = good IN rates</li>
+                    </ul>
+                </div>
+
+                <h3>🔴🔴 TIER 3: DEAD ZONES</h3>
+
+                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
+                    <p><strong>WEST TEXAS (Laredo, El Paso)</strong></p>
+                    <ul>
+                        <li>IN: 🔴 Border towns, low freight</li>
+                        <li>OUT: 🔴🔴 Terrible backhaul</li>
+                        <li>Avg rate OUT: $0.85-1.10/mi</li>
+                        <li>Wait time: 48-96 hours</li>
+                        <li><strong>Strategy:</strong> Charge $1.80+ to go there, plan repositioning</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>💰 ESTRATEGIA DE PRICING POR DIRECCIÓN</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>De → A</th>
+                            <th>Strategy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Balanced → Balanced</td>
+                            <td>Standard rates ($1.40-1.60/mi)</td>
+                        </tr>
+                        <tr style="background:rgba(255,215,0,.05)">
+                            <td>Balanced → Import-Heavy</td>
+                            <td>Premium +$0.20/mi (compensate bad backhaul)</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.05)">
+                            <td>Import-Heavy → Balanced</td>
+                            <td>Can accept lower ($1.20-1.35) - escaping dead zone</td>
+                        </tr>
+                        <tr style="background:rgba(255,107,53,.05)">
+                            <td>Balanced → Dead Zone</td>
+                            <td>Premium +$0.35-0.50/mi (compensate reposition + wait)</td>
+                        </tr>
+                        <tr>
+                            <td>Dead Zone → Anywhere</td>
+                            <td>Break-even acceptable (just getting out)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>🎯 LANE STRATEGY</h2>
+                <p>No solo zonas, sino RUTAS balanceadas:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Lane</th>
+                            <th>Both Ways?</th>
+                            <th>Avg Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background:rgba(100,200,100,.08)">
+                            <td>Detroit ↔ Chicago</td>
+                            <td>YES ✅</td>
+                            <td>$1.60/mi</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.08)">
+                            <td>Chicago ↔ Atlanta</td>
+                            <td>YES ✅</td>
+                            <td>$1.55/mi</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.08)">
+                            <td>Atlanta ↔ Charlotte</td>
+                            <td>YES ✅</td>
+                            <td>$1.50/mi</td>
+                        </tr>
+                        <tr style="background:rgba(255,215,0,.08)">
+                            <td>Detroit → LA</td>
+                            <td>ONE WAY 🔴</td>
+                            <td>$1.75/mi IN</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.08)">
+                            <td>LA → Detroit</td>
+                            <td>ONE WAY ✅</td>
+                            <td>$1.20/mi OUT</td>
+                        </tr>
+                        <tr style="background:rgba(255,107,53,.08)">
+                            <td>Anywhere → Laredo</td>
+                            <td>ONE WAY ⚠️</td>
+                            <td>$1.80/mi IN</td>
+                        </tr>
+                        <tr style="background:rgba(255,107,53,.1)">
+                            <td>Laredo → Anywhere</td>
+                            <td>ONE WAY 🔴</td>
+                            <td>$0.95/mi OUT</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>💡 CONCLUSIÓN CLAVE</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">No todos los estados son iguales</p>
+                    <p style="margin-bottom:1rem">Algunos son highways, otros son dead-ends</p>
+                    <div style="text-align:left;max-width:500px;margin:0 auto">
+                        <p><strong>REGLA DE ORO:</strong></p>
+                        <ul>
+                            <li>Build circuit around BALANCED states</li>
+                            <li>Charge PREMIUM to go to import-heavy states</li>
+                            <li>Have EXIT PLAN before entering dead zones</li>
+                            <li>Favor LANES (not just destinations)</li>
+                        </ul>
+                    </div>
+                    <p style="margin-top:1.5rem;font-weight:700;color:#FFD700">Think in CYCLES, not one-way trips</p>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+                completada</button>
+            <nav class="lesson-nav">
+                <a href="lesson-1.html" class="btn btn-secondary">← Lección anterior</a>
+                <a href="lesson-3.html" class="btn btn-primary">Siguiente: Heat Map →</a>
+            </nav>
+        </footer>
+    </article>
+
+    <script src="../js/academy.js"></script>
+    <script>
+        const MODULE_NUM = 3, LESSON_NUM = 2; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true; alert('¡Lección completada! 🎉') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true } });
+    </script>
+</body>
+
+</html>

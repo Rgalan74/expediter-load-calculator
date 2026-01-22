@@ -1,236 +1,407 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Contacta con Expediter Load Calculator. Estamos aquí para ayudarte con cualquier pregunta o sugerencia.">
-  <title>Contacto | Expediter Load Calculator</title>
-  <link rel="icon" type="image/png" href="img/logo-app.png" />
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/app.css" />
-  <link rel="stylesheet" href="css/mobile-styles.css" />
-  
-  <!-- EmailJS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  <script>
-    // Inicializar EmailJS con tu Public Key
-    (function(){
-      emailjs.init("XBYk_FycQM7ZmtZB2"); // Cambiar por tu Public Key de EmailJS
-    })();
-  </script>
+  <meta name="description" content="Contáctanos. Estamos aquí para ayudarte a maximizar tu rentabilidad." />
+  <title>Contacto | Smart Load Solution</title>
+  <link rel="icon" type="image/png" href="img/logo-smartload-light.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #0a0a0f;
+      --bg-darker: #050508;
+      --primary-cyan: #00D9FF;
+      --primary-orange: #FF6B35;
+      --accent-blue: #3b82f6;
+      --accent-purple: #8b5cf6;
+      --gradient-primary: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .bg-animated {
+      background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+    }
+
+    @keyframes gradientShift {
+
+      0%,
+      100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .glass {
+      background: rgba(15, 15, 25, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 1rem 0;
+    }
+
+    .gradient-text {
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section {
+      padding: 5rem 0;
+    }
+
+    .btn-primary {
+      background: var(--primary-orange);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+      box-shadow: 0 10px 20px rgba(255, 107, 53, 0.3);
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(255, 107, 53, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(0, 217, 255, 0.05);
+      border-color: var(--primary-cyan);
+      color: var(--primary-cyan);
+    }
+
+    .contact-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1rem;
+      padding: 2rem;
+      transition: all 0.3s;
+      text-align: center;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 217, 255, 0.2);
+      border-color: rgba(0, 217, 255, 0.3);
+    }
+
+    .form-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary-cyan);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .form-input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    textarea.form-input {
+      resize: vertical;
+      min-height: 150px;
+    }
+
+    footer {
+      background: rgba(5, 5, 8, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 3rem 0 1.5rem;
+    }
+
+    footer a {
+      color: #9ca3af;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    footer a:hover {
+      color: white;
+    }
+  </style>
 </head>
-<body class="bg-gray-50">
 
-<!-- Header -->
-<header class="bg-white shadow sticky top-0 z-50">
-  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-    <div class="flex items-center gap-2">
-      <img src="img/logo-app.png" alt="Logo" class="w-14 h-14 rounded-full border border-gray-300 shadow" />
-      <span class="text-xl font-bold text-gray-900">Expediter Load Calculator</span>
-    </div>
-    <a href="index.html" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 text-sm">← Volver</a>
-  </div>
-</header>
+<body class="bg-animated">
 
-<!-- Hero -->
-<section class="bg-gradient-to-br from-green-600 to-green-700 text-white py-16">
-  <div class="max-w-4xl mx-auto px-4 text-center">
-    <span class="text-5xl mb-4 block">📧</span>
-    <h1 class="text-4xl md:text-5xl font-bold mb-4">¿Tienes Preguntas?</h1>
-    <p class="text-xl text-green-100 max-w-2xl mx-auto">
-      Estoy aquí para ayudarte. Envíame un mensaje y te responderé lo antes posible.
-    </p>
-  </div>
-</section>
-
-<!-- Contenido Principal -->
-<main class="max-w-6xl mx-auto px-4 py-12">
-  
-  <div class="grid md:grid-cols-2 gap-8">
-    
-    <!-- Columna 1: Formulario -->
-    <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-      <h2 class="text-2xl font-bold text-gray-900 mb-6">Envíame un Mensaje</h2>
-      
-      <!-- Formulario -->
-      <form id="contactForm" class="space-y-5">
-        
-        <!-- Nombre -->
-        <div>
-          <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Nombre Completo</label>
-          <input 
-            type="text" 
-            id="name" 
-            name="name" 
-            required
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
-            placeholder="Ej: Juan Pérez"
-          />
+  <!-- HEADER -->
+  <header class="glass"
+    style="position: relative; background-image: url('img/header-background.PNG'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <div class="container">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img src="img/logo-smartload-light.png" alt="Smart Load Solution Logo" class="h-10 md:h-12 w-auto"
+            onerror="this.src='img/logo-app.png'" />
+          <span class="text-xl md:text-2xl font-bold">Smart Load Solution</span>
         </div>
-
-        <!-- Email -->
-        <div>
-          <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-          <input 
-            type="email" 
-            id="email" 
-            name="email" 
-            required
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
-            placeholder="tu@email.com"
-          />
+        <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
+          <a href="index.html" class="text-gray-300 hover:text-white transition">Inicio</a>
+          <a href="index.html#features" class="text-gray-300 hover:text-white transition">Features</a>
+          <a href="index.html#pricing" class="text-gray-300 hover:text-white transition">Pricing</a>
+          <a href="about.html" class="text-gray-300 hover:text-white transition">Acerca</a>
+          <a href="resources.html" class="text-gray-300 hover:text-white transition">Recursos</a>
+          <a href="plans.html" class="text-gray-300 hover:text-white transition">Planes</a>
+        </nav>
+        <div class="hidden md:block">
+          <a href="auth.html" class="btn-secondary" style="padding: 0.75rem 1.5rem; font-size: 0.875rem;">
+            Iniciar Sesión →
+          </a>
         </div>
-
-        <!-- Asunto -->
-        <div>
-          <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Asunto</label>
-          <select 
-            id="subject" 
-            name="subject" 
-            required
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
-          >
-            <option value="">Selecciona un tema...</option>
-            <option value="Pregunta sobre la App">Pregunta sobre la App</option>
-            <option value="Soporte Técnico">Soporte Técnico</option>
-            <option value="Sugerencia">Sugerencia o Feedback</option>
-            <option value="Problema con Planes">Problema con Planes</option>
-            <option value="Otro">Otro</option>
-          </select>
-        </div>
-
-        <!-- Mensaje -->
-        <div>
-          <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Mensaje</label>
-          <textarea 
-            id="message" 
-            name="message" 
-            rows="5" 
-            required
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition resize-none"
-            placeholder="Escribe tu mensaje aquí..."
-          ></textarea>
-        </div>
-
-        <!-- Botón Enviar -->
-        <button 
-          type="submit" 
-          id="submitBtn"
-          class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-200"
-        >
-          Enviar Mensaje
+        <button id="mobileMenuBtn" class="md:hidden text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
         </button>
-
-        <!-- Mensaje de estado -->
-        <div id="statusMessage" class="hidden p-4 rounded-lg text-center font-medium"></div>
-      </form>
-    </div>
-
-    <!-- Columna 2: Info de Contacto -->
-    <div class="space-y-6">
-      
-      <!-- Contacto Directo -->
-      <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 border border-blue-200">
-        <h3 class="text-xl font-bold text-blue-900 mb-4">📧 Contacto Directo</h3>
-        <p class="text-gray-700 mb-4">
-          Si prefieres contactarme directamente por email:
-        </p>
-        <a href="mailto:galan.expediter@gmail.com" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition">
-          galan.expediter@gmail.com
-        </a>
       </div>
+      <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 space-y-4">
+        <a href="index.html" class="block text-gray-300 hover:text-white transition">Inicio</a>
+        <a href="index.html#features" class="block text-gray-300 hover:text-white transition">Features</a>
+        <a href="index.html#pricing" class="block text-gray-300 hover:text-white transition">Pricing</a>
+        <a href="about.html" class="block text-gray-300 hover:text-white transition">Acerca</a>
+        <a href="resources.html" class="block text-gray-300 hover:text-white transition">Recursos</a>
+        <a href="plans.html" class="block text-gray-300 hover:text-white transition">Planes</a>
+        <a href="auth.html" class="btn-secondary block text-center">Iniciar Sesión →</a>
+      </div>
+    </div>
+  </header>
 
-      <!-- Redes Sociales -->
-      <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 border border-purple-200">
-        <h3 class="text-xl font-bold text-purple-900 mb-4">📱 Redes Sociales</h3>
-        <p class="text-gray-700 mb-4">
-          También puedes escribirme por mensaje directo:
-        </p>
-        <div class="space-y-3">
-          <a href="https://instagram.com/galan.expediter" target="_blank" rel="noopener" class="flex items-center gap-3 text-gray-700 hover:text-purple-600 transition">
-            <span class="text-2xl">📸</span>
-            <span class="font-medium">Instagram: @galan.expediter</span>
-          </a>
-          <a href="https://tiktok.com/@galan.expediter" target="_blank" rel="noopener" class="flex items-center gap-3 text-gray-700 hover:text-gray-900 transition">
-            <span class="text-2xl">🎵</span>
-            <span class="font-medium">TikTok: @galan.expediter</span>
-          </a>
-          <a href="https://youtube.com/@galan.expediter" target="_blank" rel="noopener" class="flex items-center gap-3 text-gray-700 hover:text-red-600 transition">
-            <span class="text-2xl">🎥</span>
-            <span class="font-medium">YouTube: @galan.expediter</span>
-          </a>
+  <main>
+    <!-- Hero -->
+    <section class="section" style="padding-top: 6rem;">
+      <div class="container">
+        <div class="text-center max-w-4xl mx-auto">
+          <h1 class="text-5xl md:text-6xl font-black mb-6">
+            📧 <span class="gradient-text">Contáctanos</span>
+          </h1>
+          <p class="text-xl text-gray-300 mb-8">
+            ¿Tienes preguntas? Estamos aquí para ayudarte a tomar mejores decisiones en la carretera.
+          </p>
         </div>
       </div>
+    </section>
 
-      <!-- Tiempo de Respuesta -->
-      <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 border border-green-200">
-        <h3 class="text-xl font-bold text-green-900 mb-4">⏱️ Tiempo de Respuesta</h3>
-        <p class="text-gray-700">
-          Respondo todos los mensajes personalmente. Tiempo promedio de respuesta: <strong>24-48 horas</strong>.
-        </p>
+    <!-- Contact Methods -->
+    <section class="section" style="background: var(--bg-darker); padding-top: 2rem;">
+      <div class="container">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-16">
+
+          <div class="contact-card">
+            <div class="text-5xl mb-4">📧</div>
+            <h3 class="text-xl font-bold mb-2">Email</h3>
+            <p class="text-gray-400 text-sm mb-3">Respuesta en 24-48 horas</p>
+            <a href="mailto:support@smartloadsolution.com" class="text-blue-400 hover:text-blue-300 text-sm">
+              support@smartloadsolution.com
+            </a>
+          </div>
+
+          <div class="contact-card">
+            <div class="text-5xl mb-4">💬</div>
+            <h3 class="text-xl font-bold mb-2">Soporte Pro</h3>
+            <p class="text-gray-400 text-sm mb-3">Usuarios Pro: 12 horas</p>
+            <a href="plans.html" class="text-blue-400 hover:text-blue-300 text-sm">
+              Ver Planes →
+            </a>
+          </div>
+
+          <div class="contact-card">
+            <div class="text-5xl mb-4">📚</div>
+            <h3 class="text-xl font-bold mb-2">Recursos</h3>
+            <p class="text-gray-400 text-sm mb-3">Guías y FAQ</p>
+            <a href="resources.html" class="text-blue-400 hover:text-blue-300 text-sm">
+              Centro de Recursos →
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Contact Form -->
+        <div class="max-w-2xl mx-auto glass rounded-2xl p-8">
+          <h2 class="text-2xl font-bold mb-6 text-center">Envíanos un Mensaje</h2>
+
+          <form id="contactForm" class="space-y-6">
+            <div>
+              <label for="name" class="block text-sm font-semibold mb-2">Nombre Completo</label>
+              <input type="text" id="name" name="name" required class="form-input" placeholder="Tu nombre">
+            </div>
+
+            <div>
+              <label for="email" class="block text-sm font-semibold mb-2">Email</label>
+              <input type="email" id="email" name="email" required class="form-input" placeholder="tu@email.com">
+            </div>
+
+            <div>
+              <label for="subject" class="block text-sm font-semibold mb-2">Asunto</label>
+              <select id="subject" name="subject" required class="form-input">
+                <option value="">Selecciona una opción</option>
+                <option value="general">Consulta General</option>
+                <option value="support">Soporte Técnico</option>
+                <option value="billing">Facturación / Plan</option>
+                <option value="feature">Solicitud de Funcionalidad</option>
+                <option value="partnership">Partnership / Negocios</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="message" class="block text-sm font-semibold mb-2">Mensaje</label>
+              <textarea id="message" name="message" required class="form-input"
+                placeholder="Cuéntanos cómo podemos ayudarte..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary w-full" style="justify-content: center;">
+              <span>Enviar Mensaje</span>
+              <span class="text-2xl">→</span>
+            </button>
+
+            <p class="text-center text-sm text-gray-500 mt-4">
+              Respondemos todos los mensajes en menos de 48 horas.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Business Hours Info -->
+    <section class="section">
+      <div class="container">
+        <div class="max-w-3xl mx-auto glass rounded-2xl p-8 text-center">
+          <h2 class="text-2xl font-bold mb-4">🕐 Horario de Atención</h2>
+          <p class="text-gray-300 mb-2">
+            Lunes a Viernes: 9:00 AM - 6:00 PM EST
+          </p>
+          <p class="text-gray-300 mb-6">
+            Sábados y Domingos: Cerrado (respondemos emails el siguiente día hábil)
+          </p>
+          <p class="text-sm text-gray-400">
+            💡 Los usuarios del Plan Profesional reciben respuestas prioritarias dentro de 12 horas.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <img src="img/logo-smartload-light.png" alt="Logo" class="h-8 w-auto"
+              onerror="this.src='img/logo-app.png'" />
+            <span class="font-bold text-lg">Smart Load</span>
+          </div>
+          <p class="text-sm text-gray-400">Inteligencia de carga para el transportista moderno.</p>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Empresa</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="about.html">Acerca de Nosotros</a></li>
+            <li><a href="plans.html">Planes y Precios</a></li>
+            <li><a href="index.html#testimonials">Testimonios</a></li>
+            <li><a href="contact.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Recursos</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="resources.html">Centro de Recursos</a></li>
+            <li><a href="resources.html#blog">Blog</a></li>
+            <li><a href="resources.html#faq">FAQ</a></li>
+            <li><a href="resources.html#support">Soporte</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Legal</h4>
+          <ul class="space-y-2 text-sm mb-4">
+            <li><a href="privacy.html">Privacidad</a></li>
+            <li><a href="terms.html">Términos de Uso</a></li>
+          </ul>
+          <div class="flex gap-4 text-xl">
+            <a href="#" aria-label="Facebook">📘</a>
+            <a href="#" aria-label="Twitter">🐦</a>
+            <a href="#" aria-label="LinkedIn">💼</a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
+        © 2024 Smart Load Solution. Todos los derechos reservados.
       </div>
     </div>
-  </div>
-</main>
+  </footer>
 
-<!-- JavaScript para EmailJS -->
-<script>
-  const form = document.getElementById('contactForm');
-  const submitBtn = document.getElementById('submitBtn');
-  const statusMessage = document.getElementById('statusMessage');
+  <script>
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenuBtn?.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
 
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Deshabilitar botón
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Enviando...';
-    submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
-    
-    // Obtener datos del formulario
-    const formData = {
-      name: document.getElementById('name').value,
-      email: document.getElementById('email').value,
-      subject: document.getElementById('subject').value,
-      message: document.getElementById('message').value
-    };
-    
-    // Enviar con EmailJS
-    emailjs.send('service_xdjd6se', 'template_dgwrp77', formData)
-      .then(function(response) {
-        // Éxito
-        statusMessage.className = 'p-4 rounded-lg text-center font-medium bg-green-100 text-green-800 border border-green-300';
-        statusMessage.textContent = '✅ ¡Mensaje enviado con éxito! Te responderé pronto.';
-        statusMessage.classList.remove('hidden');
-        
-        // Limpiar formulario
-        form.reset();
-        
-        // Restaurar botón
-        setTimeout(() => {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Enviar Mensaje';
-          submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-        }, 2000);
-        
-      }, function(error) {
-        // Error
-        statusMessage.className = 'p-4 rounded-lg text-center font-medium bg-red-100 text-red-800 border border-red-300';
-        statusMessage.textContent = '❌ Error al enviar. Por favor, intenta de nuevo o escríbeme directamente a galan.expediter@gmail.com';
-        statusMessage.classList.remove('hidden');
-        
-        // Restaurar botón
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Enviar Mensaje';
-        submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-        
-        console.error('EmailJS Error:', error);
-      });
-  });
-</script>
-
-<!-- Footer (copiar el nuevo footer que creamos) -->
-<!-- PEGAR AQUÍ EL FOOTER PROFESIONAL -->
+    // Form submission handler
+    document.getElementById('contactForm')?.addEventListener('submit', function (e) {
+      e.preventDefault();
+      alert('Gracias por tu mensaje. Te responderemos pronto!\n\nNota: Este es un demo. Implementa integración con tu backend o servicio de email.');
+      this.reset();
+    });
+  </script>
 
 </body>
+
 </html>

@@ -2245,9 +2245,10 @@ async function ensureLexReady() {
 }
 
 // ==========================================================
-//  DISPARADOR GLOBAL: window.triggerLex()
-//  Usa LexMaster para orquestar agentes
+//  NUEVO window.triggerLex - Usa LexMaster + LexModals
+//  REEMPLAZAR líneas 2251-2340 en lex-ai-brain.js
 // ==========================================================
+
 window.triggerLex = async function() {
   try {
     // Estado visual
@@ -2258,10 +2259,10 @@ window.triggerLex = async function() {
       });
     }
 
-    // Asegurar contexto
+    // Asegurar perfil cargado
     await ensureLexReady();
 
-    // Detectar tab
+    // Detectar tab activa
     const currentTab = (window.appState?.currentTab) || 'calculator';
     console.log('[LEX] Analizando tab:', currentTab);
 
@@ -2275,22 +2276,52 @@ window.triggerLex = async function() {
 
     const message = tabMessages[currentTab] || 'ayuda';
 
-    // USAR LEXMASTER
-    if (window.lexMaster) {
+    // USAR LEXMASTER + LEXMODALS
+    if (window.lexMaster && window.lexModals) {
+      console.log('[LEX] Usando sistema de agentes');
+      
+      // Ejecutar agente
       const result = await window.lexMaster.processRequest(message, {
-        activeTab: currentTab
+        activeTab: currentTab,
+        profile: window.lexAI?.userContext || {}
       });
 
-      // Procesar resultado
+      // Mostrar modal si hay resultado
       if (result.success && result.results[0]) {
-        mostrarResultadoLex(result.results[0], currentTab);
+        window.lexModals.showAgentResult(result.results[0], {
+          profile: window.lexAI?.userContext || {}
+        });
+
+        // Estado visual según resultado
+        const agentResult = result.results[0];
+        let finalState = 'thinking';
+
+        if (agentResult.recommendation) {
+          // Calculator Agent
+          finalState = agentResult.recommendation.level === 'accept' ? 'happy' :
+                       agentResult.recommendation.level === 'reject' ? 'sad' : 'warning';
+        } else if (agentResult.insights) {
+          // History/Finances Agent
+          finalState = agentResult.insights.warnings?.length > 0 ? 'warning' : 'happy';
+        } else {
+          finalState = 'happy';
+        }
+
+        if (window.setLexState) {
+          window.setLexState(finalState, {
+            message: 'Análisis completado',
+            duration: 5000
+          });
+        }
       }
+
     } 
-    // FALLBACK a funciones antiguas
+    // FALLBACK: Usar funciones antiguas
     else {
-      console.warn('[LEX] LexMaster no disponible, usando método antiguo');
+      console.warn('[LEX] Sistema de agentes no disponible, usando método antiguo');
+      
       const fallbackFunctions = {
-        'calculator': window.analyzeLexLoad || window.lexAI?.analyzeCurrentLoad,
+        'calculator': window.lexAI?.analyzeCurrentLoad || window.analyzeLexLoad,
         'history': window.analyzeLexHistory,
         'zones': window.analyzeLexZones,
         'finances': window.analyzeLexFinances
@@ -2300,19 +2331,23 @@ window.triggerLex = async function() {
       if (typeof fn === 'function') {
         await fn.call(window.lexAI || window);
       } else {
-        window.setLexState?.('warning', {
-          message: `No encontré analizador para ${currentTab}`,
-          duration: 5000
-        });
+        if (window.setLexState) {
+          window.setLexState('warning', {
+            message: `No encontré analizador para ${currentTab}`,
+            duration: 5000
+          });
+        }
       }
     }
 
   } catch (err) {
-    console.error('[LEX] Error:', err);
-    window.setLexState?.('sad', {
-      message: 'Error al analizar',
-      duration: 5000
-    });
+    console.error('[LEX] Error en triggerLex:', err);
+    if (window.setLexState) {
+      window.setLexState('sad', {
+        message: 'Error al analizar',
+        duration: 5000
+      });
+    }
   }
 };
 

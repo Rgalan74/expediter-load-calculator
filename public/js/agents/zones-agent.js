@@ -26,11 +26,20 @@ class ZonesAgent extends AgentBase {
         shortLoads: 65
       },
       'TRAP': {
-        states: ['NV', 'CA', 'FL'],
+        states: [
+          // Zona Oeste completa
+          'CA', 'NV', 'OR', 'WA', 'AZ', 'UT', 'ID', 'MT', 'WY', 'CO', 'NM',
+          // Texas
+          'TX',
+          // Florida  
+          'FL',
+          // Noreste cerca de Canadá
+          'ME', 'VT', 'NH', 'NY'
+        ],
         freight: 'MEDIUM',
         avgRPM: 0.85,
         shortLoads: 30,
-        warnings: ['Difícil salir', 'Return rates bajos']
+        warnings: ['Difícil salir', 'Return rates bajos', 'Precios de entrada altos, salida baja']
       }
     };
 
@@ -53,17 +62,68 @@ class ZonesAgent extends AgentBase {
       // 4. Generar recomendaciones
       const recommendations = this.generateRecommendations(userZones, market, patterns);
 
+      // NEW: Determine action and confidence for synthesis
+      const currentState = context.currentLoad?.destination?.state ||
+        context.currentLoad?.state ||
+        task.state;
+
+      let action = 'EVALUA';
+      let confidence = 0.5;
+      const reasons = [];
+
+      if (currentState) {
+        const zone = this.identifyZone(currentState);
+
+        // CRITICAL: Check if it's a trap zone
+        if (zone === 'TRAP') {
+          action = 'RECHAZA';
+          confidence = 0.85; // High confidence on trap zone rejection
+          reasons.push(`⚠️ ${currentState} es zona TRAP - difícil de salir`);
+          reasons.push('Recomiendo evitar a menos que el RPM sea excepcional');
+
+          this.log(`TRAP ZONE DETECTED: ${currentState}`, 'WARNING');
+        } else if (zone === 'CORE_MIDWEST') {
+          action = 'ACEPTA';
+          confidence = 0.75;
+          reasons.push(`✅ ${currentState} está en ${zone} - buen mercado`);
+        } else if (zone === 'EXTENDED_MIDWEST') {
+          action = 'EVALUA';
+          confidence = 0.6;
+          reasons.push(`🟡 ${currentState} en ${zone} - mercado moderado`);
+        }
+
+        // Add market insights
+        if (market.avoid.some(a => a.state === currentState)) {
+          action = 'RECHAZA';
+          confidence = Math.max(confidence, 0.8);
+          reasons.push('Tu historial muestra malos resultados en este estado');
+        }
+      }
+
+      // Add pattern-based warnings
+      const negPatterns = patterns.filter(p => p.strength === 'NEGATIVE');
+      if (negPatterns.length > 0) {
+        negPatterns.forEach(p => reasons.push(`⚠️ ${p.description}`));
+      }
+
       this.setState('DONE');
 
       return {
         agent: this.name,
         success: true,
+        confidence: confidence,
+        recommendation: {
+          action: action,  // ACEPTA, RECHAZA, EVALUA
+          confidence: confidence,
+          reasons: reasons
+        },
         data: {
           userZones,
           market,
-          patterns
+          patterns,
+          currentZone: currentState ? this.identifyZone(currentState) : null
         },
-        recommendations
+        recommendations // Legacy format
       };
 
     } catch (err) {
@@ -167,7 +227,7 @@ class ZonesAgent extends AgentBase {
     const patterns = [];
 
     // Patrón: enfocado en Midwest
-    const midwestStates = userZones.topStates.filter(s => 
+    const midwestStates = userZones.topStates.filter(s =>
       this.zones.CORE_MIDWEST.states.includes(s.state) ||
       this.zones.EXTENDED_MIDWEST.states.includes(s.state)
     );
@@ -192,11 +252,11 @@ class ZonesAgent extends AgentBase {
     // Patrón: atrapado en zona mala
     const trapLoads = userZones.trapStates.reduce((sum, s) => sum + (s.loads || 0), 0);
     const totalLoads = [...userZones.topStates, ...userZones.trapStates].reduce((sum, s) => sum + (s.loads || 0), 0);
-    
+
     if (trapLoads > totalLoads * 0.3) {
       patterns.push({
         type: 'TOO_MANY_TRAPS',
-        description: `${((trapLoads/totalLoads)*100).toFixed(0)}% de cargas en zonas trampa`,
+        description: `${((trapLoads / totalLoads) * 100).toFixed(0)}% de cargas en zonas trampa`,
         strength: 'NEGATIVE'
       });
     }

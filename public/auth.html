@@ -1,382 +1,443 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Acceso a la App</title>
+  <meta name="description"
+    content="SmartLoad Solution - Acceso a la plataforma de inteligencia de carga para transportistas." />
+  <title>Acceso | SmartLoad Solution</title>
+
+  <link rel="icon" type="image/png" href="img/logo-app.png" />
+  <link rel="apple-touch-icon" href="img/logo-app.png" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
   <style>
+    /* 🎨 DESIGN SYSTEM - Dark Theme */
+    :root {
+      /* Colors */
+      --bg-dark: #0a0a0f;
+      --bg-darker: #050508;
+      --bg-card: #141414;
+      --text-primary: #ffffff;
+      --text-secondary: #b0b0b0;
+      --text-muted: #666666;
+
+      /* Accent Colors - CYAN/ORANGE THEME */
+      --primary-cyan: #00D9FF;
+      --primary-orange: #FF6B35;
+      --accent-blue: #3b82f6;
+
+      /* Gradients */
+      --gradient-primary: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+      --gradient-text: linear-gradient(90deg, #00D9FF, #FF6B35);
+
+      /* Effects */
+      --glass-bg: rgba(20, 20, 20, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    header {
+      top: 0;
+      z-index: 1000;
+      padding: 1.25rem 0;
+      background: transparent;
+    }
+
+    header .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .logo-img {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 9999px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo-text {
+      font-size: 1.25rem;
+      font-weight: 800;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Tabs */
     .tab-btn.active {
-      background-color: #1e40af;
+      background: var(--gradient-primary);
       color: white;
     }
+
     .tab-btn {
       transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
+
     .tab-btn:hover {
-      background-color: #374151;
-      color: white;
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--primary-cyan);
     }
   </style>
 </head>
+
 <body class="bg-gray-900 text-white min-h-screen relative overflow-hidden">
 
-<!-- Imagen de fondo -->
-<div class="absolute inset-0 z-0">
-  <img src="img/van-background.jpeg" alt="Van Background" class="w-full h-full object-cover opacity-100" />
-</div>
-
-<!-- Capa de oscurecimiento -->
-<div class="absolute inset-0 bg-black bg-opacity-60 z-10"></div>
-
-<!-- Header -->
-<header class="relative z-20 bg-transparent py-4 px-6 flex items-center justify-between">
-  <div class="flex items-center gap-3">
-    <img src="img/logo-app.png" alt="Logo" class="w-14 h-14 rounded-full border border-gray-300 shadow" />
-    <span class="text-xl font-bold text-white">Expediter Load Calculator</span>
+  <!-- Imagen de fondo -->
+  <div class="absolute inset-0 z-0">
+    <img src="img/van-background.jpeg" alt="Van Background" class="w-full h-full object-cover opacity-100" />
   </div>
-</header>
 
-<!-- Hero y formulario con tabs -->
-<main class="relative z-20 flex flex-col items-center justify-center min-h-screen px-4">
-  <div class="max-w-3xl w-full bg-white bg-opacity-90 text-gray-900 rounded-xl shadow-lg p-8">
-    <div class="text-center mb-6">
-      <h1 class="text-2xl font-bold text-gray-900">Bienvenido</h1>
-      <p class="text-sm text-gray-600">Convierte tu van en una máquina de ganancias 🚐💰</p>
-    </div>
+  <!-- Capa de oscurecimiento -->
+  <div class="absolute inset-0 bg-black bg-opacity-60 z-10"></div>
 
-    <!-- Tabs -->
-    <div class="flex justify-center mb-6 space-x-4">
-      <button id="tabLogin" class="tab-btn px-6 py-3 rounded-lg font-semibold bg-gray-200 text-gray-800">
-        Iniciar sesión
-      </button>
-      <button id="tabRegister" class="tab-btn px-6 py-3 rounded-lg font-semibold bg-gray-200 text-gray-800">
-        Registrarse
-      </button>
-    </div>
-
-    <!-- Formulario Login -->
-    <div id="loginPanel" class="tab-content">
-      <form id="loginForm" class="space-y-4">
-        <div>
-          <input 
-            name="email" 
-            type="email" 
-            placeholder="Correo electrónico" 
-            class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" 
-            required 
-          />
-        </div>
-        <div>
-          <input 
-            name="password" 
-            type="password" 
-            placeholder="Contraseña" 
-            class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" 
-            required 
-          />
-        </div>
-        <button 
-          type="submit" 
-          class="bg-blue-600 text-white px-4 py-3 w-full rounded-lg hover:bg-blue-700 font-semibold transition duration-300"
-        >
-          Iniciar sesión
-        </button>
-      </form>
-    </div>
-
-    <!-- Formulario Registro -->
-    <div id="registerPanel" class="tab-content hidden">
-      <form id="registerForm" class="space-y-4">
-        <div>
-          <input 
-            name="fullName" 
-            type="text" 
-            placeholder="Nombre completo" 
-            class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" 
-            required 
-          />
-        </div>
-        <div>
-          <input 
-            name="email" 
-            type="email" 
-            placeholder="Correo electrónico" 
-            class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" 
-            required 
-          />
-        </div>
-        <div>
-          <input 
-            name="password" 
-            type="password" 
-            placeholder="Contraseña (mínimo 6 caracteres)" 
-            class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" 
-            required 
-          />
-        </div>
-        <div>
-          <input 
-            name="phone" 
-            type="text" 
-            placeholder="Teléfono (opcional)" 
-            class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" 
-          />
-        </div>
-        <div>
-          <input 
-            name="company" 
-            type="text" 
-            placeholder="Empresa o marca (opcional)" 
-            class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" 
-          />
-        </div>
-        <button 
-          type="submit" 
-          class="bg-green-600 text-white px-4 py-3 w-full rounded-lg hover:bg-green-700 font-semibold transition duration-300"
-        >
-          Crear cuenta
-        </button>
-      </form>
-    </div>
-
-    <!-- Mensaje de estado -->
-    <p id="authMessage" class="text-center text-sm text-red-600 mt-4 hidden"></p>
-    
-    <!-- Link para volver al inicio -->
-    <div class="text-center mt-6">
-      <a href="index.html" class="text-blue-600 hover:text-blue-800 text-sm">
-        ← Volver al inicio
+  <!-- Header -->
+  <header class="relative z-20"
+    style="background-image: url('img/header-background.PNG'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <div class="container">
+      <a href="index.html" class="logo-container">
+        <img src="img/logo-app.png" alt="SmartLoad Solution Logo" class="logo-img" />
+        <span class="logo-text">SmartLoad Solution</span>
       </a>
     </div>
-  </div>
-</main>
+  </header>
 
-<!-- Firebase CDN (versión 9 compatible) -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+  <!-- Hero y formulario con tabs -->
+  <main class="relative z-20 flex flex-col items-center justify-center min-h-screen px-4">
+    <div class="max-w-3xl w-full bg-white bg-opacity-90 text-gray-900 rounded-xl shadow-lg p-8">
+      <div class="text-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-900">Bienvenido</h1>
+        <p class="text-sm text-gray-600">Convierte tu van en una máquina de ganancias 🚐💰</p>
+      </div>
 
-<script>
-// Configuración de Firebase
-const firebaseConfig = {
-  apiKey: "AIzaSyAkEYDbxkjXJx5wNh_7wMdIqmklOMCIyHY",
-  authDomain: "expediter-dev.firebaseapp.com",
-  projectId: "expediter-dev",
-  storageBucket: "expediter-dev.appspot.com",
-  messagingSenderId: "447653997176",
-  appId: "1:447653997176:web:4e356867bb64b488ab5b8d"
-};
+      <!-- Tabs -->
+      <div class="flex justify-center mb-6 space-x-4">
+        <button id="tabLogin" class="tab-btn px-6 py-3 rounded-lg font-semibold bg-gray-200 text-gray-800">
+          Iniciar sesión
+        </button>
+        <button id="tabRegister" class="tab-btn px-6 py-3 rounded-lg font-semibold bg-gray-200 text-gray-800">
+          Registrarse
+        </button>
+      </div>
 
-// Inicializar Firebase
-firebase.initializeApp(firebaseConfig);
+      <!-- Formulario Login -->
+      <div id="loginPanel" class="tab-content">
+        <form id="loginForm" class="space-y-4">
+          <div>
+            <input name="email" type="email" placeholder="Correo electrónico"
+              class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" required />
+          </div>
+          <div>
+            <input name="password" type="password" placeholder="Contraseña"
+              class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" required />
+          </div>
+          <button type="submit"
+            class="bg-blue-600 text-white px-4 py-3 w-full rounded-lg hover:bg-blue-700 font-semibold transition duration-300">
+            Iniciar sesión
+          </button>
+        </form>
+      </div>
 
-// ✅ Helper function para mostrar mensajes
-function showMessage(message, type = "info") {
-  const authMessage = document.getElementById("authMessage");
-  if (!authMessage) {
-    console.log(message);
-    return;
-  }
+      <!-- Formulario Registro -->
+      <div id="registerPanel" class="tab-content hidden">
+        <form id="registerForm" class="space-y-4">
+          <div>
+            <input name="fullName" type="text" placeholder="Nombre completo"
+              class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" required />
+          </div>
+          <div>
+            <input name="email" type="email" placeholder="Correo electrónico"
+              class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" required />
+          </div>
+          <div>
+            <input name="password" type="password" placeholder="Contraseña (mínimo 6 caracteres)"
+              class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" required />
+          </div>
+          <div>
+            <input name="phone" type="text" placeholder="Teléfono (opcional)"
+              class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" />
+          </div>
+          <div>
+            <input name="company" type="text" placeholder="Empresa o marca (opcional)"
+              class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" />
+          </div>
+          <button type="submit"
+            class="bg-green-600 text-white px-4 py-3 w-full rounded-lg hover:bg-green-700 font-semibold transition duration-300">
+            Crear cuenta
+          </button>
+        </form>
+      </div>
 
-  // Limpiar clases anteriores
-  authMessage.className = "text-center text-sm mt-4";
-  
-  // Agregar clase según tipo
-  switch (type) {
-    case "success":
-      authMessage.className += " text-green-600";
-      break;
-    case "error":
-      authMessage.className += " text-red-600";
-      break;
-    default:
-      authMessage.className += " text-blue-600";
-      break;
-  }
-  
-  authMessage.textContent = message;
-  authMessage.classList.remove("hidden");
-  
-  // Auto-hide después de 5 segundos
-  setTimeout(() => {
-    authMessage.classList.add("hidden");
-  }, 5000);
-}
+      <!-- Mensaje de estado -->
+      <p id="authMessage" class="text-center text-sm text-red-600 mt-4 hidden"></p>
 
-function hideMessage() {
-  const authMessage = document.getElementById("authMessage");
-  if (authMessage) {
-    authMessage.classList.add("hidden");
-  }
-}
+      <!-- Link para volver al inicio -->
+      <div class="text-center mt-6">
+        <a href="index.html" class="text-blue-600 hover:text-blue-800 text-sm">
+          ← Volver al inicio
+        </a>
+      </div>
+    </div>
+  </main>
 
-document.addEventListener("DOMContentLoaded", () => {
-  const loginForm = document.getElementById("loginForm");
-  const registerForm = document.getElementById("registerForm");
-  const loginPanel = document.getElementById("loginPanel");
-  const registerPanel = document.getElementById("registerPanel");
-  const tabLogin = document.getElementById("tabLogin");
-  const tabRegister = document.getElementById("tabRegister");
+  <!-- Firebase CDN (versión 9 compatible) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
 
-  console.log("🚀 Auth page loaded");
+  <script>
+    // Configuración de Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyAkEYDbxkjXJx5wNh_7wMdIqmklOMCIyHY",
+      authDomain: "expediter-dev.firebaseapp.com",
+      projectId: "expediter-dev",
+      storageBucket: "expediter-dev.appspot.com",
+      messagingSenderId: "447653997176",
+      appId: "1:447653997176:web:4e356867bb64b488ab5b8d"
+    };
 
-  // Verificar si el usuario ya está autenticado
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      console.log("✅ User already authenticated, redirecting...");
-      showMessage("Ya has iniciado sesión, redirigiendo...", "success");
+    // Inicializar Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // ✅ Helper function para mostrar mensajes
+    function showMessage(message, type = "info") {
+      const authMessage = document.getElementById("authMessage");
+      if (!authMessage) {
+        console.log(message);
+        return;
+      }
+
+      // Limpiar clases anteriores
+      authMessage.className = "text-center text-sm mt-4";
+
+      // Agregar clase según tipo
+      switch (type) {
+        case "success":
+          authMessage.className += " text-green-600";
+          break;
+        case "error":
+          authMessage.className += " text-red-600";
+          break;
+        default:
+          authMessage.className += " text-blue-600";
+          break;
+      }
+
+      authMessage.textContent = message;
+      authMessage.classList.remove("hidden");
+
+      // Auto-hide después de 5 segundos
       setTimeout(() => {
-        window.location.href = "app.html";
-      }, 1000);
+        authMessage.classList.add("hidden");
+      }, 5000);
     }
-  });
 
-  async function handleLoginSubmit(form) {
-    const email = form.email.value.trim();
-    const password = form.password.value.trim();
-    
-    console.log("🔑 Attempting login for:", email);
-    
-    if (!email || !password) {
-      showMessage("⚠️ Todos los campos son obligatorios", "error");
-      return;
+    function hideMessage() {
+      const authMessage = document.getElementById("authMessage");
+      if (authMessage) {
+        authMessage.classList.add("hidden");
+      }
     }
-    
-    try {
-      showMessage("Iniciando sesión...", "info");
-      const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
-      console.log("✅ Login successful:", userCredential.user.email);
-      showMessage("✅ Inicio de sesión exitoso, redirigiendo...", "success");
-      
-      // Redirect after a short delay
-      setTimeout(() => {
-        window.location.href = "app.html";
-      }, 1500);
-    } catch (error) {
-      console.error("❌ Error en login:", error);
-      showMessage("❌ " + formatFirebaseError(error), "error");
-    }
-  }
 
-  async function handleRegisterSubmit(form) {
-    const fullName = form.fullName.value.trim();
-    const email = form.email.value.trim();
-    const password = form.password.value.trim();
-    const phone = form.phone.value.trim();
-    const company = form.company.value.trim();
-    
-    console.log("📝 Attempting registration for:", email);
-    
-    if (!fullName || !email || !password) {
-      showMessage("⚠️ Nombre, correo y contraseña son obligatorios", "error");
-      return;
-    }
-    
-    if (password.length < 6) {
-      showMessage("⚠️ La contraseña debe tener al menos 6 caracteres", "error");
-      return;
-    }
-    
-    try {
-      showMessage("Creando cuenta...", "info");
-      const userCred = await firebase.auth().createUserWithEmailAndPassword(email, password);
-      console.log("✅ Registration successful:", userCred.user.email);
-      
-      // Guardar información adicional del usuario
-      await firebase.firestore().collection("users").doc(userCred.user.uid).set({
-        fullName,
-        email,
-        phone,
-        company,
-        suscripcionActiva: false,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    document.addEventListener("DOMContentLoaded", () => {
+      const loginForm = document.getElementById("loginForm");
+      const registerForm = document.getElementById("registerForm");
+      const loginPanel = document.getElementById("loginPanel");
+      const registerPanel = document.getElementById("registerPanel");
+      const tabLogin = document.getElementById("tabLogin");
+      const tabRegister = document.getElementById("tabRegister");
+
+      console.log("🚀 Auth page loaded");
+
+      // Verificar si el usuario ya está autenticado
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          console.log("✅ User already authenticated, redirecting...");
+          showMessage("Ya has iniciado sesión, redirigiendo...", "success");
+          setTimeout(() => {
+            window.location.href = "app.html";
+          }, 1000);
+        }
       });
-      
-      console.log("✅ User profile saved");
-      showMessage("✅ Cuenta creada exitosamente, redirigiendo...", "success");
-      
-      // Redirect after a short delay
-      setTimeout(() => {
-        window.location.href = "app.html";
-      }, 1500);
-    } catch (error) {
-      console.error("❌ Error en registro:", error);
-      showMessage("❌ " + formatFirebaseError(error), "error");
-    }
-  }
 
-  function setActiveAuthTab(tab) {
-    const isLogin = tab === "login";
-    
-    loginPanel.classList.toggle("hidden", !isLogin);
-    registerPanel.classList.toggle("hidden", isLogin);
-    
-    tabLogin.classList.toggle("active", isLogin);
-    tabRegister.classList.toggle("active", !isLogin);
-    
-    hideMessage();
-    
-    if (loginForm) loginForm.reset();
-    if (registerForm) registerForm.reset();
-  }
+      async function handleLoginSubmit(form) {
+        const email = form.email.value.trim();
+        const password = form.password.value.trim();
 
-  function formatFirebaseError(error) {
-    if (!error || !error.code) return error?.message || "Error desconocido";
-    
-    switch (error.code) {
-      case "auth/email-already-in-use":
-        return "El correo ya está registrado";
-      case "auth/invalid-email":
-        return "Correo electrónico inválido";
-      case "auth/weak-password":
-        return "La contraseña debe tener al menos 6 caracteres";
-      case "auth/user-not-found":
-        return "Usuario no encontrado";
-      case "auth/wrong-password":
-        return "Contraseña incorrecta";
-      case "auth/invalid-credential":
-        return "Credenciales inválidas";
-      case "auth/too-many-requests":
-        return "Demasiados intentos fallidos. Intenta más tarde";
-      case "auth/network-request-failed":
-        return "Error de conexión. Verifica tu internet";
-      default:
-        return error.message || "Error desconocido";
-    }
-  }
+        console.log("🔑 Attempting login for:", email);
 
-  // Event listeners
-  if (loginForm) {
-    loginForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      handleLoginSubmit(e.target);
+        if (!email || !password) {
+          showMessage("⚠️ Todos los campos son obligatorios", "error");
+          return;
+        }
+
+        try {
+          showMessage("Iniciando sesión...", "info");
+          const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+          console.log("✅ Login successful:", userCredential.user.email);
+          showMessage("✅ Inicio de sesión exitoso, redirigiendo...", "success");
+
+          // Redirect after a short delay
+          setTimeout(() => {
+            window.location.href = "app.html";
+          }, 1500);
+        } catch (error) {
+          console.error("❌ Error en login:", error);
+          showMessage("❌ " + formatFirebaseError(error), "error");
+        }
+      }
+
+      async function handleRegisterSubmit(form) {
+        const fullName = form.fullName.value.trim();
+        const email = form.email.value.trim();
+        const password = form.password.value.trim();
+        const phone = form.phone.value.trim();
+        const company = form.company.value.trim();
+
+        console.log("📝 Attempting registration for:", email);
+
+        if (!fullName || !email || !password) {
+          showMessage("⚠️ Nombre, correo y contraseña son obligatorios", "error");
+          return;
+        }
+
+        if (password.length < 6) {
+          showMessage("⚠️ La contraseña debe tener al menos 6 caracteres", "error");
+          return;
+        }
+
+        try {
+          showMessage("Creando cuenta...", "info");
+          const userCred = await firebase.auth().createUserWithEmailAndPassword(email, password);
+          console.log("✅ Registration successful:", userCred.user.email);
+
+          // Guardar información adicional del usuario
+          await firebase.firestore().collection("users").doc(userCred.user.uid).set({
+            fullName,
+            email,
+            phone,
+            company,
+            suscripcionActiva: false,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          console.log("✅ User profile saved");
+          showMessage("✅ Cuenta creada exitosamente, redirigiendo...", "success");
+
+          // Redirect after a short delay
+          setTimeout(() => {
+            window.location.href = "app.html";
+          }, 1500);
+        } catch (error) {
+          console.error("❌ Error en registro:", error);
+          showMessage("❌ " + formatFirebaseError(error), "error");
+        }
+      }
+
+      function setActiveAuthTab(tab) {
+        const isLogin = tab === "login";
+
+        loginPanel.classList.toggle("hidden", !isLogin);
+        registerPanel.classList.toggle("hidden", isLogin);
+
+        tabLogin.classList.toggle("active", isLogin);
+        tabRegister.classList.toggle("active", !isLogin);
+
+        hideMessage();
+
+        if (loginForm) loginForm.reset();
+        if (registerForm) registerForm.reset();
+      }
+
+      function formatFirebaseError(error) {
+        if (!error || !error.code) return error?.message || "Error desconocido";
+
+        switch (error.code) {
+          case "auth/email-already-in-use":
+            return "El correo ya está registrado";
+          case "auth/invalid-email":
+            return "Correo electrónico inválido";
+          case "auth/weak-password":
+            return "La contraseña debe tener al menos 6 caracteres";
+          case "auth/user-not-found":
+            return "Usuario no encontrado";
+          case "auth/wrong-password":
+            return "Contraseña incorrecta";
+          case "auth/invalid-credential":
+            return "Credenciales inválidas";
+          case "auth/too-many-requests":
+            return "Demasiados intentos fallidos. Intenta más tarde";
+          case "auth/network-request-failed":
+            return "Error de conexión. Verifica tu internet";
+          default:
+            return error.message || "Error desconocido";
+        }
+      }
+
+      // Event listeners
+      if (loginForm) {
+        loginForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          handleLoginSubmit(e.target);
+        });
+      }
+
+      if (registerForm) {
+        registerForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          handleRegisterSubmit(e.target);
+        });
+      }
+
+      if (tabLogin) {
+        tabLogin.addEventListener("click", () => setActiveAuthTab("login"));
+      }
+
+      if (tabRegister) {
+        tabRegister.addEventListener("click", () => setActiveAuthTab("register"));
+      }
+
+      // Establecer tab inicial
+      const tabFromUrl = new URLSearchParams(window.location.search).get("tab");
+      setActiveAuthTab(tabFromUrl === "register" ? "register" : "login");
+
+      console.log("✅ Auth page setup complete");
     });
-  }
-
-  if (registerForm) {
-    registerForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      handleRegisterSubmit(e.target);
-    });
-  }
-
-  if (tabLogin) {
-    tabLogin.addEventListener("click", () => setActiveAuthTab("login"));
-  }
-
-  if (tabRegister) {
-    tabRegister.addEventListener("click", () => setActiveAuthTab("register"));
-  }
-
-  // Establecer tab inicial
-  const tabFromUrl = new URLSearchParams(window.location.search).get("tab");
-  setActiveAuthTab(tabFromUrl === "register" ? "register" : "login");
-  
-  console.log("✅ Auth page setup complete");
-});
-</script>
+  </script>
 
 </body>
+
 </html>

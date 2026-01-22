@@ -3,30 +3,57 @@
 //  Adaptado exactamente a tus 9 imágenes en /img/lex/
 // ==========================================================
 
-// 🔹 Rutas exactas según tus archivos
-const LEX_IMAGES = {
-  idle:        'img/lex/lex-neutral.png',   // estado neutral / base
-  thinking:    'img/lex/lex-thinking.png',  // analizando datos
-  happy:       'img/lex/lex-happy.png',     // carga buena / positiva
-  warning:     'img/lex/lex-alert.png',     // alerta / dudosa
-  sad:         'img/lex/lex-sad.png',       // carga mala
-  blink:       'img/lex/lex-blink.png',     // parpadeo natural
-  sleep:       'img/lex/lex-sleep.png',     // inactivo / descanso
-  loading:     'img/lex/lex-loading.png',   // cargando / esperando
-  surprise:    'img/lex/lex-surprise.png',  // sorprendido
+// 🔹 Rutas exactas según tus archivos (con soporte WebP automático)
+const LEX_IMAGES_BASE = {
+  idle: 'img/lex/lex-neutral',   // estado neutral / base
+  thinking: 'img/lex/lex-thinking',  // analizando datos
+  happy: 'img/lex/lex-happy',     // carga buena / positiva
+  warning: 'img/lex/lex-alert',     // alerta / dudosa
+  sad: 'img/lex/lex-sad',       // carga mala
+  blink: 'img/lex/lex-blink',     // parpadeo natural
+  sleep: 'img/lex/lex-sleep',     // inactivo / descanso
+  loading: 'img/lex/lex-loading',   // cargando / esperando
+  surprise: 'img/lex/lex-surprise',  // sorprendido
 };
+
+// 🎨 Generar rutas con WebP automatico si esta disponible
+const LEX_IMAGES = {};
+
+// Detectar si el navegador soporta WebP
+const lexSupportsWebP = (() => {
+  const canvas = document.createElement('canvas');
+  return canvas.getContext && canvas.getContext('2d')
+    ? canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0
+    : false;
+})();
+
+// IMPORTANTE: Las rutas son diferentes para PNG y WebP
+// PNG: img/lex/lex-neutral.png
+// WebP: img/lex-neutral.webp (sin subcarpeta "lex")
+Object.keys(LEX_IMAGES_BASE).forEach(key => {
+  const baseName = LEX_IMAGES_BASE[key].replace('img/lex/', '');
+  if (lexSupportsWebP) {
+    // WebP está directamente en img/
+    LEX_IMAGES[key] = 'img/' + baseName.split('/').pop() + '.webp';
+  } else {
+    // PNG está en img/lex/
+    LEX_IMAGES[key] = LEX_IMAGES_BASE[key] + '.png';
+  }
+});
+
+console.log(`🎨 Lex usando ${lexSupportsWebP ? 'WebP' : 'PNG'} images`);
 
 // 🔹 Colores del puntico según estado
 const LEX_STATUS_COLORS = {
-  idle:        'bg-emerald-400',
-  thinking:    'bg-blue-400',
-  happy:       'bg-green-400',
-  warning:     'bg-yellow-400',
-  sad:         'bg-red-500',
-  blink:       'bg-emerald-300',
-  sleep:       'bg-slate-500',
-  loading:     'bg-blue-300',
-  surprise:    'bg-purple-400',
+  idle: 'bg-emerald-400',
+  thinking: 'bg-blue-400',
+  happy: 'bg-green-400',
+  warning: 'bg-yellow-400',
+  sad: 'bg-red-500',
+  blink: 'bg-emerald-300',
+  sleep: 'bg-slate-500',
+  loading: 'bg-blue-300',
+  surprise: 'bg-purple-400',
 };
 
 let lexCurrentState = 'idle';
@@ -62,7 +89,7 @@ function setLexState(state, options = {}) {
     'absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-slate-900 shadow-lg ' +
     (LEX_STATUS_COLORS[state] || LEX_STATUS_COLORS.idle);
 
-    // Control de burbuja
+  // Control de burbuja
   if (
     bubble &&
     bubbleText &&
@@ -95,7 +122,7 @@ window.setLexState = setLexState;
 document.addEventListener('DOMContentLoaded', () => {
   const shell = document.querySelector('.lex-avatar-shell');
 
- // Bienvenida
+  // Bienvenida
   setLexState('idle', {
     message: 'Hola, soy Lex. Haz click en mi para analizar cargas, zonas, finanzas e historial.',
     duration: 7000
@@ -119,38 +146,34 @@ document.addEventListener('DOMContentLoaded', () => {
     setLexState('idle');
   });
 
-  // Click → usar a Lex como asistente global
-  shell.addEventListener('click', async () => {
-    // Si está dormido, primero lo despertamos
+  // Click → Abrir chat directamente (profesional chatbot style)
+  shell.addEventListener('click', () => {
+    // Si está dormido, despertar Y abrir
     if (lexCurrentState === 'sleep') {
-      setLexState('idle', {
-        message: 'Ya estoy despierto. Haz click de nuevo para analizar',
-        duration: 4000
-      });
-      return;
+      setLexState('idle');
     }
 
-    // Si existe un disparador global de Lex, lo usamos
-    if (typeof window.triggerLex === 'function') {
-      try {
-        await window.triggerLex();
-      } catch (err) {
-        console.error('[LEX] Error al ejecutar triggerLex:', err);
-        setLexState('warning', {
-          message: 'Error al analizar. Revisa la consola del navegador',
-          duration: 6000
-        });
-      }
-      return;
+    // Abrir chat modal directamente
+    if (typeof window.openLexChatModal === 'function') {
+      window.openLexChatModal();
+    } else {
+      console.warn('[LEX] openLexChatModal no está disponible');
     }
+  });
 
-    // Fallback antiguo si aún no tenemos triggerLex
-    setLexState('blink', {
-      message: 'Abre Calculator, History, Zones o Finances y vuelve a hacer click',
-      duration: 7000
+  // 👋 Welcome message on app load
+  setTimeout(() => {
+    setLexState('idle', {
+      message: '👋 Hola! Soy Lex, tu asistente AI para trucking. Click en mí para conversar.',
+      duration: 6000
     });
-  });
-  });
+
+    // Go to sleep after 6s
+    setTimeout(() => {
+      setLexState('sleep');
+    }, 6000);
+  }, 2000); // Show 2s after app loads
+});
 
 // ======================================================
 // LEX CHAT: Panel pequeño junto a Lex
@@ -168,6 +191,14 @@ window.openLexChatModal = function () {
   if (overlay) {
     overlay.style.display = 'block';
     return;
+  }
+
+  // NEW: Crear instancia de memoria conversacional
+  if (typeof ConversationMemory !== 'undefined') {
+    window.lexChatMemory = new ConversationMemory(10);
+    console.log('💭 ConversationMemory created for this chat session');
+  } else {
+    console.warn('💭 ConversationMemory class not available');
   }
 
   // Contenedor transparente para colocar el panel
@@ -284,6 +315,70 @@ window.openLexChatModal = function () {
       </div>
     </div>
 
+    <!-- QUICK ACTIONS -->
+    <div style="
+      padding: 6px 8px;
+      border-bottom: 1px solid #1f2937;
+      background-color: #020617;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    ">
+      <div style="font-size: 9px; color: #9ca3af; margin-bottom: 2px;">
+        ⚡ Acciones rápidas:
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
+        <button onclick="window.lexQuickAction('analizar')" style="
+          padding: 6px 8px;
+          border-radius: 6px;
+          border: 1px solid #374151;
+          background: #111827;
+          color: #e5e7eb;
+          font-size: 9px;
+          cursor: pointer;
+          transition: all 0.2s;
+        " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
+          📊 Analizar carga
+        </button>
+        <button onclick="window.lexQuickAction('mes')" style="
+          padding: 6px 8px;
+          border-radius: 6px;
+          border: 1px solid #374151;
+          background: #111827;
+          color: #e5e7eb;
+          font-size: 9px;
+          cursor: pointer;
+          transition: all 0.2s;
+        " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
+          📈 ¿Cómo va mi mes?
+        </button>
+        <button onclick="window.lexQuickAction('zona')" style="
+          padding: 6px 8px;
+          border-radius: 6px;
+          border: 1px solid #374151;
+          background: #111827;
+          color: #e5e7eb;
+          font-size: 9px;
+          cursor: pointer;
+          transition: all 0.2s;
+        " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
+          🗺️ Stats de zona
+        </button>
+        <button onclick="window.lexQuickAction('finanzas')" style="
+          padding: 6px 8px;
+          border-radius: 6px;
+          border: 1px solid #374151;
+          background: #111827;
+          color: #e5e7eb;
+          font-size: 9px;
+          cursor: pointer;
+          transition: all 0.2s;
+        " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
+          💰 Resumen financiero
+        </button>
+      </div>
+    </div>
+
     <!-- INPUT -->
     <form
       id="lexChatForm"
@@ -397,13 +492,19 @@ window.openLexChatModal = function () {
     messages.appendChild(wrapper);
   }
 
-  
+
   // 🔹 Hacemos disponible esta función para el router
   window.lexChatAddBotMessage = appendLexMessage;
 
   // 🔗 Hacer accesible la respuesta de Lex para otros módulos (router)
   window.appendLexMessageFromRouter = function (text) {
     appendLexMessage(text);
+
+    // NEW: Add Lex response to memory
+    if (window.lexChatMemory && typeof window.lexChatMemory.addMessage === 'function') {
+      window.lexChatMemory.addMessage('lex', text);
+    }
+
     scrollToBottom();
   };
 
@@ -420,6 +521,11 @@ window.openLexChatModal = function () {
     appendUserMessage(text);
     scrollToBottom();
     input.value = '';
+
+    // NEW: Add user message to memory
+    if (window.lexChatMemory && typeof window.lexChatMemory.addMessage === 'function') {
+      window.lexChatMemory.addMessage('user', text);
+    }
 
     if (typeof window.handleLexChatMessage === 'function') {
       try {
@@ -439,12 +545,99 @@ window.openLexChatModal = function () {
   });
 };
 
+// Quick Action Handler
+window.lexQuickAction = async function (action) {
+  const messages = document.getElementById('lexChatMessages');
+  const input = document.getElementById('lexChatInput');
+
+  if (!messages || !input) {
+    console.error('[LEX] Chat no está abierto');
+    return;
+  }
+
+  // Map actions to queries
+  const actionQueries = {
+    'analizar': 'Analiza la carga actual',
+    'mes': '¿Cómo va mi mes?',
+    'zona': 'Stats de esta zona',
+    'finanzas': 'Resumen financiero'
+  };
+
+  const query = actionQueries[action] || action;
+
+  // Simulate user typing this query
+  input.value = query;
+
+  // Trigger form submit
+  const form = document.getElementById('lexChatForm');
+  if (form) {
+    form.dispatchEvent(new Event('submit'));
+  }
+};
+
+// ======================================================
+// NOTE: openLexChatModal is defined above in DOMContentLoaded
+// This section removed to prevent duplicate/override
+// ======================================================
+
+/**
+ * Show proactive insights when chat opens  
+ * (Called from original openLexChatModal in DOMContentLoaded)
+ */
+async function showProactiveInsights() {
+  // Only show if InsightsAnalyzer is loaded
+  if (!window.InsightsAnalyzer) return;
+
+  try {
+    // Get user profile
+    const profile = typeof getLexProfile === 'function'
+      ? await getLexProfile()
+      : null;
+
+    if (!profile || profile.totalLoads < 10) {
+      // Not enough data for insights
+      return;
+    }
+
+    console.log('[LEX] Generating proactive insights...');
+
+    // Generate insights
+    const insights = await window.InsightsAnalyzer.generateInsights(profile);
+
+    if (!insights || insights.length === 0) {
+      console.log('[LEX] No insights generated');
+      return;
+    }
+
+    // Show only high priority insights
+    const highPriority = insights.filter(i => i.priority === 'HIGH');
+
+    if (highPriority.length > 0) {
+      console.log('[LEX] Showing', highPriority.length, 'high priority insights');
+      highPriority.forEach(insight => {
+        const message = `${insight.emoji} ${insight.message}`;
+        if (typeof appendLexMessage === 'function') {
+          appendLexMessage(message);
+        }
+      });
+    }
+  } catch (error) {
+    console.error('[LEX] Error showing proactive insights:', error);
+  }
+}
+
 window.closeLexChatModal = function () {
   const overlay = document.getElementById('lexChatOverlay');
   if (overlay) {
     overlay.style.display = 'none';
   }
   window.lexChatOpen = false;
+
+  // NEW: Clear conversation memory when chat closes
+  if (window.lexChatMemory && typeof window.lexChatMemory.clear === 'function') {
+    window.lexChatMemory.clear();
+    console.log('💭 ConversationMemory cleared on chat close');
+  }
 };
 
 

@@ -1,51 +1,51 @@
-// finances.js - Versin Completamente Corregida
+// finances.js - Refactored Version
+// ⚠️ Core functionality moved to finances-core.js and finances-data.js
 
-var financesData = [];
-var expensesData = [];
-var cashFlowChart = null;
-var expenseBreakdownChart = null;
-var financesLoaded = false;
-var allFinancesData = [];
-var allExpensesData = [];
+// ========================================
+// MOVED TO finances-core.js
+// ========================================
+// var financesData = [];
+// var expensesData = [];
+// var cashFlowChart = null;
+// var expenseBreakdownChart = null;
+// var financesLoaded = false;
+// var allFinancesData = [];
+// var allExpensesData = [];
 
-//  CONFIGURACIN TEMA OSCURO PARA CHART.JS
-if (typeof Chart !== 'undefined') {
-  Chart.defaults.color = '#cbd5e1';
-  Chart.defaults.borderColor = 'rgba(59, 130, 246, 0.2)';
-  
-  Chart.defaults.plugins.legend.labels.color = '#e2e8f0';
-  Chart.defaults.plugins.legend.labels.font = { weight: '600', size: 13 };
-  Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(15, 23, 42, 0.95)';
-  Chart.defaults.plugins.tooltip.titleColor = '#f1f5f9';
-  Chart.defaults.plugins.tooltip.bodyColor = '#cbd5e1';
-  Chart.defaults.plugins.tooltip.borderColor = 'rgba(59, 130, 246, 0.5)';
-  Chart.defaults.plugins.tooltip.borderWidth = 1;
-  
-  debugLog(' Chart.js configurado con tema oscuro');
-}
+// ========================================
+// MOVED TO finances-core.js
+// ========================================
+// Chart.js configuration now in finances-core.js
 
-// Agregar al INICIO de finances.js
+// ========================================
+// MOVED TO finances-data.js
+// ========================================
+// ensurePaymentFields function now in finances-data.js
+// loadFinancialData function now in finances-data.js
+
+/*
+// Original ensurePaymentFields - NOW IN finances-data.js
 function ensurePaymentFields(loads) {
   return loads.map(load => {
     if (!load.paymentStatus) {
       // Calcular fecha de pago automticamente
       const date = new Date(load.date);
       const dayOfWeek = date.getDay();
-      
+
       if (dayOfWeek === 0) {
         date.setDate(date.getDate() + 1);
       }
-      
+
       const daysUntilNextFriday = (5 - date.getDay() + 7) % 7 + 7;
       const paymentDate = new Date(date);
       paymentDate.setDate(date.getDate() + daysUntilNextFriday);
-      
+
       return {
         ...load,
         paymentStatus: 'pending',
         expectedPaymentDate: paymentDate.toISOString().split('T')[0],
         actualPaymentDate: null,
-      
+
       };
     }
     return load;
@@ -63,11 +63,11 @@ async function loadFinancialData(period = "all") {
 
   // Cargar todas las cargas
   const loadSnapshot = await window.db.collection("loads").where("userId", "==", uid).get();
-  
+
   allFinancesData = loadSnapshot.docs.map(doc => {
     const data = doc.data();
     let date = data.date;
-    
+
     if (!date && data.createdAt) {
       try {
         date = data.createdAt.toDate().toISOString().split("T")[0];
@@ -84,7 +84,7 @@ async function loadFinancialData(period = "all") {
       companyName: data.companyName || "",
       origin: data.origin || "-",
       destination: data.destination || "-",
-      
+
       // OK CAMPOS FINANCIEROS
       totalMiles: Number(data.totalMiles || 0),
       totalCharge: Number(data.totalCharge || 0),
@@ -95,7 +95,7 @@ async function loadFinancialData(period = "all") {
       tolls: Number(data.tolls || 0),
       otherCosts: Number(data.otherCosts || 0),
       loadedMiles: Number(data.loadedMiles || 0),
-      
+
       // OK CAMPOS DE PAGO - ESTE ES EL FIX PRINCIPAL
       paymentStatus: data.paymentStatus || "pending",
       actualPaymentDate: data.actualPaymentDate || null,    // [TARGET] CAMPO CRTICO
@@ -109,7 +109,7 @@ async function loadFinancialData(period = "all") {
 
   // Actualizar variables globales para compatibilidad
   window.allFinancesData = allFinancesData;
-  
+
   // Filtrar por perodo si se especifica
   let filteredData = allFinancesData;
   if (period !== "all") {
@@ -127,11 +127,11 @@ async function loadFinancialData(period = "all") {
 
   // Cargar gastos
   const expenseSnapshot = await window.db.collection("expenses").where("userId", "==", uid).get();
-  
+
   allExpensesData = expenseSnapshot.docs.map(doc => {
     const data = doc.data();
     let date = data.date;
-    
+
     if (!date && data.createdAt) {
       try {
         date = data.createdAt.toDate().toISOString().split("T")[0];
@@ -184,19 +184,19 @@ async function loadFinancialData(period = "all") {
     }
   };
 }
+*/
 
+// ========================================
+// MOVED TO finances-core.js
+// ========================================
+// getItemPeriodUTC - now in finances-core.js
+// debugFinances - now in finances-core.js
 
-function getItemPeriodUTC(item) {
-  // prioriza los campos que sueles tener
-  return getUTCPeriod(item?.date || item?.createdAt || item?.timestamp);
-}
-
-
-function debugFinances(message, data) {
-    debugLog(" [FINANCES] " + message, data || "");
-}
-
-//  Normalizar fechas con ao/mes/da en zona local (evita desfases UTC)
+// ========================================
+// MOVED TO finances-core.js
+// ========================================
+/*
+// normalizeDate - NOW IN finances-core.js
 function normalizeDate(d, mode = "month") {
   if (!d) return null;
   let dateObj;
@@ -222,7 +222,13 @@ function normalizeDate(d, mode = "month") {
     return null;
   }
 }
+*/
 
+// ========================================
+// MOVED TO finances-data.js
+// ========================================
+/*
+// loadFinancesData - NOW IN finances-data.js (as loadFinancialData)
 async function loadFinancesData(period = "all") {
   if (!window.currentUser) {
     console.error(" No hay usuario autenticado");
@@ -305,16 +311,17 @@ async function loadFinancesData(period = "all") {
     loads: filteredLoads
   };
 }
+*/
 
 // ==============================
 //  FUNCIN updateExpenseCategories SIMPLIFICADA
 // ==============================
 function updateExpenseCategories(expenses = []) {
   debugLog(" Actualizando categorias de gastos...");
-  
+
   const categories = calculateExpenseCategories(expenses);
   debugLog("OK Categorias calculadas:", categories);
-  
+
   // Las categoras se procesan para la tabla de gastos y grficos
   // Ya NO intentamos actualizar elementos DOM individuales
   return categories;
@@ -322,29 +329,29 @@ function updateExpenseCategories(expenses = []) {
 
 // OK FUNCIN INDEPENDIENTE PARA RENDERIZAR GASTOS
 function renderExpensesList(filteredExpenses = []) {
-    const expensesList = document.getElementById("expensesList");
-    if (!expensesList) return;
+  const expensesList = document.getElementById("expensesList");
+  if (!expensesList) return;
 
-    if (!filteredExpenses || filteredExpenses.length === 0) {
-        expensesList.innerHTML = `
+  if (!filteredExpenses || filteredExpenses.length === 0) {
+    expensesList.innerHTML = `
             <tr>
                 <td colspan="5" class="p-4 text-center text-gray-500">
                     No hay gastos registrados para este periodo
                 </td>
             </tr>`;
-        return;
-    }
+    return;
+  }
 
-    const sortedExpenses = filteredExpenses
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .slice(0, 10);
+  const sortedExpenses = filteredExpenses
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, 10);
 
-    const categoryIcons = {
-        fuel: "", maintenance: "", food: "", lodging: "",
-        tolls: "", insurance: "", permits: "", other: ""
-    };
+  const categoryIcons = {
+    fuel: "", maintenance: "", food: "", lodging: "",
+    tolls: "", insurance: "", permits: "", other: ""
+  };
 
-    const rows = sortedExpenses.map(expense => `
+  const rows = sortedExpenses.map(expense => `
         <tr class="hover:bg-gray-50">
             <td class="p-2 text-sm">${expense.date || "-"}</td>
             <td class="p-2 text-sm">${categoryIcons[expense.type] || ""} ${expense.type}</td>
@@ -357,543 +364,428 @@ function renderExpensesList(filteredExpenses = []) {
         </tr>
     `);
 
-    expensesList.innerHTML = rows.join("");
-    debugFinances(`OK Lista de gastos renderizada: ${rows.length} elementos`);
+  expensesList.innerHTML = rows.join("");
+  debugFinances(`OK Lista de gastos renderizada: ${rows.length} elementos`);
 }
 
 
+// ========================================
+// CHARTS FUNCTIONS - NOW LAZY LOADED
+// ========================================
+// These functions have been moved to finances-charts.js
+// They are loaded on-demand when the user opens the Finances tab
+// Use the lazy wrappers below instead
+
+/*
+// COMMENTED OUT - Now in finances-charts.js (lazy loaded)
 function updateFinancialCharts(context = "global") {
-    debugFinances(` Actualizando grficos financieros... (contexto: ${context})`);
+  debugFinances(` Actualizando gráficos financieros... (contexto: ${context})`);
 
-    if (typeof Chart === 'undefined') {
-        debugFinances(" Chart.js no est disponible");
-        return;
-    }
-
-    if (!financesData || financesData.length === 0) {
-        debugFinances(" No hay datos de finanzas para graficar");
-        return;
-    }
-
-    try {
-        if (context === "global" || context === "summary") {
-            updateCashFlowChart(); // OK Sin parmetro, que lea los selectores internamente
-            updateExpenseBreakdownChart();
-        }
-
-        debugFinances("OK Grficos actualizados exitosamente");
-    } catch (error) {
-        debugFinances(" Error actualizando grficos:", error);
-    }
-}
-
-// Funcin corregida para updateCashFlowChart
-function updateCashFlowChart() {
-  const canvas = document.getElementById('cashFlowChart');
-  if (!canvas) {
-    console.warn("Canvas no encontrado");
+  if (typeof Chart === 'undefined') {
+    debugFinances("❌ Chart.js no está disponible");
     return;
   }
 
-  const monthlyData = {};
-  
-  // Usar TODOS los datos
-  (window.allFinancesData || []).forEach(load => {
-    const month = load.date.slice(0, 7); // YYYY-MM
-    if (!monthlyData[month]) monthlyData[month] = { revenue: 0, expenses: 0 };
-    monthlyData[month].revenue += load.totalCharge || 0;
-  });
-
-  (window.allExpensesData || []).forEach(expense => {
-    const month = (expense.date || "").slice(0, 7);
-    if (!month) return;
-    if (!monthlyData[month]) monthlyData[month] = { revenue: 0, expenses: 0 };
-    monthlyData[month].expenses += expense.amount || 0;
-  });
-
-  let labels = Object.keys(monthlyData).sort();
-  
-  // Filtro acumulativo
-  const selectedYear = document.getElementById("yearSelect")?.value || "";
-  const selectedMonth = document.getElementById("monthSelect")?.value || "";
-  
-  if (selectedYear && selectedMonth) {
-    const currentPeriod = `${selectedYear}-${selectedMonth.padStart(2, '0')}`;
-    labels = labels.filter(m => m <= currentPeriod);
-    debugLog("Mostrando hasta", currentPeriod, ":", labels);
+  if (!financesData || financesData.length === 0) {
+    debugFinances("⚠️ No hay datos de finanzas para graficar");
+    return;
   }
 
-  const revenues = labels.map(m => monthlyData[m].revenue);
-  const expenses = labels.map(m => monthlyData[m].expenses);
-  const profits = labels.map(m => monthlyData[m].revenue - monthlyData[m].expenses);
+  try {
+    if (context === "global" || context === "summary") {
+      updateCashFlowChart();
+      updateExpenseBreakdownChart();
+    }
 
-  const formattedLabels = labels.map(month => {
-    const [y, m] = month.split("-");
-    return new Date(y, m - 1).toLocaleString("es-ES", { month: "short", year: "numeric" });
-  });
+    debugFinances("✅ Gráficos actualizados exitosamente");
+  } catch (error) {
+    debugFinances("❌ Error actualizando gráficos:", error);
+  }
+}
 
-  if (cashFlowChart) {
-    cashFlowChart.data.labels = formattedLabels;
-    cashFlowChart.data.datasets[0].data = revenues;
-    cashFlowChart.data.datasets[1].data = expenses;
-    cashFlowChart.data.datasets[2].data = profits;
-    cashFlowChart.update();
-    debugLog("Grfico actualizado con", labels.length, "meses");
-  } else {
-    cashFlowChart = new Chart(canvas, {
-      type: 'line',
-      data: {
-        labels: formattedLabels,
-        datasets: [
-          { label: 'Ingresos', data: revenues, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.2)', tension: 0.3, fill: true },
-          { label: 'Gastos', data: expenses, borderColor: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.2)', tension: 0.3, fill: true },
-          { label: 'Ganancia', data: profits, borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.2)', tension: 0.3, fill: true }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { position: 'top' } },
-        scales: {
-        x: { ticks: { color: "#cbd5e1" }, grid: { color: "rgba(59, 130, 246, 0.1)" } }, y: { beginAtZero: true, ticks: { callback: value => '$' + value.toLocaleString() } } }
+function updateCashFlowChart() { ... }
+function updateExpenseBreakdownChart() { ... }
+function updateLoadDistributionChart() { ... }
+// ... (all chart functions are now in finances-charts.js)
+*/
+
+// ========================================
+// LAZY LOADING WRAPPERS FOR CHARTS
+// ========================================
+
+/**
+ * Wrapper for updateFinancialCharts with lazy loading
+ * Loads finances-charts.js on demand, then calls the function
+ */
+async function updateFinancialCharts(context = "global") {
+  if (typeof window.loadChartsModule === 'function') {
+    try {
+      await window.loadChartsModule();
+      if (window.FinancesCharts && window.FinancesCharts.updateFinancialCharts) {
+        window.FinancesCharts.updateFinancialCharts(context);
       }
-    });
-    debugLog("Grfico creado con", labels.length, "meses");
+    } catch (error) {
+      console.error('Error loading charts module:', error);
+    }
+  } else {
+    console.warn('Lazy loader not available, charts module cannot be loaded');
   }
 }
 
-function updateExpenseBreakdownChart() {
-    const canvas = document.getElementById('expenseBreakdownChart');
-    if (!canvas) {
-        debugFinances(" Canvas expenseBreakdownChart no encontrado");
-        return;
-    }
-
-    debugFinances("PIE Creando grfico de distribucin de gastos...");
-
-    //  Destruir instancia previa
-    if (expenseBreakdownChart && typeof expenseBreakdownChart.destroy === "function") {
-        expenseBreakdownChart.destroy();
-    }
-
-    // Categoras internas
-    const categories = {
-        fuel: 0,
-        maintenance: 0,
-        food: 0,
-        lodging: 0,
-        tolls: 0,
-        insurance: 0,
-        permits: 0,
-        other: 0
-    };
-
-    (expensesData || []).forEach(expense => {
-        const type = (expense.type || '').toLowerCase();
-        const amount = Number(expense.amount) || 0;
-        if (categories.hasOwnProperty(type)) {
-            categories[type] += amount;
-        } else {
-            categories.other += amount;
-        }
-    });
-
-    const labels = [
-        'Combustible', 
-        'Mantenimiento', 
-        'Comida', 
-        'Hospedaje', 
-        'Peajes', 
-        'Seguros', 
-        'Permisos', 
-        'Otros'
-    ];
-
-    const data = [
-        categories.fuel,
-        categories.maintenance,
-        categories.food,
-        categories.lodging,
-        categories.tolls,
-        categories.insurance,
-        categories.permits,
-        categories.other
-    ];
-
-    const colors = [
-        '#f97316', // Combustible (naranja)
-        '#3b82f6', // Mantenimiento (azul)
-        '#facc15', // Comida (amarillo)
-        '#a855f7', // Hospedaje (morado)
-        '#10b981', // Peajes (verde)
-        '#ef4444', // Seguros (rojo)
-        '#6366f1', // Permisos (indigo)
-        '#6b7280'  // Otros (gris)
-    ];
-
-    const totalExpenses = data.reduce((a, b) => a + b, 0);
-    if (totalExpenses === 0) {
-    debugFinances(" No hay gastos para el grfico de distribucin");
-    
-    // Destruir gráfico si existe
-    if (expenseBreakdownChart && typeof expenseBreakdownChart.destroy === "function") {
-        expenseBreakdownChart.destroy();
-    }
-    
-    // Mostrar mensaje SIN borrar el canvas
-    const container = canvas.parentElement;
-    let messageDiv = container.querySelector('.no-data-message');
-    if (!messageDiv) {
-        messageDiv = document.createElement('div');
-        messageDiv.className = 'no-data-message text-center text-gray-500 p-8 absolute inset-0 flex items-center justify-center';
-        messageDiv.textContent = 'No hay gastos para mostrar';
-        container.style.position = 'relative';
-        container.appendChild(messageDiv);
-    }
-    messageDiv.style.display = 'flex';
-    canvas.style.display = 'none';
-    return;
-}
-
-// Si hay datos, ocultar mensaje y mostrar canvas
-const messageDiv = canvas.parentElement.querySelector('.no-data-message');
-if (messageDiv) {
-    messageDiv.style.display = 'none';
-}
-canvas.style.display = 'block';
-
+/**
+ * Wrapper for updateCashFlowChart with lazy loading
+ */
+async function updateCashFlowChart() {
+  if (typeof window.loadChartsModule === 'function') {
     try {
-        expenseBreakdownChart = new Chart(canvas, {
-            type: 'doughnut',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: data,
-                    backgroundColor: colors,
-                    borderWidth: 2,
-                    borderColor: '#ffffff'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'bottom' },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const value = context.parsed;
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = ((value / total) * 100).toFixed(1);
-                                return `${labels[context.dataIndex]}: ${formatCurrency(value)} (${percentage}%)`;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-        debugFinances("OK Grfico de distribucin de gastos creado");
+      await window.loadChartsModule();
+      if (window.FinancesCharts && window.FinancesCharts.updateCashFlowChart) {
+        window.FinancesCharts.updateCashFlowChart();
+      }
     } catch (error) {
-        debugFinances(" Error creando grfico de distribucin:", error);
+      console.error('Error loading charts module:', error);
     }
+  }
+}
+
+/**
+ * Wrapper for updateExpenseBreakdownChart with lazy loading
+ */
+async function updateExpenseBreakdownChart() {
+  if (typeof window.loadChartsModule === 'function') {
+    try {
+      await window.loadChartsModule();
+      if (window.FinancesCharts && window.FinancesCharts.updateExpenseBreakdownChart) {
+        window.FinancesCharts.updateExpenseBreakdownChart();
+      }
+    } catch (error) {
+      console.error('Error loading charts module:', error);
+    }
+  }
+}
+
+/**
+ * Wrapper for updateLoadDistributionChart with lazy loading
+ */
+async function updateLoadDistributionChart() {
+  if (typeof window.loadChartsModule === 'function') {
+    try {
+      await window.loadChartsModule();
+      if (window.FinancesCharts && window.FinancesCharts.updateLoadDistributionChart) {
+        window.FinancesCharts.updateLoadDistributionChart();
+      }
+    } catch (error) {
+      console.error('Error loading charts module:', error);
+    }
+  }
 }
 
 function updateBusinessMetrics() {
-    debugFinances(" Actualizando mtricas de negocio...");
+  debugFinances(" Actualizando mtricas de negocio...");
 
-    const totalMiles = financesData.reduce((sum, load) => sum + Number(load.totalMiles || 0), 0);
-    const totalLoadedMiles = financesData.reduce((sum, load) => sum + Number(load.loadedMiles || 0), 0);
-    const totalRevenue = financesData.reduce((sum, load) => sum + Number(load.totalCharge || 0), 0);
-    const totalExpenses = expensesData.reduce((sum, expense) => sum + Number(expense.amount || 0), 0);
+  const totalMiles = financesData.reduce((sum, load) => sum + Number(load.totalMiles || 0), 0);
+  const totalLoadedMiles = financesData.reduce((sum, load) => sum + Number(load.loadedMiles || 0), 0);
+  const totalRevenue = financesData.reduce((sum, load) => sum + Number(load.totalCharge || 0), 0);
+  const totalExpenses = expensesData.reduce((sum, expense) => sum + Number(expense.amount || 0), 0);
 
-    const costPerMile = totalMiles > 0 ? totalExpenses / totalMiles : 0;
-    const averageRPM = totalMiles > 0 ? totalRevenue / totalMiles : 0;
-    const efficiency = totalMiles > 0 ? (totalLoadedMiles / totalMiles) * 100 : 0;
+  const costPerMile = totalMiles > 0 ? totalExpenses / totalMiles : 0;
+  const averageRPM = totalMiles > 0 ? totalRevenue / totalMiles : 0;
+  const efficiency = totalMiles > 0 ? (totalLoadedMiles / totalMiles) * 100 : 0;
 
-    // Actualizar elementos en el DOM
-    const updates = [
-        ['costPerMile', formatCurrency(costPerMile)],
-        ['averageRPM', formatCurrency(averageRPM)],
-        ['efficiency', efficiency.toFixed(1) + '%']
-    ];
+  // Actualizar elementos en el DOM
+  const updates = [
+    ['costPerMile', formatCurrency(costPerMile)],
+    ['averageRPM', formatCurrency(averageRPM)],
+    ['efficiency', efficiency.toFixed(1) + '%']
+  ];
 
-    updates.forEach(([id, value]) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.textContent = value;
-            debugFinances(`OK Mtrica actualizada ${id}: ${value}`);
-        }
-    });
+  updates.forEach(([id, value]) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.textContent = value;
+      debugFinances(`OK Mtrica actualizada ${id}: ${value}`);
+    }
+  });
 
-    // Debug agrupado
-    debugFinances(" Totales calculados:", {
-        totalMiles,
-        totalLoadedMiles,
-        totalRevenue,
-        totalExpenses,
-        costPerMile,
-        averageRPM,
-        efficiency
-    });
-}
-
-// ============================
-//  Helper para calcular KPIs
-// ============================
-function calculateKPIs(loads = [], expenses = []) {
-  const totalRevenue = loads.reduce((sum, load) => sum + (Number(load.totalCharge) || 0), 0);
-  const totalExpenses = expenses.reduce((sum, exp) => sum + (Number(exp.amount) || 0), 0);
-  const netProfit = totalRevenue - totalExpenses;
-  const margin = totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0;
-
-  const totalMiles = loads.reduce((sum, load) => sum + (Number(load.totalMiles) || 0), 0);
-  const avgRpm = totalMiles > 0 ? totalRevenue / totalMiles : 0;
-
-  const kpis = {
+  // Debug agrupado
+  debugFinances(" Totales calculados:", {
+    totalMiles,
+    totalLoadedMiles,
     totalRevenue,
     totalExpenses,
-    netProfit,
-    margin,
-    totalMiles,
-    avgRpm
-  };
-
-  debugLog(" [KPIs] Calculados:", kpis);
-  return kpis;
+    costPerMile,
+    averageRPM,
+    efficiency
+  });
 }
 
-function showFinancesMessage(message, type = "info") {
-    debugFinances(` Mensaje: ${message} (${type})`);
+// ========================================
+// MOVED TO finances-core.js (1st instance)
+// ========================================
+// calculateKPIs - NOW IN finances-core.js
+// This was the first of TWO duplicate definitions
+// Second duplicate at line ~1978 also removed
 
-    if (typeof showMessage === "function") {
-        showMessage(message, type);
-    } else {
-        switch (type) {
-            case "error":
-                console.error(" Finances:", message);
-                break;
-            case "success":
-                debugLog("OK Finances:", message);
-                break;
-            case "warning":
-                console.warn(" Finances:", message);
-                break;
-            default:
-                debugLog(" Finances:", message);
-        }
+function showFinancesMessage(message, type = "info") {
+  debugFinances(` Mensaje: ${message} (${type})`);
+
+  if (typeof showMessage === "function") {
+    showMessage(message, type);
+  } else {
+    switch (type) {
+      case "error":
+        console.error(" Finances:", message);
+        break;
+      case "success":
+        debugLog("OK Finances:", message);
+        break;
+      case "warning":
+        console.warn(" Finances:", message);
+        break;
+      default:
+        debugLog(" Finances:", message);
     }
+  }
 }
 
 function showFinancesLoading() {
-    debugFinances(" Mostrando estado de carga...");
+  debugFinances(" Mostrando estado de carga...");
 
-    // Todos los elementos que deberan mostrar '...'
-    const elements = [
-        "totalRevenue",
-        "totalExpensesSummary",
-        "netProfit",
-        "profitMarginPercent",
-        "fuelExpenses",
-        "maintenanceExpenses",
-        "foodExpenses",
-        "otherExpenses",
-        "tollExpenses",
-        "insuranceExpenses",
-        "permitsExpenses",
-        "costPerMile",
-        "averageRPM",
-        "efficiency"
-    ];
+  // Todos los elementos que deberan mostrar '...'
+  const elements = [
+    "totalRevenue",
+    "totalExpensesSummary",
+    "netProfit",
+    "profitMarginPercent",
+    "fuelExpenses",
+    "maintenanceExpenses",
+    "foodExpenses",
+    "otherExpenses",
+    "tollExpenses",
+    "insuranceExpenses",
+    "permitsExpenses",
+    "costPerMile",
+    "averageRPM",
+    "efficiency"
+  ];
 
-    elements.forEach(id => {
-        const element = document.getElementById(id);
-        if (element) element.textContent = "...";
-    });
+  elements.forEach(id => {
+    const element = document.getElementById(id);
+    if (element) element.textContent = "...";
+  });
 }
 
 function hideFinancesLoading() {
-    debugFinances("OK Finalizando estado de carga (sin reset de valores)");
+  debugFinances("OK Finalizando estado de carga (sin reset de valores)");
 
-    //  Si ms adelante quieres manejar spinners, este es el lugar
-    const loadingEls = document.querySelectorAll(".finances-loading");
-    loadingEls.forEach(el => el.classList.add("hidden"));
+  //  Si ms adelante quieres manejar spinners, este es el lugar
+  const loadingEls = document.querySelectorAll(".finances-loading");
+  loadingEls.forEach(el => el.classList.add("hidden"));
 }
 
 
 function openExpenseModal(expense = null) {
-    debugFinances(" Abriendo modal de gastos...");
-    const modal = document.getElementById('expenseModal');
-    if (!modal) {
-        debugFinances(" Modal de gastos no encontrado");
-        return;
-    }
+  debugFinances(" Abriendo modal de gastos...");
+  const modal = document.getElementById('expenseModal');
+  if (!modal) {
+    debugFinances(" Modal de gastos no encontrado");
+    return;
+  }
 
-    // Mostrar modal
-    modal.classList.remove('hidden');
+  // Mostrar modal
+  modal.classList.remove('hidden');
 
-    // Inputs del modal
-    const dateEl = document.getElementById('expenseDate');
-    const typeEl = document.getElementById('expenseType');
-    const descEl = document.getElementById('expenseDescription');
-    const amountEl = document.getElementById('expenseAmount');
+  // Inputs del modal
+  const dateEl = document.getElementById('expenseDate');
+  const typeEl = document.getElementById('expenseType');
+  const descEl = document.getElementById('expenseDescription');
+  const amountEl = document.getElementById('expenseAmount');
 
-    if (expense) {
-        //  Editar gasto existente
-        dateEl.value = expense.date || new Date().toISOString().split('T')[0];
-        typeEl.value = expense.type || "";
-        descEl.value = expense.description || "";
-        amountEl.value = expense.amount || 0;
-    } else {
-        //  Nuevo gasto
-        dateEl.value = new Date().toISOString().split('T')[0];
-        typeEl.value = "";
-        descEl.value = "";
-        amountEl.value = "";
-    }
+  if (expense) {
+    //  Editar gasto existente
+    dateEl.value = expense.date || new Date().toISOString().split('T')[0];
+    typeEl.value = expense.type || "";
+    descEl.value = expense.description || "";
+    amountEl.value = expense.amount || 0;
+  } else {
+    //  Nuevo gasto
+    dateEl.value = new Date().toISOString().split('T')[0];
+    typeEl.value = "";
+    descEl.value = "";
+    amountEl.value = "";
+  }
 }
 
 function closeExpenseModal() {
-    debugFinances(" Cerrando modal de gastos...");
-    const modal = document.getElementById("expenseModal");
-    if (!modal) return;
+  debugFinances(" Cerrando modal de gastos...");
+  const modal = document.getElementById("expenseModal");
+  if (!modal) return;
 
-    // Ocultar modal
-    modal.classList.add("hidden");
+  // Ocultar modal
+  modal.classList.add("hidden");
 
-    // Resetear modo edicin
-    modal.dataset.editId = "";
+  // Resetear modo edicin
+  modal.dataset.editId = "";
 
-    // Limpiar campos del formulario
-    const fields = ["expenseDate", "expenseType", "expenseDescription", "expenseAmount"];
-    fields.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = "";
-    });
+  // Limpiar campos del formulario
+  const fields = ["expenseDate", "expenseType", "expenseDescription", "expenseAmount"];
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = "";
+  });
 }
 
 async function saveExpenseToFirebase() {
-    // ✅ VERIFICAR QUE LOS ELEMENTOS EXISTEN PRIMERO
-    const amountEl = document.getElementById("expenseAmount");
-    const typeEl = document.getElementById("expenseType");
-    const descEl = document.getElementById("expenseDescription");
-    const dateEl = document.getElementById("expenseDate");
-    
-    // Verificación de elementos antes de acceder a .value
-    if (!amountEl || !typeEl || !descEl || !dateEl) {
-        console.error("❌ Elementos del formulario de gastos no encontrados");
-        showFinancesMessage("Error: Formulario no disponible. Intenta recargar la página.", "error");
-        return;
+  // ✅ VERIFICAR QUE LOS ELEMENTOS EXISTEN PRIMERO
+  const amountEl = document.getElementById("expenseAmount");
+  const typeEl = document.getElementById("expenseType");
+  const descEl = document.getElementById("expenseDescription");
+  const dateEl = document.getElementById("expenseDate");
+
+  // Verificación de elementos antes de acceder a .value
+  if (!amountEl || !typeEl || !descEl || !dateEl) {
+    console.error("❌ Elementos del formulario de gastos no encontrados");
+    showFinancesMessage("Error: Formulario no disponible. Intenta recargar la página.", "error");
+    return;
+  }
+
+  const amount = parseFloat(amountEl.value.trim());
+  const type = typeEl.value.trim().toLowerCase();
+  const description = descEl.value.trim();
+  const date = dateEl.value;
+
+  if (!window.currentUser) {
+    showFinancesMessage("Debe iniciar sesin", "error");
+    return;
+  }
+
+  if (!amount || amount <= 0 || !type || !date) {
+    showFinancesMessage("Todos los campos son obligatorios", "error");
+    return;
+  }
+
+  const expense = {
+    userId: window.currentUser.uid,
+    amount,
+    type,
+    description,
+    date,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  const modal = document.getElementById("expenseModal");
+  const editId = modal ? modal.dataset.editId : "";
+
+  const saveBtn = document.querySelector("#expenseModal button[type='submit']");
+  if (saveBtn) saveBtn.disabled = true;
+
+  try {
+    if (editId) {
+      await firebase.firestore().collection("expenses").doc(editId).update(expense);
+      debugFinances(` Gasto actualizado (${editId}):`, expense);
+      showFinancesMessage(" Gasto editado correctamente", "success");
+      if (window.showToast) {
+        showToast('✅ Gasto actualizado exitosamente', 'success');
+      }
+    } else {
+      const docRef = await firebase.firestore().collection("expenses").add(expense);
+      debugFinances(`OK Gasto agregado (${docRef.id}):`, expense);
+      showFinancesMessage("OK Gasto agregado correctamente", "success");
+      if (window.showToast) {
+        showToast('✅ Gasto guardado exitosamente', 'success');
+      }
     }
-    
-    const amount = parseFloat(amountEl.value.trim());
-    const type = typeEl.value.trim().toLowerCase();
-    const description = descEl.value.trim();
-    const date = dateEl.value;
 
-    if (!window.currentUser) {
-        showFinancesMessage("Debe iniciar sesin", "error");
-        return;
+    if (modal) modal.dataset.editId = ""; // reset
+    closeExpenseModal();
+    loadFinancesData();
+  } catch (error) {
+    debugFinances(" Error guardando gasto:", error);
+    showFinancesMessage(" No se pudo guardar el gasto", "error");
+    if (window.showToast) {
+      showToast('❌ Error al guardar el gasto', 'error');
     }
-
-    if (!amount || amount <= 0 || !type || !date) {
-        showFinancesMessage("Todos los campos son obligatorios", "error");
-        return;
-    }
-
-    const expense = {
-        userId: window.currentUser.uid,
-        amount,
-        type,
-        description,
-        date,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    };
-
-    const modal = document.getElementById("expenseModal");
-    const editId = modal ? modal.dataset.editId : "";
-
-    const saveBtn = document.querySelector("#expenseModal button[type='submit']");
-    if (saveBtn) saveBtn.disabled = true;
-
-    try {
-        if (editId) {
-            await firebase.firestore().collection("expenses").doc(editId).update(expense);
-            debugFinances(` Gasto actualizado (${editId}):`, expense);
-            showFinancesMessage(" Gasto editado correctamente", "success");
-        } else {
-            const docRef = await firebase.firestore().collection("expenses").add(expense);
-            debugFinances(`OK Gasto agregado (${docRef.id}):`, expense);
-            showFinancesMessage("OK Gasto agregado correctamente", "success");
-        }
-
-        if (modal) modal.dataset.editId = ""; // reset
-        closeExpenseModal();
-        loadFinancesData();
-    } catch (error) {
-        debugFinances(" Error guardando gasto:", error);
-        showFinancesMessage(" No se pudo guardar el gasto", "error");
-    } finally {
-        if (saveBtn) saveBtn.disabled = false;
-    }
+  } finally {
+    if (saveBtn) saveBtn.disabled = false;
+  }
 }
 
 async function deleteExpense(id) {
-    if (!id) {
-        showFinancesMessage(" ID de gasto no vlido", "error");
-        return;
-    }
+  if (!id) {
+    showFinancesMessage(" ID de gasto no vlido", "error");
+    return;
+  }
 
-    const confirmDelete = confirm(" Ests seguro de que deseas eliminar este gasto?");
-    if (!confirmDelete) return;
+  const confirmDelete = confirm(" Ests seguro de que deseas eliminar este gasto?");
+  if (!confirmDelete) return;
 
-    try {
-        await firebase.firestore().collection("expenses").doc(id).delete();
-        debugFinances(` Gasto eliminado (${id})`);
-        showFinancesMessage("OK Gasto eliminado correctamente", "success");
-        loadFinancesData();
-    } catch (error) {
-        debugFinances(" Error al eliminar gasto:", error);
-        showFinancesMessage(" No se pudo eliminar el gasto", "error");
+  try {
+    await firebase.firestore().collection("expenses").doc(id).delete();
+    debugFinances(` Gasto eliminado (${id})`);
+    showFinancesMessage("OK Gasto eliminado correctamente", "success");
+    if (window.showToast) {
+      showToast('✅ Gasto eliminado exitosamente', 'success');
     }
+    loadFinancesData();
+  } catch (error) {
+    debugFinances(" Error al eliminar gasto:", error);
+    showFinancesMessage(" No se pudo eliminar el gasto", "error");
+    if (window.showToast) {
+      showToast('❌ Error al eliminar el gasto', 'error');
+    }
+  }
 }
 
 async function editExpense(id) {
-    try {
-        const doc = await firebase.firestore().collection("expenses").doc(id).get();
+  try {
+    const doc = await firebase.firestore().collection("expenses").doc(id).get();
 
-        if (!doc.exists) {
-            showFinancesMessage(" Gasto no encontrado", "error");
-            return;
-        }
-
-        const exp = { id, ...doc.data() };
-
-        // Guardar ID de edicin en el modal
-        const modal = document.getElementById("expenseModal");
-        if (modal) modal.dataset.editId = id;
-
-        // Reutilizar openExpenseModal con datos cargados
-        openExpenseModal(exp);
-
-        debugFinances(` Editando gasto (${id}):`, exp);
-    } catch (err) {
-        debugFinances(" Error al editar gasto:", err);
-        showFinancesMessage(" No se pudo cargar el gasto", "error");
+    if (!doc.exists) {
+      showFinancesMessage(" Gasto no encontrado", "error");
+      return;
     }
+
+    const exp = { id, ...doc.data() };
+
+    // Guardar ID de edicin en el modal
+    const modal = document.getElementById("expenseModal");
+    if (modal) modal.dataset.editId = id;
+
+    // Reutilizar openExpenseModal con datos cargados
+    openExpenseModal(exp);
+
+    debugFinances(` Editando gasto (${id}):`, exp);
+  } catch (err) {
+    debugFinances(" Error al editar gasto:", err);
+    showFinancesMessage(" No se pudo cargar el gasto", "error");
+  }
 }
+
+// ========================================
+// MOVED TO finances-reports.js
+// ========================================
+// generatePLReport() - now in finances-reports.js
+// generateTaxReport() - now in finances-reports.js
+// exportReportToPDF() - now in finances-reports.js
+// printReport() - now in finances-reports.js
+// openReportModal() - now in finances-reports.js
+// closeReportModal() - now in finances-reports.js
 
 function generatePLReport() {
   debugLog(" Generando Estado de Resultados Profesional...");
 
-   // ✅ MOSTRAR LOADING
-  const reportContainer = document.getElementById("plReportContainer");
-  if (reportContainer) {
-    reportContainer.innerHTML = '<div class="flex items-center justify-center p-12"><div class="spinner"></div><p class="ml-3 text-gray-600">Generando reporte...</p></div>';
-    reportContainer.classList.remove("hidden");
+  // ✅ Abrir modal con loading
+  openReportModal('pl', 'Estado de Resultados', 'Cargando datos...', '📘');
+
+  const reportContent = document.getElementById("reportContent");
+  if (reportContent) {
+    reportContent.innerHTML = '<div class="flex flex-col items-center justify-center p-12"><div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent mb-4"></div><p class="text-gray-600">Generando reporte...</p></div>';
   }
 
   if (!financesData || !expensesData) {
-    alert("No hay datos suficientes para generar el reporte");
+    if (reportContent) {
+      reportContent.innerHTML = '<div class="text-center p-12 text-red-500"><span class="text-4xl block mb-3">⚠️</span><p>No hay datos suficientes para generar el reporte</p></div>';
+    }
     return;
   }
 
@@ -904,12 +796,12 @@ function generatePLReport() {
   // Perodo legible
   const year = document.getElementById("reportYear")?.value || "";
   const month = document.getElementById("reportMonth")?.value || "";
-  
+
   let periodLabel = "Todos los perodos";
   if (year && month) {
     const monthNames = {
       "01": "Enero", "02": "Febrero", "03": "Marzo", "04": "Abril",
-      "05": "Mayo", "06": "Junio", "07": "Julio", "08": "Agosto", 
+      "05": "Mayo", "06": "Junio", "07": "Julio", "08": "Agosto",
       "09": "Septiembre", "10": "Octubre", "11": "Noviembre", "12": "Diciembre"
     };
     periodLabel = `${monthNames[month]} ${year}`;
@@ -938,7 +830,7 @@ function generatePLReport() {
 
   const categoryLabels = {
     fuel: "Combustible",
-    maintenance: " Mantenimiento", 
+    maintenance: " Mantenimiento",
     food: " Comida",
     lodging: " Hospedaje",
     tolls: "Toll Peajes",
@@ -965,7 +857,7 @@ function generatePLReport() {
 
   const currentDate = new Date().toLocaleDateString('es-ES', {
     weekday: 'long',
-    year: 'numeric', 
+    year: 'numeric',
     month: 'long',
     day: 'numeric'
   });
@@ -1037,11 +929,11 @@ function generatePLReport() {
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             ${Object.entries(categories)
-              .filter(([cat, val]) => val > 0)
-              .sort(([,a], [,b]) => b - a)
-              .map(([cat, val]) => {
-                const percentage = totalExpenses > 0 ? (val / totalExpenses) * 100 : 0;
-                return `
+      .filter(([cat, val]) => val > 0)
+      .sort(([, a], [, b]) => b - a)
+      .map(([cat, val]) => {
+        const percentage = totalExpenses > 0 ? (val / totalExpenses) * 100 : 0;
+        return `
                   <tr>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       ${categoryLabels[cat] || cat}
@@ -1054,7 +946,7 @@ function generatePLReport() {
                     </td>
                   </tr>
                 `;
-              }).join('')}
+      }).join('')}
           </tbody>
         </table>
       </div>
@@ -1067,52 +959,55 @@ function generatePLReport() {
         <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-center">
           <p class="text-sm text-yellow-700">Cargas Cortas (&lt;300 mi)</p>
           <p class="text-3xl font-bold text-yellow-900">${shortHauls}</p>
-          <p class="text-xs text-yellow-600">${totalLoads > 0 ? ((shortHauls/totalLoads)*100).toFixed(1) : 0}% del total</p>
+          <p class="text-xs text-yellow-600">${totalLoads > 0 ? ((shortHauls / totalLoads) * 100).toFixed(1) : 0}% del total</p>
         </div>
         <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
           <p class="text-sm text-blue-700">Cargas Medianas (300-600 mi)</p>
           <p class="text-3xl font-bold text-blue-900">${mediumHauls}</p>
-          <p class="text-xs text-blue-600">${totalLoads > 0 ? ((mediumHauls/totalLoads)*100).toFixed(1) : 0}% del total</p>
+          <p class="text-xs text-blue-600">${totalLoads > 0 ? ((mediumHauls / totalLoads) * 100).toFixed(1) : 0}% del total</p>
         </div>
         <div class="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
           <p class="text-sm text-green-700">Cargas Largas (&gt;600 mi)</p>
           <p class="text-3xl font-bold text-green-900">${longHauls}</p>
-          <p class="text-xs text-green-600">${totalLoads > 0 ? ((longHauls/totalLoads)*100).toFixed(1) : 0}% del total</p>
+          <p class="text-xs text-green-600">${totalLoads > 0 ? ((longHauls / totalLoads) * 100).toFixed(1) : 0}% del total</p>
         </div>
       </div>
     </div>
-
-    <!-- Botones de accin -->
-    <div class="text-center pt-6 border-t">
-      <button onclick="window.print()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 mr-4">
-         Imprimir Reporte
-      </button>
-      <button onclick="exportReportToPDF()" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700">
-         Exportar PDF
-      </button>
-    </div>
   `;
-  
-  container.classList.remove("hidden");
+
+  // Actualizar subtítulo del modal con el período
+  const subtitleEl = document.getElementById("reportModalSubtitle");
+  if (subtitleEl) subtitleEl.textContent = `Período: ${periodLabel}`;
+
   debugLog("OK Estado de Resultados profesional generado");
 }
 
 function generateTaxReport() {
   debugLog(" Generando Reporte Fiscal para ao completo...");
 
+  // ✅ Abrir modal con loading
+  openReportModal('tax', 'Reporte de Impuestos', 'Cargando datos fiscales...', '🧾');
+
+  const reportContent = document.getElementById("reportContent");
+  if (reportContent) {
+    reportContent.innerHTML = '<div class="flex flex-col items-center justify-center p-12"><div class="animate-spin rounded-full h-12 w-12 border-4 border-green-500 border-t-transparent mb-4"></div><p class="text-gray-600">Calculando impuestos...</p></div>';
+  }
+
   if (!window.allFinancesData || !window.allExpensesData) {
-    alert("No hay datos suficientes para generar el reporte fiscal");
+    if (reportContent) {
+      reportContent.innerHTML = '<div class="text-center p-12 text-red-500"><span class="text-4xl block mb-3">⚠️</span><p>No hay datos suficientes para generar el reporte fiscal</p></div>';
+    }
     return;
   }
 
   // Usar ao seleccionado, datos completos del ao
   const year = document.getElementById("reportYear")?.value || new Date().getFullYear().toString();
-  
+
   // Filtrar por ao completo, no por mes
-  const filteredLoads = window.allFinancesData.filter(load => 
+  const filteredLoads = window.allFinancesData.filter(load =>
     load.date && load.date.startsWith(year)
   );
-  const filteredExpenses = window.allExpensesData.filter(exp => 
+  const filteredExpenses = window.allExpensesData.filter(exp =>
     exp.date && exp.date.startsWith(year)
   );
 
@@ -1142,8 +1037,8 @@ function generateTaxReport() {
   filteredExpenses.forEach(exp => {
     const amount = Number(exp.amount) || 0;
     const type = (exp.type || "other").toLowerCase();
-    
-    switch(type) {
+
+    switch (type) {
       case 'fuel':
       case 'tolls':
         businessExpenses.vehicleExpenses += amount;
@@ -1167,14 +1062,14 @@ function generateTaxReport() {
   });
 
   const totalBusinessExpenses = Object.values(businessExpenses).reduce((a, b) => a + b, 0);
-  
+
   // Schedule C Line 31: Net profit or loss
   const netProfitLoss = grossReceipts - totalBusinessExpenses;
-  
+
   // Self-Employment Tax Calculations (Schedule SE)
   const selfEmploymentEarnings = Math.max(0, netProfitLoss);
   const selfEmploymentTax = selfEmploymentEarnings * 0.1413; // 2024 rate: 14.13%
-  
+
   // Deductible portion of self-employment tax (Form 1040, Schedule 1)
   const deductibleSETax = selfEmploymentTax * 0.5;
 
@@ -1191,7 +1086,7 @@ function generateTaxReport() {
 
   const currentDate = new Date().toLocaleDateString('en-US', {
     weekday: 'long',
-    year: 'numeric', 
+    year: 'numeric',
     month: 'long',
     day: 'numeric'
   });
@@ -1213,7 +1108,7 @@ function generateTaxReport() {
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="text-center">
           <p class="text-sm text-blue-600">Gross Receipts (Line 1)</p>
-          <p class="text-3xl font-bold text-blue-900">$${grossReceipts.toLocaleString('en-US', {minimumFractionDigits: 2})}</p>
+          <p class="text-3xl font-bold text-blue-900">$${grossReceipts.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
         </div>
         <div class="text-center">
           <p class="text-sm text-blue-600">Total Business Miles</p>
@@ -1222,7 +1117,7 @@ function generateTaxReport() {
         <div class="text-center">
           <p class="text-sm text-blue-600">Net Profit/Loss (Line 31)</p>
           <p class="text-3xl font-bold ${netProfitLoss >= 0 ? 'text-green-900' : 'text-red-900'}">
-            $${netProfitLoss.toLocaleString('en-US', {minimumFractionDigits: 2})}
+            $${netProfitLoss.toLocaleString('en-US', { minimumFractionDigits: 2 })}
           </p>
         </div>
       </div>
@@ -1230,53 +1125,53 @@ function generateTaxReport() {
 
     <!-- Part II: Expenses -->
     <div class="mb-8">
-      <h3 class="text-xl font-bold text-gray-900 mb-4">PART II - EXPENSES (Schedule C)</h3>
-      <div class="bg-white border border-gray-300 rounded-lg overflow-hidden">
+      <h3 class="text-xl font-bold mb-4" style="color: white !important;">PART II - EXPENSES (Schedule C)</h3>
+      <div class="rounded-lg overflow-hidden" style="background-color: rgba(30, 58, 138, 0.8);">
         <table class="min-w-full">
-          <thead class="bg-gray-100">
+          <thead style="background-color: rgba(30, 58, 138, 1);">
             <tr>
-              <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase">Line #</th>
-              <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase">Expense Category</th>
-              <th class="px-4 py-3 text-right text-xs font-bold text-gray-700 uppercase">Amount</th>
+              <th class="px-4 py-3 text-left text-xs font-bold uppercase" style="color: white !important;">Line #</th>
+              <th class="px-4 py-3 text-left text-xs font-bold uppercase" style="color: white !important;">Expense Category</th>
+              <th class="px-4 py-3 text-right text-xs font-bold uppercase" style="color: white !important;">Amount</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-200">
+          <tbody class="divide-y divide-blue-400/30">
             <tr>
               <td class="px-4 py-3 text-sm font-medium text-gray-900">9</td>
               <td class="px-4 py-3 text-sm text-gray-900">Car and truck expenses</td>
-              <td class="px-4 py-3 text-sm text-gray-900 text-right">$${businessExpenses.vehicleExpenses.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+              <td class="px-4 py-3 text-sm text-gray-900 text-right">$${businessExpenses.vehicleExpenses.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
             </tr>
             <tr class="bg-gray-50">
               <td class="px-4 py-3 text-sm font-medium text-gray-900">17</td>
               <td class="px-4 py-3 text-sm text-gray-900">Insurance (other than health)</td>
-              <td class="px-4 py-3 text-sm text-gray-900 text-right">$${businessExpenses.insurance.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+              <td class="px-4 py-3 text-sm text-gray-900 text-right">$${businessExpenses.insurance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
             </tr>
             <tr>
               <td class="px-4 py-3 text-sm font-medium text-gray-900">20a</td>
               <td class="px-4 py-3 text-sm text-gray-900">Office expense</td>
-              <td class="px-4 py-3 text-sm text-gray-900 text-right">$${businessExpenses.officeExpense.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+              <td class="px-4 py-3 text-sm text-gray-900 text-right">$${businessExpenses.officeExpense.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
             </tr>
             <tr class="bg-gray-50">
               <td class="px-4 py-3 text-sm font-medium text-gray-900">22</td>
               <td class="px-4 py-3 text-sm text-gray-900">Repairs and maintenance</td>
-              <td class="px-4 py-3 text-sm text-gray-900 text-right">$${businessExpenses.repairsMaintenance.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+              <td class="px-4 py-3 text-sm text-gray-900 text-right">$${businessExpenses.repairsMaintenance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
             </tr>
             <tr>
               <td class="px-4 py-3 text-sm font-medium text-gray-900">25</td>
               <td class="px-4 py-3 text-sm text-gray-900">Travel, meals, and entertainment</td>
-              <td class="px-4 py-3 text-sm text-gray-900 text-right">$${businessExpenses.travel.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+              <td class="px-4 py-3 text-sm text-gray-900 text-right">$${businessExpenses.travel.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
             </tr>
             <tr class="bg-gray-50">
               <td class="px-4 py-3 text-sm font-medium text-gray-900">27a</td>
               <td class="px-4 py-3 text-sm text-gray-900">Other expenses</td>
-              <td class="px-4 py-3 text-sm text-gray-900 text-right">$${businessExpenses.otherExpenses.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+              <td class="px-4 py-3 text-sm text-gray-900 text-right">$${businessExpenses.otherExpenses.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
             </tr>
           </tbody>
           <tfoot class="bg-gray-200">
             <tr>
               <td class="px-4 py-3 text-sm font-bold text-gray-900">28</td>
               <td class="px-4 py-3 text-sm font-bold text-gray-900">Total expenses</td>
-              <td class="px-4 py-3 text-sm font-bold text-gray-900 text-right">$${totalBusinessExpenses.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+              <td class="px-4 py-3 text-sm font-bold text-gray-900 text-right">$${totalBusinessExpenses.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
             </tr>
           </tfoot>
         </table>
@@ -1289,19 +1184,19 @@ function generateTaxReport() {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
           <h4 class="text-lg font-semibold text-yellow-800 mb-3">Standard Mileage Method</h4>
-          <p class="text-3xl font-bold text-yellow-900">$${standardMileageDeduction.toLocaleString('en-US', {minimumFractionDigits: 2})}</p>
+          <p class="text-3xl font-bold text-yellow-900">$${standardMileageDeduction.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
           <p class="text-sm text-yellow-700 mt-2">${totalMiles.toLocaleString()} miles  $0.67/mile (2024 rate)</p>
         </div>
         <div class="bg-green-50 border border-green-200 rounded-lg p-6">
           <h4 class="text-lg font-semibold text-green-800 mb-3">Actual Expense Method</h4>
-          <p class="text-3xl font-bold text-green-900">$${actualExpenseMethod.toLocaleString('en-US', {minimumFractionDigits: 2})}</p>
+          <p class="text-3xl font-bold text-green-900">$${actualExpenseMethod.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
           <p class="text-sm text-green-700 mt-2">Fuel, tolls, and vehicle expenses</p>
         </div>
       </div>
       <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
         <p class="text-sm text-blue-800">
           <strong>Recommended:</strong> ${recommendedMethod} 
-          (saves $${Math.abs(standardMileageDeduction - actualExpenseMethod).toLocaleString('en-US', {minimumFractionDigits: 2})})
+          (saves $${Math.abs(standardMileageDeduction - actualExpenseMethod).toLocaleString('en-US', { minimumFractionDigits: 2 })})
         </p>
       </div>
     </div>
@@ -1313,50 +1208,43 @@ function generateTaxReport() {
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div class="text-center">
             <p class="text-sm text-gray-600">Self-Employment Earnings</p>
-            <p class="text-2xl font-bold text-gray-900">$${selfEmploymentEarnings.toLocaleString('en-US', {minimumFractionDigits: 2})}</p>
+            <p class="text-2xl font-bold text-gray-900">$${selfEmploymentEarnings.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
           </div>
           <div class="text-center">
             <p class="text-sm text-gray-600">Self-Employment Tax (14.13%)</p>
-            <p class="text-2xl font-bold text-red-900">$${selfEmploymentTax.toLocaleString('en-US', {minimumFractionDigits: 2})}</p>
+            <p class="text-2xl font-bold text-red-900">$${selfEmploymentTax.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
           </div>
           <div class="text-center">
             <p class="text-sm text-gray-600">Deductible Portion (50%)</p>
-            <p class="text-2xl font-bold text-green-900">$${deductibleSETax.toLocaleString('en-US', {minimumFractionDigits: 2})}</p>
+            <p class="text-2xl font-bold text-green-900">$${deductibleSETax.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Important Tax Notes -->
-    <div class="mb-8 bg-red-50 border border-red-200 rounded-lg p-6">
-      <h4 class="text-lg font-bold text-red-800 mb-3">IMPORTANT TAX CONSIDERATIONS</h4>
-      <ul class="text-sm text-red-700 space-y-2">
-        <li> -  Quarterly estimated tax payments may be required if you owe $1,000+ in taxes</li>
-        <li> -  Keep detailed records of all business miles and expenses</li>
-        <li> -  Meals while away from home are 50% deductible</li>
-        <li> -  Consider maximizing retirement contributions (SEP-IRA, Solo 401k)</li>
-        <li> -  This report is for reference only - consult a tax professional</li>
+    <div class="mb-8 bg-amber-50 border-2 border-amber-400 rounded-lg p-4">
+      <h4 class="text-base font-bold text-amber-900 mb-3">⚠️ IMPORTANT TAX CONSIDERATIONS</h4>
+      <ul class="text-sm text-amber-800 space-y-2">
+        <li>📌 Quarterly estimated tax payments may be required if you owe $1,000+ in taxes</li>
+        <li>📌 Keep detailed records of all business miles and expenses</li>
+        <li>📌 Meals while away from home are 50% deductible</li>
+        <li>📌 Consider maximizing retirement contributions (SEP-IRA, Solo 401k)</li>
+        <li>📌 This report is for reference only - consult a tax professional</li>
       </ul>
     </div>
 
-    <!-- Action Buttons -->
-    <div class="text-center pt-6 border-t-2 border-gray-300">
-      <button onclick="window.print()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 mr-4 font-semibold">
-        Print Tax Report
-      </button>
-      <button onclick="exportTaxData()" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-semibold">
-        Export for Tax Software
-      </button>
-    </div>
-
     <!-- Disclaimer -->
-    <div class="mt-8 text-center text-xs text-gray-500 border-t pt-4">
-      <p>This report is generated for informational purposes only. Tax laws are complex and change frequently.</p>
-      <p>Always consult with a qualified tax professional or CPA for tax advice and filing.</p>
+    <div class="mt-4 text-center text-sm bg-gray-100 rounded-lg p-4 border border-gray-300">
+      <p class="text-gray-800 font-medium">⚠️ This report is generated for informational purposes only.</p>
+      <p class="text-gray-700 mt-1">Tax laws are complex and change frequently. Always consult with a qualified tax professional or CPA.</p>
     </div>
   `;
-  
-  container.classList.remove("hidden");
+
+  // Actualizar subtítulo del modal con el período
+  const subtitleEl = document.getElementById("reportModalSubtitle");
+  if (subtitleEl) subtitleEl.textContent = periodLabel;
+
   debugLog("OK Reporte fiscal anual generado exitosamente");
 }
 
@@ -1457,52 +1345,52 @@ function exportFinancialData() {
 
 // OK DEBUG AVANZADO DE FINANZAS
 function debugFinancesElements() {
-    debugFinances(" === DEBUG DE ELEMENTOS DOM FINANCIEROS ===");
+  debugFinances(" === DEBUG DE ELEMENTOS DOM FINANCIEROS ===");
 
-    const criticalElements = [
-        'totalRevenue',
-        'totalExpensesSummary',
-        'netProfit',
-        'profitMarginPercent',
-        'yearSelect',
-        'monthSelect',
-        'lastUpdated',
-        'fuelExpenses',
-        'maintenanceExpenses',
-        'foodExpenses',
-        'otherExpenses',
-        'expensesList',
-        'cashFlowChart',
-        'expenseBreakdownChart'
-    ];
+  const criticalElements = [
+    'totalRevenue',
+    'totalExpensesSummary',
+    'netProfit',
+    'profitMarginPercent',
+    'yearSelect',
+    'monthSelect',
+    'lastUpdated',
+    'fuelExpenses',
+    'maintenanceExpenses',
+    'foodExpenses',
+    'otherExpenses',
+    'expensesList',
+    'cashFlowChart',
+    'expenseBreakdownChart'
+  ];
 
-    const results = criticalElements.map(id => {
-        const el = document.getElementById(id);
-        return {
-            id,
-            encontrado: !!el,
-            tag: el ? el.tagName : "",
-            texto: el ? el.textContent.trim() : "N/A"
-        };
-    });
+  const results = criticalElements.map(id => {
+    const el = document.getElementById(id);
+    return {
+      id,
+      encontrado: !!el,
+      tag: el ? el.tagName : "",
+      texto: el ? el.textContent.trim() : "N/A"
+    };
+  });
 
-    console.table(results);
+  console.table(results);
 
-    //  Resumen rpido
-    const encontrados = results.filter(r => r.encontrado).length;
-    const faltantes = results.filter(r => !r.encontrado).map(r => r.id);
-    debugFinances(` Resumen  Encontrados: ${encontrados}/${criticalElements.length}`);
-    if (faltantes.length) debugFinances(" Faltantes:", faltantes);
+  //  Resumen rpido
+  const encontrados = results.filter(r => r.encontrado).length;
+  const faltantes = results.filter(r => !r.encontrado).map(r => r.id);
+  debugFinances(` Resumen  Encontrados: ${encontrados}/${criticalElements.length}`);
+  if (faltantes.length) debugFinances(" Faltantes:", faltantes);
 
-    //  Extra: verificar si los grficos tienen contexto
-    ['cashFlowChart','expenseBreakdownChart'].forEach(id => {
-        const canvas = document.getElementById(id);
-        if (canvas && canvas.getContext) {
-            debugFinances(` ${id} tiene contexto 2D disponible`);
-        }
-    });
+  //  Extra: verificar si los grficos tienen contexto
+  ['cashFlowChart', 'expenseBreakdownChart'].forEach(id => {
+    const canvas = document.getElementById(id);
+    if (canvas && canvas.getContext) {
+      debugFinances(` ${id} tiene contexto 2D disponible`);
+    }
+  });
 
-    debugFinances("===========================================");
+  debugFinances("===========================================");
 }
 
 
@@ -1510,7 +1398,7 @@ function debugFinancesElements() {
 // ==============================
 function updateFinancialKPIs() {
   debugLog(" Actualizando KPIs mejorados...");
-  
+
   // Datos bsicos (solo gastos manuales)
   const totalRevenue = financesData.reduce((sum, load) => sum + (load.totalCharge || 0), 0);
   const totalExpenses = expensesData.reduce((sum, exp) => sum + (exp.amount || 0), 0);
@@ -1519,7 +1407,7 @@ function updateFinancialKPIs() {
   const avgRpm = totalMiles > 0 ? totalRevenue / totalMiles : 0;
   const costPerMile = totalMiles > 0 ? totalExpenses / totalMiles : 0;
   const margin = totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0;
-  
+
   // Actualizar elementos existentes usando selectores especficos
   const updateElementSafe = (id, value) => {
     const element = document.querySelector(`#finances #${id}`) || document.getElementById(id);
@@ -1530,22 +1418,22 @@ function updateFinancialKPIs() {
     console.warn(`Elemento no encontrado: ${id}`);
     return false;
   };
-  
+
   // Actualizar KPIs
   updateElementSafe('totalRevenue', formatCurrency(totalRevenue));
   updateElementSafe('totalExpensesSummary', formatCurrency(totalExpenses));
   updateElementSafe('netProfit', formatCurrency(netProfit));
   // updateElementSafe('profitMarginPercent', margin.toFixed(1) + '%'); // Elemento no existe en HTML
-  
+
   // Actualizar nuevos elementos
   updateElementSafe('totalMiles', totalMiles.toLocaleString());
   updateElementSafe('avgRpm', formatCurrency(avgRpm));
   updateElementSafe('costPerMile', formatCurrency(costPerMile));
-  
+
   // Calcular eficiencia
   const efficiency = calculateEfficiency();
   updateElementSafe('efficiency', efficiency + '%');
-  
+
   debugLog("OK KPIs actualizados:", {
     revenue: totalRevenue,
     expenses: totalExpenses,
@@ -1753,24 +1641,24 @@ function applyFilter(context = "global") {
   if (typeof window.loadFinancialData === "function") {
     window.loadFinancialData(period).then(r => {
       debugLog(" [FINANCES] OK Datos cargados, actualizando UI completa...");
-      
+
       // Actualizar KPIs mejorados
       updateFinancialKPIs(); // Sin parmetros, que use window.financesData
       updateExpenseCategories();
       renderExpensesList(window.expensesData);
-      
+
       // Actualizar grficas principales
       setTimeout(() => {
         updateCashFlowChartEnhanced(); // OK Versin mejorada
         updateExpenseBreakdownChart();
-        
+
         // OK Nuevos grficos del Dashboard
         updateRpmTrendChart();
         updateLoadDistributionChart();
       }, 100);
-      
+
       updateBusinessMetrics();
-      
+
       debugLog("OK UI completa de finanzas actualizada");
     }).catch(err => console.error("Error aplicando filtro:", err));
   }
@@ -1782,7 +1670,7 @@ function applyFilter(context = "global") {
 // 2. Verificar que los listeners estn bien configurados
 function initPeriodSelectors(context = "global") {
   debugLog("Inicializando selectores para contexto:", context);
-  
+
   const now = new Date();
   const currentYear = now.getFullYear().toString();
   const currentMonth = String(now.getMonth() + 1).padStart(2, "0");
@@ -1808,7 +1696,7 @@ function initPeriodSelectors(context = "global") {
     }
     yearEl.value = currentYear;
 
-    const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+    const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
     monthEl.innerHTML = `<option value="">Todos</option>`;
     for (let m = 1; m <= 12; m++) {
       const mm = String(m).padStart(2, "0");
@@ -1844,22 +1732,23 @@ function applyPeriod(context) {
   debugLog(` Filtro aplicado (${context}):`, year || "Todos", month || "Todos");
 
   if (context === "global") {
-  const period = (year && month) ? `${year}-${month}` : (year || "all");
-  debugLog(" Period final:", period);
+    const period = (year && month) ? `${year}-${month}` : (year || "all");
+    debugLog(" Period final:", period);
 
-  if (typeof window.loadFinancialData === "function") {
-    window.loadFinancialData(period).then(r => {
-      updateFinancialKPIs(r.kpis);
-      updateExpenseCategories();
-      updateFinancialCharts();
-      updateBusinessMetrics();
-    }).catch(err => {
-      console.error(" Error aplicando filtro global:", err);
-    });
-  }
-                        
+    if (typeof window.loadFinancialData === "function") {
+      window.loadFinancialData(period).then(r => {
+        updateFinancialKPIs(r.kpis);
+        updateExpenseCategories();
+        updateFinancialCharts();
+        updateBusinessMetrics();
+      }).catch(err => {
+        console.error(" Error aplicando filtro global:", err);
+      });
+    }
+
   } else if (context === "reports") {
-    generatePLReport();
+    // No generar reporte automáticamente, solo cuando el usuario hace clic en el botón
+    debugLog("Reports tab selected - awaiting user action");
   } else if (context === "accounts") {
     if (typeof loadAccountsData === "function") {
       loadAccountsData();
@@ -1902,7 +1791,7 @@ function filterByYearMonth(context = "global") {
   const year = yearSelect.value;
   const month = monthSelect.value;
 
-  
+
 
   // OK Filtrar datasets
   let filteredLoads = window.financesData || [];
@@ -1940,15 +1829,16 @@ function filterByYearMonth(context = "global") {
     updateBusinessMetrics(filteredLoads, filteredExpenses);
     updateFinancialCharts(filteredLoads, filteredExpenses);
 
-  
-   
+
+
 
     debugLog(` [CLEAN] === FIN filterByYearMonth (${context}) ===`);
     return;
   }
 
   if (context === "reports") {
-    generatePLReport();
+    // No generar reporte automáticamente - el usuario debe hacer clic en el botón
+    debugLog("Reports filter applied - awaiting user action");
   } else if (context === "accounts") {
     if (typeof loadAccountsData === "function") {
       loadAccountsData();
@@ -1971,9 +1861,9 @@ function calculateKPIs(loads = [], expenses = []) {
 }
 
 // ==============================
-//  FUNCIN updateKPIsUI SIMPLIFICADA
+//  FUNCIÓN updateKPIsUI SIMPLIFICADA
 // ==============================
-function updateKPIsUI({ totalRevenue, totalExpenses, netProfit, margin }) {
+function updateKPIsUI({ totalRevenue, totalExpenses, netProfit, margin, totalMiles, avgRpm }) {
   const netProfitEl = document.querySelector('#finances #netProfit');
   if (netProfitEl) {
     netProfitEl.textContent = formatCurrency(netProfit);
@@ -1986,7 +1876,9 @@ function updateKPIsUI({ totalRevenue, totalExpenses, netProfit, margin }) {
   const elementosFinances = [
     { id: 'totalRevenue', value: formatCurrency(totalRevenue) },
     { id: 'totalExpensesSummary', value: formatCurrency(totalExpenses) },
-    { id: 'profitMarginPercent', value: `${margin.toFixed(1)}%` }
+    { id: 'profitMarginPercent', value: `${margin.toFixed(1)}%` },
+    { id: 'totalMiles', value: totalMiles ? totalMiles.toLocaleString() : '0' },
+    { id: 'avgRpm', value: formatCurrency(avgRpm || 0) }
   ];
 
   elementosFinances.forEach(item => {
@@ -1996,11 +1888,11 @@ function updateKPIsUI({ totalRevenue, totalExpenses, netProfit, margin }) {
       el.style.fontSize = '2rem';
       el.style.fontWeight = 'bold';
       el.style.textAlign = 'center';
-      debugLog(`OK [CLEAN] ${item.id}: ${item.value}`);
+      debugLog(`✅ [CLEAN] ${item.id}: ${item.value}`);
     }
   });
 
-  // OK ELIMINADO: Referencias a elementos de categoras individuales
+  // ✅ ELIMINADO: Referencias a elementos de categorías individuales
 }
 
 // ==============================
@@ -2070,28 +1962,127 @@ window.saveExpenseToFirebase = saveExpenseToFirebase;
 window.deleteExpense = deleteExpense;
 window.editExpense = editExpense;
 window.generatePLReport = generatePLReport;
+window.initPeriodSelectors = initPeriodSelectors;
 window.generateTaxReport = generateTaxReport;
 window.exportFinancialData = exportFinancialData;
 window.updateFinancialKPIs = updateFinancialKPIs;
 
+// ========================================
+// REPORT MODAL CONTROL FUNCTIONS
+// ========================================
+
+// Abrir modal de reportes
+function openReportModal(type, title, subtitle, icon) {
+  const modal = document.getElementById('reportModal');
+  const titleEl = document.getElementById('reportModalTitle');
+  const subtitleEl = document.getElementById('reportModalSubtitle');
+  const iconEl = document.getElementById('reportModalIcon');
+  const headerEl = document.getElementById('reportModalHeader');
+
+  if (modal) {
+    // Actualizar header según tipo
+    if (titleEl) titleEl.textContent = title || 'Reporte Financiero';
+    if (subtitleEl) subtitleEl.textContent = subtitle || 'Período: --';
+    if (iconEl) iconEl.textContent = icon || '📊';
+
+    // Cambiar color del header según tipo
+    if (headerEl) {
+      headerEl.className = 'flex-shrink-0 text-white p-4 flex justify-between items-center shadow-lg ';
+      if (type === 'pl') {
+        headerEl.className += 'bg-gradient-to-r from-blue-700 to-blue-900';
+      } else if (type === 'tax') {
+        headerEl.className += 'bg-gradient-to-r from-green-700 to-green-900';
+      } else {
+        headerEl.className += 'bg-gradient-to-r from-purple-700 to-purple-900';
+      }
+    }
+
+    modal.classList.remove('hidden');
+    modal.style.animation = 'fadeIn 0.3s ease';
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+// Cerrar modal de reportes
+function closeReportModal() {
+  const modal = document.getElementById('reportModal');
+  if (modal) {
+    modal.style.animation = 'fadeIn 0.2s ease reverse';
+    setTimeout(() => {
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }, 150);
+  }
+}
+
+window.openReportModal = openReportModal;
+window.closeReportModal = closeReportModal;
+
+// 📄 Exportar Reporte a PDF
+function exportReportToPDF() {
+  debugLog("📄 Exportando reporte a PDF...");
+
+  const reportContent = document.getElementById('reportContent');
+  const reportTitle = document.getElementById('reportModalTitle')?.textContent || 'Reporte Financiero';
+
+  if (!reportContent) {
+    alert('No hay contenido de reporte para exportar');
+    return;
+  }
+
+  // Verificar que html2pdf esté disponible
+  if (typeof html2pdf === 'undefined') {
+    alert('Error: Librería html2pdf no está cargada');
+    debugLog("❌ html2pdf no disponible");
+    return;
+  }
+
+  // Configuración simple y efectiva
+  const opt = {
+    margin: 10,
+    filename: `${reportTitle.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: {
+      scale: 2,
+      backgroundColor: '#1e293b'
+    },
+    jsPDF: {
+      unit: 'mm',
+      format: 'a4',
+      orientation: 'portrait'
+    }
+  };
+
+  // Generar PDF
+  html2pdf().set(opt).from(reportContent).save();
+}
+
+// 🖨️ Imprimir Reporte (funciona mejor que PDF)
+function printReport() {
+  window.print();
+}
+
+window.exportReportToPDF = exportReportToPDF;
+window.printReport = printReport;
+
 // OK Manejo de subtabs dentro de Finanzas
 document.addEventListener("DOMContentLoaded", () => {
- initializeOnce('finances-event-listeners', () => {
-  document.querySelectorAll('#finances .subtab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      // quitar "active" de todos los botones
-      document.querySelectorAll('#finances .subtab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+  initializeOnce('finances-event-listeners', () => {
+    document.querySelectorAll('#finances .subtab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // quitar "active" de todos los botones
+        document.querySelectorAll('#finances .subtab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
 
-      // ocultar todos los contenidos
-      document.querySelectorAll('#finances .subtab-content').forEach(sec => sec.classList.add('hidden'));
+        // ocultar todos los contenidos
+        document.querySelectorAll('#finances .subtab-content').forEach(sec => sec.classList.add('hidden'));
 
-      // mostrar el seleccionado
-      const subtab = btn.dataset.subtab;
-      document.getElementById(`subtab-${subtab}`).classList.remove('hidden');
+        // mostrar el seleccionado
+        const subtab = btn.dataset.subtab;
+        document.getElementById(`subtab-${subtab}`).classList.remove('hidden');
+      });
     });
   });
-});
 });
 
 debugFinances("OK Finances.js CORREGIDO cargado completamente");
@@ -2099,7 +2090,7 @@ debugFinances("OK Finances.js CORREGIDO cargado completamente");
 // Agregar al final de finances.js
 async function loadAccountsData() {
   debugLog(" Cargando datos de cuentas con filtros avanzados...");
-  
+
   if (!window.allFinancesData || window.allFinancesData.length === 0) {
     debugLog("No hay datos de cargas disponibles");
     return;
@@ -2111,19 +2102,19 @@ async function loadAccountsData() {
   const statusEl = document.getElementById("accountsStatus");
   const companyEl = document.getElementById("accountsCompany");
   const sortEl = document.getElementById("accountsSort");
-  
+
   const year = yearEl?.value || "";
   const month = monthEl?.value || "";
   const statusFilter = statusEl?.value || "";
   const companyFilter = companyEl?.value || "";
   const sortBy = sortEl?.value || "date-desc";
-  
+
   // Poblar selector de compaas dinmicamente
   populateCompanyFilter();
-  
+
   // Filtrar cargas por perodo
   let filteredLoads = window.allFinancesData;
-  
+
   // Filtro por fecha
   if (year && month) {
     const period = `${year}-${month.padStart(2, '0')}`;
@@ -2131,7 +2122,7 @@ async function loadAccountsData() {
   } else if (year) {
     filteredLoads = filteredLoads.filter(load => load.date && load.date.startsWith(year));
   }
-  
+
   // Filtro por estado
   if (statusFilter) {
     filteredLoads = filteredLoads.filter(load => {
@@ -2139,17 +2130,17 @@ async function loadAccountsData() {
       return status === statusFilter;
     });
   }
-  
+
   // Filtro por compaa
   if (companyFilter) {
-    filteredLoads = filteredLoads.filter(load => 
+    filteredLoads = filteredLoads.filter(load =>
       (load.companyName || "").toLowerCase().includes(companyFilter.toLowerCase())
     );
   }
-  
+
   // Ordenamiento
   filteredLoads.sort((a, b) => {
-    switch(sortBy) {
+    switch (sortBy) {
       case "date-asc":
         return new Date(a.date) - new Date(b.date);
       case "date-desc":
@@ -2180,7 +2171,7 @@ async function loadAccountsData() {
 function populateCompanyFilter() {
   const companyEl = document.getElementById("accountsCompany");
   if (!companyEl || !window.allFinancesData) return;
-  
+
   // Obtener compaas nicas
   const companies = [...new Set(
     window.allFinancesData
@@ -2188,36 +2179,36 @@ function populateCompanyFilter() {
       .filter(name => name && name.trim())
       .sort()
   )];
-  
+
   // Limpiar y poblar
   const currentValue = companyEl.value;
   companyEl.innerHTML = '<option value="">Todas</option>';
-  
+
   companies.forEach(company => {
     const option = document.createElement('option');
     option.value = company;
     option.textContent = company;
     companyEl.appendChild(option);
   });
-  
+
   // Restaurar valor seleccionado
   companyEl.value = currentValue;
 }
 
 // Event listeners para los filtros
 document.addEventListener("DOMContentLoaded", () => {
- initializeOnce('finances-period-selectors', () => {
-  const filterElements = ['accountsStatus', 'accountsCompany', 'accountsSort'];
-  
-  filterElements.forEach(id => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.addEventListener('change', () => {
-        loadAccountsData();
-      });
-    }
+  initializeOnce('finances-period-selectors', () => {
+    const filterElements = ['accountsStatus', 'accountsCompany', 'accountsSort'];
+
+    filterElements.forEach(id => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.addEventListener('change', () => {
+          loadAccountsData();
+        });
+      }
+    });
   });
-});
 });
 
 // Exponer la funcin globalmente
@@ -2227,7 +2218,7 @@ window.populateCompanyFilter = populateCompanyFilter;
 async function markAsPaid(loadId) {
   try {
     const paymentDate = new Date().toISOString().split('T')[0];
-    
+
     // OK CORREGIDO: Guardar actualPaymentDate + paymentDate
     await firebase.firestore().collection("loads").doc(loadId).update({
       paymentStatus: "paid",
@@ -2253,9 +2244,38 @@ async function markAsPaid(loadId) {
   }
 }
 
+// 2. FUNCIÓN markAsUnpaid - Desmarcar como pagada
+async function markAsUnpaid(loadId) {
+  try {
+    // Actualizar en Firestore: volver a estado pending y limpiar fechas de pago
+    await firebase.firestore().collection("loads").doc(loadId).update({
+      paymentStatus: "pending",
+      actualPaymentDate: null,
+      paymentDate: null,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    // Actualizar en memoria local
+    const load = window.allFinancesData.find(l => l.id === loadId);
+    if (load) {
+      load.paymentStatus = "pending";
+      load.actualPaymentDate = null;
+      load.paymentDate = null;
+    }
+
+    debugLog("✅ Carga desmarcada como pagada:", loadId);
+    loadAccountsData();
+    showMessage("Carga desmarcada exitosamente", "success");
+  } catch (error) {
+    console.error("❌ Error desmarcando carga:", error);
+    showMessage("Error al desmarcar carga", "error");
+  }
+}
+
 // Exponer funciones globalmente
 window.loadAccountsData = loadAccountsData;
 window.markAsPaid = markAsPaid;
+window.markAsUnpaid = markAsUnpaid;
 
 
 
@@ -2303,7 +2323,7 @@ function renderPendingPayments(loads) {
     const isOverdue = load.paymentStatus === "overdue";
     const statusClass = isOverdue ? "text-red-600" : "text-yellow-600";
     const bgClass = isOverdue ? "bg-red-50" : "bg-yellow-50";
-    
+
     return `
       <tr class="${bgClass}">
         <td class="p-2 text-sm">${load.date}</td>
@@ -2359,6 +2379,12 @@ function renderPaidLoads(loads) {
       <td class="p-2 text-sm">${load.companyName || '-'}</td>
       <td class="p-2 text-sm font-semibold">${formatCurrency(load.totalCharge)}</td>
       <td class="p-2 text-sm">${load.paymentDate || '-'}</td>
+      <td class="p-2 text-sm">
+        <button onclick="markAsUnpaid('${load.id}')" 
+                class="bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700">
+          Desmarcar Pagada
+        </button>
+      </td>
     </tr>
   `).join('');
 
@@ -2370,6 +2396,7 @@ function renderPaidLoads(loads) {
           <th class="p-2 text-left">Empresa</th>
           <th class="p-2 text-left">Monto</th>
           <th class="p-2 text-left">Fecha Pago</th>
+          <th class="p-2 text-left">Acciones</th>
         </tr>
       </thead>
       <tbody>${rows}</tbody>
@@ -2379,104 +2406,104 @@ function renderPaidLoads(loads) {
 // EVENT LISTENERS
 // ==============================
 document.addEventListener("DOMContentLoaded", () => {
- initializeOnce('finances-expense-modal', () => {
-  // Listeners para botones de Reportes
-  const generatePLBtn = document.getElementById("generatePLBtn");
-  const generateTaxBtn = document.getElementById("generateTaxBtn");
-  const exportBtn = document.getElementById("exportBtn");
-  
-  if (generatePLBtn) {
-    generatePLBtn.addEventListener("click", () => {
-      debugLog("Generando Estado de Resultados...");
-      generatePLReport();
-    });
-  }
-  
-  if (generateTaxBtn) {
-    generateTaxBtn.addEventListener("click", () => {
-      debugLog("Generando Reporte Fiscal...");
-      generateTaxReport();
-    });
-  }
-  
-  if (exportBtn) {
-    exportBtn.addEventListener("click", () => {
-      debugLog("Exportando datos...");
-      exportFinancialData();
-    });
-  }
-});
+  initializeOnce('finances-expense-modal', () => {
+    // Listeners para botones de Reportes
+    const generatePLBtn = document.getElementById("generatePLBtn");
+    const generateTaxBtn = document.getElementById("generateTaxBtn");
+    const exportBtn = document.getElementById("exportBtn");
+
+    if (generatePLBtn) {
+      generatePLBtn.addEventListener("click", () => {
+        debugLog("Generando Estado de Resultados...");
+        generatePLReport();
+      });
+    }
+
+    if (generateTaxBtn) {
+      generateTaxBtn.addEventListener("click", () => {
+        debugLog("Generando Reporte Fiscal...");
+        generateTaxReport();
+      });
+    }
+
+    if (exportBtn) {
+      exportBtn.addEventListener("click", () => {
+        debugLog("Exportando datos...");
+        exportFinancialData();
+      });
+    }
+  });
 });
 
 //  Se ejecuta cuando el DOM ya est listo
 document.addEventListener("DOMContentLoaded", () => {
- initializeOnce('finances-export-buttons', () => {
+  initializeOnce('finances-export-buttons', () => {
     debugFinances(" DOM cargado - Configurando event listeners");
-});
+  });
 
-//  Evento personalizado: cuando se guarda algo (ej: nueva carga o gasto)
-document.addEventListener("loadSaved", () => {
+  //  Evento personalizado: cuando se guarda algo (ej: nueva carga o gasto)
+  document.addEventListener("loadSaved", () => {
     debugFinances(" loadSaved disparado  refrescando finanzas");
 
     if (!window.currentUser) {
-        debugFinances(" No hay usuario logueado, no se recargan finanzas");
-        return;
+      debugFinances(" No hay usuario logueado, no se recargan finanzas");
+      return;
     }
 
     if (financesLoaded) {
-        setTimeout(() => {
-            loadFinancesData();
-        }, 500);
+      setTimeout(() => {
+        loadFinancesData();
+      }, 500);
     } else {
-        debugFinances(" Finances an no estaban cargadas al recibir loadSaved");
+      debugFinances(" Finances an no estaban cargadas al recibir loadSaved");
     }
-});
+  });
 });
 
 // Event listener para selectores de reportes
 document.addEventListener("DOMContentLoaded", () => {
- initializeOnce('finances-status-filter', () => {
-  const reportYear = document.getElementById("reportYear");
-  const reportMonth = document.getElementById("reportMonth");
-  
-  if (reportYear) {
-    reportYear.addEventListener("change", () => {
-      const reportContainer = document.getElementById("reportContent");
-      if (reportContainer && !reportContainer.classList.contains("hidden")) {
-        // Si hay un reporte visible, regenerarlo
-        setTimeout(() => {
-          applyFilter("reports");
-          setTimeout(() => generatePLReport(), 300);
-        }, 100);
-      }
-    });
-  }
-  
-  if (reportMonth) {
-    reportMonth.addEventListener("change", () => {
-      const reportContainer = document.getElementById("reportContent");
-      if (reportContainer && !reportContainer.classList.contains("hidden")) {
-        // Si hay un reporte visible, regenerarlo
-        setTimeout(() => {
-          applyFilter("reports");
-          setTimeout(() => generatePLReport(), 300);
-        }, 100);
-      }
-    });
-  }
-});
+  initializeOnce('finances-status-filter', () => {
+    const reportYear = document.getElementById("reportYear");
+    const reportMonth = document.getElementById("reportMonth");
+
+    if (reportYear) {
+      reportYear.addEventListener("change", () => {
+        const reportModal = document.getElementById("reportModal");
+        if (reportModal && !reportModal.classList.contains("hidden")) {
+          // Si el modal de reporte está visible, regenerarlo
+          setTimeout(() => {
+            applyFilter("reports");
+            setTimeout(() => generatePLReport(), 300);
+          }, 100);
+        }
+      });
+    }
+
+    if (reportMonth) {
+      reportMonth.addEventListener("change", () => {
+        const reportModal = document.getElementById("reportModal");
+        if (reportModal && !reportModal.classList.contains("hidden")) {
+          // Si el modal de reporte está visible, regenerarlo
+          setTimeout(() => {
+            applyFilter("reports");
+            setTimeout(() => generatePLReport(), 300);
+          }, 100);
+        }
+      });
+    }
+  });
 });
 
 // ===== FUNCIN DE EFICIENCIA =====
 function calculateEfficiency() {
   if (financesData.length === 0) return 0;
-  
+
   // Anlisis: cargas con buen RPM vs total
   const goodRpmLoads = financesData.filter(load => {
     const rpm = load.totalMiles > 0 ? load.totalCharge / load.totalMiles : 0;
     return rpm >= 1.0; // RPM mayor a $1.00 se considera bueno
   }).length;
-  
+
   return Math.round((goodRpmLoads / financesData.length) * 100);
 }
 
@@ -2492,7 +2519,7 @@ function updateCashFlowChartEnhanced() {
 
   // Usar los datos correctos (solo gastos manuales)
   const monthlyData = {};
-  
+
   // Procesar cargas
   financesData.forEach(load => {
     const month = load.date ? load.date.substring(0, 7) : '2025-08';
@@ -2501,7 +2528,7 @@ function updateCashFlowChartEnhanced() {
     }
     monthlyData[month].revenue += load.totalCharge || 0;
   });
-  
+
   // Procesar gastos manuales
   expensesData.forEach(expense => {
     const month = expense.date ? expense.date.substring(0, 7) : '2025-08';
@@ -2510,7 +2537,7 @@ function updateCashFlowChartEnhanced() {
     }
     monthlyData[month].expenses += expense.amount || 0;
   });
-  
+
   // Calcular ganancias
   Object.keys(monthlyData).forEach(month => {
     monthlyData[month].profit = monthlyData[month].revenue - monthlyData[month].expenses;
@@ -2523,7 +2550,7 @@ function updateCashFlowChartEnhanced() {
 
   // Crear grfico (barras si es un mes, lneas si son varios)
   const chartType = labels.length === 1 ? 'bar' : 'line';
-  
+
   window.cashFlowChart = new Chart(canvas, {
     type: chartType,
     data: {
@@ -2575,7 +2602,7 @@ function updateCashFlowChartEnhanced() {
         y: {
           beginAtZero: true,
           ticks: {
-            callback: function(value) {
+            callback: function (value) {
               return '$' + value.toLocaleString();
             }
           }
@@ -2605,7 +2632,7 @@ function updateRpmTrendChart() {
   (window.financesData || []).forEach(load => {
     const month = load.date ? load.date.substring(0, 7) : '2025-08';
     const rpm = load.totalMiles > 0 ? load.totalCharge / load.totalMiles : 0;
-    
+
     if (!monthlyRpm[month]) {
       monthlyRpm[month] = { sum: 0, count: 0 };
     }
@@ -2648,7 +2675,7 @@ function updateRpmTrendChart() {
         y: {
           beginAtZero: true,
           ticks: {
-            callback: function(value) {
+            callback: function (value) {
               return '$' + value.toFixed(2);
             }
           }
@@ -2739,14 +2766,14 @@ function updatePaymentStatus(load) {
   if (load.actualPaymentDate) {
     return 'paid';
   }
-  
+
   if (load.expectedPaymentDate) {
     const overdueDays = calculateOverdueDays(load.expectedPaymentDate);
     if (overdueDays > 0) {
       return 'overdue';
     }
   }
-  
+
   return 'pending';
 }
 
@@ -2758,7 +2785,7 @@ function updatePaymentStatus(load) {
 async function markAsPaid(loadId) {
   try {
     const paymentDate = new Date().toISOString().split('T')[0];
-    
+
     // OK CORREGIDO: Guardar actualPaymentDate + paymentDate
     await firebase.firestore().collection("loads").doc(loadId).update({
       paymentStatus: "paid",
@@ -2793,12 +2820,12 @@ function renderPendingLoads(loads) {
 
   // Obtener filtro actual
   const statusFilter = document.getElementById("accountsStatus")?.value || "";
-  
+
   // Separar cargas por estado de pago
   const allLoads = loads.filter(load => load.paymentStatus || load.actualPaymentDate);
   const pendingLoads = allLoads.filter(load => !load.actualPaymentDate && load.paymentStatus !== 'paid');
   const paidLoads = allLoads.filter(load => load.actualPaymentDate || load.paymentStatus === 'paid');
-  
+
   // Identificar cargas vencidas (pendientes que ya pasaron su fecha)
   const today = new Date();
   const overdueLoads = pendingLoads.filter(load => {
@@ -2880,8 +2907,8 @@ function renderPendingLoads(loads) {
             </thead>
             <tbody class="divide-y divide-red-200">
               ${overdueLoads.map(load => {
-                const daysOverdue = calculateOverdueDays(load.expectedPaymentDate);
-                return `
+      const daysOverdue = calculateOverdueDays(load.expectedPaymentDate);
+      return `
                   <tr class="bg-red-50">
                     <td class="px-4 py-3 text-sm">${load.date}</td>
                     <td class="px-4 py-3 text-sm font-medium">${load.companyName || '-'}</td>
@@ -2896,7 +2923,7 @@ function renderPendingLoads(loads) {
                     </td>
                   </tr>
                 `;
-              }).join('')}
+    }).join('')}
             </tbody>
           </table>
         </div>
@@ -2955,6 +2982,7 @@ function renderPendingLoads(loads) {
                 <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Monto</th>
                 <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Fecha Pago</th>
                 <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Estado</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Acciones</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-green-200">
@@ -2966,6 +2994,12 @@ function renderPendingLoads(loads) {
                   <td class="p-2 text-sm font-semibold text-green-900">${formatCurrency(load.totalCharge)}</td>
                   <td class="p-2 text-sm">${load.actualPaymentDate || load.paymentDate || '-'}</td>
                   <td class="p-2 text-sm text-green-600 font-medium">✓ Pagada</td>
+                  <td class="p-2 text-sm">
+                    <button onclick="markAsUnpaid('${load.id}')" 
+                            class="bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700">
+                      Desmarcar
+                    </button>
+                  </td>
                 </tr>
               `).join('')}
             </tbody>
@@ -3008,7 +3042,7 @@ debugLog("Ahora prueba cambiar el filtro a 'Pagadas'");
 // Actualizar la funcin loadAccountsData para usar las nuevas funciones
 function loadAccountsDataImproved() {
   debugLog(" Cargando sistema de cuentas mejorado...");
-  
+
   if (!window.allFinancesData || window.allFinancesData.length === 0) {
     debugLog("No hay datos de cargas disponibles");
     return;
@@ -3019,7 +3053,7 @@ function loadAccountsDataImproved() {
   const monthEl = document.getElementById("accountsMonth");
   const year = yearEl?.value || "";
   const month = monthEl?.value || "";
-  
+
   // Filtrar cargas por perodo
   let filteredLoads = window.allFinancesData;
   if (year && month) {
@@ -3033,7 +3067,7 @@ function loadAccountsDataImproved() {
 
   // Renderizar cargas pendientes y pagadas
   renderPendingLoads(filteredLoads);
-  
+
   // Si existe renderPaidLoads, tambin actualizarla
   if (typeof renderPaidLoads === 'function') {
     const paidLoads = filteredLoads.filter(load => load.actualPaymentDate);
@@ -3056,7 +3090,7 @@ function renderAccountsSummaryCards(loads) {
   // Separar cargas por estado
   const paidLoads = loads.filter(load => load.actualPaymentDate);
   const pendingLoads = loads.filter(load => !load.actualPaymentDate && load.paymentStatus !== 'paid');
-  
+
   // Identificar vencidas
   const today = new Date();
   const overdueLoads = pendingLoads.filter(load => {
@@ -3094,18 +3128,18 @@ function renderAccountsSummaryCards(loads) {
         </div>
       </div>
 
-      <!-- Tarjeta: Pendientes -->
+      <!-- Tarjeta: Pendientes (TOTAL SIN PAGAR) -->
       <div class="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
         <div class="flex items-center justify-between mb-2">
-          <h3 class="text-sm font-medium text-yellow-700 uppercase tracking-wide"> Pendientes</h3>
+          <h3 class="text-sm font-medium text-yellow-700 uppercase tracking-wide">💰 Sin Cobrar</h3>
         </div>
         <div class="mt-2">
-          <p class="text-3xl font-bold text-yellow-900">${activePendingLoads.length}</p>
-          <p class="text-sm text-yellow-600 mt-1">cargas</p>
+          <p class="text-3xl font-bold text-yellow-900">${pendingLoads.length}</p>
+          <p class="text-sm text-yellow-600 mt-1">cargas totales</p>
         </div>
         <div class="mt-3 pt-3 border-t border-yellow-200">
-          <p class="text-lg font-semibold text-yellow-800">${formatCurrency(pendingTotal)}</p>
-          <p class="text-xs text-yellow-600">Por cobrar</p>
+          <p class="text-lg font-semibold text-yellow-800">${formatCurrency(pendingLoads.reduce((sum, load) => sum + (load.totalCharge || 0), 0))}</p>
+          <p class="text-xs text-yellow-600">Total por cobrar</p>
         </div>
       </div>
 
@@ -3343,8 +3377,8 @@ window.analyzeLexFinances = async function () {
         lexState === "happy"
           ? "Buen balance entre ingresos y gastos. Mantén este nivel de tarifas y control de costos."
           : lexState === "sad"
-          ? "Este período se ve apretado. Puede ser buen momento para ajustar tarifas mínimas y revisar tus principales gastos."
-          : "Tus números están en un punto intermedio. Con pequeños ajustes podrías mejorar bastante tu margen.",
+            ? "Este período se ve apretado. Puede ser buen momento para ajustar tarifas mínimas y revisar tus principales gastos."
+            : "Tus números están en un punto intermedio. Con pequeños ajustes podrías mejorar bastante tu margen.",
     };
 
     // 8. Mostrar MODAL financiero de Lex si está disponible
@@ -3381,3 +3415,749 @@ window.calculateOverdueDays = calculateOverdueDays;
 window.updatePaymentStatus = updatePaymentStatus;
 window.renderPendingLoads = renderPendingLoads;
 window.loadAccountsDataImproved = loadAccountsDataImproved;
+// ==============================================================================
+// COMPREHENSIVE FINANCIAL REPORT - CALCULATION FUNCTIONS
+// ==============================================================================
+
+/**
+ * Calculate Cash Flow Analysis
+ * Returns detailed cash flow breakdown and aging report
+ */
+function calculateCashFlowAnalysis(loads, expenses) {
+  const today = new Date();
+
+  // Separate paid vs unpaid loads
+  const paidLoads = loads.filter(l => l.actualPaymentDate);
+  const unpaidLoads = loads.filter(l => !l.actualPaymentDate);
+
+  // Cash Inflows (paid loads)
+  const cashInflows = paidLoads.reduce((sum, l) => sum + (Number(l.totalCharge) || 0), 0);
+
+  // Cash Outflows (all expenses)
+  const cashOutflows = expenses.reduce((sum, e) => sum + (Number(e.amount) || 0), 0);
+
+  // Net Cash Flow
+  const netCashFlow = cashInflows - cashOutflows;
+
+  // Aging Report for Accounts Receivable
+  const aging = {
+    current: { count: 0, amount: 0 },      // 0-30 days
+    days31_60: { count: 0, amount: 0 },    // 31-60 days
+    days61_90: { count: 0, amount: 0 },    // 61-90 days
+    over90: { count: 0, amount: 0 }        // >90 days
+  };
+
+  unpaidLoads.forEach(load => {
+    const expectedDate = load.expectedPaymentDate ? new Date(load.expectedPaymentDate) : new Date(load.date);
+    const daysOverdue = Math.floor((today - expectedDate) / (1000 * 60 * 60 * 24));
+    const amount = Number(load.totalCharge) || 0;
+
+    if (daysOverdue <= 30) {
+      aging.current.count++;
+      aging.current.amount += amount;
+    } else if (daysOverdue <= 60) {
+      aging.days31_60.count++;
+      aging.days31_60.amount += amount;
+    } else if (daysOverdue <= 90) {
+      aging.days61_90.count++;
+      aging.days61_90.amount += amount;
+    } else {
+      aging.over90.count++;
+      aging.over90.amount += amount;
+    }
+  });
+
+  // Total outstanding
+  const totalOutstanding = unpaidLoads.reduce((sum, l) => sum + (Number(l.totalCharge) || 0), 0);
+
+  return {
+    cashInflows,
+    cashOutflows,
+    netCashFlow,
+    aging,
+    totalOutstanding,
+    paidCount: paidLoads.length,
+    unpaidCount: unpaidLoads.length
+  };
+}
+
+/**
+ * Calculate Performance Metrics
+ * Returns key financial ratios and efficiency metrics
+ */
+function calculatePerformanceMetrics(loads, expenses, totalRevenue, totalExpenses, netProfit) {
+  const totalMiles = loads.reduce((sum, l) => sum + (Number(l.totalMiles) || 0), 0);
+  const totalLoads = loads.length;
+
+  // Operating Ratio (lower is better)
+  const operatingRatio = totalRevenue > 0 ? (totalExpenses / totalRevenue) * 100 : 0;
+
+  // Profit per Load
+  const profitPerLoad = totalLoads > 0 ? netProfit / totalLoads : 0;
+
+  // Profit per Mile
+  const profitPerMile = totalMiles > 0 ? netProfit / totalMiles : 0;
+
+  // Revenue per Mile (RPM)
+  const revenuePerMile = totalMiles > 0 ? totalRevenue / totalMiles : 0;
+
+  // Cost per Mile
+  const costPerMile = totalMiles > 0 ? totalExpenses / totalMiles : 0;
+
+  // Break-even Revenue (expenses / (1 - target margin))
+  // Assuming 20% target margin
+  const targetMargin = 0.20;
+  const breakEvenRevenue = totalExpenses / (1 - targetMargin);
+
+  // Profit Margin
+  const profitMargin = totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0;
+
+  // Average Revenue per Load
+  const avgRevenuePerLoad = totalLoads > 0 ? totalRevenue / totalLoads : 0;
+
+  return {
+    operatingRatio,
+    profitPerLoad,
+    profitPerMile,
+    revenuePerMile,
+    costPerMile,
+    breakEvenRevenue,
+    profitMargin,
+    avgRevenuePerLoad,
+    totalMiles,
+    totalLoads
+  };
+}
+
+/**
+ * Calculate Trend Analysis
+ * Compares current period with previous period
+ */
+function calculateTrendAnalysis(loads, expenses, year, month) {
+  // If no period specified, can't do comparison
+  if (!year || !month) {
+    return {
+      hasPreviousPeriod: false,
+      message: 'Seleccione un período específico para ver comparaciones'
+    };
+  }
+
+  // Calculate previous period
+  let prevYear = year;
+  let prevMonth = parseInt(month) - 1;
+
+  if (prevMonth === 0) {
+    prevMonth = 12;
+    prevYear = (parseInt(year) - 1).toString();
+  }
+
+  const prevMonthStr = prevMonth.toString().padStart(2, '0');
+  const prevPeriod = `${prevYear}-${prevMonthStr}`;
+  const currentPeriod = `${year}-${month.padStart(2, '0')}`;
+
+  // Filter previous period data
+  const prevLoads = window.allFinancesData?.filter(l => l.date && l.date.startsWith(prevPeriod)) || [];
+  const prevExpenses = window.allExpensesData?.filter(e => e.date && e.date.startsWith(prevPeriod)) || [];
+
+  // If no previous data, return early
+  if (prevLoads.length === 0) {
+    return {
+      hasPreviousPeriod: false,
+      message: 'No hay datos del período anterior para comparar'
+    };
+  }
+
+  // Current period metrics
+  const currentRevenue = loads.reduce((s, l) => s + (Number(l.totalCharge) || 0), 0);
+  const currentExpenses = expenses.reduce((s, e) => s + (Number(e.amount) || 0), 0);
+  const currentProfit = currentRevenue - currentExpenses;
+  const currentLoads = loads.length;
+
+  // Previous period metrics
+  const prevRevenue = prevLoads.reduce((s, l) => s + (Number(l.totalCharge) || 0), 0);
+  const prevExpensesTotal = prevExpenses.reduce((s, e) => s + (Number(e.amount) || 0), 0);
+  const prevProfit = prevRevenue - prevExpenses;
+  const prevLoadsCount = prevLoads.length;
+
+  // Calculate changes
+  const revenueChange = prevRevenue > 0 ? ((currentRevenue - prevRevenue) / prevRevenue) * 100 : 0;
+  const expenseChange = prevExpenses > 0 ? ((currentExpenses - prevExpenses) / prevExpenses) * 100 : 0;
+  const profitChange = prevProfit !== 0 ? ((currentProfit - prevProfit) / Math.abs(prevProfit)) * 100 : 0;
+  const loadsChange = prevLoadsCount > 0 ? ((currentLoads - prevLoadsCount) / prevLoadsCount) * 100 : 0;
+
+  return {
+    hasPreviousPeriod: true,
+    current: {
+      revenue: currentRevenue,
+      expenses: currentExpenses,
+      profit: currentProfit,
+      loads: currentLoads
+    },
+    previous: {
+      revenue: prevRevenue,
+      expenses: prevExpenses,
+      profit: prevProfit,
+      loads: prevLoadsCount
+    },
+    changes: {
+      revenue: revenueChange,
+      expenses: expenseChange,
+      profit: profitChange,
+      loads: loadsChange
+    },
+    prevPeriodLabel: `${getMonthName(prevMonthStr)} ${prevYear}`
+  };
+}
+
+// Helper function for month names
+function getMonthName(month) {
+  const monthNames = {
+    "01": "Enero", "02": "Febrero", "03": "Marzo", "04": "Abril",
+    "05": "Mayo", "06": "Junio", "07": "Julio", "08": "Agosto",
+    "09": "Septiembre", "10": "Octubre", "11": "Noviembre", "12": "Diciembre"
+  };
+  return monthNames[month] || month;
+}
+
+
+// ==============================================================================
+// COMPREHENSIVE FINANCIAL REPORT - MAIN FUNCTION
+// ==============================================================================
+
+/**
+ * Generate Comprehensive Financial Report
+ * Main function that creates a robust professional financial report
+ */
+function generateComprehensiveReport() {
+  debugLog(" Generando Reporte Financiero Completo...");
+
+  // Open modal with loading
+  openReportModal('pl', 'Reporte Financiero Completo', 'Cargando datos...', '');
+
+  const reportContent = document.getElementById("reportContent");
+  if (reportContent) {
+    reportContent.innerHTML = '<div class="flex flex-col items-center justify-center p-12"><div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent mb-4"></div><p class="text-gray-600">Generando reporte completo...</p></div>';
+  }
+
+  // Check data availability
+  if (!window.financesData || !window.expensesData) {
+    if (reportContent) {
+      reportContent.innerHTML = '<div class="text-center p-12 text-red-500"><span class="text-4xl block mb-3"></span><p>No hay datos suficientes para generar el reporte</p></div>';
+    }
+    return;
+  }
+
+  // Get filtered data
+  const filteredLoads = window.financesData || [];
+  const filteredExpenses = window.expensesData || [];
+
+  // Get period info
+  const year = document.getElementById("reportYear")?.value || "";
+  const month = document.getElementById("reportMonth")?.value || "";
+
+  let periodLabel = "Todos los períodos";
+  if (year && month) {
+    periodLabel = `${getMonthName(month.padStart(2, '0'))} ${year}`;
+  } else if (year) {
+    periodLabel = `Año ${year}`;
+  }
+
+  // ===== CALCULATIONS =====
+
+  // Basic financials
+  const totalRevenue = filteredLoads.reduce((s, l) => s + (Number(l.totalCharge) || 0), 0);
+  const totalExpenses = filteredExpenses.reduce((s, e) => s + (Number(e.amount) || 0), 0);
+  const netProfit = totalRevenue - totalExpenses;
+  const totalMiles = filteredLoads.reduce((s, l) => s + (Number(l.totalMiles) || 0), 0);
+  const totalLoads = filteredLoads.length;
+
+  // Advanced calculations
+  const cashFlowAnalysis = calculateCashFlowAnalysis(filteredLoads, filteredExpenses);
+  const performanceMetrics = calculatePerformanceMetrics(filteredLoads, filteredExpenses, totalRevenue, totalExpenses, netProfit);
+  const trendAnalysis = calculateTrendAnalysis(filteredLoads, filteredExpenses, year, month);
+
+  // ===== RENDER REPORT =====
+
+  const currentDate = new Date().toLocaleDateString('es-ES', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  if (!reportContent) {
+    console.warn(" reportContent container not found");
+    return;
+  }
+
+  reportContent.innerHTML = `
+    <!-- Professional Header -->
+    <div class="text-center mb-6 pb-4 border-b-2 border-blue-200">
+      <h1 class="text-2xl md:text-3xl font-bold text-white mb-2"> Reporte Financiero Completo</h1>
+      <h2 class="text-lg md:text-xl text-white/90 font-semibold mb-1">Expediter Load Calculator</h2>
+      <p class="text-sm text-white/80">Período: <span class="font-semibold">${periodLabel}</span></p>
+      <p class="text-xs text-white/60">Generado el ${currentDate}</p>
+    </div>
+    
+    ${renderExecutiveSummary(totalRevenue, totalExpenses, netProfit, performanceMetrics, cashFlowAnalysis, totalLoads)}
+    
+    ${renderCashFlowSection(cashFlowAnalysis)}
+    
+    ${renderPerformanceMetricsSection(performanceMetrics, totalRevenue)}
+    
+    ${renderTrendAnalysisSection(trendAnalysis)}
+    
+    <!-- Footer Note -->
+    <div class="mt-6 p-4 bg-blue-900/30 rounded-lg border border-blue-400/30">
+      <p class="text-xs text-white/70 text-center">
+         Este reporte proporciona un análisis completo de la salud financiera de tu negocio.
+        Úsalo para tomar decisiones informadas sobre operaciones, precios y crecimiento.
+      </p>
+    </div>
+  `;
+
+  // Update modal subtitle
+  const subtitleEl = document.getElementById("reportModalSubtitle");
+  if (subtitleEl) subtitleEl.textContent = `Período: ${periodLabel}`;
+
+  debugLog(" Reporte Financiero Completo generado exitosamente");
+}
+
+
+// ==============================================================================
+// RENDER FUNCTIONS FOR EACH SECTION
+// ==============================================================================
+
+/**
+ * Render Executive Summary Section
+ */
+function renderExecutiveSummary(totalRevenue, totalExpenses, netProfit, metrics, cashFlow, loads) {
+  const profitMarginClass = netProfit >= 0 ? 'text-green-400' : 'text-red-400';
+  const profitIcon = netProfit >= 0 ? '' : '';
+
+  // Health Score (0-100)
+  let healthScore = 50; // Base score
+  if (metrics.profitMargin > 20) healthScore += 20;
+  else if (metrics.profitMargin > 10) healthScore += 10;
+  else if (metrics.profitMargin < 0) healthScore -= 20;
+
+  if (metrics.operatingRatio < 80) healthScore += 15;
+  else if (metrics.operatingRatio > 95) healthScore -= 15;
+
+  if (cashFlow.netCashFlow > 0) healthScore += 15;
+  else healthScore -= 15;
+
+  healthScore = Math.max(0, Math.min(100, healthScore)); // Clamp 0-100
+
+  const healthColor = healthScore >= 70 ? 'green' : healthScore >= 40 ? 'yellow' : 'red';
+  const healthLabel = healthScore >= 70 ? 'Excelente' : healthScore >= 40 ? 'Buena' : 'Requiere Atención';
+
+  return `
+    <div class="mb-6">
+      <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+        <span></span> Executive Summary
+      </h2>
+      
+      <!-- Health Score -->
+      <div class="mb-4 p-4 bg-gradient-to-r from-blue-900/50 to-purple-900/50 rounded-lg border border-white/20">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-sm font-medium text-white/80">Salud Financiera</span>
+          <span class="text-lg font-bold text-${healthColor}-400">${healthScore}/100 - ${healthLabel}</span>
+        </div>
+        <div class="w-full bg-gray-700 rounded-full h-3">
+          <div class="bg-gradient-to-r from-${healthColor}-500 to-${healthColor}-400 h-3 rounded-full transition-all" style="width: ${healthScore}%"></div>
+        </div>
+      </div>
+      
+      <!-- KPI Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        
+        <!-- Revenue -->
+        <div class="bg-gradient-to-br from-blue-600/40 to-blue-800/40 p-4 rounded-lg border border-blue-400/30">
+          <div class="text-xs text-white/95 mb-1">💰 Ingresos</div>
+          <div class="text-lg md:text-xl font-bold text-white">${formatCurrency(totalRevenue)}</div>
+          <div class="text-xs text-white/90 mt-1">${loads} cargas</div>
+        </div>
+        
+        <!-- Expenses -->
+        <div class="bg-gradient-to-br from-red-600/40 to-red-800/40 p-4 rounded-lg border border-red-400/30">
+          <div class="text-xs text-white/95 mb-1">💸 Gastos</div>
+          <div class="text-lg md:text-xl font-bold text-white">${formatCurrency(totalExpenses)}</div>
+          <div class="text-xs text-white/90 mt-1">${((totalExpenses / totalRevenue) * 100).toFixed(1)}% de ingresos</div>
+        </div>
+        
+        <!-- Net Profit -->
+        <div class="bg-gradient-to-br from-green-600/40 to-green-800/40 p-4 rounded-lg border border-green-400/30">
+          <div class="text-xs text-white/95 mb-1">${profitIcon} Ganancia Neta</div>
+          <div class="text-lg md:text-xl font-bold ${profitMarginClass}">${formatCurrency(netProfit)}</div>
+          <div class="text-xs text-white/90 mt-1">Margen: ${metrics.profitMargin.toFixed(1)}%</div>
+        </div>
+        
+        <!-- Operating Ratio -->
+        <div class="bg-gradient-to-br from-purple-600/40 to-purple-800/40 p-4 rounded-lg border border-purple-400/30">
+          <div class="text-xs text-white/95 mb-1">⚙️ Operating Ratio</div>
+          <div class="text-lg md:text-xl font-bold text-white">${metrics.operatingRatio.toFixed(1)}%</div>
+          <div class="text-xs text-white/90 mt-1">${metrics.operatingRatio < 90 ? '✅ Excelente' : metrics.operatingRatio < 95 ? '✔️ Aceptable' : '⚠️ Alto'}</div>
+        </div>
+        
+        <!-- Profit per Load -->
+        <div class="bg-gradient-to-br from-cyan-600/40 to-cyan-800/40 p-4 rounded-lg border border-cyan-400/30">
+          <div class="text-xs text-white/95 mb-1">💵 Ganancia/Carga</div>
+          <div class="text-lg md:text-xl font-bold text-white">${formatCurrency(metrics.profitPerLoad)}</div>
+          <div class="text-xs text-white/90 mt-1">Promedio</div>
+        </div>
+        
+        <!-- Profit per Mile -->
+        <div class="bg-gradient-to-br from-teal-600/40 to-teal-800/40 p-4 rounded-lg border border-teal-400/30">
+          <div class="text-xs text-white/95 mb-1">🛣️ Ganancia/Milla</div>
+          <div class="text-lg md:text-xl font-bold text-white">${formatCurrency(metrics.profitPerMile)}</div>
+          <div class="text-xs text-white/90 mt-1">${metrics.totalMiles.toLocaleString()} millas</div>
+        </div>
+        
+        <!-- Cash Flow -->
+        <div class="bg-gradient-to-br from-amber-600/40 to-amber-800/40 p-4 rounded-lg border border-amber-400/30">
+          <div class="text-xs text-white/95 mb-1">💰 Flujo de Efectivo</div>
+          <div class="text-lg md:text-xl font-bold ${cashFlow.netCashFlow >= 0 ? 'text-green-400' : 'text-red-400'}">${formatCurrency(cashFlow.netCashFlow)}</div>
+          <div class="text-xs text-white/90 mt-1">${cashFlow.netCashFlow >= 0 ? 'Positivo ✅' : 'Negativo ⚠️'}</div>
+        </div>
+        
+        <!-- Outstanding AR -->
+        <div class="bg-gradient-to-br from-orange-600/40 to-orange-800/40 p-4 rounded-lg border border-orange-400/30">
+          <div class="text-xs text-white/95 mb-1">📋 Por Cobrar</div>
+          <div class="text-lg md:text-xl font-bold text-white">${formatCurrency(cashFlow.totalOutstanding)}</div>
+          <div class="text-xs text-white/90 mt-1">${cashFlow.unpaidCount} cargas pendientes</div>
+        </div>
+        
+      </div>
+    </div>
+  `;
+}
+
+
+/**
+ * Render Cash Flow Analysis Section
+ */
+function renderCashFlowSection(cashFlow) {
+  const totalAging = cashFlow.aging.current.amount + cashFlow.aging.days31_60.amount +
+    cashFlow.aging.days61_90.amount + cashFlow.aging.over90.amount;
+
+  return `
+    <div class="mb-6">
+      <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+        <span></span> Análisis de Flujo de Efectivo
+      </h2>
+      
+      <!-- Cash Flow Summary -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+        <div class="bg-green-900/30 p-4 rounded-lg border border-green-400/30">
+          <div class="text-sm text-green-300 mb-1">Entradas de Efectivo</div>
+          <div class="text-2xl font-bold text-green-400">${formatCurrency(cashFlow.cashInflows)}</div>
+          <div class="text-xs text-green-300/90 mt-1">${cashFlow.paidCount} cargas pagadas</div>
+        </div>
+        
+        <div class="bg-red-900/30 p-4 rounded-lg border border-red-400/30">
+          <div class="text-sm text-red-300 mb-1">Salidas de Efectivo</div>
+          <div class="text-2xl font-bold text-red-400">${formatCurrency(cashFlow.cashOutflows)}</div>
+          <div class="text-xs text-red-300/90 mt-1">Gastos totales</div>
+        </div>
+        
+        <div class="bg-blue-900/30 p-4 rounded-lg border border-blue-400/30">
+          <div class="text-sm text-blue-300 mb-1">Flujo Neto</div>
+          <div class="text-2xl font-bold ${cashFlow.netCashFlow >= 0 ? 'text-green-400' : 'text-red-400'}">
+            ${formatCurrency(cashFlow.netCashFlow)}
+          </div>
+          <div class="text-xs text-blue-300/90 mt-1">${cashFlow.netCashFlow >= 0 ? 'Superávit ✅' : 'Déficit ⚠️'}</div>
+        </div>
+      </div>
+      
+      <!-- Aging Report -->
+      <div class="bg-gray-900/50 p-4 rounded-lg border border-gray-600/30">
+        <h3 class="text-lg font-semibold text-white mb-3"> Antigüedad de Cuentas por Cobrar</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="bg-blue-900/50">
+              <tr>
+                <th class="px-3 py-2 text-left text-white font-semibold">Período</th>
+                <th class="px-3 py-2 text-center text-white font-semibold">Cargas</th>
+                <th class="px-3 py-2 text-right text-white font-semibold">Monto</th>
+                <th class="px-3 py-2 text-right text-white font-semibold">% del Total</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-700">
+              <tr class="bg-green-900/20">
+                <td class="px-3 py-2 text-white"> Actual (0-30 días)</td>
+                <td class="px-3 py-2 text-center text-white">${cashFlow.aging.current.count}</td>
+                <td class="px-3 py-2 text-right text-white font-semibold">${formatCurrency(cashFlow.aging.current.amount)}</td>
+                <td class="px-3 py-2 text-right text-white">${totalAging > 0 ? ((cashFlow.aging.current.amount / totalAging) * 100).toFixed(1) : 0}%</td>
+              </tr>
+              <tr class="bg-yellow-900/20">
+                <td class="px-3 py-2 text-white"> 31-60 días</td>
+                <td class="px-3 py-2 text-center text-white">${cashFlow.aging.days31_60.count}</td>
+                <td class="px-3 py-2 text-right text-white font-semibold">${formatCurrency(cashFlow.aging.days31_60.amount)}</td>
+                <td class="px-3 py-2 text-right text-white">${totalAging > 0 ? ((cashFlow.aging.days31_60.amount / totalAging) * 100).toFixed(1) : 0}%</td>
+              </tr>
+              <tr class="bg-orange-900/20">
+                <td class="px-3 py-2 text-white"> 61-90 días</td>
+                <td class="px-3 py-2 text-center text-white">${cashFlow.aging.days61_90.count}</td>
+                <td class="px-3 py-2 text-right text-white font-semibold">${formatCurrency(cashFlow.aging.days61_90.amount)}</td>
+                <td class="px-3 py-2 text-right text-white">${totalAging > 0 ? ((cashFlow.aging.days61_90.amount / totalAging) * 100).toFixed(1) : 0}%</td>
+              </tr>
+              <tr class="bg-red-900/20">
+                <td class="px-3 py-2 text-white"> Más de 90 días</td>
+                <td class="px-3 py-2 text-center text-white">${cashFlow.aging.over90.count}</td>
+                <td class="px-3 py-2 text-right text-white font-semibold">${formatCurrency(cashFlow.aging.over90.amount)}</td>
+                <td class="px-3 py-2 text-right text-white">${totalAging > 0 ? ((cashFlow.aging.over90.amount / totalAging) * 100).toFixed(1) : 0}%</td>
+              </tr>
+            </tbody>
+            <tfoot class="bg-blue-900/70">
+              <tr>
+                <td class="px-3 py-2 text-white font-bold">TOTAL</td>
+                <td class="px-3 py-2 text-center text-white font-bold">${cashFlow.unpaidCount}</td>
+                <td class="px-3 py-2 text-right text-white font-bold">${formatCurrency(cashFlow.totalOutstanding)}</td>
+                <td class="px-3 py-2 text-right text-white font-bold">100%</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        
+        ${cashFlow.aging.over90.count > 0 ? `
+          <div class="mt-3 p-3 bg-red-900/30 border border-red-400/30 rounded">
+            <p class="text-sm text-red-300">
+              <strong> Alerta:</strong> Tienes ${cashFlow.aging.over90.count} carga(s) con más de 90 días vencidas 
+              por un total de ${formatCurrency(cashFlow.aging.over90.amount)}. Se recomienda tomar acción inmediata.
+            </p>
+          </div>
+        ` : ''}
+      </div>
+    </div>
+  `;
+}
+
+
+/**
+ * Render Performance Metrics Section
+ */
+function renderPerformanceMetricsSection(metrics, totalRevenue) {
+  return `
+    <div class="mb-6">
+      <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+        <span></span> Métricas de Desempeño
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- Operating Ratio Card -->
+        <div class="bg-gradient-to-br from-purple-900/40 to-purple-700/40 p-4 rounded-lg border border-purple-400/30">
+          <h3 class="text-sm font-semibold text-purple-200 mb-2"> Operating Ratio</h3>
+          <div class="text-3xl font-bold text-white mb-2">${metrics.operatingRatio.toFixed(1)}%</div>
+          <div class="w-full bg-gray-700 rounded-full h-2 mb-2">
+            <div class="bg-gradient-to-r from-purple-500 to-purple-400 h-2 rounded-full" style="width: ${Math.min(metrics.operatingRatio, 100)}%"></div>
+          </div>
+          <p class="text-xs text-purple-200/90">
+            ${metrics.operatingRatio < 80 ? '✅ Excelente eficiencia operativa' :
+      metrics.operatingRatio < 90 ? '✔️ Buena eficiencia' :
+        metrics.operatingRatio < 95 ? '➡️ Eficiencia aceptable' :
+          '⚠️ Requiere optimización - costos muy altos'}
+          </p>
+          <p class="text-xs text-purple-200/90 mt-1">Menor es mejor (gastos/ingresos)</p>
+        </div>
+        
+        <!-- Break-even Analysis -->
+        <div class="bg-gradient-to-br from-amber-900/40 to-amber-700/40 p-4 rounded-lg border border-amber-400/30">
+          <h3 class="text-sm font-semibold text-amber-200 mb-2"> Análisis de Punto de Equilibrio</h3>
+          <div class="text-3xl font-bold text-white mb-2">${formatCurrency(metrics.breakEvenRevenue)}</div>
+          <p class="text-xs text-amber-200/90 mb-2">
+            Revenue necesario (con 20% margen objetivo)
+          </p>
+          ${totalRevenue >= metrics.breakEvenRevenue ? `
+            <div class="flex items-center gap-2 text-green-400 text-sm">
+              <span></span>
+              <span>Sobre el punto de equilibrio</span>
+            </div>
+            <p class="text-xs text-green-300/90 mt-1">
+              Exceso: ${formatCurrency(totalRevenue - metrics.breakEvenRevenue)}
+            </p>
+          ` : `
+            <div class="flex items-center gap-2 text-red-400 text-sm">
+              <span></span>
+              <span>Bajo el punto de equilibrio</span>
+            </div>
+            <p class="text-xs text-red-300/90 mt-1">
+              Faltante: ${formatCurrency(metrics.breakEvenRevenue - totalRevenue)}
+            </p>
+          `}
+        </div>
+        
+        <!-- Revenue Metrics -->
+        <div class="bg-gradient-to-br from-blue-900/40 to-blue-700/40 p-4 rounded-lg border border-blue-400/30">
+          <h3 class="text-sm font-semibold text-blue-200 mb-3"> Métricas de Ingresos</h3>
+          <div class="space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-blue-200/90">Revenue por Milla (RPM)</span>
+              <span class="text-sm font-bold text-white">${formatCurrency(metrics.revenuePerMile)}</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-blue-200/90">Revenue por Carga</span>
+              <span class="text-sm font-bold text-white">${formatCurrency(metrics.avgRevenuePerLoad)}</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-blue-200/90">Total de Millas</span>
+              <span class="text-sm font-bold text-white">${metrics.totalMiles.toLocaleString()}</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-blue-200/90">Total de Cargas</span>
+              <span class="text-sm font-bold text-white">${metrics.totalLoads}</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Cost & Profit Metrics -->
+        <div class="bg-gradient-to-br from-teal-900/40 to-teal-700/40 p-4 rounded-lg border border-teal-400/30">
+          <h3 class="text-sm font-semibold text-teal-200 mb-3"> Métricas de Costo y Ganancia</h3>
+          <div class="space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-teal-200/90">Costo por Milla</span>
+              <span class="text-sm font-bold text-white">${formatCurrency(metrics.costPerMile)}</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-teal-200/90">Ganancia por Milla</span>
+              <span class="text-sm font-bold ${metrics.profitPerMile >= 0 ? 'text-green-400' : 'text-red-400'}">
+                ${formatCurrency(metrics.profitPerMile)}
+              </span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-teal-200/90">Ganancia por Carga</span>
+              <span class="text-sm font-bold ${metrics.profitPerLoad >= 0 ? 'text-green-400' : 'text-red-400'}">
+                ${formatCurrency(metrics.profitPerLoad)}
+              </span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-xs text-teal-200/90">Margen de Ganancia</span>
+              <span class="text-sm font-bold ${metrics.profitMargin >= 0 ? 'text-green-400' : 'text-red-400'}">
+                ${metrics.profitMargin.toFixed(1)}%
+              </span>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * Render Trend Analysis Section
+ */
+function renderTrendAnalysisSection(trend) {
+  if (!trend.hasPreviousPeriod) {
+    return `
+      <div class="mb-6">
+        <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+          <span></span> Análisis de Tendencias
+        </h2>
+        <div class="bg-blue-900/30 p-6 rounded-lg border border-blue-400/30 text-center">
+          <p class="text-white/90">${trend.message}</p>
+        </div>
+      </div>
+    `;
+  }
+
+  const getChangeIcon = (change) => {
+    if (change > 0) return '';
+    if (change < 0) return '';
+    return '';
+  };
+
+  const getChangeClass = (change, isExpense = false) => {
+    // For expenses, negative is good
+    if (isExpense) {
+      if (change < 0) return 'text-green-400';
+      if (change > 0) return 'text-red-400';
+      return 'text-gray-400';
+    }
+    // For revenue/profit, positive is good
+    if (change > 0) return 'text-green-400';
+    if (change < 0) return 'text-red-400';
+    return 'text-gray-400';
+  };
+
+  return `
+    <div class="mb-6">
+      <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+        <span></span> Análisis de Tendencias
+      </h2>
+      
+      <div class="bg-gradient-to-r from-indigo-900/40 to-purple-900/40 p-4 rounded-lg border border-indigo-400/30 mb-4">
+        <h3 class="text-sm font-semibold text-white/90 mb-3">
+          Comparación con Período Anterior (${trend.prevPeriodLabel})
+        </h3>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          
+          <!-- Revenue Comparison -->
+          <div class="bg-black/20 p-3 rounded-lg">
+            <div class="text-xs text-white/90 mb-1">Ingresos</div>
+            <div class="text-sm font-bold text-white mb-1">${formatCurrency(trend.current.revenue)}</div>
+            <div class="flex items-center gap-1 text-xs ${getChangeClass(trend.changes.revenue)}">
+              <span>${getChangeIcon(trend.changes.revenue)}</span>
+              <span>${trend.changes.revenue > 0 ? '+' : ''}${trend.changes.revenue.toFixed(1)}%</span>
+            </div>
+            <div class="text-xs text-white/90 mt-1">Prev: ${formatCurrency(trend.previous.revenue)}</div>
+          </div>
+          
+          <!-- Expense Comparison -->
+          <div class="bg-black/20 p-3 rounded-lg">
+            <div class="text-xs text-white/90 mb-1">Gastos</div>
+            <div class="text-sm font-bold text-white mb-1">${formatCurrency(trend.current.expenses)}</div>
+            <div class="flex items-center gap-1 text-xs ${getChangeClass(trend.changes.expenses, true)}">
+              <span>${getChangeIcon(trend.changes.expenses)}</span>
+              <span>${trend.changes.expenses > 0 ? '+' : ''}${trend.changes.expenses.toFixed(1)}%</span>
+            </div>
+            <div class="text-xs text-white/90 mt-1">Prev: ${formatCurrency(trend.previous.expenses)}</div>
+          </div>
+          
+          <!-- Profit Comparison -->
+          <div class="bg-black/20 p-3 rounded-lg">
+            <div class="text-xs text-white/90 mb-1">Ganancia</div>
+            <div class="text-sm font-bold ${trend.current.profit >= 0 ? 'text-green-400' : 'text-red-400'} mb-1">
+              ${formatCurrency(trend.current.profit)}
+            </div>
+            <div class="flex items-center gap-1 text-xs ${getChangeClass(trend.changes.profit)}">
+              <span>${getChangeIcon(trend.changes.profit)}</span>
+              <span>${trend.changes.profit > 0 ? '+' : ''}${trend.changes.profit.toFixed(1)}%</span>
+            </div>
+            <div class="text-xs text-white/90 mt-1">Prev: ${formatCurrency(trend.previous.profit)}</div>
+          </div>
+          
+          <!-- Loads Comparison -->
+          <div class="bg-black/20 p-3 rounded-lg">
+            <div class="text-xs text-white/90 mb-1">Cargas</div>
+            <div class="text-sm font-bold text-white mb-1">${trend.current.loads}</div>
+            <div class="flex items-center gap-1 text-xs ${getChangeClass(trend.changes.loads)}">
+              <span>${getChangeIcon(trend.changes.loads)}</span>
+              <span>${trend.changes.loads > 0 ? '+' : ''}${trend.changes.loads.toFixed(1)}%</span>
+            </div>
+            <div class="text-xs text-white/90 mt-1">Prev: ${trend.previous.loads}</div>
+          </div>
+          
+        </div>
+        
+        <!-- Trend Summary -->
+        <div class="mt-4 p-3 bg-white/5 rounded-lg">
+          <p class="text-sm text-white/80">
+            <strong>Resumen:</strong> 
+            ${trend.changes.profit > 5 ? ' Mejora significativa en rentabilidad' :
+      trend.changes.profit > 0 ? ' Ligera mejora en rentabilidad' :
+        trend.changes.profit > -5 ? ' Ligera disminución en rentabilidad' :
+          ' Disminución significativa - requiere atención'}
+          </p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Expose the new function globally
+window.generateComprehensiveReport = generateComprehensiveReport;
+
+

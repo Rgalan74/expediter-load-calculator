@@ -1,80 +1,396 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Planes de suscripción para acceder a todas las funciones premium de Expediter Load Calculator.">
-  <meta name="keywords" content="expediter, planes, precios, suscripción, app de transporte, premium">
-  <meta name="author" content="Galan Cargo Express">
-  <title>Planes | Expediter Load Calculator</title>
-  <link rel="icon" type="image/png" href="img/logo-app.png" />
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css" />
+  <meta name="description"
+    content="Compara nuestros planes Starter, Professional y Premium + AI. Encuentra el plan perfecto para tu negocio de transporte." />
+  <title>Planes y Precios | Smart Load Solution</title>
+  <link rel="icon" type="image/png" href="img/logo-smartload-light.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0a0f;
+      --bg-darker: #050508;
+      --primary-cyan: #00D9FF;
+      --primary-orange: #FF6B35;
+      --accent-blue: #3b82f6;
+      --accent-purple: #8b5cf6;
+      --gradient-primary: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .bg-animated {
+      background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+    }
+
+    @keyframes gradientShift {
+
+      0%,
+      100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .glass {
+      background: rgba(15, 15, 25, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 1rem 0;
+    }
+
+    .gradient-text {
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section {
+      padding: 5rem 0;
+    }
+
+    .btn-primary {
+      background: var(--primary-orange);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+      box-shadow: 0 10px 20px rgba(255, 107, 53, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(255, 107, 53, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(0, 217, 255, 0.05);
+      border-color: var(--primary-cyan);
+      color: var(--primary-cyan);
+    }
+
+    footer {
+      background: rgba(5, 5, 8, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 3rem 0 1.5rem;
+    }
+
+    footer a {
+      color: #9ca3af;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    footer a:hover {
+      color: white;
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
 
-<!-- 🔝 Header -->
-<header class="bg-white shadow sticky top-0 z-50">
-  <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-    <div class="flex items-center gap-2">
-      <img src="img/logo-app.png" alt="Logo" class="w-14 h-14 rounded-full border border-gray-300 shadow" />
-      <span class="text-xl font-bold text-gray-900">Expediter Load Calculator</span>
+<body class="bg-animated">
+  <header class="glass"
+    style="position: relative; background-image: url('img/header-background.PNG'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <div class="container">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img src="img/logo-smartload-light.png" alt="Smart Load Solution Logo" class="h-10 md:h-12 w-auto"
+            onerror="this.src='img/logo-app.png'" />
+          <span class="text-xl md:text-2xl font-bold">Smart Load Solution</span>
+        </div>
+        <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
+          <a href="index.html" class="text-gray-300 hover:text-white transition">Inicio</a>
+          <a href="index.html#features" class="text-gray-300 hover:text-white transition">Features</a>
+          <a href="index.html#pricing" class="text-gray-300 hover:text-white transition">Pricing</a>
+          <a href="about.html" class="text-gray-300 hover:text-white transition">Acerca</a>
+          <a href="resources.html" class="text-gray-300 hover:text-white transition">Recursos</a>
+          <a href="plans.html" class="text-white">Planes</a>
+        </nav>
+        <div class="hidden md:block">
+          <a href="auth.html" class="btn-secondary" style="padding: 0.75rem 1.5rem; font-size: 0.875rem;">Iniciar Sesión
+            →</a>
+        </div>
+        <button id="mobileMenuBtn" class="md:hidden text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+      <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 space-y-4">
+        <a href="index.html" class="block text-gray-300 hover:text-white transition">Inicio</a>
+        <a href="index.html#features" class="block text-gray-300 hover:text-white transition">Features</a>
+        <a href="index.html#pricing" class="block text-gray-300 hover:text-white transition">Pricing</a>
+        <a href="about.html" class="block text-gray-300 hover:text-white transition">Acerca</a>
+        <a href="resources.html" class="block text-gray-300 hover:text-white transition">Recursos</a>
+        <a href="plans.html" class="block text-white">Planes</a>
+        <a href="auth.html" class="btn-secondary block text-center">Iniciar Sesión →</a>
+      </div>
     </div>
-    <a href="index.html" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 text-sm">← Volver al inicio</a>
-  </div>
-</header>
+  </header>
 
-<!-- 💳 Contenido -->
-<main class="max-w-6xl mx-auto px-4 py-12">
-  <h1 class="text-3xl font-extrabold text-center mb-10">💼 Planes de Suscripción</h1>
-  <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12 text-sm">
-    Elige el plan que se adapte mejor a tu ritmo de trabajo. Todos los planes incluyen actualizaciones, soporte y acceso desde cualquier dispositivo.
-  </p>
+  <main>
+    <section class="section" style="padding-top: 6rem;">
+      <div class="container">
+        <div class="text-center max-w-4xl mx-auto">
+          <h1 class="text-5xl md:text-6xl font-black mb-6">Elige el <span class="gradient-text">Plan Perfecto</span>
+          </h1>
+          <p class="text-xl text-gray-300 mb-8">Empieza gratis o desbloquea todo el poder de Smart Load Solution con
+            nuestros planes profesionales.</p>
+        </div>
+      </div>
+    </section>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-    <!-- Plan Gratis -->
-    <div class="bg-white border border-gray-200 rounded-lg shadow p-6 text-center">
-      <h2 class="text-lg font-bold text-gray-800 mb-2">🆓 Plan Gratuito</h2>
-      <p class="text-3xl font-extrabold text-blue-600 mb-4">$0<span class="text-sm font-normal text-gray-500"> / mes</span></p>
-      <ul class="text-sm text-gray-600 space-y-2 mb-6">
-        <li>✔ Calculadora básica</li>
-        <li>✔ Guardado de hasta 10 cargas</li>
-        <li>✔ Exportación simple CSV</li>
-        <li>✖ Sin dashboard ni mapa</li>
-      </ul>
-      <button class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Activo</button>
+    <section class="section" style="background: var(--bg-darker); padding-top: 2rem;">
+      <div class="container">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+
+          <!-- STARTER PLAN -->
+          <div class="glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+            <div class="mb-6">
+              <h3 class="text-2xl font-bold mb-2">Starter</h3>
+              <div class="flex items-baseline gap-2">
+                <span class="text-5xl font-black gradient-text">$0</span>
+                <span class="text-gray-400">/mes</span>
+              </div>
+              <p class="text-sm text-gray-400 mt-2">Perfecto para empezar y probar la plataforma</p>
+            </div>
+            <ul class="space-y-3 mb-8 text-gray-300">
+              <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span><strong
+                    class="text-white">50 cargas</strong> guardadas</span></li>
+              <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span>Calculadora RPM
+                  básica</span></li>
+              <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span>Dashboard financiero
+                  básico</span></li>
+              <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span>Mapa de zonas
+                  rentables</span></li>
+              <li class="flex items-start gap-2"><span class="text-gray-600 mt-0.5">✗</span><span
+                  class="text-gray-500">Historial limitado</span></li>
+              <li class="flex items-start gap-2"><span class="text-gray-600 mt-0.5">✗</span><span
+                  class="text-gray-500">Exportación Excel</span></li>
+            </ul>
+            <a href="auth.html" class="btn-secondary block text-center">Empezar Gratis</a>
+          </div>
+
+          <!-- PRO PLAN -->
+          <div
+            class="relative glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-500/30"
+            style="border: 2px solid var(--primary-orange);">
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2">
+              <span class="px-6 py-2 rounded-full text-sm font-bold text-white shadow-lg"
+                style="background: var(--primary-orange);">⭐
+                MÁS POPULAR</span>
+            </div>
+            <div class="mb-6 mt-4">
+              <h3 class="text-2xl font-bold mb-2">Professional</h3>
+              <div class="flex items-baseline gap-2">
+                <span class="text-5xl font-black gradient-text">$9.99</span>
+                <span class="text-gray-400">/mes</span>
+              </div>
+              <p class="text-sm text-green-400 mt-2 font-semibold">💰 Ideal para dueños de negocio serios</p>
+            </div>
+            <ul class="space-y-3 mb-8 text-gray-300">
+              <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span><strong
+                    class="text-white">Cargas ilimitadas</strong></span></li>
+              <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span>Sistema financiero
+                  completo</span></li>
+              <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span>Mapa de zonas
+                  avanzado</span></li>
+              <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span>Historial de 90
+                  días</span></li>
+              <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span>Reportes financieros
+                  en PDF</span></li>
+              <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span>Exportación
+                  Excel/CSV</span></li>
+            </ul>
+            <a href="auth.html" class="btn-primary block text-center" style="justify-content: center;"><span>Empezar
+                Ahora</span><span class="text-2xl">→</span></a>
+            <p class="text-center text-sm text-gray-500 mt-4">✓ Cancela cuando quieras • ✓ Garantía 14 días</p>
+          </div>
+
+          <!-- PREMIUM PLAN -->
+          <div
+            class="glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-500/30"
+            style="background: rgba(139, 92, 246, 0.05); border: 2px solid var(--accent-purple);">
+            <div class="mb-6">
+              <h3 class="text-2xl font-bold mb-2">Premium + AI</h3>
+              <div class="flex items-baseline gap-2">
+                <span class="text-5xl font-black gradient-text">$19.99</span>
+                <span class="text-gray-400">/mes</span>
+              </div>
+              <p class="text-sm text-purple-400 mt-2 font-semibold">✨ Poder máximo con Inteligencia Artificial</p>
+            </div>
+            <ul class="space-y-3 mb-8 text-gray-300">
+              <li class="flex items-start gap-2"><span class="text-purple-400 mt-0.5">✓</span><span><strong
+                    class="text-white">Todo lo del plan Pro</strong></span></li>
+              <li class="flex items-start gap-2"><span class="text-purple-400 mt-0.5">✨</span><span><strong
+                    class="text-purple-400">Lex AI Assistant</strong></span></li>
+              <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span>Reportes de
+                  impuestos</span></li>
+              <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span>Historial
+                  ilimitado</span></li>
+              <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span>Análisis predictivo
+                  con AI</span></li>
+              <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span>Soporte
+                  prioritario</span></li>
+            </ul>
+            <a href="auth.html" class="btn-primary block text-center"
+              style="justify-content: center; background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));"><span>Obtener
+                Poder Total</span><span class="text-2xl">→</span></a>
+            <p class="text-center text-sm text-gray-500 mt-4">✓ Cancela cuando quieras • ✓ Garantía 14 días</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+      <div class="container">
+        <h2 class="text-3xl md:text-4xl font-black mb-12 text-center">❓ <span class="gradient-text">Preguntas
+            Frecuentes</span></h2>
+        <div class="max-w-3xl mx-auto space-y-4">
+          <details class="glass rounded-xl p-6">
+            <summary class="font-bold text-lg cursor-pointer">¿Puedo cambiar de plan más tarde?</summary>
+            <p class="text-gray-400 mt-4 text-sm">Sí, puedes upgradear de Starter a Pro o Premium en cualquier momento
+              desde tu panel de configuración. El cambio es inmediato.</p>
+          </details>
+          <details class="glass rounded-xl p-6">
+            <summary class="font-bold text-lg cursor-pointer">¿Puedo cancelar cuando quiera?</summary>
+            <p class="text-gray-400 mt-4 text-sm">Sí, no hay contratos a largo plazo. Cancela en cualquier momento y tu
+              acceso continuará hasta el final del periodo facturado.</p>
+          </details>
+          <details class="glass rounded-xl p-6">
+            <summary class="font-bold text-lg cursor-pointer">¿Es seguro el pago?</summary>
+            <p class="text-gray-400 mt-4 text-sm">Totalmente. Procesamos todos los pagos a través de Stripe, líder
+              mundial en pagos online. Nunca almacenamos tus datos de tarjeta.</p>
+          </details>
+          <details class="glass rounded-xl p-6">
+            <summary class="font-bold text-lg cursor-pointer">¿Qué incluye el reporte de impuestos?</summary>
+            <p class="text-gray-400 mt-4 text-sm">Un resumen detallado de todos tus gastos deducibles, millas recorridas
+              y ganancias netas formateado para facilitar tu declaración anual.</p>
+          </details>
+          <details class="glass rounded-xl p-6">
+            <summary class="font-bold text-lg cursor-pointer">¿Necesito tarjeta para el plan gratuito?</summary>
+            <p class="text-gray-400 mt-4 text-sm">No. El Plan Starter no requiere ningún método de pago. Solo crea tu
+              cuenta y empieza a usarlo inmediatamente.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section" style="background: var(--bg-darker);">
+      <div class="container">
+        <div class="text-center max-w-3xl mx-auto">
+          <h2 class="text-4xl md:text-5xl font-black mb-6">¿Listo para <span class="gradient-text">Empezar?</span></h2>
+          <p class="text-xl text-gray-300 mb-8">Comienza gratis hoy y descubre cómo Smart Load Solution puede
+            transformar tu negocio.</p>
+          <a href="auth.html" class="btn-primary"><span>Probar Gratis Ahora</span><span class="text-2xl">→</span></a>
+          <p class="text-sm text-gray-500 mt-6">✓ Sin tarjeta • ✓ Setup en &lt;2 min • ✓ Cancela cuando quieras</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <img src="img/logo-smartload-light.png" alt="Logo" class="h-8 w-auto"
+              onerror="this.src='img/logo-app.png'" />
+            <span class="font-bold text-lg">Smart Load</span>
+          </div>
+          <p class="text-sm text-gray-400">Inteligencia de carga para el transportista moderno.</p>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Empresa</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="about.html">Acerca de Nosotros</a></li>
+            <li><a href="plans.html">Planes y Precios</a></li>
+            <li><a href="index.html#testimonials">Testimonios</a></li>
+            <li><a href="contact.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Recursos</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="resources.html">Centro de Recursos</a></li>
+            <li><a href="resources.html#blog">Blog</a></li>
+            <li><a href="resources.html#faq">FAQ</a></li>
+            <li><a href="resources.html#support">Soporte</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Legal</h4>
+          <ul class="space-y-2 text-sm mb-4">
+            <li><a href="privacy.html">Privacidad</a></li>
+            <li><a href="terms.html">Términos de Uso</a></li>
+          </ul>
+          <div class="flex gap-4 text-xl">
+            <a href="#" aria-label="Facebook">📘</a>
+            <a href="#" aria-label="Twitter">🐦</a>
+            <a href="#" aria-label="LinkedIn">💼</a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">© 2024 Smart Load Solution. Todos los
+        derechos reservados.</div>
     </div>
+  </footer>
 
-    <!-- Plan Profesional -->
-    <div class="bg-white border-2 border-blue-600 rounded-lg shadow-lg p-6 text-center">
-      <h2 class="text-lg font-bold text-gray-800 mb-2">🚚 Plan Profesional</h2>
-      <p class="text-3xl font-extrabold text-blue-600 mb-4">$12<span class="text-sm font-normal text-gray-500"> / mes</span></p>
-      <ul class="text-sm text-gray-600 space-y-2 mb-6">
-        <li>✔ Calculadora completa</li>
-        <li>✔ Cargas ilimitadas</li>
-        <li>✔ Dashboard mensual</li>
-        <li>✔ Mapa de zonas</li>
-        <li>✔ Exportación avanzada</li>
-      </ul>
-      <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Próximamente</button>
-    </div>
-
-    <!-- Plan Empresarial -->
-    <div class="bg-white border border-gray-200 rounded-lg shadow p-6 text-center">
-      <h2 class="text-lg font-bold text-gray-800 mb-2">🏢 Plan Empresarial</h2>
-      <p class="text-3xl font-extrabold text-blue-600 mb-4">$25<span class="text-sm font-normal text-gray-500"> / mes</span></p>
-      <ul class="text-sm text-gray-600 space-y-2 mb-6">
-        <li>✔ Todo lo del plan profesional</li>
-        <li>✔ Múltiples usuarios</li>
-        <li>✔ Dashboard por vehículo</li>
-        <li>✔ Soporte prioritario</li>
-      </ul>
-      <button class="bg-gray-400 text-white px-4 py-2 rounded cursor-not-allowed" disabled>En desarrollo</button>
-    </div>
-  </div>
-
-  <p class="text-center text-xs text-gray-400 mt-8">* Todos los precios están en USD. La activación de pagos se habilitará próximamente.</p>
-</main>
-
+  <script>
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenuBtn?.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+  </script>
 </body>
+
 </html>

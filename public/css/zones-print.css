@@ -1,0 +1,151 @@
+/* =================================================================
+   PRINT STYLES - Zones Report
+   NO BLANK PAGES - NO DARK BACKGROUND
+   ================================================================= */
+
+@media print {
+
+    /* HIDE EVERYTHING including body content */
+    html,
+    body {
+        background: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    body * {
+        visibility: hidden !important;
+    }
+
+    /* The modal WRAPPER - COMPLETELY INVISIBLE (this is the dark overlay) */
+    #zonesReportModal {
+        visibility: visible !important;
+        position: static !important;
+        background: transparent !important;
+        background-color: transparent !important;
+        width: auto !important;
+        height: auto !important;
+        max-height: none !important;
+        min-height: 0 !important;
+        overflow: visible !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: contents !important;
+        /* KEY: makes wrapper disappear */
+    }
+
+    /* The inner white container - this is visible */
+    #zonesReportModal>div {
+        visibility: visible !important;
+        position: static !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
+        min-height: 0 !important;
+        overflow: visible !important;
+        background: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+        box-shadow: none !important;
+    }
+
+    /* Show all children inside the modal */
+    #zonesReportModal * {
+        visibility: visible !important;
+    }
+
+    /* Hide header and buttons */
+    #zonesReportModal .modal-header,
+    #zonesReportModal button {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    /* Report content - THE ACTUAL PRINT AREA */
+    #zonesReportContent {
+        visibility: visible !important;
+        position: static !important;
+        height: auto !important;
+        max-height: none !important;
+        min-height: 0 !important;
+        overflow: visible !important;
+        padding: 15px !important;
+        background: white !important;
+        font-size: 11pt !important;
+    }
+
+    /* ALL TEXT BLACK */
+    #zonesReportContent,
+    #zonesReportContent * {
+        color: #000 !important;
+        -webkit-text-fill-color: #000 !important;
+        background: white !important;
+    }
+
+    /* Headers */
+    #zonesReportContent h1 {
+        font-size: 14pt !important;
+        margin: 0.5rem 0 !important;
+    }
+
+    #zonesReportContent h2 {
+        font-size: 12pt !important;
+        margin: 0.3rem 0 !important;
+    }
+
+    #zonesReportContent h3 {
+        font-size: 11pt !important;
+        margin: 0.25rem 0 !important;
+    }
+
+    /* Tables */
+    #zonesReportContent table {
+        border-collapse: collapse !important;
+        font-size: 9pt !important;
+        width: 100% !important;
+    }
+
+    #zonesReportContent td,
+    #zonesReportContent th {
+        border: 1px solid #000 !important;
+        padding: 3px !important;
+        background: white !important;
+    }
+
+    /* Remove backgrounds */
+    #zonesReportContent [class*="bg-"],
+    #zonesReportContent .border {
+        background: white !important;
+        border-color: #000 !important;
+    }
+
+    /* Compact layout */
+    #zonesReportContent div {
+        margin: 0.2rem 0 !important;
+    }
+
+    #zonesReportContent .mb-8 {
+        margin-bottom: 0.5rem !important;
+    }
+
+    #zonesReportContent .mb-4 {
+        margin-bottom: 0.3rem !important;
+    }
+
+    #zonesReportContent .p-4,
+    #zonesReportContent .p-6 {
+        padding: 0.3rem !important;
+    }
+
+    #zonesReportContent .grid {
+        gap: 0.3rem !important;
+    }
+
+    /* Print settings */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}

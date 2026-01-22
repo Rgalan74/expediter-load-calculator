@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 5: Optimización Continua | Smart Load Academy</title>
+    <link rel="icon" type="image/png" href="../../img/logo-app.png" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.7
+        }
+
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem
+        }
+
+        .breadcrumb {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: .875rem
+        }
+
+        .breadcrumb a {
+            color: #00D9FF;
+            text-decoration: none
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem
+        }
+
+        .lesson-content h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff
+        }
+
+        .lesson-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: .75rem
+        }
+
+        .lesson-content p {
+            margin-bottom: 1.5rem;
+            color: #d0d0d0
+        }
+
+        .lesson-content ul,
+        .lesson-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem
+        }
+
+        .mockup {
+            background: rgba(20, 20, 20, .9);
+            border: 2px solid rgba(0, 217, 255, .3);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: .9rem
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: rgba(20, 20, 20, .8);
+            border-radius: .75rem;
+            overflow: hidden
+        }
+
+        th,
+        td {
+            padding: .75rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, .1);
+            font-size: .9rem
+        }
+
+        th {
+            background: rgba(0, 217, 255, .1);
+            color: #00D9FF;
+            font-weight: 700
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: .75rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all .3s ease
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #FFD700 0%, #FF6B35 100%);
+            color: #000
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .2)
+        }
+
+        .lesson-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem
+        }
+    </style>
+</head>
+
+<body>
+    <article class="lesson-container">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 6 [PRO]</a> → Lección 5
+        </nav>
+
+        <div
+            style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
+            🔒 CONTENIDO PRO</div>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Optimización Continua: El Sistema de Mejora 1%</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 15 min lectura</span>
+                <span>🎓 Módulo 6 - Lección 5</span>
+                <span>📈 Mejora Continua</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>📈 LA FILOSOFÍA KAIZEN</h2>
+
+                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
+                    <p style="font-size:1.25rem;font-weight:700;text-align:center;margin-bottom:1rem">KAIZEN (改善) =
+                        Mejora continua</p>
+                    <p><strong>CONCEPTO JAPONÉS:</strong> Mejorar 1% cada día/semana = Mejora masiva en un año</p>
+
+                    <div style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1rem">
+                        <p><strong>MATEMÁTICAS:</strong></p>
+                        <p><strong>Mejora 1% semanal:</strong><br>
+                            Semana 1: 100% baseline<br>
+                            Semana 52: <strong style="color:#FFD700">167.7%</strong> de capacidad original</p>
+
+                        <p><strong>Mejora 1% mensual:</strong><br>
+                            Mes 1: 100% baseline<br>
+                            Mes 12: <strong style="color:#FFD700">112.7%</strong> de capacidad</p>
+
+                        <p style="margin:0"><strong>LECCIÓN:</strong> Pequeñas mejoras consistentes > Grandes cambios
+                            esporádicos</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 EL CICLO PDCA (Plan-Do-Check-Act)</h2>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0">
+                    <div
+                        style="background:rgba(0,217,255,.08);padding:1rem;border-radius:.5rem;border-left:4px solid #00D9FF">
+                        <p style="margin:0"><strong>📋 PLAN</strong><br>
+                            • Identifica área de mejora<br>
+                            • Define objetivo específico<br>
+                            • Crea plan de acción</p>
+                    </div>
+                    <div
+                        style="background:rgba(255,215,0,.08);padding:1rem;border-radius:.5rem;border-left:4px solid #FFD700">
+                        <p style="margin:0"><strong>🔨 DO</strong><br>
+                            • Implementa cambio<br>
+                            • Registra proceso<br>
+                            • Documenta resultados</p>
+                    </div>
+                    <div
+                        style="background:rgba(100,200,100,.08);padding:1rem;border-radius:.5rem;border-left:4px solid #64C864">
+                        <p style="margin:0"><strong>✅ CHECK</strong><br>
+                            • Mide resultados<br>
+                            • Compara vs objetivo<br>
+                            • Analiza qué funcionó</p>
+                    </div>
+                    <div
+                        style="background:rgba(255,107,53,.1);padding:1rem;border-radius:.5rem;border-left:4px solid #FF6B35">
+                        <p style="margin:0"><strong>🔄 ACT</strong><br>
+                            • Si funcionó: Estandariza<br>
+                            • Si no: Ajusta y repite<br>
+                            • Vuelve a PLAN</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>📅 EL CALENDARIO DE OPTIMIZACIÓN</h2>
+
+                <h3>REVISIÓN SEMANAL (15 minutos cada domingo)</h3>
+                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>DOMINGO 7PM - RUTINA:</strong></p>
+                    <ol>
+                        <li><strong>Revisar números (5 min):</strong> Ganancia semana, RPM, cargas, problemas</li>
+                        <li><strong>Identificar UNA mejora (3 min):</strong> "¿Qué ÚNICA cosa podría mejorar 1% próxima
+                            semana?"</li>
+                        <li><strong>Crear plan (3 min):</strong> Mi mejora, cómo medirla, meta específica</li>
+                        <li><strong>Revisar semana pasada (4 min):</strong> ¿Logré objetivo? ¿Continuar o ajustar?</li>
+                    </ol>
+
+                    <p
+                        style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1rem;margin-bottom:0">
+                        <strong>EJEMPLOS DE MEJORAS SEMANALES:</strong><br>
+                        • Reducir idle 10 min/día<br>
+                        • Usar Waze en TODAS las rutas<br>
+                        • Revisar presión llantas 2x esta semana<br>
+                        • Responder brokers <15 min siempre<br>
+                            • Documentar TODAS cargas mismo día
+                    </p>
+                </div>
+
+                <h3>REVISIÓN MENSUAL (45 minutos)</h3>
+                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>ÚLTIMO DOMINGO DEL MES:</strong></p>
+                    <ol>
+                        <li><strong>Análisis financiero completo (15 min):</strong> Ingresos, gastos, ganancia, margen,
+                            tendencia</li>
+                        <li><strong>Revisión de KPIs (10 min):</strong> RPM, CPM, deadhead, utilización, margen,
+                            ganancia/día</li>
+                        <li><strong>Análisis de rutas (10 min):</strong> Top 3 más rentables, rutas a eliminar</li>
+                        <li><strong>Proyectos mayores (10 min):</strong> Próximo mes, impacto esperado, tiempo requerido
+                        </li>
+                    </ol>
+                </div>
+
+                <h3>REVISIÓN TRIMESTRAL (2 horas)</h3>
+                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>CADA 3 MESES:</strong></p>
+                    <ol>
+                        <li><strong>Análisis de tendencias (30 min):</strong> Últimos 3 meses, causas de mejora/declive
+                        </li>
+                        <li><strong>Auditoría de gastos (30 min):</strong> Revisar CADA categoría, oportunidades ahorro
+                        </li>
+                        <li><strong>Revisión de relaciones (30 min):</strong> Brokers Tier 1, cargas/mes, tendencias
+                        </li>
+                        <li><strong>Establecer objetivos (30 min):</strong> Próximo trimestre, financiero + operativo
+                        </li>
+                    </ol>
+                </div>
+
+                <h3>REVISIÓN ANUAL (4 horas)</h3>
+                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>FIN DE AÑO:</strong></p>
+                    <ol style="margin:0">
+                        <li><strong>Análisis año completo (1 hr):</strong> Ganancia total, mejor/peor mes, victorias,
+                            desafíos</li>
+                        <li><strong>Proyección año siguiente (1 hr):</strong> Objetivos financieros, operativos,
+                            expansión</li>
+                        <li><strong>Lecciones aprendidas (1 hr):</strong> Qué funcionó, qué no, cambios para próximo año
+                        </li>
+                        <li><strong>Planificación estratégica (1 hr):</strong> Roadmap trimestral para año completo</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 EL SISTEMA DE 52 MEJORAS</h2>
+
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>CONCEPTO:</strong> 52 semanas = 52 mejoras pequeñas. Cada una mejora operación 1%</p>
+
+                    <p><strong>EJEMPLO DE ESTRUCTURA ANUAL:</strong></p>
+                    <ul>
+                        <li><strong>Q1 (Semanas 1-13): FUNDAMENTOS</strong><br>
+                            Setup Smart Load, templates, digital docs, calendario mantenimiento, velocidad óptima, apps
+                            descuento...</li>
+
+                        <li><strong>Q2 (Semanas 14-26): OPTIMIZACIÓN</strong><br>
+                            Cotizar seguro, negociar shop, llantas low-resistance, dash cam, curso safety, cancelar
+                            suscripciones...</li>
+
+                        <li><strong>Q3 (Semanas 27-39): PERFECCIONAMIENTO</strong><br>
+                            Eliminar rutas malas, maximizar rutas top, check-ins Tier 1, forecast, preparar Q4...</li>
+
+                        <li><strong>Q4 (Semanas 40-52): CONSOLIDACIÓN</strong><br>
+                            Evaluar expansión, negociar contratos anuales, preparar impuestos, documentar procesos,
+                            planificar próximo año...</li>
+                    </ul>
+
+                    <p
+                        style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;margin:0;text-align:center;font-weight:700">
+                        RESULTADO: 52 mejoras = Operación transformada<br>
+                        Ganancia +20-35% vs inicio<br>
+                        Fundamentos sólidos para escalar
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>📊 MÉTRICAS DE PROGRESO</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>MÉTRICA</th>
+                            <th>BASELINE</th>
+                            <th>6 MESES</th>
+                            <th>12 MESES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Ganancia/mes</td>
+                            <td>$3,850</td>
+                            <td>$4,680 (+21.6%)</td>
+                            <td>$5,400 (+40%)</td>
+                        </tr>
+                        <tr>
+                            <td>Margen</td>
+                            <td>34.2%</td>
+                            <td>41.2% (+7)</td>
+                            <td>44%</td>
+                        </tr>
+                        <tr>
+                            <td>RPM</td>
+                            <td>$1.45/mi</td>
+                            <td>$1.64 (+13.1%)</td>
+                            <td>$1.75/mi</td>
+                        </tr>
+                        <tr>
+                            <td>CPM</td>
+                            <td>$0.95/mi</td>
+                            <td>$0.81 (-14.7%)</td>
+                            <td>$0.75/mi</td>
+                        </tr>
+                        <tr>
+                            <td>Tiempo admin</td>
+                            <td>24 hrs</td>
+                            <td>7 hrs (-71%)</td>
+                            <td>5 hrs</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.15)">
+                            <td><strong>Mejora promedio</strong></td>
+                            <td colspan="3"><strong>+3.5% por mes (compuesto)</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>💡 CONCLUSIÓN FINAL - MÓDULO 6 COMPLETO</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Pequeñas mejoras consistentes >
+                        Grandes cambios esporádicos</p>
+
+                    <div style="text-align:left;max-width:600px;margin:0 auto">
+                        <p><strong>Has completado el Módulo 6 y aprendiste:</strong></p>
+                        <ol>
+                            <li><strong>Combustible:</strong> $300-500/mes ahorro (10 tácticas)</li>
+                            <li><strong>Mantenimiento:</strong> $200-400/mes ahorro (preventivo vs reactivo)</li>
+                            <li><strong>Proveedores:</strong> $300-570/mes ahorro (negociar TODO)</li>
+                            <li><strong>Automatización:</strong> 5-8 hrs/semana (8 áreas)</li>
+                            <li><strong>Mejora Continua:</strong> +67.7% anual (1% semanal)</li>
+                        </ol>
+
+                        <hr style="border-color:rgba(255,255,255,.2);margin:1.5rem 0">
+
+                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;text-align:center">
+                            <strong>TRANSFORMACIÓN TOTAL:</strong><br><br>
+                            ANTES: CPM $0.95, Ganancia $3,800, Margen 34%, Admin 22 hrs<br>
+                            DESPUÉS: CPM $0.78, Ganancia $5,200, Margen 43%, Admin 7 hrs<br><br>
+                            <strong style="color:#FFD700;font-size:1.25rem">IMPACTO: +$1,400/mes = +$16,800/año</strong>
+                        </p>
+
+                        <hr style="border-color:rgba(255,255,255,.2);margin:1.5rem 0">
+
+                        <p><strong>EL SISTEMA COMPLETO:</strong></p>
+                        <ul>
+                            <li><strong>Semanal (15 min):</strong> 1 mejora pequeña</li>
+                            <li><strong>Mensual (45 min):</strong> Análisis + proyectos mayores</li>
+                            <li><strong>Trimestral (2 hrs):</strong> Tendencias + objetivos</li>
+                            <li><strong>Anual (4 hrs):</strong> Reflexión + estrategia</li>
+                        </ul>
+
+                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">
+                            NO ES SOBRE trabajar más horas ❌<br>
+                            ES SOBRE mejorar 1% cada semana ✅<br><br>
+                            En 1 año: Operación irreconocible<br>
+                            En 3 años: Operador elite<br><br>
+                            <span style="color:#FFD700">La elección es tuya.<br>
+                                El sistema está probado.<br>
+                                Solo necesitas: EMPEZAR.</span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+                completada</button>
+            <nav class="lesson-nav">
+                <a href="lesson-4.html" class="btn btn-secondary">← Lección anterior</a>
+                <a href="index.html" class="btn btn-primary">🎉 Módulo completado →</a>
+            </nav>
+        </footer>
+    </article>
+
+    <script src="../js/academy.js"></script>
+    <script>
+        const MODULE_NUM = 6, LESSON_NUM = 5; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true; alert('🎉 ¡MÓDULO 6 COMPLETADO! 🎉\n\nHas dominado Optimización Operativa Avanzada.\n\nKaizen: 1% semanal = 67.7% anual\nCalendario: Semanal/Mensual/Trimestral/Anual\nSistema: PDCA (Plan-Do-Check-Act)\n52 mejoras = Transformación total\n\nAhorro total: $1,100-1,845/mes\n+ 12-15 hrs/semana ahorradas\n\n¿Listo para Módulo 7?') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true } });
+    </script>
+</body>
+
+</html>

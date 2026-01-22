@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 5: Chain Thinking | Smart Load Academy</title>
+    <link rel="icon" type="image/png" href="../../img/logo-app.png" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.7
+        }
+
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem
+        }
+
+        .breadcrumb {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: .875rem
+        }
+
+        .breadcrumb a {
+            color: #00D9FF;
+            text-decoration: none
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem
+        }
+
+        .lesson-content h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff
+        }
+
+        .lesson-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: .75rem
+        }
+
+        .lesson-content p {
+            margin-bottom: 1.5rem;
+            color: #d0d0d0
+        }
+
+        .lesson-content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: rgba(20, 20, 20, .8);
+            border-radius: .75rem;
+            overflow: hidden
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        th {
+            background: rgba(0, 217, 255, .1);
+            color: #00D9FF;
+            font-weight: 700
+        }
+
+        .mockup {
+            background: rgba(20, 20, 20, .9);
+            border: 2px solid rgba(0, 217, 255, .3);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: .9rem
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: .75rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all .3s ease
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+            color: #fff
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .2)
+        }
+
+        .lesson-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem
+        }
+    </style>
+</head>
+
+<body>
+    <article class="lesson-container">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 3</a> → Lección 5
+        </nav>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Posicionamiento Inteligente: Pensar 2-3 Loads Adelante</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 10 min lectura</span>
+                <span>🎓 Módulo 3 - Lección 5</span>
+                <span>⭐ Estratégico</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>♟️ AJEDREZ, NO DAMAS</h2>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
+                    <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
+                        <p><strong>Novice driver:</strong></p>
+                        <p>"Tengo un load offer, ¿lo acepto?"</p>
+                        <p style="margin:0"><strong>Piensa 1 move adelante.</strong></p>
+                    </div>
+
+                    <div style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem">
+                        <p><strong>Pro driver:</strong></p>
+                        <p>"Este load me deja en X, desde X puedo ir a Y, desde Y regreso a Z. ¿El ciclo completo es
+                            rentable?"</p>
+                        <p style="margin:0"><strong>Piensa 3 moves adelante.</strong></p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 EL CONCEPTO DE "LOAD CHAINS"</h2>
+                <p>Una carga NO existe en vacío.</p>
+
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>LOAD #1: Detroit → Atlanta</strong></p>
+                    <ul style="margin-bottom:1rem">
+                        <li>Paga: $1,200</li>
+                        <li>RPM: $1.60</li>
+                        <li>Delivery: Atlanta (zona score 91)</li>
+                        <li><strong style="color:#64C864">Opens opportunities ✅</strong></li>
+                    </ul>
+
+                    <p><strong>LOAD #2: Detroit → Laredo</strong></p>
+                    <ul>
+                        <li>Paga: $1,600 (más $$$)</li>
+                        <li>RPM: $1.55</li>
+                        <li>Delivery: Laredo (zona score 18)</li>
+                        <li><strong style="color:#FF6B35">Closes opportunities ❌</strong></li>
+                    </ul>
+
+                    <p style="margin-top:1rem;text-align:center;font-weight:700">Mismo origen, Load #2 paga MÁS...<br>
+                        Pero Load #1 es MEJOR estratégicamente.<br>
+                        ¿Por qué?</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>📊 ANÁLISIS DE 3-LOAD CHAIN</h2>
+
+                <h3>CHAIN A: Detroit → Atlanta → Charlotte → Detroit</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Load</th>
+                            <th>Route</th>
+                            <th>Payment</th>
+                            <th>Profit</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background:rgba(100,200,100,.05)">
+                            <td>1</td>
+                            <td>Detroit → Atlanta</td>
+                            <td>$1,200</td>
+                            <td>$360</td>
+                            <td>13 hrs + 11 hrs wait</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.05)">
+                            <td>2</td>
+                            <td>Atlanta → Charlotte</td>
+                            <td>$650</td>
+                            <td>$245</td>
+                            <td>7 hrs + 14 hrs wait</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.05)">
+                            <td>3</td>
+                            <td>Charlotte → Detroit</td>
+                            <td>$1,100</td>
+                            <td>$318</td>
+                            <td>11 hrs</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.15)">
+                            <td colspan="2"><strong>TOTALS</strong></td>
+                            <td><strong>$2,950</strong></td>
+                            <td><strong>$923</strong></td>
+                            <td><strong>56 hrs (2.3 días)</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="text-align:center;font-weight:700;color:#64C864">$923 ÷ 31 active hrs = $29.77/hr ✅</p>
+
+                <h3 style="margin-top:2rem">CHAIN B: Detroit → Laredo → San Antonio → Detroit</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Load</th>
+                            <th>Route</th>
+                            <th>Payment</th>
+                            <th>Profit</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background:rgba(255,107,53,.05)">
+                            <td>1</td>
+                            <td>Detroit → Laredo</td>
+                            <td>$1,600</td>
+                            <td>$235</td>
+                            <td>20 hrs + 68 hrs wait 🚨</td>
+                        </tr>
+                        <tr style="background:rgba(255,107,53,.05)">
+                            <td>2</td>
+                            <td>Laredo → SA (reposition)</td>
+                            <td>$350</td>
+                            <td>$56</td>
+                            <td>5 hrs + 18 hrs wait</td>
+                        </tr>
+                        <tr style="background:rgba(255,107,53,.05)">
+                            <td>3</td>
+                            <td>San Antonio → Detroit</td>
+                            <td>$1,450</td>
+                            <td>$190</td>
+                            <td>19 hrs</td>
+                        </tr>
+                        <tr style="background:rgba(255,107,53,.15)">
+                            <td colspan="2"><strong>TOTALS</strong></td>
+                            <td><strong>$3,400</strong></td>
+                            <td><strong>$481</strong></td>
+                            <td><strong>130 hrs (5.4 días)</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="text-align:center;font-weight:700;color:#FF6B35">$481 ÷ 44 active hrs = $10.93/hr ❌</p>
+
+                <div
+                    style="background:linear-gradient(135deg,rgba(100,200,100,.15),rgba(255,107,53,.15));padding:1.5rem;border-radius:.75rem;text-align:center;margin:2rem 0">
+                    <p style="font-size:1.25rem;font-weight:700">CHAIN A vs CHAIN B:</p>
+                    <p>Chain A: $923 profit en 2.3 días = <strong style="color:#64C864">$401/día</strong><br>
+                        Chain B: $481 profit en 5.4 días = <strong style="color:#FF6B35">$89/día</strong></p>
+                    <p style="margin-top:1rem;font-size:1.5rem;font-weight:900">Chain A es 4.5X mejor por día!</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🗺️ BUILDING PROFITABLE CIRCUITS</h2>
+                <p><strong>The Golden Triangle:</strong></p>
+
+                <div
+                    style="text-align:center;font-family:monospace;background:rgba(0,217,255,.05);padding:2rem;border-radius:.75rem;margin:2rem 0">
+                    <pre style="margin:0">
+        DETROIT
+         /    \
+        /      \
+       /        \
+  CHICAGO    NASHVILLE
+       \        /
+        \      /
+         \    /
+        ATLANTA
+                    </pre>
+                </div>
+
+                <p><strong>4-zone circuit:</strong></p>
+                <ul>
+                    <li>All zones score 85+</li>
+                    <li>Each leg ~600-750 mi</li>
+                    <li>Wait times <16 hrs each</li>
+                    <li>6-7 días for full circuit</li>
+                    <li><strong>Profit: $1,800-2,200/circuit</strong></li>
+                </ul>
+
+                <p style="text-align:center;font-weight:700;font-size:1.1rem;margin-top:1rem">Repeat weekly for: <strong
+                        style="color:#64C864">$7,200-8,800/month profit ✅✅</strong></p>
+            </section>
+
+            <section>
+                <h2>🔮 FEATURE: LOAD CHAIN SIMULATOR</h2>
+
+                <div class="mockup">
+                    🔮 LOAD CHAIN SIMULATOR<br>
+                    Current offer:<br>
+                    Detroit → Miami<br>
+                    Payment: $2,400<br>
+                    <br>
+                    [SIMULATE 3-LOAD CHAIN]<br>
+                    <br>
+                    SIMULATION RESULTS:<br>
+                    <br>
+                    BEST CASE (30% probability):<br>
+                    ├─ Load 1: Detroit→Miami $650<br>
+                    ├─ Load 2: Miami→Atlanta $420<br>
+                    ├─ Load 3: Atlanta→Detroit $580<br>
+                    └─ Total: $1,650 / 5 days<br>
+                    ($330/day) ✅<br>
+                    <br>
+                    LIKELY CASE (50% probability):<br>
+                    ├─ Load 1: Detroit→Miami $650<br>
+                    ├─ Wait 28 hrs in Miami<br>
+                    ├─ Load 2: Miami→Atlanta $320<br>
+                    ├─ Load 3: Atlanta→Detroit $580<br>
+                    └─ Total: $1,550 / 6 days<br>
+                    ($258/day) ⚠️<br>
+                    <br>
+                    WORST CASE (20% probability):<br>
+                    ├─ Load 1: Detroit→Miami $650<br>
+                    ├─ Wait 48+ hrs, accept low rate<br>
+                    ├─ Load 2: Miami→anywhere $180<br>
+                    ├─ Reposition, another low load<br>
+                    └─ Total: $1,100 / 7 days<br>
+                    ($157/day) ❌<br>
+                    <br>
+                    EXPECTED VALUE:<br>
+                    └─ $1,482 / 5.9 days = $251/day<br>
+                    <br>
+                    ALTERNATIVE SIMULATION:<br>
+                    Detroit → Atlanta → Charlotte<br>
+                    Expected: $1,550 / 4.2 days<br>
+                    = $369/day ✅✅<br>
+                    <br>
+                    💡 VERDICT:<br>
+                    Miami load has 47% lower daily <br>
+                    profit vs Atlanta alternative.<br>
+                    Recommend: Wait for Atlanta load
+                </div>
+            </section>
+
+            <section>
+                <h2>🔮 THINKING AHEAD: LAS 4 PREGUNTAS</h2>
+                <p>Antes de aceptar CUALQUIER load:</p>
+
+                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
+                    <ol>
+                        <li style="margin-bottom:1rem"><strong>¿Dónde me deja este load?</strong><br>
+                            Zone score? Wait time esperado?</li>
+
+                        <li style="margin-bottom:1rem"><strong>¿Qué opciones tendré desde ahí?</strong><br>
+                            Multiple high-quality lanes? O trapped?</li>
+
+                        <li style="margin-bottom:1rem"><strong>¿Este load acerca o aleja de mi home
+                                circuit?</strong><br>
+                            Drawing me into circuit? O pulling away?</li>
+
+                        <li><strong>¿Cuál es mi 3-load chain projection?</strong><br>
+                            Total profit? Daily average?</li>
+                    </ol>
+
+                    <p style="margin-top:1.5rem;text-align:center;font-weight:700">
+                        Si las 4 respuestas son positivas → Accept<br>
+                        Si 3/4 positivas → Probably accept<br>
+                        Si 2/4 positivas → Negotiate or analyze more<br>
+                        Si ≤1 positiva → Probably decline
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>♟️ ADVANCED: SACRIFICIAL MOVES</h2>
+                <p>A veces tomas un load "mediocre" para SET UP una gran chain.</p>
+
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>Ejemplo:</strong></p>
+                    <p>Current: Louisville (zone score 68)</p>
+                    <p>Load offer: Louisville → Detroit</p>
+                    <ul>
+                        <li>Payment: $550</li>
+                        <li>Miles: 360</li>
+                        <li>Profit: $172</li>
+                        <li>RPM: $1.53</li>
+                        <li><strong>Mediocre standalone ⚠️</strong></li>
+                    </ul>
+
+                    <p style="margin-top:1rem"><strong>BUT:</strong></p>
+                    <ul>
+                        <li>Detroit zone score: 94</li>
+                        <li>Expected next load from Detroit: $1.70/mi</li>
+                        <li>Wait time: 9 hrs</li>
+                    </ul>
+
+                    <p style="margin-top:1rem;text-align:center;font-weight:700">
+                        <strong>STRATEGY:</strong><br>
+                        Accept "mediocre" Louisville → Detroit<br>
+                        PORQUE te posiciona en premium zone<br>
+                        <br>
+                        1-load view: Meh ⚠️<br>
+                        2-load chain: Great ✅<br>
+                        3-load chain: Excellent ✅✅
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🚨 RED FLAGS EN CHAIN PLANNING</h2>
+
+                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>⚠️ WARNING SIGNS:</strong></p>
+                    <ul>
+                        <li>□ Chain te aleja >800 mi from home circuit</li>
+                        <li>□ Alguna zona en chain tiene score <60< /li>
+                        <li>□ Múltiples legs tienen wait time >24 hrs</li>
+                        <li>□ Daily average profit <$200< /li>
+                        <li>□ No hay clear "return path" to good zones</li>
+                        <li>□ Estás chasing "one big load" into dead zone</li>
+                        <li>□ Chain depende de "hoping" for backhaul</li>
+                    </ul>
+                    <p style="margin-top:1rem;font-weight:700;text-align:center">Si 3+ red flags → Reconsider the plan
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 CONCLUSIÓN DEL MÓDULO 3</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;">
+                    <p style="font-size:1.25rem;font-weight:700;text-align:center;margin-bottom:1.5rem">🎓 Has
+                        completado el Módulo 3</p>
+
+                    <p><strong>Lo que dominaste:</strong></p>
+                    <ul>
+                        <li>✅ Identificar TUS zonas personales de oro</li>
+                        <li>✅ Entender flow de freight por estado</li>
+                        <li>✅ Usar Heat Map como strategic GPS</li>
+                        <li>✅ Cuándo deadhead es inversión vs gasto</li>
+                        <li>✅ Pensar en chains, no loads individuales</li>
+                    </ul>
+
+                    <p style="margin-top:1.5rem"><strong>TRANSFORMACIÓN:</strong></p>
+                    <ul>
+                        <li>De: "Acepto loads uno por uno random"<br>
+                            A: "Ejecuto circuits estratégicos con 3-load vision"</li>
+                        <li>De: "¿Por qué no ahorro dinero?"<br>
+                            A: "Profit predecible $1,500-2,500/semana"</li>
+                        <li>De: "Vagando por USA sin plan"<br>
+                            A: "Home circuit de 4-6 zonas optimizadas"</li>
+                    </ul>
+
+                    <p style="margin-top:1.5rem"><strong>RESULTADO ESPERADO:</strong></p>
+                    <ul style="margin-bottom:0">
+                        <li>+30-40% profit increase</li>
+                        <li>-20% stress decrease</li>
+                        <li>+50% consistency</li>
+                    </ul>
+
+                    <div
+                        style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
+                        <p style="margin:0;font-weight:700">Progress: 60% del Academy FREE completado</p>
+                        <div
+                            style="background:rgba(255,255,255,.1);height:12px;border-radius:1rem;margin-top:.5rem;overflow:hidden">
+                            <div style="background:linear-gradient(90deg,#00D9FF,#FFD700);height:100%;width:60%"></div>
+                        </div>
+                        <p style="margin-top:.5rem;font-size:.875rem">START HERE + Módulos 1-3 completados</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Completar Módulo
+                3</button>
+            <nav class="lesson-nav">
+                <a href="lesson-4.html" class="btn btn-secondary">← Lección anterior</a>
+                <a href="../../academy.html" class="btn btn-primary">Volver al Academy →</a>
+            </nav>
+        </footer>
+    </article>
+
+    <script src="../js/academy.js"></script>
+    <script>
+        const MODULE_NUM = 3, LESSON_NUM = 5; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Módulo 3 Completado'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true; alert('¡Módulo 3 completado! 🎉\n\nDominaste la estrategia de zonas.\n\nMódulo 4 es PRO content.') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Módulo 3 Completado'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true } });
+    </script>
+</body>
+
+</html>

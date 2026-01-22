@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 4: Sistemas y Automatización | Smart Load Academy</title>
+    <link rel="icon" type="image/png" href="../../img/logo-app.png" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.7
+        }
+
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem
+        }
+
+        .breadcrumb {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: .875rem
+        }
+
+        .breadcrumb a {
+            color: #00D9FF;
+            text-decoration: none
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem
+        }
+
+        .lesson-content h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff
+        }
+
+        .lesson-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: .75rem
+        }
+
+        .lesson-content p {
+            margin-bottom: 1.5rem;
+            color: #d0d0d0
+        }
+
+        .lesson-content ul,
+        .lesson-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem
+        }
+
+        .mockup {
+            background: rgba(20, 20, 20, .9);
+            border: 2px solid rgba(0, 217, 255, .3);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: .9rem
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: rgba(20, 20, 20, .8);
+            border-radius: .75rem;
+            overflow: hidden
+        }
+
+        th,
+        td {
+            padding: .75rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, .1);
+            font-size: .9rem
+        }
+
+        th {
+            background: rgba(0, 217, 255, .1);
+            color: #00D9FF;
+            font-weight: 700
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: .75rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all .3s ease
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #FFD700 0%, #FF6B35 100%);
+            color: #000
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .2)
+        }
+
+        .lesson-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem
+        }
+    </style>
+</head>
+
+<body>
+    <article class="lesson-container">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 6 [PRO]</a> → Lección 4
+        </nav>
+
+        <div
+            style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
+            🔒 CONTENIDO PRO</div>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Sistemas y Automatización</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 13 min lectura</span>
+                <span>🎓 Módulo 6 - Lección 4</span>
+                <span>⏰ Automatización</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>⏰ EL VALOR DE TU TIEMPO</h2>
+
+                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>CÁLCULO SIMPLE:</strong></p>
+                    <ul>
+                        <li>Ganancia mensual: $4,500</li>
+                        <li>Horas trabajadas: 180 hrs/mes</li>
+                        <li><strong>Valor por hora: $25/hr</strong></li>
+                    </ul>
+                    <p style="margin:0"><strong>PERO...</strong> No todas las horas son iguales:</p>
+                    <ul style="margin-top:.5rem;margin-bottom:0">
+                        <li>Horas productivas (manejando cargado): $40-60/hr</li>
+                        <li>Horas administrativas: $0/hr directamente</li>
+                    </ul>
+                </div>
+
+                <p
+                    style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
+                    OBJETIVO: Minimizar horas admin<br>Maximizar horas productivas
+                </p>
+            </section>
+
+            <section>
+                <h2>🎯 LAS 8 ÁREAS DE AUTOMATIZACIÓN</h2>
+
+                <h3>ÁREA #1: Tracking Financiero</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>MÉTODO</th>
+                            <th>TIEMPO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background:rgba(255,107,53,.1)">
+                            <td>Manual: Cuaderno paper, Excel fin de mes</td>
+                            <td>15 hrs/mes</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.08)">
+                            <td>Automatizado: Smart Load auto-registra, reportes automáticos</td>
+                            <td>3 hrs/mes</td>
+                        </tr>
+                        <tr style="background:rgba(255,215,0,.15)">
+                            <td><strong>AHORRO</strong></td>
+                            <td><strong>12 hrs/mes × $25 = $300/mes</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>ÁREA #2: Comunicación con Brokers</h3>
+                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>MÉTODO MANUAL:</strong> 20 min por carga × 24 cargas = 8 hrs/mes</p>
+                    <p><strong>MÉTODO CON TEMPLATES:</strong> 5 min por carga × 24 cargas = 2 hrs/mes</p>
+
+                    <p><strong>6 TEMPLATES ESENCIALES:</strong></p>
+                    <ol style="margin:0;font-size:.9rem">
+                        <li>"Confirmado. Recojo en [HORA]. ETA entrega [HORA]."</li>
+                        <li>"En recogida. Cargando. Update en 30 min."</li>
+                        <li>"Cargado. En ruta. ETA [HORA]."</li>
+                        <li>"A mitad. Todo OK. ETA sin cambios."</li>
+                        <li>"30 min de entrega."</li>
+                        <li>"Entregado. BOL adjunto. Gracias."</li>
+                    </ol>
+                    <p style="margin-top:1rem;margin-bottom:0"><strong>AHORRO: 6 hrs/mes</strong></p>
+                </div>
+
+                <h3>ÁREA #3: Documentación Digital</h3>
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>SETUP (1 hora una vez):</strong></p>
+                    <ol>
+                        <li>Instala app scanner gratis (Adobe Scan, Microsoft Lens)</li>
+                        <li>Crea estructura Google Drive: /2024/01-Enero/BOLs/Receipts</li>
+                        <li>Nombra archivos: "2024-12-15_BOL_Detroit-Chicago_ABC.pdf"</li>
+                    </ol>
+                    <p><strong>PROCESO DIARIO:</strong> Foto BOL (3 min) → Auto-upload → Done</p>
+                    <p style="margin:0"><strong>AHORRO: 4 hrs/mes</strong> (vs buscar documentos perdidos)</p>
+                </div>
+
+                <h3>ÁREA #4: Planificación de Rutas</h3>
+                <ul>
+                    <li><strong>Waze optimizado:</strong> Set arrival time, evita tráfico proactivamente</li>
+                    <li>Ahorro: 30-45 min/día = 15 hrs/mes</li>
+                    <li><strong>Valor: 15 hrs × $25 = $375/mes</strong></li>
+                </ul>
+
+                <h3>ÁREA #5: Mantenimiento Tracking</h3>
+                <ul>
+                    <li><strong>Smart Load:</strong> Auto-registra millas, calcula próximo servicio, notifica 500 millas
+                        antes</li>
+                    <li><strong>Alternativa gratis:</strong> Car Minder App</li>
+                    <li><strong>Ahorro: 1-2 hrs/mes + $100-200/mes</strong> (evitando mantenimiento tardío)</li>
+                </ul>
+
+                <h3>ÁREA #6: Expense Tracking</h3>
+                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>SETUP CRÍTICO:</strong></p>
+                    <ol>
+                        <li><strong>Tarjeta de crédito SOLO negocio</strong> (Chase Ink 5% gas, todo auto-categorizado)
+                        </li>
+                        <li><strong>App expenses:</strong> QuickBooks Self-Employed ($15/mes), Wave (GRATIS), o Smart
+                            Load</li>
+                        <li><strong>Regla simple:</strong> TODO gasto negocio en tarjeta negocio. Sin excepciones.</li>
+                    </ol>
+                    <p style="margin:0"><strong>BENEFICIOS:</strong><br>
+                        • Cero recibos perdidos<br>
+                        • Categorización automática<br>
+                        • Reportes impuestos: 1 click<br>
+                        • <strong>AHORRO: 8-10 hrs/mes + $500-1,000/año impuestos</strong></p>
+                </div>
+
+                <h3>ÁREA #7: Comunicación de Emergencia</h3>
+                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>PREPARACIÓN (30 min):</strong></p>
+                    <p>Crea "CONTACTOS DE EMERGENCIA" en teléfono:</p>
+                    <ul style="margin:0">
+                        <li>⚠️ EMERGENCY - BROKER PRINCIPAL</li>
+                        <li>⚠️ EMERGENCY - AAA</li>
+                        <li>⚠️ EMERGENCY - SHOP 24HR</li>
+                        <li>⚠️ EMERGENCY - SEGURO CLAIM</li>
+                    </ul>
+                    <p style="margin-top:1rem;margin-bottom:0"><strong>AHORRO EN EMERGENCIA: Invaluable</strong></p>
+                </div>
+
+                <h3>ÁREA #8: Facturación y Cobros</h3>
+                <p><strong>Smart Load:</strong> Auto-registra entrega, calcula fecha pago esperada (30 días), alerta si
+                    no pagado en 35 días</p>
+                <p><strong>AHORRO: 2-3 hrs/mes</strong> (no persiguiendo pagos perdidos)</p>
+            </section>
+
+            <section>
+                <h2>📊 RESUMEN DE AHORRO TOTAL</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ÁREA</th>
+                            <th>AHORRO (Horas/mes)</th>
+                            <th>VALOR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Tracking financiero</td>
+                            <td>12 hrs</td>
+                            <td>$300</td>
+                        </tr>
+                        <tr>
+                            <td>Comunicación (templates)</td>
+                            <td>6 hrs</td>
+                            <td>$150</td>
+                        </tr>
+                        <tr>
+                            <td>Documentación digital</td>
+                            <td>4 hrs</td>
+                            <td>$100</td>
+                        </tr>
+                        <tr>
+                            <td>Planificación rutas</td>
+                            <td>15 hrs</td>
+                            <td>$375</td>
+                        </tr>
+                        <tr>
+                            <td>Mantenimiento tracking</td>
+                            <td>1-2 hrs</td>
+                            <td>$25-50</td>
+                        </tr>
+                        <tr>
+                            <td>Expense tracking</td>
+                            <td>8-10 hrs</td>
+                            <td>$200-250</td>
+                        </tr>
+                        <tr>
+                            <td>Facturación</td>
+                            <td>2-3 hrs</td>
+                            <td>$50-75</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.15)">
+                            <td><strong>TOTAL</strong></td>
+                            <td><strong>48-52 hrs/mes</strong></td>
+                            <td><strong>$1,200-1,300/mes</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p
+                    style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
+                    META REALISTA: Automatizar 50-70% = 25-35 hrs/mes ahorradas<br>
+                    <strong style="color:#FFD700;font-size:1.25rem">Valor: $625-875/mes</strong><br>
+                    Setup inicial: 3-4 horas una vez<br>
+                    ROI: MASIVO
+                </p>
+            </section>
+
+            <section>
+                <h2>💡 CONCLUSIÓN CLAVE</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Tiempo = Dinero. Literalmente.</p>
+
+                    <div style="text-align:left;max-width:500px;margin:0 auto">
+                        <p><strong>Operador promedio:</strong> 18-22 hrs/mes en admin</p>
+                        <p><strong>Operador automatizado:</strong> 5-7 hrs/mes</p>
+                        <p><strong>Diferencia:</strong> 12-15 horas/mes ahorradas</p>
+
+                        <hr style="border-color:rgba(255,255,255,.2);margin:1.5rem 0">
+
+                        <p><strong>Las 8 áreas de automatización:</strong></p>
+                        <ol style="font-size:.9rem;">
+                            <li>Tracking financiero (Smart Load)</li>
+                            <li>Comunicación (Templates)</li>
+                            <li>Documentación (Digital/Cloud)</li>
+                            <li>Planificación rutas (Waze optimizado)</li>
+                            <li>Mantenimiento tracking (Auto-alertas)</li>
+                            <li>Expense tracking (Apps/Tarjeta negocio)</li>
+                            <li>Emergencias (Contactos pre-configurados)</li>
+                            <li>Facturación (Auto-tracking pagos)</li>
+                        </ol>
+
+                        <p
+                            style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
+                            <strong>Setup inicial:</strong> 3-4 horas una vez<br>
+                            <strong>Beneficio:</strong> 12-15 hrs/mes por siempre<br><br>
+                            <strong style="color:#FFD700;font-size:1.25rem">Cada hora en admin manual<br>
+                                es una hora que NO estás:</strong><br>
+                            • Manejando cargado ($40-60/hr)<br>
+                            • Con familia<br>
+                            • Descansando
+                        </p>
+
+                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">
+                            Automatiza para VIVIR.<br>
+                            No vivas para adminstrar.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+                completada</button>
+            <nav class="lesson-nav">
+                <a href="lesson-3.html" class="btn btn-secondary">← Lección anterior</a>
+                <a href="index.html" class="btn btn-primary">Volver al módulo →</a>
+            </nav>
+        </footer>
+    </article>
+
+    <script src="../js/academy.js"></script>
+    <script>
+        const MODULE_NUM = 6, LESSON_NUM = 4; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true; alert('¡Lección PRO completada! ⏰\n\n8 áreas de automatización.\nAhorro realista: 12-15 hrs/mes.\nValor: $300-375/mes.\n\nPrioridad: Templates comunicación + Scanner digital + Tarjeta negocio.\n\nSetup: 3-4 horas una vez.\nROI: Masivo.') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true } });
+    </script>
+</body>
+
+</html>

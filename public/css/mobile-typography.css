@@ -1,0 +1,624 @@
+/* =================================================================
+   MOBILE TYPOGRAPHY FIX - Expediter V2
+   Tamaños consistentes y legibles para móviles
+   ================================================================= */
+
+@media (max-width: 768px) {
+
+  /* ====================================
+     JERARQUÍA TIPOGRÁFICA ESTANDARIZADA
+     ==================================== */
+
+  /* H1 - Títulos de página principales */
+  h1,
+  .text-4xl,
+  .text-3xl {
+    font-size: 1.5rem !important;
+    /* 24px */
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    margin-bottom: 0.75rem !important;
+    /* ✅ Removed color to allow Tailwind classes */
+  }
+
+  /* H2 - Secciones principales */
+  h2,
+  .text-2xl {
+    font-size: 1.25rem !important;
+    /* 20px */
+    font-weight: 600 !important;
+    line-height: 1.25 !important;
+    margin-bottom: 0.5rem !important;
+    /* ✅ Removed color to allow Tailwind classes */
+  }
+
+  /* H3 - Subsecciones */
+  h3,
+  .text-xl {
+    font-size: 1.125rem !important;
+    /* 18px */
+    font-weight: 600 !important;
+    line-height: 1.5 !important;
+    margin-bottom: 0.5rem !important;
+    /* ✅ Removed color to allow Tailwind classes */
+  }
+
+  /* H4 - Títulos pequeños */
+  h4,
+  .text-lg {
+    font-size: 1rem !important;
+    /* 16px */
+    font-weight: 500 !important;
+    line-height: 1.5 !important;
+    margin-bottom: 0.25rem !important;
+    /* ✅ Removed color to allow Tailwind classes */
+  }
+
+  /* Texto base - ESTÁNDAR */
+  p,
+  div,
+  span,
+  .text-base,
+  td,
+  th,
+  li {
+    font-size: 0.875rem !important;
+    /* 14px */
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    /* ✅ Removed color: #374151 !important - was overriding Tailwind opacity classes */
+  }
+
+  /* Texto secundario */
+  .text-sm,
+  small {
+    font-size: 0.8125rem !important;
+    /* 13px */
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Texto metadata */
+  .text-xs {
+    font-size: 0.75rem !important;
+    /* 12px */
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+  }
+
+  /* ====================================
+     BOTONES
+     ==================================== */
+
+  button,
+  .btn,
+  input[type="button"],
+  input[type="submit"] {
+    font-size: 0.875rem !important;
+    /* 14px */
+    font-weight: 500 !important;
+    line-height: 1.5 !important;
+    min-height: 44px !important;
+    padding: 0.75rem 1rem !important;
+  }
+
+  button.text-sm,
+  .btn-sm {
+    font-size: 0.8125rem !important;
+    /* 13px */
+    min-height: 40px !important;
+    padding: 0.625rem 0.875rem !important;
+  }
+
+  /* ====================================
+     INPUTS Y FORMS
+     ==================================== */
+
+  input,
+  select,
+  textarea {
+    font-size: 1rem !important;
+    /* 16px - evita zoom iOS */
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    min-height: 44px !important;
+    padding: 0.75rem !important;
+    color: #111827 !important;
+    /* ✅ TEXTO OSCURO VISIBLE */
+    background-color: #ffffff !important;
+    /* Fondo blanco */
+  }
+
+  input::placeholder,
+  select::placeholder,
+  textarea::placeholder {
+    color: #9ca3af !important;
+    /* Placeholder gris */
+    opacity: 1 !important;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+    color: #111827 !important;
+  }
+
+  label {
+    font-size: 0.875rem !important;
+    /* 14px */
+    font-weight: 500 !important;
+    line-height: 1.5 !important;
+    margin-bottom: 0.25rem !important;
+    display: block !important;
+    /* ✅ Removed color to allow Tailwind classes */
+  }
+
+  /* ====================================
+     KPIs Y NÚMEROS DESTACADOS
+     ==================================== */
+
+  .kpi-value,
+  .text-3xl.font-bold,
+  .text-2xl.font-bold {
+    font-size: 1.5rem !important;
+    /* 24px */
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+  }
+
+  /* ====================================
+     TABLAS
+     ==================================== */
+
+  table {
+    font-size: 0.875rem !important;
+    /* 14px */
+  }
+
+  th {
+    font-size: 0.8125rem !important;
+    /* 13px */
+    font-weight: 600 !important;
+    padding: 0.5rem !important;
+  }
+
+  td {
+    font-size: 0.875rem !important;
+    /* 14px */
+    font-weight: 400 !important;
+    padding: 0.5rem !important;
+  }
+
+  /* ====================================
+     NAVEGACIÓN
+     ==================================== */
+
+  nav .tab-link {
+    font-size: 0.875rem !important;
+    /* 14px */
+    font-weight: 500 !important;
+    line-height: 1.5 !important;
+  }
+
+  /* ====================================
+     HEADER - NOMBRE DE LA APP
+     ==================================== */
+
+  header span.text-lg,
+  header .text-lg,
+  header span,
+  header .font-bold {
+    color: #111827 !important;
+    /* ✅ NEGRO VISIBLE */
+  }
+
+  /* ====================================
+     ESPECIALES - Panel de Decisión
+     ==================================== */
+
+  #quickPrice {
+    font-size: 1.75rem !important;
+    /* 28px */
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+  }
+
+  #decisionTitle {
+    font-size: 1.25rem !important;
+    /* 20px */
+    font-weight: 600 !important;
+  }
+
+  #decisionSubtitle {
+    font-size: 0.875rem !important;
+    /* 14px */
+    font-weight: 400 !important;
+  }
+
+  #quickRPM,
+  #quickNetProfit,
+  #quickMargin,
+  #quickProfitPerMile {
+    font-size: 1.125rem !important;
+    /* 18px */
+    font-weight: 600 !important;
+  }
+}
+
+/* ========================================
+   TABLET (768px - 1024px)
+   ======================================== */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  h1,
+  .text-4xl,
+  .text-3xl {
+    font-size: 2rem !important;
+    /* 32px */
+  }
+
+  h2,
+  .text-2xl {
+    font-size: 1.5rem !important;
+    /* 24px */
+  }
+
+  h3,
+  .text-xl {
+    font-size: 1.25rem !important;
+    /* 20px */
+  }
+}
+
+/* FIXES DE CONTRASTE PARA FONDO OSCURO */
+@media (max-width: 768px) {
+
+  /* Header blanco */
+  header span.text-lg,
+  header .text-lg,
+  header span {
+    color: #ffffff !important;
+  }
+
+  /* Inputs texto blanco */
+  input,
+  select,
+  textarea {
+    color: #ffffff !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  }
+
+  input::placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: #60a5fa !important;
+    background-color: rgba(255, 255, 255, 0.15) !important;
+  }
+
+  label {
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+}
+
+/* ===== MONTH PICKER MODAL OVERRIDE ===== */
+#monthPickerModal #monthButtonsContainer button,
+#monthPickerModal #monthButtonsContainer button span,
+#monthPickerModal #monthButtonsContainer button .text-lg {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+#monthPickerModal #monthButtonsContainer button:first-child {
+  background: linear-gradient(to right, #3b82f6, #2563eb) !important;
+}
+
+#monthPickerModal #monthButtonsContainer button:not(:first-child) {
+  background-color: rgba(30, 58, 138, 0.8) !important;
+  border: 2px solid rgba(96, 165, 250, 0.5) !important;
+}
+
+
+/* ===== FINANCES SUB-TABS WHITE TEXT ON MOBILE ===== */
+@media (max-width: 768px) {
+  .fin-subtab {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+
+  .fin-subtab.active,
+  .fin-subtab:hover {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    background-color: #3b82f6 !important;
+  }
+}
+
+/* ===== FINANCES KPI CARDS - UNIFORM SIZE ===== */
+@media (max-width: 768px) {
+  #finances-summary .grid.grid-cols-2>div {
+    min-height: 80px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  #finances-summary .grid.grid-cols-2>div h4 {
+    font-size: 0.7rem !important;
+    white-space: nowrap !important;
+  }
+
+  #finances-summary .grid.grid-cols-2>div p {
+    font-size: 1rem !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* ===== FINANCES YEAR/MONTH SELECTS - MOBILE ONLY ===== */
+@media (max-width: 768px) {
+
+  #yearSelect,
+  #monthSelect {
+    color: white !important;
+    -webkit-text-fill-color: white !important;
+    background-color: rgba(30, 58, 138, 0.5) !important;
+    border: 2px solid rgba(96, 165, 250, 0.4) !important;
+    min-height: 44px !important;
+  }
+
+  #yearSelect option,
+  #monthSelect option {
+    background-color: #1e3a8a !important;
+    color: white !important;
+  }
+
+  label[for='yearSelect'],
+  label[for='monthSelect'] {
+    color: white !important;
+    -webkit-text-fill-color: white !important;
+  }
+}
+
+/* ===== FINANCES FILTERS - WIDTH FIX FOR MOBILE ===== */
+@media (max-width: 768px) {
+  #finances-summary .grid.grid-cols-2 {
+    padding: 0.5rem !important;
+  }
+
+  #yearSelect,
+  #monthSelect {
+    width: 100% !important;
+    max-width: 140px !important;
+    font-size: 14px !important;
+  }
+
+  #finances-summary .card-section:first-of-type {
+    width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  #finances-summary .card-section:first-of-type .grid {
+    width: 100% !important;
+  }
+}
+
+/* ===== FINANCES REPORTS SELECTS - MOBILE ONLY ===== */
+@media (max-width: 768px) {
+
+  #reportYear,
+  #reportMonth {
+    color: white !important;
+    -webkit-text-fill-color: white !important;
+    background-color: rgba(30, 58, 138, 0.5) !important;
+    border: 2px solid rgba(96, 165, 250, 0.4) !important;
+    min-height: 40px !important;
+  }
+
+  #reportYear option,
+  #reportMonth option {
+    background-color: #1e3a8a !important;
+    color: white !important;
+  }
+
+  #finances-reports .card-section h3 {
+    color: white !important;
+    -webkit-text-fill-color: white !important;
+  }
+}
+
+/* ===== FINANCES REPORT CARDS - HEADERS ON MOBILE ===== */
+@media (max-width: 768px) {
+  #finances-reports .card-section h3 {
+    font-size: 1rem !important;
+    white-space: nowrap !important;
+  }
+
+  #finances-reports .card-section p {
+    font-size: 0.85rem !important;
+  }
+
+  #finances-reports .card-section button {
+    font-size: 0.85rem !important;
+    padding: 0.6rem 1rem !important;
+  }
+}
+
+/* ===== REPORT MODAL CONTENT - SMALLER HEADERS ON MOBILE ===== */
+@media (max-width: 768px) {
+  #reportContent h1 {
+    font-size: 1.25rem !important;
+  }
+
+  #reportContent h2 {
+    font-size: 1.1rem !important;
+  }
+
+  #reportContent h3 {
+    font-size: 1rem !important;
+  }
+
+  #reportContent h4 {
+    font-size: 0.9rem !important;
+  }
+
+  #reportContent .text-3xl {
+    font-size: 1.25rem !important;
+  }
+
+  #reportContent .text-2xl {
+    font-size: 1.1rem !important;
+  }
+
+  #reportContent .text-xl {
+    font-size: 1rem !important;
+  }
+
+  #reportContent .text-lg {
+    font-size: 0.9rem !important;
+  }
+
+  #reportContent p,
+  #reportContent td,
+  #reportContent th {
+    font-size: 0.8rem !important;
+  }
+
+  #reportContent table {
+    font-size: 0.75rem !important;
+  }
+}
+
+/* ===== REPORT SECTION TITLES - FORCE SMALLER ON MOBILE ===== */
+@media (max-width: 768px) {
+
+  #reportContent h3.text-xl,
+  #reportContent .text-xl.font-bold {
+    font-size: 0.95rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  #reportContent .mb-8 {
+    margin-bottom: 1rem !important;
+  }
+
+  #reportContent .mb-6 {
+    margin-bottom: 0.75rem !important;
+  }
+
+  #reportContent .grid.gap-6 {
+    gap: 0.75rem !important;
+  }
+
+  #reportContent .grid.gap-4 {
+    gap: 0.5rem !important;
+  }
+
+  #reportContent .p-4 {
+    padding: 0.75rem !important;
+  }
+
+  #reportContent .p-6 {
+    padding: 1rem !important;
+  }
+}
+
+/* ===== TAX REPORT - FORCE VISIBLE COLORS ON MOBILE ===== */
+@media (max-width: 768px) {
+  #reportContent .bg-amber-50 {
+    background-color: #fffbeb !important;
+  }
+
+  #reportContent .text-amber-900 {
+    color: #78350f !important;
+    -webkit-text-fill-color: #78350f !important;
+  }
+
+  #reportContent .text-amber-800 {
+    color: #92400e !important;
+    -webkit-text-fill-color: #92400e !important;
+  }
+
+  #reportContent .text-amber-800 li {
+    color: #92400e !important;
+    -webkit-text-fill-color: #92400e !important;
+  }
+
+  #reportContent .bg-gray-100 {
+    background-color: #f3f4f6 !important;
+  }
+
+  #reportContent .text-gray-800 {
+    color: #1f2937 !important;
+    -webkit-text-fill-color: #1f2937 !important;
+  }
+
+  #reportContent .text-gray-700 {
+    color: #374151 !important;
+    -webkit-text-fill-color: #374151 !important;
+  }
+}
+
+/* ===== TAX REPORT HEADERS - WHITE TEXT ON MOBILE ===== */
+@media (max-width: 768px) {
+
+  /* Header section text - only in the header area */
+  #reportContent>div:first-child h3,
+  #reportContent .text-center.mb-8 h3 {
+    color: white !important;
+    -webkit-text-fill-color: white !important;
+  }
+
+  /* PART II EXPENSES and section headers */
+  #reportContent>.mb-8>h3,
+  #reportContent h3.text-xl.font-bold {
+    color: white !important;
+    -webkit-text-fill-color: white !important;
+  }
+
+  /* Table headers in tax report - darker blue */
+  #reportContent thead th {
+    color: white !important;
+    -webkit-text-fill-color: white !important;
+    background-color: rgba(30, 58, 138, 0.95) !important;
+  }
+
+  /* Table cells - BLUE background with WHITE text */
+  #reportContent table td {
+    color: white !important;
+    -webkit-text-fill-color: white !important;
+    background-color: rgba(30, 58, 138, 0.7) !important;
+  }
+
+  /* Alternate rows slightly different */
+  #reportContent tbody tr:nth-child(even) td {
+    background-color: rgba(30, 58, 138, 0.6) !important;
+  }
+
+  /* Table footer */
+  #reportContent tfoot td {
+    color: white !important;
+    -webkit-text-fill-color: white !important;
+    background-color: rgba(30, 58, 138, 0.9) !important;
+    font-weight: bold !important;
+  }
+}
+
+/* ===== FORCE TABLE HEADERS WHITE ON MOBILE ===== */
+@media (max-width: 768px) {
+
+  #reportContent table thead,
+  #reportContent table thead tr,
+  #reportContent table thead tr th {
+    color: white !important;
+    -webkit-text-fill-color: white !important;
+    background-color: rgba(30, 58, 138, 1) !important;
+  }
+}

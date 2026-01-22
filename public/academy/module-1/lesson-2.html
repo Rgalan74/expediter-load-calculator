@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 2: Costos Visibles vs Invisibles | Smart Load Academy</title>
+    <link rel="icon" type="image/png" href="../../img/logo-app.png" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/academy.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.7;
+        }
+
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .breadcrumb {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: 0.875rem;
+        }
+
+        .breadcrumb a {
+            color: #00D9FF;
+            text-decoration: none;
+        }
+
+        .lesson-header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .lesson-content h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .lesson-content p {
+            margin-bottom: 1.5rem;
+            color: #d0d0d0;
+        }
+
+        .lesson-content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .callout {
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin: 2rem 0;
+            border-left: 4px solid;
+        }
+
+        .callout.tip {
+            background: rgba(0, 217, 255, 0.1);
+            border-color: #00D9FF;
+        }
+
+        .callout.warning {
+            background: rgba(255, 107, 53, 0.1);
+            border-color: #FF6B35;
+        }
+
+        .callout strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            background: rgba(0, 217, 255, 0.1);
+            color: #00D9FF;
+            font-weight: 700;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lesson-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <article class="lesson-container">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> →
+            <a href="index.html">Módulo 1</a> →
+            Lección 2
+        </nav>
+
+        <header class="lesson-header">
+            <h1>Costos Visibles vs Costos Invisibles</h1>
+            <div style="display: flex; gap: 1.5rem; font-size: 0.875rem; color: #888;">
+                <span>📖 7 min lectura</span>
+                <span>🎓 Módulo 1 - Lección 2</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>🔍 EL PROBLEMA</h2>
+                <p>La mayoría solo piensa en:</p>
+                <ul>
+                    <li>✅ Gasolina</li>
+                    <li>✅ Tolls (cuando los hay)</li>
+                </ul>
+
+                <div class="callout warning">
+                    <strong>❌ ERROR GRAVE</strong>
+                    <p>Hay costos invisibles que están comiendo tus ganancias en silencio. Los costos visibles
+                        representan solo el 60-70% de tus costos totales.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>📊 TABLA DE COSTOS REALES</h2>
+                <p><strong>Straight Truck / Sprinter Van (por milla)</strong></p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>COSTOS VARIABLES</th>
+                            <th>Rango</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Combustible</td>
+                            <td>$0.42 - $0.50</td>
+                        </tr>
+                        <tr>
+                            <td>DEF (Diesel Exhaust Fluid)</td>
+                            <td>$0.03 - $0.05</td>
+                        </tr>
+                        <tr>
+                            <td>Mantenimiento programado</td>
+                            <td>$0.08 - $0.12</td>
+                        </tr>
+                        <tr>
+                            <td>Desgaste de llantas</td>
+                            <td>$0.03 - $0.04</td>
+                        </tr>
+                        <tr>
+                            <td>Tolls/Parking (promedio)</td>
+                            <td>$0.02 - $0.05</td>
+                        </tr>
+                        <tr style="background: rgba(0, 217, 255, 0.05);">
+                            <td><strong>SUBTOTAL VARIABLE</strong></td>
+                            <td><strong>$0.58 - $0.76</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>COSTOS FIJOS</th>
+                            <th>Rango</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Pago de van/lease</td>
+                            <td>$0.15 - $0.25</td>
+                        </tr>
+                        <tr>
+                            <td>Seguro (liability + cargo)</td>
+                            <td>$0.08 - $0.12</td>
+                        </tr>
+                        <tr>
+                            <td>Licencias/Permits anuales</td>
+                            <td>$0.01 - $0.02</td>
+                        </tr>
+                        <tr>
+                            <td>Depreciación del vehículo</td>
+                            <td>$0.05 - $0.08</td>
+                        </tr>
+                        <tr>
+                            <td>Celular/apps/tecnología</td>
+                            <td>$0.01 - $0.02</td>
+                        </tr>
+                        <tr style="background: rgba(0, 217, 255, 0.05);">
+                            <td><strong>SUBTOTAL FIJO</strong></td>
+                            <td><strong>$0.30 - $0.49</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div
+                    style="background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(255, 215, 0, 0.2)); padding: 1.5rem; border-radius: 0.75rem; text-align: center; font-size: 1.25rem; font-weight: 800;">
+                    TOTAL COSTO OPERATIVO: $0.88 - $1.25 /milla
+                </div>
+                <p style="text-align: center; color: #888; margin-top: 0.5rem;"><em>* Basado en 100,000 millas
+                        anuales</em></p>
+            </section>
+
+            <section>
+                <h2>👻 LOS COSTOS INVISIBLES MÁS IMPORTANTES</h2>
+
+                <h3>1. DEPRECIACIÓN ($0.05-$0.08/milla)</h3>
+                <p>El más "invisible" pero muy real:</p>
+                <ul>
+                    <li>Compra de van: $80,000</li>
+                    <li>Valor en 5 años: $30,000</li>
+                    <li>Pérdida de valor: $50,000</li>
+                    <li><strong>= $0.10/milla de pérdida</strong></li>
+                </ul>
+                <p>No ves esta salida de dinero diariamente, pero cuando vendas tu van, sentirás el impacto.</p>
+
+                <h3>2. PAGO DE VAN ($0.15-$0.25/milla)</h3>
+                <div class="callout warning">
+                    <strong>⚠️ OJO: Si haces MENOS millas, este costo POR MILLA sube:</strong>
+                    <ul>
+                        <li>6,000 millas/mes: $1,800 ÷ 6,000 = <strong>$0.30/milla</strong></li>
+                        <li>10,000 millas/mes: $1,800 ÷ 10,000 = <strong>$0.18/milla</strong></li>
+                    </ul>
+                    <p>Tu costo fijo por milla mejora haciendo MÁS millas (si mantienes la rentabilidad).</p>
+                </div>
+
+                <h3>3. SEGURO ($0.08-$0.12/milla)</h3>
+                <p>Seguro anual típico:</p>
+                <ul>
+                    <li>Liability: $6,000</li>
+                    <li>Physical damage: $3,000</li>
+                    <li>Cargo: $1,500</li>
+                    <li><strong>TOTAL: $10,500/año = $0.105/milla</strong></li>
+                </ul>
+                <p><strong>Pagas esto AUNQUE NO RUEDES.</strong> Por eso necesitas maximizar tus millas rentables.</p>
+            </section>
+
+            <section>
+                <h2>🚨 LA REGLA DE LOS COSTOS INVISIBLES</h2>
+
+                <div
+                    style="background: rgba(255, 107, 53, 0.1); padding: 2rem; border-radius: 0.75rem; text-align: center; margin: 2rem 0;">
+                    <p style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">Si tu van está RODANDO, está
+                        generando costos.<br>Si tu van está PARADA, algunos costos siguen corriendo.</p>
+                    <p>NO existe "día libre" para: Seguro, Pago de van, Depreciación, Licencias</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>✏️ CALCULA TUS COSTOS REALES</h2>
+
+                <div style="background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 0.75rem;">
+                    <p><strong>PASO 1: Costos Fijos Mensuales</strong></p>
+                    <ul>
+                        <li>Pago de van/lease: $_________</li>
+                        <li>Seguro (÷ 12 si es anual): $_________</li>
+                        <li>Licencias/permisos (÷ 12): $_________</li>
+                        <li>Celular/apps: $_________</li>
+                        <li><strong>TOTAL FIJO MENSUAL: $_________ (A)</strong></li>
+                    </ul>
+
+                    <p style="margin-top: 1.5rem;"><strong>PASO 2: Millas Mensuales Promedio</strong></p>
+                    <p>Millas que haces al mes: _________ (B)</p>
+
+                    <p style="margin-top: 1.5rem;"><strong>PASO 3: Costo Fijo por Milla</strong></p>
+                    <p>(A) ÷ (B) = <strong style="color: #00D9FF;">$_________/milla (C)</strong></p>
+
+                    <p style="margin-top: 1.5rem;"><strong>PASO 4: Costos Variables</strong></p>
+                    <ul>
+                        <li>Combustible (tu MPG real): $_________/milla</li>
+                        <li>DEF: $_________/milla</li>
+                        <li>Mantenimiento: $_________/milla</li>
+                        <li>Llantas: $_________/milla</li>
+                        <li>Tolls/parking promedio: $_________/milla</li>
+                        <li><strong>TOTAL VARIABLE: $_________ (D)</strong></li>
+                    </ul>
+
+                    <div
+                        style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.2), rgba(255, 107, 53, 0.2)); padding: 1rem; border-radius: 0.5rem; margin-top: 1.5rem; text-align: center;">
+                        <p style="font-size: 1.1rem;"><strong>PASO 5: TU COSTO TOTAL POR MILLA</strong></p>
+                        <p style="font-size: 1.5rem; font-weight: 900; color: #00D9FF; margin-top: 0.5rem;">(C) + (D) =
+                            $_________/milla</p>
+                    </div>
+
+                    <p style="margin-top: 1rem; text-align: center;"><strong>Guarda este número. Lo necesitarás en la
+                            siguiente lección.</strong></p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🚨 RED FLAGS DE COSTOS</h2>
+
+                <div class="callout warning">
+                    <strong>Señales de que tus costos están fuera de control:</strong>
+                    <ul>
+                        <li>⚠️ Combustible >$0.55/milla → Revisa driving style</li>
+                        <li>⚠️ Mantenimiento >$0.15/milla → Tu van necesita atención NOW</li>
+                        <li>⚠️ Costos fijos >$0.50/milla → Necesitas más millas o reducir pagos</li>
+                        <li>⚠️ Costo total >$1.30/milla → Difícil ser rentable, revisa operación</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 CONCLUSIÓN CLAVE</h2>
+
+                <div
+                    style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(255, 107, 53, 0.1)); padding: 2rem; border-radius: 0.75rem; text-align: center;">
+                    <p style="font-size: 1.25rem; font-weight: 700;">Los costos invisibles son REALES.</p>
+                    <p style="margin-top: 1rem;">Solo porque no los ves cada día no significa que no existan.</p>
+                    <p style="margin-top: 1rem;">Tu van SIEMPRE cuesta dinero.<br>La pregunta es: ¿estás ganando MÁS de
+                        lo que cuesta?</p>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">
+                ✓ Marcar como completada
+            </button>
+
+            <nav class="lesson-nav">
+                <a href="lesson-1.html" class="btn btn-secondary">← Lección anterior</a>
+                <a href="lesson-3.html" class="btn btn-primary">Siguiente: Break-even →</a>
+            </nav>
+        </footer>
+    </article>
+
+    <script src="../js/academy.js"></script>
+    <script>
+        const MODULE_NUM = 1;
+        const LESSON_NUM = 2;
+
+        function markLessonComplete() {
+            if (window.AcademyProgress) {
+                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+                const btn = document.getElementById('markCompleteBtn');
+                btn.textContent = '✓ Completada';
+                btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                btn.disabled = true;
+                alert('¡Lección completada! 🎉');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+                const btn = document.getElementById('markCompleteBtn');
+                btn.textContent = '✓ Completada';
+                btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                btn.disabled = true;
+            }
+        });
+    </script>
+</body>
+
+</html>
