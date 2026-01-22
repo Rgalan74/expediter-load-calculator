@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 4: Forecasting y Planificación | Smart Load Academy</title>
+    <link rel="icon" type="image/png" href="../../img/logo-app.png" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.7
+        }
+
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem
+        }
+
+        .breadcrumb {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: .875rem
+        }
+
+        .breadcrumb a {
+            color: #00D9FF;
+            text-decoration: none
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem
+        }
+
+        .lesson-content h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff
+        }
+
+        .lesson-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: .75rem
+        }
+
+        .lesson-content p {
+            margin-bottom: 1.5rem;
+            color: #d0d0d0
+        }
+
+        .lesson-content ul,
+        .lesson-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem
+        }
+
+        .mockup {
+            background: rgba(20, 20, 20, .9);
+            border: 2px solid rgba(0, 217, 255, .3);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: .9rem
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: rgba(20, 20, 20, .8);
+            border-radius: .75rem;
+            overflow: hidden
+        }
+
+        th,
+        td {
+            padding: .75rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, .1);
+            font-size: .9rem
+        }
+
+        th {
+            background: rgba(0, 217, 255, .1);
+            color: #00D9FF;
+            font-weight: 700
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: .75rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all .3s ease
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #FFD700 0%, #FF6B35 100%);
+            color: #000
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .2)
+        }
+
+        .lesson-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem
+        }
+    </style>
+</head>
+
+<body>
+    <article class="lesson-container">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 5 [PRO]</a> → Lección 4
+        </nav>
+
+        <div
+            style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
+            🔒 CONTENIDO PRO</div>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Forecasting y Planificación: Predecir Ingresos Futuros</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 13 min lectura</span>
+                <span>🎓 Módulo 5 - Lección 4</span>
+                <span>🔮 Forecasting</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>🔮 EL PODER DE PREDICCIÓN</h2>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
+                    <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
+                        <p><strong>CHOFER REACTIVO:</strong></p>
+                        <p style="margin:0;font-style:italic">"Espero que este mes sea bueno.<br>
+                            No sé cuánto ganaré.<br>
+                            Vivo mes a mes."</p>
+                    </div>
+
+                    <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
+                        <p><strong>CHOFER PROACTIVO:</strong></p>
+                        <p style="margin:0;font-style:italic">"Basado en mis últimos 6 meses, proyección para diciembre
+                            es $4,800-5,200. Si está bajo $4,500 a mitad de mes, sé que necesito 2-3 cargas más."</p>
+                    </div>
+                </div>
+
+                <p
+                    style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
+                    La diferencia: FORECASTING
+                </p>
+            </section>
+
+            <section>
+                <h2>📊 MÉTODOS DE FORECASTING</h2>
+
+                <h3>MÉTODO #1: Promedio Móvil (Simple)</h3>
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>CONCEPTO:</strong> Promedio de últimos 3-6 meses predice próximo mes</p>
+                    <p><strong>CÁLCULO:</strong> Suma ganancia últimos 6 meses ÷ 6 = Proyección</p>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>MES</th>
+                                <th>GANANCIA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Julio</td>
+                                <td>$4,200</td>
+                            </tr>
+                            <tr>
+                                <td>Agosto</td>
+                                <td>$4,650</td>
+                            </tr>
+                            <tr>
+                                <td>Septiembre</td>
+                                <td>$3,900</td>
+                            </tr>
+                            <tr>
+                                <td>Octubre</td>
+                                <td>$4,850</td>
+                            </tr>
+                            <tr>
+                                <td>Noviembre</td>
+                                <td>$4,400</td>
+                            </tr>
+                            <tr>
+                                <td>Diciembre</td>
+                                <td>$4,600</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin:0">
+                        SUMA: $26,600 ÷ 6 = <strong style="color:#00D9FF">$4,433 promedio</strong><br>
+                        PROYECCIÓN ENERO 2025: <strong>$4,400-4,500</strong><br><br>
+                        <strong>PRECISIÓN:</strong> 70-80%<br>
+                        <strong>VENTAJA:</strong> Simple, rápido<br>
+                        <strong>DESVENTAJA:</strong> No cuenta tendencias
+                    </p>
+                </div>
+
+                <h3>MÉTODO #2: Tendencia Lineal (Intermedio)</h3>
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem;margin-top:1.5rem">
+                    <p><strong>CONCEPTO:</strong> Considera si estás mejorando/empeorando con tiempo</p>
+
+                    <p><strong>ANÁLISIS:</strong><br>
+                        Julio → Diciembre (6 meses)<br>
+                        • Empezaste: $4,200<br>
+                        • Terminaste: $4,600<br>
+                        • Crecimiento: +$400 en 6 meses<br>
+                        • Tendencia: +$67/mes promedio</p>
+
+                    <p style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin:0">
+                        <strong>PROYECCIÓN ENERO:</strong><br>
+                        $4,600 (dic) + $67 (tendencia) = <strong style="color:#00D9FF">$4,667</strong><br><br>
+                        <strong>PROYECCIÓN FEBRERO:</strong><br>
+                        $4,667 + $67 = <strong>$4,734</strong><br><br>
+                        <strong>PRECISIÓN:</strong> 75-85%<br>
+                        <strong>VENTAJA:</strong> Cuenta momentum<br>
+                        <strong>DESVENTAJA:</strong> Asume tendencia continúa
+                    </p>
+                </div>
+
+                <h3>MÉTODO #3: Estacionalidad (Avanzado)</h3>
+                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem;margin-top:1.5rem">
+                    <p><strong>CONCEPTO:</strong> Ciertos meses son mejores/peores consistentemente</p>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>MES</th>
+                                <th>2023</th>
+                                <th>2024</th>
+                                <th>PROMEDIO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Enero</td>
+                                <td>$3,800</td>
+                                <td>$4,100</td>
+                                <td>$3,950 ⚠️</td>
+                            </tr>
+                            <tr>
+                                <td>Febrero</td>
+                                <td>$3,600</td>
+                                <td>$3,900</td>
+                                <td>$3,750 🔴</td>
+                            </tr>
+                            <tr>
+                                <td>Marzo</td>
+                                <td>$4,200</td>
+                                <td>$4,500</td>
+                                <td>$4,350 🟡</td>
+                            </tr>
+                            <tr>
+                                <td>Octubre</td>
+                                <td>$5,200</td>
+                                <td>$5,400</td>
+                                <td>$5,300 🟢🟢</td>
+                            </tr>
+                            <tr>
+                                <td>Noviembre</td>
+                                <td>$5,600</td>
+                                <td>$5,800</td>
+                                <td>$5,700 🟢🟢</td>
+                            </tr>
+                            <tr>
+                                <td>Diciembre</td>
+                                <td>$5,400</td>
+                                <td>$5,600</td>
+                                <td>$5,500 🟢🟢</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p><strong>PATRONES IDENTIFICADOS:</strong></p>
+                    <ul style="margin:0">
+                        <li>Q1 (Ene-Mar): -15% bajo promedio</li>
+                        <li>Q2 (Abr-Jun): +5% sobre promedio</li>
+                        <li>Q3 (Jul-Sep): Promedio</li>
+                        <li>Q4 (Oct-Dic): +25% sobre promedio</li>
+                    </ul>
+
+                    <p
+                        style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1rem;margin-bottom:0">
+                        <strong>PROYECCIÓN ENERO 2025:</strong><br>
+                        Base tendencia: $4,667<br>
+                        Ajuste estacional: -15%<br>
+                        = $4,667 × 0.85 = <strong style="color:#FFD700">$3,967</strong><br><br>
+                        <strong>PRECISIÓN:</strong> 85-90% (con 2+ años datos)<br>
+                        <strong>VENTAJA:</strong> Muy preciso<br>
+                        <strong>DESVENTAJA:</strong> Necesita historial largo
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>📱 FORECASTING ENGINE EN SMART LOAD</h2>
+
+                <div class="mockup">
+                    🔮 PROYECCIÓN DE GANANCIA<br>
+                    <br>
+                    Modelo: Estacionalidad + Tendencia<br>
+                    Basado en: 18 meses historial<br>
+                    <br>
+                    PRÓXIMOS 3 MESES:<br>
+                    <br>
+                    📅 ENERO 2025<br>
+                    ├─ Proyección: $4,100-4,400<br>
+                    ├─ Confianza: 87% 🟢<br>
+                    ├─ Factores:<br>
+                    │ • Mes históricamente bajo<br>
+                    │ • Pero tendencia mejorando<br>
+                    └─ Cargas necesarias: 22-24<br>
+                    <br>
+                    📅 FEBRERO 2025<br>
+                    ├─ Proyección: $3,900-4,200<br>
+                    ├─ Confianza: 85% 🟢<br>
+                    ├─ Factores:<br>
+                    │ • Mes más bajo del año<br>
+                    │ • Plan contingencia necesario<br>
+                    └─ Cargas necesarias: 20-22<br>
+                    <br>
+                    📅 MARZO 2025<br>
+                    ├─ Proyección: $4,500-4,800<br>
+                    ├─ Confianza: 88% 🟢<br>
+                    ├─ Factores:<br>
+                    │ • Rebote post-febrero<br>
+                    │ • Preparando Q2 fuerte<br>
+                    └─ Cargas necesarias: 24-26<br>
+                    <br>
+                    ⚠️ RIESGOS IDENTIFICADOS:<br>
+                    • Febrero bajo - asegura gastos<br>
+                    están cubiertos<br>
+                    • Evita gastos grandes en Q1<br>
+                    <br>
+                    💡 OPORTUNIDADES:<br>
+                    • Q4 2025 proyecta $6,200-6,800<br>
+                    • Perfecto para expansion/van #2
+                </div>
+            </section>
+
+            <section>
+                <h2>📈 TRACKING EN TIEMPO REAL vs FORECAST</h2>
+
+                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>SISTEMA "PACE TRACKING":</strong></p>
+
+                    <div class="mockup" style="margin:1rem 0">
+                        📊 PROGRESO DICIEMBRE<br>
+                        <br>
+                        HOY: 15 de diciembre<br>
+                        Días transcurridos: 15/31 (48%)<br>
+                        <br>
+                        FORECAST MES COMPLETO:<br>
+                        └─ $5,500 (optimista)<br>
+                        <br>
+                        GANANCIA HASTA HOY:<br>
+                        └─ $2,850<br>
+                        <br>
+                        PACE (¿Vas bien?):<br>
+                        Deberías tener: $5,500 × 48% = $2,640<br>
+                        Tienes: $2,850<br>
+                        Diferencia: +$210 🟢 (8% adelante)<br>
+                        <br>
+                        PROYECCIÓN REVISADA:<br>
+                        Si continúas este pace:<br>
+                        $2,850 ÷ 0.48 = $5,938 🚀<br>
+                        <br>
+                        💡 INSIGHT:<br>
+                        Vas 8% adelante del forecast.<br>
+                        Si mantienes pace, superarás meta<br>
+                        por $438. ¡Sigue así!
+                    </div>
+
+                    <p><strong>ALERTAS DE PACE:</strong></p>
+                    <ul style="margin:0">
+                        <li>🟢 +5% o más adelante: Excelente</li>
+                        <li>🟡 ±5% de forecast: En camino</li>
+                        <li>🔴 -5% o más atrás: Necesitas acelerar</li>
+                    </ul>
+
+                    <p
+                        style="background:rgba(255,107,53,.1);padding:1rem;border-radius:.5rem;margin-top:1rem;margin-bottom:0">
+                        <strong>Si a mitad de mes estás -10% atrás:</strong><br>
+                        Necesitas 2-3 cargas extra para compensar.<br>
+                        Actúa YA, no esperes fin de mes.
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 ESCENARIOS "QUÉ PASA SI"</h2>
+
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>ESCENARIO BASE (Más Probable - 70%):</strong></p>
+                    <ul>
+                        <li>Cargas/mes: 24</li>
+                        <li>RPM promedio: $1.58/mi</li>
+                        <li>Millas/mes: 7,200</li>
+                        <li>Ganancia: $4,500</li>
+                    </ul>
+
+                    <p><strong>ESCENARIO OPTIMISTA (15%):</strong></p>
+                    <ul>
+                        <li>Cargas/mes: 28 (+4)</li>
+                        <li>RPM promedio: $1.68/mi (+$0.10)</li>
+                        <li>Ganancia: $6,100 (+$1,600)</li>
+                        <li>Razón: Todos brokers Tier 1 tienen mucho trabajo</li>
+                    </ul>
+
+                    <p><strong>ESCENARIO PESIMISTA (15%):</strong></p>
+                    <ul style="margin:0">
+                        <li>Cargas/mes: 18 (-6)</li>
+                        <li>RPM promedio: $1.45/mi (-$0.13)</li>
+                        <li>Ganancia: $2,800 (-$1,700)</li>
+                        <li>Razón: Mercado lento, competencia alta</li>
+                    </ul>
+                </div>
+
+                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem;margin-top:1.5rem">
+                    <p><strong>PLAN DE ACCIÓN POR ESCENARIO:</strong></p>
+                    <ul style="margin:0">
+                        <li><strong>Si Base (70%):</strong> Continúa plan normal</li>
+                        <li><strong>Si Optimista (15%):</strong> Ahorra extra para meses lentos, considera expansión
+                        </li>
+                        <li><strong>Si Pesimista (15%):</strong> Reduce gastos no esenciales, activa búsqueda agresiva
+                            de cargas</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 CONCLUSIÓN CLAVE</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Forecasting no es adivinar.<br>Es
+                        usar DATOS para predecir futuro.</p>
+
+                    <div style="text-align:left;max-width:500px;margin:0 auto">
+                        <p><strong>3 métodos principales:</strong></p>
+                        <ol>
+                            <li><strong>Promedio Simple</strong> (70-80% precisión)<br>Rápido pero no cuenta tendencias
+                            </li>
+                            <li><strong>Tendencia Lineal</strong> (75-85% precisión)<br>Mejor, cuenta momentum</li>
+                            <li><strong>Estacionalidad + Tendencia</strong> (85-90% precisión)<br>Más preciso, necesita
+                                historial largo</li>
+                        </ol>
+
+                        <p><strong>Aplicaciones prácticas:</strong></p>
+                        <ul>
+                            <li>Decisiones de gastos grandes</li>
+                            <li>Timing de expansión</li>
+                            <li>Tamaño de reserva de emergencia</li>
+                            <li>Planificación de vacaciones</li>
+                        </ul>
+
+                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem">
+                            <strong>Sistema "Pace Tracking":</strong><br>
+                            • Compara progreso actual vs forecast<br>
+                            • A mitad de mes sabes si vas bien<br>
+                            • Tiempo para corregir si necesario<br>
+                            • No esperas fin de mes
+                        </p>
+
+                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">
+                            El poder del forecasting NO es<br>
+                            predecir con 100% precisión.<br>
+                            Es eliminar SORPRESAS.<br><br>
+                            La diferencia entre:<br>
+                            <span style="color:#FF6B35">"Espero que mes sea bueno" ❌</span><br>
+                            vs<br>
+                            <span style="color:#64C864">"Proyecto $4,200-4,600,<br>voy en camino" ✅</span><br><br>
+                            Es la diferencia entre<br>
+                            <span style="color:#FFD700">adivinar y SABER</span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+                completada</button>
+            <nav class="lesson-nav">
+                <a href="lesson-3.html" class="btn btn-secondary">← Lección anterior</a>
+                <a href="index.html" class="btn btn-primary">Volver al módulo →</a>
+            </nav>
+        </footer>
+    </article>
+
+    <script src="../js/academy.js"></script>
+    <script>
+        const MODULE_NUM = 5, LESSON_NUM = 4; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true; alert('¡Lección PRO completada! 🔮\n\nAhora sabes 3 métodos de forecasting.\nPace tracking elimina sorpresas.\nAdivinar → SABER.') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true } });
+    </script>
+</body>
+
+</html>

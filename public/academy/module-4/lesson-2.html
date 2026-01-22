@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 2: Scripts de Negociación | Smart Load Academy</title>
+    <link rel="icon" type="image/png" href="../../img/logo-app.png" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.7
+        }
+
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem
+        }
+
+        .breadcrumb {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: .875rem
+        }
+
+        .breadcrumb a {
+            color: #00D9FF;
+            text-decoration: none
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem
+        }
+
+        .lesson-content h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff
+        }
+
+        .lesson-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: .75rem
+        }
+
+        .lesson-content p {
+            margin-bottom: 1.5rem;
+            color: #d0d0d0
+        }
+
+        .lesson-content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem
+        }
+
+        .lesson-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem
+        }
+
+        .script-box {
+            background: rgba(100, 200, 100, .08);
+            padding: 1.5rem;
+            border-radius: .75rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #64C864;
+            font-family: 'Courier New', monospace;
+            font-size: .9rem
+        }
+
+        .mockup {
+            background: rgba(20, 20, 20, .9);
+            border: 2px solid rgba(255, 215, 0, .3);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: .9rem
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: .75rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all .3s ease
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #FFD700 0%, #FF6B35 100%);
+            color: #000
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .2)
+        }
+
+        .lesson-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem
+        }
+    </style>
+</head>
+
+<body>
+    <article class="lesson-container">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 4 [PRO]</a> → Lección 2
+        </nav>
+
+        <div
+            style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
+            🔒 CONTENIDO PRO</div>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Scripts de Negociación (Palabra por Palabra)</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 9 min lectura</span>
+                <span>🎓 Módulo 4 - Lección 2</span>
+                <span>⭐ Scripts Probados</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>📝 LA IMPORTANCIA DE SCRIPTS</h2>
+                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>Problemas comunes:</strong></p>
+                    <ul style="margin:0">
+                        <li>"No sé qué decir cuando broker me ofrece bajo rate"</li>
+                        <li>"Me quedo sin palabras y termino aceptando"</li>
+                        <li>"Tengo miedo de sonar unprofessional"</li>
+                    </ul>
+                </div>
+
+                <p style="text-align:center;font-weight:700;font-size:1.25rem;margin:2rem 0">SOLUCIÓN: Scripts
+                    probados.<br>
+                    No tienes que improvisar. Usa frameworks que funcionan.</p>
+            </section>
+
+            <section>
+                <h2>🎭 SCRIPT #1: "THE VALUE SANDWICH"</h2>
+                <p><strong>Estructura:</strong></p>
+                <ol>
+                    <li><strong>Acknowledge</strong> (reconoce la oferta)</li>
+                    <li><strong>Value</strong> (establece tu valor)</li>
+                    <li><strong>Ask</strong> (pide lo que necesitas)</li>
+                </ol>
+
+                <div class="script-box">
+                    <strong>Ejemplo completo:</strong><br><br>
+                    BROKER: "Load pays $1,200 for 750 miles"<br><br>
+                    YOU: "Thanks for thinking of me on this, John.<br>
+                    [ACKNOWLEDGE]<br><br>
+                    I see it's a hot load with tight delivery window,<br>
+                    and you know I'm always reliable on timing.<br>
+                    [VALUE]<br><br>
+                    For rush service and the distance, I'd need<br>
+                    $1,400 to make it work. Can we do that?"<br>
+                    [ASK]<br><br>
+                    BROKER: "Best I can do is $1,280"<br><br>
+                    YOU: "I appreciate that. Let me do $1,320 and<br>
+                    I'll make sure it's there 2 hours early.<br>
+                    Deal?"<br><br>
+                    BROKER: "OK, $1,320 works. Thanks."
+                </div>
+                <p style="text-align:center;font-weight:700;color:#64C864">Result: $1,200 → $1,320 (+10% en 60 segundos)
+                </p>
+            </section>
+
+            <section>
+                <h2>🎯 SCRIPT #2: "THE HISTORY PLAY"</h2>
+                <p><strong>Cuándo usar:</strong> Cuando tienes relationship established</p>
+
+                <div class="script-box">
+                    BROKER: "I have a load, $900 for 600 miles"<br><br>
+                    YOU: "Hey Sarah! I'd love to help.<br>
+                    Quick question - we've done what, 6-7 loads<br>
+                    together now? And I've always taken care<br>
+                    of you, right?"<br><br>
+                    BROKER: "Yeah, you've been great"<br><br>
+                    YOU: "I really appreciate that. This route,<br>
+                    with the deadhead I have, I'd normally<br>
+                    need $1,050 to make my numbers work.<br>
+                    Since it's you, can we meet at $1,020?"<br><br>
+                    BROKER: "Let me see... OK, $1,020 works"<br><br>
+                    YOU: "Perfect, you got it. Picking up in 2 hours"
+                </div>
+                <p><strong>Key:</strong> Leverage history sin ser pushy.</p>
+            </section>
+
+            <section>
+                <h2>💪 SCRIPT #3: "THE ALTERNATIVE MENTION"</h2>
+                <p><strong>Cuándo usar:</strong> Cuando tienes otra opción (but you prefer este broker)</p>
+
+                <div class="script-box">
+                    BROKER: "Load is $1,100, that's my best"<br><br>
+                    YOU: "I appreciate you calling me first.<br>
+                    Full transparency - I do have another<br>
+                    offer for similar miles at $1,250.<br><br>
+                    But I prefer working with you because<br>
+                    you're always straight with me.<br><br>
+                    Any chance you can get to $1,200?<br>
+                    That would make it worth passing on<br>
+                    the other one."<br><br>
+                    BROKER: [Options]<br>
+                    A) "Let me call customer, hold on"<br>
+                    B) "I can do $1,180"<br>
+                    C) "Can't move on this one"<br><br>
+                    YOU: [If B] "You know what, I'll do $1,180.<br>
+                    Let's keep the relationship good"<br>
+                    [If C] "I totally understand. Keep me<br>
+                    in mind for the next one"
+                </div>
+                <p><strong>Key:</strong> Mention alternative pero show preference for them.</p>
+            </section>
+
+            <section>
+                <h2>⏰ SCRIPT #4: "THE TIMING LEVERAGE"</h2>
+                <p><strong>Cuándo usar:</strong> Load es urgent, broker necesita cover NOW</p>
+
+                <div class="script-box">
+                    BROKER: "I need this covered ASAP, pickup in 3 hours.<br>
+                    Pays $850 for 500 miles"<br><br>
+                    YOU: "I can help you out - I'm only 20 minutes<br>
+                    from the pickup, so I can be there before<br>
+                    anyone else.<br><br>
+                    For the rush and quick turnaround, my rate<br>
+                    would be $1,050. Worth it to have it covered<br>
+                    in the next 30 minutes?"<br><br>
+                    BROKER: "That's high... can you do $975?"<br><br>
+                    YOU: "You know what, because it's you and I know<br>
+                    this is urgent, I'll do $1,000 even.<br>
+                    But I need confirmation right now so I can<br>
+                    start heading there."<br><br>
+                    BROKER: "Done. Sending paperwork now"
+                </div>
+                <p><strong>Key:</strong> Urgency = your advantage. Use it professionally.</p>
+            </section>
+
+            <section>
+                <h2>🤝 SCRIPT #5: "THE PARTNERSHIP APPROACH"</h2>
+                <p><strong>Cuándo usar:</strong> Building long-term relationship</p>
+
+                <div class="script-box">
+                    BROKER: "I have 3-4 loads weekly on this lane.<br>
+                    Looking for a reliable carrier.<br>
+                    Rate is $1.15/mile"<br><br>
+                    YOU: "That's interesting - I run this lane often.<br>
+                    Let me ask you this:<br><br>
+                    What if we structured it differently?<br>
+                    If I commit to being your go-to for this lane,<br>
+                    taking at least 2-3 loads per week consistently,<br>
+                    could we do $1.30/mile?<br><br>
+                    I'm thinking long-term partnership here,<br>
+                    not just one-off loads."<br><br>
+                    BROKER: "Interesting... let me run numbers.<br>
+                    I could potentially do $1.25/mile<br>
+                    if you're truly committed to volume"<br><br>
+                    YOU: "That works. Let's shake on it - I'll be<br>
+                    your dedicated carrier for this lane.<br>
+                    When's the first load?"
+                </div>
+                <p><strong>Key:</strong> Volume commitment = rate premium justification.</p>
+            </section>
+
+            <section>
+                <h2>📞 SCRIPT #6: "THE SOFT DECLINE"</h2>
+                <p><strong>Cuándo usar:</strong> Rate es demasiado bajo pero quieres mantener relationship</p>
+
+                <div class="script-box">
+                    BROKER: "Best and final is $950"<br><br>
+                    YOU: "I really appreciate you working with me<br>
+                    on this. Unfortunately $950 doesn't quite<br>
+                    work with my costs on this particular run.<br><br>
+                    But I definitely want to work with you.<br>
+                    Do you have anything else coming up<br>
+                    this week that might be a better fit?"<br><br>
+                    BROKER: "Let me check... actually I have one<br>
+                    going opposite direction tomorrow"<br><br>
+                    YOU: "Perfect! Tell me about that one"
+                </div>
+                <p><strong>Key:</strong> Decline THIS load, pero keep door open.</p>
+            </section>
+
+            <section>
+                <h2>🚫 SCRIPT #7: "THE RESPECTFUL HARD NO"</h2>
+                <p><strong>Cuándo usar:</strong> Rate es imposible y broker insiste</p>
+
+                <div class="script-box">
+                    BROKER: "That's my final offer, $800 for 650 miles"<br><br>
+                    YOU: "I respect that you have your numbers to hit.<br>
+                    Unfortunately at $800, I'd actually lose money<br>
+                    on this run after fuel and all costs.<br><br>
+                    I'm not able to work for free, but I really<br>
+                    do want to work with you in the future.<br><br>
+                    Please keep me in mind when you have loads<br>
+                    that are in the $1.20-1.40/mile range.<br>
+                    I'll always answer your calls."<br><br>
+                    BROKER: "Fair enough. I'll reach out next time"
+                </div>
+                <p><strong>Key:</strong> Professional decline + door stays open.</p>
+            </section>
+
+            <section>
+                <h2>💬 COUNTER-OFFERS: LA DANZA DE NÚMEROS</h2>
+
+                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>REGLAS DE COUNTER-OFFERS:</strong></p>
+
+                    <p><strong>1. Never counter more than 2 times</strong><br>
+                        First: Ask for $1,400<br>
+                        Counter 1: Meet at $1,320<br>
+                        Counter 2: Final is $1,280<br>
+                        STOP. Si no llegan a acuerdo, decline.</p>
+
+                    <p><strong>2. Move en incrementos razonables</strong><br>
+                        ❌ MAL: $1,500 → $1,495 → $1,490<br>
+                        ✅ BIEN: $1,500 → $1,400 → $1,320</p>
+
+                    <p><strong>3. Cada counter debe tener concesión</strong><br>
+                        "I'll do $1,320 AND deliver 2 hours early"<br>
+                        "I'll do $1,280 if you cover tolls"</p>
+
+                    <p style="margin:0"><strong>4. Know your walk-away number ANTES</strong><br>
+                        Before calling: "My minimum is $1,250"<br>
+                        Don't deviate during negotiation</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 EL "POWER PAUSE"</h2>
+                <p><strong>Silencio estratégico:</strong></p>
+
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p style="font-family:monospace">
+                        BROKER: "Best I can do is $1,150"<br><br>
+                        YOU: [5 segundos de silencio]<br><br>
+                        BROKER: "...OK let me see if I can get $1,200"
+                    </p>
+
+                    <p style="margin-top:1rem"><strong>Why it works:</strong></p>
+                    <ul>
+                        <li>Silence = uncomfortable</li>
+                        <li>Broker fills silence con concesión</li>
+                        <li>Shows you're considering seriously</li>
+                        <li>Not desperate to accept immediately</li>
+                    </ul>
+
+                    <p style="margin:0"><strong>Don't overuse:</strong> 1-2 times per negotiation MAX.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>📱 SMART LOAD SOLUTION: SCRIPT LIBRARY</h2>
+
+                <div class="mockup">
+                    📝 NEGOTIATION SCRIPTS<br>
+                    <br>
+                    Choose scenario:<br>
+                    <br>
+                    ○ First time with broker<br>
+                    ● Established relationship<br>
+                    ○ Hot load (urgent)<br>
+                    ○ Volume commitment<br>
+                    ○ Soft decline<br>
+                    ○ Hard decline<br>
+                    <br>
+                    Broker name: Sarah<br>
+                    Current offer: $1,100<br>
+                    Your target: $1,350<br>
+                    <br>
+                    [GENERATE SCRIPT]<br>
+                    <br>
+                    ════════════════════════════<br>
+                    RECOMMENDED SCRIPT:<br>
+                    ════════════════════════════<br>
+                    <br>
+                    "Hey Sarah! Thanks for thinking<br>
+                    of me. Quick question - we've<br>
+                    worked together on 8 loads now,<br>
+                    right? And I've always been<br>
+                    solid for you?<br>
+                    <br>
+                    I'd love to help on this one.<br>
+                    Given the distance and my<br>
+                    deadhead, I'd normally need<br>
+                    $1,350. Since it's you though,<br>
+                    can we meet at $1,280?"<br>
+                    <br>
+                    Expected result: $1,250-1,300<br>
+                    Success probability: 78%<br>
+                    <br>
+                    [COPY TO CLIPBOARD]<br>
+                    [PRACTICE MODE]<br>
+                    [SAVE TO FAVORITES]
+                </div>
+            </section>
+
+            <section>
+                <h2>🎮 NEGOTIATION SIMULATOR</h2>
+
+                <div class="mockup">
+                    🎮 NEGOTIATION SIMULATOR<br>
+                    Difficulty: ● Medium<br>
+                    <br>
+                    SCENARIO:<br>
+                    Broker John calls with Detroit→<br>
+                    Atlanta load. Offers $1,100.<br>
+                    You need $1,350 minimum.<br>
+                    You've done 4 loads with John.<br>
+                    <br>
+                    [START SIMULATION]<br>
+                    <br>
+                    ────────────────────────────<br>
+                    <br>
+                    BROKER: "Load pays $1,100 for<br>
+                    750 miles"<br>
+                    <br>
+                    Your response:<br>
+                    ┌─────────────────────────────┐<br>
+                    │ [Type or select] │<br>
+                    └─────────────────────────────┘<br>
+                    <br>
+                    Suggested responses:<br>
+                    A) "I need $1,350"<br>
+                    B) "Tell me more about timing"<br>
+                    C) "That's too low"<br>
+                    <br>
+                    [Submit]<br>
+                    <br>
+                    ════════════════════════════<br>
+                    AI evaluates your response:<br>
+                    • Tone (professional?)<br>
+                    • Strategy (value first?)<br>
+                    • Likely outcome<br>
+                    • Score: ___/100
+                </div>
+
+                <p><strong>Practice 5-10 scenarios → confidence increases dramatically.</strong></p>
+            </section>
+
+            <section>
+                <h2>📊 TRACKING YOUR SUCCESS</h2>
+
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>📈 NEGOTIATION PERFORMANCE</strong></p>
+                    <p>Last 30 days:</p>
+                    <ul>
+                        <li>Loads negotiated: 18/24 (75%)</li>
+                        <li>Success rate: 14/18 (78%) ✅</li>
+                        <li>Avg increase: +$178 per load</li>
+                        <li><strong>Total extra earned: $2,492 🚀</strong></li>
+                    </ul>
+
+                    <p><strong>BREAKDOWN:</strong></p>
+                    <ul>
+                        <li>Won negotiation: 14</li>
+                        <li>Soft declined: 3</li>
+                        <li>Hard declined: 1</li>
+                        <li>Accepted first offer: 6</li>
+                    </ul>
+
+                    <p><strong>BEST PERFORMING SCRIPT:</strong><br>
+                        "Value Sandwich" - 82% success</p>
+
+                    <p style="margin:0"><strong>IMPROVEMENT AREAS:</strong><br>
+                        • Try "Partnership" approach more<br>
+                        • Don't accept first offer so fast</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 CONCLUSIÓN CLAVE</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">No necesitas improvisar.<br>Scripts
+                        probados = confidence + resultados.</p>
+
+                    <div style="text-align:left;max-width:500px;margin:1.5rem auto">
+                        <p><strong>Los 7 scripts cubren 95% de situaciones:</strong></p>
+                        <ol>
+                            <li>Value Sandwich (uso general)</li>
+                            <li>History Play (relationships)</li>
+                            <li>Alternative Mention (leverage options)</li>
+                            <li>Timing Leverage (hot loads)</li>
+                            <li>Partnership (volume commitment)</li>
+                            <li>Soft Decline (keep door open)</li>
+                            <li>Hard No (walk away professionally)</li>
+                        </ol>
+                    </div>
+
+                    <p style="margin-top:1.5rem"><strong>Memoriza 2-3 que te sientan natural.<br>
+                            Úsalos consistentemente.</strong></p>
+
+                    <div style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1.5rem">
+                        <p style="margin:0"><strong>Resultado típico:</strong><br>
+                            +$150-250 por load en promedio<br>
+                            = +$2,000-3,500/mes extra</p>
+                    </div>
+
+                    <p style="margin-top:1rem;color:#FFD700;font-weight:700">ROI de aprender estos scripts:<br>
+                        INFINITO (5 minutos para aprender, lifetime de beneficio)</p>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+                completada</button>
+            <nav class="lesson-nav">
+                <a href="lesson-1.html" class="btn btn-secondary">← Lección anterior</a>
+                <a href="index.html" class="btn btn-primary">Volver al módulo →</a>
+            </nav>
+        </footer>
+    </article>
+
+    <script src="../js/academy.js"></script>
+    <script>
+        const MODULE_NUM = 4, LESSON_NUM = 2; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true; alert('¡Lección PRO completada! 🎉\n\n+$2,000-3,500/mes extra aplicando estos scripts.') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true } });
+    </script>
+</body>
+
+</html>

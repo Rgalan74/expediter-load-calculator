@@ -1,884 +1,333 @@
-/* =========================================================
-   MOBILE-STYLES.CSS - OPTIMIZACIÃƒâ€œN COMPLETA PARA MÃƒâ€œVILES
-   ========================================================= */
+/* =================================================================
+   MOBILE-FIRST RESPONSIVE STYLES - Expediter V2
+   Optimización para dispositivos móviles y tablets
+   ================================================================= */
 
-/* Ã°Å¸â€œÂ± VARIABLES MÃƒâ€œVILES */
-:root {
-  --mobile-touch-size: 44px;     /* TamaÃƒÂ±o mÃƒÂ­nimo tÃƒÂ¡ctil */
-  --mobile-spacing: 1rem;        /* Espaciado estÃƒÂ¡ndar mÃƒÂ³vil */
-  --mobile-padding: 0.75rem;     /* Padding interno mÃƒÂ³vil */
-  --mobile-font-base: 16px;      /* TamaÃƒÂ±o base para evitar zoom */
-  --mobile-font-small: 14px;     /* Texto pequeÃƒÂ±o legible */
-  --mobile-border-radius: 8px;   /* Bordes mÃƒÂ¡s suaves en mÃƒÂ³vil */
-  
-  /* Ã°Å¸â€Â¤ SISTEMA TIPOGRÃƒÂFICO UNIFICADO */
-  --font-family-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-family-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Liberation Mono", monospace;
-  
-  /* Escala tipogrÃƒÂ¡fica mobile-first */
-  --text-xs: 0.75rem;      /* 12px */
-  --text-sm: 0.875rem;     /* 14px */
-  --text-base: 1rem;       /* 16px - BASE */
-  --text-lg: 1.125rem;     /* 18px */
-  --text-xl: 1.25rem;      /* 20px */
-  --text-2xl: 1.5rem;      /* 24px */
-  --text-3xl: 1.875rem;    /* 30px */
-  --text-4xl: 2.25rem;     /* 36px */
-  
-  /* Pesos consistentes */
-  --font-normal: 400;
-  --font-medium: 500;
-  --font-semibold: 600;
-  --font-bold: 700;
-  
-  /* Alturas de lÃƒÂ­nea */
-  --leading-tight: 1.25;
-  --leading-normal: 1.5;
-  --leading-relaxed: 1.625;
+/* ====================================
+   1. MOBILE CARDS - Reemplazo de Tablas
+   ==================================== */
+
+.mobile-card {
+  @apply bg-white rounded-lg shadow-md p-4 mb-3;
+  border-left: 4px solid #3b82f6;
+  transition: all 0.2s ease;
 }
 
-/* Ã°Å¸Å½Â¨ RESET Y BASE TIPOGRÃƒÂFICA */
-* {
-  font-family: var(--font-family-primary) !important;
+.mobile-card:active {
+  @apply shadow-lg;
+  transform: scale(0.98);
 }
 
-/* Ã°Å¸â€œÂ± OPTIMIZACIÃƒâ€œN DE ANCHO - APROVECHAMIENTO MÃƒÂXIMO */
+.mobile-card-header {
+  @apply flex items-center justify-between mb-3 pb-3 border-b border-gray-200;
+}
+
+.mobile-card-title {
+  @apply font-bold text-base text-gray-900 flex-1;
+}
+
+.mobile-card-badge {
+  @apply px-3 py-1 rounded-full text-sm font-semibold;
+}
+
+.mobile-card-badge.success {
+  @apply bg-green-100 text-green-800;
+}
+
+.mobile-card-badge.warning {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+.mobile-card-badge.danger {
+  @apply bg-red-100 text-red-800;
+}
+
+.mobile-card-info {
+  @apply grid grid-cols-2 gap-3 text-sm mb-3;
+}
+
+.mobile-card-info-item {
+  @apply flex flex-col;
+}
+
+.mobile-card-label {
+  @apply text-gray-500 text-xs mb-1;
+}
+
+.mobile-card-value {
+  @apply font-semibold text-gray-900;
+}
+
+.mobile-card-actions {
+  @apply flex gap-2 mt-3 pt-3 border-t border-gray-100;
+}
+
+/* ====================================
+   2. TOUCH TARGETS - iOS Guidelines
+   ==================================== */
+
+/* Mínimo 44x44px para touch targets */
+button,
+.btn,
+a.btn,
+input[type="submit"],
+input[type="button"] {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 12px 24px;
+}
+
+/* Inputs con tamaño mínimo para evitar zoom en iOS */
+input,
+select,
+textarea {
+  font-size: 16px;
+  /* Previene zoom automático en iOS */
+  min-height: 44px;
+  padding: 12px 16px;
+}
+
+/* Checkboxes y radios más grandes */
+input[type="checkbox"],
+input[type="radio"] {
+  min-width: 20px;
+  min-height: 20px;
+  cursor: pointer;
+}
+
+/* ====================================
+   3. TABLES - Responsive Wrapper
+   ==================================== */
+
+.table-wrapper {
+  @apply overflow-x-auto -mx-4 px-4;
+  -webkit-overflow-scrolling: touch;
+  /* Smooth scroll en iOS */
+}
+
+.table-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+/* Indicador de scroll horizontal */
+.table-wrapper::after {
+  content: '→ Desliza para ver más';
+  @apply absolute right-0 top-0 bg-blue-500 text-white text-xs px-2 py-1 rounded-bl;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
 @media (max-width: 768px) {
-  
-  /* === CONTENEDORES PRINCIPALES === */
-  main {
-    padding-left: 0.5rem !important;
-    padding-right: 0.5rem !important;
-    margin-top: 0.5rem !important;
+  .table-wrapper:not(.scrolled)::after {
+    opacity: 1;
   }
-  
-  /* Secciones de tabs - aprovechar mÃƒÂ¡s ancho */
-  .tab-content {
-    padding-left: 0.25rem !important;
-    padding-right: 0.25rem !important;
-    gap: 1rem;
-    padding: 0;
+}
+
+/* ====================================
+   4. MODALS - Full Screen en Móvil
+   ==================================== */
+
+@media (max-width: 640px) {
+  .modal-content {
+    @apply !fixed !inset-0 !m-0 !max-w-none !rounded-none;
+    height: 100vh;
+    max-height: 100vh;
   }
-  
-  /* Tarjetas/Cards - mÃƒÂ¡s anchas */
-  .card-section,
-  .tab-content .bg-white,
-  .tab-content .bg-gray-50,
-  .bg-white.rounded-lg,
-  .bg-gray-50.rounded-lg {
-    margin-left: 0.25rem !important;
-    margin-right: 0.25rem !important;
-    max-width: calc(100vw - 1rem) !important;
-    padding: 0.75rem !important;
-    margin-bottom: 1rem;
-    border-radius: var(--mobile-border-radius);
+
+  .modal-header {
+    @apply sticky top-0 z-10 bg-white border-b border-gray-200;
   }
-  
-  /* Contenedores con max-width especÃƒÂ­ficos */
-  .max-w-screen-2xl,
-  .max-w-7xl,
-  .max-w-6xl,
-  .max-w-4xl {
-    max-width: 100% !important;
-    padding-left: 0.5rem !important;
-    padding-right: 0.5rem !important;
+
+  .modal-body {
+    @apply overflow-y-auto;
+    max-height: calc(100vh - 140px);
   }
-  
-  /* === HEADER MÃƒâ€œVIL === */
-  header .max-w-7xl {
-    padding: 0.5rem !important;
+
+  .modal-close-btn {
+    @apply w-12 h-12 text-2xl;
   }
-  
-  header .flex {
-    flex-wrap: wrap;
-    gap: 0.5rem;
+}
+
+/* ====================================
+   5. FORMS - Mobile Optimized
+   ==================================== */
+
+@media (max-width: 768px) {
+
+  /* Stack inputs verticalmente */
+  .form-grid {
+    @apply !grid-cols-1 gap-4;
   }
-  
-  header .text-3xl {
-    font-size: var(--text-xl) !important;
-    line-height: var(--leading-tight);
+
+  /* Botones full-width */
+  .btn-group button,
+  .form-actions button {
+    @apply w-full;
   }
-  
-  header img {
-    width: 2.5rem !important;
-    height: 2.5rem !important;
-  }
-  
-  /* === NAVEGACIÃƒâ€œN TABS MÃƒâ€œVIL === */
-  nav {
-    background: white;
-    border-bottom: 1px solid #e5e7eb;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  nav .max-w-7xl {
-    padding: 0.5rem !important;
-    display: flex;
-    gap: 0.5rem;
-    min-width: max-content;
-  }
-  
-  nav .tab-link {
-    font-size: var(--text-sm) !important;
-    font-weight: var(--font-medium) !important;
-    padding: 0.5rem 1rem !important;
-    white-space: nowrap;
-    min-width: var(--mobile-touch-size);
-    min-height: var(--mobile-touch-size);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--mobile-border-radius);
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
-    transition: all 0.2s ease;
-    line-height: var(--leading-normal);
-  }
-  
-  nav .tab-link.text-blue-600,
-  nav .tab-link:active {
-    background: #3b82f6;
-    color: white !important;
-    border-color: #3b82f6;
-  }
-  
-  /* === JERARQUÃƒÂA TIPOGRÃƒÂFICA MÃƒâ€œVIL === */
-  
-  /* TÃƒÂ­tulos principales */
-  h1, .text-4xl, .text-3xl {
-    font-size: var(--text-2xl) !important;
-    font-weight: var(--font-bold) !important;
-    line-height: var(--leading-tight) !important;
-    margin-bottom: 1rem !important;
-    color: #111827 !important;
-  }
-  
-  /* SubtÃƒÂ­tulos */
-  h2, .text-2xl, .text-xl {
-    font-size: var(--text-xl) !important;
-    font-weight: var(--font-semibold) !important;
-    line-height: var(--leading-tight) !important;
-    margin-bottom: 0.75rem !important;
-    color: #111827 !important;
-  }
-  
-  /* TÃƒÂ­tulos de secciÃƒÂ³n */
-  h3, .text-lg {
-    font-size: var(--text-lg) !important;
-    font-weight: var(--font-semibold) !important;
-    line-height: var(--leading-normal) !important;
-    margin-bottom: 0.5rem !important;
-    color: #111827 !important;
-  }
-  
-  /* Texto base */
-  p, div, span, .text-base {
-    font-size: var(--text-base) !important;
-    font-weight: var(--font-normal) !important;
-    line-height: var(--leading-normal) !important;
-  }
-  
-  /* Texto secundario */
-  .text-sm, small {
-    font-size: var(--text-sm) !important;
-    font-weight: var(--font-normal) !important;
-    line-height: var(--leading-normal) !important;
-  }
-  
-  /* Texto pequeÃƒÂ±o (solo para metadata) */
-  .text-xs {
-    font-size: var(--text-xs) !important;
-    font-weight: var(--font-normal) !important;
-    line-height: var(--leading-normal) !important;
-  }
-  
-  /* === BOTONES MÃƒâ€œVIL === */
-  button,
-  .btn-primary,
-  .btn-success,
-  .btn-danger {
-    font-size: var(--text-base) !important;
-    font-weight: var(--font-medium) !important;
-    line-height: var(--leading-normal) !important;
-    min-height: var(--mobile-touch-size) !important;
-    padding: 0.75rem 1rem !important;
-    border-radius: var(--mobile-border-radius);
-    transition: all 0.2s ease;
-    touch-action: manipulation; /* Previene zoom en doble tap */
-  }
-  
-  /* Botones pequeÃƒÂ±os */
-  button.text-sm, .btn-sm {
-    font-size: var(--text-sm) !important;
-    font-weight: var(--font-medium) !important;
-    min-height: 40px !important;
-    padding: 0.625rem 0.875rem !important;
-  }
-  
-  /* === INPUTS Y FORMS === */
-  input, select, textarea {
-    font-size: var(--text-base) !important;
-    font-weight: var(--font-normal) !important;
-    line-height: var(--leading-normal) !important;
-    min-height: var(--mobile-touch-size) !important;
-    padding: 0.75rem !important;
-    width: 100% !important;
-    min-width: unset !important;
-    border: 1px solid #d1d5db;
-    border-radius: var(--mobile-border-radius);
-    background: white;
-  }
-  
-  input:focus, select:focus, textarea:focus {
-    outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-  }
-  
-  /* Labels */
+
+  /* Labels más prominentes */
   label {
-    font-size: var(--text-sm) !important;
-    font-weight: var(--font-medium) !important;
-    line-height: var(--leading-normal) !important;
-    margin-bottom: 0.25rem !important;
-    display: block !important;
-    color: #374151;
+    @apply font-semibold text-base mb-2;
   }
-  
-  /* === GRIDS Y LAYOUTS === */
-  .grid {
-    gap: 0.75rem !important;
-  }
-  
-  /* Botones en grupo */
-  .button-group {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem !important;
-    margin-top: 1rem;
-  }
-  
-  .button-group.single {
-    grid-template-columns: 1fr;
-  }
-  
-  /* === KPIs Y NÃƒÅ¡MEROS GRANDES === */
-  .kpi-value, .text-3xl.font-bold, .text-2xl.font-bold {
-    font-size: var(--text-2xl) !important;
-    font-weight: var(--font-bold) !important;
-    line-height: var(--leading-tight) !important;
-  }
-  
-  /* === PANEL DE DECISIÃƒâ€œN MÃƒâ€œVIL === */
-  #decisionPanel {
-    padding: 1rem !important;
-    margin: 1rem 0;
-    border-radius: var(--mobile-border-radius);
-  }
-  
-  #decisionPanel .grid {
-    display: block !important;
-  }
-  
-  #decisionPanel .grid > div {
-    margin-bottom: 0.75rem;
-  }
-  
-  #quickPrice {
-    font-size: var(--text-2xl) !important;
-    margin-bottom: 0.5rem;
-    text-align: center;
-    font-weight: var(--font-bold);
-    line-height: var(--leading-tight);
-  }
-  
-  #decisionContainer h3 {
-    font-size: var(--text-lg) !important;
-    text-align: center;
-    margin-bottom: 0.5rem;
-    font-weight: var(--font-semibold);
-  }
-  
-  #decisionSubtitle {
-    font-size: var(--text-sm) !important;
-    text-align: center;
-    opacity: 0.9;
-  }
-  
-  /* === TABLAS MÃƒâ€œVIL === */
-  .table-container {
-    overflow-x: auto;
+}
+
+/* ====================================
+   6. NAVIGATION - Mobile Menu
+   ==================================== */
+
+@media (max-width: 768px) {
+
+  /* Tabs con scroll horizontal */
+  .tab-list {
+    @apply overflow-x-auto flex gap-2;
     -webkit-overflow-scrolling: touch;
-    border-radius: var(--mobile-border-radius);
-    border: 1px solid #e5e7eb;
-    margin-left: -0.5rem !important;
-    margin-right: -0.5rem !important;
-    padding-left: 0.5rem !important;
-    padding-right: 0.5rem !important;
+    scrollbar-width: none;
+    /* Firefox */
   }
-  
-  table {
-    min-width: 600px; /* Ancho mÃƒÂ­nimo para scroll horizontal */
-    font-size: var(--text-sm);
+
+  .tab-list::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari */
   }
-  
-  th {
-    font-size: var(--text-sm) !important;
-    font-weight: var(--font-semibold) !important;
-    line-height: var(--leading-normal) !important;
-    padding: 0.5rem !important;
-  }
-  
-  td {
-    font-size: var(--text-sm) !important;
-    font-weight: var(--font-normal) !important;
-    line-height: var(--leading-normal) !important;
-    padding: 0.5rem !important;
-    white-space: nowrap;
-  }
-  
-  /* === GRÃƒÂFICOS MÃƒâ€œVIL === */
-  .h-96, .h-80, .h-64 {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    width: 100% !important;
-    height: 320px !important;
-  }
-  
-  canvas {
-    max-width: 100% !important;
-    width: 100% !important;
-  }
-  
-  .chart-container {
-    height: 250px;
-    margin: 1rem 0;
-  }
-  
-  /* === ESPACIADO MÃƒâ€œVIL === */
-  .space-y-8 > * + * { margin-top: 1rem !important; }
-  .space-y-6 > * + * { margin-top: 0.75rem !important; }
-  .space-y-4 > * + * { margin-top: 0.75rem !important; }
-  
-  .mb-8 { margin-bottom: 1.5rem !important; }
-  .mb-6 { margin-bottom: 1rem !important; }
-  .mb-4 { margin-bottom: 0.75rem !important; }
-  
-  /* === MENSAJES Y ALERTAS MÃƒâ€œVIL === */
-  .message-success,
-  .message-error,
-  .message-info {
-    padding: 0.75rem;
-    border-radius: var(--mobile-border-radius);
-    font-size: var(--text-sm);
-    margin: 0.5rem 0;
-    font-weight: var(--font-normal);
-    line-height: var(--leading-normal);
-  }
-  
-  /* === ESTADÃƒÂSTICAS DASHBOARD MÃƒâ€œVIL === */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem !important;
-  }
-  
-  .stat-card {
-    padding: 1rem;
-    text-align: center;
-    background: white;
-    border-radius: var(--mobile-border-radius);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  }
-  
-  .stat-value {
-    font-size: var(--text-lg);
-    font-weight: var(--font-bold);
-    color: #111827;
-  }
-  
-  .stat-label {
-    font-size: var(--text-xs);
-    color: #6b7280;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  
-  /* === COLORES DE TEXTO CONSISTENTES === */
-  
-  /* Texto principal */
-  h1, h2, h3, h4, .text-gray-900 {
-    color: #111827 !important;
-  }
-  
-  /* Texto secundario */
-  .text-gray-600, .text-gray-700 {
-    color: #4b5563 !important;
-  }
-  
-  /* Texto terciario */
-  .text-gray-500 {
-    color: #6b7280 !important;
-  }
-  
-  /* Texto metadata */
-  .text-gray-400 {
-    color: #9ca3af !important;
-  }
-  
-  /* === ACCESIBILIDAD MÃƒâ€œVIL === */
-  
-  /* Aumentar ÃƒÂ¡rea tÃƒÂ¡ctil para enlaces pequeÃƒÂ±os */
-  a, button, .tab-link {
-    min-width: var(--mobile-touch-size);
-    min-height: var(--mobile-touch-size);
-  }
-  
-  /* Focus visible mejorado para navegaciÃƒÂ³n por teclado */
-  *:focus {
-    outline: 2px solid #3b82f6;
-    outline-offset: 2px;
+
+  .tab-link {
+    @apply flex-shrink-0;
   }
 }
 
-/* Ã°Å¸â€œÂ± OPTIMIZACIONES ESPECÃƒÂFICAS PARA PANTALLAS MUY PEQUEÃƒâ€˜AS */
-@media (max-width: 480px) {
-  
-  :root {
-    --mobile-spacing: 0.75rem;
-    --mobile-padding: 0.5rem;
-  }
-  
-  main {
-    padding-left: 0.25rem !important;
-    padding-right: 0.25rem !important;
-  }
-  
-  .card-section,
-  .tab-content .bg-white,
-  .tab-content .bg-gray-50 {
-    margin-left: 0.125rem !important;
-    margin-right: 0.125rem !important;
-    padding: 0.5rem !important;
-    border-radius: 0.5rem !important;
-  }
-  
-  header .text-3xl {
-    font-size: var(--text-base) !important;
-  }
-  
-  nav .tab-link {
-    font-size: var(--text-xs) !important;
-    padding: 0.5rem 0.75rem !important;
-  }
-  
-  #quickPrice {
-    font-size: var(--text-xl) !important;
-  }
-  
-  .button-group {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-  }
-  
-  .stats-grid {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-  }
-  
-  /* Grid mÃƒÂ¡s compacto en pantallas muy pequeÃƒÂ±as */
-  .grid {
-    gap: 0.5rem !important;
-  }
-  
-  /* KPIs mÃƒÂ¡s compactos */
-  .kpi-value {
-    font-size: var(--text-xl) !important;
+/* ====================================
+   7. UTILITY CLASSES
+   ==================================== */
+
+/* Ocultar en móvil */
+.hide-mobile {
+  @apply hidden;
+}
+
+@media (min-width: 768px) {
+  .hide-mobile {
+    @apply block;
   }
 }
 
-/* Ã°Å¸â€™Â» DESKTOP - tamaÃƒÂ±os ligeramente mÃƒÂ¡s grandes */
-@media (min-width: 769px) {
-  h1, .text-4xl, .text-3xl {
-    font-size: var(--text-3xl) !important;
-  }
-  
-  h2, .text-2xl, .text-xl {
-    font-size: var(--text-2xl) !important;
-  }
-  
-  .kpi-value {
-    font-size: var(--text-3xl) !important;
+/* Mostrar solo en móvil */
+.show-mobile {
+  @apply block;
+}
+
+@media (min-width: 768px) {
+  .show-mobile {
+    @apply hidden;
   }
 }
 
-/* Ã°Å¸â€œÂ± ORIENTACIÃƒâ€œN LANDSCAPE EN MÃƒâ€œVIL */
-@media (max-width: 768px) and (orientation: landscape) {
-  
-  header .max-w-7xl {
-    padding: 0.25rem 1rem;
+/* Cards container */
+.mobile-cards-container {
+  @apply space-y-3;
+}
+
+/* ====================================
+   8. SCROLL INDICATORS
+   ==================================== */
+
+.scroll-indicator {
+  @apply relative;
+}
+
+.scroll-indicator::before {
+  content: '';
+  @apply absolute left-0 top-0 bottom-0 w-8 pointer-events-none;
+  background: linear-gradient(to right, rgba(255, 255, 255, 1), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.scroll-indicator::after {
+  content: '';
+  @apply absolute right-0 top-0 bottom-0 w-8 pointer-events-none;
+  background: linear-gradient(to left, rgba(255, 255, 255, 1), transparent);
+}
+
+.scroll-indicator.scrolled-left::before {
+  opacity: 1;
+}
+
+/* ====================================
+   9. ANIMATIONS - Touch Feedback
+   ==================================== */
+
+.touch-feedback {
+  transition: all 0.15s ease;
+}
+
+.touch-feedback:active {
+  transform: scale(0.97);
+  opacity: 0.8;
+}
+
+/* ====================================
+   10. SPACING - Mobile Adjustments
+   ==================================== */
+
+@media (max-width: 640px) {
+  .container {
+    @apply px-4;
   }
-  
-  nav .max-w-7xl {
-    padding: 0.25rem 1rem;
+
+  section {
+    @apply py-6;
   }
-  
-  nav .tab-link {
-    padding: 0.375rem 0.75rem !important;
-    font-size: var(--text-xs) !important;
+
+  h1 {
+    @apply text-2xl;
   }
-  
-  main {
-    margin-top: 0.25rem !important;
+
+  h2 {
+    @apply text-xl;
   }
-  
-  #map {
-    height: 200px !important;
+
+  h3 {
+    @apply text-lg;
   }
 }
 
-/* Ã°Å¸â€œÂ± ANIMACIONES SUAVES PARA MÃƒâ€œVIL */
-@media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
-  
-  .tab-content {
-    transition: opacity 0.2s ease;
+/* ====================================
+   11. SAFE AREAS - iOS Notch Support
+   ==================================== */
+
+@supports (padding: max(0px)) {
+  .safe-area-top {
+    padding-top: max(env(safe-area-inset-top), 0px);
   }
-  
-  .tab-content.tab-active {
-    animation: fadeInMobile 0.3s ease;
+
+  .safe-area-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom), 0px);
   }
-  
-  @keyframes fadeInMobile {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+
+  .safe-area-left {
+    padding-left: max(env(safe-area-inset-left), 0px);
   }
-  
-  button:active {
-    transform: scale(0.98);
+
+  .safe-area-right {
+    padding-right: max(env(safe-area-inset-right), 0px);
   }
 }
 
-/* Ã°Å¸â€œÂ± PRINT STYLES PARA MÃƒâ€œVIL */
-@media print {
-  nav, header button {
-    display: none !important;
-  }
-  
-  .tab-content {
-    display: block !important;
-  }
-  
-  * {
-    color: black !important;
-    background: white !important;
-  }
-}
-/* =========================================================
-   FIX ESPECÍFICO PARA ZONES HEAT MAP MOBILE - VERSIÓN FINAL
-   ========================================================= */
+/* ====================================
+   12. PERFORMANCE - Hardware Acceleration
+   ==================================== */
 
-@media (max-width: 768px) {
-    
-    /* Layout principal del mapa */
-    #zones div.flex.flex-col.lg\:flex-row.gap-6 {
-        flex-direction: column !important;
-        gap: 1rem !important;
-    }
-    
-    /* Contenedor del mapa - Sin fondo, transparente */
-    #zones div.flex-1.bg-gray-100.border.rounded.p-8.text-center {
-        width: 100% !important;
-        max-width: 100% !important;
-        background: transparent !important;
-        background-color: transparent !important;
-        border: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        display: flex !important;
-        justify-content: center !important;
-        box-sizing: border-box !important;
-    }
-    
-    /* El objeto SVG del mapa - Más grande y visible */
-    #zones #interactiveMap {
-        width: 100% !important;
-        max-width: 480px !important;
-        height: 450px !important;
-        transform: scale(1.35) translateX(-10px) !important;
-        transform-origin: center center !important;
-        margin: 1rem auto !important;
-        display: block !important;
-    }
-    
-    /* Panel lateral en mobile */
-    #zones div.w-full.lg\:w-\[300px\] {
-        width: 100% !important;
-        max-width: none !important;
-        margin-top: 1rem !important;
-        order: 2 !important;
-    }
-    
-    /* Legend responsive */
-    #zones div.grid.grid-cols-1.md\:grid-cols-3 {
-        grid-template-columns: 1fr !important;
-        gap: 0.5rem !important;
-    }
-    
-    /* Prevenir overflow */
-    #zones * {
-        box-sizing: border-box !important;
-    }
-}
-/* ============================================
-   FIX: BotÃ³n logout sin fondo en mÃ³vil
-   ============================================ */
-@media (max-width: 768px) {
-  #logoutBtn {
-    background: transparent !important;
-    background-color: transparent !important;
-    padding: 0 !important;
-    border: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    min-height: auto !important;
-    min-width: auto !important;
-    width: auto !important;
-    height: auto !important;
-  }
-  
-  #logoutBtn:hover,
-  #logoutBtn:focus,
-  #logoutBtn:active {
-    background: transparent !important;
-    background-color: transparent !important;
-    outline: none !important;
-    box-shadow: none !important;
-  }
-}
-
-/* ============================================
-   FIX: Quitar borde azul del icono logout
-   ============================================ */
-@media (max-width: 768px) {
-  #logoutBtn,
-  #logoutBtn:focus,
-  #logoutBtn:focus-visible,
-  #logoutBtn img {
-    outline: none !important;
-    box-shadow: none !important;
-    border: none !important;
-  }
-  
-  /* Quitar focus visible del botÃ³n logout */
-  #logoutBtn:focus-visible {
-    outline: none !important;
-    outline-offset: 0 !important;
-
-  /* === HEADER MÓVIL - ALINEACIÓN Y ESTILOS === */
-  
-  /* Bajar título para alinear con menú */
-  header span.text-lg {
-    position: relative !important;
-    top: 3px !important;
-    font-size: 1.125rem !important; /* 18px - más grande */
-  }
-  
-  /* Bajar menú hamburguesa */
-  #menuToggle {
-    position: relative !important;
-    top: 6px !important;
-  }
-  
-  /* Ícono de logout en ROJO */
-  #logoutBtn img {
-    filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%) !important;
-  }
-
-  }
-
-  /* === TIPOGRAFÍA RESPONSIVE === */
-  /* H2 - Títulos principales */
-  .tab-content h2 {
-    font-size: 1.5rem !important; /* 24px en móvil vs 32px desktop */
-  }
-  
-  /* H3 - Secciones */
-  .card-section h3 {
-    font-size: 1.25rem !important; /* 20px en móvil vs 24px desktop */
-  }
-  
-  /* H4 - Sub-secciones */
-  .card-section h4 {
-    font-size: 1.125rem !important; /* 18px en móvil vs 20px desktop */
-  }
-  
-  /* Labels */
-  .card-section label,
-  label {
-    font-size: 0.875rem !important; /* 14px en móvil vs 16px desktop */
-  }
-  
-  /* Selects e Inputs */
-  select,
-  input {
-    font-size: 1rem !important; /* 16px - mantener para evitar zoom */
-  }
-
-}
-
-/* ============================================
-   FIX: MenÃº mÃ³vil desplegable MÃS COMPACTO
-   ============================================ */
-@media (max-width: 768px) {
-  /* MenÃº desplegable especÃ­fico */
-  #mobileMenu {
-    padding: 8px 8px !important;
-  }
-  
-  /* Botones dentro del menÃº desplegable */
-  #mobileMenu .tab-link,
-  #mobileMenu button {
-    font-size: 14px !important;
-    font-weight: 500 !important;
-    padding: 6px 12px !important;
-    min-height: auto !important;
-    height: auto !important;
-    line-height: 1.4 !important;
-    margin-bottom: 2px !important;
-  }
-  
-  #mobileMenu .tab-link:last-child,
-  #mobileMenu button:last-child {
-    margin-bottom: 0 !important;
-  }
-}
-
-/* ============================================
-   OVERRIDE FINAL - PRIORIDAD MÁXIMA MÓVIL
-   ============================================ */
-@media (max-width: 768px) {
-  
-  /* FORZAR: Título más grande y bajado */
-  header .flex.items-center.gap-2 > span,
-  header span.text-lg,
-  header span[class*="text-lg"] {
-    font-size: 1.125rem !important; /* 18px */
-    position: relative !important;
-    top: 3px !important;
-  }
-  
-  /* FORZAR: Menú hamburguesa bajado */
-  button#menuToggle,
-  #menuToggle.md\:hidden {
-    position: relative !important;
-    top: 6px !important;
-  }
-  
-  /* FORZAR: Ícono logout ROJO */
-  #logoutBtn img,
-  button#logoutBtn img,
-  #logoutBtn > img {
-    filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%) !important;
-  }
-}
-/* ============================================
-   PANEL DE DECISIÓN MÓVIL - OPTIMIZACIÓN COMPLETA
-   ============================================ */
-@media (max-width: 768px) {
-  
-  /* Panel más ancho - márgenes mínimos */
-  #decisionPanel {
-    margin-left: 0.0625rem !important; /* 1px */
-    margin-right: 0.0625rem !important; /* 1px */
-    max-width: calc(100vw - 0.25rem) !important; /* Solo 4px total */
-    width: 100% !important;
-    padding: 0.5rem !important;
-    box-sizing: border-box !important;
-  }
-  
-  /* Contenedor interior compacto */
-  #decisionContainer {
-    padding: 10px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-  }
-  
-  /* Header compacto */
-  #decisionContainer .flex.items-center.justify-between.mb-4 {
-    gap: 6px !important;
-    margin-bottom: 10px !important;
-  }
-  
-  /* Precio más pequeño */
-  #decisionContainer #quickPrice {
-    font-size: 1.5rem !important; /* 24px */
-    line-height: 1.2 !important;
-  }
-  
-  /* Texto de decisión compacto */
-  #decisionContainer #decisionText {
-    font-size: 0.95rem !important;
-  }
-  
-  /* Ícono más pequeño */
-  #decisionContainer #decisionIcon {
-    font-size: 1.75rem !important;
-  }
-  
-  /* Grid de métricas: 2 columnas en móvil */
-  #decisionContainer .grid.grid-cols-3 {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 8px !important;
-  }
-  
-  /* Valores de métricas */
-  #decisionContainer .grid > div > div:last-child {
-    font-size: 1.1rem !important;
-  }
-  
-  /* Labels de métricas */
-  #decisionContainer .grid > div > div:first-child {
-    font-size: 0.7rem !important;
-  }
-}
-
-/* ============================
-   LEX - Ajustes específicos para móvil
-   ============================ */
-@media (max-width: 768px) {
-
-  /* Posición del asistente para no tapar botones */
-  #lexAssistant {
-    bottom: 5rem !important;   /* Lo subimos un poco */
-    right: 0.75rem !important; /* Un poco más pegado al borde */
-  }
-
-  /* Avatar un poco más pequeño en móvil */
-  #lexAssistant .lex-avatar-shell {
-    width: 3.25rem !important;   /* ~52px */
-    height: 3.25rem !important;
-  }
-
-  #lexAssistant img.lex-avatar-img {
-    width: 2.75rem !important;   /* ~44px */
-    height: 2.75rem !important;
-  }
-
-  /* Burbuja más compacta y legible en teléfonos */
-  #lexBubble {
-    max-width: 220px !important;
-    font-size: 0.78rem !important;
-    padding: 0.4rem 0.6rem !important;
-  }
-
-  #lexBubbleText {
-    line-height: 1.25 !important;
-  }
+.mobile-card,
+.modal-content,
+button,
+.tab-link {
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }

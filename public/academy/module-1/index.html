@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 1: Mentalidad & Fundamentos | Smart Load Academy</title>
+    <link rel="icon" type="image/png" href="../../img/logo-app.png" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/academy.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: white;
+        }
+
+        .lesson-card {
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(0, 217, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.2);
+        }
+
+        .lesson-card.completed {
+            border-color: rgba(0, 200, 100, 0.3);
+        }
+
+        .lesson-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .lesson-card.completed .lesson-number {
+            background: linear-gradient(135deg, #00C896, #00B482);
+            color: white;
+        }
+
+        .lesson-content {
+            flex: 1;
+        }
+
+        .lesson-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .lesson-time {
+            font-size: 0.875rem;
+            color: #888;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .breadcrumb {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: 0.875rem;
+        }
+
+        .breadcrumb a {
+            color: #00D9FF;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="../../academy.html">← Academy</a> → Módulo 1
+        </div>
+
+        <!-- Module Header -->
+        <div class="module-header" style="margin-bottom: 3rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🎓</div>
+            <h1 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem;">
+                Módulo 1: Mentalidad & Fundamentos
+            </h1>
+            <p style="font-size: 1.25rem; color: #b0b0b0; margin-bottom: 2rem;">
+                Antes de usar la app, aprende a pensar con números reales
+            </p>
+
+            <!-- Progress -->
+            <div style="margin-bottom: 2rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span style="font-size: 0.875rem; color: #888;">Progreso del módulo</span>
+                    <span id="moduleProgressText" style="font-size: 0.875rem; color: #888;">0/5 lecciones</span>
+                </div>
+                <div style="height: 12px; background: rgba(255,255,255,0.1); border-radius: 1rem; overflow: hidden;">
+                    <div id="moduleProgressBar"
+                        style="height: 100%; width: 0%; background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%); transition: width 0.5s ease;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lessons List -->
+        <div class="lessons-list">
+            <a href="lesson-1.html" class="lesson-card" data-lesson="1">
+                <div class="lesson-number">1</div>
+                <div class="lesson-content">
+                    <h3 class="lesson-title">Qué es el RPM real (y por qué el 90% lo calcula mal)</h3>
+                    <p class="lesson-time">📖 5 min lectura</p>
+                </div>
+            </a>
+
+            <a href="lesson-2.html" class="lesson-card" data-lesson="2">
+                <div class="lesson-number">2</div>
+                <div class="lesson-content">
+                    <h3 class="lesson-title">Costos visibles vs costos invisibles</h3>
+                    <p class="lesson-time">📖 6 min lectura</p>
+                </div>
+            </a>
+
+            <a href="lesson-3.html" class="lesson-card" data-lesson="3">
+                <div class="lesson-number">3</div>
+                <div class="lesson-content">
+                    <h3 class="lesson-title">Break-even: tu número de supervivencia</h3>
+                    <p class="lesson-time">📖 7 min lectura</p>
+                </div>
+            </a>
+
+            <a href="lesson-4.html" class="lesson-card" data-lesson="4">
+                <div class="lesson-number">4</div>
+                <div class="lesson-content">
+                    <h3 class="lesson-title">Ganancia bruta vs ganancia real</h3>
+                    <p class="lesson-time">📖 6 min lectura</p>
+                </div>
+            </a>
+
+            <a href="lesson-5.html" class="lesson-card" data-lesson="5">
+                <div class="lesson-number">5</div>
+                <div class="lesson-content">
+                    <h3 class="lesson-title">Por qué "carga pagada" no significa "carga rentable"</h3>
+                    <p class="lesson-time">📖 5 min lectura</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <script src="../js/academy.js"></script>
+    <script>
+        // Update lesson cards with completion status
+        document.addEventListener('DOMContentLoaded', () => {
+            const moduleNum = 1;
+
+            // Update lesson cards
+            document.querySelectorAll('.lesson-card').forEach(card => {
+                const lessonNum = parseInt(card.dataset.lesson);
+                if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(moduleNum, lessonNum)) {
+                    card.classList.add('completed');
+                    card.querySelector('.lesson-number').textContent = '✓';
+                }
+            });
+
+            // Update module progress
+            if (window.AcademyProgress) {
+                const progress = window.AcademyProgress.getModuleProgress(moduleNum);
+                const completed = window.AcademyProgress.getProgress().modules[moduleNum].completed.length;
+
+                document.getElementById('moduleProgressBar').style.width = `${progress}%`;
+                document.getElementById('moduleProgressText').textContent = `${completed}/5 lecciones`;
+            }
+        });
+    </script>
+</body>
+
+</html>

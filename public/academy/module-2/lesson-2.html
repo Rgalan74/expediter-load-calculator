@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 2: Loaded vs Deadhead Miles | Smart Load Academy</title>
+    <link rel="icon" type="image/png" href="../../img/logo-app.png" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.7
+        }
+
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem
+        }
+
+        .breadcrumb {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: .875rem
+        }
+
+        .breadcrumb a {
+            color: #00D9FF;
+            text-decoration: none
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem
+        }
+
+        .lesson-content h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff
+        }
+
+        .lesson-content p {
+            margin-bottom: 1.5rem;
+            color: #d0d0d0
+        }
+
+        .lesson-content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem
+        }
+
+        .callout {
+            padding: 1.5rem;
+            border-radius: .75rem;
+            margin: 2rem 0;
+            border-left: 4px solid
+        }
+
+        .callout.tip {
+            background: rgba(0, 217, 255, .1);
+            border-color: #00D9FF
+        }
+
+        .callout.warning {
+            background: rgba(255, 107, 53, .1);
+            border-color: #FF6B35
+        }
+
+        .callout strong {
+            display: block;
+            margin-bottom: .5rem;
+            font-size: 1.1rem
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: rgba(20, 20, 20, .8);
+            border-radius: .75rem;
+            overflow: hidden
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        th {
+            background: rgba(0, 217, 255, .1);
+            color: #00D9FF;
+            font-weight: 700
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: .75rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all .3s ease
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+            color: #fff
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .2)
+        }
+
+        .lesson-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem
+        }
+    </style>
+</head>
+
+<body>
+    <article class="lesson-container">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 2</a> → Lección 2
+        </nav>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Loaded Miles vs Deadhead Miles: Cómo Pensar Ambos Juntos</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 9 min lectura</span>
+                <span>🎓 Módulo 2 - Lección 2</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>🧠 EL CONCEPTO FUNDAMENTAL</h2>
+                <p>Loaded miles y deadhead miles no son dos cosas separadas.<br>
+                    <strong>Son UN SOLO ciclo de trabajo.</strong>
+                </p>
+
+                <div class="callout warning">
+                    <strong>❌ ERROR COMÚN:</strong>
+                    <p>"Este load paga $1.50/milla por las loaded miles. El deadhead es solo 50 millas, no es gran
+                        cosa."</p>
+                    <p><strong>Problema:</strong> Estás pensando en loaded como el "trabajo real" y deadhead como "extra
+                        menor".</p>
+                </div>
+
+                <div class="callout tip">
+                    <strong>✅ PENSAMIENTO CORRECTO:</strong>
+                    <p>"Este load requiere que maneje 800 millas TOTAL para ganar $1,200."</p>
+                    <ul>
+                        <li>50 millas deadhead (no pagadas)</li>
+                        <li>750 millas loaded (pagadas)</li>
+                        <li>= 800 millas de trabajo REAL</li>
+                    </ul>
+                    <p style="margin:0"><strong>RPM del TRABAJO COMPLETO: $1.50/milla</strong></p>
+                </div>
+            </section>
+
+            <section>
+                <h2>📏 DEADHEAD RATIO: La Métrica Crítica</h2>
+
+                <div
+                    style="background:rgba(0,217,255,.05);padding:1.5rem;border-radius:.75rem;text-align:center;margin:2rem 0">
+                    <p style="font-size:1.1rem;margin-bottom:.5rem"><strong>FÓRMULA:</strong></p>
+                    <p style="font-size:1.5rem;font-weight:900;color:#00D9FF">Deadhead Ratio = (Deadhead Miles ÷ Total
+                        Miles) × 100</p>
+                    <p style="margin-top:1rem;font-size:.9rem">Ejemplo: 50 deadhead ÷ 800 total = 6.25%</p>
+                </div>
+
+                <h3>🎯 TARGETS DE DEADHEAD RATIO:</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Deadhead Ratio</th>
+                            <th>Calificación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background:rgba(100,200,100,.1)">
+                            <td>0-8%</td>
+                            <td><strong>✅✅ Excellent</strong></td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.05)">
+                            <td>8-12%</td>
+                            <td><strong>✅ Good</strong></td>
+                        </tr>
+                        <tr style="background:rgba(255,215,0,.05)">
+                            <td>12-18%</td>
+                            <td><strong>⚠️ Acceptable</strong></td>
+                        </tr>
+                        <tr style="background:rgba(255,107,53,.05)">
+                            <td>18-25%</td>
+                            <td><strong>❌ Poor</strong></td>
+                        </tr>
+                        <tr style="background:rgba(255,107,53,.1)">
+                            <td>>25%</td>
+                            <td><strong>🚨 Terrible</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>Smart Load Solution te alerta con colores: Verde si <12%, Amarillo si 12-18%, Rojo si>18%</p>
+            </section>
+
+            <section>
+                <h2>📊 CASO COMPARATIVO</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>LOAD A</th>
+                            <th>LOAD B</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Payment</td>
+                            <td>$1,500</td>
+                            <td>$1,200</td>
+                        </tr>
+                        <tr>
+                            <td>Loaded miles</td>
+                            <td>800</td>
+                            <td>750</td>
+                        </tr>
+                        <tr>
+                            <td>Deadhead</td>
+                            <td>250 🚨</td>
+                            <td>50 ✅</td>
+                        </tr>
+                        <tr>
+                            <td>Total miles</td>
+                            <td>1,050</td>
+                            <td>800</td>
+                        </tr>
+                        <tr style="background:rgba(0,217,255,.05)">
+                            <td><strong>Deadhead ratio</strong></td>
+                            <td><strong>23.8% 🚨</strong></td>
+                            <td><strong>6.25% ✅</strong></td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.05)">
+                            <td><strong>RPM real</strong></td>
+                            <td>$1.43/mi</td>
+                            <td><strong>$1.50/mi ✅</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:1.5rem;border-radius:.75rem;text-align:center;margin:2rem 0">
+                    <p style="font-size:1.25rem;font-weight:700">VEREDICTO:</p>
+                    <p>Load B paga $300 MENOS pero genera $0.07/milla MÁS de RPM y requiere 250 millas MENOS de trabajo.
+                    </p>
+                    <p style="margin:0;font-weight:700;color:#64C864">Load B es objetivamente mejor.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🧮 REGLA RÁPIDA DE COMPENSACIÓN</h2>
+                <p><strong>Por cada 50 millas de deadhead adicional, necesitas $0.15-0.20 más por milla loaded para
+                        compensar.</strong></p>
+
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>Ejemplo:</strong></p>
+                    <ul>
+                        <li>Deadhead normal en tu zona: 50 millas</li>
+                        <li>Load te requiere: 150 millas (100 extra)</li>
+                    </ul>
+                    <p><strong>Compensación necesaria:</strong><br>
+                        100 extra ÷ 50 = 2<br>
+                        2 × $0.15 = $0.30/milla adicional</p>
+                    <p style="margin:0">Si tu rate normal es $1.50/milla, este load debería pagar <strong
+                            style="color:#00D9FF">$1.80/milla loaded</strong> para valer la pena.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 ESTRATEGIAS PARA MINIMIZAR DEADHEAD</h2>
+
+                <h3>1. Posicionamiento Inteligente</h3>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0">
+                    <div style="background:rgba(255,107,53,.1);padding:1rem;border-radius:.5rem">
+                        <p><strong>❌ Mala estrategia:</strong></p>
+                        <p>Terminas en zona muerta<br>Esperas 48-72 horas<br>Deadhead típico: 200-300 mi</p>
+                    </div>
+                    <div style="background:rgba(100,200,100,.1);padding:1rem;border-radius:.5rem">
+                        <p><strong>✅ Buena estrategia:</strong></p>
+                        <p>Terminas en zonas premium<br>Esperas 8-12 horas<br>Deadhead típico: 30-80 mi</p>
+                    </div>
+                </div>
+
+                <h3>2. Aceptar Loads "Cerca de Casa"</h3>
+                <p>Si estás en Detroit y tienes dos opciones con similar RPM loaded:</p>
+                <ul>
+                    <li>Load A: Pickup en Chicago (280 mi deadhead)</li>
+                    <li>Load B: Pickup en Toledo (65 mi deadhead)</li>
+                </ul>
+                <p><strong>Load B es MUCHO mejor</strong> (ahorras 215 millas deadhead)</p>
+
+                <h3>3. Usar Zone Heat Map de la App</h3>
+                <p>Dashboard → Zones → Heat Map te muestra:</p>
+                <ul>
+                    <li>Tu deadhead promedio por zona</li>
+                    <li>Zonas con típicamente <50 mi deadhead</li>
+                    <li>Zonas con >150 mi deadhead</li>
+                </ul>
+                <p>Favorece zonas con bajo deadhead histórico.</p>
+            </section>
+
+            <section>
+                <h2>💡 CONCLUSIÓN CLAVE</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">Deadhead NO es "extra" o "no
+                        importante"</p>
+                    <p>Un load con <strong>Alto pago + Alto deadhead</strong> puede ser PEOR que un load con
+                        <strong>Pago moderado + Bajo deadhead</strong></p>
+                    <ul style="text-align:left;max-width:500px;margin:1.5rem auto 0;list-style:none;padding:0">
+                        <li>✅ Piensa en CICLOS COMPLETOS</li>
+                        <li>✅ Usa deadhead ratio como métrica clave</li>
+                        <li>✅ Target: <12% deadhead ratio consistentemente</li>
+                    </ul>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+                completada</button>
+            <nav class="lesson-nav">
+                <a href="lesson-1.html" class="btn btn-secondary">← Lección anterior</a>
+                <a href="lesson-3.html" class="btn btn-primary">Siguiente: Decisiones →</a>
+            </nav>
+        </footer>
+    </article>
+
+    <script src="../js/academy.js"></script>
+    <script>
+        const MODULE_NUM = 2, LESSON_NUM = 2; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true; alert('¡Lección completada! 🎉') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true } });
+    </script>
+</body>
+
+</html>

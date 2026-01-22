@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 3: Rentabilidad por Ruta | Smart Load Academy</title>
+    <link rel="icon" type="image/png" href="../../img/logo-app.png" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.7
+        }
+
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem
+        }
+
+        .breadcrumb {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: .875rem
+        }
+
+        .breadcrumb a {
+            color: #00D9FF;
+            text-decoration: none
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem
+        }
+
+        .lesson-content h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff
+        }
+
+        .lesson-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: .75rem
+        }
+
+        .lesson-content p {
+            margin-bottom: 1.5rem;
+            color: #d0d0d0
+        }
+
+        .lesson-content ul,
+        .lesson-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem
+        }
+
+        .mockup {
+            background: rgba(20, 20, 20, .9);
+            border: 2px solid rgba(0, 217, 255, .3);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: .9rem
+        }
+
+        .tier-box {
+            padding: 1rem;
+            border-radius: .5rem;
+            margin: .5rem 0;
+            border-left: 4px solid
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: .75rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all .3s ease
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #FFD700 0%, #FF6B35 100%);
+            color: #000
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .2)
+        }
+
+        .lesson-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem
+        }
+    </style>
+</head>
+
+<body>
+    <article class="lesson-container">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 5 [PRO]</a> → Lección 3
+        </nav>
+
+        <div
+            style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
+            🔒 CONTENIDO PRO</div>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Análisis de Rentabilidad por Ruta</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 14 min lectura</span>
+                <span>🎓 Módulo 5 - Lección 3</span>
+                <span>🗺️ Rutas</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>🗺️ LA VERDAD INCÓMODA</h2>
+
+                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
+                    <p style="font-style:italic">"Pensé que todas mis cargas eran rentables.<br>
+                        Después de analizar por ruta, descubrí:</p>
+                    <ul>
+                        <li>20% de mis rutas generan 60% de mi ganancia</li>
+                        <li>30% de mis rutas apenas son rentables</li>
+                        <li>15% de mis rutas PIERDEN dinero</li>
+                    </ul>
+                    <p style="margin:0">Estaba trabajando duro en rutas MALAS<br>mientras ignoraba las BUENAS."</p>
+                    <p style="margin-top:1rem;text-align:right;font-weight:700">- Ricardo, después de 3 meses de
+                        tracking</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 EL CONCEPTO: NO TODAS LAS MILLAS VALEN LO MISMO</h2>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
+                    <div
+                        style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem;border-left:4px solid #64C864">
+                        <p><strong>RUTA A: Detroit → Chicago</strong></p>
+                        <ul style="font-size:.9rem;margin:0">
+                            <li>Distancia: 280 millas</li>
+                            <li>Pago promedio: $520</li>
+                            <li>RPM: $1.86/mi</li>
+                            <li>Deadhead promedio: 15 mi</li>
+                            <li>Tiempo: 5 horas</li>
+                            <li>Ganancia promedio: $245</li>
+                            <li><strong style="color:#64C864">Ganancia/hora: $49/hr ✅</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FF6B35">
+                        <p><strong>RUTA B: Detroit → Laredo</strong></p>
+                        <ul style="font-size:.9rem;margin:0">
+                            <li>Distancia: 1,600 millas</li>
+                            <li>Pago promedio: $1,800</li>
+                            <li>RPM: $1.12/mi</li>
+                            <li>Deadhead promedio: 280 mi</li>
+                            <li>Tiempo: 26 horas</li>
+                            <li>Ganancia promedio: $280</li>
+                            <li><strong style="color:#FF6B35">Ganancia/hora: $10.77/hr ❌</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p
+                    style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
+                    Ruta B paga MÁS en total ($1,800 vs $520)<br>
+                    Pero Ruta A genera MÁS ganancia por hora.<br><br>
+                    ¿Cuál preferirías hacer 2 veces por semana?
+                </p>
+            </section>
+
+            <section>
+                <h2>🎯 SISTEMA DE CLASIFICACIÓN DE RUTAS</h2>
+
+                <div class="tier-box" style="background:rgba(100,200,100,.15);border-color:#64C864">
+                    <p><strong>S-TIER 🟢🟢</strong></p>
+                    <ul style="margin:0;font-size:.9rem">
+                        <li>RPM >$1.70/mi</li>
+                        <li>Margen >40%</li>
+                        <li>Ganancia/hr >$45</li>
+                        <li>Backhaul fácil</li>
+                        <li>Alta frecuencia disponible</li>
+                        <li><strong>ACCIÓN: MAXIMIZAR - Busca activamente</strong></li>
+                    </ul>
+                </div>
+
+                <div class="tier-box" style="background:rgba(100,200,100,.1);border-color:#64C864">
+                    <p><strong>A-TIER 🟢</strong></p>
+                    <ul style="margin:0;font-size:.9rem">
+                        <li>RPM $1.50-1.70/mi</li>
+                        <li>Margen 35-40%</li>
+                        <li>Ganancia/hr $35-45</li>
+                        <li>Backhaul moderado</li>
+                        <li><strong>ACCIÓN: PRIORIZAR - Acepta siempre</strong></li>
+                    </ul>
+                </div>
+
+                <div class="tier-box" style="background:rgba(255,215,0,.1);border-color:#FFD700">
+                    <p><strong>B-TIER 🟡</strong></p>
+                    <ul style="margin:0;font-size:.9rem">
+                        <li>RPM $1.30-1.50/mi</li>
+                        <li>Margen 25-35%</li>
+                        <li>Ganancia/hr $25-35</li>
+                        <li>Backhaul variable</li>
+                        <li><strong>ACCIÓN: ACEPTAR - Si encaja en circuit</strong></li>
+                    </ul>
+                </div>
+
+                <div class="tier-box" style="background:rgba(255,165,0,.1);border-color:#FFA500">
+                    <p><strong>C-TIER 🟠</strong></p>
+                    <ul style="margin:0;font-size:.9rem">
+                        <li>RPM $1.10-1.30/mi</li>
+                        <li>Margen 15-25%</li>
+                        <li>Ganancia/hr $15-25</li>
+                        <li>Backhaul difícil</li>
+                        <li><strong>ACCIÓN: EVITAR - Solo si desesperado</strong></li>
+                    </ul>
+                </div>
+
+                <div class="tier-box" style="background:rgba(255,107,53,.15);border-color:#FF6B35">
+                    <p><strong>D-TIER 🔴</strong></p>
+                    <ul style="margin:0;font-size:.9rem">
+                        <li>RPM <$1.10 /mi</li>
+                        <li>Margen <15%< /li>
+                        <li>Ganancia/hr <$15< /li>
+                        <li>Backhaul inexistente</li>
+                        <li><strong>ACCIÓN: RECHAZAR - Nunca aceptar</strong></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>📱 ANÁLISIS DE RUTAS EN SMART LOAD</h2>
+
+                <div class="mockup">
+                    🗺️ ANÁLISIS DE RUTAS - TUS TOP 10<br>
+                    <br>
+                    Basado en 6 meses de historial<br>
+                    <br>
+                    🥇 #1: DETROIT → CHICAGO<br>
+                    ├─ Cargas: 18<br>
+                    ├─ RPM promedio: $1.86/mi<br>
+                    ├─ Margen promedio: 44.2%<br>
+                    ├─ Ganancia/hr: $49<br>
+                    ├─ Tier: S 🟢🟢<br>
+                    └─ RECOMENDACIÓN: Busca más<br>
+                    <br>
+                    🥈 #2: CHICAGO → INDIANAPOLIS<br>
+                    ├─ Cargas: 12<br>
+                    ├─ RPM promedio: $1.72/mi<br>
+                    ├─ Margen promedio: 41.8%<br>
+                    ├─ Ganancia/hr: $46<br>
+                    ├─ Tier: S 🟢🟢<br>
+                    └─ RECOMENDACIÓN: Mantén frecuencia<br>
+                    <br>
+                    🥉 #3: INDIANAPOLIS → NASHVILLE<br>
+                    ├─ Cargas: 10<br>
+                    ├─ RPM promedio: $1.65/mi<br>
+                    ├─ Margen promedio: 38.5%<br>
+                    ├─ Ganancia/hr: $42<br>
+                    ├─ Tier: A 🟢<br>
+                    └─ RECOMENDACIÓN: Prioriza<br>
+                    <br>
+                    🔴 PEORES 3 RUTAS:<br>
+                    ├─ Detroit → Laredo: $10.77/hr<br>
+                    ├─ Toledo → El Paso: $9.25/hr<br>
+                    └─ Chicago → Phoenix: $12.80/hr<br>
+                    <br>
+                    💡 OPORTUNIDAD DE OPTIMIZACIÓN:<br>
+                    Si eliminas peores 3 rutas y<br>
+                    aumentas top 3 rutas en 20%:<br>
+                    Ganancia mensual: +$1,240 🚀
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 CONSTRUCCIÓN DE CIRCUIT ÓPTIMO</h2>
+
+                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>CIRCUIT SEMANAL ÓPTIMO - EJEMPLO:</strong></p>
+                    <table style="width:100%;border-collapse:collapse;margin:1rem 0">
+                        <tr style="background:rgba(100,200,100,.05)">
+                            <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.1)">
+                                <strong>LUNES:</strong> Detroit → Chicago (Tier S)</td>
+                            <td style="padding:.5rem;text-align:right">+$245, 5 hrs</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.05)">
+                            <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.1)">
+                                <strong>MARTES:</strong> Chicago → Indianapolis (Tier S)</td>
+                            <td style="padding:.5rem;text-align:right">+$220, 4 hrs</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.03)">
+                            <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.1)">
+                                <strong>MIÉRCOLES:</strong> Indianapolis → Nashville (Tier A)</td>
+                            <td style="padding:.5rem;text-align:right">+$280, 5 hrs</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.03)">
+                            <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.1)">
+                                <strong>JUEVES:</strong> Nashville → Atlanta (Tier A)</td>
+                            <td style="padding:.5rem;text-align:right">+$320, 4 hrs</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.05)">
+                            <td style="padding:.5rem"><strong>VIERNES:</strong> Atlanta → Detroit (Tier S)</td>
+                            <td style="padding:.5rem;text-align:right">+$680, 11 hrs</td>
+                        </tr>
+                    </table>
+
+                    <div style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1rem">
+                        <p style="margin:0"><strong>TOTALES SEMANALES:</strong></p>
+                        <ul style="margin:.5rem 0 0 0">
+                            <li>Millas: ~1,950</li>
+                            <li>Tiempo: 29 hrs driving</li>
+                            <li>Ganancia: $1,745</li>
+                            <li>Ganancia/hr: $60.17 ✅</li>
+                            <li>Solo rutas Tier S & A</li>
+                        </ul>
+                        <p style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.1)">
+                            <strong>MENSUAL (4 semanas):</strong> $6,980<br>
+                            <strong>vs CIRCUIT ALEATORIO:</strong> $4,200<br>
+                            <strong style="color:#FFD700">DIFERENCIA: +$2,780/mes (+66%) 🚀</strong>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 CONCLUSIÓN CLAVE</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">No todas las rutas son
+                        iguales.<br>El secreto no es trabajar MÁS.<br>Es trabajar en las rutas CORRECTAS.</p>
+
+                    <div style="text-align:left;max-width:500px;margin:0 auto">
+                        <p><strong>Análisis de rutas revela:</strong></p>
+                        <ul>
+                            <li>20% de rutas generan 60% de ganancia (Tier S/A)</li>
+                            <li>50% de rutas son "ok" (Tier B)</li>
+                            <li>30% de rutas destruyen rentabilidad (Tier C/D)</li>
+                        </ul>
+
+                        <p><strong>Métricas que importan por ruta:</strong></p>
+                        <ol>
+                            <li><strong>Ganancia/hora</strong> (métrica #1)</li>
+                            <li>Margen (sostenibilidad)</li>
+                            <li>RPM (eficiencia de tarifa)</li>
+                            <li>Backhaul rate (continuidad)</li>
+                            <li>Frecuencia (consistencia)</li>
+                        </ol>
+
+                        <p
+                            style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
+                            <strong>Proceso de optimización:</strong><br>
+                            SEMANAS 1-2: Identifica rutas malas<br>
+                            SEMANAS 3-6: Prueba rutas nuevas<br>
+                            SEMANAS 7-10: Reemplaza gradualmente<br>
+                            SEMANAS 11-12: Evalúa resultados<br><br>
+                            <strong style="color:#FFD700">Resultado típico:<br>
+                                +30-50% ganancia mensual</strong>
+                        </p>
+
+                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">
+                            Elimina 2-3 rutas malas.<br>
+                            Maximiza 2-3 rutas buenas.<br>
+                            = Transforma tu negocio en 90 días.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+                completada</button>
+            <nav class="lesson-nav">
+                <a href="lesson-2.html" class="btn btn-secondary">← Lección anterior</a>
+                <a href="lesson-4.html" class="btn btn-primary">Siguiente: Forecasting →</a>
+            </nav>
+        </footer>
+    </article>
+
+    <script src="../js/academy.js"></script>
+    <script>
+        const MODULE_NUM = 5, LESSON_NUM = 3; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true; alert('¡Lección PRO completada! 🗺️\n\nAhora sabes clasificar rutas por tier.\nSistema S/A/B/C/D.\nGanancia/hora es la métrica #1.') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true } });
+    </script>
+</body>
+
+</html>

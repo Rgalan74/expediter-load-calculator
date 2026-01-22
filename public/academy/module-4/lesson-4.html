@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 4: Señales de Alerta | Smart Load Academy</title>
+    <link rel="icon" type="image/png" href="../../img/logo-app.png" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.7
+        }
+
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem
+        }
+
+        .breadcrumb {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: .875rem
+        }
+
+        .breadcrumb a {
+            color: #00D9FF;
+            text-decoration: none
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem
+        }
+
+        .lesson-content h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff
+        }
+
+        .lesson-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: .75rem
+        }
+
+        .lesson-content p {
+            margin-bottom: 1.5rem;
+            color: #d0d0d0
+        }
+
+        .lesson-content ul,
+        .lesson-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem
+        }
+
+        .mockup {
+            background: rgba(20, 20, 20, .9);
+            border: 2px solid rgba(255, 107, 53, .3);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: .9rem
+        }
+
+        .alert-box {
+            padding: 1.5rem;
+            border-radius: .75rem;
+            margin: 1.5rem 0
+        }
+
+        .alert-yellow {
+            background: rgba(255, 215, 0, .1);
+            border-left: 4px solid #FFD700
+        }
+
+        .alert-red {
+            background: rgba(255, 107, 53, .15);
+            border-left: 4px solid #FF4444
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: .75rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all .3s ease
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #FFD700 0%, #FF6B35 100%);
+            color: #000
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .2)
+        }
+
+        .lesson-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem
+        }
+    </style>
+</head>
+
+<body>
+    <article class="lesson-container">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 4 [PRO]</a> → Lección 4
+        </nav>
+
+        <div
+            style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
+            🔒 CONTENIDO PRO</div>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-border:1px solid rgba(255,255,255,.1)">
+            <h1>Señales de Alerta y Cuándo Decir No</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 11 min lectura</span>
+                <span>🎓 Módulo 4 - Lección 4</span>
+                <span>🚨 Protección</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>🚩 POR QUÉ ESTO IMPORTA</h2>
+
+                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;margin:2rem 0">
+                    <p><strong>No todos los brokers son buenos.<br>
+                            No todas las cargas valen la pena.<br>
+                            Algunos NO VALEN el dinero.</strong></p>
+
+                    <p style="margin-top:1.5rem"><strong>Saber cuándo decir "no" =</strong></p>
+                    <ul style="margin:0">
+                        <li>Protege tu negocio</li>
+                        <li>Protege tu tiempo</li>
+                        <li>Protege tu reputación</li>
+                        <li>Protege tu salud mental</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>🚨 SEÑALES DE ALERTA NIVEL 1: PRECAUCIÓN</h2>
+
+                <div class="alert-yellow">
+                    <h3>🟡 Señal #1: Detalles Vagos de Carga</h3>
+                    <p><strong>EJEMPLO:</strong></p>
+                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        Tú: "¿Cuál es la dirección de recogida?"<br>
+                        Broker: "Algún lugar en el área de Chicago"<br><br>
+                        Tú: "¿Cuál es la ventana de entrega?"<br>
+                        Broker: "Flexible, algún momento esta semana"<br><br>
+                        Tú: "¿Cuál es la mercancía?"<br>
+                        Broker: "Carga general"
+                    </p>
+
+                    <p><strong>POR QUÉ ES MALO:</strong></p>
+                    <ul>
+                        <li>"Área de Chicago" podría ser 40 millas de diferencia</li>
+                        <li>"Flexible" a menudo significa que cliente no le importa (baja prioridad = pago bajo)</li>
+                        <li>"Carga general" podría ser peligrosa/sobredimensionada</li>
+                        <li>Vaguedad = broker amateur o escondiendo problemas</li>
+                    </ul>
+
+                    <p><strong>ACCIÓN:</strong></p>
+                    <ul style="margin:0">
+                        <li>⚠️ Procede con precaución</li>
+                        <li>Exige específicos antes de aceptar</li>
+                        <li>Consigue todo por escrito</li>
+                        <li>Si sigue vago, declina</li>
+                    </ul>
+                </div>
+
+                <div class="alert-yellow">
+                    <h3>🟡 Señal #2: Tarifa Sigue Cambiando</h3>
+                    <p><strong>EJEMPLO:</strong></p>
+                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        Lunes: "La carga paga $1,200"<br>
+                        Martes: "En realidad son $1,150"<br>
+                        Miércoles: "Cliente dijo que $1,100 es máximo"
+                    </p>
+
+                    <p><strong>POR QUÉ ES MALO:</strong></p>
+                    <ul>
+                        <li>Broker no tiene autoridad</li>
+                        <li>O está probando tu desesperación</li>
+                        <li>O genuinamente desorganizado (señal de alerta en sí)</li>
+                        <li>Tu tiempo está siendo desperdiciado</li>
+                    </ul>
+
+                    <p><strong>ACCIÓN:</strong></p>
+                    <p style="margin:0">⚠️ Establece límite: "Necesito tarifa firme para comprometerme. Avísame cuando
+                        tengas número final."<br>
+                        Si continúa → Declina y sigue adelante</p>
+                </div>
+
+                <div class="alert-yellow">
+                    <h3>🟡 Señal #3: Presionando Decisión Inmediata</h3>
+                    <p><strong>EJEMPLO:</strong></p>
+                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        Broker: "Necesito respuesta AHORA MISMO o paso<br>
+                        al siguiente transportista"<br>
+                        [No has tenido tiempo de calcular]
+                    </p>
+
+                    <p><strong>POR QUÉ ES SOSPECHOSO:</strong></p>
+                    <ul>
+                        <li>Urgencia legítima existe, pero...</li>
+                        <li>...brokers legítimos te dan 15-20 min</li>
+                        <li>Presión = tratando de evitar tu juicio</li>
+                        <li>A menudo esconde problema con la carga</li>
+                    </ul>
+
+                    <p><strong>ACCIÓN:</strong></p>
+                    <p style="margin:0">⚠️ Llama el bluff: "Necesito 15 minutos para hacer números. Si necesitas pasar a
+                        otro, lo entiendo. Pero no me comprometo a ciegas."<br><br>
+                        ¿Urgencia real? Esperarán.<br>
+                        ¿Urgencia falsa? Desaparecerán (buen riddance).</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🔴 SEÑALES DE ALERTA NIVEL 2: PELIGRO</h2>
+
+                <div class="alert-red">
+                    <h3>🔴 Señal #4: Solicitando Depósitos/Tarifas</h3>
+                    <p><strong>EJEMPLO:</strong></p>
+                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        Broker: "Hay tarifa de setup de $200"<br>
+                        Broker: "Necesito depósito de seguro de $150"<br>
+                        Broker: "Paga $100 por asignación de carga"
+                    </p>
+
+                    <p
+                        style="background:rgba(255,0,0,.2);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700;font-size:1.25rem">
+                        ⚠️ ESTAFA 🚨🚨🚨
+                    </p>
+
+                    <p><strong>REALIDAD:</strong></p>
+                    <ul>
+                        <li>Brokers legítimos NUNCA cobran a transportistas</li>
+                        <li>Tú proporcionas servicio, ELLOS te pagan a TI</li>
+                        <li>Cualquier solicitud de "tarifa" = estafa 100%</li>
+                        <li>Tomarán tu dinero y desaparecerán</li>
+                    </ul>
+
+                    <p><strong>ACCIÓN:</strong></p>
+                    <p style="margin:0">❌ DECLINAR INSTANTÁNEAMENTE<br>
+                        • Bloquea número<br>
+                        • Reporta a FMCSA si es posible<br>
+                        • Advierte a otros transportistas</p>
+                </div>
+
+                <div class="alert-red">
+                    <h3>🔴 Señal #5: No Puede Verificar Número MC</h3>
+                    <p><strong>EJEMPLO:</strong></p>
+                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        Tú: "¿Cuál es tu número MC?"<br>
+                        Broker: "No lo tengo a mano"<br>
+                        Broker: "Somos compañía nueva"<br>
+                        Broker: "Solo búscanos en línea"
+                    </p>
+
+                    <p><strong>VERIFICACIÓN:</strong></p>
+                    <ul>
+                        <li>Ve al sitio web FMCSA SAFER</li>
+                        <li>Busca número MC</li>
+                        <li>Verifica: Activo, Autoridad, Seguro</li>
+                        <li>Revisa fianza de broker (mínimo $75K)</li>
+                    </ul>
+
+                    <p><strong>ACCIÓN:</strong></p>
+                    <p style="margin:0">❌ Si no puedes verificar → DECLINA<br>
+                        Sin excepciones. Nunca.</p>
+                </div>
+
+                <div class="alert-red">
+                    <h3>🔴 Señal #6: No Enviará Confirmación de Tarifa</h3>
+                    <p><strong>EJEMPLO:</strong></p>
+                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        Tú: "¿Puedes enviar confirmación de tarifa por email?"<br>
+                        Broker: "Verbal está bien"<br>
+                        Broker: "La envío después de entrega"<br>
+                        Broker: "Nuestro sistema está caído"
+                    </p>
+
+                    <p><strong>POR QUÉ ES CRÍTICO:</strong></p>
+                    <ul>
+                        <li>Acuerdos verbales no son ejecutables</li>
+                        <li>Broker puede reclamar tarifa diferente después</li>
+                        <li>No tienes prueba de acuerdo</li>
+                        <li>Receta para disputas de pago</li>
+                    </ul>
+
+                    <p><strong>ACCIÓN:</strong></p>
+                    <p style="margin:0">❌ Sin confirmación de tarifa = Sin carga<br>
+                        "Necesito confirmación escrita antes de recogida. Política de compañía, sin
+                        excepciones."<br><br>
+                        Si se niegan → Están planeando timarte</p>
+                </div>
+
+                <div class="alert-red">
+                    <h3>🔴 Señal #7: Términos de Pago >30 Días</h3>
+                    <p><strong>ESTÁNDAR DE INDUSTRIA:</strong></p>
+                    <ul>
+                        <li>15-30 días: Normal ✅</li>
+                        <li>30-45 días: Aceptable si tarifa premium</li>
+                        <li>45+ días: Señal de alerta ⚠️</li>
+                        <li>60+ días: Zona de peligro 🚨</li>
+                    </ul>
+
+                    <p><strong>ACCIÓN:</strong></p>
+                    <p style="margin:0">⚠️ Declina a menos que:<br>
+                        • Tarifa sea +25-30% premium<br>
+                        • Broker tenga excelente historial<br>
+                        • Puedas permitirte esperar<br>
+                        • Uses factoraje (adelanto de efectivo)</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🚩 SEÑALES DE ALERTA DE CARGA</h2>
+
+                <div class="alert-yellow">
+                    <h3>🟡 Carga #1: "Cliente No Sabe que Vienes"</h3>
+                    <p><strong>EJEMPLO:</strong> Llegas a recogida.<br>
+                        Cliente: "No recibimos aviso de recogida"<br>
+                        Cliente: "No tenemos nada listo"</p>
+
+                    <p><strong>COSTO PARA TI:</strong></p>
+                    <ul>
+                        <li>2-4 horas desperdiciadas</li>
+                        <li>Detención potencial ($0 usualmente)</li>
+                        <li>Oportunidades de otras cargas perdidas</li>
+                    </ul>
+
+                    <p><strong>PREVENCIÓN:</strong></p>
+                    <p style="margin:0">Antes de salir: "¿Puedes confirmar que cliente me espera a [hora]? ¿Tienen mi
+                        info de contacto?"<br><br>
+                        Si hay duda → Haz que broker llame a cliente AHORA</p>
+                </div>
+
+                <div class="alert-yellow">
+                    <h3>🟡 Carga #2: Múltiples Paradas No Reveladas</h3>
+                    <p><strong>EJEMPLO:</strong><br>
+                        Confirmación: "Detroit a Nashville"<br>
+                        En recogida: "Ah sí, tienes 3 paradas en el camino"</p>
+
+                    <p><strong>IMPACTO:</strong></p>
+                    <ul>
+                        <li>Cada parada = +1-2 horas</li>
+                        <li>Más carga/descarga</li>
+                        <li>Mismo pago por 4x trabajo</li>
+                    </ul>
+
+                    <p><strong>ACCIÓN:</strong></p>
+                    <p style="margin:0">⚠️ Renegocia en el momento:<br>
+                        "Confirmación dice 1 parada. Por 3 paradas adicionales, necesito $200 más."</p>
+                </div>
+
+                <div class="alert-red">
+                    <h3>🔴 Carga #3: Mercancía No Coincide</h3>
+                    <p
+                        style="background:rgba(255,0,0,.2);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
+                        ⚠️ PROBLEMA DE SEGURIDAD + RESPONSABILIDAD 🚨
+                    </p>
+
+                    <p><strong>EJEMPLO:</strong><br>
+                        Confirmación: "Partes automotrices"<br>
+                        En recogida: Químicos peligrosos</p>
+
+                    <p><strong>POR QUÉ ES SERIO:</strong></p>
+                    <ul>
+                        <li>Materiales peligrosos requieren certificación especial</li>
+                        <li>Cobertura de seguro incorrecta</li>
+                        <li>Ilegal transportar sin cumplimiento</li>
+                        <li>Multas masivas ($75K+) si te atrapan</li>
+                        <li>Podrías perder tu autoridad</li>
+                    </ul>
+
+                    <p><strong>ACCIÓN:</strong></p>
+                    <p style="margin:0">❌ NIÉGATE a cargar<br>
+                        "Esto no fue revelado como materiales peligrosos. No estoy certificado/equipado. Rechazo la
+                        carga."<br><br>
+                        <strong>Tu licencia > Su ganancia</strong>
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💬 CÓMO DECLINAR PROFESIONALMENTE</h2>
+
+                <h3>Guión #1: Declinación Suave (Mantener Relación)</h3>
+                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>Situación:</strong> Tarifa es muy baja pero quieres trabajar con broker en futuro</p>
+                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        "Oye [Nombre], aprecio que pensaste en mí<br>
+                        para esta. Desafortunadamente mis números no<br>
+                        funcionan a esa tarifa para esta ruta particular.<br>
+                        <br>
+                        Pero definitivamente quiero seguir trabajando juntos.<br>
+                        Por favor tenme en mente para tus cargas de [ruta]<br>
+                        o cualquier cosa en el rango de $1.40-1.70/milla.<br>
+                        <br>
+                        Siempre contesto cuando llamas."
+                    </p>
+                    <p style="margin:0"><strong>TONO:</strong> Agradecido, específico sobre futuro, positivo</p>
+                </div>
+
+                <h3>Guión #2: Declinación Firme (Protegerte)</h3>
+                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem;margin-top:1.5rem">
+                    <p><strong>Situación:</strong> Problema de señal de alerta, necesitas declinar firmemente</p>
+                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        "Aprecio la oferta, pero voy a tener<br>
+                        que pasar en esta.<br>
+                        <br>
+                        [Opcional: razón breve y profesional]<br>
+                        'Los términos de pago no funcionan para mi negocio'<br>
+                        'Necesito confirmación de tarifa escrita primero'<br>
+                        'Los detalles de carga no están suficientemente claros'<br>
+                        <br>
+                        Gracias por entender."
+                    </p>
+                    <p style="margin:0"><strong>TONO:</strong> Cortés pero firme, sin negociación</p>
+                </div>
+
+                <h3>Guión #3: No Rotundo (Quemar Puente Si Necesario)</h3>
+                <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem;margin-top:1.5rem">
+                    <p><strong>Situación:</strong> Estafa, ilegal, o situación peligrosa</p>
+                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        "No podré trabajar contigo en esto.<br>
+                        <br>
+                        [Si estafa]: Esto parece fraudulento<br>
+                        [Si ilegal]: Esto no cumple con regulaciones<br>
+                        [Si no ético]: Esto no se alinea con mis estándares<br>
+                        <br>
+                        Por favor no me contactes de nuevo."<br>
+                        <br>
+                        [Bloquea número si necesario]
+                    </p>
+                    <p style="margin:0"><strong>TONO:</strong> Directo, final, sin espacio para discusión</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 FRAMEWORK DE "VERIFICACIÓN INTESTINAL"</h2>
+
+                <div style="background:rgba(255,215,0,.1);padding:2rem;border-radius:.75rem">
+                    <p style="font-weight:700;text-align:center;margin-bottom:1.5rem">Al evaluar carga cuestionable,
+                        PREGÚNTATE:</p>
+
+                    <ol>
+                        <li><strong>"¿Le diría a mi mamá/esposa que estoy haciendo esto?"</strong><br>
+                            Si NO → Declina</li>
+
+                        <li><strong>"¿Solo lo estoy considerando porque estoy desesperado?"</strong><br>
+                            Si SÍ → Declina</li>
+
+                        <li><strong>"¿Haría esta carga a 2x la tarifa?"</strong><br>
+                            Si NO → Problema no es tarifa, es la carga</li>
+
+                        <li><strong>"¿Me arrepentiré de esto mañana?"</strong><br>
+                            Si TAL VEZ → Declina</li>
+
+                        <li><strong>"¿Mi duda es solo precaución normal o preocupación genuina?"</strong><br>
+                            Si PREOCUPACIÓN GENUINA → Declina</li>
+                    </ol>
+
+                    <p
+                        style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;text-align:center;margin-top:1.5rem;margin-bottom:0">
+                        <strong>REGLA:</strong><br>
+                        Si 2+ de estas levantan señales de alerta → DECLINA
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 CONCLUSIÓN CLAVE</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(255,107,53,.15),rgba(255,215,0,.15));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.5rem;font-weight:700;margin-bottom:1.5rem">Decir "NO" es un superpoder</p>
+
+                    <div style="text-align:left;max-width:500px;margin:0 auto">
+                        <p><strong>Cada carga mala que declinas:</strong></p>
+                        <ul>
+                            <li>Protege tu negocio</li>
+                            <li>Protege tu tiempo</li>
+                            <li>Protege tu licencia</li>
+                            <li>Protege tu cordura</li>
+                        </ul>
+
+                        <p style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1.5rem">
+                            <strong>Las señales de alerta vienen en niveles:</strong><br>
+                            🟡 Amarillo: Precaución, investiga<br>
+                            🔴 Rojo: Peligro, probablemente declina<br>
+                            🚨 Emergencia: Huye inmediatamente
+                        </p>
+
+                        <p style="margin-top:1.5rem"><strong>El Framework de Declinación:</strong></p>
+                        <ol>
+                            <li>Verifica número MC (no negociable)</li>
+                            <li>Consigue confirmación escrita (no negociable)</li>
+                            <li>Revisa términos de pago (≤30 días estándar)</li>
+                            <li>Verificación intestinal (5 preguntas)</li>
+                            <li>Si duda → Declina</li>
+                        </ol>
+
+                        <p
+                            style="background:rgba(255,215,0,.15);padding:1rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
+                            <strong>Mejor:</strong><br>
+                            Rechazar 10 cargas cuestionables<br>
+                            Aceptar 1 carga excelente<br>
+                            <br>
+                            <strong>Que:</strong><br>
+                            Aceptar 10 cargas cuestionables<br>
+                            Ser timado en 3-4 de ellas
+                        </p>
+
+                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">Tu "no" protege tu negocio.<br>
+                            Úsalo con confianza.<br><br>
+                            En expediting, tu reputación lo es TODO.<br>
+                            Protégela declinando cargas que<br>
+                            no cumplen tus estándares.</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+                completada</button>
+            <nav class="lesson-nav">
+                <a href="lesson-3.html" class="btn btn-secondary">← Lección anterior</a>
+                <a href="index.html" class="btn btn-primary">Volver al módulo →</a>
+            </nav>
+        </footer>
+    </article>
+
+    <script src="../js/academy.js"></script>
+    <script>
+        const MODULE_NUM = 4, LESSON_NUM = 4; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true; alert('¡Lección PRO completada! 🎉\n\nTu "no" protege tu negocio. Úsalo con confianza.') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true } });
+    </script>
+</body>
+
+</html>

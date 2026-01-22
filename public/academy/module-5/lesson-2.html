@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 2: KPIs que Predicen Éxito | Smart Load Academy</title>
+    <link rel="icon" type="image/png" href="../../img/logo-app.png" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.7
+        }
+
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem
+        }
+
+        .breadcrumb {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: .875rem
+        }
+
+        .breadcrumb a {
+            color: #00D9FF;
+            text-decoration: none
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem
+        }
+
+        .lesson-content h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff
+        }
+
+        .lesson-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: .75rem
+        }
+
+        .lesson-content p {
+            margin-bottom: 1.5rem;
+            color: #d0d0d0
+        }
+
+        .lesson-content ul,
+        .lesson-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem
+        }
+
+        .mockup {
+            background: rgba(20, 20, 20, .9);
+            border: 2px solid rgba(0, 217, 255, .3);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: .9rem
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: rgba(20, 20, 20, .8);
+            border-radius: .75rem;
+            overflow: hidden
+        }
+
+        th,
+        td {
+            padding: .75rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, .1);
+            font-size: .9rem
+        }
+
+        th {
+            background: rgba(0, 217, 255, .1);
+            color: #00D9FF;
+            font-weight: 700
+        }
+
+        .kpi-box {
+            background: rgba(255, 255, 255, .05);
+            padding: 1.5rem;
+            border-radius: .75rem;
+            margin: 1rem 0;
+            border-left: 4px solid #00D9FF
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: .75rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all .3s ease
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #FFD700 0%, #FF6B35 100%);
+            color: #000
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .2)
+        }
+
+        .lesson-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem
+        }
+    </style>
+</head>
+
+<body>
+    <article class="lesson-container">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 5 [PRO]</a> → Lección 2
+        </nav>
+
+        <div
+            style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
+            🔒 CONTENIDO PRO</div>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>KPIs que Predicen Éxito o Fracaso</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 15 min lectura</span>
+                <span>🎓 Módulo 5 - Lección 2</span>
+                <span>📈 KPIs</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>📈 ¿QUÉ ES UN KPI?</h2>
+
+                <div style="background:rgba(0,217,255,.1);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>KPI = Key Performance Indicator</strong><br>
+                        = Indicador Clave de Desempeño</p>
+
+                    <p style="margin:0"><strong>En español simple:</strong><br>
+                        Números que te dicen si estás ganando o perdiendo<br>
+                        ANTES de que sea demasiado tarde.</p>
+                </div>
+
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem;margin-top:1.5rem">
+                    <p><strong>ANALOGÍA:</strong></p>
+                    <p>KPIs son como señales vitales en hospital.</p>
+                    <ul style="margin:0">
+                        <li>Presión arterial</li>
+                        <li>Ritmo cardíaco</li>
+                        <li>Temperatura</li>
+                        <li>Oxígeno en sangre</li>
+                    </ul>
+                    <p style="margin-top:1rem;margin-bottom:0">Si uno está mal, necesitas intervención YA.<br>
+                        <strong>En tu negocio es igual.</strong>
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 LOS 10 KPIs ESENCIALES</h2>
+
+                <div class="kpi-box">
+                    <h3 style="color:#00D9FF;margin-top:0">KPI #1: RPM REAL (Revenue Per Mile)</h3>
+                    <p><strong>FÓRMULA:</strong> Total Ingresos ÷ Total Millas (incluye deadhead)</p>
+                    <p><strong>EJEMPLO:</strong> $10,500 ÷ 7,200 mi = <strong>$1.46/mi</strong></p>
+                    <p><strong>BENCHMARKS:</strong></p>
+                    <ul style="margin:0">
+                        <li>🟢 $1.60+/mi = Excelente</li>
+                        <li>🟡 $1.40-1.60/mi = Bueno</li>
+                        <li>🟠 $1.20-1.40/mi = Promedio</li>
+                        <li>🔴 <$1.20 /mi=Problema</li>
+                    </ul>
+                    <p style="margin:0;margin-top:1rem"><strong>POR QUÉ IMPORTA:</strong> Tu métrica #1 de eficiencia de
+                        tarifas.</p>
+                </div>
+
+                <div class="kpi-box">
+                    <h3 style="color:#00D9FF;margin-top:0">KPI #2: MARGEN DE GANANCIA</h3>
+                    <p><strong>FÓRMULA:</strong> (Ganancia Neta ÷ Ingresos Brutos) × 100</p>
+                    <p><strong>EJEMPLO:</strong> ($4,200 ÷ $10,500) × 100 = <strong>40%</strong></p>
+                    <p><strong>BENCHMARKS:</strong></p>
+                    <ul style="margin:0">
+                        <li>🟢 40%+ = Excelente</li>
+                        <li>🟡 30-40% = Bueno</li>
+                        <li>🟠 20-30% = Marginal</li>
+                        <li>🔴 <20%=Peligro</li>
+                    </ul>
+                    <p style="margin:0;margin-top:1rem"><strong>POR QUÉ IMPORTA:</strong> Cuánto REALMENTE te quedas.
+                    </p>
+                </div>
+
+                <div class="kpi-box">
+                    <h3 style="color:#00D9FF;margin-top:0">KPI #3: COSTO POR MILLA (CPM)</h3>
+                    <p><strong>FÓRMULA:</strong> Total Gastos ÷ Total Millas</p>
+                    <p><strong>EJEMPLO:</strong> $6,300 ÷ 7,200 = <strong>$0.875/mi</strong></p>
+                    <p><strong>BENCHMARKS:</strong></p>
+                    <ul style="margin:0">
+                        <li>🟢 <$0.85 /mi=Excelente eficiencia</li>
+                        <li>🟡 $0.85-1.00/mi = Bueno</li>
+                        <li>🟠 $1.00-1.15/mi = Alto</li>
+                        <li>🔴 >$1.15/mi = Problema serio</li>
+                    </ul>
+                    <p style="margin:0;margin-top:1rem"><strong>POR QUÉ IMPORTA:</strong> Si CPM sube, gastos fuera de
+                        control.</p>
+                </div>
+
+                <div class="kpi-box">
+                    <h3 style="color:#00D9FF;margin-top:0">KPI #4: RATIO DEADHEAD</h3>
+                    <p><strong>FÓRMULA:</strong> (Millas Deadhead ÷ Total Millas) × 100</p>
+                    <p><strong>EJEMPLO:</strong> (950 ÷ 7,200) × 100 = <strong>13.2%</strong></p>
+                    <p><strong>BENCHMARKS:</strong></p>
+                    <ul style="margin:0">
+                        <li>🟢 0-10% = Excelente</li>
+                        <li>🟡 10-15% = Aceptable</li>
+                        <li>🟠 15-20% = Mejorable</li>
+                        <li>🔴 >20% = Perdiendo dinero</li>
+                    </ul>
+                    <p style="margin:0;margin-top:1rem"><strong>POR QUÉ IMPORTA:</strong> Millas sin pagar =
+                        desperdicio.</p>
+                </div>
+
+                <div class="kpi-box">
+                    <h3 style="color:#00D9FF;margin-top:0">KPI #5: UTILIZACIÓN DE VAN</h3>
+                    <p><strong>FÓRMULA:</strong> (Millas Loaded ÷ Millas Disponibles) × 100</p>
+                    <p>Millas Disponibles = Días trabajados × 500 mi/día</p>
+                    <p><strong>EJEMPLO:</strong> 5,400 ÷ (22 × 500) = <strong>49%</strong></p>
+                    <p><strong>BENCHMARKS:</strong></p>
+                    <ul style="margin:0">
+                        <li>🟢 60%+ = Excelente</li>
+                        <li>🟡 50-60% = Bueno</li>
+                        <li>🟠 40-50% = Mejorable</li>
+                        <li>🔴 <40%=Mucho tiempo muerto</li>
+                    </ul>
+                    <p style="margin:0;margin-top:1rem"><strong>POR QUÉ IMPORTA:</strong> Cuánto tiempo tu van genera
+                        dinero.</p>
+                </div>
+
+                <div class="kpi-box">
+                    <h3 style="color:#00D9FF;margin-top:0">KPI #6: GANANCIA POR DÍA TRABAJADO</h3>
+                    <p><strong>FÓRMULA:</strong> Ganancia Neta Mes ÷ Días Trabajados</p>
+                    <p><strong>EJEMPLO:</strong> $4,200 ÷ 22 = <strong>$191/día</strong></p>
+                    <p><strong>BENCHMARKS:</strong></p>
+                    <ul style="margin:0">
+                        <li>🟢 $200+/día = Excelente</li>
+                        <li>🟡 $150-200/día = Bueno</li>
+                        <li>🟠 $100-150/día = Sobreviviendo</li>
+                        <li>🔴 <$100 /día=No sostenible</li>
+                    </ul>
+                    <p style="margin:0;margin-top:1rem"><strong>POR QUÉ IMPORTA:</strong> Cuánto ganas por día de
+                        esfuerzo.</p>
+                </div>
+
+                <div class="kpi-box">
+                    <h3 style="color:#00D9FF;margin-top:0"> #7: TASA DE ACEPTACIÓN DE CARGAS</h3>
+                    <p><strong>FÓRMULA:</strong> (Cargas Aceptadas ÷ Cargas Ofrecidas) × 100</p>
+                    <p><strong>EJEMPLO:</strong> (28 ÷ 45) × 100 = <strong>62%</strong></p>
+                    <p><strong>BENCHMARKS:</strong></p>
+                    <ul style="margin:0">
+                        <li>🟢 50-70% = Excelente (selectivo pero accesible)</li>
+                        <li>🟡 40-50% = Bueno</li>
+                        <li>🟠 70-85% = Aceptas demasiado</li>
+                        <li>🔴 <40% o>85% = Problema</li>
+                    </ul>
+                    <p style="margin:0;margin-top:1rem"><strong>POR QUÉ IMPORTA:</strong> Sweet spot: ni muy alto ni muy
+                        bajo.</p>
+                </div>
+
+                <div class="kpi-box">
+                    <h3 style="color:#00D9FF;margin-top:0">KPI #8-10: OTROS INDICADORES</h3>
+                    <p><strong>#8 - RPM POR ZONA:</strong> Identifica zonas rentables vs evitar</p>
+                    <p><strong>#9 - TIEMPO ENTRE CARGAS:</strong> Monitorea eficiencia de positioning</p>
+                    <p style="margin:0"><strong>#10 - ROI:</strong> ¿Vale la pena vs otras inversiones?</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>📊 TABLERO DE ALERTAS TEMPRANAS</h2>
+
+                <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem;margin-bottom:1rem">
+                    <p><strong>🔴 ALERTA ROJA (Acción inmediata):</strong></p>
+                    <ul style="margin:0">
+                        <li>Margen <25% por 2+ meses</li>
+                        <li>CPM >$1.10/mi</li>
+                        <li>Deadhead >20%</li>
+                        <li>Utilización <40%< /li>
+                        <li>RPM bajando 3 meses consecutivos</li>
+                    </ul>
+                </div>
+
+                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem;margin-bottom:1rem">
+                    <p><strong>🟡 ALERTA AMARILLA (Monitorear):</strong></p>
+                    <ul style="margin:0">
+                        <li>Margen 25-30%</li>
+                        <li>CPM $0.95-1.10/mi</li>
+                        <li>Deadhead 15-20%</li>
+                        <li>Utilización 40-50%</li>
+                    </ul>
+                </div>
+
+                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>🟢 TODO BIEN:</strong></p>
+                    <ul style="margin:0">
+                        <li>Margen >35%</li>
+                        <li>CPM <$0.90 /mi</li>
+                        <li>Deadhead <12%< /li>
+                        <li>Utilización >55%</li>
+                        <li>RPM mejorando</li>
+                    </ul>
+                </div>
+
+                <p
+                    style="background:rgba(255,255,255,.05);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700;margin-top:1.5rem">
+                    REGLA:<br>
+                    2+ alertas rojas = Crisis, intervención Ya<br>
+                    3+ amarillas = Tendencia negativa, ajustar<br>
+                    Todo verde = Mantén el rumbo
+                </p>
+            </section>
+
+            <section>
+                <h2>💡 CONCLUSIÓN CLAVE</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">KPIs no son para impresionar a
+                        nadie.<br>Son tu sistema de alerta temprana.</p>
+
+                    <div style="text-align:left;max-width:500px;margin:0 auto">
+                        <p><strong>Los 10 KPIs esenciales:</strong></p>
+                        <ol>
+                            <li>RPM Real (eficiencia de tarifa)</li>
+                            <li>Margen (rentabilidad real)</li>
+                            <li>CPM (control de gastos)</li>
+                            <li>Deadhead Ratio (eficiencia de rutas)</li>
+                            <li>Utilización (productividad de van)</li>
+                            <li>Ganancia/Día (retorno de esfuerzo)</li>
+                            <li>Tasa Aceptación (balance selectividad)</li>
+                            <li>RPM por Zona (dónde ganar más)</li>
+                            <li>Tiempo entre Cargas (eficiencia operativa)</li>
+                            <li>ROI (vale la pena el negocio?)</li>
+                        </ol>
+
+                        <p
+                            style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
+                            <strong>REGLA DE ORO:</strong><br>
+                            Revisa KPIs semanalmente.<br>
+                            10-15 minutos cada domingo.<br><br>
+                            Problemas detectados temprano<br>
+                            son fáciles de arreglar.<br><br>
+                            Problemas ignorados por meses<br>
+                            pueden quebrar tu negocio.
+                        </p>
+
+                        <p style="margin-top:1.5rem;text-align:center;font-weight:700">
+                            Tu negocio es tan saludable<br>
+                            como tus KPIs dicen que es.<br><br>
+                            <span style="color:#FFD700;font-size:1.25rem">No adivines. MIDE.</span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+                completada</button>
+            <nav class="lesson-nav">
+                <a href="lesson-1.html" class="btn btn-secondary">← Lección anterior</a>
+                <a href="index.html" class="btn btn-primary">Volver al módulo →</a>
+            </nav>
+        </footer>
+    </article>
+
+    <script src="../js/academy.js"></script>
+    <script>
+        const MODULE_NUM = 5, LESSON_NUM = 2; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true; alert('¡Lección PRO completada! 📈\n\nAhora conoces los 10 KPIs esenciales.\nSistema de semáforo: 🟢🟡🔴\n\nRevísalos cada domingo 15 minutos.') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true } });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,145 @@
+/* =================================================================
+   PRINT STYLES - Financial Report Modal
+   Ensures full report content is visible when printing
+   ================================================================= */
+
+@media print {
+
+    /* Hide everything except the report modal */
+    body * {
+        visibility: hidden !important;
+    }
+
+    #reportModal,
+    #reportModal * {
+        visibility: visible !important;
+    }
+
+    /* Position modal for printing */
+    #reportModal {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        background: white !important;
+    }
+
+    /* Expand modal content to show everything */
+    #reportModal>div {
+        max-height: none !important;
+        height: auto !important;
+        overflow: visible !important;
+        background: white !important;
+    }
+
+    /* Report content - remove any scroll or height limits */
+    #reportContent {
+        max-height: none !important;
+        height: auto !important;
+        overflow: visible !important;
+        padding: 20px !important;
+        background: white !important;
+    }
+
+    /* Hide modal footer buttons (close, export, etc) */
+    #reportModal .flex-shrink-0.bg-white.border-t {
+        display: none !important;
+    }
+
+    /* Hide close button in header */
+    #reportModal button[onclick*="closeReportModal"] {
+        display: none !important;
+    }
+
+    /* Header - Professional black and white */
+    #reportModalHeader {
+        page-break-after: avoid !important;
+        background: white !important;
+        color: black !important;
+        border-bottom: 3px solid black !important;
+    }
+
+    #reportModalHeader h1,
+    #reportModalHeader h2,
+    #reportModalHeader p,
+    #reportModalHeader * {
+        color: black !important;
+        -webkit-text-fill-color: black !important;
+    }
+
+    /* Prevent page breaks inside important sections */
+    .mb-6,
+    .mb-8,
+    .grid,
+    .card-section {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+
+    /* Tables should not break across pages */
+    table {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+
+    /* Keep grid items together */
+    .grid>div {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+
+    /* Improve text contrast for printing */
+    body {
+        background: white !important;
+        color: black !important;
+    }
+
+    /* Convert ALL text to dark for print visibility - MAXIMUM SPECIFICITY */
+    html body #reportModal #reportContent *,
+    html body #reportModal #reportContent p,
+    html body #reportModal #reportContent div,
+    html body #reportModal #reportContent span,
+    html body #reportModal #reportContent h1,
+    html body #reportModal #reportContent h2,
+    html body #reportModal #reportContent h3,
+    html body #reportModal #reportContent h4,
+    html body #reportModal #reportContent h5,
+    html body #reportModal #reportContent td,
+    html body #reportModal #reportContent th,
+    html body #reportModal #reportContent li,
+    html body #reportModal #reportContent a,
+    html body #reportModal #reportContent label {
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
+        text-shadow: none !important;
+    }
+
+    /* Convert dark backgrounds to WHITE */
+    html body #reportModal #reportContent [class*="bg-"],
+    html body #reportModal #reportContent div[class*="bg-"] {
+        background: white !important;
+        background-color: white !important;
+        border: 1px solid black !important;
+    }
+
+    /* Tables - ensure white background (fixes PART II EXPENSES) */
+    html body #reportModal #reportContent table,
+    html body #reportModal #reportContent thead,
+    html body #reportModal #reportContent tbody,
+    html body #reportModal #reportContent tr,
+    html body #reportModal #reportContent td,
+    html body #reportModal #reportContent th {
+        background: white !important;
+        background-color: white !important;
+        border: 1px solid black !important;
+    }
+
+    /* Print background colors and images */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}

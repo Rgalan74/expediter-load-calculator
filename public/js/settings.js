@@ -556,3 +556,63 @@ document.addEventListener('userStateChanged', function(event) {
 });
 
 debugLog(" Settings.js loaded successfully - Complete version with all functionality");
+// ==============================================
+// SECCIÓN DE ADMINISTRACIÓN
+// ==============================================
+
+/**
+ * Inicializar botón de admin en Settings
+ * Llamar esta función cuando se carga la página de Settings
+ */
+async function initializeAdminSection() {
+    // Verificar si el módulo AdminPanel está disponible
+    if (!window.AdminPanel) {
+        console.log('AdminPanel no está cargado');
+        return;
+    }
+
+    try {
+        const hasAccess = await AdminPanel.canAccessAdminPanel();
+        
+        if (!hasAccess) {
+            console.log('Usuario no tiene acceso admin');
+            return;
+        }
+
+        // Agregar botón de admin
+        await AdminPanel.addAdminButtonToSettings();
+
+    } catch (error) {
+        console.error('Error inicializando sección admin:', error);
+    }
+}
+
+// Ejecutar cuando se muestra el tab de Settings
+document.addEventListener('DOMContentLoaded', function() {
+    // Si estamos en el tab de settings, inicializar admin
+    const settingsObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.target.id === 'settingsTab' && 
+                !mutation.target.classList.contains('hidden')) {
+                initializeAdminSection();
+            }
+        });
+    });
+
+    const settingsTab = document.getElementById('settingsTab');
+    if (settingsTab) {
+        settingsObserver.observe(settingsTab, { 
+            attributes: true, 
+            attributeFilter: ['class'] 
+        });
+        
+        // También ejecutar inmediatamente si Settings está visible
+        if (!settingsTab.classList.contains('hidden')) {
+            initializeAdminSection();
+        }
+    }
+});
+
+// ==============================================
+// FIN SECCIÓN DE ADMINISTRACIÓN
+// ==============================================

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 1: Maestría en Eficiencia de Combustible | Smart Load Academy</title>
+    <link rel="icon" type="image/png" href="../../img/logo-app.png" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.7
+        }
+
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem
+        }
+
+        .breadcrumb {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: .875rem
+        }
+
+        .breadcrumb a {
+            color: #00D9FF;
+            text-decoration: none
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem
+        }
+
+        .lesson-content h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff
+        }
+
+        .lesson-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: .75rem
+        }
+
+        .lesson-content p {
+            margin-bottom: 1.5rem;
+            color: #d0d0d0
+        }
+
+        .lesson-content ul,
+        .lesson-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem
+        }
+
+        .mockup {
+            background: rgba(20, 20, 20, .9);
+            border: 2px solid rgba(0, 217, 255, .3);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: .9rem
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: rgba(20, 20, 20, .8);
+            border-radius: .75rem;
+            overflow: hidden
+        }
+
+        th,
+        td {
+            padding: .75rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, .1);
+            font-size: .9rem
+        }
+
+        th {
+            background: rgba(0, 217, 255, .1);
+            color: #00D9FF;
+            font-weight: 700
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: .75rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all .3s ease
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #FFD700 0%, #FF6B35 100%);
+            color: #000
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .2)
+        }
+
+        .lesson-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem
+        }
+    </style>
+</head>
+
+<body>
+    <article class="lesson-container">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 6 [PRO]</a> → Lección 1
+        </nav>
+
+        <div
+            style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
+            🔒 CONTENIDO PRO</div>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Maestría en Eficiencia de Combustible</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 10 min lectura</span>
+                <span>🎓 Módulo 6 - Lección 1</span>
+                <span>⛽ Combustible</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>⛽ LA VERDAD SOBRE COMBUSTIBLE</h2>
+
+                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>REALIDAD:</strong> Combustible es tu gasto #1. Típicamente 28-32% de ingresos brutos.</p>
+
+                    <div style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1rem">
+                        <p style="margin:0"><strong>En cargo van (17-20 MPG):</strong></p>
+                        <ul style="margin:.5rem 0 0 0">
+                            <li>7,500 millas/mes</li>
+                            <li>÷ 18.5 MPG promedio = 405 galones/mes</li>
+                            <li>× $3.50/gal = <strong>$1,418/mes en combustible</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem;margin-top:1.5rem">
+                    <p><strong>PERO... Con optimización:</strong></p>
+                    <ul>
+                        <li>Mejora 2 MPG (18.5 → 20.5) = -30 gal/mes</li>
+                        <li>Mejores precios ($3.50 → $3.35) = -$61/mes</li>
+                        <li><strong style="color:#FFD700">AHORRO TOTAL: $166/mes ($2,000/año)</strong></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 LAS 10 TÁCTICAS DE EFICIENCIA</h2>
+
+                <h3>TÁCTICA #1: Velocidad Óptima</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>VELOCIDAD</th>
+                            <th>MPG</th>
+                            <th>COSTO/100MI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>55 mph</td>
+                            <td>21.2</td>
+                            <td>$16.51</td>
+                        </tr>
+                        <tr>
+                            <td>60 mph</td>
+                            <td>20.3</td>
+                            <td>$17.24</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.08)">
+                            <td>65 mph</td>
+                            <td>19.1</td>
+                            <td>$18.32 👈 OK</td>
+                        </tr>
+                        <tr>
+                            <td>70 mph</td>
+                            <td>17.8</td>
+                            <td>$19.66</td>
+                        </tr>
+                        <tr>
+                            <td>75 mph</td>
+                            <td>16.2</td>
+                            <td>$21.60</td>
+                        </tr>
+                        <tr style="background:rgba(255,107,53,.1)">
+                            <td>80 mph</td>
+                            <td>14.5</td>
+                            <td>$24.14 ❌</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p
+                    style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
+                    Sweet Spot: 65-68 mph = Balance perfecto<br>
+                    80 mph vs 65 mph = +$488/mes desperdi ciado<br>
+                    <strong>AHORRO: $80-120/mes</strong>
+                </p>
+
+                <h3>TÁCTICA #2: Mantenimiento Enfocado en MPG</h3>
+                <ul>
+                    <li><strong>Filtro de aire limpio:</strong> Sucio = -10% MPG (Ahorro: $40/mes)</li>
+                    <li><strong>Llantas infladas correctamente:</strong> -5 PSI = -3% MPG (Ahorro: $30-45/mes)</li>
+                    <li><strong>Alineación de ruedas:</strong> Desalineada = -5% MPG (Ahorro: $60/mes)</li>
+                    <li><strong>Llantas low-rolling-resistance:</strong> +8.3% MPG (Ahorro: $110/mes)</li>
+                    <li><strong>Aceite sintético:</strong> +1-2% MPG (Ahorro: $15-25/mes)</li>
+                </ul>
+                <p><strong>AHORRO COMBINADO: $100-150/mes</strong></p>
+
+                <h3>TÁCTICA #3: Estrategia de Compra</h3>
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>4 CAPAS DE AHORRO:</strong></p>
+                    <ol>
+                        <li><strong>Membresías de cadenas</strong> (Pilot, Loves, Speedway): $0.08-0.12/gal = $36/mes
+                        </li>
+                        <li><strong>Apps de cash back</strong> (GetUpside, GasBuddy): 5-25¢/gal = $20-35/mes</li>
+                        <li><strong>Timing estratégico</strong> (Lunes-Miércoles, no fin de semana): $15-25/mes</li>
+                        <li><strong>Planificación de rutas</strong> (Llenar en estados baratos): $42/mes</li>
+                    </ol>
+                    <p style="margin:0"><strong>AHORRO TOTAL: $100-140/mes</strong></p>
+                </div>
+
+                <h3>TÁCTICA #4: Reducción de Idle</h3>
+                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>IDLE quema 0.5-0.8 galones/hora = $1.75-2.80/hora desperdiciado</strong></p>
+                    <ul>
+                        <li>Esperando en recogida/entrega: 45 min/día = $49/mes</li>
+                        <li>Almuerzos con motor encendido: 30 min/día = $32/mes</li>
+                        <li>Calentar/enfriar van: 15 min/día = $18/mes</li>
+                        <li><strong>TOTAL DESPERDICIO: $99/mes</strong></li>
+                    </ul>
+                    <p style="margin:0"><strong>REGLA SIMPLE:</strong> Si vas a estar parado >3 minutos, APAGA<br>
+                        <strong>AHORRO: $60-80/mes</strong>
+                    </p>
+                </div>
+
+                <h3>TÁCTICAS #5-10: Optimizaciones Adicionales</h3>
+                <ul>
+                    <li><strong>#5 Peso y carga:</strong> Elimina 125 lbs innecesarios = $15-25/mes</li>
+                    <li><strong>#6 Aerodinámica:</strong> Cierra ventanas, quita rack techo = $20-30/mes</li>
+                    <li><strong>#7 Anticipación:</strong> Mantén momentum, frena menos = $25-40/mes</li>
+                    <li><strong>#8 A/C estratégico:</strong>
+                        <45 mph ventanas,>45 mph A/C = $30-50/mes
+                    </li>
+                    <li><strong>#9 GPS inteligente:</strong> Evita tráfico/idle = $15-25/mes</li>
+                    <li><strong>#10 Combustible matutino:</strong> Más denso en mañana = $5-10/mes</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>📊 RESUMEN DE AHORRO TOTAL</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>TÁCTICA</th>
+                            <th>AHORRO/MES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Velocidad óptima (65-67 mph)</td>
+                            <td>$80-120</td>
+                        </tr>
+                        <tr>
+                            <td>Mantenimiento MPG</td>
+                            <td>$100-150</td>
+                        </tr>
+                        <tr>
+                            <td>Estrategia de compra</td>
+                            <td>$100-140</td>
+                        </tr>
+                        <tr>
+                            <td>Reducir idle</td>
+                            <td>$60-80</td>
+                        </tr>
+                        <tr>
+                            <td>Tácticas adicionales (5-10)</td>
+                            <td>$110-180</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.15)">
+                            <td><strong>TOTAL POTENCIAL</strong></td>
+                            <td><strong>$450-670/mes</strong></td>
+                        </tr>
+                        <tr style="background:rgba(255,215,0,.15)">
+                            <td><strong>META REALISTA (6-7 tácticas)</strong></td>
+                            <td><strong>$300-500/mes</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p
+                    style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
+                    AHORRO ANUAL: $3,600-6,000<br>
+                    ROI de aprender esto: INFINITO
+                </p>
+            </section>
+
+            <section>
+                <h2>💡CONCLUSIÓN CLAVE</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Combust ible no es "costo
+                        fijo".<br>Es tu mayor oportunidad de optimización.</p>
+
+                    <div style="text-align:left;max-width:500px;margin:0 auto">
+                        <p><strong>Prioridad TOP 3 (80% del ahorro):</strong></p>
+                        <ol>
+                            <li><strong>Velocidad 65-67 mph</strong> (fácil, impacto grande)</li>
+                            <li><strong>Apps de descuento</strong> (5 min setup, ahorro permanente)</li>
+                            <li><strong>Presión llantas semanal</strong> (5 min/semana, ROI masivo)</li>
+                        </ol>
+
+                        <p
+                            style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
+                            <strong>Operador promedio:</strong> $1,470/mes combustible<br>
+                            <strong>Operador optimizado:</strong> $1,170/mes combustible<br>
+                            <strong style="color:#FFD700;font-size:1.25rem">Diferencia: $300/mes = $3,600/año</strong>
+                        </p>
+
+                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">
+                            Inversión: 30 min aprender + 10 min/semana<br>
+                            Retorno: $300-500/mes por siempre
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+                completada</button>
+            <nav class="lesson-nav">
+                <a href="index.html" class="btn btn-secondary">← Volver al módulo</a>
+                <a href="lesson-2.html" class="btn btn-primary">Siguiente: Mantenimiento →</a>
+            </nav>
+        </footer>
+    </article>
+
+    <script src="../js/academy.js"></script>
+    <script>
+        const MODULE_NUM = 6, LESSON_NUM = 1; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true; alert('¡Lección PRO completada! ⛽\n\n10 tácticas de eficiencia de combustible.\nAhorro potencial: $300-500/mes.\n\nPrioridad: Velocidad 65-67 mph + Apps descuento + Presión llantas') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true } });
+    </script>
+</body>
+
+</html>

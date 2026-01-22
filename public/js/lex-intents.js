@@ -26,6 +26,18 @@
     return list.reduce((acc, kw) => acc + (text.includes(kw) ? 1 : 0), 0);
   }
 
+  // NEW: Weighted matching - keywords can have different importance
+  function countMatchesWeighted(text, weightedList) {
+    // weightedList format: [{ keyword: 'analiz', weight: 3 }, ...]
+    return weightedList.reduce((score, item) => {
+      if (typeof item === 'string') {
+        // Fallback: treat plain strings as weight 1
+        return score + (text.includes(item) ? 1 : 0);
+      }
+      return score + (text.includes(item.keyword) ? item.weight : 0);
+    }, 0);
+  }
+
   function hasNumberLikeRPM(text) {
     // números tipo 0.85, 1.10, 850, 900mi, 950$
     return /\d+(\.\d+)?/.test(text) || text.includes('$');
@@ -42,11 +54,11 @@
   ];
 
   const PRICING_KEYWORDS = [
-  'precio', 'rate', 'rpm', 'tarifa', 'pago', 'paga',
-  'dolares', '$', 'cuanto', 'cual es el precio',
-  'monto', 'valor', 'fee', 'cargo', 'cobrar', 'pagar',
-  // inglés / spanglish
-  'load', 'freight', 'pay', 'payout', 'worth'
+    'precio', 'rate', 'rpm', 'tarifa', 'pago', 'paga',
+    'dolares', '$', 'cuanto', 'cual es el precio',
+    'monto', 'valor', 'fee', 'cargo', 'cobrar', 'pagar',
+    // inglés / spanglish
+    'load', 'freight', 'pay', 'payout', 'worth'
   ];
 
   const PRICING_VERBS = [
@@ -56,13 +68,13 @@
   ];
 
   const PRICING_EXPRESSIONS = [
-  'esta bueno', 'esta bien', 'vale la pena', 'conviene',
-  'esta flojo', 'esta fuerte', 'esta bajo', 'esta alto',
-  'es poco', 'es mucho', 'me ofrecen', 'me tiraron',
-  'lo agarro', 'es bueno', 'es malo', 'lo tomo', 'lo acepto',
-  // spanglish
-  'rate ta good', 'rate esta low', 'rate esta high', 'good rate', 'bad rate'
- ];
+    'esta bueno', 'esta bien', 'vale la pena', 'conviene',
+    'esta flojo', 'esta fuerte', 'esta bajo', 'esta alto',
+    'es poco', 'es mucho', 'me ofrecen', 'me tiraron',
+    'lo agarro', 'es bueno', 'es malo', 'lo tomo', 'lo acepto',
+    // spanglish
+    'rate ta good', 'rate esta low', 'rate esta high', 'good rate', 'bad rate'
+  ];
 
   // C. Comparación con histórico
   const COMPARISON_KEYWORDS = [
@@ -108,9 +120,9 @@
   ];
 
   const DEADHEAD_KEYWORDS = [
-  'deadhead', 'millas vacias', 'millas vac', 'vacio',
-  'empty', 'empty miles', 'empty mi',
-  'sin carga', 'dh', 'millas en vacio'
+    'deadhead', 'millas vacias', 'millas vac', 'vacio',
+    'empty', 'empty miles', 'empty mi',
+    'sin carga', 'dh', 'millas en vacio'
   ];
 
   const DEADHEAD_EXPRESSIONS = [
@@ -138,12 +150,12 @@
   ];
 
   const MOVE_STUCK_KEYWORDS = [
-  'moverme', 'quedarme', 'trancado', 'parado',
-  'stuck', 'stuck there', 'stuck here',
-  'salir', 'escape', 'atascado', 'varado',
-  'sin loads', 'waiting loads', 'waiting for load',
-  'esperando', 'esperar carga', 'sin cargas'
-];
+    'moverme', 'quedarme', 'trancado', 'parado',
+    'stuck', 'stuck there', 'stuck here',
+    'salir', 'escape', 'atascado', 'varado',
+    'sin loads', 'waiting loads', 'waiting for load',
+    'esperando', 'esperar carga', 'sin cargas'
+  ];
 
   const MOVE_STUCK_EXPRESSIONS = [
     'me quedo trancado',
@@ -199,6 +211,30 @@
     'cuanto mas podria sacarle'
   ];
 
+  // L. Preguntas sobre la app / información
+  const APP_INFO_KEYWORDS = [
+    'cuales son', 'que son', 'dime', 'explicame', 'que es',
+    'como funciona', 'ayuda', 'informacion', 'info',
+    'zonas trap', 'zona trap', 'estados trap', 'traps',
+    'que zonas', 'cuales estados', 'que estados',
+    'como', 'calcular', 'como calcular', 'aprender', 'enseñame',
+    'como se', 'como hago', 'como puedo'
+  ];
+
+  const APP_INFO_EXPRESSIONS = [
+    'cuales son las zonas trap',
+    'que zonas son trap',
+    'que estados evitar',
+    'cuales son trap',
+    'dime las zonas trap',
+    'que es una zona trap',
+    'como funciona lex',
+    'que puedes hacer',
+    'como calcular',
+    'como se calcula',
+    'enseñame a calcular'
+  ];
+
   // ============================
   // Detección de intent
   // ============================
@@ -214,7 +250,7 @@
       };
     }
 
-    const hasNumber  = hasNumberLikeRPM(t);
+    const hasNumber = hasNumberLikeRPM(t);
     const hasExternal = hasAny(t, EXTERNAL_HINTS_LOCAL);
 
     const priceScore =
@@ -258,27 +294,121 @@
       countMatches(t, NEGOTIATION_KEYWORDS) +
       countMatches(t, NEGOTIATION_EXPRESSIONS);
 
+    const appInfoScore =
+      countMatches(t, APP_INFO_KEYWORDS) +
+      countMatches(t, APP_INFO_EXPRESSIONS);
+
+    // NEW: Bonus for instructional questions (como calcular, como hacer, etc)
+    let instructionalBonus = 0;
+    if ((t.includes('como') && (t.includes('calcul') || t.includes('hac') || t.includes('funciona'))) ||
+      t.includes('enseñame') || t.includes('aprender') || t.includes('que es')) {
+      instructionalBonus = 3; // High bonus to prioritize educational questions
+    }
+
+    // NEW: Context bonuses for better accuracy
+    let contextBonus = {};
+
+    // Bonus if mentions both "analiz" and has numbers
+    if ((t.includes('analiz') || t.includes('calcul')) && hasNumber) {
+      contextBonus.analyzedLoad = 2;
+    }
+
+    // Bonus for state-specific questions with numbers
+    if (stateZoneScore > 0 && hasNumber) {
+      contextBonus.statePricing = 1.5;
+    }
+
+    // Bonus for clear comparison intent
+    if ((t.includes('promedio') || t.includes('vs')) && historyScore > 0) {
+      contextBonus.historyComparison = 2;
+    }
+
+    // NEW PHASE 4: Multi-Intent Detection
+    // Instead of returning just one intent, we collect all intents above threshold
+    const INTENT_THRESHOLD = 0.5;
+    const allIntents = [];
+
+    // Collect all intent scores
+    const intentScores = [
+      { intent: 'PRICING', score: priceScore + (contextBonus.analyzedLoad || 0) + (contextBonus.statePricing || 0) },
+      { intent: 'COMPARE_HISTORY', score: compareScore + historyScore + (contextBonus.historyComparison || 0) },
+      { intent: 'STATE_SUMMARY', score: stateZoneScore },
+      { intent: 'NEGOTIATION', score: negotiationScore },
+      { intent: 'DECISION_HELP', score: urgencyScore + validationScore + doubtScore },
+      { intent: 'DEADHEAD_CONTEXT', score: deadheadScore },
+      { intent: 'APP_INFO', score: appInfoScore + instructionalBonus } // Prioritize instructional questions
+    ];
+
+    // Filter intents above threshold and sort by score
+    const qualifyingIntents = intentScores
+      .filter(item => item.score >= INTENT_THRESHOLD)
+      .sort((a, b) => b.score - a.score);
+
+    // If we have multiple qualifying intents, return multi-intent structure
+    if (qualifyingIntents.length > 1) {
+      const primary = qualifyingIntents[0];
+      const secondary = qualifyingIntents.slice(1, 3); // max 2 secondary
+
+      console.log('[LEX-INTENTS] Multi-intent detected:', {
+        primary: primary.intent,
+        secondary: secondary.map(s => s.intent)
+      });
+
+      return {
+        intent: primary.intent,
+        confidence: Math.min(0.9, primary.score / 5), // normalize score to confidence
+        secondary: secondary.length > 0 ? secondary.map(s => ({
+          intent: s.intent,
+          score: s.score,
+          confidence: Math.min(0.9, s.score / 5)
+        })) : null,
+        flags: {
+          hasNumber,
+          priceScore,
+          compareScore,
+          stateZoneScore,
+          historyScore,
+          deadheadScore,
+          urgencyScore,
+          validationScore,
+          doubtScore,
+          negotiationScore,
+          contextBonus,
+          multiIntent: true,
+          raw
+        }
+      };
+    }
+
+    // If only one or no qualifying intents, fall back to original logic
     // 1️⃣ Preguntas claramente EXTERNAS (clima / noticias)
     if (hasExternal) {
       return {
         intent: 'EXTERNAL',
         confidence: 0.9,
+        secondary: null,
         flags: { hasExternal, raw }
       };
     }
 
-    // 2️⃣ Pricing con número → PRICING_STATE o PRICING_GENERIC
+    // 2️⃣ Pricing con número → PRICING_STATE o PRICING_SIMPLE
     if (priceScore > 0 && hasNumber) {
+      let conf = 0.8;
+      if (contextBonus.analyzedLoad) conf = 0.9;
+      if (contextBonus.statePricing) conf = 0.85;
+
       return {
         intent: 'PRICING',
         subtype: deadheadScore > 0 ? 'PRICING_WITH_DEADHEAD' : 'PRICING_SIMPLE',
-        confidence: deadheadScore > 0 ? 0.9 : 0.8,
+        confidence: deadheadScore > 0 ? 0.9 : conf,
+        secondary: null,
         flags: {
           hasNumber,
           priceScore,
           deadheadScore,
           validationScore,
           doubtScore,
+          contextBonus,
           raw
         }
       };
@@ -289,25 +419,31 @@
       return {
         intent: 'PRICING_GENERIC',
         confidence: 0.7,
+        secondary: null,
         flags: { priceScore, raw }
       };
     }
 
     // 4️⃣ Historial / performance por estado
     if (historyScore > 0 || compareScore > 0) {
+      let conf = 0.75;
+      if (contextBonus.historyComparison) conf = 0.85;
+
       // si además habla de estados / zonas, es más probable que quiera un resumen por estado
       if (stateZoneScore > 0) {
         return {
           intent: 'STATE_SUMMARY',
-          confidence: 0.75,
-          flags: { historyScore, compareScore, stateZoneScore, raw }
+          confidence: conf,
+          secondary: null,
+          flags: { historyScore, compareScore, stateZoneScore, contextBonus, raw }
         };
       }
       // si no menciona estado, pero habla de promedio / mejores estados → global
       return {
         intent: 'GLOBAL_METRICS',
-        confidence: 0.75,
-        flags: { historyScore, compareScore, stateZoneScore, raw }
+        confidence: conf,
+        secondary: null,
+        flags: { historyScore, compareScore, stateZoneScore, contextBonus, raw }
       };
     }
 
@@ -316,6 +452,7 @@
       return {
         intent: 'STATE_MARKET',
         confidence: 0.7,
+        secondary: null,
         flags: { stateZoneScore, raw }
       };
     }
@@ -325,6 +462,7 @@
       return {
         intent: 'DEADHEAD_CONTEXT',
         confidence: 0.6,
+        secondary: null,
         flags: { deadheadScore, raw }
       };
     }
@@ -334,15 +472,27 @@
       return {
         intent: 'DECISION_HELP',
         confidence: 0.6,
+        secondary: null,
         flags: { urgencyScore, validationScore, doubtScore, raw }
       };
     }
 
-    // 8️⃣ Negociación
+    // 8️⃣ Preguntas sobre la app / información
+    if (appInfoScore > 0) {
+      return {
+        intent: 'APP_INFO',
+        confidence: Math.min(0.9, appInfoScore / 3),
+        secondary: null,
+        flags: { appInfoScore, raw }
+      };
+    }
+
+    // 9️⃣ Negociación
     if (negotiationScore > 0) {
       return {
         intent: 'NEGOTIATION',
         confidence: 0.7,
+        secondary: null,
         flags: { negotiationScore, raw }
       };
     }
@@ -352,6 +502,7 @@
       return {
         intent: 'PRICING_GENERIC',
         confidence: 0.55,
+        secondary: null,
         flags: { hasNumber, raw }
       };
     }
@@ -360,6 +511,7 @@
     return {
       intent: 'OTHER',
       confidence: 0.4,
+      secondary: null,
       flags: {
         raw,
         priceScore,

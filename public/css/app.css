@@ -10,23 +10,23 @@
   --bg-dark: #0f172a;
   --bg-card: #1e293b;
   --bg-card-hover: #334155;
-  
+
   /* Azules vibrantes */
   --primary-blue: #3b82f6;
   --primary-blue-light: #60a5fa;
   --primary-blue-dark: #2563eb;
-  
+
   /* Textos */
   --text-primary: #f1f5f9;
   --text-secondary: #cbd5e1;
   --text-muted: #94a3b8;
   --text-dim: #64748b;
-  
+
   /* Bordes */
   --border-default: #334155;
   --border-hover: #475569;
   --border-accent: #3b82f6;
-  
+
   /* Estados */
   --success: #10b981;
   --warning: #f59e0b;
@@ -51,7 +51,7 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: 
+  background-image:
     radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
   pointer-events: none;
@@ -153,6 +153,7 @@ nav {
     opacity: 0;
     transform: translateY(15px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -360,7 +361,8 @@ button.bg-gray-300 {
 }
 
 /* Botones especÃƒÂ­ficos del mapa y otros */
-button.bg-blue-500, a.bg-blue-500 {
+button.bg-blue-500,
+a.bg-blue-500 {
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
   color: white !important;
   font-weight: 700 !important;
@@ -371,11 +373,13 @@ button.bg-blue-500, a.bg-blue-500 {
   font-size: 1.05rem !important;
 }
 
-button.bg-blue-500:hover, a.bg-blue-500:hover {
+button.bg-blue-500:hover,
+a.bg-blue-500:hover {
   transform: translateY(-2px) !important;
 }
 
-button.bg-green-500, a.bg-green-500 {
+button.bg-green-500,
+a.bg-green-500 {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
   color: white !important;
   font-weight: 700 !important;
@@ -386,7 +390,8 @@ button.bg-green-500, a.bg-green-500 {
   font-size: 1.05rem !important;
 }
 
-button.bg-green-500:hover, a.bg-green-500:hover {
+button.bg-green-500:hover,
+a.bg-green-500:hover {
   transform: translateY(-2px) !important;
 }
 
@@ -495,9 +500,17 @@ tbody tr:last-child td {
   border-color: rgba(99, 102, 241, 0.4) !important;
 }
 
-.text-indigo-700 { color: #a5b4fc !important; }
-.text-indigo-800 { color: #a5b4fc !important; }
-.text-indigo-600 { color: #c7d2fe !important; }
+.text-indigo-700 {
+  color: #a5b4fc !important;
+}
+
+.text-indigo-800 {
+  color: #a5b4fc !important;
+}
+
+.text-indigo-600 {
+  color: #c7d2fe !important;
+}
 
 /* Amarillo */
 .bg-yellow-50 {
@@ -505,9 +518,17 @@ tbody tr:last-child td {
   border-color: rgba(245, 158, 11, 0.4) !important;
 }
 
-.text-yellow-700 { color: #fbbf24 !important; }
-.text-yellow-800 { color: #fbbf24 !important; }
-.text-yellow-600 { color: #fde68a !important; }
+.text-yellow-700 {
+  color: #fbbf24 !important;
+}
+
+.text-yellow-800 {
+  color: #fbbf24 !important;
+}
+
+.text-yellow-600 {
+  color: #fde68a !important;
+}
 
 /* Verde */
 .bg-green-50 {
@@ -515,9 +536,17 @@ tbody tr:last-child td {
   border-color: rgba(16, 185, 129, 0.4) !important;
 }
 
-.text-green-700 { color: #6ee7b7 !important; }
-.text-green-800 { color: #6ee7b7 !important; }
-.text-green-600 { color: #a7f3d0 !important; }
+.text-green-700 {
+  color: #6ee7b7 !important;
+}
+
+.text-green-800 {
+  color: #6ee7b7 !important;
+}
+
+.text-green-600 {
+  color: #a7f3d0 !important;
+}
 
 /* Azul */
 .bg-blue-50 {
@@ -525,9 +554,17 @@ tbody tr:last-child td {
   border-color: rgba(59, 130, 246, 0.4) !important;
 }
 
-.text-blue-700 { color: #60a5fa !important; }
-.text-blue-800 { color: #60a5fa !important; }
-.text-blue-600 { color: #93c5fd !important; }
+.text-blue-700 {
+  color: #60a5fa !important;
+}
+
+.text-blue-800 {
+  color: #60a5fa !important;
+}
+
+.text-blue-600 {
+  color: #93c5fd !important;
+}
 
 /* Morado */
 .bg-purple-50 {
@@ -535,9 +572,17 @@ tbody tr:last-child td {
   border-color: rgba(168, 85, 247, 0.4) !important;
 }
 
-.text-purple-700 { color: #c084fc !important; }
-.text-purple-800 { color: #e9d5ff !important; }
-.text-purple-600 { color: #e9d5ff !important; }
+.text-purple-700 {
+  color: #c084fc !important;
+}
+
+.text-purple-800 {
+  color: #e9d5ff !important;
+}
+
+.text-purple-600 {
+  color: #e9d5ff !important;
+}
 
 /* Rojo */
 .bg-red-50 {
@@ -545,9 +590,17 @@ tbody tr:last-child td {
   border-color: rgba(239, 68, 68, 0.4) !important;
 }
 
-.text-red-700 { color: #f87171 !important; }
-.text-red-800 { color: #f87171 !important; }
-.text-red-600 { color: #fca5a5 !important; }
+.text-red-700 {
+  color: #f87171 !important;
+}
+
+.text-red-800 {
+  color: #f87171 !important;
+}
+
+.text-red-600 {
+  color: #fca5a5 !important;
+}
 
 /* Naranja */
 .bg-orange-50 {
@@ -555,9 +608,17 @@ tbody tr:last-child td {
   border-color: rgba(249, 115, 22, 0.4) !important;
 }
 
-.text-orange-700 { color: #fb923c !important; }
-.text-orange-800 { color: #fed7aa !important; }
-.text-orange-600 { color: #fed7aa !important; }
+.text-orange-700 {
+  color: #fb923c !important;
+}
+
+.text-orange-800 {
+  color: #fed7aa !important;
+}
+
+.text-orange-600 {
+  color: #fed7aa !important;
+}
 
 /* Rosa */
 .bg-pink-50 {
@@ -565,9 +626,17 @@ tbody tr:last-child td {
   border-color: rgba(236, 72, 153, 0.4) !important;
 }
 
-.text-pink-700 { color: #f9a8d4 !important; }
-.text-pink-800 { color: #fbcfe8 !important; }
-.text-pink-600 { color: #fbcfe8 !important; }
+.text-pink-700 {
+  color: #f9a8d4 !important;
+}
+
+.text-pink-800 {
+  color: #fbcfe8 !important;
+}
+
+.text-pink-600 {
+  color: #fbcfe8 !important;
+}
 
 /* Teal */
 .bg-teal-50 {
@@ -575,8 +644,13 @@ tbody tr:last-child td {
   border-color: rgba(20, 184, 166, 0.4) !important;
 }
 
-.text-teal-700 { color: #5eead4 !important; }
-.text-teal-800 { color: #5eead4 !important; }
+.text-teal-700 {
+  color: #5eead4 !important;
+}
+
+.text-teal-800 {
+  color: #5eead4 !important;
+}
 
 /* Cyan */
 .bg-cyan-50 {
@@ -584,8 +658,13 @@ tbody tr:last-child td {
   border-color: rgba(6, 182, 212, 0.4) !important;
 }
 
-.text-cyan-700 { color: #67e8f9 !important; }
-.text-cyan-800 { color: #67e8f9 !important; }
+.text-cyan-700 {
+  color: #67e8f9 !important;
+}
+
+.text-cyan-800 {
+  color: #67e8f9 !important;
+}
 
 /* Grises y blancos */
 .bg-gray-100,
@@ -617,20 +696,40 @@ tbody tr:last-child td {
   border-color: var(--border-default) !important;
 }
 
-.border-indigo-200 { border-color: rgba(99, 102, 241, 0.4) !important; }
-.border-yellow-200 { border-color: rgba(245, 158, 11, 0.4) !important; }
-.border-green-200 { border-color: rgba(16, 185, 129, 0.4) !important; }
-.border-purple-200 { border-color: rgba(168, 85, 247, 0.4) !important; }
-.border-red-200 { border-color: rgba(239, 68, 68, 0.4) !important; }
-.border-orange-200 { border-color: rgba(249, 115, 22, 0.4) !important; }
-.border-pink-200 { border-color: rgba(236, 72, 153, 0.4) !important; }
+.border-indigo-200 {
+  border-color: rgba(99, 102, 241, 0.4) !important;
+}
+
+.border-yellow-200 {
+  border-color: rgba(245, 158, 11, 0.4) !important;
+}
+
+.border-green-200 {
+  border-color: rgba(16, 185, 129, 0.4) !important;
+}
+
+.border-purple-200 {
+  border-color: rgba(168, 85, 247, 0.4) !important;
+}
+
+.border-red-200 {
+  border-color: rgba(239, 68, 68, 0.4) !important;
+}
+
+.border-orange-200 {
+  border-color: rgba(249, 115, 22, 0.4) !important;
+}
+
+.border-pink-200 {
+  border-color: rgba(236, 72, 153, 0.4) !important;
+}
 
 /* ============================
    Ã°Å¸â€œË† NÃƒÅ¡MEROS KPI
    ============================ */
 
 p.kpi-value {
-  color: white !important; 
+  color: white !important;
   font-weight: 800 !important;
   font-size: 1.5rem !important;
   text-shadow: 0 2px 20px rgba(96, 165, 250, 0.4);
@@ -641,7 +740,7 @@ p.kpi-value {
 /* Strong y negritas */
 strong,
 .font-bold:not(h2):not(h3):not(h4) {
-  color: #93c5fd !important;
+  color: #240c98 !important;
   font-weight: 700 !important;
 }
 
@@ -690,8 +789,13 @@ strong,
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* ============================
@@ -771,33 +875,38 @@ strong,
   .tab-content {
     padding: 1.5rem 1rem;
   }
-  
+
   .tab-content h2 {
     font-size: 1.75rem !important;
   }
-  
+
   .card-section {
     padding: 1.5rem !important;
     border-radius: 12px !important;
   }
-  
-  .btn-primary, .btn-success, .btn-danger, .btn-secondary {
+
+  .btn-primary,
+  .btn-success,
+  .btn-danger,
+  .btn-secondary {
     padding: 10px 20px !important;
     font-size: 0.9rem !important;
   }
-  
+
   p.kpi-value {
     font-size: 1.25rem !important;
   }
-  
+
   table {
     font-size: 1rem;
   }
-  
-  input, textarea, select {
+
+  input,
+  textarea,
+  select {
     font-size: 1rem !important;
   }
-  
+
   button {
     font-size: 1rem;
   }
@@ -983,7 +1092,7 @@ hr,
   flex-direction: column;
 }
 
-#finances .card-section.flex > div:first-child {
+#finances .card-section.flex>div:first-child {
   flex-grow: 1;
 }
 
@@ -1005,23 +1114,23 @@ hr,
 
 /* Leyendas de grÃƒÂ¡ficas mÃƒÂ¡s grandes y visibles */
 #finances .chartjs-legend,
-#finances canvas + div {
+#finances canvas+div {
   font-size: 1rem !important;
 }
 
-#finances canvas + div span {
+#finances canvas+div span {
   font-size: 1rem !important;
   color: var(--text-primary) !important;
   font-weight: 600 !important;
 }
 
 /* Contenedores de leyendas con mejor contraste */
-#finances canvas ~ div,
+#finances canvas~div,
 #finances [class*="legend"] {
   color: var(--text-primary) !important;
 }
 
-#finances canvas ~ div span,
+#finances canvas~div span,
 #finances [class*="legend"] span {
   color: var(--text-primary) !important;
   font-size: 1rem !important;
@@ -1055,21 +1164,24 @@ hr,
     display: none !important;
   }
 }
+
 /* Mismo ancho para todos los selects en Cuentas - Móvil */
 @media (max-width: 767px) {
   #finances-accounts select {
     width: 160px !important;
   }
 }
+
 /* Ancho uniforme para selects en Cuentas - Móvil */
 @media (max-width: 767px) {
   #finances-accounts select {
     width: 140px !important;
   }
 }
+
 /* Forzar flex en desktop para Cuentas */
 @media (min-width: 768px) {
-  #finances-accounts .card-section > div {
+  #finances-accounts .card-section>div {
     display: flex !important;
     flex-direction: row !important;
     grid-template-columns: none !important;
@@ -1078,22 +1190,23 @@ hr,
 
 /* Grid 2x2 en móvil para Cuentas */
 @media (max-width: 767px) {
-  #finances-accounts .card-section > div {
+  #finances-accounts .card-section>div {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
   }
-  
+
   #finances-accounts select {
     width: 140px !important;
   }
 }
+
 /* ========================================
    CUENTAS - Optimizaciones
    ======================================== */
 
 /* Forzar 3 columnas en PC para tarjetas de Cuentas */
 @media (min-width: 768px) {
-  #accountsSummaryCards > div {
+  #accountsSummaryCards>div {
     grid-template-columns: repeat(3, 1fr) !important;
   }
 }
@@ -1120,23 +1233,26 @@ hr,
 
 /* Móvil: Aún más compactas */
 @media (max-width: 767px) {
+
   #accountsSummaryCards .bg-green-50,
   #accountsSummaryCards .bg-yellow-50,
   #accountsSummaryCards .bg-red-50 {
     padding: 0.5rem !important;
   }
-  
+
   #accountsSummaryCards .text-3xl {
     font-size: 1.25rem !important;
   }
 }
+
 /* Ocultar labels en móvil - Resumen y Reportes */
 @media (max-width: 767px) {
+
   #finances-summary label,
   #finances-reports label {
     display: none !important;
   }
-  
+
   #finances-summary select,
   #finances-reports select {
     width: 140px !important;
@@ -1145,8 +1261,9 @@ hr,
 
 /* Forzar flex en desktop - Resumen y Reportes */
 @media (min-width: 768px) {
-  #finances-summary .card-section > div:first-child,
-  #finances-reports .card-section > div:first-child {
+
+  #finances-summary .card-section>div:first-child,
+  #finances-reports .card-section>div:first-child {
     display: flex !important;
     flex-direction: row !important;
   }
@@ -1154,40 +1271,58 @@ hr,
 
 /* Grid en móvil - Resumen y Reportes */
 @media (max-width: 767px) {
-  #finances-summary .card-section > div:first-child,
-  #finances-reports .card-section > div:first-child {
+
+  #finances-summary .card-section>div:first-child,
+  #finances-reports .card-section>div:first-child {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
   }
 }
+
 /* Scroll horizontal para tablas de Cuentas en móvil */
 @media (max-width: 767px) {
-  #accountsList > div {
+  #accountsList>div {
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;
   }
-  
+
   #accountsList table {
     min-width: 700px !important;
   }
 }
+
 /* Badge de zonas con fondo tipo vidrio (forzamos background) */
 #decisionContainer #zoneBadgeHTML .zone-badge {
-  background: rgba(255, 255, 255, 0.12) !important; /* <— fondo blanco translúcido */
+  background: rgba(255, 255, 255, 0.12) !important;
+  /* <— fondo blanco translúcido */
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.14);
 }
+
 #decisionContainer #zoneBadgeHTML .zone-label {
-  font-size: 0.75rem; /* ~text-xs */
-  color: rgba(255,255,255,0.85);
+  font-size: 0.75rem;
+  /* ~text-xs */
+  color: rgba(255, 255, 255, 0.85);
 }
-#decisionContainer #zoneBadgeHTML .zone-text-green  { color: #22c55e !important; }
-#decisionContainer #zoneBadgeHTML .zone-text-yellow { color: #eab308 !important; }
-#decisionContainer #zoneBadgeHTML .zone-text-red    { color: #dc2626 !important; }
-#decisionContainer #zoneBadgeHTML .zone-text-gray   { color: #9ca3af !important; }
+
+#decisionContainer #zoneBadgeHTML .zone-text-green {
+  color: #22c55e !important;
+}
+
+#decisionContainer #zoneBadgeHTML .zone-text-yellow {
+  color: #eab308 !important;
+}
+
+#decisionContainer #zoneBadgeHTML .zone-text-red {
+  color: #dc2626 !important;
+}
+
+#decisionContainer #zoneBadgeHTML .zone-text-gray {
+  color: #9ca3af !important;
+}
 
 /* =========================================
    LEX AI Assistant - Estilos unificados
@@ -1255,18 +1390,41 @@ hr,
 
 /* Animaciones base */
 @keyframes lex-pop-in {
-  from { transform: translateY(20px) scale(0.85); opacity: 0; }
-  to   { transform: translateY(0)    scale(1);    opacity: 1; }
+  from {
+    transform: translateY(20px) scale(0.85);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
 
 @keyframes lex-breathe {
-  0%, 100% { transform: scale(1); }
-  50%      { transform: scale(1.06); }
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.06);
+  }
 }
 
 @keyframes lex-sleep {
-  0%, 100% { transform: scale(1); opacity: 0.7; }
-  50%      { transform: scale(0.95); opacity: 0.5; }
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: scale(0.95);
+    opacity: 0.5;
+  }
 }
 
 @keyframes lexPulse {
@@ -1274,6 +1432,7 @@ hr,
     transform: scale(1) translateY(0);
     box-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
   }
+
   to {
     transform: scale(1.08) translateY(-4px);
     box-shadow: 0 0 26px rgba(255, 215, 0, 1);
@@ -1318,10 +1477,11 @@ hr,
   border-radius: 14px;
 
   padding: 8px 12px;
-  margin: 6px auto 0 !important;  /* centrado, sin empujar a la derecha */
+  margin: 6px auto 0 !important;
+  /* centrado, sin empujar a la derecha */
 
   border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 
   max-width: 100% !important;
   font-size: 0.85rem;
@@ -1364,6 +1524,7 @@ hr,
    Ajustes específicos para móvil
    ========================================= */
 @media (max-width: 768px) {
+
   /* Posición del avatar en móvil */
   #lexAssistant {
     right: 0.75rem !important;
@@ -1410,6 +1571,7 @@ hr,
     margin-bottom: 0.5rem !important;
   }
 }
+
 /* ============================
    FIX GLOBAL LEX – POSICIÓN
    ============================ */
@@ -1433,7 +1595,8 @@ hr,
   transform: none !important;
   z-index: 9999 !important;
 
-  pointer-events: none !important;  /* el contenedor no bloquea nada */
+  pointer-events: none !important;
+  /* el contenedor no bloquea nada */
 }
 
 /* Avatar y burbuja sí reciben clic */
@@ -1446,6 +1609,7 @@ hr,
 #lexBubble {
   max-width: 260px !important;
 }
+
 /* ============================
    FIX GLOBAL – BADGE DE ZONAS
    ============================ */
@@ -1469,11 +1633,13 @@ hr,
   border-radius: 14px;
 
   padding: 8px 12px !important;
-  margin: 0 !important;                 /* nada de margin-left raro */
+  margin: 0 !important;
+  /* nada de margin-left raro */
   border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 
-  max-width: 100% !important;           /* que use el ancho del panel */
+  max-width: 100% !important;
+  /* que use el ancho del panel */
   font-size: 0.85rem;
   line-height: 1.3;
 
@@ -1485,12 +1651,14 @@ hr,
 
 /* Un poquito más compacto en móvil */
 @media (max-width: 768px) {
+
   #zoneBadgeHTML .lex-side-message,
   .lex-side-message {
     font-size: 0.78rem !important;
     padding: 6px 10px !important;
   }
 }
+
 @media (min-width: 1024px) {
   #lexAnalysisContent {
     max-width: 650px !important;
@@ -1504,6 +1672,7 @@ hr,
     padding: 20px !important;
   }
 }
+
 /* ============================
    Lex: botones del globito
    ============================ */
@@ -1563,6 +1732,7 @@ hr,
   box-shadow: 0 2px 6px rgba(15, 23, 42, 0.9);
   transform: translateY(0);
 }
+
 /* =========================================
    LEX MODALS – Botones unificados
    ========================================= */

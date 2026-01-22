@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="Smart Load Academy - Aprende a pensar como un operador rentable con nuestro centro de aprendizaje interactivo." />
+    <title>Smart Load Academy | Centro de Aprendizaje</title>
+
+    <link rel="icon" type="image/png" href="img/logo-app.png" />
+    <link rel="apple-touch-icon" href="img/logo-app.png" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="academy/css/academy.css">
+
+    <style>
+        /* Same design system as index.html */
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-darker: #050508;
+            --bg-card: #141414;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --primary-cyan: #00D9FF;
+            --primary-orange: #FF6B35;
+            --gradient-primary: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+        }
+
+        .gradient-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header {
+            top: 0;
+            z-index: 1000;
+            padding: 1.25rem 0;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .glass {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-animated">
+
+    <!-- HEADER -->
+    <header class="glass"
+        style="position: relative; background-image: url('img/header-background.PNG'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+        <div class="container" style="position: relative; z-index: 1;">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <img src="img/logo-smartload-light.png" alt="Smart Load Solution Logo" class="h-10 md:h-12 w-auto"
+                        onerror="this.src='img/logo-app.png'" />
+                    <span class="text-xl md:text-2xl font-bold">Smart Load Academy</span>
+                </div>
+
+                <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
+                    <a href="index.html" class="text-gray-300 hover:text-white transition">Inicio</a>
+                    <a href="resources.html" class="text-gray-300 hover:text-white transition">Recursos</a>
+                    <a href="academy.html" class="text-white">Academy</a>
+                    <a href="auth.html" class="text-gray-300 hover:text-white transition">Login</a>
+                </nav>
+
+                <button id="mobileMenuBtn" class="md:hidden text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="academy-hero">
+        <div class="container">
+            <div class="text-center max-w-4xl mx-auto py-20">
+                <h1 class="text-5xl md:text-6xl font-black mb-6">
+                    📚 Smart Load <span class="gradient-text">Academy</span>
+                </h1>
+                <p class="text-2xl text-gray-300 mb-8">
+                    Aprende a pensar como un operador rentable<br>(no como un chofer más)
+                </p>
+
+                <!-- Progress Overview -->
+                <div class="progress-overview">
+                    <div class="stat-card">
+                        <div class="stat-value" id="completedModules">0/8</div>
+                        <div class="stat-label">Módulos Completados</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="overallProgress">0%</div>
+                        <div class="stat-label">Progreso General</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="badgesEarned">0</div>
+                        <div class="stat-label">Insignias Ganadas</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODULES GRID -->
+    <section class="modules-section">
+        <div class="container">
+            <div class="modules-grid">
+
+                <!-- START HERE - QUICK WIN (Featured) -->
+                <div class="module-card free"
+                    style="grid-column: 1 / -1; background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1)); border: 2px solid rgba(255, 215, 0, 0.3);">
+                    <span class="module-badge"
+                        style="background: linear-gradient(90deg, #FFD700, #FFA500); color: #000;">💥 START HERE</span>
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: center;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 4rem; margin-bottom: 1rem;">🎯</div>
+                            <div
+                                style="font-size: 0.875rem; color: #888; text-transform: uppercase; letter-spacing: 1px;">
+                                Quick Win</div>
+                        </div>
+                        <div>
+                            <h3 style="font-size: 1.75rem; font-weight: 900; margin-bottom: 0.75rem; color: #FFD700;">El
+                                error #1 que cometen los expediters</h3>
+                            <p style="color: #d0d0d0; margin-bottom: 1rem; font-size: 1.1rem;">
+                                💰 <strong>5 minutos que te pueden ahorrar $500 esta semana</strong>
+                            </p>
+                            <div class="module-meta" style="margin-bottom: 1.5rem;">
+                                <span>⏱️ 5 minutos</span>
+                                <span>🟢 Muy fácil</span>
+                                <span>📖 1 lección</span>
+                            </div>
+                            <a href="academy/start-here/" class="btn-module"
+                                style="background: linear-gradient(90deg, #FFD700, #FFA500); color: #000; max-width: 300px;">Empezar
+                                Ahora →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODULE 1 - FREE -->
+                <div class="module-card free">
+                    <span class="module-badge free">Gratis</span>
+                    <div class="module-number">Módulo 1</div>
+                    <div class="module-icon">🎓</div>
+                    <h3 class="module-title">Mentalidad & Fundamentos</h3>
+                    <p class="module-desc">Antes de usar la app, aprende a pensar con números reales</p>
+
+                    <div class="module-meta">
+                        <span>⏱️ 35 min</span>
+                        <span>🟢 Fácil</span>
+                        <span>📖 5 lecciones</span>
+                    </div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-module="1" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text" data-module="1">0/5 lecciones</div>
+
+                    <a href="academy/module-1/" class="btn-module">Empezar →</a>
+                </div>
+
+                <!-- MODULE 2 - FREE -->
+                <div class="module-card free">
+                    <span class="module-badge free">Gratis</span>
+                    <div class="module-number">Módulo 2</div>
+                    <div class="module-icon">📊</div>
+                    <h3 class="module-title">Dominando los Números</h3>
+                    <p class="module-desc">Conecta la teoría con tu app (Calculator)</p>
+
+                    <div class="module-meta">
+                        <span>📖 5 lecciones</span>
+                        <span>⏱️ 35 min</span>
+                    </div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-module="2" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text" data-module="2">0/5 lecciones</div>
+
+                    <a href="academy/module-2/" class="btn-module">Empezar →</a>
+                </div>
+
+                <!-- MODULE 3 - FREE -->
+                <div class="module-card free">
+                    <span class="module-badge free">Gratis</span>
+                    <div class="module-number">Módulo 3</div>
+                    <div class="module-icon">🗺️</div>
+                    <h3 class="module-title">Estrategia de Rutas & Zonas</h3>
+                    <p class="module-desc">Deja de rodar a ciegas</p>
+
+                    <div class="module-meta">
+                        <span>📖 5 lecciones</span>
+                        <span>⏱️ 40 min</span>
+                    </div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill" data-module="3" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text" data-module="3">0/5 lecciones</div>
+
+                    <a href="academy/module-3/" class="btn-module">Empezar →</a>
+                </div>
+
+                <!-- MODULE 4 - LOCKED (Pro) -->
+                <div class="module-card locked">
+                    <span class="module-badge locked">🔒 Pro</span>
+                    <div class="module-number">Módulo 4</div>
+                    <div class="module-icon">💰</div>
+                    <h3 class="module-title">Negociación & Rates</h3>
+                    <p class="module-desc">No es suerte, es estrategia</p>
+
+                    <div class="module-meta">
+                        <span>📖 5 lecciones</span>
+                        <span>⏱️ 35 min</span>
+                    </div>
+
+                    <div class="locked-overlay">
+                        <div class="lock-icon">🔒</div>
+                        <p>Disponible en Plan Pro</p>
+                    </div>
+
+                    <a href="plans.html" class="btn-module locked">Desbloquear →</a>
+                </div>
+
+                <!-- MODULE 5 - LOCKED (Pro) -->
+                <div class="module-card locked">
+                    <span class="module-badge locked">🔒 Pro</span>
+                    <div class="module-number">Módulo 5</div>
+                    <div class="module-icon">📈</div>
+                    <h3 class="module-title">Análisis Financiero</h3>
+                    <p class="module-desc">Dashboard & History mastery</p>
+
+                    <div class="module-meta">
+                        <span>📖 5 lecciones</span>
+                        <span>⏱️ 40 min</span>
+                    </div>
+
+                    <div class="locked-overlay">
+                        <div class="lock-icon">🔒</div>
+                        <p>Disponible en Plan Pro</p>
+                    </div>
+
+                    <a href="plans.html" class="btn-module locked">Desbloquear →</a>
+                </div>
+
+                <!-- MODULE 6 - LOCKED (Pro) -->
+                <div class="module-card locked">
+                    <span class="module-badge locked">🔒 Pro</span>
+                    <div class="module-number">Módulo 6</div>
+                    <div class="module-icon">🤖</div>
+                    <h3 class="module-title">Inteligencia con Lex AI</h3>
+                    <p class="module-desc">La ventaja competitiva</p>
+
+                    <div class="module-meta">
+                        <span>⏱️ 30 min</span>
+                        <span>🟡 Intermedio</span>
+                        <span>📖 5 lecciones</span>
+                    </div>
+
+                    <div class="locked-overlay">
+                        <div class="lock-icon">🔒</div>
+                        <p>Disponible en Plan Pro</p>
+                    </div>
+
+                    <a href="plans.html" class="btn-module locked">Desbloquear →</a>
+                </div>
+
+                <!-- MODULE 7 - LOCKED (Premium) -->
+                <div class="module-card locked">
+                    <span class="module-badge premium">🔒 Premium</span>
+                    <div class="module-number">Módulo 7</div>
+                    <div class="module-icon">⚙️</div>
+                    <h3 class="module-title">Optimización Operativa</h3>
+                    <p class="module-desc">Ganar más sin correr más</p>
+
+                    <div class="module-meta">
+                        <span>📖 5 lecciones</span>
+                        <span>⏱️ 35 min</span>
+                    </div>
+
+                    <div class="locked-overlay">
+                        <div class="lock-icon">🔒</div>
+                        <p>Disponible en Plan Premium</p>
+                    </div>
+
+                    <a href="plans.html" class="btn-module locked">Desbloquear →</a>
+                </div>
+
+                <!-- MODULE 8 - LOCKED (Premium) -->
+                <div class="module-card locked">
+                    <span class="module-badge premium">🔒 Premium</span>
+                    <div class="module-number">Módulo 8</div>
+                    <div class="module-icon">🚀</div>
+                    <h3 class="module-title">Nivel Pro (Avanzado)</h3>
+                    <p class="module-desc">Escala sin quemarte</p>
+
+                    <div class="module-meta">
+                        <span>📖 5 lecciones</span>
+                        <span>⏱️ 40 min</span>
+                    </div>
+
+                    <div class="locked-overlay">
+                        <div class="lock-icon">🔒</div>
+                        <p>Disponible en Plan Premium</p>
+                    </div>
+
+                    <a href="plans.html" class="btn-module locked">Desbloquear →</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script src="academy/js/academy.js"></script>
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                alert('Mobile menu (implement similar to index.html)');
+            });
+        }
+    </script>
+
+</body>
+
+</html>

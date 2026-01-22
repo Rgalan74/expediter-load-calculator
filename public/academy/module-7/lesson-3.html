@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 3: Construcción de Marca Personal | Smart Load Academy</title>
+    <link rel="icon" type="image/png" href="../../img/logo-app.png" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.7
+        }
+
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem
+        }
+
+        .breadcrumb {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: .875rem
+        }
+
+        .breadcrumb a {
+            color: #00D9FF;
+            text-decoration: none
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem
+        }
+
+        .lesson-content h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff
+        }
+
+        .lesson-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: .75rem
+        }
+
+        .lesson-content p {
+            margin-bottom: 1.5rem;
+            color: #d0d0d0
+        }
+
+        .lesson-content ul,
+        .lesson-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem
+        }
+
+        .mockup {
+            background: rgba(20, 20, 20, .9);
+            border: 2px solid rgba(0, 217, 255, .3);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: .9rem
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: rgba(20, 20, 20, .8);
+            border-radius: .75rem;
+            overflow: hidden
+        }
+
+        th,
+        td {
+            padding: .75rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, .1);
+            font-size: .9rem
+        }
+
+        th {
+            background: rgba(0, 217, 255, .1);
+            color: #00D9FF;
+            font-weight: 700
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: .75rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all .3s ease
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #FFD700 0%, #FF6B35 100%);
+            color: #000
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .2)
+        }
+
+        .lesson-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem
+        }
+    </style>
+</head>
+
+<body>
+    <article class="lesson-container">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 7 [PRO]</a> → Lección 3
+        </nav>
+
+        <div
+            style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
+            🔒 CONTENIDO PRO</div>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Construcción de Marca Personal: Destácate en Mercado Saturado</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 17 min lectura</span>
+                <span>🎓 Módulo 7 - Lección 3</span>
+                <span>🎨 Branding</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>🎯 ¿POR QUÉ MARCA PERSONAL IMPORTA?</h2>
+
+                <div
+                    style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FF6B35;margin-bottom:2rem">
+                    <p><strong>REALIDAD DEL MERCADO:</strong></p>
+                    <p>Hay 100,000+ cargo vans en USA. Todos dicen lo mismo:</p>
+                    <ul style="margin:0">
+                        <li>"Servicio confiable"</li>
+                        <li>"Precios competitivos"</li>
+                        <li>"Entrega a tiempo"</li>
+                        <li>"Cobertura nacional"</li>
+                    </ul>
+                    <p
+                        style="margin-top:1rem;margin-bottom:0;font-weight:700;text-align:center;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        Si dices lo mismo que todos → Eres INVISIBLE<br>
+                        Marca personal te hace MEMORABLE
+                    </p>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
+                    <div
+                        style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FF6B35">
+                        <p><strong>VAN SIN MARCA:</strong></p>
+                        <p style="font-size:.9rem;margin:0">Broker: "Necesito van Detroit-Chicago"<br>
+                            Asistente: "Tengo 47 vans disponibles"<br>
+                            Broker: "Dame el más barato"<br><br>
+                            <strong>→ Compites solo en PRECIO</strong>
+                        </p>
+                    </div>
+
+                    <div
+                        style="background:rgba(100,200,100,.15);padding:1.5rem;border-radius:.75rem;border-left:4px solid #64C864">
+                        <p><strong>VAN CON MARCA:</strong></p>
+                        <p style="font-size:.9rem;margin:0">Broker: "Necesito van Detroit-Chicago"<br>
+                            Asistente: "¿Qué tal Ricardo? Siempre es sólido"<br>
+                            Broker: "Perfecto, llámalo primero"<br><br>
+                            <strong>→ Compites en VALOR, no precio</strong>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>🏗️ LOS 5 PILARES DE MARCA PERSONAL</h2>
+
+                <h3>PILAR #1: Identidad Clara</h3>
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>Define QUIÉN ERES en una frase.</strong></p>
+
+                    <p><strong>FORMATO:</strong><br>
+                        "[Especialidad] en [Nicho/Área]. [Años] experiencia. [Diferenciador único]. [Resultado/Track
+                        record]."</p>
+
+                    <p><strong>EJEMPLOS:</strong></p>
+                    <ul>
+                        <li><strong>Medical Specialist:</strong> "Entregas médicas certificadas Tampa Bay. HIPAA
+                            compliant. 5 años, 1,200+ entregas. 99.8% on-time. Cero daños."</li>
+                        <li><strong>White Glove Expert:</strong> "Transporte de arte y antigüedades NYC. Certificado
+                            fine art. $50M+ transportado. Referencias: Sotheby's, Christie's, MoMA."</li>
+                        <li><strong>Hot Shot Automotive:</strong> "Line-down specialist corredor Detroit-Toledo.
+                            Respuesta <30 min, 24/7. 8 años Ford/GM. Preferred carrier 12 Tier 1 suppliers."</li>
+                    </ul>
+                </div>
+
+                <h3>PILAR #2: Presencia Visual Consistente</h3>
+                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>1. VAN BRANDING</strong></p>
+                    <ul>
+                        <li>Logo simple pero profesional</li>
+                        <li>Nombre de negocio + número + website</li>
+                        <li>Colores consistentes</li>
+                        <li><strong>Costo: $500-1,500</strong> (lettering profesional)</li>
+                        <li><strong>ROI: MASIVO</strong> (marketing 24/7)</li>
+                    </ul>
+
+                    <p><strong>EJEMPLO:</strong><br>
+                        ✅ "Ricardo's Medical Expediting<br>
+                        HIPAA Certified • 24/7<br>
+                        (813) 555-1234<br>
+                        www.ricardosmedical.com"</p>
+
+                    <p><strong>2. LOGO & BRAND COLORS</strong></p>
+                    <ul>
+                        <li>Simple (funciona pequeño)</li>
+                        <li>Profesional (no amateur)</li>
+                        <li>Memorable, 2-3 colores máximo</li>
+                        <li><strong>Herramientas:</strong> Canva (gratis), Fiverr ($25-100), 99designs ($299+)</li>
+                    </ul>
+
+                    <p><strong>3. TARJETAS DE PRESENTACIÓN</strong></p>
+                    <ul style="margin:0">
+                        <li>Diseño profesional, info completa, QR code a website</li>
+                        <li>Mismo branding que van</li>
+                        <li><strong>Costo: $50-100 por 500</strong></li>
+                        <li><strong>Usar:</strong> Cada entrega, networking events</li>
+                    </ul>
+                </div>
+
+                <h3>PILAR #3: Presencia Digital</h3>
+                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>WEBSITE SIMPLE PERO PROFESIONAL</strong></p>
+                    <p><strong>Esencial:</strong> www.TuNombre.com (no .net, .biz)</p>
+
+                    <p><strong>Páginas mínimas:</strong></p>
+                    <ol>
+                        <li>Home (quién eres, qué haces)</li>
+                        <li>Services (nicho, especialidades)</li>
+                        <li>About (experiencia, certificaciones)</li>
+                        <li>Contact (teléfono, email, form)</li>
+                    </ol>
+
+                    <p><strong>Plataformas:</strong></p>
+                    <ul>
+                        <li>Wix: Fácil, $14-23/mes</li>
+                        <li>Squarespace: Bonito, $16-26/mes</li>
+                        <li>WordPress: Flexible, $10-30/mes</li>
+                        <li>Carrd: Super simple, $9-49/año</li>
+                    </ul>
+
+                    <p><strong>Setup:</strong> 4-8 horas | <strong>Costo:</strong> $100-300/año | <strong>ROI:</strong>
+                        Cliente encuentra website = +$500-2,000/año</p>
+
+                    <hr style="border-color:rgba(255,255,255,.2);margin:1.5rem 0">
+
+                    <p><strong>LINKEDIN OPTIMIZADO</strong></p>
+                    <ul>
+                        <li>Foto profesional (no selfie)</li>
+                        <li>Banner: Foto de van o logo</li>
+                        <li>Headline: Tu declaración identidad</li>
+                        <li>Publica 1-2x/semana, comparte tips industria</li>
+                        <li>Conecta con brokers, shippers, transportistas</li>
+                    </ul>
+
+                    <hr style="border-color:rgba(255,255,255,.2);margin:1.5rem 0">
+
+                    <p><strong>GOOGLE BUSINESS PROFILE (GRATIS)</strong></p>
+                    <ul style="margin:0">
+                        <li>business.google.com</li>
+                        <li>Apareces en búsquedas locales + Google Maps</li>
+                        <li>Reviews visibles</li>
+                        <li>Pide a clientes satisfechos review → Credibilidad</li>
+                    </ul>
+                </div>
+
+                <h3>PILAR #4: Reputación y Prueba Social</h3>
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>CONSTRUYE CREDIBILIDAD DEMOSTRABLE:</strong></p>
+
+                    <p><strong>1. TESTIMONIALES ESCRITOS</strong></p>
+                    <p style="font-size:.9rem">Pide a brokers/clientes: "¿Podrías escribir 2-3 frases sobre trabajar
+                        conmigo?"</p>
+                    <p style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;font-size:.9rem;margin:1rem 0">
+                        "Ricardo ha sido nuestro go-to para line-down emergencies por 3 años. Respuesta rápida, servicio
+                        impecable. Highly recommended."<br>
+                        <em>- John Smith, Logistics Manager, ABC Auto</em>
+                    </p>
+
+                    <p><strong>2. MÉTRICAS IMPRESIONANTES</strong></p>
+                    <ul>
+                        <li>"2,000+ entregas completadas"</li>
+                        <li>"99.8% on-time delivery rate"</li>
+                        <li>"Cero damage claims en 5 años"</li>
+                        <li>"$10M+ valor cargo transportado"</li>
+                        <li>"Preferred carrier 15 Fortune 500 companies"</li>
+                    </ul>
+
+                    <p><strong>3. CERTIFICACIONES VISIBLES</strong></p>
+                    <ul style="margin:0">
+                        <li>HIPAA Certified, Hazmat Endorsed, Fine Art Handler</li>
+                        <li>TSA Approved, ISO Compliant</li>
+                        <li>Display prominente en website/materials</li>
+                    </ul>
+                </div>
+
+                <h3>PILAR #5: Comportamiento Consistente</h3>
+                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
+                    <p style="font-weight:700;text-align:center;font-size:1.1rem;margin-bottom:1rem">MARCA NO ES SOLO
+                        VISUAL. Es CÓMO te comportas.</p>
+
+                    <p><strong>STANDARDS PERSONALES:</strong></p>
+
+                    <p><strong>COMUNICACIÓN:</strong></p>
+                    <ul>
+                        <li>Respondes <15 min SIEMPRE</li>
+                        <li>Nunca dejas mensaje sin respuesta</li>
+                        <li>Profesional pero amigable</li>
+                        <li>Proactivo (updates sin pedir)</li>
+                    </ul>
+
+                    <p><strong>SERVICIO:</strong></p>
+                    <ul>
+                        <li>Llegas 10 min temprano (nunca tarde)</li>
+                        <li>Van SIEMPRE limpia</li>
+                        <li>Tú SIEMPRE presentable</li>
+                        <li>Documentación impecable</li>
+                        <li>Fotos automáticas en cada entrega</li>
+                    </ul>
+
+                    <p><strong>COMPROMISO:</strong></p>
+                    <ul>
+                        <li>Si dices que sí, es SÍ (no cancelas)</li>
+                        <li>Si hay problema, comunicas INMEDIATAMENTE</li>
+                        <li>Ofreces soluciones, no excusas</li>
+                        <li>Asumes responsabilidad</li>
+                    </ul>
+
+                    <p
+                        style="margin:0;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
+                        "Ricardo siempre __________________"<br><br>
+                        <span style="color:#FFD700">¿Qué quieres que digan?</span>
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>📊 INVERSIÓN Y ROI</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ELEMENTO</th>
+                            <th>COSTO</th>
+                            <th>FRECUENCIA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Van lettering profesional</td>
+                            <td>$500-1,500</td>
+                            <td>One-time</td>
+                        </tr>
+                        <tr>
+                            <td>Logo profesional</td>
+                            <td>$50-300</td>
+                            <td>One-time</td>
+                        </tr>
+                        <tr>
+                            <td>Website simple</td>
+                            <td>$100-300</td>
+                            <td>/año</td>
+                        </tr>
+                        <tr>
+                            <td>Tarjetas presentación</td>
+                            <td>$50-100</td>
+                            <td>500 unidades</td>
+                        </tr>
+                        <tr>
+                            <td>Dominio + email</td>
+                            <td>$20-50</td>
+                            <td>/año</td>
+                        </tr>
+                        <tr style="background:rgba(255,215,0,.15)">
+                            <td><strong>TOTAL INVERSIÓN</strong></td>
+                            <td><strong>$700-2,200</strong></td>
+                            <td><strong>Setup inicial</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div
+                    style="background:rgba(100,200,100,.15);padding:1.5rem;border-radius:.75rem;text-align:center;margin-top:2rem">
+                    <p style="font-weight:700;font-size:1.1rem;margin-bottom:1rem">RETORNO DE INVERSIÓN</p>
+                    <p style="margin:0">
+                        1-2 clientes nuevos/año de branding = $1,500-3,000<br>
+                        <strong style="color:#FFD700;font-size:1.25rem">ROI: 70-430%</strong><br><br>
+                        MÁS: Cobras premium por reputación establecida
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 CONCLUSIÓN CLAVE</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Marca personal no es vanidad. Es
+                        ESTRATEGIA de negocio.</p>
+
+                    <div style="text-align:left;max-width:600px;margin:0 auto">
+                        <p><strong>Los 5 pilares:</strong></p>
+                        <ol>
+                            <li><strong>IDENTIDAD:</strong> Quién eres en una frase</li>
+                            <li><strong>VISUAL:</strong> Logo, colors, branding consistente</li>
+                            <li><strong>DIGITAL:</strong> Website, LinkedIn, Google Business</li>
+                            <li><strong>REPUTACIÓN:</strong> Testimoniales, reviews, track record</li>
+                            <li><strong>COMPORTAMIENTO:</strong> Entregar promesa consistentemente</li>
+                        </ol>
+
+                        <hr style="border-color:rgba(255,255,255,.2);margin:1.5rem 0">
+
+                        <p><strong>Diferencia:</strong></p>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem">
+                            <div>
+                                <p style="font-weight:700;margin-bottom:.5rem">VAN SIN MARCA:</p>
+                                <ul style="font-size:.9rem;margin:0">
+                                    <li>"Otro van más"</li>
+                                    <li>Compite en precio</li>
+                                    <li>Olvidable</li>
+                                    <li>Reemplazable</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p style="font-weight:700;margin-bottom:.5rem">VAN CON MARCA:</p>
+                                <ul style="font-size:.9rem;margin:0;color:#64C864">
+                                    <li>"THE guy para [nicho]"</li>
+                                    <li>Compite en valor</li>
+                                    <li>Memorable</li>
+                                    <li>Preferido</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <p
+                            style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center;font-weight:700">
+                            No es SOLO logo/website.<br>
+                            Es IDENTIDAD completa:<br><br>
+                            • Cómo te ves<br>
+                            • Cómo te comunicas<br>
+                            • Cómo te comportas<br>
+                            • Qué prometes<br>
+                            • Qué entregas<br><br>
+                            <span style="color:#FFD700;font-size:1.1rem">Marca = Reputación × Visibilidad</span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+                completada</button>
+            <nav class="lesson-nav">
+                <a href="lesson-2.html" class="btn btn-secondary">← Lección anterior</a>
+                <a href="index.html" class="btn btn-primary">Volver al módulo →</a>
+            </nav>
+        </footer>
+    </article>
+
+    <script src="../js/academy.js"></script>
+    <script>
+        const MODULE_NUM = 7, LESSON_NUM = 3; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true; alert('¡Lección PRO completada! 🎨\n\n5 pilares de marca personal:\n1. Identidad clara (declaración 1 frase)\n2. Visual consistente (van branding $500-1,500)\n3. Digital (website, LinkedIn, Google)\n4. Reputación (testimoniales, métricas)\n5. Comportamiento (entregar promesa)\n\nInversión: $700-2,200\nROI: 70-430%\n\nMarca = Reputación × Visibilidad') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true } });
+    </script>
+</body>
+
+</html>

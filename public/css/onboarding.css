@@ -1,0 +1,483 @@
+/**
+ * Onboarding Styles
+ * Estilos para modal de bienvenida y banner de recordatorio
+ * FASE 1 - MVP
+ */
+
+/* ============================================
+   MODAL DE BIENVENIDA
+   ============================================ */
+
+.onboarding-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.onboarding-modal .modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+}
+
+.onboarding-modal .modal-content {
+    position: relative;
+    background: #ffffff;
+    border-radius: 1rem;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+    animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.onboarding-modal .modal-header {
+    padding: 1.5rem 1.5rem 1rem;
+    text-align: center;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-bottom: 1px solid #dee2e6;
+}
+
+.onboarding-modal .modal-header .icon {
+    font-size: 3rem;
+    margin-bottom: 0.75rem;
+    animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.onboarding-modal .modal-header h2 {
+    margin: 0;
+    color: #212529;
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.onboarding-modal .modal-body {
+    padding: 1.5rem;
+    background: #ffffff;
+}
+
+.onboarding-modal .modal-body p {
+    color: #495057;
+    margin-bottom: 1rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+}
+
+.setup-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+    background: #f8f9fa;
+    border-radius: 0.75rem;
+    padding: 1rem 1.25rem;
+}
+
+.setup-benefits li {
+    padding: 0.5rem 0;
+    color: #212529;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.setup-benefits li:not(:last-child) {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.info-box {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(99, 102, 241, 0.1));
+    border-left: 4px solid #3b82f6;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    margin-top: 1rem;
+}
+
+.info-box strong {
+    display: block;
+    color: #1e40af;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.info-box p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #374151;
+    line-height: 1.5;
+}
+
+.onboarding-modal .modal-footer {
+    padding: 1.25rem 1.5rem 1.5rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    background: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+}
+
+.onboarding-modal button {
+    flex: 1;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.625rem;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: inherit;
+}
+
+.onboarding-modal .btn-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.onboarding-modal .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.onboarding-modal .btn-primary:active {
+    transform: translateY(0);
+}
+
+.onboarding-modal .btn-secondary {
+    background: #ffffff;
+    color: #6b7280;
+    border: 2px solid #d1d5db;
+}
+
+.onboarding-modal .btn-secondary:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+    color: #374151;
+}
+
+/* ============================================
+   BANNER DE RECORDATORIO
+   ============================================ */
+
+.setup-reminder-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    color: #000000;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+    animation: bannerSlideDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes bannerSlideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.setup-reminder-banner .banner-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.setup-reminder-banner .banner-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.setup-reminder-banner .banner-text {
+    flex: 1;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+}
+
+.setup-reminder-banner .banner-link {
+    color: #000000;
+    text-decoration: underline;
+    font-weight: 800;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    transition: all 0.2s;
+}
+
+.setup-reminder-banner .banner-link:hover {
+    text-decoration: none;
+    color: #1f2937;
+}
+
+.setup-reminder-banner .banner-close {
+    background: rgba(0, 0, 0, 0.15);
+    border: none;
+    color: #000000;
+    font-size: 1.75rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    line-height: 1;
+    font-weight: 700;
+}
+
+.setup-reminder-banner .banner-close:hover {
+    background: rgba(0, 0, 0, 0.25);
+    transform: scale(1.1);
+}
+
+.setup-reminder-banner .banner-close:active {
+    transform: scale(0.95);
+}
+
+/* ============================================
+   RESPONSIVE - MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .onboarding-modal .modal-content {
+        width: 95%;
+        max-width: 95%;
+        border-radius: 1rem;
+    }
+
+    .onboarding-modal .modal-header {
+        padding: 2rem 1.5rem 1.25rem;
+    }
+
+    .onboarding-modal .modal-header .icon {
+        font-size: 3rem;
+    }
+
+    .onboarding-modal .modal-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .onboarding-modal .modal-body {
+        padding: 1.5rem;
+    }
+
+    .onboarding-modal .modal-body p {
+        font-size: 0.9375rem;
+    }
+
+    .setup-benefits {
+        padding: 1rem;
+    }
+
+    .setup-benefits li {
+        font-size: 0.9375rem;
+        padding: 0.625rem 0;
+    }
+
+    .info-box {
+        padding: 1rem;
+    }
+
+    .info-box strong {
+        font-size: 0.9375rem;
+    }
+
+    .info-box p {
+        font-size: 0.875rem;
+    }
+
+    .onboarding-modal .modal-footer {
+        padding: 1.25rem 1.5rem 1.75rem;
+        flex-direction: column-reverse;
+    }
+
+    .onboarding-modal button {
+        width: 100%;
+        padding: 1rem;
+        font-size: 0.9375rem;
+    }
+
+    /* Banner en mobile */
+    .setup-reminder-banner .banner-content {
+        flex-direction: row;
+        flex-wrap: wrap;
+        text-align: left;
+        gap: 0.5rem;
+        padding: 0.625rem 1rem;
+    }
+
+    .setup-reminder-banner .banner-text {
+        font-size: 0.8125rem;
+        line-height: 1.4;
+    }
+
+    .setup-reminder-banner .banner-icon {
+        font-size: 1.25rem;
+    }
+
+    .setup-reminder-banner .banner-close {
+        width: 1.75rem;
+        height: 1.75rem;
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .onboarding-modal .modal-header h2 {
+        font-size: 1.25rem;
+    }
+
+    .onboarding-modal .modal-body p,
+    .setup-benefits li {
+        font-size: 0.875rem;
+    }
+
+    .info-box p {
+        font-size: 0.8125rem;
+    }
+}
+
+/* ============================================
+   DARK MODE SUPPORT (opcional)
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+    .onboarding-modal .modal-content {
+        background: #1f2937;
+    }
+
+    .onboarding-modal .modal-header {
+        background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+        border-bottom-color: #4b5563;
+    }
+
+    .onboarding-modal .modal-header h2 {
+        color: #f9fafb;
+    }
+
+    .onboarding-modal .modal-body {
+        background: #1f2937;
+    }
+
+    .onboarding-modal .modal-body p {
+        color: #d1d5db;
+    }
+
+    .setup-benefits {
+        background: #374151;
+    }
+
+    .setup-benefits li {
+        color: #f3f4f6;
+        border-bottom-color: #4b5563;
+    }
+
+    .info-box {
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(99, 102, 241, 0.2));
+    }
+
+    .info-box strong {
+        color: #93c5fd;
+    }
+
+    .info-box p {
+        color: #d1d5db;
+    }
+
+    .onboarding-modal .modal-footer {
+        background: #374151;
+        border-top-color: #4b5563;
+    }
+
+    .onboarding-modal .btn-secondary {
+        background: #374151;
+        color: #d1d5db;
+        border-color: #4b5563;
+    }
+
+    .onboarding-modal .btn-secondary:hover {
+        background: #4b5563;
+        border-color: #6b7280;
+        color: #f3f4f6;
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+.onboarding-modal button:focus,
+.setup-reminder-banner .banner-close:focus {
+    outline: 3px solid #3b82f6;
+    outline-offset: 3px;
+}
+
+.onboarding-modal button:focus:not(:focus-visible),
+.setup-reminder-banner .banner-close:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Para lectores de pantalla */
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border-width: 0 !important;
+}

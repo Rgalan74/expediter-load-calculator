@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 5: Carga Pagada ≠ Carga Rentable | Smart Load Academy</title>
+    <link rel="icon" type="image/png" href="../../img/logo-app.png" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.7
+        }
+
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem
+        }
+
+        .breadcrumb {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: .875rem
+        }
+
+        .breadcrumb a {
+            color: #00D9FF;
+            text-decoration: none
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem
+        }
+
+        .lesson-content h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff
+        }
+
+        .lesson-content p {
+            margin-bottom: 1.5rem;
+            color: #d0d0d0
+        }
+
+        .lesson-content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem
+        }
+
+        .callout {
+            padding: 1.5rem;
+            border-radius: .75rem;
+            margin: 2rem 0;
+            border-left: 4px solid
+        }
+
+        .callout.tip {
+            background: rgba(0, 217, 255, .1);
+            border-color: #00D9FF
+        }
+
+        .callout.warning {
+            background: rgba(255, 107, 53, .1);
+            border-color: #FF6B35
+        }
+
+        .callout strong {
+            display: block;
+            margin-bottom: .5rem;
+            font-size: 1.1rem
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: .75rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all .3s ease
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+            color: #fff
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .2)
+        }
+
+        .lesson-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: rgba(20, 20, 20, .8);
+            border-radius: .75rem;
+            overflow: hidden
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        th {
+            background: rgba(0, 217, 255, .1);
+            color: #00D9FF;
+            font-weight: 700
+        }
+    </style>
+</head>
+
+<body>
+    <article class="lesson-container">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 1</a> → Lección 5
+        </nav>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Por Qué "Carga Pagada" NO Significa "Carga Rentable"</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 8 min lectura</span>
+                <span>🎓 Módulo 1 - Lección 5</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>🧠 EL MINDSET SHIFT MÁS IMPORTANTE</h2>
+                <p>Este es el salto mental que separa:</p>
+
+                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
+                    <p><strong>❌ Chofers:</strong> "Me pagaron, estoy bien"</p>
+                </div>
+
+                <div style="background:rgba(0,217,255,.1);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
+                    <p><strong>✅ Operadores:</strong> "¿Esta decisión mejoró mi posición estratégica?"</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>📊 CASO REAL: Roberto en Detroit</h2>
+                <p>Roberto tiene que elegir entre dos loads el lunes por la mañana.</p>
+
+                <h3 style="margin-top:2rem">OPCIÓN A: Detroit → El Paso, TX</h3>
+                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem">
+                    <ul>
+                        <li>Pago: $1,600</li>
+                        <li>Millas cargadas: 1,100</li>
+                        <li>Deadhead: 50 millas</li>
+                        <li>RPM aparente: $1.45/milla ✅</li>
+                    </ul>
+                    <p style="font-style:italic;margin-top:1rem">"Parece excelente"</p>
+                </div>
+
+                <div class="callout warning">
+                    <strong>PERO analicemos la ESTRATEGIA COMPLETA...</strong>
+
+                    <p><strong>LOAD INICIAL:</strong></p>
+                    <ul>
+                        <li>Total millas: 1,150</li>
+                        <li>Ganancia real: $400</li>
+                        <li>Tiempo: 20 horas</li>
+                        <li>Ganancia/hora: $20/hora ⚠️</li>
+                    </ul>
+
+                    <p style="margin-top:1rem"><strong>SITUACIÓN POST-DELIVERY (El Paso):</strong></p>
+                    <ul>
+                        <li>Load availability: ESCASA (zona muerta) 🚨</li>
+                        <li>Typical wait time: 48-72 horas 🚨</li>
+                        <li>Outbound rates: $0.90-$1.10/milla ❌</li>
+                        <li>Necesita reposicionar: Dallas/San Antonio (300 millas)</li>
+                        <li>Tiempo perdido esperando: 3 días</li>
+                    </ul>
+
+                    <p style="margin-top:1rem"><strong>BACKHAUL REALISTA:</strong></p>
+                    <ul>
+                        <li>Espera 3 días, toma load de $850 a $1.05/milla</li>
+                        <li>El Paso → Dallas: 800 millas</li>
+                        <li>Ganancia: $150</li>
+                        <li>Ganancia/hora: $5/hora 🚨🚨</li>
+                    </ul>
+                </div>
+
+                <div style="background:rgba(255,107,53,.2);padding:1.5rem;border-radius:.75rem;text-align:center">
+                    <p><strong>RESULTADO TOTAL (6 DÍAS):</strong></p>
+                    <p style="font-size:1.5rem;font-weight:900;margin-top:1rem;color:#FF6B35">Ganancia total: $550 en 6
+                        días</p>
+                    <p>Promedio diario: $91.67/día</p>
+                    <p>Hourly rate promedio: $11.46/hora ❌</p>
+                </div>
+
+                <h3 style="margin-top:3rem">OPCIÓN B: Detroit → Atlanta, GA</h3>
+                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem">
+                    <ul>
+                        <li>Pago: $1,100</li>
+                        <li>Millas cargadas: 700</li>
+                        <li>Deadhead: 50 millas</li>
+                        <li>RPM aparente: $1.57/milla</li>
+                    </ul>
+                </div>
+
+                <div class="callout tip">
+                    <strong>Veamos la ESTRATEGIA...</strong>
+
+                    <p><strong>LOAD INICIAL:</strong></p>
+                    <ul>
+                        <li>Total millas: 750</li>
+                        <li>Ganancia real: $350</li>
+                        <li>Tiempo: 13 horas</li>
+                        <li>Ganancia/hora: $26.92/hora ✅</li>
+                    </ul>
+
+                    <p style="margin-top:1rem"><strong>SITUACIÓN POST-DELIVERY (Atlanta):</strong></p>
+                    <ul>
+                        <li>Load availability: EXCELENTE (major hub) ✅</li>
+                        <li>Typical wait time: 8-12 horas ✅</li>
+                        <li>Outbound rates: $1.40-$1.65/milla ✅</li>
+                        <li>Reposicionar: 0 millas (ya estás en zona premium)</li>
+                        <li>Tiempo perdido: < 1 día</li>
+                    </ul>
+
+                    <p style="margin-top:1rem"><strong>BACKHAUL REALISTA:</strong></p>
+                    <ul>
+                        <li>Espera 10 horas, encuentra load premium</li>
+                        <li>Atlanta → Detroit: 750 millas a $1.55/milla</li>
+                        <li>Pago: $1,162</li>
+                        <li>Ganancia: $450</li>
+                        <li>Ganancia/hora: $30/hora ✅</li>
+                    </ul>
+                </div>
+
+                <div
+                    style="background:rgba(100,200,100,.2);padding:1.5rem;border-radius:.75rem;text-align:center;border:2px solid #64C864">
+                    <p><strong>RESULTADO TOTAL (3 DÍAS):</strong></p>
+                    <p style="font-size:1.5rem;font-weight:900;margin-top:1rem;color:#64C864">Ganancia total: $800 en 3
+                        días</p>
+                    <p>Promedio diario: $266.67/día ✅✅</p>
+                    <p>Hourly rate promedio: $33.33/hora ✅</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>📊 COMPARACIÓN BRUTAL</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>OPCIÓN A (El Paso)</th>
+                            <th>OPCIÓN B (Atlanta)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Pago load inicial</td>
+                            <td>$1,600 ✅</td>
+                            <td>$1,100 ❌</td>
+                        </tr>
+                        <tr>
+                            <td>RPM inicial</td>
+                            <td>$1.45</td>
+                            <td>$1.57</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="background:rgba(255,255,255,.05)"></td>
+                        </tr>
+                        <tr>
+                            <td>Wait time</td>
+                            <td>72 hrs 🚨</td>
+                            <td>10 hrs ✅</td>
+                        </tr>
+                        <tr>
+                            <td>Backhaul quality</td>
+                            <td>Malo ❌</td>
+                            <td>Excelente ✅</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="background:rgba(255,255,255,.05)"></td>
+                        </tr>
+                        <tr style="background:rgba(0,217,255,.05)">
+                            <td><strong>TOTAL DÍAS</strong></td>
+                            <td><strong>6 días</strong></td>
+                            <td><strong>3 días ✅</strong></td>
+                        </tr>
+                        <tr style="background:rgba(0,217,255,.05)">
+                            <td><strong>TOTAL GANANCIA</strong></td>
+                            <td><strong>$550</strong></td>
+                            <td><strong>$800 ✅</strong></td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.1)">
+                            <td><strong>GANANCIA/DÍA</strong></td>
+                            <td>$91.67</td>
+                            <td><strong>$266.67 ✅✅</strong></td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.1)">
+                            <td><strong>HOURLY RATE</strong></td>
+                            <td>$11.46</td>
+                            <td><strong>$33.33 ✅✅</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center;margin:2rem 0">
+                    <p style="font-size:1.25rem;font-weight:700">VEREDICTO:</p>
+                    <p style="margin-top:1rem">Roberto eligió Opción B y ganó:</p>
+                    <ul style="text-align:left;margin-top:1rem;list-style:none">
+                        <li>✅ $250 MÁS ($800 vs $550)</li>
+                        <li>✅ En MITAD del tiempo (3 días vs 6)</li>
+                        <li>✅ Con TRIPLE hourly rate ($33 vs $11)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 LA LECCIÓN</h2>
+
+                <div style="background:rgba(20,20,20,.8);padding:2rem;border-radius:.75rem">
+                    <p style="font-size:1.1rem;font-weight:700;margin-bottom:1rem">El load que "pagaba más" ($1,600 El
+                        Paso) fue MUCHO PEOR que el load que "pagaba menos" ($1,100 Atlanta)</p>
+
+                    <p style="margin-top:1.5rem"><strong>¿Por qué?</strong></p>
+                    <p style="font-size:1.25rem;text-align:center;margin-top:1rem;color:#00D9FF">ESTRATEGIA > Pago
+                        individual</p>
+
+                    <p style="margin-top:1.5rem">Roberto sacrificó $500 en pago inmediato pero ganó $250 más en
+                        resultado final y lo hizo en mitad del tiempo.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🧠 LAS PREGUNTAS CORRECTAS ANTES DE ACEPTAR</h2>
+
+                <div class="callout warning">
+                    <strong>No preguntes:</strong>
+                    <ul>
+                        <li>❌ "¿Cuánto paga?"</li>
+                        <li>❌ "¿Cuál es el RPM?"</li>
+                    </ul>
+                </div>
+
+                <div class="callout tip">
+                    <strong>Pregunta:</strong>
+                    <ul>
+                        <li>✅ "¿A dónde me lleva este load estratégicamente?"</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>📋 CHECKLIST ESTRATÉGICO</h2>
+                <p>Antes de aceptar CUALQUIER load, responde:</p>
+
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>ANÁLISIS DE DESTINO:</strong></p>
+                    <ul>
+                        <li>☐ ¿Esta zona tiene buen freight availability?</li>
+                        <li>☐ ¿Cuál es mi wait time histórico aquí?</li>
+                        <li>☐ ¿Los outbound loads pagan bien?</li>
+                        <li>☐ ¿O necesito reposicionar después?</li>
+                    </ul>
+
+                    <p style="margin-top:1rem"><strong>ANÁLISIS DE TIMING:</strong></p>
+                    <ul>
+                        <li>☐ ¿Delivery es en buen día/hora para reload?</li>
+                        <li>☐ ¿Voy a quedar varado en weekend?</li>
+                        <li>☐ ¿Es época buena o mala en esta zona?</li>
+                    </ul>
+
+                    <p style="margin-top:1rem"><strong>ANÁLISIS DE CICLO COMPLETO:</strong></p>
+                    <ul>
+                        <li>☐ Load actual + backhaul esperado > 2 loads cortos?</li>
+                        <li>☐ ¿Mi ganancia/día proyectada supera mi target?</li>
+                        <li>☐ ¿Estoy optimizando semana o solo un load?</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>🗺️ MATRIZ DE DECISIÓN</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Combinación</th>
+                            <th>Decisión</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background:rgba(100,200,100,.1)">
+                            <td>High Pay + Good Zone</td>
+                            <td><strong>ACEPTAR INMEDIATAMENTE ✅✅</strong></td>
+                        </tr>
+                        <tr style="background:rgba(255,215,0,.1)">
+                            <td>High Pay + Bad Zone</td>
+                            <td><strong>ANALIZAR CUIDADOSAMENTE ⚠️</strong></td>
+                        </tr>
+                        <tr style="background:rgba(0,217,255,.05)">
+                            <td>Low Pay + Good Zone</td>
+                            <td><strong>CONSIDERAR (positioning) 🤔</strong></td>
+                        </tr>
+                        <tr style="background:rgba(255,107,53,.1)">
+                            <td>Low Pay + Bad Zone</td>
+                            <td><strong>RECHAZAR SIEMPRE ❌❌</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p style="margin-top:1rem"><strong>Ejemplos:</strong></p>
+                <ul>
+                    <li>$1,500 a Atlanta = TOMAR (high pay + good zone)</li>
+                    <li>$1,500 a Laredo = ANALIZAR (high pay + bad zone)</li>
+                    <li>$800 a Chicago = CONSIDERAR (low pay + good zone)</li>
+                    <li>$800 a Montana = RECHAZAR (low pay + bad zone)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>💰 PIENSA EN SEMANAS, NO EN LOADS</h2>
+
+                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
+                    <p><strong>Operador Novato:</strong></p>
+                    <p style="font-style:italic">"Hoy gané $300 en este load, buen día."</p>
+                </div>
+
+                <div style="background:rgba(0,217,255,.1);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
+                    <p><strong>Operador Profesional:</strong></p>
+                    <p>"Esta semana gané $2,100 en 5 días = $420/día promedio. La semana pasada hice $1,800 en 6 días =
+                        $300/día. Mejoré 40% optimizando zonas."</p>
+                </div>
+
+                <div class="callout tip">
+                    <strong>Track en Smart Load Solution:</strong>
+                    <ul>
+                        <li>Ganancia diaria promedio</li>
+                        <li>Ganancia semanal</li>
+                        <li>Trends mes a mes</li>
+                        <li>Best/worst performing weeks</li>
+                    </ul>
+                    <p style="margin-top:1rem">Esto te dice si estás MEJORANDO o estancado.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 CONCLUSIÓN CLAVE</h2>
+
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center;margin:2rem 0">
+                    <p style="font-size:1.5rem;font-weight:900;margin-bottom:1rem">"Carga pagada" ≠ "Carga rentable"</p>
+
+                    <p style="margin-top:1.5rem">La rentabilidad real se mide en:</p>
+                    <ul style="text-align:left;margin-top:1rem">
+                        <li>• Dónde terminas (positioning)</li>
+                        <li>• Cuánto tiempo perdiste</li>
+                        <li>• Qué oportunidades creaste/sacrificaste</li>
+                        <li>• Tu ganancia SEMANAL, no individual</li>
+                    </ul>
+
+                    <p style="margin-top:2rem;font-size:1.25rem;font-weight:700;color:#00D9FF">Piensa como estratega, no
+                        como chofer</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎓 ¡FELICIDADES! MÓDULO 1 COMPLETADO</h2>
+
+                <div
+                    style="background:linear-gradient(135deg,rgba(100,200,100,.2),rgba(0,217,255,.2));padding:2rem;border-radius:.75rem;text-align:center;border:2px solid #64C864">
+                    <p style="font-size:1.5rem;font-weight:900;margin-bottom:1rem">✅ Has Completado el Módulo 1</p>
+
+                    <p><strong>LO QUE APRENDISTE:</strong></p>
+                    <ul style="text-align:left;margin-top:1rem">
+                        <li>✅ RPM real = TODAS las millas</li>
+                        <li>✅ Costos invisibles existen SIEMPRE</li>
+                        <li>✅ Break-even es tu línea de supervivencia</li>
+                        <li>✅ Ganancia por HORA > ganancia total</li>
+                        <li>✅ Estrategia de semana > loads individuales</li>
+                    </ul>
+
+                    <p style="margin-top:2rem;font-weight:700">Progreso del curso: 20% completado</p>
+
+                    <div
+                        style="background:rgba(0,0,0,.2);height:12px;border-radius:1rem;margin-top:1rem;overflow:hidden">
+                        <div style="background:linear-gradient(90deg,#00D9FF,#FF6B35);height:100%;width:20%"></div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+                completada</button>
+            <nav class="lesson-nav">
+                <a href="lesson-4.html" class="btn btn-secondary">← Lección anterior</a>
+                <a href="../../academy.html" class="btn btn-primary">Volver al Academy →</a>
+            </nav>
+        </footer>
+    </article>
+
+    <script src="../js/academy.js"></script>
+    <script>
+        const MODULE_NUM = 1, LESSON_NUM = 5; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true; alert('¡Módulo 1 completado! 🎉\n\nEstás listo para el Módulo 2.') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true } });
+    </script>
+</body>
+
+</html>

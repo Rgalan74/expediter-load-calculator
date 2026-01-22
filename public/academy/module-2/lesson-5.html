@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 5: Caso Real - Carlos | Smart Load Academy</title>
+    <link rel="icon" type="image/png" href="../../img/logo-app.png" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;808;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.7
+        }
+
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem
+        }
+
+        .breadcrumb {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: .875rem
+        }
+
+        .breadcrumb a {
+            color: #00D9FF;
+            text-decoration: none
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem
+        }
+
+        .lesson-content h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff
+        }
+
+        .lesson-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: .75rem
+        }
+
+        .lesson-content p {
+            margin-bottom: 1.5rem;
+            color: #d0d0d0
+        }
+
+        .lesson-content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem
+        }
+
+        .callout {
+            padding: 1.5rem;
+            border-radius: .75rem;
+            margin: 2rem 0;
+            border-left: 4px solid
+        }
+
+        .callout.tip {
+            background: rgba(0, 217, 255, .1);
+            border-color: #00D9FF
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: rgba(20, 20, 20, .8);
+            border-radius: .75rem;
+            overflow: hidden
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        th {
+            background: rgba(0, 217, 255, .1);
+            color: #00D9FF;
+            font-weight: 700
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: .75rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all .3s ease
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+            color: #fff
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .2)
+        }
+
+        .lesson-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem
+        }
+    </style>
+</head>
+
+<body>
+    <article class="lesson-container">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 2</a> → Lección 5
+        </nav>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Caso Real: La Transformación de Carlos</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 10 min lectura</span>
+                <span>🎓 Módulo 2 - Lección 5</span>
+                <span>⭐ Caso Real</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>👤 PERFIL: CARLOS EN DETROIT</h2>
+                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem">
+                    <ul style="list-style:none;padding:0">
+                        <li><strong>Nombre:</strong> Carlos M.</li>
+                        <li><strong>Base:</strong> Detroit, MI</li>
+                        <li><strong>Experiencia:</strong> 3 años como expediter</li>
+                        <li><strong>Van:</strong> Mercedes Sprinter 2020</li>
+                        <li><strong>Problema:</strong> "Trabajo mucho pero no ahorro nada"</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>📉 ANTES DE SMART LOAD SOLUTION</h2>
+
+                <h3>Semana Típica (Antes):</h3>
+                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>LUNES - Load Detroit → Miami:</strong></p>
+                    <ul>
+                        <li>Payment: $2,200</li>
+                        <li>Millas (broker): 1,200</li>
+                        <li>Cálculo mental: $2,200 ÷ 1,200 = $1.83/mi</li>
+                        <li>Decisión: "¡Excelente! Acepto"</li>
+                    </ul>
+                    <p style="margin-top:1rem"><strong>Realidad después:</strong></p>
+                    <ul>
+                        <li>Deadhead al pickup: 45 millas</li>
+                        <li>Loaded: 1,280 millas (routing real)</li>
+                        <li>Miami wait time: 36 horas</li>
+                        <li>Backhaul: $900 a $0.95/mi</li>
+                        <li style="color:#FF6B35;font-weight:700">Total días: 5 | Ganancia real: $850</li>
+                    </ul>
+                    <p style="margin-top:1rem;font-style:italic">"Pensé que ganaría $1,400, solo gané $850. ¿Dónde está
+                        el resto?"</p>
+                </div>
+
+                <h3>Su Proceso Manual:</h3>
+                <ul>
+                    <li>❌ No calculaba deadhead</li>
+                    <li>❌ No consideraba repositioning</li>
+                    <li>❌ No sabía su CPM real</li>
+                    <li>❌ No tracked decision patterns</li>
+                    <li>❌ Tomaba loads "porque sí"</li>
+                </ul>
+                <p
+                    style="background:rgba(255,107,53,.15);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
+                    Resultado: Working 60 hrs/week, llevándose $2,800/mes
+                </p>
+            </section>
+
+            <section>
+                <h2>💡 PUNTO DE CAMBIO</h2>
+                <p>Otro driver le mostró Smart Load Solution. Carlos decidió probar por 2 semanas.</p>
+            </section>
+
+            <section>
+                <h2>📱 SEMANA 1 CON LA APP</h2>
+
+                <h3>LUNES - Primer Load (Detroit → Nashville)</h3>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0">
+                    <div style="background:rgba(255,107,53,.1);padding:1rem;border-radius:.5rem">
+                        <p><strong>❌ CARLOS ANTES:</strong></p>
+                        <p>$900 ÷ 550 = $1.63/mi<br>"Acepto"</p>
+                    </div>
+                    <div style="background:rgba(100,200,100,.1);padding:1rem;border-radius:.5rem">
+                        <p><strong>✅ CARLOS CON APP:</strong></p>
+                        <p>RPM real: $1.59/mi<br>
+                            Profit: $296<br>
+                            Margin: 33%<br>
+                            Hourly: $29.60/hr<br>
+                            <strong>ACEPTA con confidence</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <h3>MARTES - Segundo Load (Nashville → Laredo)</h3>
+                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem;border:2px solid #FFD700">
+                    <p><strong>⚠️ APP ALERTA:</strong></p>
+                    <ul>
+                        <li>Payment ofrecido: $1,400</li>
+                        <li>Total millas (con repositioning): 1,240</li>
+                        <li>RPM real: $1.13/mi</li>
+                        <li style="color:#FF6B35;font-weight:700">Profit: solo $98 🚨</li>
+                        <li>Margin: 7%</li>
+                    </ul>
+                    <p style="margin-top:1rem"><strong>Carlos:</strong> "ESPERA... ¿solo $98 de ganancia? Pero el load
+                        paga $1,400!"</p>
+                    <p style="margin-top:1rem;font-style:italic">"Sin la app, hubiera aceptado esto y trabajado 20 horas
+                        por $98."</p>
+                </div>
+
+                <h3>DECISIÓN: Negocia</h3>
+                <div style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>Carlos llama al broker:</strong></p>
+                    <p style="font-style:italic">"El load requiere 280 millas de repositioning desde Laredo. Para que
+                        funcione necesitaría $1,750 en lugar de $1,400."</p>
+                    <p style="margin-top:1rem"><strong>Broker:</strong> "Best I can do is $1,550."</p>
+                    <p style="margin-top:1rem"><strong>Carlos recalcula:</strong><br>
+                        $1,550 ÷ 1,240 mi = $1.25/mi<br>
+                        Profit: $248 (16% margin)</p>
+                    <p style="margin-top:1rem;font-weight:700;color:#64C864">✅ Negoció $150 extra<br>
+                        ✅ Profit aumentó de $98 a $248 (+155%)<br>
+                        ✅ Primera negociación exitosa en 3 años</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>📊 RESULTADOS SEMANA 1</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>ANTES</th>
+                            <th>CON APP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Loads aceptados</td>
+                            <td>5</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>Millas totales</td>
+                            <td>3,200</td>
+                            <td>2,100</td>
+                        </tr>
+                        <tr>
+                            <td>Revenue</td>
+                            <td>$4,200</td>
+                            <td>$3,500</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.1)">
+                            <td><strong>Profit</strong></td>
+                            <td>$800</td>
+                            <td><strong>$1,250 ✅</strong></td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.1)">
+                            <td><strong>Hourly rate</strong></td>
+                            <td>$16</td>
+                            <td><strong>$31 ✅</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Loads declined</td>
+                            <td>0</td>
+                            <td>2</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:1.5rem;border-radius:.75rem;text-align:center;margin:2rem 0">
+                    <p style="font-size:1.25rem;font-weight:700">INSIGHT:</p>
+                    <p>Trabajó 35% MENOS horas | Ganó 56% MÁS dinero</p>
+                    <p style="margin-top:1rem">¿Cómo? Rechazó 2 loads no-rentables y negoció mejor en los que aceptó.
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>📈 SEMANA 4 - TRANSFORMACIÓN COMPLETA</h2>
+
+                <div
+                    style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem;border:2px solid #64C864">
+                    <p style="font-weight:700;text-align:center;margin-bottom:1rem">📊 MONTHLY SUMMARY (Mes 1)</p>
+                    <table style="margin:0">
+                        <tbody>
+                            <tr>
+                                <td>Loads calculated</td>
+                                <td>24</td>
+                            </tr>
+                            <tr>
+                                <td>Loads accepted</td>
+                                <td>15 (62.5%)</td>
+                            </tr>
+                            <tr>
+                                <td>Loads declined</td>
+                                <td>9 (37.5%)</td>
+                            </tr>
+                            <tr style="background:rgba(0,217,255,.05)">
+                                <td><strong>Total revenue</strong></td>
+                                <td><strong>$14,200</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Total costs</td>
+                                <td>$8,900</td>
+                            </tr>
+                            <tr style="background:rgba(100,200,100,.15)">
+                                <td><strong>Net profit</strong></td>
+                                <td><strong>$5,300 ✅</strong></td>
+                            </tr>
+                            <tr style="background:rgba(100,200,100,.15)">
+                                <td><strong>Avg margin</strong></td>
+                                <td><strong>37% ✅</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Avg RPM</td>
+                                <td>$1.58/mi</td>
+                            </tr>
+                            <tr style="background:rgba(100,200,100,.15)">
+                                <td><strong>Avg hourly</strong></td>
+                                <td><strong>$42/hr ✅</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Deadhead ratio</td>
+                                <td>9% ✅</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>Lo Que Cambió:</h3>
+                <div class="callout tip">
+                    <p><strong>CALCULATOR:</strong> "Ahora sé ANTES de aceptar si un load vale la pena. No más sorpresas
+                        desagradables."</p>
+                    <p><strong>NEGOTIATION:</strong> "La app me dice exactamente cuánto pedir. He negociado exitosamente
+                        en 8 de 15 loads."</p>
+                    <p><strong>DISCIPLINE:</strong> "Antes aceptaba todo por miedo. Ahora rechazo 40% de offers. Y gano
+                        MÁS con MENOS trabajo."</p>
+                    <p><strong>CONFIDENCE:</strong> "Puedo decir 'no' a un broker sin dudar. Los números están frente a
+                        mí."</p>
+                    <p style="margin:0"><strong>STRESS:</strong> "No más fin de mes preguntándome dónde fue mi dinero.
+                        Sé exactamente cuánto gané y por qué."</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💰 IMPACTO FINANCIERO (3 MESES)</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Métrica</th>
+                            <th>ANTES</th>
+                            <th>DESPUÉS</th>
+                            <th>Cambio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background:rgba(100,200,100,.05)">
+                            <td>Monthly profit</td>
+                            <td>$2,800</td>
+                            <td><strong>$5,100</strong></td>
+                            <td style="color:#64C864"><strong>+82%</strong></td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.05)">
+                            <td>Hourly rate</td>
+                            <td>$16</td>
+                            <td><strong>$41</strong></td>
+                            <td style="color:#64C864"><strong>+156%</strong></td>
+                        </tr>
+                        <tr style="background:rgba(0,217,255,.05)">
+                            <td>Work hours</td>
+                            <td>175/mo</td>
+                            <td><strong>125/mo</strong></td>
+                            <td style="color:#00D9FF"><strong>-29%</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Stress level</td>
+                            <td>😰😰😰</td>
+                            <td>😊✅</td>
+                            <td>🎯</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div
+                    style="background:linear-gradient(135deg,rgba(100,200,100,.2),rgba(0,217,255,.2));padding:2rem;border-radius:1rem;text-align:center;margin:2rem 0;border:2px solid #64C864">
+                    <p style="font-size:1.5rem;font-weight:900;margin-bottom:1rem">EXTRA ANUAL: $27,600 más</p>
+                    <p style="font-size:1.25rem">TIEMPO LIBRE: 600 horas/año recuperadas</p>
+                    <p style="margin-top:1.5rem;font-style:italic">"Smart Load Solution no me hizo trabajar más.<br>Me
+                        hizo trabajar INTELIGENTEMENTE."</p>
+                    <p style="margin:0;font-weight:700">- Carlos M.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 TU TURNO</h2>
+
+                <p style="font-size:1.1rem;font-weight:700">Si Carlos pudo transformar su negocio en 4 semanas, ¿qué
+                    podrías lograr TÚ?</p>
+
+                <div
+                    style="background:rgba(0,217,255,.05);padding:1.5rem;border-radius:.75rem;border:2px solid rgba(0,217,255,.3)">
+                    <p style="font-weight:700;margin-bottom:1rem">Challenge de 2 semanas:</p>
+                    <p><strong>SEMANA 1:</strong></p>
+                    <ul style="list-style:none;padding:0">
+                        <li>☐ Calcula TODOS los loads offered</li>
+                        <li>☐ No aceptes ninguno sin calculator</li>
+                        <li>☐ Track tus decisions</li>
+                    </ul>
+                    <p style="margin-top:1rem"><strong>SEMANA 2:</strong></p>
+                    <ul style="list-style:none;padding:0">
+                        <li>☐ Compara vs tus últimas 2 semanas</li>
+                        <li>☐ ¿Mejor profit?</li>
+                        <li>☐ ¿Mejor hourly rate?</li>
+                        <li>☐ ¿Menos stress?</li>
+                    </ul>
+                    <p style="margin-top:1rem;text-align:center;font-weight:700">Predigo: +30-50% profit mejora mínimo
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 CONCLUSIÓN DEL MÓDULO 2</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;">
+                    <p style="font-size:1.25rem;font-weight:700;text-align:center;margin-bottom:1.5rem">🎓 Has
+                        completado el Módulo 2</p>
+
+                    <p><strong>Lo que dominaste:</strong></p>
+                    <ul>
+                        <li>✅ Calculator básico y avanzado</li>
+                        <li>✅ Deadhead vs Loaded (pensar en ciclos)</li>
+                        <li>✅ Accept/Negotiate/Decline framework</li>
+                        <li>✅ Errores comunes y cómo evitarlos</li>
+                        <li>✅ Caso real de transformación</li>
+                    </ul>
+
+                    <p style="margin-top:1.5rem"><strong>Tus nuevos superpoderes:</strong></p>
+                    <ul>
+                        <li>✅ Calculas loads en <30 segundos</li>
+                        <li>✅ Precisión del 99%</li>
+                        <li>✅ Detectas loads no-rentables ANTES de aceptar</li>
+                        <li>✅ Negocias con confidence (data-backed)</li>
+                        <li>✅ Evitas errores de $200-500 por load</li>
+                    </ul>
+
+                    <div
+                        style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
+                        <p style="margin:0;font-weight:700">Progress: 40% del curso completo</p>
+                        <div
+                            style="background:rgba(255,255,255,.1);height:12px;border-radius:1rem;margin-top:.5rem;overflow:hidden">
+                            <div style="background:linear-gradient(90deg,#00D9FF,#FF6B35);height:100%;width:40%"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Completar Módulo
+                2</button>
+            <nav class="lesson-nav">
+                <a href="lesson-4.html" class="btn btn-secondary">← Lección anterior</a>
+                <a href="../../academy.html" class="btn btn-primary">Volver al Academy →</a>
+            </nav>
+        </footer>
+    </article>
+
+    <script src="../js/academy.js"></script>
+    <script>
+        const MODULE_NUM = 2, LESSON_NUM = 5; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Módulo 2 Completado'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true; alert('¡Módulo 2 completado! 🎉\n\nHas dominado el Calculator.\n\n¿Listo para el Módulo 3?') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Módulo 2 Completado'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true } });
+    </script>
+</body>
+
+</html>

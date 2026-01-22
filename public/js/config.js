@@ -25,11 +25,11 @@ function debugLog(message, data = null) {
 // ✅ Función para esperar autenticación
 function waitForAuth(callback, maxAttempts = 10) {
   let attempts = 0;
-  
+
   const checkAuth = () => {
     attempts++;
     debugLog(`Verificando auth - Intento ${attempts}/${maxAttempts}`);
-    
+
     if (authCheckComplete) {
       debugLog("✅ Auth check completado, ejecutando callback");
       callback();
@@ -41,14 +41,14 @@ function waitForAuth(callback, maxAttempts = 10) {
       callback();
     }
   };
-  
+
   checkAuth();
 }
 
 // ✅ Inicializar Firebase
 function initializeFirebaseAuth() {
   debugLog("🔥 Iniciando Firebase Auth...");
-  
+
   if (typeof firebase === 'undefined') {
     debugLog("⚠️ Firebase no disponible, reintentando...");
     setTimeout(initializeFirebaseAuth, 300);
@@ -61,20 +61,20 @@ function initializeFirebaseAuth() {
       firebase.initializeApp(firebaseConfig);
       debugLog("✅ Firebase inicializado");
     }
-    
+
     auth = firebase.auth();
     db = firebase.firestore();
 
     // ✅ Inicializar Analytics
     let analytics = null;
     try {
-    analytics = firebase.analytics();
-    window.analytics = analytics;
-    console.log('✅ Firebase Analytics inicializado');
+      analytics = firebase.analytics();
+      window.analytics = analytics;
+      console.log('✅ Firebase Analytics inicializado');
     } catch (error) {
-    console.warn('⚠️ Analytics no disponible:', error.message);
+      console.warn('⚠️ Analytics no disponible:', error.message);
     }
-    
+
     // ✅ CONFIGURAR PERSISTENCIA EXPLÍCITAMENTE
     auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       .then(() => {
@@ -85,7 +85,7 @@ function initializeFirebaseAuth() {
         debugLog("⚠️ Error configurando persistencia", error);
         setupAuthListener(); // Continuar anyway
       });
-    
+
   } catch (error) {
     debugLog("❌ Error inicializando Firebase", error);
   }
@@ -93,22 +93,22 @@ function initializeFirebaseAuth() {
 
 // ✅ Función de tracking universal
 function trackEvent(eventName, params = {}) {
-    const enrichedParams = {
-        ...params,
-        timestamp: new Date().toISOString(),
-        userId: window.currentUser?.uid || 'anonymous'
-    };
-    
-    if (analytics) {
-        try {
-            analytics.logEvent(eventName, enrichedParams);
-            console.log('📊 Analytics:', eventName, enrichedParams);
-        } catch (error) {
-            console.log('📊 Event (fallback):', eventName, enrichedParams);
-        }
-    } else {
-        console.log('📊 Event:', eventName, enrichedParams);
+  const enrichedParams = {
+    ...params,
+    timestamp: new Date().toISOString(),
+    userId: window.currentUser?.uid || 'anonymous'
+  };
+
+  if (analytics) {
+    try {
+      analytics.logEvent(eventName, enrichedParams);
+      console.log('📊 Analytics:', eventName, enrichedParams);
+    } catch (error) {
+      console.log('📊 Event (fallback):', eventName, enrichedParams);
     }
+  } else {
+    console.log('📊 Event:', eventName, enrichedParams);
+  }
 }
 
 window.trackEvent = trackEvent;
@@ -116,7 +116,7 @@ window.trackEvent = trackEvent;
 // ✅ Setup del listener de autenticación CON SISTEMA DE PLANES
 async function setupAuthListener() {
   debugLog("👂 Configurando auth listener...");
-  
+
   // ✅ TIMEOUT DE SEGURIDAD
   const authTimeout = setTimeout(() => {
     if (!authCheckComplete) {
@@ -126,36 +126,36 @@ async function setupAuthListener() {
       showLoginScreen();
     }
   }, 5000); // 5 segundos máximo
-  
+
   auth.onAuthStateChanged(async (user) => {
     clearTimeout(authTimeout); // Cancelar timeout
     authCheckComplete = true;
     authInitialized = true;
-    
+
     debugLog("🔄 Auth state changed", user ? `Usuario: ${user.email}` : "No usuario");
-    
+
     if (user) {
       debugLog("✅ Usuario autenticado encontrado", {
         email: user.email,
         uid: user.uid,
         emailVerified: user.emailVerified
       });
-      
+
       setCurrentUser(user);
-      
+
       // ✅ AGREGAR: Cargar plan del usuario
       try {
         debugLog("📋 Cargando plan del usuario...");
         window.userPlan = await getUserPlan(user.uid);
         debugLog("✅ Plan cargado:", window.userPlan.name);
-        
+
         // Inicializar si es usuario nuevo
         if (!window.userPlan.userId) {
           debugLog("🆕 Usuario nuevo, inicializando plan...");
           await initializeUserPlan(user.uid, user.email);
           window.userPlan = await getUserPlan(user.uid);
         }
-        
+
         // Track login event
         if (window.trackEvent) {
           trackEvent('user_login', {
@@ -163,7 +163,7 @@ async function setupAuthListener() {
             loads_this_month: window.userPlan.loadsThisMonth
           });
         }
-        
+
       } catch (error) {
         debugLog("❌ Error cargando plan:", error);
         // Default a plan gratuito en caso de error
@@ -173,20 +173,20 @@ async function setupAuthListener() {
           limits: { maxLoadsPerMonth: 50, hasFinances: false, hasZones: false }
         };
       }
-      
+
       showAppContent();
-      
+
       // Cargar datos después de mostrar app
       setTimeout(() => {
         loadInitialData();
       }, 1000);
-      
+
     } else {
       debugLog("❌ No hay usuario autenticado");
       setCurrentUser(null);
       window.userPlan = null; // ✅ Limpiar plan
       showLoginScreen();
-      
+
       // Solo redirigir después de un delay si no estamos en auth.html
       if (!window.location.pathname.includes('auth.html')) {
         setTimeout(() => {
@@ -205,48 +205,59 @@ function setCurrentUser(user) {
 }
 
 // ✅ Mostrar contenido de la app CON VERIFICACIONES
+// ✅ Mostrar contenido de la app CON VERIFICACIONES
 function showAppContent() {
   debugLog("🖥️ Mostrando contenido de la app...");
-  
+
   // Esperar a que los elementos estén disponibles
   const waitForElements = () => {
+    const loadingScreen = document.getElementById('loadingScreen');
     const loginScreen = document.getElementById('loginScreen');
     const appContent = document.getElementById('appContent');
-    
-    if (!loginScreen || !appContent) {
+
+    if (!appContent) {
       debugLog("⏳ Esperando elementos DOM...");
-      setTimeout(waitForElements, 100);
+      setTimeout(waitForElements, 50);
       return;
     }
-    
-    loginScreen.classList.add('hidden');
+
+    // Ocultar loaders/login
+    if (loadingScreen) loadingScreen.classList.add('hidden');
+    if (loginScreen) loginScreen.classList.add('hidden');
+
+    // Mostrar app
     appContent.classList.remove('hidden');
-    
+    appContent.classList.add('fade-in'); // Add animation class if available
+
     debugLog("✅ App content mostrado exitosamente");
   };
-  
+
   waitForElements();
 }
 
 // ✅ Mostrar pantalla de login
+// ✅ Mostrar pantalla de login
 function showLoginScreen() {
   debugLog("🔒 Mostrando pantalla de login...");
-  
+
   const waitForElements = () => {
+    const loadingScreen = document.getElementById('loadingScreen');
     const loginScreen = document.getElementById('loginScreen');
     const appContent = document.getElementById('appContent');
-    
-    if (!loginScreen || !appContent) {
-      setTimeout(waitForElements, 100);
+
+    if (!loginScreen) {
+      setTimeout(waitForElements, 50);
       return;
     }
-    
-    appContent.classList.add('hidden');
+
+    if (loadingScreen) loadingScreen.classList.add('hidden');
+    if (appContent) appContent.classList.add('hidden');
+
     loginScreen.classList.remove('hidden');
-    
+
     debugLog("✅ Login screen mostrado");
   };
-  
+
   waitForElements();
 }
 
@@ -261,17 +272,17 @@ function requireAuth() {
 // ✅ Función para cargar datos iniciales 
 function loadInitialData() {
   debugLog("📂 Cargando datos iniciales...");
-  
+
   if (!window.currentUser) {
     debugLog("❌ No hay usuario para cargar datos");
     return;
   }
-  
+
   // Esperar a que main.js esté listo
   if (typeof window.openTab === 'function') {
     debugLog("✅ main.js disponible, cargando tab data");
-    const currentTab = document.querySelector('.tab-link.text-blue-600')?.getAttribute('data-tab') 
-      || window.appState.currentTab 
+    const currentTab = document.querySelector('.tab-link.text-blue-600')?.getAttribute('data-tab')
+      || window.appState.currentTab
       || 'calculator';
     if (typeof window.loadTabData === 'function') {
       window.loadTabData(currentTab);
@@ -304,12 +315,10 @@ window.loadInitialData = loadInitialData;
 
 // ✅ Inicializar cuando DOM esté listo
 document.addEventListener("DOMContentLoaded", () => {
-  debugLog("📋 DOM cargado - Iniciando auth con delay");
-  
-  // Delay inicial para asegurar que todo esté cargado
-  setTimeout(() => {
-    initializeFirebaseAuth();
-  }, 1000);
+  debugLog("📋 DOM cargado - Iniciando auth Inmediatamente");
+
+  // Iniciar inmediatamente para mejor performance UX
+  initializeFirebaseAuth();
 });
 
 debugLog("✅ Config.js cargado (versión timing fix)");
