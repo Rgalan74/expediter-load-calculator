@@ -1,0 +1,15 @@
+<div class="flex flex-col sm:flex-row gap-2">
+    <button onclick="openExpenseModal()" class="bg-green-600 px-3 py-2 rounded hover:bg-green-700 text-sm"
+        style="color: white !important; -webkit-text-fill-color: white !important;">
+        ➕ Agregar Gasto
+    </button>
+    <button onclick="openCategoryModal()" class="bg-purple-600 px-3 py-2 rounded hover:bg-purple-700 text-sm"
+        style="color: white !important; -webkit-text-fill-color: white !important;">
+        ⚙️ Categorías
+    </button>
+</div>
+
+<!-- Lista de categorías personalizadas (oculta por defecto) -->
+<div id="customCategoriesList" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-4" style="display: none;">
+    <!-- Se poblará dinámicamente solo si hay categorías -->
+</div>

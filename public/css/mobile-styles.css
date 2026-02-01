@@ -87,6 +87,73 @@ textarea {
   padding: 12px 16px;
 }
 
+/* MOBILE: Mejor visibilidad de inputs */
+@media (max-width: 768px) {
+
+  /* DARK STYLE - Matching "Información de Ruta" */
+  input,
+  select,
+  textarea {
+    background-color: #1f2937 !important;
+    /* Fondo NEGRO oscuro (gray-800) */
+    color: #ffffff !important;
+    /* Texto BLANCO */
+    border: 1.5px solid #4b5563 !important;
+    /* Borde gris medio */
+    -webkit-text-fill-color: #ffffff !important;
+    /* Fix Safari */
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #6b7280 !important;
+    /* Placeholder gris sutil */
+    opacity: 0.6 !important;
+    /* Menos visible */
+  }
+
+  /* Efecto al hacer focus/click */
+  input:focus,
+  textarea:focus,
+  select:focus {
+    background-color: #374151 !important;
+    /* Fondo ligeramente más claro al hacer focus */
+    border-color: #60a5fa !important;
+    /* Borde azul brillante */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
+  }
+
+  /* Labels blancos en la calculadora - ULTRA ESPECÍFICO */
+  #calculator label,
+  #calculator .text-gray-700,
+  #calculator .text-gray-500,
+  #calculator label.text-gray-700,
+  #calculator label.block,
+  #calculator div label,
+  section#calculator label {
+    color: #ffffff !important;
+  }
+
+  /* Textos descriptivos pequeños - ULTRA ESPECÍFICO */
+  #calculator .text-xs,
+  #calculator p.text-xs,
+  #calculator .text-gray-500,
+  section#calculator .text-xs {
+    color: #d1d5db !important;
+  }
+
+  /* CRITICAL: Asegurar que el texto de los labels sea blanco en TODAS las card-sections */
+  .card-section label,
+  .card-section .text-gray-700,
+  div.card-section label.block,
+  #calculator .card-section label {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+}
+
+
+
 /* Checkboxes y radios más grandes */
 input[type="checkbox"],
 input[type="radio"] {
@@ -330,4 +397,113 @@ button,
   will-change: transform;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
+}
+
+/* ====================================
+   13. MOBILE OPTIMIZATIONS - Custom
+   ==================================== */
+
+@media (max-width: 768px) {
+
+  /* Tablas más compactas en mobile */
+  table th,
+  table td {
+    padding: 0.5rem !important;
+    font-size: 0.75rem;
+    /* 12px */
+  }
+
+  /* Headers de tabla con fondo sólido */
+  thead {
+    background-color: #f3f4f6 !important;
+  }
+
+  /* Reducir altura de scroll en pantallas muy pequeñas */
+  @media (max-height: 700px) {
+    .overflow-y-auto {
+      max-height: 300px !important;
+    }
+  }
+
+  /* KPIs más compactos en mobile */
+  .grid>div {
+    min-height: unset;
+  }
+
+  /* Botones más pequeños pero manteniendo touch target */
+  button:not(.tab-link) {
+    padding: 8px 16px !important;
+    font-size: 0.875rem;
+  }
+
+  /* Espaciado de secciones */
+  section {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  /* Prevenir overflow horizontal */
+  body {
+    overflow-x: hidden;
+  }
+
+  main {
+    overflow-x: hidden;
+  }
+}
+
+/* Optimizaciones para pantallas muy pequeñas */
+@media (max-width: 375px) {
+
+  /* Texto aún más pequeño en tablas */
+  table {
+    font-size: 0.625rem;
+    /* 10px */
+  }
+
+  table th,
+  table td {
+    padding: 0.375rem !important;
+  }
+
+  /* KPIs ultra-compactos */
+  .grid>div {
+    padding: 0.375rem !important;
+  }
+
+  .grid>div h4 {
+    font-size: 0.625rem !important;
+  }
+
+  .grid>div p {
+    font-size: 0.75rem !important;
+  }
+}
+
+/* ====================================
+   14. ROLE BADGE MOBILE OVERRIDE
+   ==================================== */
+
+/* Force mobile styles for role badge with !important to override JS */
+@media (max-width: 768px) {
+  #roleBadge {
+    padding-left: 0.5rem !important;
+    /* 8px */
+    padding-right: 0.5rem !important;
+    /* 8px */
+    padding-top: 0.125rem !important;
+    /* 2px */
+    padding-bottom: 0.125rem !important;
+    /* 2px */
+    letter-spacing: normal !important;
+  }
+
+  #roleBadgeIcon {
+    display: none !important;
+    margin-right: 0 !important;
+  }
+
+  #roleBadgeText {
+    letter-spacing: normal !important;
+  }
 }

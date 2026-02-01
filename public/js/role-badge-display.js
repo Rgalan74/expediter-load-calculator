@@ -57,7 +57,7 @@ async function showRoleBadge() {
         text.textContent = config.text;
 
         // Limpiar clases anteriores
-        badge.className = 'flex items-center px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all';
+        badge.className = 'flex items-center px-2 py-0.5 md:px-3 md:py-1.5 rounded-full text-xs font-bold border-2 transition-all';
 
         // Agregar nuevas clases
         badge.classList.add(config.bgColor, config.textColor, config.borderColor);

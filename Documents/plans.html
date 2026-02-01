@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planes y Precios | Smart Load Solution</title>
+
+  <meta name="description"
+    content="Elije el plan perfecto para maximizar tus ganancias como Owner-Operator. Desde cÃ¡lculos simples hasta anÃ¡lisis de inteligencia artificial.">
+
+  <link rel="icon" type="image/png" href="icon-192.png">
+
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-system.css">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .check-icon {
+      height: 1.25rem;
+      width: 1.25rem;
+      color: #10B981;
+      margin-right: 0.75rem;
+      flex-shrink: 0;
+    }
+  </style>
+
+  <!-- Firebase -->
+  <script defer src="/__/firebase/10.8.0/firebase-app-compat.js"></script>
+  <script defer src="/__/firebase/10.8.0/firebase-auth-compat.js"></script>
+  <script defer src="/__/firebase/10.8.0/firebase-firestore-compat.js"></script>
+  <script defer src="/__/firebase/10.8.0/firebase-functions-compat.js"></script>
+  <script defer src="/__/firebase/init.js"></script>
+
+  <!-- Stripe Logic -->
+  <script defer src="js/stripe-config.js?v=1.0.0"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-900">
+
+  <!-- Header -->
+  <header class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center">
+          <a href="/app.html" class="flex items-center">
+            <img class="h-8 w-auto" src="icon-192.png" alt="Expediter">
+            <span
+              class="ml-3 text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">Expediter</span>
+          </a>
+        </div>
+        <div>
+          <a href="/app.html" class="text-gray-500 hover:text-gray-900 font-medium">Volver a la App</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <div class="bg-indigo-900 text-white py-16 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+        Invierta en su Negocio
+      </h1>
+      <p class="mt-6 text-xl text-indigo-200 max-w-3xl mx-auto">
+        Una carga mala puede costar cientos de dÃ³lares. Expediter le ayuda a tomar decisiones rentables cada vez.
+      </p>
+    </div>
+  </div>
+
+  <!-- Pricing -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 mb-24 relative z-10">
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+
+      <!-- FREE -->
+      <div class="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col">
+        <div class="p-8 flex-1">
+          <h3 class="text-xl font-semibold text-gray-900">Starter</h3>
+          <p class="mt-4 text-gray-500 text-sm">Para probar la herramienta.</p>
+          <p class="mt-8">
+            <span class="text-4xl font-extrabold text-gray-900">$0</span>
+            <span class="text-base font-medium text-gray-500">/mes</span>
+          </p>
+          <ul class="mt-8 space-y-4">
+            <li class="flex items-start"><span class="check-icon">âœ“</span> 5 cÃ¡lculos al mes</li>
+            <li class="flex items-start"><span class="check-icon">âœ“</span> Calculadora bÃ¡sica RPM</li>
+          </ul>
+        </div>
+        <div class="bg-gray-50 p-6 border-t border-gray-100">
+          <a href="/app.html"
+            class="block w-full bg-gray-200 border border-transparent rounded-lg py-3 text-center font-semibold text-gray-700 hover:bg-gray-300 transition">
+            Usar Gratis
+          </a>
+        </div>
+      </div>
+
+      <!-- PRO -->
+      <div
+        class="bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col border-2 border-indigo-500 transform scale-105 lg:scale-110 z-20">
+        <div class="bg-indigo-500 p-2 text-center text-xs font-bold text-white uppercase tracking-wider">
+          MÃs Popular
+        </div>
+        <div class="p-8 flex-1">
+          <h3 class="text-xl font-semibold text-gray-900">Pro</h3>
+          <p class="mt-4 text-gray-500 text-sm">Para dueÃ±os de negocio serios.</p>
+          <p class="mt-8">
+            <span class="text-4xl font-extrabold text-gray-900">$9.99</span>
+            <span class="text-base font-medium text-gray-500">/mes</span>
+          </p>
+          <ul class="mt-8 space-y-4">
+            <li class="flex items-start"><svg class="h-5 w-5 text-indigo-500 mr-3 flex-shrink-0" fill="currentColor"
+                viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                  clip-rule="evenodd" />
+              </svg> <b>CÃ¡lculos ILIMITADOS</b></li>
+            <li class="flex items-start"><span class="check-icon">âœ“</span> Historial de 90 dÃ­as</li>
+            <li class="flex items-start"><span class="check-icon">âœ“</span> AnÃ¡lisis de Zonas</li>
+            <li class="flex items-start"><span class="check-icon">âœ“</span> Reportes Financieros en PDF</li>
+          </ul>
+        </div>
+        <div class="bg-gray-50 p-6 border-t border-gray-100">
+          <button onclick="window.StripeIntegration.createCheckoutSession('pro')"
+            class="block w-full bg-indigo-600 border border-transparent rounded-lg py-3 text-center font-semibold text-white hover:bg-indigo-700 transition shadow-lg hover:shadow-xl">
+            Empezar Prueba Gratis
+          </button>
+        </div>
+      </div>
+
+      <!-- PREMIUM -->
+      <div class="bg-gray-900 rounded-2xl shadow-xl overflow-hidden flex flex-col text-white">
+        <div class="p-8 flex-1">
+          <h3 class="text-xl font-semibold text-white">Premium + AI</h3>
+          <p class="mt-4 text-gray-400 text-sm">Poder mÃ¡ximo con Inteligencia Artificial.</p>
+          <p class="mt-8">
+            <span class="text-4xl font-extrabold text-white">$19.99</span>
+            <span class="text-base font-medium text-gray-400">/mes</span>
+          </p>
+          <ul class="mt-8 space-y-4">
+            <li class="flex items-start text-gray-300"><span class="h-5 w-5 text-green-400 mr-3 flex-shrink-0">âœ“</span>
+              Todo lo del plan Pro</li>
+            <li class="flex items-start text-indigo-300 font-semibold"><span
+                class="h-5 w-5 text-indigo-400 mr-3 flex-shrink-0">âœ¨</span> Lex AI Assistant</li>
+            <li class="flex items-start text-gray-300"><span class="h-5 w-5 text-green-400 mr-3 flex-shrink-0">âœ“</span>
+              Reportes de Impuestos</li>
+            <li class="flex items-start text-gray-300"><span class="h-5 w-5 text-green-400 mr-3 flex-shrink-0">âœ“</span>
+              Historial Ilimitado</li>
+            <li class="flex items-start text-gray-300"><span class="h-5 w-5 text-green-400 mr-3 flex-shrink-0">âœ“</span>
+              Soporte Prioritario</li>
+          </ul>
+        </div>
+        <div class="bg-gray-800 p-6 border-t border-gray-700">
+          <button onclick="window.StripeIntegration.createCheckoutSession('premium')"
+            class="block w-full bg-white border border-transparent rounded-lg py-3 text-center font-semibold text-gray-900 hover:bg-gray-100 transition">
+            Obtener Poder Total
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="max-w-4xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+    <h2 class="text-3xl font-extrabold text-gray-900 text-center mb-12">Preguntas Frecuentes</h2>
+    <div class="space-y-8">
+      <div>
+        <h3 class="text-lg font-medium text-gray-900">Â¿Puedo cancelar cuando quiera?</h3>
+        <p class="mt-2 text-gray-500">SÃ­, no hay contratos a largo plazo. Cancela en cualquier momento desde tu perfil y
+          tu acceso continuarÃ¡ hasta el final del periodo facturado.</p>
+      </div>
+      <div>
+        <h3 class="text-lg font-medium text-gray-900">Â¿Es seguro el pago?</h3>
+        <p class="mt-2 text-gray-500">Totalmente. Procesamos todos los pagos a travÃ©s de Stripe, lÃ­der mundial en pagos
+          online. Nosotros nunca almacenamos tus datos de tarjeta.</p>
+      </div>
+      <div>
+        <h3 class="text-lg font-medium text-gray-900">Â¿QuÃ© incluye el reporte de impuestos?</h3>
+        <p class="mt-2 text-gray-500">Un resumen detallado de todos tus gastos deducibles, millas recorridas y ganancias
+          netas formateado para facilitar tu declaraciÃ³n anual.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <!-- Footer -->
+  <footer class="bg-gray-50 border-t border-gray-200 mt-12">
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <div class="flex justify-center gap-6 mb-4 text-sm">
+          <a href="privacy.html" class="text-gray-600 hover:text-gray-900 transition">🔒 Privacy Policy</a>
+          <a href="terms.html" class="text-gray-600 hover:text-gray-900 transition">📋 Terms & Conditions</a>
+          <a href="contact.html" class="text-gray-600 hover:text-gray-900 transition">📧 Contact</a>
+        </div>
+        <p class="text-gray-500 text-sm">&copy; 2025 Smart Load Solution. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Auth Check
+    document.addEventListener('DOMContentLoaded', function () {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (!user) {
+          // Si no estÃ¡ logueado, redirigir a login al intentar comprar
+          window.StripeIntegration.createCheckoutSession = function () {
+            window.location.href = '/app.html'; // El app.html maneja el login
+          };
+        }
+      });
+    });
+
+    /**
+     * Toast notification utility (required by stripe-config.js)
+     */
+    function showToast(message, type = 'info') {
+      // Remover toasts existentes
+      const existing = document.querySelectorAll('.toast-notification');
+      existing.forEach(el => el.remove());
+
+      const toast = document.createElement('div');
+      toast.className = `toast-notification fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white font-medium transform transition-all duration-300 translate-y-10 opacity-0 z-50 flex items-center`;
+
+      // Colores segÃºn tipo
+      if (type === 'success') toast.classList.add('bg-green-600');
+      else if (type === 'error') toast.classList.add('bg-red-600');
+      else toast.classList.add('bg-gray-800');
+
+      toast.innerHTML = `
+        <span class="mr-2">${type === 'success' ? 'âœ…' : type === 'error' ? 'âŒ' : 'â„¹ï¸'}</span>
+        ${message}
+      `;
+
+      document.body.appendChild(toast);
+
+      // Animar entrada
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-10', 'opacity-0');
+      });
+
+      // Auto cerrar
+      setTimeout(() => {
+        toast.classList.add('translate-y-10', 'opacity-0');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+  </script>
+
+</body>
+
+</html>

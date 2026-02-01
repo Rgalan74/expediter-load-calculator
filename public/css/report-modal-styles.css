@@ -1,0 +1,64 @@
+/* =====================================================
+   ESTILOS ADICIONALES PARA MODAL DE REPORTES
+   ===================================================== */
+
+/* Asegurar que el modal de reportes tenga buen scroll */
+#reportModal {
+    overflow-y: auto !important;
+}
+
+#reportContent {
+    scroll-behavior: smooth;
+    position: relative;
+}
+
+/* Asegurar que el contenedor de reporte tenga suficiente padding inferior */
+.report-container {
+    padding-bottom: 40px !important;
+    margin-bottom: 40px !important;
+}
+
+/* Mejorar la visualización de tablas en reportes */
+.report-container table {
+    margin-bottom: 30px;
+}
+
+/* Estilo para asegurar que los botones del footer siempre sean visibles */
+#reportModal .flex-shrink-0.bg-white.border-t {
+    position: sticky;
+    bottom: 0;
+    z-index: 1000;
+    background: white !important;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Asegurar legibilidad en dispositivos móviles */
+@media (max-width: 768px) {
+    #reportContent {
+        padding: 15px !important;
+    }
+
+    .report-container {
+        max-width: 100% !important;
+        padding: 20px !important;
+    }
+}
+
+/* Mejorar visualización del scroll */
+#reportContent::-webkit-scrollbar {
+    width: 12px;
+}
+
+#reportContent::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+#reportContent::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+#reportContent::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

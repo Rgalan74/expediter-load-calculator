@@ -257,26 +257,90 @@ function updateCounts() {
   if (totalCountEl) totalCountEl.textContent = allData.length;
 }
 
-function updateSummaryStats() {
-  let totalMiles = 0;
-  let totalProfit = 0;
-  let totalRpm = 0;
-  let totalRevenue = 0; // ingresos totales
+async function updateSummaryStats() {
+  try {
+    console.log('📊 updateSummaryStats iniciado');
 
-  filteredData.forEach(load => {
-    totalMiles += Number(load.totalMiles || 0);
-    totalProfit += Number(load.netProfit || 0);
-    totalRpm += Number(load.rpm || 0);
-    totalRevenue += Number(load.totalCharge || 0); // sumar ingresos
-  });
+    let totalMiles = 0;
+    let totalRevenue = 0; // ingresos totales
 
-  const avgRpm = filteredData.length > 0 ? totalRpm / filteredData.length : 0;
+    filteredData.forEach(load => {
+      totalMiles += Number(load.totalMiles || 0);
+      totalRevenue += Number(load.totalCharge || 0); // sumar ingresos
+    });
 
-  updateElement('sumTotal', filteredData.length);
-  updateElement('sumMiles', totalMiles.toLocaleString());
-  updateElement('sumRevenue', formatCurrency(totalRevenue)); // mostrar ingresos
-  updateElement('sumProfit', formatCurrency(totalProfit));
-  updateElement('sumRpm', formatCurrency(avgRpm));
+    console.log('📊 Calculado revenue:', totalRevenue, 'miles:', totalMiles);
+
+    // Cargar gastos del mismo periodo que las cargas filtradas
+    let totalExpenses = 0;
+
+    if (window.currentUser && filteredData.length > 0) {
+      try {
+        console.log('📊 Cargando gastos...');
+
+        // Obtener rango de fechas de las cargas filtradas
+        const dates = filteredData.map(load => load.date).filter(d => d);
+        const minDate = dates.length > 0 ? dates.reduce((a, b) => a < b ? a : b) : null;
+        const maxDate = dates.length > 0 ? dates.reduce((a, b) => a > b ? a : b) : null;
+
+        console.log('📊 Rango de fechas:', minDate, 'a', maxDate);
+
+        if (minDate && maxDate) {
+          // Verificar que Firebase esté disponible
+          if (typeof firebase === 'undefined' || !firebase.firestore) {
+            console.warn('⚠️ Firebase no disponible, usando totalExpenses = 0');
+          } else {
+            // Cargar todos los gastos del usuario
+            const expensesSnapshot = await firebase.firestore()
+              .collection("expenses")
+              .where("userId", "==", window.currentUser.uid)
+              .get();
+
+            console.log('📊 Gastos encontrados:', expensesSnapshot.docs.length);
+
+
+            // Sumar TODOS los gastos (sin filtro de fechas - Opción A)
+            expensesSnapshot.docs.forEach(doc => {
+              const expense = doc.data();
+              totalExpenses += Number(expense.amount || 0);
+            });
+
+
+            console.log('📊 Total gastos (TODOS):', totalExpenses);
+          }
+        }
+      } catch (error) {
+        console.error("❌ Error cargando gastos para History:", error);
+        // Si hay error, totalExpenses queda en 0
+      }
+    } else {
+      console.log('📊 Sin usuario, totalExpenses = 0');
+    }
+
+    // Ganancia neta REAL (igual que Finances): Ingresos - Gastos
+    const totalProfit = totalRevenue - totalExpenses;
+
+    // RPM ponderado por millas (igual que Finances) - más preciso
+    const avgRpm = totalMiles > 0 ? totalRevenue / totalMiles : 0;
+
+    console.log('📊 KPIs finales:', { totalProfit, avgRpm, totalExpenses });
+
+    updateElement('sumTotal', filteredData.length);
+    updateElement('sumMiles', totalMiles.toLocaleString());
+    updateElement('sumRevenue', formatCurrency(totalRevenue)); // mostrar ingresos
+    updateElement('sumProfit', formatCurrency(totalProfit));  // Ganancia neta real
+    updateElement('sumRpm', formatCurrency(avgRpm));
+
+    console.log('✅ updateSummaryStats completado');
+  } catch (error) {
+    console.error('❌ ERROR CRÍTICO en updateSummaryStats:', error);
+    // Fallback: mostrar al menos los valores básicos
+    updateElement('sumTotal', filteredData?.length || 0);
+    updateElement('sumMiles', '0');
+    updateElement('sumRevenue', '$0.00');
+    updateElement('sumProfit', '$0.00');
+    updateElement('sumRpm', '$0.00');
+  }
 }
 
 

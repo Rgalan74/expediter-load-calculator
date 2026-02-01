@@ -1,0 +1,21 @@
+{
+  "name": "expediter-app",
+  "version": "1.0.0",
+  "description": "Aplicación web diseñada para transportistas **cargo van expediters**, que permite calcular costos, ingresos y ganancias por carga de manera rápida y precisa.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rgalan74/expediter-load-calculator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Rgalan74/expediter-load-calculator/issues"
+  },
+  "homepage": "https://github.com/Rgalan74/expediter-load-calculator#readme"
+}

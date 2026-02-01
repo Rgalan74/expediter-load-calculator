@@ -1,12 +1,28 @@
 /**
  * sw-register.js
- * Registro y manejo del Service Worker
+ * Registro del Service Worker TEMPORALMENTE DESACTIVADO
+ * Para resolver problemas de caché persistente
  */
 
 // ========================================
-// REGISTRO DEL SERVICE WORKER
+// SERVICE WORKER DESACTIVADO TEMPORALMENTE
 // ========================================
 
+console.log('⚠️ Service Worker registration DISABLED for debugging');
+console.log('   Los cambios se verán INMEDIATAMENTE sin caché');
+
+// Desregistrar cualquier Service Worker existente
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function (registrations) {
+        for (let registration of registrations) {
+            registration.unregister();
+            console.log('🗑️ Service Worker removed');
+        }
+    });
+}
+
+// CÓDIGO ORIGINAL COMENTADO - Reactivar después
+/*
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         registerServiceWorker();
@@ -43,77 +59,16 @@ async function registerServiceWorker() {
     }
 }
 
-// ========================================
-// NOTIFICACIÓN DE ACTUALIZACIÓN
-// ========================================
-
 function showUpdateNotification() {
-    // Mostrar notificación al usuario
     const message = '🎉 Nueva versión disponible! Actualizar ahora?';
 
     if (confirm(message)) {
-        // Activar nueva versión
         if (navigator.serviceWorker.controller) {
             navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
         }
-
-        // Recargar página
         window.location.reload();
     }
 }
+*/
 
-// ========================================
-// UTILIDADES
-// ========================================
-
-/**
- * Forzar actualización del Service Worker
- */
-window.updateServiceWorker = async function () {
-    const registration = await navigator.serviceWorker.getRegistration();
-
-    if (registration) {
-        await registration.update();
-        console.log('🔄 Service Worker update triggered');
-    }
-};
-
-/**
- * Limpiar cache manualmente
- */
-window.clearServiceWorkerCache = async function () {
-    const registration = await navigator.serviceWorker.getRegistration();
-
-    if (registration && registration.active) {
-        registration.active.postMessage({ type: 'CLEAR_CACHE' });
-        console.log('🗑️ Cache cleared');
-
-        // Reload después de limpiar
-        setTimeout(() => window.location.reload(), 500);
-    }
-};
-
-/**
- * Desregistrar Service Worker (para debugging)
- */
-window.unregisterServiceWorker = async function () {
-    const registration = await navigator.serviceWorker.getRegistration();
-
-    if (registration) {
-        await registration.unregister();
-        console.log('❌ Service Worker unregistered');
-        window.location.reload();
-    }
-};
-
-// ========================================
-// STATUS EN CONSOLA
-// ========================================
-
-navigator.serviceWorker.ready.then((registration) => {
-    console.log('📦 Service Worker status: READY');
-    console.log('   Scope:', registration.scope);
-    console.log('   Active:', registration.active ? 'YES' : 'NO');
-});
-
-console.log('📦 Service Worker registration script loaded');
+console.log('📦 Service Worker registration script loaded (DISABLED MODE)');

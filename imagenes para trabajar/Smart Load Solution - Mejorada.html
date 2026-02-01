@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, initial-scale=1.0">
+    <title>Smart Load Solution</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <style>
+        /* Font Imports */
+        @font-face {
+            font-family: 'MiSans';
+            src: url('https://assets-persist.lovart.ai/agent-static-assets/MiSans-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'MiSans';
+            src: url('https://assets-persist.lovart.ai/agent-static-assets/MiSans-Medium.ttf') format('truetype');
+            font-weight: 500;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'MiSans';
+            src: url('https://assets-persist.lovart.ai/agent-static-assets/MiSans-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 1920px;
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'MiSans', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Variables */
+        :root {
+            --primary-orange: #FF6B35;
+            --primary-cyan: #00D9FF;
+            --dark-bg: #0A0A0A;
+            --card-bg: #141414;
+            --text-gray: #B0B0B0;
+            --gradient-main: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+            --gradient-text: linear-gradient(90deg, #00D9FF, #FF6B35);
+        }
+
+        /* Utilities */
+        .container {
+            width: 1600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .text-gradient {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--primary-orange);
+            color: white;
+            box-shadow: 0 10px 20px rgba(255, 107, 53, 0.3);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary-cyan);
+            color: var(--primary-cyan);
+            background: rgba(0, 217, 255, 0.05);
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 1920px;
+            height: 100px;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 50px;
+            width: 50px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-cyan);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 900px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            margin-top: 100px;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.4);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(5,5,5,0) 0%, rgba(5,5,5,1) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+        }
+
+        .hero h1 {
+            font-size: 96px;
+            line-height: 1.1;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+
+        .hero p {
+            font-size: 32px;
+            color: var(--text-gray);
+            margin-bottom: 50px;
+            font-weight: 400;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background-color: var(--dark-bg);
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header h2 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 40px 30px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 217, 255, 0.3);
+            background: linear-gradient(145deg, #1a1a1a 0%, #111 100%);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 217, 255, 0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            color: var(--primary-cyan);
+            font-size: 32px;
+        }
+
+        .feature-card:nth-child(even) .feature-icon {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--primary-orange);
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-gray);
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .feature-list li i {
+            color: var(--primary-cyan);
+            font-size: 18px;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 100px 0;
+            background: linear-gradient(180deg, var(--dark-bg) 0%, #0d0d0d 100%);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .price-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 32px;
+            padding: 60px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price-card.pro {
+            border: 2px solid var(--primary-orange);
+            box-shadow: 0 0 50px rgba(255, 107, 53, 0.1);
+        }
+
+        .badge {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-orange);
+            padding: 8px 24px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .price-header h3 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 64px;
+            font-weight: 800;
+            margin: 30px 0;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        .price span {
+            font-size: 20px;
+            color: var(--text-gray);
+            font-weight: 400;
+        }
+
+        .price-features {
+            margin-bottom: 40px;
+            flex-grow: 1;
+        }
+
+        .price-features li {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #ddd;
+        }
+
+        .price-features li i {
+            color: var(--primary-cyan);
+            font-size: 24px;
+        }
+
+        .price-card.pro .price-features li i {
+            color: var(--primary-orange);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 120px 0;
+            background-image: radial-gradient(circle at 50% 50%, rgba(0, 217, 255, 0.05) 0%, transparent 70%);
+        }
+
+        .testi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .testi-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 40px;
+            border-radius: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stars {
+            color: #FFB800;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .quote {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #ddd;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-main);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+            color: white;
+        }
+
+        .user-info h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .user-info p {
+            font-size: 14px;
+            color: var(--text-gray);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .cta-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #141414 0%, #0a0a0a 100%);
+            border-radius: 40px;
+            padding: 80px;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .cta-content {
+            max-width: 600px;
+            z-index: 2;
+        }
+
+        .cta-content h2 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .cta-highlights {
+            margin: 40px 0;
+        }
+
+        .cta-highlight-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .cta-highlight-item i {
+            color: #00D9FF;
+            background: rgba(0, 217, 255, 0.1);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .cta-image {
+            position: absolute;
+            right: 100px;
+            top: -50px;
+            width: 500px;
+            height: 600px;
+            z-index: 1;
+            transform: rotate(-5deg);
+        }
+
+        .cta-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
+        }
+
+        /* Footer */
+        footer {
+            background: #050505;
+            padding: 80px 0 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand p {
+            color: var(--text-gray);
+            margin-top: 20px;
+            max-width: 300px;
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 80px;
+        }
+
+        .footer-col h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: white;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 16px;
+        }
+
+        .footer-col ul li a {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--primary-cyan);
+        }
+
+        .copyright {
+            text-align: center;
+            color: #666;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 14px;
+        }
+
+        /* Decorative Elements */
+        .glow-orb {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            z-index: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <img src="https://a.lovart.ai/artifacts/agent/WC2liajaf1Skjyix.png" alt="Smart Load Solution Logo">
+                Smart Load Solution
+            </a>
+            <nav class="nav-links">
+                <a href="#inicio">Inicio</a>
+                <a href="#funciones">Funciones</a>
+                <a href="#precios">Precios</a>
+                <a href="#testimonios">Testimonios</a>
+            </nav>
+            <a href="#" class="btn btn-primary" style="padding: 10px 24px; font-size: 16px;">Acceso Clientes</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="hero-bg">
+            <img src="https://a.lovart.ai/artifacts/agent/0x4ewQm8R4arS5SE.png" alt="Modern Delivery Van">
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1>AUMENTA TU <span class="text-gradient">PROFIT</span></h1>
+            <p>Con Decisiones Basadas en Datos e Inteligencia Artificial</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-primary">Prueba 50 Cargas GRATIS</a>
+                <a href="#precios" class="btn btn-outline">Ver Planes y Precios</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="funciones">
+        <div class="glow-orb" style="background: var(--primary-cyan); top: -100px; left: -200px;"></div>
+        <div class="container">
+            <div class="section-header">
+                <h2>Todo lo que Necesitas en un <span class="text-gradient">Solo Lugar</span></h2>
+                <p style="color: var(--text-gray); font-size: 20px;">Optimiza tu logística con herramientas de última generación</p>
+            </div>
+
+            <div class="features-grid">
+                <!-- Card 1 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ri-calculator-line"></i>
+                    </div>
+                    <h3>RPM Calculator</h3>
+                    <ul class="feature-list">
+                        <li><i class="ri-check-line"></i> Cálculo en tiempo real</li>
+                        <li><i class="ri-check-line"></i> Análisis de costos</li>
+                        <li><i class="ri-check-line"></i> Precisión del 99%</li>
+                    </ul>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ri-brain-line"></i>
+                    </div>
+                    <h3>AI Smart Assistant</h3>
+                    <ul class="feature-list">
+                        <li><i class="ri-check-line"></i> Predicción de rutas</li>
+                        <li><i class="ri-check-line"></i> Sugerencias automáticas</li>
+                        <li><i class="ri-check-line"></i> Aprendizaje continuo</li>
+                    </ul>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ri-map-2-line"></i>
+                    </div>
+                    <h3>Mapa de Zonas</h3>
+                    <ul class="feature-list">
+                        <li><i class="ri-check-line"></i> Heatmaps de rentabilidad</li>
+                        <li><i class="ri-check-line"></i> Filtros personalizados</li>
+                        <li><i class="ri-check-line"></i> Actualización 24/7</li>
+                    </ul>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="ri-dashboard-line"></i>
+                    </div>
+                    <h3>Dashboard Financiero</h3>
+                    <ul class="feature-list">
+                        <li><i class="ri-check-line"></i> Reportes mensuales</li>
+                        <li><i class="ri-check-line"></i> Control de gastos</li>
+                        <li><i class="ri-check-line"></i> Exportación a PDF/Excel</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="precios">
+        <div class="container">
+            <div class="section-header">
+                <h2>Planes que se <span class="text-gradient">Pagan Solos</span></h2>
+                <p style="color: var(--text-gray); font-size: 20px;">Elige la opción que mejor se adapte a tu flota</p>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Free Plan -->
+                <div class="price-card">
+                    <div class="price-header">
+                        <h3>Plan Básico</h3>
+                        <p style="color: var(--text-gray);">Para comenzar a optimizar</p>
+                    </div>
+                    <div class="price">
+                        $0 <span>/ mes</span>
+                    </div>
+                    <ul class="price-features">
+                        <li><i class="ri-checkbox-circle-fill"></i> 50 cargas mensuales</li>
+                        <li><i class="ri-checkbox-circle-fill"></i> Calculadora básica</li>
+                        <li><i class="ri-checkbox-circle-fill"></i> Acceso web</li>
+                        <li><i class="ri-checkbox-circle-fill"></i> Soporte por email</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline" style="width: 100%; border-color: rgba(255,255,255,0.2);">Comenzar Gratis</a>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="price-card pro">
+                    <div class="badge">Más Popular</div>
+                    <div class="price-header">
+                        <h3 class="text-gradient">Plan Profesional</h3>
+                        <p style="color: var(--text-gray);">Máxima potencia y control</p>
+                    </div>
+                    <div class="price">
+                        $49 <span>/ mes</span>
+                    </div>
+                    <ul class="price-features">
+                        <li><i class="ri-checkbox-circle-fill"></i> Cargas ilimitadas</li>
+                        <li><i class="ri-checkbox-circle-fill"></i> AI Assistant completo</li>
+                        <li><i class="ri-checkbox-circle-fill"></i> Mapas de calor en vivo</li>
+                        <li><i class="ri-checkbox-circle-fill"></i> Dashboard financiero pro</li>
+                        <li><i class="ri-checkbox-circle-fill"></i> Soporte prioritario 24/7</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary" style="width: 100%;">Obtener Pro</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonios">
+        <div class="container">
+            <div class="section-header">
+                <h2>Lo Que Dicen Nuestros <span class="text-gradient">Usuarios</span></h2>
+            </div>
+            
+            <div class="testi-grid">
+                <!-- Testimonial 1 -->
+                <div class="testi-card">
+                    <div class="stars">
+                        <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>
+                    </div>
+                    <p class="quote">"Desde que uso Smart Load, mi profit mensual ha subido un 30%. La herramienta de cálculo de RPM es simplemente indispensable."</p>
+                    <div class="user">
+                        <div class="avatar">JR</div>
+                        <div class="user-info">
+                            <h4>Juan Rodríguez</h4>
+                            <p>Owner Operator</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="testi-card">
+                    <div class="stars">
+                        <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>
+                    </div>
+                    <p class="quote">"La mejor inversión para mi pequeña flota. El mapa de zonas rentables nos ayuda a no perder tiempo en áreas muertas."</p>
+                    <div class="user">
+                        <div class="avatar">CM</div>
+                        <div class="user-info">
+                            <h4>Carlos Martínez</h4>
+                            <p>Fleet Manager</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="testi-card">
+                    <div class="stars">
+                        <i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i><i class="ri-star-fill"></i>
+                    </div>
+                    <p class="quote">"Intuitiva, rápida y precisa. El soporte técnico es excelente y siempre están agregando nuevas funciones útiles."</p>
+                    <div class="user">
+                        <div class="avatar">AL</div>
+                        <div class="user-info">
+                            <h4>Ana López</h4>
+                            <p>Dispatcher</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-container">
+                <div class="cta-content">
+                    <h2>¿Listo para Aumentar tu <span class="text-gradient">Profit?</span></h2>
+                    <div class="cta-highlights">
+                        <div class="cta-highlight-item">
+                            <i class="ri-check-line"></i>
+                            <span>Configuración en menos de 5 minutos</span>
+                        </div>
+                        <div class="cta-highlight-item">
+                            <i class="ri-check-line"></i>
+                            <span>Sin tarjeta de crédito requerida</span>
+                        </div>
+                        <div class="cta-highlight-item">
+                            <i class="ri-check-line"></i>
+                            <span>Acceso inmediato a todas las funciones</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-primary" style="padding: 20px 40px; font-size: 22px;">Empezar Ahora</a>
+                </div>
+                <div class="cta-image">
+                    <img src="https://a.lovart.ai/artifacts/agent/NYehvjXtkngKBd8K.png" alt="Smart Load Solution Mobile App">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <img src="https://a.lovart.ai/artifacts/agent/WC2liajaf1Skjyix.png" alt="Logo Small">
+                        Smart Load
+                    </a>
+                    <p>La plataforma líder en optimización logística y rentabilidad para transportistas modernos.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Plataforma</h4>
+                        <ul>
+                            <li><a href="#">Características</a></li>
+                            <li><a href="#">Precios</a></li>
+                            <li><a href="#">App Móvil</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Compañía</h4>
+                        <ul>
+                            <li><a href="#">Sobre Nosotros</a></li>
+                            <li><a href="#">Carreras</a></li>
+                            <li><a href="#">Blog</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Soporte</h4>
+                        <ul>
+                            <li><a href="#">Centro de Ayuda</a></li>
+                            <li><a href="#">Contacto</a></li>
+                            <li><a href="#">Estado del Sistema</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Smart Load Solution. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
