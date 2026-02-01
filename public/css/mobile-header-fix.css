@@ -1,0 +1,84 @@
+/* ============================================
+   MOBILE STYLES ADDITIONS - Header Fix
+   ============================================ */
+
+/* Header mobile optimizado */
+
+@media (max-width: 768px) {
+
+    /* CRÍTICO: Reducir padding vertical del contenedor principal del header */
+    header>div {
+        padding-top: 0.25rem !important;
+        /* 4px en lugar de 8px */
+        padding-bottom: 0.25rem !important;
+        /* 4px en lugar de 8px */
+    }
+
+    /* Logo y título - SIN padding extra */
+    header>div>div:first-child {
+        position: relative !important;
+        padding-bottom: 0 !important;
+    }
+
+    /* BADGE - OCULTO EN MOBILE (simplifica todo) */
+    #roleBadge {
+        display: none !important;
+        /* No mostrar en mobile */
+    }
+
+    /* Header principal - overflow control */
+    header {
+        overflow-x: hidden !important;
+    }
+
+    /* Contenedor de botones del header - alineación perfecta */
+    header>div>div:last-child {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+        /* 8px entre elementos */
+        justify-content: flex-end !important;
+    }
+
+    /* Botón hamburguesa - alineado verticalmente con height fija */
+    #menuToggle {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0.25rem !important;
+        height: 32px !important;
+        /* Altura fija para alineación */
+        width: 32px !important;
+    }
+
+    /* Botón de planes - ocultar completamente en mobile */
+    #upgradePlanBtn {
+        display: none !important;
+    }
+
+    /* Botón logout del header - OCULTO EN MOBILE */
+    #logoutBtn {
+        display: none !important;
+        /* Ahora está en el menú mobile */
+    }
+
+    /* SVG del logout - color visible */
+    #logoutBtn svg path,
+    #logoutBtn svg polyline,
+    #logoutBtn svg line {
+        stroke: #ef4444 !important;
+        /* Rojo para móvil */
+    }
+}
+
+/* Desktop - mantener badge en su posición original */
+@media (min-width: 769px) {
+    #roleBadge {
+        position: static !important;
+        display: flex !important;
+    }
+
+    #upgradePlanBtn {
+        display: flex !important;
+    }
+}

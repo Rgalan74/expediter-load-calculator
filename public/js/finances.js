@@ -829,14 +829,15 @@ function generatePLReport() {
   });
 
   const categoryLabels = {
-    fuel: "Combustible",
-    maintenance: " Mantenimiento",
-    food: " Comida",
-    lodging: " Hospedaje",
-    tolls: "Toll Peajes",
-    insurance: "Seguro",
-    permits: " Permisos",
-    other: " Otros"
+    fuel: "🚚 Combustible",
+    maintenance: "🔧 Mantenimiento",
+    food: "🍔 Comida",
+    lodging: "🏨 Hospedaje",
+    tolls: "🛣️ Peajes",
+    insurance: "🛡️ Seguro",
+    permits: "📄 Permisos",
+    carpayment: "🚗 Pago de Auto",
+    other: "📌 Otros"
   };
 
   // Anlisis de distribucin de cargas
@@ -4161,3 +4162,294 @@ function renderTrendAnalysisSection(trend) {
 window.generateComprehensiveReport = generateComprehensiveReport;
 
 
+// =====================================================
+// CUSTOM CATEGORIES MANAGEMENT FUNCTIONS
+// =====================================================
+
+/**
+ * Abrir modal de nueva categoría
+ */
+async function openCategoryModal() {
+  console.log('🟢 Abriendo modal de categorías...');
+  const modal = document.getElementById('categoryModal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    document.getElementById('categoryName').value = '';
+    document.getElementById('selectedIcon').value = '📌';
+    document.getElementById('categoryColor').value = '#6b7280';
+
+    // Resetear selección de ícono
+    document.querySelectorAll('.icon-option').forEach(btn => {
+      btn.classList.remove('bg-purple-200', 'border-purple-500');
+    });
+
+    // Cargar lista de categorías personalizadas
+    console.log('🟡 Llamando a loadCustomCategoriesList...');
+    await loadCustomCategoriesList();
+    console.log('🟢 Lista de categorías cargada');
+  }
+}
+
+/**
+ * Cerrar modal de categorías
+ */
+function closeCategoryModal() {
+  const modal = document.getElementById('categoryModal');
+  if (modal) modal.classList.add('hidden');
+}
+
+/**
+ * Seleccionar ícono para la categoría
+ * @param {string} icon - Emoji seleccionado
+ */
+function selectIcon(icon) {
+  document.getElementById('selectedIcon').value = icon;
+
+  // Visual feedback
+  document.querySelectorAll('.icon-option').forEach(btn => {
+    btn.classList.remove('bg-purple-200', 'border-purple-500');
+  });
+  event.target.classList.add('bg-purple-200', 'border-purple-500');
+}
+
+/**
+ * Guardar nueva categoría personalizada
+ */
+async function saveCustomCategory() {
+  const name = document.getElementById('categoryName').value.trim();
+  const icon = document.getElementById('selectedIcon').value;
+  const color = document.getElementById('categoryColor').value;
+
+  if (!name) {
+    showFinancesMessage('El nombre de la categoría es requerido', 'error');
+    return;
+  }
+
+  try {
+    const newCategory = await window.CustomCategories.createCustomCategory(name, icon, color);
+    showFinancesMessage(`✅ Categoría "${name}" creada exitosamente`, 'success');
+
+    if (window.showToast) {
+      showToast(`✅ Categoría "${name}" creada`, 'success');
+    }
+
+    // NO cerrar el modal, solo limpiar el formulario
+    document.getElementById('categoryName').value = '';
+    document.getElementById('selectedIcon').value = '📌';
+    document.getElementById('categoryColor').value = '#6b7280';
+
+    // Resetear selección de ícono
+    document.querySelectorAll('.icon-option').forEach(btn => {
+      btn.classList.remove('bg-purple-200', 'border-purple-500');
+    });
+
+    // Actualizar select y lista inmediatamente
+    await window.CustomCategories.populateExpenseCategoriesSelect();
+    await loadCustomCategoriesList();
+  } catch (error) {
+    console.error('❌ Error creating category:', error);
+    showFinancesMessage('Error al crear la categoría', 'error');
+
+    if (window.showToast) {
+      showToast('❌ Error al crear categoría', 'error');
+    }
+  }
+}
+
+/**
+ * Cargar y mostrar lista de categorías personalizadas
+ */
+async function loadCustomCategoriesList() {
+  const container = document.getElementById('customCategoriesList');
+  if (!container) return;
+
+  try {
+    const categories = await window.CustomCategories.getAllCategories();
+    const customCats = categories.filter(c => !c.isSystem);
+
+    if (customCats.length === 0) {
+      // Ocultar el contenedor si no hay categorías personalizadas
+      container.style.display = 'none';
+      container.innerHTML = '';
+      return;
+    }
+
+    // Mostrar el contenedor si hay categorías
+    container.style.display = 'grid';
+    container.innerHTML = customCats.map(cat => `
+      \u003cdiv class="border rounded-lg p-3 flex items-center justify-between" style="border-color: ${cat.color}"\u003e
+        \u003cdiv class="flex items-center gap-2"\u003e
+          \u003cspan class="text-2xl"\u003e${cat.icon}\u003c/span\u003e
+          \u003cspan class="text-sm font-medium" style="color: ${cat.color}"\u003e${cat.name}\u003c/span\u003e
+        \u003c/div\u003e
+        \u003cbutton onclick="deleteCategory('${cat.id}')" 
+                class="text-red-500 hover:text-red-700 text-sm"
+                title="Eliminar categoría"\u003e
+          ✕
+        \u003c/button\u003e
+      \u003c/div\u003e
+    `).join('');
+  } catch (error) {
+    console.error('❌ Error loading categories list:', error);
+    container.style.display = 'none';
+    container.innerHTML = '';
+  }
+}
+
+/**
+ * Eliminar categoría personalizada
+ * @param {string} categoryId - ID de la categoría a eliminar
+ */
+async function deleteCategory(categoryId) {
+  if (!confirm('¿Estás seguro de eliminar esta categoría?\n\nLos gastos existentes con esta categoría se mantendrán, pero no podrás crear nuevos gastos con ella.')) return;
+
+  try {
+    await window.CustomCategories.deleteCustomCategory(categoryId);
+    showFinancesMessage('Categoría eliminada exitosamente', 'success');
+
+    if (window.showToast) {
+      showToast('✅ Categoría eliminada', 'success');
+    }
+
+    await window.CustomCategories.populateExpenseCategoriesSelect();
+    await loadCustomCategoriesList();
+  } catch (error) {
+    console.error('❌ Error deleting category:', error);
+    showFinancesMessage('Error al eliminar la categoría', 'error');
+
+    if (window.showToast) {
+      showToast('❌ Error al eliminar', 'error');
+    }
+  }
+}
+
+// Inicializar categorías al cargar la página
+document.addEventListener('DOMContentLoaded', async () => {
+  debugFinances('🎨 Initializing custom categories...');
+
+  // Esperar a que CustomCategories esté disponible
+  if (window.CustomCategories) {
+    try {
+      await window.CustomCategories.populateExpenseCategoriesSelect();
+      await loadCustomCategoriesList();
+      debugFinances('✅ Custom categories initialized');
+    } catch (error) {
+      console.error('❌ Error initializing custom categories:', error);
+    }
+  } else {
+    console.warn('⚠️ CustomCategories module not loaded');
+  }
+
+  // 🔧 WORKAROUND: Crear modal dinámicamente porque Firebase cachea HTML agresivamente
+  createCategoryModalIfNeeded();
+});
+
+/**
+ * 🔧 WORKAROUND: Crear modal de categorías dinámicamente
+ * Firebase CDN tiene caché muy agresivo del HTML, así que lo creamos via JS
+ */
+function createCategoryModalIfNeeded() {
+  // Eliminar TODOS los modales viejos (puede haber múltiples por caché)
+  const oldModals = document.querySelectorAll('#categoryModal');
+  if (oldModals.length > 0) {
+    console.log(`🔧 Eliminando ${oldModals.length} modal(es) viejo(s)...`);
+    oldModals.forEach(m => m.remove());
+  }
+
+  console.log('🔧 Creando modal de categorías dinámicamente desde finances.js...');
+
+  const modalHTML = `
+  <div id="categoryModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      
+      <!-- Modal Header -->
+      <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between sticky top-0 bg-white">
+        <h3 class="text-lg font-semibold text-gray-900">⚙️ Gestión de Categorías de Gastos</h3>
+        <button type="button" onclick="closeCategoryModal()" class="text-gray-400 hover:text-gray-600">
+          <span class="text-2xl">&times;</span>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="px-6 py-4">
+        
+        <!-- Formulario de Nueva Categoría -->
+        <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
+          <h4 class="text-md font-semibold text-purple-900 mb-3">➕ Crear Nueva Categoría</h4>
+          
+          <div class="space-y-4">
+            
+            <!-- Nombre -->
+            <div>
+              <label for="categoryName" class="block text-sm font-medium text-gray-700 mb-1">Nombre de la Categoría</label>
+              <input type="text" id="categoryName" placeholder="Ej: Préstamos, Marketing, etc."
+                     class="border border-gray-300 rounded px-3 py-2 w-full focus:border-purple-500 focus:outline-none"
+                     maxlength="30" required>
+            </div>
+
+            <!-- Icono (selector simple) -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Ícono</label>
+              <div id="iconSelector" class="grid grid-cols-8 gap-2">
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('💳')">💳</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('💰')">💰</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('💻')">💻</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('📱')">📱</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('🏦')">🏦</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('🏠')">🏠</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('🎓')">🎓</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('⚡')">⚡</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('🔧')">🔧</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('🛠️')">🛠️</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('📦')">📦</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('🎯')">🎯</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('📊')">📊</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('💡')">💡</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('🚀')">🚀</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('⭐')">⭐</button>
+              </div>
+              <input type="hidden" id="selectedIcon" value="📌">
+            </div>
+
+            <!-- Color -->
+            <div>
+              <label for="categoryColor" class="block text-sm font-medium text-gray-700 mb-1">Color (opcional)</label>
+              <input type="color" id="categoryColor" value="#6b7280"
+                     class="border border-gray-300 rounded px-3 py-2 w-full h-10">
+            </div>
+            
+            <!-- Botón Crear -->
+            <button type="button" onclick="saveCustomCategory()"
+                    class="w-full bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+              💾 Crear Categoría
+            </button>
+            
+          </div>
+        </div>
+
+        <!-- Lista de Categorías Personalizadas -->
+        <div>
+          <h4 class="text-md font-semibold text-gray-900 mb-3">📋 Tus Categorías Personalizadas</h4>
+          <div id="customCategoriesList" class="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <!-- Se poblará dinámicamente -->
+          </div>
+        </div>
+        
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="border-t border-gray-200 px-6 py-4 flex justify-end sticky bottom-0 bg-white">
+        <button type="button" onclick="closeCategoryModal()"
+                class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+          Cerrar
+        </button>
+      </div>
+
+    </div>
+  </div>
+  `;
+
+  // Insertar al final del body
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+  console.log('✅ Modal de categorías creado dinámicamente desde finances.js');
+}

@@ -1,0 +1,32 @@
+/* ==================================================================
+   FIX: SELECT OPTIONS - Better Contrast for Filter Dropdowns
+   ================================================================== */
+
+/* 
+  Estilos mejorados para las opciones de los select en Historial y Finanzas
+  Problema: El fondo azul-malva claro con texto blanco tenía poco contraste
+  Solución: Fondo oscuro con texto claro para mejor legibilidad
+*/
+
+select option {
+    background: #0a0f1e !important;
+    /* Fondo oscuro sólido */
+    color: #f1f5f9 !important;
+    /* Texto claro */
+    padding: 10px !important;
+    font-size: 1rem !important;
+}
+
+/* Opción seleccionada/hover en el dropdown */
+select option:checked,
+select option:hover {
+    background: #3b82f6 !important;
+    /* Azul vibrante cuando seleccionada */
+    color: white !important;
+}
+
+/* Asegurar que el select también tenga buen contraste cuando está abierto */
+select:focus option {
+    background: #0a0f1e !important;
+    color: #f1f5f9 !important;
+}

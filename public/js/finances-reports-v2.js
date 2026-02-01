@@ -80,13 +80,14 @@ function generatePLReport() {
   });
 
   const categoryLabels = {
-    fuel: "Combustible",
+    fuel: "🚚 Combustible",
     maintenance: "🔧 Mantenimiento",
     food: "🍔 Comida",
     lodging: "🏨 Hospedaje",
-    tolls: "Toll 🛣️ Peajes",
-    insurance: "Seguro",
+    tolls: "🛣️ Peajes",
+    insurance: "🛡️ Seguro",
     permits: "📄 Permisos",
+    carpayment: "🚗 Pago de Auto",
     other: "📌 Otros"
   };
 
@@ -116,64 +117,51 @@ function generatePLReport() {
   // Agregar estilo de página al contenedor
   container.style.backgroundColor = '#ffffff';
   container.style.padding = '40px';
-  container.style.maxWidth = '210mm'; // Ancho A4
+  container.style.maxWidth = '1200px'; // Ancho amplio para tablas
   container.style.margin = '0 auto';
   container.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
-  container.style.minHeight = '297mm'; // Alto A4
+  container.style.minHeight = 'auto'; // Alto automático
 
   container.className = 'report-container'; // Clase para targeting CSS
   container.innerHTML = `
-    <!-- Header estilo documento PDF -->
-    <div class="text-center" style="margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #000;">
-      <h1 style="font-size: 24px; font-weight: bold; color: #000; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;">ESTADO DE RESULTADOS</h1>
-      <p style="font-size: 14px; color: #000; margin: 5px 0;">Expediter Load Calculator</p>
-      <p style="font-size: 12px; color: #000; margin: 5px 0;">Período: ${periodLabel}</p>
-      <p style="font-size: 10px; color: #000; margin: 5px 0;">Generado el ${currentDate}</p>
-    </div>
+    <div id="print-area-pl">
+      <!-- Header -->
+      <div style="text-align: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #000;">
+        <h1 style="font-size: 24px; font-weight: bold; color: #000; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;">ESTADO DE RESULTADOS</h1>
+        <p style="font-size: 14px; color: #000; margin: 5px 0;">Expediter Load Calculator</p>
+        <p style="font-size: 12px; color: #000; margin: 5px 0;">Período: ${periodLabel}</p>
+        <p style="font-size: 10px; color: #000; margin: 5px 0;">Generado el ${currentDate}</p>
+      </div>
 
-    <style>
-      /* Estilos para forzar apariencia de impresión profesional */
-      .report-container {
-        color: #000000 !important;
-        background-color: #ffffff !important;
-      }
-      .report-container * {
-        color: #000000 !important;
-        font-family: 'Times New Roman', Times, serif, sans-serif !important;
-        transition: none !important; /* Eliminar animaciones */
-      }
-      .report-container table {
-        width: 100% !important;
-        max-width: 100% !important;
-        border-collapse: collapse !important;
-        table-layout: fixed !important;
-        background-color: #ffffff !important;
-      }
-      .report-container thead, .report-container th {
-        background-color: #ffffff !important; /* Fondo blanco forzado en headers */
-        color: #000000 !important;
-        border: 1px solid #000 !important;
-      }
-      .report-container td {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-        border: 1px solid #000 !important;
-        word-wrap: break-word !important;
-        overflow-wrap: break-word !important;
-        white-space: normal !important;
-      }
-      /* Anular completamente cualquier hover y forzar visibilidad */
-      .report-container tr:hover, 
-      .report-container td:hover, 
-      .report-container th:hover,
-      .report-container *:hover {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-        transform: none !important;
-        box-shadow: none !important;
-        cursor: default !important; /* Quitar cursor pointer para que no parezca interactivo */
-      }
-    </style>
+      <style>
+        #print-area-pl, #print-area-pl * {
+          color: #000000 !important;
+          background-color: transparent !important;
+          font-family: 'Times New Roman', Times, serif !important;
+          box-sizing: border-box !important;
+          text-shadow: none !important;
+          box-shadow: none !important;
+        }
+        #print-area-pl table {
+          width: 100% !important;
+          border-collapse: collapse !important;
+          border: 1px solid #000 !important;
+          margin-bottom: 20px !important;
+          table-layout: fixed !important;
+        }
+        #print-area-pl th, #print-area-pl td {
+          border: 1px solid #000 !important;
+          padding: 8px !important;
+          color: #000000 !important;
+          background-color: #ffffff !important;
+          word-wrap: break-word !important;
+        }
+        /* Eliminar efectos hover globales */
+        #print-area-pl tr:hover, #print-area-pl td:hover {
+          background-color: #ffffff !important;
+          color: #000000 !important;
+        }
+      </style>
 
     <!-- Resumen ejecutivo -->
     <div style="margin-bottom: 25px;">
@@ -408,54 +396,49 @@ function generateCompanyReport() {
   // Agregar estilo de página al contenedor
   container.style.backgroundColor = '#ffffff';
   container.style.padding = '40px';
-  container.style.maxWidth = '210mm';
+  container.style.maxWidth = '1200px'; // Ancho amplio para tablas
   container.style.margin = '0 auto';
   container.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
-  container.style.minHeight = '297mm';
+  container.style.minHeight = 'auto'; // Alto automático
 
   container.className = 'report-container';
   container.innerHTML = `
-    <!-- Header estilo documento PDF -->
-    <div class="text-center" style="margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #000;">
-      <h1 style="font-size: 24px; font-weight: bold; color: #000; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;">REPORTE POR COMPAÑÍAS</h1>
-      <p style="font-size: 14px; color: #000; margin: 5px 0;">Expediter Load Calculator</p>
-      <p style="font-size: 12px; color: #000; margin: 5px 0;">Período: ${periodLabel}</p>
-      <p style="font-size: 10px; color: #000; margin: 5px 0;">Generado el ${currentDate}</p>
-    </div>
+    <div id="print-area-co">
+      <!-- Header -->
+      <div style="text-align: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #000;">
+        <h1 style="font-size: 24px; font-weight: bold; color: #000; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;">REPORTE POR COMPAÑÍAS</h1>
+        <p style="font-size: 14px; color: #000; margin: 5px 0;">Expediter Load Calculator</p>
+        <p style="font-size: 12px; color: #000; margin: 5px 0;">Período: ${periodLabel}</p>
+        <p style="font-size: 10px; color: #000; margin: 5px 0;">Generado el ${currentDate}</p>
+      </div>
 
-    <style>
-       /* Estilos compartidos inyectados para asegurar consistencia */
-       .report-container { background-color: #fff !important; }
-       .report-container * { 
-         color: #000 !important; 
-         transition: none !important;
-       }
-       .report-container table { 
-         width: 100% !important; 
-         table-layout: fixed !important; 
-         background-color: #fff !important;
-       }
-       .report-container thead, .report-container th {
-         background-color: #ffffff !important;
-         color: #000000 !important;
-         border: 1px solid #000 !important;
-       }
-       .report-container td { 
-         word-wrap: break-word !important;
-         background-color: #ffffff !important;
-         border: 1px solid #000 !important;
-       }
-       /* Fix extremo para hover */
-       .report-container tr:hover, 
-       .report-container td:hover,
-       .report-container th:hover,
-       .report-container *:hover {
-         background-color: #ffffff !important;
-         color: #000000 !important;
-         transform: none !important;
-         cursor: default !important;
-       }
-    </style>
+      <style>
+        #print-area-co, #print-area-co * {
+          color: #000000 !important;
+          background-color: transparent !important;
+          font-family: 'Times New Roman', Times, serif !important;
+          box-sizing: border-box !important;
+           text-shadow: none !important;
+        }
+        #print-area-co table {
+          width: 100% !important;
+          border-collapse: collapse !important;
+          border: 1px solid #000 !important;
+          table-layout: fixed !important;
+          margin-bottom: 20px !important;
+        }
+        #print-area-co th, #print-area-co td {
+          border: 1px solid #000 !important;
+          padding: 8px !important;
+          color: #000000 !important;
+          background-color: #ffffff !important;
+          word-wrap: break-word !important;
+        }
+        #print-area-co tr:hover, #print-area-co td:hover {
+          background-color: #ffffff !important;
+          color: #000000 !important;
+        }
+      </style>
 
     <!-- Resumen ejecutivo -->
     <div style="margin-bottom: 25px;">
@@ -684,153 +667,150 @@ function generateExpenseBreakdownReport() {
     day: 'numeric'
   });
 
+  // Agregar estilo de página al contenedor
+  container.style.backgroundColor = '#ffffff';
+  container.style.padding = '40px';
+  container.style.maxWidth = '1200px'; // Ancho amplio para tablas
+  container.style.margin = '0 auto';
+  container.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
+  container.style.minHeight = 'auto'; // Alto automático
+
+  container.className = 'report-container';
   container.innerHTML = `
-    <!-- Header profesional -->
-    <div class="text-center mb-8 border-b pb-6">
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">📈 Desglose de Gastos</h1>
-      <h2 class="text-xl text-orange-600 font-semibold mb-2">Expediter Load Calculator</h2>
-      <p class="text-gray-600">Período: <span class="font-semibold">${periodLabel}</span></p>
-      <p class="text-sm text-gray-500">Generado el ${currentDate}</p>
-    </div>
+    <div id="print-area-exp">
+      <!-- Header -->
+      <div style="text-align: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #000;">
+        <h1 style="font-size: 24px; font-weight: bold; color: #000; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;">DESGLOSE DE GASTOS</h1>
+        <p style="font-size: 14px; color: #000; margin: 5px 0;">Expediter Load Calculator</p>
+        <p style="font-size: 12px; color: #000; margin: 5px 0;">Período: ${periodLabel}</p>
+        <p style="font-size: 10px; color: #000; margin: 5px 0;">Generado el ${currentDate}</p>
+      </div>
 
-    <!-- Resumen ejecutivo -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-      <div class="bg-orange-50 border-l-4 border-orange-500 p-4 rounded-r-lg">
-        <h3 class="text-lg font-semibold text-orange-700 mb-2">💸 Gastos Totales</h3>
-        <p class="text-3xl font-bold text-orange-900">${formatCurrency(totalExpenses)}</p>
-        <p class="text-sm text-orange-600 mt-1">Total desembolsado</p>
-      </div>
-      
-      <div class="bg-purple-50 border-l-4 border-purple-500 p-4 rounded-r-lg">
-        <h3 class="text-lg font-semibold text-purple-700 mb-2">📊 Total Transacciones</h3>
-        <p class="text-3xl font-bold text-purple-900">${totalCount}</p>
-        <p class="text-sm text-purple-600 mt-1">Gastos registrados</p>
-      </div>
-      
-      <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
-        <h3 class="text-lg font-semibold text-blue-700 mb-2">📋 Categorías</h3>
-        <p class="text-3xl font-bold text-blue-900">${sortedCategories.length}</p>
-        <p class="text-sm text-blue-600 mt-1">Tipos de gastos</p>
-      </div>
-    </div>
+      <style>
+        #print-area-exp, #print-area-exp * {
+          color: #000000 !important;
+          background-color: transparent !important;
+          font-family: 'Times New Roman', Times, serif !important;
+          box-sizing: border-box !important;
+          text-shadow: none !important;
+          box-shadow: none !important;
+        }
+        #print-area-exp table {
+          width: 100% !important;
+          border-collapse: collapse !important;
+          border: 1px solid #000 !important;
+          margin-bottom: 20px !important;
+          table-layout: fixed !important;
+        }
+        #print-area-exp th, #print-area-exp td {
+          border: 1px solid #000 !important;
+          padding: 8px !important;
+          color: #000000 !important;
+          background-color: #ffffff !important;
+          word-wrap: break-word !important;
+        }
+        #print-area-exp tr:hover, #print-area-exp td:hover {
+          background-color: #ffffff !important;
+          color: #000000 !important;
+        }
+      </style>
 
-    <!-- Top 3 Categorías -->
-    <div class="mb-8">
-      <h3 class="text-xl font-bold text-gray-900 mb-4">🔥 Top 3 Categorías de Mayor Gasto</h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        ${topCategories.map(([type, data], index) => {
-    const colors = ['red', 'orange', 'yellow'];
-    const medals = ['🥇', '🥈', '🥉'];
-    const color = colors[index] || 'gray';
+      <!-- Resumen de Gastos -->
+      <div style="margin-bottom: 25px;">
+        <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">RESUMEN DE GASTOS</h3>
+        <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; font-size: 12px;">
+          <tbody>
+            <tr>
+              <td style="border: 1px solid #000; padding: 8px; text-align: left;">Gastos Totales</td>
+              <td style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${formatCurrency(totalExpenses)}</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #000; padding: 8px; text-align: left;">Total de Transacciones</td>
+              <td style="border: 1px solid #000; padding: 8px; text-align: right;">${totalCount}</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #000; padding: 8px; text-align: left;">Categorías Activas</td>
+              <td style="border: 1px solid #000; padding: 8px; text-align: right;">${sortedCategories.length}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Detalle por Categoría -->
+      <div style="margin-bottom: 25px;">
+        <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">DETALLE POR CATEGORÍA</h3>
+        <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; font-size: 11px;">
+          <thead>
+            <tr style="background-color: #fff;">
+              <th style="border: 1px solid #000; padding: 8px; text-align: left; font-weight: bold;">Categoría</th>
+              <th style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">Monto Total</th>
+              <th style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">% Total</th>
+              <th style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">Transacciones</th>
+              <th style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">Promedio</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${sortedCategories.map(([type, data]) => {
     const percentage = totalExpenses > 0 ? (data.total / totalExpenses) * 100 : 0;
     const avgPerTransaction = data.count > 0 ? data.total / data.count : 0;
-
     return `
-            <div class="bg-${color}-50 border border-${color}-200 rounded-lg p-4">
-              <div class="text-center mb-2">
-                <span class="text-3xl">${medals[index]}</span>
-                <h4 class="text-lg font-bold text-gray-900 mt-2">${categoryLabels[type] || type}</h4>
-              </div>
-              <div class="space-y-1 text-sm">
-                <div class="flex justify-between">
-                  <span class="text-gray-600">Total:</span>
-                  <strong class="text-${color}-700">${formatCurrency(data.total)}</strong>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-gray-600">% del Total:</span>
-                  <strong class="text-gray-900">${percentage.toFixed(1)}%</strong>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-gray-600">Transacciones:</span>
-                  <strong class="text-gray-900">${data.count}</strong>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-gray-600">Promedio:</span>
-                  <strong class="text-blue-700">${formatCurrency(avgPerTransaction)}</strong>
-                </div>
-              </div>
-            </div>
-            `;
-  }).join('')}
-      </div>
-    </div>
-
-    <!-- Tabla completa de categorías -->
-    <div class="mb-8">
-      <h3 class="text-xl font-bold text-gray-900 mb-4">📋 Detalle por Categoría</h3>
-      <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="min-w-full">
-            <thead class="bg-gray-50">
               <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoría</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">% del Total</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Transacciones</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Promedio</th>
+                <td style="border: 1px solid #000; padding: 6px; text-align: left;">${categoryLabels[type] || type}</td>
+                <td style="border: 1px solid #000; padding: 6px; text-align: right;">${formatCurrency(data.total)}</td>
+                <td style="border: 1px solid #000; padding: 6px; text-align: right;">${percentage.toFixed(1)}%</td>
+                <td style="border: 1px solid #000; padding: 6px; text-align: right;">${data.count}</td>
+                <td style="border: 1px solid #000; padding: 6px; text-align: right;">${formatCurrency(avgPerTransaction)}</td>
               </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              ${sortedCategories.map(([type, data]) => {
-    const percentage = totalExpenses > 0 ? (data.total / totalExpenses) * 100 : 0;
-    const avgPerTransaction = data.count > 0 ? data.total / data.count : 0;
-
-    return `
-                  <tr class="hover:bg-gray-50">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      ${categoryLabels[type] || type}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right font-semibold">
-                      ${formatCurrency(data.total)}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">
-                      ${percentage.toFixed(1)}%
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">
-                      ${data.count}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-700 text-right font-medium">
-                      ${formatCurrency(avgPerTransaction)}
-                    </td>
-                  </tr>
-                  `;
-  }).join('')}
-            </tbody>
-            <tfoot class="bg-gray-100">
-              <tr class="font-bold">
-                <td class="px-6 py-4 text-sm text-gray-900">TOTAL</td>
-                <td class="px-6 py-4 text-sm text-gray-900 text-right">${formatCurrency(totalExpenses)}</td>
-                <td class="px-6 py-4 text-sm text-gray-500 text-right">100%</td>
-                <td class="px-6 py-4 text-sm text-gray-900 text-right">${totalCount}</td>
-                <td class="px-6 py-4 text-sm text-blue-700 text-right">${formatCurrency(totalCount > 0 ? totalExpenses / totalCount : 0)}</td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- Gráfico visual de distribución -->
-    <div class="mb-8">
-      <h3 class="text-xl font-bold text-gray-900 mb-4">📊 Distribución Visual</h3>
-      <div class="bg-white border border-gray-200 rounded-lg p-6">
-        <div class="space-y-3">
-          ${sortedCategories.map(([type, data]) => {
-    const percentage = totalExpenses > 0 ? (data.total / totalExpenses) * 100 : 0;
-    return `
-              <div>
-                <div class="flex justify-between text-sm mb-1">
-                  <span class="font-medium text-gray-700">${categoryLabels[type] || type}</span>
-                  <span class="text-gray-600">${formatCurrency(data.total)} (${percentage.toFixed(1)}%)</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-3">
-                  <div class="bg-gradient-to-r from-orange-500 to-red-500 h-3 rounded-full transition-all duration-500" style="width: ${percentage}%"></div>
-                </div>
-              </div>
               `;
   }).join('')}
-        </div>
+          </tbody>
+        </table>
       </div>
+
+      ${categories['other'] && categories['other'].count > 0 ? `
+      <!-- Detalle de Categoría "Otros" -->
+      <div style="margin-bottom: 25px; padding: 15px; background-color: #f9fafb; border: 1px solid #000; border-radius: 8px;">
+        <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">
+          📌 DETALLE DE "OTROS" GASTOS
+        </h3>
+        <p style="font-size: 11px; color: #555; margin-bottom: 15px;">
+          A continuación se muestran todos los gastos clasificados como "Otros" con su descripción detallada:
+        </p>
+        <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; font-size: 11px;">
+          <thead>
+            <tr style="background-color: #fff;">
+              <th style="border: 1px solid #000; padding: 8px; text-align: left; font-weight: bold; width: 15%;">Fecha</th>
+              <th style="border: 1px solid #000; padding: 8px; text-align: left; font-weight: bold; width: 55%;">Descripción</th>
+              <th style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold; width: 15%;">Monto</th>
+              <th style="border: 1px solid #000; padding: 8px; text-align: center; font-weight: bold; width: 15%;">Deducible</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${categories['other'].expenses
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .map(expense => {
+          const expenseDate = expense.date ? new Date(expense.date).toLocaleDateString('es-ES') : 'N/A';
+          const description = expense.description || 'Sin descripción';
+          const amount = formatCurrency(expense.amount || 0);
+          const deductible = expense.deductible ? '✓' : '—';
+          return `
+                  <tr>
+                    <td style="border: 1px solid #000; padding: 6px; text-align: left;">${expenseDate}</td>
+                    <td style="border: 1px solid #000; padding: 6px; text-align: left;">${description}</td>
+                    <td style="border: 1px solid #000; padding: 6px; text-align: right; font-weight: 600;">${amount}</td>
+                    <td style="border: 1px solid #000; padding: 6px; text-align: center;">${deductible}</td>
+                  </tr>
+                `;
+        }).join('')}
+            <tr style="background-color: #f0f0f0;">
+              <td colspan="2" style="border: 1px solid #000; padding: 6px; text-align: right; font-weight: bold;">Total "Otros":</td>
+              <td style="border: 1px solid #000; padding: 6px; text-align: right; font-weight: bold;">${formatCurrency(categories['other'].total)}</td>
+              <td style="border: 1px solid #000; padding: 6px; text-align: center; font-weight: bold;">${categories['other'].count} gastos</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      ` : ''}
     </div>
   `;
 
@@ -951,6 +931,15 @@ function generateProfitabilityReport() {
     day: 'numeric'
   });
 
+  // Agregar estilo de página al contenedor
+  container.style.backgroundColor = '#ffffff';
+  container.style.padding = '40px';
+  container.style.maxWidth = '1200px'; // Ancho amplio para tablas
+  container.style.margin = '0 auto';
+  container.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
+  container.style.minHeight = 'auto'; // Alto automático
+
+  container.className = 'report-container';
   container.innerHTML = `
     <!-- Header profesional -->
     <div class="text-center mb-8 border-b pb-6">

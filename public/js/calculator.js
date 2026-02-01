@@ -17,6 +17,31 @@ const TU_COSTO_REAL = {
   TOTAL: 0.576            // $/mi total REAL (reserva gomas sale de ganancias)
 };
 
+// ========================================
+//  SHARED FUNCTION: Calculate Total Expenses
+// ========================================
+// Used by both Decision Panel and Lex for consistent calculations
+function calculateTotalExpenses(totalMiles, tolls = 0, others = 0) {
+  const fuelCost = totalMiles * TU_COSTO_REAL.combustible;
+  const maintenanceCost = totalMiles * TU_COSTO_REAL.mantenimiento;
+  const foodCost = totalMiles * TU_COSTO_REAL.comida;
+  const fixedCosts = totalMiles * TU_COSTO_REAL.costosFijos;
+
+  return {
+    fuelCost,
+    maintenanceCost,
+    foodCost,
+    fixedCosts,
+    tolls,
+    others,
+    total: fuelCost + maintenanceCost + foodCost + fixedCosts + tolls + others
+  };
+}
+
+// Expose globally for use by Lex and other modules
+window.calculateTotalExpenses = calculateTotalExpenses;
+
+
 // ======== DECISION 2025 (realista) ========
 let DECISION_MODE = (typeof window !== 'undefined' && window.DECISION_MODE) || 'realista2025';
 
@@ -701,13 +726,11 @@ async function calculate() {
     const baseIncome = rate;
     const totalCharge = baseIncome + tolls + others;
 
-    //  Usar tus costos reales confirmados
-    const fuelCost = totalMiles * TU_COSTO_REAL.combustible;
-    const maintenanceCost = totalMiles * TU_COSTO_REAL.mantenimiento;
-    const foodCost = totalMiles * TU_COSTO_REAL.comida;
-    const fixedCosts = totalMiles * TU_COSTO_REAL.costosFijos;
+    // Use shared expense calculation function for consistency with Lex
+    const expenseBreakdown = calculateTotalExpenses(totalMiles, tolls, others);
+    const { fuelCost, maintenanceCost, foodCost, fixedCosts } = expenseBreakdown;
+    const totalExpenses = expenseBreakdown.total;
 
-    const totalExpenses = fuelCost + maintenanceCost + foodCost + fixedCosts + tolls + others;
     const netProfit = totalCharge - totalExpenses;
     const margin = totalCharge > 0 ? (netProfit / totalCharge) * 100 : 0;
     const profitPerMile = totalMiles > 0 ? netProfit / totalMiles : 0;

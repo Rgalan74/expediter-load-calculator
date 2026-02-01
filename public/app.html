@@ -33,16 +33,122 @@
   <!-- 🎨 Estilos -->
   <link rel="stylesheet" href="css/design-system.css">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/mobile-styles.css">
+  <link rel="stylesheet" href="css/mobile-styles.css?v=2.8.0">
   <link rel="stylesheet" href="css/mobile-typography.css">
-  <link rel="stylesheet" href="css/mobile-header.css">
-  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/mobile-header-fix.css?v=1.8.0">
+  <link rel="stylesheet" href="css/mobile-content-width.css?v=1.6.0">
+  <link rel="stylesheet" href="css/app.css?v=3.0.0">
   <link rel="stylesheet" href="css/zones-print.css">
   <link rel="stylesheet" href="css/calculator-decision.css?v=1.0.0">
   <link rel="stylesheet" href="css/ui-enhancements.css?v=1.0.0">
   <link rel="stylesheet" href="css/onboarding.css?v=1.0.1">
+  <link rel="stylesheet" href="css/select-options-fix.css">
+  <link rel="stylesheet" href="css/print-styles.css">
+  <link rel="stylesheet" href="css/report-modal-styles.css">
+  <!-- MOBILE CALCULATOR FIX - Must load LAST to override all other styles -->
+  <link rel="stylesheet" href="css/mobile-calculator-fix.css?v=1.0.0">
 
 
+  <!-- 🔥 CRITICAL MOBILE CALCULATOR FIX - INLINE FOR MAX PRIORITY -->
+  <style>
+    @media (max-width: 768px) {
+
+      /* ULTRA SPECIFIC - Force white labels on mobile calculator */
+      #calculator label,
+      #calculator label.block,
+      #calculator label.text-base,
+      #calculator label.font-medium,
+      #calculator div label,
+      section#calculator label,
+      .card-section label,
+      #calculator .block.text-base.font-medium.mb-2 {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+      }
+
+      /* Small texts light gray */
+      #calculator .text-xs,
+      #calculator p.text-xs {
+        color: #d1d5db !important;
+      }
+
+      /* Inputs dark background & white text */
+      #calculator input[type="text"],
+      #calculator input[type="number"],
+      #calculator input[type="email"],
+      #calculator select,
+      #calculator textarea {
+        background-color: #0a0e1a !important;
+        /* TRUE BLACK like Rutas section */
+        color: #ffffff !important;
+        border-color: #4b5563 !important;
+        -webkit-text-fill-color: #ffffff !important;
+      }
+
+      /* Placeholders subtle gray */
+      #calculator input::placeholder,
+      #calculator textarea::placeholder {
+        color: #6b7280 !important;
+        opacity: 0.35 !important;
+        /* Much more subtle - barely visible */
+      }
+
+      /* Decision Panel - White badges and text on mobile */
+      #decisionBadges span {
+        color: #ffffff !important;
+      }
+
+      /* Profit details inherit color from profit value */
+      #profitDetails {
+        color: inherit !important;
+      }
+    }
+  </style>
+
+  <style>
+    /* Estilos Críticos Globales para Reportes Financieros */
+    .report-container {
+      background-color: #ffffff !important;
+      color: #000000 !important;
+    }
+
+    .report-container * {
+      color: #000000 !important;
+      text-shadow: none !important;
+      font-family: 'Times New Roman', Times, serif, sans-serif !important;
+    }
+
+    .report-container tr:hover,
+    .report-container td:hover,
+    .report-container th:hover,
+    .report-container *:hover {
+      background-color: #ffffff !important;
+      color: #000000 !important;
+      transform: none !important;
+      box-shadow: none !important;
+      cursor: default !important;
+    }
+
+    .report-container table {
+      width: 100% !important;
+      table-layout: fixed !important;
+      background-color: #ffffff !important;
+    }
+
+    .report-container td,
+    .report-container th {
+      border: 1px solid #000 !important;
+      background-color: #ffffff !important;
+      word-wrap: break-word !important;
+    }
+
+    /* Asegurar scroll en contenedor flex en Safari/Chrome */
+    #reportContent {
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  </style>
 </head>
 
 <body class="bg-gray-100 text-gray-900">
@@ -64,20 +170,20 @@
     <header class="w-full z-50 bg-white shadow">
       <div class="max-w-7xl mx-auto px-2 py-2 md:px-4 md:py-4 flex items-center justify-between">
 
-        <!-- Logo + Nombre -->
-        <div class="flex items-center gap-2">
+        <!-- Logo + Nombre - Optimizado mobile -->
+        <div class="flex items-center gap-1 md:gap-2">
           <picture>
             <source srcset="img/logo-app.webp" type="image/webp">
             <img src="img/logo-app.png" alt="Logo"
               class="w-9 h-9 md:w-16 md:h-16 rounded-full border border-gray-300 shadow">
           </picture>
-          <span class="text-lg md:text-3xl font-bold text-gray-900 header-title">
+          <span class="text-base md:text-3xl font-bold text-gray-900 header-title whitespace-nowrap">
             Load Calculator
           </span>
         </div>
 
-        <!-- Botones de acción -->
-        <div class="flex items-center gap-3 md:justify-between md:w-auto ml-auto">
+        <!-- Botones de acción - Gap reducido mobile -->
+        <div class="flex items-center gap-1 md:gap-3 md:justify-between md:w-auto ml-auto">
 
           <!-- Botón hamburguesa (solo móvil, izquierda) -->
           <button id="menuToggle" class="md:hidden text-gray-800 focus:outline-none text-3xl leading-none">
@@ -86,17 +192,16 @@
 
           <!-- 👑 BADGE DE ROL (visible cuando se carga) -->
           <div id="roleBadge"
-            class="hidden items-center px-3 py-1.5 rounded-full text-xs font-bold border-2 transition-all">
-            <span id="roleBadgeIcon" class="mr-1"></span>
-            <span id="roleBadgeText" class="uppercase tracking-wide"></span>
+            class="hidden items-center px-2 py-0.5 md:px-3 md:py-1.5 rounded-full text-xs font-bold border-2 transition-all">
+            <span id="roleBadgeIcon" class="mr-0.5 md:mr-1 hidden md:inline"></span>
+            <span id="roleBadgeText" class="uppercase md:tracking-wide"></span>
           </div>
 
-          <!-- Botón Planes (Visible siempre) -->
-          <!-- Botón Planes (Visible siempre) -->
+          <!-- Botón Planes - Solo icono en mobile -->
           <a id="upgradePlanBtn" href="/plans.html"
-            class="mr-2 text-indigo-600 hover:text-indigo-800 font-medium text-sm border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded transition-colors flex items-center">
+            class="text-indigo-600 hover:text-indigo-800 font-medium text-sm border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 md:px-3 md:py-1.5 rounded transition-colors flex items-center">
             <span>💎</span>
-            <span class="hidden sm:inline ml-1">Mejorar Plan</span>
+            <span class="hidden md:inline ml-1">Mejorar Plan</span>
           </a>
 
           <!-- Botón logout (siempre a la derecha) -->
@@ -105,8 +210,8 @@
                md:border-2 md:border-red-500 md:hover:border-red-600 
                md:px-4 md:py-2 md:rounded md:text-sm md:font-medium 
                flex items-center gap-2 ml-auto transition-all focus:outline-none">
-            <!-- Ícono en mobile y desktop -->
-            <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Ícono más pequeño en mobile -->
+            <svg class="w-6 h-6 md:w-8 md:h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="white" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round" />
               <polyline points="16 17 21 12 16 7" stroke="white" stroke-width="2" stroke-linecap="round"
@@ -119,6 +224,114 @@
           </button>
         </div>
 
+      </div>
+
+      <!-- ✅ MODAL PARA CREAR CATEGORÍA PERSONALIZADA -->
+      <div id="categoryModal"
+        class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
+
+          <!-- Modal Header -->
+          <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-gray-900">➕ Nueva Categoría de Gasto</h3>
+            <button type="button" onclick="closeCategoryModal()" class="text-gray-400 hover:text-gray-600">
+              <span class="text-2xl">&times;</span>
+            </button>
+          </div>
+
+          <!-- Modal Body -->
+          <div class="px-6 py-4">
+            <div class="space-y-4">
+
+              <!-- Nombre -->
+              <div>
+                <label for="categoryName" class="block text-sm font-medium text-gray-700 mb-1">Nombre de la
+                  Categoría</label>
+                <input type="text" id="categoryName" placeholder="Ej: Préstamos, Marketing, etc."
+                  class="border border-gray-300 rounded px-3 py-2 w-full focus:border-purple-500 focus:outline-none"
+                  maxlength="30" required>
+              </div>
+
+              <!-- Icono (selector simple) -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Ícono</label>
+                <div id="iconSelector" class="grid grid-cols-8 gap-2">
+                  <!-- Íconos comunes -->
+                  <button type="button"
+                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                    onclick="selectIcon('💳')">💳</button>
+                  <button type="button"
+                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                    onclick="selectIcon('💰')">💰</button>
+                  <button type="button"
+                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                    onclick="selectIcon('💻')">💻</button>
+                  <button type="button"
+                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                    onclick="selectIcon('📱')">📱</button>
+                  <button type="button"
+                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                    onclick="selectIcon('🏦')">🏦</button>
+                  <button type="button"
+                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                    onclick="selectIcon('🏠')">🏠</button>
+                  <button type="button"
+                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                    onclick="selectIcon('🎓')">🎓</button>
+                  <button type="button"
+                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                    onclick="selectIcon('⚡')">⚡</button>
+                  <button type="button"
+                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                    onclick="selectIcon('🔧')">🔧</button>
+                  <button type="button"
+                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                    onclick="selectIcon('🛠️')">🛠️</button>
+                  <button type="button"
+                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                    onclick="selectIcon('📦')">📦</button>
+                  <button type="button"
+                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                    onclick="selectIcon('🎯')">🎯</button>
+                  <button type="button"
+                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                    onclick="selectIcon('📊')">📊</button>
+                  <button type="button"
+                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                    onclick="selectIcon('💡')">💡</button>
+                  <button type="button"
+                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                    onclick="selectIcon('🚀')">🚀</button>
+                  <button type="button"
+                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                    onclick="selectIcon('⭐')">⭐</button>
+                </div>
+                <input type="hidden" id="selectedIcon" value="📌">
+              </div>
+
+              <!-- Color -->
+              <div>
+                <label for="categoryColor" class="block text-sm font-medium text-gray-700 mb-1">Color (opcional)</label>
+                <input type="color" id="categoryColor" value="#6b7280"
+                  class="border border-gray-300 rounded px-3 py-2 w-full h-10">
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Modal Footer -->
+          <div class="border-t border-gray-200 px-6 py-4 flex flex-col sm:flex-row gap-3 sm:justify-end">
+            <button type="button" onclick="closeCategoryModal()"
+              class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 order-2 sm:order-1">
+              Cancelar
+            </button>
+            <button type="button" onclick="saveCustomCategory()"
+              class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 order-1 sm:order-2">
+              💾 Crear Categoría
+            </button>
+          </div>
+
+        </div>
       </div>
 
 
@@ -184,6 +397,15 @@
         <button class="tab-link text-left w-full hover:text-blue-600" data-tab="finances">💰 Finanzas</button>
         <button class="tab-link text-left w-full hover:text-blue-600" data-tab="zones">🗺️ Zonas</button>
         <button class="tab-link text-left w-full hover:text-blue-600" data-tab="settings">⚙️ Configuración</button>
+
+        <!-- Separador -->
+        <div class="border-t border-gray-200 my-2"></div>
+
+        <!-- Logout - Destacado en rojo -->
+        <button id="mobileLogoutBtn" onclick="logout()"
+          class="text-left w-full text-red-600 hover:text-red-700 font-bold border border-red-300 bg-red-50 hover:bg-red-100 rounded-md px-3 py-2 transition-colors">
+          🚪 Cerrar Sesión
+        </button>
       </div>
     </header>
 
@@ -242,7 +464,6 @@
                       📖 Ver Notas
                     </button>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -252,19 +473,19 @@
               <h3 class="text-2xl font-bold mb-4">📏 Información de Millas</h3>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label class="block text-gray-700 text-base font-medium mb-2">Millas Cotizadas *</label>
+                  <label class="block text-base font-medium mb-2">Millas Cotizadas *</label>
                   <input type="number" id="loadedMiles" placeholder="644"
                     class="border p-3 w-full rounded-lg text-base">
-                  <p class="text-xs text-gray-500 mt-1">Incluye loaded + deadhead to pickup</p>
+                  <p class="text-xs mt-1">Incluye loaded + deadhead to pickup</p>
                 </div>
                 <div>
-                  <label class="block text-gray-700 text-base font-medium mb-2">Millas Vacías (opcional)</label>
+                  <label class="block text-base font-medium mb-2">Millas Vacías (opcional)</label>
                   <input type="number" id="deadheadMiles" placeholder="0"
                     class="border p-3 w-full rounded-lg text-base">
-                  <p class="text-xs text-gray-500 mt-1">Solo si necesitas separar deadhead</p>
+                  <p class="text-xs mt-1">Solo si necesitas separar deadhead</p>
                 </div>
                 <div>
-                  <label class="block text-gray-700 text-base font-medium mb-2">Total Millas</label>
+                  <label class="block text-base font-medium mb-2">Total Millas</label>
                   <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-3 text-center">
                     <span id="tripMiles" class="text-2xl font-bold text-blue-800">0</span>
                     <span class="text-blue-600 text-sm ml-1">millas</span>
@@ -278,21 +499,21 @@
               <h3 class="text-2xl font-bold mb-4">💰 Información Financiera</h3>
               <div class="space-y-4">
                 <div>
-                  <label class="block text-gray-700 text-base font-medium mb-2">RPM ($/milla) *</label>
+                  <label class="block text-base font-medium mb-2">RPM ($/milla) *</label>
                   <input type="number" id="rpm" step="0.01" placeholder="2.20"
                     class="border p-3 w-full rounded-lg text-base">
                 </div>
                 <div>
-                  <label class="block text-gray-700 text-base font-medium mb-2">Rate ($)</label>
+                  <label class="block text-base font-medium mb-2">Rate ($)</label>
                   <input type="number" id="rate" step="0.01" placeholder="800"
                     class="border p-3 w-full rounded-lg text-base">
                 </div>
                 <div>
-                  <label class="block text-gray-700 text-base font-medium mb-2">Tolls ($)</label>
+                  <label class="block text-base font-medium mb-2">Tolls ($)</label>
                   <input type="number" id="tolls" placeholder="25" class="border p-3 w-full rounded-lg text-base">
                 </div>
                 <div>
-                  <label class="block text-gray-700 text-base font-medium mb-2">Otros Costos ($)</label>
+                  <label class="block text-base font-medium mb-2">Otros Costos ($)</label>
                   <input type="number" id="otherCosts" placeholder="0" class="border p-3 w-full rounded-lg text-base">
                 </div>
               </div>
@@ -352,20 +573,20 @@
                   <div class="space-y-1.5 md:space-y-2 text-sm">
                     <div class="flex justify-between items-center">
                       <span class="text-gray-700">⛽ Combustible (<span id="totalMilesForFuel">0</span> mi):</span>
-                      <strong id="fuelCost" class="text-red-700">$0.00</strong>
+                      <strong id="fuelCost" class="text-white">$0.00</strong>
                     </div>
                     <div class="flex justify-between items-center">
                       <span class="text-gray-700">💵 Tolls + Otros:</span>
-                      <strong id="tollsAndOthers" class="text-red-700">$0.00</strong>
+                      <strong id="tollsAndOthers" class="text-white">$0.00</strong>
                     </div>
                     <div class="flex justify-between items-center text-xs text-gray-500">
                       <span>🔧 Costos Fijos incluidos</span>
-                      <span id="fixedCosts">$0.00</span>
+                      <span id="fixedCosts" class="text-gray-300">$0.00</span>
                     </div>
                     <hr class="border-gray-300">
                     <div class="flex justify-between items-center font-bold">
                       <span class="text-gray-900">Total Gastos:</span>
-                      <span id="totalExpenses" class="text-red-900 text-lg">$0.00</span>
+                      <span id="totalExpenses" class="text-white text-lg">$0.00</span>
                     </div>
                   </div>
                 </div>
@@ -376,11 +597,11 @@
                     <div class="flex-1">
                       <div class="text-xs mb-1" id="profitLabel">💰 Ganancia Neta</div>
                       <div id="netProfit" class="text-2xl md:text-3xl font-bold">$0.00</div>
-                      <div id="profitDetails" class="text-xs mt-1">$0.00/mi • 0% margen</div>
+                      <div id="profitDetails" class="text-xs mt-1 font-semibold">$0.00/mi • 0% margen</div>
                     </div>
                     <div class="text-right text-xs flex-shrink-0">
-                      <div id="estimatedTimeShort">⏱️ 0h</div>
-                      <div id="fuelStopsShort">⛽ 0 paradas</div>
+                      <div id="estimatedTimeShort" class="text-white font-semibold">⏱️ 0h</div>
+                      <div id="fuelStopsShort" class="text-white font-semibold">⛽ 0 paradas</div>
                     </div>
                   </div>
                 </div>
@@ -397,6 +618,8 @@
 
             </div>
           </div>
+
+
           <!-- 🔹 Botones de acción -->
           <div class="card-section text-center mt-6">
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
@@ -419,118 +642,6 @@
             <div class="mt-4 text-center">
               <div class="text-sm text-gray-700" id="message"></div>
               <div class="text-sm text-red-600" id="errorMessage"></div>
-            </div>
-          </div>
-
-
-          <!-- Results Section (manteniendo IDs originales / quick* para el panel) -->
-          <div id="resultsSection" class="card-section">
-            <h3 class="text-2xl font-semibold mb-6 text-center">🧮 Resultados del Cálculo</h3>
-
-            <!-- Grid principal: Ingresos / Costos -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-              <!-- Ingresos -->
-              <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-5">
-                <h4 class="text-lg font-bold text-blue-800 mb-3 text-center">💰 Ingresos</h4>
-                <div class="space-y-2 text-[15px]">
-                  <p class="flex justify-between"><span>Ingreso Base:</span><strong id="baseIncome"
-                      class="text-blue-700">$0.00</strong></p>
-                  <div id="suggestedPriceSection" class="hidden">
-                    <p class="flex justify-between">
-                      <span>Precio Sugerido:</span>
-                      <strong id="suggestedPrice" class="text-blue-700">$0.00</strong>
-                    </p>
-                  </div>
-
-                  <p class="flex justify-between"><span>Costos Adicionales:</span><strong id="additionalCosts"
-                      class="text-blue-700">$0.00</strong></p>
-                  <hr class="border-blue-300">
-                  <p class="flex justify-between text-lg font-bold text-blue-900">
-                    <span>Total a Cobrar:</span><strong id="totalCharge">$0.00</strong>
-                  </p>
-                </div>
-              </div>
-
-              <!-- Costos -->
-              <div class="bg-red-50 border-2 border-red-200 rounded-xl p-5">
-                <h4 class="text-lg font-bold text-red-800 mb-3 text-center">💸 Costos</h4>
-                <div class="space-y-2 text-[15px]">
-                  <p class="flex justify-between"><span>Operación:</span><strong id="operatingCost"
-                      class="text-red-700">$0.00</strong></p>
-                  <p class="flex justify-between"><span>Combustible:</span><strong id="fuelCost"
-                      class="text-red-700">$0.00</strong></p>
-                  <p class="flex justify-between"><span>Mantenimiento:</span><strong id="maintenanceCost"
-                      class="text-red-700">$0.00</strong></p>
-                  <p class="flex justify-between"><span>Tolls:</span><strong id="tollsCost"
-                      class="text-red-700">$0.00</strong></p>
-                  <p class="flex justify-between"><span>Otros:</span><strong id="otherCost"
-                      class="text-red-700">$0.00</strong></p>
-                  <hr class="border-red-300">
-                  <p class="flex justify-between text-lg font-bold text-red-900">
-                    <span>Total Gastos:</span><strong id="totalExpenses">$0.00</strong>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Contenido dinámico (fuera del grid para no romper columnas) -->
-            <div class="mt-5 grid grid-cols-1 gap-5">
-              <div id="costBreakdownContainer" class="col-span-full"></div>
-              <div id="relocationScenariosContainer" class="col-span-full"></div>
-            </div>
-
-            <!-- Rentabilidad (integrada dentro de la tarjeta de resultados) -->
-            <div id="rentabilityCard"
-              class="mt-6 bg-green-50 border-2 border-green-200 rounded-xl p-5 rentabilidad-card">
-              <div class="flex items-center justify-between mb-3">
-                <h4 class="text-lg font-semibold">📈 Rentabilidad</h4>
-                <span id="rentabilidadBadge" class="text-xs px-2 py-1 rounded bg-white/70">Analizando…</span>
-              </div>
-
-              <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                <div class="text-center">
-                  <p class="opacity-70">Ganancia Neta</p>
-                  <p id="quickNetProfitCard" class="text-xl font-bold">$0.00</p>
-                </div>
-                <div class="text-center">
-                  <p class="opacity-70">Ganancia/Milla</p>
-                  <p id="quickProfitPerMileCard" class="text-xl font-bold">$0.00</p>
-                </div>
-                <div class="text-center">
-                  <p class="opacity-70">Margen</p>
-                  <p id="quickProfitMarginCard" class="text-xl font-bold">0%</p>
-                </div>
-                <div class="text-center">
-                  <p class="opacity-70">Precio Sugerido</p>
-                  <p id="quickPriceCard" class="text-xl font-bold">$0</p>
-                </div>
-              </div>
-
-              <div class="flex justify-between items-center mt-4 text-xs opacity-80">
-                <span id="timeAndStopsCard">⏰ 0h • ⛽ 0 paradas</span>
-                <span id="realRPMInfoCard">RPM: $0.00</span>
-              </div>
-            </div>
-          </div>
-
-
-          <!-- Trip Details -->
-          <div id="tripDetailsSection" class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
-              <h4 class="text-sm font-medium text-purple-700 mb-3">🕒 Tiempo</h4>
-              <p class="text-xl font-bold text-purple-800" id="estimatedTime">0h</p>
-            </div>
-            <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
-              <h4 class="text-sm font-medium text-orange-700 mb-3">📅 Días</h4>
-              <p class="text-xl font-bold text-orange-800" id="tripDays">0</p>
-            </div>
-            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-              <h4 class="text-sm font-medium text-yellow-700 mb-3">⛽ Paradas</h4>
-              <p class="text-xl font-bold text-yellow-800" id="fuelStops">0</p>
-            </div>
-            <div class="bg-pink-50 border border-pink-200 rounded-lg p-4">
-              <h4 class="text-sm font-medium text-pink-700 mb-3">⚡ Eficiencia</h4>
-              <p class="text-xl font-bold text-pink-800" id="efficiencyCard">0%</p>
             </div>
           </div>
 
@@ -674,7 +785,7 @@
 
       <!-- History Tab -->
       <section id="history" class="tab-content hidden">
-        <div class="w-full px-6 py-6 space-y-8">
+        <div class="w-full px-3 md:px-6 py-4 md:py-6 space-y-4 md:space-y-8">
 
           <!-- Header -->
           <div class="section-header text-center">
@@ -689,18 +800,15 @@
 
               <label for="filterOrigin" class="sr-only">Origen</label>
               <input type="text" id="filterOrigin" name="filterOrigin" class="border p-3 rounded-lg w-full text-base"
-                placeholder="Origen"
-                style="color: white !important; background-color: rgba(30, 58, 138, 0.5) !important; border: 2px solid rgba(96, 165, 250, 0.4) !important; min-height: 44px;">
+                placeholder="Origen">
 
               <label for="filterDestination" class="sr-only">Destino</label>
               <input type="text" id="filterDestination" name="filterDestination"
-                class="border p-3 rounded-lg w-full text-base" placeholder="Destino"
-                style="color: white !important; background-color: rgba(30, 58, 138, 0.5) !important; border: 2px solid rgba(96, 165, 250, 0.4) !important; min-height: 44px;">
+                class="border p-3 rounded-lg w-full text-base" placeholder="Destino">
 
               <label for="historyMonthSelect" class="sr-only">Mes</label>
-              <select id="historyMonthSelect" name="historyMonthSelect" class="border p-3 rounded-lg w-full text-base"
-                style="color: white !important; background-color: rgba(30, 58, 138, 0.5) !important; border: 2px solid rgba(96, 165, 250, 0.4) !important; -webkit-appearance: menulist; appearance: menulist; min-height: 44px;">
-                <option value="" style="background: #1e3a8a; color: white;">Todos los meses</option>
+              <select id="historyMonthSelect" name="historyMonthSelect" class="border p-3 rounded-lg w-full text-base">
+                <option value="">Todos los meses</option>
               </select>
 
               <button id="filterBtn" type="button" class="btn-primary w-full sm:w-auto">
@@ -753,9 +861,10 @@
                 📤 Exportar Excel
               </button>
             </div>
-            <div class="overflow-x-auto">
-              <table class="w-full min-w-[800px] text-base">
-                <thead class="bg-gray-100 text-gray-700">
+            <!-- Contenedor con altura máxima y scroll (responsive) -->
+            <div class="overflow-x-auto overflow-y-auto border border-gray-300 rounded-lg" style="max-height: 400px;">
+              <table class="w-full min-w-[800px] text-sm md:text-base">
+                <thead class="bg-gray-100 text-gray-700 md:sticky md:top-0 z-10">
                   <tr>
                     <th class="p-2 text-left">Fecha</th>
                     <th class="p-2 text-left">Load #</th>
@@ -780,7 +889,7 @@
 
       <!-- 📊 Sección Finanzas -->
       <section id="finances" class="tab-content hidden">
-        <div class="w-full px-6 py-6 space-y-6">
+        <div class="w-full px-3 md:px-6 py-4 md:py-6 space-y-4 md:space-y-6">
 
           <!-- Submenú interno -->
           <div class="flex gap-4 border-b pb-2">
@@ -829,36 +938,48 @@
               </div>
             </div>
 
-            <!-- KPIs UNIFICADOS - Sin duplicaciones -->
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+            <!-- KPIs UNIFICADOS - Todos en una sola fila - Optimizado para mobile -->
+            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 md:gap-3 mb-6">
               <!-- Ingresos -->
-              <div class="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
+              <div class="bg-green-50 border border-green-200 rounded-lg p-1.5 md:p-2 text-center">
                 <h4 class="text-xs font-medium text-green-700 mb-1">Ingresos</h4>
-                <p class="text-lg font-bold text-green-800" id="totalRevenue">$0.00</p>
+                <p class="text-sm md:text-base font-bold text-green-800" id="totalRevenue">$0.00</p>
               </div>
 
               <!-- Gastos -->
-              <div class="bg-red-50 border border-red-200 rounded-lg p-3 text-center">
+              <div class="bg-red-50 border border-red-200 rounded-lg p-1.5 md:p-2 text-center">
                 <h4 class="text-xs font-medium text-red-700 mb-1">Gastos</h4>
-                <p class="text-lg font-bold text-red-800" id="totalExpensesSummary">$0.00</p>
+                <p class="text-sm md:text-base font-bold text-red-800" id="totalExpensesSummary">$0.00</p>
               </div>
 
               <!-- Ganancia -->
-              <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-center">
+              <div class="bg-blue-50 border border-blue-200 rounded-lg p-1.5 md:p-2 text-center">
                 <h4 class="text-xs font-medium text-blue-700 mb-1">Ganancia</h4>
-                <p class="text-lg font-bold text-blue-800" id="netProfit">$0.00</p>
+                <p class="text-sm md:text-base font-bold text-blue-800" id="netProfit">$0.00</p>
               </div>
 
               <!-- Millas -->
-              <div class="bg-purple-50 border border-purple-200 rounded-lg p-3 text-center">
+              <div class="bg-purple-50 border border-purple-200 rounded-lg p-1.5 md:p-2 text-center">
                 <h4 class="text-xs font-medium text-purple-700 mb-1">Millas</h4>
-                <p class="text-lg font-bold text-purple-800" id="totalMiles">0</p>
+                <p class="text-sm md:text-base font-bold text-purple-800" id="totalMiles">0</p>
               </div>
 
               <!-- RPM -->
-              <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-center">
+              <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-1.5 md:p-2 text-center">
                 <h4 class="text-xs font-medium text-yellow-700 mb-1">RPM</h4>
-                <p class="text-lg font-bold text-yellow-800" id="avgRpm">$0.00</p>
+                <p class="text-sm md:text-base font-bold text-yellow-800" id="avgRpm">$0.00</p>
+              </div>
+
+              <!-- Costo por Milla - Ahora compacto e integrado -->
+              <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-1.5 md:p-2 text-center">
+                <h4 class="text-xs font-medium text-indigo-700 mb-1">$/Milla</h4>
+                <p class="text-sm md:text-base font-bold text-indigo-800" id="costPerMile">$0.00</p>
+              </div>
+
+              <!-- Eficiencia - Ahora compacto e integrado -->
+              <div class="bg-pink-50 border border-pink-200 rounded-lg p-1.5 md:p-2 text-center">
+                <h4 class="text-xs font-medium text-pink-700 mb-1">Eficiencia</h4>
+                <p class="text-sm md:text-base font-bold text-pink-800" id="efficiency">0%</p>
               </div>
             </div>
 
@@ -866,10 +987,17 @@
             <div class="card-section">
               <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
                 <h3 class="text-base sm:text-lg font-semibold">💳 Gestión de Gastos</h3>
-                <button onclick="openExpenseModal()" class="bg-green-600 px-3 py-2 rounded hover:bg-green-700 text-sm"
-                  style="color: white !important; -webkit-text-fill-color: white !important;">
-                  ➕ Agregar Gasto
-                </button>
+                <div class="flex flex-col sm:flex-row gap-2">
+                  <button onclick="openExpenseModal()" class="bg-green-600 px-3 py-2 rounded hover:bg-green-700 text-sm"
+                    style="color: white !important; -webkit-text-fill-color: white !important;">
+                    ➕ Agregar Gasto
+                  </button>
+                  <button onclick="openCategoryModal()"
+                    class="bg-purple-600 px-3 py-2 rounded hover:bg-purple-700 text-sm"
+                    style="color: white !important; -webkit-text-fill-color: white !important;">
+                    ⚙️ Categorías
+                  </button>
+                </div>
               </div>
 
               <!-- Lista de gastos recientes -->
@@ -933,20 +1061,6 @@
               </div>
             </div>
 
-            <!-- Métricas Adicionales (Solo las que faltan) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-              <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 text-center">
-                <h4 class="text-sm font-medium text-indigo-700 mb-1">📏 Costo por Milla</h4>
-                <p class="text-xl font-bold text-indigo-800" id="costPerMile">$0.00</p>
-                <p class="text-xs text-indigo-600 mt-1">Incluye todos los gastos</p>
-              </div>
-              <div class="bg-pink-50 border border-pink-200 rounded-lg p-4 text-center">
-                <h4 class="text-sm font-medium text-pink-700 mb-1">⚡ Eficiencia</h4>
-                <p class="text-xl font-bold text-pink-800" id="efficiency">0%</p>
-                <p class="text-xs text-pink-600 mt-1">Análisis operativo</p>
-              </div>
-            </div>
-
           </div>
 
           <!-- 🧾 Contenido REPORTES -->
@@ -982,13 +1096,13 @@
             <!-- 📘 Tarjetas de Reportes -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-              <!-- 📊 Reporte Financiero Completo -->
+              <!-- 📊 Reporte Financiero Completo (P&L) -->
               <div class="card-section p-4 rounded-lg"
                 style="background: linear-gradient(135deg, rgba(30,58,138,0.8) 0%, rgba(59,130,246,0.6) 100%);">
                 <!-- Header -->
                 <div class="border-b border-white/20 pb-3 mb-3">
                   <h3 class="text-lg font-bold" style="color: white !important;">
-                    📊 Reporte Financiero Completo
+                    📊 Estado de Resultados (P&L)
                   </h3>
                 </div>
                 <!-- Description -->
@@ -997,40 +1111,104 @@
                     Análisis profesional con métricas clave, flujo de efectivo, y tendencias.
                   </p>
                   <div class="text-xs" style="color: rgba(255,255,255,0.6) !important;">
-                    ✅ Executive Summary<br>
-                    ✅ Cash Flow & Aging<br>
-                    ✅ Performance Metrics<br>
-                    ✅ Trend Analysis
+                    ✅ Resumen Ejecutivo<br>
+                    ✅ Métricas Operativas<br>
+                    ✅ Desglose de Gastos<br>
+                    ✅ Análisis de Cargas
                   </div>
                 </div>
                 <!-- Button -->
-                <button onclick="applyFilter('reports'); setTimeout(() => generateComprehensiveReport(), 100);"
+                <button onclick="generatePLReport()"
                   class="w-full px-4 py-2 rounded-lg font-medium transition shadow-md"
                   style="background-color: white !important; color: #1e3a8a !important; border: 2px solid rgba(255,255,255,0.5) !important;">
-                  📊 Generar Reporte Completo
+                  📊 Generar P&L Report
                 </button>
               </div>
 
-              <!-- 🧾 Reporte de Impuestos -->
+              <!-- 🏢 Reporte por Compañías -->
+              <div class="card-section p-4 rounded-lg"
+                style="background: linear-gradient(135deg, rgba(88,28,135,0.8) 0%, rgba(168,85,247,0.6) 100%);">
+                <!-- Header -->
+                <div class="border-b border-white/20 pb-3 mb-3">
+                  <h3 class="text-lg font-bold" style="color: white !important;">
+                    🏢 Reporte por Compañías
+                  </h3>
+                </div>
+                <!-- Description -->
+                <div class="mb-4">
+                  <p class="text-sm mb-2" style="color: rgba(255,255,255,0.85) !important;">
+                    Análisis detallado de ingresos, cargas y RPM por cada compañía.
+                  </p>
+                  <div class="text-xs" style="color: rgba(255,255,255,0.6) !important;">
+                    ✅ Ingresos por Compañía<br>
+                    ✅ Top 3 Mejores<br>
+                    ✅ RPM Promedio<br>
+                    ✅ Total de Cargas
+                  </div>
+                </div>
+                <!-- Button -->
+                <button onclick="generateCompanyReport()"
+                  class="w-full px-4 py-2 rounded-lg font-medium transition shadow-md"
+                  style="background-color: white !important; color: #581c87 !important; border: 2px solid rgba(255,255,255,0.5) !important;">
+                  🏢 Analizar Compañías
+                </button>
+              </div>
+
+              <!-- 📈 Desglose de Gastos -->
+              <div class="card-section p-4 rounded-lg"
+                style="background: linear-gradient(135deg, rgba(194,65,12,0.8) 0%, rgba(249,115,22,0.6) 100%);">
+                <!-- Header -->
+                <div class="border-b border-white/20 pb-3 mb-3">
+                  <h3 class="text-lg font-bold" style="color: white !important;">
+                    📈 Desglose de Gastos
+                  </h3>
+                </div>
+                <!-- Description -->
+                <div class="mb-4">
+                  <p class="text-sm mb-2" style="color: rgba(255,255,255,0.85) !important;">
+                    Análisis completo de gastos por categoría con visualización.
+                  </p>
+                  <div class="text-xs" style="color: rgba(255,255,255,0.6) !important;">
+                    ✅ Gastos por Categoría<br>
+                    ✅ Top 3 Categorías<br>
+                    ✅ % del Total<br>
+                    ✅ Gráfico Visual
+                  </div>
+                </div>
+                <!-- Button -->
+                <button onclick="generateExpenseBreakdownReport()"
+                  class="w-full px-4 py-2 rounded-lg font-medium transition shadow-md"
+                  style="background-color: white !important; color: #c2410c !important; border: 2px solid rgba(255,255,255,0.5) !important;">
+                  📈 Ver Desglose
+                </button>
+              </div>
+
+              <!-- 🗺️ Rentabilidad por Zona -->
               <div class="card-section p-4 rounded-lg"
                 style="background: linear-gradient(135deg, rgba(22,101,52,0.8) 0%, rgba(34,197,94,0.6) 100%);">
                 <!-- Header -->
                 <div class="border-b border-white/20 pb-3 mb-3">
                   <h3 class="text-lg font-bold" style="color: white !important;">
-                    🧾 Reporte de Impuestos
+                    🗺️ Rentabilidad por Zona
                   </h3>
                 </div>
                 <!-- Description -->
                 <div class="mb-4">
-                  <p class="text-sm" style="color: rgba(255,255,255,0.85) !important;">
-                    Deducciones y base imponible para declaración fiscal.
+                  <p class="text-sm mb-2" style="color: rgba(255,255,255,0.85) !important;">
+                    Identifica las rutas más y menos rentables por RPM.
                   </p>
+                  <div class="text-xs" style="color: rgba(255,255,255,0.6) !important;">
+                    ✅ Top 5 Mejores Rutas<br>
+                    ✅ Top 5 Peores Rutas<br>
+                    ✅ RPM por Ruta<br>
+                    ✅ Recomendaciones
+                  </div>
                 </div>
                 <!-- Button -->
-                <button onclick="generateTaxReport()"
+                <button onclick="generateProfitabilityReport()"
                   class="w-full px-4 py-2 rounded-lg font-medium transition shadow-md"
                   style="background-color: white !important; color: #166534 !important; border: 2px solid rgba(255,255,255,0.5) !important;">
-                  🧾 Calcular Impuestos
+                  🗺️ Analizar Zonas
                 </button>
               </div>
 
@@ -1059,7 +1237,8 @@
                 </div>
 
                 <!-- Contenido del Reporte (Scrollable) -->
-                <div id="reportContent" class="flex-1 overflow-y-auto bg-gray-50 p-4 md:p-6">
+                <div id="reportContent" class="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-6"
+                  style="min-height: 0; max-height: calc(100vh - 200px); padding-bottom: 60px;">
                   <!-- El contenido del reporte se inyecta aquí dinámicamente -->
                   <div class="text-center py-12 text-gray-500">
                     <span class="text-4xl block mb-3">📋</span>
@@ -1193,6 +1372,7 @@
                   <option value="tolls">🛣️ Peajes</option>
                   <option value="insurance">🛡️ Seguro</option>
                   <option value="permits">📋 Permisos</option>
+                  <option value="carpayment">🚗 Pago de Auto</option>
                   <option value="other">📦 Otros</option>
                 </select>
               </div>
@@ -1239,7 +1419,7 @@
 
       <!-- Zones Tab -->
       <section id="zones" class="tab-content hidden">
-        <div class="w-full px-6 py-6 space-y-8">
+        <div class="w-full px-3 md:px-6 py-4 md:py-6 space-y-4 md:space-y-8">
           <div class="section-header text-center">
             <h2 class="font-bold mb-4">🗺️ Zonas / Heatmap</h2>
             <p class="subtitle">Analiza la rentabilidad por estado con mapa interactivo</p>
@@ -1296,9 +1476,10 @@
                 📊 Imprimir Reporte
               </button>
             </div>
-            <div class="overflow-x-auto">
-              <table class="min-w-full text-sm border border-gray-300">
-                <thead class="bg-gray-200">
+            <!-- Contenedor con altura máxima y scroll (responsive) -->
+            <div class="overflow-x-auto overflow-y-auto border border-gray-300 rounded-lg" style="max-height: 400px;">
+              <table class="min-w-full text-xs md:text-sm">
+                <thead class="bg-gray-200 md:sticky md:top-0 z-10">
                   <tr>
                     <th class="p-2 text-left cursor-pointer" onclick="sortZonesBy('state')">Estado</th>
                     <th class="p-2 text-left">Zona</th>
@@ -1356,26 +1537,29 @@
             </div>
 
             <!-- Tabla de top ciudades -->
-            <div class="overflow-x-auto">
+            <div>
               <h4 class="text-md font-semibold mb-2">🧮 Top Ciudades por Cargas</h4>
-              <table class="min-w-full text-sm border border-gray-300">
-                <thead class="bg-gray-200">
-                  <tr>
-                    <th class="p-2 text-left">#</th>
-                    <th class="p-2 text-left">Ciudad</th>
-                    <th class="p-2 text-left">Cargas</th>
-                    <th class="p-2 text-left">RPM Promedio</th>
-                    <th class="p-2 text-left">Ganancia Total</th>
-                  </tr>
-                </thead>
-                <tbody id="citiesTableBody">
-                  <tr>
-                    <td colspan="4" class="p-4 text-center text-gray-500">
-                      Cargando datos de ciudades...
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <!-- Contenedor con altura máxima y scroll (responsive) -->
+              <div class="overflow-x-auto overflow-y-auto border border-gray-300 rounded-lg" style="max-height: 350px;">
+                <table class="min-w-full text-xs md:text-sm">
+                  <thead class="bg-gray-200 md:sticky md:top-0 z-10">
+                    <tr>
+                      <th class="p-2 text-left">#</th>
+                      <th class="p-2 text-left">Ciudad</th>
+                      <th class="p-2 text-left">Cargas</th>
+                      <th class="p-2 text-left">RPM Promedio</th>
+                      <th class="p-2 text-left">Ganancia Total</th>
+                    </tr>
+                  </thead>
+                  <tbody id="citiesTableBody">
+                    <tr>
+                      <td colspan="4" class="p-4 text-center text-gray-500">
+                        Cargando datos de ciudades...
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
 
@@ -1384,7 +1568,7 @@
 
       <!-- Settings Tab -->
       <section id="settings" class="tab-content hidden">
-        <div class="w-full px-6 py-6 space-y-8">
+        <div class="w-full px-3 md:px-6 py-4 md:py-6 space-y-4 md:space-y-8">
           <div class="section-header text-center">
             <h2 class="font-bold mb-4">⚙️ Configuración de Tu Negocio</h2>
             <p class="subtitle">Personaliza la app según tu tipo de operación y costos reales</p>
@@ -1393,16 +1577,16 @@
             <div id="configMessage" class="config-message" style="display: none;"></div>
 
             <!-- 👑 ADMIN PANEL BUTTON (only shows for admin users) -->
-            <div id="adminPanelSection" class="hidden mt-6">
-              <div class="bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg p-6 text-left">
-                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div id="adminPanelSection" class="hidden mt-3 md:mt-6">
+              <div class="bg-gradient-to-r from-purple-700 to-blue-700 rounded-lg p-2 md:p-6 text-left">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-2 md:gap-4">
                   <div>
-                    <h3 class="text-white font-bold text-lg mb-1">👑 Panel de Administración</h3>
-                    <p class="text-purple-100 text-sm">Gestiona usuarios, analytics y configuración del sistema</p>
+                    <h3 class="text-white font-bold text-sm md:text-lg mb-0.5">👑 Admin Panel</h3>
+                    <p class="text-purple-100 text-xs md:text-sm">Gestiona usuarios y sistema</p>
                   </div>
                   <button onclick="showAdminPanel()"
-                    class="bg-white text-purple-600 font-semibold px-6 py-3 rounded-lg hover:bg-gray-100 transition whitespace-nowrap">
-                    Abrir Panel
+                    class="bg-white text-purple-600 font-semibold px-3 py-1.5 md:px-6 md:py-3 rounded-lg hover:bg-gray-100 transition text-xs md:text-base w-full md:w-auto">
+                    Abrir
                   </button>
                 </div>
               </div>
@@ -1422,7 +1606,7 @@
                 }, 2000);
               });
             </script>
-            <!-- 1. PERFIL DE OPERACIÃ“N -->
+            <!-- 1. PERFIL DE OPERACION -->
             <div class="card-section">
               <h3 class="text-lg font-semibold mb-4">🚛 Perfil de Operación</h3>
 
@@ -2099,8 +2283,135 @@
     </div>
   </div>
 
+  <!-- Custom Categories Module -->
+  <script src="js/custom-categories.js"></script>
 
+  <!-- ✅ MODAL PARA GESTIONAR CATEGORÍAS -->
+  <div id="categoryModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
 
+      <!-- Modal Header -->
+      <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between sticky top-0 bg-white">
+        <h3 class="text-lg font-semibold text-gray-900">⚙️ Gestión de Categorías de Gastos</h3>
+        <button type="button" onclick="closeCategoryModal()" class="text-gray-400 hover:text-gray-600">
+          <span class="text-2xl">&times;</span>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="px-6 py-4">
+
+        <!-- Formulario de Nueva Categoría -->
+        <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
+          <h4 class="text-md font-semibold text-purple-900 mb-3">➕ Crear Nueva Categoría</h4>
+
+          <div class="space-y-4">
+
+            <!-- Nombre -->
+            <div>
+              <label for="categoryName" class="block text-sm font-medium text-gray-700 mb-1">Nombre de la
+                Categoría</label>
+              <input type="text" id="categoryName" placeholder="Ej: Préstamos, Marketing, etc."
+                class="border border-gray-300 rounded px-3 py-2 w-full focus:border-purple-500 focus:outline-none"
+                maxlength="30" required>
+            </div>
+
+            <!-- Icono (selector simple) -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Ícono</label>
+              <div id="iconSelector" class="grid grid-cols-8 gap-2">
+                <!-- Íconos comunes -->
+                <button type="button"
+                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                  onclick="selectIcon('💳')">💳</button>
+                <button type="button"
+                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                  onclick="selectIcon('💰')">💰</button>
+                <button type="button"
+                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                  onclick="selectIcon('💻')">💻</button>
+                <button type="button"
+                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                  onclick="selectIcon('📱')">📱</button>
+                <button type="button"
+                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                  onclick="selectIcon('🏦')">🏦</button>
+                <button type="button"
+                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                  onclick="selectIcon('🏠')">🏠</button>
+                <button type="button"
+                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                  onclick="selectIcon('🎓')">🎓</button>
+                <button type="button"
+                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                  onclick="selectIcon('⚡')">⚡</button>
+                <button type="button"
+                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                  onclick="selectIcon('🔧')">🔧</button>
+                <button type="button"
+                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                  onclick="selectIcon('🛠️')">🛠️</button>
+                <button type="button"
+                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                  onclick="selectIcon('📦')">📦</button>
+                <button type="button"
+                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                  onclick="selectIcon('🎯')">🎯</button>
+                <button type="button"
+                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                  onclick="selectIcon('📊')">📊</button>
+                <button type="button"
+                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                  onclick="selectIcon('💡')">💡</button>
+                <button type="button"
+                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                  onclick="selectIcon('🚀')">🚀</button>
+                <button type="button"
+                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
+                  onclick="selectIcon('⭐')">⭐</button>
+              </div>
+              <input type="hidden" id="selectedIcon" value="📌">
+            </div>
+
+            <!-- Color -->
+            <div>
+              <label for="categoryColor" class="block text-sm font-medium text-gray-700 mb-1">Color (opcional)</label>
+              <input type="color" id="categoryColor" value="#6b7280"
+                class="border border-gray-300 rounded px-3 py-2 w-full h-10">
+            </div>
+
+            <!-- Botón Crear -->
+            <button type="button" onclick="saveCustomCategory()"
+              class="w-full bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+              💾 Crear Categoría
+            </button>
+
+          </div>
+        </div>
+
+        <!-- Lista de Categorías Personalizadas -->
+        <div>
+          <h4 class="text-md font-semibold text-gray-900 mb-3">📋 Tus Categorías Personalizadas</h4>
+          <div id="customCategoriesList" class="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <!-- Se poblará dinámicamente -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="border-t border-gray-200 px-6 py-4 flex justify-end sticky bottom-0 bg-white">
+        <button type="button" onclick="closeCategoryModal()"
+          class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+          Cerrar
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 🔧 WORKAROUND: Modal de categorías creado dinámicamente por caché de Firebase -->
+  <script src="js/category-modal-dynamic.js"></script>
 
 </body>
 

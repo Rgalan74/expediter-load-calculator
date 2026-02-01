@@ -75,11 +75,11 @@ class LexAI {
         };
 
         console.log('✅ Perfil cargado:', {
-  totalLoads: this.userContext.totalLoads,
-  avgRPM: this.userContext.avgRPM.toFixed(2),
-  avgCPM: this.userContext.avgCPM.toFixed(3),
-  estados: Object.keys(this.userContext.stateStats).length
-});
+          totalLoads: this.userContext.totalLoads,
+          avgRPM: this.userContext.avgRPM.toFixed(2),
+          avgCPM: this.userContext.avgCPM.toFixed(3),
+          estados: Object.keys(this.userContext.stateStats).length
+        });
 
       } else {
         // 🆕 Primera vez - crear perfil inicial
@@ -186,10 +186,10 @@ class LexAI {
       };
 
       console.log('✅ Perfil inicial creado con éxito:', {
-  totalLoads: this.userContext.totalLoads,
-  avgRPM: this.userContext.avgRPM.toFixed(2),
-  avgCPM: this.userContext.avgCPM.toFixed(3)
-});
+        totalLoads: this.userContext.totalLoads,
+        avgRPM: this.userContext.avgRPM.toFixed(2),
+        avgCPM: this.userContext.avgCPM.toFixed(3)
+      });
 
     } catch (error) {
       console.error('❌ Error creando perfil inicial:', error);
@@ -418,11 +418,11 @@ class LexAI {
         businessPatterns
       };
 
-     console.log('✅ Promedios recalculados:', {
-  avgRPM: avgRPM.toFixed(2),
-  avgCPM: avgCPM.toFixed(3),
-  avgProfit: avgProfit.toFixed(0)
-});
+      console.log('✅ Promedios recalculados:', {
+        avgRPM: avgRPM.toFixed(2),
+        avgCPM: avgCPM.toFixed(3),
+        avgProfit: avgProfit.toFixed(0)
+      });
 
     } catch (error) {
       console.error('❌ Error recalculando promedios:', error);
@@ -462,8 +462,8 @@ class LexAI {
     const loads = Array.isArray(loadsData)
       ? loadsData
       : loadsData?.stateStats
-      ? Object.values(loadsData.stateStats).flatMap((s) => s.loads || [])
-      : [];
+        ? Object.values(loadsData.stateStats).flatMap((s) => s.loads || [])
+        : [];
 
     if (loads.length === 0) return 0;
 
@@ -735,22 +735,22 @@ class LexAI {
         0.95;
 
       // Análisis de RPM
-if (avgRPM < 0.85) {
-  alerts.push(
-    `Tu RPM promedio está bajo: $${safe(avgRPM, 2)}/mi`
-  );
-  recommendations.push(
-    'Considera negociar mejores tarifas o enfocarte en rutas más rentables'
-  );
-} else if (avgRPM >= 1.0) {
-  insights.push(
-    `Excelente RPM promedio: $${safe(avgRPM, 2)}/mi`
-  );
-}
+      if (avgRPM < 0.85) {
+        alerts.push(
+          `Tu RPM promedio está bajo: $${safe(avgRPM, 2)}/mi`
+        );
+        recommendations.push(
+          'Considera negociar mejores tarifas o enfocarte en rutas más rentables'
+        );
+      } else if (avgRPM >= 1.0) {
+        insights.push(
+          `Excelente RPM promedio: $${safe(avgRPM, 2)}/mi`
+        );
+      }
 
 
       // Porcentaje de cargas rentables
-            const profitRate =
+      const profitRate =
         loads.length > 0
           ? (profitableLoads / loads.length) * 100
           : 0;
@@ -782,28 +782,28 @@ if (avgRPM < 0.85) {
 
 
       // Recomendaciones por zonas
-if (topStates.length > 0) {
-  insights.push(
-    `Tus mejores estados: ${topStates
-      .slice(0, 3)
-      .map(
-        (s) =>
-          `${s.state} ($${safe(s.avgRPM, 2)}/mi)`
-      )
-      .join(', ')}`
-  );
-}
+      if (topStates.length > 0) {
+        insights.push(
+          `Tus mejores estados: ${topStates
+            .slice(0, 3)
+            .map(
+              (s) =>
+                `${s.state} ($${safe(s.avgRPM, 2)}/mi)`
+            )
+            .join(', ')}`
+        );
+      }
 
-if (worstStates.length > 0) {
-  alerts.push(
-    `Evita estas zonas: ${worstStates
-      .map(
-        (s) =>
-          `${s.state} ($${safe(s.avgRPM, 2)}/mi)`
-      )
-      .join(', ')}`
-  );
-}
+      if (worstStates.length > 0) {
+        alerts.push(
+          `Evita estas zonas: ${worstStates
+            .map(
+              (s) =>
+                `${s.state} ($${safe(s.avgRPM, 2)}/mi)`
+            )
+            .join(', ')}`
+        );
+      }
 
 
       // Estado emocional de Lex según historial
@@ -937,18 +937,16 @@ if (worstStates.length > 0) {
                 &#127758; Zonas destacadas
               </p>
               <p class="text-xs text-slate-700">
-                ${
-                  analysis.insights.find((m) =>
-                    m.startsWith('Tus mejores estados')
-                  ) || 'Aun no hay suficientes datos por estado'
-                }
+                ${analysis.insights.find((m) =>
+      m.startsWith('Tus mejores estados')
+    ) || 'Aun no hay suficientes datos por estado'
+      }
               </p>
               <p class="text-xs text-red-600 mt-1">
-                ${
-                  analysis.alerts.find((m) =>
-                    m.startsWith('Evita estas zonas')
-                  ) || ''
-                }
+                ${analysis.alerts.find((m) =>
+        m.startsWith('Evita estas zonas')
+      ) || ''
+      }
               </p>
             </div>
           </div>
@@ -960,16 +958,15 @@ if (worstStates.length > 0) {
                 &#9989; Puntos positivos
               </p>
               <ul class="space-y-1 max-h-40 overflow-y-auto pr-1">
-                ${
-                  analysis.insights.length
-                    ? analysis.insights
-                        .map(
-                          (i) =>
-                            `<li class="text-xs text-slate-700">&#8226; ${i}</li>`
-                        )
-                        .join('')
-                    : '<li class="text-xs text-slate-500">Aun no hay suficientes datos para generar insights.</li>'
-                }
+                ${analysis.insights.length
+        ? analysis.insights
+          .map(
+            (i) =>
+              `<li class="text-xs text-slate-700">&#8226; ${i}</li>`
+          )
+          .join('')
+        : '<li class="text-xs text-slate-500">Aun no hay suficientes datos para generar insights.</li>'
+      }
               </ul>
             </div>
             <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl">
@@ -977,16 +974,15 @@ if (worstStates.length > 0) {
                 &#128161; Alertas y oportunidades de mejora
               </p>
               <ul class="space-y-1 max-h-40 overflow-y-auto pr-1">
-                ${
-                  analysis.alerts.length
-                    ? analysis.alerts
-                        .map(
-                          (a) =>
-                            `<li class="text-xs text-amber-800">&#8226; ${a}</li>`
-                        )
-                        .join('')
-                    : '<li class="text-xs text-amber-700">No se detectaron alertas importantes en tu historial.</li>'
-                }
+                ${analysis.alerts.length
+        ? analysis.alerts
+          .map(
+            (a) =>
+              `<li class="text-xs text-amber-800">&#8226; ${a}</li>`
+          )
+          .join('')
+        : '<li class="text-xs text-amber-700">No se detectaron alertas importantes en tu historial.</li>'
+      }
               </ul>
             </div>
           </div>
@@ -1019,7 +1015,7 @@ if (worstStates.length > 0) {
     document.body.appendChild(modal);
   }
 
-    // ==========================================================
+  // ==========================================================
   //  MOSTRAR MODAL DE ANÁLISIS FINANCIERO
   // ==========================================================
   showFinanceAnalysisModal(analysis) {
@@ -1059,15 +1055,13 @@ if (worstStates.length > 0) {
             </div>
             <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
               <p class="text-[10px] text-slate-500 uppercase">Ganancia neta</p>
-              <p class="text-lg font-bold" style="color: ${
-                Number(analysis.netProfit) >= 0 ? '#047857' : '#b91c1c'
-              } !important;">$${safe(analysis.netProfit, 0)}</p>
+              <p class="text-lg font-bold" style="color: ${Number(analysis.netProfit) >= 0 ? '#047857' : '#b91c1c'
+      } !important;">$${safe(analysis.netProfit, 0)}</p>
             </div>
             <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
               <p class="text-[10px] text-slate-500 uppercase">Margen</p>
-              <p class="text-lg font-bold" style="color: ${
-                Number(analysis.margin) >= 0 ? '#047857' : '#b91c1c'
-              } !important;">${safe(analysis.margin, 1)}%</p>
+              <p class="text-lg font-bold" style="color: ${Number(analysis.margin) >= 0 ? '#047857' : '#b91c1c'
+      } !important;">${safe(analysis.margin, 1)}%</p>
             </div>
           </div>
 
@@ -1114,16 +1108,15 @@ if (worstStates.length > 0) {
                 &#9989; Puntos positivos
               </p>
               <ul class="space-y-1 max-h-40 overflow-y-auto pr-1">
-                ${
-                  analysis.insights && analysis.insights.length
-                    ? analysis.insights
-                        .map(
-                          (i) =>
-                            `<li class="text-xs text-emerald-800">&#8226; ${i}</li>`
-                        )
-                        .join('')
-                    : '<li class="text-xs text-emerald-700">Aún no hay suficientes datos para generar insights claros.</li>'
-                }
+                ${analysis.insights && analysis.insights.length
+        ? analysis.insights
+          .map(
+            (i) =>
+              `<li class="text-xs text-emerald-800">&#8226; ${i}</li>`
+          )
+          .join('')
+        : '<li class="text-xs text-emerald-700">Aún no hay suficientes datos para generar insights claros.</li>'
+      }
               </ul>
             </div>
             <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl">
@@ -1131,16 +1124,15 @@ if (worstStates.length > 0) {
                 &#128161; Alertas y oportunidades de mejora
               </p>
               <ul class="space-y-1 max-h-40 overflow-y-auto pr-1">
-                ${
-                  analysis.alerts && analysis.alerts.length
-                    ? analysis.alerts
-                        .map(
-                          (a) =>
-                            `<li class="text-xs text-amber-800">&#8226; ${a}</li>`
-                        )
-                        .join('')
-                    : '<li class="text-xs text-amber-700">No se detectaron alertas importantes en este período.</li>'
-                }
+                ${analysis.alerts && analysis.alerts.length
+        ? analysis.alerts
+          .map(
+            (a) =>
+              `<li class="text-xs text-amber-800">&#8226; ${a}</li>`
+          )
+          .join('')
+        : '<li class="text-xs text-amber-700">No se detectaron alertas importantes en este período.</li>'
+      }
               </ul>
             </div>
           </div>
@@ -1210,20 +1202,32 @@ if (worstStates.length > 0) {
     const rate = loadData.rate;
     const rpm = totalMiles > 0 ? rate / totalMiles : 0;
 
-    const costPerMile =
-      this.userContext.currentCosts?.total ||
-      this.userContext.avgCPM ||
-      0.576;
+    // Use shared expense calculation for consistency with Decision Panel
+    let estimatedCost = 0;
+    if (window.calculateTotalExpenses) {
+      const expenseBreakdown = window.calculateTotalExpenses(
+        totalMiles,
+        loadData.tolls || 0,
+        loadData.others || 0
+      );
+      estimatedCost = expenseBreakdown.total;
+    } else {
+      // Fallback if shared function not available
+      const costPerMile = this.userContext.currentCosts?.total ||
+        this.userContext.avgCPM ||
+        0.576;
+      estimatedCost = totalMiles * costPerMile;
+    }
 
-    const estimatedCost = totalMiles * costPerMile;
     const netProfit = rate - estimatedCost;
+
 
     const dailyProfit =
       netProfit / Math.max(1, totalMiles / 500);
 
     const stateStats = loadData.destinationState
       ? this.userContext.stateStats?.[loadData.destinationState] ||
-        null
+      null
       : null;
 
     let appDecision = null;
@@ -1279,7 +1283,7 @@ if (worstStates.length > 0) {
       isTrapLoad = trapAnalysisData.esTrampa === true;
     }
 
-   if (isTrapLoad && trapAnalysisData) {
+    if (isTrapLoad && trapAnalysisData) {
       console.log('[LEX] DETECTÓ: CARGA TRAMPA', trapAnalysisData);
 
       // Defaults seguros por si faltan campos
@@ -1287,12 +1291,12 @@ if (worstStates.length > 0) {
       const ida = detalles.ida || {};
       const regreso = detalles.regreso || {};
 
-      const idaMillas   = typeof ida.millas === 'number'   ? ida.millas   : null;
-      const idaRPM      = typeof ida.rpm === 'number'      ? ida.rpm      : null;
-      const idaRevenue  = typeof ida.revenue === 'number'  ? ida.revenue  : null;
-      const regMillas   = typeof regreso.millas === 'number'  ? regreso.millas  : null;
-      const regRPM      = typeof regreso.rpm === 'number'     ? regreso.rpm     : null;
-      const regRevenue  = typeof regreso.revenue === 'number' ? regreso.revenue : null;
+      const idaMillas = typeof ida.millas === 'number' ? ida.millas : null;
+      const idaRPM = typeof ida.rpm === 'number' ? ida.rpm : null;
+      const idaRevenue = typeof ida.revenue === 'number' ? ida.revenue : null;
+      const regMillas = typeof regreso.millas === 'number' ? regreso.millas : null;
+      const regRPM = typeof regreso.rpm === 'number' ? regreso.rpm : null;
+      const regRevenue = typeof regreso.revenue === 'number' ? regreso.revenue : null;
 
       const rpmOfrecido = typeof trapAnalysisData.rpmOfrecido === 'number'
         ? trapAnalysisData.rpmOfrecido
@@ -1395,9 +1399,9 @@ if (worstStates.length > 0) {
         );
       }
 
-      } else if (trapAnalysisData && trapAnalysisData.nivel === 'NORMAL' && 
-               trapAnalysisData.zonaOrigen === 'TRAP' && 
-               trapAnalysisData.zonaDestino === 'TRAP') {
+    } else if (trapAnalysisData && trapAnalysisData.nivel === 'NORMAL' &&
+      trapAnalysisData.zonaOrigen === 'TRAP' &&
+      trapAnalysisData.zonaDestino === 'TRAP') {
       // Movimiento dentro de zona trap (ej: Reno → Las Vegas)
       console.log('[LEX] MOVIMIENTO DENTRO DE TRAP - Minimizar daño');
 
@@ -1439,16 +1443,15 @@ if (worstStates.length > 0) {
       // Carga óptima dentro de zona operativa
       console.log('[LEX] CARGA ÓPTIMA - Dentro de zona operativa');
 
-      const zonaDescripcion = trapAnalysisData.zonaOrigen === 'CORE_MIDWEST' 
-        ? 'Core Midwest' 
+      const zonaDescripcion = trapAnalysisData.zonaOrigen === 'CORE_MIDWEST'
+        ? 'Core Midwest'
         : trapAnalysisData.zonaOrigen === 'EXTENDED_MIDWEST'
-        ? 'Extended Midwest'
-        : 'tu zona operativa';
+          ? 'Extended Midwest'
+          : 'tu zona operativa';
 
       reasons.push(`EXCELENTE: Te mantienes en ${zonaDescripcion}`);
       reasons.push(
-        `Ruta: ${loadData.originState || 'origen'} a ${
-          loadData.destinationState || 'destino'
+        `Ruta: ${loadData.originState || 'origen'} a ${loadData.destinationState || 'destino'
         } (ambos en zona verde)`
       );
 
@@ -1468,12 +1471,11 @@ if (worstStates.length > 0) {
       const destinoDescripcion = trapAnalysisData.zonaDestino === 'CORE_MIDWEST'
         ? 'Core Midwest'
         : trapAnalysisData.zonaDestino === 'EXTENDED_MIDWEST'
-        ? 'Extended Midwest'
-        : 'zona operativa rentable';
+          ? 'Extended Midwest'
+          : 'zona operativa rentable';
 
       reasons.push(
-        `RELOCALIZACION: Estas regresando de ${
-          loadData.originState || 'zona trap'
+        `RELOCALIZACION: Estas regresando de ${loadData.originState || 'zona trap'
         } hacia ${destinoDescripcion}`
       );
       reasons.push(
@@ -1575,94 +1577,94 @@ if (worstStates.length > 0) {
     const vsTarget = (Number(rpm) || 0) - (Number(targetRPM) || 0);
     const vsTargetPct = Number(targetRPM) > 0 ? (vsTarget / targetRPM) * 100 : 0;
 
-   if (vsTargetPct >= 5) {
-   if (recommendation === 'RECHAZAR') {
-    recommendation = 'NEGOCIAR';
-   }
-  confidence += 5;
+    if (vsTargetPct >= 5) {
+      if (recommendation === 'RECHAZAR') {
+        recommendation = 'NEGOCIAR';
+      }
+      confidence += 5;
 
-  const targetText =
-    Number.isFinite(targetRPM) && targetRPM > 0
-      ? `$${safe(targetRPM, 2)}/mi`
-      : 'sin objetivo definido todavía';
+      const targetText =
+        Number.isFinite(targetRPM) && targetRPM > 0
+          ? `$${safe(targetRPM, 2)}/mi`
+          : 'sin objetivo definido todavía';
 
-  reasons.push(
-    `RPM por encima del objetivo: $${safe(rpm, 2)}/mi vs ${targetText}`
-  );
-} else if (vsTargetPct <= -15) {
-  confidence += 5;
-  if (recommendation === 'ACEPTAR') {
-    recommendation = 'NEGOCIAR';
-  }
+      reasons.push(
+        `RPM por encima del objetivo: $${safe(rpm, 2)}/mi vs ${targetText}`
+      );
+    } else if (vsTargetPct <= -15) {
+      confidence += 5;
+      if (recommendation === 'ACEPTAR') {
+        recommendation = 'NEGOCIAR';
+      }
 
-  const targetText =
-    Number.isFinite(targetRPM) && targetRPM > 0
-      ? `$${safe(targetRPM, 2)}/mi`
-      : 'sin objetivo definido todavía';
+      const targetText =
+        Number.isFinite(targetRPM) && targetRPM > 0
+          ? `$${safe(targetRPM, 2)}/mi`
+          : 'sin objetivo definido todavía';
 
-  reasons.push(
-    `RPM por debajo del objetivo: $${safe(rpm, 2)}/mi vs ${targetText} (más bajo de lo ideal)`
-  );
-}
+      reasons.push(
+        `RPM por debajo del objetivo: $${safe(rpm, 2)}/mi vs ${targetText} (más bajo de lo ideal)`
+      );
+    }
 
 
     // Ajustes por profit
-if (netProfit < 0) {
-  reasons.push(
-    `Esta carga te deja muy ajustada, casi en pérdida: -$${safe(Math.abs(netProfit), 0)} estimados`
-  );
-  if (recommendation === 'ACEPTAR') {
-    recommendation = 'NEGOCIAR';
-  }
-  confidence += 5;
-} else if (Number.isFinite(dailyProfit) && dailyProfit >= 400) {
-  reasons.push(
-    `Buena ganancia estimada por día: $${safe(dailyProfit, 0)}/día aprox.`
-  );
-  if (recommendation === 'RECHAZAR') {
-    recommendation = 'NEGOCIAR';
-  }
-}
-
-// Ajustes por stats del estado
-let stateAvgRPM = null;
-if (stateStats && stateStats.totalMiles > 0) {
-  const computedStateAvg = stateStats.totalRevenue / stateStats.totalMiles;
-  // Guardamos el promedio real para usarlo en métricas
-  stateAvgRPM = computedStateAvg;
-
-  const refAvg = Number.isFinite(stateStats.avgRPM)
-    ? stateStats.avgRPM
-    : computedStateAvg;
-
-  if (Number.isFinite(refAvg)) {
-    if (rpm >= refAvg) {
+    if (netProfit < 0) {
       reasons.push(
-        `Esta oferta está igual o mejor que tu promedio en ${loadData.destinationState} ($${safe(refAvg, 2)}/mi)`
+        `Esta carga te deja muy ajustada, casi en pérdida: -$${safe(Math.abs(netProfit), 0)} estimados`
       );
-    } else {
+      if (recommendation === 'ACEPTAR') {
+        recommendation = 'NEGOCIAR';
+      }
+      confidence += 5;
+    } else if (Number.isFinite(dailyProfit) && dailyProfit >= 400) {
       reasons.push(
-        `Históricamente has cobrado más en ${loadData.destinationState} ($${safe(refAvg, 2)}/mi)`
+        `Buena ganancia estimada por día: $${safe(dailyProfit, 0)}/día aprox.`
       );
+      if (recommendation === 'RECHAZAR') {
+        recommendation = 'NEGOCIAR';
+      }
     }
-  }
-}
 
-if (this.userContext.preferredStates?.length) {
-  if (this.userContext.preferredStates.includes(loadData.destinationState)) {
-    reasons.push(
-      `${loadData.destinationState} está entre tus mejores estados históricos`
-    );
-  }
-}
+    // Ajustes por stats del estado
+    let stateAvgRPM = null;
+    if (stateStats && stateStats.totalMiles > 0) {
+      const computedStateAvg = stateStats.totalRevenue / stateStats.totalMiles;
+      // Guardamos el promedio real para usarlo en métricas
+      stateAvgRPM = computedStateAvg;
 
-if (this.userContext.badStates?.length) {
-  if (this.userContext.badStates.includes(loadData.destinationState)) {
-    reasons.push(
-      `${loadData.destinationState} históricamente te ha dado bajo rendimiento`
-    );
-  }
-}
+      const refAvg = Number.isFinite(stateStats.avgRPM)
+        ? stateStats.avgRPM
+        : computedStateAvg;
+
+      if (Number.isFinite(refAvg)) {
+        if (rpm >= refAvg) {
+          reasons.push(
+            `Esta oferta está igual o mejor que tu promedio en ${loadData.destinationState} ($${safe(refAvg, 2)}/mi)`
+          );
+        } else {
+          reasons.push(
+            `Históricamente has cobrado más en ${loadData.destinationState} ($${safe(refAvg, 2)}/mi)`
+          );
+        }
+      }
+    }
+
+    if (this.userContext.preferredStates?.length) {
+      if (this.userContext.preferredStates.includes(loadData.destinationState)) {
+        reasons.push(
+          `${loadData.destinationState} está entre tus mejores estados históricos`
+        );
+      }
+    }
+
+    if (this.userContext.badStates?.length) {
+      if (this.userContext.badStates.includes(loadData.destinationState)) {
+        reasons.push(
+          `${loadData.destinationState} históricamente te ha dado bajo rendimiento`
+        );
+      }
+    }
 
 
     // Suavizar razones (extra por si algo se cuela)
@@ -1682,28 +1684,28 @@ if (this.userContext.badStates?.length) {
     reasons.length = 0;
     reasons.push(...softened);
 
-// Ensamblar análisis final
-const analysis = {
-  recommendation,
-  confidence: Math.max(0, Math.min(100, confidence)),
-  reasons,
-  metrics: {
-    rpm: safe(rpm, 2),
-    vsAverage: targetRPM
-      ? safe(((rpm - targetRPM) / targetRPM) * 100, 1)
-      : '0',
-    rate: safe(rate, 0),
-    estimatedCost: safe(estimatedCost, 0),
-    profit: safe(netProfit, 0),
-    dailyProfit: safe(dailyProfit, 0),
-    stateAvgRPM: stateAvgRPM ? Number(stateAvgRPM).toFixed(2) : null
-  },
-  notesInsights: {
-    hasNotes: false,
-    rawNotes: [],
-    messages: []
-  }
-};
+    // Ensamblar análisis final
+    const analysis = {
+      recommendation,
+      confidence: Math.max(0, Math.min(100, confidence)),
+      reasons,
+      metrics: {
+        rpm: safe(rpm, 2),
+        vsAverage: targetRPM
+          ? safe(((rpm - targetRPM) / targetRPM) * 100, 1)
+          : '0',
+        rate: safe(rate, 0),
+        estimatedCost: safe(estimatedCost, 0),
+        profit: safe(netProfit, 0),
+        dailyProfit: safe(dailyProfit, 0),
+        stateAvgRPM: stateAvgRPM ? Number(stateAvgRPM).toFixed(2) : null
+      },
+      notesInsights: {
+        hasNotes: false,
+        rawNotes: [],
+        messages: []
+      }
+    };
     // ======================================================
     //  Cargar notas históricas del destino para Lex
     // ======================================================
@@ -1740,27 +1742,27 @@ const analysis = {
 
     window.lastLexAnalysis = analysis;
 
-     const shortMessageMap = {
-  ACEPTAR: `✅ Buena carga. Confianza: ${analysis.confidence}%`,
-  RECHAZAR: `⛔ No compensa esta carga. Confianza: ${analysis.confidence}%`,
-  NEGOCIAR: `🟡 Carga intermedia, mi recomendación es NEGOCIAR.`
-};
+    const shortMessageMap = {
+      ACEPTAR: `✅ Buena carga. Confianza: ${analysis.confidence}%`,
+      RECHAZAR: `⛔ No compensa esta carga. Confianza: ${analysis.confidence}%`,
+      NEGOCIAR: `🟡 Carga intermedia, mi recomendación es NEGOCIAR.`
+    };
 
-   if (window.setLexState) {
-  const baseMessage =
-    shortMessageMap[recommendation] ||
-    'Te dejo mi análisis detallado arriba';
+    if (window.setLexState) {
+      const baseMessage =
+        shortMessageMap[recommendation] ||
+        'Te dejo mi análisis detallado arriba';
 
-  const notesHint =
-    analysis.notesInsights?.hasNotes
-      ? `\n🗒️ Tienes notas guardadas para este destino, revísalas en el panel.`
-      : '';
+      const notesHint =
+        analysis.notesInsights?.hasNotes
+          ? `\n🗒️ Tienes notas guardadas para este destino, revísalas en el panel.`
+          : '';
 
-  window.setLexState(lexState || 'thinking', {
-    message: baseMessage + notesHint,
-    duration: 5000
-  });
-}
+      window.setLexState(lexState || 'thinking', {
+        message: baseMessage + notesHint,
+        duration: 5000
+      });
+    }
 
     this.showLexAnalysisModal(analysis, lexState, loadData);
     await this.updateProfileWithLoad({
@@ -1804,6 +1806,12 @@ const analysis = {
       const deadheadMiles = Number(deadheadEl.value || 0);
       const rate = Number(rateEl.value || 0);
 
+      // Get tolls and other costs for accurate expense calculation
+      const tollsEl = document.getElementById('tolls');
+      const othersEl = document.getElementById('otherCosts');
+      const tolls = tollsEl ? Number(tollsEl.value || 0) : 0;
+      const others = othersEl ? Number(othersEl.value || 0) : 0;
+
       let originState = null;
       const originMatch = origin.match(/,\s*([A-Z]{2})/);
       if (originMatch) {
@@ -1827,7 +1835,9 @@ const analysis = {
         deadheadMiles,
         totalMiles,
         rate,
-        rpm: totalMiles > 0 ? rate / totalMiles : 0
+        rpm: totalMiles > 0 ? rate / totalMiles : 0,
+        tolls,
+        others
       };
     } catch (error) {
       console.error('Error obteniendo datos de carga:', error);
@@ -1852,9 +1862,8 @@ const analysis = {
         <!-- Header con gradiente -->
         <div class="text-white p-4 rounded-t-2xl flex-shrink-0" style="background: linear-gradient(to right, #2563eb, #7c3aed) !important;">
           <div class="flex items-center gap-3">
-            <img src="img/lex/lex-${
-              lexState === 'warning' ? 'alert' : lexState
-            }.png" class="w-10 h-10 rounded-full bg-white/10 p-1">
+            <img src="img/lex/lex-${lexState === 'warning' ? 'alert' : lexState
+      }.png" class="w-10 h-10 rounded-full bg-white/10 p-1">
             <div>
               <h3 class="text-lg font-bold">Analisis de Carga</h3>
               <p class="text-xs text-blue-100">
@@ -1867,28 +1876,25 @@ const analysis = {
         <div class="p-6 flex-1 overflow-y-auto">
           <!-- Recomendacion principal -->
           <div class="mb-6">
-            <div class="p-4 rounded-xl ${
-              analysis.recommendation === 'ACEPTAR'
-                ? 'bg-green-50 border-2 border-green-500'
-                : analysis.recommendation === 'RECHAZAR'
-                ? 'bg-red-50 border-2 border-red-500'
-                : 'bg-yellow-50 border-2 border-yellow-500'
-            }">
+            <div class="p-4 rounded-xl ${analysis.recommendation === 'ACEPTAR'
+        ? 'bg-green-50 border-2 border-green-500'
+        : analysis.recommendation === 'RECHAZAR'
+          ? 'bg-red-50 border-2 border-red-500'
+          : 'bg-yellow-50 border-2 border-yellow-500'
+      }">
               <div class="flex items-center justify-between mb-2">
-                <span class="text-2xl font-bold ${
-                  analysis.recommendation === 'ACEPTAR'
-                    ? 'text-green-700'
-                    : analysis.recommendation === 'RECHAZAR'
-                    ? 'text-red-700'
-                    : 'text-yellow-700'
-                }">${analysis.recommendation}</span>
-                <span class="text-sm font-semibold ${
-                  analysis.recommendation === 'ACEPTAR'
-                    ? 'text-green-600'
-                    : analysis.recommendation === 'RECHAZAR'
-                    ? 'text-red-600'
-                    : 'text-yellow-600'
-                }">Confianza: ${analysis.confidence}%</span>
+                <span class="text-2xl font-bold ${analysis.recommendation === 'ACEPTAR'
+        ? 'text-green-700'
+        : analysis.recommendation === 'RECHAZAR'
+          ? 'text-red-700'
+          : 'text-yellow-700'
+      }">${analysis.recommendation}</span>
+                <span class="text-sm font-semibold ${analysis.recommendation === 'ACEPTAR'
+        ? 'text-green-600'
+        : analysis.recommendation === 'RECHAZAR'
+          ? 'text-red-600'
+          : 'text-yellow-600'
+      }">Confianza: ${analysis.confidence}%</span>
               </div>
             </div>
           </div>
@@ -1898,14 +1904,12 @@ const analysis = {
             <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
               <p class="text-xs text-gray-500 mb-1">RPM</p>
               <p class="text-lg font-bold text-gray-800">$${analysis.metrics.rpm}</p>
-              <p class="text-xs ${
-                parseFloat(analysis.metrics.vsAverage) >= 0
-                  ? 'text-green-600'
-                  : 'text-red-600'
-              }">
-                ${
-                  parseFloat(analysis.metrics.vsAverage) >= 0 ? '+' : ''
-                }${analysis.metrics.vsAverage}% vs objetivo
+              <p class="text-xs ${parseFloat(analysis.metrics.vsAverage) >= 0
+        ? 'text-green-600'
+        : 'text-red-600'
+      }">
+                ${parseFloat(analysis.metrics.vsAverage) >= 0 ? '+' : ''
+      }${analysis.metrics.vsAverage}% vs objetivo
               </p>
             </div>
 
@@ -1928,11 +1932,10 @@ const analysis = {
 
               <p class="text-xs mt-1">
                 Ganancia neta: 
-                <span class="font-semibold ${
-                  Number(analysis.metrics.profit) >= 0
-                    ? 'text-emerald-600'
-                    : 'text-red-600'
-                }">
+                <span class="font-semibold ${Number(analysis.metrics.profit) >= 0
+        ? 'text-emerald-600'
+        : 'text-red-600'
+      }">
                   $${analysis.metrics.profit}
                 </span>
               </p>
@@ -1942,9 +1945,8 @@ const analysis = {
               </p>
             </div>
 
-            ${
-              analysis.metrics.stateAvgRPM !== 'N/A'
-                ? `
+            ${analysis.metrics.stateAvgRPM !== 'N/A'
+        ? `
             <div class="bg-blue-50 p-4 rounded-lg border border-blue-200 col-span-2">
               <p class="text-xs text-blue-600 mb-1">&#128202; Estado: RPM Promedio Historico</p>
               <p class="text-lg font-bold text-blue-800">
@@ -1953,8 +1955,8 @@ const analysis = {
 
             </div>
             `
-                : ''
-            }
+        : ''
+      }
           </div>
 
           <!-- Razones -->
@@ -1962,46 +1964,43 @@ const analysis = {
             <p class="text-sm font-semibold text-gray-700 mb-2">&#129504; Analisis:</p>
             <ul class="space-y-2">
               ${analysis.reasons
-                .map(
-                  (r) =>
-                    `<li class="text-sm text-gray-700">&#8226; ${r}</li>`
-                )
-                .join('')}
+        .map(
+          (r) =>
+            `<li class="text-sm text-gray-700">&#8226; ${r}</li>`
+        )
+        .join('')}
             </ul>
           </div>
 
           <!-- Notas historicas para este estado -->
-          ${
-            analysis.notesInsights?.hasNotes
-              ? `
+          ${analysis.notesInsights?.hasNotes
+        ? `
             <div class="mb-6 border-t border-gray-200 pt-4">
               <p class="text-sm font-semibold text-gray-700 mb-2">&#128221; Notas historicas en este destino/estado</p>
               <ul class="space-y-1 mb-2">
                 ${analysis.notesInsights.rawNotes
-                  .map(
-                    (n) =>
-                      `<li class="text-xs text-gray-600">&#8226; ${n}</li>`
-                  )
-                  .join('')}
+          .map(
+            (n) =>
+              `<li class="text-xs text-gray-600">&#8226; ${n}</li>`
+          )
+          .join('')}
               </ul>
-              ${
-                analysis.notesInsights.messages.length
-                  ? `
+              ${analysis.notesInsights.messages.length
+          ? `
                 <p class="text-sm font-semibold text-gray-700 mb-2">
                   &#129504; Notas aprendidas de este destino
                 </p>
               `
-                  : ''
-              }
+          : ''
+        }
             </div>
           `
-              : ''
-          }
+        : ''
+      }
 
           <!-- Contraoferta -->
-          ${
-            analysis.recommendation === 'NEGOCIAR' && loadData?.rate
-              ? `
+          ${analysis.recommendation === 'NEGOCIAR' && loadData?.rate
+        ? `
           <div class="mb-6 bg-yellow-50 border border-yellow-200 p-4 rounded-xl">
             <p class="text-sm font-semibold text-yellow-800 mb-2">&#128226; Sugerencia:</p>
             <p class="text-sm text-gray-800 mb-2">
@@ -2015,8 +2014,8 @@ const analysis = {
             </button>
           </div>
           `
-              : ''
-          }
+        : ''
+      }
         </div>
 
         <!-- Footer: acciones -->
@@ -2173,13 +2172,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             const rawTarget = window.lexAI.userContext.targetRPM;
             const targetNum = Number(rawTarget);
             const targetText = Number.isFinite(targetNum)
-            ? `$${safe(targetNum, 2)}`
-            : '$1.30';
+              ? `$${safe(targetNum, 2)}`
+              : '$1.30';
 
             const greeting =
-            totalLoads > 0
-            ? `¡Hola! He aprendido de tus ${totalLoads} cargas. RPM objetivo: ${targetText} 🚀`
-            : '¡Hola! Soy Lex. Analiza cargas y empezaré a aprender de ti 🚚';
+              totalLoads > 0
+                ? `¡Hola! He aprendido de tus ${totalLoads} cargas. RPM objetivo: ${targetText} 🚀`
+                : '¡Hola! Soy Lex. Analiza cargas y empezaré a aprender de ti 🚚';
 
             window.setLexState('happy', {
               message: greeting,
@@ -2249,7 +2248,7 @@ async function ensureLexReady() {
 //  REEMPLAZAR líneas 2251-2340 en lex-ai-brain.js
 // ==========================================================
 
-window.triggerLex = async function() {
+window.triggerLex = async function () {
   try {
     // Estado visual
     if (window.setLexState) {
@@ -2279,7 +2278,7 @@ window.triggerLex = async function() {
     // USAR LEXMASTER + LEXMODALS
     if (window.lexMaster && window.lexModals) {
       console.log('[LEX] Usando sistema de agentes');
-      
+
       // Ejecutar agente
       const result = await window.lexMaster.processRequest(message, {
         activeTab: currentTab,
@@ -2299,7 +2298,7 @@ window.triggerLex = async function() {
         if (agentResult.recommendation) {
           // Calculator Agent
           finalState = agentResult.recommendation.level === 'accept' ? 'happy' :
-                       agentResult.recommendation.level === 'reject' ? 'sad' : 'warning';
+            agentResult.recommendation.level === 'reject' ? 'sad' : 'warning';
         } else if (agentResult.insights) {
           // History/Finances Agent
           finalState = agentResult.insights.warnings?.length > 0 ? 'warning' : 'happy';
@@ -2315,11 +2314,11 @@ window.triggerLex = async function() {
         }
       }
 
-    } 
+    }
     // FALLBACK: Usar funciones antiguas
     else {
       console.warn('[LEX] Sistema de agentes no disponible, usando método antiguo');
-      
+
       const fallbackFunctions = {
         'calculator': window.lexAI?.analyzeCurrentLoad || window.analyzeLexLoad,
         'history': window.analyzeLexHistory,
@@ -2358,7 +2357,7 @@ function mostrarResultadoLex(result, tab) {
   // Calculator
   if (tab === 'calculator' && result.agent === 'Calculator') {
     const { data, recommendation } = result;
-    
+
     // Usar modal existente de LexAI o crear simple
     if (window.lexAI?.showLoadAnalysisModal) {
       // Adaptar al formato del modal existente
@@ -2374,9 +2373,9 @@ function mostrarResultadoLex(result, tab) {
     }
 
     // Estado visual
-    const state = recommendation.level === 'accept' ? 'happy' : 
-                  recommendation.level === 'reject' ? 'sad' : 'warning';
-    
+    const state = recommendation.level === 'accept' ? 'happy' :
+      recommendation.level === 'reject' ? 'sad' : 'warning';
+
     window.setLexState?.(state, {
       message: recommendation.action,
       duration: 5000
@@ -2409,8 +2408,8 @@ async function analyzeHistoryLex(loads = []) {
 
     const totalLoads = loads.length;
     let totalMiles = 0,
-        totalRevenue = 0,
-        totalProfit = 0;
+      totalRevenue = 0,
+      totalProfit = 0;
 
     const stateStats = {};
 

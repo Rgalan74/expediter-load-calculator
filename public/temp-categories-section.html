@@ -1,0 +1,19 @@
+\u003c!-- Agregar en la sección de Finanzas, después de la lista de gastos recientes --\u003e
+\u003c!-- UBICACIÓN SUGERIDA: Línea ~925-935 en app.html (después de la tabla de gastos) --\u003e
+
+\u003c!-- ⚙️ Gestión de Categorías Personalizadas --\u003e
+\u003cdiv class="card-section"\u003e
+\u003cdiv class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4"\u003e
+\u003ch3 class="text-base sm:text-lg font-semibold"\u003e⚙️ Categorías de Gastos\u003c/h3\u003e
+\u003cbutton onclick="openCategoryModal()"
+class="bg-purple-600 px-3 py-2 rounded hover:bg-purple-700 text-sm w-full sm:w-auto"
+style="color: white !important; -webkit-text-fill-color: white !important;"\u003e
+➕ Nueva Categoría
+\u003c/button\u003e
+\u003c/div\u003e
+
+\u003c!-- Lista de categorías personalizadas --\u003e
+\u003cdiv id="customCategoriesList" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"\u003e
+\u003c!-- Se poblará dinámicamente --\u003e
+\u003c/div\u003e
+\u003c/div\u003e

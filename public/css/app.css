@@ -422,7 +422,8 @@ textarea:focus,
 select:focus {
   border-color: var(--primary-blue) !important;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
-  background: var(--bg-dark) !important;
+  background: rgba(30, 58, 138, 0.35) !important;
+  /* Blue tinted background on focus */
   outline: none !important;
 }
 
@@ -740,7 +741,8 @@ p.kpi-value {
 /* Strong y negritas */
 strong,
 .font-bold:not(h2):not(h3):not(h4) {
-  color: #240c98 !important;
+  color: #60a5fa !important;
+  /* Azul claro vibrante - WCAG AA compliant */
   font-weight: 700 !important;
 }
 
@@ -1807,5 +1809,35 @@ hr,
   .lex-modal-btn {
     font-size: 0.65rem;
     padding: 3px 8px;
+  }
+} 
+ 
+/* ============================
+    MOBILE-SPECIFIC OVERRIDES
+   ============================ */
+
+/* CRITICAL: Mobile-only input styling for better visibility
+   Must be at the end of this file to override all previous styles */
+@media (max-width: 768px) {
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    background: rgba(30, 58, 138, 0.15) !important;
+    color: #f1f5f9 !important;
+    border: 1.5px solid rgba(96, 165, 250, 0.3) !important;
+  }
+  
+  input:not([type="checkbox"]):not([type="radio"])::placeholder,
+  textarea::placeholder {
+    color: #cbd5e1 !important;
+    opacity: 0.9 !important;
+  }
+  
+  input:not([type="checkbox"]):not([type="radio"]):focus,
+  textarea:focus,
+  select:focus {
+    background: rgba(30, 58, 138, 0.45) !important;
+    border-color: #60a5fa !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
   }
 }
