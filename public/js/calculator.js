@@ -1763,6 +1763,10 @@ function initGoogleMaps() {
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
 
+    // Expose globally for sequential-destinations.js
+    window.googleMap = googleMap;
+    console.log('[MAPS] ✅ window.googleMap set (from calculator.js):', !!window.googleMap);
+
     // Inicializar servicios de direcciones
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer({
