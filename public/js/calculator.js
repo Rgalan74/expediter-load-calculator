@@ -3418,6 +3418,12 @@ function removeStop(stopId) {
 function getStops() {
   const stops = [];
   const container = document.getElementById('stopsContainer');
+
+  // Return empty array if container doesn't exist (using new sequential destinations system)
+  if (!container) {
+    return stops;
+  }
+
   const stopCards = container.querySelectorAll('[id^="stop-"]');
 
   stopCards.forEach(card => {
