@@ -162,8 +162,8 @@
   .kpi-value,
   .text-3xl.font-bold,
   .text-2xl.font-bold {
-    font-size: 1.5rem !important;
-    /* 24px */
+    font-size: 2.5rem !important;
+    /* 40px - Máxima legibilidad en móvil */
     font-weight: 700 !important;
     line-height: 1.25 !important;
   }
@@ -173,20 +173,20 @@
      ==================================== */
 
   table {
-    font-size: 0.875rem !important;
-    /* 14px */
+    font-size: 0.75rem !important;
+    /* 12px */
   }
 
   th {
-    font-size: 0.8125rem !important;
-    /* 13px */
+    font-size: 0.75rem !important;
+    /* 12px */
     font-weight: 600 !important;
     padding: 0.5rem !important;
   }
 
   td {
-    font-size: 0.875rem !important;
-    /* 14px */
+    font-size: 0.75rem !important;
+    /* 12px */
     font-weight: 400 !important;
     padding: 0.5rem !important;
   }
@@ -343,22 +343,35 @@
 
 /* ===== FINANCES KPI CARDS - UNIFORM SIZE ===== */
 @media (max-width: 768px) {
-  #finances-summary .grid.grid-cols-2>div {
-    min-height: 80px !important;
+
+  /* Aplicar a todos los grids de KPIs en Finanzas */
+  #finances-summary .grid>div {
+    min-height: 85px !important;
+    /* Aumentado de 70px a 85px */
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
     align-items: center !important;
+    padding: 0.5rem !important;
+    /* Añadido padding para más espacio */
   }
 
-  #finances-summary .grid.grid-cols-2>div h4 {
-    font-size: 0.7rem !important;
+  /* Títulos de KPIs más pequeños */
+  #finances-summary .grid>div h4 {
+    font-size: 0.65rem !important;
     white-space: nowrap !important;
+    margin-bottom: 0.25rem !important;
   }
 
-  #finances-summary .grid.grid-cols-2>div p {
+  /* Valores de KPIs - MÁS ESPECÍFICO para sobrescribir .font-bold */
+  #finances-summary .grid>div p,
+  #finances-summary .grid>div p.font-bold,
+  #finances-summary .grid>div .text-sm,
+  #finances-summary .grid>div .text-base {
     font-size: 1rem !important;
+    /* 16px - Compacto pero legible */
     white-space: nowrap !important;
+    line-height: 1.2 !important;
   }
 }
 
@@ -389,24 +402,48 @@
 
 /* ===== FINANCES FILTERS - WIDTH FIX FOR MOBILE ===== */
 @media (max-width: 768px) {
-  #finances-summary .grid.grid-cols-2 {
+
+  /* Container principal con layout vertical */
+  #finances-summary .card-section:first-of-type .grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
     padding: 0.5rem !important;
   }
 
+  /* Cada filtro (Año y Mes) ocupa todo el ancho */
+  #finances-summary .card-section:first-of-type .grid>div {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.25rem !important;
+  }
+
+  /* Labels alineados a la izquierda */
+  #finances-summary label[for='yearSelect'],
+  #finances-summary label[for='monthSelect'] {
+    text-align: left !important;
+    width: 100% !important;
+  }
+
+  /* Selects ocupan todo el ancho disponible */
   #yearSelect,
   #monthSelect {
     width: 100% !important;
-    max-width: 140px !important;
+    max-width: 100% !important;
     font-size: 14px !important;
+  }
+
+  /* Botón actualizar también full width */
+  #finances-summary .card-section:first-of-type button {
+    width: 100% !important;
+    margin-top: 0.25rem !important;
   }
 
   #finances-summary .card-section:first-of-type {
     width: 100% !important;
     overflow-x: hidden !important;
-  }
-
-  #finances-summary .card-section:first-of-type .grid {
-    width: 100% !important;
   }
 }
 
@@ -431,6 +468,65 @@
   #finances-reports .card-section h3 {
     color: white !important;
     -webkit-text-fill-color: white !important;
+  }
+
+  /* Layout vertical para filtros de Reportes */
+  #finances-reports .grid.grid-cols-2 {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+
+  /* Cada filtro full-width */
+  #finances-reports .grid.grid-cols-2>div {
+    width: 100% !important;
+  }
+
+  /* Selects de reportes full-width */
+  #finances-reports #reportYear,
+  #finances-reports #reportMonth {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Botón actualizar también full-width ya está */
+}
+
+/* ===== FINANCES ACCOUNTS FILTERS - MOBILE ===== */
+@media (max-width: 768px) {
+
+  /* Layout vertical para filtros de Cuentas */
+  #finances-accounts .grid.grid-cols-2 {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+
+  /* Cada filtro full-width */
+  #finances-accounts .grid>div {
+    width: 100% !important;
+  }
+
+  /* Selects de cuentas full-width */
+  #accountsYear,
+  #accountsMonth,
+  #accountsStatus,
+  #accountsSort {
+    width: 100% !important;
+    max-width: 100% !important;
+    color: white !important;
+    -webkit-text-fill-color: white !important;
+    background-color: rgba(30, 58, 138, 0.5) !important;
+    border: 2px solid rgba(96, 165, 250, 0.4) !important;
+    min-height: 40px !important;
+  }
+
+  #accountsYear option,
+  #accountsMonth option,
+  #accountsStatus option,
+  #accountsSort option {
+    background-color: #1e3a8a !important;
+    color: white !important;
   }
 }
 
@@ -620,5 +716,106 @@
     color: white !important;
     -webkit-text-fill-color: white !important;
     background-color: rgba(30, 58, 138, 1) !important;
+  }
+}
+
+/* ===== FINANCES EXPENSE MANAGEMENT BUTTONS - MOBILE ===== */
+@media (max-width: 768px) {
+
+  /* Botones de Gestión de Gastos más compactos */
+  #finances-summary button[onclick="openExpenseModal()"],
+  #finances-summary button[onclick="openCategoryModal()"] {
+    font-size: 0.75rem !important;
+    /* 12px */
+    padding: 0.5rem 0.75rem !important;
+    min-height: 36px !important;
+    white-space: nowrap !important;
+  }
+
+  /* Container de botones en column en móvil pequeño */
+  #finances-summary .flex.gap-2 {
+    width: 100% !important;
+  }
+
+  #finances-summary .flex.gap-2 button {
+    flex: 1 !important;
+    /* Botones del mismo ancho */
+  }
+}
+
+/* ===== CATEGORY MODAL - MOBILE OPTIMIZATION ===== */
+@media (max-width: 768px) {
+
+  /* Modal container más grande verticalmente */
+  #categoryModal>div {
+    max-width: 95vw !important;
+    max-height: 95vh !important;
+    margin: 0.5rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Body del modal scrollable */
+  #categoryModal .px-6.py-4 {
+    flex: 1 !important;
+    overflow-y: auto !important;
+  }
+
+  /* Header del modal */
+  #categoryModal h3 {
+    font-size: 1rem !important;
+  }
+
+  /* Formulario de nueva categoría */
+  #categoryModal .bg-purple-50 h4 {
+    font-size: 0.9rem !important;
+    color: white !important;
+    -webkit-text-fill-color: white !important;
+  }
+
+  /* Padding del formulario reducido */
+  #categoryModal .bg-purple-50 {
+    padding: 0.75rem !important;
+  }
+
+  /* Grid de íconos - 4 columnas en móvil para evitar overflow */
+  #iconSelector {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 0.375rem !important;
+  }
+
+  /* Botones de íconos más pequeños */
+  #iconSelector button {
+    font-size: 1.25rem !important;
+    padding: 0.375rem !important;
+  }
+
+  /* Input de color más compacto */
+  #categoryColor {
+    height: 36px !important;
+  }
+
+  /* Botones del modal más compactos */
+  #categoryModal button {
+    font-size: 0.875rem !important;
+    padding: 0.625rem 1rem !important;
+    min-height: 40px !important;
+  }
+
+  /* Lista de categorías personalizadas - 2 columnas en móvil */
+  #customCategoriesList {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.5rem !important;
+  }
+
+  /* Cards de categorías más compactas */
+  #customCategoriesList>div {
+    padding: 0.5rem !important;
+    font-size: 0.85rem !important;
+  }
+
+  /* Footer del modal */
+  #categoryModal .border-t button {
+    width: 100% !important;
   }
 }

@@ -352,14 +352,14 @@ function renderExpensesList(filteredExpenses = []) {
   };
 
   const rows = sortedExpenses.map(expense => `
-        <tr class="hover:bg-gray-50">
-            <td class="p-2 text-sm">${expense.date || "-"}</td>
-            <td class="p-2 text-sm">${categoryIcons[expense.type] || ""} ${expense.type}</td>
-            <td class="p-2 text-sm">${expense.description || "-"}</td>
-            <td class="p-2 text-sm font-semibold">${formatCurrency(expense.amount)}</td>
-            <td class="p-2 text-sm">
-                <button onclick="editExpense('${expense.id}')" class="text-blue-600 hover:underline mr-2">Editar</button>
-                <button onclick="deleteExpense('${expense.id}')" class="text-red-600 hover:underline">Eliminar</button>
+        <tr class="bg-red-50 hover:bg-red-100 transition-colors">
+            <td class="px-4 py-3 text-sm whitespace-nowrap">${expense.date || "-"}</td>
+            <td class="px-4 py-3 text-sm whitespace-nowrap">${categoryIcons[expense.type] || ""} ${expense.type}</td>
+            <td class="px-4 py-3 text-sm whitespace-nowrap">${expense.description || "-"}</td>
+            <td class="px-4 py-3 text-sm font-semibold text-red-700 whitespace-nowrap">${formatCurrency(expense.amount)}</td>
+            <td class="px-4 py-3 text-sm whitespace-nowrap">
+                <button onclick="editExpense('${expense.id}')" class="text-blue-600 hover:text-blue-800 font-medium mr-3">Editar</button>
+                <button onclick="deleteExpense('${expense.id}')" class="text-red-600 hover:text-red-800 font-medium">Eliminar</button>
             </td>
         </tr>
     `);
@@ -2967,7 +2967,15 @@ function renderPendingLoads(loads) {
           </table>
         </div>
       </div>
-    ` : '';
+    ` : `
+      <div class="text-center py-12 bg-white rounded-lg border-2 border-dashed border-gray-300">
+        <div class="text-4xl mb-3">📭</div>
+        <h3 class="text-lg font-bold text-gray-700 mb-1">No hay cuentas activas</h3>
+        <p class="text-gray-500 max-w-md mx-auto">
+          Las cargas marcadas como "Pagadas" o "Pendientes" aparecerán aquí para que lleves el control de tus cobros.
+        </p>
+      </div>
+    `;
 
     // Tabla completa de Cargas Pagadas cuando filtro es "Todos"
     html += paidLoads.length > 0 && statusFilter === '' ? `

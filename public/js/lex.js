@@ -228,68 +228,24 @@ window.openLexChatModal = function () {
   panel.style.pointerEvents = 'auto';
 
   panel.innerHTML = `
-    <!-- HEADER -->
+    <!-- HEADER CON PESTAÑAS -->
     <div style="
       display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 9px;
+      flex-direction: column;
       border-bottom: 1px solid #1f2937;
       background: #020617;
     ">
+      <!-- Top header info -->
       <div style="
-        width: 22px;
-        height: 22px;
-        border-radius: 9999px;
-        background: #0f172a;
         display: flex;
         align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        overflow: hidden;
-      ">
-        <img src="img/lex/lex-neutral.png" alt="Lex"
-          style="width: 100%; height: 100%; object-fit: contain;">
-      </div>
-      <div style="flex: 1;">
-        <div style="font-size: 11px; font-weight: 600; color: #f9fafb;">
-          Lex · Chat
-        </div>
-        <div style="font-size: 10px; color: #9ca3af;">
-          Pregúntame sobre esta carga o tu RPM.
-        </div>
-      </div>
-      <button
-        onclick="window.closeLexChatModal()"
-        style="
-          border: none;
-          background: transparent;
-          color: #9ca3af;
-          font-size: 10px;
-          cursor: pointer;
-        "
-      >
-        ✕
-      </button>
-    </div>
-
-    <!-- MENSAJES -->
-    <div
-      id="lexChatMessages"
-      style="
-        padding: 6px 8px;
-        display: flex;
-        flex-direction: column;
         gap: 6px;
-        background-color: #020617;
-        height: 140px;
-        overflow-y: auto;
-      "
-    >
-      <div style="display: flex; align-items: flex-start; gap: 6px;">
+        padding: 6px 9px;
+        border-bottom: 1px solid #1f2937;
+      ">
         <div style="
-          width: 20px;
-          height: 20px;
+          width: 22px;
+          height: 22px;
           border-radius: 9999px;
           background: #0f172a;
           display: flex;
@@ -301,128 +257,321 @@ window.openLexChatModal = function () {
           <img src="img/lex/lex-neutral.png" alt="Lex"
             style="width: 100%; height: 100%; object-fit: contain;">
         </div>
-        <div style="
-          background: #030712;
-          border: 1px solid #1f2937;
-          border-radius: 12px 12px 12px 4px;
-          padding: 5px 8px;
-          color: #e5e7eb;
-          font-size: 10px;
-          max-width: 85%;
+        <div style="flex: 1;">
+          <div style="font-size: 11px; font-weight: 600; color: #f9fafb;">
+            Lex AI
+          </div>
+          <div style="font-size: 10px; color: #9ca3af;">
+            Tu asistente inteligente
+          </div>
+        </div>
+        <button
+          onclick="window.closeLexChatModal()"
+          style="
+            border: none;
+            background: transparent;
+            color: #9ca3af;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >✕</button>
+      </div>
+
+      <!-- Tabs -->
+      <div style="
+        display: flex;
+        gap: 2px;
+        padding: 4px 8px 0;
+        background: #020617;
+      ">
+        <button id="lexTabAnalisis" onclick="window.switchLexTab('analisis')" style="
+          flex: 1;
+          padding: 6px 8px;
+          border: none;
+          background: #111827;
+          color: #10b981;
+          font-size: 9px;
+          font-weight: 600;
+          cursor: pointer;
+          border-top-left-radius: 6px;
+          border-top-right-radius: 6px;
+          border-bottom: 2px solid #10b981;
+          font-family: Inter, sans-serif;
         ">
-          <p>Hola Ricardo 👋 Puedo ayudarte con esta carga, tus zonas o tu RPM. ¿Qué quieres revisar?</p>
+          📊 Análisis
+        </button>
+        <button id="lexTabChat" onclick="window.switchLexTab('chat')" style="
+          flex: 1;
+          padding: 6px 8px;
+          border: none;
+          background: transparent;
+          color: #9ca3af;
+          font-size: 9px;
+          font-weight: 600;
+          cursor: pointer;
+          border-top-left-radius: 6px;
+          border-top-right-radius: 6px;
+          border-bottom: 2px solid transparent;
+          font-family: Inter, sans-serif;
+        ">
+          💬 Chat
+        </button>
+        <button id="lexTabFeedback" onclick="window.switchLexTab('feedback')" style="
+          flex: 1;
+          padding: 6px 8px;
+          border: none;
+          background: transparent;
+          color: #9ca3af;
+          font-size: 9px;
+          font-weight: 600;
+          cursor: pointer;
+          border-top-left-radius: 6px;
+          border-top-right-radius: 6px;
+          border-bottom: 2px solid transparent;
+          font-family: Inter, sans-serif;
+        ">
+          📝 Feedback
+        </button>
+      </div>
+    </div>
+
+    <!-- CONTENIDO ANÁLISIS -->
+    <div id="lexContentAnalisis" style="
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    ">
+      <div style="
+        padding: 12px;
+        text-align: center;
+        color: #9ca3af;
+        font-size: 10px;
+      ">
+        <div style="font-size: 32px; margin-bottom: 8px;">📊</div>
+        <p>Haz click en los botones de acciones rápidas para analizar:</p>
+      </div>
+      
+      <!-- QUICK ACTIONS -->
+      <div style="
+        padding: 6px 8px;
+        border-top: 1px solid #1f2937;
+        background-color: #020617;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      ">
+        <div style="font-size: 9px; color: #9ca3af; margin-bottom: 2px;">
+          ⚡ Acciones rápidas:
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
+          <button onclick="window.lexQuickAction('analizar')" style="
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: 1px solid #374151;
+            background: #111827;
+            color: #e5e7eb;
+            font-size: 9px;
+            cursor: pointer;
+            transition: all 0.2s;
+          " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
+            📊 Analizar carga
+          </button>
+          <button onclick="window.lexQuickAction('mes')" style="
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: 1px solid #374151;
+            background: #111827;
+            color: #e5e7eb;
+            font-size: 9px;
+            cursor: pointer;
+            transition: all 0.2s;
+          " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
+            📈 ¿Cómo va mi mes?
+          </button>
+          <button onclick="window.lexQuickAction('zona')" style="
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: 1px solid #374151;
+            background: #111827;
+            color: #e5e7eb;
+            font-size: 9px;
+            cursor: pointer;
+            transition: all 0.2s;
+          " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
+            🗺️ Stats de zona
+          </button>
+          <button onclick="window.lexQuickAction('finanzas')" style="
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: 1px solid #374151;
+            background: #111827;
+            color: #e5e7eb;
+            font-size: 9px;
+            cursor: pointer;
+            transition: all 0.2s;
+          " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
+            💰 Resumen financiero
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- QUICK ACTIONS -->
-    <div style="
-      padding: 6px 8px;
-      border-bottom: 1px solid #1f2937;
-      background-color: #020617;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    ">
-      <div style="font-size: 9px; color: #9ca3af; margin-bottom: 2px;">
-        ⚡ Acciones rápidas:
-      </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
-        <button onclick="window.lexQuickAction('analizar')" style="
-          padding: 6px 8px;
-          border-radius: 6px;
-          border: 1px solid #374151;
-          background: #111827;
-          color: #e5e7eb;
-          font-size: 9px;
-          cursor: pointer;
-          transition: all 0.2s;
-        " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
-          📊 Analizar carga
-        </button>
-        <button onclick="window.lexQuickAction('mes')" style="
-          padding: 6px 8px;
-          border-radius: 6px;
-          border: 1px solid #374151;
-          background: #111827;
-          color: #e5e7eb;
-          font-size: 9px;
-          cursor: pointer;
-          transition: all 0.2s;
-        " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
-          📈 ¿Cómo va mi mes?
-        </button>
-        <button onclick="window.lexQuickAction('zona')" style="
-          padding: 6px 8px;
-          border-radius: 6px;
-          border: 1px solid #374151;
-          background: #111827;
-          color: #e5e7eb;
-          font-size: 9px;
-          cursor: pointer;
-          transition: all 0.2s;
-        " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
-          🗺️ Stats de zona
-        </button>
-        <button onclick="window.lexQuickAction('finanzas')" style="
-          padding: 6px 8px;
-          border-radius: 6px;
-          border: 1px solid #374151;
-          background: #111827;
-          color: #e5e7eb;
-          font-size: 9px;
-          cursor: pointer;
-          transition: all 0.2s;
-        " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
-          💰 Resumen financiero
-        </button>
-      </div>
-    </div>
-
-    <!-- INPUT -->
-    <form
-      id="lexChatForm"
-      style="
-        border-top: 1px solid #1f2937;
-        padding: 5px 6px;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        background-color: #020617;
-      "
-    >
-      <input
-        id="lexChatInput"
-        type="text"
-        placeholder="Ej: RPM de esta carga?"
+    <!-- CONTENIDO CHAT -->
+    <div id="lexContentChat" style="display: none; flex: 1; flex-direction: column; overflow: hidden;">
+      <!-- MENSAJES -->
+      <div
+        id="lexChatMessages"
         style="
-          flex: 1;
+          padding: 6px 8px;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
           background-color: #020617;
-          color: #e5e7eb;
-          padding: 4px 7px;
-          border-radius: 9999px;
-          border: 1px solid #374151;
-          outline: none;
-          font-size: 10px;
-          line-height: 1.1;
-        "
-      />
-      <button
-        type="submit"
-        style="
-          padding: 5px 8px;
-          border-radius: 9999px;
-          border: none;
-          background: #2563eb;
-          color: white;
-          font-size: 10px;
-          font-weight: 500;
-          cursor: pointer;
+          height: 140px;
+          overflow-y: auto;
         "
       >
-        Enviar
+        <div style="display: flex; align-items: flex-start; gap: 6px;">
+          <div style="
+            width: 20px;
+            height: 20px;
+            border-radius: 9999px;
+            background: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+          ">
+            <img src="img/lex/lex-neutral.png" alt="Lex"
+              style="width: 100%; height: 100%; object-fit: contain;">
+          </div>
+          <div style="
+            background: #030712;
+            border: 1px solid #1f2937;
+            border-radius: 12px 12px 12px 4px;
+            padding: 5px 8px;
+            color: #e5e7eb;
+            font-size: 10px;
+            max-width: 85%;
+          ">
+            <p>Hola 👋 Pregúntame sobre cargas, zonas o RPM.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- INPUT -->
+      <form
+        id="lexChatForm"
+        style="
+          border-top: 1px solid #1f2937;
+          padding: 5px 6px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          background-color: #020617;
+        "
+      >
+        <input
+          id="lexChatInput"
+          type="text"
+          placeholder="Ej: RPM de esta carga?"
+          style="
+            flex: 1;
+            background-color: #020617;
+            color: #e5e7eb;
+            padding: 4px 7px;
+            border-radius: 9999px;
+            border: 1px solid #374151;
+            outline: none;
+            font-size: 10px;
+            line-height: 1.1;
+          "
+        />
+        <button
+          type="submit"
+          style="
+            padding: 5px 8px;
+            border-radius: 9999px;
+            border: none;
+            background: #2563eb;
+            color: white;
+            font-size: 10px;
+            font-weight: 500;
+            cursor: pointer;
+          "
+        >
+          Enviar
+        </button>
+      </form>
+    </div>
+
+    <!-- CONTENIDO FEEDBACK -->
+    <div id="lexContentFeedback" style="display: none; flex: 1; flex-direction: column; overflow-y: auto; padding: 12px;">
+      <div style="margin-bottom: 14px;">
+        <label style="display: block; font-weight: 600; color: #f9fafb; margin-bottom: 6px; font-size: 10px;">
+          Tipo de feedback
+        </label>
+        <select id="lexFeedbackType" style="
+          width: 100%;
+          padding: 8px;
+          border: 1px solid #374151;
+          border-radius: 6px;
+          font-size: 10px;
+          font-family: Inter, sans-serif;
+          background: #111827;
+          color: #e5e7eb;
+        ">
+          <option value="bug">🐛 Reportar un error</option>
+          <option value="feature">💡 Sugerir una mejora</option>
+          <option value="question">❓ Hacer una pregunta</option>
+          <option value="other">💬 Otro</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom: 14px;">
+        <label style="display: block; font-weight: 600; color: #f9fafb; margin-bottom: 6px; font-size: 10px;">
+          Descripción
+        </label>
+        <textarea id="lexFeedbackMessage" rows="4" placeholder="Cuéntanos qué pasó o qué te gustaría ver..." style="
+          width: 100%;
+          padding: 8px;
+          border: 1px solid #374151;
+          border-radius: 6px;
+          font-size: 10px;
+          font-family: Inter, sans-serif;
+          resize: vertical;
+          background: #111827;
+          color: #e5e7eb;
+        "></textarea>
+      </div>
+
+      <button onclick="window.submitLexFeedback()" style="
+        width: 100%;
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 11px;
+        cursor: pointer;
+        font-family: Inter, sans-serif;
+      ">
+        📤 Enviar Feedback
       </button>
-    </form>
+
+      <p style="font-size: 9px; color: #6b7280; margin-top: 8px; text-align: center;">
+        Tu feedback nos ayuda a mejorar la app
+      </p>
+    </div>
   `;
 
   overlay.appendChild(panel);
@@ -640,4 +789,81 @@ window.closeLexChatModal = function () {
   }
 };
 
+// ==========================================================
+//  TAB SWITCHING
+// ==========================================================
+window.switchLexTab = function (tab) {
+  // Update tab buttons
+  const tabs = ['analisis', 'chat', 'feedback'];
+  tabs.forEach(t => {
+    const btn = document.getElementById(`lexTab${t.charAt(0).toUpperCase() + t.slice(1)}`);
+    const content = document.getElementById(`lexContent${t.charAt(0).toUpperCase() + t.slice(1)}`);
+
+    if (t === tab) {
+      // Active tab
+      btn.style.background = '#111827';
+      btn.style.color = '#10b981';
+      btn.style.borderBottom = '2px solid #10b981';
+      content.style.display = 'flex';
+    } else {
+      // Inactive tab
+      btn.style.background = 'transparent';
+      btn.style.color = '#9ca3af';
+      btn.style.borderBottom = '2px solid transparent';
+      content.style.display = 'none';
+    }
+  });
+};
+
+// ==========================================================
+//  FEEDBACK SUBMISSION
+// ==========================================================
+window.submitLexFeedback = async function () {
+  const type = document.getElementById('lexFeedbackType').value;
+  const message = document.getElementById('lexFeedbackMessage').value;
+
+  if (!message.trim()) {
+    alert('Por favor describe tu feedback');
+    return;
+  }
+
+  try {
+    const user = firebase.auth().currentUser;
+    const feedbackData = {
+      type,
+      message: message.trim(),
+      email: user ? user.email : 'anonymous',
+      userId: user ? user.uid : 'anonymous',
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      userAgent: navigator.userAgent,
+      url: window.location.href,
+      screenSize: `${window.innerWidth}x${window.innerHeight}`,
+      status: 'new',
+      source: 'lex_tab'
+    };
+
+    await firebase.firestore()
+      .collection('feedback')
+      .add(feedbackData);
+
+    // Track event
+    if (window.analyticsManager) {
+      window.analyticsManager.trackEvent('feedback_submitted', {
+        feedback_type: type,
+        source: 'lex_tab'
+      });
+    }
+
+    // Clear form
+    document.getElementById('lexFeedbackMessage').value = '';
+
+    // Show success & switch to chat
+    alert('✅ ¡Gracias por tu feedback!');
+    window.switchLexTab('chat');
+
+  } catch (error) {
+    console.error('Error submitting feedback:', error);
+    alert('Error al enviar feedback. Por favor intenta de nuevo.');
+  }
+};
 

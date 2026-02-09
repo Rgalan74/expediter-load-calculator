@@ -1,0 +1,214 @@
+/* ============================================
+   MOBILE OPTIMIZATIONS - Consolidated
+   Replaces: mobile-calculator-fix.css, mobile-content-width.css,
+             mobile-header-fix.css, select-options-fix.css
+   ============================================ */
+
+/* ==================================================================
+   1. MOBILE HEADER FIXES
+   ================================================================== */
+
+@media (max-width: 768px) {
+
+    /* Header padding reduction */
+    header>div {
+        padding-top: 0.25rem !important;
+        padding-bottom: 0.25rem !important;
+    }
+
+    /* Logo container */
+    header>div>div:first-child {
+        position: relative !important;
+        padding-bottom: 0 !important;
+    }
+
+    /* Hide badge on mobile */
+    #roleBadge {
+        display: none !important;
+    }
+
+    /* Header overflow control */
+    header {
+        overflow-x: hidden !important;
+    }
+
+    /* Header buttons alignment */
+    header>div>div:last-child {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+        justify-content: flex-end !important;
+    }
+
+    /* Menu toggle button */
+    #menuToggle {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0.25rem !important;
+        height: 32px !important;
+        width: 32px !important;
+    }
+
+    /* Hide upgrade button on mobile */
+    #upgradePlanBtn {
+        display: none !important;
+    }
+
+    /* Hide logout button on mobile (in menu instead) */
+    #logoutBtn {
+        display: none !important;
+    }
+
+    /* Logout button SVG color */
+    #logoutBtn svg path,
+    #logoutBtn svg polyline,
+    #logoutBtn svg line {
+        stroke: #ef4444 !important;
+    }
+}
+
+/* Desktop - restore badge and upgrade button */
+@media (min-width: 769px) {
+    #roleBadge {
+        position: static !important;
+        display: flex !important;
+    }
+
+    #upgradePlanBtn {
+        display: flex !important;
+    }
+}
+
+/* ==================================================================
+   2. CONTENT WIDTH OPTIMIZATION
+   ================================================================== */
+
+@media (max-width: 768px) {
+
+    /* Main container - reduce horizontal padding */
+    main {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+
+    /* Tab content sections - reduce padding */
+    .tab-content>div {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+
+    /* Sections with px-3 md:px-6 classes */
+    .tab-content [class*="px-3"],
+    .tab-content [class*="px-6"] {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+
+    /* Section headers - keep centered */
+    .section-header {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+
+    /* INPUTS: Black background, white text (like Información de Rutas) */
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    select,
+    textarea {
+        color: #ffffff !important;
+        background-color: #1f2937 !important;
+        border-color: #4b5563 !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+
+    /* Placeholder - subtle gray */
+    input::placeholder,
+    textarea::placeholder {
+        color: #6b7280 !important;
+        opacity: 0.6 !important;
+    }
+
+    /* Labels white in calculator for consistency */
+    #calculator label,
+    #calculator .text-gray-700,
+    #calculator .text-gray-500 {
+        color: #ffffff !important;
+    }
+
+    /* Small descriptive texts */
+    #calculator .text-xs {
+        color: #d1d5db !important;
+    }
+}
+
+/* ==================================================================
+   3. CALCULATOR-SPECIFIC FIXES
+   ================================================================== */
+
+@media (max-width: 768px) {
+
+    /* Force white text on ALL labels in calculator */
+    #calculator label,
+    #calculator .text-gray-700,
+    #calculator .text-gray-500,
+    #calculator label.text-gray-700,
+    #calculator label.text-gray-500,
+    .card-section label,
+    section#calculator label,
+    #calculator div label {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+
+    /* Small descriptive texts in calculator */
+    #calculator .text-xs,
+    #calculator p.text-xs {
+        color: #d1d5db !important;
+    }
+
+    /* Input backgrounds black in calculator */
+    #calculator input[type="text"],
+    #calculator input[type="number"],
+    #calculator input[type="email"],
+    #calculator select,
+    #calculator textarea {
+        background-color: #1f2937 !important;
+        color: #ffffff !important;
+        border: 1.5px solid #4b5563 !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+
+    /* Placeholders gray and subtle in calculator */
+    #calculator input::placeholder,
+    #calculator textarea::placeholder {
+        color: #6b7280 !important;
+        opacity: 0.6 !important;
+    }
+}
+
+/* ==================================================================
+   4. SELECT OPTIONS - Better Contrast
+   ================================================================== */
+
+/* Improved styles for select options in History and Finances */
+select option {
+    background: #0a0f1e !important;
+    color: #f1f5f9 !important;
+    padding: 10px !important;
+    font-size: 1rem !important;
+}
+
+/* Selected/hover option in dropdown */
+select option:checked,
+select option:hover {
+    background: #3b82f6 !important;
+    color: white !important;
+}
+
+/* Ensure select has good contrast when open */
+select:focus option {
+    background: #0a0f1e !important;
+    color: #f1f5f9 !important;
+}
