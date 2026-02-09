@@ -748,7 +748,9 @@ async function calculate() {
     }
 
     // 🎯 MULTI-STOP: Get all additional stops
+    console.log('[DEBUG] About to call getStops()');
     const stops = getStops();
+    console.log('[DEBUG] getStops() returned:', stops);
     let combinedMiles = totalMiles;
     let combinedRevenue = rate;
     let stopsData = []; // For breakdown display
@@ -784,8 +786,10 @@ async function calculate() {
     }
 
     // Cálculo de ingresos (usar valores combinados si hay stops)
+    console.log('[DEBUG] Calculating totals...');
     const baseIncome = combinedRevenue;
     const totalCharge = baseIncome + tolls + others;
+    console.log('[DEBUG] totalCharge:', totalCharge);
 
     // Use shared expense calculation function for consistency with Lex (usar millas combinadas)
     const expenseBreakdown = calculateTotalExpenses(combinedMiles, tolls, others);
@@ -814,6 +818,7 @@ async function calculate() {
 
 
     // Mostrar panel simplificado
+    console.log('[DEBUG] About to call showDecisionPanel()');
     showDecisionPanel({
       totalCharge,
       netProfit,
