@@ -202,11 +202,34 @@ function updateMileage(directionsResult) {
 
 /**
  * Render route on map using DirectionsRenderer
+ * With retry logic and infinite loop protection
  */
-function renderMapRoute(directionsResult) {
-    // Initialize DirectionsRenderer if it doesn't exist
-    if (!window.directionsRenderer && window.googleMap) {
-        debugLog('[DESTINATIONS] Initializing DirectionsRenderer...');
+function renderMapRoute(directionsResult, retryCount = 0) {
+    const MAX_RETRIES = 3;
+
+    // Check if map is ready
+    if (!window.googleMap) {
+        if (retryCount >= MAX_RETRIES) {
+            console.error('[DESTINATIONS] ❌ Failed to initialize map after', MAX_RETRIES, 'attempts. Skipping map rendering.');
+            debugLog('[DESTINATIONS] Mileage updated but map rendering skipped');
+            return;
+        }
+
+        // Try to initialize map if function exists and this is first attempt
+        if (retryCount === 0 && typeof window.initGoogleMaps === 'function') {
+            debugLog('[DESTINATIONS] Map not ready, triggering initialization...');
+            window.initGoogleMaps();
+        }
+
+        // Retry after delay
+        debugLog(`[DESTINATIONS] Waiting for map... (attempt ${retryCount + 1}/${MAX_RETRIES})`);
+        setTimeout(() => renderMapRoute(directionsResult, retryCount + 1), 1500);
+        return;
+    }
+
+    // Map is ready - render route
+    if (!window.directionsRenderer) {
+        debugLog('[DESTINATIONS] Creating DirectionsRenderer...');
         window.directionsRenderer = new google.maps.DirectionsRenderer({
             map: window.googleMap,
             suppressMarkers: false,
@@ -218,12 +241,19 @@ function renderMapRoute(directionsResult) {
     }
 
     // Render the route
-    if (window.directionsRenderer) {
-        window.directionsRenderer.setDirections(directionsResult);
-        debugLog('[DESTINATIONS] ✅ Route rendered on map');
-    } else {
-        console.error('[DESTINATIONS] DirectionsRenderer not available - googleMap may not be initialized');
-    }
+    window.directionsRenderer.setDirections(directionsResult);
+
+    // Fit map bounds to show entire route
+    const bounds = new google.maps.LatLngBounds();
+    const route = directionsResult.routes[0];
+
+    route.legs.forEach(leg => {
+        bounds.extend(leg.start_location);
+        bounds.extend(leg.end_location);
+    });
+
+    window.googleMap.fitBounds(bounds);
+    debugLog('[DESTINATIONS] ✅ Route rendered on map with proper bounds');
 }
 
 // Expose functions globally

@@ -35,6 +35,10 @@ function initGoogleMaps() {
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
 
+        // Expose globally for sequential-destinations.js
+        window.googleMap = googleMap;
+        console.log('[MAPS] ✅ window.googleMap set:', !!window.googleMap);
+
         directionsService = new google.maps.DirectionsService();
         directionsRenderer = new google.maps.DirectionsRenderer({
             draggable: false,
