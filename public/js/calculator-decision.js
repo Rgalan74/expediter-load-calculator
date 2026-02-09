@@ -45,8 +45,9 @@ function analizarTrapPenalty(origenState, destinoState, millas, rpm) {
         zonaDestino === 'TRAP') {
 
         const millasRegreso = 2200;
-        const rpmSalida = 0.65;
-        const costoPorMilla = 0.526;
+        const rpmSalida = 0.65; // RPM promedio que pagan para salir de TRAP
+        // Usar costo real del usuario si está disponible, o fallback al default
+        const costoPorMilla = (window.TU_COSTO_REAL && window.TU_COSTO_REAL.TOTAL) ? window.TU_COSTO_REAL.TOTAL : 0.576;
 
         const revenueIda = rpm * millas;
         const revenueSalida = rpmSalida * millasRegreso;

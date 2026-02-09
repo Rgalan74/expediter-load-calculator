@@ -6,10 +6,10 @@
 // LEX: Construir stateNotes desde la colección "notes"
 // ======================================================
 const LEX_STATE_CODES = [
-  'AL','AR','AZ','CA','CO','CT','DE','FL','GA','IA','ID','IL','IN','KS','KY',
-  'LA','MA','MD','ME','MI','MN','MO','MS','MT','NC','ND','NE','NH','NJ','NM',
-  'NV','NY','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VA','VT','WA',
-  'WI','WV','WY'
+  'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY',
+  'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM',
+  'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA',
+  'WI', 'WV', 'WY'
 ];
 
 // Extraer código de estado (FL, GA, TX...) desde "Miami, FL"
@@ -72,7 +72,7 @@ async function buildStateNotesFromNotesCollection(userId) {
 
 async function initializeLexProfile() {
   console.log('🧠 Inicializando perfil de Lex...');
-  
+
   if (!window.currentUser) {
     throw new Error('Usuario no autenticado');
   }
@@ -85,7 +85,7 @@ async function initializeLexProfile() {
       .where("userId", "==", uid)
       .orderBy("date", "asc")
       .get();
-    
+
     const loads = loadsSnapshot.docs.map(doc => {
       const data = doc.data();
       return {
@@ -101,26 +101,26 @@ async function initializeLexProfile() {
         totalExpenses: Number(data.totalExpenses || 0)
       };
     }).filter(load => load.totalMiles > 0);
-    
+
     console.log(`📦 ${loads.length} cargas encontradas`);
-    
+
     const totalLoads = loads.length;
     const totalMiles = loads.reduce((sum, l) => sum + l.totalMiles, 0);
     const totalRevenue = loads.reduce((sum, l) => sum + l.totalCharge, 0);
     const totalProfit = loads.reduce((sum, l) => sum + l.netProfit, 0);
     const totalExpenses = loads.reduce((sum, l) => sum + l.totalExpenses, 0);
-    
+
     const avgRPM = totalRevenue / totalMiles;
     const avgCPM = totalExpenses / totalMiles;
     const avgProfit = totalProfit / totalLoads;
     const minSafeRPM = avgCPM + 0.18;
-    
+
     const stateStats = {};
-    
+
     loads.forEach(load => {
       const state = load.destinationState;
       if (!state) return;
-      
+
       if (!stateStats[state]) {
         stateStats[state] = {
           loads: 0,
@@ -131,13 +131,13 @@ async function initializeLexProfile() {
           lastLoads: []
         };
       }
-      
+
       stateStats[state].loads += 1;
       stateStats[state].totalMiles += load.totalMiles;
       stateStats[state].totalRevenue += load.totalCharge;
       stateStats[state].totalProfit += load.netProfit;
       stateStats[state].totalDeadhead += load.deadheadMiles;
-      
+
       if (stateStats[state].lastLoads.length < 5) {
         stateStats[state].lastLoads.push({
           id: load.id,
@@ -147,22 +147,22 @@ async function initializeLexProfile() {
         });
       }
     });
-    
+
     Object.keys(stateStats).forEach(state => {
       const stats = stateStats[state];
       stats.avgRPM = stats.totalRevenue / stats.totalMiles;
       stats.avgProfit = stats.totalProfit / stats.loads;
       stats.avgDeadhead = stats.totalDeadhead / stats.loads;
     });
-    
+
     const statesWithMinLoads = Object.entries(stateStats)
       .filter(([state, stats]) => stats.loads >= 3);
-    
+
     const preferredStates = statesWithMinLoads
       .filter(([state, stats]) => stats.avgRPM >= avgRPM && stats.avgProfit >= avgProfit)
       .map(([state]) => state)
       .sort();
-    
+
     const avoidStates = statesWithMinLoads
       .filter(([state, stats]) => stats.avgRPM < avgRPM * 0.9 || stats.avgProfit < avgProfit * 0.8)
       .map(([state]) => state)
@@ -176,7 +176,7 @@ async function initializeLexProfile() {
       console.error('[LEX] Error construyendo stateNotes desde notes:', err);
       stateNotes = {};
     }
-    
+
     const profile = {
       version: '1.0',
       createdAt: new Date().toISOString(),
@@ -193,7 +193,13 @@ async function initializeLexProfile() {
       stateStats,
       preferredStates,
       avoidStates,
-      currentCosts: {
+      currentCosts: (window.TU_COSTO_REAL) ? {
+        combustible: window.TU_COSTO_REAL.combustible || 0.182,
+        mantenimiento: window.TU_COSTO_REAL.mantenimiento || 0.020,
+        comida: window.TU_COSTO_REAL.comida || 0.028,
+        costosFijos: window.TU_COSTO_REAL.costosFijos || 0.346,
+        total: window.TU_COSTO_REAL.TOTAL || 0.576
+      } : {
         combustible: 0.182,
         mantenimiento: 0.020,
         comida: 0.028,
@@ -202,15 +208,15 @@ async function initializeLexProfile() {
       },
       stateNotes // 🔹 NUEVO: notas por estado para Lex
     };
-    
+
     await firebase.firestore()
       .collection('lexProfiles')
       .doc(uid)
       .set(profile);
-    
+
     console.log('✅ Perfil de Lex inicializado');
     return profile;
-    
+
   } catch (error) {
     console.error('❌ Error inicializando perfil:', error);
     throw error;
@@ -253,17 +259,17 @@ async function updateLexProfileWithLoad(loadData) {
     const profileRef = firebase.firestore()
       .collection('lexProfiles')
       .doc(window.currentUser.uid);
-    
+
     const profileDoc = await profileRef.get();
-    
+
     if (!profileDoc.exists) {
       console.log('⚠️  Perfil no existe, inicializando...');
       await initializeLexProfile();
       return;
     }
-    
+
     const profile = profileDoc.data();
-    
+
     const totalMiles = Number(loadData.totalMiles || 0);
     const totalCharge = Number(loadData.totalCharge || 0);
     const netProfit = Number(loadData.netProfit || 0);
@@ -271,20 +277,20 @@ async function updateLexProfileWithLoad(loadData) {
     const rpm = Number(loadData.rpm || 0);
     const deadheadMiles = Number(loadData.deadheadMiles || 0);
     const destState = loadData.destinationState || '';
-    
+
     const newTotalLoads = profile.totalLoads + 1;
     const newTotalMiles = profile.totalMiles + totalMiles;
     const newTotalRevenue = profile.totalRevenue + totalCharge;
     const newTotalProfit = profile.totalProfit + netProfit;
     const newTotalExpenses = profile.totalExpenses + totalExpenses;
-    
+
     const newAvgRPM = newTotalRevenue / newTotalMiles;
     const newAvgCPM = newTotalExpenses / newTotalMiles;
     const newAvgProfit = newTotalProfit / newTotalLoads;
     const newMinSafeRPM = newAvgCPM + 0.18;
-    
+
     const stateStats = profile.stateStats || {};
-    
+
     if (destState) {
       if (!stateStats[destState]) {
         stateStats[destState] = {
@@ -299,18 +305,18 @@ async function updateLexProfileWithLoad(loadData) {
           lastLoads: []
         };
       }
-      
+
       const state = stateStats[destState];
       state.loads += 1;
       state.totalMiles += totalMiles;
       state.totalRevenue += totalCharge;
       state.totalProfit += netProfit;
       state.totalDeadhead += deadheadMiles;
-      
+
       state.avgRPM = state.totalRevenue / state.totalMiles;
       state.avgProfit = state.totalProfit / state.loads;
       state.avgDeadhead = state.totalDeadhead / state.loads;
-      
+
       state.lastLoads = state.lastLoads || [];
       state.lastLoads.unshift({
         id: loadData.id || 'new',
@@ -318,25 +324,25 @@ async function updateLexProfileWithLoad(loadData) {
         rpm: rpm,
         profit: netProfit
       });
-      
+
       if (state.lastLoads.length > 5) {
         state.lastLoads = state.lastLoads.slice(0, 5);
       }
     }
-    
+
     const statesWithMinLoads = Object.entries(stateStats)
       .filter(([state, stats]) => stats.loads >= 3);
-    
+
     const preferredStates = statesWithMinLoads
       .filter(([state, stats]) => stats.avgRPM >= newAvgRPM && stats.avgProfit >= newAvgProfit)
       .map(([state]) => state)
       .sort();
-    
+
     const avoidStates = statesWithMinLoads
       .filter(([state, stats]) => stats.avgRPM < newAvgRPM * 0.9 || stats.avgProfit < newAvgProfit * 0.8)
       .map(([state]) => state)
       .sort();
-    
+
     const updatedProfile = {
       ...profile,
       totalLoads: newTotalLoads,
@@ -353,11 +359,11 @@ async function updateLexProfileWithLoad(loadData) {
       avoidStates: avoidStates,
       lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
     };
-    
+
     await profileRef.set(updatedProfile, { merge: true });
-    
+
     console.log('✅ Perfil de Lex actualizado');
-    
+
   } catch (error) {
     console.error('❌ Error actualizando perfil:', error);
   }
@@ -377,14 +383,14 @@ async function getLexProfile() {
       .collection('lexProfiles')
       .doc(window.currentUser.uid)
       .get();
-    
+
     if (!profileDoc.exists) {
       console.log('⚠️  Perfil no existe, inicializando...');
       return await initializeLexProfile();
     }
-    
+
     return profileDoc.data();
-    
+
   } catch (error) {
     console.error('❌ Error leyendo perfil:', error);
     throw error;
@@ -398,24 +404,24 @@ async function getLexProfile() {
 async function analyzeLoadWithLearning(loadData) {
   try {
     const profile = await getLexProfile();
-    
+
     const rpm = Number(loadData.rpm || 0);
     const destState = loadData.destinationState || '';
     const totalMiles = Number(loadData.totalMiles || 0);
-    
+
     // Comparar con promedio real del usuario
     const vsYourAvg = ((rpm - profile.avgRPM) / profile.avgRPM * 100);
-    
+
     // Comparar con historia en ese estado
     const stateStats = destState ? profile.stateStats[destState] : null;
-    const vsStateAvg = stateStats ? 
+    const vsStateAvg = stateStats ?
       ((rpm - stateStats.avgRPM) / stateStats.avgRPM * 100) : null;
-    
+
     // Decisión inteligente
     let recommendation = '';
     let reasons = [];
     let color = 'yellow';
-    
+
     if (rpm < profile.minSafeRPM) {
       recommendation = 'RECHAZAR';
       color = 'red';
@@ -428,13 +434,13 @@ async function analyzeLoadWithLearning(loadData) {
       recommendation = 'CONSIDERA';
       color = 'yellow';
       reasons.push(`Cerca de tu promedio ($${profile.avgsafe(rpm, 2)
-}/mi)`);
+        }/mi)`);
     } else {
       recommendation = 'NEGOCIA';
       color = 'yellow';
       reasons.push(`${Math.abs(vsYourAvg).toFixed(1)}% debajo de tu promedio`);
     }
-    
+
     // Contexto del estado
     if (stateStats) {
       if (stateStats.loads >= 3) {
@@ -442,7 +448,7 @@ async function analyzeLoadWithLearning(loadData) {
           reasons.push(`✅ Mejor que tus ${stateStats.loads} cargas previas en ${destState}`);
         } else if (vsStateAvg < -10) {
           reasons.push(`⚠️ Debajo del promedio de ${destState} ($${stateStats.avgsafe(rpm, 2)
-})`);
+            })`);
         }
       } else {
         reasons.push(`📍 Solo ${stateStats.loads} carga(s) previa(s) en ${destState}`);
@@ -450,10 +456,10 @@ async function analyzeLoadWithLearning(loadData) {
     } else {
       reasons.push(`🆕 Primera vez en ${destState}`);
     }
-    
+
     // Calcular ganancia estimada
     const estimatedProfit = (rpm * totalMiles) - (profile.avgCPM * totalMiles);
-    
+
     return {
       recommendation,
       color,
@@ -469,7 +475,7 @@ async function analyzeLoadWithLearning(loadData) {
       destState,
       profileLoaded: true
     };
-    
+
   } catch (error) {
     console.error('❌ Error en análisis:', error);
     return {

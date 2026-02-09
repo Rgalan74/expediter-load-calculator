@@ -143,6 +143,24 @@ async function setupAuthListener() {
 
       setCurrentUser(user);
 
+      // ✅ AGREGAR: Cargar datos extendidos del perfil (Costos, Preferencias)
+      try {
+        debugLog("👤 Cargando perfil extendido del usuario...");
+        const userDoc = await db.collection('users').doc(user.uid).get();
+        if (userDoc.exists) {
+          const userData = userDoc.data();
+          // Inyectar datos en el objeto usuario para acceso global
+          user.costs = userData.costs || null;
+          user.preferences = userData.preferences || null;
+          user.profileData = userData;
+          debugLog("✅ Costos y preferencias cargados", user.costs);
+        } else {
+          debugLog("⚠️ Perfil no encontrado en Firestore, usando defaults");
+        }
+      } catch (error) {
+        debugLog("❌ Error cargando perfil extendido:", error);
+      }
+
       // ✅ AGREGAR: Cargar plan del usuario
       try {
         debugLog("📋 Cargando plan del usuario...");

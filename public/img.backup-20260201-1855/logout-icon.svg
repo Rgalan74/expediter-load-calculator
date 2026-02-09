@@ -1,0 +1,21 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Red circle background -->
+  <circle cx="64" cy="64" r="60" fill="#EF4444"/>
+  
+  <!-- White logout icon (door with arrow) -->
+  <g transform="translate(64, 64)">
+    <!-- Door frame -->
+    <rect x="-24" y="-28" width="36" height="56" rx="4" fill="white" opacity="0.3"/>
+    
+    <!-- Arrow pointing right -->
+    <path d="M -12 0 L 8 0 M 8 0 L 0 -8 M 8 0 L 0 8" 
+          stroke="white" 
+          stroke-width="6" 
+          stroke-linecap="round" 
+          stroke-linejoin="round"
+          fill="none"/>
+    
+    <!-- Door knob -->
+    <circle cx="-18" cy="4" r="3" fill="white"/>
+  </g>
+</svg>

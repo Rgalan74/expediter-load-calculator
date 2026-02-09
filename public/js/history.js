@@ -375,19 +375,18 @@ function renderHistoryTable() {
 
 
       return `
- <tr class="hover:bg-gray-50">
- <td class="p-2 text-sm border-b">${safeLoad.date}</td>
- <td class="p-2 text-sm border-b">${safeLoad.loadNumber || "-"}</td>
- <td class="p-2 text-sm border-b">${safeLoad.origin}</td>
- <td class="p-2 text-sm border-b">${safeLoad.destination}</td>
- <td class="p-2 text-sm border-b">${safeLoad.companyName}</td> <!-- aquí -->
- <td class="p-2 text-sm border-b">${safeLoad.totalMiles.toLocaleString()}</td>
- <td class="p-2 text-sm border-b">$${formatAmount(safeLoad.rpm)}</td>
- <td class="p-2 text-sm border-b">$${formatAmount(safeLoad.totalCharge)}</td>
- <td class="p-2 text-sm border-b flex gap-2">
- <button class="text-purple-600 hover:underline" onclick="openNotesModal('${safeLoad.destination}')"> Notas</button>
- <button class="text-blue-600 hover:underline" onclick="editLoad('${safeLoad.id}')"> Editar</button>
- <button class="text-red-600 hover:underline" onclick="deleteLoad('${safeLoad.id}')"> Eliminar</button>
+ <tr class="bg-blue-50 hover:bg-blue-100 transition-colors">
+ <td class="px-4 py-3 text-sm border-b border-blue-100 whitespace-nowrap">${safeLoad.date}</td>
+ <td class="px-4 py-3 text-sm border-b border-blue-100 whitespace-nowrap">${safeLoad.loadNumber || "-"}</td>
+ <td class="px-4 py-3 text-sm border-b border-blue-100 whitespace-nowrap">${safeLoad.origin}</td>
+ <td class="px-4 py-3 text-sm border-b border-blue-100 whitespace-nowrap">${safeLoad.destination}</td>
+ <td class="px-4 py-3 text-sm border-b border-blue-100 whitespace-nowrap">${safeLoad.companyName}</td>
+ <td class="px-4 py-3 text-sm border-b border-blue-100 whitespace-nowrap">${safeLoad.totalMiles.toLocaleString()}</td>
+ <td class="px-4 py-3 text-sm border-b border-blue-100 whitespace-nowrap">$${formatAmount(safeLoad.rpm)}</td>
+ <td class="px-4 py-3 text-sm border-b border-blue-100 whitespace-nowrap">$${formatAmount(safeLoad.totalCharge)}</td>
+ <td class="px-4 py-3 text-sm border-b border-blue-100 flex gap-2 whitespace-nowrap">
+ <button class="text-blue-600 hover:text-blue-800 font-medium" onclick="editLoad('${safeLoad.id}')">Editar</button>
+ <button class="text-red-600 hover:text-red-800 font-medium" onclick="deleteLoad('${safeLoad.id}')">Eliminar</button>
  </td>
  </tr>
 `;

@@ -6,16 +6,41 @@
 // import { LoadingManager, showToast } from './ui-feedback.js';
 // Las funciones están disponibles globalmente desde los scripts
 
-//  TUS COSTOS OPERATIVOS REALES - Actualizado Nov 2024
-// Basado en analisis de datos reales de Firebase (Jun-Sep 2024)
-// Promedio real: 8,587 millas/mes en meses completos normales
-const TU_COSTO_REAL = {
-  combustible: 0.182,      // Real de gastos: $1,346/mes / 8,587 mi/mes
-  mantenimiento: 0.020,    // Aceite ($100/10k mi) + bateria + liquidos
-  comida: 0.028,           // Real: $181/mes / 8,587 mi/mes
-  costosFijos: 0.346,      // $2,967/mes / 8,587 mi/mes (seguro+pago+otros)
-  TOTAL: 0.576            // $/mi total REAL (reserva gomas sale de ganancias)
+//  TUS COSTOS OPERATIVOS REALES - Actualizado DINÁMICO 2025
+// Ahora obtiene los datos del perfil del usuario si existe, o usa defaults seguros
+const DEFAULT_COSTS = {
+  combustible: 0.182,
+  mantenimiento: 0.020,
+  comida: 0.028,
+  costosFijos: 0.346,
+  TOTAL: 0.576
 };
+
+// Getter dinámico para usar los costos actuales del usuario
+function getUsersCosts() {
+  if (window.currentUser && window.currentUser.costs) {
+    const costs = window.currentUser.costs;
+    // Asegurar que los valores sean numéricos
+    return {
+      combustible: Number(costs.combustible || costs.fuelCost) || DEFAULT_COSTS.combustible,
+      mantenimiento: Number(costs.mantenimiento || costs.maintenanceCost) || DEFAULT_COSTS.mantenimiento,
+      comida: Number(costs.comida || costs.otherCost) || DEFAULT_COSTS.comida,
+      costosFijos: Number(costs.costosFijos || costs.fixedCost) || DEFAULT_COSTS.costosFijos,
+      TOTAL: Number(costs.total || costs.totalCPM) || DEFAULT_COSTS.TOTAL
+    };
+  }
+  return DEFAULT_COSTS;
+}
+
+// Mantener compatibilidad con llamadas directas (usando Proxy si es soportado, o getter)
+// Para navegadores antiguos o simplicidad, definimos TU_COSTO_REAL como un objeto que se actualiza o una función
+// La mejor estrategia es actualizar window.TU_COSTO_REAL cuando carga el usuario, pero por ahora usaremos una función wrapper
+const TU_COSTO_REAL = new Proxy(DEFAULT_COSTS, {
+  get: function (target, prop) {
+    const dynamicCosts = getUsersCosts();
+    return prop in dynamicCosts ? dynamicCosts[prop] : target[prop];
+  }
+});
 
 // ========================================
 //  SHARED FUNCTION: Calculate Total Expenses
@@ -722,12 +747,48 @@ async function calculate() {
       rpm = Math.round((rate / totalMiles) * 100) / 100;
     }
 
-    // Cálculo de ingresos
-    const baseIncome = rate;
+    // 🎯 MULTI-STOP: Get all additional stops
+    const stops = getStops();
+    let combinedMiles = totalMiles;
+    let combinedRevenue = rate;
+    let stopsData = []; // For breakdown display
+
+    if (stops.length > 0) {
+      // Add main leg as first stop for display
+      stopsData.push({
+        from: origin,
+        to: destination,
+        miles: totalMiles,
+        rpm: rpm,
+        revenue: rate
+      });
+
+      // Add all additional stops  
+      let previousDest = destination;
+      stops.forEach((stop, index) => {
+        combinedMiles += stop.miles;
+        combinedRevenue += stop.revenue;
+
+        stopsData.push({
+          from: previousDest,
+          to: stop.destination,
+          miles: stop.miles,
+          rpm: stop.rpm,
+          revenue: stop.revenue
+        });
+
+        previousDest = stop.destination;
+      });
+
+      debugLog(`[MULTI-STOP] Total: ${stopsData.length} stops, ${combinedMiles}mi, $${combinedRevenue.toFixed(0)} revenue`);
+    }
+
+    // Cálculo de ingresos (usar valores combinados si hay stops)
+    const baseIncome = combinedRevenue;
     const totalCharge = baseIncome + tolls + others;
 
-    // Use shared expense calculation function for consistency with Lex
-    const expenseBreakdown = calculateTotalExpenses(totalMiles, tolls, others);
+    // Use shared expense calculation function for consistency with Lex (usar millas combinadas)
+    const expenseBreakdown = calculateTotalExpenses(combinedMiles, tolls, others);
     const { fuelCost, maintenanceCost, foodCost, fixedCosts } = expenseBreakdown;
     const totalExpenses = expenseBreakdown.total;
 
@@ -758,13 +819,41 @@ async function calculate() {
       netProfit,
       profitMargin: margin,
       profitPerMile,
-      totalMiles,
+      totalMiles: combinedMiles, // Usar millas combinadas
       actualRPM,
       origin,
       destination,
       originState,
-      destinationState
+      destinationState,
+      stopsData: stopsData // Multi-stop breakdown data
     });
+
+    // 🎯 MULTI-STOP: Poblar breakdown visual si hay paradas
+    const roundTripBreakdownEl = document.getElementById('roundTripBreakdown');
+    if (roundTripBreakdownEl) {
+      if (stopsData.length > 0) {
+        // Mostrar breakdown
+        roundTripBreakdownEl.classList.remove('hidden');
+        roundTripBreakdownEl.innerHTML = ''; // Clear previous content
+
+        // Add each stop
+        stopsData.forEach((stop, index) => {
+          const stopDiv = document.createElement('div');
+          stopDiv.className = 'text-white/90 text-xs';
+          stopDiv.innerHTML = `📍 Parada ${index + 1}: ${stop.from} → ${stop.to} | ${stop.miles}mi @ $${stop.rpm.toFixed(2)} = <strong>$${stop.revenue.toFixed(0)}</strong>`;
+          roundTripBreakdownEl.appendChild(stopDiv);
+        });
+
+        // Add total
+        const totalDiv = document.createElement('div');
+        totalDiv.className = 'text-white font-semibold border-t border-white/20 pt-1 mt-1 text-xs';
+        totalDiv.innerHTML = `💰 Total: ${combinedMiles}mi | $${combinedRevenue.toFixed(0)} revenue | $${netProfit.toFixed(0)} profit`;
+        roundTripBreakdownEl.appendChild(totalDiv);
+      } else {
+        // Ocultar breakdown si no hay paradas adicionales
+        roundTripBreakdownEl.classList.add('hidden');
+      }
+    }
 
 
     // Lex listo para ayudar
@@ -3235,6 +3324,126 @@ function clearAllWeatherLayers() {
   });
   console.log('🗑️ Todas las capas removidas');
 }
+
+// ========================================
+// 🎯 MULTI-STOP CALCULATOR Functions
+// ========================================
+let stopCounter = 0; // Global counter for unique stop IDs
+const stopsArray = []; // Array to store stops data
+
+/**
+ * Add a new stop card
+ */
+function addStop() {
+  stopCounter++;
+  const stopId = `stop-${stopCounter}`;
+
+  const stopCard = document.createElement('div');
+  stopCard.id = stopId;
+  stopCard.className = 'bg-white border-2 border-purple-200 rounded-lg p-3';
+  stopCard.innerHTML = `
+    <div class="flex items-center justify-between mb-2">
+      <span class="text-sm font-bold text-purple-800">📍 Parada ${stopCounter}</span>
+      <button type="button" onclick="removeStop('${stopId}')" 
+        class="text-red-600 hover:text-red-800 font-bold text-lg px-2">
+        ×
+      </button>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div>
+        <label class="block text-xs font-medium text-gray-700 mb-1">Destino</label>
+        <input type="text" id="${stopId}-dest" placeholder="Ej: Chicago, IL"
+          class="border border-gray-300 p-2 w-full rounded text-sm stop-input">
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-gray-700 mb-1">Millas</label>
+        <input type="number" id="${stopId}-miles" placeholder="280"
+          class="border border-gray-300 p-2 w-full rounded text-sm stop-input">
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-gray-700 mb-1">RPM ($/mi)</label>
+        <input type="number" id="${stopId}-rpm" step="0.01" placeholder="1.50"
+          class="border border-gray-300 p-2 w-full rounded text-sm stop-input">
+      </div>
+    </div>
+  `;
+
+  const container = document.getElementById('stopsContainer');
+  const noStopsMessage = document.getElementById('noStopsMessage');
+
+  // Hide "no stops" message
+  if (noStopsMessage) {
+    noStopsMessage.classList.add('hidden');
+  }
+
+  container.appendChild(stopCard);
+
+  // Add event listeners to recalculate on input
+  const inputs = stopCard.querySelectorAll('.stop-input');
+  inputs.forEach(input => {
+    input.addEventListener('input', calculateFromInputs);
+  });
+
+  debugLog(`[MULTI-STOP] Added stop ${stopCounter}`);
+}
+
+/**
+ * Remove a stop card
+ */
+function removeStop(stopId) {
+  const stopCard = document.getElementById(stopId);
+  if (stopCard) {
+    stopCard.remove();
+    debugLog(`[MULTI-STOP] Removed ${stopId}`);
+
+    // Show "no stops" message if container is empty
+    const container = document.getElementById('stopsContainer');
+    const remainingStops = container.querySelectorAll('[id^="stop-"]');
+
+    if (remainingStops.length === 0) {
+      const noStopsMessage = document.getElementById('noStopsMessage');
+      if (noStopsMessage) {
+        noStopsMessage.classList.remove('hidden');
+      }
+    }
+
+    // Recalculate
+    calculateFromInputs();
+  }
+}
+
+/**
+ * Get all stops data as array
+ */
+function getStops() {
+  const stops = [];
+  const container = document.getElementById('stopsContainer');
+  const stopCards = container.querySelectorAll('[id^="stop-"]');
+
+  stopCards.forEach(card => {
+    const stopId = card.id;
+    const destination = sanitizeText(document.getElementById(`${stopId}-dest`)?.value || '');
+    const miles = sanitizeNumber(document.getElementById(`${stopId}-miles`)?.value, 0, 10000);
+    const rpm = sanitizeNumber(document.getElementById(`${stopId}-rpm`)?.value, 0, 50);
+
+    if (destination && miles > 0 && rpm > 0) {
+      stops.push({
+        id: stopId,
+        destination,
+        miles,
+        rpm,
+        revenue: miles * rpm
+      });
+    }
+  });
+
+  return stops;
+}
+
+// Expose functions globally
+window.addStop = addStop;
+window.removeStop = removeStop;
+window.getStops = getStops;
 
 // Exponer funciones
 // Función para cerrar modal de clima con animación

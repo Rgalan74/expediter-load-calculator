@@ -9,13 +9,27 @@
   <meta name="keywords" content="expediter, carga, rentabilidad, RPM, zonas rentables, transportista, SmartLoad" />
   <title>SmartLoad Solution | Inteligencia de Carga para el Transportista Moderno</title>
 
-  <link rel="icon" type="image/png" href="img/logo-app.png" />
-  <link rel="apple-touch-icon" href="img/logo-app.png" />
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- PWA Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SmartLoad">
+  <meta name="theme-color" content="#3b82f6">
+
+  <link rel="icon" type="image/webp" href="img/logo-app.webp" />
+  <link rel="apple-touch-icon" href="/img/icons/ios/180.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/icons/ios/152.png" />
+  <link rel="apple-touch-icon" sizes="167x167" href="/img/icons/ios/167.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/icons/ios/180.png" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
+  <link rel="preload" as="image" href="img/hero-bg.png">
 
   <style>
     /* 🎨 DESIGN SYSTEM - Dark Theme */
@@ -294,13 +308,12 @@
           <span class="text-xl md:text-2xl font-bold">Smart Load Solution</span>
         </div>
 
-        <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
-          <a href="#features" class="text-gray-300 hover:text-white transition">Features</a>
-          <a href="#pricing" class="text-gray-300 hover:text-white transition">Pricing</a>
-          <a href="about.html" class="text-gray-300 hover:text-white transition">Acerca</a>
-          <a href="resources.html" class="text-gray-300 hover:text-white transition">Recursos</a>
-          <a href="plans.html" class="text-gray-300 hover:text-white transition">Planes</a>
+        <nav class="hidden md:flex items-center gap-8 text-base font-semibold">
+          <a href="#features" class="text-gray-200 hover:text-white transition">Features</a>
+          <a href="#pricing" class="text-gray-200 hover:text-white transition">Pricing</a>
+          <a href="about.html" class="text-gray-200 hover:text-white transition">Acerca</a>
+          <a href="resources.html" class="text-gray-200 hover:text-white transition">Recursos</a>
+          <a href="plans.html" class="text-gray-200 hover:text-white transition">Planes</a>
         </nav>
 
         <!-- CTA Button -->
@@ -319,13 +332,13 @@
       </div>
 
       <!-- Mobile Menu -->
-      <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 space-y-4">
-        <a href="#features" class="block text-gray-300 hover:text-white transition">Features</a>
-        <a href="#pricing" class="block text-gray-300 hover:text-white transition">Pricing</a>
-        <a href="about.html" class="block text-gray-300 hover:text-white transition">Acerca</a>
-        <a href="resources.html" class="block text-gray-300 hover:text-white transition">Recursos</a>
-        <a href="plans.html" class="block text-gray-300 hover:text-white transition">Planes</a>
-        <a href="auth.html" class="btn-secondary block text-center">Iniciar Sesión →</a>
+      <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 space-y-4 text-lg font-medium">
+        <a href="#features" class="block text-gray-200 hover:text-white transition px-2 py-1">Features</a>
+        <a href="#pricing" class="block text-gray-200 hover:text-white transition px-2 py-1">Pricing</a>
+        <a href="about.html" class="block text-gray-200 hover:text-white transition px-2 py-1">Acerca</a>
+        <a href="resources.html" class="block text-gray-200 hover:text-white transition px-2 py-1">Recursos</a>
+        <a href="plans.html" class="block text-gray-200 hover:text-white transition px-2 py-1">Planes</a>
+        <a href="auth.html" class="btn-secondary block text-center mt-4">Iniciar Sesión →</a>
       </div>
     </div>
   </header>
@@ -339,7 +352,7 @@
 
     <!-- Background Image -->
     <div class="hero-bg">
-      <img src="img/hero-bg.png.png" alt="Delivery Van" />
+      <img src="img/hero-bg.png" alt="Delivery Van" />
     </div>
 
     <!-- Dark Overlay -->
@@ -355,16 +368,16 @@
       </div>
 
       <!-- Main Heading -->
-      <h1 class="text-6xl md:text-7xl lg:text-8xl font-black mb-6 max-w-5xl mx-auto leading-tight"
+      <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-6 max-w-5xl mx-auto leading-tight"
         style="letter-spacing: -2px;">
         AUMENTA TU <span class="gradient-text">PROFIT</span>
         <br />
-        <span class="text-4xl md:text-5xl lg:text-6xl" style="letter-spacing: -1px;">Con Decisiones Basadas en Datos e
+        <span class="text-3xl md:text-4xl lg:text-5xl" style="letter-spacing: -1px;">Con Decisiones Basadas en Datos e
           Inteligencia Artificial</span>
       </h1>
 
       <!-- Subtitle -->
-      <p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-8 leading-relaxed">
+      <p class="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto mb-8 leading-relaxed">
         La única plataforma que te dice <strong class="text-white">antes de aceptar</strong> si una carga es realmente
         rentable.
         <br />Deja de adivinar, deja de perder dinero.
@@ -398,7 +411,7 @@
       </div>
 
       <!-- Trust Line -->
-      <p class="text-sm text-gray-400">
+      <p class="text-sm text-gray-300">
         ✓ Sin tarjeta de crédito • ✓ Setup en 2 minutos • ✓ Cancela cuando quieras
       </p>
 
@@ -412,10 +425,10 @@
     <div class="glow-orb" style="background: var(--primary-orange); top: -100px; left: -200px;"></div>
 
     <div class="container text-center">
-      <h2 class="text-4xl md:text-5xl font-black mb-4">
+      <h2 class="text-3xl md:text-4xl font-black mb-4">
         Todo lo que Necesitas en un <span class="gradient-text">Solo Lugar</span>
       </h2>
-      <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-12">
+      <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-12">
         Herramientas profesionales diseñadas específicamente para transportistas independientes
       </p>
 
@@ -425,15 +438,15 @@
         <!-- Card 1: RPM Calculator (Large - Spans 2 columns on lg) -->
         <div
           class="lg:col-span-2 glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20">
-          <div class="text-5xl mb-4">
+          <div class="text-4xl mb-4">
             <span class="inline-block bg-gradient-to-br from-cyan-400 to-blue-500 p-3 rounded-xl">📊</span>
           </div>
           <h3 class="text-2xl md:text-3xl font-bold mb-3">RPM Calculator en Tiempo Real</h3>
-          <p class="text-gray-400 text-base md:text-lg leading-relaxed mb-4">
+          <p class="text-gray-300 text-base md:text-lg leading-relaxed mb-4">
             Introduce los detalles de una carga y obtén tu **Revenue Per Mile** real en menos de 30 segundos.
             Considera millas totales, deadhead, combustible, y costos operativos.
           </p>
-          <ul class="space-y-2 text-sm md:text-base text-gray-300">
+          <ul class="space-y-2 text-sm md:text-base text-gray-200">
             <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Cálculo automático de profit neto
             </li>
             <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Incluye costos variables por milla
@@ -446,11 +459,11 @@
         <!-- Card 2: AI Recommendations -->
         <div
           class="glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/20">
-          <div class="text-5xl mb-4">
+          <div class="text-4xl mb-4">
             <span class="inline-block bg-gradient-to-br from-purple-400 to-pink-500 p-3 rounded-xl">🤖</span>
           </div>
           <h3 class="text-2xl font-bold mb-3">AI Smart Assistant</h3>
-          <p class="text-gray-400 text-base leading-relaxed mb-4">
+          <p class="text-gray-300 text-base leading-relaxed mb-4">
             Lex AI aprende de tus cargas anteriores y te recomienda mejores rutas y zonas rentables.
           </p>
           <ul class="space-y-2 text-sm text-gray-300">
@@ -462,11 +475,11 @@
         <!-- Card 3: Profitable Zones Map -->
         <div
           class="glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/20">
-          <div class="text-5xl mb-4">
+          <div class="text-4xl mb-4">
             <span class="inline-block bg-gradient-to-br from-orange-400 to-red-500 p-3 rounded-xl">🗺️</span>
           </div>
           <h3 class="text-2xl font-bold mb-3">Mapa de Zonas Rentables</h3>
-          <p class="text-gray-400 text-base leading-relaxed mb-4">
+          <p class="text-gray-300 text-base leading-relaxed mb-4">
             Visualiza en un mapa interactivo qué estados y rutas han sido más rentables para ti.
           </p>
           <ul class="space-y-2 text-sm text-gray-300">
@@ -478,11 +491,11 @@
         <!-- Card 4: Financial Dashboard (Large - Spans 2 columns on lg) -->
         <div
           class="lg:col-span-2 glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20">
-          <div class="text-5xl mb-4">
+          <div class="text-4xl mb-4">
             <span class="inline-block bg-gradient-to-br from-blue-400 to-cyan-500 p-3 rounded-xl">💰</span>
           </div>
           <h3 class="text-2xl md:text-3xl font-bold mb-3">Dashboard Financiero Mensual</h3>
-          <p class="text-gray-400 text-base md:text-lg leading-relaxed mb-4">
+          <p class="text-gray-300 text-base md:text-lg leading-relaxed mb-4">
             Panel completo con métricas clave: ingresos totales, gastos, profit neto, RPM promedio,
             y tendencias mensuales. Exporta reportes en Excel para tu contabilidad.
           </p>
@@ -496,11 +509,11 @@
         <!-- Card 5: Load History -->
         <div
           class="glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-green-500/20">
-          <div class="text-5xl mb-4">
+          <div class="text-4xl mb-4">
             <span class="inline-block bg-gradient-to-br from-green-400 to-emerald-500 p-3 rounded-xl">📚</span>
           </div>
           <h3 class="text-2xl font-bold mb-3">Historial Completo</h3>
-          <p class="text-gray-400 text-base leading-relaxed mb-4">
+          <p class="text-gray-300 text-base leading-relaxed mb-4">
             Todas tus cargas guardadas, editables, y exportables. Nunca pierdas track de tu trabajo.
           </p>
           <ul class="space-y-2 text-sm text-gray-300">
@@ -518,10 +531,10 @@
     <div class="container text-center">
 
       <!-- Section Header -->
-      <h2 class="text-4xl md:text-5xl font-black mb-4">
+      <h2 class="text-3xl md:text-4xl font-black mb-4">
         Planes que se <span class="gradient-text">Pagan Solos</span>
       </h2>
-      <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-12">
+      <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-12">
         Comienza gratis. Actualiza cuando quieras más poder.
       </p>
 
@@ -533,12 +546,12 @@
           <div class="mb-6">
             <h3 class="text-2xl font-bold mb-2">Plan Gratis</h3>
             <div class="flex items-baseline gap-2">
-              <span class="text-5xl font-black">$0</span>
-              <span class="text-gray-400">/mes</span>
+              <span class="text-4xl md:text-5xl font-black">$0</span>
+              <span class="text-gray-300">/mes</span>
             </div>
           </div>
 
-          <ul class="space-y-3 mb-8 text-gray-300">
+          <ul class="space-y-3 mb-8 text-gray-200">
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
               <span><strong>50 cargas</strong> para probar</span>
@@ -556,16 +569,16 @@
               <span>Dashboard básico de profit</span>
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-gray-600 mt-0.5">✗</span>
-              <span class="text-gray-500">Análisis AI limitado</span>
+              <span class="text-gray-500 mt-0.5">✗</span>
+              <span class="text-gray-400">Análisis AI limitado</span>
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-gray-600 mt-0.5">✗</span>
-              <span class="text-gray-500">Mapa de zonas rentables</span>
+              <span class="text-gray-500 mt-0.5">✗</span>
+              <span class="text-gray-400">Mapa de zonas rentables</span>
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-gray-600 mt-0.5">✗</span>
-              <span class="text-gray-500">Exportación Excel</span>
+              <span class="text-gray-500 mt-0.5">✗</span>
+              <span class="text-gray-400">Exportación Excel</span>
             </li>
           </ul>
 
@@ -590,8 +603,8 @@
           <div class="mb-6 mt-4">
             <h3 class="text-2xl font-bold mb-2">Plan Profesional</h3>
             <div class="flex items-baseline gap-2">
-              <span class="text-5xl font-black gradient-text">$19.99</span>
-              <span class="text-gray-400">/mes</span>
+              <span class="text-4xl md:text-5xl font-black gradient-text">$19.99</span>
+              <span class="text-gray-300">/mes</span>
             </div>
             <p class="text-sm text-green-400 mt-2 font-semibold">
               💰 Se paga solo después de 2-3 cargas mejor optimizadas
@@ -624,12 +637,12 @@
               <span>Exportación Excel/CSV ilimitada</span>
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-green-400 mt-0.5">✓</span>
-              <span>Análisis de tendencias mensuales</span>
+              <span class="text-gray-400 mt-0.5">✓</span>
+              <span><strong class="text-white">Análisis de tendencias mensuales</strong></span>
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-green-400 mt-0.5">✓</span>
-              <span>Soporte prioritario</span>
+              <span class="text-gray-400 mt-0.5">✓</span>
+              <span><strong class="text-white">Soporte prioritario</strong></span>
             </li>
           </ul>
 
@@ -638,7 +651,7 @@
             <span class="text-2xl">→</span>
           </a>
 
-          <p class="text-center text-sm text-gray-500 mt-4">
+          <p class="text-center text-sm text-gray-400 mt-4">
             ✓ Cancela cuando quieras • ✓ Garantía 30 días
           </p>
         </div>
@@ -647,7 +660,7 @@
 
       <!-- ROI Statement -->
       <div class="mt-12 glass rounded-xl p-6 max-w-3xl mx-auto">
-        <p class="text-lg text-gray-300">
+        <p class="text-lg text-gray-200">
           <strong class="text-white">¿Vale la pena?</strong> Si optimizas solo <strong class="gradient-text">2-3 cargas
             al mes</strong>
           y evitas aceptar loads malas que te cuestan dinero, el Plan Pro se paga solo.
@@ -664,10 +677,10 @@
     <div class="container text-center">
 
       <!-- Section Header -->
-      <h2 class="text-4xl md:text-5xl font-black mb-4">
+      <h2 class="text-3xl md:text-4xl font-black mb-4">
         Lo Que Dicen Nuestros <span class="gradient-text">Usuarios</span>
       </h2>
-      <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-12">
+      <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-12">
         Transportistas que están ganando más con decisiones basadas en datos
       </p>
 
@@ -878,7 +891,7 @@
 
       <!-- Copyright -->
       <div class="text-center pt-8 border-t border-gray-800">
-        <p class="text-gray-500 text-sm">
+        <p class="text-gray-400 text-sm">
           &copy; 2024 SmartLoad Solution. All rights reserved.
         </p>
       </div>
@@ -907,6 +920,19 @@
         }
       });
     });
+
+    // 📱 PWA Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(registration => {
+            console.log('✅ Service Worker registered successfully:', registration.scope);
+          })
+          .catch(error => {
+            console.log('❌ Service Worker registration failed:', error);
+          });
+      });
+    }
   </script>
 
 </body>

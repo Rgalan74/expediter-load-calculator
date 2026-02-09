@@ -50,18 +50,19 @@ class RolesManager {
     /**
      * Inicializa el sistema de roles
      */
-    async init() {
+    async init(user = null, db = null) {
         console.log('🔐 RolesManager: Iniciando...');
 
-        // Esperar a que auth esté listo
-        if (!window.currentUser || !window.db) {
-            console.log('⏳ RolesManager: Esperando autenticación...');
+        // Usar parámetros si se proveen, sino usar globales
+        this.currentUser = user || window.currentUser;
+        this.db = db || window.db;
+
+        // Verificar que tenemos lo necesario
+        if (!this.currentUser || !this.db) {
+            console.log('⏳ RolesManager: Faltan datos (user o db), esperando...');
             setTimeout(() => this.init(), 500);
             return;
         }
-
-        this.currentUser = window.currentUser;
-        this.db = window.db;
 
         try {
             // Cargar rol del usuario actual
@@ -294,7 +295,13 @@ class RolesManager {
 // INICIALIZACIÓN AUTOMÁTICA
 // ============================================
 
-let rolesManager;
+// Crear instancia INMEDIATAMENTE (antes de inicializar)
+const rolesManager = new RolesManager();
+
+// Exponer globalmente desde el inicio
+window.rolesManager = rolesManager;
+window.RolesManager = RolesManager;
+window.getRolesManager = () => rolesManager;
 
 /**
  * Inicializa RolesManager cuando Firebase esté listo
@@ -302,7 +309,6 @@ let rolesManager;
 function initRolesManagerWhenReady() {
     // Verificar que window.auth y window.db estén disponibles
     if (!window.auth || !window.db) {
-        console.log('⏳ RolesManager: Esperando Firebase...');
         setTimeout(initRolesManagerWhenReady, 300);
         return;
     }
@@ -311,20 +317,17 @@ function initRolesManagerWhenReady() {
 
     // Usar el auth ya inicializado
     window.auth.onAuthStateChanged(async (user) => {
-        if (user && window.currentUser) {
-            console.log('👤 RolesManager: Usuario detectado, iniciando...');
+        if (user) {
+            console.log('👤 RolesManager: Usuario detectado, iniciando...', user.email);
 
+            // Inicializar pasando user y db directamente
             setTimeout(async () => {
                 try {
-                    rolesManager = new RolesManager();
-                    await rolesManager.init();
-
-                    // Exponer globalmente
-                    window.rolesManager = rolesManager;
+                    await rolesManager.init(user, window.db);
                 } catch (error) {
                     console.error('❌ RolesManager: Error en init:', error);
                 }
-            }, 1500); // Delay para asegurar que todo está cargado
+            }, 500); // Pequeño delay para asegurar que window.db esté disponible
         } else {
             console.log('⏸️ RolesManager: No hay usuario autenticado');
         }
@@ -335,15 +338,11 @@ function initRolesManagerWhenReady() {
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         console.log('📋 RolesManager: DOM cargado, esperando Firebase...');
-        setTimeout(initRolesManagerWhenReady, 1000);
+        initRolesManagerWhenReady();
     });
 } else {
     console.log('📋 RolesManager: DOM ya listo, esperando Firebase...');
-    setTimeout(initRolesManagerWhenReady, 1000);
+    initRolesManagerWhenReady();
 }
-
-// Exponer clase y getter globalmente
-window.RolesManager = RolesManager;
-window.getRolesManager = () => rolesManager;
 
 console.log('✅ roles-manager.js cargado');

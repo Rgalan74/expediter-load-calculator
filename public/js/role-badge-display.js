@@ -31,16 +31,44 @@ const ROLE_BADGE_CONFIG = {
 /**
  * Mostrar badge de rol en el header
  */
+let roleBadgeRetryCount = 0;
+const MAX_ROLE_BADGE_RETRIES = 10;
+
 async function showRoleBadge() {
     // Esperar a que rolesManager esté disponible
     if (!window.rolesManager) {
-        console.log('⏳ RolesManager no disponible aún, reintentando...');
+        roleBadgeRetryCount++;
+
+        if (roleBadgeRetryCount >= MAX_ROLE_BADGE_RETRIES) {
+            console.warn('⚠️ RolesManager no disponible después de 10 intentos, abandonando...');
+            return;
+        }
+
+        console.log(`⏳ RolesManager no disponible aún, reintentando... (${roleBadgeRetryCount}/${MAX_ROLE_BADGE_RETRIES})`);
         setTimeout(showRoleBadge, 500);
         return;
     }
 
+    // Verificar que el rol esté REALMENTE cargado (no solo que exista la instancia)
+    const role = window.rolesManager.getUserRole();
+
+    if (!role || role === null) {
+        roleBadgeRetryCount++;
+
+        if (roleBadgeRetryCount >= MAX_ROLE_BADGE_RETRIES) {
+            console.warn('⚠️ Rol de usuario no cargado después de 10 intentos, usando default');
+            // Mostrar badge de user por defecto
+        } else {
+            console.log(`⏳ Esperando a que RolesManager cargue el rol... (${roleBadgeRetryCount}/${MAX_ROLE_BADGE_RETRIES})`);
+            setTimeout(showRoleBadge, 500);
+            return;
+        }
+    }
+
+    // Reset counter on success
+    roleBadgeRetryCount = 0;
+
     try {
-        const role = window.rolesManager.getUserRole();
         const config = ROLE_BADGE_CONFIG[role] || ROLE_BADGE_CONFIG.user;
 
         const badge = document.getElementById('roleBadge');
