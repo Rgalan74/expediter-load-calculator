@@ -1217,8 +1217,15 @@ function showDecisionPanel(calculationData = {}) {
     document.getElementById('profitDetails').textContent = `$${profitPerMile.toFixed(2)}/mi • ${margin.toFixed(1)}% margen`;
   }
 
-  // Tiempo y paradas
-  const estimatedTime = totalMiles > 0 ? `${Math.floor(totalMiles / 50)}h ${Math.round((totalMiles / 50 % 1) * 60)}m` : '0h';
+  // Tiempo y paradas - use real duration from Google Maps if available
+  let estimatedTime;
+  if (window.routeDuration && window.routeDuration.hours !== undefined) {
+    // Use real duration from Google Maps
+    estimatedTime = `${window.routeDuration.hours}h ${window.routeDuration.minutes}m`;
+  } else {
+    // Fallback to estimation if not available
+    estimatedTime = totalMiles > 0 ? `${Math.floor(totalMiles / 50)}h ${Math.round((totalMiles / 50 % 1) * 60)}m` : '0h';
+  }
   const fuelStops = Math.ceil(totalMiles / 300);
 
   if (document.getElementById('estimatedTimeShort')) {
