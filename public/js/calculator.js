@@ -1649,8 +1649,8 @@ let googleMap, directionsService, directionsRenderer;
 //  FUNCION: Actualizar mapa
 function updateMap() {
   //  CRITICAL: Don't override route if sequential destinations are active
-  const destinationsContainer = document.querySelector('.destinations-container');
-  const hasSequentialDestinations = destinationsContainer && destinationsContainer.children.length > 0;
+  // Check if there are any destination inputs with IDs starting with "dest-"
+  const hasSequentialDestinations = document.querySelector('input[id^="dest-"]') !== null;
 
   if (hasSequentialDestinations) {
     debugLog(" Sequential destinations active, skipping updateMap to preserve multi-waypoint route");
