@@ -171,6 +171,9 @@ function calculateRoute() {
     }, (result, status) => {
         if (status === 'OK' && result.routes && result.routes.length > 0) {
             debugLog('[DESTINATIONS] ✅ Route calculated successfully');
+            if (result.routes[0].waypoint_order) {
+                debugLog('[DESTINATIONS] 📍 Google optimized waypoint order:', result.routes[0].waypoint_order);
+            }
             updateMileage(result);
             renderMapRoute(result); // Render route on map
         } else {
