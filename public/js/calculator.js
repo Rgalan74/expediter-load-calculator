@@ -1253,6 +1253,28 @@ window.calculate = calculate;
 //  Inicializar cuando cargue la página
 document.addEventListener("DOMContentLoaded", () => {
   initializeOnce('calculator-sync-rate-rpm', syncRateAndRpm);
+
+  // 🎯 FIX: Auto-calculate when RPM or Rate changes
+  initializeOnce('calculator-rpm-rate-listeners', () => {
+    const rpmField = document.getElementById('rpm');
+    const rateField = document.getElementById('rate');
+
+    if (rpmField) {
+      rpmField.addEventListener('input', () => {
+        debugLog('[RPM Field] Value changed, triggering calculate()');
+        if (typeof calculate === 'function') calculate();
+      });
+    }
+
+    if (rateField) {
+      rateField.addEventListener('input', () => {
+        debugLog('[Rate Field] Value changed, triggering calculate()');
+        if (typeof calculate === 'function') calculate();
+      });
+    }
+
+    debugLog('✅ RPM/Rate auto-calculate listeners configured');
+  });
 });
 
 
