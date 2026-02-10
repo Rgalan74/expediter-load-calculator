@@ -390,9 +390,12 @@
 
 @media (max-width: 768px) {
     .decision-panel {
-        margin-left: 0.25rem !important;
-        margin-right: 0.25rem !important;
-        max-width: calc(100vw - 0.5rem) !important;
+        margin-left: 0.125rem !important;
+        /* Reduced from 0.25rem */
+        margin-right: 0.125rem !important;
+        /* Reduced from 0.25rem */
+        max-width: calc(100vw - 0.25rem) !important;
+        /* Expanded */
     }
 
     #decisionHeader {
