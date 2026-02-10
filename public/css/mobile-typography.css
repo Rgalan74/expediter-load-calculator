@@ -162,8 +162,8 @@
   .kpi-value,
   .text-3xl.font-bold,
   .text-2xl.font-bold {
-    font-size: 2.5rem !important;
-    /* 40px - Máxima legibilidad en móvil */
+    font-size: 1.5rem !important;
+    /* 24px - Reduced from 40px for better aesthetics */
     font-weight: 700 !important;
     line-height: 1.25 !important;
   }
@@ -219,8 +219,8 @@
      ==================================== */
 
   #quickPrice {
-    font-size: 1.75rem !important;
-    /* 28px */
+    font-size: 1.25rem !important;
+    /* 20px - Reduced from 28px */
     font-weight: 700 !important;
     line-height: 1.25 !important;
   }
