@@ -166,6 +166,7 @@ function calculateRoute() {
         origin,
         destination: finalDestination,
         waypoints,
+        optimizeWaypoints: false, // 🎯 Respect user-defined order, don't optimize
         travelMode: google.maps.TravelMode.DRIVING
     }, (result, status) => {
         if (status === 'OK' && result.routes && result.routes.length > 0) {
