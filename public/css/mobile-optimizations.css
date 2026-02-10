@@ -105,14 +105,18 @@
     /* Sections with px-3 md:px-6 classes */
     .tab-content [class*="px-3"],
     .tab-content [class*="px-6"] {
-        padding-left: 0.5rem !important;
-        padding-right: 0.5rem !important;
+        padding-left: 0.25rem !important;
+        /* Reduced from 0.5rem */
+        padding-right: 0.25rem !important;
+        /* Reduced from 0.5rem */
     }
 
     /* Section headers - keep centered */
     .section-header {
-        padding-left: 0.5rem !important;
-        padding-right: 0.5rem !important;
+        padding-left: 0.25rem !important;
+        /* Reduced from 0.5rem */
+        padding-right: 0.25rem !important;
+        /* Reduced from 0.5rem */
     }
 
     /* INPUTS: Black background, white text (like Información de Rutas) */
