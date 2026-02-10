@@ -723,8 +723,23 @@ async function calculate() {
     //  Definir totalMiles ANTES de validaciones
     const totalMiles = loadedMiles + deadheadMiles;
 
+    // DEBUG: Log all values before validation
+    console.log('[DEBUG calculate()] Values after sanitization:');
+    console.log('  origin:', origin);
+    console.log('  destination:', destination);
+    console.log('  loadedMiles:', loadedMiles);
+    console.log('  deadheadMiles:', deadheadMiles);
+    console.log('  totalMiles:', totalMiles);
+    console.log('  rpm:', rpm);
+    console.log('  rate:', rate);
+
     //  Condición mínima antes de mostrar resultados
     if (!origin || !destination || totalMiles <= 0 || (rpm <= 0 && rate <= 0)) {
+      console.log('[DEBUG calculate()] FAILED validation, returning early');
+      console.log('  !origin:', !origin);
+      console.log('  !destination:', !destination);
+      console.log('  totalMiles <= 0:', totalMiles <= 0);
+      console.log('  (rpm <= 0 && rate <= 0):', (rpm <= 0 && rate <= 0));
       hideDecisionPanel();
       if (calculateBtn) LoadingManager.hide(calculateBtn);
       return;
