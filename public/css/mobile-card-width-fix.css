@@ -26,6 +26,13 @@
         margin-right: 0 !important;
     }
 
+    /* 🎯 CRITICAL FIX: Reduce grid gap from 32px to 8px on mobile */
+    .grid.gap-8,
+    .gap-8 {
+        gap: 0.5rem !important;
+        /* 8px instead of 32px (gap-8) */
+    }
+
     /* Add minimal margin only to .card-section for breathing room */
     .card-section {
         margin-left: 0.25rem !important;
