@@ -812,7 +812,8 @@ async function calculate() {
     console.log('[DEBUG] totalCharge:', totalCharge);
 
     // Use shared expense calculation function for consistency with Lex (usar millas combinadas)
-    const expenseBreakdown = calculateTotalExpenses(combinedMiles, tolls, others);
+    // 🎯 FIX: Use totalMiles for fuel/expenses (includes deadhead), not combinedMiles
+    const expenseBreakdown = calculateTotalExpenses(totalMiles, tolls, others);
     const { fuelCost, maintenanceCost, foodCost, fixedCosts } = expenseBreakdown;
     const totalExpenses = expenseBreakdown.total;
 
@@ -1153,8 +1154,15 @@ function showDecisionPanel(calculationData = {}) {
       badgesHTML += `<span class="${zonaColor} px-2 md:px-3 py-1 rounded-full backdrop-blur whitespace-nowrap">🎯 ${getShort(zonaOrigen)} → ${getShort(zonaDestino)}</span>`;
     }
 
-    // Badge de tiempo estimado
-    const estimatedTime = totalMiles > 0 ? `${Math.floor(totalMiles / 50)}h ${Math.round((totalMiles / 50 % 1) * 60)}m` : '0h';
+    // Badge de tiempo estimado - use real duration from Google Maps if available
+    let estimatedTime;
+    if (window.routeDuration && window.routeDuration.hours !== undefined) {
+      // Use real duration from Google Maps
+      estimatedTime = `${window.routeDuration.hours}h ${window.routeDuration.minutes}m`;
+    } else {
+      // Fallback to estimation if not available
+      estimatedTime = totalMiles > 0 ? `${Math.floor(totalMiles / 50)}h ${Math.round((totalMiles / 50 % 1) * 60)}m` : '0h';
+    }
     badgesHTML += `<span class="px-2 md:px-3 py-1 rounded-full backdrop-blur whitespace-nowrap">⏱️ ${estimatedTime}</span>`;
 
     // Badge de clima (se actualizará con API) - ESTILO DISTINTIVO CON !important

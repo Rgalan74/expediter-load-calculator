@@ -183,18 +183,26 @@ function calculateRoute() {
 }
 
 /**
- * Update mileage field with total distance
+ * Update mileage field with total distance and duration
  */
 function updateMileage(directionsResult) {
     let totalMeters = 0;
+    let totalSeconds = 0; // 🎯 NEW: Track total duration
     const route = directionsResult.routes[0];
 
     route.legs.forEach((leg, index) => {
         totalMeters += leg.distance.value;
+        totalSeconds += leg.duration.value; // 🎯 NEW: Add duration in seconds
         debugLog(`[DESTINATIONS] Leg ${index + 1}: ${leg.distance.text} (${leg.start_address} → ${leg.end_address})`);
     });
 
     const totalMiles = Math.round(totalMeters / 1609.34);
+
+    // 🎯 NEW: Store duration for use in decision panel
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.round((totalSeconds % 3600) / 60);
+    window.routeDuration = { hours, minutes, totalSeconds };
+    debugLog(`[DESTINATIONS] ✅ Route duration: ${hours}h ${minutes}m`);
 
     const milesInput = document.getElementById('loadedMiles');
     if (milesInput) {
