@@ -1015,6 +1015,8 @@ function updateMainResults(data) {
 //  FUNCIÓN: Panel de decisión con header dinámico
 function showDecisionPanel(calculationData = {}) {
   const panel = document.getElementById('decisionPanel');
+  console.log('[DEBUG showDecisionPanel] Panel element:', panel);
+  console.log('[DEBUG showDecisionPanel] calculationData:', calculationData);
   if (!panel) {
     console.warn("Panel de decisión no encontrado");
     return;
