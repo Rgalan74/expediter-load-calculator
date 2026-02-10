@@ -88,14 +88,18 @@
 
     /* Main container - reduce horizontal padding */
     main {
-        padding-left: 0.5rem !important;
-        padding-right: 0.5rem !important;
+        padding-left: 0.25rem !important;
+        /* Reduced from 0.5rem */
+        padding-right: 0.25rem !important;
+        /* Reduced from 0.5rem */
     }
 
     /* Tab content sections - reduce padding */
     .tab-content>div {
-        padding-left: 0.5rem !important;
-        padding-right: 0.5rem !important;
+        padding-left: 0.25rem !important;
+        /* Reduced from 0.5rem */
+        padding-right: 0.25rem !important;
+        /* Reduced from 0.5rem */
     }
 
     /* Sections with px-3 md:px-6 classes */
