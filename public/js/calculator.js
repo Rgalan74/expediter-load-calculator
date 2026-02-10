@@ -713,6 +713,11 @@ async function calculate() {
     const destination = sanitizeText(document.getElementById('destination')?.value?.trim() || '', 100);
 
     // Sanitize numeric inputs with reasonable limits
+    console.log('[DEBUG] RAW VALUES before sanitization:');
+    console.log('  loadedMiles RAW:', document.getElementById('loadedMiles')?.value);
+    console.log('  rpm RAW:', document.getElementById('rpm')?.value);
+    console.log('  rate RAW:', document.getElementById('rate')?.value);
+
     let loadedMiles = sanitizeNumber(document.getElementById('loadedMiles')?.value, 0, 10000);
     let deadheadMiles = sanitizeNumber(document.getElementById('deadheadMiles')?.value, 0, 5000);
     let rpm = sanitizeNumber(document.getElementById('rpm')?.value, 0, 50);
