@@ -149,6 +149,54 @@
       -webkit-overflow-scrolling: touch;
     }
   </style>
+
+  <!-- 🚀 CRITICAL MOBILE FULL WIDTH FIX -->
+  <style>
+    @media (max-width: 768px) {
+
+      /* 1. Eliminate Main Container Padding */
+      body,
+      html,
+      #app,
+      main,
+      .tab-content,
+      #calculator,
+      #history,
+      #finances,
+      #zones,
+      #settings {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        overflow-x: hidden !important;
+      }
+
+      /* 2. Reduce Grid Gap (The main culprit) */
+      .grid.gap-8 {
+        gap: 0.5rem !important;
+        /* Force 8px gap instead of 32px */
+      }
+
+      /* 3. Maximize Card Width */
+      .card-section,
+      section,
+      div[class*="rounded-xl"],
+      div[class*="rounded-lg"] {
+        margin-left: 0.125rem !important;
+        /* 2px margin */
+        margin-right: 0.125rem !important;
+        /* 2px margin */
+        max-width: calc(100vw - 0.25rem) !important;
+        /* Full width minus margins */
+      }
+
+      /* 4. Ensure inner content has minimal padding */
+      .card-section>div,
+      section>div {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+      }
+    }
+  </style>
 </head>
 
 <body class="bg-gray-100 text-gray-900">
