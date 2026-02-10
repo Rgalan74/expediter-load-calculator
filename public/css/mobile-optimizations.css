@@ -98,25 +98,39 @@
     .tab-content>div {
         padding-left: 0.25rem !important;
         /* Reduced from 0.5rem */
-        padding-right: 0.25rem !important;
-        /* Reduced from 0.5rem */
+        /* Reduced from 0.5rem to 0.125rem */
+        padding-right: 0.125rem !important;
     }
 
     /* Sections with px-3 md:px-6 classes */
     .tab-content [class*="px-3"],
     .tab-content [class*="px-6"] {
-        padding-left: 0.25rem !important;
+        padding-left: 0.125rem !important;
         /* Reduced from 0.5rem */
-        padding-right: 0.25rem !important;
+        padding-right: 0.125rem !important;
         /* Reduced from 0.5rem */
     }
 
     /* Section headers - keep centered */
+    /* Section headers - minimize padding */
     .section-header {
-        padding-left: 0.25rem !important;
-        /* Reduced from 0.5rem */
-        padding-right: 0.25rem !important;
-        /* Reduced from 0.5rem */
+        padding-left: 0.125rem !important;
+        /* Almost zero */
+        padding-right: 0.125rem !important;
+    }
+
+    /* 🎯 CRITICAL FIX: Reduce grid gap from 32px to 4px on mobile */
+    .grid.gap-8,
+    .gap-8,
+    [class*="gap-"] {
+        gap: 0.25rem !important;
+        /* 4px instead of 32px */
+    }
+
+    /* Reduce spacing in grid items */
+    .space-y-4> :not([hidden])~ :not([hidden]) {
+        margin-top: 0.5rem !important;
+        /* 8px instead of 16px */
     }
 
     /* INPUTS: Black background, white text (like Información de Rutas) */
