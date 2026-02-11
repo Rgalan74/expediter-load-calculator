@@ -182,26 +182,6 @@ function renderFilteredImmediate() {
       });
     }
 
-    // APLICAR ORDENAMIENTO
-    if (currentHistorySort.column) {
-      const { column, asc } = currentHistorySort;
-      filteredData.sort((a, b) => {
-        let valA = a[column];
-        let valB = b[column];
-
-        // Manejo de nulos
-        if (valA === undefined || valA === null) valA = '';
-        if (valB === undefined || valB === null) valB = '';
-
-        // Comparación numérica o string
-        if (typeof valA === 'number' && typeof valB === 'number') {
-          return asc ? valA - valB : valB - valA;
-        } else {
-          return asc ? String(valA).localeCompare(String(valB)) : String(valB).localeCompare(String(valA));
-        }
-      });
-    }
-
     updateCounts();
     updateSummaryStats();
     renderHistoryTable();
