@@ -87,14 +87,6 @@ function calcularEstadisticas(loads) {
         rpmPorEstado[originCode].total += rpm;
         rpmPorEstado[originCode].count++;
 
-        if (!resumenPorEstado[destCode]) {
-            resumenPorEstado[destCode] = {
-                count: 0,
-                totalProfit: 0,
-                totalMiles: 0,
-                totalRevenue: 0
-            };
-        }
         if (!resumenPorEstado[originCode]) {
             resumenPorEstado[originCode] = {
                 count: 0,
@@ -104,11 +96,7 @@ function calcularEstadisticas(loads) {
             };
         }
 
-        resumenPorEstado[destCode].count++;
-        resumenPorEstado[destCode].totalProfit += isNaN(profit) ? 0 : profit;
-        resumenPorEstado[destCode].totalMiles += isNaN(miles) ? 0 : miles;
-        resumenPorEstado[destCode].totalRevenue += isNaN(revenue) ? 0 : revenue;
-
+        // Solo sumar al ORGEN (Salida)
         resumenPorEstado[originCode].count++;
         resumenPorEstado[originCode].totalProfit += isNaN(profit) ? 0 : profit;
         resumenPorEstado[originCode].totalMiles += isNaN(miles) ? 0 : miles;
@@ -137,21 +125,19 @@ function renderZonesTable() {
         // RPM Promedio solo existe si hubo cargas SALIENDO de este estado
         const rawRpm = rpmPorEstado[state] || 0;
 
-        // Determinar etiqueta y color basado en el RPM (solo si es válido)
-        let label = "Sin actividad de salida";
-        let zoneClass = "zone-gray"; // Clase neutra por defecto
+        // Determinar etiqueta y color basado en el RPM
+        let label = "Zona gris";
+        let zoneClass = "zone-gray";
 
-        if (rawRpm > 0) {
-            if (rawRpm < 0.75) { label = "Zona roja"; zoneClass = "zone-red"; }
-            else if (rawRpm < 1.05) { label = "Zona amarilla"; zoneClass = "zone-yellow"; }
-            else { label = "Zona verde"; zoneClass = "zone-green"; }
-        }
+        if (rawRpm < 0.75) { label = "Zona roja"; zoneClass = "zone-red"; }
+        else if (rawRpm < 1.05) { label = "Zona amarilla"; zoneClass = "zone-yellow"; }
+        else { label = "Zona verde"; zoneClass = "zone-green"; }
 
         return {
             state,
             label,
             zoneClass,
-            count: stats.count, // Total cargas (Entrada + Salida)
+            count: stats.count,
             avgRpm: rawRpm,
             profit: stats.totalProfit
         };
