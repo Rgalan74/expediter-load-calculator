@@ -1406,14 +1406,26 @@
             <!-- Contenedor con altura máxima y scroll (responsive) -->
             <div class="overflow-x-auto overflow-y-auto border border-gray-300 rounded-lg" style="max-height: 400px;">
               <table class="min-w-full text-xs md:text-sm">
-                <thead class="bg-gray-200 md:sticky md:top-0 z-10">
+                <thead class="bg-gray-100 md:sticky md:top-0 z-10 text-xs uppercase text-gray-500 font-semibold">
                   <tr>
-                    <th class="p-2 text-left cursor-pointer" onclick="sortZonesBy('state')">Estado</th>
-                    <th class="p-2 text-left">Zona</th>
-                    <th class="p-2 text-left cursor-pointer" onclick="sortZonesBy('count')">Cargas</th>
-                    <th class="p-2 text-left cursor-pointer" onclick="sortZonesBy('rpm')">RPM Promedio</th>
-                    <th class="p-2 text-left cursor-pointer" onclick="sortZonesBy('totalProfit')">Ganancia Total</th>
-                    <th class="p-2 text-left">Rendimiento</th>
+                    <th class="p-3 text-left cursor-pointer hover:bg-gray-200 transition select-none"
+                      onclick="sortZonesBy('state')">
+                      Estado <span id="sort-state" class="ml-1 text-gray-400">↕</span>
+                    </th>
+                    <th class="p-3 text-left">Zona</th>
+                    <th class="p-3 text-left cursor-pointer hover:bg-gray-200 transition select-none"
+                      onclick="sortZonesBy('count')">
+                      Cargas <span id="sort-count" class="ml-1 text-gray-400">↕</span>
+                    </th>
+                    <th class="p-3 text-left cursor-pointer hover:bg-gray-200 transition select-none"
+                      onclick="sortZonesBy('avgRpm')">
+                      RPM <span id="sort-avgRpm" class="ml-1 text-gray-400">↕</span>
+                    </th>
+                    <th class="p-3 text-left cursor-pointer hover:bg-gray-200 transition select-none"
+                      onclick="sortZonesBy('profit')">
+                      Ganancia <span id="sort-profit" class="ml-1 text-gray-400">↕</span>
+                    </th>
+                    <th class="p-3 text-left">Rendimiento</th>
                   </tr>
                 </thead>
                 <tbody id="zoneDataBody">
