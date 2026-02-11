@@ -118,10 +118,9 @@ function calcularEstadisticas(loads) {
     // ✅ Calcular promedio de RPM
     Object.keys(rpmPorEstado).forEach(code => {
         const data = rpmPorEstado[code];
-        rpmPorEstado[code] = data.total / data.count;
+        rpmPorEstado[code] = data.count > 0 ? (data.total / data.count) : 0;
     });
 
-    // 🔥 ESTA LÍNEA ES LA CLAVE
     return resumenPorEstado;
 }
 
@@ -133,21 +132,32 @@ function renderZonesTable() {
 
     body.innerHTML = "";
 
-    const rows = Object.entries(resumenPorEstado).map(([state, stats]) => {
-        const avgRpm = rpmPorEstado[state] || 0;
-        const label = avgRpm < 0.75 ? "Zona roja" : avgRpm < 1.05 ? "Zona amarilla" : "Zona verde";
-        const zoneClass = avgRpm < 0.75 ? "zone-red" : avgRpm < 1.05 ? "zone-yellow" : "zone-green";
+    // Convertir a array para ordenar
+    let rows = Object.entries(resumenPorEstado).map(([state, stats]) => {
+        // RPM Promedio solo existe si hubo cargas SALIENDO de este estado
+        const rawRpm = rpmPorEstado[state] || 0;
+
+        // Determinar etiqueta y color basado en el RPM (solo si es válido)
+        let label = "Sin actividad de salida";
+        let zoneClass = "zone-gray"; // Clase neutra por defecto
+
+        if (rawRpm > 0) {
+            if (rawRpm < 0.75) { label = "Zona roja"; zoneClass = "zone-red"; }
+            else if (rawRpm < 1.05) { label = "Zona amarilla"; zoneClass = "zone-yellow"; }
+            else { label = "Zona verde"; zoneClass = "zone-green"; }
+        }
 
         return {
             state,
             label,
             zoneClass,
-            count: stats.count,
-            avgRpm,
+            count: stats.count, // Total cargas (Entrada + Salida)
+            avgRpm: rawRpm,
             profit: stats.totalProfit
         };
     });
 
+    // Ordenar
     if (currentZoneSort.column) {
         const { column, asc } = currentZoneSort;
         rows.sort((a, b) => {
@@ -158,23 +168,40 @@ function renderZonesTable() {
 
     rows.forEach(row => {
         const tr = document.createElement("tr");
-        tr.className = `${row.zoneClass} border-b`;
+        tr.className = `${row.zoneClass === 'zone-gray' ? '' : row.zoneClass} border-b hover:bg-gray-50 transition`;
+
+        // Formato condicional para RPM
+        const rpmDisplay = row.avgRpm > 0 ? `$${row.avgRpm.toFixed(2)}` : '<span class="text-gray-400 text-xs">N/A</span>';
+
+        // Barra de progreso condicional
+        let progressBar = '';
+        if (row.avgRpm > 0) {
+            const barColor = row.avgRpm >= 1.05 ? 'bg-green-500' : row.avgRpm >= 0.75 ? 'bg-yellow-500' : 'bg-red-500';
+            const width = Math.max(8, Math.min((row.avgRpm / 2) * 100, 100)); // Escala: $2.00 = 100%
+            progressBar = `<div class="h-2 rounded ${barColor}" style="width: ${width}%"></div>`;
+        } else {
+            progressBar = `<div class="h-2 rounded bg-gray-100" style="width: 100%"></div>`;
+        }
 
         tr.innerHTML = `
-            <td class="p-2 font-bold">${row.state}</td>
-            <td class="p-2">${row.label}</td>
-            <td class="p-2">${row.count}</td>
-            <td class="p-2">$${row.avgRpm.toFixed(2)}</td>
-            <td class="p-2 ${row.profit >= 0 ? 'text-green-600' : 'text-red-600'}">$${row.profit.toFixed(2)}</td>
-            <td class="p-2">
-                <div class="h-2 w-full bg-gray-200 rounded">
-                    <div class="h-2 rounded ${row.avgRpm >= 1.05 ? 'bg-green-500' : row.avgRpm >= 0.75 ? 'bg-yellow-500' : 'bg-red-500'}" style="width: ${Math.max(8, Math.min((row.avgRpm / 2) * 100, 100))}%"></div>
+            <td class="p-3 font-bold text-gray-800">${row.state}</td>
+            <td class="p-3 text-sm">${row.label}</td>
+            <td class="p-3 font-medium">${row.count}</td>
+            <td class="p-3 font-mono font-bold text-blue-700">${rpmDisplay}</td>
+            <td class="p-3 font-mono ${row.profit >= 0 ? 'text-green-600' : 'text-red-600'}">$${row.profit.toFixed(2)}</td>
+            <td class="p-3">
+                <div class="h-2 w-full bg-gray-200 rounded overflow-hidden">
+                    ${progressBar}
                 </div>
             </td>
         `;
 
         body.appendChild(tr);
     });
+
+    if (rows.length === 0) {
+        showZonesEmpty("No hay datos suficientes para generar la tabla.");
+    }
 }
 
 // Funcin initializeMap mejorada con hover
