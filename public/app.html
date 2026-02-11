@@ -779,14 +779,38 @@
               <table class="w-full min-w-[800px] text-sm md:text-base">
                 <thead class="bg-gray-100 text-gray-700 md:sticky md:top-0 z-10">
                   <tr>
-                    <th class="p-2 text-left">Fecha</th>
-                    <th class="p-2 text-left">Load #</th>
-                    <th class="p-2 text-left">Origen</th>
-                    <th class="p-2 text-left">Destino</th>
-                    <th class="p-2 text-left">Compañía</th>
-                    <th class="p-2 text-left">Millas</th>
-                    <th class="p-2 text-left">RPM</th>
-                    <th class="p-2 text-left">Tarifa</th>
+                    <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition select-none"
+                      onclick="sortHistoryBy('date')">
+                      Fecha <span id="sort-hist-date" class="history-sort-icon ml-1 text-gray-400">↓</span>
+                    </th>
+                    <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition select-none"
+                      onclick="sortHistoryBy('loadNumber')">
+                      Load # <span id="sort-hist-loadNumber" class="history-sort-icon ml-1 text-gray-400">↕</span>
+                    </th>
+                    <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition select-none"
+                      onclick="sortHistoryBy('origin')">
+                      Origen <span id="sort-hist-origin" class="history-sort-icon ml-1 text-gray-400">↕</span>
+                    </th>
+                    <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition select-none"
+                      onclick="sortHistoryBy('destination')">
+                      Destino <span id="sort-hist-destination" class="history-sort-icon ml-1 text-gray-400">↕</span>
+                    </th>
+                    <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition select-none"
+                      onclick="sortHistoryBy('companyName')">
+                      Compañía <span id="sort-hist-companyName" class="history-sort-icon ml-1 text-gray-400">↕</span>
+                    </th>
+                    <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition select-none"
+                      onclick="sortHistoryBy('totalMiles')">
+                      Millas <span id="sort-hist-totalMiles" class="history-sort-icon ml-1 text-gray-400">↕</span>
+                    </th>
+                    <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition select-none"
+                      onclick="sortHistoryBy('rpm')">
+                      RPM <span id="sort-hist-rpm" class="history-sort-icon ml-1 text-gray-400">↕</span>
+                    </th>
+                    <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition select-none"
+                      onclick="sortHistoryBy('totalCharge')">
+                      Tarifa <span id="sort-hist-totalCharge" class="history-sort-icon ml-1 text-gray-400">↕</span>
+                    </th>
                     <th class="p-2 text-left">Acciones</th>
                   </tr>
                 </thead>
