@@ -168,7 +168,15 @@ function renderZonesTable() {
 
     rows.forEach(row => {
         const tr = document.createElement("tr");
-        tr.className = `${row.zoneClass === 'zone-gray' ? '' : row.zoneClass} border-b hover:bg-gray-50 transition`;
+        // Mapear clases de zona a estilos de fondo suave
+        let bgClass = '';
+        if (row.zoneClass === 'zone-red') bgClass = 'bg-red-50';
+        else if (row.zoneClass === 'zone-yellow') bgClass = 'bg-yellow-50';
+        else if (row.zoneClass === 'zone-green') bgClass = 'bg-green-50';
+        else if (row.zoneClass === 'zone-blue') bgClass = 'bg-blue-50'; // Nueva clase azul
+        else bgClass = '';
+
+        tr.className = `${bgClass} border-b hover:bg-gray-100 transition`;
 
         // Formato condicional para RPM
         const rpmDisplay = row.avgRpm > 0 ? `$${row.avgRpm.toFixed(2)}` : '<span class="text-gray-400 text-xs">N/A</span>';
@@ -179,6 +187,9 @@ function renderZonesTable() {
             const barColor = row.avgRpm >= 1.05 ? 'bg-green-500' : row.avgRpm >= 0.75 ? 'bg-yellow-500' : 'bg-red-500';
             const width = Math.max(8, Math.min((row.avgRpm / 2) * 100, 100)); // Escala: $2.00 = 100%
             progressBar = `<div class="h-2 rounded ${barColor}" style="width: ${width}%"></div>`;
+        } else if (row.zoneClass === 'zone-blue') {
+            // Barra azul completa para indicar actividad de destino
+            progressBar = `<div class="h-2 rounded bg-blue-200" style="width: 100%" title="Solo entregas registradas"></div>`;
         } else {
             progressBar = `<div class="h-2 rounded bg-gray-100" style="width: 100%"></div>`;
         }
