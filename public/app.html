@@ -810,11 +810,19 @@
             <p class="subtitle">Control total de tus ingresos, gastos y rentabilidad</p>
           </div>
 
-          <!-- Submenú interno -->
-          <div class="flex gap-4 border-b pb-2">
-            <button class="fin-subtab px-4 py-2 rounded-md hover:bg-blue-500" data-subtab="summary">🧮 Resumen</button>
-            <button class="fin-subtab px-4 py-2 rounded-md hover:bg-blue-500" data-subtab="reports">🧾 Reportes</button>
-            <button class="fin-subtab px-4 py-2 rounded-md hover:bg-blue-500" data-subtab="accounts">💵 Cuentas</button>
+          <!-- Submenú interno (Pill Navigation) -->
+          <div class="flex justify-center border-b border-gray-100 pb-4 mb-2">
+            <div class="inline-flex bg-gray-100 p-1.5 rounded-xl shadow-inner">
+              <button
+                class="fin-subtab px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 transition-all duration-200"
+                data-subtab="summary">🧮 Resumen</button>
+              <button
+                class="fin-subtab px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 transition-all duration-200"
+                data-subtab="reports">🧾 Reportes</button>
+              <button
+                class="fin-subtab px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 transition-all duration-200"
+                data-subtab="accounts">💵 Cuentas</button>
+            </div>
           </div>
 
           <!-- 📊 Contenido RESUMEN -->
