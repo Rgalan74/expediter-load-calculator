@@ -1481,13 +1481,25 @@
               <!-- Contenedor con altura máxima y scroll (responsive) -->
               <div class="overflow-x-auto overflow-y-auto border border-gray-300 rounded-lg" style="max-height: 350px;">
                 <table class="min-w-full text-xs md:text-sm">
-                  <thead class="bg-gray-200 md:sticky md:top-0 z-10">
+                  <thead class="bg-gray-100 md:sticky md:top-0 z-10 text-xs uppercase text-gray-500 font-semibold">
                     <tr>
-                      <th class="p-2 text-left">#</th>
-                      <th class="p-2 text-left">Ciudad</th>
-                      <th class="p-2 text-left">Cargas</th>
-                      <th class="p-2 text-left">RPM Promedio</th>
-                      <th class="p-2 text-left">Ganancia Total</th>
+                      <th class="p-3 text-left w-10">#</th>
+                      <th class="p-3 text-left cursor-pointer hover:bg-gray-200 transition select-none"
+                        onclick="sortCitiesBy('city')">
+                        Ciudad <span id="sort-city-city" class="ml-1 text-gray-400">↕</span>
+                      </th>
+                      <th class="p-3 text-center cursor-pointer hover:bg-gray-200 transition select-none"
+                        onclick="sortCitiesBy('count')">
+                        Cargas <span id="sort-city-count" class="ml-1 text-blue-600 font-bold">↓</span>
+                      </th>
+                      <th class="p-3 text-center cursor-pointer hover:bg-gray-200 transition select-none"
+                        onclick="sortCitiesBy('avgRPM')">
+                        RPM <span id="sort-city-avgRPM" class="ml-1 text-gray-400">↕</span>
+                      </th>
+                      <th class="p-3 text-center cursor-pointer hover:bg-gray-200 transition select-none"
+                        onclick="sortCitiesBy('totalProfit')">
+                        Ganancia <span id="sort-city-totalProfit" class="ml-1 text-gray-400">↕</span>
+                      </th>
                     </tr>
                   </thead>
                   <tbody id="citiesTableBody">

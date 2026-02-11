@@ -576,7 +576,9 @@ function verifyPainting(svgDoc) {
 
 let zonesMap = null;
 let cityMarkers = [];
+let cityMarkers = [];
 let cityDataByDestination = {};
+let currentCitySort = { column: 'count', asc: false }; // Por defecto: más cargas primero
 
 // Inicializar mapa de ciudades
 function initializeCitiesMap() {
@@ -866,7 +868,18 @@ function renderCitiesTable() {
     if (!tbody) return;
 
     const sortedCities = Object.values(cityDataByDestination)
-        .sort((a, b) => b.count - a.count);
+        .sort((a, b) => {
+            const { column, asc } = currentCitySort;
+            let valA = a[column];
+            let valB = b[column];
+
+            // Si la columna es 'city', es string
+            if (column === 'city') {
+                return asc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+            }
+            // Para numéricos (count, avgRPM, totalProfit)
+            return asc ? (valA - valB) : (valB - valA);
+        });
 
     tbody.innerHTML = sortedCities.map((data, i) => {
         const zoneColor = data.avgRPM >= 1.05 ? 'text-green-600' :
@@ -1419,5 +1432,36 @@ window.showCitiesLoading = showCitiesLoading;
 window.hideCitiesLoading = hideCitiesLoading;
 window.showCitiesEmpty = showCitiesEmpty;
 window.showCitiesError = showCitiesError;
+
+// Funcin de ordenamiento para ciudades
+function sortCitiesBy(column) {
+    if (currentCitySort.column === column) {
+        currentCitySort.asc = !currentCitySort.asc;
+    } else {
+        currentCitySort.column = column;
+        currentCitySort.asc = false; // Default desc para métricas, asc para texto
+        if (column === 'city') currentCitySort.asc = true;
+    }
+
+    // Actualizar iconos
+    updateCitySortIcons();
+    renderCitiesTable();
+}
+
+function updateCitySortIcons() {
+    ['city', 'count', 'avgRPM', 'totalProfit'].forEach(col => {
+        const icon = document.getElementById(`sort-city-${col}`);
+        if (icon) {
+            if (currentCitySort.column === col) {
+                icon.textContent = currentCitySort.asc ? '↑' : '↓';
+                icon.className = 'ml-1 text-blue-600 font-bold';
+            } else {
+                icon.textContent = '↕';
+                icon.className = 'ml-1 text-gray-400';
+            }
+        }
+    });
+}
+window.sortCitiesBy = sortCitiesBy;
 
 debugLog(" Zones.js cargado completamente (VERSIN CORREGIDA + Mapa de Ciudades)");
