@@ -500,11 +500,17 @@ document.addEventListener("DOMContentLoaded", () => {
         function activateSubtab(target) {
             debugLog(" DEBUG activateSubtab  target:", target);
 
-            // Resetear botones
-            subtabButtons.forEach(b => b.classList.remove("bg-blue-50", "font-semibold"));
+            // Resetear botones - Estilo "Pill" inactivo
+            subtabButtons.forEach(b => {
+                b.classList.remove("bg-white", "text-blue-600", "shadow-sm", "font-bold");
+                b.classList.add("text-gray-600", "hover:text-gray-900");
+            });
+
             const btn = document.querySelector(`.fin-subtab[data-subtab='${target}']`);
             if (btn) {
-                btn.classList.add("bg-blue-50", "font-semibold");
+                // Estilo "Pill" activo
+                btn.classList.remove("text-gray-600", "hover:text-gray-900");
+                btn.classList.add("bg-white", "text-blue-600", "shadow-sm", "font-bold");
             }
 
             // Mostrar solo el contenido seleccionado
