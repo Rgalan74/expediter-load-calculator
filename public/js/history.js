@@ -7,6 +7,8 @@
 
 let allData = [];
 let filteredData = [];
+// Estado de ordenamiento
+let currentHistorySort = { column: 'date', asc: false }; // Por defecto: más recientes primero
 
 // FUNCION PRINCIPAL CORREGIDA - getLoadHistory
 function getLoadHistory() {
@@ -151,6 +153,54 @@ function renderFilteredImmediate() {
       const monthMatch = !month || (load.date && load.date.startsWith(month));
       return originMatch && destMatch && monthMatch;
     });
+
+    // APLICAR ORDENAMIENTO
+    if (window.currentHistorySort && window.currentHistorySort.column) {
+      const { column, asc } = window.currentHistorySort;
+      filteredData.sort((a, b) => {
+        let valA = a[column];
+        let valB = b[column];
+
+        // Manejo de nulos
+        if (valA === undefined || valA === null) valA = '';
+        if (valB === undefined || valB === null) valB = '';
+
+        // Comparación numérica 
+        if (column === 'totalMiles' || column === 'rpm' || column === 'totalCharge' || column === 'netProfit') {
+          return asc ? (Number(valA) - Number(valB)) : (Number(valB) - Number(valA));
+        }
+
+        // Comparación de fechas
+        if (column === 'date') {
+          const dateA = new Date(valA || '1970-01-01');
+          const dateB = new Date(valB || '1970-01-01');
+          return asc ? dateA - dateB : dateB - dateA;
+        }
+
+        // Comparación de texto por defecto
+        return asc ? String(valA).localeCompare(String(valB)) : String(valB).localeCompare(String(valA));
+      });
+    }
+
+    // APLICAR ORDENAMIENTO
+    if (currentHistorySort.column) {
+      const { column, asc } = currentHistorySort;
+      filteredData.sort((a, b) => {
+        let valA = a[column];
+        let valB = b[column];
+
+        // Manejo de nulos
+        if (valA === undefined || valA === null) valA = '';
+        if (valB === undefined || valB === null) valB = '';
+
+        // Comparación numérica o string
+        if (typeof valA === 'number' && typeof valB === 'number') {
+          return asc ? valA - valB : valB - valA;
+        } else {
+          return asc ? String(valA).localeCompare(String(valB)) : String(valB).localeCompare(String(valA));
+        }
+      });
+    }
 
     updateCounts();
     updateSummaryStats();
