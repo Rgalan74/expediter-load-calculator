@@ -2043,6 +2043,45 @@ function syncRentabilityCardSingleView() {
 }
 
 // ========================================
+//  FUNCIN DE LIMPIEZA
+// ========================================
+function clearForm() {
+  debugLog(" Limpiando formulario de calculadora...");
+
+  // Campos de texto y números
+  const fields = [
+    'origin', 'destination',
+    'loadedMiles', 'deadheadMiles',
+    'rpm', 'rate', 'price', 'totalCharge', // posibles variantes
+    'tolls', 'otherCosts', 'detention',
+    'loadNumber', 'companyName', 'notes'
+  ];
+
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+
+  // Resetear resultados visuales
+  updateElement('netProfit', '$0.00');
+  updateElement('profitMargin', '0%');
+  updateElement('totalExpenses', '$0.00');
+  updateElement('fuelCostDisp', '$0.00');
+  updateElement('operatingCostDisp', '$0.00');
+
+  // Resetear mapa si existe función
+  if (typeof resetMap === 'function') {
+    resetMap();
+  }
+
+  // Enfocar primer campo
+  const origin = document.getElementById('origin');
+  if (origin) origin.focus();
+
+  showToast("Formulario limpiado", "info");
+}
+
+// ========================================
 //  CONFIGURACIN DE EVENTOS (MANTENER COMPLETA)
 // ========================================
 
