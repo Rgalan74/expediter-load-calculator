@@ -5,7 +5,7 @@
  * Version: 1.0.1
  */
 
-const CACHE_VERSION = 'expediter-v3.2-REPORTS-CLEAN';
+const CACHE_VERSION = 'expediter-v5.0.0-FIX-THEME';
 const CACHE_NAME = `expediter-cache-${CACHE_VERSION}`;
 // DEPLOY_TIMESTAMP: 2026-01-29T13:15:00 - CLEAN_REPORTS
 
