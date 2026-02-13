@@ -1065,3 +1065,40 @@ window.deleteLoad = deleteLoad;
 window.openMonthPicker = openMonthPicker;
 window.closeMonthPicker = closeMonthPicker;
 window.selectMonth = selectMonth;
+
+// Función de ordenamiento pública
+function sortHistoryBy(column) {
+  if (window.currentHistorySort.column === column) {
+    window.currentHistorySort.asc = !window.currentHistorySort.asc;
+  } else {
+    window.currentHistorySort.column = column;
+    window.currentHistorySort.asc = true; // Default asc for new column
+
+    // Excepciones: Fecha y montos suelen ser mejor desc por defecto
+    if (['date', 'totalCharge', 'profit', 'totalMiles', 'rpm'].includes(column)) {
+      window.currentHistorySort.asc = false;
+    }
+  }
+
+  // Actualizar indicadores visuales (flechas)
+  updateSortIndicators();
+
+  // Re-renderizar
+  renderFilteredImmediate();
+}
+
+function updateSortIndicators() {
+  // Resetear todos
+  document.querySelectorAll('.history-sort-icon').forEach(el => el.textContent = '↕');
+
+  // Setear el activo
+  const activeIcon = document.getElementById(`sort-hist-${window.currentHistorySort.column}`);
+  if (activeIcon) {
+    activeIcon.textContent = window.currentHistorySort.asc ? '↑' : '↓';
+    activeIcon.className = 'history-sort-icon ml-1 text-blue-600 font-bold';
+  }
+}
+
+// Exponer globalmente
+window.sortHistoryBy = sortHistoryBy;
+window.updateSortIndicators = updateSortIndicators;
