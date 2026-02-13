@@ -37,8 +37,16 @@
    Ã°Å¸Å’Å’ FONDO Y ESTRUCTURA GENERAL
    ============================ */
 
+/* ANIMACION DE FONDO (Traída de index.html) */
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
 body {
-  background: var(--bg-darkest) !important;
+  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%) !important;
+  background-size: 400% 400% !important;
+  animation: gradientShift 15s ease infinite !important;
   color: var(--text-secondary) !important;
   position: relative;
   min-height: 100vh;
@@ -63,8 +71,11 @@ body::before {
    ============================ */
 
 header {
-  background: var(--bg-dark) !important;
-  border-bottom: 1px solid var(--border-accent) !important;
+  background-image: url('../img/header-background.PNG') !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
   position: sticky;
   top: 0;
