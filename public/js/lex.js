@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Bienvenida
   setLexState('idle', {
     message: 'Hola, soy Lex. Haz click en mi para analizar cargas, zonas, finanzas e historial.',
-    duration: 7000
+    duration: 1000
   });
 
   if (!shell) return;
@@ -164,15 +164,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // 👋 Welcome message on app load
   setTimeout(() => {
     setLexState('idle', {
-      message: '👋 Hola! Soy Lex, tu asistente AI para trucking. Click en mí para conversar.',
-      duration: 6000
+      message: '👋 Hola! Soy Lex. Click en mí para conversar.',
+      duration: 2500
     });
 
-    // Go to sleep after 6s
+    // Go to sleep after 2.5s
     setTimeout(() => {
       setLexState('sleep');
-    }, 6000);
-  }, 2000); // Show 2s after app loads
+    }, 2500);
+  }, 1000); // Show 1s after app loads
 });
 
 // ======================================================
