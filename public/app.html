@@ -50,6 +50,9 @@
 
 
 
+  <!-- 🔥 THEME OVERRIDES (Last Resort) -->
+  <link rel="stylesheet" href="css/theme-overrides.css?v=5.0.0">
+
 </head>
 
 <body class="text-gray-900">
@@ -308,14 +311,16 @@
         <div class="border-t border-gray-200 my-2"></div>
 
         <!-- Logout - Destacado en rojo -->
-        
+
         <!-- Tema Toggle Mobile -->
-        <button class="theme-toggle-btn w-full text-left px-3 py-2 rounded-md hover:bg-gray-100 transition-colors flex items-center justify-between group">
-            <span class="font-medium">🌓 Cambiar Tema</span>
-            <span class="theme-toggle-icon text-xl bg-gray-100 group-hover:bg-white rounded-full w-8 h-8 flex items-center justify-center">☀️</span>
+        <button
+          class="theme-toggle-btn w-full text-left px-3 py-2 rounded-md hover:bg-gray-100 transition-colors flex items-center justify-between group">
+          <span class="font-medium">🌓 Cambiar Tema</span>
+          <span
+            class="theme-toggle-icon text-xl bg-gray-100 group-hover:bg-white rounded-full w-8 h-8 flex items-center justify-center">☀️</span>
         </button>
         <div class="border-t border-gray-200 my-2"></div>
-    \n        <button id="mobileLogoutBtn" onclick="logout()"
+        \n <button id="mobileLogoutBtn" onclick="logout()"
           class="text-left w-full text-red-600 hover:text-red-700 font-bold border border-red-300 bg-red-50 hover:bg-red-100 rounded-md px-3 py-2 transition-colors">
           🚪 Cerrar Sesión
         </button>
@@ -704,7 +709,7 @@
                 originalLoadVehicleTemplate(vehicleType);
               }
             }
-          };
+  };
         </script>
       </section>
 
@@ -1603,8 +1608,7 @@
                     }
                   } catch (e) { console.log('Admin check:', e); }
                 }, 2000);
-              });
-            </script>
+                  </script>
             <!-- 1. PERFIL DE OPERACION -->
             <div class="card-section">
               <h3 class="text-lg font-semibold mb-4">🚛 Perfil de Operación</h3>
@@ -2415,6 +2419,7 @@
   <!-- 🔧 WORKAROUND: Modal de categorías creado dinámicamente por caché de Firebase -->
   <script src="js/category-modal-dynamic.js"></script>
 
-<script src="js/theme-manager.js"></script>\n</body>
+  <script src="js/theme-manager.js"></script>\n
+</body>
 
 </html>
