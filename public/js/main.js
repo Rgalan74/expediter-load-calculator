@@ -277,23 +277,43 @@ function updateTabButtonState(activeButton) {
 
 //  Setup del logout button
 function setupLogout() {
+    // Definir funcion global para el boton movil (onclick="logout()")
+    window.logout = async () => {
+        debugLog(" [MAIN] Logging out...");
+        try {
+            if (auth) {
+                await auth.signOut();
+                debugLog(" [MAIN] User signed out successfully");
+                window.location.href = 'auth.html';
+            }
+        } catch (error) {
+            console.error("  [MAIN] Error signing out:", error);
+            if (typeof showMessage === 'function') {
+                showMessage("Error al cerrar sesión", "error");
+            } else {
+                alert("Error al cerrar sesión");
+            }
+        }
+    };
+
+    // Boton Desktop
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
-        logoutBtn.addEventListener('click', async () => {
-            debugLog(" [MAIN] Logging out...");
-
-            try {
-                if (auth) {
-                    await auth.signOut();
-                    debugLog(" [MAIN] User signed out successfully");
-                    window.location.href = 'auth.html';
-                }
-            } catch (error) {
-                console.error("Â [MAIN] Error signing out:", error);
-                showMessage("Error al cerrar sesión", "error");
-            }
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.logout();
         });
-        debugLog(" [MAIN] Logout button configured");
+        debugLog(" [MAIN] Desktop Logout button configured");
+    }
+
+    // Boton Movil (listener adicional por si acaso)
+    const mobileLogoutBtn = document.getElementById('mobileLogoutBtn');
+    if (mobileLogoutBtn) {
+        mobileLogoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.logout();
+        });
+        debugLog(" [MAIN] Mobile Logout button configured");
     }
 }
 
