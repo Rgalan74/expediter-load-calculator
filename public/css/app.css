@@ -1,4 +1,44 @@
-/* ============================
+:root {
+  /* --- DARK THEME (DEFAULT) --- */
+  --bg-body: #0a0a0f;
+  --bg-secondary: #1a1a2e;
+  --bg-card: #1e293b;
+  --bg-card-hover: #334155;
+  --bg-header: url('../img/header-background.PNG'); /* Dark header img */
+  
+  --text-main: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  
+  --border-color: #334155;
+  --input-bg: #0f172a;
+  
+  --primary-color: #3b82f6;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  
+  --gradient-mid: #1a1a2e;
+}
+
+[data-theme="light"] {
+  /* --- LIGHT THEME OVERRIDES --- */
+  --bg-body: #f8fafc;
+  --bg-secondary: #e2e8f0;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --bg-header: #ffffff; /* Light header (maybe solid white or different img) */
+  
+  --text-main: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  
+  --border-color: #e2e8f0;
+  --input-bg: #ffffff;
+  
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  
+  --gradient-mid: #e2e8f0;
+}
+\n/* ============================
    Ã°Å¸Å’â„¢ TEMA OSCURO PROFESIONAL COMPLETO
    Expediter Load Calculator
    ============================ */
@@ -8,8 +48,8 @@
   /* Fondos oscuros */
   --bg-darkest: #0a0f1e;
   --bg-dark: #0f172a;
-  --bg-card: #1e293b;
-  --bg-card-hover: #334155;
+  --bg-card: var(--bg-card);
+  --bg-card-hover: var(--border-color);
 
   /* Azules vibrantes */
   --primary-blue: #3b82f6;
@@ -17,13 +57,13 @@
   --primary-blue-dark: #2563eb;
 
   /* Textos */
-  --text-primary: #f1f5f9;
-  --text-secondary: #cbd5e1;
-  --text-muted: #94a3b8;
+  --text-primary: var(--text-main);
+  --text-secondary: var(--text-secondary);
+  --text-muted: var(--text-muted);
   --text-dim: #64748b;
 
   /* Bordes */
-  --border-default: #334155;
+  --border-default: var(--border-color);
   --border-hover: #475569;
   --border-accent: #3b82f6;
 
@@ -39,12 +79,19 @@
 
 /* ANIMACION DE FONDO (Traída de index.html) */
 @keyframes gradientShift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 body {
-  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%) !important;
+  background: linear-gradient(135deg, var(--bg-body) 0%, var(--gradient-mid) 50%, var(--bg-body) 100%) !important;
   background-size: 400% 400% !important;
   animation: gradientShift 15s ease infinite !important;
   color: var(--text-secondary) !important;
@@ -1821,8 +1868,9 @@ hr,
     font-size: 0.65rem;
     padding: 3px 8px;
   }
-} 
- 
+}
+
+   
 /* ============================
     MOBILE-SPECIFIC OVERRIDES
    ============================ */
@@ -1830,20 +1878,21 @@ hr,
 /* CRITICAL: Mobile-only input styling for better visibility
    Must be at the end of this file to override all previous styles */
 @media (max-width: 768px) {
+
   input:not([type="checkbox"]):not([type="radio"]),
   select,
   textarea {
     background: rgba(30, 58, 138, 0.15) !important;
-    color: #f1f5f9 !important;
+    color: var(--text-main) !important;
     border: 1.5px solid rgba(96, 165, 250, 0.3) !important;
   }
-  
+
   input:not([type="checkbox"]):not([type="radio"])::placeholder,
   textarea::placeholder {
-    color: #cbd5e1 !important;
+    color: var(--text-secondary) !important;
     opacity: 0.9 !important;
   }
-  
+
   input:not([type="checkbox"]):not([type="radio"]):focus,
   textarea:focus,
   select:focus {
@@ -1855,10 +1904,10 @@ hr,
 
 /* Título Multicolor (Landing Page Style) */
 .gradient-text {
-    background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-clip: text !important;
-    color: transparent !important;
-    display: inline-block;
+  background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  color: transparent !important;
+  display: inline-block;
 }
