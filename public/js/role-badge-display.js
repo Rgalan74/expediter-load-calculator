@@ -8,9 +8,9 @@ const ROLE_BADGE_CONFIG = {
     admin: {
         icon: '👑',
         text: 'Admin',
-        bgColor: 'bg-purple-100',
-        textColor: 'text-purple-900',
-        borderColor: 'border-purple-400'
+        bgColor: 'bg-purple-800', // Más oscuro para contraste
+        textColor: 'text-white',  // Texto blanco
+        borderColor: 'border-purple-900'
     },
     developer: {
         icon: '💻',
