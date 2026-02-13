@@ -23,6 +23,9 @@
 // GUARDAR/ACTUALIZAR GASTO
 // ========================================
 
+// Estado de ordenamiento para gastos
+window.currentExpenseSort = { column: 'date', asc: false }; // Default: ms recientes primero
+
 async function saveExpenseToFirebase() {
     // ✅ VERIFICAR QUE LOS ELEMENTOS EXISTEN PRIMERO
     const amountEl = document.getElementById("expenseAmount");
@@ -237,7 +240,30 @@ async function renderExpensesList(filteredExpenses = []) {
     }
 
     const sortedExpenses = filteredExpenses
-        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .sort((a, b) => {
+            const { column, asc } = window.currentExpenseSort;
+            let valA = a[column];
+            let valB = b[column];
+
+            // Manejo de valores nulos
+            if (valA === undefined || valA === null) valA = '';
+            if (valB === undefined || valB === null) valB = '';
+
+            // Comparación numérica (amount)
+            if (column === 'amount') {
+                return asc ? (parseFloat(valA) - parseFloat(valB)) : (parseFloat(valB) - parseFloat(valA));
+            }
+
+            // Comparación de fechas
+            if (column === 'date') {
+                const dateA = new Date(valA || '1970-01-01');
+                const dateB = new Date(valB || '1970-01-01');
+                return asc ? dateA - dateB : dateB - dateA;
+            }
+
+            // Comparación de texto (type, description)
+            return asc ? String(valA).localeCompare(String(valB)) : String(valB).localeCompare(String(valA));
+        })
         .slice(0, 10);
 
     const categoryIcons = {
@@ -317,5 +343,53 @@ window.openExpenseModal = openExpenseModal;
 window.closeExpenseModal = closeExpenseModal;
 window.renderExpensesList = renderExpensesList;
 window.updateExpenseCategories = updateExpenseCategories;
+
+// ========================================
+// FUNCIONES DE ORDENAMIENTO (NUEVO)
+// ========================================
+
+function sortExpensesBy(column) {
+    if (window.currentExpenseSort.column === column) {
+        window.currentExpenseSort.asc = !window.currentExpenseSort.asc;
+    } else {
+        window.currentExpenseSort.column = column;
+        window.currentExpenseSort.asc = true;
+
+        // Fecha y Monto mejor descendente por defecto
+        if (column === 'date' || column === 'amount') {
+            window.currentExpenseSort.asc = false;
+        }
+    }
+
+    updateExpenseSortIcons();
+
+    // Necesitamos los gastos actuales para re-renderizar. 
+    // Como no tenemos variable global de gastos filtrados aqu, 
+    // recargamos los datos (que activar renderExpensesList)
+    if (typeof loadFinancesData === 'function') {
+        loadFinancesData();
+    } else {
+        console.warn("loadFinancesData no disponible para re-renderizar gastos");
+    }
+}
+
+function updateExpenseSortIcons() {
+    ['date', 'type', 'description', 'amount'].forEach(col => {
+        const icon = document.getElementById(`sort-exp-${col}`);
+        if (icon) {
+            if (window.currentExpenseSort.column === col) {
+                icon.textContent = window.currentExpenseSort.asc ? '↑' : '↓';
+                icon.className = 'ml-1 text-blue-600 font-bold';
+            } else {
+                icon.textContent = '↕';
+                icon.className = 'ml-1 text-gray-400';
+            }
+        }
+    });
+}
+
+// Exports adicionales
+window.sortExpensesBy = sortExpensesBy;
+window.updateExpenseSortIcons = updateExpenseSortIcons;
 
 console.log("💰 Expenses module loaded successfully");
