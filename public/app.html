@@ -954,12 +954,24 @@
               <!-- Lista de gastos recientes -->
               <div class="overflow-x-auto">
                 <table class="min-w-full text-sm border border-gray-300">
-                  <thead class="bg-gray-100">
+                  <thead class="bg-gray-100 select-none">
                     <tr>
-                      <th class="p-2 text-left">Fecha</th>
-                      <th class="p-2 text-left">Categoría</th>
-                      <th class="p-2 text-left">Descripción</th>
-                      <th class="p-2 text-left">Monto</th>
+                      <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition"
+                        onclick="sortExpensesBy('date')">
+                        Fecha <span id="sort-exp-date" class="ml-1 text-blue-600 font-bold">↓</span>
+                      </th>
+                      <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition"
+                        onclick="sortExpensesBy('type')">
+                        Categoría <span id="sort-exp-type" class="ml-1 text-gray-400">↕</span>
+                      </th>
+                      <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition"
+                        onclick="sortExpensesBy('description')">
+                        Descripción <span id="sort-exp-description" class="ml-1 text-gray-400">↕</span>
+                      </th>
+                      <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition"
+                        onclick="sortExpensesBy('amount')">
+                        Monto <span id="sort-exp-amount" class="ml-1 text-gray-400">↕</span>
+                      </th>
                       <th class="p-2 text-left">Acciones</th>
                     </tr>
                   </thead>
