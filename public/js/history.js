@@ -8,7 +8,7 @@
 let allData = [];
 let filteredData = [];
 // Estado de ordenamiento
-let currentHistorySort = { column: 'date', asc: false }; // Por defecto: más recientes primero
+window.currentHistorySort = { column: 'date', asc: false }; // Por defecto: más recientes primero
 
 // FUNCION PRINCIPAL CORREGIDA - getLoadHistory
 function getLoadHistory() {
