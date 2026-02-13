@@ -17,6 +17,10 @@
 // ========================================
 // Chart.js configuration now in finances-core.js
 
+// Estado de ordenamiento para gastos (Agregado para soportar sorting)
+window.currentExpenseSort = { column: 'date', asc: false };
+
+
 // ========================================
 // MOVED TO finances-data.js
 // ========================================
@@ -327,6 +331,53 @@ function updateExpenseCategories(expenses = []) {
   return categories;
 }
 
+// ========================================
+// FUNCIONES DE ORDENAMIENTO (Agregadas en finances.js)
+// ========================================
+
+function sortExpensesBy(column) {
+  if (window.currentExpenseSort.column === column) {
+    window.currentExpenseSort.asc = !window.currentExpenseSort.asc;
+  } else {
+    window.currentExpenseSort.column = column;
+    window.currentExpenseSort.asc = true;
+
+    if (column === 'date' || column === 'amount') {
+      window.currentExpenseSort.asc = false;
+    }
+  }
+
+  updateExpenseSortIcons();
+
+  // Recargar datos para aplicar ordenamiento
+  // loadFinancesData llama a renderExpensesList al final
+  loadFinancesData().then(() => {
+    // Asegurar renderizado si loadFinancesData no lo hace directamente
+    if (window.expensesData) {
+      renderExpensesList(window.expensesData);
+    }
+  });
+}
+
+function updateExpenseSortIcons() {
+  ['date', 'type', 'description', 'amount'].forEach(col => {
+    const icon = document.getElementById(`sort-exp-${col}`);
+    if (icon) {
+      if (window.currentExpenseSort.column === col) {
+        icon.textContent = window.currentExpenseSort.asc ? '↑' : '↓';
+        icon.className = 'ml-1 text-blue-600 font-bold';
+      } else {
+        icon.textContent = '↕';
+        icon.className = 'ml-1 text-gray-400';
+      }
+    }
+  });
+}
+
+// Exportar globalmente
+window.sortExpensesBy = sortExpensesBy;
+window.updateExpenseSortIcons = updateExpenseSortIcons;
+
 // OK FUNCIN INDEPENDIENTE PARA RENDERIZAR GASTOS
 function renderExpensesList(filteredExpenses = []) {
   const expensesList = document.getElementById("expensesList");
@@ -343,7 +394,26 @@ function renderExpensesList(filteredExpenses = []) {
   }
 
   const sortedExpenses = filteredExpenses
-    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .sort((a, b) => {
+      const { column, asc } = window.currentExpenseSort;
+      let valA = a[column];
+      let valB = b[column];
+
+      if (valA === undefined || valA === null) valA = '';
+      if (valB === undefined || valB === null) valB = '';
+
+      if (column === 'amount') {
+        return asc ? (parseFloat(valA) - parseFloat(valB)) : (parseFloat(valB) - parseFloat(valA));
+      }
+
+      if (column === 'date') {
+        const dateA = new Date(valA || '1970-01-01');
+        const dateB = new Date(valB || '1970-01-01');
+        return asc ? dateA - dateB : dateB - dateA;
+      }
+
+      return asc ? String(valA).localeCompare(String(valB)) : String(valB).localeCompare(String(valA));
+    })
     .slice(0, 10);
 
   const categoryIcons = {
