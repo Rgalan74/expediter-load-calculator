@@ -50,8 +50,104 @@
 
 
 
-  <!-- 🔥 THEME OVERRIDES (Last Resort) -->
-  <link rel="stylesheet" href="css/theme-overrides.css?v=5.0.0">
+  <!-- 🔥 THEME OVERRIDES (INLINED TO FORCE UPDATE) -->
+  <style>
+    /* FORZAR COLORES EN MODO OSCURO (Default) */
+    :root:not([data-theme="light"]) body {
+      color: #f1f5f9 !important;
+    }
+
+    :root:not([data-theme="light"]) .text-gray-900,
+    :root:not([data-theme="light"]) .text-gray-800,
+    :root:not([data-theme="light"]) .text-gray-700,
+    :root:not([data-theme="light"]) .text-gray-600,
+    :root:not([data-theme="light"]) .text-black {
+      color: #f1f5f9 !important;
+    }
+
+    :root:not([data-theme="light"]) .bg-white {
+      background-color: #1e293b !important;
+      color: #f1f5f9 !important;
+    }
+
+    :root:not([data-theme="light"]) .bg-gray-50 {
+      background-color: #0f172a !important;
+      border-color: #334155 !important;
+    }
+
+    :root:not([data-theme="light"]) h1,
+    :root:not([data-theme="light"]) h2,
+    :root:not([data-theme="light"]) h3,
+    :root:not([data-theme="light"]) h4,
+    :root:not([data-theme="light"]) h5,
+    :root:not([data-theme="light"]) h6,
+    :root:not([data-theme="light"]) label,
+    :root:not([data-theme="light"]) span,
+    :root:not([data-theme="light"]) p {
+      color: #f1f5f9 !important;
+    }
+
+    /* Inputs */
+    :root:not([data-theme="light"]) input,
+    :root:not([data-theme="light"]) select,
+    :root:not([data-theme="light"]) textarea {
+      background-color: #0f172a !important;
+      color: #f1f5f9 !important;
+      border: 1px solid #475569 !important;
+    }
+
+    :root:not([data-theme="light"]) input::placeholder {
+      color: #94a3b8 !important;
+    }
+
+    /* Cards Colors */
+    :root:not([data-theme="light"]) .bg-blue-50,
+    :root:not([data-theme="light"]) .bg-indigo-50,
+    :root:not([data-theme="light"]) .bg-yellow-50,
+    :root:not([data-theme="light"]) .bg-green-50,
+    :root:not([data-theme="light"]) .bg-red-50,
+    :root:not([data-theme="light"]) .bg-purple-50 {
+      background-color: rgba(30, 41, 59, 0.8) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+
+    /* Colored Text Lighter */
+    :root:not([data-theme="light"]) .text-blue-600,
+    :root:not([data-theme="light"]) .text-blue-700,
+    :root:not([data-theme="light"]) .text-blue-800 {
+      color: #60a5fa !important;
+    }
+
+    :root:not([data-theme="light"]) .text-green-600,
+    :root:not([data-theme="light"]) .text-green-700,
+    :root:not([data-theme="light"]) .text-green-800 {
+      color: #4ade80 !important;
+    }
+
+    :root:not([data-theme="light"]) .text-red-600,
+    :root:not([data-theme="light"]) .text-red-700,
+    :root:not([data-theme="light"]) .text-red-800 {
+      color: #f87171 !important;
+    }
+
+    :root:not([data-theme="light"]) .text-yellow-600,
+    :root:not([data-theme="light"]) .text-yellow-700,
+    :root:not([data-theme="light"]) .text-yellow-800 {
+      color: #fbbf24 !important;
+    }
+
+    :root:not([data-theme="light"]) .text-indigo-600,
+    :root:not([data-theme="light"]) .text-indigo-700,
+    :root:not([data-theme="light"]) .text-indigo-800 {
+      color: #818cf8 !important;
+    }
+
+    :root:not([data-theme="light"]) .text-purple-600,
+    :root:not([data-theme="light"]) .text-purple-700,
+    :root:not([data-theme="light"]) .text-purple-800 {
+      color: #c084fc !important;
+    }
+  </style>
 
 </head>
 
@@ -709,7 +805,7 @@
                 originalLoadVehicleTemplate(vehicleType);
               }
             }
-  };
+          };
         </script>
       </section>
 
@@ -1608,7 +1704,7 @@
                     }
                   } catch (e) { console.log('Admin check:', e); }
                 }, 2000);
-                  </script>
+            </script>
             <!-- 1. PERFIL DE OPERACION -->
             <div class="card-section">
               <h3 class="text-lg font-semibold mb-4">🚛 Perfil de Operación</h3>
