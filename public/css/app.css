@@ -1852,3 +1852,13 @@ hr,
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
   }
 }
+
+/* Título Multicolor (Landing Page Style) */
+.gradient-text {
+    background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: transparent !important;
+    display: inline-block;
+}
