@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="css/mobile-typography.css">
   <link rel="stylesheet" href="css/mobile-header-fix.css?v=1.8.0">
   <link rel="stylesheet" href="css/mobile-content-width.css?v=1.6.0">
-  <link rel="stylesheet" href="css/app.css?v=4.2.0">
+  <link rel="stylesheet" href="css/app.css?v=4.3.0">
   <link rel="stylesheet" href="css/zones-print.css">
   <link rel="stylesheet" href="css/calculator-decision.css?v=1.0.0">
   <link rel="stylesheet" href="css/ui-enhancements.css?v=1.0.0">
@@ -99,6 +99,13 @@
             <span>💎</span>
             <span class="hidden md:inline ml-1">Mejorar Plan</span>
           </a>
+
+          <!-- Theme Toggle -->
+          <button
+            class="theme-toggle-btn hidden md:flex items-center justify-center p-2 rounded-full hover:bg-gray-700 transition-colors mr-2"
+            aria-label="Toggle Theme">
+            <span class="theme-toggle-icon text-xl">☀️</span>
+          </button>
 
           <!-- Botón logout (OCULTO EN MÓVIL, SOLO DESKTOP) -->
           <button id="logoutBtn" class="hidden md:flex p-1 bg-transparent border-0 hover:opacity-70 
@@ -301,7 +308,14 @@
         <div class="border-t border-gray-200 my-2"></div>
 
         <!-- Logout - Destacado en rojo -->
-        <button id="mobileLogoutBtn" onclick="logout()"
+        
+        <!-- Tema Toggle Mobile -->
+        <button class="theme-toggle-btn w-full text-left px-3 py-2 rounded-md hover:bg-gray-100 transition-colors flex items-center justify-between group">
+            <span class="font-medium">🌓 Cambiar Tema</span>
+            <span class="theme-toggle-icon text-xl bg-gray-100 group-hover:bg-white rounded-full w-8 h-8 flex items-center justify-center">☀️</span>
+        </button>
+        <div class="border-t border-gray-200 my-2"></div>
+    \n        <button id="mobileLogoutBtn" onclick="logout()"
           class="text-left w-full text-red-600 hover:text-red-700 font-bold border border-red-300 bg-red-50 hover:bg-red-100 rounded-md px-3 py-2 transition-colors">
           🚪 Cerrar Sesión
         </button>
@@ -2401,6 +2415,6 @@
   <!-- 🔧 WORKAROUND: Modal de categorías creado dinámicamente por caché de Firebase -->
   <script src="js/category-modal-dynamic.js"></script>
 
-</body>
+<script src="js/theme-manager.js"></script>\n</body>
 
 </html>
