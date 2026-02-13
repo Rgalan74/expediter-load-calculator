@@ -1,0 +1,62 @@
+/* 
+   🔥 THEME OVERRIDES - FIRE EXTINGUISHER EDITION 
+   Cargado al final para asegurar que sobrescribe TODO.
+*/
+
+/* FORZAR COLORES EN MODO OSCURO (Default) */
+:root:not([data-theme="light"]) body {
+    color: #f1f5f9 !important;
+}
+
+:root:not([data-theme="light"]) .text-gray-900,
+:root:not([data-theme="light"]) .text-gray-800,
+:root:not([data-theme="light"]) .text-gray-700,
+:root:not([data-theme="light"]) .text-gray-600,
+:root:not([data-theme="light"]) .text-black {
+    color: #f1f5f9 !important;
+}
+
+:root:not([data-theme="light"]) .bg-white {
+    background-color: #1e293b !important;
+    /* Slate 800 */
+    color: #f1f5f9 !important;
+}
+
+:root:not([data-theme="light"]) .bg-gray-50 {
+    background-color: #0f172a !important;
+    /* Slate 900 */
+    border-color: #334155 !important;
+}
+
+/* Headers específicos que no quieren cambiar */
+:root:not([data-theme="light"]) h1,
+:root:not([data-theme="light"]) h2,
+:root:not([data-theme="light"]) h3,
+:root:not([data-theme="light"]) h4,
+:root:not([data-theme="light"]) label {
+    color: #f1f5f9 !important;
+}
+
+/* Inputs y Selects */
+:root:not([data-theme="light"]) input,
+:root:not([data-theme="light"]) select,
+:root:not([data-theme="light"]) textarea {
+    background-color: #0f172a !important;
+    color: #f1f5f9 !important;
+    border: 1px solid #475569 !important;
+}
+
+:root:not([data-theme="light"]) input::placeholder {
+    color: #94a3b8 !important;
+}
+
+/* Tarjetas de colores en Finanzas/Dashboard */
+:root:not([data-theme="light"]) .bg-blue-50,
+:root:not([data-theme="light"]) .bg-indigo-50,
+:root:not([data-theme="light"]) .bg-yellow-50,
+:root:not([data-theme="light"]) .bg-green-50,
+:root:not([data-theme="light"]) .bg-red-50,
+:root:not([data-theme="light"]) .bg-purple-50 {
+    background-color: rgba(30, 41, 59, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
