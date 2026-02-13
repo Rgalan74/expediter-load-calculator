@@ -574,8 +574,8 @@ function verifyPainting(svgDoc) {
 //  MAPA DE CIUDADES CON GOOGLE MAPS
 // ========================================
 
+
 let zonesMap = null;
-let cityMarkers = [];
 let cityMarkers = [];
 let cityDataByDestination = {};
 let currentCitySort = { column: 'count', asc: false }; // Por defecto: más cargas primero
