@@ -119,12 +119,12 @@
                     }
 
                     /* FIX ACTION BUTTONS - 3D & FLOATING EFFECT */
-                    #saveBtn, #clearBtn, #lexAnalyzeBtn, .tab-link {
+                    #saveBtn, #clearBtn, #lexAnalyzeBtn, #filterBtn, #exportExcelBtn, .tab-link {
                          transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease-out !important;
                     }
 
                     /* Hover State - Levitate */
-                    #saveBtn:hover, #clearBtn:hover, #lexAnalyzeBtn:hover {
+                    #saveBtn:hover, #clearBtn:hover, #lexAnalyzeBtn:hover, #filterBtn:hover, #exportExcelBtn:hover {
                         transform: translateY(-3px) scale(1.02) !important; /* Higher Lift */
                         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.1) !important; /* Darker Shadow */
                         z-index: 10 !important;
@@ -155,6 +155,24 @@
                         color: #ffffff !important;
                     }
                     
+                    /* Filter Button - Blue (History) */
+                    #filterBtn {
+                        background-color: #3b82f6 !important; /* Blue 500 */
+                        color: #ffffff !important;
+                        border: 1px solid #2563eb !important; /* Blue 600 */
+                        box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.4) !important;
+                    }
+
+                    /* Export Excel Button - Green (History) */
+                    #exportExcelBtn {
+                        background-color: #10b981 !important; /* Emerald 500 */
+                        color: #ffffff !important;
+                        border: 1px solid #059669 !important; /* Emerald 600 */
+                        box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.4) !important;
+                        -webkit-text-fill-color: #ffffff !important; /* Force white text override */
+                    }
+            
+                    /* Button Icons */
         
             /* FIX STATISTICS SUMMARY CARDS (HISTORY) */
             html:not(.dark) #sumTotal, 
