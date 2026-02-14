@@ -155,11 +155,94 @@
                         color: #ffffff !important;
                     }
                     
-                    /* Button Icons */
-                    button:not(#lexAnalyzeBtn):not(#saveBtn) i {
-                        color: inherit !important; 
-                    }
-                `;
+        
+            /* FIX STATISTICS SUMMARY CARDS (HISTORY) */
+            html:not(.dark) #sumTotal, 
+            html:not(.dark) #sumMiles, 
+            html:not(.dark) #sumRevenue, 
+            html:not(.dark) #sumProfit, 
+            html:not(.dark) #sumRpm {
+                color: #111827 !important; /* Gray 900 - Strong Black/Blue */
+                font-weight: 800 !important;
+                font-size: 1.5rem !important;
+                text-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
+            }
+
+            /* Card Containers - Make backgrounds richer */
+            html:not(.dark) #sumTotal { /* Indigo Parent */
+                 background-color: #e0e7ff !important; /* Indigo 100 */
+                 border-color: #818cf8 !important; /* Indigo 400 */
+            }
+            html:not(.dark) #sumTotal ~ p { color: #4338ca !important; } /* Indigo 700 */
+            html:not(.dark) #sumTotal ~ h4 { color: #312e81 !important; } /* Indigo 900 */
+
+            html:not(.dark) #sumMiles { /* Yellow Parent via cousin selector logic or direct parent styling if possible. 
+               Since we can't select parent in CSS/JS easily without specific IDs on parents, 
+               we will target the specific classes used in the HTML if they are unique enough.
+               Actually, the best way in this "JS-in-CSS" approach is to target the classes directly for Light Mode 
+            */
+            } 
+            
+            /* TARGETING WRAPPER DIVS BY CONTENT HINT IS HARD IN PURE CSS.
+               Instead, let's target the known Tailwind classes but scoped to Light Mode + Card Context
+               OR better: Add a quick JS loop to add IDs to these parents if they don't have them?
+               
+               Actually, looking at the code:
+               <div class="bg-indigo-50 ..."> <p id="sumTotal"> ... </div>
+               
+               I can target: html:not(.dark) .bg-indigo-50.border-indigo-200 { ... } 
+            */
+
+             /* INDIGO CARD (Total Cargas) */
+            html:not(.dark) .bg-indigo-50.border-indigo-200 {
+                background-color: #e0e7ff !important; /* Indigo 100 */
+                border: 1px solid #6366f1 !important; /* Indigo 500 */
+                box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.2) !important;
+            }
+            html:not(.dark) .bg-indigo-50 h4 { color: #312e81 !important; font-weight: 700 !important; } /* Indigo 900 */
+            html:not(.dark) .bg-indigo-50 p.text-indigo-600 { color: #4338ca !important; font-weight: 600 !important; } /* Indigo 700 */
+
+            /* YELLOW CARD (Millas) */
+            html:not(.dark) .bg-yellow-50.border-yellow-200 {
+                background-color: #fef9c3 !important; /* Yellow 100 */
+                border: 1px solid #eab308 !important; /* Yellow 500 */
+                box-shadow: 0 4px 6px -1px rgba(234, 179, 8, 0.2) !important;
+            }
+            html:not(.dark) .bg-yellow-50 h4 { color: #713f12 !important; font-weight: 700 !important; } /* Yellow 900 */
+            html:not(.dark) .bg-yellow-50 p.text-yellow-600 { color: #854d0e !important; font-weight: 600 !important; } /* Yellow 700 */
+
+            /* GREEN CARD (Ingresos) */
+            html:not(.dark) .bg-green-50.border-green-200 {
+                background-color: #dcfce7 !important; /* Green 100 */
+                border: 1px solid #22c55e !important; /* Green 500 */
+                box-shadow: 0 4px 6px -1px rgba(34, 197, 94, 0.2) !important;
+            }
+            html:not(.dark) .bg-green-50 h4 { color: #14532d !important; font-weight: 700 !important; } /* Green 900 */
+            html:not(.dark) .bg-green-50 p.text-green-600 { color: #15803d !important; font-weight: 600 !important; } /* Green 700 */
+
+            /* BLUE CARD (Ganancias) */
+            html:not(.dark) .bg-blue-50.border-blue-200 {
+                background-color: #dbeafe !important; /* Blue 100 */
+                border: 1px solid #3b82f6 !important; /* Blue 500 */
+                box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2) !important;
+            }
+            html:not(.dark) .bg-blue-50 h4 { color: #1e3a8a !important; font-weight: 700 !important; } /* Blue 900 */
+            html:not(.dark) .bg-blue-50 p.text-blue-600 { color: #1d4ed8 !important; font-weight: 600 !important; } /* Blue 700 */
+
+            /* PURPLE CARD (RPM) */
+            html:not(.dark) .bg-purple-50.border-purple-200 {
+                background-color: #f3e8ff !important; /* Purple 100 */
+                border: 1px solid #a855f7 !important; /* Purple 500 */
+                box-shadow: 0 4px 6px -1px rgba(168, 85, 247, 0.2) !important;
+            }
+            html:not(.dark) .bg-purple-50 h4 { color: #581c87 !important; font-weight: 700 !important; } /* Purple 900 */
+            html:not(.dark) .bg-purple-50 p.text-purple-600 { color: #7e22ce !important; font-weight: 600 !important; } /* Purple 700 */
+
+            /* Button Icons */
+            button:not(#lexAnalyzeBtn):not(#saveBtn) i {
+                color: inherit !important; 
+            }
+            `;
             }
 
             // Force Body & Card Backgrounds for Light Mode
