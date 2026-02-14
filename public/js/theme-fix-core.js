@@ -1,73 +1,82 @@
 /**
- * THEME FIX CORE - DEBUG VERSION v5.4.0
- * Includes On-Screen Logging to diagnose failure
+ * THEME FIX CORE v5.4.1
+ * Enforces correct input styling for Light/Dark modes
  */
 (function () {
-    // 1. CREATE ON-SCREEN DEBUGGER
-    let debugBox = document.getElementById('debug-console');
-    if (!debugBox) {
-        debugBox = document.createElement('div');
-        debugBox.id = 'debug-console';
-        debugBox.style.cssText = 'position:fixed; bottom:0; left:0; width:100%; height:150px; background:rgba(0,0,0,0.9); color:#0f0; font-family:monospace; font-size:12px; overflow:auto; z-index:99999; padding:10px; pointer-events:none; border-top:2px solid #0f0;';
-        document.body.appendChild(debugBox);
-    }
-
+    // Debug logging (internal only)
     function log(msg) {
-        const line = document.createElement('div');
-        line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
-        debugBox.appendChild(line);
-        debugBox.scrollTop = debugBox.scrollHeight;
-        console.log(msg);
+        // console.log(`[ThemeFix] ${msg}`);
     }
-
-    log('🚀 JS LOADED: theme-fix-core.js v5.4.0');
 
     function forceThemeInputs() {
         try {
             const themeAttr = document.documentElement.getAttribute('data-theme');
             const isDark = themeAttr !== 'light';
-            log(`🎨 Theme Check: data-theme="${themeAttr}" | isDark=${isDark}`);
 
             const inputs = document.querySelectorAll('input, select, textarea');
-            log(`🔍 Found ${inputs.length} inputs`);
 
             inputs.forEach(el => {
                 if (el.offsetParent === null) return; // Skip hidden
 
                 if (isDark) {
-                    // DARK MODE - Force Dark
-                    el.style.setProperty('background-color', '#0f172a', 'important');
-                    el.style.setProperty('color', '#f1f5f9', 'important');
-                    el.style.setProperty('border-color', '#475569', 'important');
+                    // 🌑 DARK MODE STYLES
+                    el.style.setProperty('background-color', '#0f172a', 'important'); // Slate 900
+                    el.style.setProperty('color', '#f1f5f9', 'important'); // Slate 100
+                    el.style.setProperty('border-color', '#475569', 'important'); // Slate 600
                 } else {
-                    // LIGHT MODE - Force Light
-                    el.style.setProperty('background-color', '#e5e7eb', 'important'); // Gray 200
-                    el.style.setProperty('color', '#000000', 'important');
-                    el.style.setProperty('border', '2px solid #6b7280', 'important'); // Gray 500
-
-                    // TRACER BULLET
-                    if (el.id === 'loadedMiles' || el.id === 'origin') {
-                        log(`🎯 Applying PINK to #${el.id}`);
-                        el.style.setProperty('background-color', '#fca5a5', 'important'); // RED-300
-                        el.style.setProperty('border', '4px solid red', 'important');
-                    }
+                    // ☀️ LIGHT MODE STYLES
+                    // Use a slight gray background to distinguishing from the white card
+                    el.style.setProperty('background-color', '#f1f5f9', 'important'); // Slate 100
+                    el.style.setProperty('color', '#0f172a', 'important'); // Slate 900
+                    el.style.setProperty('border', '1px solid #94a3b8', 'important'); // Slate 400
+                    el.style.setProperty('border-radius', '0.5rem', 'important');
                 }
 
                 el.classList.add('theme-enforced');
             });
 
-            // Force Body
+            // Inject dynamic CSS for pseudo-elements (::placeholder)
+            let styleTag = document.getElementById('theme-fix-styles');
+            if (!styleTag) {
+                styleTag = document.createElement('style');
+                styleTag.id = 'theme-fix-styles';
+                document.head.appendChild(styleTag);
+            }
+
+            if (isDark) {
+                styleTag.innerHTML = `
+                    input::placeholder, textarea::placeholder, select::placeholder {
+                        color: #94a3b8 !important; /* Slate 400 */
+                        opacity: 1 !important;
+                    }
+                `;
+            } else {
+                styleTag.innerHTML = `
+                    input::placeholder, textarea::placeholder, select::placeholder {
+                        color: #64748b !important; /* Slate 500 - Visible Gray */
+                        opacity: 1 !important;
+                    }
+                    /* Focus state for light mode */
+                    input:focus, textarea:focus, select:focus {
+                         background-color: #ffffff !important;
+                         border-color: #2563eb !important; /* Blue 600 */
+                         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
+                    }
+                `;
+            }
+
+            // Force Body & Card Backgrounds for Light Mode
             if (!isDark) {
-                document.body.style.setProperty('background-color', '#f3f4f6', 'important');
-                document.body.style.setProperty('color', '#1f2937', 'important');
+                document.body.style.setProperty('background-color', '#f3f4f6', 'important'); // Gray 100
+                document.body.style.setProperty('color', '#1f2937', 'important'); // Gray 800
             }
 
         } catch (e) {
-            log(`❌ ERROR: ${e.message}`);
+            console.error('ThemeFix Error:', e);
         }
     }
 
-    // Run immediately
+    // Run immediately and periodically
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', forceThemeInputs);
     } else {
