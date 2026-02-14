@@ -56,31 +56,34 @@
     /* 2. 🎨 MOBILE CALCULATOR COLORS 
        Force high contrast white text on dark backgrounds for inputs/labels */
 
-    /* Force white labels */
-    #calculator label,
-    #calculator label.block,
-    #calculator label.text-base,
-    #calculator label.font-medium,
-    #calculator div label,
-    section#calculator label,
-    .card-section label,
-    #calculator .block.text-base.font-medium.mb-2 {
+    /* 2. 🎨 MOBILE CALCULATOR COLORS 
+       Force high contrast white text on dark backgrounds for inputs/labels 
+       ONLY APPLY IN DARK MODE
+    */
+    :root:not([data-theme="light"]) #calculator label,
+    :root:not([data-theme="light"]) #calculator label.block,
+    :root:not([data-theme="light"]) #calculator label.text-base,
+    :root:not([data-theme="light"]) #calculator label.font-medium,
+    :root:not([data-theme="light"]) #calculator div label,
+    :root:not([data-theme="light"]) section#calculator label,
+    :root:not([data-theme="light"]) .card-section label,
+    :root:not([data-theme="light"]) #calculator .block.text-base.font-medium.mb-2 {
         color: #ffffff !important;
         -webkit-text-fill-color: #ffffff !important;
     }
 
     /* Small texts light gray */
-    #calculator .text-xs,
-    #calculator p.text-xs {
+    :root:not([data-theme="light"]) #calculator .text-xs,
+    :root:not([data-theme="light"]) #calculator p.text-xs {
         color: #d1d5db !important;
     }
 
     /* Inputs dark background & white text */
-    #calculator input[type="text"],
-    #calculator input[type="number"],
-    #calculator input[type="email"],
-    #calculator select,
-    #calculator textarea {
+    :root:not([data-theme="light"]) #calculator input[type="text"],
+    :root:not([data-theme="light"]) #calculator input[type="number"],
+    :root:not([data-theme="light"]) #calculator input[type="email"],
+    :root:not([data-theme="light"]) #calculator select,
+    :root:not([data-theme="light"]) #calculator textarea {
         background-color: #0a0e1a !important;
         /* TRUE BLACK like Rutas section */
         color: #ffffff !important;
@@ -89,19 +92,19 @@
     }
 
     /* Placeholders subtle gray */
-    #calculator input::placeholder,
-    #calculator textarea::placeholder {
+    :root:not([data-theme="light"]) #calculator input::placeholder,
+    :root:not([data-theme="light"]) #calculator textarea::placeholder {
         color: #6b7280 !important;
         opacity: 0.35 !important;
     }
 
     /* Decision Panel - White badges and text on mobile */
-    #decisionBadges span {
+    :root:not([data-theme="light"]) #decisionBadges span {
         color: #ffffff !important;
     }
 
     /* Profit details inherit color from profit value */
-    #profitDetails {
+    :root:not([data-theme="light"]) #profitDetails {
         color: inherit !important;
     }
 }
