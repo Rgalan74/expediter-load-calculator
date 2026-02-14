@@ -63,6 +63,14 @@
                          border-color: #2563eb !important; /* Blue 600 */
                          box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
                     }
+                    /* FIX NAV TABS VISIBILITY */
+                    .tab-link {
+                        color: #374151 !important; /* Gray 700 - Visible text */
+                    }
+                    .tab-link:hover {
+                        color: #2563eb !important; /* Blue 600 - Hover effect */
+                        background-color: #eff6ff !important; /* Blue 50 */
+                    }
                 `;
             }
 
