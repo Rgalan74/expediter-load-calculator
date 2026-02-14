@@ -30,7 +30,8 @@
                     el.style.setProperty('color', '#111827', 'important'); // Gray 900
                     el.style.setProperty('border', '1px solid #cbd5e1', 'important'); // Slate 300
                     el.style.setProperty('border-radius', '0.5rem', 'important');
-                    el.style.setProperty('box-shadow', '0 1px 2px 0 rgba(0, 0, 0, 0.05)', 'important');
+                    // Inset shadow for depth ("cutout" look) + small outer shadow
+                    el.style.setProperty('box-shadow', 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.05)', 'important');
                 }
 
                 el.classList.add('theme-enforced');
@@ -53,80 +54,91 @@
                 `;
             } else {
                 styleTag.innerHTML = `
+                    /* Light Mode Placeholder - High Visibility */
                     input::placeholder, textarea::placeholder, select::placeholder {
-                        color: #64748b !important; /* Slate 500 - Visible Gray */
+                        color: #374151 !important; /* Gray 700 - Much Darker */
                         opacity: 1 !important;
+                        font-style: italic !important;
+                        letter-spacing: 0.025em !important;
                     }
+
                     /* Focus state for light mode */
                     input:focus, textarea:focus, select:focus {
                          background-color: #ffffff !important;
                          border-color: #2563eb !important; /* Blue 600 */
                          box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
                     }
+
                     /* FIX NAV TABS - PILL STYLE */
-                    .tab-pill-active {
-                        background-color: #dbeafe !important; /* Blue 100 */
-                        color: #1d4ed8 !important; /* Blue 700 */
+                    html:not(.dark) .tab-pill-active {
+                        background-color: #dbeafe !important;
+                        color: #1d4ed8 !important;
                         font-weight: bold !important;
                         border-radius: 0.375rem !important;
-                        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important; /* Stronger Shadow */
+                        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
                         transition: all 0.2s ease-in-out !important;
                     }
-                    .tab-pill-inactive {
-                        color: #4b5563 !important; /* Gray 600 */
+                    html:not(.dark) .tab-pill-inactive {
+                        color: #4b5563 !important;
                         background-color: transparent !important;
                     }
-                    .tab-pill-inactive:hover {
-                        color: #2563eb !important; /* Blue 600 */
-                        background-color: #eff6ff !important; /* Blue 50 */
+                    html:not(.dark) .tab-pill-inactive:hover {
+                        color: #2563eb !important;
+                        background-color: #eff6ff !important;
                         border-radius: 0.375rem !important;
                     }
-					.nav-shadow {
-						box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
-					}
+                    html:not(.dark) .nav-shadow {
+                        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+                    }
 
                     /* FIX VARIABLE COSTS SECTION */
-                    .costs-section strong, 
-                    .costs-section span,
-                    #totalExpenses {
-                        color: #1f2937 !important; /* Gray 800 - Visible text */
+                    html:not(.dark) .costs-section strong, 
+                    html:not(.dark) .costs-section span,
+                    html:not(.dark) #totalExpenses {
+                        color: #1f2937 !important; /* Gray 800 */
                     }
-                    .costs-section #fixedCosts {
+                    html:not(.dark) .costs-section #fixedCosts {
                          color: #4b5563 !important; /* Gray 600 */
                     }
 
-                    /* FIX ACTION BUTTONS */
-                    /* Common 3D/Hover Effect for Buttons */
+                    /* FIX ACTION BUTTONS - 3D & FLOATING EFFECT */
                     #saveBtn, #clearBtn, #lexAnalyzeBtn, .tab-link {
-                        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                         transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease-out !important;
                     }
+
+                    /* Hover State - Levitate */
                     #saveBtn:hover, #clearBtn:hover, #lexAnalyzeBtn:hover {
-                        transform: translateY(-2px) !important;
+                        transform: translateY(-3px) scale(1.02) !important; /* Higher Lift */
                         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+                        z-index: 10 !important;
                     }
-                    /* Save Button - Force Green Fill */
+
+                    /* Save Button - Green */
                     #saveBtn {
-                        background-color: #10b981 !important; /* Emerald 500 */
+                        background-color: #10b981 !important;
                         color: #ffffff !important;
                         border: 1px solid #059669 !important;
-                        box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3) !important;
+                        box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.4) !important;
                     }
-                    /* Clear Button - Light Gray */
+
+                    /* Clear Button - Gray */
                     #clearBtn {
-                        background-color: #f3f4f6 !important; /* Gray 100 */
-                        color: #374151 !important; /* Gray 700 */
+                        background-color: #f3f4f6 !important;
+                        color: #374151 !important;
                         border: 1px solid #d1d5db !important;
-                        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+                        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
                     }
-                    /* Lex Button - Force White Text on Gradient */
+
+                    /* Lex Button */
                     #lexAnalyzeBtn {
                         color: #ffffff !important;
+                        box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.4) !important;
                     }
                     #lexAnalyzeBtn span, #lexAnalyzeBtn i {
                         color: #ffffff !important;
                     }
-
-                    /* General Button Icon Inheritance (keep this but buttons above override it) */
+                    
+                    /* Button Icons */
                     button:not(#lexAnalyzeBtn):not(#saveBtn) i {
                         color: inherit !important; 
                     }
