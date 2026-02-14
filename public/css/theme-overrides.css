@@ -384,7 +384,50 @@ html:not(.dark) .costs-section #fixedCosts {
     /* Gray 600 */
 }
 
-html:not(.dark) #profitSection .text-white {
-    color: #1f2937 !important;
-    /* Gray 800 for time/stops in profit card */
+color: #1f2937 !important;
+/* Gray 800 for time/stops in profit card */
+}
+
+/* FIX ACTION BUTTONS IN TABLE (Edit/Delete) */
+html:not(.dark) table tbody td button {
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    font-size: 0.75rem !important;
+    transition: all 0.2s ease !important;
+    border: 1px solid transparent !important;
+}
+
+/* Edit Button */
+html:not(.dark) table tbody td button.text-blue-600 {
+    color: #1d4ed8 !important;
+    /* Blue 700 */
+    background-color: #eff6ff !important;
+    /* Blue 50 */
+    border-color: #dbeafe !important;
+    /* Blue 200 */
+}
+
+html:not(.dark) table tbody td button.text-blue-600:hover {
+    background-color: #2563eb !important;
+    /* Blue 600 */
+    color: #ffffff !important;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3) !important;
+}
+
+/* Delete Button */
+html:not(.dark) table tbody td button.text-red-600 {
+    color: #b91c1c !important;
+    /* Red 700 */
+    background-color: #fef2f2 !important;
+    /* Red 50 */
+    border-color: #fee2e2 !important;
+    /* Red 200 */
+}
+
+html:not(.dark) table tbody td button.text-red-600:hover {
+    background-color: #dc2626 !important;
+    /* Red 600 */
+    color: #ffffff !important;
+    box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.3) !important;
 }
