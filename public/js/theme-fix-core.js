@@ -94,11 +94,31 @@
                          color: #4b5563 !important; /* Gray 600 */
                     }
 
-                    /* FIX ACTION BUTTONS (Clean, Save, Analyze) */
-                    /* Note: Analyze button has gradient bg, so keep white text there. 
-                       We target specific buttons if needed or general button text in light mode cards */
-                    button i {
-                        color: inherit !important; /* Inherit button text color */
+                    /* FIX ACTION BUTTONS */
+                    /* Save Button - Force Green Fill */
+                    #saveBtn {
+                        background-color: #10b981 !important; /* Emerald 500 */
+                        color: #ffffff !important;
+                        border: 1px solid #059669 !important;
+                        box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3) !important;
+                    }
+                    /* Clear Button - Light Gray */
+                    #clearBtn {
+                        background-color: #f3f4f6 !important; /* Gray 100 */
+                        color: #374151 !important; /* Gray 700 */
+                        border: 1px solid #d1d5db !important;
+                    }
+                    /* Lex Button - Force White Text on Gradient */
+                    #lexAnalyzeBtn {
+                        color: #ffffff !important;
+                    }
+                    #lexAnalyzeBtn span, #lexAnalyzeBtn i {
+                        color: #ffffff !important;
+                    }
+
+                    /* General Button Icon Inheritance (keep this but buttons above override it) */
+                    button:not(#lexAnalyzeBtn):not(#saveBtn) i {
+                        color: inherit !important; 
                     }
                 `;
             }
