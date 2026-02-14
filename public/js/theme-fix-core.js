@@ -25,6 +25,13 @@
                 el.style.border = '2px solid #6b7280'; // Gray 500 (Thick border)
                 el.style.borderRadius = '0.5rem';
 
+                // TRACER BULLET: FORCE PINK BACKGROUND ON MILLAS COTIZADAS
+                if (el.id === 'loadedMiles') {
+                    el.style.backgroundColor = '#fed7d7'; // PINK (Tailwind Red-100/200)
+                    el.style.border = '2px solid #ef4444'; // RED BORDER
+                    console.log('🎯 Tracer Bullet Applied to loadedMiles');
+                }
+
                 // Force placeholders if supported (not easy in JS style, but color helps)
             }
 
