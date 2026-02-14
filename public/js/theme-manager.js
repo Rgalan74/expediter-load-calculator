@@ -30,7 +30,10 @@ class ThemeManager {
     }
 
     toggle() {
+        // DEBUG: Alert to confirm interaction
+        // alert('Toggle clicked! Switching theme...');
         const newTheme = this.theme === 'dark' ? 'light' : 'dark';
+        console.log(' [THEME] Switching to:', newTheme);
         this.applyTheme(newTheme);
     }
 
