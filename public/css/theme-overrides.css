@@ -1,202 +1,352 @@
 /* 
-   🔥 THEME OVERRIDES - FIRE EXTINGUISHER EDITION 
-   Cargado al final para asegurar que sobrescribe TODO.
-*/
+ * THEME OVERRIDES v5.20.0
+ * Dedicated file for Light Mode specific styles to ensure stability 
+ */
 
-/* FORZAR COLORES EN MODO OSCURO (Default) */
-:root:not([data-theme="light"]) body {
-    color: #f1f5f9 !important;
+/* =========================================
+   GLOBAL TABLE STYLES (Light Mode) - MODERN SAAS
+   ========================================= */
+html:not(.dark) table {
+    border-collapse: separate !important;
+    border-spacing: 0 6px !important;
+    /* Space between rows */
+    width: 100% !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
 }
 
-:root:not([data-theme="light"]) .text-gray-900,
-:root:not([data-theme="light"]) .text-gray-800,
-:root:not([data-theme="light"]) .text-gray-700,
-:root:not([data-theme="light"]) .text-gray-600,
-:root:not([data-theme="light"]) .text-black {
-    color: #f1f5f9 !important;
+/* Header - Subtle & Clean */
+html:not(.dark) table thead {
+    background-color: transparent !important;
 }
 
-:root:not([data-theme="light"]) .bg-white {
-    background-color: #1e293b !important;
-    /* Slate 800 */
-    color: #f1f5f9 !important;
+html:not(.dark) table thead th {
+    color: #64748b !important;
+    /* Slate 500 */
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    font-size: 0.70rem !important;
+    letter-spacing: 0.08em !important;
+    padding: 0 16px 8px 16px !important;
+    border-bottom: none !important;
 }
 
-:root:not([data-theme="light"]) .bg-gray-50 {
-    background-color: #0f172a !important;
-    /* Slate 900 */
-    border-color: #334155 !important;
-}
-
-/* Headers específicos que no quieren cambiar */
-:root:not([data-theme="light"]) h1,
-:root:not([data-theme="light"]) h2,
-:root:not([data-theme="light"]) h3,
-:root:not([data-theme="light"]) h4,
-:root:not([data-theme="light"]) label {
-    color: #f1f5f9 !important;
-}
-
-/* Inputs y Selects */
-:root:not([data-theme="light"]) input,
-:root:not([data-theme="light"]) select,
-:root:not([data-theme="light"]) textarea {
-    background-color: #0f172a !important;
-    color: #f1f5f9 !important;
-    border: 1px solid #475569 !important;
-}
-
-:root:not([data-theme="light"]) input::placeholder {
+/* Sort Icons */
+html:not(.dark) table thead th span,
+html:not(.dark) table thead th i {
     color: #94a3b8 !important;
+    /* Slate 400 */
+    opacity: 0.6 !important;
 }
 
-/* Tarjetas de colores en Finanzas/Dashboard */
-:root:not([data-theme="light"]) .bg-blue-50,
-:root:not([data-theme="light"]) .bg-indigo-50,
-:root:not([data-theme="light"]) .bg-yellow-50,
-:root:not([data-theme="light"]) .bg-green-50,
-:root:not([data-theme="light"]) .bg-red-50,
-:root:not([data-theme="light"]) .bg-purple-50 {
-    background-color: rgba(30, 41, 59, 0.8) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+/* Rows - Floating Cards */
+html:not(.dark) table tbody tr {
+    background-color: #ffffff !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05) !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border: 1px solid transparent !important;
 }
+
+/* Rounded corners for rows */
+html:not(.dark) table tbody tr td:first-child {
+    border-top-left-radius: 8px !important;
+    border-bottom-left-radius: 8px !important;
+}
+
+html:not(.dark) table tbody tr td:last-child {
+    border-top-right-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+}
+
+html:not(.dark) table tbody tr:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04) !important;
+    background-color: #ffffff !important;
+    /* Keep white on hover to pop */
+    z-index: 10;
+    position: relative;
+}
+
+/* Cells */
+html:not(.dark) table tbody td {
+    color: #334155 !important;
+    /* Slate 700 */
+    padding: 16px 16px !important;
+    /* More breathing room */
+    font-size: 0.875rem !important;
+    border-top: 1px solid #f1f5f9 !important;
+    /* Subtle top border */
+    border-bottom: 1px solid #f1f5f9 !important;
+    /* Subtle bottom border */
+}
+
+/* Remove borders from first/last cells for rounded corners to look clean */
+html:not(.dark) table tbody td:first-child {
+    border-left: 1px solid #f1f5f9 !important;
+    border-top: 1px solid #f1f5f9 !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+html:not(.dark) table tbody td:last-child {
+    border-right: 1px solid #f1f5f9 !important;
+    border-top: 1px solid #f1f5f9 !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+html:not(.dark) table tbody td strong {
+    color: #0f172a !important;
+    /* Slate 900 */
+    font-weight: 600 !important;
+}
+
 
 /* =========================================
-   🎨 COLORED TEXT OVERRIDES FOR DARK MODE 
-   Force lighter shades for readability
+   STATISTICS SUMMARY CARDS (History)
    ========================================= */
-
-:root:not([data-theme="light"]) .text-blue-600,
-:root:not([data-theme="light"]) .text-blue-700,
-:root:not([data-theme="light"]) .text-blue-800,
-:root:not([data-theme="light"]) .text-blue-900 {
-    color: #60a5fa !important;
-}
-
-/* =========================================
-   LIGHT MODE AESTHETICS (Fixing "Too White")
-   ========================================= */
-:root[data-theme="light"] body {
-    background-color: #f3f4f6 !important;
-    /* Gray-100 */
-    color: #1f2937 !important;
-    /* Gray-800 */
-}
-
-/* Make cards pop against the gray background */
-:root[data-theme="light"] .bg-white,
-:root[data-theme="light"] .card,
-:root[data-theme="light"] .card-section {
-    background-color: #ffffff !important;
-    border: 1px solid #d1d5db !important;
-    /* Gray-300 (Stronger border) */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
-}
-
-/* Add color to icons/headers in light mode to avoid "boring" look */
-:root[data-theme="light"] h2 span,
-:root[data-theme="light"] h3 span,
-:root[data-theme="light"] .card-header i,
-:root[data-theme="light"] .text-xl i {
-    color: #2563eb !important;
-    /* Blue-600 */
-}
-
-/* Fix Input Visibility in Light Mode */
-:root[data-theme="light"] input,
-:root[data-theme="light"] select,
-:root[data-theme="light"] textarea,
-:root[data-theme="light"] .form-input,
-:root[data-theme="light"] .form-select {
-    background-color: #f9fafb !important;
-    /* Gray-50 - Distinguish from white card */
+html:not(.dark) #sumTotal,
+html:not(.dark) #sumMiles,
+html:not(.dark) #sumRevenue,
+html:not(.dark) #sumProfit,
+html:not(.dark) #sumRpm {
     color: #111827 !important;
-    /* Gray-900 */
-    border: 1px solid #9ca3af !important;
-    /* Gray-400 - Stronger border */
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    /* Gray 900 */
+    font-weight: 800 !important;
+    font-size: 1.5rem !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
 }
 
-:root[data-theme="light"] input::placeholder,
-:root[data-theme="light"] textarea::placeholder {
-    color: #6b7280 !important;
-    /* Gray-500 - Visible placeholder */
-    opacity: 1 !important;
+/* Card Containers - Richer Backgrounds */
+html:not(.dark) #sumTotal {
+    /* Indigo Parent */
+    background-color: #e0e7ff !important;
+    border-color: #818cf8 !important;
 }
 
-:root[data-theme="light"] input:focus,
-:root[data-theme="light"] select:focus,
-:root[data-theme="light"] textarea:focus {
-    background-color: #ffffff !important;
-    /* White on focus */
-    border-color: #2563eb !important;
-    /* Blue-600 */
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
+html:not(.dark) #sumTotal~p {
+    color: #4338ca !important;
 }
 
-/* Headers need to be strong */
-:root[data-theme="light"] h1,
-:root[data-theme="light"] h2,
-:root[data-theme="light"] h3,
-:root[data-theme="light"] h4 {
-    color: #111827 !important;
-    /* Gray-900 */
+html:not(.dark) #sumTotal~h4 {
+    color: #312e81 !important;
+}
+
+/* INDIGO CARD (Total Cargas) */
+html:not(.dark) .bg-indigo-50.border-indigo-200 {
+    background-color: #e0e7ff !important;
+    border: 1px solid #6366f1 !important;
+    box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.2) !important;
+}
+
+html:not(.dark) .bg-indigo-50 h4 {
+    color: #312e81 !important;
     font-weight: 700 !important;
 }
 
-
-/* Blue 400 */
-
-:root:not([data-theme="light"]) .text-green-600,
-:root:not([data-theme="light"]) .text-green-700,
-:root:not([data-theme="light"]) .text-green-800,
-:root:not([data-theme="light"]) .text-green-900 {
-    color: #4ade80 !important;
+html:not(.dark) .bg-indigo-50 p.text-indigo-600 {
+    color: #4338ca !important;
+    font-weight: 600 !important;
 }
 
-/* Green 400 */
-
-:root:not([data-theme="light"]) .text-red-600,
-:root:not([data-theme="light"]) .text-red-700,
-:root:not([data-theme="light"]) .text-red-800,
-:root:not([data-theme="light"]) .text-red-900 {
-    color: #f87171 !important;
+/* YELLOW CARD (Millas) */
+html:not(.dark) .bg-yellow-50.border-yellow-200 {
+    background-color: #fef9c3 !important;
+    border: 1px solid #eab308 !important;
+    box-shadow: 0 4px 6px -1px rgba(234, 179, 8, 0.2) !important;
 }
 
-/* Red 400 */
-
-:root:not([data-theme="light"]) .text-yellow-600,
-:root:not([data-theme="light"]) .text-yellow-700,
-:root:not([data-theme="light"]) .text-yellow-800,
-:root:not([data-theme="light"]) .text-yellow-900 {
-    color: #fbbf24 !important;
+html:not(.dark) .bg-yellow-50 h4 {
+    color: #713f12 !important;
+    font-weight: 700 !important;
 }
 
-/* Amber 400 */
-
-:root:not([data-theme="light"]) .text-indigo-600,
-:root:not([data-theme="light"]) .text-indigo-700,
-:root:not([data-theme="light"]) .text-indigo-800,
-:root:not([data-theme="light"]) .text-indigo-900 {
-    color: #818cf8 !important;
+html:not(.dark) .bg-yellow-50 p.text-yellow-600 {
+    color: #854d0e !important;
+    font-weight: 600 !important;
 }
 
-/* Indigo 400 */
-
-:root:not([data-theme="light"]) .text-purple-600,
-:root:not([data-theme="light"]) .text-purple-700,
-:root:not([data-theme="light"]) .text-purple-800,
-:root:not([data-theme="light"]) .text-purple-900 {
-    color: #c084fc !important;
+/* EMERALD/GREEN CARD (Revenue/Profit) */
+html:not(.dark) .bg-emerald-50.border-emerald-200,
+html:not(.dark) .bg-green-50.border-green-200 {
+    background-color: #d1fae5 !important;
+    border: 1px solid #10b981 !important;
+    box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2) !important;
 }
 
-/* Purple 400 */
-
-:root:not([data-theme="light"]) .text-pink-600,
-:root:not([data-theme="light"]) .text-pink-700,
-:root:not([data-theme="light"]) .text-pink-800,
-:root:not([data-theme="light"]) .text-pink-900 {
-    color: #f472b6 !important;
+html:not(.dark) .bg-emerald-50 h4,
+html:not(.dark) .bg-green-50 h4 {
+    color: #064e3b !important;
+    font-weight: 700 !important;
 }
 
-/* Pink 400 */
+html:not(.dark) .bg-emerald-50 p,
+html:not(.dark) .bg-green-50 p {
+    color: #059669 !important;
+    font-weight: 600 !important;
+}
+
+/* BLUE CARD */
+html:not(.dark) .bg-blue-50.border-blue-200 {
+    background-color: #dbeafe !important;
+    border: 1px solid #3b82f6 !important;
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2) !important;
+}
+
+html:not(.dark) .bg-blue-50 h4 {
+    color: #1e3a8a !important;
+    font-weight: 700 !important;
+}
+
+html:not(.dark) .bg-blue-50 p {
+    color: #1d4ed8 !important;
+    font-weight: 600 !important;
+}
+
+/* PURPLE CARD (RPM) */
+html:not(.dark) .bg-purple-50.border-purple-200 {
+    background-color: #f3e8ff !important;
+    border: 1px solid #a855f7 !important;
+    box-shadow: 0 4px 6px -1px rgba(168, 85, 247, 0.2) !important;
+}
+
+html:not(.dark) .bg-purple-50 h4 {
+    color: #581c87 !important;
+    font-weight: 700 !important;
+}
+
+html:not(.dark) .bg-purple-50 p {
+    color: #7e22ce !important;
+    font-weight: 600 !important;
+}
+
+
+/* =========================================
+   BUTTONS (3D & Floating)
+   ========================================= */
+/* Helper for icons */
+button:not(#lexAnalyzeBtn):not(#saveBtn) i {
+    color: inherit !important;
+}
+
+/* Floating Utilities */
+#saveBtn,
+#clearBtn,
+#lexAnalyzeBtn,
+#filterBtn,
+#exportExcelBtn,
+.tab-link {
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease-out !important;
+}
+
+/* Hover State - Levitate */
+#saveBtn:hover,
+#clearBtn:hover,
+#lexAnalyzeBtn:hover,
+#filterBtn:hover,
+#exportExcelBtn:hover {
+    transform: translateY(-3px) scale(1.02) !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.1) !important;
+    z-index: 10 !important;
+}
+
+/* Save Button - Green */
+#saveBtn {
+    background-color: #10b981 !important;
+    color: #ffffff !important;
+    border: 1px solid #059669 !important;
+    box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.4) !important;
+}
+
+/* Clear Button - Gray */
+#clearBtn {
+    background-color: #f3f4f6 !important;
+    color: #374151 !important;
+    border: 1px solid #d1d5db !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Lex Button */
+#lexAnalyzeBtn {
+    color: #ffffff !important;
+    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.4) !important;
+}
+
+/* Filter Button - Blue (History) */
+#filterBtn {
+    background-color: #3b82f6 !important;
+    /* Blue 500 */
+    color: #ffffff !important;
+    border: 1px solid #2563eb !important;
+    /* Blue 600 */
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.4) !important;
+}
+
+/* Export Excel Button - Green (History) */
+#exportExcelBtn {
+    background-color: #10b981 !important;
+    /* Emerald 500 */
+    color: #ffffff !important;
+    border: 1px solid #059669 !important;
+    /* Emerald 600 */
+    box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.4) !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Add Destination Button - 3D */
+#addDestinationBtn {
+    background-color: #f3e8ff !important;
+    /* Purple 100 */
+    color: #7e22ce !important;
+    /* Purple 700 */
+    border: 1px solid #d8b4fe !important;
+    /* Purple 300 */
+    box-shadow: 0 4px 0 0 #c084fc !important;
+    /* Hard 3D Shadow */
+    transform: translateY(0) !important;
+    transition: all 0.1s active !important;
+    margin-bottom: 4px !important;
+}
+
+#addDestinationBtn:active {
+    transform: translateY(4px) !important;
+    box-shadow: 0 0 0 0 #c084fc !important;
+}
+
+#addDestinationBtn:hover {
+    background-color: #fae8ff !important;
+}
+
+
+/* =========================================
+   INPUTS & TABS (Light Mode)
+   ========================================= */
+/* Placeholder visibility */
+html:not(.dark) input::placeholder,
+html:not(.dark) textarea::placeholder,
+html:not(.dark) select::placeholder {
+    color: #6b7280 !important;
+    /* Gray 500 */
+    opacity: 1 !important;
+    font-style: italic !important;
+    font-weight: 500 !important;
+}
+
+/* Focus state */
+html:not(.dark) input:focus,
+html:not(.dark) textarea:focus,
+html:not(.dark) select:focus {
+    background-color: #ffffff !important;
+    border-color: #2563eb !important;
+    /* Blue 600 */
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
+}
+
+/* Nav Tabs - Pill Style */
+html:not(.dark) .tab-pill-active {
+    background-color: #dbeafe !important;
+    color: #1d4ed8 !important;
+    font-weight: bold !important;
+    border-radius: 9999px !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+    transition: all 0.2s ease-in-out !important;
+}
