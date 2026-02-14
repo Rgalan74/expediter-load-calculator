@@ -83,6 +83,23 @@
 					.nav-shadow {
 						box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
 					}
+
+                    /* FIX VARIABLE COSTS SECTION */
+                    .costs-section strong, 
+                    .costs-section span,
+                    #totalExpenses {
+                        color: #1f2937 !important; /* Gray 800 - Visible text */
+                    }
+                    .costs-section #fixedCosts {
+                         color: #4b5563 !important; /* Gray 600 */
+                    }
+
+                    /* FIX ACTION BUTTONS (Clean, Save, Analyze) */
+                    /* Note: Analyze button has gradient bg, so keep white text there. 
+                       We target specific buttons if needed or general button text in light mode cards */
+                    button i {
+                        color: inherit !important; /* Inherit button text color */
+                    }
                 `;
             }
 
