@@ -174,6 +174,58 @@
             
                     /* Button Icons */
         
+            /* GLOBAL TABLE STYLES (Light Mode) - PREMIUM LOOK */
+            html:not(.dark) table {
+                border-collapse: collapse !important;
+                width: 100% !important;
+                border-radius: 0.5rem !important;
+                overflow: hidden !important;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+            }
+
+            /* Header - Dark Blue & White Text */
+            html:not(.dark) table thead {
+                background-color: #1e3a8a !important; /* Blue 900 */
+            }
+            html:not(.dark) table thead th {
+                color: #ffffff !important;
+                font-weight: 700 !important;
+                text-transform: uppercase !important;
+                font-size: 0.75rem !important;
+                letter-spacing: 0.05em !important;
+                padding: 12px 16px !important;
+                border-bottom: 2px solid #1e40af !important; /* Blue 800 */
+            }
+            /* Sort Icons in Header */
+            html:not(.dark) table thead th span, 
+            html:not(.dark) table thead th i {
+                color: #93c5fd !important; /* Blue 300 */
+                opacity: 0.8 !important;
+            }
+
+            /* Rows - Zebra Striping & Hover */
+            html:not(.dark) table tbody tr {
+                background-color: #ffffff !important;
+                border-bottom: 1px solid #e2e8f0 !important; /* Slate 200 */
+                transition: background-color 0.15s ease-in-out !important;
+            }
+            html:not(.dark) table tbody tr:nth-child(even) {
+                background-color: #f8fafc !important; /* Slate 50 */
+            }
+            html:not(.dark) table tbody tr:hover {
+                background-color: #eff6ff !important; /* Blue 50 */
+                transform: scale(1) !important; /* Prevent cell shifting */
+            }
+
+            /* Cells */
+            html:not(.dark) table tbody td {
+                color: #334155 !important; /* Slate 700 */
+                padding: 12px 16px !important;
+                font-size: 0.875rem !important;
+            }
+            html:not(.dark) table tbody td strong {
+                color: #0f172a !important; /* Slate 900 */
+            }
             /* FIX STATISTICS SUMMARY CARDS (HISTORY) */
             html:not(.dark) #sumTotal, 
             html:not(.dark) #sumMiles, 
