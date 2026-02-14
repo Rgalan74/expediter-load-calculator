@@ -246,18 +246,76 @@
                 color: #0f172a !important; /* Slate 900 */
                 font-weight: 600 !important;
             }
-            `;/* FIX STATISTICS SUMMARY CARDS (HISTORY) */
-                html: not(.dark) #sumTotal,
-                    html: not(.dark) #sumMiles,
-                        html: not(.dark) #sumRevenue,
-                            html: not(.dark) #sumProfit,
-                                html: not(.dark) #sumRpm {
-                    color: #111827!important; /* Gray 900 - Strong Black/Blue */
-                    font - weight: 800!important;
-                    font - size: 1.5rem!important;
-                    text - shadow: 0 1px 2px rgba(0, 0, 0, 0.1)!important;
-                }
+            /* FIX STATISTICS SUMMARY CARDS (HISTORY) */
+            html:not(.dark) #sumTotal, 
+            html:not(.dark) #sumMiles, 
+            html:not(.dark) #sumRevenue, 
+            html:not(.dark) #sumProfit, 
+            html:not(.dark) #sumRpm {
+                color: #111827 !important; /* Gray 900 */
+                font-weight: 800 !important;
+                font-size: 1.5rem !important;
+                text-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
+            }
 
+            /* Card Containers - Richer Backgrounds */
+            html:not(.dark) #sumTotal { /* Indigo Parent */
+                 background-color: #e0e7ff !important;
+                 border-color: #818cf8 !important;
+            }
+            html:not(.dark) #sumTotal ~ p { color: #4338ca !important; }
+            html:not(.dark) #sumTotal ~ h4 { color: #312e81 !important; }
+
+            /* INDIGO CARD (Total Cargas) */
+            html:not(.dark) .bg-indigo-50.border-indigo-200 {
+                background-color: #e0e7ff !important;
+                border: 1px solid #6366f1 !important;
+                box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.2) !important;
+            }
+            html:not(.dark) .bg-indigo-50 h4 { color: #312e81 !important; font-weight: 700 !important; }
+            html:not(.dark) .bg-indigo-50 p.text-indigo-600 { color: #4338ca !important; font-weight: 600 !important; }
+
+            /* YELLOW CARD (Millas) */
+            html:not(.dark) .bg-yellow-50.border-yellow-200 {
+                background-color: #fef9c3 !important; /* Yellow 100 */
+                border: 1px solid #eab308 !important; /* Yellow 500 */
+                box-shadow: 0 4px 6px -1px rgba(234, 179, 8, 0.2) !important;
+            }
+            html:not(.dark) .bg-yellow-50 h4 { color: #713f12 !important; font-weight: 700 !important; }
+            html:not(.dark) .bg-yellow-50 p { color: #854d0e !important; font-weight: 600 !important; }
+
+             /* EMERALD CARD (Revenue) */
+            html:not(.dark) .bg-emerald-50.border-emerald-200 {
+                background-color: #d1fae5 !important; /* Emerald 100 */
+                border: 1px solid #10b981 !important; /* Emerald 500 */
+                box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2) !important;
+            }
+            html:not(.dark) .bg-emerald-50 h4 { color: #064e3b !important; font-weight: 700 !important; }
+            html:not(.dark) .bg-emerald-50 p { color: #059669 !important; font-weight: 600 !important; }
+
+            /* GREEN CARD (Profit) */
+            html:not(.dark) .bg-green-50.border-green-200 {
+                background-color: #dcfce7 !important; /* Green 100 */
+                border: 1px solid #22c55e !important; /* Green 500 */
+                box-shadow: 0 4px 6px -1px rgba(34, 197, 94, 0.2) !important;
+            }
+            html:not(.dark) .bg-green-50 h4 { color: #14532d !important; font-weight: 700 !important; }
+            html:not(.dark) .bg-green-50 p { color: #16a34a !important; font-weight: 600 !important; }
+            
+             /* PURPLE CARD (RPM) */
+            html:not(.dark) .bg-purple-50.border-purple-200 {
+                background-color: #f3e8ff !important; /* Purple 100 */
+                border: 1px solid #a855f7 !important; /* Purple 500 */
+                box-shadow: 0 4px 6px -1px rgba(168, 85, 247, 0.2) !important;
+            }
+            html:not(.dark) .bg-purple-50 h4 { color: #581c87 !important; font-weight: 700 !important; }
+            html:not(.dark) .bg-purple-50 p { color: #7e22ce !important; font-weight: 600 !important; }
+
+            /* Button Icons */
+            button:not(#lexAnalyzeBtn):not(#saveBtn) i {
+                color: inherit !important;
+            }
+            `;
                 /* Card Containers - Make backgrounds richer */
                 html: not(.dark) #sumTotal { /* Indigo Parent */
                     background - color: #e0e7ff!important; /* Indigo 100 */
