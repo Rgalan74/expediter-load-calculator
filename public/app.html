@@ -88,12 +88,24 @@
     }
 
     /* Inputs */
+    /* Inputs - HIGH SPECIFICITY */
     :root:not([data-theme="light"]) input,
     :root:not([data-theme="light"]) select,
-    :root:not([data-theme="light"]) textarea {
+    :root:not([data-theme="light"]) textarea,
+    :root:not([data-theme="light"]) #history input,
+    :root:not([data-theme="light"]) #history select,
+    :root:not([data-theme="light"]) #finances input,
+    :root:not([data-theme="light"]) #finances select,
+    :root:not([data-theme="light"]) #zones input,
+    :root:not([data-theme="light"]) #zones select,
+    :root:not([data-theme="light"]) .card-section input {
       background-color: #0f172a !important;
+      /* Dark Blue */
       color: #f1f5f9 !important;
+      /* White Text */
       border: 1px solid #475569 !important;
+      -webkit-text-fill-color: #f1f5f9 !important;
+      /* Safari Fix */
     }
 
     :root:not([data-theme="light"]) input::placeholder {
