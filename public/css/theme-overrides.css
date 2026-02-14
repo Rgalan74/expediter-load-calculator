@@ -16,28 +16,31 @@ html:not(.dark) table {
     border-radius: 0 !important;
 }
 
-/* Header - Subtle & Clean */
+/* Header - Premium Dark Blue & White Text */
 html:not(.dark) table thead {
-    background-color: transparent !important;
+    background-color: #1e3a8a !important;
+    /* Blue 900 */
 }
 
 html:not(.dark) table thead th {
-    color: #64748b !important;
-    /* Slate 500 */
+    color: #ffffff !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
-    font-size: 0.70rem !important;
-    letter-spacing: 0.08em !important;
-    padding: 0 16px 8px 16px !important;
-    border-bottom: none !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.05em !important;
+    padding: 12px 16px !important;
+    border-bottom: 2px solid #1e40af !important;
+    /* Blue 800 */
+    background-color: #1e3a8a !important;
+    /* Ensure bg color on cells */
 }
 
 /* Sort Icons */
 html:not(.dark) table thead th span,
 html:not(.dark) table thead th i {
-    color: #94a3b8 !important;
-    /* Slate 400 */
-    opacity: 0.6 !important;
+    color: #93c5fd !important;
+    /* Blue 300 */
+    opacity: 0.9 !important;
 }
 
 /* Rows - Floating Cards */
