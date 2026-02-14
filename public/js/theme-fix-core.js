@@ -25,10 +25,10 @@
                     el.style.setProperty('border-color', '#475569', 'important'); // Slate 600
                 } else {
                     // ☀️ LIGHT MODE STYLES - CLEAN & CRISP
-                    // White background with defined border (Classic Look)
-                    el.style.setProperty('background-color', '#ffffff', 'important'); // White
+                    // Off-White background (Slate 50) to distinguish from White Cards
+                    el.style.setProperty('background-color', '#f8fafc', 'important'); // Slate 50
                     el.style.setProperty('color', '#111827', 'important'); // Gray 900
-                    el.style.setProperty('border', '1px solid #cbd5e1', 'important'); // Slate 300 (Subtle but visible)
+                    el.style.setProperty('border', '1px solid #cbd5e1', 'important'); // Slate 300
                     el.style.setProperty('border-radius', '0.5rem', 'important');
                     el.style.setProperty('box-shadow', '0 1px 2px 0 rgba(0, 0, 0, 0.05)', 'important');
                 }
