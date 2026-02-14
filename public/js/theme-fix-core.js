@@ -32,6 +32,30 @@
             el.classList.add('theme-enforced');
         });
 
+        // Inject dynamic CSS for pseudo-elements (::placeholder) which JS can't touch directly
+        let styleTag = document.getElementById('theme-fix-styles');
+        if (!styleTag) {
+            styleTag = document.createElement('style');
+            styleTag.id = 'theme-fix-styles';
+            document.head.appendChild(styleTag);
+        }
+
+        if (isDark) {
+            styleTag.innerHTML = `
+                input::placeholder, textarea::placeholder, select::placeholder {
+                    color: #94a3b8 !important; /* Slate 400 */
+                    opacity: 1 !important;
+                }
+            `;
+        } else {
+            styleTag.innerHTML = `
+                input::placeholder, textarea::placeholder, select::placeholder {
+                    color: #4b5563 !important; /* Gray 600 - MUY VISIBLE */
+                    opacity: 1 !important;
+                }
+            `;
+        }
+
         // Force Card Backgrounds in Light Mode
         if (!isDark) {
             const cards = document.querySelectorAll('.card, .card-section');
