@@ -88,9 +88,18 @@
 :root[data-theme="light"] .card,
 :root[data-theme="light"] .card-section {
     background-color: #ffffff !important;
-    border: 1px solid #e5e7eb !important;
-    /* Gray-200 */
+    border: 1px solid #d1d5db !important;
+    /* Gray-300 (Stronger border) */
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Add color to icons/headers in light mode to avoid "boring" look */
+:root[data-theme="light"] h2 span,
+:root[data-theme="light"] h3 span,
+:root[data-theme="light"] .card-header i,
+:root[data-theme="light"] .text-xl i {
+    color: #2563eb !important;
+    /* Blue-600 */
 }
 
 /* Fix Input Visibility in Light Mode */
