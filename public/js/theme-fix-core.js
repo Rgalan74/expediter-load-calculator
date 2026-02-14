@@ -1,100 +1,80 @@
 /**
- * THEME ENFORCER - Brute force approach to fix input visibility
- * This script runs repeatedly to ensure inputs are visible in Dark Mode
+ * THEME FIX CORE - DEBUG VERSION v5.4.0
+ * Includes On-Screen Logging to diagnose failure
  */
-
 (function () {
-    console.log('🔥 Theme Enforcer Loaded');
+    // 1. CREATE ON-SCREEN DEBUGGER
+    let debugBox = document.getElementById('debug-console');
+    if (!debugBox) {
+        debugBox = document.createElement('div');
+        debugBox.id = 'debug-console';
+        debugBox.style.cssText = 'position:fixed; bottom:0; left:0; width:100%; height:150px; background:rgba(0,0,0,0.9); color:#0f0; font-family:monospace; font-size:12px; overflow:auto; z-index:99999; padding:10px; pointer-events:none; border-top:2px solid #0f0;';
+        document.body.appendChild(debugBox);
+    }
+
+    function log(msg) {
+        const line = document.createElement('div');
+        line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+        debugBox.appendChild(line);
+        debugBox.scrollTop = debugBox.scrollHeight;
+        console.log(msg);
+    }
+
+    log('🚀 JS LOADED: theme-fix-core.js v5.4.0');
 
     function forceThemeInputs() {
-        const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-        const inputs = document.querySelectorAll('input, select, textarea');
+        try {
+            const themeAttr = document.documentElement.getAttribute('data-theme');
+            const isDark = themeAttr !== 'light';
+            log(`🎨 Theme Check: data-theme="${themeAttr}" | isDark=${isDark}`);
 
-        inputs.forEach(el => {
-            if (el.offsetParent === null) return; // Skip hidden
+            const inputs = document.querySelectorAll('input, select, textarea');
+            log(`🔍 Found ${inputs.length} inputs`);
 
-            if (isDark) {
-                // DARK MODE STYLES
-                el.style.backgroundColor = '#0f172a'; // Slate 900
-                el.style.color = '#f1f5f9'; // Slate 100
-                el.style.borderColor = '#475569'; // Slate 600
-            } else {
-                // LIGHT MODE STYLES (High Contrast Force)
-                el.style.backgroundColor = '#e5e7eb'; // Gray 200 (Visible gray)
-                el.style.color = '#000000'; // Pure Black
-                el.style.border = '2px solid #6b7280'; // Gray 500 (Thick border)
-                el.style.borderRadius = '0.5rem';
+            inputs.forEach(el => {
+                if (el.offsetParent === null) return; // Skip hidden
 
-                // TRACER BULLET: FORCE PINK BACKGROUND ON MILLAS COTIZADAS
-                if (el.id === 'loadedMiles') {
-                    el.style.backgroundColor = '#fed7d7'; // PINK (Tailwind Red-100/200)
-                    el.style.border = '2px solid #ef4444'; // RED BORDER
-                    console.log('🎯 Tracer Bullet Applied to loadedMiles');
+                if (isDark) {
+                    // DARK MODE - Force Dark
+                    el.style.setProperty('background-color', '#0f172a', 'important');
+                    el.style.setProperty('color', '#f1f5f9', 'important');
+                    el.style.setProperty('border-color', '#475569', 'important');
+                } else {
+                    // LIGHT MODE - Force Light
+                    el.style.setProperty('background-color', '#e5e7eb', 'important'); // Gray 200
+                    el.style.setProperty('color', '#000000', 'important');
+                    el.style.setProperty('border', '2px solid #6b7280', 'important'); // Gray 500
+
+                    // TRACER BULLET
+                    if (el.id === 'loadedMiles' || el.id === 'origin') {
+                        log(`🎯 Applying PINK to #${el.id}`);
+                        el.style.setProperty('background-color', '#fca5a5', 'important'); // RED-300
+                        el.style.setProperty('border', '4px solid red', 'important');
+                    }
                 }
 
-                // Force placeholders if supported (not easy in JS style, but color helps)
-            }
-
-            // Add a class marker
-            el.classList.add('theme-enforced');
-        });
-
-        // Inject dynamic CSS for pseudo-elements (::placeholder) which JS can't touch directly
-        let styleTag = document.getElementById('theme-fix-styles');
-        if (!styleTag) {
-            styleTag = document.createElement('style');
-            styleTag.id = 'theme-fix-styles';
-            document.head.appendChild(styleTag);
-        }
-
-        if (isDark) {
-            styleTag.innerHTML = `
-                input::placeholder, textarea::placeholder, select::placeholder {
-                    color: #94a3b8 !important; /* Slate 400 */
-                    opacity: 1 !important;
-                }
-            `;
-        } else {
-            styleTag.innerHTML = `
-                input::placeholder, textarea::placeholder, select::placeholder {
-                    color: #4b5563 !important; /* Gray 600 - MUY VISIBLE */
-                    opacity: 1 !important;
-                }
-            `;
-        }
-
-        // Force Card Backgrounds in Light Mode
-        if (!isDark) {
-            const cards = document.querySelectorAll('.card, .card-section');
-            cards.forEach(el => {
-                el.style.backgroundColor = '#ffffff';
-                el.style.border = '1px solid #d1d5db';
-                el.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
-                el.style.color = '#1f2937';
+                el.classList.add('theme-enforced');
             });
 
-            // Force Body Background
-            document.body.style.backgroundColor = '#f3f4f6';
-            document.body.style.color = '#1f2937';
-        } else {
-            // Reset body/cards for dark mode if needed (usually CSS handles it, but let's be safe)
-            document.body.style.backgroundColor = '';
-            document.body.style.color = '';
+            // Force Body
+            if (!isDark) {
+                document.body.style.setProperty('background-color', '#f3f4f6', 'important');
+                document.body.style.setProperty('color', '#1f2937', 'important');
+            }
+
+        } catch (e) {
+            log(`❌ ERROR: ${e.message}`);
         }
     }
 
-    // Run on load
-    document.addEventListener('DOMContentLoaded', forceThemeInputs);
+    // Run immediately
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', forceThemeInputs);
+    } else {
+        forceThemeInputs();
+    }
 
-    // Run on theme change
-    window.addEventListener('themeChanged', () => {
-        setTimeout(forceThemeInputs, 100);
-    });
-
-    // Run periodically (dirty check for dyanmic content)
-    setInterval(forceThemeInputs, 1000);
-
-    // Expose for manual debugging
-    window.forceThemeInputs = forceThemeInputs;
+    // Loop to ensure it sticks
+    setInterval(forceThemeInputs, 2000);
 
 })();
