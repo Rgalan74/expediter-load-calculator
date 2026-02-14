@@ -365,3 +365,23 @@ html:not(.dark) .tab-pill-inactive:hover {
 html:not(.dark) .nav-shadow {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
 }
+
+/* FIX COSTOS VARIABLES SECTION (Light Mode visibility) */
+html:not(.dark) .costs-section strong,
+html:not(.dark) .costs-section span,
+html:not(.dark) #totalExpenses,
+html:not(.dark) #fuelCost,
+html:not(.dark) #tollsAndOthers {
+    color: #1f2937 !important;
+    /* Gray 800 */
+}
+
+html:not(.dark) .costs-section #fixedCosts {
+    color: #4b5563 !important;
+    /* Gray 600 */
+}
+
+html:not(.dark) #profitSection .text-white {
+    color: #1f2937 !important;
+    /* Gray 800 for time/stops in profit card */
+}
