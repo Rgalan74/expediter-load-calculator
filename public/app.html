@@ -355,12 +355,11 @@
 
 
       <!-- Navigation tabs (solo desktop) -->
-      <nav class="hidden md:block border-t border-gray-200 bg-white relative overflow-visible">
+      <nav class="hidden md:block border-t border-gray-200 bg-white relative overflow-visible nav-shadow">
         <div class="max-w-7xl mx-auto px-2 md:px-6 flex gap-2 md:gap-8 py-2 md:py-3 overflow-x-auto">
 
-          <!-- Calculadora -->
-          <button
-            class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
+          <!-- Calculadora (Active initially) -->
+          <button class="tab-link tab-pill-active text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
             data-tab="calculator">
             <span class="md:hidden">📊</span>
             <span class="hidden md:inline">Calculadora</span>
@@ -368,8 +367,7 @@
           </button>
 
           <!-- Historial -->
-          <button
-            class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
+          <button class="tab-link tab-pill-inactive text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
             data-tab="history">
             <span class="md:hidden">📋</span>
             <span class="hidden md:inline">Historial</span>
@@ -377,8 +375,7 @@
           </button>
 
           <!-- Finanzas -->
-          <button
-            class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
+          <button class="tab-link tab-pill-inactive text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
             data-tab="finances">
             <span class="md:hidden">💰</span>
             <span class="hidden md:inline">Finanzas</span>
@@ -386,8 +383,7 @@
           </button>
 
           <!-- Zonas -->
-          <button
-            class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
+          <button class="tab-link tab-pill-inactive text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
             data-tab="zones">
             <span class="md:hidden">🗺️</span>
             <span class="hidden md:inline">Zonas</span>
@@ -395,8 +391,7 @@
           </button>
 
           <!-- Configuración -->
-          <button
-            class="tab-link text-gray-700 font-bold hover:text-blue-600 text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
+          <button class="tab-link tab-pill-inactive text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
             data-tab="settings">
             <span class="md:hidden">⚙️</span>
             <span class="hidden md:inline">Configuración</span>
@@ -2528,7 +2523,7 @@
   <script src="js/category-modal-dynamic.js"></script>
 
   <script src="js/theme-manager.js"></script>
-  <script src="js/theme-fix-core.js?v=5.5.1"></script>
+  <script src="js/theme-fix-core.js?v=5.6.0"></script>
 </body>
 
 </html>

@@ -63,14 +63,26 @@
                          border-color: #2563eb !important; /* Blue 600 */
                          box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
                     }
-                    /* FIX NAV TABS VISIBILITY */
-                    .tab-link {
-                        color: #374151 !important; /* Gray 700 - Visible text */
+                    /* FIX NAV TABS - PILL STYLE */
+                    .tab-pill-active {
+                        background-color: #dbeafe !important; /* Blue 100 */
+                        color: #1d4ed8 !important; /* Blue 700 */
+                        font-weight: bold !important;
+                        border-radius: 0.375rem !important;
+                        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
                     }
-                    .tab-link:hover {
-                        color: #2563eb !important; /* Blue 600 - Hover effect */
+                    .tab-pill-inactive {
+                        color: #4b5563 !important; /* Gray 600 */
+                        background-color: transparent !important;
+                    }
+                    .tab-pill-inactive:hover {
+                        color: #2563eb !important; /* Blue 600 */
                         background-color: #eff6ff !important; /* Blue 50 */
+                        border-radius: 0.375rem !important;
                     }
+					.nav-shadow {
+						box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+					}
                 `;
             }
 

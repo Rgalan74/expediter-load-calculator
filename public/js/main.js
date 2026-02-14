@@ -266,13 +266,15 @@ document.addEventListener("DOMContentLoaded", () => {
 function updateTabButtonState(activeButton) {
     // Remover estado activo de todos los botones
     document.querySelectorAll(".tab-link").forEach((b) => {
-        b.classList.remove("text-blue-600", "font-bold");
-        b.classList.add("text-gray-700");
+        b.classList.remove("tab-pill-active");
+        b.classList.add("tab-pill-inactive");
+        // Clean up old utility classes just in case
+        b.classList.remove("text-blue-600", "font-bold", "bg-blue-100", "shadow-sm");
     });
 
     // Activar el botón seleccionado
-    activeButton.classList.remove("text-gray-700");
-    activeButton.classList.add("text-blue-600", "font-bold");
+    activeButton.classList.remove("tab-pill-inactive");
+    activeButton.classList.add("tab-pill-active");
 }
 
 //  Setup del logout button
