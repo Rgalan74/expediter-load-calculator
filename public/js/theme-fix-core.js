@@ -69,7 +69,8 @@
                         color: #1d4ed8 !important; /* Blue 700 */
                         font-weight: bold !important;
                         border-radius: 0.375rem !important;
-                        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+                        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important; /* Stronger Shadow */
+                        transition: all 0.2s ease-in-out !important;
                     }
                     .tab-pill-inactive {
                         color: #4b5563 !important; /* Gray 600 */
@@ -95,6 +96,14 @@
                     }
 
                     /* FIX ACTION BUTTONS */
+                    /* Common 3D/Hover Effect for Buttons */
+                    #saveBtn, #clearBtn, #lexAnalyzeBtn, .tab-link {
+                        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                    }
+                    #saveBtn:hover, #clearBtn:hover, #lexAnalyzeBtn:hover {
+                        transform: translateY(-2px) !important;
+                        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+                    }
                     /* Save Button - Force Green Fill */
                     #saveBtn {
                         background-color: #10b981 !important; /* Emerald 500 */
@@ -107,6 +116,7 @@
                         background-color: #f3f4f6 !important; /* Gray 100 */
                         color: #374151 !important; /* Gray 700 */
                         border: 1px solid #d1d5db !important;
+                        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
                     }
                     /* Lex Button - Force White Text on Gradient */
                     #lexAnalyzeBtn {
