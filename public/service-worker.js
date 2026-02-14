@@ -5,8 +5,8 @@
  * Version: 1.0.1
  */
 
-const CACHE_VERSION = 'expediter-v5.2.0-THEME-FIX';
-const CACHE_NAME = 'expediter-v5.2.0-THEME-FIX';
+const CACHE_VERSION = 'expediter-v5.3.0-FORCE-REFRESH';
+const CACHE_NAME = 'expediter-v5.3.0-FORCE-REFRESH';
 // DEPLOY_TIMESTAMP: 2026-01-29T13:15:00 - CLEAN_REPORTS
 
 // Assets críticos para pre-cachear
