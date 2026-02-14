@@ -388,6 +388,63 @@ color: #1f2937 !important;
 /* Gray 800 for time/stops in profit card */
 }
 
+/* =========================================
+   GLOBAL RESET FOR LIGHT MODE (THE "FIX EVERYTHING" PACK)
+   ========================================= */
+
+/* 1. TYPOGRAPHY: Force dark text on generic elements */
+html:not(.dark) h1,
+html:not(.dark) h2,
+html:not(.dark) h3,
+html:not(.dark) h4,
+html:not(.dark) h5,
+html:not(.dark) h6,
+html:not(.dark) strong,
+html:not(.dark) b {
+    color: #111827 !important;
+    /* Gray 900 */
+}
+
+html:not(.dark) p,
+html:not(.dark) span,
+html:not(.dark) li,
+html:not(.dark) label {
+    color: #374151 !important;
+    /* Gray 700 */
+}
+
+/* 2. BACKGROUNDS: Invert dark containers to white */
+html:not(.dark) .bg-gray-800,
+html:not(.dark) .bg-gray-900,
+html:not(.dark) .bg-slate-800,
+html:not(.dark) .bg-slate-900 {
+    background-color: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+    color: #1f2937 !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 3. INPUTS: Global enforcement */
+html:not(.dark) input,
+html:not(.dark) select,
+html:not(.dark) textarea {
+    background-color: #ffffff !important;
+    color: #1f2937 !important;
+    border: 1px solid #d1d5db !important;
+}
+
+/* EXCLUSIONS: Keep text white on specific colored backgrounds */
+html:not(.dark) button .text-white,
+html:not(.dark) .badge .text-white,
+html:not(.dark) .bg-blue-600 .text-white,
+html:not(.dark) .bg-red-600 .text-white,
+html:not(.dark) .bg-green-600 .text-white,
+html:not(.dark) .bg-indigo-600 .text-white,
+html:not(.dark) .bg-purple-600 .text-white,
+html:not(.dark) header .text-white {
+    color: #ffffff !important;
+}
+
 /* FIX ACTION BUTTONS IN TABLE (Edit/Delete) */
 html:not(.dark) table tbody td button {
     padding: 6px 12px !important;
