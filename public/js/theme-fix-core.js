@@ -174,145 +174,165 @@
             
                     /* Button Icons */
         
-            /* GLOBAL TABLE STYLES (Light Mode) - PREMIUM LOOK */
+            /* GLOBAL TABLE STYLES (Light Mode) - MODERN SAAS LOOK */
             html:not(.dark) table {
-                border-collapse: collapse !important;
+                border-collapse: separate !important;
+                border-spacing: 0 6px !important; /* Space between rows */
                 width: 100% !important;
-                border-radius: 0.5rem !important;
-                overflow: hidden !important;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+                background-color: transparent !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
             }
 
-            /* Header - Dark Blue & White Text */
+            /* Header - Subtle & Clean */
             html:not(.dark) table thead {
-                background-color: #1e3a8a !important; /* Blue 900 */
+                background-color: transparent !important;
             }
             html:not(.dark) table thead th {
-                color: #ffffff !important;
+                color: #64748b !important; /* Slate 500 */
                 font-weight: 700 !important;
                 text-transform: uppercase !important;
-                font-size: 0.75rem !important;
-                letter-spacing: 0.05em !important;
-                padding: 12px 16px !important;
-                border-bottom: 2px solid #1e40af !important; /* Blue 800 */
+                font-size: 0.70rem !important;
+                letter-spacing: 0.08em !important;
+                padding: 0 16px 8px 16px !important;
+                border-bottom: none !important;
             }
-            /* Sort Icons in Header */
+            /* Sort Icons */
             html:not(.dark) table thead th span, 
             html:not(.dark) table thead th i {
-                color: #93c5fd !important; /* Blue 300 */
-                opacity: 0.8 !important;
+                color: #94a3b8 !important; /* Slate 400 */
+                opacity: 0.6 !important;
             }
 
-            /* Rows - Zebra Striping & Hover */
+            /* Rows - Floating Cards */
             html:not(.dark) table tbody tr {
                 background-color: #ffffff !important;
-                border-bottom: 1px solid #e2e8f0 !important; /* Slate 200 */
-                transition: background-color 0.15s ease-in-out !important;
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05) !important;
+                transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                border: 1px solid transparent !important;
             }
-            html:not(.dark) table tbody tr:nth-child(even) {
-                background-color: #f8fafc !important; /* Slate 50 */
+            
+            /* Rounded corners for rows */
+            html:not(.dark) table tbody tr td:first-child {
+                border-top-left-radius: 8px !important;
+                border-bottom-left-radius: 8px !important;
             }
+            html:not(.dark) table tbody tr td:last-child {
+                border-top-right-radius: 8px !important;
+                border-bottom-right-radius: 8px !important;
+            }
+
             html:not(.dark) table tbody tr:hover {
-                background-color: #eff6ff !important; /* Blue 50 */
-                transform: scale(1) !important; /* Prevent cell shifting */
+                transform: translateY(-2px) !important;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04) !important;
+                background-color: #ffffff !important; /* Keep white on hover to pop */
+                z-index: 10;
+                position: relative;
             }
 
             /* Cells */
             html:not(.dark) table tbody td {
                 color: #334155 !important; /* Slate 700 */
-                padding: 12px 16px !important;
+                padding: 16px 16px !important; /* More breathing room */
                 font-size: 0.875rem !important;
+                border-top: 1px solid #f1f5f9 !important; /* Subtle top border */
+                border-bottom: 1px solid #f1f5f9 !important; /* Subtle bottom border */
             }
+            /* Remove borders from first/last cells for rounded corners to look clean */
+            html:not(.dark) table tbody td:first-child { border-left: 1px solid #f1f5f9 !important; border-top: 1px solid #f1f5f9 !important; border-bottom: 1px solid #f1f5f9 !important; }
+            html:not(.dark) table tbody td:last-child { border-right: 1px solid #f1f5f9 !important; border-top: 1px solid #f1f5f9 !important; border-bottom: 1px solid #f1f5f9 !important; }
+
             html:not(.dark) table tbody td strong {
                 color: #0f172a !important; /* Slate 900 */
+                font-weight: 600 !important;
             }
-            /* FIX STATISTICS SUMMARY CARDS (HISTORY) */
-            html:not(.dark) #sumTotal, 
-            html:not(.dark) #sumMiles, 
-            html:not(.dark) #sumRevenue, 
-            html:not(.dark) #sumProfit, 
-            html:not(.dark) #sumRpm {
-                color: #111827 !important; /* Gray 900 - Strong Black/Blue */
-                font-weight: 800 !important;
-                font-size: 1.5rem !important;
-                text-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
-            }
+            `;/* FIX STATISTICS SUMMARY CARDS (HISTORY) */
+                html: not(.dark) #sumTotal,
+                    html: not(.dark) #sumMiles,
+                        html: not(.dark) #sumRevenue,
+                            html: not(.dark) #sumProfit,
+                                html: not(.dark) #sumRpm {
+                    color: #111827!important; /* Gray 900 - Strong Black/Blue */
+                    font - weight: 800!important;
+                    font - size: 1.5rem!important;
+                    text - shadow: 0 1px 2px rgba(0, 0, 0, 0.1)!important;
+                }
 
-            /* Card Containers - Make backgrounds richer */
-            html:not(.dark) #sumTotal { /* Indigo Parent */
-                 background-color: #e0e7ff !important; /* Indigo 100 */
-                 border-color: #818cf8 !important; /* Indigo 400 */
-            }
-            html:not(.dark) #sumTotal ~ p { color: #4338ca !important; } /* Indigo 700 */
-            html:not(.dark) #sumTotal ~ h4 { color: #312e81 !important; } /* Indigo 900 */
+                /* Card Containers - Make backgrounds richer */
+                html: not(.dark) #sumTotal { /* Indigo Parent */
+                    background - color: #e0e7ff!important; /* Indigo 100 */
+                    border - color: #818cf8!important; /* Indigo 400 */
+                }
+                html: not(.dark) #sumTotal ~p { color: #4338ca!important; } /* Indigo 700 */
+                html: not(.dark) #sumTotal ~h4 { color: #312e81!important; } /* Indigo 900 */
 
-            html:not(.dark) #sumMiles { /* Yellow Parent via cousin selector logic or direct parent styling if possible. 
+                html: not(.dark) #sumMiles { /* Yellow Parent via cousin selector logic or direct parent styling if possible. 
                Since we can't select parent in CSS/JS easily without specific IDs on parents, 
                we will target the specific classes used in the HTML if they are unique enough.
                Actually, the best way in this "JS-in-CSS" approach is to target the classes directly for Light Mode 
             */
-            } 
-            
-            /* TARGETING WRAPPER DIVS BY CONTENT HINT IS HARD IN PURE CSS.
-               Instead, let's target the known Tailwind classes but scoped to Light Mode + Card Context
-               OR better: Add a quick JS loop to add IDs to these parents if they don't have them?
-               
-               Actually, looking at the code:
-               <div class="bg-indigo-50 ..."> <p id="sumTotal"> ... </div>
-               
-               I can target: html:not(.dark) .bg-indigo-50.border-indigo-200 { ... } 
-            */
+                }
 
-             /* INDIGO CARD (Total Cargas) */
-            html:not(.dark) .bg-indigo-50.border-indigo-200 {
-                background-color: #e0e7ff !important; /* Indigo 100 */
-                border: 1px solid #6366f1 !important; /* Indigo 500 */
-                box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.2) !important;
-            }
-            html:not(.dark) .bg-indigo-50 h4 { color: #312e81 !important; font-weight: 700 !important; } /* Indigo 900 */
-            html:not(.dark) .bg-indigo-50 p.text-indigo-600 { color: #4338ca !important; font-weight: 600 !important; } /* Indigo 700 */
+                /* TARGETING WRAPPER DIVS BY CONTENT HINT IS HARD IN PURE CSS.
+                   Instead, let's target the known Tailwind classes but scoped to Light Mode + Card Context
+                   OR better: Add a quick JS loop to add IDs to these parents if they don't have them?
+                   
+                   Actually, looking at the code:
+                   <div class="bg-indigo-50 ..."> <p id="sumTotal"> ... </div>
+                   
+                   I can target: html:not(.dark) .bg-indigo-50.border-indigo-200 { ... } 
+                */
 
-            /* YELLOW CARD (Millas) */
-            html:not(.dark) .bg-yellow-50.border-yellow-200 {
-                background-color: #fef9c3 !important; /* Yellow 100 */
-                border: 1px solid #eab308 !important; /* Yellow 500 */
-                box-shadow: 0 4px 6px -1px rgba(234, 179, 8, 0.2) !important;
-            }
-            html:not(.dark) .bg-yellow-50 h4 { color: #713f12 !important; font-weight: 700 !important; } /* Yellow 900 */
-            html:not(.dark) .bg-yellow-50 p.text-yellow-600 { color: #854d0e !important; font-weight: 600 !important; } /* Yellow 700 */
+                /* INDIGO CARD (Total Cargas) */
+                html: not(.dark).bg - indigo - 50.border - indigo - 200 {
+                    background - color: #e0e7ff!important; /* Indigo 100 */
+                    border: 1px solid #6366f1!important; /* Indigo 500 */
+                    box - shadow: 0 4px 6px - 1px rgba(99, 102, 241, 0.2)!important;
+                }
+                html: not(.dark).bg - indigo - 50 h4 { color: #312e81!important; font - weight: 700!important; } /* Indigo 900 */
+                html: not(.dark).bg - indigo - 50 p.text - indigo - 600 { color: #4338ca!important; font - weight: 600!important; } /* Indigo 700 */
 
-            /* GREEN CARD (Ingresos) */
-            html:not(.dark) .bg-green-50.border-green-200 {
-                background-color: #dcfce7 !important; /* Green 100 */
-                border: 1px solid #22c55e !important; /* Green 500 */
-                box-shadow: 0 4px 6px -1px rgba(34, 197, 94, 0.2) !important;
-            }
-            html:not(.dark) .bg-green-50 h4 { color: #14532d !important; font-weight: 700 !important; } /* Green 900 */
-            html:not(.dark) .bg-green-50 p.text-green-600 { color: #15803d !important; font-weight: 600 !important; } /* Green 700 */
+                /* YELLOW CARD (Millas) */
+                html: not(.dark).bg - yellow - 50.border - yellow - 200 {
+                    background - color: #fef9c3!important; /* Yellow 100 */
+                    border: 1px solid #eab308!important; /* Yellow 500 */
+                    box - shadow: 0 4px 6px - 1px rgba(234, 179, 8, 0.2)!important;
+                }
+                html: not(.dark).bg - yellow - 50 h4 { color: #713f12!important; font - weight: 700!important; } /* Yellow 900 */
+                html: not(.dark).bg - yellow - 50 p.text - yellow - 600 { color: #854d0e!important; font - weight: 600!important; } /* Yellow 700 */
 
-            /* BLUE CARD (Ganancias) */
-            html:not(.dark) .bg-blue-50.border-blue-200 {
-                background-color: #dbeafe !important; /* Blue 100 */
-                border: 1px solid #3b82f6 !important; /* Blue 500 */
-                box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2) !important;
-            }
-            html:not(.dark) .bg-blue-50 h4 { color: #1e3a8a !important; font-weight: 700 !important; } /* Blue 900 */
-            html:not(.dark) .bg-blue-50 p.text-blue-600 { color: #1d4ed8 !important; font-weight: 600 !important; } /* Blue 700 */
+                /* GREEN CARD (Ingresos) */
+                html: not(.dark).bg - green - 50.border - green - 200 {
+                    background - color: #dcfce7!important; /* Green 100 */
+                    border: 1px solid #22c55e!important; /* Green 500 */
+                    box - shadow: 0 4px 6px - 1px rgba(34, 197, 94, 0.2)!important;
+                }
+                html: not(.dark).bg - green - 50 h4 { color: #14532d!important; font - weight: 700!important; } /* Green 900 */
+                html: not(.dark).bg - green - 50 p.text - green - 600 { color: #15803d!important; font - weight: 600!important; } /* Green 700 */
 
-            /* PURPLE CARD (RPM) */
-            html:not(.dark) .bg-purple-50.border-purple-200 {
-                background-color: #f3e8ff !important; /* Purple 100 */
-                border: 1px solid #a855f7 !important; /* Purple 500 */
-                box-shadow: 0 4px 6px -1px rgba(168, 85, 247, 0.2) !important;
-            }
-            html:not(.dark) .bg-purple-50 h4 { color: #581c87 !important; font-weight: 700 !important; } /* Purple 900 */
-            html:not(.dark) .bg-purple-50 p.text-purple-600 { color: #7e22ce !important; font-weight: 600 !important; } /* Purple 700 */
+                /* BLUE CARD (Ganancias) */
+                html: not(.dark).bg - blue - 50.border - blue - 200 {
+                    background - color: #dbeafe!important; /* Blue 100 */
+                    border: 1px solid #3b82f6!important; /* Blue 500 */
+                    box - shadow: 0 4px 6px - 1px rgba(59, 130, 246, 0.2)!important;
+                }
+                html: not(.dark).bg - blue - 50 h4 { color: #1e3a8a!important; font - weight: 700!important; } /* Blue 900 */
+                html: not(.dark).bg - blue - 50 p.text - blue - 600 { color: #1d4ed8!important; font - weight: 600!important; } /* Blue 700 */
 
-            /* Button Icons */
-            button:not(#lexAnalyzeBtn):not(#saveBtn) i {
-                color: inherit !important; 
-            }
-            `;
+                /* PURPLE CARD (RPM) */
+                html: not(.dark).bg - purple - 50.border - purple - 200 {
+                    background - color: #f3e8ff!important; /* Purple 100 */
+                    border: 1px solid #a855f7!important; /* Purple 500 */
+                    box - shadow: 0 4px 6px - 1px rgba(168, 85, 247, 0.2)!important;
+                }
+                html: not(.dark).bg - purple - 50 h4 { color: #581c87!important; font - weight: 700!important; } /* Purple 900 */
+                html: not(.dark).bg - purple - 50 p.text - purple - 600 { color: #7e22ce!important; font - weight: 600!important; } /* Purple 700 */
+
+                /* Button Icons */
+                button: not(#lexAnalyzeBtn): not(#saveBtn) i {
+                    color: inherit!important;
+                }
+                `;
             }
 
             // Force Body & Card Backgrounds for Light Mode
