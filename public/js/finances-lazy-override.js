@@ -109,7 +109,6 @@ window.deleteExpense = async function (id) {
 
 // Store originals
 const _originalGeneratePLReport = window.generatePLReport;
-const _originalGenerateTaxReport = window.generateTaxReport;
 const _originalExportReportToPDF = window.exportReportToPDF;
 const _originalOpenReportModal = window.openReportModal;
 const _originalCloseReportModal = window.closeReportModal;
@@ -129,22 +128,6 @@ window.generatePLReport = async function () {
     }
     // Fallback
     if (_originalGeneratePLReport) _originalGeneratePLReport();
-};
-
-window.generateTaxReport = async function () {
-    if (typeof window.loadReportsModule === 'function') {
-        try {
-            await window.loadReportsModule();
-            if (window.FinancesReports && window.FinancesReports.generateTaxReport) {
-                window.FinancesReports.generateTaxReport();
-                return;
-            }
-        } catch (error) {
-            console.error('Error loading reports module, using fallback:', error);
-        }
-    }
-    // Fallback
-    if (_originalGenerateTaxReport) _originalGenerateTaxReport();
 };
 
 window.exportReportToPDF = async function () {
