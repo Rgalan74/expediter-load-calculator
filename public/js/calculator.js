@@ -74,23 +74,77 @@ const COSTO_BASE_MI = 0.55;
 const FLOOR_ESCAPE = 0.55;
 const FLOOR_ACCEPT = 0.75;
 
-// NUEVA CLASIFICACION DE ZONAS basada en experiencia real de Ricardo
-// Core Midwest: Zona Optima donde quieres operar siempre
-const ZONAS_CORE_MIDWEST = new Set(['IL', 'IN', 'OH', 'MI', 'WI', 'MN', 'IA', 'MO', 'KS']);
+// ============================================================
+// CLASIFICACION DE ZONAS — basada en datos reales del mercado
+// Fuente: 86 cargas 2025 + estrategia hub Chicago
+// ============================================================
 
-// Extended Midwest: Aceptable, puedes trabajar aqui­ sin problema
-const ZONAS_EXTENDED_MIDWEST = new Set(['PA', 'KY', 'TN', 'AR', 'OK', 'AL']);
+// PREMIUM: Mercado excelente, RPM alto, cargas fluyen bien
+const ZONAS_PREMIUM = new Set(['IL', 'WI', 'MI']);
 
-// Salida Aceptable: Solo en Ultimo caso, pero sales razonablemente
+// MEDIO: Mercado aceptable, RPM moderado
+const ZONAS_MEDIO = new Set(['MN', 'IN', 'OH', 'PA', 'AR', 'TN', 'GA', 'KY', 'MO', 'IA', 'KS', 'VA', 'WV']);
+
+// MEDIO DIFICIL: paga bajo localmente, difícil de salir
+const ZONAS_MEDIO_DIFICIL = new Set(['GA', 'TN', 'KY']);
+
+// TRAP: Evitar desde PREMIUM
+const ZONAS_TRAP = new Set(['FL', 'TX', 'NM', 'AZ', 'NV', 'CA', 'OR', 'WA',
+  'ID', 'MT', 'WY', 'UT', 'CO', 'ND', 'SD', 'NE',
+  'NC', 'SC', 'MD', 'DE', 'NJ', 'NY', 'CT', 'MA', 'RI', 'NH', 'VT', 'ME',
+  'AL', 'MS', 'LA', 'OK']);
+
+// Compatibilidad con código existente — NO BORRAR
+const ZONAS_CORE_MIDWEST = new Set([...ZONAS_PREMIUM, ...ZONAS_MEDIO]);
+const ZONAS_EXTENDED_MIDWEST = new Set(['PA', 'KY', 'AR', 'OK', 'AL']);
 const ZONAS_SALIDA_OK = new Set(['NC', 'SC', 'GA', 'WV', 'VA', 'MD', 'DE', 'NJ', 'NY']);
-
-// TRAP ZONES: Evitar - difI­cil/caro salir - solo con RPM premium
-const ZONAS_TRAP = new Set(['FL', 'TX', 'NM', 'AZ', 'NV', 'CA', 'OR', 'WA', 'ID', 'MT', 'WY', 'UT', 'CO', 'ND', 'SD', 'NE']);
-
-// Mantener compatibilidad con codigo existente
-const ZONAS_VERDES = new Set([...ZONAS_CORE_MIDWEST, ...ZONAS_EXTENDED_MIDWEST]);
+const ZONAS_VERDES = new Set([...ZONAS_PREMIUM, ...ZONAS_MEDIO]);
 const ZONAS_AMAR = ZONAS_SALIDA_OK;
 const ZONAS_ROJAS = ZONAS_TRAP;
+
+// Clasificar zona nueva nomenclatura
+function clasificarZonaNueva(state) {
+  if (!state) return 'DESCONOCIDA';
+  if (ZONAS_PREMIUM.has(state)) return 'PREMIUM';
+  if (ZONAS_MEDIO_DIFICIL.has(state)) return 'MEDIO_DIFICIL';
+  if (ZONAS_MEDIO.has(state)) return 'MEDIO';
+  if (ZONAS_TRAP.has(state)) return 'TRAP';
+  return 'DESCONOCIDA';
+}
+
+// Umbrales RPM por zona origen + zona destino + distancia
+function getUmbrales(origenZona, destinoZona, millas) {
+  if (origenZona === 'PREMIUM' && destinoZona === 'TRAP') {
+    return { acepta: Infinity, evalua: Infinity, razon: 'Zona TRAP — perderás días reposicionando' };
+  }
+  if (origenZona === 'PREMIUM') {
+    if (destinoZona === 'MEDIO_DIFICIL')
+      return { acepta: 1.26, evalua: null, razon: 'Zona difícil de salir, paga $0.80-0.90 local' };
+    if (destinoZona === 'TRAP')
+      return { acepta: 1.50, evalua: null, razon: 'Zona TRAP — necesitas premium para compensar regreso' };
+    if (millas < 100) return { acepta: 3.75, evalua: 2.50, pisoAbsoluto: 375, razon: 'Carga muy corta — piso $375' };
+    if (millas < 200) return { acepta: 2.00, evalua: 1.50, pisoAbsoluto: 400, razon: 'Carga corta — piso $400' };
+    if (millas < 400) return { acepta: 1.30, evalua: 1.13, pisoAbsoluto: 450, razon: 'Carga media desde zona Premium' };
+    if (millas < 600) return { acepta: 1.10, evalua: 0.92, pisoAbsoluto: 550, razon: 'Carga larga desde zona Premium' };
+    return { acepta: 1.00, evalua: 0.88, pisoAbsoluto: 700, razon: 'Carga muy larga desde zona Premium' };
+  }
+  if ((origenZona === 'MEDIO' || origenZona === 'MEDIO_DIFICIL') && destinoZona === 'PREMIUM') {
+    if (millas < 300) return { acepta: 1.43, evalua: 1.09, pisoAbsoluto: 250, razon: 'Corta hacia zona Premium' };
+    return { acepta: 1.07, evalua: 0.90, razon: 'Te reposicionas en zona Premium' };
+  }
+  if (origenZona === 'MEDIO' || origenZona === 'MEDIO_DIFICIL') {
+    if (destinoZona === 'TRAP')
+      return { acepta: 1.25, evalua: 1.00, razon: 'Zona TRAP destino — cobra premium' };
+    if (millas < 300) return { acepta: 1.43, evalua: 1.09, pisoAbsoluto: 250, razon: 'Carga corta desde zona Media' };
+    return { acepta: 1.00, evalua: 0.85, razon: 'Carga desde zona Media' };
+  }
+  if (origenZona === 'TRAP') {
+    if (destinoZona === 'PREMIUM' || destinoZona === 'MEDIO')
+      return { acepta: 0.87, evalua: 0.69, razon: 'Saliendo de TRAP — acepta para reposicionarte' };
+    return { acepta: 0.90, evalua: 0.80, razon: 'Dentro de zona TRAP' };
+  }
+  return { acepta: 1.00, evalua: 0.80, razon: 'Umbral general' };
+}
 
 // ========================================
 //  FUNCIÓN: Obtener clima del destino
@@ -697,7 +751,12 @@ function detectarFactoresEspeciales(origin, destination, { diasSinCarga = 0 } = 
 }
 
 //  FUNCIÓN PRINCIPAL: Calculate con costos reales
+let _isCalculating = false;
 async function calculate() {
+  // Guard: prevenir doble-click
+  if (_isCalculating) return;
+  _isCalculating = true;
+
   const calculateBtn = document.getElementById('calculateBtn');
 
   // Show loading state
@@ -713,10 +772,10 @@ async function calculate() {
     const destination = sanitizeText(document.getElementById('destination')?.value?.trim() || '', 100);
 
     // Sanitize numeric inputs with reasonable limits
-    console.log('[DEBUG] RAW VALUES before sanitization:');
-    console.log('  loadedMiles RAW:', document.getElementById('loadedMiles')?.value);
-    console.log('  rpm RAW:', document.getElementById('rpm')?.value);
-    console.log('  rate RAW:', document.getElementById('rate')?.value);
+    debugLog('[DEBUG] RAW VALUES before sanitization:');
+    debugLog('  loadedMiles RAW:', document.getElementById('loadedMiles')?.value);
+    debugLog('  rpm RAW:', document.getElementById('rpm')?.value);
+    debugLog('  rate RAW:', document.getElementById('rate')?.value);
 
     let loadedMiles = sanitizeNumber(document.getElementById('loadedMiles')?.value, 0, 10000);
     let deadheadMiles = sanitizeNumber(document.getElementById('deadheadMiles')?.value, 0, 5000);
@@ -729,22 +788,22 @@ async function calculate() {
     const totalMiles = loadedMiles + deadheadMiles;
 
     // DEBUG: Log all values before validation
-    console.log('[DEBUG calculate()] Values after sanitization:');
-    console.log('  origin:', origin);
-    console.log('  destination:', destination);
-    console.log('  loadedMiles:', loadedMiles);
-    console.log('  deadheadMiles:', deadheadMiles);
-    console.log('  totalMiles:', totalMiles);
-    console.log('  rpm:', rpm);
-    console.log('  rate:', rate);
+    debugLog('[DEBUG calculate()] Values after sanitization:');
+    debugLog('  origin:', origin);
+    debugLog('  destination:', destination);
+    debugLog('  loadedMiles:', loadedMiles);
+    debugLog('  deadheadMiles:', deadheadMiles);
+    debugLog('  totalMiles:', totalMiles);
+    debugLog('  rpm:', rpm);
+    debugLog('  rate:', rate);
 
     //  Condición mínima antes de mostrar resultados
     if (!origin || !destination || totalMiles <= 0 || (rpm <= 0 && rate <= 0)) {
-      console.log('[DEBUG calculate()] FAILED validation, returning early');
-      console.log('  !origin:', !origin);
-      console.log('  !destination:', !destination);
-      console.log('  totalMiles <= 0:', totalMiles <= 0);
-      console.log('  (rpm <= 0 && rate <= 0):', (rpm <= 0 && rate <= 0));
+      debugLog('[DEBUG calculate()] FAILED validation, returning early');
+      debugLog('  !origin:', !origin);
+      debugLog('  !destination:', !destination);
+      debugLog('  totalMiles <= 0:', totalMiles <= 0);
+      debugLog('  (rpm <= 0 && rate <= 0):', (rpm <= 0 && rate <= 0));
       hideDecisionPanel();
       if (calculateBtn) LoadingManager.hide(calculateBtn);
       return;
@@ -768,9 +827,9 @@ async function calculate() {
     }
 
     // 🎯 MULTI-STOP: Get all additional stops
-    console.log('[DEBUG] About to call getStops()');
+    debugLog('[DEBUG] About to call getStops()');
     const stops = getStops();
-    console.log('[DEBUG] getStops() returned:', stops);
+    debugLog('[DEBUG] getStops() returned:', stops);
     let combinedMiles = totalMiles;
     let combinedRevenue = rate;
     let stopsData = []; // For breakdown display
@@ -806,10 +865,10 @@ async function calculate() {
     }
 
     // Cálculo de ingresos (usar valores combinados si hay stops)
-    console.log('[DEBUG] Calculating totals...');
+    debugLog('[DEBUG] Calculating totals...');
     const baseIncome = combinedRevenue;
-    const totalCharge = baseIncome + tolls + others;
-    console.log('[DEBUG] totalCharge:', totalCharge);
+    const totalCharge = baseIncome; // ← solo el rate, tolls son gastos no ingreso
+    debugLog('[DEBUG] totalCharge:', totalCharge);
 
     // Use shared expense calculation function for consistency with Lex (usar millas combinadas)
     // 🎯 FIX: Use totalMiles for fuel/expenses (includes deadhead), not combinedMiles
@@ -839,7 +898,7 @@ async function calculate() {
 
 
     // Mostrar panel simplificado
-    console.log('[DEBUG] About to call showDecisionPanel()');
+
     showDecisionPanel({
       totalCharge,
       netProfit,
@@ -902,7 +961,8 @@ async function calculate() {
     console.error(' Error en calculo:', error);
     showToast('Error al calcular: ' + error.message, 'error');
   } finally {
-    // Always hide loading state
+    // Always hide loading state and reset guard
+    _isCalculating = false;
     const calculateBtn = document.getElementById('calculateBtn');
     if (calculateBtn) {
       LoadingManager.hide(calculateBtn);
@@ -931,8 +991,7 @@ function syncRateAndRpm() {
   function triggerCalculate() {
     clearTimeout(calculateTimeout);
     calculateTimeout = setTimeout(() => {
-      /* calculate(); */ // ← COMENTAR ESTA LÍNEA
-      // Solo actualizar los campos, NO calcular automáticamente
+      calculate();
       updateTotalMiles();
     }, 800);
   }
@@ -996,11 +1055,20 @@ function syncRateAndRpm() {
       triggerCalculate();
     });
 
-    listenersAdded = true;
-  }
+    // ✅ Tolls y Others recalculan automáticamente
+    document.getElementById('tolls')?.addEventListener("input", () => {
+      triggerCalculate();
+    });
 
-  // Actualizar millas al iniciar
-  updateTotalMiles();
+    document.getElementById('otherCosts')?.addEventListener("input", () => {
+      triggerCalculate();
+    });
+
+    listenersAdded = true;
+
+    // Actualizar millas al iniciar
+    updateTotalMiles();
+  }
 }
 
 //  FUNCIÓN: Actualizar resultados principales
@@ -1036,8 +1104,7 @@ function updateMainResults(data) {
 //  FUNCIÓN: Panel de decisión con header dinámico
 function showDecisionPanel(calculationData = {}) {
   const panel = document.getElementById('decisionPanel');
-  console.log('[DEBUG showDecisionPanel] Panel element:', panel);
-  console.log('[DEBUG showDecisionPanel] calculationData:', calculationData);
+
   if (!panel) {
     console.warn("Panel de decisión no encontrado");
     return;
@@ -1068,52 +1135,62 @@ function showDecisionPanel(calculationData = {}) {
   // Clasificar zonas
   let zonaOrigen = '';
   let zonaDestino = '';
-  if (typeof window.clasificarZonaReal === 'function') {
-    zonaOrigen = window.clasificarZonaReal(originState);
-    zonaDestino = window.clasificarZonaReal(destinationState);
+  let zonaOrigenNueva = '';
+  let zonaDestinoNueva = '';
+
+  if (typeof clasificarZonaReal === 'function') {
+    zonaOrigen = clasificarZonaReal(originState);
+    zonaDestino = clasificarZonaReal(destinationState);
+  }
+  if (typeof clasificarZonaNueva === 'function') {
+    zonaOrigenNueva = clasificarZonaNueva(originState);
+    zonaDestinoNueva = clasificarZonaNueva(destinationState);
   }
 
-  // Usar la función getDecisionInteligente que ya tiene todas las reglas
-  const decisionData = typeof window.getDecisionInteligente === 'function'
-    ? window.getDecisionInteligente(actualRPM, totalMiles, {
-      zonaOrigen,
-      zonaDestino,
-      origenState: originState,
-      destinoState: destinationState
-    })
-    : null;
+  // Obtener umbrales
+  const umbrales = typeof getUmbrales === 'function'
+    ? getUmbrales(zonaOrigenNueva, zonaDestinoNueva, totalMiles)
+    : { acepta: 1.00, evalua: 0.80 };
 
-  // Aplicar decisión según el resultado
-  if (decisionData) {
-    if (decisionData.level === 'accept') {
-      decision = 'ACEPTAR';
-      decisionClasses = ['decision-header-accept', 'pulse-glow-green'];
-      decisionIcon = '✅';
-      profitClass = 'profit-section-positive';
-    } else if (decisionData.level === 'reject') {
-      decision = 'NO ACEPTAR';
-      decisionClasses = ['decision-header-reject'];
-      decisionIcon = '❌';
-      profitClass = 'profit-section-negative';
-    } else {
-      decision = 'EVALUAR';
-      decisionClasses = ['decision-header-warning'];
-      decisionIcon = '⚠️';
-      profitClass = 'profit-section-warning';
-    }
-  } else {
-    // Fallback si no existe la función
+  const CPM_REAL = window.currentUser?.costs?.totalCPM || 0.5338;
+  const pisoAbsoluto = umbrales.pisoAbsoluto || 0;
+
+  if (actualRPM < CPM_REAL) {
+    decision = 'NO ACEPTAR';
+    decisionClasses = ['decision-header-reject'];
+    decisionIcon = '❌';
+    profitClass = 'profit-section-negative';
+  } else if (umbrales.acepta === Infinity) {
+    decision = 'NO ACEPTAR';
+    decisionClasses = ['decision-header-reject'];
+    decisionIcon = '❌';
+    profitClass = 'profit-section-negative';
+  } else if (totalCharge < pisoAbsoluto && pisoAbsoluto > 0) {
+    decision = 'NO ACEPTAR';
+    decisionClasses = ['decision-header-reject'];
+    decisionIcon = '❌';
+    profitClass = 'profit-section-negative';
+  } else if (actualRPM >= umbrales.acepta) {
+    decision = 'ACEPTAR';
+    decisionClasses = ['decision-header-accept', 'pulse-glow-green'];
+    decisionIcon = '✅';
+    profitClass = 'profit-section-positive';
+  } else if (umbrales.evalua !== null && actualRPM >= umbrales.evalua) {
     decision = 'EVALUAR';
     decisionClasses = ['decision-header-warning'];
     decisionIcon = '⚠️';
     profitClass = 'profit-section-warning';
+  } else {
+    decision = 'NO ACEPTAR';
+    decisionClasses = ['decision-header-reject'];
+    decisionIcon = '❌';
+    profitClass = 'profit-section-negative';
   }
-  // ========== ACTUALIZAR HEADER ==========
-  const header = document.getElementById('decisionHeader');
-  if (header) {
-    header.className = 'p-4 md:p-5';
-    decisionClasses.forEach(cls => header.classList.add(cls));
-  }
+
+  window._lastDecisionData = {
+    decision, zonaOrigenNueva, zonaDestinoNueva,
+    umbrales, actualRPM, totalMiles, originState, destinationState
+  };
 
   const titleEl = document.getElementById('decisionTitle');
   const routeEl = document.getElementById('decisionRoute');
@@ -1240,6 +1317,111 @@ function showDecisionPanel(calculationData = {}) {
   panel.classList.remove('hidden');
 
   debugLog(`✅ Panel mostrado: ${decision} - RPM $${actualRPM.toFixed(2)}/mi - Ganancia $${Math.round(netProfit)}`);
+
+  // ========== NOTAS + HISTORIAL + DÍA ==========
+  (async () => {
+    try {
+      const uid = window.currentUser?.uid;
+      if (!uid || !destination) return;
+      const infoContainer = document.getElementById('decisionExtraInfo');
+      if (!infoContainer) return;
+
+      let html = '';
+
+      // 1) Umbrales
+      const umbralAcepta = umbrales.acepta === Infinity ? 'N/A' : `$${umbrales.acepta.toFixed(2)}`;
+      const umbralEvalua = umbrales.evalua === null ? '—' : `$${umbrales.evalua.toFixed(2)}`;
+      const diffPct = umbrales.acepta > 0 && umbrales.acepta !== Infinity
+        ? ((actualRPM - umbrales.acepta) / umbrales.acepta * 100).toFixed(1) : null;
+      const diffText = diffPct !== null
+        ? (diffPct >= 0
+          ? `<span style="color:#4ade80">+${diffPct}% sobre mínimo</span>`
+          : `<span style="color:#f87171">${diffPct}% bajo mínimo</span>`)
+        : '';
+
+      html += `<div class="decision-info-block">
+        <div class="decision-info-label">📊 Umbrales para esta ruta</div>
+        <div class="decision-info-text">
+          Acepta ≥ ${umbralAcepta} · Evalúa ≥ ${umbralEvalua} · Tu RPM: <strong>$${actualRPM.toFixed(2)}</strong> ${diffText}
+          ${umbrales.razon ? `<br><span style="opacity:0.7">${umbrales.razon}</span>` : ''}
+        </div>
+      </div>`;
+
+      // 2) Nota del destino
+      const destKey = destination.toLowerCase().replace(/,.*$/, '').trim();
+      const destKeyFull = destination.toLowerCase().trim();
+      const notesSnap = await window.db.collection('notes')
+        .where('userId', '==', uid).get();
+      let notas = [];
+      notesSnap.forEach(doc => {
+        const d = doc.data();
+        const k = (d.key || '').toLowerCase().trim();
+        if (k.includes(destKey) || destKey.includes(k) || k.includes(destKeyFull)) {
+          notas.push(d);
+        }
+      });
+      if (notas.length > 0) {
+        const typeBadge = { destino: '🔵', origen: '🟢', ambos: '🟣' };
+        const notasHtml = notas.map(n => {
+          const badge = typeBadge[n.type] || '🔵';
+          return `<div style="margin-bottom:6px">${badge} ${n.note}</div>`;
+        }).join('');
+
+        html += `<div class="decision-info-block decision-info-nota">
+    <div class="decision-info-label">📍 Notas para ${destinationState || destination.split(',')[0]} (${notas.length})</div>
+    <div class="decision-info-text">${notasHtml}</div>
+  </div>`;
+      }
+
+      // 3) Historial de la ruta
+      if (originState && destinationState) {
+        const histSnap = await window.db.collection('loads')
+          .where('userId', '==', uid)
+          .where('originState', '==', originState)
+          .where('destinationState', '==', destinationState)
+          .orderBy('createdAt', 'desc')
+          .limit(10).get();
+        if (!histSnap.empty) {
+          const cargas = [];
+          histSnap.forEach(doc => cargas.push(doc.data()));
+          const rpms = cargas.map(c => c.rpm || c.actualRPM || 0).filter(r => r > 0);
+          const avgRPM = rpms.reduce((a, b) => a + b, 0) / rpms.length;
+          const maxRPM = Math.max(...rpms);
+          const minRPM = Math.min(...rpms);
+          html += `<div class="decision-info-block decision-info-hist">
+            <div class="decision-info-label">📈 Historial ${originState} → ${destinationState} (${cargas.length} cargas)</div>
+            <div class="decision-info-text">
+              Promedio: <strong>$${avgRPM.toFixed(2)}/mi</strong> · Mejor: <strong>$${maxRPM.toFixed(2)}</strong> · Menor: $${minRPM.toFixed(2)}
+              ${actualRPM < avgRPM
+              ? `<br><span style="color:#fbbf24">⚠️ Esta carga está $${(avgRPM - actualRPM).toFixed(2)} bajo tu promedio</span>`
+              : `<br><span style="color:#4ade80">✓ Dentro de tu rango histórico</span>`}
+            </div>
+          </div>`;
+        }
+      }
+
+      // 4) Día y hora
+      const now = new Date();
+      const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+      const hora = now.getHours();
+      const momentoStr = hora < 12 ? 'AM' : hora < 18 ? 'tarde' : 'noche';
+      const esFinSemana = now.getDay() === 0 || now.getDay() === 6;
+      const notaDia = esFinSemana
+        ? '⚠️ Fin de semana — volumen bajo, pocas cargas disponibles'
+        : now.getDay() <= 3
+          ? '✓ Inicio de semana — buen volumen de cargas'
+          : '→ Jueves/Viernes — mercado activo';
+      html += `<div class="decision-info-block">
+        <div class="decision-info-label">📅 ${dias[now.getDay()]} ${momentoStr}</div>
+        <div class="decision-info-text">${notaDia}</div>
+      </div>`;
+
+      infoContainer.innerHTML = html;
+      infoContainer.classList.remove('hidden');
+    } catch (err) {
+      debugLog('Error info extra panel:', err);
+    }
+  })();
 
   // Obtener clima del destino (async)
   if (destination && typeof window.getWeatherForDestination === 'function') {
@@ -1386,7 +1568,16 @@ function hideDecisionPanel() {
 }
 
 //  Funcin para guardar carga (crear o editar)
+let _isSaving = false;
 async function saveLoad(existingLoadId = null) {
+  // Guard: prevenir doble-click
+  if (_isSaving) return;
+  _isSaving = true;
+
+  let loadData;
+  const saveBtn = document.getElementById('saveBtn');
+  if (saveBtn) LoadingManager.show(saveBtn, 'Guardando...');
+
   try {
     if (typeof window.db === 'undefined') {
       throw new Error('Base de datos no disponible. Inicia sesin primero.');
@@ -1396,7 +1587,7 @@ async function saveLoad(existingLoadId = null) {
     const origin = document.getElementById('origin')?.value?.trim();
     const destination = document.getElementById('destination')?.value?.trim();
     const loadedMiles = document.getElementById('loadedMiles')?.value;
-    const deadheadMiles = document.getElementById('deadheadMiles')?.value;
+    const deadheadMiles = document.getElementById('deadheadMiles')?.value || '0';
     const rpm = document.getElementById('rpm')?.value;
     const rate = document.getElementById('rate')?.value || '0';  //  nuevo
     const tolls = document.getElementById('tolls')?.value || '0';
@@ -1460,7 +1651,7 @@ async function saveLoad(existingLoadId = null) {
 
     if (
       loadedMiles === "" || isNaN(loadedMiles) || loadedMiles <= 0 ||
-      deadheadMiles === "" || isNaN(deadheadMiles) || deadheadMiles < 0 ||
+      deadheadMiles === "" || isNaN(deadheadMiles) || Number(deadheadMiles) < 0 ||
       rpm === "" || isNaN(rpm) || rpm <= 0
     ) {
       throw new Error('Revisa millas cargadas, deadhead y RPM antes de guardar ✅');
@@ -1499,7 +1690,7 @@ async function saveLoad(existingLoadId = null) {
     const profitMargin = totalCharge > 0 ? (netProfit / totalCharge) * 100 : 0;
 
     // Objeto de carga
-    const loadData = {
+    loadData = {
       loadNumber: loadNumber,
       paymentStatus: paymentStatus,
       expectedPaymentDate: expectedPaymentDate,
@@ -1561,7 +1752,23 @@ async function saveLoad(existingLoadId = null) {
 
   } catch (error) {
     console.error('Error guardando carga:', error);
-    window.showMessage?.('Error al guardar la carga: ' + error.message, 'error');
+
+    // 🗄️ Offline fallback: save to IndexedDB if Firestore fails
+    if (window.offlineStorage && !navigator.onLine) {
+      try {
+        await window.offlineStorage.saveCalculation(loadData);
+        window.showMessage?.('📴 Sin internet — carga guardada localmente. Se sincronizará automáticamente.', 'warning');
+        debugLog('[OFFLINE] Carga guardada en IndexedDB para sync posterior');
+      } catch (offlineError) {
+        console.error('❌ Error guardando offline:', offlineError);
+        window.showMessage?.('Error al guardar la carga: ' + error.message, 'error');
+      }
+    } else {
+      window.showMessage?.('Error al guardar la carga: ' + error.message, 'error');
+    }
+  } finally {
+    _isSaving = false;
+    if (saveBtn) LoadingManager.hide(saveBtn);
   }
 
 }
@@ -1582,13 +1789,46 @@ function showError(message) {
 
 function getStateFromLocation(location) {
   if (!location) return '';
+
+  const stateNames = {
+    'ALABAMA': 'AL', 'ALASKA': 'AK', 'ARIZONA': 'AZ', 'ARKANSAS': 'AR',
+    'CALIFORNIA': 'CA', 'COLORADO': 'CO', 'CONNECTICUT': 'CT', 'DELAWARE': 'DE',
+    'FLORIDA': 'FL', 'GEORGIA': 'GA', 'IDAHO': 'ID', 'ILLINOIS': 'IL',
+    'INDIANA': 'IN', 'IOWA': 'IA', 'KANSAS': 'KS', 'KENTUCKY': 'KY',
+    'LOUISIANA': 'LA', 'MAINE': 'ME', 'MARYLAND': 'MD', 'MASSACHUSETTS': 'MA',
+    'MICHIGAN': 'MI', 'MINNESOTA': 'MN', 'MISSISSIPPI': 'MS', 'MISSOURI': 'MO',
+    'MONTANA': 'MT', 'NEBRASKA': 'NE', 'NEVADA': 'NV', 'NEW HAMPSHIRE': 'NH',
+    'NEW JERSEY': 'NJ', 'NEW MEXICO': 'NM', 'NEW YORK': 'NY', 'NORTH CAROLINA': 'NC',
+    'NORTH DAKOTA': 'ND', 'OHIO': 'OH', 'OKLAHOMA': 'OK', 'OREGON': 'OR',
+    'PENNSYLVANIA': 'PA', 'RHODE ISLAND': 'RI', 'SOUTH CAROLINA': 'SC',
+    'SOUTH DAKOTA': 'SD', 'TENNESSEE': 'TN', 'TEXAS': 'TX', 'UTAH': 'UT',
+    'VERMONT': 'VT', 'VIRGINIA': 'VA', 'WASHINGTON': 'WA', 'WEST VIRGINIA': 'WV',
+    'WISCONSIN': 'WI', 'WYOMING': 'WY'
+  };
+
   const upper = location.toUpperCase();
-  if (upper.includes('FL') || upper.includes('FLORIDA')) return 'FL';
-  if (upper.includes('GA') || upper.includes('GEORGIA')) return 'GA';
-  if (upper.includes('TX') || upper.includes('TEXAS')) return 'TX';
-  if (upper.includes('CA') || upper.includes('CALIFORNIA')) return 'CA';
-  if (upper.includes('NY') || upper.includes('NEW YORK')) return 'NY';
-  if (upper.includes('PA') || upper.includes('PENNSYLVANIA')) return 'PA';
+  const validStates = new Set(Object.values(stateNames));
+
+  // 1) Nombre completo primero — evita CHICAGO→CA
+  const sortedNames = Object.keys(stateNames).sort((a, b) => b.length - a.length);
+  for (const name of sortedNames) {
+    if (upper.includes(name)) return stateNames[name];
+  }
+
+  // 2) Código 2 letras después de coma
+  const m = location.match(/,\s*([A-Za-z]{2})\s*[,\.]/);
+  if (m) {
+    const code = m[1].toUpperCase();
+    if (validStates.has(code)) return code;
+  }
+
+  // 3) Código 2 letras al final
+  const m2 = location.match(/,\s*([A-Za-z]{2})\s*$/);
+  if (m2) {
+    const code = m2[1].toUpperCase();
+    if (validStates.has(code)) return code;
+  }
+
   return '';
 }
 
@@ -1838,7 +2078,7 @@ function initGoogleMaps() {
 
     // Expose globally for sequential-destinations.js
     window.googleMap = googleMap;
-    console.log('[MAPS] ✅ window.googleMap set (from calculator.js):', !!window.googleMap);
+    debugLog('[MAPS] ✅ window.googleMap set (from calculator.js):', !!window.googleMap);
 
     // Inicializar servicios de direcciones
     directionsService = new google.maps.DirectionsService();
@@ -2346,6 +2586,7 @@ async function addNoteToDestination(key) {
       key: normalizeDestination(rawDestination), //  clave uniforme para busquedas
       destination: rawDestination,               //  lo que ves en el input
       note: note,
+      type: document.getElementById("notesModalType")?.value || "destino",
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
 
@@ -3156,7 +3397,7 @@ function switchWeatherTab(tab) {
 
   // DESPUÉS cargar el mapa (con más tiempo)
   if (tab === 'route' && !weatherModalRouteLoaded) {
-    console.log('🔄 Cargando mapa de ruta...');
+    debugLog('🔄 Cargando mapa de ruta...');
     setTimeout(() => {
       loadRouteMapWithWeather();
     }, 300); // Más tiempo para que el DOM se actualice
@@ -3224,7 +3465,7 @@ async function loadRouteMapWithWeather() {
         numWaypoints = 4;
       }
 
-      console.log(`📏 Distancia: ${totalMiles.toFixed(0)} mi → ${numWaypoints} puntos`);
+      debugLog(`📏 Distancia: ${totalMiles.toFixed(0)} mi → ${numWaypoints} puntos`);
 
       // Crear waypoints distribuidos equitativamente
       const waypoints = [];
@@ -3333,7 +3574,7 @@ async function loadRouteMapWithWeather() {
         }
       }
 
-      console.log('✅ Mapa completo con', numWaypoints, 'puntos');
+      debugLog('✅ Mapa completo con', numWaypoints, 'puntos');
 
     } else {
       console.error('❌ Error de ruta:', status);
@@ -3387,7 +3628,7 @@ function toggleWeatherLayer(layerType) {
     }
     weatherModalLayers[layerType] = null;
     button.className = button.className.replace(/border-\w+-500/g, 'border-gray-300').replace('bg-blue-50', '');
-    console.log('✅ Capa', layerType, 'removida');
+    debugLog('✅ Capa', layerType, 'removida');
   } else {
     // AGREGAR CAPA
     const layerMap = {
@@ -3415,7 +3656,7 @@ function toggleWeatherLayer(layerType) {
 
     weatherModalMap.overlayMapTypes.push(weatherModalLayers[layerType]);
     button.className = button.className.replace('border-gray-300', `border-${colorMap[layerType]}-500`) + ' bg-blue-50';
-    console.log('✅ Capa', layerType, 'agregada');
+    debugLog('✅ Capa', layerType, 'agregada');
   }
 }
 
@@ -3438,7 +3679,7 @@ function clearAllWeatherLayers() {
       }
     }
   });
-  console.log('🗑️ Todas las capas removidas');
+  debugLog('🗑️ Todas las capas removidas');
 }
 
 // ========================================
@@ -3617,5 +3858,6 @@ window.toggleWeatherLayer = toggleWeatherLayer;
 window.clearAllWeatherLayers = clearAllWeatherLayers;
 window.getWeatherByCoords = getWeatherByCoords;
 window.getWeatherEmoji = getWeatherEmoji;
+window.calculate = calculate;
 
 debugLog(' Calculator.js INTEGRADO cargado completamente - Costos reales + Funcionalidad completa');

@@ -289,7 +289,7 @@ function updateCounts() {
 
 async function updateSummaryStats() {
   try {
-    console.log('📊 updateSummaryStats iniciado');
+    debugLog('📊 updateSummaryStats iniciado');
 
     let totalMiles = 0;
     let totalRevenue = 0; // ingresos totales
@@ -299,21 +299,21 @@ async function updateSummaryStats() {
       totalRevenue += Number(load.totalCharge || 0); // sumar ingresos
     });
 
-    console.log('📊 Calculado revenue:', totalRevenue, 'miles:', totalMiles);
+    debugLog('📊 Calculado revenue:', totalRevenue, 'miles:', totalMiles);
 
     // Cargar gastos del mismo periodo que las cargas filtradas
     let totalExpenses = 0;
 
     if (window.currentUser && filteredData.length > 0) {
       try {
-        console.log('📊 Cargando gastos...');
+        debugLog('📊 Cargando gastos...');
 
         // Obtener rango de fechas de las cargas filtradas
         const dates = filteredData.map(load => load.date).filter(d => d);
         const minDate = dates.length > 0 ? dates.reduce((a, b) => a < b ? a : b) : null;
         const maxDate = dates.length > 0 ? dates.reduce((a, b) => a > b ? a : b) : null;
 
-        console.log('📊 Rango de fechas:', minDate, 'a', maxDate);
+        debugLog('📊 Rango de fechas:', minDate, 'a', maxDate);
 
         if (minDate && maxDate) {
           // Verificar que Firebase esté disponible
@@ -326,7 +326,7 @@ async function updateSummaryStats() {
               .where("userId", "==", window.currentUser.uid)
               .get();
 
-            console.log('📊 Gastos encontrados:', expensesSnapshot.docs.length);
+            debugLog('📊 Gastos encontrados:', expensesSnapshot.docs.length);
 
 
             // Sumar TODOS los gastos (sin filtro de fechas - Opción A)
@@ -336,7 +336,7 @@ async function updateSummaryStats() {
             });
 
 
-            console.log('📊 Total gastos (TODOS):', totalExpenses);
+            debugLog('📊 Total gastos (TODOS):', totalExpenses);
           }
         }
       } catch (error) {
@@ -344,7 +344,7 @@ async function updateSummaryStats() {
         // Si hay error, totalExpenses queda en 0
       }
     } else {
-      console.log('📊 Sin usuario, totalExpenses = 0');
+      debugLog('📊 Sin usuario, totalExpenses = 0');
     }
 
     // Ganancia neta REAL (igual que Finances): Ingresos - Gastos
@@ -353,7 +353,7 @@ async function updateSummaryStats() {
     // RPM ponderado por millas (igual que Finances) - más preciso
     const avgRpm = totalMiles > 0 ? totalRevenue / totalMiles : 0;
 
-    console.log('📊 KPIs finales:', { totalProfit, avgRpm, totalExpenses });
+    debugLog('📊 KPIs finales:', { totalProfit, avgRpm, totalExpenses });
 
     updateElement('sumTotal', filteredData.length);
     updateElement('sumMiles', totalMiles.toLocaleString());
@@ -361,7 +361,7 @@ async function updateSummaryStats() {
     updateElement('sumProfit', formatCurrency(totalProfit));  // Ganancia neta real
     updateElement('sumRpm', formatCurrency(avgRpm));
 
-    console.log('✅ updateSummaryStats completado');
+    debugLog('✅ updateSummaryStats completado');
   } catch (error) {
     console.error('❌ ERROR CRÍTICO en updateSummaryStats:', error);
     // Fallback: mostrar al menos los valores básicos
@@ -466,6 +466,10 @@ function executeDeleteLoad(loadId) {
       renderFilteredImmediate();
       showToast("Carga eliminada exitosamente", "success");
       debugLog(" Load deleted successfully");
+      // ✅ Actualizar perfil de Lex después de borrar carga
+      if (window.initializeLexProfile) window.initializeLexProfile();
+      // ✅ Limpiar cache de CPM Engine
+      if (window.CPMEngine) window.CPMEngine.clearCache();
     })
     .catch(error => {
       console.error(" Error deleting load:", error);

@@ -19,16 +19,42 @@
                 el.style.color = '#f1f5f9'; // Slate 100
                 el.style.borderColor = '#475569'; // Slate 600
             } else {
-                // LIGHT MODE STYLES (Force Visibility)
-                el.style.backgroundColor = '#f9fafb'; // Gray 50
-                el.style.color = '#111827'; // Gray 900
-                el.style.borderColor = '#9ca3af'; // Gray 400
-                // Placeholder handling is harder in JS, but background contrast helps
+                // LIGHT MODE STYLES (High Contrast Force)
+                el.style.backgroundColor = '#e5e7eb'; // Gray 200 (Visible gray)
+                el.style.color = '#000000'; // Pure Black
+                el.style.border = '2px solid #6b7280'; // Gray 500 (Thick border)
+                el.style.borderRadius = '0.5rem';
+
+                // Force placeholders if supported (not easy in JS style, but color helps)
             }
 
             // Add a class marker
             el.classList.add('theme-enforced');
         });
+
+        // Inject dynamic CSS for pseudo-elements (::placeholder) which JS can't touch directly
+        let styleTag = document.getElementById('theme-fix-styles');
+        if (!styleTag) {
+            styleTag = document.createElement('style');
+            styleTag.id = 'theme-fix-styles';
+            document.head.appendChild(styleTag);
+        }
+
+        if (isDark) {
+            styleTag.innerHTML = `
+                input::placeholder, textarea::placeholder, select::placeholder {
+                    color: #94a3b8 !important; /* Slate 400 */
+                    opacity: 1 !important;
+                }
+            `;
+        } else {
+            styleTag.innerHTML = `
+                input::placeholder, textarea::placeholder, select::placeholder {
+                    color: #4b5563 !important; /* Gray 600 - MUY VISIBLE */
+                    opacity: 1 !important;
+                }
+            `;
+        }
 
         // Force Card Backgrounds in Light Mode
         if (!isDark) {

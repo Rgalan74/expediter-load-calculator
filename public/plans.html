@@ -202,10 +202,10 @@
             </div>
             <ul class="space-y-3 mb-8 text-gray-300">
               <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span><strong
-                    class="text-white">50 cargas</strong> guardadas</span></li>
+                    class="text-white">30 cargas</strong> guardadas</span></li>
               <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span>Calculadora RPM
                   básica</span></li>
-              <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span>Dashboard financiero
+              <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span>Panel financiero
                   básico</span></li>
               <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span>Mapa de zonas
                   rentables</span></li>
@@ -229,7 +229,7 @@
             <div class="mb-6 mt-4">
               <h3 class="text-2xl font-bold mb-2">Professional</h3>
               <div class="flex items-baseline gap-2">
-                <span class="text-5xl font-black gradient-text">$9.99</span>
+                <span class="text-5xl font-black gradient-text">$14.99</span>
                 <span class="text-gray-400">/mes</span>
               </div>
               <p class="text-sm text-green-400 mt-2 font-semibold">💰 Ideal para dueños de negocio serios</p>
@@ -248,8 +248,9 @@
               <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span>Exportación
                   Excel/CSV</span></li>
             </ul>
-            <a href="auth.html" class="btn-primary block text-center" style="justify-content: center;"><span>Empezar
-                Ahora</span><span class="text-2xl">→</span></a>
+            <a onclick="selectPlan('professional')" class="btn-primary block text-center"
+              style="justify-content: center; cursor:pointer;"><span>Empezar Ahora</span><span
+                class="text-2xl">→</span></a>
             <p class="text-center text-sm text-gray-500 mt-4">✓ Cancela cuando quieras • ✓ Garantía 14 días</p>
           </div>
 
@@ -260,7 +261,7 @@
             <div class="mb-6">
               <h3 class="text-2xl font-bold mb-2">Premium + AI</h3>
               <div class="flex items-baseline gap-2">
-                <span class="text-5xl font-black gradient-text">$19.99</span>
+                <span class="text-5xl font-black gradient-text">$29.99</span>
                 <span class="text-gray-400">/mes</span>
               </div>
               <p class="text-sm text-purple-400 mt-2 font-semibold">✨ Poder máximo con Inteligencia Artificial</p>
@@ -279,8 +280,8 @@
               <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span>Soporte
                   prioritario</span></li>
             </ul>
-            <a href="auth.html" class="btn-primary block text-center"
-              style="justify-content: center; background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));"><span>Obtener
+            <a onclick="selectPlan('premium')" class="btn-primary block text-center"
+              style="justify-content: center; cursor:pointer; background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));"><span>Obtener
                 Poder Total</span><span class="text-2xl">→</span></a>
             <p class="text-center text-sm text-gray-500 mt-4">✓ Cancela cuando quieras • ✓ Garantía 14 días</p>
           </div>
@@ -373,6 +374,7 @@
           <ul class="space-y-2 text-sm mb-4">
             <li><a href="privacy.html">Privacidad</a></li>
             <li><a href="terms.html">Términos de Uso</a></li>
+            <li><a href="refund.html">Reembolsos</a></li>
           </ul>
           <div class="flex gap-4 text-xl">
             <a href="#" aria-label="Facebook">📘</a>
@@ -381,15 +383,55 @@
           </div>
         </div>
       </div>
-      <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">© 2024 Smart Load Solution. Todos los
+      <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">© 2026 Smart Load Solution. Todos los
         derechos reservados.</div>
     </div>
   </footer>
+
+  <!-- Firebase + Stripe (para checkout directo si ya logueado) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script>
+    firebase.initializeApp({
+      apiKey: "AIzaSyAkEYDbxkjXJx5wNh_7wMdIqmklOMCIyHY",
+      authDomain: "expediter-dev.firebaseapp.com",
+      projectId: "expediter-dev",
+      storageBucket: "expediter-dev.appspot.com"
+    });
+
+    // Fallbacks para stripe-config.js
+    window.debugLog = window.debugLog || function () { };
+    window.showToast = window.showToast || function (msg, type) {
+      console.log('[TOAST]', type, msg);
+    };
+
+    // Cachear estado de auth al cargar
+    let _currentUser = null;
+    firebase.auth().onAuthStateChanged((user) => {
+      _currentUser = user;
+    });
+  </script>
+  <script src="js/userPlans.js"></script>
+  <script src="js/stripe-config.js?v=2.1.0"></script>
 
   <script>
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     mobileMenuBtn?.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+
+    function selectPlan(planId) {
+      if (_currentUser && window.StripeIntegration) {
+        // Ya logueado → checkout directo desde aquí
+        console.log('🔵 [PLANS] Checkout directo para:', planId);
+        window.StripeIntegration.createCheckoutSession(planId);
+      } else {
+        // No logueado → auth.html → login → checkout
+        localStorage.setItem('pendingPlan', planId);
+        window.location.href = 'auth.html';
+      }
+    }
+  </script>
   </script>
 </body>
 

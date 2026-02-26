@@ -337,13 +337,13 @@ class MobileOrientationManager {
  }
 
  switchToMobile() {
- console.log(' Cambiando a vista móvil');
+ debugLog(' Cambiando a vista móvil');
  // Reinicializar componentes móviles
  this.initMobileComponents();
  }
 
  switchToDesktop() {
- console.log(' Cambiando a vista desktop');
+ debugLog(' Cambiando a vista desktop');
  // Limpiar optimizaciones móviles
  this.cleanupMobileOptimizations();
  }

@@ -152,6 +152,8 @@ async function loadTabData(tabId) {
             case 'zones':
                 debugLog(" [MAIN] Loading zones data...");
                 if (typeof loadZonesData === 'function') loadZonesData();
+                if (typeof loadMarketNotes === 'function') loadMarketNotes();
+                if (typeof initNoteZoneAutocomplete === 'function') initNoteZoneAutocomplete();
                 break;
 
             case 'settings':

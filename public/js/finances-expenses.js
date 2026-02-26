@@ -87,6 +87,8 @@ async function saveExpenseToFirebase() {
             }
         }
 
+        document.dispatchEvent(new Event('expenseSaved'));
+        if (window.CPMEngine) window.CPMEngine.clearCache();
         if (modal) modal.dataset.editId = ""; // reset
         closeExpenseModal();
         loadFinancesData();
@@ -141,6 +143,7 @@ async function deleteExpense(id) {
 
     try {
         await firebase.firestore().collection("expenses").doc(id).delete();
+        if (window.CPMEngine) window.CPMEngine.clearCache();
         debugFinances(`✅ Gasto eliminado (${id})`);
         showFinancesMessage("✅ Gasto eliminado correctamente", "success");
         if (window.showToast) {
@@ -392,4 +395,4 @@ function updateExpenseSortIcons() {
 window.sortExpensesBy = sortExpensesBy;
 window.updateExpenseSortIcons = updateExpenseSortIcons;
 
-console.log("💰 Expenses module loaded successfully");
+debugLog("💰 Expenses module loaded successfully");

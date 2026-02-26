@@ -1134,6 +1134,7 @@ window.FinancesReports = {
   generateCompanyReport,
   generateExpenseBreakdownReport,
   generateProfitabilityReport,
+  generateTaxReport: window.generateTaxReport || window._originalGenerateTaxReport || (() => console.warn('generateTaxReport no encontrado')),
   exportReportToPDF,
   printReport,
   openReportModal,
@@ -1145,9 +1146,15 @@ window.generatePLReport = generatePLReport;
 window.generateCompanyReport = generateCompanyReport;
 window.generateExpenseBreakdownReport = generateExpenseBreakdownReport;
 window.generateProfitabilityReport = generateProfitabilityReport;
+// Tax report vive en finances.js normalmente, pero lo aseguramos aquí:
+if (window.generateTaxReport && !window.generateTaxReport._isLazyWrapper) {
+  // Ya existe
+} else if (window._originalGenerateTaxReport) {
+  window.generateTaxReport = window._originalGenerateTaxReport;
+}
 window.exportReportToPDF = exportReportToPDF;
 window.printReport = printReport;
 window.openReportModal = openReportModal;
 window.closeReportModal = closeReportModal;
 
-console.log("💰 Reports module loaded successfully");
+debugLog("💰 Reports module loaded successfully");

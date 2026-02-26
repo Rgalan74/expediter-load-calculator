@@ -35,24 +35,43 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/mobile-styles.css?v=2.8.0">
   <link rel="stylesheet" href="css/mobile-typography.css">
-  <link rel="stylesheet" href="css/mobile-header-fix.css?v=1.8.0">
-  <link rel="stylesheet" href="css/mobile-content-width.css?v=1.6.0">
   <link rel="stylesheet" href="css/app.css?v=4.3.0">
   <link rel="stylesheet" href="css/zones-print.css">
   <link rel="stylesheet" href="css/calculator-decision.css?v=1.0.0">
   <link rel="stylesheet" href="css/ui-enhancements.css?v=1.0.0">
   <link rel="stylesheet" href="css/onboarding.css?v=1.0.1">
-  <link rel="stylesheet" href="css/select-options-fix.css">
   <link rel="stylesheet" href="css/print-styles.css">
   <link rel="stylesheet" href="css/report-modal-styles.css">
-  <link rel="stylesheet" href="css/theme-overrides.css?v=5.21.0">
+  <!-- <link rel="stylesheet" href="css/theme-overrides.css?v=5.21.0"> -->
   <!-- MOBILE CALCULATOR FIX - Must load LAST to override all other styles -->
   <link rel="stylesheet" href="css/mobile-calculator-fix.css?v=1.0.0">
-
-
+  <link rel="stylesheet" href="css/theme-tokens.css?v=2.0.2">
+  <!-- MOBILE THEME ADAPTER - Forces mobile CSS to use theme variables -->
+  <link rel="stylesheet" href="css/mobile-theme-adapter.css?v=1.0.5">
 
   <!-- 🔥 THEME OVERRIDES (INLINED TO FORCE UPDATE) -->
   <style>
+    /* ===== LIGHT MODE HEADER FIX - FORZADO ===== */
+    [data-theme="light"] header .header-title,
+    [data-theme="light"] header .gradient-text,
+    [data-theme="light"] .header-title,
+    [data-theme="light"] .gradient-text {
+      background: linear-gradient(135deg, #00D9FF 0%, #7B2FFF 100%) !important;
+      -webkit-background-clip: text !important;
+      background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+    }
+
+
+    /* Menu hamburguesa BLANCO en mobile (header oscuro en ambos temas) */
+    @media (max-width: 768px) {
+      [data-theme="light"] #menuToggle {
+        color: #ffffff !important;
+        font-size: 1.75rem !important;
+        font-weight: 900 !important;
+      }
+    }
+
     /* FORZAR COLORES EN MODO OSCURO (Default) */
     :root:not([data-theme="light"]) body {
       color: #f1f5f9 !important;
@@ -113,8 +132,24 @@
       color: #94a3b8 !important;
     }
 
-    /* Cards Colors */
-    :root:not([data-theme="light"]) .bg-blue-50,
+    :root:not([data-theme="light"]) input:focus,
+    :root:not([data-theme="light"]) select:focus,
+    :root:not([data-theme="light"]) textarea:focus {
+      border-color: #3b82f6 !important;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3) !important;
+    }
+
+    /* 🔥 SUPER FIX FINAL PARA ICONO DE ROL 🔥 */
+    /* Fuerza bruta para que el SVG sea blanco sí o sí */
+    #roleBadgeIcon,
+    #roleBadgeIcon path,
+    .role-badge-icon,
+    .role-badge-icon path {
+      fill: #ffffff !important;
+      color: #ffffff !important;
+      stroke: none !important;
+    }
+
     :root:not([data-theme="light"]) .bg-indigo-50,
     :root:not([data-theme="light"]) .bg-yellow-50,
     :root:not([data-theme="light"]) .bg-green-50,
@@ -160,6 +195,56 @@
     :root:not([data-theme="light"]) .text-purple-800 {
       color: #c084fc !important;
     }
+
+    /* ===== MOBILE HEADER FIX - ULTRA ESPECÍFICO - DEBE ESTAR AL FINAL ===== */
+    /* Gradiente del título - SIEMPRE cyan-purple en ambos temas */
+    html[data-theme="light"] header .header-title,
+    html[data-theme="light"] header span.header-title,
+    html[data-theme="light"] header .gradient-text,
+    html[data-theme="light"] header span.gradient-text,
+    html[data-theme="dark"] header .header-title,
+    html[data-theme="dark"] header span.header-title,
+    html[data-theme="dark"] header .gradient-text,
+    html[data-theme="dark"] header span.gradient-text,
+    header .header-title,
+    header span.header-title,
+    header .gradient-text,
+    header span.gradient-text,
+    .header-title,
+    .gradient-text {
+      background-image: linear-gradient(90deg, #0099bb 0%, #e85a20 100%) !important;
+      background-color: transparent !important;
+      -webkit-background-clip: text !important;
+      background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      color: transparent !important;
+    }
+
+
+    /* Menú hamburguesa - BLANCO (header oscuro en ambos temas) */
+    html[data-theme="light"] header #menuToggle,
+    html[data-theme="dark"] header #menuToggle,
+    header #menuToggle,
+    #menuToggle {
+      color: #ffffff !important;
+      font-size: 1.75rem !important;
+      font-weight: 900 !important;
+    }
+
+    /* MOBILE HEADER SLIM */
+    @media (max-width: 767px) {
+      #roleBadge {
+        display: none !important;
+      }
+
+      #upgradePlanBtn {
+        display: none !important;
+      }
+
+      .theme-toggle-mobile {
+        display: none !important;
+      }
+    }
   </style>
 
 </head>
@@ -198,46 +283,52 @@
         <!-- Botones de acción - Gap reducido mobile -->
         <div class="flex items-center gap-2 md:gap-3 md:justify-between md:w-auto ml-auto">
 
-          <!-- 👑 BADGE DE ROL (visible cuando se carga) -->
-          <div id="roleBadge"
-            class="hidden items-center px-2 py-0.5 md:px-3 md:py-1.5 rounded-full text-xs font-bold border-2 transition-all">
-            <span id="roleBadgeIcon" class="mr-0.5 md:mr-1 hidden md:inline"></span>
-            <span id="roleBadgeText" class="uppercase md:tracking-wide"></span>
-          </div>
 
-          <!-- Botón Planes - Solo icono en mobile -->
+
+          <!-- Botón Planes - Solo icono en mobile, OCULTO en desktop (movido a Mi Cuenta) -->
           <a id="upgradePlanBtn" href="/plans.html"
-            class="text-indigo-600 hover:text-indigo-800 font-medium text-sm border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 md:px-3 md:py-1.5 rounded transition-colors flex items-center">
+            class="text-indigo-600 hover:text-indigo-800 font-medium text-sm border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded transition-colors flex items-center md:hidden">
             <span>💎</span>
-            <span class="hidden md:inline ml-1">Mejorar Plan</span>
           </a>
 
-          <!-- Theme Toggle (Visible on all devices) -->
+          <!-- Theme Toggle - Minimalista en mobile, normal en desktop -->
+          <button class="md:hidden p-0 focus:outline-none text-2xl leading-none mr-1 theme-toggle-mobile"
+            onclick="window.themeManager?.toggle()" aria-label="Toggle Theme">
+            <span class="theme-toggle-icon">☀️</span>
+          </button>
+
+          <!-- Theme Toggle - Desktop (Mini círculo) -->
           <button
-            class="theme-toggle-btn flex items-center justify-center p-2 rounded-full hover:bg-gray-700 transition-colors mr-2"
-            aria-label="Toggle Theme">
-            <span class="theme-toggle-icon text-xl">☀️</span>
+            class="hidden md:flex theme-toggle-btn w-10 h-10 items-center justify-center rounded-full transition-colors hover:bg-gray-100"
+            onclick="window.themeManager?.toggle()" aria-label="Toggle Theme" title="Cambiar Tema">
+            <span class="theme-toggle-icon text-xl leading-none">☀️</span>
+          </button>
+
+          <!-- Botón Mi Cuenta (OCULTO EN MÓVIL, SOLO DESKTOP) -->
+          <button onclick="showMiCuenta()" class="hidden md:flex bg-transparent border-0 hover:opacity-70 
+               md:text-indigo-600 md:hover:bg-gray-100
+               md:w-10 md:h-10 md:rounded-full md:justify-center md:items-center md:p-0
+               transition-all focus:outline-none" title="Mi Cuenta" aria-label="Mi Cuenta">
+            <span class="text-xl leading-none">👤</span>
           </button>
 
           <!-- Botón logout (OCULTO EN MÓVIL, SOLO DESKTOP) -->
-          <button id="logoutBtn" class="hidden md:flex p-1 bg-transparent border-0 hover:opacity-70 
-               md:bg-white md:hover:bg-gray-50 md:text-red-600 
-               md:border-2 md:border-red-500 md:hover:border-red-600 
-               md:px-4 md:py-2 md:rounded md:text-sm md:font-medium 
-               items-center gap-2 ml-auto transition-all focus:outline-none">
-            <svg class="w-6 h-6 md:w-8 md:h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="white" stroke-width="2" stroke-linecap="round"
+          <button id="logoutBtn" class="hidden md:flex bg-transparent border-0
+               md:text-red-500 md:hover:text-red-700 md:hover:bg-red-50 
+               md:w-10 md:h-10 md:rounded-full md:justify-center md:items-center md:p-0
+               transition-all focus:outline-none" title="Cerrar sesión" aria-label="Cerrar sesión">
+            <svg class="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+              <polyline points="16 17 21 12 16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round" />
-              <polyline points="16 17 21 12 16 7" stroke="white" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-              <line x1="21" y1="12" x2="9" y2="12" stroke="white" stroke-width="2" stroke-linecap="round"
+              <line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round" />
             </svg>
-            <span class="hidden md:inline text-base">Cerrar sesión</span>
           </button>
 
           <!-- Botón hamburguesa (MOVIDO A LA DERECHA) -->
-          <button id="menuToggle" class="md:hidden text-gray-800 focus:outline-none text-2xl leading-none ml-2">
+          <button id="menuToggle" class="md:hidden menu-toggle-icon focus:outline-none text-2xl leading-none ml-2">
             ☰
           </button>
         </div>
@@ -414,7 +505,9 @@
         <!-- Separador -->
         <div class="border-t border-gray-200 my-2"></div>
 
-        <!-- Logout - Destacado en rojo -->
+        <!-- Span oculto para mantener compatibilidad con JS -->
+        <span id="mobileRoleIcon" class="hidden">👑</span>
+        <span id="mobileRoleText" class="hidden">Usuario</span>
 
         <!-- Tema Toggle Mobile -->
         <button
@@ -423,10 +516,10 @@
           <span
             class="theme-toggle-icon text-xl bg-gray-100 group-hover:bg-white rounded-full w-8 h-8 flex items-center justify-center">☀️</span>
         </button>
-        <div class="border-t border-gray-200 my-2"></div>
-        \n <button id="mobileLogoutBtn" onclick="logout()"
-          class="text-left w-full text-red-600 hover:text-red-700 font-bold border border-red-300 bg-red-50 hover:bg-red-100 rounded-md px-3 py-2 transition-colors">
-          🚪 Cerrar Sesión
+
+        <button onclick="showMiCuenta()"
+          class="text-left w-full text-indigo-400 hover:text-indigo-300 font-semibold px-3 py-2 rounded-md transition-colors flex items-center gap-2">
+          👤 Mi Cuenta
         </button>
       </div>
     </header>
@@ -538,12 +631,12 @@
                     class="border p-3 w-full rounded-lg text-base">
                 </div>
                 <div>
-                  <label class="block text-base font-medium mb-2">Rate ($)</label>
+                  <label class="block text-base font-medium mb-2">Tarifa ($)</label>
                   <input type="number" id="rate" step="0.01" placeholder="800"
                     class="border p-3 w-full rounded-lg text-base">
                 </div>
                 <div>
-                  <label class="block text-base font-medium mb-2">Tolls ($)</label>
+                  <label class="block text-base font-medium mb-2">Peajes ($)</label>
                   <input type="number" id="tolls" placeholder="25" class="border p-3 w-full rounded-lg text-base">
                 </div>
                 <div>
@@ -639,6 +732,9 @@
                     </div>
                   </div>
                 </div>
+
+                <!-- Info extra: umbrales, notas, historial -->
+                <div id="decisionExtraInfo" class="hidden mt-3 space-y-2"></div>
 
                 <!-- Botón Lex -->
                 <div class="mt-3 md:mt-4 text-center">
@@ -1296,6 +1392,37 @@
                 </button>
               </div>
 
+              <!-- 🧾 Reporte de Impuestos (IRS) -->
+              <div class="card-section p-4 rounded-lg"
+                style="background: linear-gradient(135deg, rgba(161,98,7,0.8) 0%, rgba(234,179,8,0.6) 100%); grid-column: 1 / -1;">
+                <!-- Header -->
+                <div class="border-b border-white/20 pb-3 mb-3 flex items-center gap-2">
+                  <h3 class="text-lg font-bold flex-1" style="color: white !important;">
+                    🧾 Reporte de Impuestos (IRS)
+                  </h3>
+                  <span
+                    class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full font-bold uppercase tracking-wider">Premium</span>
+                </div>
+                <!-- Description -->
+                <div class="mb-4">
+                  <p class="text-sm mb-2 font-medium" style="color: rgba(255,255,255,0.95) !important;">
+                    Genera una forma alineada al IRS Schedule C (Form 1040) lista para tu CPA.
+                  </p>
+                  <div class="grid grid-cols-2 gap-2 text-xs mt-3" style="color: rgba(255,255,255,0.8) !important;">
+                    <div>✅ Part I - Gross Income</div>
+                    <div>✅ Resumen Schedule SE</div>
+                    <div>✅ Part II - Expenses (Líneas 9-27)</div>
+                    <div>✅ Standard vs Actual Method</div>
+                  </div>
+                </div>
+                <!-- Button -->
+                <button onclick="generateTaxReport()"
+                  class="w-full px-4 py-3 rounded-lg font-bold transition shadow-lg flex items-center justify-center gap-2"
+                  style="background-color: white !important; color: #a16207 !important; border: 2px solid rgba(255,255,255,0.8) !important; font-size: 1.1em;">
+                  <span>Generar Reporte Fiscal 🇺🇸</span>
+                </button>
+              </div>
+
             </div>
 
             <!-- Modal para Reportes Financieros -->
@@ -1671,685 +1798,729 @@
             </div>
           </div>
 
-        </div>
-      </section>
-
-      <!-- Settings Tab -->
-      <section id="settings" class="tab-content hidden">
-        <div class="w-full px-3 md:px-6 py-4 md:py-6 space-y-4 md:space-y-8">
-          <div class="section-header text-center">
-            <h2 class="font-bold mb-4">⚙️ Configuración de Tu Negocio</h2>
-            <p class="subtitle">Personaliza la app según tu tipo de operación y costos reales</p>
-
-            <!-- Mensaje de confirmación -->
-            <div id="configMessage" class="config-message" style="display: none;"></div>
-
-            <!-- 👑 ADMIN PANEL BUTTON (only shows for admin users) -->
-            <div id="adminPanelSection" class="hidden mt-3 md:mt-6">
-              <div class="bg-gradient-to-r from-purple-700 to-blue-700 rounded-lg p-2 md:p-6 text-left">
-                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-2 md:gap-4">
-                  <div>
-                    <h3 class="text-white font-bold text-sm md:text-lg mb-0.5">👑 Admin Panel</h3>
-                    <p class="text-purple-100 text-xs md:text-sm">Gestiona usuarios y sistema</p>
-                  </div>
-                  <button onclick="showAdminPanel()"
-                    class="bg-white text-purple-600 font-semibold px-3 py-1.5 md:px-6 md:py-3 rounded-lg hover:bg-gray-100 transition text-xs md:text-base w-full md:w-auto">
-                    Abrir
-                  </button>
-                </div>
-              </div>
-            </div>
-            <script>
-              // Show admin section only for admin users
-              document.addEventListener('DOMContentLoaded', function () {
-                setTimeout(async function () {
-                  try {
-                    const user = firebase.auth().currentUser;
-                    if (!user) return;
-                    const doc = await firebase.firestore().collection('users').doc(user.uid).get();
-                    if (doc.exists && (doc.data().plan === 'admin' || doc.data().role === 'admin')) {
-                      document.getElementById('adminPanelSection').classList.remove('hidden');
-                    }
-                  } catch (e) { console.log('Admin check:', e); }
-                }, 2000);
-            </script>
-            <!-- 1. PERFIL DE OPERACION -->
-            <div class="card-section">
-              <h3 class="text-lg font-semibold mb-4">🚛 Perfil de Operación</h3>
-
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div>
-                  <label for="vehicleType" class="block text-sm font-medium text-gray-700 mb-2">
-                    Tipo de Vehículo
-                  </label>
-                  <select id="vehicleType" name="vehicleType" onchange="loadVehicleTemplate(this.value)"
-                    class="border p-3 w-full rounded-lg">
-                    <option value="van">Van/Sprinter</option>
-                    <option value="boxtruck">Box Truck</option>
-                    <option value="semi">Semi Trailer</option>
-                    <option value="hotshot">Hotshot Pickup</option>
-                    <option value="custom">Otro (Personalizado)</option>
-                  </select>
-                  <input type="text" id="customVehicleType" name="customVehicleType"
-                    placeholder="Ingresa tipo de vehículo" class="hidden border p-3 w-full rounded-lg mt-2" />
-                  <p class="text-xs text-gray-500 mt-1">Carga plantilla de costos típicos</p>
-                </div>
-
-                <div>
-                  <label for="businessName" class="block text-sm font-medium text-gray-700 mb-2">
-                    Nombre del Negocio
-                  </label>
-                  <input type="text" id="businessName" name="businessName" placeholder="Tu empresa LLC"
-                    class="border p-3 w-full rounded-lg">
-                </div>
-
-                <div>
-                  <label for="operatingState" class="block text-sm font-medium text-gray-700 mb-2">
-                    Estado Base
-                  </label>
-                  <select id="operatingState" name="operatingState" class="border p-3 w-full rounded-lg"
-                    onchange="toggleCustomStateInput()">
-                    <option value="FL">Florida</option>
-                    <option value="TX">Texas</option>
-                    <option value="CA">California</option>
-                    <option value="NY">New York</option>
-                    <option value="other">Otro</option>
-                  </select>
-                  <input type="text" id="customState" name="customState" placeholder="Ingresa tu estado"
-                    class="hidden border p-3 w-full rounded-lg mt-2" />
-                </div>
-              </div>
+          <!-- NOTAS DE MERCADO -->
+          <div class="card-section mt-6">
+            <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-2 mb-4">
+              <h3 class="text-lg font-semibold">📝 Notas de Mercado</h3>
             </div>
 
-            <!-- 2. COSTOS FIJOS MENSUALES -->
-            <div class="card-section">
-              <h3 class="text-lg font-semibold mb-4">💰 Costos Fijos Mensuales</h3>
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-4">
-                  <div>
-                    <label for="vehiclePayment" class="block text-sm font-medium text-gray-700 mb-2">
-                      Pago del Vehículo
-                    </label>
-                    <input type="number" id="vehiclePayment" name="vehiclePayment" step="1" value="800"
-                      oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
-                  </div>
-
-                  <div>
-                    <label for="insurance" class="block text-sm font-medium text-gray-700 mb-2">
-                      Seguro Mensual
-                    </label>
-                    <input type="number" id="insurance" name="insurance" step="1" value="1250"
-                      oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
-                  </div>
-
-                  <div>
-                    <label for="licenses" class="block text-sm font-medium text-gray-700 mb-2">
-                      Licencias/Permisos
-                    </label>
-                    <input type="number" id="licenses" name="licenses" step="1" value="150" oninput="calculateTotals()"
-                      class="border p-3 w-full rounded-lg">
-                  </div>
-
-                  <div>
-                    <label for="otherFixed" class="block text-sm font-medium text-gray-700 mb-2">
-                      Otros Gastos Fijos
-                    </label>
-                    <input type="number" id="otherFixed" name="otherFixed" step="1" value="200"
-                      oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
-                    <p class="text-xs text-gray-500 mt-1">Teléfono, internet, etc.</p>
-                  </div>
-                </div>
-
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <h4 class="font-semibold text-blue-800 mb-3">🧮 Resumen Automático</h4>
-
-                  <div class="space-y-2 text-sm">
-                    <div class="flex justify-between">
-                      <span>Total Fijo Mensual:</span>
-                      <span id="totalFixed" class="font-bold">$2,400</span>
-                    </div>
-
-                    <div class="flex justify-between">
-                      <span>Costo Fijo por Milla:</span>
-                      <span id="fixedCostPerMile" class="font-bold text-blue-600">$0.300</span>
-                    </div>
-
-                    <div class="text-xs text-blue-600 mt-2">
-                      * Basado en tus millas mensuales objetivo
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <!-- Formulario para agregar nota -->
+            <div class="flex flex-col gap-3 w-full">
+              <input id="noteZoneInput" type="text" placeholder="Ciudad o estado (ej: Atlanta, GA)"
+                class="w-full border border-gray-600 bg-gray-800 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <select id="noteZoneType"
+                class="w-full md:w-48 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none">
+                <option value="destino">Como Destino</option>
+                <option value="origen">Como Origen</option>
+                <option value="ambos">Ambos</option>
+              </select>
             </div>
-
-            <!-- 3. COSTOS VARIABLES POR MILLA -->
-            <div class="card-section">
-              <h3 class="text-lg font-semibold mb-4"> Costos Variables por Milla</h3>
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-4">
-                  <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-                    <h4 class="font-semibold text-yellow-800 mb-2">Combustible</h4>
-
-                    <div class="grid grid-cols-2 gap-3">
-                      <div>
-                        <label for="fuelMPG" class="block text-xs font-medium text-gray-700 mb-1">
-                          MPG de tu vehículo
-                        </label>
-                        <input type="number" id="fuelMPG" name="fuelMPG" step="0.1" value="18"
-                          oninput="calculateFuelCost()" class="border p-2 w-full rounded text-sm">
-                      </div>
-
-                      <div>
-                        <label for="fuelPricePerGallon" class="block text-xs font-medium text-gray-700 mb-1">
-                          Precio por galón
-                        </label>
-                        <input type="number" id="fuelPricePerGallon" name="fuelPricePerGallon" step="0.01" value="3.50"
-                          oninput="calculateFuelCost()" class="border p-2 w-full rounded text-sm">
-                      </div>
-                    </div>
-
-                    <div class="mt-2 text-center">
-                      <span class="text-xs text-yellow-700">Costo calculado: </span>
-                      <span id="calculatedFuelCost" class="font-bold text-yellow-800">$0.194/mi</span>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label for="maintenancePerMile" class="block text-sm font-medium text-gray-700 mb-2">
-                      Mantenimiento ($/milla)
-                    </label>
-                    <input type="number" id="maintenancePerMile" name="maintenancePerMile" step="0.001" value="0.080"
-                      class="border p-3 w-full rounded-lg">
-                    <details class="mt-2 bg-blue-50 border border-blue-200 rounded p-2">
-                      <summary class="cursor-pointer text-sm font-medium text-blue-700">📊 Calculadora de Mantenimiento
-                      </summary>
-                      <div class="mt-2 space-y-2">
-                        <input type="number" id="maintenanceServiceCost" placeholder="Costo por servicio ($)"
-                          class="border p-2 w-full rounded text-sm">
-                        <input type="number" id="maintenanceInterval" placeholder="Intervalo (millas)"
-                          class="border p-2 w-full rounded text-sm">
-                        <button onclick="calculateMaintenanceCost()"
-                          class="bg-blue-600 text-white px-3 py-1 rounded text-sm w-full hover:bg-blue-700">Calcular
-                          $/mi</button>
-                      </div>
-                    </details>
-                    <p class="text-xs text-gray-500 mt-1">Cambios de aceite, filtros, etc.</p>
-                  </div>
-
-                  <div>
-                    <label for="tiresPerMile" class="block text-sm font-medium text-gray-700 mb-2">
-                      Llantas ($/milla)
-                    </label>
-                    <input type="number" id="tiresPerMile" name="tiresPerMile" step="0.001" value="0.060"
-                      class="border p-3 w-full rounded-lg">
-                    <details class="mt-2 bg-orange-50 border border-orange-200 rounded p-2">
-                      <summary class="cursor-pointer text-sm font-medium text-orange-700">🛞 Calculadora de Llantas
-                      </summary>
-                      <div class="mt-2 space-y-2">
-                        <input type="number" id="tireCost" placeholder="Costo del juego de llantas ($)"
-                          class="border p-2 w-full rounded text-sm">
-                        <input type="number" id="tireLifespan" placeholder="Vida útil (millas)"
-                          class="border p-2 w-full rounded text-sm">
-                        <button onclick="calculateTireCost()"
-                          class="bg-orange-600 text-white px-3 py-1 rounded text-sm w-full hover:bg-orange-700">Calcular
-                          $/mi</button>
-                      </div>
-                    </details>
-                    <p class="text-xs text-gray-500 mt-1">Promedio de vida útil</p>
-                  </div>
-
-                  <div>
-                    <label for="repairsPerMile" class="block text-sm font-medium text-gray-700 mb-2">
-                      Reparaciones ($/milla)
-                    </label>
-                    <input type="number" id="repairsPerMile" name="repairsPerMile" step="0.001" value="0.040"
-                      class="border p-3 w-full rounded-lg">
-                    <details class="mt-2 bg-red-50 border border-red-200 rounded p-2">
-                      <summary class="cursor-pointer text-sm font-medium text-red-700">🔧 Calculadora de Reparaciones
-                      </summary>
-                      <div class="mt-2 space-y-2">
-                        <select id="repairPeriod" class="border p-2 w-full rounded text-sm">
-                          <option value="monthly">Reserva Mensual</option>
-                          <option value="annual">Reserva Anual</option>
-                        </select>
-                        <input type="number" id="repairReserve" placeholder="Monto de reserva ($)"
-                          class="border p-2 w-full rounded text-sm">
-                        <button onclick="calculateRepairCost()"
-                          class="bg-red-600 text-white px-3 py-1 rounded text-sm w-full hover:bg-red-700">Calcular
-                          $/mi</button>
-                      </div>
-                    </details>
-                    <p class="text-xs text-gray-500 mt-1">Emergencias y averías</p>
-                  </div>
-                </div>
-
-                <div class="bg-green-50 border border-green-200 rounded-lg p-4">
-                  <h4 class="font-semibold text-green-800 mb-3">🎯 Configuración de Costos</h4>
-
-                  <div class="space-y-3">
-                    <div class="flex items-center">
-                      <input type="checkbox" id="useRealCosts" name="useRealCosts" checked class="mr-3">
-                      <label for="useRealCosts" class="text-sm font-medium text-gray-700">
-                        Usar costos reales calculados
-                      </label>
-                    </div>
-
-                    <div>
-                      <label for="realCostsPeriod" class="block text-sm font-medium text-gray-700 mb-2">
-                        Período para cálculo automático
-                      </label>
-                      <select id="realCostsPeriod" name="realCostsPeriod" class="border p-2 w-full rounded text-sm">
-                        <option value="1">Ultimo mes</option>
-                        <option value="3" selected>Ultimos 3 meses</option>
-                        <option value="6">Ultimos 6 meses</option>
-                        <option value="12">Ultimo año</option>
-                      </select>
-                    </div>
-
-                    <div class="text-xs text-green-600 mt-2">
-                      Cuando está activado, la app calcula tus costos reales basados en tus viajes y gastos registrados.
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 4. METAS DE NEGOCIO -->
-            <div class="card-section">
-              <h3 class="text-lg font-semibold mb-4">🎯 Metas de Negocio</h3>
-
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div>
-                  <label for="targetRPM" class="block text-sm font-medium text-gray-700 mb-2">
-                    RPM Mínimo Objetivo
-                  </label>
-                  <input type="number" id="targetRPM" name="targetRPM" step="0.01" value="1.25"
-                    class="border p-3 w-full rounded-lg">
-                  <p class="text-xs text-gray-500 mt-1">Tarifa mínima que aceptas</p>
-                </div>
-
-                <div>
-                  <label for="monthlyMilesGoal" class="block text-sm font-medium text-gray-700 mb-2">
-                    Millas Mensuales Objetivo
-                  </label>
-                  <input type="number" id="monthlyMilesGoal" name="monthlyMilesGoal" step="100" value="8000"
-                    oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
-                  <p class="text-xs text-gray-500 mt-1">Meta de millas por mes</p>
-                </div>
-
-                <div>
-                  <label for="targetProfit" class="block text-sm font-medium text-gray-700 mb-2">
-                    Margen de Ganancia (%)
-                  </label>
-                  <input type="number" id="targetProfit" name="targetProfit" step="1" value="30" min="0" max="100"
-                    class="border p-3 w-full rounded-lg">
-                  <p class="text-xs text-gray-500 mt-1">Ganancia neta objetivo</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- 5. BOTONES DE ACCIÃ“N -->
-            <div class="card-section">
-              <div class="flex flex-col md:flex-row gap-4 justify-center">
-                <button onclick="saveUserConfiguration()"
-                  class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-semibold">
-                  💾 Guardar Configuración
-                </button>
-
-                <button onclick="loadUserConfiguration()"
-                  class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 font-semibold">
-                  🔄 Recargar Guardada
-                </button>
-
-                <button onclick="loadVehicleTemplate(document.getElementById('vehicleType').value)"
-                  class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-semibold">
-                  🚛 Aplicar Plantilla
-                </button>
-              </div>
-
-              <div class="text-center mt-4">
-                <p class="text-sm text-gray-600">
-                  Tu configuración se guarda automáticamente y se sincroniza entre dispositivos
-                </p>
-              </div>
-            </div>
-          </div>
-      </section>
-    </main>
-
-    <!-- ✅ Month Picker Modal - Custom para móvil -->
-    <div id="monthPickerModal" class="hidden fixed inset-0 z-50"
-      style="background-color: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"
-      onclick="if(event.target.id==='monthPickerModal') closeMonthPicker()">
-      <div class="flex flex-col h-full md:items-center md:justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl w-full md:max-w-md overflow-hidden my-auto"
-          style="max-height: 90vh;" onclick="event.stopPropagation()">
-
-          <!-- Header -->
-          <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-4 flex justify-between items-center">
-            <h3 class="text-lg font-bold flex items-center gap-2">
-              📅 Seleccionar Mes
-            </h3>
-            <button onclick="closeMonthPicker()"
-              class="w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 text-xl">&times;</button>
-          </div>
-
-          <!-- Month Grid -->
-          <div id="monthPickerGrid" class="p-4 overflow-y-auto" style="max-height: 60vh;">
-            <div class="grid grid-cols-1 gap-2" id="monthButtonsContainer">
-              <!-- Los meses se generarán dinámicamente -->
-              <div class="text-center text-gray-500 py-4">Cargando meses...</div>
-            </div>
-          </div>
-
-          <!-- Footer con botón Cancelar -->
-          <div class="border-t p-4" style="background-color: #f8fafc;">
-            <button onclick="closeMonthPicker()" class="w-full py-3 font-semibold rounded-xl transition"
-              style="background-color: #e5e7eb !important; color: #374151 !important; -webkit-text-fill-color: #374151 !important;">
-              ❌ Cancelar
+            <textarea id="noteZoneText" rows="2" placeholder="Escribe tu nota de mercado..."
+              class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
+            <button onclick="saveMarketNote()"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
+              💾 Guardar Nota
             </button>
           </div>
 
-          <!-- CSS Override for month buttons -->
-          <style>
-            #monthButtonsContainer button {
-              color: white !important;
-              background-color: rgba(30, 58, 138, 0.7) !important;
-              border: 2px solid rgba(96, 165, 250, 0.4) !important;
-            }
-
-            #monthButtonsContainer button:first-child {
-              background: linear-gradient(to right, #3b82f6, #2563eb) !important;
-            }
-          </style>
-        </div>
-      </div>
-    </div>
-
-    <!-- ✅ Edit Modal -->
-    <div id="editModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <!-- Modal principal limitado al 90% de la pantalla -->
-      <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col">
-
-        <!-- Header fijo -->
-        <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between flex-none">
-          <h3 class="text-lg font-semibold text-gray-900">✏️ Editar Carga</h3>
-          <button type="button" onclick="closeEditModal()" class="text-gray-400 hover:text-gray-600">
-            <span class="text-2xl">&times;</span>
-          </button>
-        </div>
-
-        <!-- Body con scroll interno -->
-        <div class="px-6 py-4 overflow-y-auto flex-1" style="max-height:65vh;">
-          <div class="space-y-4">
-
-            <!-- Información básica -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label for="editDate" class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
-                <input type="date" id="editDate" name="editDate"
-                  class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none"
-                  required>
-              </div>
-              <div>
-                <label for="editLoadNumber" class="block text-sm font-medium text-gray-700 mb-1">Número de Carga</label>
-                <input type="text" id="editLoadNumber" name="editLoadNumber" placeholder="Número de carga"
-                  class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
-              </div>
-            </div>
-
-            <!-- Origen y Destino -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label for="editOrigin" class="block text-sm font-medium text-gray-700 mb-1">Origen *</label>
-                <input type="text" id="editOrigin" name="editOrigin" placeholder="Miami, FL"
-                  class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none"
-                  required>
-              </div>
-              <div>
-                <label for="editDestination" class="block text-sm font-medium text-gray-700 mb-1">Destino *</label>
-                <input type="text" id="editDestination" name="editDestination" placeholder="Atlanta, GA"
-                  class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none"
-                  required>
-              </div>
-            </div>
-
-            <!-- Millas -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label for="editLoadedMiles" class="block text-sm font-medium text-gray-700 mb-1">Millas Cargadas
-                  *</label>
-                <input type="number" id="editLoadedMiles" name="editLoadedMiles" placeholder="600" min="0" required
-                  class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
-              </div>
-              <div>
-                <label for="editDeadheadMiles" class="block text-sm font-medium text-gray-700 mb-1">Millas
-                  Vacías</label>
-                <input type="number" id="editDeadheadMiles" name="editDeadheadMiles" placeholder="25" min="0"
-                  class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
-              </div>
-              <div>
-                <label for="editTotalMiles" class="block text-sm font-medium text-gray-700 mb-1">Total Millas</label>
-                <input type="number" id="editTotalMiles" name="editTotalMiles" readonly
-                  class="border border-gray-200 rounded px-3 py-2 w-full bg-gray-50 text-gray-600">
-              </div>
-            </div>
-
-            <!-- Información financiera -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label for="editRpm" class="block text-sm font-medium text-gray-700 mb-1">RPM ($/milla) *</label>
-                <input type="number" id="editRpm" name="editRpm" placeholder="1.25" step="0.01" min="0" required
-                  class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
-              </div>
-              <div>
-                <label for="editTotalCharge" class="block text-sm font-medium text-gray-700 mb-1">Total a Cobrar</label>
-                <input type="number" id="editTotalCharge" name="editTotalCharge" step="0.01" min="0"
-                  class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
-              </div>
-            </div>
-
-            <!-- Costos adicionales -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label for="editTolls" class="block text-sm font-medium text-gray-700 mb-1">Peajes ($)</label>
-                <input type="number" id="editTolls" name="editTolls" placeholder="25.00" step="0.01" min="0"
-                  class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
-              </div>
-              <div>
-                <label for="editOtherCosts" class="block text-sm font-medium text-gray-700 mb-1">Otros Costos
-                  ($)</label>
-                <input type="number" id="editOtherCosts" name="editOtherCosts" placeholder="15.00" step="0.01" min="0"
-                  class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
-              </div>
-              <div>
-                <label for="editRepositionMiles" class="block text-sm font-medium text-gray-700">Reposicionamiento
-                  (millas)</label>
-                <input type="number" id="editRepositionMiles" class="border p-2 w-full rounded" placeholder="Ej: 120">
-              </div>
-            </div>
-
-            <!-- Empresa y notas -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label for="editCompanyName" class="block text-sm font-medium text-gray-700 mb-1">Empresa</label>
-                <input type="text" id="editCompanyName" name="editCompanyName" placeholder="Nombre de la empresa"
-                  class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
-              </div>
-              <div class="md:col-span-2">
-                <label for="editNotes" class="block text-sm font-medium text-gray-700 mb-1">Notas de experiencia</label>
-                <textarea id="editNotes" name="editNotes" placeholder="Ej: RPM bajo, mejor relocalizar a Nashville"
-                  rows="3"
-                  class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none"></textarea>
-              </div>
-            </div>
-
-            <!-- Resultados calculados -->
-            <div class="border-t border-gray-200 pt-4">
-              <h4 class="text-md font-medium text-gray-900 mb-3">🧮 Cálculos Automáticos</h4>
-              <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                <div class="bg-gray-50 p-2 rounded">
-                  <span class="text-gray-600">Costo Operativo:</span>
-                  <div id="editOperatingCost" class="font-semibold text-red-600">$0.00</div>
-                </div>
-                <div class="bg-gray-50 p-2 rounded">
-                  <span class="text-gray-600">Costo Combustible:</span>
-                  <div id="editFuelCost" class="font-semibold text-red-600">$0.00</div>
-                </div>
-                <div class="bg-gray-50 p-2 rounded">
-                  <span class="text-gray-600">Ganancia Neta:</span>
-                  <div id="editNetProfit" class="font-semibold text-green-600">$0.00</div>
-                </div>
-                <div class="bg-gray-50 p-2 rounded">
-                  <span class="text-gray-600">Margen:</span>
-                  <div id="editProfitMargin" class="font-semibold text-blue-600">0%</div>
-                </div>
-              </div>
-            </div>
-
+          <!-- Lista de notas guardadas -->
+          <div id="marketNotesList" class="space-y-2">
+            <p class="text-sm text-gray-500 text-center py-4">Cargando notas...</p>
           </div>
         </div>
 
-        <!-- Footer fijo -->
-        <div
-          class="border-t border-gray-200 px-6 py-4 flex flex-col sm:flex-row gap-3 sm:justify-end bg-white flex-none">
-          <button type="button" onclick="closeEditModal()"
-            class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 order-2 sm:order-1">
-            Cancelar
-          </button>
-          <button type="button" onclick="saveEditedLoad()"
-            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 order-1 sm:order-2">
-            💾 Guardar Cambios
-          </button>
+  </div>
+  </section>
+
+  <!-- Settings Tab -->
+  <section id="settings" class="tab-content hidden">
+    <div class="w-full px-3 md:px-6 py-4 md:py-6 space-y-4 md:space-y-8">
+      <div class="section-header text-center">
+        <h2 class="font-bold mb-4">⚙️ Configuración de Tu Negocio</h2>
+        <p class="subtitle">Personaliza la app según tu tipo de operación y costos reales</p>
+
+        <!-- Mensaje de confirmación -->
+        <div id="configMessage" class="config-message" style="display: none;"></div>
+
+        <!-- 👑 ADMIN PANEL BUTTON (only shows for admin users) -->
+        <div id="adminPanelSection" class="hidden mt-3 md:mt-6">
+          <div class="bg-gradient-to-r from-purple-700 to-blue-700 rounded-lg p-2 md:p-6 text-left">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-2 md:gap-4">
+              <div>
+                <h3 class="text-white font-bold text-sm md:text-lg mb-0.5">👑 Admin Panel</h3>
+                <p class="text-purple-100 text-xs md:text-sm">Gestiona usuarios y sistema</p>
+              </div>
+              <button onclick="showAdminPanel()"
+                class="bg-white text-purple-600 font-semibold px-3 py-1.5 md:px-6 md:py-3 rounded-lg hover:bg-gray-100 transition text-xs md:text-base w-full md:w-auto">
+                Abrir
+              </button>
+            </div>
+          </div>
+        </div>
+        <script>
+          // Show admin section only for admin users
+          document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(async function () {
+              try {
+                const user = firebase.auth().currentUser;
+                if (!user) return;
+                const doc = await firebase.firestore().collection('users').doc(user.uid).get();
+                if (doc.exists && (doc.data().plan === 'admin' || doc.data().role === 'admin')) {
+                  document.getElementById('adminPanelSection').classList.remove('hidden');
+                }
+              } catch (e) { console.log('Admin check:', e); }
+            }, 2000);
+          }); // ← FALTABA ESTE CIERRE
+        </script>
+        <!-- 1. PERFIL DE OPERACION -->
+        <div class="card-section">
+          <h3 class="text-lg font-semibold mb-4">🚛 Perfil de Operación</h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <label for="vehicleType" class="block text-sm font-medium text-gray-700 mb-2">
+                Tipo de Vehículo
+              </label>
+              <select id="vehicleType" name="vehicleType" onchange="loadVehicleTemplate(this.value)"
+                class="border p-3 w-full rounded-lg">
+                <option value="van">Van/Sprinter</option>
+                <option value="boxtruck">Box Truck</option>
+                <option value="semi">Semi Trailer</option>
+                <option value="hotshot">Hotshot Pickup</option>
+                <option value="custom">Otro (Personalizado)</option>
+              </select>
+              <input type="text" id="customVehicleType" name="customVehicleType" placeholder="Ingresa tipo de vehículo"
+                class="hidden border p-3 w-full rounded-lg mt-2" />
+              <p class="text-xs text-gray-500 mt-1">Carga plantilla de costos típicos</p>
+            </div>
+
+            <div>
+              <label for="businessName" class="block text-sm font-medium text-gray-700 mb-2">
+                Nombre del Negocio
+              </label>
+              <input type="text" id="businessName" name="businessName" placeholder="Tu empresa LLC"
+                class="border p-3 w-full rounded-lg">
+            </div>
+
+            <div>
+              <label for="operatingState" class="block text-sm font-medium text-gray-700 mb-2">
+                Estado Base
+              </label>
+              <select id="operatingState" name="operatingState" class="border p-3 w-full rounded-lg"
+                onchange="toggleCustomStateInput()">
+                <option value="FL">Florida</option>
+                <option value="TX">Texas</option>
+                <option value="CA">California</option>
+                <option value="NY">New York</option>
+                <option value="other">Otro</option>
+              </select>
+              <input type="text" id="customState" name="customState" placeholder="Ingresa tu estado"
+                class="hidden border p-3 w-full rounded-lg mt-2" />
+            </div>
+          </div>
         </div>
 
+        <!-- 2. COSTOS FIJOS MENSUALES -->
+        <div class="card-section">
+          <h3 class="text-lg font-semibold mb-4">💰 Costos Fijos Mensuales</h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-4">
+              <div>
+                <label for="vehiclePayment" class="block text-sm font-medium text-gray-700 mb-2">
+                  Pago del Vehículo
+                </label>
+                <input type="number" id="vehiclePayment" name="vehiclePayment" step="1" value="800"
+                  oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
+              </div>
+
+              <div>
+                <label for="insurance" class="block text-sm font-medium text-gray-700 mb-2">
+                  Seguro Mensual
+                </label>
+                <input type="number" id="insurance" name="insurance" step="1" value="1250" oninput="calculateTotals()"
+                  class="border p-3 w-full rounded-lg">
+              </div>
+
+              <div>
+                <label for="licenses" class="block text-sm font-medium text-gray-700 mb-2">
+                  Licencias/Permisos
+                </label>
+                <input type="number" id="licenses" name="licenses" step="1" value="150" oninput="calculateTotals()"
+                  class="border p-3 w-full rounded-lg">
+              </div>
+
+              <div>
+                <label for="otherFixed" class="block text-sm font-medium text-gray-700 mb-2">
+                  Otros Gastos Fijos
+                </label>
+                <input type="number" id="otherFixed" name="otherFixed" step="1" value="200" oninput="calculateTotals()"
+                  class="border p-3 w-full rounded-lg">
+                <p class="text-xs text-gray-500 mt-1">Teléfono, internet, etc.</p>
+              </div>
+            </div>
+
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <h4 class="font-semibold text-blue-800 mb-3">🧮 Resumen Automático</h4>
+
+              <div class="space-y-2 text-sm">
+                <div class="flex justify-between">
+                  <span>Total Fijo Mensual:</span>
+                  <span id="totalFixed" class="font-bold">$2,400</span>
+                </div>
+
+                <div class="flex justify-between">
+                  <span>Costo Fijo por Milla:</span>
+                  <span id="fixedCostPerMile" class="font-bold text-blue-600">$0.300</span>
+                </div>
+
+                <div class="text-xs text-blue-600 mt-2">
+                  * Basado en tus millas mensuales objetivo
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. COSTOS VARIABLES POR MILLA -->
+        <div class="card-section">
+          <h3 class="text-lg font-semibold mb-4"> Costos Variables por Milla</h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-4">
+              <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                <h4 class="font-semibold text-yellow-800 mb-2">Combustible</h4>
+
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label for="fuelMPG" class="block text-xs font-medium text-gray-700 mb-1">
+                      MPG de tu vehículo
+                    </label>
+                    <input type="number" id="fuelMPG" name="fuelMPG" step="0.1" value="18" oninput="calculateFuelCost()"
+                      class="border p-2 w-full rounded text-sm">
+                  </div>
+
+                  <div>
+                    <label for="fuelPricePerGallon" class="block text-xs font-medium text-gray-700 mb-1">
+                      Precio por galón
+                    </label>
+                    <input type="number" id="fuelPricePerGallon" name="fuelPricePerGallon" step="0.01" value="3.50"
+                      oninput="calculateFuelCost()" class="border p-2 w-full rounded text-sm">
+                  </div>
+                </div>
+
+                <div class="mt-2 text-center">
+                  <span class="text-xs text-yellow-700">Costo calculado: </span>
+                  <span id="calculatedFuelCost" class="font-bold text-yellow-800">$0.194/mi</span>
+                </div>
+              </div>
+
+              <div>
+                <label for="maintenancePerMile" class="block text-sm font-medium text-gray-700 mb-2">
+                  Mantenimiento ($/milla)
+                </label>
+                <input type="number" id="maintenancePerMile" name="maintenancePerMile" step="0.001" value="0.080"
+                  class="border p-3 w-full rounded-lg">
+                <details class="mt-2 bg-blue-50 border border-blue-200 rounded p-2">
+                  <summary class="cursor-pointer text-sm font-medium text-blue-700">📊 Calculadora de Mantenimiento
+                  </summary>
+                  <div class="mt-2 space-y-2">
+                    <input type="number" id="maintenanceServiceCost" placeholder="Costo por servicio ($)"
+                      class="border p-2 w-full rounded text-sm">
+                    <input type="number" id="maintenanceInterval" placeholder="Intervalo (millas)"
+                      class="border p-2 w-full rounded text-sm">
+                    <button onclick="calculateMaintenanceCost()"
+                      class="bg-blue-600 text-white px-3 py-1 rounded text-sm w-full hover:bg-blue-700">Calcular
+                      $/mi</button>
+                  </div>
+                </details>
+                <p class="text-xs text-gray-500 mt-1">Cambios de aceite, filtros, etc.</p>
+              </div>
+
+              <div>
+                <label for="tiresPerMile" class="block text-sm font-medium text-gray-700 mb-2">
+                  Llantas ($/milla)
+                </label>
+                <input type="number" id="tiresPerMile" name="tiresPerMile" step="0.001" value="0.060"
+                  class="border p-3 w-full rounded-lg">
+                <details class="mt-2 bg-orange-50 border border-orange-200 rounded p-2">
+                  <summary class="cursor-pointer text-sm font-medium text-orange-700">🛞 Calculadora de Llantas
+                  </summary>
+                  <div class="mt-2 space-y-2">
+                    <input type="number" id="tireCost" placeholder="Costo del juego de llantas ($)"
+                      class="border p-2 w-full rounded text-sm">
+                    <input type="number" id="tireLifespan" placeholder="Vida útil (millas)"
+                      class="border p-2 w-full rounded text-sm">
+                    <button onclick="calculateTireCost()"
+                      class="bg-orange-600 text-white px-3 py-1 rounded text-sm w-full hover:bg-orange-700">Calcular
+                      $/mi</button>
+                  </div>
+                </details>
+                <p class="text-xs text-gray-500 mt-1">Promedio de vida útil</p>
+              </div>
+
+              <div>
+                <label for="repairsPerMile" class="block text-sm font-medium text-gray-700 mb-2">
+                  Reparaciones ($/milla)
+                </label>
+                <input type="number" id="repairsPerMile" name="repairsPerMile" step="0.001" value="0.040"
+                  class="border p-3 w-full rounded-lg">
+                <details class="mt-2 bg-red-50 border border-red-200 rounded p-2">
+                  <summary class="cursor-pointer text-sm font-medium text-red-700">🔧 Calculadora de Reparaciones
+                  </summary>
+                  <div class="mt-2 space-y-2">
+                    <select id="repairPeriod" class="border p-2 w-full rounded text-sm">
+                      <option value="monthly">Reserva Mensual</option>
+                      <option value="annual">Reserva Anual</option>
+                    </select>
+                    <input type="number" id="repairReserve" placeholder="Monto de reserva ($)"
+                      class="border p-2 w-full rounded text-sm">
+                    <button onclick="calculateRepairCost()"
+                      class="bg-red-600 text-white px-3 py-1 rounded text-sm w-full hover:bg-red-700">Calcular
+                      $/mi</button>
+                  </div>
+                </details>
+                <p class="text-xs text-gray-500 mt-1">Emergencias y averías</p>
+              </div>
+            </div>
+
+            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+              <h4 class="font-semibold text-green-800 mb-3">🎯 Configuración de Costos</h4>
+
+              <div class="space-y-3">
+                <div class="flex items-center">
+                  <input type="checkbox" id="useRealCosts" name="useRealCosts" checked class="mr-3">
+                  <label for="useRealCosts" class="text-sm font-medium text-gray-700">
+                    Usar costos reales calculados
+                  </label>
+                </div>
+
+                <div>
+                  <label for="realCostsPeriod" class="block text-sm font-medium text-gray-700 mb-2">
+                    Período para cálculo automático
+                  </label>
+                  <select id="realCostsPeriod" name="realCostsPeriod" class="border p-2 w-full rounded text-sm">
+                    <option value="1">Ultimo mes</option>
+                    <option value="3" selected>Ultimos 3 meses</option>
+                    <option value="6">Ultimos 6 meses</option>
+                    <option value="12">Ultimo año</option>
+                  </select>
+                </div>
+
+                <div class="text-xs text-green-600 mt-2">
+                  Cuando está activado, la app calcula tus costos reales basados en tus viajes y gastos registrados.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. METAS DE NEGOCIO -->
+        <div class="card-section">
+          <h3 class="text-lg font-semibold mb-4">🎯 Metas de Negocio</h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <label for="targetRPM" class="block text-sm font-medium text-gray-700 mb-2">
+                RPM Mínimo Objetivo
+              </label>
+              <input type="number" id="targetRPM" name="targetRPM" step="0.01" value="1.25"
+                class="border p-3 w-full rounded-lg">
+              <p class="text-xs text-gray-500 mt-1">Tarifa mínima que aceptas</p>
+            </div>
+
+            <div>
+              <label for="monthlyMilesGoal" class="block text-sm font-medium text-gray-700 mb-2">
+                Millas Mensuales Objetivo
+              </label>
+              <input type="number" id="monthlyMilesGoal" name="monthlyMilesGoal" step="100" value="8000"
+                oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
+              <p class="text-xs text-gray-500 mt-1">Meta de millas por mes</p>
+            </div>
+
+            <div>
+              <label for="targetProfit" class="block text-sm font-medium text-gray-700 mb-2">
+                Margen de Ganancia (%)
+              </label>
+              <input type="number" id="targetProfit" name="targetProfit" step="1" value="30" min="0" max="100"
+                class="border p-3 w-full rounded-lg">
+              <p class="text-xs text-gray-500 mt-1">Ganancia neta objetivo</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. BOTONES DE ACCIÃ“N -->
+        <div class="card-section">
+          <div class="flex flex-col md:flex-row gap-4 justify-center">
+            <button onclick="saveUserConfiguration()"
+              class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-semibold">
+              💾 Guardar Configuración
+            </button>
+
+            <button onclick="loadUserConfiguration()"
+              class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 font-semibold">
+              🔄 Recargar Guardada
+            </button>
+
+            <button onclick="loadVehicleTemplate(document.getElementById('vehicleType').value)"
+              class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-semibold">
+              🚛 Aplicar Plantilla
+            </button>
+          </div>
+
+          <div class="text-center mt-4">
+            <p class="text-sm text-gray-600">
+              Tu configuración se guarda automáticamente y se sincroniza entre dispositivos
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
+  </section>
+  </main>
 
+  <!-- ✅ Month Picker Modal - Custom para móvil -->
+  <div id="monthPickerModal" class="hidden fixed inset-0 z-50"
+    style="background-color: rgba(0,0,0,0.8); backdrop-filter: blur(8px);"
+    onclick="if(event.target.id==='monthPickerModal') closeMonthPicker()">
+    <div class="flex flex-col h-full md:items-center md:justify-center p-4">
+      <div class="bg-white rounded-2xl shadow-2xl w-full md:max-w-md overflow-hidden my-auto" style="max-height: 90vh;"
+        onclick="event.stopPropagation()">
 
-
-    <!-- Firebase compat -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
-
-    <!-- Chart.js for dashboard -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
-
-    <!-- ✅ GOOGLE MAPS SCRIPT CORREGIDO - SIN CALLBACK AUTOMÃTICO -->
-    <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkEYDbxkjXJx5wNh_7wMdIqmklOMCIyHY&libraries=places&callback=initGoogleMaps&loading=async">
-      </script>
-
-
-    <!--  SCRIPT DE INICIALIZACIÓN DE GOOGLE MAPS -->
-    <script src="js/google-maps-init.js?v=1.0.0"></script>
-
-
-    <!-- Scripts de la aplicación EN ESTE ORDEN -->
-    <!-- Scripts de la aplicación EN ESTE ORDEN -->
-
-    <!-- New modules - Load first -->
-    <!-- MOCK DATA for V2 testing - Comment out to use real Firebase -->
-    <script src="js/mock-data.js"></script>
-
-    <script src="js/security.js"></script>
-    <script src="js/ui-feedback.js"></script>
-
-    <!-- Existing scripts -->
-    <script src="js/config.js"></script>
-    <script src="js/helpers.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/calculator.js?v=2.1.1"></script>
-
-    <!-- 🎯 SEQUENTIAL DESTINATIONS - Google Maps Style -->
-    <script src="js/sequential-destinations.js"></script>
-
-    <!-- 🚀 Calculator Lazy Loading System (NEW) - Loads modules on demand -->
-    <script src="js/calculator-lazy-loader.js?v=1.0.0"></script>
-
-    <!-- 🎨 Image Optimizer - WebP fallback & lazy loading -->
-    <script src="js/image-optimizer.js?v=1.0.0"></script>
-
-    <!-- ✨ UI Enhancements - Animations & UX improvements -->
-    <script src="js/ui-enhancements.js?v=1.0.0"></script>
-
-    <!-- 📦 Service Worker Registration - Cache strategies -->
-    <script src="js/sw-register.js?v=1.0.0"></script>
-
-    <!-- 💳 Stripe Integration - Payments & Subscriptions -->
-    <script src="js/stripe-config.js?v=1.0.0"></script>
-    <script src="js/upgrade-modal.js?v=1.0.0"></script>
-
-    <script src="js/userPlans.js"></script>
-    <script src="js/history.js?v=2.0.1"></script>
-
-    <!-- 💰 Finances modules - Load in order (refactored) -->
-    <script src="js/finances-core.js?v=1.0.0"></script>
-    <script src="js/finances-data.js?v=1.0.0"></script>
-    <script src="js/finances.js?v=3.1.1"></script>
-    <script src="js/finances-ui.js?v=1.0.0"></script>
-
-    <!-- 🚀 Lazy Loading System (NEW) - Loads charts/reports/expenses on demand -->
-    <script src="js/lazy-loader.js?v=1.0.0"></script>
-
-    <!-- 🎯 Lazy Loading Override - Forces lazy for expenses/reports -->
-    <script src="js/finances-lazy-override.js?v=1.0.0"></script>
-
-    <script src="js/zones.js"></script>
-    <script src="js/core/roles-manager.js?v=1.0.0"></script>
-    <script src="js/admin-panel.js"></script>
-    <script src="js/role-badge-display.js?v=1.0.0"></script>
-    <script src="js/onboarding-manager.js?v=1.0.3"></script>
-    <script src="js/main.js"></script>
-    <script src="js/core/agent-base.js"></script>
-    <script src="js/core/event-bus.js"></script>
-    <script src="js/core/conversation-memory.js"></script>
-    <script src="js/core/pronoun-resolver.js"></script>
-    <script src="js/core/response-builders.js"></script>
-    <script src="js/core/sentiment-analyzer.js"></script>
-    <script src="js/core/insights-analyzer.js"></script>
-    <script src="js/core/decisions-tracker.js"></script>
-    <script src="js/core/pattern-learner.js"></script>
-    <script src="js/core/lex-master.js"></script>
-    <script src="js/lex-ai-brain.js"></script>
-    <script src="js/core/lex-modals.js"></script>
-    <script src="js/lex-learning.js"></script>
-    <script src="js/lex.js"></script>
-    <script src="js/lex-intents.js"></script>
-    <script src="js/lex-router.js"></script>
-
-    <!-- Agentes -->
-    <script src="js/agents/calculator-agent.js"></script>
-    <script src="js/agents/history-agent.js"></script>
-    <script src="js/agents/zones-agent.js"></script>
-    <script src="js/agents/finances-agent.js"></script>
-
-    <!-- <script src="js/tabs.js"></script> REMOVED: tabs.js functionality merged into main.js -->
-    <script src="js/mobile.js"></script>
-    <script src="js/mobile-menu.js?v=1.0.0"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="js/zones-print.js"></script>
-
-    <!-- 🔍 Modal de Notas -->
-    <div id="notesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-      <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6">
         <!-- Header -->
-        <div class="flex justify-between items-center mb-4">
-          <h3 id="notesModalTitle" class="text-xl font-bold text-gray-800">Notas para DESTINO</h3>
-          <button onclick="closeNotesModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+        <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-4 flex justify-between items-center">
+          <h3 class="text-lg font-bold flex items-center gap-2">
+            📅 Seleccionar Mes
+          </h3>
+          <button onclick="closeMonthPicker()"
+            class="w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 text-xl">&times;</button>
         </div>
 
-        <!-- Lista de Notas -->
-        <div id="notesListModal" class="space-y-3 max-h-60 overflow-y-auto">
-          <p class="text-gray-500 text-sm">No hay notas registradas aún.</p>
+        <!-- Month Grid -->
+        <div id="monthPickerGrid" class="p-4 overflow-y-auto" style="max-height: 60vh;">
+          <div class="grid grid-cols-1 gap-2" id="monthButtonsContainer">
+            <!-- Los meses se generarán dinámicamente -->
+            <div class="text-center text-gray-500 py-4">Cargando meses...</div>
+          </div>
         </div>
 
+        <!-- Footer con botón Cancelar -->
+        <div class="border-t p-4" style="background-color: #f8fafc;">
+          <button onclick="closeMonthPicker()" class="w-full py-3 font-semibold rounded-xl transition"
+            style="background-color: #e5e7eb !important; color: #374151 !important; -webkit-text-fill-color: #374151 !important;">
+            ❌ Cancelar
+          </button>
+        </div>
+
+        <!-- CSS Override for month buttons -->
+        <style>
+          #monthButtonsContainer button {
+            color: white !important;
+            background-color: rgba(30, 58, 138, 0.7) !important;
+            border: 2px solid rgba(96, 165, 250, 0.4) !important;
+          }
+
+          #monthButtonsContainer button:first-child {
+            background: linear-gradient(to right, #3b82f6, #2563eb) !important;
+          }
+        </style>
       </div>
     </div>
+  </div>
+
+  <!-- ✅ Edit Modal -->
+  <div id="editModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <!-- Modal principal limitado al 90% de la pantalla -->
+    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col">
+
+      <!-- Header fijo -->
+      <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between flex-none">
+        <h3 class="text-lg font-semibold text-gray-900">✏️ Editar Carga</h3>
+        <button type="button" onclick="closeEditModal()" class="text-gray-400 hover:text-gray-600">
+          <span class="text-2xl">&times;</span>
+        </button>
+      </div>
+
+      <!-- Body con scroll interno -->
+      <div class="px-6 py-4 overflow-y-auto flex-1" style="max-height:65vh;">
+        <div class="space-y-4">
+
+          <!-- Información básica -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="editDate" class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
+              <input type="date" id="editDate" name="editDate"
+                class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none"
+                required>
+            </div>
+            <div>
+              <label for="editLoadNumber" class="block text-sm font-medium text-gray-700 mb-1">Número de Carga</label>
+              <input type="text" id="editLoadNumber" name="editLoadNumber" placeholder="Número de carga"
+                class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- Origen y Destino -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="editOrigin" class="block text-sm font-medium text-gray-700 mb-1">Origen *</label>
+              <input type="text" id="editOrigin" name="editOrigin" placeholder="Miami, FL"
+                class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none"
+                required>
+            </div>
+            <div>
+              <label for="editDestination" class="block text-sm font-medium text-gray-700 mb-1">Destino *</label>
+              <input type="text" id="editDestination" name="editDestination" placeholder="Atlanta, GA"
+                class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none"
+                required>
+            </div>
+          </div>
+
+          <!-- Millas -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label for="editLoadedMiles" class="block text-sm font-medium text-gray-700 mb-1">Millas Cargadas
+                *</label>
+              <input type="number" id="editLoadedMiles" name="editLoadedMiles" placeholder="600" min="0" required
+                class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
+            </div>
+            <div>
+              <label for="editDeadheadMiles" class="block text-sm font-medium text-gray-700 mb-1">Millas
+                Vacías</label>
+              <input type="number" id="editDeadheadMiles" name="editDeadheadMiles" placeholder="25" min="0"
+                class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
+            </div>
+            <div>
+              <label for="editTotalMiles" class="block text-sm font-medium text-gray-700 mb-1">Total Millas</label>
+              <input type="number" id="editTotalMiles" name="editTotalMiles" readonly
+                class="border border-gray-200 rounded px-3 py-2 w-full bg-gray-50 text-gray-600">
+            </div>
+          </div>
+
+          <!-- Información financiera -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="editRpm" class="block text-sm font-medium text-gray-700 mb-1">RPM ($/milla) *</label>
+              <input type="number" id="editRpm" name="editRpm" placeholder="1.25" step="0.01" min="0" required
+                class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
+            </div>
+            <div>
+              <label for="editTotalCharge" class="block text-sm font-medium text-gray-700 mb-1">Total a Cobrar</label>
+              <input type="number" id="editTotalCharge" name="editTotalCharge" step="0.01" min="0"
+                class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- Costos adicionales -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="editTolls" class="block text-sm font-medium text-gray-700 mb-1">Peajes ($)</label>
+              <input type="number" id="editTolls" name="editTolls" placeholder="25.00" step="0.01" min="0"
+                class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
+            </div>
+            <div>
+              <label for="editOtherCosts" class="block text-sm font-medium text-gray-700 mb-1">Otros Costos
+                ($)</label>
+              <input type="number" id="editOtherCosts" name="editOtherCosts" placeholder="15.00" step="0.01" min="0"
+                class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
+            </div>
+            <div>
+              <label for="editRepositionMiles" class="block text-sm font-medium text-gray-700">Reposicionamiento
+                (millas)</label>
+              <input type="number" id="editRepositionMiles" class="border p-2 w-full rounded" placeholder="Ej: 120">
+            </div>
+          </div>
+
+          <!-- Empresa y notas -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="editCompanyName" class="block text-sm font-medium text-gray-700 mb-1">Empresa</label>
+              <input type="text" id="editCompanyName" name="editCompanyName" placeholder="Nombre de la empresa"
+                class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
+            </div>
+            <div class="md:col-span-2">
+              <label for="editNotes" class="block text-sm font-medium text-gray-700 mb-1">Notas de experiencia</label>
+              <textarea id="editNotes" name="editNotes" placeholder="Ej: RPM bajo, mejor relocalizar a Nashville"
+                rows="3"
+                class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none"></textarea>
+            </div>
+          </div>
+
+          <!-- Resultados calculados -->
+          <div class="border-t border-gray-200 pt-4">
+            <h4 class="text-md font-medium text-gray-900 mb-3">🧮 Cálculos Automáticos</h4>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+              <div class="bg-gray-50 p-2 rounded">
+                <span class="text-gray-600">Costo Operativo:</span>
+                <div id="editOperatingCost" class="font-semibold text-red-600">$0.00</div>
+              </div>
+              <div class="bg-gray-50 p-2 rounded">
+                <span class="text-gray-600">Costo Combustible:</span>
+                <div id="editFuelCost" class="font-semibold text-red-600">$0.00</div>
+              </div>
+              <div class="bg-gray-50 p-2 rounded">
+                <span class="text-gray-600">Ganancia Neta:</span>
+                <div id="editNetProfit" class="font-semibold text-green-600">$0.00</div>
+              </div>
+              <div class="bg-gray-50 p-2 rounded">
+                <span class="text-gray-600">Margen:</span>
+                <div id="editProfitMargin" class="font-semibold text-blue-600">0%</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Footer fijo -->
+      <div class="border-t border-gray-200 px-6 py-4 flex flex-col sm:flex-row gap-3 sm:justify-end bg-white flex-none">
+        <button type="button" onclick="closeEditModal()"
+          class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 order-2 sm:order-1">
+          Cancelar
+        </button>
+        <button type="button" onclick="saveEditedLoad()"
+          class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 order-1 sm:order-2">
+          💾 Guardar Cambios
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+
+  <!-- Firebase compat -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+
+  <!-- Chart.js for dashboard -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+
+  <!-- ✅ GOOGLE MAPS SCRIPT CORREGIDO - SIN CALLBACK AUTOMÃTICO -->
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkEYDbxkjXJx5wNh_7wMdIqmklOMCIyHY&libraries=places&callback=initGoogleMaps&loading=async">
+    </script>
+
+
+  <!--  SCRIPT DE INICIALIZACIÓN DE GOOGLE MAPS -->
+  <script src="js/google-maps-init.js?v=1.0.0"></script>
+
+
+  <!-- Scripts de la aplicación EN ESTE ORDEN -->
+  <!-- Scripts de la aplicación EN ESTE ORDEN -->
+
+  <!-- New modules - Load first -->\r\n <!-- MOCK DATA removed: file is entirely commented out, no need to load -->
+
+  <script src="js/security.js"></script>
+  <script src="js/ui-feedback.js"></script>
+
+  <!-- 🍪 Cookie Consent + Analytics (consent gates analytics loading) -->
+  <script src="js/cookie-consent.js?v=1.0.0"></script>
+  <script src="js/analytics-manager.js?v=1.0.0"></script>
+
+  <!-- Existing scripts -->
+  <script src="js/config.js?v=2.1.0"></script>
+  <script src="js/helpers.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/calculator.js?v=2.1.1"></script>
+  <script src="js/custom-categories.js"></script>
+  <script src="js/cpm-engine.js"></script>
+
+  <!-- 🎯 SEQUENTIAL DESTINATIONS - Google Maps Style -->
+  <script src="js/sequential-destinations.js"></script>
+
+  <!-- 🚀 Calculator Lazy Loading System (NEW) - Loads modules on demand -->
+  <script src="js/calculator-lazy-loader.js?v=1.0.0"></script>
+
+  <!-- 🎨 Image Optimizer - WebP fallback & lazy loading -->
+  <script src="js/image-optimizer.js?v=1.0.0"></script>
+
+  <!-- ✨ UI Enhancements - Animations & UX improvements -->
+  <script src="js/ui-enhancements.js?v=1.0.0"></script>
+
+  <!-- 📦 Service Worker Registration - Cache strategies -->
+  <script src="js/sw-register.js?v=1.0.0"></script>
+
+  <!-- 🗄️ Offline Storage & Sync - IndexedDB + auto-sync -->
+  <script src="js/offline-storage.js?v=1.0.0"></script>
+  <script src="js/sync-manager.js?v=1.0.0"></script>
+
+  <!-- 💳 Stripe Integration - Payments & Subscriptions -->
+  <script src="js/stripe-config.js?v=1.0.0"></script>
+  <script src="js/upgrade-modal.js?v=1.0.0"></script>
+
+  <script src="js/userPlans.js"></script>
+  <script src="js/history.js?v=2.0.1"></script>
+
+  <!-- 💰 Finances modules - Load in order (refactored) -->
+  <script src="js/finances-core.js?v=1.0.0"></script>
+  <script src="js/finances-data.js?v=1.0.0"></script>
+  <script src="js/finances.js?v=3.1.1"></script>
+  <script src="js/finances-ui.js?v=1.0.0"></script>
+
+  <!-- 🚀 Lazy Loading System (NEW) - Loads charts/reports/expenses on demand -->
+  <script src="js/lazy-loader.js?v=1.0.0"></script>
+
+  <!-- 🎯 Lazy Loading Override - Forces lazy for expenses/reports -->
+  <script src="js/finances-lazy-override.js?v=1.0.0"></script>
+
+  <script src="js/zones.js"></script>
+  <script src="js/core/roles-manager.js?v=1.0.0"></script>
+  <script src="js/admin-panel.js"></script>
+  <script src="js/role-badge-display.js?v=2.0.7"></script>
+  <script src="js/onboarding-manager.js?v=1.0.3"></script>
+  <script src="js/main.js"></script>
+  <script src="js/core/agent-base.js"></script>
+  <script src="js/core/event-bus.js"></script>
+  <script src="js/core/conversation-memory.js"></script>
+  <script src="js/core/pronoun-resolver.js"></script>
+  <script src="js/core/response-builders.js"></script>
+  <script src="js/core/sentiment-analyzer.js"></script>
+  <script src="js/core/insights-analyzer.js"></script>
+  <script src="js/core/decisions-tracker.js"></script>
+  <script src="js/core/pattern-learner.js"></script>
+  <script src="js/core/lex-master.js"></script>
+  <script src="js/lex-ai-brain.js"></script>
+  <script src="js/core/lex-modals.js"></script>
+  <script src="js/lex-learning.js"></script>
+  <script src="js/lex.js"></script>
+  <script src="js/lex-intents.js"></script>
+  <script src="js/lex-router.js"></script>
+
+  <!-- Agentes -->
+  <script src="js/agents/calculator-agent.js"></script>
+  <script src="js/agents/history-agent.js"></script>
+  <script src="js/agents/zones-agent.js"></script>
+  <script src="js/agents/finances-agent.js"></script>
+
+  <!-- <script src="js/tabs.js"></script> REMOVED: tabs.js functionality merged into main.js -->
+  <script src="js/mobile.js"></script>
+  <script src="js/mobile-menu.js?v=1.0.0"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="js/zones-print.js"></script>
+
+  <!-- 🔍 Modal de Notas -->
+  <div id="notesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6">
+      <!-- Header -->
+      <div class="flex justify-between items-center mb-4">
+        <h3 id="notesModalTitle" class="text-xl font-bold text-gray-800">Notas para DESTINO</h3>
+        <select id="notesModalType" class="mt-1 border border-gray-300 rounded px-2 py-1 text-sm">
+          <option value="destino">Como Destino</option>
+          <option value="origen">Como Origen</option>
+          <option value="ambos">Ambos</option>
+        </select>
+        <button onclick="closeNotesModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+      </div>
+
+      <!-- Lista de Notas -->
+      <div id="notesListModal" class="space-y-3 max-h-60 overflow-y-auto">
+        <p class="text-gray-500 text-sm">No hay notas registradas aún.</p>
+      </div>
+
+    </div>
+  </div>
 
   </div>
 
@@ -2392,9 +2563,6 @@
       </span>
     </div>
   </div>
-
-  <!-- Custom Categories Module -->
-  <script src="js/custom-categories.js"></script>
 
   <!-- ✅ MODAL PARA GESTIONAR CATEGORÍAS -->
   <div id="categoryModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
@@ -2520,9 +2688,82 @@
     </div>
   </div>
 
-  <!-- 🔧 WORKAROUND: Modal de categorías creado dinámicamente por caché de Firebase -->
-  <script src="js/category-modal-dynamic.js"></script>
+  <script>
+    function showMiCuenta() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      if (mobileMenu) {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.style.transform = 'scaleY(0)';
+        mobileMenu.style.opacity = '0';
+      }
+      const existing = document.getElementById('miCuentaModal');
+      if (existing) existing.remove();
 
+      const email = window.currentUser?.email || 'No disponible';
+
+      // Intentar obtener el rol real desde rolesManager
+      let rolName = 'Usuario';
+      let rolIcon = '👤';
+      if (window.rolesManager) {
+        if (window.rolesManager.isAdmin()) {
+          rolName = 'Admin';
+          rolIcon = '👑';
+        } else if (window.rolesManager.isDeveloper()) {
+          rolName = 'Developer';
+          rolIcon = '💻';
+        }
+      } else {
+        // Fallback por si rolesManager no está listo
+        rolName = document.getElementById('mobileRoleText')?.textContent || 'Usuario';
+        rolIcon = document.getElementById('mobileRoleIcon')?.textContent || '👤';
+      }
+
+      const plan = window.userPlan?.name || 'Plan Gratuito';
+      const esPago = (window.userPlan?.price || 0) > 0;
+
+      const modal = document.createElement('div');
+      modal.id = 'miCuentaModal';
+      modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem';
+
+      let portalButtonHTML = '';
+      if (esPago) {
+        portalButtonHTML = `<button onclick="window.StripeIntegration && window.StripeIntegration.openBillingPortal ? window.StripeIntegration.openBillingPortal() : openBillingPortal(); document.getElementById('miCuentaModal').remove()" style="background:#10b981;color:white;padding:0.75rem;border-radius:0.5rem;font-weight:700;border:none;cursor:pointer;width:100%;text-align:center;display:flex;justify-content:center;align-items:center;gap:0.5rem">💳 Gestionar Suscripción</button>`;
+      } else {
+        // Si no es admin ni developer, ofrecer mejorar plan
+        if (rolName === 'Usuario') {
+          portalButtonHTML = `<a href="/plans.html" style="background:#6366f1;color:white;padding:0.75rem;border-radius:0.5rem;text-align:center;font-weight:700;text-decoration:none;display:block">⬆️ Mejorar Plan</a>`;
+        }
+      }
+
+      modal.innerHTML = `
+      <div style="background:#1e293b;border-radius:1rem;padding:1.5rem;width:100%;max-width:360px;color:white">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+          <h2 style="font-size:1.25rem;font-weight:700">👤 Mi Cuenta</h2>
+          <button onclick="document.getElementById('miCuentaModal').remove()" style="font-size:1.5rem;background:none;border:none;color:white;cursor:pointer">✕</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div style="background:#0f172a;padding:1rem;border-radius:0.5rem">
+            <p style="color:#94a3b8;font-size:0.75rem;margin-bottom:0.25rem">EMAIL</p>
+            <p style="font-weight:600">${email}</p>
+          </div>
+          <div style="background:#0f172a;padding:1rem;border-radius:0.5rem">
+            <p style="color:#94a3b8;font-size:0.75rem;margin-bottom:0.25rem">ROL</p>
+            <p style="font-weight:600">${rolIcon} ${rolName}</p>
+          </div>
+          <div style="background:#0f172a;padding:1rem;border-radius:0.5rem">
+            <p style="color:#94a3b8;font-size:0.75rem;margin-bottom:0.25rem">PLAN</p>
+            <p style="font-weight:600">💎 ${plan}</p>
+          </div>
+          ${portalButtonHTML}
+          <button onclick="logout();document.getElementById('miCuentaModal').remove()" style="background:#ef4444;color:white;padding:0.75rem;border-radius:0.5rem;font-weight:700;border:none;cursor:pointer;width:100%">🚪 Cerrar Sesión</button>
+        </div>
+      </div>
+    `;
+      document.body.appendChild(modal);
+    }
+  </script>
+
+  <!-- 🔧 WORKAROUND: Modal de categorías creado dinámicamente por caché de Firebase -->
   <script src="js/theme-manager.js"></script>
   <script src="js/theme-fix-core.js?v=5.21.0"></script>
 </body>

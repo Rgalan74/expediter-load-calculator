@@ -4,8 +4,8 @@
 
 window.V2_READ_ONLY_MODE = true; // ← NUNCA cambiar a false en V2
 
-console.log('🔒 V2 READ-ONLY MODE ACTIVADO');
-console.log('⚠️  Esta versión NO puede modificar datos en Firebase');
+debugLog('🔒 V2 READ-ONLY MODE ACTIVADO');
+debugLog('⚠️  Esta versión NO puede modificar datos en Firebase');
 
 // Interceptar y bloquear operaciones de escritura
 const originalFirestore = window.firebase ? window.firebase.firestore : null;
@@ -35,7 +35,7 @@ if (originalFirestore) {
         return Promise.reject(new Error('Operación bloqueada en modo solo lectura'));
     };
 
-    console.log('✅ Protecciones de solo lectura aplicadas');
+    debugLog('✅ Protecciones de solo lectura aplicadas');
 }
 
 // Mostrar banner de advertencia
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
         appContent.style.paddingTop = '3rem';
     }
 
-    console.log('⚠️ Banner de READ-ONLY mostrado');
+    debugLog('⚠️ Banner de READ-ONLY mostrado');
 });
 
 // Modificar botones de acciones de escritura para mostrar advertencia
@@ -92,9 +92,9 @@ document.addEventListener('DOMContentLoaded', function () {
             saveBtn.title = 'Deshabilitado en V2 (solo lectura)';
         }
 
-        console.log('✅ Botones de escritura protegidos');
+        debugLog('✅ Botones de escritura protegidos');
     }, 2000);
 });
 
-console.log('🔒 Read-Only Mode cargado y activo');
+debugLog('🔒 Read-Only Mode cargado y activo');
 */

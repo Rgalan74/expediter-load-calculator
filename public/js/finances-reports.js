@@ -1161,4 +1161,4 @@ window.printReport = printReport;
 window.openReportModal = openReportModal;
 window.closeReportModal = closeReportModal;
 
-console.log("💰 Reports module loaded successfully");
+debugLog("💰 Reports module loaded successfully");

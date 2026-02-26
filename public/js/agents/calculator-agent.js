@@ -22,11 +22,11 @@ class CalculatorAgent extends AgentBase {
   // Ejecutar análisis
   async execute(task, context) {
     this.setState('THINKING');
-    
+
     try {
       // 1. Obtener datos
       const loadData = this.extractLoadData(context);
-      
+
       if (!loadData || !loadData.totalMiles) {
         throw new Error('No hay datos de carga');
       }
@@ -109,7 +109,8 @@ class CalculatorAgent extends AgentBase {
   calculateRPM(loadData, profile) {
     const total = loadData.totalMiles;
     const rpm = total > 0 ? loadData.rate / total : 0;
-    const cpm = profile?.avgCPM || 0.576;
+    const cpm = profile?.realCPM || profile?.avgCPM || getUserCPM();
+    const historicalCPM = profile?.avgCPM || cpm;
     const profit = loadData.rate - (total * cpm);
     const deadheadPct = total > 0 ? (loadData.deadheadMiles / total) * 100 : 0;
 
@@ -128,7 +129,8 @@ class CalculatorAgent extends AgentBase {
       deadheadPercent: deadheadPct,
       hourlyRate,
       estimatedTime: totalTime,
-      cpm
+      cpm,
+      historicalCPM
     };
   }
 
@@ -201,6 +203,13 @@ class CalculatorAgent extends AgentBase {
       if (trap.isTrap) decision.reasons.push(trap.warning);
     }
 
+    // Comparación histórica si hay diferencia significativa
+    // Va FUERA del if/else — se ejecuta siempre después de la decisión
+    if (metrics.historicalCPM && Math.abs(metrics.cpm - metrics.historicalCPM) > 0.02) {
+      const trend = metrics.cpm > metrics.historicalCPM ? '📈 Costos subieron' : '📉 Costos bajaron';
+      decision.reasons.push(`${trend} vs historial ($${metrics.historicalCPM.toFixed(3)}/mi)`);
+    }
+
     // Contraoferta
     if (metrics.rpm < target && metrics.rpm >= minSafe) {
       const counterRate = target * ctx.loadData.totalMiles;
@@ -235,4 +244,4 @@ if (window.lexMaster) {
   window.lexMaster.registerAgent('calculator', calcAgent);
 }
 
-console.log('🧮 CalculatorAgent loaded');
+debugLog('🧮 CalculatorAgent loaded');

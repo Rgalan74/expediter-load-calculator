@@ -14,13 +14,13 @@ class SyncManager {
      */
     setupOnlineListener() {
         window.addEventListener('online', () => {
-            console.log('🌐 Connection restored - Starting sync...');
+            debugLog('🌐 Connection restored - Starting sync...');
             this.showNotification('Connection restored', 'Syncing your data...');
             this.syncAll();
         });
 
         window.addEventListener('offline', () => {
-            console.log('📴 Connection lost - Offline mode active');
+            debugLog('📴 Connection lost - Offline mode active');
             this.showNotification('Offline Mode', 'Your data will be saved locally');
         });
 
@@ -36,17 +36,17 @@ class SyncManager {
      */
     async syncAll() {
         if (this.syncInProgress) {
-            console.log('⏳ Sync already in progress');
+            debugLog('⏳ Sync already in progress');
             return;
         }
 
         if (!navigator.onLine) {
-            console.log('📴 Offline - Cannot sync now');
+            debugLog('📴 Offline - Cannot sync now');
             return;
         }
 
         if (!firebase.auth().currentUser) {
-            console.log('🔒 Not authenticated - Cannot sync');
+            debugLog('🔒 Not authenticated - Cannot sync');
             return;
         }
 
@@ -56,7 +56,7 @@ class SyncManager {
             await this.syncCalculations();
             await this.syncExpenses();
 
-            console.log('✅ Sync completed successfully');
+            debugLog('✅ Sync completed successfully');
             this.showNotification('Sync Complete', 'All your data is up to date');
         } catch (error) {
             console.error('❌ Sync failed:', error);
@@ -73,33 +73,33 @@ class SyncManager {
         const unsynced = await window.offlineStorage.getUnsyncedItems('calculations');
 
         if (unsynced.length === 0) {
-            console.log('✅ No calculations to sync');
+            debugLog('✅ No calculations to sync');
             return;
         }
 
-        console.log(`📤 Syncing ${unsynced.length} calculations...`);
+        debugLog(`📤 Syncing ${unsynced.length} calculations...`);
 
         for (const calc of unsynced) {
             try {
                 const userId = firebase.auth().currentUser.uid;
-                const loadId = `${userId}_${Date.now()}`;
 
-                // Save to Firebase
-                await firebase.firestore()
-                    .collection('users')
-                    .doc(userId)
+                // Remove internal IndexedDB fields before syncing
+                const { id: _idbId, synced: _synced, timestamp: _ts, ...cleanData } = calc;
+
+                // Save to top-level loads collection (matches app pattern)
+                const docRef = await firebase.firestore()
                     .collection('loads')
-                    .doc(loadId)
-                    .set({
-                        ...calc,
-                        loadId,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    .add({
+                        ...cleanData,
+                        userId,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        syncedFromOffline: true
                     });
 
-                // Mark as synced and delete
+                // Delete from IndexedDB after successful sync
                 await window.offlineStorage.deleteSynced('calculations', calc.id);
 
-                console.log(`✅ Synced calculation #${calc.id}`);
+                debugLog(`✅ Synced calculation #${calc.id} → ${docRef.id}`);
             } catch (error) {
                 console.error(`❌ Failed to sync calculation #${calc.id}:`, error);
             }
@@ -113,33 +113,33 @@ class SyncManager {
         const unsynced = await window.offlineStorage.getUnsyncedItems('expenses');
 
         if (unsynced.length === 0) {
-            console.log('✅ No expenses to sync');
+            debugLog('✅ No expenses to sync');
             return;
         }
 
-        console.log(`📤 Syncing ${unsynced.length} expenses...`);
+        debugLog(`📤 Syncing ${unsynced.length} expenses...`);
 
         for (const expense of unsynced) {
             try {
                 const userId = firebase.auth().currentUser.uid;
-                const expenseId = `${userId}_${Date.now()}`;
 
-                // Save to Firebase
-                await firebase.firestore()
-                    .collection('users')
-                    .doc(userId)
+                // Remove internal IndexedDB fields before syncing
+                const { id: _idbId, synced: _synced, timestamp: _ts, ...cleanData } = expense;
+
+                // Save to top-level expenses collection (matches app pattern)
+                const docRef = await firebase.firestore()
                     .collection('expenses')
-                    .doc(expenseId)
-                    .set({
-                        ...expense,
-                        id: expenseId,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    .add({
+                        ...cleanData,
+                        userId,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        syncedFromOffline: true
                     });
 
-                // Mark as synced and delete
+                // Delete from IndexedDB after successful sync
                 await window.offlineStorage.deleteSynced('expenses', expense.id);
 
-                console.log(`✅ Synced expense #${expense.id}`);
+                debugLog(`✅ Synced expense #${expense.id} → ${docRef.id}`);
             } catch (error) {
                 console.error(`❌ Failed to sync expense #${expense.id}:`, error);
             }
@@ -248,4 +248,4 @@ window.syncManager = window.syncManager || new SyncManager();
 // Expose sync function globally
 window.manualSync = () => window.syncManager.syncAll();
 
-console.log('🔄 Sync Manager initialized');
+debugLog('🔄 Sync Manager initialized');

@@ -282,4 +282,4 @@ window.editNote = editNote;
 window.deleteNote = deleteNote;
 window.handleDestinationChange = handleDestinationChange;
 
-console.log('📦 Calculator Notes module loaded successfully');
+debugLog('📦 Calculator Notes module loaded successfully');

@@ -1010,7 +1010,7 @@ function showMapLoadError() {
 // ======================================================
 window.analyzeLexZones = async function () {
     try {
-        console.log('[LEX-ZONES] Iniciando análisis de zonas…');
+        debugLog('[LEX-ZONES] Iniciando análisis de zonas…');
 
         // 1. Asegurar datos de zonas ya calculados
         //    Preferimos usar resumenPorEstado si ya existe
@@ -1018,7 +1018,7 @@ window.analyzeLexZones = async function () {
 
         if (window.resumenPorEstado && Object.keys(window.resumenPorEstado).length > 0) {
             stats = window.resumenPorEstado;
-            console.log('[LEX-ZONES] Usando resumenPorEstado existente');
+            debugLog('[LEX-ZONES] Usando resumenPorEstado existente');
         } else {
             // Si no existe, cargamos del historial en Firebase
             const user = firebase.auth().currentUser;
@@ -1047,7 +1047,7 @@ window.analyzeLexZones = async function () {
                 return;
             }
 
-            console.log('[LEX-ZONES] Calculando estadísticas desde loads…');
+            debugLog('[LEX-ZONES] Calculando estadísticas desde loads…');
 
             // Usa tu función original de zonas
             if (typeof calcularEstadisticas === 'function') {
@@ -1081,7 +1081,7 @@ window.analyzeLexZones = async function () {
         // 4. Mostrar modal detallado (sin depender de window.lexAI)
         window.showLexZonesModal(analysis);
 
-        console.log('[LEX-ZONES] Análisis completado:', analysis);
+        debugLog('[LEX-ZONES] Análisis completado:', analysis);
         return analysis;
     } catch (err) {
         console.error('[LEX-ZONES] Error:', err);
@@ -1402,6 +1402,127 @@ window.closeLexZonesModal = function () {
     if (window.setLexState) window.setLexState('idle');
 };
 
+// Cargar y mostrar todas las notas en el tab de Zonas
+async function loadMarketNotes() {
+    const container = document.getElementById('marketNotesList');
+    if (!container || !window.currentUser) return;
+
+    try {
+        const snap = await firebase.firestore().collection('notes')
+            .where('userId', '==', window.currentUser.uid)
+            .orderBy('createdAt', 'desc')
+            .get();
+
+        if (snap.empty) {
+            container.innerHTML = '<p class="text-sm text-gray-500 text-center py-4">No tienes notas guardadas aún.</p>';
+            return;
+        }
+
+        const typeBadge = {
+            destino: '<span class="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full">Destino</span>',
+            origen: '<span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">Origen</span>',
+            ambos: '<span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded-full">Ambos</span>',
+        };
+
+        container.innerHTML = snap.docs.map(doc => {
+            const d = doc.data();
+            const badge = typeBadge[d.type] || typeBadge['destino'];
+            return `
+        <div class="flex items-start justify-between bg-white border border-gray-200 rounded-lg p-3 gap-2">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 flex-wrap mb-1">
+              <span class="font-medium text-sm text-gray-800">${d.destination || d.key}</span>
+              ${badge}
+            </div>
+            <p class="text-sm text-gray-600">${d.note}</p>
+          </div>
+          <div class="flex gap-2 shrink-0">
+            <button onclick="editMarketNote('${doc.id}', \`${d.note.replace(/`/g, "'")}\`)"
+              class="text-blue-500 hover:text-blue-700 text-xs">✏️</button>
+            <button onclick="deleteMarketNote('${doc.id}')"
+              class="text-red-400 hover:text-red-600 text-xs">🗑️</button>
+          </div>
+        </div>`;
+        }).join('');
+
+    } catch (e) {
+        console.error('Error cargando notas:', e);
+        container.innerHTML = '<p class="text-sm text-red-500 text-center py-4">Error cargando notas.</p>';
+    }
+}
+
+// Guardar nota desde el tab de Zonas
+async function saveMarketNote() {
+    const input = document.getElementById('noteZoneInput');
+    const textarea = document.getElementById('noteZoneText');
+    const type = document.getElementById('noteZoneType');
+
+    const destination = input?.value?.trim();
+    const note = textarea?.value?.trim();
+    const noteType = type?.value || 'destino';
+
+    if (!destination) return alert('Escribe un lugar primero');
+    if (!note) return alert('La nota no puede estar vacía');
+    if (!window.currentUser) return alert('Debes iniciar sesión');
+
+    try {
+        await firebase.firestore().collection('notes').add({
+            userId: window.currentUser.uid,
+            key: destination.toLowerCase().replace(/,.*$/, '').trim(),
+            destination: destination,
+            note: note,
+            type: noteType,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        input.value = '';
+        textarea.value = '';
+        loadMarketNotes();
+    } catch (e) {
+        console.error('Error guardando nota:', e);
+        alert('Error guardando la nota');
+    }
+}
+
+// Editar nota desde Zonas
+async function editMarketNote(id, oldText) {
+    const nuevo = prompt('Editar nota:', oldText);
+    if (!nuevo) return;
+    await firebase.firestore().collection('notes').doc(id).update({ note: nuevo });
+    loadMarketNotes();
+}
+
+// Borrar nota desde Zonas
+async function deleteMarketNote(id) {
+    if (!confirm('¿Borrar esta nota?')) return;
+    await firebase.firestore().collection('notes').doc(id).delete();
+    loadMarketNotes();
+}
+
+function initNoteZoneAutocomplete() {
+    const input = document.getElementById('noteZoneInput');
+    if (!input || !window.google?.maps?.places) return;
+
+    const autocomplete = new google.maps.places.Autocomplete(input, {
+        types: ['(cities)'],
+        componentRestrictions: { country: ['us', 'ca'] }
+    });
+
+    autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        if (place.formatted_address) {
+            input.value = place.formatted_address;
+        }
+    });
+}
+
+window.initNoteZoneAutocomplete = initNoteZoneAutocomplete;
+
+// Exponer globalmente
+window.saveMarketNote = saveMarketNote;
+window.editMarketNote = editMarketNote;
+window.deleteMarketNote = deleteMarketNote;
+window.loadMarketNotes = loadMarketNotes;
 
 //  EXPONER FUNCIONES GLOBALMENTE
 window.loadZonesData = loadZonesData;

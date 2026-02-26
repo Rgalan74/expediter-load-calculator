@@ -3,7 +3,7 @@
 // Usa el dataset que preparaste con Claude (variaciones, jerga, indicadores semánticos)
 
 (function () {
-  console.log('[LEX-INTENTS] Módulo de intents cargado');
+  debugLog('[LEX-INTENTS] Módulo de intents cargado');
 
   // ============================
   // Helpers básicos
@@ -349,7 +349,7 @@
       const primary = qualifyingIntents[0];
       const secondary = qualifyingIntents.slice(1, 3); // max 2 secondary
 
-      console.log('[LEX-INTENTS] Multi-intent detected:', {
+      debugLog('[LEX-INTENTS] Multi-intent detected:', {
         primary: primary.intent,
         secondary: secondary.map(s => s.intent)
       });
@@ -527,7 +527,7 @@
   // ============================
   window.lexDetectIntent = function (messageText) {
     const result = detectIntent(messageText);
-    console.log('[LEX-INTENTS] Intent detectado:', result);
+    debugLog('[LEX-INTENTS] Intent detectado:', result);
     return result;
   };
 })();

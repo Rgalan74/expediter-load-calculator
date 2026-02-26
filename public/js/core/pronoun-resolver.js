@@ -16,8 +16,8 @@ class PronounResolver {
         const context = memory.getContext();
         let resolved = text;
 
-        console.log('[PRONOUN-RESOLVER] Original:', text);
-        console.log('[PRONOUN-RESOLVER] Context:', context);
+        debugLog('[PRONOUN-RESOLVER] Original:', text);
+        debugLog('[PRONOUN-RESOLVER] Context:', context);
 
         // Pattern 1: "esta/esa carga" → use last mentioned miles/RPM
         if (/\b(esta|esa)\s+(carga|load)\b/i.test(resolved)) {
@@ -26,7 +26,7 @@ class PronounResolver {
                     /\b(esta|esa)\s+(carga|load)\b/gi,
                     `carga de ${context.lastMiles} millas`
                 );
-                console.log('[PRONOUN-RESOLVER] Resolved "carga" to', context.lastMiles, 'miles');
+                debugLog('[PRONOUN-RESOLVER] Resolved "carga" to', context.lastMiles, 'miles');
             }
         }
 
@@ -36,7 +36,7 @@ class PronounResolver {
                 /\b(el|al)\s+mismo\s+estado\b/gi,
                 context.lastState
             );
-            console.log('[PRONOUN-RESOLVER] Resolved "mismo estado" to', context.lastState);
+            debugLog('[PRONOUN-RESOLVER] Resolved "mismo estado" to', context.lastState);
         }
 
         // Pattern 3: "ese/el estado" → use last state
@@ -47,7 +47,7 @@ class PronounResolver {
                     /\b(ese|el)\s+estado\b/gi,
                     context.lastState
                 );
-                console.log('[PRONOUN-RESOLVER] Resolved "ese/el estado" to', context.lastState);
+                debugLog('[PRONOUN-RESOLVER] Resolved "ese/el estado" to', context.lastState);
             }
         }
 
@@ -57,7 +57,7 @@ class PronounResolver {
                 /\b(ese|esa)\s+(rpm|rate|tarifa)\b/gi,
                 `rpm ${context.lastRPM}`
             );
-            console.log('[PRONOUN-RESOLVER] Resolved "ese rpm" to', context.lastRPM);
+            debugLog('[PRONOUN-RESOLVER] Resolved "ese rpm" to', context.lastRPM);
         }
 
         // Pattern 5: "esas/las millas" → use last miles
@@ -66,7 +66,7 @@ class PronounResolver {
                 /\b(esas|las)\s+millas\b/gi,
                 `${context.lastMiles} millas`
             );
-            console.log('[PRONOUN-RESOLVER] Resolved "las millas" to', context.lastMiles);
+            debugLog('[PRONOUN-RESOLVER] Resolved "las millas" to', context.lastMiles);
         }
 
         // Pattern 6: "ahí" / "allá" (referring to state) → use last state
@@ -77,7 +77,7 @@ class PronounResolver {
                     /\b(ahí|allá|ahi|alla)\b/gi,
                     context.lastState
                 );
-                console.log('[PRONOUN-RESOLVER] Resolved "ahí/allá" to', context.lastState);
+                debugLog('[PRONOUN-RESOLVER] Resolved "ahí/allá" to', context.lastState);
             }
         }
 
@@ -91,14 +91,14 @@ class PronounResolver {
                     /\bcon\s+(eso|ese)\b/gi,
                     `con rpm ${context.lastRPM}`
                 );
-                console.log('[PRONOUN-RESOLVER] Resolved "con eso/ese" to rpm', context.lastRPM);
+                debugLog('[PRONOUN-RESOLVER] Resolved "con eso/ese" to rpm', context.lastRPM);
             }
         }
 
         if (resolved !== text) {
-            console.log('[PRONOUN-RESOLVER] Resolved:', resolved);
+            debugLog('[PRONOUN-RESOLVER] Resolved:', resolved);
         } else {
-            console.log('[PRONOUN-RESOLVER] No changes needed');
+            debugLog('[PRONOUN-RESOLVER] No changes needed');
         }
 
         return resolved;
@@ -147,4 +147,4 @@ class PronounResolver {
 
 // Make available globally
 window.PronounResolver = PronounResolver;
-console.log('🔗 PronounResolver loaded');
+debugLog('🔗 PronounResolver loaded');

@@ -70,7 +70,7 @@ function initializeFirebaseAuth() {
     try {
       analytics = firebase.analytics();
       window.analytics = analytics;
-      console.log('✅ Firebase Analytics inicializado');
+      debugLog('✅ Firebase Analytics inicializado');
     } catch (error) {
       console.warn('⚠️ Analytics no disponible:', error.message);
     }
@@ -102,12 +102,12 @@ function trackEvent(eventName, params = {}) {
   if (analytics) {
     try {
       analytics.logEvent(eventName, enrichedParams);
-      console.log('📊 Analytics:', eventName, enrichedParams);
+      debugLog('📊 Analytics:', eventName, enrichedParams);
     } catch (error) {
-      console.log('📊 Event (fallback):', eventName, enrichedParams);
+      debugLog('📊 Event (fallback):', eventName, enrichedParams);
     }
   } else {
-    console.log('📊 Event:', eventName, enrichedParams);
+    debugLog('📊 Event:', eventName, enrichedParams);
   }
 }
 
@@ -159,6 +159,19 @@ async function setupAuthListener() {
         }
       } catch (error) {
         debugLog("❌ Error cargando perfil extendido:", error);
+        // Fallback: intentar cargar costs desde localStorage backup
+        try {
+          const backupConfig = localStorage.getItem('userConfig_backup');
+          if (backupConfig) {
+            const parsed = JSON.parse(backupConfig);
+            if (parsed.costs) {
+              user.costs = parsed.costs;
+              debugLog("✅ Costs recuperados desde localStorage backup");
+            }
+          }
+        } catch (lsError) {
+          debugLog("⚠️ localStorage backup tampoco disponible", lsError);
+        }
       }
 
       // ✅ AGREGAR: Cargar plan del usuario
@@ -193,6 +206,62 @@ async function setupAuthListener() {
       }
 
       showAppContent();
+
+      // Detectar upgrade pendiente
+      const pendingPlan = localStorage.getItem('pendingPlan');
+      if (pendingPlan) {
+        debugLog('🔵 [CONFIG] pendingPlan detectado:', pendingPlan);
+        localStorage.removeItem('pendingPlan');
+        // Esperar a que StripeIntegration esté disponible (carga después de config.js)
+        const checkStripe = setInterval(() => {
+          if (window.StripeIntegration) {
+            clearInterval(checkStripe);
+            debugLog('🔵 [CONFIG] StripeIntegration listo, iniciando checkout:', pendingPlan);
+            window.StripeIntegration.createCheckoutSession(pendingPlan);
+          }
+        }, 500);
+        // Safety: dejar de intentar después de 10 segundos
+        setTimeout(() => {
+          clearInterval(checkStripe);
+          if (!window.StripeIntegration) {
+            console.error('❌ [CONFIG] StripeIntegration no disponible después de 10s');
+          }
+        }, 10000);
+      }
+
+      // ✅ INICIALIZAR CPM ENGINE después de cargar la app
+      setTimeout(async () => {
+        try {
+          if (window.CPMEngine) {
+            const result = await window.CPMEngine.getCPM();
+
+            // Si hay datos reales, actualizar costs con CPM del engine
+            if (result.source === 'real' && window.currentUser) {
+              const currentCosts = window.currentUser.costs || {};
+
+              // Distribuir el CPM real proporcionalmente
+              // mantenemos combustible de config, ajustamos el resto
+              const fuelCPM = currentCosts.combustible || 0.153;
+              const remainder = Math.max(0, result.cpm - fuelCPM); // Safety: nunca negativo
+
+              window.currentUser.costs = {
+                ...currentCosts,
+                costosFijos: parseFloat((remainder * 0.65).toFixed(4)),
+                mantenimiento: parseFloat((remainder * 0.35).toFixed(4)),
+                comida: 0,
+                TOTAL: result.cpm,
+                totalCPM: result.cpm,
+                source: 'real',
+                cpmLabel: result.label
+              };
+
+              debugLog('✅ CPM Engine aplicado al calculador:', result.cpm);
+            }
+          }
+        } catch (e) {
+          console.warn('⚠️ CPM Engine init error:', e);
+        }
+      }, 2000); // 2 seg para que carguen todos los módulos
 
       // Cargar datos después de mostrar app
       setTimeout(() => {

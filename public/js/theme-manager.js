@@ -25,14 +25,41 @@ class ThemeManager {
         this.theme = theme;
         this.updateIcon();
 
+        // Force header styles (mobile light mode fix)
+        this.forceHeaderStyles();
+
         // Notify others if needed (e.g., charts might need redraw)
         window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme } }));
+    }
+
+    forceHeaderStyles() {
+        // Force header gradient and menu styles in mobile
+        const isMobile = window.innerWidth <= 768;
+
+        if (isMobile) {
+            // Force gradient text (Load Calculator)
+            const gradientElements = document.querySelectorAll('.header-title, .gradient-text');
+            gradientElements.forEach(el => {
+                el.style.background = 'linear-gradient(135deg, #00D9FF 0%, #7B2FFF 100%)';
+                el.style.webkitBackgroundClip = 'text';
+                el.style.backgroundClip = 'text';
+                el.style.webkitTextFillColor = 'transparent';
+            });
+
+            // Force menu hamburger to white (header is dark in both themes)
+            const menuToggle = document.getElementById('menuToggle');
+            if (menuToggle) {
+                menuToggle.style.color = '#ffffff';
+                menuToggle.style.fontSize = '1.75rem';
+                menuToggle.style.fontWeight = '900';
+            }
+        }
     }
 
     toggle() {
         // Switch theme
         const newTheme = this.theme === 'dark' ? 'light' : 'dark';
-        console.log(' [THEME] Switching to:', newTheme);
+        debugLog(' [THEME] Switching to:', newTheme);
         this.applyTheme(newTheme);
     }
 
@@ -62,3 +89,10 @@ class ThemeManager {
 
 // Initialize global instance
 window.themeManager = new ThemeManager();
+
+// Force header styles on page load
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        window.themeManager.forceHeaderStyles();
+    }, 100);
+});

@@ -20,11 +20,11 @@ class OnboardingManager {
      * Inicializa el sistema de onboarding
      */
     async init() {
-        console.log('🎓 OnboardingManager: Iniciando...');
+        debugLog('🎓 OnboardingManager: Iniciando...');
 
         // Esperar a que auth esté listo
         if (!window.currentUser || !window.db) {
-            console.log('⏳ Esperando autenticación...');
+            debugLog('⏳ Esperando autenticación...');
             setTimeout(() => this.init(), 500);
             return;
         }
@@ -37,22 +37,22 @@ class OnboardingManager {
             this.userProfile = await this.getUserProfile();
 
             if (!this.userProfile) {
-                console.log('⚠️ No se pudo cargar perfil de usuario');
+                debugLog('⚠️ No se pudo cargar perfil de usuario');
                 return;
             }
 
-            console.log('👤 Perfil cargado:', this.userProfile);
+            debugLog('👤 Perfil cargado:', this.userProfile);
 
             // Determinar si necesita onboarding
             if (this.needsOnboarding()) {
-                console.log('🆕 Usuario necesita onboarding');
+                debugLog('🆕 Usuario necesita onboarding');
                 await this.showWelcomeFlow();
             } else if (this.isUsingDefaults()) {
-                console.log('⚠️ Usuario usando defaults');
+                debugLog('⚠️ Usuario usando defaults');
                 this.showSetupReminder();
                 this.showConfigStatusIndicator(); // Mostrar también en calculadora
             } else {
-                console.log('✅ Usuario configurado correctamente');
+                debugLog('✅ Usuario configurado correctamente');
                 this.showConfigStatusIndicator(); // Mostrar que está configurado
             }
 
@@ -69,7 +69,7 @@ class OnboardingManager {
             const doc = await this.db.collection('users').doc(this.currentUser.uid).get();
 
             if (!doc.exists) {
-                console.log('📝 Usuario no existe en Firestore, creando...');
+                debugLog('📝 Usuario no existe en Firestore, creando...');
                 await this.createDefaultProfile();
                 return await this.getUserProfile(); // Recursivo para obtener el perfil creado
             }
@@ -78,7 +78,7 @@ class OnboardingManager {
 
             // 🔄 Migración automática para usuarios antiguos
             if (this.needsMigration(profile)) {
-                console.log('🔄 Perfil antiguo detectado, migrando a nueva estructura...');
+                debugLog('🔄 Perfil antiguo detectado, migrando a nueva estructura...');
                 await this.migrateOldProfile(profile);
                 return await this.getUserProfile(); // Recursivo para obtener perfil migrado
             }
@@ -176,7 +176,7 @@ class OnboardingManager {
 
         // Aplicar updates
         await this.db.collection('users').doc(this.currentUser.uid).update(updates);
-        console.log('✅ Perfil migrado exitosamente:', Object.keys(updates));
+        debugLog('✅ Perfil migrado exitosamente:', Object.keys(updates));
     }
 
     /**
@@ -249,7 +249,7 @@ class OnboardingManager {
         };
 
         await this.db.collection('users').doc(this.currentUser.uid).set(defaultProfile);
-        console.log('✅ Perfil default creado');
+        debugLog('✅ Perfil default creado');
     }
 
     /**
@@ -261,7 +261,7 @@ class OnboardingManager {
         if (window.rolesManager) {
             const isPrivileged = window.rolesManager.isPrivileged();
             if (isPrivileged) {
-                console.log('✅ Usuario con rol privilegiado detectado:', window.rolesManager.getUserRole());
+                debugLog('✅ Usuario con rol privilegiado detectado:', window.rolesManager.getUserRole());
                 return true;
             }
         }
@@ -299,7 +299,7 @@ class OnboardingManager {
 
         // NO mostrar onboarding a usuarios establecidos
         if (this.isEstablishedUser()) {
-            console.log('✅ Usuario establecido detectado, skip onboarding');
+            debugLog('✅ Usuario establecido detectado, skip onboarding');
             return false;
         }
 
@@ -321,7 +321,7 @@ class OnboardingManager {
 
         // 🔑 Usuarios privilegiados (admin/developer) NUNCA ven banner
         if (window.rolesManager && window.rolesManager.isPrivileged()) {
-            console.log('✅ Usuario privilegiado, no mostrar banner de defaults');
+            debugLog('✅ Usuario privilegiado, no mostrar banner de defaults');
             return false;
         }
 
@@ -382,11 +382,11 @@ class OnboardingManager {
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="icon">🚐</div>
-                        <h2>¡Bienvenido a Smart Load Solution!</h2>
+                        <h2 style="color: #1e293b !important;">¡Bienvenido a Smart Load Solution!</h2>
                     </div>
                     
                     <div class="modal-body">
-                        <p>Antes de calcular tu primera carga, configuremos tu operación (2 minutos):</p>
+                        <p style="color: #374151 !important;">Antes de calcular tu primera carga, configuremos tu operación (2 minutos):</p>
                         
                         <ul class="setup-benefits">
                             <li>✅ Tipo de vehículo y consumo</li>
@@ -396,12 +396,12 @@ class OnboardingManager {
                         
                         <div class="info-box">
                             <strong>📊 Cálculos precisos desde el inicio</strong>
-                            <p>Esto asegura que TODOS los cálculos sean precisos para TU operación específica.</p>
+                            <p style="color: #374151 !important; margin: 0; font-size: 0.875rem; line-height: 1.5;">Esto asegura que TODOS los cálculos sean precisos para TU operación específica.</p>
                         </div>
                     </div>
                     
                     <div class="modal-footer">
-                        <button class="btn-secondary" data-action="skip">
+                        <button class="btn-secondary" data-action="skip" style="color: #1e40af !important;">
                             Después (no recomendado)
                         </button>
                         <button class="btn-primary" data-action="setup">
@@ -450,7 +450,7 @@ class OnboardingManager {
 
         // Máximo 3 dismisses por día
         if (dismissCount >= 3) {
-            console.log('⏸️ Banner reminder pausado (3 dismisses hoy)');
+            debugLog('⏸️ Banner reminder pausado (3 dismisses hoy)');
             return;
         }
 
@@ -490,7 +490,7 @@ class OnboardingManager {
             document.body.insertBefore(banner, document.body.firstChild);
         }
 
-        console.log('📢 Banner reminder mostrado');
+        debugLog('📢 Banner reminder mostrado');
     }
 
     /**
@@ -512,7 +512,7 @@ class OnboardingManager {
                 });
             }
 
-            console.log('📌 Skip registrado');
+            debugLog('📌 Skip registrado');
         } catch (error) {
             console.error('Error tracking skip:', error);
         }
@@ -524,13 +524,13 @@ class OnboardingManager {
     showConfigStatusIndicator() {
         const indicator = document.getElementById('configStatusIndicator');
         if (!indicator) {
-            console.log('⚠️ configStatusIndicator no encontrado en DOM');
+            debugLog('⚠️ configStatusIndicator no encontrado en DOM');
             return;
         }
 
         // 🔑 Usuarios privilegiados NO ven indicador de configuración
         if (window.rolesManager && window.rolesManager.isPrivileged()) {
-            console.log('✅ Usuario privilegiado, no mostrar indicador de configuración');
+            debugLog('✅ Usuario privilegiado, no mostrar indicador de configuración');
             indicator.innerHTML = ''; // Limpiar cualquier contenido
             return;
         }
@@ -578,22 +578,22 @@ let onboardingManager;
 function initOnboardingWhenReady() {
     // Verificar que window.auth y window.db estén disponibles (creados por config.js)
     if (!window.auth || !window.db) {
-        console.log('⏳ OnboardingManager: Esperando config.js...');
+        debugLog('⏳ OnboardingManager: Esperando config.js...');
         setTimeout(initOnboardingWhenReady, 300);
         return;
     }
 
-    console.log('✅ OnboardingManager: Firebase disponible, configurando listener...');
+    debugLog('✅ OnboardingManager: Firebase disponible, configurando listener...');
 
     // Usar el auth ya inicializado por config.js
     window.auth.onAuthStateChanged(async (user) => {
         if (user && window.currentUser) {
-            console.log('👤 OnboardingManager: Usuario detectado, esperando antes de iniciar...');
+            debugLog('👤 OnboardingManager: Usuario detectado, esperando antes de iniciar...');
 
             // Delay adicional para asegurar que todo está cargado
             setTimeout(async () => {
                 try {
-                    console.log('🎓 OnboardingManager: Iniciando sistema...');
+                    debugLog('🎓 OnboardingManager: Iniciando sistema...');
                     onboardingManager = new OnboardingManager();
                     await onboardingManager.init();
                 } catch (error) {
@@ -601,7 +601,7 @@ function initOnboardingWhenReady() {
                 }
             }, 2000); // 2 segundos después de auth state changed
         } else {
-            console.log('⏸️ OnboardingManager: No hay usuario autenticado');
+            debugLog('⏸️ OnboardingManager: No hay usuario autenticado');
         }
     });
 }
@@ -609,12 +609,12 @@ function initOnboardingWhenReady() {
 // Iniciar cuando el DOM esté listo
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-        console.log('📋 OnboardingManager: DOM cargado, esperando Firebase...');
+        debugLog('📋 OnboardingManager: DOM cargado, esperando Firebase...');
         setTimeout(initOnboardingWhenReady, 1000);
     });
 } else {
     // DOM ya está listo
-    console.log('📋 OnboardingManager: DOM ya listo, esperando Firebase...');
+    debugLog('📋 OnboardingManager: DOM ya listo, esperando Firebase...');
     setTimeout(initOnboardingWhenReady, 1000);
 }
 
@@ -622,4 +622,4 @@ if (document.readyState === 'loading') {
 window.OnboardingManager = OnboardingManager;
 window.getOnboardingManager = () => onboardingManager;
 
-console.log('✅ onboarding-manager.js cargado');
+debugLog('✅ onboarding-manager.js cargado');

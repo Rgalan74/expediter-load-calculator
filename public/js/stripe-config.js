@@ -1,59 +1,23 @@
 /**
  * stripe-config.js
- * Configuración de Stripe para Expediter
- * Version: 1.0.0
+ * Integración con Stripe para Expediter
+ * Version: 2.0.0
+ *
+ * IMPORTANTE: Los planes se definen en userPlans.js (window.PLANS)
+ * Este archivo solo maneja la integración de pagos con Stripe.
+ * ⚠️ Si cambias precios en userPlans.js, actualiza también en Stripe Dashboard.
  */
 
 // ========================================
-// CONFIGURACIÓN
+// CONFIGURACIÓN DE STRIPE
 // ========================================
 
-// Planes disponibles (definir IDs después de crear en Stripe)
-const STRIPE_PLANS = {
-    FREE: {
-        id: 'free',
-        name: 'Free',
-        price: 0,
-        priceId: null, // No tiene precio en Stripe
-        features: {
-            calculations: 5,
-            history: false,
-            zones: false,
-            reports: false,
-            lex: false,
-            export: false
-        }
-    },
-    PRO: {
-        id: 'pro',
-        name: 'Pro',
-        price: 9.99,
-        priceId: 'price_1SgAxCLwtUKgOVkpzgR6MWwJ', // ID real de Stripe
-        features: {
-            calculations: -1, // Ilimitado
-            history: 90, // 90 días
-            zones: true,
-            reports: 'basic',
-            lex: false,
-            export: 'pdf'
-        }
-    },
-    PREMIUM: {
-        id: 'premium',
-        name: 'Premium',
-        price: 19.99,
-        priceId: 'price_1SgAxwLwtUKgOVkpDRkLMtqL', // ID real de Stripe
-        features: {
-            calculations: -1, // Ilimitado
-            history: -1, // Ilimitado
-            zones: true,
-            reports: 'advanced',
-            lex: true,
-            export: 'all',
-            tax: true,
-            priority: true
-        }
-    }
+// Mapeo de plan IDs a Stripe Price IDs
+// ⚠️ ACTUALIZAR estos IDs cuando cambien los precios en Stripe Dashboard
+const STRIPE_PRICE_MAP = {
+    free: null, // No tiene precio en Stripe
+    professional: 'price_1T4CmZPrcqI2pVW0wjZkexA8', // $14.99/mes — VERIFICAR en Stripe
+    premium: 'price_1T4CpaPrcqI2pVW0EgoJJq6Q'  // $29.99/mes — VERIFICAR en Stripe
 };
 
 // ========================================
@@ -61,123 +25,61 @@ const STRIPE_PLANS = {
 // ========================================
 
 /**
- * Obtener plan actual del usuario
+ * Obtener plan actual del usuario.
+ * Usa getUserPlan() de userPlans.js como fuente de verdad.
  */
 async function getCurrentUserPlan() {
-    const user = firebase.auth().currentUser;
-    if (!user) return STRIPE_PLANS.FREE.id;
-
+    if (!window.currentUser) return 'free';
     try {
-        // La extensión guarda las suscripciones activas en la subcolección 'subscriptions'
-        // de la colección 'customers'
-        const snapshot = await firebase.firestore()
-            .collection('customers')
-            .doc(user.uid)
-            .collection('subscriptions')
-            .where('status', 'in', ['active', 'trialing'])
-            .get();
-
-        if (snapshot.empty) return STRIPE_PLANS.FREE.id;
-
-        // Verificar el rol o producto de la primera suscripción activa
-        const subData = snapshot.docs[0].data();
-        // Mapear role/price a nuestro ID interno
-        return subData.role || STRIPE_PLANS.FREE.id;
+        const plan = await window.getUserPlan(window.currentUser.uid);
+        return plan?.id || 'free';
     } catch (error) {
-        console.error('Error getting user plan:', error);
-        return STRIPE_PLANS.FREE.id;
+        console.error('[STRIPE] Error getting user plan:', error);
+        return 'free';
     }
 }
 
 /**
- * Verificar si usuario puede hacer una acción
+ * Verificar si usuario puede hacer una acción.
+ * Usa canAccessFeature() y canCreateMoreLoads() de userPlans.js.
  */
 async function canUserPerformAction(action) {
-    const currentPlan = await getCurrentUserPlan();
-    const plan = Object.values(STRIPE_PLANS).find(p => p.id === currentPlan) || STRIPE_PLANS.FREE;
+    if (!window.currentUser) return false;
+    const userPlan = await window.getUserPlan(window.currentUser.uid);
+    if (!userPlan) return false;
 
     switch (action) {
         case 'calculate':
-            if (plan.features.calculations === -1) return true;
-            // Verificar límite mensual
-            const count = await getMonthlyCalculationCount();
-            return count < plan.features.calculations;
-
-        case 'history':
-            return plan.features.history !== false;
-
-        case 'zones':
-            return plan.features.zones === true;
-
-        case 'reports':
-            return plan.features.reports !== false;
-
+        case 'loads':
+            return window.canCreateMoreLoads(userPlan);
         case 'lex':
-            return plan.features.lex === true;
-
-        case 'export':
-            return plan.features.export !== false;
-
+            return window.canAccessFeature(userPlan, 'Lex');
+        case 'accounts':
+            return window.canAccessFeature(userPlan, 'Accounts');
+        case 'advancedReports':
+            return window.canAccessFeature(userPlan, 'AdvancedReports');
+        case 'taxReports':
+            return window.canAccessFeature(userPlan, 'TaxReports');
+        case 'exportAdvanced':
+            return window.canAccessFeature(userPlan, 'ExportAdvanced') || window.canAccessFeature(userPlan, 'CanExportAdvanced');
         default:
-            return false;
+            // Finanzas y Zonas están disponibles para todos
+            return true;
     }
 }
 
-/**
- * Obtener contador de cálculos del mes actual
- */
-async function getMonthlyCalculationCount() {
-    const user = firebase.auth().currentUser;
-    if (!user) return 0;
-
-    const now = new Date();
-    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-
-    try {
-        const snapshot = await firebase.firestore()
-            .collection('loads')
-            .where('userId', '==', user.uid)
-            .where('timestamp', '>=', startOfMonth)
-            .get();
-
-        return snapshot.size;
-    } catch (error) {
-        console.error('Error getting calculation count:', error);
-        return 0;
+// showUpgradeModal se define en userPlans.js — no duplicar aquí
+// Solo dejamos la referencia para consistencia
+function stripeShowUpgradePrompt(feature) {
+    // Delega al modal de userPlans.js
+    if (typeof window.showUpgradeModal === 'function') {
+        window.showUpgradeModal(feature);
+    } else {
+        // Fallback con toast si el modal no está disponible
+        if (typeof showToast === 'function') {
+            showToast('🔒 Esta función requiere un plan superior. Ve a Planes para más info.', 'warning');
+        }
     }
-}
-
-/**
- * Mostrar modal de upgrade si no puede hacer algo
- */
-function showUpgradeModal(feature) {
-    const messages = {
-        calculate: 'Has alcanzado el límite de 5 cálculos este mes. Upgradeate a Pro para cálculos ilimitados.',
-        history: 'El historial solo está disponible en planes Pro y Premium.',
-        zones: 'El análisis de zonas solo está disponible en planes Pro y Premium.',
-        reports: 'Los reportes financieros solo están disponibles en planes Pro y Premium.',
-        lex: 'Lex AI solo está disponible en el plan Premium.',
-        export: 'La exportación solo está disponible en planes Pro y Premium.'
-    };
-
-    const message = messages[feature] || 'Esta función no está disponible en tu plan actual.';
-
-    // Mostrar modal
-    showModal({
-        title: '🔒 Función Premium',
-        message: message,
-        buttons: [
-            {
-                text: 'Ver Planes',
-                class: 'btn-primary',
-                onClick: () => window.location.href = '/plans.html'
-            },
-            {
-                text: 'Cancelar',
-                class: 'btn-secondary'
-            }
-        ]
-    });
 }
 
 // ========================================
@@ -194,14 +96,14 @@ async function createCheckoutSession(planId) {
         return;
     }
 
-    const plan = Object.values(STRIPE_PLANS).find(p => p.id === planId);
-    if (!plan || !plan.priceId) {
-        console.error('Invalid plan:', planId);
+    const priceId = STRIPE_PRICE_MAP[planId];
+    if (!priceId) {
+        console.error('[STRIPE] Invalid plan or no priceId:', planId);
         return;
     }
 
     try {
-        showToast('Iniciando sesión de pago...', 'info');
+        if (typeof showToast === 'function') showToast('Iniciando sesión de pago...', 'info');
 
         // Crear checkout session usando Firebase Extension
         // DEBE coincidir con la colección configurada en la extensión (customers)
@@ -210,16 +112,16 @@ async function createCheckoutSession(planId) {
             .doc(user.uid)
             .collection('checkout_sessions')
             .add({
-                price: plan.priceId,
+                price: priceId,
                 success_url: window.location.origin + '/app.html?session_id={CHECKOUT_SESSION_ID}',
                 cancel_url: window.location.origin + '/plans.html',
                 metadata: {
                     plan: planId,
-                    firebaseId: user.uid // Backup ID
+                    firebaseId: user.uid
                 }
             });
 
-        showToast('Esperando respuesta del servidor...', 'info');
+        if (typeof showToast === 'function') showToast('Esperando respuesta del servidor...', 'info');
 
         // Esperar a que se genere la URL
         const unsubscribe = checkoutSessionRef.onSnapshot((snap) => {
@@ -229,13 +131,13 @@ async function createCheckoutSession(planId) {
 
             if (data.error) {
                 console.error('❌ Error devuelto por Stripe:', data.error);
-                showToast('Error: ' + data.error.message, 'error');
+                if (typeof showToast === 'function') showToast('Error: ' + data.error.message, 'error');
                 unsubscribe();
                 return;
             }
 
             if (data.url) {
-                showToast('Redirigiendo a Stripe...', 'success');
+                if (typeof showToast === 'function') showToast('Redirigiendo a Stripe...', 'success');
                 window.location.assign(data.url);
                 unsubscribe();
             }
@@ -248,7 +150,7 @@ async function createCheckoutSession(planId) {
 
     } catch (error) {
         console.error('Error creating checkout:', error);
-        showToast('Error al iniciar proceso de pago', 'error');
+        if (typeof showToast === 'function') showToast('Error al iniciar proceso de pago', 'error');
     }
 }
 
@@ -345,11 +247,11 @@ if (window.location.pathname.includes('app.html')) {
 window.StripeIntegration = {
     getCurrentUserPlan,
     canUserPerformAction,
-    showUpgradeModal,
+    showUpgradePrompt: stripeShowUpgradePrompt,
     createCheckoutSession,
     cancelSubscription,
     openBillingPortal,
-    PLANS: STRIPE_PLANS
+    STRIPE_PRICE_MAP
 };
 
-console.log('📦 Stripe Integration loaded');
+debugLog('[STRIPE] Stripe Integration loaded');

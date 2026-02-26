@@ -3,6 +3,11 @@
  * Tracks user interactions and app performance
  */
 
+// Fallback si helpers.js no está cargado (ej: landing page)
+if (typeof debugLog !== 'function') {
+    window.debugLog = function () { };
+}
+
 class AnalyticsManager {
     constructor() {
         this.initialized = false;
@@ -17,10 +22,10 @@ class AnalyticsManager {
         if (this.initialized) return;
 
         try {
-            // Initialize Firebase Analytics
-            if (firebase.analytics) {
+            // Initialize Firebase Analytics (solo si Firebase SDK está cargado)
+            if (typeof firebase !== 'undefined' && firebase.analytics) {
                 firebase.analytics();
-                console.log('✅ Firebase Analytics initialized');
+                debugLog('✅ Firebase Analytics initialized');
             }
 
             // Initialize Google Analytics 4
@@ -59,7 +64,7 @@ class AnalyticsManager {
                     send_page_view: false // We'll send manually
                 });
 
-                console.log('✅ Google Analytics 4 loaded');
+                debugLog('✅ Google Analytics 4 loaded');
                 resolve();
             };
 
@@ -92,7 +97,7 @@ class AnalyticsManager {
         }
 
         // Firebase Analytics
-        if (firebase.analytics) {
+        if (typeof firebase !== 'undefined' && firebase.analytics) {
             firebase.analytics().logEvent(eventName, params);
         }
 
@@ -101,7 +106,7 @@ class AnalyticsManager {
             gtag('event', eventName, params);
         }
 
-        console.log(`📊 Event tracked: ${eventName}`, params);
+        debugLog(`📊 Event tracked: ${eventName}`, params);
     }
 
     /**
@@ -174,7 +179,7 @@ class AnalyticsManager {
      * Track user property
      */
     setUserProperty(propertyName, value) {
-        if (firebase.analytics) {
+        if (typeof firebase !== 'undefined' && firebase.analytics) {
             firebase.analytics().setUserProperties({
                 [propertyName]: value
             });
@@ -202,9 +207,15 @@ class AnalyticsManager {
 // Global instance
 window.analyticsManager = window.analyticsManager || new AnalyticsManager();
 
-// Auto-initialize when auth is ready
+// Auto-initialize when auth is ready (ONLY if cookie consent given)
 // Wait for Firebase to be initialized properly
 function initializeAnalyticsWhenReady() {
+    // 🍪 Respetar consentimiento de cookies
+    if (window.cookieConsentGiven === false) {
+        debugLog('📊 Analytics Manager: consent not given, skipping');
+        return;
+    }
+
     // Check if Firebase is initialized (app exists)
     if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length > 0) {
         // Firebase is initialized, set up auth listener
@@ -217,19 +228,22 @@ function initializeAnalyticsWhenReady() {
                 window.analyticsManager.setUserProperty('user_email', user.email);
             }
         });
-        console.log('📊 Analytics Manager ready (waiting for user auth)');
+        debugLog('📊 Analytics Manager ready (waiting for user auth)');
     } else {
         // Firebase not initialized yet, wait and try again
         setTimeout(initializeAnalyticsWhenReady, 200);
     }
 }
 
-// Start initialization after a small delay to ensure Firebase loads first
-setTimeout(initializeAnalyticsWhenReady, 500);
+// Only auto-start if cookie consent was already given (from localStorage)
+// The cookie-consent.js module will call analyticsManager.init() directly when consent is given
+if (window.cookieConsentGiven === true) {
+    setTimeout(initializeAnalyticsWhenReady, 500);
+}
 
 // Expose helpers globally
 window.trackEvent = (name, params) => window.analyticsManager.trackEvent(name, params);
 window.trackPageView = (path) => window.analyticsManager.trackPageView(path);
 window.trackFeature = (name) => window.analyticsManager.trackFeatureUse(name);
 
-console.log('📊 Analytics Manager loaded');
+debugLog('📊 Analytics Manager loaded');

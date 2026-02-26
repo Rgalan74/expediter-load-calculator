@@ -142,7 +142,7 @@
 .info-box p {
     margin: 0;
     font-size: 0.875rem;
-    color: #374151;
+    color: #374151 !important;
     line-height: 1.5;
 }
 

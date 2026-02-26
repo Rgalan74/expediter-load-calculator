@@ -88,4 +88,4 @@ class AgentBase {
 
 // Exponer globalmente
 window.AgentBase = AgentBase;
-console.log('🧠 AgentBase loaded');
+debugLog('🧠 AgentBase loaded');

@@ -195,7 +195,7 @@ window.closeReportModal = async function () {
     if (_originalCloseReportModal) _originalCloseReportModal();
 };
 
-console.log("🚀 Lazy loading overrides applied successfully");
-console.log("   - Charts: lazy loaded via finances.js wrappers");
-console.log("   - Expenses: lazy loaded via override");
-console.log("   - Reports: lazy loaded via override");
+debugLog("🚀 Lazy loading overrides applied successfully");
+debugLog("   - Charts: lazy loaded via finances.js wrappers");
+debugLog("   - Expenses: lazy loaded via override");
+debugLog("   - Reports: lazy loaded via override");

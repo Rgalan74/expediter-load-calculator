@@ -308,7 +308,7 @@ function filterUsers() {
 // ========================================
 
 function showChangeRoleModal(userId, userEmail, currentRole) {
-    console.log('🔧 showChangeRoleModal called with:', { userId, userEmail, currentRole });
+    debugLog('🔧 showChangeRoleModal called with:', { userId, userEmail, currentRole });
 
     const modal = document.createElement('div');
     modal.id = 'changeRoleModal';
@@ -445,7 +445,7 @@ function attachAdminPanelListeners() {
                 const userId = btn.dataset.userId;
                 const userEmail = btn.dataset.userEmail;
                 const currentRole = btn.dataset.currentRole;
-                console.log('🎯 Clicked change role:', { userId, userEmail, currentRole });
+                debugLog('🎯 Clicked change role:', { userId, userEmail, currentRole });
                 showChangeRoleModal(userId, userEmail, currentRole);
             }
         });
@@ -463,4 +463,4 @@ window.closeChangeRoleModal = closeChangeRoleModal;
 window.confirmRoleChange = confirmRoleChange;
 window.filterUsers = filterUsers;
 
-console.log('✅ admin-panel.js (new) cargado');
+debugLog('✅ admin-panel.js (new) cargado');
