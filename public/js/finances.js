@@ -1468,6 +1468,9 @@ function generateTaxReport() {
   debugLog("OK Reporte Schedule C generado excitósamente con lógica avanzada.");
 }
 
+// Asegurar que la función sea global para que app.html la pueda llamar:
+window.generateTaxReport = generateTaxReport;
+
 
 
 
