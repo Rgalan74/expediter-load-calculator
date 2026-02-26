@@ -763,13 +763,13 @@
   - [x] No requiere pago — sin stripe price ID
   - [x] Badge de Admin visible — `initializeAdminSection()` en settings.js
 
-- [x] **Stripe Integration** ✅ Checkout flow arreglado Feb 24
+- [x] **Stripe Integration** ✅ Checkout flow arreglado Feb 24 (Timing Issue Resuelto)
   - [x] Verificar que `stripe-config.js` funciona
   - [x] Probar flujo de pago completo (test mode)
   - [x] Confirmar que redirige después de pago
   - [x] Verificar que actualiza plan en Firestore — via Stripe webhooks
-  - [ ] Probar cancelar suscripción
-  - [ ] Verificar webhooks de Stripe
+  - [x] Probar cancelar suscripción
+  - [x] Verificar webhooks de Stripe — funcionando (extensión respondió y generó URL)
 
 ### 🟡 IMPORTANTE
 
