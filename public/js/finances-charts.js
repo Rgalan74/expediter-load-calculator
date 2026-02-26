@@ -20,6 +20,16 @@
 // COORDINADOR PRINCIPAL DE GRÁFICOS
 // ========================================
 
+// 🎨 THEME-AWARE CHART COLORS
+function getChartThemeColors() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    return {
+        tickColor: isDark ? '#e2e8f0' : '#475569',
+        gridColor: isDark ? 'rgba(59,130,246,0.1)' : 'rgba(0,0,0,0.07)',
+        legendColor: isDark ? '#e2e8f0' : '#334155'
+    };
+}
+
 function updateFinancialCharts(context = "global") {
     debugFinances(` Actualizando gráficos financieros... (contexto: ${context})`);
 
@@ -115,10 +125,10 @@ function updateCashFlowChart() {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { position: 'top' } },
+                plugins: { legend: { position: 'top', labels: { color: getChartThemeColors().legendColor } } },
                 scales: {
-                    x: { ticks: { color: "#cbd5e1" }, grid: { color: "rgba(59, 130, 246, 0.1)" } },
-                    y: { beginAtZero: true, ticks: { callback: value => '$' + value.toLocaleString() } }
+                    x: { ticks: { color: getChartThemeColors().tickColor }, grid: { color: getChartThemeColors().gridColor } },
+                    y: { beginAtZero: true, ticks: { color: getChartThemeColors().tickColor, callback: value => '$' + value.toLocaleString() } }
                 }
             }
         });
@@ -246,7 +256,7 @@ function updateExpenseBreakdownChart() {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: { position: 'bottom' },
+                    legend: { position: 'bottom', labels: { color: getChartThemeColors().legendColor } },
                     tooltip: {
                         callbacks: {
                             label: function (context) {
@@ -323,7 +333,8 @@ function updateLoadDistributionChart() {
                     labels: {
                         padding: 10,
                         usePointStyle: true,
-                        font: { size: 11 }
+                        font: { size: 11 },
+                        color: getChartThemeColors().legendColor
                     }
                 }
             }
@@ -351,4 +362,4 @@ window.updateCashFlowChart = updateCashFlowChart;
 window.updateExpenseBreakdownChart = updateExpenseBreakdownChart;
 window.updateLoadDistributionChart = updateLoadDistributionChart;
 
-console.log("💰 Charts module loaded successfully");
+debugLog("💰 Charts module loaded successfully");

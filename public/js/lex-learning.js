@@ -71,7 +71,7 @@ async function buildStateNotesFromNotesCollection(userId) {
 // ====================================================================
 
 async function initializeLexProfile() {
-  console.log('🧠 Inicializando perfil de Lex...');
+  debugLog('[LEX] Inicializando perfil de Lex...');
 
   if (!window.currentUser) {
     throw new Error('Usuario no autenticado');
@@ -102,7 +102,7 @@ async function initializeLexProfile() {
       };
     }).filter(load => load.totalMiles > 0);
 
-    console.log(`📦 ${loads.length} cargas encontradas`);
+    debugLog(`[LEX] ${loads.length} cargas encontradas`);
 
     const totalLoads = loads.length;
     const totalMiles = loads.reduce((sum, l) => sum + l.totalMiles, 0);
@@ -214,7 +214,7 @@ async function initializeLexProfile() {
       .doc(uid)
       .set(profile);
 
-    console.log('✅ Perfil de Lex inicializado');
+    debugLog('[LEX] Perfil de Lex inicializado');
     return profile;
 
   } catch (error) {
@@ -242,7 +242,7 @@ async function refreshLexStateNotes() {
     { merge: true }
   );
 
-  console.log('[LEX] stateNotes actualizados desde colección notes:', stateNotes);
+  debugLog('[LEX] stateNotes actualizados desde colección notes:', stateNotes);
 }
 
 window.refreshLexStateNotes = refreshLexStateNotes;
@@ -263,7 +263,7 @@ async function updateLexProfileWithLoad(loadData) {
     const profileDoc = await profileRef.get();
 
     if (!profileDoc.exists) {
-      console.log('⚠️  Perfil no existe, inicializando...');
+      debugLog('[LEX] Perfil no existe, inicializando...');
       await initializeLexProfile();
       return;
     }
@@ -362,7 +362,7 @@ async function updateLexProfileWithLoad(loadData) {
 
     await profileRef.set(updatedProfile, { merge: true });
 
-    console.log('✅ Perfil de Lex actualizado');
+    debugLog('[LEX] Perfil de Lex actualizado');
 
   } catch (error) {
     console.error('❌ Error actualizando perfil:', error);
@@ -385,7 +385,7 @@ async function getLexProfile() {
       .get();
 
     if (!profileDoc.exists) {
-      console.log('⚠️  Perfil no existe, inicializando...');
+      debugLog('[LEX] Perfil no existe, inicializando...');
       return await initializeLexProfile();
     }
 
@@ -433,8 +433,7 @@ async function analyzeLoadWithLearning(loadData) {
     } else if (rpm >= profile.avgRPM) {
       recommendation = 'CONSIDERA';
       color = 'yellow';
-      reasons.push(`Cerca de tu promedio ($${profile.avgsafe(rpm, 2)
-        }/mi)`);
+      reasons.push(`Cerca de tu promedio ($${profile.avgRPM.toFixed(2)}/mi)`);
     } else {
       recommendation = 'NEGOCIA';
       color = 'yellow';
@@ -447,8 +446,8 @@ async function analyzeLoadWithLearning(loadData) {
         if (vsStateAvg > 10) {
           reasons.push(`✅ Mejor que tus ${stateStats.loads} cargas previas en ${destState}`);
         } else if (vsStateAvg < -10) {
-          reasons.push(`⚠️ Debajo del promedio de ${destState} ($${stateStats.avgsafe(rpm, 2)
-            })`);
+          reasons.push(`⚠️ Debajo del promedio de ${destState} ($${stateStats.avgRPM.toFixed(2)})`);
+
         }
       } else {
         reasons.push(`📍 Solo ${stateStats.loads} carga(s) previa(s) en ${destState}`);
@@ -493,9 +492,4 @@ window.updateLexProfileWithLoad = updateLexProfileWithLoad;
 window.getLexProfile = getLexProfile;
 window.analyzeLoadWithLearning = analyzeLoadWithLearning;
 
-console.log('🧠 Lex Learning System cargado');
-console.log('Funciones disponibles:');
-console.log('  • initializeLexProfile() - Inicializar perfil');
-console.log('  • updateLexProfileWithLoad(loadData) - Actualizar con nueva carga');
-console.log('  • getLexProfile() - Obtener perfil actual');
-console.log('  • analyzeLoadWithLearning(loadData) - Analizar con aprendizaje');
+debugLog('[LEX] Lex Learning System cargado');

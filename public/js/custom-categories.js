@@ -11,15 +11,17 @@
 
 // Categorías predeterminadas del sistema
 const DEFAULT_CATEGORIES = [
-    { id: "fuel", name: "Combustible", icon: "🚚", isSystem: true },
-    { id: "maintenance", name: "Mantenimiento", icon: "🔧", isSystem: true },
-    { id: "food", name: "Comida", icon: "🍔", isSystem: true },
-    { id: "lodging", name: "Hospedaje", icon: "🏨", isSystem: true },
-    { id: "tolls", name: "Peajes", icon: "🛣️", isSystem: true },
-    { id: "insurance", name: "Seguro", icon: "🛡️", isSystem: true },
-    { id: "permits", name: "Permisos", icon: "📋", isSystem: true },
-    { id: "carpayment", name: "Pago de Auto", icon: "🚗", isSystem: true },
-    { id: "other", name: "Otros", icon: "📦", isSystem: true }
+    { id: "fuel", name: "Combustible", icon: "🚛", isSystem: true, isOperational: true },
+    { id: "maintenance", name: "Mantenimiento", icon: "🔧", isSystem: true, isOperational: true },
+    { id: "tires", name: "Llantas", icon: "⚙️", isSystem: true, isOperational: true },
+    { id: "repairs", name: "Reparaciones", icon: "🛠️", isSystem: true, isOperational: true },
+    { id: "insurance", name: "Seguro", icon: "🛡️", isSystem: true, isOperational: true },
+    { id: "carpayment", name: "Pago de Auto", icon: "🚗", isSystem: true, isOperational: true },
+    { id: "tolls", name: "Peajes", icon: "🛣️", isSystem: true, isOperational: true },
+    { id: "permits", name: "Permisos", icon: "📋", isSystem: true, isOperational: true },
+    { id: "food", name: "Comida", icon: "🍔", isSystem: true, isOperational: false },
+    { id: "lodging", name: "Hospedaje", icon: "🏨", isSystem: true, isOperational: false },
+    { id: "other", name: "Otros", icon: "📦", isSystem: true, isOperational: false }
 ];
 
 /**
@@ -51,7 +53,7 @@ async function getAllCategories() {
  * @param {string} color - Color hexadecimal
  * @returns {Promise<Object>} Nueva categoría creada
  */
-async function createCustomCategory(name, icon, color) {
+async function createCustomCategory(name, icon, color, isOperational = false) {
     const user = firebase.auth().currentUser;
     if (!user) throw new Error('Usuario no autenticado');
 
@@ -65,6 +67,7 @@ async function createCustomCategory(name, icon, color) {
         icon: icon || '📌',
         color: color || '#6b7280',
         isSystem: false,
+        isOperational: isOperational === true || isOperational === 'true',
         createdAt: new Date().toISOString()
     };
 
@@ -76,7 +79,7 @@ async function createCustomCategory(name, icon, color) {
                 customExpenseCategories: firebase.firestore.FieldValue.arrayUnion(newCategory)
             }, { merge: true });
 
-        console.log('✅ Custom category created:', newCategory);
+        debugLog('✅ Custom category created:', newCategory);
         return newCategory;
     } catch (error) {
         console.error('❌ Error creating custom category:', error);
@@ -108,7 +111,7 @@ async function deleteCustomCategory(categoryId) {
                 customExpenseCategories: firebase.firestore.FieldValue.arrayRemove(categoryToDelete)
             });
 
-        console.log('✅ Custom category deleted:', categoryId);
+        debugLog('✅ Custom category deleted:', categoryId);
         return true;
     } catch (error) {
         console.error('❌ Error deleting custom category:', error);
@@ -164,7 +167,7 @@ async function populateExpenseCategoriesSelect() {
         });
     }
 
-    console.log(`✅ Loaded ${systemCategories.length} system + ${customCats.length} custom categories`);
+    debugLog(`✅ Loaded ${systemCategories.length} system + ${customCats.length} custom categories`);
 }
 
 /**
@@ -209,4 +212,4 @@ window.CustomCategories = {
     DEFAULT_CATEGORIES
 };
 
-console.log("✅ Custom Categories module loaded successfully");
+debugLog("✅ Custom Categories module loaded successfully");

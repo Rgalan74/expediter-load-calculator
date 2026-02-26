@@ -37,7 +37,7 @@ class LexModals {
   // ==========================================================
   showCalculatorModal(result, context) {
     const { data, recommendation, confidence } = result;
-    
+
     // Adaptar al formato del modal existente
     const analysis = {
       recommendation: recommendation.action, // ACEPTA, RECHAZA, EVALUA
@@ -79,7 +79,7 @@ class LexModals {
   // ==========================================================
   showHistoryModal(result) {
     const { data, insights } = result;
-    
+
     // Adaptar al formato del modal existente
     const analysis = {
       loads: data.totalLoads,
@@ -111,14 +111,14 @@ class LexModals {
   // ==========================================================
   showZonesModal(result) {
     const { data, recommendations } = result;
-    
+
     const existingModal = document.getElementById('lexZonesModal');
     if (existingModal) existingModal.remove();
 
     const modal = document.createElement('div');
     modal.id = 'lexZonesModal';
     modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
-    
+
     modal.innerHTML = `
       <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full flex flex-col" style="max-height: 90vh;">
         <!-- Header -->
@@ -191,7 +191,7 @@ class LexModals {
   // ==========================================================
   showFinancesModal(result) {
     const { data, insights, summary } = result;
-    
+
     // Adaptar al formato del modal existente
     const analysis = {
       periodLabel: data.period,
@@ -228,7 +228,7 @@ class LexModals {
 }
 
 // Función global para cerrar modal de zonas
-window.closeLexZonesModal = function() {
+window.closeLexZonesModal = function () {
   const modal = document.getElementById('lexZonesModal');
   if (modal) modal.remove();
 };
@@ -236,4 +236,4 @@ window.closeLexZonesModal = function() {
 // Crear instancia global
 window.lexModals = new LexModals();
 
-console.log('🎨 LexModals loaded');
+debugLog('🎨 LexModals loaded');

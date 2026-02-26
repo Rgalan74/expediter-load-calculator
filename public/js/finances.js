@@ -1054,269 +1054,418 @@ function generatePLReport() {
 }
 
 function generateTaxReport() {
-  debugLog(" Generando Reporte Fiscal para ao completo...");
+  debugLog(" Generando Reporte Fiscal nivel IRS Schedule C...");
 
   // ✅ Abrir modal con loading
-  openReportModal('tax', 'Reporte de Impuestos', 'Cargando datos fiscales...', '🧾');
+  openReportModal('tax', 'Reporte de Impuestos', 'Cargando datos fiscales...', '🇺🇸');
 
   const reportContent = document.getElementById("reportContent");
   if (reportContent) {
-    reportContent.innerHTML = '<div class="flex flex-col items-center justify-center p-12"><div class="animate-spin rounded-full h-12 w-12 border-4 border-green-500 border-t-transparent mb-4"></div><p class="text-gray-600">Calculando impuestos...</p></div>';
+    reportContent.innerHTML = '<div class="flex flex-col items-center justify-center p-12"><div class="animate-spin rounded-full h-12 w-12 border-4 border-yellow-500 border-t-transparent mb-4"></div><p class="text-gray-600 font-bold mt-2">Calculando deducciones de Schedule C...</p></div>';
   }
 
-  if (!window.allFinancesData || !window.allExpensesData) {
+  if (!window.financesData || !window.expensesData) {
     if (reportContent) {
       reportContent.innerHTML = '<div class="text-center p-12 text-red-500"><span class="text-4xl block mb-3">⚠️</span><p>No hay datos suficientes para generar el reporte fiscal</p></div>';
     }
     return;
   }
 
-  // Usar ao seleccionado, datos completos del ao
+  // Usar año seleccionado
   const year = document.getElementById("reportYear")?.value || new Date().getFullYear().toString();
 
-  // Filtrar por ao completo, no por mes
-  const filteredLoads = window.allFinancesData.filter(load =>
-    load.date && load.date.startsWith(year)
-  );
-  const filteredExpenses = window.allExpensesData.filter(exp =>
-    exp.date && exp.date.startsWith(year)
-  );
+  // Siempre calcular para TODO el año seleccionado, ignorar el filtro de mes
+  // Se asume que todos los window.allFinancesData y window.allExpensesData están disponibles. Si no existen, usamos los filtrados temporalemente.
+  const sourceLoads = window.allFinancesData || window.financesData;
+  const sourceExpenses = window.allExpensesData || window.expensesData;
 
-  debugLog(`Procesando datos fiscales para ${year}:`, {
+  const filteredLoads = sourceLoads.filter(load => load.date && load.date.startsWith(year));
+  const filteredExpenses = sourceExpenses.filter(exp => exp.date && exp.date.startsWith(year));
+
+  debugLog(`Procesando datos fiscales IRS para ${year}:`, {
     cargas: filteredLoads.length,
     gastos: filteredExpenses.length
   });
 
-  const periodLabel = `Tax Year ${year} (Complete Year)`;
+  const periodLabel = `Tax Year ${year} (Jan 1 - Dec 31)`;
 
-  // SCHEDULE C CALCULATIONS (Profit or Loss from Business)
+  // ==========================================
+  // IRS SCHEDULE C CALCULATIONS (Form 1040)
+  // ==========================================
+
+  // Part I - Income
   const grossReceipts = filteredLoads.reduce((s, l) => s + (Number(l.totalCharge) || 0), 0);
   const totalMiles = filteredLoads.reduce((s, l) => s + (Number(l.totalMiles) || 0), 0);
 
-  // IRS Business Expense Categories (Schedule C)
+  // IRS Business Expense Categories
   const businessExpenses = {
-    vehicleExpenses: 0,
-    depreciation: 0,
-    insurance: 0,
-    officeExpense: 0,
-    repairsMaintenance: 0,
-    travel: 0,
-    otherExpenses: 0
+    carAndTruck: 0,       // Line 9 (fuel, tolls, if using actual)
+    tollsAndParking: 0,   // Included in Line 9 or Line 27
+    depreciation: 0,      // Line 13
+    insurance: 0,         // Line 15 (other than health)
+    interest: 0,          // Line 16 (car payment interest portion)
+    office: 0,            // Line 20
+    repairs: 0,           // Line 21 (maintenance)
+    supplies: 0,          // Line 22
+    taxesLicenses: 0,     // Line 23 (permits, registration)
+    travelMeals: 0,       // Line 24
+    other: 0              // Line 27a
   };
 
-  // Categorizar gastos segn IRS Schedule C
+  // Categorizar gastos según mapeo IRS
   filteredExpenses.forEach(exp => {
+    // Si no es deducible explícitamente, saltarlo (si existe la propiedad)
+    if (exp.deductible === false || exp.deductible === "false" || exp.deductible === 0) return;
+
     const amount = Number(exp.amount) || 0;
     const type = (exp.type || "other").toLowerCase();
 
     switch (type) {
       case 'fuel':
+        businessExpenses.carAndTruck += amount;
+        break;
       case 'tolls':
-        businessExpenses.vehicleExpenses += amount;
+        businessExpenses.tollsAndParking += amount;
         break;
       case 'maintenance':
-        businessExpenses.repairsMaintenance += amount;
+        businessExpenses.repairs += amount;
         break;
       case 'insurance':
         businessExpenses.insurance += amount;
         break;
       case 'permits':
-        businessExpenses.officeExpense += amount;
+        businessExpenses.taxesLicenses += amount;
         break;
       case 'food':
+        // Meals are generally 50% deductible, but for DOT HOS drivers during travel, it's often 80%. 
+        // We will list the full amount and apply the deduction rate at the line level.
+        businessExpenses.travelMeals += amount;
+        break;
       case 'lodging':
-        businessExpenses.travel += amount;
+        businessExpenses.travelMeals += amount; // 100% deductible travel expense
+        break;
+      case 'carpayment':
+        // Only INTEREST is strictly deductible on actual expenses, but we lump it in other/depreciation broadly here for simplicty, or warn the user.
+        businessExpenses.other += amount;
         break;
       default:
-        businessExpenses.otherExpenses += amount;
+        businessExpenses.other += amount;
     }
   });
 
-  const totalBusinessExpenses = Object.values(businessExpenses).reduce((a, b) => a + b, 0);
+  // IRS Standard Mileage Rate for 2024 is 67 cents. 2023 was 65.5 cents.
+  let mileageRate = 0.67;
+  if (year === "2023") mileageRate = 0.655;
+  if (year === "2024") mileageRate = 0.67;
 
-  // Schedule C Line 31: Net profit or loss
-  const netProfitLoss = grossReceipts - totalBusinessExpenses;
+  const standardMileageDeduction = totalMiles * mileageRate;
 
-  // Self-Employment Tax Calculations (Schedule SE)
-  const selfEmploymentEarnings = Math.max(0, netProfitLoss);
-  const selfEmploymentTax = selfEmploymentEarnings * 0.1413; // 2024 rate: 14.13%
+  // Calculate Standard vs Actual
+  // Actual Expenses generally includes fuel, maintenance, insurance, registration/permits, depreciation.
+  // Tolls and parking are deductible IN ADDITION to the standard mileage rate.
+  const actualVehicleExpenses = businessExpenses.carAndTruck + businessExpenses.repairs + businessExpenses.insurance + businessExpenses.taxesLicenses;
 
-  // Deductible portion of self-employment tax (Form 1040, Schedule 1)
-  const deductibleSETax = selfEmploymentTax * 0.5;
+  const useStandardMileage = standardMileageDeduction > actualVehicleExpenses;
 
-  // Standard mileage deduction option (IRS 2024: $0.67/mile for business)
-  const standardMileageDeduction = totalMiles * 0.67;
-  const actualExpenseMethod = businessExpenses.vehicleExpenses;
-  const recommendedMethod = standardMileageDeduction > actualExpenseMethod ? 'Standard Mileage' : 'Actual Expense';
+  // Formulate Total Expenses based on chosen method
+  let totalBusinessExpenses = 0;
+  let carLine9Amount = 0;
 
-  const container = document.getElementById("reportContent");
-  if (!container) {
-    console.warn(" Contenedor reportContent no encontrado");
-    return;
+  if (useStandardMileage) {
+    carLine9Amount = standardMileageDeduction;
+    // When using standard, you don't deduct fuel, maint, insurance, registration. But DO deduct tolls.
+    totalBusinessExpenses = standardMileageDeduction + businessExpenses.tollsAndParking + businessExpenses.office + businessExpenses.travelMeals + businessExpenses.other;
+  } else {
+    carLine9Amount = actualVehicleExpenses;
+    // Using actual
+    totalBusinessExpenses = actualVehicleExpenses + businessExpenses.tollsAndParking + businessExpenses.office + businessExpenses.travelMeals + businessExpenses.other;
   }
 
-  const currentDate = new Date().toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
+  // Line 31: Net profit or loss
+  const netProfitLoss = grossReceipts - totalBusinessExpenses;
 
-  container.innerHTML = `
-    <!-- IRS Compliant Header -->
-    <div class="text-center mb-8 border-b-2 border-gray-300 pb-6">
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">SCHEDULE C (Form 1040)</h1>
-      <h2 class="text-xl text-blue-600 font-semibold mb-2">Profit or Loss From Business</h2>
-      <h3 class="text-lg text-gray-700">Sole Proprietorship - Transportation Services</h3>
-      <p class="text-gray-600 mt-2">Period: <span class="font-semibold">${periodLabel}</span></p>
-      <p class="text-sm text-blue-600 font-medium">Note: Tax report includes all ${filteredLoads.length} loads and ${filteredExpenses.length} expenses for ${year}</p>
-      <p class="text-sm text-gray-500">Generated on ${currentDate}</p>
-    </div>
+  // ==========================================
+  // SCHEDULE SE (Self-Employment Tax)
+  // ==========================================
+  const netEarningsSE = netProfitLoss * 0.9235; // Standard 92.35% multiplier for Schedule SE Line 4a
+  let selfEmploymentTax = 0;
+  if (netEarningsSE > 400) {
+    selfEmploymentTax = netEarningsSE * 0.153; // 15.3% SE tax (12.4% SS + 2.9% Medicare)
+  }
+  const deductibleSETax = selfEmploymentTax * 0.5; // Line 13 deduction
 
-    <!-- Tax Year Summary -->
-    <div class="mb-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
-      <h3 class="text-xl font-bold text-blue-900 mb-4">TAX YEAR SUMMARY</h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="text-center">
-          <p class="text-sm text-blue-600">Gross Receipts (Line 1)</p>
-          <p class="text-3xl font-bold text-blue-900">$${grossReceipts.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
-        </div>
-        <div class="text-center">
-          <p class="text-sm text-blue-600">Total Business Miles</p>
-          <p class="text-3xl font-bold text-blue-900">${totalMiles.toLocaleString()}</p>
-        </div>
-        <div class="text-center">
-          <p class="text-sm text-blue-600">Net Profit/Loss (Line 31)</p>
-          <p class="text-3xl font-bold ${netProfitLoss >= 0 ? 'text-green-900' : 'text-red-900'}">
-            $${netProfitLoss.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-          </p>
-        </div>
-      </div>
-    </div>
+  const container = document.getElementById("reportContent");
+  if (!container) return;
 
-    <!-- Part II: Expenses -->
-    <div class="mb-8">
-      <h3 class="text-xl font-bold mb-4" style="color: white !important;">PART II - EXPENSES (Schedule C)</h3>
-      <div class="rounded-lg overflow-hidden" style="background-color: rgba(30, 58, 138, 0.8);">
-        <table class="min-w-full">
-          <thead style="background-color: rgba(30, 58, 138, 1);">
-            <tr>
-              <th class="px-4 py-3 text-left text-xs font-bold uppercase" style="color: white !important;">Line #</th>
-              <th class="px-4 py-3 text-left text-xs font-bold uppercase" style="color: white !important;">Expense Category</th>
-              <th class="px-4 py-3 text-right text-xs font-bold uppercase" style="color: white !important;">Amount</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-blue-400/30">
-            <tr>
-              <td class="px-4 py-3 text-sm font-medium text-gray-900">9</td>
-              <td class="px-4 py-3 text-sm text-gray-900">Car and truck expenses</td>
-              <td class="px-4 py-3 text-sm text-gray-900 text-right">$${businessExpenses.vehicleExpenses.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
-            </tr>
-            <tr class="bg-gray-50">
-              <td class="px-4 py-3 text-sm font-medium text-gray-900">17</td>
-              <td class="px-4 py-3 text-sm text-gray-900">Insurance (other than health)</td>
-              <td class="px-4 py-3 text-sm text-gray-900 text-right">$${businessExpenses.insurance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
-            </tr>
-            <tr>
-              <td class="px-4 py-3 text-sm font-medium text-gray-900">20a</td>
-              <td class="px-4 py-3 text-sm text-gray-900">Office expense</td>
-              <td class="px-4 py-3 text-sm text-gray-900 text-right">$${businessExpenses.officeExpense.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
-            </tr>
-            <tr class="bg-gray-50">
-              <td class="px-4 py-3 text-sm font-medium text-gray-900">22</td>
-              <td class="px-4 py-3 text-sm text-gray-900">Repairs and maintenance</td>
-              <td class="px-4 py-3 text-sm text-gray-900 text-right">$${businessExpenses.repairsMaintenance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
-            </tr>
-            <tr>
-              <td class="px-4 py-3 text-sm font-medium text-gray-900">25</td>
-              <td class="px-4 py-3 text-sm text-gray-900">Travel, meals, and entertainment</td>
-              <td class="px-4 py-3 text-sm text-gray-900 text-right">$${businessExpenses.travel.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
-            </tr>
-            <tr class="bg-gray-50">
-              <td class="px-4 py-3 text-sm font-medium text-gray-900">27a</td>
-              <td class="px-4 py-3 text-sm text-gray-900">Other expenses</td>
-              <td class="px-4 py-3 text-sm text-gray-900 text-right">$${businessExpenses.otherExpenses.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
-            </tr>
-          </tbody>
-          <tfoot class="bg-gray-200">
-            <tr>
-              <td class="px-4 py-3 text-sm font-bold text-gray-900">28</td>
-              <td class="px-4 py-3 text-sm font-bold text-gray-900">Total expenses</td>
-              <td class="px-4 py-3 text-sm font-bold text-gray-900 text-right">$${totalBusinessExpenses.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-    </div>
+  const currentDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
-    <!-- Vehicle Expense Comparison -->
-    <div class="mb-8">
-      <h3 class="text-xl font-bold text-gray-900 mb-4">VEHICLE EXPENSE METHOD COMPARISON</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-          <h4 class="text-lg font-semibold text-yellow-800 mb-3">Standard Mileage Method</h4>
-          <p class="text-3xl font-bold text-yellow-900">$${standardMileageDeduction.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
-          <p class="text-sm text-yellow-700 mt-2">${totalMiles.toLocaleString()} miles  $0.67/mile (2024 rate)</p>
+  // CSS for IRS styling
+  const irsStyle = `
+    <style>
+      .irs-report { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #000; background: #fff; max-width: 850px; margin: 0 auto; padding: 20px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+      .irs-header { border-bottom: 3px solid #000; padding-bottom: 10px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end; }
+      .irs-title-block { text-align: center; flex: 1; px-4; }
+      .irs-title { font-size: 28px; font-weight: 900; margin: 0; letter-spacing: -0.5px; }
+      .irs-subtitle { font-size: 16px; font-weight: bold; margin: 5px 0; }
+      .irs-desc { font-size: 12px; margin: 0; }
+      .irs-year { font-size: 24px; font-weight: 900; }
+      .irs-section-header { background: #e5e7eb; border-top: 2px solid #000; border-bottom: 2px solid #000; font-weight: bold; padding: 4px 8px; font-size: 14px; display: flex; align-items: center; margin-top: 15px;}
+      .irs-line { display: flex; border-bottom: 1px dotted #ccc; font-size: 13px; min-height: 24px;}
+      .irs-line:hover { background: #f9fafb; }
+      .irs-col-num { width: 30px; font-weight: bold; padding: 4px; text-align: right; }
+      .irs-col-desc { flex: 1; padding: 4px 8px; }
+      .irs-col-val-box { width: 120px; border-left: 1px solid #000; padding: 4px 8px; text-align: right; font-weight: bold; font-family: 'Courier New', Courier, monospace; letter-spacing: 0.5px;}
+      .irs-col-sub-box { width: 120px; border-left: 1px solid #ccc; padding: 4px 8px; text-align: right; background: #fafafa;}
+      .irs-indent { padding-left: 20px; }
+      .irs-footer { border-top: 1px solid #000; margin-top: 20px; font-size: 10px; padding-top: 5px; text-align: center; }
+      .bg-highlight { background-color: #fef08a !important; }
+      
+      @media print {
+        .no-print { display: none !important; }
+        .irs-report { box-shadow: none; max-width: 100%; padding: 0; }
+      }
+    </style>
+  `;
+
+  container.innerHTML = irsStyle + `
+    <div class="irs-report text-left">
+      <!-- HEADER -->
+      <div class="irs-header">
+        <div style="width: 150px;">
+          <div style="font-weight: bold; font-size: 14px;">SCHEDULE C</div>
+          <div style="font-weight: bold; font-size: 14px;">(Form 1040)</div>
+          <div style="font-size: 10px; margin-top: 5px;">Department of the Treasury<br>Internal Revenue Service</div>
         </div>
-        <div class="bg-green-50 border border-green-200 rounded-lg p-6">
-          <h4 class="text-lg font-semibold text-green-800 mb-3">Actual Expense Method</h4>
-          <p class="text-3xl font-bold text-green-900">$${actualExpenseMethod.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
-          <p class="text-sm text-green-700 mt-2">Fuel, tolls, and vehicle expenses</p>
+        
+        <div class="irs-title-block">
+          <h1 class="irs-title">Profit or Loss From Business</h1>
+          <h2 class="irs-subtitle">(Sole Proprietorship)</h2>
+          <p class="irs-desc">&gt; Attach to Form 1040, 1040-SR, 1040-NR, or 1041; partnerships generally must file Form 1065.</p>
+        </div>
+        
+        <div style="width: 150px; text-align: right;">
+          <div class="irs-year">OMB No. 1545-0074</div>
+          <div class="irs-year" style="font-size: 28px;">${year}</div>
+          <div style="font-size: 10px; font-weight: bold;">Attachment Sequence No. 09</div>
         </div>
       </div>
-      <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-        <p class="text-sm text-blue-800">
-          <strong>Recommended:</strong> ${recommendedMethod} 
-          (saves $${Math.abs(standardMileageDeduction - actualExpenseMethod).toLocaleString('en-US', { minimumFractionDigits: 2 })})
-        </p>
-      </div>
-    </div>
 
-    <!-- Self-Employment Tax -->
-    <div class="mb-8">
-      <h3 class="text-xl font-bold text-gray-900 mb-4">SCHEDULE SE - SELF-EMPLOYMENT TAX</h3>
-      <div class="bg-white border border-gray-300 rounded-lg p-6">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="text-center">
-            <p class="text-sm text-gray-600">Self-Employment Earnings</p>
-            <p class="text-2xl font-bold text-gray-900">$${selfEmploymentEarnings.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+      <div style="display: flex; border: 1px solid #000; border-bottom: none; font-size: 12px;">
+         <div style="flex: 1; padding: 4px; border-right: 1px solid #000;">
+           <strong>Name of proprietor:</strong> <span style="font-family: monospace; font-size: 14px;">${window.currentUser?.email || 'Transport Owner'}</span>
+         </div>
+         <div style="width: 250px; padding: 4px;">
+           <strong>Social security number (SSN)</strong><br>
+           <div style="border-bottom: 1px solid #000; margin-top: 4px; height: 14px;"></div>
+         </div>
+      </div>
+      <div style="display: flex; border: 1px solid #000; font-size: 12px; margin-bottom: 10px;">
+         <div style="flex: 1; padding: 4px; border-right: 1px solid #000;">
+           <strong>A</strong> Principal business or profession: <strong>Transportation / Expediter</strong>
+         </div>
+         <div style="width: 250px; padding: 4px;">
+           <strong>B</strong> Enter code from instructions: <strong style="font-family: monospace; font-size: 14px;">484120</strong>
+         </div>
+      </div>
+
+      <!-- PART I: INCOME -->
+      <div class="irs-section-header">Part I <span style="margin-left: 10px; text-transform: uppercase;">Income</span></div>
+      
+      <div class="irs-line">
+        <div class="irs-col-num">1</div>
+        <div class="irs-col-desc">Gross receipts or sales. See instructions for line 1 and check the box if this income was reported to you on Form W-2 and the "Statutory employee" box on that form was checked.</div>
+        <div class="irs-col-val-box">${grossReceipts.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+      </div>
+      <div class="irs-line">
+        <div class="irs-col-num">2</div>
+        <div class="irs-col-desc">Returns and allowances</div>
+        <div class="irs-col-val-box">0.00</div>
+      </div>
+      <div class="irs-line">
+        <div class="irs-col-num">3</div>
+        <div class="irs-col-desc">Subtract line 2 from line 1</div>
+        <div class="irs-col-val-box">${grossReceipts.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+      </div>
+      <div class="irs-line">
+        <div class="irs-col-num">4</div>
+        <div class="irs-col-desc">Cost of goods sold (from line 42)</div>
+        <div class="irs-col-val-box">0.00</div>
+      </div>
+      <div class="irs-line font-bold" style="background:#f3f4f6; border-bottom: 2px solid #000;">
+        <div class="irs-col-num">5</div>
+        <div class="irs-col-desc font-bold">Gross profit. Subtract line 4 from line 3</div>
+        <div class="irs-col-val-box">${grossReceipts.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+      </div>
+
+      <!-- PART II: EXPENSES -->
+      <div class="irs-section-header">
+        Part II <span style="margin-left: 10px; text-transform: uppercase;">Expenses</span>
+        <span style="font-weight: normal; margin-left: 20px; font-size: 12px;">Method Used: <strong class="text-blue-700 bg-blue-100 px-2 rounded">${useStandardMileage ? 'STANDARD MILEAGE' : 'ACTUAL EXPENSES'}</strong></span>
+      </div>
+
+      <div style="display: flex;">
+        <!-- Left Column -->
+        <div style="flex: 1; border-right: 1px solid #ccc; padding-right: 10px;">
+          <div class="irs-line">
+            <div class="irs-col-num">8</div>
+            <div class="irs-col-desc">Advertising</div>
+            <div class="irs-col-sub-box">0.00</div>
           </div>
-          <div class="text-center">
-            <p class="text-sm text-gray-600">Self-Employment Tax (14.13%)</p>
-            <p class="text-2xl font-bold text-red-900">$${selfEmploymentTax.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+          <div class="irs-line ${useStandardMileage ? 'bg-highlight' : ''}">
+            <div class="irs-col-num">9</div>
+            <div class="irs-col-desc text-xs"><strong>Car & truck expenses</strong> <br/><span class="text-[10px] text-gray-500">(Includes Standard Mileage if used)</span></div>
+            <div class="irs-col-sub-box">${carLine9Amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
           </div>
-          <div class="text-center">
-            <p class="text-sm text-gray-600">Deductible Portion (50%)</p>
-            <p class="text-2xl font-bold text-green-900">$${deductibleSETax.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
+          <div class="irs-line">
+            <div class="irs-col-num">10</div>
+            <div class="irs-col-desc">Commissions and fees</div>
+            <div class="irs-col-sub-box">0.00</div>
+          </div>
+          <div class="irs-line">
+            <div class="irs-col-num">11</div>
+            <div class="irs-col-desc">Contract labor</div>
+            <div class="irs-col-sub-box">0.00</div>
+          </div>
+          <div class="irs-line">
+            <div class="irs-col-num">12</div>
+            <div class="irs-col-desc">Depletion</div>
+            <div class="irs-col-sub-box">0.00</div>
+          </div>
+          <div class="irs-line">
+            <div class="irs-col-num">15</div>
+            <div class="irs-col-desc">Insurance (other than health)</div>
+            <div class="irs-col-sub-box">${(!useStandardMileage ? businessExpenses.insurance : 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+          </div>
+          <div class="irs-line">
+            <div class="irs-col-num">16a</div>
+            <div class="irs-col-desc text-xs">Mortgage (paid to banks, etc)</div>
+            <div class="irs-col-sub-box">0.00</div>
+          </div>
+          <div class="irs-line">
+            <div class="irs-col-num">16b</div>
+            <div class="irs-col-desc">Other interest</div>
+            <div class="irs-col-sub-box">0.00</div>
+          </div>
+          <div class="irs-line">
+            <div class="irs-col-num">17</div>
+            <div class="irs-col-desc">Legal and professional</div>
+            <div class="irs-col-sub-box">0.00</div>
+          </div>
+        </div>
+        
+        <!-- Right Column -->
+        <div style="flex: 1; padding-left: 10px;">
+          <div class="irs-line">
+            <div class="irs-col-num">20</div>
+            <div class="irs-col-desc text-xs">Office expense</div>
+            <div class="irs-col-sub-box">${businessExpenses.office.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+          </div>
+          <div class="irs-line">
+            <div class="irs-col-num">21</div>
+            <div class="irs-col-desc text-xs">Repairs & maintenance</div>
+            <div class="irs-col-sub-box">${(!useStandardMileage ? businessExpenses.repairs : 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+          </div>
+          <div class="irs-line">
+            <div class="irs-col-num">22</div>
+            <div class="irs-col-desc text-xs">Supplies (not included in Part III)</div>
+            <div class="irs-col-sub-box">0.00</div>
+          </div>
+          <div class="irs-line">
+            <div class="irs-col-num">23</div>
+            <div class="irs-col-desc">Taxes and licenses</div>
+            <div class="irs-col-sub-box">${(!useStandardMileage ? businessExpenses.taxesLicenses : 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+          </div>
+          <div class="irs-line">
+            <div class="irs-col-num">24a</div>
+            <div class="irs-col-desc">Travel</div>
+            <div class="irs-col-sub-box">${businessExpenses.travelMeals.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+          </div>
+          <div class="irs-line">
+            <div class="irs-col-num">24b</div>
+            <div class="irs-col-desc text-xs">Deductible meals (see instr.)</div>
+            <div class="irs-col-sub-box">0.00</div>
+          </div>
+          <div class="irs-line">
+            <div class="irs-col-num">26</div>
+            <div class="irs-col-desc text-xs">Wages (less employment credits)</div>
+            <div class="irs-col-sub-box">0.00</div>
+          </div>
+          <div class="irs-line">
+            <div class="irs-col-num">27a</div>
+            <div class="irs-col-desc text-[11px] leading-tight">Other expenses (from line 48)<br/><span class="text-[10px] text-gray-500">Includes Tolls & Parking if applicable</span></div>
+            <div class="irs-col-sub-box">${(businessExpenses.other + businessExpenses.tollsAndParking).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Important Tax Notes -->
-    <div class="mb-8 bg-amber-50 border-2 border-amber-400 rounded-lg p-4">
-      <h4 class="text-base font-bold text-amber-900 mb-3">⚠️ IMPORTANT TAX CONSIDERATIONS</h4>
-      <ul class="text-sm text-amber-800 space-y-2">
-        <li>📌 Quarterly estimated tax payments may be required if you owe $1,000+ in taxes</li>
-        <li>📌 Keep detailed records of all business miles and expenses</li>
-        <li>📌 Meals while away from home are 50% deductible</li>
-        <li>📌 Consider maximizing retirement contributions (SEP-IRA, Solo 401k)</li>
-        <li>📌 This report is for reference only - consult a tax professional</li>
-      </ul>
-    </div>
+      <div class="irs-line font-bold mt-2 border-t-2 border-black">
+        <div class="irs-col-num">28</div>
+        <div class="irs-col-desc">Total expenses before expenses for business use of home.</div>
+        <div class="irs-col-val-box">${totalBusinessExpenses.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+      </div>
+      <div class="irs-line font-bold" style="background:#fefce8; border-bottom: 3px solid #000;">
+        <div class="irs-col-num" style="font-size: 16px;">31</div>
+        <div class="irs-col-desc" style="font-size: 14px;"><strong>Net profit or (loss).</strong> Subtract line 30 from line 29. <br/><span class="font-normal text-xs text-blue-800">If a profit, enter on both Schedule 1 (Form 1040), line 3, and on Schedule SE, line 2.</span></div>
+        <div class="irs-col-val-box" style="font-size: 16px;">${netProfitLoss.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+      </div>
 
-    <!-- Disclaimer -->
-    <div class="mt-4 text-center text-sm bg-gray-100 rounded-lg p-4 border border-gray-300">
-      <p class="text-gray-800 font-medium">⚠️ This report is generated for informational purposes only.</p>
-      <p class="text-gray-700 mt-1">Tax laws are complex and change frequently. Always consult with a qualified tax professional or CPA.</p>
+      <!-- PART IV: VEHICLE -->
+      <div class="irs-section-header">Part IV <span style="margin-left: 10px; text-transform: uppercase;">Information on Your Vehicle</span></div>
+      <div class="p-3 text-sm">
+         <p><strong>43</strong> When did you place your vehicle in service for business purposes? (month, day, year) <span class="border-b border-black w-32 inline-block"></span></p>
+         <p class="mt-2 text-xs"><strong>44</strong> Of the total number of miles you drove your vehicle during ${year}, enter the number of miles you used your vehicle for:</p>
+         <div class="flex gap-4 mt-1 pl-4">
+            <div>a Business: <strong>${totalMiles.toLocaleString()}</strong></div>
+            <div>b Commuting: <strong>0</strong></div>
+            <div>c Other: <strong>0</strong></div>
+         </div>
+      </div>
+
+      <!-- SELF EMPLOYMENT TAX SUMMARY -->
+      <div class="mt-8 border-2 border-blue-600 rounded-lg p-0 overflow-hidden page-break-before">
+        <div class="bg-blue-600 text-white font-bold p-2 text-center text-sm uppercase tracking-wider">
+          💡 Schedule SE (Self-Employment Tax) Preview
+        </div>
+        <div class="p-4 grid grid-cols-3 gap-4 text-center">
+           <div>
+             <div class="text-xs font-bold text-gray-500 uppercase">Net Earnings (SE)</div>
+             <div class="text-xl font-black text-gray-800">$${netEarningsSE.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+           </div>
+           <div>
+             <div class="text-xs font-bold text-gray-500 uppercase">SE Tax Owed (15.3%)</div>
+             <div class="text-xl font-black text-red-600">$${selfEmploymentTax.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+           </div>
+           <div>
+             <div class="text-xs font-bold text-gray-500 uppercase">SE Tax Deduction (50%)</div>
+             <div class="text-xl font-black text-green-600">$${deductibleSETax.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+           </div>
+        </div>
+      </div>
+
+      <!-- ACTION BUTTONS (NO PRINT) -->
+      <div class="mt-6 flex justify-center gap-4 no-print border-t pt-6">
+         <button onclick="window.print()" class="bg-gray-800 hover:bg-black text-white px-6 py-2 rounded-lg font-bold flex items-center gap-2 shadow-lg transition transform hover:-translate-y-1">
+           🖨️ Imprimir 1040 (PDF)
+         </button>
+         <button onclick="closeReportModal()" class="bg-white border-2 border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-2 rounded-lg font-bold shadow transition">
+           Terminar
+         </button>
+      </div>
+
+      <!-- IRS FOOTER -->
+      <div class="irs-footer flex justify-between">
+         <span>For Paperwork Reduction Act Notice, see the separate instructions.</span>
+         <span>Cat. No. 11334P</span>
+         <span style="font-weight: bold; font-size: 12px;">Schedule C (Form 1040) ${year}</span>
+      </div>
     </div>
   `;
 
-  // Actualizar subtítulo del modal con el período
+  // Update subtitle
   const subtitleEl = document.getElementById("reportModalSubtitle");
   if (subtitleEl) subtitleEl.textContent = periodLabel;
 
-  debugLog("OK Reporte fiscal anual generado exitosamente");
+  debugLog("OK Reporte Schedule C generado excitósamente con lógica avanzada.");
 }
 
 
@@ -2664,18 +2813,20 @@ function updateCashFlowChartEnhanced() {
           position: 'top',
           labels: {
             usePointStyle: true,
-            padding: 20
+            padding: 20,
+            color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#e2e8f0' : '#334155'
           }
         }
       },
       scales: {
-        x: { ticks: { color: "#cbd5e1" }, grid: { color: "rgba(59, 130, 246, 0.1)" } },
+        x: { ticks: { color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#e2e8f0' : '#475569' }, grid: { color: document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(59,130,246,0.1)' : 'rgba(0,0,0,0.07)' } },
         y: {
           beginAtZero: true,
           ticks: {
             callback: function (value) {
               return '$' + value.toLocaleString();
-            }
+            },
+            color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#e2e8f0' : '#475569'
           }
         }
       }
@@ -2738,14 +2889,16 @@ function updateRpmTrendChart() {
       maintainAspectRatio: false,
       plugins: {
         legend: {
-          position: 'top'
+          position: 'top',
+          labels: { color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#e2e8f0' : '#334155' }
         }
       },
       scales: {
-        x: { ticks: { color: "#cbd5e1" }, grid: { color: "rgba(59, 130, 246, 0.1)" } },
+        x: { ticks: { color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#e2e8f0' : '#475569' }, grid: { color: document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(59,130,246,0.1)' : 'rgba(0,0,0,0.07)' } },
         y: {
           beginAtZero: true,
           ticks: {
+            color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#e2e8f0' : '#475569',
             callback: function (value) {
               return '$' + value.toFixed(2);
             }
@@ -4248,7 +4401,7 @@ window.generateComprehensiveReport = generateComprehensiveReport;
  * Abrir modal de nueva categoría
  */
 async function openCategoryModal() {
-  console.log('🟢 Abriendo modal de categorías...');
+  debugLog('🟢 Abriendo modal de categorías...');
   const modal = document.getElementById('categoryModal');
   if (modal) {
     modal.classList.remove('hidden');
@@ -4262,9 +4415,9 @@ async function openCategoryModal() {
     });
 
     // Cargar lista de categorías personalizadas
-    console.log('🟡 Llamando a loadCustomCategoriesList...');
+    debugLog('🟡 Llamando a loadCustomCategoriesList...');
     await loadCustomCategoriesList();
-    console.log('🟢 Lista de categorías cargada');
+    debugLog('🟢 Lista de categorías cargada');
   }
 }
 
@@ -4297,6 +4450,7 @@ async function saveCustomCategory() {
   const name = document.getElementById('categoryName').value.trim();
   const icon = document.getElementById('selectedIcon').value;
   const color = document.getElementById('categoryColor').value;
+  const isOperational = document.getElementById('isOperationalYes').checked;
 
   if (!name) {
     showFinancesMessage('El nombre de la categoría es requerido', 'error');
@@ -4304,7 +4458,7 @@ async function saveCustomCategory() {
   }
 
   try {
-    const newCategory = await window.CustomCategories.createCustomCategory(name, icon, color);
+    const newCategory = await window.CustomCategories.createCustomCategory(name, icon, color, isOperational);
     showFinancesMessage(`✅ Categoría "${name}" creada exitosamente`, 'success');
 
     if (window.showToast) {
@@ -4430,15 +4584,15 @@ function createCategoryModalIfNeeded() {
   // Eliminar TODOS los modales viejos (puede haber múltiples por caché)
   const oldModals = document.querySelectorAll('#categoryModal');
   if (oldModals.length > 0) {
-    console.log(`🔧 Eliminando ${oldModals.length} modal(es) viejo(s)...`);
+    debugLog(`🔧 Eliminando ${oldModals.length} modal(es) viejo(s)...`);
     oldModals.forEach(m => m.remove());
   }
 
-  console.log('🔧 Creando modal de categorías dinámicamente desde finances.js...');
+  debugLog('🔧 Creando modal de categorías dinámicamente desde finances.js...');
 
   const modalHTML = `
   <div id="categoryModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full flex flex-col" style="max-height: 85vh;">
       
       <!-- Modal Header -->
       <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between sticky top-0 bg-white">
@@ -4449,7 +4603,7 @@ function createCategoryModalIfNeeded() {
       </div>
 
       <!-- Modal Body -->
-      <div class="px-6 py-4">
+      <div class="px-6 py-4 overflow-y-auto flex-1">
         
         <!-- Formulario de Nueva Categoría -->
         <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
@@ -4495,6 +4649,22 @@ function createCategoryModalIfNeeded() {
               <input type="color" id="categoryColor" value="#6b7280"
                      class="border border-gray-300 rounded px-3 py-2 w-full h-10">
             </div>
+            <!-- Tipo de gasto -->
+<div>
+  <label class="block text-sm font-medium text-gray-700 mb-2">¿Tipo de gasto?</label>
+  <div class="flex gap-3">
+    <label class="flex items-center gap-2 cursor-pointer">
+      <input type="radio" name="isOperational" id="isOperationalYes" value="true" checked
+             class="text-purple-600">
+      <span class="text-sm">🚛 Operacional <span class="text-xs text-gray-500">(afecta CPM)</span></span>
+    </label>
+    <label class="flex items-center gap-2 cursor-pointer">
+      <input type="radio" name="isOperational" id="isOperationalNo" value="false"
+             class="text-purple-600">
+      <span class="text-sm">📦 General <span class="text-xs text-gray-500">(no afecta CPM)</span></span>
+    </label>
+  </div>
+</div>
             
             <!-- Botón Crear -->
             <button type="button" onclick="saveCustomCategory()"
@@ -4529,5 +4699,5 @@ function createCategoryModalIfNeeded() {
 
   // Insertar al final del body
   document.body.insertAdjacentHTML('beforeend', modalHTML);
-  console.log('✅ Modal de categorías creado dinámicamente desde finances.js');
+  debugLog('✅ Modal de categorías creado dinámicamente desde finances.js');
 }

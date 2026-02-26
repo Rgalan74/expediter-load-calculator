@@ -70,4 +70,4 @@ window.sanitizeURL = function (url) {
   }
 };
 
-console.log('✅ Security functions loaded globally');
+if (typeof debugLog === 'function') debugLog('✅ Security functions loaded globally');

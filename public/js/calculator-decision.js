@@ -326,7 +326,7 @@ function detectarFactoresEspeciales(origin, destination, { diasSinCarga = 0 } = 
  */
 function showDecisionPanel(calculationData = {}) {
     // Implementation would go here - simplified for lazy loading
-    console.log('Decision panel:', calculationData);
+    debugLog('Decision panel:', calculationData);
 }
 
 /**
@@ -364,4 +364,4 @@ window.detectarFactoresEspeciales = detectarFactoresEspeciales;
 window.showDecisionPanel = showDecisionPanel;
 window.hideDecisionPanel = hideDecisionPanel;
 
-console.log('📦 Calculator Decision module loaded successfully');
+debugLog('📦 Calculator Decision module loaded successfully');

@@ -43,7 +43,7 @@ function loadScript(src, moduleName) {
         // Check if already loaded
         const existingScript = document.querySelector(`script[src*="${src}"]`);
         if (existingScript) {
-            console.log(`✅ Module already loaded: ${moduleName}`);
+            debugLog(`✅ Module already loaded: ${moduleName}`);
             resolve();
             return;
         }
@@ -53,7 +53,7 @@ function loadScript(src, moduleName) {
         script.async = true;
 
         script.onload = () => {
-            console.log(`✅ Module loaded: ${moduleName}`);
+            debugLog(`✅ Module loaded: ${moduleName}`);
             resolve();
         };
 
@@ -75,11 +75,11 @@ function loadScript(src, moduleName) {
  */
 async function loadWeatherModule() {
     if (window.CalculatorWeather) {
-        console.log("📦 Weather module already loaded");
+        debugLog("📦 Weather module already loaded");
         return Promise.resolve();
     }
 
-    console.log("📦 Loading Weather module...");
+    debugLog("📦 Loading Weather module...");
 
     try {
         await loadScript(CALCULATOR_MODULES.weather.path, 'Weather');
@@ -100,11 +100,11 @@ async function loadWeatherModule() {
  */
 async function loadDecisionModule() {
     if (window.CalculatorDecision) {
-        console.log("📦 Decision module already loaded");
+        debugLog("📦 Decision module already loaded");
         return Promise.resolve();
     }
 
-    console.log("📦 Loading Decision module...");
+    debugLog("📦 Loading Decision module...");
 
     try {
         await loadScript(CALCULATOR_MODULES.decision.path, 'Decision');
@@ -125,11 +125,11 @@ async function loadDecisionModule() {
  */
 async function loadMapsModule() {
     if (window.CalculatorMaps) {
-        console.log("📦 Maps module already loaded");
+        debugLog("📦 Maps module already loaded");
         return Promise.resolve();
     }
 
-    console.log("📦 Loading Maps module...");
+    debugLog("📦 Loading Maps module...");
 
     try {
         await loadScript(CALCULATOR_MODULES.maps.path, 'Maps');
@@ -150,11 +150,11 @@ async function loadMapsModule() {
  */
 async function loadNotesModule() {
     if (window.CalculatorNotes) {
-        console.log("📦 Notes module already loaded");
+        debugLog("📦 Notes module already loaded");
         return Promise.resolve();
     }
 
-    console.log("📦 Loading Notes module...");
+    debugLog("📦 Loading Notes module...");
 
     try {
         await loadScript(CALCULATOR_MODULES.notes.path, 'Notes');
@@ -268,5 +268,5 @@ window.initGoogleMapsLazy = initGoogleMapsLazy;
 window.showDestinationNotesLazy = showDestinationNotesLazy;
 window.openNotesModalLazy = openNotesModalLazy;
 
-console.log("🚀 Calculator lazy loader initialized successfully");
-console.log("📦 Modules available for lazy loading:", Object.keys(CALCULATOR_MODULES));
+debugLog("🚀 Calculator lazy loader initialized successfully");
+debugLog("📦 Modules available for lazy loading:", Object.keys(CALCULATOR_MODULES));

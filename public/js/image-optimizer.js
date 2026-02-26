@@ -64,7 +64,7 @@ function setupWebPElements() {
         img.parentNode.replaceChild(picture, img);
     });
 
-    console.log(`✅ WebP fallback configurado para ${images.length} imágenes`);
+    debugLog(`✅ WebP fallback configurado para ${images.length} imágenes`);
 }
 
 /**
@@ -99,7 +99,7 @@ function setupLazyLoading() {
             img.removeAttribute('data-lazy');
         });
 
-        console.log('✅ Native lazy loading activado');
+        debugLog('✅ Native lazy loading activado');
         return;
     }
 
@@ -132,14 +132,14 @@ function setupLazyLoading() {
             imageObserver.observe(img);
         });
 
-        console.log('✅ Intersection Observer lazy loading activado');
+        debugLog('✅ Intersection Observer lazy loading activado');
     } else {
         // Fallback final: cargar todas las imágenes
         document.querySelectorAll('img[data-src]').forEach(img => {
             img.src = img.dataset.src;
         });
 
-        console.log('⚠️ Lazy loading no soportado, cargando todas las imágenes');
+        debugLog('⚠️ Lazy loading no soportado, cargando todas las imágenes');
     }
 }
 
@@ -156,7 +156,7 @@ function preloadCriticalImages(images = []) {
     });
 
     if (images.length > 0) {
-        console.log(`✅ Precargando ${images.length} imágenes críticas`);
+        debugLog(`✅ Precargando ${images.length} imágenes críticas`);
     }
 }
 
@@ -249,7 +249,7 @@ function injectLazyLoadingStyles() {
  * Inicializar todas las optimizaciones de imágenes
  */
 function initializeImageOptimization() {
-    console.log('🎨 Inicializando optimizaciones de imágenes...');
+    debugLog('🎨 Inicializando optimizaciones de imágenes...');
 
     // Inyectar estilos
     injectLazyLoadingStyles();
@@ -267,7 +267,7 @@ function initializeImageOptimization() {
         // Agregar imágenes críticas aquí si es necesario
     ]);
 
-    console.log('✨ Optimizaciones de imágenes completadas');
+    debugLog('✨ Optimizaciones de imágenes completadas');
 }
 
 // Auto-inicializar cuando el DOM esté listo
@@ -289,4 +289,4 @@ window.ImageOptimizer = {
     generateResponsiveSrcset
 };
 
-console.log('📦 Image Optimizer module loaded');
+debugLog('📦 Image Optimizer module loaded');

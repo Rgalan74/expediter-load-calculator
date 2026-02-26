@@ -62,7 +62,7 @@ async function loadChartsModule() {
     debugLog("📊 Cargando Charts module...");
 
     try {
-        await loadScript('js/finances-charts.js?v=1.0.0', 'FinancesCharts');
+        await loadScript('js/finances-charts.js?v=1.0.2', 'FinancesCharts');
 
         // Verificar que se cargó correctamente
         if (!window.FinancesCharts) {
@@ -211,4 +211,4 @@ window.generatePLReportLazy = generatePLReportLazy;
 window.generateTaxReportLazy = generateTaxReportLazy;
 window.openExpenseModalLazy = openExpenseModalLazy;
 
-console.log("🚀 Lazy loader initialized successfully");
+debugLog("🚀 Lazy loader initialized successfully");

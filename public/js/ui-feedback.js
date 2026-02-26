@@ -84,7 +84,7 @@ window.confirmDialog = function (message, onConfirm, onCancel) {
     <h3 class="text-xl font-semibold mb-4">Confirmar acción</h3>
     <p class="text-gray-700 mb-6">${message}</p>
     <div class="flex gap-3 justify-end">
-      <button id="cancelBtn" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition">
+      <button id="cancelBtn" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition" style="color: #1e293b !important;">
         Cancelar
       </button>
       <button id="confirmBtn" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition">
@@ -167,4 +167,4 @@ if (!document.querySelector('#ui-feedback-animations')) {
   document.head.appendChild(style);
 }
 
-console.log('✅ UI Feedback functions loaded globally');
+if (typeof debugLog === 'function') debugLog('✅ UI Feedback functions loaded globally');

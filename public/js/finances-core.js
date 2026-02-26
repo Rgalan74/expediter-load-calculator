@@ -20,14 +20,14 @@ var allExpensesData = [];
 //  CHART.JS CONFIGURATION
 // ============================
 if (typeof Chart !== 'undefined') {
-    Chart.defaults.color = '#cbd5e1';
+    Chart.defaults.color = '#e2e8f0';
     Chart.defaults.borderColor = 'rgba(59, 130, 246, 0.2)';
 
     Chart.defaults.plugins.legend.labels.color = '#e2e8f0';
     Chart.defaults.plugins.legend.labels.font = { weight: '600', size: 13 };
     Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(15, 23, 42, 0.95)';
     Chart.defaults.plugins.tooltip.titleColor = '#f1f5f9';
-    Chart.defaults.plugins.tooltip.bodyColor = '#cbd5e1';
+    Chart.defaults.plugins.tooltip.bodyColor = '#e2e8f0';
     Chart.defaults.plugins.tooltip.borderColor = 'rgba(59, 130, 246, 0.5)';
     Chart.defaults.plugins.tooltip.borderWidth = 1;
 

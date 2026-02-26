@@ -1,0 +1,411 @@
+/**
+ * mobile-theme-adapter.css
+ * Adapta los estilos mobile para usar variables de tema
+ * DEBE cargarse DESPUÉS de todos los archivos mobile-*.css
+ */
+
+/* ============================================================
+   MOBILE LIGHT MODE - Adaptador de Tema
+   Sobrescribe TODOS los colores hardcodeados en mobile
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+    /* ===== LIGHT MODE - Textos Oscuros ===== */
+    [data-theme="light"] {
+
+        /* Body y contenedores principales */
+        body,
+        main,
+        section,
+        article,
+        div {
+            color: var(--theme-text-primary) !important;
+        }
+
+        /* Todos los headings */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: var(--theme-text-primary) !important;
+            -webkit-text-fill-color: var(--theme-text-primary) !important;
+        }
+
+        /* Todos los textos */
+        p,
+        span,
+        label,
+        a,
+        li,
+        td,
+        th {
+            color: var(--theme-text-primary) !important;
+            -webkit-text-fill-color: var(--theme-text-primary) !important;
+        }
+
+        /* Inputs, selects, textareas */
+        input:not([type="checkbox"]):not([type="radio"]),
+        select,
+        textarea {
+            color: var(--theme-text-primary) !important;
+            -webkit-text-fill-color: var(--theme-text-primary) !important;
+            background-color: var(--theme-bg-card) !important;
+            border-color: var(--theme-border) !important;
+        }
+
+        /* Placeholders */
+        input::placeholder,
+        textarea::placeholder,
+        select::placeholder {
+            color: var(--theme-text-secondary) !important;
+            -webkit-text-fill-color: var(--theme-text-secondary) !important;
+            opacity: 0.7 !important;
+        }
+
+        /* Buttons generales (EXCLUYENDO menuToggle y mobileRoleLink) */
+        button:not(.tab-pill-active):not([class*="bg-"]):not(#menuToggle):not(#mobileRoleLink) {
+            color: var(--theme-text-primary) !important;
+        }
+
+        /* Cards y secciones */
+        .card-section,
+        .section-header,
+        .card,
+        [class*="card-"] {
+            color: var(--theme-text-primary) !important;
+            background-color: var(--theme-bg-card) !important;
+        }
+
+        .card-section *,
+        .section-header * {
+            color: var(--theme-text-primary) !important;
+            -webkit-text-fill-color: var(--theme-text-primary) !important;
+        }
+
+        /* Header - Dejar que theme-tokens.css maneje TODO (background Y colores) */
+        /* No sobrescribir nada aquí para que el tema funcione correctamente */
+
+        /* ===== MOBILE LIGHT MODE HEADER - ULTRA ESPECÍFICO ===== */
+        @media (max-width: 768px) {
+
+            header .header-title,
+            header .gradient-text,
+            .header-title,
+            .gradient-text {
+                background: linear-gradient(135deg, #00D9FF 0%, #7B2FFF 100%) !important;
+                -webkit-background-clip: text !important;
+                background-clip: text !important;
+                -webkit-text-fill-color: transparent !important;
+            }
+
+            #menuToggle {
+                color: #ffffff !important;
+                font-size: 1.75rem !important;
+                font-weight: 900 !important;
+            }
+        }
+
+        /* Navigation tabs */
+        .tab-link:not(.tab-pill-active) {
+            color: var(--theme-text-primary) !important;
+            background-color: transparent !important;
+        }
+
+        .tab-link.tab-pill-active,
+        .tab-pill-active {
+            color: #ffffff !important;
+            background-color: var(--brand-cyan) !important;
+        }
+
+        /* Mobile menu */
+        #mobileMenu {
+            background-color: var(--theme-bg-card) !important;
+            color: var(--theme-text-primary) !important;
+        }
+
+        #mobileMenu button,
+        #mobileMenu a,
+        #mobileMenu span {
+            color: var(--theme-text-primary) !important;
+        }
+
+        /* Tables */
+        table,
+        thead,
+        tbody,
+        tr,
+        th,
+        td {
+            color: var(--theme-text-primary) !important;
+            border-color: var(--theme-border) !important;
+        }
+
+        /* Calculator específico */
+        #calculator label,
+        #calculator span:not([class*="bg-"]),
+        #calculator p,
+        #calculator div:not([class*="bg-"]) {
+            color: var(--theme-text-primary) !important;
+            -webkit-text-fill-color: var(--theme-text-primary) !important;
+        }
+
+        /* Decision panel */
+        #decisionPanel,
+        #decisionBadges {
+            color: var(--theme-text-primary) !important;
+        }
+
+        #decisionBadges span:not([class*="bg-"]) {
+            color: var(--theme-text-primary) !important;
+        }
+
+        /* Profit details */
+        #profitDetails,
+        #profitDetails * {
+            color: var(--theme-text-primary) !important;
+        }
+
+        /* Helper text y subtítulos */
+        .subtitle,
+        .text-xs,
+        .text-sm,
+        small {
+            color: var(--theme-text-secondary) !important;
+            -webkit-text-fill-color: var(--theme-text-secondary) !important;
+        }
+
+        /* Modals */
+        .modal,
+        [class*="modal-"],
+        [id*="Modal"] {
+            background-color: var(--theme-bg-card) !important;
+            color: var(--theme-text-primary) !important;
+        }
+
+        .modal *,
+        [class*="modal-"] *,
+        [id*="Modal"] * {
+            color: var(--theme-text-primary) !important;
+        }
+
+        /* Finances específico */
+        #finances label,
+        #finances span:not([class*="bg-"]):not([class*="text-"]),
+        #finances p,
+        #finances th,
+        #finances td {
+            color: var(--theme-text-primary) !important;
+            -webkit-text-fill-color: var(--theme-text-primary) !important;
+        }
+
+        /* Settings específico */
+        #settings label,
+        #settings span:not([class*="bg-"]),
+        #settings p {
+            color: var(--theme-text-primary) !important;
+            -webkit-text-fill-color: var(--theme-text-primary) !important;
+        }
+
+        /* History específico */
+        #history label,
+        #history span:not([class*="bg-"]),
+        #history p,
+        #history th,
+        #history td {
+            color: var(--theme-text-primary) !important;
+            -webkit-text-fill-color: var(--theme-text-primary) !important;
+        }
+
+        /* Zones específico */
+        #zones label,
+        #zones span:not([class*="bg-"]),
+        #zones p {
+            color: var(--theme-text-primary) !important;
+            -webkit-text-fill-color: var(--theme-text-primary) !important;
+        }
+
+        /* ===== FIXES ADICIONALES MUY ESPECÍFICOS ===== */
+
+        /* Placeholders - TODOS los navegadores */
+        input::-webkit-input-placeholder,
+        textarea::-webkit-input-placeholder {
+            color: #9ca3af !important;
+            -webkit-text-fill-color: #9ca3af !important;
+        }
+
+        input::-moz-placeholder,
+        textarea::-moz-placeholder {
+            color: #9ca3af !important;
+            opacity: 1 !important;
+        }
+
+        input:-ms-input-placeholder,
+        textarea:-ms-input-placeholder {
+            color: #9ca3af !important;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #9ca3af !important;
+            -webkit-text-fill-color: #9ca3af !important;
+            opacity: 1 !important;
+        }
+
+        /* Select options - SUPER ESPECÍFICO */
+        select,
+        select option,
+        option {
+            color: #1f2937 !important;
+            -webkit-text-fill-color: #1f2937 !important;
+            background-color: #ffffff !important;
+        }
+
+        /* Finances selects por ID */
+        #yearSelect,
+        #monthSelect,
+        #reportYear,
+        #reportMonth,
+        #accountsYear,
+        #accountsMonth,
+        #accountsStatus,
+        #accountsSort {
+            color: #1f2937 !important;
+            -webkit-text-fill-color: #1f2937 !important;
+            background-color: #ffffff !important;
+            border: 1px solid #d1d5db !important;
+        }
+
+        #yearSelect option,
+        #monthSelect option,
+        #reportYear option,
+        #reportMonth option,
+        #accountsYear option,
+        #accountsMonth option,
+        #accountsStatus option,
+        #accountsSort option {
+            color: #1f2937 !important;
+            -webkit-text-fill-color: #1f2937 !important;
+            background-color: #ffffff !important;
+        }
+
+        /* Table headers - fondo oscuro con texto blanco - MUY ESPECÍFICO */
+        table thead,
+        table thead tr,
+        table thead th,
+        thead,
+        thead tr,
+        thead th,
+        th {
+            background-color: #1e293b !important;
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+
+        /* Asegurar que los th siempre tengan texto blanco */
+        #history table thead th,
+        #finances table thead th,
+        table th,
+        th[scope="col"] {
+            background-color: #1e293b !important;
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+
+        /* Table body - texto oscuro */
+        tbody td,
+        table tbody td {
+            color: #1f2937 !important;
+            -webkit-text-fill-color: #1f2937 !important;
+        }
+
+        /* Buttons - texto oscuro excepto los con background (EXCLUYENDO menuToggle y mobileRoleLink) */
+        button:not(#menuToggle):not(#mobileRoleLink) {
+            color: #1f2937 !important;
+        }
+
+        button span {
+            color: inherit !important;
+        }
+
+        /* Buttons con background específico - texto blanco */
+        button[class*="bg-blue"],
+        button[class*="bg-purple"],
+        button[class*="bg-green"],
+        button[class*="bg-red"],
+        button[class*="bg-indigo"],
+        button[class*="bg-cyan"] {
+            color: #ffffff !important;
+        }
+
+        button[class*="bg-blue"] span,
+        button[class*="bg-purple"] span,
+        button[class*="bg-green"] span,
+        button[class*="bg-red"] span,
+        button[class*="bg-indigo"] span,
+        button[class*="bg-cyan"] span {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+
+        /* Finance sub-tabs */
+        .fin-subtab {
+            color: #1f2937 !important;
+            -webkit-text-fill-color: #1f2937 !important;
+        }
+
+        .fin-subtab.active {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+
+        /* Todos los inputs y selects en finances */
+        #finances input,
+        #finances select,
+        #finances textarea {
+            color: #1f2937 !important;
+            -webkit-text-fill-color: #1f2937 !important;
+            background-color: #ffffff !important;
+        }
+
+        /* Todos los h3, h4 en finances */
+        #finances h3,
+        #finances h4 {
+            color: #1f2937 !important;
+            -webkit-text-fill-color: #1f2937 !important;
+        }
+    }
+
+    /* ===== DARK MODE - Mantener blancos ===== */
+    [data-theme="dark"] {
+        /* Los estilos mobile ya están bien para dark mode */
+        /* Solo aseguramos que use las variables */
+
+        body,
+        main {
+            color: var(--theme-text-primary) !important;
+            background-color: var(--theme-bg-page) !important;
+        }
+    }
+
+    /* REFUERZO FINAL PARA MENU TOGGLE */
+    #menuToggle,
+    button#menuToggle {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        opacity: 1 !important;
+    }
+
+    /* REFUERZO FINAL PARA BADGE ROL ICONO MOBILE */
+    .role-badge-icon,
+    #roleBadgeIcon.role-badge-icon {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        font-weight: normal !important;
+        font-style: normal !important;
+        opacity: 1 !important;
+        z-index: 50;
+    }
+}

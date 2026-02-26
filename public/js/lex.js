@@ -41,7 +41,7 @@ Object.keys(LEX_IMAGES_BASE).forEach(key => {
   }
 });
 
-console.log(`🎨 Lex usando ${lexSupportsWebP ? 'WebP' : 'PNG'} images`);
+debugLog(`🎨 Lex usando ${lexSupportsWebP ? 'WebP' : 'PNG'} images`);
 
 // 🔹 Colores del puntico según estado
 const LEX_STATUS_COLORS = {
@@ -196,7 +196,7 @@ window.openLexChatModal = function () {
   // NEW: Crear instancia de memoria conversacional
   if (typeof ConversationMemory !== 'undefined') {
     window.lexChatMemory = new ConversationMemory(10);
-    console.log('💭 ConversationMemory created for this chat session');
+    debugLog('💭 ConversationMemory created for this chat session');
   } else {
     console.warn('💭 ConversationMemory class not available');
   }
@@ -748,13 +748,13 @@ async function showProactiveInsights() {
       return;
     }
 
-    console.log('[LEX] Generating proactive insights...');
+    debugLog('[LEX] Generating proactive insights...');
 
     // Generate insights
     const insights = await window.InsightsAnalyzer.generateInsights(profile);
 
     if (!insights || insights.length === 0) {
-      console.log('[LEX] No insights generated');
+      debugLog('[LEX] No insights generated');
       return;
     }
 
@@ -762,7 +762,7 @@ async function showProactiveInsights() {
     const highPriority = insights.filter(i => i.priority === 'HIGH');
 
     if (highPriority.length > 0) {
-      console.log('[LEX] Showing', highPriority.length, 'high priority insights');
+      debugLog('[LEX] Showing', highPriority.length, 'high priority insights');
       highPriority.forEach(insight => {
         const message = `${insight.emoji} ${insight.message}`;
         if (typeof appendLexMessage === 'function') {
@@ -785,7 +785,7 @@ window.closeLexChatModal = function () {
   // NEW: Clear conversation memory when chat closes
   if (window.lexChatMemory && typeof window.lexChatMemory.clear === 'function') {
     window.lexChatMemory.clear();
-    console.log('💭 ConversationMemory cleared on chat close');
+    debugLog('💭 ConversationMemory cleared on chat close');
   }
 };
 

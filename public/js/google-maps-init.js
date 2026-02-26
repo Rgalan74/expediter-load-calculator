@@ -11,14 +11,14 @@
  */
 function waitForGoogleMaps() {
     if (typeof google !== 'undefined' && google.maps && google.maps.Map) {
-        console.log("✅ Google Maps API disponible");
+        debugLog("✅ Google Maps API disponible");
 
         // Dar tiempo a que se carguen completamente todos los scripts
         setTimeout(() => {
             if (typeof initMap === 'function') {
                 initMap();
             } else {
-                console.log("⏳ Esperando función initMap...");
+                debugLog("⏳ Esperando función initMap...");
                 setTimeout(() => {
                     if (typeof initMap === 'function') {
                         initMap();
@@ -27,7 +27,7 @@ function waitForGoogleMaps() {
             }
         }, 1000);
     } else {
-        console.log("⏳ Esperando Google Maps API...");
+        debugLog("⏳ Esperando Google Maps API...");
         setTimeout(waitForGoogleMaps, 1000);
     }
 }
@@ -36,6 +36,6 @@ function waitForGoogleMaps() {
  * Iniciar verificación cuando carga la página
  */
 document.addEventListener('DOMContentLoaded', function () {
-    console.log("🔧 DOM cargado, iniciando verificación de Google Maps en 3 segundos...");
+    debugLog("🔧 DOM cargado, iniciando verificación de Google Maps en 3 segundos...");
     setTimeout(waitForGoogleMaps, 3000);
 });

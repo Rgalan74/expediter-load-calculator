@@ -24,7 +24,7 @@ class OfflineStorage {
 
             request.onsuccess = () => {
                 this.db = request.result;
-                console.log('✅ IndexedDB initialized');
+                debugLog('✅ IndexedDB initialized');
                 resolve(this.db);
             };
 
@@ -59,7 +59,7 @@ class OfflineStorage {
                     loadStore.createIndex('timestamp', 'timestamp', { unique: false });
                 }
 
-                console.log('✅ IndexedDB stores created');
+                debugLog('✅ IndexedDB stores created');
             };
         });
     }
@@ -83,7 +83,7 @@ class OfflineStorage {
             const request = store.add(data);
 
             request.onsuccess = () => {
-                console.log('✅ Calculation saved offline:', request.result);
+                debugLog('✅ Calculation saved offline:', request.result);
                 resolve(request.result);
             };
 
@@ -113,7 +113,7 @@ class OfflineStorage {
             const request = store.add(data);
 
             request.onsuccess = () => {
-                console.log('✅ Expense saved offline:', request.result);
+                debugLog('✅ Expense saved offline:', request.result);
                 resolve(request.result);
             };
 
@@ -165,7 +165,7 @@ class OfflineStorage {
                     const updateRequest = store.put(data);
 
                     updateRequest.onsuccess = () => {
-                        console.log(`✅ Marked as synced: ${storeName} #${id}`);
+                        debugLog(`✅ Marked as synced: ${storeName} #${id}`);
                         resolve();
                     };
 
@@ -191,7 +191,7 @@ class OfflineStorage {
             const request = store.delete(id);
 
             request.onsuccess = () => {
-                console.log(`✅ Deleted synced item: ${storeName} #${id}`);
+                debugLog(`✅ Deleted synced item: ${storeName} #${id}`);
                 resolve();
             };
 
@@ -221,7 +221,7 @@ class OfflineStorage {
             });
 
             transaction.oncomplete = () => {
-                console.log(`✅ Cached ${loads.length} loads offline`);
+                debugLog(`✅ Cached ${loads.length} loads offline`);
                 resolve();
             };
 
@@ -243,7 +243,7 @@ class OfflineStorage {
             const request = store.getAll();
 
             request.onsuccess = () => {
-                console.log(`✅ Retrieved ${request.result.length} cached loads`);
+                debugLog(`✅ Retrieved ${request.result.length} cached loads`);
                 resolve(request.result);
             };
 
@@ -284,10 +284,10 @@ window.offlineStorage = window.offlineStorage || new OfflineStorage();
 window.addEventListener('load', async () => {
     try {
         await window.offlineStorage.init();
-        console.log('🗄️ Offline storage ready');
+        debugLog('🗄️ Offline storage ready');
     } catch (error) {
         console.error('Failed to initialize offline storage:', error);
     }
 });
 
-console.log('🗄️ Offline Storage module loaded');
+debugLog('🗄️ Offline Storage module loaded');

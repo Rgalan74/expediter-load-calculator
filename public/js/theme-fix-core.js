@@ -27,7 +27,7 @@
                 } else {
                     // ☀️ LIGHT MODE STYLES 
                     // Delegated to theme-overrides.css where possible, but enforcing base properties here
-                    el.style.setProperty('background-color', '#f8fafc', 'important'); // Slate 50
+                    el.style.setProperty('background-color', '#eef2f7', 'important'); // Azul grisáceo suave
                     el.style.setProperty('color', '#111827', 'important'); // Gray 900
                     el.style.setProperty('border', '1px solid #cbd5e1', 'important'); // Slate 300
                     el.style.setProperty('border-radius', '0.5rem', 'important');

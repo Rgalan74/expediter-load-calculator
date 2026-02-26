@@ -28,7 +28,7 @@ function initializePageAnimations() {
         }, 50 * index);
     });
 
-    console.log(`✨ Animaciones inicializadas para ${cards.length} elementos`);
+    debugLog(`✨ Animaciones inicializadas para ${cards.length} elementos`);
 }
 
 /**
@@ -271,7 +271,7 @@ function initializeTooltips() {
         });
     });
 
-    console.log(`💬 Tooltips inicializados para ${elementsWithTooltip.length} elementos`);
+    debugLog(`💬 Tooltips inicializados para ${elementsWithTooltip.length} elementos`);
 }
 
 // ========================================
@@ -302,7 +302,7 @@ function enhanceTouchTargets() {
         }
     });
 
-    console.log('📱 Touch targets mejorados para mobile');
+    debugLog('📱 Touch targets mejorados para mobile');
 }
 
 /**
@@ -351,7 +351,7 @@ function initializeSwipeGestures(element, callbacks = {}) {
  * Inicializar todas las mejoras UI/UX
  */
 function initializeUIEnhancements() {
-    console.log('🎨 Inicializando mejoras UI/UX...');
+    debugLog('🎨 Inicializando mejoras UI/UX...');
 
     // Animaciones de página
     if (document.readyState === 'loading') {
@@ -374,7 +374,7 @@ function initializeUIEnhancements() {
         autoResizeTextarea(textarea); // Initial resize
     });
 
-    console.log('✨ Mejoras UI/UX inicializadas correctamente');
+    debugLog('✨ Mejoras UI/UX inicializadas correctamente');
 }
 
 // Auto-inicializar
@@ -404,4 +404,4 @@ window.UIEnhancements = {
     initializeSwipeGestures
 };
 
-console.log('📦 UI Enhancements module loaded');
+debugLog('📦 UI Enhancements module loaded');

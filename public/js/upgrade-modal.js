@@ -33,10 +33,10 @@ const PLANS_HTML = `
       <div class="px-4 py-5 sm:p-6 bg-gray-50">
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
           
-          <!-- FREE PLAN -->
+          <!-- STARTER PLAN -->
           <div class="relative bg-white border border-gray-200 rounded-lg shadow-sm p-6 flex flex-col">
-            <h3 class="text-lg font-semibold text-gray-900">Free</h3>
-            <p class="mt-4 text-sm text-gray-500">Para probar la aplicación.</p>
+            <h3 class="text-lg font-semibold text-gray-900">Starter</h3>
+            <p class="mt-4 text-sm text-gray-500">Perfecto para conocer la plataforma.</p>
             <p class="mt-8">
               <span class="text-4xl font-extrabold text-gray-900">$0</span>
               <span class="text-base font-medium text-gray-500">/mes</span>
@@ -44,11 +44,19 @@ const PLANS_HTML = `
             <ul class="mt-6 flex-1 space-y-4">
               <li class="flex text-sm text-gray-500">
                 <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="ml-3">5 cálculos/mes</span>
+                <span class="ml-3">30 cargas/mes</span>
               </li>
               <li class="flex text-sm text-gray-500">
                 <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="ml-3">Calculadora básica</span>
+                <span class="ml-3">Calculadora RPM básica</span>
+              </li>
+              <li class="flex text-sm text-gray-500">
+                <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="ml-3">Panel financiero básico</span>
+              </li>
+              <li class="flex text-sm text-gray-500">
+                <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="ml-3">Mapa de zonas básico</span>
               </li>
             </ul>
             <div class="mt-8">
@@ -56,48 +64,60 @@ const PLANS_HTML = `
             </div>
           </div>
 
-          <!-- PRO PLAN -->
+          <!-- PROFESSIONAL PLAN -->
           <div class="relative bg-white border border-blue-500 ring-2 ring-blue-500 rounded-lg shadow-md p-6 flex flex-col transform scale-105 z-10">
             <div class="absolute top-0 right-0 -mt-2 -mr-2 px-2 py-1 bg-blue-500 text-xs font-semibold text-white uppercase tracking-wide rounded-full shadow-sm">Popular</div>
-            <h3 class="text-lg font-semibold text-gray-900">Pro</h3>
-            <p class="mt-4 text-sm text-gray-500">Para owner-operators activos.</p>
+            <h3 class="text-lg font-semibold text-gray-900">Professional</h3>
+            <p class="mt-4 text-sm text-gray-500">Para transportistas activos.</p>
             <p class="mt-8">
-              <span class="text-4xl font-extrabold text-gray-900">$9.99</span>
+              <span class="text-4xl font-extrabold text-gray-900">$14.99</span>
               <span class="text-base font-medium text-gray-500">/mes</span>
             </p>
             <ul class="mt-6 flex-1 space-y-4">
               <li class="flex text-sm text-gray-900 font-medium">
                 <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="ml-3">Cálculos ILIMITADOS</span>
+                <span class="ml-3">Cargas ILIMITADAS</span>
               </li>
               <li class="flex text-sm text-gray-700">
                 <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="ml-3">Historial 90 días</span>
+                <span class="ml-3">Sistema financiero completo</span>
               </li>
               <li class="flex text-sm text-gray-700">
                 <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="ml-3">Análisis de Zonas</span>
+                <span class="ml-3">Mapa de zonas avanzado</span>
+              </li>
+              <li class="flex text-sm text-gray-700">
+                <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="ml-3">Historial de 90 días</span>
+              </li>
+              <li class="flex text-sm text-gray-700">
+                <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="ml-3">Reportes financieros en PDF</span>
+              </li>
+              <li class="flex text-sm text-gray-700">
+                <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="ml-3">Exportación Excel/CSV</span>
               </li>
             </ul>
             <div class="mt-8">
-              <button onclick="window.StripeIntegration.createCheckoutSession('pro')" class="w-full bg-blue-600 border border-transparent rounded-md py-2 text-sm font-semibold text-white hover:bg-blue-700 shadow-sm transition-all duration-200">
-                Suscribirse a Pro
+              <button onclick="window.StripeIntegration.createCheckoutSession('professional')" class="w-full bg-blue-600 border border-transparent rounded-md py-2 text-sm font-semibold text-white hover:bg-blue-700 shadow-sm transition-all duration-200">
+                Suscribirse a Professional
               </button>
             </div>
           </div>
 
-          <!-- PREMIUM PLAN -->
+          <!-- PREMIUM + AI PLAN -->
           <div class="relative bg-white border border-gray-200 rounded-lg shadow-sm p-6 flex flex-col">
-            <h3 class="text-lg font-semibold text-gray-900">Premium</h3>
-            <p class="mt-4 text-sm text-gray-500">Máximo poder y tecnología AI.</p>
+            <h3 class="text-lg font-semibold text-gray-900">Premium + AI</h3>
+            <p class="mt-4 text-sm text-gray-500">Máximo poder con inteligencia artificial.</p>
             <p class="mt-8">
-              <span class="text-4xl font-extrabold text-gray-900">$19.99</span>
+              <span class="text-4xl font-extrabold text-gray-900">$29.99</span>
               <span class="text-base font-medium text-gray-500">/mes</span>
             </p>
             <ul class="mt-6 flex-1 space-y-4">
               <li class="flex text-sm text-gray-500">
                 <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="ml-3">Todo lo de Pro +</span>
+                <span class="ml-3">Todo lo de Professional +</span>
               </li>
               <li class="flex text-sm text-gray-500">
                 <svg class="flex-shrink-0 h-5 w-5 text-purple-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" clip-rule="evenodd"/></svg>
@@ -105,7 +125,19 @@ const PLANS_HTML = `
               </li>
               <li class="flex text-sm text-gray-500">
                 <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="ml-3">Tax Reports & Export</span>
+                <span class="ml-3">Historial ilimitado</span>
+              </li>
+              <li class="flex text-sm text-gray-500">
+                <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="ml-3">Análisis predictivo con AI</span>
+              </li>
+              <li class="flex text-sm text-gray-500">
+                <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="ml-3">Reportes de impuestos</span>
+              </li>
+              <li class="flex text-sm text-gray-500">
+                <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                <span class="ml-3">Soporte prioritario</span>
               </li>
             </ul>
             <div class="mt-8">
@@ -130,39 +162,39 @@ const PLANS_HTML = `
  * Inyectar el modal en el DOM si no existe
  */
 function ensureModalExists() {
-    if (!document.getElementById('plansModal')) {
-        const div = document.createElement('div');
-        div.innerHTML = PLANS_HTML;
-        document.body.appendChild(div.firstElementChild);
-    }
+  if (!document.getElementById('plansModal')) {
+    const div = document.createElement('div');
+    div.innerHTML = PLANS_HTML;
+    document.body.appendChild(div.firstElementChild);
+  }
 }
 
 /**
  * Abrir modal de planes
  */
 function openPlansModal() {
-    ensureModalExists();
-    const modal = document.getElementById('plansModal');
-    modal.classList.remove('hidden');
+  ensureModalExists();
+  const modal = document.getElementById('plansModal');
+  modal.classList.remove('hidden');
 
-    // Animación simple de entrada
-    const panel = modal.querySelector('.inline-block');
-    panel.classList.remove('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
-    panel.classList.add('opacity-100', 'translate-y-0', 'sm:scale-100');
+  // Animación simple de entrada
+  const panel = modal.querySelector('.inline-block');
+  panel.classList.remove('opacity-0', 'translate-y-4', 'sm:translate-y-0', 'sm:scale-95');
+  panel.classList.add('opacity-100', 'translate-y-0', 'sm:scale-100');
 }
 
 /**
  * Cerrar modal de planes
  */
 function closePlansModal() {
-    const modal = document.getElementById('plansModal');
-    if (!modal) return;
+  const modal = document.getElementById('plansModal');
+  if (!modal) return;
 
-    modal.classList.add('hidden');
+  modal.classList.add('hidden');
 }
 
 // Exportar globalmente
 window.openPlansModal = openPlansModal;
 window.closePlansModal = closePlansModal;
 
-console.log('📦 Upgrade Modal module loaded');
+debugLog('📦 Upgrade Modal module loaded');

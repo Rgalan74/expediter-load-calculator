@@ -4,6 +4,17 @@
 //  $0 - Sin APIs externas - 100% Firebase
 // ==========================================================
 
+// ✅ HELPER — CPM dinámico desde CPMEngine o config del usuario
+function getUserCPM() {
+  if (window.currentUser?.costs?.source === 'real') {
+    return window.currentUser.costs.TOTAL || 0.55;
+  }
+  if (window.currentUser?.costs?.totalCPM) {
+    return window.currentUser.costs.totalCPM;
+  }
+  return 0.55;
+}
+
 function safe(num, decimals = 2, fallback = '--') {
   const n = Number(num);
   if (!Number.isFinite(n)) return fallback;
@@ -24,7 +35,7 @@ class LexAI {
     this.userContext = {
       avgRPM: 0.95,
       preferredZones: [],
-      avgCPM: 0.576,
+      avgCPM: getUserCPM(),
       minRPM: 0.85,
       recentLoads: [],
       businessMetrics: {},
@@ -49,20 +60,20 @@ class LexAI {
       const db = firebase.firestore();
       this.profileRef = db.collection('lexProfiles').doc(user.uid);
 
-      console.log('🤖 Inicializando Lex AI...');
+      debugLog('🤖 Inicializando Lex AI...');
 
       // PASO 1: Intentar cargar perfil existente
       const profileDoc = await this.profileRef.get();
 
       if (profileDoc.exists) {
         // ✓ Perfil existe - cargar datos aprendidos
-        console.log('📂 Cargando perfil de aprendizaje existente...');
+        debugLog('📂 Cargando perfil de aprendizaje existente...');
         const profile = profileDoc.data();
 
         this.userContext = {
           ...this.userContext,
           avgRPM: profile.avgRPM || 0.95,
-          avgCPM: profile.avgCPM || 0.576,
+          avgCPM: profile.avgCPM || getUserCPM(),
           minRPM: profile.thresholds?.minSafeRPM || 0.85,
           targetRPM: profile.thresholds?.targetRPM || 1.0,
           preferredZones: profile.preferredStates || [],
@@ -74,7 +85,7 @@ class LexAI {
           businessMetrics: profile.businessPatterns || {}
         };
 
-        console.log('✅ Perfil cargado:', {
+        debugLog('✅ Perfil cargado:', {
           totalLoads: this.userContext.totalLoads,
           avgRPM: this.userContext.avgRPM.toFixed(2),
           avgCPM: this.userContext.avgCPM.toFixed(3),
@@ -83,21 +94,31 @@ class LexAI {
 
       } else {
         // 🆕 Primera vez - crear perfil inicial
-        console.log('🆕 Primera vez con Lex - Creando perfil inicial...');
+        debugLog('🆕 Primera vez con Lex - Creando perfil inicial...');
         await this.createInitialProfile();
+      }
+
+      // ✅ PASO 2b: Cargar CPM real del engine para comparaciones
+      try {
+        if (window.getCPMForCalculator) {
+          this.userContext.realCPM = await window.getCPMForCalculator();
+          debugLog('✅ Lex realCPM cargado:', this.userContext.realCPM);
+        }
+      } catch (e) {
+        this.userContext.realCPM = getUserCPM();
       }
 
       // PASO 2: Cargar cargas recientes para contexto
       await this.loadRecentLoads();
 
-      console.log('🚀 Lex AI listo para analizar cargas');
+      debugLog('🚀 Lex AI listo para analizar cargas');
     } catch (error) {
       console.error('❌ Error inicializando Lex:', error);
       // Valores por defecto en caso de error
       this.userContext = {
         ...this.userContext,
         avgRPM: 0.95,
-        avgCPM: 0.576,
+        avgCPM: getUserCPM(),
         minRPM: 0.85,
         targetRPM: 1.0
       };
@@ -124,7 +145,7 @@ class LexAI {
         loads.push({ id: doc.id, ...doc.data() });
       });
 
-      console.log(`📊 Encontradas ${loads.length} cargas para analizar`);
+      debugLog(`📊 Encontradas ${loads.length} cargas para analizar`);
 
       if (loads.length === 0) {
         // Usuario nuevo - crear perfil vacío con valores por defecto
@@ -185,7 +206,7 @@ class LexAI {
         targetRPM: profileData.thresholds.targetRPM
       };
 
-      console.log('✅ Perfil inicial creado con éxito:', {
+      debugLog('✅ Perfil inicial creado con éxito:', {
         totalLoads: this.userContext.totalLoads,
         avgRPM: this.userContext.avgRPM.toFixed(2),
         avgCPM: this.userContext.avgCPM.toFixed(3)
@@ -210,7 +231,7 @@ class LexAI {
       totalRevenue: 0,
       totalProfit: 0,
       avgRPM: 0.95,
-      avgCPM: 0.576,
+      avgCPM: getUserCPM(),
       avgProfit: 0,
       avgDeadheadPercent: 0,
       stateStats: {},
@@ -235,7 +256,7 @@ class LexAI {
 
     await this.profileRef.set(profileData);
     this.userContext = { ...this.userContext, ...profileData };
-    console.log('✅ Perfil vacío creado - Listo para aprender');
+    debugLog('✅ Perfil vacío creado - Listo para aprender');
   }
 
   // ==========================================================
@@ -248,7 +269,7 @@ class LexAI {
         return;
       }
 
-      console.log('📈 Actualizando perfil de Lex con nueva carga...');
+      debugLog('📈 Actualizando perfil de Lex con nueva carga...');
 
       const miles = loadData.totalMiles || 0;
       const loadedMiles = loadData.loadedMiles || 0;
@@ -257,7 +278,7 @@ class LexAI {
       const rpm = loadData.rpm || 0;
       const profit =
         loadData.netProfit ||
-        (revenue - miles * (this.userContext.avgCPM || 0.576));
+        (revenue - miles * (this.userContext.avgCPM || getUserCPM()));
       const state = loadData.destinationState;
 
       // Actualizar estadísticas globales
@@ -293,7 +314,7 @@ class LexAI {
         await this.recalculateAverages();
       }
 
-      console.log('✅ Perfil actualizado correctamente');
+      debugLog('✅ Perfil actualizado correctamente');
     } catch (error) {
       console.error('❌ Error actualizando perfil:', error);
     }
@@ -418,7 +439,7 @@ class LexAI {
         businessPatterns
       };
 
-      console.log('✅ Promedios recalculados:', {
+      debugLog('✅ Promedios recalculados:', {
         avgRPM: avgRPM.toFixed(2),
         avgCPM: avgCPM.toFixed(3),
         avgProfit: avgProfit.toFixed(0)
@@ -525,7 +546,7 @@ class LexAI {
       const loadedMiles = load.loadedMiles || 0;
       const deadheadMiles = load.deadheadMiles || 0;
       const revenue = load.rate || load.total || 0;
-      const cpm = load.costPerMile || 0.576;
+      const cpm = load.costPerMile || getUserCPM();
       const profit =
         load.netProfit || revenue - miles * cpm || 0;
 
@@ -653,7 +674,7 @@ class LexAI {
         const revenue = load.rate || load.total || 0;
         const cost =
           load.estimatedCost ||
-          (miles * (this.userContext.avgCPM || 0.576));
+          (miles * (this.userContext.avgCPM || getUserCPM()));
         const profit =
           load.netProfit || revenue - cost || 0;
         const rpm = miles > 0 ? revenue / miles : 0;
@@ -1215,7 +1236,7 @@ class LexAI {
       // Fallback if shared function not available
       const costPerMile = this.userContext.currentCosts?.total ||
         this.userContext.avgCPM ||
-        0.576;
+        getUserCPM();
       estimatedCost = totalMiles * costPerMile;
     }
 
@@ -1284,7 +1305,7 @@ class LexAI {
     }
 
     if (isTrapLoad && trapAnalysisData) {
-      console.log('[LEX] DETECTÓ: CARGA TRAMPA', trapAnalysisData);
+      debugLog('[LEX] DETECTÓ: CARGA TRAMPA', trapAnalysisData);
 
       // Defaults seguros por si faltan campos
       const detalles = trapAnalysisData.detalles || {};
@@ -1403,7 +1424,7 @@ class LexAI {
       trapAnalysisData.zonaOrigen === 'TRAP' &&
       trapAnalysisData.zonaDestino === 'TRAP') {
       // Movimiento dentro de zona trap (ej: Reno → Las Vegas)
-      console.log('[LEX] MOVIMIENTO DENTRO DE TRAP - Minimizar daño');
+      debugLog('[LEX] MOVIMIENTO DENTRO DE TRAP - Minimizar daño');
 
       reasons.push(
         `SITUACION: Te mueves dentro de zona trap (${loadData.originState} → ${loadData.destinationState})`
@@ -1441,7 +1462,7 @@ class LexAI {
 
     } else if (trapAnalysisData && trapAnalysisData.nivel === 'OPTIMO') {
       // Carga óptima dentro de zona operativa
-      console.log('[LEX] CARGA ÓPTIMA - Dentro de zona operativa');
+      debugLog('[LEX] CARGA ÓPTIMA - Dentro de zona operativa');
 
       const zonaDescripcion = trapAnalysisData.zonaOrigen === 'CORE_MIDWEST'
         ? 'Core Midwest'
@@ -1466,7 +1487,7 @@ class LexAI {
 
     } else if (trapAnalysisData && trapAnalysisData.nivel === 'RELOCALIZACION') {
       // Saliendo de una zona trap hacia zona operativa
-      console.log('[LEX] RELOCALIZACIÓN - Regresando a zona operativa');
+      debugLog('[LEX] RELOCALIZACIÓN - Regresando a zona operativa');
 
       const destinoDescripcion = trapAnalysisData.zonaDestino === 'CORE_MIDWEST'
         ? 'Core Midwest'
@@ -1500,7 +1521,7 @@ class LexAI {
 
     } else if (trapAnalysisData && trapAnalysisData.nivel === 'EVALUAR') {
       // Sale del Midwest a zona aceptable pero no óptima
-      console.log('[LEX] EVALUAR - Salida a zona aceptable');
+      debugLog('[LEX] EVALUAR - Salida a zona aceptable');
 
       reasons.push(
         `EVALUAR: Sales hacia ${loadData.destinationState || 'zona'} (aceptable pero no optima)`
@@ -2129,13 +2150,13 @@ window.copyLexCounteroffer = function (suggestedRate) {
 //  INICIALIZAR LEX CUANDO EL DOM ESTÉ LISTO
 // ==========================================================
 document.addEventListener('DOMContentLoaded', async () => {
-  console.log('🚀 Iniciando Lex AI v2.0...');
+  debugLog('🚀 Iniciando Lex AI v2.0...');
 
   setTimeout(async () => {
     if (typeof firebase !== 'undefined' && firebase.auth) {
       firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
-          console.log(
+          debugLog(
             '👤 Usuario autenticado, iniciando Lex AI'
           );
           window.lexAI = new LexAI();
@@ -2161,7 +2182,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               lexBtn.onclick = analyzeLexLoad;
 
               calculateBtn.parentElement.appendChild(lexBtn);
-              console.log('✅ Botón de Lex AI agregado');
+              debugLog('✅ Botón de Lex AI agregado');
             }
           }, 2000);
 
@@ -2191,7 +2212,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }, 2000);
 });
 
-console.log(
+debugLog(
   '🤖 Lex AI Brain v2.0 (Sistema de Aprendizaje) cargado exitosamente'
 );
 
@@ -2233,10 +2254,10 @@ async function ensureLexReady() {
     }
 
     if (!window.lexAIInitialized) {
-      console.log('🧠 [LEX] Inicializando contexto por primera vez...');
+      debugLog('🧠 [LEX] Inicializando contexto por primera vez...');
       await window.lexAI.initializeContext();
       window.lexAIInitialized = true;
-      console.log('✅ [LEX] Contexto inicializado');
+      debugLog('✅ [LEX] Contexto inicializado');
     }
   } catch (err) {
     console.error('[LEX] Error en ensureLexReady:', err);
@@ -2263,7 +2284,7 @@ window.triggerLex = async function () {
 
     // Detectar tab activa
     const currentTab = (window.appState?.currentTab) || 'calculator';
-    console.log('[LEX] Analizando tab:', currentTab);
+    debugLog('[LEX] Analizando tab:', currentTab);
 
     // Mapear tab a mensaje
     const tabMessages = {
@@ -2277,7 +2298,7 @@ window.triggerLex = async function () {
 
     // USAR LEXMASTER + LEXMODALS
     if (window.lexMaster && window.lexModals) {
-      console.log('[LEX] Usando sistema de agentes');
+      debugLog('[LEX] Usando sistema de agentes');
 
       // Ejecutar agente
       const result = await window.lexMaster.processRequest(message, {
@@ -2352,7 +2373,7 @@ window.triggerLex = async function () {
 
 // Función para mostrar resultado según tab
 function mostrarResultadoLex(result, tab) {
-  console.log('📊 Resultado Lex:', result);
+  debugLog('📊 Resultado Lex:', result);
 
   // Calculator
   if (tab === 'calculator' && result.agent === 'Calculator') {

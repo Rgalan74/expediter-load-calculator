@@ -317,4 +317,4 @@ window.addEventListener('load', () => {
   window.feedbackSystem = new FeedbackSystem();
 });
 
-console.log('💬 Feedback System loaded');
+debugLog('💬 Feedback System loaded');

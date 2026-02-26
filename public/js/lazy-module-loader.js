@@ -27,7 +27,7 @@ class LazyModuleLoader {
             return this.loadingModules.get(moduleName);
         }
 
-        console.log(`📦 Lazy loading module: ${moduleName}`);
+        debugLog(`[LAZY] Loading module: ${moduleName}`);
 
         const loadPromise = new Promise((resolve, reject) => {
             const script = document.createElement('script');
@@ -37,7 +37,7 @@ class LazyModuleLoader {
             script.onload = () => {
                 this.loadedModules.add(moduleName);
                 this.loadingModules.delete(moduleName);
-                console.log(`✅ Loaded: ${moduleName}`);
+                debugLog(`[LAZY] ✅ Loaded: ${moduleName}`);
 
                 if (initCallback && typeof initCallback === 'function') {
                     initCallback();
@@ -163,4 +163,4 @@ window.loadZonesModule = loadZonesModule;
 window.loadAdminModule = loadAdminModule;
 window.loadSettingsModule = loadSettingsModule;
 
-console.log('🚀 Lazy Module Loader initialized');
+debugLog('[LAZY] Module Loader initialized');

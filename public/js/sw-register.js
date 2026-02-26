@@ -8,15 +8,15 @@
 // SERVICE WORKER DESACTIVADO TEMPORALMENTE
 // ========================================
 
-console.log('⚠️ Service Worker registration DISABLED for debugging');
-console.log('   Los cambios se verán INMEDIATAMENTE sin caché');
+debugLog('⚠️ Service Worker registration DISABLED for debugging');
+debugLog('   Los cambios se verán INMEDIATAMENTE sin caché');
 
 // Desregistrar cualquier Service Worker existente
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations().then(function (registrations) {
         for (let registration of registrations) {
             registration.unregister();
-            console.log('🗑️ Service Worker removed');
+            debugLog('🗑️ Service Worker removed');
         }
     });
 }
@@ -35,7 +35,7 @@ async function registerServiceWorker() {
             scope: '/'
         });
 
-        console.log('✅ Service Worker registered:', registration.scope);
+        debugLog('✅ Service Worker registered:', registration.scope);
 
         // Manejar actualizaciones
         registration.addEventListener('updatefound', () => {
@@ -71,4 +71,4 @@ function showUpdateNotification() {
 }
 */
 
-console.log('📦 Service Worker registration script loaded (DISABLED MODE)');
+debugLog('📦 Service Worker registration script loaded (DISABLED MODE)');

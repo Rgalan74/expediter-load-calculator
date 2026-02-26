@@ -279,7 +279,7 @@ async function getWeatherByCoords(lat, lng) {
  */
 function switchWeatherTab(tabName) {
     // Implementation depends on your modal structure
-    console.log('Switching to weather tab:', tabName);
+    debugLog('Switching to weather tab:', tabName);
 }
 
 // ========================================
@@ -305,4 +305,4 @@ window.getWeatherEmoji = getWeatherEmoji;
 window.getWeatherByCoords = getWeatherByCoords;
 window.switchWeatherTab = switchWeatherTab;
 
-console.log('📦 Calculator Weather module loaded successfully');
+debugLog('📦 Calculator Weather module loaded successfully');

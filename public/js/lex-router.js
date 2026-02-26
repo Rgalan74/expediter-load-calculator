@@ -1047,7 +1047,7 @@
       : { type: 'NEUTRAL', intensity: 0 };
 
     if (sentiment.type !== 'NEUTRAL') {
-      console.log('[LEX-ROUTER] 🎭 Sentiment:', sentiment.type, 'Intensity:', sentiment.intensity.toFixed(2));
+      debugLog('[LEX-ROUTER] 🎭 Sentiment:', sentiment.type, 'Intensity:', sentiment.intensity.toFixed(2));
     }
 
     // Detectar negociación por heurística propia (palabras clave)
@@ -1163,7 +1163,7 @@
 
     if (intentResult && window.ResponseBuilders) {
       if (hasSecondaryIntents) {
-        console.log('[LEX-ROUTER] Processing multi-intent query with', intentResult.secondary.length, 'secondary intents');
+        debugLog('[LEX-ROUTER] Processing multi-intent query with', intentResult.secondary.length, 'secondary intents');
       }
 
       // Load profile for multi-intent processing
@@ -1176,7 +1176,7 @@
         try {
           patterns = window.PatternLearner.analyzePatterns(profileForMultiIntent.recentDecisions);
           if (patterns) {
-            console.log('[LEX-ROUTER] 🧠 Patterns learned:', {
+            debugLog('[LEX-ROUTER] 🧠 Patterns learned:', {
               states: Object.keys(patterns.rpmThresholds).length,
               acceptanceRate: (patterns.acceptanceRate.rate * 100).toFixed(0) + '%'
             });
@@ -1245,7 +1245,7 @@
           }
         }
 
-        console.log('[LEX-ROUTER] Total responses collected:', responses.length);
+        debugLog('[LEX-ROUTER] Total responses collected:', responses.length);
 
         // Check for trap zones
         if (state) {

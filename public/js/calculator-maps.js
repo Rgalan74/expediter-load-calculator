@@ -37,7 +37,7 @@ function initGoogleMaps() {
 
         // Expose globally for sequential-destinations.js
         window.googleMap = googleMap;
-        console.log('[MAPS] ✅ window.googleMap set:', !!window.googleMap);
+        debugLog('[MAPS] ✅ window.googleMap set:', !!window.googleMap);
 
         directionsService = new google.maps.DirectionsService();
         directionsRenderer = new google.maps.DirectionsRenderer({
@@ -247,4 +247,4 @@ window.showRouteOnMap = showRouteOnMap;
 window.calculateDistanceAutomatically = calculateDistanceAutomatically;
 window.openGoogleMapsDirections = openGoogleMapsDirections;
 
-console.log('📦 Calculator Maps module loaded successfully');
+debugLog('📦 Calculator Maps module loaded successfully');

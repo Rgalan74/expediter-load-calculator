@@ -16,7 +16,7 @@ class PWAInstaller {
     setupInstallPrompt() {
         // Capture the install prompt event
         window.addEventListener('beforeinstallprompt', (e) => {
-            console.log('💾 PWA Install prompt available');
+            debugLog('💾 PWA Install prompt available');
 
             // Prevent default mini-infobar
             e.preventDefault();
@@ -30,7 +30,7 @@ class PWAInstaller {
 
         // Track if app was installed
         window.addEventListener('appinstalled', () => {
-            console.log('✅ PWA installed successfully');
+            debugLog('✅ PWA installed successfully');
             this.deferredPrompt = null;
 
             // Hide banner if showing
@@ -56,7 +56,7 @@ class PWAInstaller {
     maybeShowInstallBanner() {
         // Don't show if already installed
         if (window.matchMedia('(display-mode: standalone)').matches) {
-            console.log('✅ Already installed as PWA');
+            debugLog('✅ Already installed as PWA');
             return;
         }
 
@@ -68,7 +68,7 @@ class PWAInstaller {
 
             // Don't show again for 7 days
             if (daysSince < 7) {
-                console.log('⏭️ Install banner dismissed recently');
+                debugLog('⏭️ Install banner dismissed recently');
                 return;
             }
         }
@@ -205,7 +205,7 @@ class PWAInstaller {
      */
     async promptInstall() {
         if (!this.deferredPrompt) {
-            console.log('❌ No install prompt available');
+            debugLog('❌ No install prompt available');
             return;
         }
 
@@ -214,7 +214,7 @@ class PWAInstaller {
 
         // Wait for user choice
         const { outcome } = await this.deferredPrompt.userChoice;
-        console.log(`User chose: ${outcome}`);
+        debugLog(`User chose: ${outcome}`);
 
         // Track choice
         if (typeof gtag !== 'undefined') {
@@ -301,4 +301,4 @@ window.pwaInstaller = new PWAInstaller();
 // Expose helper
 window.isPWAInstalled = () => PWAInstaller.isInstalled();
 
-console.log('📱 PWA Installer ready');
+debugLog('📱 PWA Installer ready');
