@@ -1105,6 +1105,30 @@
       return;
     }
 
+    // 💰 3.4 FINANCES Handler - Resúmenes financieros
+    const isFinances = intentResult && intentResult.intent === 'FINANCES';
+
+    if (isFinances) {
+      if (typeof window.analyzeLexFinances === 'function') {
+        // analyzeLexFinances ya inyecta el estado visual y abre el modal si corresponde
+        // pero podemos darle un mensaje de espera en el chat
+        if (replyFn) replyFn('💰 Dame un segundo, estoy calculando el resumen de tus finanzas...');
+
+        // Ejecutamos la función asíncrona (analiza y muestra resultados)
+        window.analyzeLexFinances().then(result => {
+          if (!result && replyFn) {
+            replyFn('No encontré suficientes datos financieros para hacerte un buen reporte. Asegúrate de registrar gastos y cobros. 🔧');
+          }
+        }).catch(err => {
+          console.error('Error generando finanzas desde el chat:', err);
+          if (replyFn) replyFn('Tuve un pequeño problema leyendo los números. 🛠️');
+        });
+      } else {
+        if (replyFn) replyFn('El módulo financiero está apagado en este momento. Inténtalo recargando la página. 📊');
+      }
+      return;
+    }
+
     // 🎓 3.5 APP_INFO Handler - Educational queries (no profile needed)
     const isAppInfo = intentResult && intentResult.intent === 'APP_INFO';
 

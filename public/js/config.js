@@ -153,6 +153,8 @@ async function setupAuthListener() {
           user.costs = userData.costs || null;
           user.preferences = userData.preferences || null;
           user.profileData = userData;
+          user.role = userData.role || null;
+          user.plan = userData.plan || 'free';
           debugLog("✅ Costos y preferencias cargados", user.costs);
         } else {
           debugLog("⚠️ Perfil no encontrado en Firestore, usando defaults");
@@ -262,6 +264,37 @@ async function setupAuthListener() {
           console.warn('⚠️ CPM Engine init error:', e);
         }
       }, 2000); // 2 seg para que carguen todos los módulos
+
+      // Poblar cache global para decisiones user-agnostic
+      setTimeout(async () => {
+        try {
+          const uid = window.currentUser?.uid;
+          if (!uid) return;
+
+          // CPM real desde CPMEngine
+          if (window.CPMEngine) {
+            const cpmResult = await window.CPMEngine.getCPM();
+            if (cpmResult?.cpm) window._userCPM = cpmResult.cpm;
+          }
+
+          // avgRPM y stateStats desde lexProfiles
+          const profileSnap = await firebase.firestore()
+            .collection('lexProfiles').doc(uid).get();
+          if (profileSnap.exists) {
+            const p = profileSnap.data();
+            window._userAvgRPM = p.avgRPM || 0;
+            window._userStateStats = p.stateStats || {};
+          }
+
+          debugLog('✅ Cache user-agnostic listo:', {
+            cpm: window._userCPM,
+            avgRPM: window._userAvgRPM,
+            states: Object.keys(window._userStateStats || {}).length
+          });
+        } catch (e) {
+          console.warn('⚠️ Error poblando cache user-agnostic:', e);
+        }
+      }, 3000); // 3 seg — después del CPMEngine
 
       // Cargar datos después de mostrar app
       setTimeout(() => {

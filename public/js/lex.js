@@ -201,30 +201,42 @@ window.openLexChatModal = function () {
     console.warn('💭 ConversationMemory class not available');
   }
 
-  // Contenedor transparente para colocar el panel
+  // Contenedor para colocar el panel (ahora con blur 100% de fondo)
   overlay = document.createElement('div');
   overlay.id = 'lexChatOverlay';
   overlay.style.position = 'fixed';
   overlay.style.inset = '0';
-  overlay.style.pointerEvents = 'none';
-  overlay.style.zIndex = '9999';
+  overlay.style.backgroundColor = 'rgba(2, 6, 23, 0.6)'; // Fondo oscuro semitransparente (Tailwind slate-950)
+  overlay.style.backdropFilter = 'blur(8px)';
+  overlay.style.WebkitBackdropFilter = 'blur(8px)';
+  overlay.style.pointerEvents = 'auto'; // Capturar clicks para cerrar el modal
+  overlay.style.zIndex = '9998';
 
-  // Panel de chat
+  // Si hacen click en el fondo borroso oscuro, cerramos el chat
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay && typeof window.closeLexChatModal === 'function') {
+      window.closeLexChatModal();
+    }
+  });
+
+  const isMobile = window.innerWidth <= 768;
+
+  // Panel de chat responsive
   const panel = document.createElement('div');
   panel.id = 'lexChatPanel';
   panel.style.position = 'fixed';
-  panel.style.right = '4.2rem';      // cerca de Lex
-  panel.style.bottom = '5.2rem';
-  panel.style.width = '300px';       // más pequeño
-  panel.style.maxHeight = '50vh';    // altura máxima
+  panel.style.right = isMobile ? '5%' : '4.2rem';
+  panel.style.bottom = isMobile ? '5%' : '5.2rem';
+  panel.style.width = isMobile ? '90vw' : '420px';       // Bastante más ancho en PC
+  panel.style.maxHeight = isMobile ? '80vh' : '75vh';    // Más alto en general
   panel.style.backgroundColor = '#020617'; // fondo sólido
   panel.style.border = '1px solid #4b5563';
-  panel.style.borderRadius = '14px';
+  panel.style.borderRadius = '16px';
   panel.style.boxShadow = '0 16px 40px rgba(0,0,0,0.75)';
   panel.style.display = 'flex';
   panel.style.flexDirection = 'column';
   panel.style.overflow = 'hidden';
-  panel.style.fontSize = '10px';     // tamaño base más pequeño
+  panel.style.fontSize = isMobile ? '12px' : '14px';     // Texto legible
   panel.style.pointerEvents = 'auto';
 
   panel.innerHTML = `
@@ -233,36 +245,40 @@ window.openLexChatModal = function () {
       display: flex;
       flex-direction: column;
       border-bottom: 1px solid #1f2937;
-      background: #020617;
+      background: linear-gradient(135deg, #0f172a 0%, #1a0a00 100%);
+      border-bottom: 1px solid rgba(251,146,60,0.2);
     ">
       <!-- Top header info -->
       <div style="
         display: flex;
         align-items: center;
-        gap: 6px;
-        padding: 6px 9px;
-        border-bottom: 1px solid #1f2937;
+        gap: 10px;
+        padding: 12px 14px;
+        border-bottom: 1px solid rgba(251,146,60,0.15);
       ">
         <div style="
-          width: 22px;
-          height: 22px;
-          border-radius: 9999px;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
           background: #0f172a;
+          border: 2px solid #fb923c;
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
           overflow: hidden;
+          box-shadow: 0 0 10px rgba(251,146,60,0.3);
         ">
           <img src="img/lex/lex-neutral.png" alt="Lex"
             style="width: 100%; height: 100%; object-fit: contain;">
         </div>
         <div style="flex: 1;">
-          <div style="font-size: 11px; font-weight: 600; color: #f9fafb;">
+          <div style="font-size: 15px; font-weight: 700; color: #f9fafb; letter-spacing: 0.3px;">
             Lex AI
           </div>
-          <div style="font-size: 10px; color: #9ca3af;">
-            Tu asistente inteligente
+          <div style="font-size: 11px; color: #fb923c; display: flex; align-items: center; gap: 4px;">
+            <span style="width:6px; height:6px; border-radius:50%; background:#22c55e; display:inline-block;"></span>
+            Asistente activo
           </div>
         </div>
         <button
@@ -292,27 +308,27 @@ window.openLexChatModal = function () {
       ">
         <button id="lexTabAnalisis" onclick="window.switchLexTab('analisis')" style="
           flex: 1;
-          padding: 6px 8px;
+          padding: 8px 12px;
           border: none;
-          background: #111827;
-          color: #10b981;
-          font-size: 9px;
+          background: transparent;
+          color: #fb923c;
+          font-size: 12px;
           font-weight: 600;
           cursor: pointer;
           border-top-left-radius: 6px;
           border-top-right-radius: 6px;
-          border-bottom: 2px solid #10b981;
+          border-bottom: 2px solid #fb923c;
           font-family: Inter, sans-serif;
         ">
           📊 Análisis
         </button>
         <button id="lexTabChat" onclick="window.switchLexTab('chat')" style="
           flex: 1;
-          padding: 6px 8px;
+          padding: 8px 12px;
           border: none;
           background: transparent;
           color: #9ca3af;
-          font-size: 9px;
+          font-size: 12px;
           font-weight: 600;
           cursor: pointer;
           border-top-left-radius: 6px;
@@ -324,11 +340,11 @@ window.openLexChatModal = function () {
         </button>
         <button id="lexTabFeedback" onclick="window.switchLexTab('feedback')" style="
           flex: 1;
-          padding: 6px 8px;
+          padding: 8px 12px;
           border: none;
           background: transparent;
           color: #9ca3af;
-          font-size: 9px;
+          font-size: 12px;
           font-weight: 600;
           cursor: pointer;
           border-top-left-radius: 6px;
@@ -349,10 +365,10 @@ window.openLexChatModal = function () {
       overflow: hidden;
     ">
       <div style="
-        padding: 12px;
+        padding: 16px;
         text-align: center;
         color: #9ca3af;
-        font-size: 10px;
+        font-size: 12px;
       ">
         <div style="font-size: 32px; margin-bottom: 8px;">📊</div>
         <p>Haz click en los botones de acciones rápidas para analizar:</p>
@@ -367,53 +383,57 @@ window.openLexChatModal = function () {
         flex-direction: column;
         gap: 4px;
       ">
-        <div style="font-size: 9px; color: #9ca3af; margin-bottom: 2px;">
+        <div style="font-size: 12px; color: #fb923c; font-weight: 600; margin-bottom: 2px;">
           ⚡ Acciones rápidas:
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
           <button onclick="window.lexQuickAction('analizar')" style="
-            padding: 6px 8px;
+            padding: 12px 8px;
             border-radius: 6px;
             border: 1px solid #374151;
             background: #111827;
             color: #e5e7eb;
-            font-size: 9px;
+            font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
           " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
             📊 Analizar carga
           </button>
           <button onclick="window.lexQuickAction('mes')" style="
-            padding: 6px 8px;
+            padding: 12px 8px;
             border-radius: 6px;
             border: 1px solid #374151;
             background: #111827;
             color: #e5e7eb;
-            font-size: 9px;
+            font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
           " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
             📈 ¿Cómo va mi mes?
           </button>
           <button onclick="window.lexQuickAction('zona')" style="
-            padding: 6px 8px;
+            padding: 12px 8px;
             border-radius: 6px;
             border: 1px solid #374151;
             background: #111827;
             color: #e5e7eb;
-            font-size: 9px;
+            font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
           " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
             🗺️ Stats de zona
           </button>
           <button onclick="window.lexQuickAction('finanzas')" style="
-            padding: 6px 8px;
+            padding: 12px 8px;
             border-radius: 6px;
             border: 1px solid #374151;
             background: #111827;
             color: #e5e7eb;
-            font-size: 9px;
+            font-size: 13px;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
           " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
@@ -429,19 +449,19 @@ window.openLexChatModal = function () {
       <div
         id="lexChatMessages"
         style="
-          padding: 6px 8px;
+          padding: 12px;
           display: flex;
           flex-direction: column;
-          gap: 6px;
+          gap: 12px;
           background-color: #020617;
-          height: 140px;
+          height: 350px;
           overflow-y: auto;
         "
       >
-        <div style="display: flex; align-items: flex-start; gap: 6px;">
+        <div style="display: flex; align-items: flex-start; gap: 8px;">
           <div style="
-            width: 20px;
-            height: 20px;
+            width: 28px;
+            height: 28px;
             border-radius: 9999px;
             background: #0f172a;
             display: flex;
@@ -462,7 +482,7 @@ window.openLexChatModal = function () {
             font-size: 10px;
             max-width: 85%;
           ">
-            <p>Hola 👋 Pregúntame sobre cargas, zonas o RPM.</p>
+            <p style="opacity:0.4; font-size:11px;">Cargando resumen...</p>
           </div>
         </div>
       </div>
@@ -498,14 +518,15 @@ window.openLexChatModal = function () {
         <button
           type="submit"
           style="
-            padding: 5px 8px;
+            padding: 6px 14px;
             border-radius: 9999px;
             border: none;
-            background: #2563eb;
+            background: linear-gradient(135deg, #fb923c, #ea580c);
             color: white;
-            font-size: 10px;
-            font-weight: 500;
+            font-size: 11px;
+            font-weight: 600;
             cursor: pointer;
+            box-shadow: 0 2px 6px rgba(251,146,60,0.3);
           "
         >
           Enviar
@@ -561,14 +582,14 @@ window.openLexChatModal = function () {
         padding: 10px 16px;
         border-radius: 6px;
         font-weight: 600;
-        font-size: 11px;
+        font-size: 14px;
         cursor: pointer;
         font-family: Inter, sans-serif;
       ">
         📤 Enviar Feedback
       </button>
 
-      <p style="font-size: 9px; color: #6b7280; margin-top: 8px; text-align: center;">
+      <p style="font-size: 12px; color: #6b7280; margin-top: 8px; text-align: center;">
         Tu feedback nos ayuda a mejorar la app
       </p>
     </div>
@@ -577,9 +598,66 @@ window.openLexChatModal = function () {
   overlay.appendChild(panel);
   document.body.appendChild(overlay);
 
+  // Saludo proactivo al abrir el chat por primera vez
+  setTimeout(async () => {
+    try {
+      const uid = window.currentUser?.uid;
+      if (!uid) return;
+
+      const now = new Date();
+      const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+      const hora = now.getHours();
+      const saludo = hora < 12 ? 'Buenos días' : hora < 18 ? 'Buenas tardes' : 'Buenas noches';
+      const mesNombre = now.toLocaleString('es', { month: 'long' });
+
+      const [loadsSnap, profileSnap] = await Promise.all([
+        firebase.firestore().collection('loads')
+          .where('userId', '==', uid)
+          .where('date', '>=', firstDay.toISOString().split('T')[0])
+          .get(),
+        firebase.firestore().collection('lexProfiles').doc(uid).get()
+      ]);
+
+      const p = profileSnap.data() || {};
+      let ingresosMes = 0, millasMes = 0;
+      loadsSnap.forEach(d => {
+        ingresosMes += d.data().totalCharge || 0;
+        millasMes += d.data().totalMiles || 0;
+      });
+
+      const rpmMes = millasMes > 0 ? ingresosMes / millasMes : 0;
+      const avgRPM = p.avgRPM || 0;
+      const diff = avgRPM > 0 ? (((rpmMes - avgRPM) / avgRPM) * 100).toFixed(1) : null;
+      const tendencia = diff === null ? ''
+        : parseFloat(diff) >= 0
+          ? ` 📈 RPM ${diff}% sobre tu histórico.`
+          : ` 📉 RPM ${Math.abs(diff)}% bajo tu histórico.`;
+
+      const cargaActiva = window._lastDecisionData;
+      const cargaText = cargaActiva
+        ? `\nTienes una carga en el calculador: **${cargaActiva.decision}** — $${cargaActiva.actualRPM.toFixed(2)}/mi.`
+        : '';
+
+      const mensaje = `${saludo} 👋 — ${mesNombre}: **${loadsSnap.size} cargas**, $${ingresosMes.toFixed(0)} ingresos.${tendencia}${cargaText}\n¿En qué te ayudo?`;
+
+      if (typeof appendLexMessage === 'function') {
+        appendLexMessage(mensaje);
+      }
+    } catch (e) {
+      console.warn('[LEX] Error en saludo proactivo:', e);
+    }
+  }, 600);
+
   const form = document.getElementById('lexChatForm');
   const input = document.getElementById('lexChatInput');
   const messages = document.getElementById('lexChatMessages');
+
+  function parseMarkdown(text) {
+    return text
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g, '<em>$1</em>')
+      .replace(/\n/g, '<br>');
+  }
 
   function appendUserMessage(text) {
     const wrapper = document.createElement('div');
@@ -590,21 +668,27 @@ window.openLexChatModal = function () {
     wrapper.innerHTML = `
       <div
         style="
-          background: #2563eb;
+          background: linear-gradient(135deg, #fb923c, #ea580c);
           border-radius: 12px 12px 4px 12px;
           padding: 5px 8px;
           color: #f9fafb;
-          font-size: 10px;
+          font-size: 13px;
+          line-height: 1.6;
           max-width: 85%;
         "
       >
-        <p>${text}</p>
+        <p>${parseMarkdown(text)}</p>
       </div>
     `;
     messages.appendChild(wrapper);
   }
 
   function appendLexMessage(text) {
+    // Remover "Cargando resumen..." si es el primer mensaje
+    const messages = document.getElementById('lexChatMessages');
+    const primero = messages?.children[0];
+    if (primero?.textContent?.trim().includes('Cargando')) primero.remove();
+
     const wrapper = document.createElement('div');
     wrapper.style.display = 'flex';
     wrapper.style.alignItems = 'flex-start';
@@ -631,11 +715,12 @@ window.openLexChatModal = function () {
           border-radius: 12px 12px 12px 4px;
           padding: 5px 8px;
           color: #e5e7eb;
-          font-size: 10px;
+          font-size: 13px;
+          line-height: 1.6;
           max-width: 85%;
         "
       >
-        <p>${text}</p>
+        <p>${parseMarkdown(text)}</p>
       </div>
     `;
     messages.appendChild(wrapper);
@@ -717,10 +802,15 @@ window.lexQuickAction = async function (action) {
   // Simulate user typing this query
   input.value = query;
 
-  // Trigger form submit
+  // Cambiar a la pestaña de chat para que el usuario navegue hacia la respuesta
+  if (typeof window.switchLexTab === 'function') {
+    window.switchLexTab('chat');
+  }
+
+  // Trigger form submit de forma que el eventListener lo escuche
   const form = document.getElementById('lexChatForm');
   if (form) {
-    form.dispatchEvent(new Event('submit'));
+    form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
   }
 };
 
@@ -801,9 +891,9 @@ window.switchLexTab = function (tab) {
 
     if (t === tab) {
       // Active tab
-      btn.style.background = '#111827';
-      btn.style.color = '#10b981';
-      btn.style.borderBottom = '2px solid #10b981';
+      btn.style.background = 'transparent';
+      btn.style.color = '#fb923c';
+      btn.style.borderBottom = '2px solid #fb923c';
       content.style.display = 'flex';
     } else {
       // Inactive tab

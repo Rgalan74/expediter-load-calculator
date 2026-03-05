@@ -230,9 +230,24 @@
     'que es una zona trap',
     'como funciona lex',
     'que puedes hacer',
-    'como calcular',
     'como se calcula',
     'enseñame a calcular'
+  ];
+
+  // M. Finanzas y resumen de negocio
+  const FINANCE_KEYWORDS = [
+    'finanza', 'financiero', 'mes', 'semana', 'año',
+    'resumen', 'kpi', 'numeros', 'como voy',
+    'ganancia total', 'reporte'
+  ];
+
+  const FINANCE_EXPRESSIONS = [
+    'resumen financiero',
+    'como va mi mes',
+    'como esta mi mes',
+    'numeros del mes',
+    'mis finanzas',
+    'reporte financiero'
   ];
 
   // ============================
@@ -298,6 +313,10 @@
       countMatches(t, APP_INFO_KEYWORDS) +
       countMatches(t, APP_INFO_EXPRESSIONS);
 
+    const financeScore =
+      countMatches(t, FINANCE_KEYWORDS) +
+      countMatches(t, FINANCE_EXPRESSIONS);
+
     // NEW: Bonus for instructional questions (como calcular, como hacer, etc)
     let instructionalBonus = 0;
     if ((t.includes('como') && (t.includes('calcul') || t.includes('hac') || t.includes('funciona'))) ||
@@ -336,7 +355,8 @@
       { intent: 'NEGOTIATION', score: negotiationScore },
       { intent: 'DECISION_HELP', score: urgencyScore + validationScore + doubtScore },
       { intent: 'DEADHEAD_CONTEXT', score: deadheadScore },
-      { intent: 'APP_INFO', score: appInfoScore + instructionalBonus } // Prioritize instructional questions
+      { intent: 'APP_INFO', score: appInfoScore + instructionalBonus }, // Prioritize instructional questions
+      { intent: 'FINANCES', score: financeScore * 2 } // High priority if matched
     ];
 
     // Filter intents above threshold and sort by score
@@ -477,7 +497,17 @@
       };
     }
 
-    // 8️⃣ Preguntas sobre la app / información
+    // 8️⃣ Finanzas y reportes de desempeño
+    if (financeScore > 0) {
+      return {
+        intent: 'FINANCES',
+        confidence: 0.9,
+        secondary: null,
+        flags: { financeScore, raw }
+      };
+    }
+
+    // 8.5️⃣ Preguntas sobre la app / información
     if (appInfoScore > 0) {
       return {
         intent: 'APP_INFO',

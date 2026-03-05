@@ -1,4 +1,4 @@
-//  CALCULATOR.JS - VERSION INTEGRADA COMPLETA
+﻿//  CALCULATOR.JS - VERSION INTEGRADA COMPLETA
 // Combina: Costos reales + Todas las funcionalidades existentes
 
 // IMPORTS COMENTADOS - Usando funciones globales en su lugar
@@ -505,199 +505,110 @@ function calcularTiempoReal(millas) {
   };
 }
 
-//  FUNCION: Reglas de decision inteligentes CON ANALISIS DE TRAP LOADS
-function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
-  // Si eliges modo original desde la UI, respetamos tu logica anterior si existe
-  if (getDecisionMode() !== 'realista2025' && typeof getDecisionInteligente_original === 'function') {
-    return getDecisionInteligente_original(rpm, millas, factoresAdicionales);
-  }
+//  FUNCION: Reglas de decision inteligentes — user-agnostic (4 zonas dinamicas)
+async function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
+  const { destinoState = '' } = factoresAdicionales;
 
-  const {
-    zonaOrigen = 'DESCONOCIDA',
-    zonaDestino = 'DESCONOCIDA',
-    origenState = '',
-    destinoState = '',
-    areaMala = false,
-    relocalizaBuena = false,
-    tiempoSinCarga = 0
-  } = factoresAdicionales;
+  // Obtener CPM real del usuario
+  const cpmResult = await window.CPMEngine.getCPM();
+  const cpm = cpmResult.cpm;
 
-  // NUEVO: Analizar si es carga trampa
-  let trapAnalysis = null;
-  if (origenState && destinoState) {
-    trapAnalysis = analizarTrapPenalty(origenState, destinoState, millas, rpm);
-  }
-
-  // CASO ESPECIAL: Si es TRAMPA, aplicar logica estricta
-  if (trapAnalysis && trapAnalysis.esTrampa) {
-    const rpmMinimo = 1.25; // Necesitas premium para compensar
-
-    if (rpm < rpmMinimo) {
-      return {
-        decision: "RECHAZA - TRAMPA",
-        level: "reject",
-        icon: "",
-        color: "decision-reject",
-        razon: trapAnalysis.advertencia + `\nRPM ofrecido: $${rpm.toFixed(2)} < Minimo $${rpmMinimo}`,
-        confianza: "Alta",
-        trapAnalysis: trapAnalysis,
-        detallesCiclo: trapAnalysis.detalles ? (`\n ANALISIS DEL CICLO COMPLETO:\nIda: ${trapAnalysis.detalles.ida.millas} mi x $${trapAnalysis.detalles.ida.rpm.toFixed(2)} = $${trapAnalysis.detalles.ida.revenue.toFixed(0)}\nRegreso: ${trapAnalysis.detalles.regreso.millas} mi x $${trapAnalysis.detalles.regreso.rpm.toFixed(2)} = $${trapAnalysis.detalles.regreso.revenue.toFixed(0)}\nTotal: ${trapAnalysis.millasTotal} mi | RPM real: $${trapAnalysis.rpmRealCiclo.toFixed(2)}\nGanancia ciclo: $${trapAnalysis.gananciaCiclo.toFixed(0)} en ${trapAnalysis.diasEstimados} dias ($${trapAnalysis.gananciaPorDia.toFixed(0)}/dia)\n\nMejor esperar cargas en Midwest a $1.00+/mi`) : ""
-      };
-    } else {
-      return {
-        decision: "EVALUA CON MUCHO CUIDADO",
-        level: "warning",
-        icon: "",
-        color: "decision-warning",
-        razon: `RPM $${rpm.toFixed(2)} es bueno, pero te saca del Midwest.\n` + trapAnalysis.advertencia,
-        confianza: "Media",
-        trapAnalysis: trapAnalysis,
-        detallesCiclo: trapAnalysis.detalles ? (`\nANALISIS DEL CICLO COMPLETO:\nIda: ${trapAnalysis.detalles.ida.millas} mi x $${trapAnalysis.detalles.ida.rpm.toFixed(2)} = $${trapAnalysis.detalles.ida.revenue.toFixed(0)}\nRegreso: ${trapAnalysis.detalles.regreso.millas} mi x $${trapAnalysis.detalles.regreso.rpm.toFixed(2)} = $${trapAnalysis.detalles.regreso.revenue.toFixed(0)}\nRPM real del ciclo: $${trapAnalysis.rpmRealCiclo.toFixed(2)}\nGanancia estimada: $${trapAnalysis.gananciaCiclo.toFixed(0)} en ${trapAnalysis.diasEstimados} dias`) : ""
-      };
+  // Obtener avgRPM y stateStats desde lexProfiles
+  let avgRPM = 0;
+  let stateStats = {};
+  try {
+    const uid = window.currentUser?.uid;
+    if (uid) {
+      const profileSnap = await firebase.firestore()
+        .collection('lexProfiles').doc(uid).get();
+      if (profileSnap.exists) {
+        avgRPM = profileSnap.data().avgRPM || 0;
+        stateStats = profileSnap.data().stateStats || {};
+        // Cachear para detectTrap en calculator-agent
+        window._userStateStats = stateStats;
+        window._userCPM = cpm;
+      }
     }
-  }
+  } catch (e) { /* sin historial, usar solo cpm */ }
 
-  // âœ… CASO ESPECIAL: Movimiento optimo dentro del Midwest
-  if (trapAnalysis && trapAnalysis.nivel === 'OPTIMO') {
-    const umbralOptimo = millas <= 400 ? 1.00 : 0.85;
-    if (rpm >= umbralOptimo) {
-      return {
-        decision: "ACEPTA",
-        level: "accept",
-        icon: "",
-        color: "decision-accept",
-        razon: trapAnalysis.advertencia + `\nRPM $${rpm.toFixed(2)} excelente para movimiento interno`,
-        confianza: "Alta",
-        trapAnalysis: trapAnalysis
-      };
+  // Obtener targetProfit % desde config del usuario
+  let targetProfitPct = 0.20; // fallback 20%
+  try {
+    const uid = window.currentUser?.uid;
+    if (uid) {
+      const userSnap = await firebase.firestore()
+        .collection('users').doc(uid).get();
+      if (userSnap.exists) {
+        const tp = userSnap.data().targetProfit;
+        if (tp && tp > 0) targetProfitPct = tp / 100;
+      }
     }
+  } catch (e) { /* usar fallback */ }
+
+  // Calcular thresholds dinamicos
+  const targetRPM_margen = cpm / (1 - targetProfitPct);
+  const acceptThreshold = avgRPM > 0 ? Math.max(targetRPM_margen, avgRPM) : targetRPM_margen;
+  const midThreshold = avgRPM > 0 ? Math.min(targetRPM_margen, avgRPM) : targetRPM_margen;
+
+  // Logica de decision — 4 zonas
+  let decision, level, icon, color, razon;
+
+  if (rpm < cpm) {
+    decision = 'RECHAZA';
+    level = 'reject';
+    icon = '❌';
+    color = 'decision-reject';
+    const perdida = ((cpm - rpm) * 100).toFixed(1);
+    razon = `Pierdes $${perdida} por cada 100mi — RPM $${rpm.toFixed(3)} no cubre tu costo de $${cpm.toFixed(3)}/mi`;
+
+  } else if (rpm >= acceptThreshold) {
+    decision = 'ACEPTA';
+    level = 'accept';
+    icon = '✅';
+    color = 'decision-accept';
+    const margenReal = (((rpm - cpm) / rpm) * 100).toFixed(1);
+    const ganancia100 = ((rpm - cpm) * 100).toFixed(0);
+    razon = `Margen ${margenReal}% — ganas $${ganancia100} por cada 100mi`;
+
+  } else if (rpm >= midThreshold) {
+    decision = 'CASI ACEPTA';
+    level = 'warning-high';
+    icon = '🟡';
+    color = 'decision-warning-high';
+    const margenReal = (((rpm - cpm) / rpm) * 100).toFixed(1);
+    const falta = ((acceptThreshold - rpm) * 100).toFixed(1);
+    razon = `Margen ${margenReal}% — faltan $${falta}¢/100mi para tu objetivo`;
+
+  } else {
+    decision = 'EVALUA CON CUIDADO';
+    level = 'warning-low';
+    icon = '🟠';
+    color = 'decision-warning-low';
+    const margenReal = (((rpm - cpm) / rpm) * 100).toFixed(1);
+    razon = `Margen ${margenReal}% — cubre costos pero debajo de tu umbral minimo`;
   }
 
-  // âœ… CASO ESPECIAL: Relocalizacion necesaria (saliendo de TRAP)
-  if (trapAnalysis && trapAnalysis.nivel === 'RELOCALIZACION') {
-    if (rpm >= 0.70) {
-      return {
-        decision: "ACEPTA",
-        level: "accept",
-        icon: "",
-        color: "decision-accept",
-        razon: trapAnalysis.advertencia + `\nRPM $${rpm.toFixed(2)} aceptable para salir`,
-        confianza: tiempoSinCarga >= 1 ? "Alta" : "Media-Alta",
-        trapAnalysis: trapAnalysis
-      };
-    }
+  // Contexto del estado — solo informa, no cambia decision
+  if (destinoState && stateStats[destinoState]?.loads >= 2) {
+    const stats = stateStats[destinoState];
+    const diff = ((rpm - stats.avgRPM) / stats.avgRPM * 100).toFixed(1);
+    const signo = diff >= 0 ? '+' : '';
+    razon += ` | ${destinoState}: tu historico $${stats.avgRPM.toFixed(3)}/mi (${signo}${diff}%)`;
   }
 
-  // âœ… CASO ESPECIAL: Salida a zona OK (Carolinas, Atlanta)
-  if (trapAnalysis && trapAnalysis.nivel === 'EVALUAR' && trapAnalysis.minimumRPM) {
-    if (rpm >= trapAnalysis.minimumRPM) {
-      return {
-        decision: "EVALUA",
-        level: "warning",
-        icon: "",
-        color: "decision-warning",
-        razon: trapAnalysis.advertencia + `\nRPM $${rpm.toFixed(2)} aceptable pero evalÃºa alternativas en Midwest`,
-        confianza: "Media",
-        trapAnalysis: trapAnalysis
-      };
-    } else {
-      return {
-        decision: "RECHAZA",
-        level: "reject",
-        icon: "",
-        color: "decision-reject",
-        razon: `Te saca del Midwest. RPM $${rpm.toFixed(2)} < MÃ­nimo $${trapAnalysis.minimumRPM}`,
-        confianza: "Alta"
-      };
-    }
-  }
-
-  // ==============================================================
-  // LOGICA ORIGINAL (para casos no cubiertos por trap analysis)
-  // ==============================================================
-
-  // Umbrales dinamicos por distancia
-  let pisoAceptar = FLOOR_ACCEPT; // 0.75 base
-  let pisoEscape = FLOOR_ESCAPE; // 0.55 base
-  if (millas <= 400) pisoAceptar = Math.max(pisoAceptar, 0.80);
-  if (millas > 800) pisoAceptar = Math.min(pisoAceptar, 0.72);
-
-  // Si llevas ≥ 1 día parado, flexibiliza el escape un poco (sin bajar del costo base)
-  if (tiempoSinCarga >= 1) pisoEscape = Math.max(COSTO_BASE_MI, pisoEscape - 0.02);
-
-  // 1) Proteccion dura: por debajo del costo base
-  if (rpm < COSTO_BASE_MI - 0.01) {
-    return {
-      decision: "RECHAZA",
-      level: "reject",
-      icon: "",
-      color: "decision-reject",
-      razon: `RPM $${rpm.toFixed(2)} < costo $${COSTO_BASE_MI.toFixed(2)}`,
-      confianza: "Alta"
-    };
-  }
-
-  // 2) Aceptar si supera piso
-  if (rpm >= pisoAceptar) {
-    return {
-      decision: "ACEPTA",
-      level: "accept",
-      icon: "",
-      color: "decision-accept",
-      razon: `RPM $${rpm.toFixed(2)} &ge; ${pisoAceptar.toFixed(2)} &middot; Destino ${zonaDestino}`,
-      confianza: "Alta"
-    };
-  }
-
-  // 3) Rango intermedio: evaluar/escape
-  const enRangoEscape = rpm >= pisoEscape && rpm < pisoAceptar;
-
-  if (enRangoEscape) {
-    // ROJA HACIA (AMARILLA/VERDE): relocalizacion
-    if (areaMala && relocalizaBuena) {
-      return {
-        decision: "EVALUA RELOCALIZACION",
-        level: "warning",
-        icon: "",
-        color: "decision-warning",
-        razon: `Cubre costos y mueve ${zonaOrigen} → ${zonaDestino}`,
-        confianza: tiempoSinCarga >= 1 ? "Alta" : "Media-Alta"
-      };
-    }
-    // AMARILLA HACIA VERDE o AMARILLA HACIA AMARILLA (Ãºtil)
-    if (zonaDestino === 'VERDE' || (zonaOrigen === 'AMARILLA' && zonaDestino === 'AMARILLA')) {
-      return {
-        decision: "EVALUA",
-        level: "warning",
-        icon: "",
-        color: "decision-warning",
-        razon: `RPM medio y direccion Ãºtil (${zonaOrigen} → ${zonaDestino})`,
-        confianza: "Media"
-      };
-    }
-    // ROJA HACIA ROJA (no conviene)
-    if (zonaOrigen === 'ROJA' && zonaDestino === 'ROJA') {
-      return {
-        decision: "RECHAZA",
-        level: "reject",
-        icon: "",
-        color: "decision-reject",
-        razon: `RPM bajo y te quedas en ROJA`,
-        confianza: "Alta"
-      };
-    }
-  }
-
-  // 4) Por defecto: rechazar
   return {
-    decision: "RECHAZA",
-    level: "reject",
-    icon: "",
-    color: "decision-reject",
-    razon: `RPM $${rpm.toFixed(2)} por debajo de umbral y sin beneficio de direccion.`,
-    confianza: "Alta"
+    decision,
+    level,
+    icon,
+    color,
+    razon,
+    confianza: (level === 'accept' || level === 'reject') ? 'Alta' : 'Media',
+    thresholds: { cpm, midThreshold, acceptThreshold, avgRPM, targetProfitPct }
   };
 }
+
+
+
 
 
 //  FUNCION: Generar razones detalladas
@@ -1126,70 +1037,45 @@ function showDecisionPanel(calculationData = {}) {
   // Calcular margin si viene como profitMargin
   const margin = profitMargin || (totalCharge > 0 ? (netProfit / totalCharge) * 100 : 0);
 
-  // ========== DETERMINAR DECISIÓN ==========
-  let decision = 'EVALUAR';
-  let decisionClasses = ['decision-header-warning'];
-  let decisionIcon = '⚠️';
+  // ========== DETERMINAR DECISIÓN — user-agnostic ==========
+  let decision = 'EVALÚA';
+  let decisionClasses = ['decision-header-warning-low'];
+  let decisionIcon = '🟠';
   let profitClass = 'profit-section-warning';
 
-  // Clasificar zonas
-  let zonaOrigen = '';
-  let zonaDestino = '';
-  let zonaOrigenNueva = '';
-  let zonaDestinoNueva = '';
+  // Thresholds reales del usuario (sincrono desde cache si está disponible)
+  const _cpm = window._userCPM || (window.currentUser?.profileData?.operatingCostPerMile) || 0.55;
+  const _avgRPM = window._userAvgRPM || 0;
+  const _targetProfitPct = ((window.currentUser?.profileData?.targetProfit) || 20) / 100;
+  const _targetRPM_margen = _cpm / (1 - _targetProfitPct);
+  const _acceptThreshold = _avgRPM > 0 ? Math.max(_targetRPM_margen, _avgRPM) : _targetRPM_margen;
+  const _midThreshold = _avgRPM > 0 ? Math.min(_targetRPM_margen, _avgRPM) : _targetRPM_margen;
 
-  if (typeof clasificarZonaReal === 'function') {
-    zonaOrigen = clasificarZonaReal(originState);
-    zonaDestino = clasificarZonaReal(destinationState);
-  }
-  if (typeof clasificarZonaNueva === 'function') {
-    zonaOrigenNueva = clasificarZonaNueva(originState);
-    zonaDestinoNueva = clasificarZonaNueva(destinationState);
-  }
-
-  // Obtener umbrales
-  const umbrales = typeof getUmbrales === 'function'
-    ? getUmbrales(zonaOrigenNueva, zonaDestinoNueva, totalMiles)
-    : { acepta: 1.00, evalua: 0.80 };
-
-  const CPM_REAL = window.currentUser?.costs?.totalCPM || 0.5338;
-  const pisoAbsoluto = umbrales.pisoAbsoluto || 0;
-
-  if (actualRPM < CPM_REAL) {
-    decision = 'NO ACEPTAR';
+  if (actualRPM < _cpm) {
+    decision = 'RECHAZA';
     decisionClasses = ['decision-header-reject'];
     decisionIcon = '❌';
     profitClass = 'profit-section-negative';
-  } else if (umbrales.acepta === Infinity) {
-    decision = 'NO ACEPTAR';
-    decisionClasses = ['decision-header-reject'];
-    decisionIcon = '❌';
-    profitClass = 'profit-section-negative';
-  } else if (totalCharge < pisoAbsoluto && pisoAbsoluto > 0) {
-    decision = 'NO ACEPTAR';
-    decisionClasses = ['decision-header-reject'];
-    decisionIcon = '❌';
-    profitClass = 'profit-section-negative';
-  } else if (actualRPM >= umbrales.acepta) {
-    decision = 'ACEPTAR';
+  } else if (actualRPM >= _acceptThreshold) {
+    decision = 'ACEPTA';
     decisionClasses = ['decision-header-accept', 'pulse-glow-green'];
     decisionIcon = '✅';
     profitClass = 'profit-section-positive';
-  } else if (umbrales.evalua !== null && actualRPM >= umbrales.evalua) {
-    decision = 'EVALUAR';
-    decisionClasses = ['decision-header-warning'];
-    decisionIcon = '⚠️';
+  } else if (actualRPM >= _midThreshold) {
+    decision = 'CASI ACEPTA';
+    decisionClasses = ['decision-header-warning-high'];
+    decisionIcon = '🟡';
     profitClass = 'profit-section-warning';
   } else {
-    decision = 'NO ACEPTAR';
-    decisionClasses = ['decision-header-reject'];
-    decisionIcon = '❌';
-    profitClass = 'profit-section-negative';
+    decision = 'EVALÚA';
+    decisionClasses = ['decision-header-warning-low'];
+    decisionIcon = '🟠';
+    profitClass = 'profit-section-warning';
   }
 
   window._lastDecisionData = {
-    decision, zonaOrigenNueva, zonaDestinoNueva,
-    umbrales, actualRPM, totalMiles, originState, destinationState
+    decision, actualRPM, totalMiles, originState, destinationState,
+    thresholds: { cpm: _cpm, midThreshold: _midThreshold, acceptThreshold: _acceptThreshold }
   };
 
   const titleEl = document.getElementById('decisionTitle');
@@ -1220,15 +1106,20 @@ function showDecisionPanel(calculationData = {}) {
   if (badgesContainer) {
     let badgesHTML = '';
 
-    // Badge de zonas
-    if (zonaOrigen && zonaDestino) {
-      const zonaColor = (zonaOrigen === 'CORE_MIDWEST' || zonaOrigen === 'EXTENDED_MIDWEST') &&
-        (zonaDestino === 'CORE_MIDWEST' || zonaDestino === 'EXTENDED_MIDWEST')
-        ? 'bg-green-600/30 border border-green-400/40'
-        : zonaDestino === 'TRAP' ? 'bg-red-900/30 border border-red-400/40' : '';
-
-      const getShort = (z) => z === 'CORE_MIDWEST' ? 'Core' : z === 'EXTENDED_MIDWEST' ? 'Ext' : z === 'TRAP' ? 'TRAP' : '?';
-      badgesHTML += `<span class="${zonaColor} px-2 md:px-3 py-1 rounded-full backdrop-blur whitespace-nowrap">🎯 ${getShort(zonaOrigen)} → ${getShort(zonaDestino)}</span>`;
+    // Badge de estado destino — desde historial real del usuario
+    if (destinationState) {
+      const _stateStats = window._userStateStats || {};
+      if (_stateStats[destinationState]?.loads >= 2) {
+        const stats = _stateStats[destinationState];
+        const diff = ((actualRPM - stats.avgRPM) / stats.avgRPM * 100).toFixed(1);
+        const signo = diff >= 0 ? '+' : '';
+        const badgeColor = parseFloat(diff) >= 0
+          ? 'bg-green-600/30 border border-green-400/40'
+          : 'bg-yellow-600/30 border border-yellow-400/40';
+        badgesHTML += `<span class="${badgeColor} px-2 md:px-3 py-1 rounded-full backdrop-blur whitespace-nowrap">📍 ${destinationState}: ${signo}${diff}% vs histórico</span>`;
+      } else if (originState && destinationState) {
+        badgesHTML += `<span class="px-2 md:px-3 py-1 rounded-full backdrop-blur whitespace-nowrap">🗺️ ${originState} → ${destinationState}</span>`;
+      }
     }
 
     // Badge de tiempo estimado - use real duration from Google Maps if available
@@ -1328,22 +1219,20 @@ function showDecisionPanel(calculationData = {}) {
 
       let html = '';
 
-      // 1) Umbrales
-      const umbralAcepta = umbrales.acepta === Infinity ? 'N/A' : `$${umbrales.acepta.toFixed(2)}`;
-      const umbralEvalua = umbrales.evalua === null ? '—' : `$${umbrales.evalua.toFixed(2)}`;
-      const diffPct = umbrales.acepta > 0 && umbrales.acepta !== Infinity
-        ? ((actualRPM - umbrales.acepta) / umbrales.acepta * 100).toFixed(1) : null;
-      const diffText = diffPct !== null
-        ? (diffPct >= 0
-          ? `<span style="color:#4ade80">+${diffPct}% sobre mínimo</span>`
-          : `<span style="color:#f87171">${diffPct}% bajo mínimo</span>`)
-        : '';
+      const _margenReal = actualRPM > 0 ? (((actualRPM - _cpm) / actualRPM) * 100).toFixed(1) : '0';
+      const _diffAceptar = ((actualRPM - _acceptThreshold) / _acceptThreshold * 100).toFixed(1);
+      const _diffColor = parseFloat(_diffAceptar) >= 0 ? '#4ade80' : '#f87171';
 
       html += `<div class="decision-info-block">
-        <div class="decision-info-label">📊 Umbrales para esta ruta</div>
+        <div class="decision-info-label">📊 Tus umbrales de decisión</div>
         <div class="decision-info-text">
-          Acepta ≥ ${umbralAcepta} · Evalúa ≥ ${umbralEvalua} · Tu RPM: <strong>$${actualRPM.toFixed(2)}</strong> ${diffText}
-          ${umbrales.razon ? `<br><span style="opacity:0.7">${umbrales.razon}</span>` : ''}
+          🔴 Rechaza &lt; $${_cpm.toFixed(3)} &nbsp;·&nbsp;
+          🟠 Evalúa $${_cpm.toFixed(3)}–$${_midThreshold.toFixed(3)} &nbsp;·&nbsp;
+          🟡 Casi acepta $${_midThreshold.toFixed(3)}–$${_acceptThreshold.toFixed(3)} &nbsp;·&nbsp;
+          🟢 Acepta ≥ $${_acceptThreshold.toFixed(3)}
+          <br>Tu RPM: <strong>$${actualRPM.toFixed(3)}</strong> &nbsp;·&nbsp;
+          Margen: <strong>${_margenReal}%</strong> &nbsp;·&nbsp;
+          <span style="color:${_diffColor}">${parseFloat(_diffAceptar) >= 0 ? '+' : ''}${_diffAceptar}% vs objetivo</span>
         </div>
       </div>`;
 

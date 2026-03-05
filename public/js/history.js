@@ -118,6 +118,7 @@ function getLoadHistory() {
 
       try {
         populateHistoryMonthSelector();
+        populateHistoryYearSelector();
         renderFilteredImmediate();
         setLoadingState(false);
 
@@ -145,13 +146,15 @@ function renderFilteredImmediate() {
   try {
     const originFilter = document.getElementById('filterOrigin')?.value.toLowerCase() || '';
     const destFilter = document.getElementById('filterDestination')?.value.toLowerCase() || '';
+    const year = document.getElementById('historyYearSelect')?.value || '';
     const month = document.getElementById('historyMonthSelect')?.value || '';
 
     filteredData = allData.filter(load => {
       const originMatch = !originFilter || (load.origin?.toLowerCase().includes(originFilter));
       const destMatch = !destFilter || (load.destination?.toLowerCase().includes(destFilter));
+      const yearMatch = !year || (load.date && load.date.startsWith(year));
       const monthMatch = !month || (load.date && load.date.startsWith(month));
-      return originMatch && destMatch && monthMatch;
+      return originMatch && destMatch && yearMatch && monthMatch;
     });
 
     // APLICAR ORDENAMIENTO
@@ -254,9 +257,13 @@ function populateHistoryMonthSelector() {
     return;
   }
 
+  // Si hay un año seleccionado, solo mostrar meses de ese año
+  const selectedYear = document.getElementById('historyYearSelect')?.value || '';
+
   const months = new Set();
   (allData || []).forEach(load => {
-    const month = normalizeDate(load.date, "month"); // usamos función unificada
+    if (selectedYear && !(load.date?.startsWith(selectedYear))) return;
+    const month = normalizeDate(load.date, "month");
     if (month) months.add(month);
   });
 
@@ -271,7 +278,30 @@ function populateHistoryMonthSelector() {
     selector.appendChild(option);
   });
 
-  debugLog(` Populated month selector with ${sortedMonths.length} months`);
+  debugLog(` Populated month selector with ${sortedMonths.length} months (year: ${selectedYear || 'all'})`);
+}
+
+function populateHistoryYearSelector() {
+  const selector = document.getElementById('historyYearSelect');
+  if (!selector) return;
+
+  const years = new Set();
+  (allData || []).forEach(load => {
+    const year = load.date?.substring(0, 4);
+    if (year && year.length === 4) years.add(year);
+  });
+
+  const sortedYears = Array.from(years).sort((a, b) => b.localeCompare(a));
+
+  selector.innerHTML = '<option value="">Todos los años</option>';
+  sortedYears.forEach(year => {
+    const option = document.createElement('option');
+    option.value = year;
+    option.textContent = year;
+    selector.appendChild(option);
+  });
+
+  debugLog(` Populated year selector with ${sortedYears.length} years`);
 }
 
 
@@ -827,6 +857,18 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+    // Año: repoblar meses filtrados + limpiar mes + re-renderizar
+    const yearSelect = document.getElementById('historyYearSelect');
+    if (yearSelect) {
+      yearSelect.addEventListener('change', () => {
+        const monthSelect = document.getElementById('historyMonthSelect');
+        if (monthSelect) monthSelect.value = ''; // limpiar mes al cambiar año
+        populateHistoryMonthSelector(); // repoblar solo meses del año elegido
+        renderFilteredImmediate();
+      });
+      debugLog(' Filter event listener added to historyYearSelect (with month repopulate)');
+    }
+
     debugLog(" History event listeners configured");
   });
 });
@@ -866,10 +908,9 @@ window.analyzeLexHistory = async function () {
   try {
     debugLog(" [LEX-HISTORY] Iniciando análisis de historial con Lex...");
 
-    // Asegurar que LexAI exista
-    if (!window.lexAI && typeof LexAI === 'function') {
-      window.lexAI = new LexAI();
-      await window.lexAI.initializeContext();
+    // Asegurar que LexAI exista (ya no necesitamos 'new LexAI' por lex-learning.js)
+    if (!window.lexAI) {
+      window.lexAI = {};
     }
 
     // Elegir qué datos usar: primero el filtro, si no, todo

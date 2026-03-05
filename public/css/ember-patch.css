@@ -1,0 +1,351 @@
+/* ============================================================
+   EMBER-GREEN PATCH v1.0
+   Fixes remaining blue buttons after ember-green.css
+   
+   INSTRUCCIÓN: Agregar en app.html DESPUÉS del ember-green.css:
+   <link rel="stylesheet" href="css/ember-green.css">
+   <link rel="stylesheet" href="css/ember-patch.css">   ← ESTE
+   </head>
+   
+   O simplemente AÑADIR estas reglas al final de ember-green.css
+   ============================================================ */
+
+
+/* ============================================================
+   FIX 1 — bg-blue-600 (Actualizar, Imprimir Reporte, etc.)
+   11 botones con esta clase en app.html
+   ============================================================ */
+button.bg-blue-600,
+a.bg-blue-600,
+.bg-blue-600[role="button"] {
+    background-color: #FF6D4A !important;
+    background-image: none !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    box-shadow: 0 2px 10px rgba(255, 109, 74, 0.25) !important;
+    transition: all 0.2s !important;
+}
+
+button.bg-blue-600:hover,
+a.bg-blue-600:hover {
+    background-color: #E85D3B !important;
+    background-image: none !important;
+    box-shadow: 0 4px 14px rgba(255, 109, 74, 0.35) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* hover:bg-blue-700 no hace nada porque bg-blue-600 ya ganó */
+button.hover\:bg-blue-700:hover {
+    background-color: #E85D3B !important;
+}
+
+[data-theme="light"] button.bg-blue-600,
+[data-theme="light"] a.bg-blue-600 {
+    background-color: #FF6D4A !important;
+    color: #ffffff !important;
+}
+
+
+/* ============================================================
+   FIX 2 — bg-gradient-to-r from-blue-600 to-purple-700
+   Botones "Calcular", "Analizar con Lex", modales header
+   ============================================================ */
+.bg-gradient-to-r.from-blue-600.to-purple-700,
+[class*="from-blue-6"][class*="to-purple-7"],
+button.from-blue-600,
+button.from-blue-700 {
+    background: linear-gradient(135deg, #FF6D4A 0%, #F43F5E 100%) !important;
+    background-image: none !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+/* Modales header con bg-gradient-to-r from-blue-700 to-blue-900 */
+.from-blue-700.to-blue-900,
+.from-blue-600.to-blue-800,
+[class*="from-blue-7"][class*="to-blue-9"],
+[class*="from-blue-6"][class*="to-blue-8"] {
+    background: linear-gradient(135deg, #181920 0%, #0A0B10 100%) !important;
+    background-image: none !important;
+}
+
+
+/* ============================================================
+   FIX 3 — btn-primary con especificidad máxima
+   Por si no estaba ganando al Filtrar button
+   ============================================================ */
+html body .btn-primary,
+html body button.btn-primary,
+html body #filterBtn {
+    background: #FF6D4A !important;
+    background-image: none !important;
+    background-color: #FF6D4A !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    box-shadow: 0 2px 10px rgba(255, 109, 74, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+html body .btn-primary:hover,
+html body button.btn-primary:hover,
+html body #filterBtn:hover {
+    background: #E85D3B !important;
+    background-color: #E85D3B !important;
+    background-image: none !important;
+    box-shadow: 0 4px 14px rgba(255, 109, 74, 0.35) !important;
+    transform: translateY(-2px) !important;
+}
+
+[data-theme="light"] html body .btn-primary,
+[data-theme="light"] html body button.btn-primary {
+    color: #ffffff !important;
+}
+
+
+/* ============================================================
+   FIX 4 — bg-blue-50 / border-blue-200 (panels de info)
+   ============================================================ */
+.bg-blue-50 {
+    background-color: rgba(255, 109, 74, 0.05) !important;
+    background-image: none !important;
+}
+
+.border-blue-200 {
+    border-color: rgba(255, 109, 74, 0.20) !important;
+}
+
+.border-blue-300 {
+    border-color: rgba(255, 109, 74, 0.30) !important;
+}
+
+.text-blue-600 {
+    color: #FF6D4A !important;
+    -webkit-text-fill-color: #FF6D4A !important;
+}
+
+.text-blue-700 {
+    color: #FFA58E !important;
+    -webkit-text-fill-color: #FFA58E !important;
+}
+
+[data-theme="light"] .bg-blue-50 {
+    background-color: rgba(232, 93, 59, 0.06) !important;
+}
+
+[data-theme="light"] .border-blue-200 {
+    border-color: rgba(232, 93, 59, 0.20) !important;
+}
+
+
+/* ============================================================
+   FIX 5 — from-purple-700 to-blue-700 (LEX panel bg)
+   ============================================================ */
+.from-purple-700.to-blue-700,
+[class*="from-purple-7"][class*="to-blue-7"] {
+    background: linear-gradient(135deg, rgba(20, 15, 25, 0.95) 0%, rgba(30, 20, 35, 0.95) 100%) !important;
+    background-image: none !important;
+    border: 1px solid rgba(255, 109, 74, 0.20) !important;
+}
+
+
+/* ============================================================
+   FIX 6 — lex-avatar (bg-gradient-to-br from-blue-600 to-purple-700)
+   ============================================================ */
+.from-blue-600.to-purple-700,
+.lex-avatar-shell {
+    background: linear-gradient(135deg, #FF6D4A 0%, #F43F5E 100%) !important;
+    background-image: none !important;
+}
+
+
+/* ============================================================
+   FIX 7 — Hover states de hover:bg-blue-600, hover:bg-blue-700
+   ============================================================ */
+button:hover.hover\:bg-blue-600,
+button:hover.hover\:bg-blue-700,
+a:hover.hover\:bg-blue-600,
+a:hover.hover\:bg-blue-700 {
+    background-color: #E85D3B !important;
+    background-image: none !important;
+}
+
+
+/* ============================================================
+   FIX 8 — Body background circuit board (el fondo con patrón)
+   Doble override para asegurar que gane
+   ============================================================ */
+html body,
+html[data-theme="dark"] body,
+html:not([data-theme="light"]) body {
+    background:
+        radial-gradient(ellipse at 20% 15%, rgba(255, 109, 74, 0.04) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 85%, rgba(167, 139, 250, 0.03) 0%, transparent 50%),
+        #0A0B10 !important;
+    background-image: none !important;
+    animation: none !important;
+}
+
+html[data-theme="light"] body {
+    background: #FDFBF9 !important;
+    background-image: none !important;
+    animation: none !important;
+}
+
+
+/* ============================================================
+   FIX 9 — n8n Style Header Redesign
+   ============================================================ */
+
+/* Main Header Container */
+.header-n8n {
+    background: rgba(10, 11, 20, 0.95) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    transition: background 0.3s ease;
+}
+
+[data-theme="light"] .header-n8n {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Clear sleek navigation links */
+.n8n-nav-link {
+    color: #F3F4F6 !important;
+    /* Brighter gray/white for mobile daylight visibility */
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0.5rem 0.25rem !important;
+    transition: all 0.2s ease !important;
+    position: relative;
+    border-radius: 0 !important;
+}
+
+.n8n-nav-link:hover {
+    color: #ffffff !important;
+    transform: translateY(-1px);
+}
+
+.n8n-nav-link.tab-pill-active {
+    color: #00D9FF !important;
+    font-weight: 700 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Subtle glow under active link -> disabled for clean single cyan line */
+.n8n-nav-link.tab-pill-active::after {
+    display: none !important;
+}
+
+/* Light mode overrides for links */
+[data-theme="light"] .n8n-nav-link {
+    color: #64748b !important;
+}
+
+[data-theme="light"] .n8n-nav-link:hover {
+    color: #0f172a !important;
+}
+
+[data-theme="light"] .n8n-nav-link.tab-pill-active {
+    color: #00D9FF !important;
+    background: transparent !important;
+}
+
+[data-theme="light"] .n8n-nav-link.tab-pill-active::after {
+    display: none !important;
+}
+
+
+/* ============================================================
+   FIX 10 — Contrast Enhancements (Daylight Readability)
+   ============================================================ */
+
+/*
+  Cards and panels need a stronger background and border 
+  in dark mode so they don't blend into the Deep Space 
+  background under sunlight
+*/
+[data-theme="dark"] .bg-gray-800,
+html:not([data-theme="light"]) .bg-gray-800,
+[data-theme="dark"] .bg-\[\#1a1a1a\],
+html:not([data-theme="light"]) .bg-\[\#1a1a1a\] {
+    background-color: #161821 !important;
+    /* Slightly lighter than deep space for contrast */
+}
+
+/* Stricter borders for cards, inputs, and dividers. 
+   Making them a solid noticeable gray instead of 5% white. */
+[data-theme="dark"] .border-gray-700,
+html:not([data-theme="light"]) .border-gray-700,
+[data-theme="dark"] .border-gray-800,
+html:not([data-theme="light"]) .border-gray-800,
+[data-theme="dark"] .border-white\/5,
+html:not([data-theme="light"]) .border-white\/5 {
+    border-color: #2A2C3D !important;
+}
+
+/* 
+  Placeholders and muted text must be readable outdoors. 
+  Bumping them up from faint gray to a solid lavender gray.
+*/
+[data-theme="dark"] input::placeholder,
+html:not([data-theme="light"]) input::placeholder,
+[data-theme="dark"] textarea::placeholder,
+html:not([data-theme="light"]) textarea::placeholder {
+    color: #8F95B2 !important;
+    opacity: 1 !important;
+}
+
+[data-theme="dark"] .text-gray-400,
+html:not([data-theme="light"]) .text-gray-400,
+[data-theme="dark"] .text-gray-500,
+html:not([data-theme="light"]) .text-gray-500 {
+    color: #9CA3AF !important;
+}
+
+/* ============================================================
+   FIX 11 — btn-success (Guardar Carga)
+   ============================================================ */
+html body .btn-success,
+html body button.btn-success {
+    background: #059669 !important;
+    /* Muted corporate emerald */
+    background-image: none !important;
+    background-color: #059669 !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(5, 150, 105, 0.2) !important;
+}
+
+html body .btn-success:hover,
+html body button.btn-success:hover {
+    background: #047857 !important;
+    background-color: #047857 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3) !important;
+}
+
+[data-theme="light"] html body .btn-success,
+[data-theme="light"] html body button.btn-success {
+    color: #ffffff !important;
+}
+
+/* ============================================================
+   FIX 12 — Header Tabs (Calculadora) Active Border & Gradient
+   ============================================================ */
+html body .tab-pill-active,
+header .tab-pill-active {
+    border-bottom: 2px solid #00D9FF !important;
+    color: #00D9FF !important;
+}
+
+/* Neutralize ember-green.css adding an orange baseline border via JS */
+html body .tab-link.tab-active,
+header .tab-link.tab-active {
+    border-bottom: none !important;
+    box-shadow: none !important;
+}

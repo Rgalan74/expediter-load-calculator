@@ -1,18 +1,9 @@
 /**
  * sw-register.js
- * Registro del Service Worker — ACTIVO
+ * Smart Load Solution - Service Worker Registration
+ * Version: 1.0.0
  */
 
-// Desregistrar versiones viejas primero para limpiar cache anterior
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(function (registrations) {
-        for (let registration of registrations) {
-            registration.unregister();
-        }
-    });
-}
-
-// Registrar Service Worker
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         registerServiceWorker();
@@ -30,7 +21,6 @@ async function registerServiceWorker() {
         // Manejar actualizaciones
         registration.addEventListener('updatefound', () => {
             const newWorker = registration.installing;
-
             newWorker.addEventListener('statechange', () => {
                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
                     showUpdateNotification();

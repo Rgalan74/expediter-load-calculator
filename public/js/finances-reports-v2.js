@@ -944,35 +944,35 @@ function generateProfitabilityReport() {
     <!-- Header profesional -->
     <div class="text-center mb-8 border-b pb-6">
       <h1 class="text-3xl font-bold text-gray-900 mb-2">🗺️ Rentabilidad por Zona</h1>
-      <h2 class="text-xl text-green-600 font-semibold mb-2">Expediter Load Calculator</h2>
+      <h2 class="text-xl text-blue-600 font-semibold mb-2">Expediter Load Calculator</h2>
       <p class="text-gray-600">Período: <span class="font-semibold">${periodLabel}</span></p>
       <p class="text-sm text-gray-500">Generado el ${currentDate}</p>
     </div>
 
     <!-- Resumen ejecutivo -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-      <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
-        <h3 class="text-lg font-semibold text-green-700 mb-2">🛣️ Rutas Totales</h3>
-        <p class="text-3xl font-bold text-green-900">${sortedRoutes.length}</p>
-        <p class="text-sm text-green-600 mt-1">Diferentes rutas</p>
+      <div class="bg-white dark:bg-gray-800 border-l-4 border-gray-400 p-4 rounded-r-lg shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-500 dark:text-gray-400 mb-2">🛣️ Rutas Totales</h3>
+        <p class="text-3xl font-bold text-gray-900 dark:text-white">${sortedRoutes.length}</p>
+        <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">Diferentes rutas</p>
       </div>
       
-      <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
-        <h3 class="text-lg font-semibold text-blue-700 mb-2">💵 RPM Promedio</h3>
-        <p class="text-3xl font-bold text-blue-900">${formatCurrency(avgRPM)}</p>
-        <p class="text-sm text-blue-600 mt-1">General</p>
+      <div class="bg-white dark:bg-gray-800 border-l-4 border-gray-400 p-4 rounded-r-lg shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-500 dark:text-gray-400 mb-2">💵 RPM Promedio</h3>
+        <p class="text-3xl font-bold text-gray-900 dark:text-white">${formatCurrency(avgRPM)}</p>
+        <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">General</p>
       </div>
       
-      <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-lg">
-        <h3 class="text-lg font-semibold text-yellow-700 mb-2">📏 Millas Totales</h3>
-        <p class="text-3xl font-bold text-yellow-900">${totalMiles.toLocaleString()}</p>
-        <p class="text-sm text-yellow-600 mt-1">${totalLoads} cargas</p>
+      <div class="bg-white dark:bg-gray-800 border-l-4 border-gray-400 p-4 rounded-r-lg shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-500 dark:text-gray-400 mb-2">📏 Millas Totales</h3>
+        <p class="text-3xl font-bold text-gray-900 dark:text-white">${totalMiles.toLocaleString()}</p>
+        <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">${totalLoads} cargas</p>
       </div>
       
-      <div class="bg-purple-50 border-l-4 border-purple-500 p-4 rounded-r-lg">
-        <h3 class="text-lg font-semibold text-purple-700 mb-2">💰 Ingresos</h3>
-        <p class="text-3xl font-bold text-purple-900">${formatCurrency(totalRevenue)}</p>
-        <p class="text-sm text-purple-600 mt-1">Total generado</p>
+      <div class="bg-white dark:bg-gray-800 border-l-4 border-gray-400 p-4 rounded-r-lg shadow-sm">
+        <h3 class="text-lg font-semibold text-gray-500 dark:text-gray-400 mb-2">💰 Ingresos</h3>
+        <p class="text-3xl font-bold text-gray-900 dark:text-white">${formatCurrency(totalRevenue)}</p>
+        <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">Total generado</p>
       </div>
     </div>
 
