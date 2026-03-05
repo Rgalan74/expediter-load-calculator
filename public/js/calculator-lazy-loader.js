@@ -205,7 +205,7 @@ async function loadRouteMapLazy() {
 async function getDecisionInteligenteLazy(rpm, millas, factores) {
     try {
         await loadDecisionModule();
-        return window.CalculatorDecision.getDecisionInteligente(rpm, millas, factores);
+        return await window.CalculatorDecision.getDecisionInteligente(rpm, millas, factores);
     } catch (error) {
         console.error('Error loading decision:', error);
         return null;

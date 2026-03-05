@@ -1,8 +1,8 @@
 {
-  "name": "Expediter Load Calculator Pro",
-  "short_name": "Expediter",
+  "name": "Smart Load Solution",
+  "short_name": "SmartLoad",
   "description": "Calculadora profesional de rentabilidad para expedite loads. Calcula RPM, net profit, y analiza tus finanzas de manera inteligente.",
-  "start_url": "https://smartloadsolution.com/",
+  "start_url": "https://smartloadsolution.com/app.html",
   "scope": "https://smartloadsolution.com/",
   "display": "standalone",
   "background_color": "#0f172a",
@@ -13,53 +13,23 @@
     "finance",
     "productivity"
   ],
-  "lang": "es-US",
+  "lang": "en-US",
   "dir": "ltr",
   "icons": [
     {
-      "src": "/img/icons/android/icon-48-48.png",
-      "sizes": "48x48",
+      "src": "/favicon.png",
+      "sizes": "64x64",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/img/icons/android/icon-72-72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/img/icons/android/icon-96-96.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/img/icons/android/icon-144-144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/img/icons/ios/152.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/img/icons/android/icon-192-192.png",
+      "src": "/icon192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/img/icons/ios/256.png",
-      "sizes": "256x256",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/img/icons/android/icon-512-512.png",
+      "src": "/icon512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -70,11 +40,11 @@
       "name": "Nueva Carga",
       "short_name": "Calcular",
       "description": "Calcular una nueva carga",
-      "url": "/?tab=calculator",
+      "url": "/app.html?tab=calculator",
       "icons": [
         {
-          "src": "icon-192.png",
-          "sizes": "96x96"
+          "src": "/icon192.png",
+          "sizes": "192x192"
         }
       ]
     },
@@ -82,11 +52,11 @@
       "name": "Finanzas",
       "short_name": "Finanzas",
       "description": "Ver dashboard financiero",
-      "url": "/?tab=finances",
+      "url": "/app.html?tab=finances",
       "icons": [
         {
-          "src": "icon-192.png",
-          "sizes": "96x96"
+          "src": "/icon192.png",
+          "sizes": "192x192"
         }
       ]
     }

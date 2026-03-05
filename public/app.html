@@ -10,6 +10,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <!-- Note: theme-color works in Chrome/Safari/Edge, not Firefox/Opera -->
   <meta name="theme-color" content="#3b82f6">
+  <link rel="manifest" href="/manifest.json">
   <meta name="apple-mobile-web-app-title" content="Expediter Load Calculator">
 
   <!-- 📝 SEO -->
@@ -27,7 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
 
   <!-- 🎨 Estilos -->
@@ -45,7 +46,7 @@
   <!-- <link rel="stylesheet" href="css/theme-overrides.css?v=5.21.0"> -->
   <!-- MOBILE CALCULATOR FIX - Must load LAST to override all other styles -->
   <link rel="stylesheet" href="css/mobile-calculator-fix.css?v=1.0.0">
-  <link rel="stylesheet" href="css/theme-tokens.css?v=2.0.2">
+  <link rel="stylesheet" href="css/theme-tokens.css?v=2.0.7">
   <!-- MOBILE THEME ADAPTER - Forces mobile CSS to use theme variables -->
   <link rel="stylesheet" href="css/mobile-theme-adapter.css?v=1.0.5">
 
@@ -197,7 +198,7 @@
     }
 
     /* ===== MOBILE HEADER FIX - ULTRA ESPECÍFICO - DEBE ESTAR AL FINAL ===== */
-    /* Gradiente del título - SIEMPRE cyan-purple en ambos temas */
+    /* Gradiente del título original */
     html[data-theme="light"] header .header-title,
     html[data-theme="light"] header span.header-title,
     html[data-theme="light"] header .gradient-text,
@@ -212,13 +213,14 @@
     header span.gradient-text,
     .header-title,
     .gradient-text {
-      background-image: linear-gradient(90deg, #0099bb 0%, #e85a20 100%) !important;
+      background-image: linear-gradient(90deg, #a3e635 0%, #06b6d4 100%) !important;
       background-color: transparent !important;
       -webkit-background-clip: text !important;
       background-clip: text !important;
       -webkit-text-fill-color: transparent !important;
       color: transparent !important;
     }
+
 
 
     /* Menú hamburguesa - BLANCO (header oscuro en ambos temas) */
@@ -245,16 +247,132 @@
         display: none !important;
       }
     }
+
+    /* === NUCLEAR TAB OVERRIDE === */
+    /* Destroys any secondary orange lines from pseudo-elements, shadows, or decorations */
+    header button.tab-link::after,
+    header button.tab-link::before,
+    .n8n-nav-link::after,
+    .n8n-nav-link::before {
+      display: none !important;
+      content: none !important;
+      background: transparent !important;
+    }
+
+    header .tab-pill-active {
+      box-shadow: none !important;
+      text-decoration: none !important;
+      text-shadow: none !important;
+      outline: none !important;
+      border-bottom: 2px solid #00D9FF !important;
+    }
+
+    /* === EXIT SVG FIX === */
+    #logoutBtn svg {
+      stroke: #ef4444 !important;
+      fill: none !important;
+      visibility: visible !important;
+    }
+
+    #logoutBtn:hover svg {
+      stroke: #f87171 !important;
+    }
   </style>
+  <link rel="stylesheet" href="css/ember-green.css?v=6">
+  <link rel="stylesheet" href="css/ember-patch.css?v=6">
+
+  <!-- Meta Pixel Code -->
+  <script>
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+      n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1227322958231625');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1227322958231625&ev=PageView&noscript=1" /></noscript>
+  <!-- End Meta Pixel Code -->
 
 </head>
 
 <body class="text-gray-900">
   <!-- Loading Screen (Default visible) -->
-  <div id="loadingScreen" class="fixed inset-0 bg-white z-50 flex items-center justify-center flex-col">
-    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mb-4"></div>
-    <img src="img/logo-app.png" alt="Expediter" class="h-12 w-12 rounded-full absolute animate-pulse">
-    <p class="text-gray-500 text-sm font-medium mt-16 animate-pulse">Cargando...</p>
+  <div id="loadingScreen" class="fixed inset-0 z-50 flex items-center justify-center flex-col"
+    style="background:#0A0B10; transition: background 0.3s;">
+
+    <!-- Warm ambient glow -->
+    <div
+      style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(255,109,74,0.07) 0%,transparent 70%);pointer-events:none;">
+    </div>
+
+    <!-- Logo ring spinner -->
+    <div style="position:relative;width:82px;height:82px;margin-bottom:22px;">
+      <div
+        style="position:absolute;inset:0;border-radius:50%;border:2px solid rgba(255,109,74,0.12);border-top-color:#FF6D4A;animation:sl-spin 1s linear infinite;">
+      </div>
+      <div
+        style="position:absolute;inset:7px;border-radius:50%;background:rgba(255,109,74,0.07);border:1px solid rgba(255,109,74,0.15);display:flex;align-items:center;justify-content:center;">
+        <img src="img/logo-app.png" alt="SmartLoad" style="width:42px;height:42px;border-radius:50%;object-fit:cover;">
+      </div>
+    </div>
+
+    <!-- Brand -->
+    <div
+      style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.02em;color:#fff5f0;margin-bottom:5px;">
+      Smart<span style="color:#FF6D4A;">Load</span>
+    </div>
+    <div style="font-size:11px;letter-spacing:0.06em;color:#5a4858;margin-bottom:22px;">
+      CARGANDO TU DASHBOARD
+    </div>
+
+    <!-- Animated dots -->
+    <div style="display:flex;gap:7px;">
+      <div style="width:5px;height:5px;border-radius:50%;background:#fb923c;animation:sl-dot 1.4s ease infinite;"></div>
+      <div style="width:5px;height:5px;border-radius:50%;background:#fb923c;animation:sl-dot 1.4s ease 0.2s infinite;">
+      </div>
+      <div style="width:5px;height:5px;border-radius:50%;background:#fb923c;animation:sl-dot 1.4s ease 0.4s infinite;">
+      </div>
+    </div>
+
+    <style>
+      @keyframes sl-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes sl-dot {
+
+        0%,
+        80%,
+        100% {
+          opacity: .2;
+          transform: scale(0.75)
+        }
+
+        40% {
+          opacity: 1;
+          transform: scale(1)
+        }
+      }
+
+      /* Adaptar loading a light mode si ya está seleccionado */
+      [data-theme="light"] #loadingScreen {
+        background: #fdf9f6 !important;
+      }
+
+      [data-theme="light"] #loadingScreen div[style*="rgba(251,146,60,0.07)"] {
+        background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(234, 111, 10, 0.06) 0%, transparent 70%) !important;
+      }
+    </style>
   </div>
 
   <!-- Login Screen (Hidden by default) -->
@@ -265,70 +383,76 @@
   <!-- App Content (Hidden by default) -->
   <div id="appContent" class="hidden">
     <!-- Header -->
-    <header class="w-full z-50 shadow">
-      <div class="max-w-7xl mx-auto px-2 py-2 md:px-4 md:py-4 flex items-center justify-between">
+    <header class="w-full z-50 header-n8n">
+      <div class="max-w-7xl mx-auto px-2 py-2 md:px-5 md:py-3 flex items-center justify-between">
 
-        <!-- Logo + Nombre - Optimizado mobile -->
+        <!-- Left: Logo + Nombre -->
         <div class="flex items-center gap-2 md:gap-3">
           <picture>
             <source srcset="img/logo-app.webp" type="image/webp">
             <img src="img/logo-app.png" alt="Logo"
-              class="w-10 h-10 md:w-16 md:h-16 rounded-full border border-gray-300 shadow">
+              class="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gray-600 shadow">
           </picture>
-          <span class="text-lg md:text-3xl font-bold gradient-text header-title whitespace-nowrap">
+          <span class="text-lg md:text-xl font-bold gradient-text header-title whitespace-nowrap">
             Load Calculator
           </span>
         </div>
 
-        <!-- Botones de acción - Gap reducido mobile -->
-        <div class="flex items-center gap-2 md:gap-3 md:justify-between md:w-auto ml-auto">
+        <!-- Center: Navigation (Hidden on Mobile) -->
+        <nav class="hidden md:flex items-center gap-6 text-sm font-medium ml-8">
+          <button class="tab-link n8n-nav-link tab-pill-active" data-tab="calculator">Calculadora</button>
+          <button class="tab-link n8n-nav-link tab-pill-inactive" data-tab="history">Historial</button>
+          <button class="tab-link n8n-nav-link tab-pill-inactive" data-tab="finances">Finanzas</button>
+          <button class="tab-link n8n-nav-link tab-pill-inactive" data-tab="zones">Zonas</button>
+          <button class="tab-link n8n-nav-link tab-pill-inactive" data-tab="settings">Configuración</button>
+        </nav>
 
+        <!-- Right: Actions -->
+        <div class="flex items-center gap-2 md:gap-4 md:justify-between md:w-auto ml-auto">
 
-
-          <!-- Botón Planes - Solo icono en mobile, OCULTO en desktop (movido a Mi Cuenta) -->
+          <!-- Botón Planes (Mobile only) -->
           <a id="upgradePlanBtn" href="/plans.html"
-            class="text-indigo-600 hover:text-indigo-800 font-medium text-sm border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded transition-colors flex items-center md:hidden">
+            class="flex items-center px-2 py-1 rounded-lg transition-all md:hidden"
+            style="color:#fb923c;border:1px solid rgba(251,146,60,0.25);background:rgba(251,146,60,0.08);font-weight:600;font-size:13px;">
             <span>💎</span>
           </a>
 
-          <!-- Theme Toggle - Minimalista en mobile, normal en desktop -->
+          <!-- Theme Toggle - Minimalista en mobile -->
           <button class="md:hidden p-0 focus:outline-none text-2xl leading-none mr-1 theme-toggle-mobile"
             onclick="window.themeManager?.toggle()" aria-label="Toggle Theme">
             <span class="theme-toggle-icon">☀️</span>
           </button>
 
-          <!-- Theme Toggle - Desktop (Mini círculo) -->
+          <!-- Theme Toggle - Desktop -->
           <button
-            class="hidden md:flex theme-toggle-btn w-10 h-10 items-center justify-center rounded-full transition-colors hover:bg-gray-100"
+            class="hidden md:flex theme-toggle-btn w-9 h-9 items-center justify-center rounded-md transition-colors hover:bg-white/10"
             onclick="window.themeManager?.toggle()" aria-label="Toggle Theme" title="Cambiar Tema">
-            <span class="theme-toggle-icon text-xl leading-none">☀️</span>
+            <span class="theme-toggle-icon text-lg leading-none">☀️</span>
           </button>
 
-          <!-- Botón Mi Cuenta (OCULTO EN MÓVIL, SOLO DESKTOP) -->
-          <button onclick="showMiCuenta()" class="hidden md:flex bg-transparent border-0 hover:opacity-70 
-               md:text-indigo-600 md:hover:bg-gray-100
-               md:w-10 md:h-10 md:rounded-full md:justify-center md:items-center md:p-0
-               transition-all focus:outline-none" title="Mi Cuenta" aria-label="Mi Cuenta">
-            <span class="text-xl leading-none">👤</span>
+          <!-- Botón Mi Cuenta (Desktop) -->
+          <button onclick="showMiCuenta()" class="hidden md:flex bg-transparent border-0 text-gray-300 hover:text-white hover:bg-white/10
+               w-9 h-9 rounded-md justify-center items-center transition-all focus:outline-none" title="Mi Cuenta"
+            aria-label="Mi Cuenta">
+            <span class="text-lg leading-none">👤</span>
           </button>
 
-          <!-- Botón logout (OCULTO EN MÓVIL, SOLO DESKTOP) -->
-          <button id="logoutBtn" class="hidden md:flex bg-transparent border-0
-               md:text-red-500 md:hover:text-red-700 md:hover:bg-red-50 
-               md:w-10 md:h-10 md:rounded-full md:justify-center md:items-center md:p-0
-               transition-all focus:outline-none" title="Cerrar sesión" aria-label="Cerrar sesión">
-            <svg class="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round" />
-              <polyline points="16 17 21 12 16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          <!-- Botón logout (Desktop) -->
+          <button id="logoutBtn" class="hidden md:flex bg-transparent border-0 text-red-500 hover:text-red-400 hover:bg-red-500/10
+               w-9 h-9 rounded-md justify-center items-center transition-all focus:outline-none group"
+            title="Cerrar sesión" aria-label="Cerrar sesión">
+            <svg class="w-5 h-5 flex-shrink-0" style="fill: none; visibility: visible; display: block;"
+              viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round" />
-              <line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
+              <polyline points="16 17 21 12 16 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <line x1="21" y1="12" x2="9" y2="12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </button>
 
           <!-- Botón hamburguesa (MOVIDO A LA DERECHA) -->
-          <button id="menuToggle" class="md:hidden menu-toggle-icon focus:outline-none text-2xl leading-none ml-2">
+          <button id="menuToggle"
+            class="md:hidden menu-toggle-icon focus:outline-none text-2xl leading-none ml-2 text-white">
             ☰
           </button>
         </div>
@@ -446,61 +570,16 @@
 
 
 
-      <!-- Navigation tabs (solo desktop) -->
-      <nav class="hidden md:block border-t border-gray-200 bg-white relative overflow-visible nav-shadow">
-        <div class="max-w-7xl mx-auto px-2 md:px-6 flex gap-2 md:gap-8 py-2 md:py-3 overflow-x-auto">
 
-          <!-- Calculadora (Active initially) -->
-          <button class="tab-link tab-pill-active text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
-            data-tab="calculator">
-            <span class="md:hidden">📊</span>
-            <span class="hidden md:inline">Calculadora</span>
-            <span class="md:hidden ml-1">Calc</span>
-          </button>
-
-          <!-- Historial -->
-          <button class="tab-link tab-pill-inactive text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
-            data-tab="history">
-            <span class="md:hidden">📋</span>
-            <span class="hidden md:inline">Historial</span>
-            <span class="md:hidden ml-1">Hist</span>
-          </button>
-
-          <!-- Finanzas -->
-          <button class="tab-link tab-pill-inactive text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
-            data-tab="finances">
-            <span class="md:hidden">💰</span>
-            <span class="hidden md:inline">Finanzas</span>
-            <span class="md:hidden ml-1">Fins</span>
-          </button>
-
-          <!-- Zonas -->
-          <button class="tab-link tab-pill-inactive text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
-            data-tab="zones">
-            <span class="md:hidden">🗺️</span>
-            <span class="hidden md:inline">Zonas</span>
-            <span class="md:hidden ml-1">Map</span>
-          </button>
-
-          <!-- Configuración -->
-          <button class="tab-link tab-pill-inactive text-sm md:text-lg px-2 md:px-3 py-2 rounded-md whitespace-nowrap"
-            data-tab="settings">
-            <span class="md:hidden">⚙️</span>
-            <span class="hidden md:inline">Configuración</span>
-            <span class="md:hidden ml-1">Set</span>
-          </button>
-
-        </div>
-      </nav>
 
 
       <div id="mobileMenu" class="md:hidden hidden flex-col px-4 pb-4 space-y-2 bg-white text-sm font-semibold text-gray-900 shadow
             transform transition-all duration-300 ease-in-out origin-top scale-y-0 opacity-0">
-        <button class="tab-link text-left w-full hover:text-blue-600" data-tab="calculator">📊 Calculadora</button>
-        <button class="tab-link text-left w-full hover:text-blue-600" data-tab="history">📋 Historial</button>
-        <button class="tab-link text-left w-full hover:text-blue-600" data-tab="finances">💰 Finanzas</button>
-        <button class="tab-link text-left w-full hover:text-blue-600" data-tab="zones">🗺️ Zonas</button>
-        <button class="tab-link text-left w-full hover:text-blue-600" data-tab="settings">⚙️ Configuración</button>
+        <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="calculator">📊 Calculadora</button>
+        <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="history">📋 Historial</button>
+        <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="finances">💰 Finanzas</button>
+        <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="zones">🗺️ Zonas</button>
+        <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="settings">⚙️ Configuración</button>
 
         <!-- Separador -->
         <div class="border-t border-gray-200 my-2"></div>
@@ -587,7 +666,7 @@
                     class="p-3 rounded-lg bg-yellow-50 border border-yellow-200 text-sm text-gray-800 hidden">
                     <p id="notesStatusText">ℹ️ No hay notas para este destino.</p>
                     <button onclick="openNotesModal(document.getElementById('destination').value)"
-                      class="mt-2 bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
+                      class="mt-2 text-white px-3 py-1 rounded text-sm font-semibold" style="background:#fb923c;">
                       📖 Ver Notas
                     </button>
                   </div>
@@ -739,7 +818,8 @@
                 <!-- Botón Lex -->
                 <div class="mt-3 md:mt-4 text-center">
                   <button onclick="analyzeLexLoad()"
-                    class="bg-gradient-to-r from-blue-600 to-purple-700 text-white px-4 md:px-6 py-2 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-800 transition text-sm w-full md:w-auto min-h-[44px]">
+                    class="text-white px-4 md:px-6 py-2 rounded-lg font-semibold transition text-sm w-full md:w-auto min-h-[44px]"
+                    style="background:linear-gradient(135deg,#FF6D4A 0%,#FF3366 100%);color:#ffffff;">
                     🧠 Ver análisis detallado con Lex
                   </button>
                 </div>
@@ -764,7 +844,8 @@
 
               <!-- Botón Lex AI -->
               <button id="lexAnalyzeBtn" type="button" onclick="analyzeLexLoad()"
-                class="bg-gradient-to-r from-blue-600 to-purple-700 text-white px-4 py-2.5 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-800 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                class="px-4 py-2.5 rounded-lg font-semibold transition-all duration-300 shadow-md flex items-center justify-center gap-2"
+                style="background:linear-gradient(135deg,#FF6D4A 0%,#FF3366 100%);color:#ffffff;">
                 <img src="img/lex/lex-thinking.png" class="w-5 h-5" alt="Lex" onerror="this.style.display='none'">
                 <span>🧠 Analizar con Lex</span>
               </button>
@@ -781,9 +862,8 @@
             <h3 class="text-xl font-semibold mb-4 text-center">🗺️ Mapa de Ruta</h3>
 
             <div class="flex flex-wrap gap-2 mb-4 justify-center">
-              <button onclick="updateMap()"
-                class="bg-blue-500 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-600 shadow-md"
-                style="color: white !important;">
+              <button onclick="updateMap()" class="px-4 py-2 rounded-lg text-sm font-semibold shadow-md"
+                style="background:#fb923c;color:#07050a;" style="color: white !important;">
                 🔄 Actualizar Mapa
               </button>
               <button onclick="openGoogleMapsDirections()"
@@ -926,7 +1006,7 @@
           <!-- Filters -->
           <div class="card-section">
             <h3 class="text-2xl font-semibold mb-4">🔍 Filtros</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
 
               <label for="filterOrigin" class="sr-only">Origen</label>
               <input type="text" id="filterOrigin" name="filterOrigin" class="border p-3 rounded-lg w-full text-base"
@@ -935,6 +1015,11 @@
               <label for="filterDestination" class="sr-only">Destino</label>
               <input type="text" id="filterDestination" name="filterDestination"
                 class="border p-3 rounded-lg w-full text-base" placeholder="Destino">
+
+              <label for="historyYearSelect" class="sr-only">Año</label>
+              <select id="historyYearSelect" name="historyYearSelect" class="border p-3 rounded-lg w-full text-base">
+                <option value="">Todos los años</option>
+              </select>
 
               <label for="historyMonthSelect" class="sr-only">Mes</label>
               <select id="historyMonthSelect" name="historyMonthSelect" class="border p-3 rounded-lg w-full text-base">
@@ -950,32 +1035,37 @@
 
           <!-- 📊 Resumen de Estadísticas (Historial) -->
           <div class="card-section">
-            <h3 class="text-lg font-semibold mb-4">📊 Resumen de Estadísticas</h3>
+            <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">📊 Resumen de Estadísticas</h3>
             <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
-              <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 text-center">
-                <h4 class="text-sm font-medium text-indigo-700 mb-1">Total Cargas</h4>
-                <p class="kpi-value text-blue-800" id="sumTotal">0</p>
-                <p class="text-xs text-indigo-600 mt-1">Cargas completadas</p>
+              <div
+                class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center shadow-sm">
+                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Total Cargas</h4>
+                <p class="kpi-value text-2xl font-bold text-gray-900 dark:text-white" id="sumTotal">0</p>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Cargas completadas</p>
               </div>
-              <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-center">
-                <h4 class="text-sm font-medium text-yellow-700 mb-1">Millas Totales</h4>
-                <p class="kpi-value text-blue-800" id="sumMiles">0</p>
-                <p class="text-xs text-yellow-600 mt-1">Distancia recorrida</p>
+              <div
+                class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center shadow-sm">
+                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Millas Totales</h4>
+                <p class="kpi-value text-2xl font-bold text-gray-900 dark:text-white" id="sumMiles">0</p>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Distancia recorrida</p>
               </div>
-              <div class="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-                <h4 class="text-sm font-medium text-green-700 mb-1">Ingresos Totales</h4>
-                <p class="kpi-value text-blue-800" id="sumRevenue">$0</p>
-                <p class="text-xs text-green-600 mt-1">Monto bruto acumulado</p>
+              <div
+                class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center shadow-sm">
+                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Ingresos Totales</h4>
+                <p class="kpi-value text-2xl font-bold text-gray-900 dark:text-white" id="sumRevenue">$0</p>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Monto bruto acumulado</p>
               </div>
-              <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
-                <h4 class="text-sm font-medium text-blue-700 mb-1">Ganancias Netas</h4>
-                <p class="kpi-value text-blue-800" id="sumProfit">$0</p>
-                <p class="text-xs text-blue-600 mt-1">Después de gastos</p>
+              <div
+                class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center shadow-sm">
+                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Ganancias Netas</h4>
+                <p class="kpi-value text-2xl font-bold text-gray-900 dark:text-white" id="sumProfit">$0</p>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Después de gastos</p>
               </div>
-              <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center">
-                <h4 class="text-sm font-medium text-purple-700 mb-1">RPM Promedio</h4>
-                <p class="kpi-value text-blue-800" id="sumRpm">$0</p>
-                <p class="text-xs text-purple-600 mt-1">Dólares por milla</p>
+              <div
+                class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center shadow-sm">
+                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">RPM Promedio</h4>
+                <p class="kpi-value text-2xl font-bold text-gray-900 dark:text-white" id="sumRpm">$0</p>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Dólares por milla</p>
               </div>
             </div>
           </div>
@@ -1085,9 +1175,8 @@
                 </div>
 
                 <!-- Botón -->
-                <button
-                  class="col-span-2 md:col-span-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
-                  onclick="applyPeriod('global')">
+                <button class="col-span-2 md:col-span-1 px-4 py-2 rounded text-sm font-medium"
+                  style="background:#FF6D4A;color:#ffffff;" onclick="applyPeriod('global')">
                   🔄 Actualizar
                 </button>
               </div>
@@ -1109,45 +1198,53 @@
             <!-- KPIs UNIFICADOS - Todos en una sola fila - Optimizado para mobile -->
             <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 md:gap-3 mb-6">
               <!-- Ingresos -->
-              <div class="bg-green-50 border border-green-200 rounded-lg p-1.5 md:p-2 text-center">
-                <h4 class="text-xs font-medium text-green-700 mb-1">Ingresos</h4>
-                <p class="text-sm md:text-base font-bold text-green-800" id="totalRevenue">$0.00</p>
+              <div
+                class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
+                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Ingresos</h4>
+                <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="totalRevenue">$0.00</p>
               </div>
 
               <!-- Gastos -->
-              <div class="bg-red-50 border border-red-200 rounded-lg p-1.5 md:p-2 text-center">
-                <h4 class="text-xs font-medium text-red-700 mb-1">Gastos</h4>
-                <p class="text-sm md:text-base font-bold text-red-800" id="totalExpensesSummary">$0.00</p>
+              <div
+                class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
+                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Gastos</h4>
+                <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="totalExpensesSummary">$0.00
+                </p>
               </div>
 
               <!-- Ganancia -->
-              <div class="bg-blue-50 border border-blue-200 rounded-lg p-1.5 md:p-2 text-center">
-                <h4 class="text-xs font-medium text-blue-700 mb-1">Ganancia</h4>
-                <p class="text-sm md:text-base font-bold text-blue-800" id="netProfit">$0.00</p>
+              <div
+                class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
+                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Ganancia</h4>
+                <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="netProfit">$0.00</p>
               </div>
 
               <!-- Millas -->
-              <div class="bg-purple-50 border border-purple-200 rounded-lg p-1.5 md:p-2 text-center">
-                <h4 class="text-xs font-medium text-purple-700 mb-1">Millas</h4>
-                <p class="text-sm md:text-base font-bold text-purple-800" id="totalMiles">0</p>
+              <div
+                class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
+                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Millas</h4>
+                <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="totalMiles">0</p>
               </div>
 
               <!-- RPM -->
-              <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-1.5 md:p-2 text-center">
-                <h4 class="text-xs font-medium text-yellow-700 mb-1">RPM</h4>
-                <p class="text-sm md:text-base font-bold text-yellow-800" id="avgRpm">$0.00</p>
+              <div
+                class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
+                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">RPM</h4>
+                <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="avgRpm">$0.00</p>
               </div>
 
-              <!-- Costo por Milla - Ahora compacto e integrado -->
-              <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-1.5 md:p-2 text-center">
-                <h4 class="text-xs font-medium text-indigo-700 mb-1">$/Milla</h4>
-                <p class="text-sm md:text-base font-bold text-indigo-800" id="costPerMile">$0.00</p>
+              <!-- Costo por Milla -->
+              <div
+                class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
+                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">$/Milla</h4>
+                <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="costPerMile">$0.00</p>
               </div>
 
-              <!-- Eficiencia - Ahora compacto e integrado -->
-              <div class="bg-pink-50 border border-pink-200 rounded-lg p-1.5 md:p-2 text-center">
-                <h4 class="text-xs font-medium text-pink-700 mb-1">Eficiencia</h4>
-                <p class="text-sm md:text-base font-bold text-pink-800" id="efficiency">0%</p>
+              <!-- Eficiencia -->
+              <div
+                class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
+                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Eficiencia</h4>
+                <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="efficiency">0%</p>
               </div>
             </div>
 
@@ -1266,8 +1363,9 @@
               </div>
 
               <!-- Botón - Full width -->
-              <button class="w-full mt-3 bg-blue-600 px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
-                style="color: white !important;" onclick="applyPeriod('reports')">
+              <button class="w-full mt-3 px-4 py-2 rounded text-sm font-medium"
+                style="background:#fb923c;color:#07050a;" style="color: white !important;"
+                onclick="applyPeriod('reports')">
                 🔄 Actualizar Datos
               </button>
             </div>
@@ -1433,7 +1531,8 @@
 
                 <!-- Header del Modal (Fijo) -->
                 <div id="reportModalHeader"
-                  class="flex-shrink-0 bg-gradient-to-r from-blue-700 to-blue-900 text-white p-4 flex justify-between items-center shadow-lg">
+                  class="flex-shrink-0 text-white p-4 flex justify-between items-center shadow-lg"
+                  style="background:linear-gradient(135deg,#1a0a05 0%,#2d1408 100%);border-bottom:1px solid rgba(251,146,60,0.3);">
                   <div class="flex items-center gap-3">
                     <span class="text-2xl" id="reportModalIcon">📊</span>
                     <div>
@@ -1460,7 +1559,8 @@
                 <!-- Footer del Modal (Fijo) -->
                 <div class="flex-shrink-0 bg-white border-t p-3 flex flex-wrap justify-center gap-2">
                   <button onclick="printReport()"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition">
+                    class="px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition"
+                    style="background:#fb923c;color:#07050a;">
                     🖨️ Imprimir / PDF
                   </button>
                   <button onclick="exportReportToPDF()"
@@ -1523,9 +1623,8 @@
                   </select>
                 </div>
                 <!-- Botón Actualizar -->
-                <button
-                  class="col-span-2 md:col-span-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium"
-                  onclick="applyPeriod('accounts')">
+                <button class="col-span-2 md:col-span-1 px-4 py-2 rounded text-sm font-medium"
+                  style="background:#fb923c;color:#07050a;" onclick="applyPeriod('accounts')">
                   Actualizar
                 </button>
               </div>
@@ -1683,7 +1782,8 @@
             <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-2 mb-4">
               <h3 class="text-lg font-semibold">📍 Tabla de zonas por estado</h3>
               <button onclick="printZonesReport()"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition w-full md:w-auto justify-center">
+                class="px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition w-full md:w-auto justify-center"
+                style="background:#fb923c;color:#07050a;">
                 📊 Imprimir Reporte
               </button>
             </div>
@@ -1821,10 +1921,43 @@
               class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
               💾 Guardar Nota
             </button>
+            </button>
           </div>
 
-          <!-- Lista de notas guardadas -->
-          <div id="marketNotesList" class="space-y-2">
+          <!-- CONTROLES DE FILTRO DE NOTAS -->
+          <div class="mb-4 space-y-3 p-4 rounded-lg border market-filter-container">
+            <!-- Buscador y Estado -->
+            <div class="flex flex-col md:flex-row gap-3">
+              <div class="relative flex-1">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center market-filter-icon">🔍</span>
+                <input type="text" id="marketNotesSearch" placeholder="Buscar ciudad, estado o palabra clave..."
+                  class="w-full pl-9 pr-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6D4A] border market-filter-input"
+                  oninput="renderMarketNotes()" />
+              </div>
+              <select id="marketNotesStateFilter"
+                class="w-full md:w-36 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6D4A] border market-filter-input"
+                onchange="renderMarketNotes()">
+                <option value="ALL">Todos los Estados</option>
+              </select>
+            </div>
+
+            <!-- Píldoras de Tipo -->
+            <div class="flex flex-wrap gap-2 items-center text-sm">
+              <span class="font-medium mr-1 market-filter-label">Filtrar:</span>
+              <button type="button" onclick="setMarketNotesTypeFilter('ALL')" id="btnNotesType-ALL"
+                class="px-3 py-1 rounded-full text-white font-medium transition-colors leading-none market-filter-pill-active"
+                style="background-color: #FF6D4A;">Todas</button>
+              <button type="button" onclick="setMarketNotesTypeFilter('origen')" id="btnNotesType-origen"
+                class="px-3 py-1 rounded-full font-medium transition-colors leading-none market-filter-pill">Origen</button>
+              <button type="button" onclick="setMarketNotesTypeFilter('destino')" id="btnNotesType-destino"
+                class="px-3 py-1 rounded-full font-medium transition-colors leading-none market-filter-pill">Destino</button>
+              <button type="button" onclick="setMarketNotesTypeFilter('ambos')" id="btnNotesType-ambos"
+                class="px-3 py-1 rounded-full font-medium transition-colors leading-none market-filter-pill">Ambos</button>
+            </div>
+          </div>
+
+          <!-- Lista de notas guardadas (Con Scroll max-height) -->
+          <div id="marketNotesList" class="space-y-2 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
             <p class="text-sm text-gray-500 text-center py-4">Cargando notas...</p>
           </div>
         </div>
@@ -1844,7 +1977,8 @@
 
         <!-- 👑 ADMIN PANEL BUTTON (only shows for admin users) -->
         <div id="adminPanelSection" class="hidden mt-3 md:mt-6">
-          <div class="bg-gradient-to-r from-purple-700 to-blue-700 rounded-lg p-2 md:p-6 text-left">
+          <div class="rounded-lg p-2 md:p-6 text-left"
+            style="background:rgba(20,15,25,0.9);border:1px solid rgba(251,146,60,0.25);">
             <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-2 md:gap-4">
               <div>
                 <h3 class="text-white font-bold text-sm md:text-lg mb-0.5">👑 Admin Panel</h3>
@@ -2029,8 +2163,8 @@
                       class="border p-2 w-full rounded text-sm">
                     <input type="number" id="maintenanceInterval" placeholder="Intervalo (millas)"
                       class="border p-2 w-full rounded text-sm">
-                    <button onclick="calculateMaintenanceCost()"
-                      class="bg-blue-600 text-white px-3 py-1 rounded text-sm w-full hover:bg-blue-700">Calcular
+                    <button onclick="calculateMaintenanceCost()" class="px-3 py-1 rounded text-sm w-full font-semibold"
+                      style="background:#fb923c;color:#07050a;">Calcular
                       $/mi</button>
                   </div>
                 </details>
@@ -2152,8 +2286,8 @@
         <!-- 5. BOTONES DE ACCIÃ“N -->
         <div class="card-section">
           <div class="flex flex-col md:flex-row gap-4 justify-center">
-            <button onclick="saveUserConfiguration()"
-              class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 font-semibold">
+            <button onclick="saveUserConfiguration()" class="px-6 py-3 rounded-lg font-semibold"
+              style="background:#fb923c;color:#07050a;">
               💾 Guardar Configuración
             </button>
 
@@ -2187,7 +2321,8 @@
         onclick="event.stopPropagation()">
 
         <!-- Header -->
-        <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-4 flex justify-between items-center">
+        <div class="text-white p-4 flex justify-between items-center"
+          style="background:linear-gradient(135deg,#1a0a05 0%,#2d1408 100%);border-bottom:1px solid rgba(251,146,60,0.3);">
           <h3 class="text-lg font-bold flex items-center gap-2">
             📅 Seleccionar Mes
           </h3>
@@ -2377,8 +2512,8 @@
           class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 order-2 sm:order-1">
           Cancelar
         </button>
-        <button type="button" onclick="saveEditedLoad()"
-          class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 order-1 sm:order-2">
+        <button type="button" onclick="saveEditedLoad()" class="px-4 py-2 rounded order-1 sm:order-2 font-semibold"
+          style="background:#fb923c;color:#07050a;">
           💾 Guardar Cambios
         </button>
       </div>
@@ -2454,10 +2589,10 @@
   <script src="js/history.js?v=2.0.1"></script>
 
   <!-- 💰 Finances modules - Load in order (refactored) -->
-  <script src="js/finances-core.js?v=1.0.0"></script>
-  <script src="js/finances-data.js?v=1.0.0"></script>
-  <script src="js/finances.js?v=3.1.1"></script>
-  <script src="js/finances-ui.js?v=1.0.0"></script>
+  <script src="js/finances-core.js?v=2.0.0"></script>
+  <script src="js/finances-data.js?v=2.0.0"></script>
+  <script src="js/finances.js?v=4.0.0"></script>
+  <script src="js/finances-ui.js?v=2.0.0"></script>
 
   <!-- 🚀 Lazy Loading System (NEW) - Loads charts/reports/expenses on demand -->
   <script src="js/lazy-loader.js?v=1.0.0"></script>
@@ -2481,12 +2616,13 @@
   <script src="js/core/decisions-tracker.js"></script>
   <script src="js/core/pattern-learner.js"></script>
   <script src="js/core/lex-master.js"></script>
-  <script src="js/lex-ai-brain.js"></script>
   <script src="js/core/lex-modals.js"></script>
+  <script src="js/lex-analysis-ui.js"></script>
   <script src="js/lex-learning.js"></script>
   <script src="js/lex.js"></script>
   <script src="js/lex-intents.js"></script>
   <script src="js/lex-router.js"></script>
+  <script src="js/lex-ai-engine.js"></script>
 
   <!-- Agentes -->
   <script src="js/agents/calculator-agent.js"></script>
@@ -2535,12 +2671,7 @@
       </p>
 
       <div class="mt-2 flex items-center gap-2">
-        <button id="lexQuickAnalyzeBtn" type="button" class="lex-action-btn lex-btn-analyze"
-          onclick="window.triggerLex && window.triggerLex()">
-          ⚡ Análisis
-        </button>
-
-        <button id="lexOpenChatBtn" type="button" class="lex-action-btn lex-btn-chat"
+        <button id="lexOpenChatBtn" type="button" class="lex-action-btn lex-btn-chat w-full"
           onclick="window.openLexChatModal && window.openLexChatModal()">
           💬 Chat
         </button>
@@ -2551,8 +2682,9 @@
 
     <!-- Avatar -->
     <div class="relative">
-      <div class="lex-avatar-shell w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-purple-700 
-                border border-blue-400 shadow-2xl flex items-center justify-center overflow-hidden">
+      <div
+        class="lex-avatar-shell w-16 h-16 rounded-full border shadow-2xl flex items-center justify-center overflow-hidden"
+        style="background:linear-gradient(135deg,#fb923c 0%,#a3e635 100%);border-color:rgba(251,146,60,0.5);">
         <img id="lexAvatarImg" src="img/lex/lex-neutral.png" alt="Lex AI Assistant"
           class="w-14 h-14 object-contain lex-avatar-img">
       </div>

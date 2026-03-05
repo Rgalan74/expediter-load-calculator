@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Rentabilidad | Smart Load Solution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #f97316;
+    --orange-light: #fb923c;
+    --cyan: #00d9ff;
+    --bg: #050508;
+    --bg2: #0a0a12;
+    --bg3: #111121;
+    --border: rgba(255,255,255,0.08);
+    --text: #f1f5f9;
+    --muted: #64748b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 50% at 10% 20%, rgba(0,217,255,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 90% 80%, rgba(249,115,22,0.08) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  header {
+    padding: 2rem 0 1.5rem;
+    text-align: center;
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .logo-icon {
+    width: 38px;
+    height: 38px;
+    background: linear-gradient(135deg, var(--cyan), var(--orange));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+
+  .logo-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .logo-text span { color: var(--orange); }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  h1 .highlight {
+    background: linear-gradient(90deg, var(--cyan), var(--orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 1.1rem;
+    max-width: 500px;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+  }
+
+  /* Calculator card */
+  .calc-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+
+  .calc-header {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .calc-header-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .calc-body {
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .calc-body { grid-template-columns: 1fr; padding: 1.5rem; }
+  }
+
+  /* Inputs */
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .field.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .input-wrap {
+    position: relative;
+  }
+
+  .input-prefix {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    pointer-events: none;
+  }
+
+  input[type="number"], input[type="range"] {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    padding: 0.875rem 1rem 0.875rem 2rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -moz-appearance: textfield;
+  }
+
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+  input[type="number"]:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 3px rgba(0,217,255,0.1);
+  }
+
+  /* Slider */
+  .slider-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .slider-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    color: var(--cyan);
+    font-weight: 700;
+    text-align: center;
+  }
+
+  input[type="range"] {
+    padding: 0;
+    border: none;
+    background: transparent;
+    height: auto;
+    -webkit-appearance: none;
+    cursor: pointer;
+  }
+
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    background: var(--bg3);
+    border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cyan), var(--orange));
+    margin-top: -8px;
+    box-shadow: 0 2px 8px rgba(0,217,255,0.4);
+    transition: transform 0.1s;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+  /* Results */
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding: 0 2rem 2rem;
+  }
+
+  @media (max-width: 640px) {
+    .results-grid { grid-template-columns: 1fr; padding: 0 1.5rem 1.5rem; }
+  }
+
+  .result-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.25rem;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .result-card:hover { transform: translateY(-2px); }
+
+  .result-card.primary {
+    border-color: rgba(0,217,255,0.3);
+    background: rgba(0,217,255,0.04);
+    grid-column: 1 / -1;
+  }
+
+  .result-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+
+  .result-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .result-card.primary .result-value {
+    font-size: 2.8rem;
+    background: linear-gradient(90deg, var(--cyan), var(--orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .result-sub {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .result-card.warn .result-value { color: #f87171; }
+  .result-card.good .result-value { color: #4ade80; }
+
+  /* Progress bar */
+  .margin-bar-wrap {
+    margin-top: 0.75rem;
+  }
+
+  .margin-bar-track {
+    height: 8px;
+    background: var(--bg);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 0.35rem;
+  }
+
+  .margin-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--cyan), var(--orange));
+    transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* Lex tip */
+  .lex-tip {
+    margin: 0 2rem 2rem;
+    padding: 1.25rem 1.5rem;
+    background: rgba(249,115,22,0.06);
+    border: 1px solid rgba(249,115,22,0.2);
+    border-radius: 16px;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .lex-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--orange), var(--cyan));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+
+  .lex-tip-content p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #cbd5e1;
+  }
+
+  .lex-tip-content strong { color: var(--orange-light); }
+
+  .lex-name {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.3rem;
+  }
+
+  /* CTA */
+  .cta-section {
+    text-align: center;
+    padding: 2rem 2rem 3rem;
+  }
+
+  .cta-section p {
+    font-size: 1.15rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-section p strong { color: var(--text); }
+
+  .btn-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, var(--orange), #ea580c);
+    color: white;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    padding: 1rem 2.5rem;
+    border-radius: 14px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 24px rgba(249,115,22,0.35);
+    border: none;
+    cursor: pointer;
+    letter-spacing: -0.01em;
+  }
+
+  .btn-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(249,115,22,0.5);
+  }
+
+  .btn-cta-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    text-decoration: none;
+    margin-top: 1rem;
+    transition: color 0.2s;
+  }
+
+  .btn-cta-secondary:hover { color: var(--text); }
+
+  .trust-line {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 0.75rem;
+  }
+
+  /* Footer watermark */
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    color: var(--muted);
+    font-size: 0.78rem;
+    opacity: 0.5;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Animate in */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .calc-card { animation: fadeUp 0.5s ease both; }
+  header { animation: fadeUp 0.4s ease both; }
+
+  /* Number counter animation */
+  .counting { transition: opacity 0.1s; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="logo">
+      <div class="logo-icon">🚛</div>
+      <div class="logo-text">Smart Load <span>Solution</span></div>
+    </div>
+
+    <h1>¿Cuánto dinero estás<br><span class="highlight">dejando sobre la mesa?</span></h1>
+    <p class="subtitle">Ingresa tus datos reales y descubre tu potencial de ganancia con inteligencia de datos.</p>
+  </header>
+
+  <div class="calc-card">
+    <div class="calc-header">
+      <div class="calc-header-dot" style="background:#f87171"></div>
+      <div class="calc-header-dot" style="background:#fbbf24"></div>
+      <div class="calc-header-dot" style="background:#4ade80"></div>
+      <span style="margin-left:0.5rem; font-size:0.85rem; color:var(--muted); font-weight:600;">calculadora_rentabilidad.exe</span>
+    </div>
+
+    <div class="calc-body">
+      <div class="field">
+        <label>Cargas por mes</label>
+        <div class="slider-wrap">
+          <div class="slider-value" id="cargas-display">20 cargas</div>
+          <input type="range" id="cargas" min="5" max="100" value="20" step="1">
+          <div class="slider-labels"><span>5</span><span>100</span></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Ingreso promedio por carga</label>
+        <div class="input-wrap">
+          <span class="input-prefix">$</span>
+          <input type="number" id="ingreso" value="450" placeholder="450">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Costo de combustible (mensual)</label>
+        <div class="input-wrap">
+          <span class="input-prefix">$</span>
+          <input type="number" id="combustible" value="1800" placeholder="1800">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Otros gastos fijos (mensual)</label>
+        <div class="input-wrap">
+          <span class="input-prefix">$</span>
+          <input type="number" id="gastos" value="600" placeholder="600">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Cargas malas que aceptas</label>
+        <div class="slider-wrap">
+          <div class="slider-value" id="malas-display">20%</div>
+          <input type="range" id="malas" min="0" max="60" value="20" step="5">
+          <div class="slider-labels"><span>0%</span><span>60%</span></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Horas perdidas en papeleo/semana</label>
+        <div class="slider-wrap">
+          <div class="slider-value" id="horas-display">5 hrs</div>
+          <input type="range" id="horas" min="1" max="20" value="5" step="1">
+          <div class="slider-labels"><span>1h</span><span>20h</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="results-grid">
+      <div class="result-card primary">
+        <div class="result-label">💸 Dinero que estás perdiendo por mes</div>
+        <div class="result-value" id="perdida">$0</div>
+        <div class="result-sub">Por cargas mal evaluadas + tiempo improductivo</div>
+        <div class="margin-bar-wrap">
+          <div style="font-size:0.75rem;color:var(--muted);">Pérdida sobre ingresos totales</div>
+          <div class="margin-bar-track">
+            <div class="margin-bar-fill" id="perdida-bar" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-card good">
+        <div class="result-label">📈 Ingreso mensual actual</div>
+        <div class="result-value" id="ingreso-total">$0</div>
+        <div class="result-sub">Bruto antes de gastos</div>
+      </div>
+
+      <div class="result-card warn">
+        <div class="result-label">📉 Ganancia neta real</div>
+        <div class="result-value" id="ganancia-neta">$0</div>
+        <div class="result-sub">Después de todos los gastos</div>
+      </div>
+
+      <div class="result-card">
+        <div class="result-label">🚀 Con Smart Load (estimado)</div>
+        <div class="result-value" id="con-smart" style="color:var(--cyan)">$0</div>
+        <div class="result-sub">Optimizando cargas + tiempo</div>
+      </div>
+    </div>
+
+    <!-- Lex tip -->
+    <div class="lex-tip" id="lex-tip">
+      <div class="lex-avatar">🤖</div>
+      <div class="lex-tip-content">
+        <div class="lex-name">Lex · Análisis en tiempo real</div>
+        <p id="lex-mensaje">Ingresa tus datos para ver mi análisis personalizado...</p>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <p>Con Smart Load podrías ganar <strong id="potencial-texto">$0 más al mes</strong></p>
+      <a href="https://smartloadsolution.app/auth" class="btn-cta">
+        🚀 Comenzar Gratis Ahora
+      </a>
+      <br>
+      <div class="trust-line">✓ Sin tarjeta &nbsp;·&nbsp; ✓ Setup en &lt;2 min &nbsp;·&nbsp; ✓ 50 cargas gratis</div>
+    </div>
+  </div>
+</div>
+
+<footer>© 2026 Smart Load Solution · smartloadsolution.app</footer>
+
+<script>
+  // Elements
+  const elCargas = document.getElementById('cargas');
+  const elIngreso = document.getElementById('ingreso');
+  const elCombustible = document.getElementById('combustible');
+  const elGastos = document.getElementById('gastos');
+  const elMalas = document.getElementById('malas');
+  const elHoras = document.getElementById('horas');
+
+  const elCargasDisplay = document.getElementById('cargas-display');
+  const elMalasDisplay = document.getElementById('malas-display');
+  const elHorasDisplay = document.getElementById('horas-display');
+
+  function fmt(n) {
+    return '$' + Math.round(n).toLocaleString('es-US');
+  }
+
+  function animateValue(el, newVal, isString) {
+    if (isString) { el.textContent = newVal; return; }
+    el.textContent = newVal;
+  }
+
+  function calcular() {
+    const cargas = parseInt(elCargas.value) || 0;
+    const ingresoPorCarga = parseFloat(elIngreso.value) || 0;
+    const combustible = parseFloat(elCombustible.value) || 0;
+    const gastos = parseFloat(elGastos.value) || 0;
+    const pctMalas = parseInt(elMalas.value) / 100;
+    const horasPerdidas = parseInt(elHoras.value) || 0;
+
+    // Calculations
+    const ingresoTotal = cargas * ingresoPorCarga;
+    const gastosTotales = combustible + gastos;
+    const gananciaNeta = ingresoTotal - gastosTotales;
+
+    // Pérdida por cargas malas (asumimos que una carga mala paga 30% menos de lo que debería)
+    const cargasMalas = Math.round(cargas * pctMalas);
+    const perdidaPorMalas = cargasMalas * ingresoPorCarga * 0.30;
+
+    // Pérdida por horas en papeleo (valor hora estimado)
+    const valorHora = gananciaNeta > 0 ? (gananciaNeta / (cargas * 8)) : 15;
+    const perdidaPorHoras = horasPerdidas * 4 * valorHora; // 4 semanas
+
+    const perdidaTotal = perdidaPorMalas + perdidaPorHoras;
+    const pctPerdida = ingresoTotal > 0 ? Math.min((perdidaTotal / ingresoTotal) * 100, 100) : 0;
+
+    // Con Smart Load: recupera 70% de pérdidas + 15% más de cargas
+    const mejoraCon = perdidaTotal * 0.70 + (ingresoTotal * 0.12);
+    const gananciaConSmart = gananciaNeta + mejoraCon;
+
+    // Update displays
+    document.getElementById('ingreso-total').textContent = fmt(ingresoTotal);
+    document.getElementById('ganancia-neta').textContent = fmt(gananciaNeta);
+    document.getElementById('perdida').textContent = fmt(perdidaTotal);
+    document.getElementById('con-smart').textContent = fmt(gananciaConSmart);
+    document.getElementById('perdida-bar').style.width = Math.min(pctPerdida, 100) + '%';
+    document.getElementById('potencial-texto').textContent = fmt(mejoraCon) + ' más al mes';
+
+    // Lex message
+    let msg = '';
+    const margenReal = ingresoTotal > 0 ? (gananciaNeta / ingresoTotal * 100) : 0;
+
+    if (perdidaTotal > 3000) {
+      msg = `Estás perdiendo <strong>${fmt(perdidaTotal)} cada mes</strong> — eso es ${fmt(perdidaTotal * 12)} al año. Con Smart Load, recuperarías la mayoría de eso al tomar mejores decisiones en cada carga.`;
+    } else if (margenReal < 25) {
+      msg = `Tu margen neto es de solo <strong>${margenReal.toFixed(0)}%</strong>. Con un margen tan ajustado, cada carga mala que aceptas te cuesta mucho. Smart Load te ayuda a filtrar esas cargas antes de comprometerte.`;
+    } else if (pctMalas > 0.3) {
+      msg = `Con <strong>${Math.round(pctMalas*100)}% de cargas malas</strong> estás trabajando de más por menos dinero. Imagina reducir eso a la mitad — tu ganancia crecería sin hacer más cargas.`;
+    } else if (horasPerdidas >= 8) {
+      msg = `Estás perdiendo <strong>${horasPerdidas} horas semanales</strong> en papeleo. Con Smart Load automatizas eso y recuperas tiempo real para más cargas o descanso.`;
+    } else {
+      msg = `Tu operación tiene buen potencial. <strong>Optimizando el ${Math.round(pctMalas*100)}% de cargas que no son ideales</strong> podrías incrementar tus ganancias un 12-20% sin aumentar costos.`;
+    }
+
+    document.getElementById('lex-mensaje').innerHTML = msg;
+  }
+
+  // Event listeners
+  elCargas.addEventListener('input', () => {
+    elCargasDisplay.textContent = elCargas.value + ' cargas';
+    calcular();
+  });
+
+  elMalas.addEventListener('input', () => {
+    elMalasDisplay.textContent = elMalas.value + '%';
+    calcular();
+  });
+
+  elHoras.addEventListener('input', () => {
+    elHorasDisplay.textContent = elHoras.value + ' hrs';
+    calcular();
+  });
+
+  [elIngreso, elCombustible, elGastos].forEach(el => {
+    el.addEventListener('input', calcular);
+  });
+
+  // Initial calculation
+  calcular();
+</script>
+</body>
+</html>

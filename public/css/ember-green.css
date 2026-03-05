@@ -1,0 +1,409 @@
+/* ============================================================
+   EMBER-GREEN OVERRIDE v2.0 — FINAL
+   SmartLoad Solution
+   
+   INSTRUCCIÓN DE INSTALACIÓN:
+   Agregar este <link> en app.html DESPUÉS del bloque </style>
+   que está al final del <head>, justo antes del </head>:
+   
+       </style>
+       <link rel="stylesheet" href="css/ember-green.css">   ← AQUÍ
+   </head>
+   
+   Cargando de último, sus !important ganan sobre todo.
+   ============================================================ */
+
+
+/* ============================================================
+   1. VARIABLES — Refuerzo (carga después de theme-tokens)
+   ============================================================ */
+:root,
+[data-theme="dark"] {
+    --primary-blue: #fb923c;
+    --primary-blue-light: #fdba74;
+    --primary-blue-dark: #ea580c;
+    --border-accent: rgba(251, 146, 60, 0.35);
+    --border-hover: rgba(251, 146, 60, 0.25);
+}
+
+[data-theme="light"] {
+    --primary-blue: #ea6f0a;
+    --primary-blue-light: #fb923c;
+    --primary-blue-dark: #c45700;
+    --border-accent: rgba(234, 111, 10, 0.35);
+}
+
+
+/* ============================================================
+   2. INPUT FOCUS — Reemplaza azul del inline <style> de app.html
+   ============================================================ */
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #fb923c !important;
+    box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.15) !important;
+    background: rgba(20, 10, 5, 0.45) !important;
+    outline: none !important;
+}
+
+/* Mismo selector que el inline style para ganarle */
+:root:not([data-theme="light"]) input:focus,
+:root:not([data-theme="light"]) select:focus,
+:root:not([data-theme="light"]) textarea:focus,
+:root:not([data-theme="light"]) #history input:focus,
+:root:not([data-theme="light"]) #finances input:focus,
+:root:not([data-theme="light"]) #zones input:focus,
+:root:not([data-theme="light"]) .card-section input:focus {
+    border-color: #fb923c !important;
+    box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.18) !important;
+    background-color: rgba(20, 10, 5, 0.5) !important;
+}
+
+[data-theme="light"] input:focus,
+[data-theme="light"] select:focus,
+[data-theme="light"] textarea:focus {
+    border-color: #ea6f0a !important;
+    box-shadow: 0 0 0 3px rgba(234, 111, 10, 0.15) !important;
+    background: #ffffff !important;
+}
+
+
+/* ============================================================
+   3. TEXTO TAILWIND — text-blue / text-indigo → naranja
+   Reemplaza el inline <style> de app.html
+   ============================================================ */
+:root:not([data-theme="light"]) .text-blue-600,
+:root:not([data-theme="light"]) .text-blue-700,
+:root:not([data-theme="light"]) .text-blue-800 {
+    color: #fb923c !important;
+    -webkit-text-fill-color: #fb923c !important;
+}
+
+:root:not([data-theme="light"]) .text-indigo-600,
+:root:not([data-theme="light"]) .text-indigo-700,
+:root:not([data-theme="light"]) .text-indigo-800 {
+    color: #fdba74 !important;
+    -webkit-text-fill-color: #fdba74 !important;
+}
+
+:root:not([data-theme="light"]) .text-purple-600,
+:root:not([data-theme="light"]) .text-purple-700,
+:root:not([data-theme="light"]) .text-purple-800 {
+    color: #fdba74 !important;
+    -webkit-text-fill-color: #fdba74 !important;
+}
+
+/* Verde → mantener verde lima */
+:root:not([data-theme="light"]) .text-green-600,
+:root:not([data-theme="light"]) .text-green-700,
+:root:not([data-theme="light"]) .text-green-800 {
+    color: #a3e635 !important;
+    -webkit-text-fill-color: #a3e635 !important;
+}
+
+
+/* ============================================================
+   4. FONDOS TAILWIND dark mode → warm dark
+   ============================================================ */
+:root:not([data-theme="light"]) .bg-white {
+    background-color: rgba(20, 15, 25, 0.88) !important;
+    color: #fff5f0 !important;
+}
+
+:root:not([data-theme="light"]) .bg-gray-50 {
+    background-color: #0d0a10 !important;
+    border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+:root:not([data-theme="light"]) .bg-indigo-50,
+:root:not([data-theme="light"]) .bg-purple-50 {
+    background-color: rgba(251, 146, 60, 0.08) !important;
+    border: 1px solid rgba(251, 146, 60, 0.20) !important;
+}
+
+:root:not([data-theme="light"]) .bg-green-50 {
+    background-color: rgba(163, 230, 53, 0.08) !important;
+    border: 1px solid rgba(163, 230, 53, 0.20) !important;
+}
+
+:root:not([data-theme="light"]) .bg-red-50 {
+    background-color: rgba(244, 63, 94, 0.08) !important;
+    border: 1px solid rgba(244, 63, 94, 0.20) !important;
+}
+
+:root:not([data-theme="light"]) .bg-yellow-50 {
+    background-color: rgba(251, 191, 36, 0.08) !important;
+    border: 1px solid rgba(251, 191, 36, 0.20) !important;
+}
+
+
+/* ============================================================
+   5. HEADER GRADIENT — Light mode fix (line 60 app.html)
+   ============================================================ */
+[data-theme="light"] header .header-title,
+[data-theme="light"] header .gradient-text,
+html[data-theme="light"] header .header-title,
+html[data-theme="light"] header span.header-title,
+html[data-theme="light"] header .gradient-text,
+html[data-theme="light"] header span.gradient-text,
+[data-theme="light"] .header-title,
+[data-theme="light"] .gradient-text {
+    background: linear-gradient(90deg, #ea6f0a 0%, #65a30d 100%) !important;
+    background-image: linear-gradient(90deg, #ea6f0a 0%, #65a30d 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    color: transparent !important;
+}
+
+
+/* ============================================================
+   6. NAV TABS — app.css tiene azules hardcodeados
+   ============================================================ */
+.tab-link:hover {
+    color: #fdba74 !important;
+    background: rgba(251, 146, 60, 0.06) !important;
+}
+
+.tab-link.tab-active {
+    background: transparent !important;
+    background-image: linear-gradient(90deg, #fb923c 0%, #a3e635 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: transparent !important;
+    border-bottom: 3px solid #fb923c !important;
+}
+
+[data-theme="light"] .tab-link.tab-active {
+    background-image: linear-gradient(90deg, #ea6f0a 0%, #65a30d 100%) !important;
+    border-bottom: 3px solid #ea6f0a !important;
+}
+
+
+/* ============================================================
+   7. CARDS HOVER — app.css tiene sombra azul
+   ============================================================ */
+.card-section::before {
+    background: linear-gradient(90deg, #fb923c 0%, #a3e635 100%) !important;
+}
+
+.card-section:hover {
+    border-color: rgba(251, 146, 60, 0.30) !important;
+    box-shadow: 0 8px 30px rgba(251, 146, 60, 0.12) !important;
+}
+
+[data-theme="light"] .card-section:hover {
+    border-color: rgba(234, 111, 10, 0.25) !important;
+    box-shadow: 0 8px 24px rgba(234, 111, 10, 0.10) !important;
+}
+
+
+/* ============================================================
+   8. BOTONES — app.css sigue con azules
+   ============================================================ */
+.btn-primary,
+button.btn-primary {
+    background: #fb923c !important;
+    background-image: none !important;
+    color: #0a0505 !important;
+    box-shadow: 0 4px 20px rgba(251, 146, 60, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+}
+
+.btn-primary:hover,
+button.btn-primary:hover {
+    background: #ea580c !important;
+    background-image: none !important;
+    box-shadow: 0 6px 28px rgba(251, 146, 60, 0.40) !important;
+}
+
+button.bg-blue-500,
+a.bg-blue-500 {
+    background: #fb923c !important;
+    background-image: none !important;
+    color: #0a0505 !important;
+    box-shadow: 0 4px 15px rgba(251, 146, 60, 0.28) !important;
+}
+
+button.bg-blue-500:hover,
+a.bg-blue-500:hover {
+    background: #ea580c !important;
+    box-shadow: 0 6px 22px rgba(251, 146, 60, 0.40) !important;
+}
+
+button.bg-purple-600 {
+    background: linear-gradient(135deg, #ea6f0a 0%, #fb923c 100%) !important;
+    background-image: none !important;
+    color: #0a0505 !important;
+    box-shadow: 0 4px 15px rgba(251, 146, 60, 0.25) !important;
+}
+
+button.bg-purple-100 {
+    background: rgba(251, 146, 60, 0.07) !important;
+    color: #fb923c !important;
+    border: 1.5px solid rgba(251, 146, 60, 0.28) !important;
+    box-shadow: none !important;
+}
+
+button.bg-purple-100:hover {
+    background: rgba(251, 146, 60, 0.13) !important;
+    border-color: rgba(251, 146, 60, 0.45) !important;
+}
+
+#upgradePlanBtn {
+    color: #fb923c !important;
+    border: 1px solid rgba(251, 146, 60, 0.25) !important;
+    background: rgba(251, 146, 60, 0.07) !important;
+}
+
+[data-theme="light"] .btn-primary,
+[data-theme="light"] button.btn-primary {
+    background: #ea6f0a !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] button.bg-blue-500,
+[data-theme="light"] a.bg-blue-500 {
+    background: #ea6f0a !important;
+    color: #ffffff !important;
+}
+
+[data-theme="light"] button.bg-purple-600 {
+    background: linear-gradient(135deg, #ea6f0a 0%, #65a30d 100%) !important;
+    color: #ffffff !important;
+}
+
+
+/* ============================================================
+   9. TABLAS
+   ============================================================ */
+thead th {
+    color: #fb923c !important;
+    border-bottom-color: rgba(251, 146, 60, 0.28) !important;
+}
+
+tbody tr:hover {
+    background: rgba(251, 146, 60, 0.04) !important;
+}
+
+[data-theme="light"] thead tr {
+    background: linear-gradient(135deg, #1a0f08 0%, #2d1a0e 100%) !important;
+}
+
+[data-theme="light"] thead th {
+    color: #fb923c !important;
+    border-bottom-color: rgba(251, 146, 60, 0.30) !important;
+}
+
+[data-theme="light"] tbody tr:hover {
+    background-color: #fff5ee !important;
+    box-shadow: inset 3px 0 0 #fb923c !important;
+}
+
+
+/* ============================================================
+   10. FINANZAS — Subtabs
+   ============================================================ */
+.fin-subtab:hover {
+    background: rgba(251, 146, 60, 0.08) !important;
+    color: #fb923c !important;
+    border-bottom: 2px solid #fb923c !important;
+}
+
+.fin-subtab.active,
+.fin-subtab.text-blue-600 {
+    color: #fb923c !important;
+    border-bottom: 2px solid #fb923c !important;
+    box-shadow: 0 2px 10px rgba(251, 146, 60, 0.15) !important;
+    font-weight: 700 !important;
+}
+
+[data-theme="light"] .fin-subtab:hover,
+[data-theme="light"] .fin-subtab.active {
+    color: #ea6f0a !important;
+    border-bottom: 2px solid #ea6f0a !important;
+}
+
+
+/* ============================================================
+   11. TOTAL MILLAS (bg-blue-50)
+   ============================================================ */
+.bg-blue-50 {
+    background: rgba(251, 146, 60, 0.07) !important;
+    border-color: rgba(251, 146, 60, 0.22) !important;
+}
+
+.text-blue-800 {
+    color: #fb923c !important;
+    -webkit-text-fill-color: #fb923c !important;
+}
+
+[data-theme="light"] .bg-blue-50 {
+    background: rgba(234, 111, 10, 0.06) !important;
+    border-color: rgba(234, 111, 10, 0.20) !important;
+}
+
+[data-theme="light"] .text-blue-800 {
+    color: #ea6f0a !important;
+    -webkit-text-fill-color: #ea6f0a !important;
+}
+
+
+/* ============================================================
+   12. BODY FONDO
+   ============================================================ */
+html[data-theme="dark"] body,
+html:not([data-theme="light"]) body {
+    background:
+        radial-gradient(ellipse at 20% 15%, rgba(251, 146, 60, 0.05) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 85%, rgba(163, 230, 53, 0.025) 0%, transparent 50%),
+        #07050a !important;
+    animation: none !important;
+}
+
+[data-theme="light"] body {
+    background: #fdf9f6 !important;
+    animation: none !important;
+}
+
+
+/* ============================================================
+   13. LOADING SCREEN
+   ============================================================ */
+#loadingScreen {
+    background: #07050a !important;
+}
+
+#loadingScreen .border-b-2,
+#loadingScreen [class*="border-indigo"],
+#loadingScreen [class*="animate-spin"] {
+    border-color: #fb923c !important;
+    border-top-color: transparent !important;
+    border-bottom-color: #fb923c !important;
+}
+
+[data-theme="light"] #loadingScreen {
+    background: #fdf9f6 !important;
+}
+
+
+/* ============================================================
+   14. DETALLES EXTRA
+   ============================================================ */
+
+/* Tab content h2 text shadow */
+.tab-content h2 {
+    text-shadow: 0 2px 15px rgba(251, 146, 60, 0.15) !important;
+}
+
+/* Card h3 bottom border */
+.card-section h3 {
+    border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Header img border */
+header img {
+    border-color: rgba(251, 146, 60, 0.35) !important;
+    box-shadow: 0 0 20px rgba(251, 146, 60, 0.18) !important;
+}

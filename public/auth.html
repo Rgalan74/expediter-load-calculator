@@ -111,6 +111,29 @@
       border-color: var(--primary-cyan);
     }
   </style>
+
+  <link rel="stylesheet" href="css/ember-patch.css?v=2">
+
+  <!-- Meta Pixel Code -->
+  <script>
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+      n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1227322958231625');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1227322958231625&ev=PageView&noscript=1" /></noscript>
+  <!-- End Meta Pixel Code -->
+
 </head>
 
 <body class="bg-gray-900 text-white min-h-screen relative overflow-hidden">
@@ -250,6 +273,25 @@
     window.showToast = window.showToast || function (msg, type) {
       console.log('[TOAST]', type, msg);
     };
+
+    // ✅ Meta Pixel helper — seguro en cualquier contexto
+    function trackMeta(eventName, params) {
+      params = params || {};
+
+      const eventId = 'evt_' + Date.now();
+
+      if (typeof window.fbq === "function") {
+        window.fbq("track", eventName, params, { eventID: eventId });
+        console.log("✅ Meta event:", eventName, params, eventId);
+        return true;
+      }
+
+      console.warn("⚠️ fbq no está listo todavía");
+      return false;
+    }
+
+    // Exponer en window para que otros scripts (stripe-config.js, etc.) puedan usarlo
+    window.trackMeta = trackMeta;
   </script>
 
   <!-- Stripe + Plans para checkout directo desde auth -->
@@ -353,8 +395,7 @@
         const fullName = form.fullName.value.trim();
         const email = form.email.value.trim();
         const password = form.password.value.trim();
-        const phone = form.phone.value.trim();
-        const company = form.company.value.trim();
+        const phone = form.phone ? form.phone.value.trim() : '';
 
         console.log("📝 Attempting registration for:", email);
 
@@ -378,18 +419,27 @@
             fullName,
             email,
             phone,
-            company,
             suscripcionActiva: false,
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
 
           console.log("✅ User profile saved");
+
           showMessage("✅ Cuenta creada exitosamente, redirigiendo...", "success");
 
-          // Redirect after a short delay
+          // ✅ Disparar evento de registro exitoso
+          trackMeta("CompleteRegistration", {
+            method: "email",
+            value: 1.00,
+            currency: "USD"
+          });
+
+          // ✅ Esperar para que el evento salga antes del redirect
           setTimeout(() => {
             redirectAfterAuth();
-          }, 1500);
+          }, 2500);
+
+          return; // IMPORTANTÍSIMO para que no corra otro redirect viejo
         } catch (error) {
           console.error("❌ Error en registro:", error);
           showMessage("❌ " + formatFirebaseError(error), "error");
@@ -485,7 +535,10 @@
       }
 
       if (tabRegister) {
-        tabRegister.addEventListener("click", () => setActiveAuthTab("register"));
+        tabRegister.addEventListener("click", () => {
+          trackMeta("Lead", { source: "auth_tab_register" }); // 👤 Interés en registrarse
+          setActiveAuthTab("register");
+        });
       }
 
       // Establecer tab inicial

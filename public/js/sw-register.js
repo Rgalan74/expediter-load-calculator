@@ -1,28 +1,18 @@
 /**
  * sw-register.js
- * Registro del Service Worker TEMPORALMENTE DESACTIVADO
- * Para resolver problemas de caché persistente
+ * Registro del Service Worker — ACTIVO
  */
 
-// ========================================
-// SERVICE WORKER DESACTIVADO TEMPORALMENTE
-// ========================================
-
-debugLog('⚠️ Service Worker registration DISABLED for debugging');
-debugLog('   Los cambios se verán INMEDIATAMENTE sin caché');
-
-// Desregistrar cualquier Service Worker existente
+// Desregistrar versiones viejas primero para limpiar cache anterior
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations().then(function (registrations) {
         for (let registration of registrations) {
             registration.unregister();
-            debugLog('🗑️ Service Worker removed');
         }
     });
 }
 
-// CÓDIGO ORIGINAL COMENTADO - Reactivar después
-/*
+// Registrar Service Worker
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         registerServiceWorker();
@@ -43,13 +33,12 @@ async function registerServiceWorker() {
 
             newWorker.addEventListener('statechange', () => {
                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                    // Hay una nueva versión disponible
                     showUpdateNotification();
                 }
             });
         });
 
-        // Check for updates periodically (cada hora)
+        // Verificar actualizaciones cada hora
         setInterval(() => {
             registration.update();
         }, 60 * 60 * 1000);
@@ -60,8 +49,7 @@ async function registerServiceWorker() {
 }
 
 function showUpdateNotification() {
-    const message = '🎉 Nueva versión disponible! Actualizar ahora?';
-
+    const message = '🎉 Nueva versión disponible! ¿Actualizar ahora?';
     if (confirm(message)) {
         if (navigator.serviceWorker.controller) {
             navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
@@ -69,6 +57,5 @@ function showUpdateNotification() {
         window.location.reload();
     }
 }
-*/
 
-debugLog('📦 Service Worker registration script loaded (DISABLED MODE)');
+debugLog('📦 Service Worker registration script loaded');

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carrusel Instagram | Smart Load Solution</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #f97316;
+    --cyan: #00d9ff;
+    --dark: #050508;
+    --dark2: #0d0d18;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #1a1a2e;
+    padding: 2rem;
+    min-height: 100vh;
+  }
+
+  h1.page-title {
+    font-family: 'Syne', sans-serif;
+    color: white;
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+  }
+
+  .page-subtitle {
+    text-align: center;
+    color: #64748b;
+    font-size: 0.85rem;
+    margin-bottom: 2rem;
+  }
+
+  /* Navigation */
+  .nav {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .nav-btn {
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: transparent;
+    color: #94a3b8;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+
+  .nav-btn.active {
+    background: var(--orange);
+    border-color: var(--orange);
+    color: white;
+  }
+
+  /* Slide container - 1080x1080 Instagram square */
+  .slide-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .slide {
+    width: 540px;
+    height: 540px;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    display: none;
+    flex-direction: column;
+  }
+
+  .slide.active { display: flex; }
+
+  /* Hint */
+  .hint {
+    text-align: center;
+    color: #475569;
+    font-size: 0.8rem;
+  }
+
+  /* ===== SLIDE 1: Hook ===== */
+  .s1 {
+    background: var(--dark);
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+  }
+
+  .s1::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(0,217,255,0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(249,115,22,0.12) 0%, transparent 50%);
+  }
+
+  .s1-content { position: relative; z-index: 1; text-align: center; }
+
+  .s1-eyebrow {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    border: 1px solid rgba(0,217,255,0.3);
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+  }
+
+  .s1-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 5.5rem;
+    font-weight: 800;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--cyan), var(--orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+
+  .s1-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: white;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+
+  .s1-sub {
+    font-size: 0.85rem;
+    color: #64748b;
+    line-height: 1.5;
+  }
+
+  .s1-logo {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.05em;
+  }
+
+  .slide-counter {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.05em;
+  }
+
+  /* ===== SLIDE 2-6: Error slides ===== */
+  .s-error {
+    background: var(--dark2);
+    padding: 2.5rem;
+    justify-content: space-between;
+  }
+
+  .s-error::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 90% 10%, rgba(249,115,22,0.08) 0%, transparent 50%);
+  }
+
+  .error-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 6rem;
+    font-weight: 800;
+    line-height: 1;
+    color: rgba(255,255,255,0.04);
+    position: absolute;
+    right: 1.5rem;
+    top: 1rem;
+  }
+
+  .error-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 1rem;
+  }
+
+  .error-tag::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--orange);
+  }
+
+  .error-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: white;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .error-title .bad {
+    color: #f87171;
+    text-decoration: line-through;
+    text-decoration-color: rgba(248,113,113,0.5);
+  }
+
+  .error-desc {
+    font-size: 0.88rem;
+    color: #94a3b8;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+  }
+
+  .error-callout {
+    background: rgba(249,115,22,0.08);
+    border: 1px solid rgba(249,115,22,0.2);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    position: relative;
+    z-index: 1;
+  }
+
+  .callout-icon { font-size: 1.3rem; flex-shrink: 0; }
+
+  .callout-text {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: #cbd5e1;
+  }
+
+  .callout-text strong { color: var(--orange); }
+
+  .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--cyan), var(--orange));
+  }
+
+  /* ===== SLIDE 7: CTA ===== */
+  .s-cta {
+    background: var(--dark);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 3rem;
+  }
+
+  .s-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(249,115,22,0.18) 0%, transparent 60%);
+  }
+
+  .cta-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--orange), #ea580c);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: white;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-sub {
+    font-size: 0.88rem;
+    color: #94a3b8;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-url-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 0.9rem 1.5rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--cyan);
+    position: relative;
+    z-index: 1;
+    margin-bottom: 1.25rem;
+  }
+
+  .cta-proof {
+    font-size: 0.76rem;
+    color: #475569;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-proof span {
+    color: #64748b;
+    margin: 0 0.5rem;
+  }
+
+  .s-logo-bottom {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    z-index: 1;
+  }
+</style>
+</head>
+<body>
+
+<h1 class="page-title">📱 Carrusel Instagram — Smart Load Solution</h1>
+<p class="page-subtitle">Haz clic en cada slide para navegar · Captura pantalla para publicar</p>
+
+<div class="nav">
+  <button class="nav-btn active" onclick="showSlide(0)">Slide 1</button>
+  <button class="nav-btn" onclick="showSlide(1)">Slide 2</button>
+  <button class="nav-btn" onclick="showSlide(2)">Slide 3</button>
+  <button class="nav-btn" onclick="showSlide(3)">Slide 4</button>
+  <button class="nav-btn" onclick="showSlide(4)">Slide 5</button>
+  <button class="nav-btn" onclick="showSlide(5)">Slide 6</button>
+</div>
+
+<div class="slide-wrapper">
+
+  <!-- SLIDE 1: HOOK -->
+  <div class="slide s1 active" id="slide-0">
+    <div class="s1-content">
+      <div class="s1-eyebrow">Para transportistas serios</div>
+      <div class="s1-number">5</div>
+      <div class="s1-title">errores que te<br>están costando<br>dinero real 💸</div>
+      <div class="s1-sub">(y cómo evitarlos con datos)</div>
+    </div>
+    <div class="s1-logo">Smart Load Solution</div>
+    <div class="slide-counter">1 / 6</div>
+  </div>
+
+  <!-- SLIDE 2 -->
+  <div class="slide s-error" id="slide-1">
+    <div>
+      <div class="error-num">1</div>
+      <div class="error-tag">Error #1</div>
+      <div class="error-title">Aceptar cargas<br>sin calcular el<br><span class="bad">costo real</span></div>
+      <div class="error-desc">El precio que ves no es tu ganancia. Combustible, tiempo, desgaste del vehículo… la mayoría de transportistas no hace esa resta.</div>
+    </div>
+    <div class="error-callout">
+      <div class="callout-icon">⚡</div>
+      <div class="callout-text">
+        <strong>Smart Load calcula automáticamente</strong> el costo real por milla, antes de que aceptes la carga.
+      </div>
+    </div>
+    <div class="s1-logo">Smart Load Solution</div>
+    <div class="slide-counter">2 / 6</div>
+    <div class="bottom-bar"></div>
+  </div>
+
+  <!-- SLIDE 3 -->
+  <div class="slide s-error" id="slide-2">
+    <div>
+      <div class="error-num">2</div>
+      <div class="error-tag">Error #2</div>
+      <div class="error-title">No saber cuál<br>es tu punto de<br><span class="bad">equilibrio</span></div>
+      <div class="error-desc">Si no sabes cuánto necesitas ganar para cubrir tus gastos fijos, puedes estar trabajando todo el mes y terminar en cero.</div>
+    </div>
+    <div class="error-callout">
+      <div class="callout-icon">📊</div>
+      <div class="callout-text">
+        Con Smart Load ves en tiempo real <strong>si el mes va bien o mal</strong>, y cuántas cargas más necesitas para alcanzar tu meta.
+      </div>
+    </div>
+    <div class="s1-logo">Smart Load Solution</div>
+    <div class="slide-counter">3 / 6</div>
+    <div class="bottom-bar"></div>
+  </div>
+
+  <!-- SLIDE 4 -->
+  <div class="slide s-error" id="slide-3">
+    <div>
+      <div class="error-num">3</div>
+      <div class="error-tag">Error #3</div>
+      <div class="error-title">Perder horas en<br><span class="bad">papeleo</span> manual<br>cada semana</div>
+      <div class="error-desc">Registrar gastos en papel, cuadernos o Excel básico cuesta tiempo que podrías usar en más cargas o descanso.</div>
+    </div>
+    <div class="error-callout">
+      <div class="callout-icon">⏱️</div>
+      <div class="callout-text">
+        Smart Load automatiza el registro de gastos. <strong>Lo que antes tomaba 2 horas, ahora es instantáneo.</strong>
+      </div>
+    </div>
+    <div class="s1-logo">Smart Load Solution</div>
+    <div class="slide-counter">4 / 6</div>
+    <div class="bottom-bar"></div>
+  </div>
+
+  <!-- SLIDE 5 -->
+  <div class="slide s-error" id="slide-4">
+    <div>
+      <div class="error-num">4</div>
+      <div class="error-tag">Error #4</div>
+      <div class="error-title">Operar sin<br>historial de<br><span class="bad">rentabilidad</span></div>
+      <div class="error-desc">¿Fue mejor enero o marzo? ¿Qué tipo de carga te deja más? Sin datos históricos, solo estás adivinando.</div>
+    </div>
+    <div class="error-callout">
+      <div class="callout-icon">📈</div>
+      <div class="callout-text">
+        Smart Load guarda <strong>todo tu historial</strong> y te muestra tendencias para que tomes decisiones con evidencia, no intuición.
+      </div>
+    </div>
+    <div class="s1-logo">Smart Load Solution</div>
+    <div class="slide-counter">5 / 6</div>
+    <div class="bottom-bar"></div>
+  </div>
+
+  <!-- SLIDE 6: CTA -->
+  <div class="slide s-cta" id="slide-5">
+    <div class="cta-badge">🚀 Empieza hoy gratis</div>
+    <div class="cta-title">Deja de adivinar.<br>Empieza a<br>ganar más.</div>
+    <div class="cta-sub">
+      Únete a cientos de transportistas que ya toman mejores decisiones con datos reales.
+    </div>
+    <div class="cta-url-box">smartloadsolution.app</div>
+    <div class="cta-proof">
+      ✓ Sin tarjeta<span>·</span>✓ 50 cargas gratis<span>·</span>✓ &lt;2 min setup
+    </div>
+    <div class="s-logo-bottom">Smart Load Solution · @smartloadsolution</div>
+    <div class="slide-counter">6 / 6</div>
+  </div>
+
+</div>
+
+<p class="hint">← Navega los slides arriba · Dimensión real: 1080×1080px (multiplica ×2 para exportar)</p>
+
+<script>
+  function showSlide(idx) {
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('slide-' + idx).classList.add('active');
+    document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+  }
+</script>
+</body>
+</html>

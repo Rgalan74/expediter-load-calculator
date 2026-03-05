@@ -1,8 +1,8 @@
 // Service Worker for Expediter PWA
 // Version: 1.0.0
 
-const CACHE_NAME = 'expediter-v5.0.0';
-const RUNTIME_CACHE = 'expediter-runtime-v1';
+const CACHE_NAME = 'expediter-v5.1.0';
+const RUNTIME_CACHE = 'expediter-runtime-v2';
 
 // Assets to cache immediately on install
 const STATIC_ASSETS = [

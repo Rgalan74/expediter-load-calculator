@@ -1402,6 +1402,9 @@ window.closeLexZonesModal = function () {
     if (window.setLexState) window.setLexState('idle');
 };
 
+window.currentMarketNotes = [];
+window.marketNotesTypeFilter = 'ALL';
+
 // Cargar y mostrar todas las notas en el tab de Zonas
 async function loadMarketNotes() {
     const container = document.getElementById('marketNotesList');
@@ -1414,36 +1417,15 @@ async function loadMarketNotes() {
             .get();
 
         if (snap.empty) {
+            window.currentMarketNotes = [];
             container.innerHTML = '<p class="text-sm text-gray-500 text-center py-4">No tienes notas guardadas aún.</p>';
+            populateStatesDropdown();
             return;
         }
 
-        const typeBadge = {
-            destino: '<span class="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full">Destino</span>',
-            origen: '<span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">Origen</span>',
-            ambos: '<span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded-full">Ambos</span>',
-        };
-
-        container.innerHTML = snap.docs.map(doc => {
-            const d = doc.data();
-            const badge = typeBadge[d.type] || typeBadge['destino'];
-            return `
-        <div class="flex items-start justify-between bg-white border border-gray-200 rounded-lg p-3 gap-2">
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-2 flex-wrap mb-1">
-              <span class="font-medium text-sm text-gray-800">${d.destination || d.key}</span>
-              ${badge}
-            </div>
-            <p class="text-sm text-gray-600">${d.note}</p>
-          </div>
-          <div class="flex gap-2 shrink-0">
-            <button onclick="editMarketNote('${doc.id}', \`${d.note.replace(/`/g, "'")}\`)"
-              class="text-blue-500 hover:text-blue-700 text-xs">✏️</button>
-            <button onclick="deleteMarketNote('${doc.id}')"
-              class="text-red-400 hover:text-red-600 text-xs">🗑️</button>
-          </div>
-        </div>`;
-        }).join('');
+        window.currentMarketNotes = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        populateStatesDropdown();
+        renderMarketNotes();
 
     } catch (e) {
         console.error('Error cargando notas:', e);
@@ -1451,8 +1433,122 @@ async function loadMarketNotes() {
     }
 }
 
+function populateStatesDropdown() {
+    const select = document.getElementById('marketNotesStateFilter');
+    if (!select) return;
+
+    // Extract state from destination (e.g. "Miami, FL" -> "FL")
+    const states = new Set();
+    window.currentMarketNotes.forEach(note => {
+        const dest = note.destination || note.key || '';
+        const match = dest.match(/,\s*([A-Z]{2})/i);
+        if (match) {
+            states.add(match[1].toUpperCase());
+        }
+    });
+
+    const currentVal = select.value;
+    select.innerHTML = '<option value="ALL">Todos los Estados</option>';
+
+    Array.from(states).sort().forEach(state => {
+        const opt = document.createElement('option');
+        opt.value = state;
+        opt.textContent = state;
+        select.appendChild(opt);
+    });
+
+    if (states.has(currentVal)) {
+        select.value = currentVal;
+    }
+}
+
+window.setMarketNotesTypeFilter = function (type) {
+    window.marketNotesTypeFilter = type;
+
+    // Update button UI
+    ['ALL', 'origen', 'destino', 'ambos'].forEach(t => {
+        const btn = document.getElementById(`btnNotesType-${t}`);
+        if (btn) {
+            if (t === type) {
+                btn.className = "px-3 py-1 rounded-full font-medium transition-colors leading-none market-filter-pill-active";
+                btn.style.backgroundColor = "";
+            } else {
+                btn.className = "px-3 py-1 rounded-full font-medium transition-colors leading-none market-filter-pill";
+                btn.style.backgroundColor = "";
+            }
+        }
+    });
+
+    renderMarketNotes();
+}
+
+window.renderMarketNotes = function () {
+    const container = document.getElementById('marketNotesList');
+    if (!container) return;
+
+    if (window.currentMarketNotes.length === 0) {
+        container.innerHTML = '<p class="text-sm text-gray-500 text-center py-4">No tienes notas guardadas aún.</p>';
+        return;
+    }
+
+    const searchInput = document.getElementById('marketNotesSearch')?.value.toLowerCase() || '';
+    const stateFilter = document.getElementById('marketNotesStateFilter')?.value || 'ALL';
+    const typeFilter = window.marketNotesTypeFilter || 'ALL';
+
+    const typeBadge = {
+        destino: '<span class="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full">Destino</span>',
+        origen: '<span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">Origen</span>',
+        ambos: '<span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded-full">Ambos</span>',
+    };
+
+    let filtered = window.currentMarketNotes.filter(d => {
+        // Search Filter
+        const searchable = `${d.destination || ''} ${d.key || ''} ${d.note || ''}`.toLowerCase();
+        if (searchInput && !searchable.includes(searchInput)) return false;
+
+        // Type Filter
+        if (typeFilter !== 'ALL' && d.type !== typeFilter) return false;
+
+        // State Filter
+        if (stateFilter !== 'ALL') {
+            const dest = d.destination || d.key || '';
+            const match = dest.match(/,\s*([A-Z]{2})/i);
+            const state = match ? match[1].toUpperCase() : '';
+            if (state !== stateFilter) return false;
+        }
+
+        return true;
+    });
+
+    if (filtered.length === 0) {
+        container.innerHTML = '<p class="text-sm text-gray-500 text-center py-4">No hay notas que coincidan con los filtros.</p>';
+        return;
+    }
+
+    container.innerHTML = filtered.map(d => {
+        const badge = typeBadge[d.type] || typeBadge['destino'];
+        return `
+        <div class="flex items-start justify-between bg-white border border-gray-200 rounded-lg p-3 gap-2">
+            <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 flex-wrap mb-1">
+                <span class="font-medium text-sm text-gray-800">${d.destination || d.key}</span>
+                ${badge}
+            </div>
+            <p class="text-sm text-gray-600">${d.note}</p>
+            </div>
+            <div class="flex gap-2 shrink-0">
+            <button onclick="editMarketNote('${d.id}', \`${(d.note || '').replace(/`/g, "'")}\`)"
+                class="text-blue-500 hover:text-blue-700 text-xs">✏️</button>
+            <button onclick="deleteMarketNote('${d.id}')"
+                class="text-red-400 hover:text-red-600 text-xs">🗑️</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
 // Guardar nota desde el tab de Zonas
 async function saveMarketNote() {
+    console.log(" [ZONES] saveMarketNote triggered");
     const input = document.getElementById('noteZoneInput');
     const textarea = document.getElementById('noteZoneText');
     const type = document.getElementById('noteZoneType');
@@ -1466,6 +1562,7 @@ async function saveMarketNote() {
     if (!window.currentUser) return alert('Debes iniciar sesión');
 
     try {
+        console.log(" [ZONES] Attempting to save note to Firestore:", { destination, note, noteType, uid: window.currentUser.uid });
         await firebase.firestore().collection('notes').add({
             userId: window.currentUser.uid,
             key: destination.toLowerCase().replace(/,.*$/, '').trim(),
@@ -1475,12 +1572,14 @@ async function saveMarketNote() {
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
+        console.log(" [ZONES] Note saved successfully");
         input.value = '';
         textarea.value = '';
         loadMarketNotes();
     } catch (e) {
-        console.error('Error guardando nota:', e);
-        alert('Error guardando la nota');
+        console.error(' [ZONES] CRITICAL Error guardando nota:', e);
+        console.trace(e);
+        alert('Error guardando la nota: ' + e.message);
     }
 }
 

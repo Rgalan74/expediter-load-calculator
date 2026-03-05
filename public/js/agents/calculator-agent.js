@@ -134,11 +134,9 @@ class CalculatorAgent extends AgentBase {
     };
   }
 
-  // Detectar trap load
+  // Detectar si el destino es historicamente dificil para ESTE usuario
+  // No usa zonas hardcodeadas — usa historial real del usuario
   detectTrap(originState, destState, miles, rpm) {
-    const trapZones = ['NV', 'CA', 'FL'];
-    const goodZones = ['IL', 'IN', 'OH', 'KY', 'TN', 'IA', 'MO'];
-
     const analysis = {
       isTrap: false,
       level: 'NORMAL',
@@ -146,25 +144,25 @@ class CalculatorAgent extends AgentBase {
       minimumRPM: null
     };
 
-    // Caso 1: Midwest → Trap
-    if (goodZones.includes(originState) && trapZones.includes(destState)) {
-      analysis.isTrap = true;
-      analysis.level = 'TRAMPA';
-      analysis.warning = `⚠️ Zona trampa: ${originState} → ${destState}`;
-      analysis.minimumRPM = 1.25;
-    }
-    // Caso 2: Dentro de trap
-    else if (trapZones.includes(destState)) {
-      analysis.isTrap = true;
-      analysis.level = 'EVALUAR';
-      analysis.warning = `⚠️ ${destState} tiene pocas salidas`;
-      analysis.minimumRPM = 1.05;
-    }
+    try {
+      const stateStats = window._userStateStats || {};
+      const userCPM = window._userCPM || 0;
+
+      if (destState && stateStats[destState] && stateStats[destState].loads >= 2) {
+        const stats = stateStats[destState];
+        // Dificil para este usuario si su RPM historico alli esta cerca del CPM
+        if (userCPM > 0 && stats.avgRPM < userCPM * 1.10) {
+          analysis.isTrap = true;
+          analysis.level = 'EVALUAR';
+          analysis.warning = `⚠️ ${destState}: tu RPM historico alli es bajo ($${stats.avgRPM.toFixed(3)}/mi en ${stats.loads} cargas)`;
+        }
+      }
+    } catch (e) { /* sin datos de historial */ }
 
     return analysis;
   }
 
-  // Generar recomendación
+  // Generar recomendacion — user-agnostic
   generateRecommendation(ctx) {
     const { metrics, trap, profile } = ctx;
 
@@ -175,49 +173,64 @@ class CalculatorAgent extends AgentBase {
       alternatives: []
     };
 
-    const minSafe = profile?.minSafeRPM || 0.85;
-    const target = profile?.targetRPM || 1.0;
+    // Thresholds calculados desde datos reales del usuario
+    const cpm = metrics.cpm;
+    const avgRPM = profile?.avgRPM || 0;
+    const targetProfitPct = profile?.targetProfitPct || 0.20;
 
-    // Lógica de decisión
-    if (trap.isTrap && metrics.rpm < trap.minimumRPM) {
+    const targetRPM_margen = cpm > 0 ? cpm / (1 - targetProfitPct) : cpm * 1.20;
+    const acceptThreshold = avgRPM > 0 ? Math.max(targetRPM_margen, avgRPM) : targetRPM_margen;
+    const midThreshold = avgRPM > 0 ? Math.min(targetRPM_margen, avgRPM) : targetRPM_margen;
+
+    const rpm = metrics.rpm;
+
+    if (rpm < cpm) {
       decision.action = 'RECHAZA';
       decision.level = 'reject';
-      decision.reasons.push(trap.warning);
-      decision.reasons.push(`RPM $${metrics.rpm.toFixed(2)} < Mínimo $${trap.minimumRPM}`);
-    }
-    else if (metrics.rpm < minSafe) {
-      decision.action = 'RECHAZA';
-      decision.level = 'reject';
-      decision.reasons.push(`RPM $${metrics.rpm.toFixed(2)} debajo del costo`);
-    }
-    else if (metrics.rpm >= target) {
+      const perdida = ((cpm - rpm) * 100).toFixed(1);
+      decision.reasons.push(`Pierdes $${perdida}/100mi — RPM no cubre tu costo`);
+
+    } else if (rpm >= acceptThreshold) {
       decision.action = 'ACEPTA';
       decision.level = 'accept';
-      decision.reasons.push(`Excelente RPM $${metrics.rpm.toFixed(2)}`);
-      decision.reasons.push(`Ganancia: $${metrics.profit.toFixed(0)}`);
-    }
-    else {
-      decision.action = 'EVALUA';
-      decision.level = 'warning';
-      decision.reasons.push(`RPM aceptable $${metrics.rpm.toFixed(2)}`);
-      if (trap.isTrap) decision.reasons.push(trap.warning);
+      const margenReal = (((rpm - cpm) / rpm) * 100).toFixed(1);
+      const ganancia = ((rpm - cpm) * 100).toFixed(0);
+      decision.reasons.push(`Margen ${margenReal}% — ganas $${ganancia}/100mi`);
+      decision.reasons.push(`Ganancia total: $${metrics.profit.toFixed(0)}`);
+
+    } else if (rpm >= midThreshold) {
+      decision.action = 'CASI ACEPTA';
+      decision.level = 'warning-high';
+      const margenReal = (((rpm - cpm) / rpm) * 100).toFixed(1);
+      const falta = ((acceptThreshold - rpm) * 100).toFixed(1);
+      decision.reasons.push(`Margen ${margenReal}% — faltan $${falta}¢/100mi para tu objetivo`);
+
+    } else {
+      decision.action = 'EVALUA CON CUIDADO';
+      decision.level = 'warning-low';
+      const margenReal = (((rpm - cpm) / rpm) * 100).toFixed(1);
+      decision.reasons.push(`Margen ${margenReal}% — debajo de tu umbral minimo`);
     }
 
-    // Comparación histórica si hay diferencia significativa
-    // Va FUERA del if/else — se ejecuta siempre después de la decisión
+    // Contexto del estado si hay historial — solo informa
+    if (trap.isTrap && trap.warning) {
+      decision.reasons.push(trap.warning);
+    }
+
+    // Comparacion historica de costos
     if (metrics.historicalCPM && Math.abs(metrics.cpm - metrics.historicalCPM) > 0.02) {
       const trend = metrics.cpm > metrics.historicalCPM ? '📈 Costos subieron' : '📉 Costos bajaron';
-      decision.reasons.push(`${trend} vs historial ($${metrics.historicalCPM.toFixed(3)}/mi)`);
+      decision.reasons.push(`${trend} vs historico ($${metrics.historicalCPM.toFixed(3)}/mi)`);
     }
 
-    // Contraoferta
-    if (metrics.rpm < target && metrics.rpm >= minSafe) {
-      const counterRate = target * ctx.loadData.totalMiles;
+    // Contraoferta — siempre hacia el acceptThreshold
+    if (rpm < acceptThreshold && rpm >= cpm) {
+      const counterRate = acceptThreshold * ctx.loadData.totalMiles;
       decision.alternatives.push({
         type: 'COUNTER_OFFER',
         value: counterRate,
-        rpm: target,
-        message: `Contraofertar $${counterRate.toFixed(0)}`
+        rpm: acceptThreshold,
+        message: `Contraofertar $${counterRate.toFixed(0)} ($${acceptThreshold.toFixed(3)}/mi)`
       });
     }
 

@@ -102,6 +102,16 @@ async function createCheckoutSession(planId) {
         return;
     }
 
+    // ✅ META PIXEL: Intención de pago confirmada
+    if (typeof window.trackMeta === 'function') {
+        const planData = window.PLANS && window.PLANS[planId];
+        window.trackMeta('InitiateCheckout', {
+            value: planData ? planData.price : 0,
+            currency: 'USD',
+            plan: planId
+        });
+    }
+
     try {
         if (typeof showToast === 'function') showToast('Iniciando sesión de pago...', 'info');
 
@@ -163,6 +173,18 @@ async function handleCheckoutResult() {
 
     if (sessionId) {
         showToast('¡Suscripción activada exitosamente! 🎉', 'success');
+
+        // ✅ META PIXEL: Purchase browser-side (fallback del webhook server-side)
+        // event_id = sessionId → Meta deduplica automáticamente con el evento server-side
+        if (typeof window.trackMeta === 'function') {
+            window.trackMeta('Purchase', {
+                currency: 'USD',
+                value: 0  // el server-side ya manda el valor real; este es solo fallback
+            });
+        } else if (typeof window.fbq === 'function') {
+            // Fallback si trackMeta no está disponible (ej. usuario llegó directo a app.html)
+            window.fbq('track', 'Purchase', { currency: 'USD', value: 0 }, { eventID: sessionId });
+        }
 
         // Limpiar URL
         window.history.replaceState({}, document.title, '/app.html');

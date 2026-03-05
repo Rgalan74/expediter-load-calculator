@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flyer WhatsApp | Smart Load Solution</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #111827;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  .hint {
+    color: #4b5563;
+    font-size: 0.8rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  /* Flyer: 1080x1920 aspect = 9:16 */
+  .flyer {
+    width: 405px;
+    height: 720px;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #050508;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Background effects */
+  .flyer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 100% 50% at 50% -10%, rgba(0,217,255,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 60% at 80% 110%, rgba(249,115,22,0.2) 0%, transparent 60%),
+      linear-gradient(180deg, #050508 0%, #0a0512 100%);
+    z-index: 0;
+  }
+
+  /* Grid pattern */
+  .flyer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: 0;
+  }
+
+  .flyer-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 2rem;
+  }
+
+  /* Top bar */
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  .logo-mark {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .logo-icon {
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, #00d9ff, #f97316);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+  }
+
+  .logo-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: -0.01em;
+  }
+
+  .free-badge {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border-radius: 100px;
+  }
+
+  /* Hero area */
+  .hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .eyebrow {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #00d9ff;
+    margin-bottom: 1rem;
+  }
+
+  .main-headline {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 800;
+    line-height: 1.05;
+    color: white;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.03em;
+  }
+
+  .main-headline .accent {
+    background: linear-gradient(90deg, #00d9ff, #f97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subheadline {
+    font-size: 0.88rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Stats row */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .stat-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 0.75rem 0.5rem;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    background: linear-gradient(90deg, #00d9ff, #f97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.6rem;
+    color: #475569;
+    margin-top: 0.2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Features */
+  .features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.82rem;
+    color: #cbd5e1;
+  }
+
+  .feat-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    background: rgba(0,217,255,0.08);
+    border: 1px solid rgba(0,217,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+
+  /* Bottom CTA */
+  .bottom-cta {
+    background: linear-gradient(135deg, rgba(249,115,22,0.15), rgba(249,115,22,0.05));
+    border: 1px solid rgba(249,115,22,0.25);
+    border-radius: 14px;
+    padding: 1.2rem;
+    text-align: center;
+  }
+
+  .cta-main {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 0.4rem;
+  }
+
+  .cta-url {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #f97316;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .cta-trust {
+    font-size: 0.65rem;
+    color: #475569;
+    letter-spacing: 0.05em;
+  }
+
+  /* Decorative orb */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<p class="hint">📱 Flyer para WhatsApp · Tamaño optimizado para historias y grupos</p>
+
+<div class="flyer">
+  <div class="flyer-inner">
+
+    <!-- Top bar -->
+    <div class="top-bar">
+      <div class="logo-mark">
+        <div class="logo-icon">🚛</div>
+        <div class="logo-name">Smart Load Solution</div>
+      </div>
+      <div class="free-badge">Gratis</div>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="eyebrow">📊 Herramienta para transportistas</div>
+
+      <div class="main-headline">
+        Toma mejores<br>decisiones.<br><span class="accent">Gana más dinero.</span>
+      </div>
+
+      <div class="subheadline">
+        La app que analiza tus cargas en tiempo real y te dice exactamente cuáles aceptar para maximizar tu rentabilidad.
+      </div>
+
+      <!-- Stats -->
+      <div class="stats">
+        <div class="stat-box">
+          <div class="stat-num">+22%</div>
+          <div class="stat-label">ganancia</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">-5hrs</div>
+          <div class="stat-label">papeleo/sem</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">50</div>
+          <div class="stat-label">cargas gratis</div>
+        </div>
+      </div>
+
+      <!-- Features -->
+      <div class="features">
+        <div class="feature-item">
+          <div class="feat-icon">⚡</div>
+          Análisis instantáneo de costo real por carga
+        </div>
+        <div class="feature-item">
+          <div class="feat-icon">📈</div>
+          Dashboard de rentabilidad y gastos
+        </div>
+        <div class="feature-item">
+          <div class="feat-icon">🤖</div>
+          Lex AI — tu copiloto de negocio 24/7
+        </div>
+        <div class="feature-item">
+          <div class="feat-icon">📋</div>
+          Historial completo y reportes automáticos
+        </div>
+      </div>
+
+      <!-- CTA Box -->
+      <div class="bottom-cta">
+        <div class="cta-main">🚀 Empieza hoy gratis</div>
+        <div class="cta-url">smartloadsolution.app</div>
+        <div class="cta-trust">SIN TARJETA · SETUP EN &lt;2 MIN · CANCELA CUANDO QUIERAS</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
