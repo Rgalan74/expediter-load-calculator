@@ -17,7 +17,9 @@ const PLANS = {
             canExportAdvanced: false,
             hasLex: false,
             historyDays: 30,
-            hasTaxReports: false
+            hasTaxReports: false,
+            hasAcademy: true,
+            academyModules: [0, 1, 2, 3]
         },
         features: [
             '30 cargas guardadas',
@@ -39,7 +41,9 @@ const PLANS = {
             canExportAdvanced: true,
             hasLex: false,
             historyDays: 90,
-            hasTaxReports: false
+            hasTaxReports: false,
+            hasAcademy: true,
+            academyModules: [0, 1, 2, 3, 4, 5, 6]
         },
         features: [
             'Cargas ilimitadas',
@@ -64,7 +68,9 @@ const PLANS = {
             hasLex: true,
             historyDays: -1,
             hasTaxReports: true,
-            hasPrioritySupport: true
+            hasPrioritySupport: true,
+            hasAcademy: true,
+            academyModules: [0, 1, 2, 3, 4, 5, 6, 7, 8]
         },
         features: [
             'Todo lo del plan Professional',
@@ -90,7 +96,9 @@ const PLANS = {
             historyDays: -1,
             hasTaxReports: true,
             hasPrioritySupport: true,
-            isAdmin: true
+            isAdmin: true,
+            hasAcademy: true,
+            academyModules: [0, 1, 2, 3, 4, 5, 6, 7, 8]
         }
     }
 };
@@ -104,8 +112,11 @@ async function getUserPlan(userId) {
 
         if (userDoc.exists) {
             const userData = userDoc.data();
-            const planId = userData.plan || 'free';
-            const planData = PLANS[planId];
+            let planId = userData.plan || 'free';
+            if (userData.role === 'admin') {
+                planId = 'admin';
+            }
+            const planData = PLANS[planId] || PLANS.free;
 
             return {
                 ...planData,

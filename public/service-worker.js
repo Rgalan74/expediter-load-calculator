@@ -4,7 +4,7 @@
  * Version: 1.0.0
  */
 
-const CACHE_NAME = 'smartload-v1.0.14';
+const CACHE_NAME = 'smartload-v1.0.15'; // Bumped for chrome-extension fix
 
 // Archivos esenciales para funcionar offline
 const CORE_ASSETS = [
@@ -57,8 +57,9 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
-  // Firebase, Stripe, APIs externas - siempre red
+  // Firebase, Stripe, APIs externas, y esquemas no-HTTP - siempre red
   if (
+    !url.protocol.startsWith('http') ||
     url.hostname.includes('firebase') ||
     url.hostname.includes('firestore') ||
     url.hostname.includes('googleapis') ||

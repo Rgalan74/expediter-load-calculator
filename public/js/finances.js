@@ -233,12 +233,29 @@ function normalizeDate(d, mode = "month") {
 // ========================================
 /*
 // loadFinancesData - NOW IN finances-data.js (as loadFinancialData)
-async function loadFinancesData(period = "all") {
+async function loadFinancesData(period = "all", forceReload = false) {
   if (!window.currentUser) {
     console.error(" No hay usuario autenticado");
     return;
   }
   const uid = window.currentUser.uid;
+
+  // --- CACHE: si ya cargamos datos y no forzamos recarga, filtrar en memoria ---
+  if (!forceReload && window.financesLoaded &&
+      Array.isArray(window._allFinancesRaw) && Array.isArray(window._allExpensesRaw)) {
+    debugLog('[FINANCES] Usando cache en memoria (sin Firestore)');
+    const filteredLoads = period === 'all'
+      ? window._allFinancesRaw
+      : window._allFinancesRaw.filter(l => l.date.startsWith(period));
+    const filteredExpenses = period === 'all'
+      ? window._allExpensesRaw
+      : window._allExpensesRaw.filter(e => e.date.startsWith(period));
+    window.financesData = filteredLoads;
+    window.expensesData = filteredExpenses;
+    window.currentFinancesData = { loads: filteredLoads, expenses: filteredExpenses };
+    const kpis = calculateKPIs(filteredLoads, filteredExpenses);
+    return { kpis, expenses: filteredExpenses, loads: filteredLoads };
+  }
 
   // === 1. Cargas ===
   const loadSnapshot = await window.db
@@ -293,10 +310,14 @@ async function loadFinancesData(period = "all") {
     };
   });
 
+  // Guardar copia completa para cache
+  window._allFinancesRaw = window.financesData;
+  window._allExpensesRaw = window.expensesData;
+
   debugLog(" Loads guardadas en memoria:", window.financesData.length);
   debugLog(" Expenses guardadas en memoria:", window.expensesData.length);
 
-  // === 3. Filtrar por perodo (si aplica) ===
+  // === 3. Filtrar por período (si aplica) ===
   const filteredLoads = (period === "all")
     ? window.financesData
     : window.financesData.filter(l => l.date.startsWith(period));
@@ -308,7 +329,11 @@ async function loadFinancesData(period = "all") {
   // === 4. Calcular KPIs ===
   const kpis = calculateKPIs(filteredLoads, filteredExpenses);
 
-  // === 5. Devolver datos para usar en .then() ===
+  // === 5. Actualizar cache y flags ===
+  window.financesLoaded = true;
+  window.currentFinancesData = { loads: filteredLoads, expenses: filteredExpenses };
+
+  // === 6. Devolver datos para usar en .then() ===
   return {
     kpis,
     expenses: filteredExpenses,
@@ -768,7 +793,7 @@ async function saveExpenseToFirebase() {
 
     if (modal) modal.dataset.editId = ""; // reset
     closeExpenseModal();
-    loadFinancesData();
+    loadFinancesData('all', true); // forceReload: gasto guardado, invalidar cache
   } catch (error) {
     debugFinances(" Error guardando gasto:", error);
     showFinancesMessage(" No se pudo guardar el gasto", "error");
@@ -796,7 +821,7 @@ async function deleteExpense(id) {
     if (window.showToast) {
       showToast('✅ Gasto eliminado exitosamente', 'success');
     }
-    loadFinancesData();
+    loadFinancesData('all', true); // forceReload: gasto eliminado, invalidar cache
   } catch (error) {
     debugFinances(" Error al eliminar gasto:", error);
     showFinancesMessage(" No se pudo eliminar el gasto", "error");
