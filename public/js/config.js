@@ -99,9 +99,9 @@ function trackEvent(eventName, params = {}) {
     userId: window.currentUser?.uid || 'anonymous'
   };
 
-  if (analytics) {
+  if (window.analytics) {
     try {
-      analytics.logEvent(eventName, enrichedParams);
+      window.analytics.logEvent(eventName, enrichedParams);
       debugLog('📊 Analytics:', eventName, enrichedParams);
     } catch (error) {
       debugLog('📊 Event (fallback):', eventName, enrichedParams);
@@ -330,12 +330,18 @@ function showAppContent() {
   debugLog("🖥️ Mostrando contenido de la app...");
 
   // Esperar a que los elementos estén disponibles
+  let attempts = 0;
   const waitForElements = () => {
+    attempts++;
     const loadingScreen = document.getElementById('loadingScreen');
     const loginScreen = document.getElementById('loginScreen');
     const appContent = document.getElementById('appContent');
 
     if (!appContent) {
+      if (attempts > 50) {
+        debugLog("⏩ Timeout esperando appContent (posible standalone page).");
+        return;
+      }
       debugLog("⏳ Esperando elementos DOM...");
       setTimeout(waitForElements, 50);
       return;
@@ -360,12 +366,18 @@ function showAppContent() {
 function showLoginScreen() {
   debugLog("🔒 Mostrando pantalla de login...");
 
+  let attempts = 0;
   const waitForElements = () => {
+    attempts++;
     const loadingScreen = document.getElementById('loadingScreen');
     const loginScreen = document.getElementById('loginScreen');
     const appContent = document.getElementById('appContent');
 
     if (!loginScreen) {
+      if (attempts > 50) {
+        debugLog("⏩ Timeout esperando loginScreen (posible standalone page).");
+        return;
+      }
       setTimeout(waitForElements, 50);
       return;
     }

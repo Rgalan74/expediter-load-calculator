@@ -779,6 +779,7 @@ async function saveEditedLoad() {
       totalExpenses,
       netProfit,
       profit: netProfit,
+      profitPerMile: totalMiles > 0 ? netProfit / totalMiles : 0,
       profitMargin,
       companyName,
       notes,

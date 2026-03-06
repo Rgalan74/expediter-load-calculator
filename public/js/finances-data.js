@@ -149,12 +149,26 @@ function filterByPeriod(items, period) {
  * @param {string} period - Period filter ('all', 'YYYY', or 'YYYY-MM')
  * @returns {Promise<Object>} {loads, expenses, kpis}
  */
-async function loadFinancialData(period = "all") {
+async function loadFinancialData(period = "all", forceReload = false) {
     if (!window.currentUser) {
         throw new Error("Usuario no autenticado");
     }
 
     const uid = window.currentUser.uid;
+
+    // --- CACHE: reutilizar datos en memoria si ya se cargaron ---
+    if (!forceReload && window.financesLoaded &&
+        Array.isArray(window._allFinancesRaw) && Array.isArray(window._allExpensesRaw)) {
+        debugFinances('[FINANCES] Cache hit — sin Firestore');
+        const filteredLoads = filterByPeriod(window._allFinancesRaw, period);
+        const filteredExpenses = filterByPeriod(window._allExpensesRaw, period);
+        window.financesData = filteredLoads;
+        window.expensesData = filteredExpenses;
+        window.currentFinancesData = { loads: filteredLoads, expenses: filteredExpenses };
+        const kpis = calculateKPIs(filteredLoads, filteredExpenses);
+        return { loads: filteredLoads, expenses: filteredExpenses, kpis };
+    }
+
     debugFinances("🔄 Cargando TODOS los datos sin filtrar...");
 
     try {
@@ -177,6 +191,10 @@ async function loadFinancialData(period = "all") {
 
         allExpensesData = expenseSnapshot.docs.map(doc => processExpenseDocument(doc));
 
+        // Guardar copia raw para cache
+        window._allFinancesRaw = allFinancesData;
+        window._allExpensesRaw = allExpensesData;
+
         // Filter by period
         const filteredLoads = filterByPeriod(allFinancesData, period);
         const filteredExpenses = filterByPeriod(allExpensesData, period);
@@ -186,6 +204,10 @@ async function loadFinancialData(period = "all") {
         window.expensesData = filteredExpenses;
         window.allFinancesData = allFinancesData;
         window.allExpensesData = allExpensesData;
+
+        // Marcar como cargado y guardar referencia del período actual
+        window.financesLoaded = true;
+        window.currentFinancesData = { loads: filteredLoads, expenses: filteredExpenses };
 
         debugFinances(`✅ Datos cargados: ${filteredLoads.length} cargas, ${filteredExpenses.length} gastos`);
         debugFinances(`📊 Cargas con actualPaymentDate: ${allFinancesData.filter(load => load.actualPaymentDate).length}`);
@@ -214,9 +236,9 @@ async function loadFinancialData(period = "all") {
  * @deprecated Use loadFinancialData instead
  * Kept for backward compatibility
  */
-async function loadFinancesData(period = "all") {
+async function loadFinancesData(period = "all", forceReload = false) {
     debugFinances("⚠️ loadFinancesData is deprecated, using loadFinancialData");
-    return await loadFinancialData(period);
+    return await loadFinancialData(period, forceReload);
 }
 
 // ============================

@@ -338,8 +338,72 @@
         </div>
     </section>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/userPlans.js"></script>
     <script src="academy/js/academy.js"></script>
+
     <script>
+        // === AUTH GUARD + PLAN GATE ===
+        firebase.auth().onAuthStateChanged(async (user) => {
+            if (!user) {
+                // Modo sin login (Módulos 1-3 libres, progreso en localStorage)
+                debugLog('[ACADEMY] Usuario invitado. Activando modo local.');
+                // Redirigir módulos premium a login si no están logueados
+                document.querySelectorAll('.module-card.locked .btn-module').forEach(btn => {
+                    btn.href = 'auth.html?redirect=academy.html';
+                    btn.textContent = 'Inicia sesión para ver →';
+                });
+                AcademyProgress.setUser(null);
+                AcademyProgress.init();
+                return;
+            }
+
+            // Obtener plan del usuario
+            let plan;
+            try {
+                plan = await getUserPlan(user.uid);
+            } catch (e) {
+                console.error('[ACADEMY] Error obteniendo plan:', e);
+                plan = window.PLANS.free;
+            }
+
+            const allowedModules = plan.limits?.academyModules || [0, 1, 2, 3];
+
+            // Desbloquear dinámicamente los módulos del plan
+            document.querySelectorAll('.module-card.locked').forEach(card => {
+                const numEl = card.querySelector('.module-number');
+                if (!numEl) return;
+                const moduleNum = parseInt(numEl.textContent.replace('Módulo', '').trim());
+                if (isNaN(moduleNum)) return;
+
+                if (allowedModules.includes(moduleNum)) {
+                    // Desbloquear visualmente
+                    card.classList.remove('locked');
+                    card.querySelector('.locked-overlay')?.remove();
+                    const badge = card.querySelector('.module-badge');
+                    if (badge) {
+                        badge.textContent = 'Pro';
+                        badge.classList.remove('locked', 'premium');
+                        badge.classList.add('professional');
+                    }
+                    const btn = card.querySelector('.btn-module');
+                    if (btn) {
+                        btn.classList.remove('locked');
+                        btn.href = `academy/module-${moduleNum}/`;
+                        btn.textContent = 'Empezar →';
+                    }
+                }
+            });
+
+            // Inicializar progreso con Firebase
+            AcademyProgress.setUser(user.uid);
+            AcademyProgress.init();
+        });
+
         // Mobile menu toggle
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         if (mobileMenuBtn) {
