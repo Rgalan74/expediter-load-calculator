@@ -420,14 +420,15 @@
 
           <!-- Theme Toggle - Minimalista en mobile -->
           <button class="md:hidden p-0 focus:outline-none text-2xl leading-none mr-1 theme-toggle-mobile"
-            onclick="window.themeManager?.toggle()" aria-label="Toggle Theme">
+            style="display:none;" onclick="window.themeManager?.toggle()" aria-label="Toggle Theme">
             <span class="theme-toggle-icon">☀️</span>
           </button>
 
           <!-- Theme Toggle - Desktop -->
           <button
             class="hidden md:flex theme-toggle-btn w-9 h-9 items-center justify-center rounded-md transition-colors hover:bg-white/10"
-            onclick="window.themeManager?.toggle()" aria-label="Toggle Theme" title="Cambiar Tema">
+            style="display:none;" onclick="window.themeManager?.toggle()" aria-label="Toggle Theme"
+            title="Cambiar Tema">
             <span class="theme-toggle-icon text-lg leading-none">☀️</span>
           </button>
 
@@ -593,7 +594,8 @@
 
         <!-- Tema Toggle Mobile -->
         <button
-          class="theme-toggle-btn w-full text-left px-3 py-2 rounded-md hover:bg-gray-100 transition-colors flex items-center justify-between group">
+          class="theme-toggle-btn w-full text-left px-3 py-2 rounded-md hover:bg-gray-100 transition-colors flex items-center justify-between group"
+          style="display:none;">
           <span class="font-medium">🌓 Cambiar Tema</span>
           <span
             class="theme-toggle-icon text-xl bg-gray-100 group-hover:bg-white rounded-full w-8 h-8 flex items-center justify-center">☀️</span>
