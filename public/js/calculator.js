@@ -1257,6 +1257,14 @@ function showDecisionPanel(calculationData = {}) {
 
   debugLog(`✅ Panel mostrado: ${decision} - RPM $${actualRPM.toFixed(2)}/mi - Ganancia $${Math.round(netProfit)}`);
 
+  // ========== ANALIZAR CON LEX AUTOMÁTICAMENTE ==========
+  if (typeof window.analyzeLexLoad === 'function') {
+    setTimeout(() => {
+      debugLog("[LEX] Ejecutando análisis automático al mostrar panel...");
+      window.analyzeLexLoad();
+    }, 500); // Pequeño delay para que la UI respire
+  }
+
   // ========== NOTAS + HISTORIAL + DÍA ==========
   (async () => {
     try {
