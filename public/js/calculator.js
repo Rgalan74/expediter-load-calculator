@@ -1255,6 +1255,20 @@ function showDecisionPanel(calculationData = {}) {
     decisionPanel.style.setProperty('transform', 'scale(1.01)', 'important');
   }, 150);
 
+  // Centrar y colorear sección de Ganancia Neta
+  setTimeout(() => {
+    const profit = document.querySelector('#decisionPanel #profitSection') || document.querySelector('#profitSection');
+    if (!profit) return;
+    profit.style.setProperty('display', 'flex', 'important');
+    profit.style.setProperty('flex-direction', 'column', 'important');
+    profit.style.setProperty('justify-content', 'center', 'important');
+    profit.querySelectorAll('*').forEach(el => {
+      el.style.setProperty('color', '#ffffff', 'important');
+    });
+    const amount = profit.querySelector('#netProfit');
+    if (amount) amount.style.setProperty('color', '#FFD700', 'important');
+  }, 200);
+
   debugLog(`✅ Panel mostrado: ${decision} - RPM $${actualRPM.toFixed(2)}/mi - Ganancia $${Math.round(netProfit)}`);
 
   // ========== ANALIZAR CON LEX AUTOMÁTICAMENTE ==========
