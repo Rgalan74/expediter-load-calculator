@@ -30,10 +30,10 @@
   --brand-green-border: rgba(163, 230, 53, 0.22);
 
   /* --- FONDOS --- */
-  --theme-bg-page: #07050a;
+  --theme-bg-page: #030308;
   --theme-bg-secondary: #0d0a10;
-  --theme-bg-card: rgba(20, 15, 25, 0.88);
-  --theme-bg-card-solid: #141020;
+  --theme-bg-card: rgba(22, 20, 38, 1);
+  --theme-bg-card-solid: #16143a;
   --theme-bg-card-hover: rgba(28, 20, 34, 0.92);
   --theme-bg-input: rgba(8, 5, 12, 0.92);
   --theme-bg-modal: #0d0a10;
@@ -42,8 +42,8 @@
   --theme-bg-overlay: rgba(0, 0, 0, 0.78);
 
   /* --- GLASSMORPHISM --- */
-  --glass-bg: rgba(20, 15, 25, 0.65);
-  --glass-border: rgba(255, 255, 255, 0.055);
+  --glass-bg: rgba(22, 20, 38, 1);
+  --glass-border: rgba(0, 217, 255, 0.2);
   --glass-border-hover: rgba(251, 146, 60, 0.28);
   --glass-blur: blur(20px);
   --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.06);
