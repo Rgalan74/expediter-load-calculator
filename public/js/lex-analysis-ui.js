@@ -32,8 +32,8 @@ window.lexAI.showLexAnalysisModal = function (analysis) {
   zoneText.textContent = analysis.stateExperience || 'Estás analizando una ruta en esta zona.';
 
   reasonsList.innerHTML = analysis.reasons && analysis.reasons.length
-    ? analysis.reasons.map(r => `<li style="font-size:0.8rem;color:rgba(255,255,255,0.85);display:flex;align-items:flex-start;gap:0.4rem;"><span style="color:#00D9FF;margin-top:2px;">▸</span><span>${r}</span></li>`).join('')
-    : '<li style="font-size:0.8rem;color:rgba(255,255,255,0.5);">Métricas estándar para la evaluación general.</li>';
+    ? analysis.reasons.map(r => `<li style="font-size:0.875rem;color:rgba(255,255,255,0.85);display:flex;align-items:flex-start;gap:0.4rem;"><span style="color:#00D9FF;margin-top:2px;">▸</span><span>${r}</span></li>`).join('')
+    : '<li style="font-size:0.875rem;color:rgba(255,255,255,0.5);">Métricas estándar para la evaluación general.</li>';
 
   // Mostrar sección con animación
   insightSection.classList.remove('hidden');
