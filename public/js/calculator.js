@@ -1262,11 +1262,19 @@ function showDecisionPanel(calculationData = {}) {
     profit.style.setProperty('display', 'flex', 'important');
     profit.style.setProperty('flex-direction', 'column', 'important');
     profit.style.setProperty('justify-content', 'center', 'important');
+    // Detectar si fondo es claro u oscuro
+    const profitBg = window.getComputedStyle(profit).backgroundColor;
+    const isLightBg = profitBg.includes('rgba(0, 0, 0, 0)') ||
+      profitBg.includes('rgb(2') ||
+      profitBg.includes('rgb(1');
+    const textColor = isLightBg ? '#1a1a1a' : '#ffffff';
+    const amountColor = isLightBg ? '#166534' : '#FFD700';
+
     profit.querySelectorAll('*').forEach(el => {
-      el.style.setProperty('color', '#ffffff', 'important');
+      el.style.setProperty('color', textColor, 'important');
     });
     const amount = profit.querySelector('#netProfit');
-    if (amount) amount.style.setProperty('color', '#FFD700', 'important');
+    if (amount) amount.style.setProperty('color', amountColor, 'important');
   }, 200);
 
   debugLog(`✅ Panel mostrado: ${decision} - RPM $${actualRPM.toFixed(2)}/mi - Ganancia $${Math.round(netProfit)}`);
