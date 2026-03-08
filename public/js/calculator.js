@@ -3191,8 +3191,8 @@ async function showWeatherModal(destination, origin = null) {
                   <div class="flex items-center gap-3">
                     <img src="https:${day.day.condition.icon}" alt="${day.day.condition.text}" class="w-8 h-8">
                     <div>
-                      <p class="font-bold" style="color:#ffffff">${dayName}</p></div>
-                      <p class="text-sm" style="color:rgba(255,255,255,0.6)">${day.day.condition.text}</p></div>
+                      <p class="font-bold" style="color:#ffffff">${dayName}</p>
+                      <p class="text-sm" style="color:rgba(255,255,255,0.6)">${day.day.condition.text}</p>
                     </div>
                   </div>
                   <div class="text-right">
