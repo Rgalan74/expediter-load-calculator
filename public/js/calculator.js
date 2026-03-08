@@ -1275,6 +1275,19 @@ function showDecisionPanel(calculationData = {}) {
     });
     const amount = profit.querySelector('#netProfit');
     if (amount) amount.style.setProperty('color', amountColor, 'important');
+
+    // Agrandar textos solo en desktop
+    if (window.innerWidth >= 768) {
+      if (amount) amount.style.setProperty('font-size', '2.5rem', 'important');
+      const label = profit.querySelector('#profitLabel, .text-xs, .text-sm');
+      if (label) label.style.setProperty('font-size', '0.85rem', 'important');
+      const subtext = profit.querySelectorAll('p, div, span');
+      subtext.forEach(el => {
+        if (el.textContent.includes('/mi') || el.textContent.includes('margen')) {
+          el.style.setProperty('font-size', '0.9rem', 'important');
+        }
+      });
+    }
   }, 200);
 
   debugLog(`✅ Panel mostrado: ${decision} - RPM $${actualRPM.toFixed(2)}/mi - Ganancia $${Math.round(netProfit)}`);
