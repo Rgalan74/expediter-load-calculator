@@ -25,7 +25,8 @@ const PLANS = {
             '30 cargas guardadas',
             'Calculadora RPM básica',
             'Dashboard financiero básico',
-            'Mapa de zonas básico'
+            'Mapa de zonas básico',
+            'Academia — Módulos 1-3 gratis'
         ]
     },
     professional: {
@@ -51,7 +52,8 @@ const PLANS = {
             'Mapa de zonas avanzado',
             'Historial de 90 días',
             'Reportes financieros en PDF',
-            'Exportación Excel/CSV'
+            'Exportación Excel/CSV',
+            'Academia — Módulos 1-6 (Pro)'
         ]
     },
     premium: {
@@ -78,7 +80,8 @@ const PLANS = {
             'Historial ilimitado',
             'Análisis predictivo con AI',
             'Reportes de impuestos',
-            'Soporte prioritario'
+            'Soporte prioritario',
+            'Academia completa — Módulos 1-8'
         ]
     },
     admin: {
@@ -112,10 +115,8 @@ async function getUserPlan(userId) {
 
         if (userDoc.exists) {
             const userData = userDoc.data();
-            let planId = userData.plan || 'free';
-            if (userData.role === 'admin') {
-                planId = 'admin';
-            }
+            const planId = (userData.role === 'admin') ? 'admin' : (userData.plan || 'free');
+
             const planData = PLANS[planId] || PLANS.free;
 
             return {
