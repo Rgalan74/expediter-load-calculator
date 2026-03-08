@@ -4,7 +4,8 @@
  */
 class ThemeManager {
     constructor() {
-        this.theme = localStorage.getItem('theme') || 'dark';
+        this.theme = 'dark';
+        localStorage.setItem('theme', 'dark');
         this.init();
     }
 
@@ -57,10 +58,8 @@ class ThemeManager {
     }
 
     toggle() {
-        // Switch theme
-        const newTheme = this.theme === 'dark' ? 'light' : 'dark';
-        debugLog(' [THEME] Switching to:', newTheme);
-        this.applyTheme(newTheme);
+        // Tema fijo en oscuro — no hacer nada
+        this.applyTheme('dark');
     }
 
     bindEvents() {
