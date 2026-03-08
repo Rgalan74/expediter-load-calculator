@@ -3090,12 +3090,8 @@ async function showWeatherModal(destination, origin = null) {
     <div class="bg-white shadow-2xl w-full md:max-w-3xl md:rounded-2xl overflow-hidden flex flex-col my-auto" style="animation: slideUp 0.3s ease; max-height: 95vh;" onclick="event.stopPropagation()">
       
       <!-- Header con temperatura - Colores dinámicos -->
-      <div class="bg-gradient-to-r ${headerGradient} text-white p-4 md:p-6 md:rounded-t-2xl relative overflow-hidden" style="flex-shrink: 0;">
-        <!-- Decoración de fondo -->
-        <div class="absolute inset-0 opacity-20">
-          <div class="absolute top-0 right-0 w-32 h-32 bg-white rounded-full -translate-y-1/2 translate-x-1/2"></div>
-          <div class="absolute bottom-0 left-0 w-24 h-24 bg-white rounded-full translate-y-1/2 -translate-x-1/2"></div>
-        </div>
+      <div class="bg-gradient-to-r ${headerGradient} text-white p-4 md:p-6 md:rounded-t-2xl relative overflow-hidden" style="flex-shrink: 0; padding: 0.75rem 1rem;">
+
         
         <div class="relative z-10">
           <div class="flex justify-between items-start">
@@ -3110,9 +3106,9 @@ async function showWeatherModal(destination, origin = null) {
           </div>
           
           <div class="flex items-center gap-4 mt-4">
-            <img src="https:${current.condition.icon}" alt="${current.condition.text}" class="w-20 h-20 md:w-24 md:h-24 drop-shadow-lg" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));">
+            <img src="https:${current.condition.icon}" alt="${current.condition.text}" class="drop-shadow-lg" style="width:48px;height:48px;">
             <div>
-              <div class="text-5xl md:text-6xl font-bold">${tempF}°F</div>
+              <div class="text-3xl font-bold">${tempF}°F</div>
               <div class="text-lg text-white/90">${current.condition.text}</div>
               <div class="text-sm text-white/70 mt-1">Sensación: ${Math.round(current.feelslike_f)}°F</div>
             </div>
