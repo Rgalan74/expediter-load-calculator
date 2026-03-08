@@ -236,3 +236,117 @@ const AcademyProgress = {
 // NOTE: init() is called from academy.html after setUser(uid)
 window.AcademyProgress = AcademyProgress;
 console.log('📚 Academy.js v2 (Firestore) loaded');
+
+// ===============================
+// ACADEMY ACCESS CONTROL v1.0
+// ===============================
+const AcademyAccess = {
+
+    async checkAndUnlock() {
+        if (typeof firebase === 'undefined') {
+            await this._loadFirebase();
+        }
+
+        firebase.auth().onAuthStateChanged(async (user) => {
+            if (!user) return;
+            try {
+                const doc = await firebase.firestore()
+                    .collection('users').doc(user.uid).get();
+                const data = doc.data() || {};
+                const planId = (data.role === 'admin') ? 'admin' : (data.plan || 'free');
+
+                const isPro = ['professional', 'premium', 'admin'].includes(planId);
+                const isPremium = ['premium', 'admin'].includes(planId);
+
+                console.log(`[ACADEMY] planId: ${planId} | pro: ${isPro} | premium: ${isPremium}`);
+
+                if (isPro || isPremium) this.unlockPage();
+
+            } catch (e) {
+                console.warn('[ACADEMY] Error checking access:', e);
+            }
+        });
+    },
+
+    unlockPage() {
+        // 1. Ocultar sección candado principal
+        document.querySelectorAll('section').forEach(s => {
+            if (s.innerHTML.includes('Contenido Premium') ||
+                s.innerHTML.includes('Contenido Pro') ||
+                s.innerHTML.includes('CONTENIDO PRO') ||
+                s.innerHTML.includes('Contenido Elite')) {
+                s.style.display = 'none';
+                console.log('[ACADEMY] Lock section ocultada ✅');
+            }
+        });
+
+        // 2. Ocultar badge header 🔒 CONTENIDO PRO
+        document.querySelectorAll('div').forEach(div => {
+            if (div.style.display === 'inline-block' &&
+                (div.innerHTML.includes('🔒 CONTENIDO PRO') ||
+                    div.innerHTML.includes('🔒 CONTENIDO PREMIUM'))) {
+                div.style.display = 'none';
+                console.log('[ACADEMY] Badge header ocultado ✅');
+            }
+        });
+
+        // 3. Ocultar badges 🔒 PRO/PREMIUM en lecciones individuales
+        document.querySelectorAll('div').forEach(div => {
+            const txt = div.textContent?.trim();
+            if (div.style.position === 'absolute' &&
+                (txt === '🔒 PRO' || txt === '🔒 PREMIUM')) {
+                div.style.display = 'none';
+            }
+        });
+
+        // 4. Ocultar sección "Upgrade a PRO" al fondo
+        document.querySelectorAll('div').forEach(div => {
+            if (div.style.background?.includes('rgba(255, 215, 0, 0.15)') &&
+                div.querySelector('a')?.textContent.includes('Upgrade')) {
+                div.style.display = 'none';
+            }
+        });
+
+        // 5. Restaurar estilo de botones btn-module en cards desbloqueados
+        document.querySelectorAll('.module-card:not(.locked) .btn-module').forEach(btn => {
+            btn.style.background = 'linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%)';
+            btn.style.color = '#ffffff';
+            btn.style.textAlign = 'center';
+            btn.style.display = 'block';
+            btn.style.padding = '1rem';
+            btn.style.borderRadius = '0.75rem';
+            btn.style.fontWeight = '700';
+            btn.style.textDecoration = 'none';
+        });
+
+        console.log('[ACADEMY] Página desbloqueada ✅');
+    },
+
+    async _loadFirebase() {
+        const loadScript = (src) => new Promise(resolve => {
+            const s = document.createElement('script');
+            s.src = src; s.onload = resolve;
+            document.head.appendChild(s);
+        });
+        await loadScript('https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js');
+        await loadScript('https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js');
+        await loadScript('https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js');
+        if (!firebase.apps.length) {
+            firebase.initializeApp({
+                apiKey: "AIzaSyAkEYDbxkjXJx5wNh_7wMdIqmklOMCIyHY",
+                authDomain: "expediter-dev.firebaseapp.com",
+                projectId: "expediter-dev"
+            });
+        }
+        console.log('[ACADEMY] Firebase cargado dinámicamente ✅');
+    }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Delay para asegurar que el DOM esté completamente renderizado
+    setTimeout(() => {
+        AcademyAccess.checkAndUnlock();
+    }, 500);
+});
+
+window.AcademyAccess = AcademyAccess;
