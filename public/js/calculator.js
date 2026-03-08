@@ -1321,7 +1321,15 @@ function showDecisionPanel(calculationData = {}) {
         // Mantener estilo azul siempre - usar style para forzar
         weatherBadge.style.cssText = 'background: linear-gradient(to right, #38bdf8, #3b82f6) !important; color: white !important; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 2px solid rgba(255,255,255,0.5); text-shadow: 0 1px 2px rgba(0,0,0,0.2); padding: 0.375rem 0.75rem; border-radius: 9999px; font-weight: 600; white-space: nowrap; cursor: pointer;';
         // Actualizar onclick con destino correcto
-        weatherBadge.onclick = () => showWeatherModal(destination, origin);
+        weatherBadge.onclick = () => {
+          const planId = window.userPlan?.id || 'free';
+          const hasPremium = ['premium', 'admin'].includes(planId);
+          if (hasPremium) {
+            showWeatherModal(destination, origin);
+          } else {
+            showUpgradeModal('Pronóstico del clima detallado — disponible en Plan Premium');
+          }
+        };
       }
     }).catch(error => {
       console.error('Error clima:', error);
