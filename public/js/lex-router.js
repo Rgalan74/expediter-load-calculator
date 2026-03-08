@@ -1162,7 +1162,7 @@
 
       let response = '';
       if (academyResources.length > 0) {
-        response = '📚 Encontré recursos relacionados en Academy:\n\n';
+        response = '📚 Encontré recursos relacionados en la Academia:\n\n';
         academyResources.forEach((resource, index) => {
           response += `${index + 1}. **${resource.title}**\n`;
           response += `   ${resource.description}\n`;
@@ -1175,7 +1175,7 @@
           '• Información de zonas trap (CA, FL, NV)\n' +
           '• Comparación con tu historial\n' +
           '• Sugerencias de negociación\n\n' +
-          '📚 También puedes explorar la [Academy](academy/start-here/index.html) para aprender más sobre trucking. 🎓';
+          '📚 También puedes explorar la [Academia](academy/start-here/index.html) para aprender más sobre trucking. 🎓';
       }
 
       replyFn && replyFn(response);
