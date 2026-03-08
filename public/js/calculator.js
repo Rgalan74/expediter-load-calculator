@@ -3233,26 +3233,26 @@ async function showWeatherModal(destination, origin = null) {
             </div>
           </div>
           
-          <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-xl border border-blue-200">
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:0.75rem;padding:1rem;">
             <div class="flex items-center justify-between mb-3">
-              <h3 class="font-bold text-blue-900 flex items-center gap-2">
+              <h3 class="font-bold flex items-center gap-2" style="color:#ffffff;">
                 <span>🌦️</span> Capas de Clima
               </h3>
-              <button onclick="clearAllWeatherLayers()" class="text-xs text-red-600 hover:text-red-800 font-semibold px-3 py-1.5 bg-red-50 rounded-lg hover:bg-red-100 transition">
+              <button onclick="clearAllWeatherLayers()" class="text-xs font-semibold px-3 py-1.5 rounded-lg transition" style="background:rgba(239,68,68,0.15);color:rgba(255,100,100,0.9);border:1px solid rgba(239,68,68,0.3);">
                 🗑️ Limpiar
               </button>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-              <button onclick="toggleWeatherLayer('temp')" id="btnTemp" class="px-3 py-3 bg-white border-2 border-gray-300 rounded-xl text-sm font-semibold hover:border-orange-500 transition hover:shadow-md flex items-center justify-center gap-2">
+              <button onclick="toggleWeatherLayer('temp')" id="btnTemp" class="px-3 py-3 rounded-xl text-sm font-semibold transition flex items-center justify-center gap-2" style="background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.2);color:#ffffff;">
                 <span>🌡️</span> Temp
               </button>
-              <button onclick="toggleWeatherLayer('precipitation')" id="btnPrecipitation" class="px-3 py-3 bg-white border-2 border-gray-300 rounded-xl text-sm font-semibold hover:border-blue-500 transition hover:shadow-md flex items-center justify-center gap-2">
+              <button onclick="toggleWeatherLayer('precipitation')" id="btnPrecipitation" class="px-3 py-3 rounded-xl text-sm font-semibold transition flex items-center justify-center gap-2" style="background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.2);color:#ffffff;">
                 <span>🌧️</span> Lluvia
               </button>
-              <button onclick="toggleWeatherLayer('clouds')" id="btnClouds" class="px-3 py-3 bg-white border-2 border-gray-300 rounded-xl text-sm font-semibold hover:border-gray-500 transition hover:shadow-md flex items-center justify-center gap-2">
+              <button onclick="toggleWeatherLayer('clouds')" id="btnClouds" class="px-3 py-3 rounded-xl text-sm font-semibold transition flex items-center justify-center gap-2" style="background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.2);color:#ffffff;">
                 <span>☁️</span> Nubes
               </button>
-              <button onclick="toggleWeatherLayer('wind')" id="btnWind" class="px-3 py-3 bg-white border-2 border-gray-300 rounded-xl text-sm font-semibold hover:border-green-500 transition hover:shadow-md flex items-center justify-center gap-2">
+              <button onclick="toggleWeatherLayer('wind')" id="btnWind" class="px-3 py-3 rounded-xl text-sm font-semibold transition flex items-center justify-center gap-2" style="background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.2);color:#ffffff;">
                 <span>💨</span> Viento
               </button>
             </div>
