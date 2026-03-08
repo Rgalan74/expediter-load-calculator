@@ -758,42 +758,43 @@
 
               <!-- CONTENIDO -->
               <div class="p-4 md:p-5">
-
-                <!-- Costos Variables -->
-                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3 md:p-4 mb-3 md:mb-4 costs-section">
-                  <h4 class="font-bold text-gray-800 mb-2 md:mb-3 text-sm">💸 Costos Variables</h4>
-                  <div class="space-y-1.5 md:space-y-2 text-sm">
-                    <div class="flex justify-between items-center">
-                      <span class="text-gray-700">⛽ Combustible (<span id="totalMilesForFuel">0</span> mi):</span>
-                      <strong id="fuelCost" class="text-white">$0.00</strong>
-                    </div>
-                    <div class="flex justify-between items-center">
-                      <span class="text-gray-700">💵 Tolls + Otros:</span>
-                      <strong id="tollsAndOthers" class="text-white">$0.00</strong>
-                    </div>
-                    <div class="flex justify-between items-center text-xs text-gray-500">
-                      <span>🔧 Costos Fijos incluidos</span>
-                      <span id="fixedCosts" class="text-gray-300">$0.00</span>
-                    </div>
-                    <hr class="border-gray-300">
-                    <div class="flex justify-between items-center font-bold">
-                      <span class="text-gray-900">Total Gastos:</span>
-                      <span id="totalExpenses" class="text-white text-lg">$0.00</span>
+                <div class="md:grid md:grid-cols-2 md:gap-4 mb-3 md:mb-4">
+                  <!-- Costos Variables -->
+                  <div class="bg-gray-50 border border-gray-200 rounded-lg p-3 md:p-4 mb-3 md:mb-0 costs-section">
+                    <h4 class="font-bold text-gray-800 mb-2 md:mb-3 text-sm">💸 Costos Variables</h4>
+                    <div class="space-y-1.5 md:space-y-2 text-sm">
+                      <div class="flex justify-between items-center">
+                        <span class="text-gray-700">⛽ Combustible (<span id="totalMilesForFuel">0</span> mi):</span>
+                        <strong id="fuelCost" class="text-white">$0.00</strong>
+                      </div>
+                      <div class="flex justify-between items-center">
+                        <span class="text-gray-700">💵 Tolls + Otros:</span>
+                        <strong id="tollsAndOthers" class="text-white">$0.00</strong>
+                      </div>
+                      <div class="flex justify-between items-center text-xs text-gray-500">
+                        <span>🔧 Costos Fijos incluidos</span>
+                        <span id="fixedCosts" class="text-gray-300">$0.00</span>
+                      </div>
+                      <hr class="border-gray-300">
+                      <div class="flex justify-between items-center font-bold">
+                        <span class="text-gray-900">Total Gastos:</span>
+                        <span id="totalExpenses" class="text-white text-lg">$0.00</span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <!-- Ganancia Final -->
-                <div id="profitSection" class="border-2 rounded-lg p-3 md:p-4">
-                  <div class="flex items-center justify-between">
-                    <div class="flex-1">
-                      <div class="text-xs mb-1" id="profitLabel">💰 Ganancia Neta</div>
-                      <div id="netProfit" class="text-2xl md:text-3xl font-bold">$0.00</div>
-                      <div id="profitDetails" class="text-xs mt-1 font-semibold">$0.00/mi • 0% margen</div>
-                    </div>
-                    <div class="text-right text-xs flex-shrink-0">
-                      <div id="estimatedTimeShort" class="text-white font-semibold">⏱️ 0h</div>
-                      <div id="fuelStopsShort" class="text-white font-semibold">⛽ 0 paradas</div>
+                  <!-- Ganancia Final -->
+                  <div id="profitSection" class="border-2 rounded-lg p-3 md:p-4">
+                    <div class="flex items-center justify-between">
+                      <div class="flex-1">
+                        <div class="text-xs mb-1" id="profitLabel">💰 Ganancia Neta</div>
+                        <div id="netProfit" class="text-2xl md:text-3xl font-bold">$0.00</div>
+                        <div id="profitDetails" class="text-xs mt-1 font-semibold">$0.00/mi • 0% margen</div>
+                      </div>
+                      <div class="text-right text-xs flex-shrink-0">
+                        <div id="estimatedTimeShort" class="text-white font-semibold">⏱️ 0h</div>
+                        <div id="fuelStopsShort" class="text-white font-semibold">⛽ 0 paradas</div>
+                      </div>
                     </div>
                   </div>
                 </div>
