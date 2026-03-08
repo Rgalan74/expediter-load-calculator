@@ -303,7 +303,8 @@ html[data-theme="dark"] body {
 .card,
 .bg-white,
 .card-section,
-.modal-content {
+.modal-content,
+.decision-panel {
   background: var(--glass-bg) !important;
   backdrop-filter: var(--glass-blur) !important;
   -webkit-backdrop-filter: var(--glass-blur) !important;

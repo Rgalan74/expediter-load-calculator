@@ -1229,6 +1229,32 @@ function showDecisionPanel(calculationData = {}) {
     });
   }, 100);
 
+  // Destacar panel principal con glow según decisión
+  setTimeout(() => {
+    const decisionPanel = document.querySelector('#decisionPanel > div.decision-panel');
+    if (!decisionPanel) return;
+    const decisionText = decisionPanel.textContent || '';
+
+    const isReject = decisionText.includes('RECHAZA');
+    const isEvalua = decisionText.includes('EVALÚA') || decisionText.includes('EVALUA');
+    const isCasiAcepta = decisionText.includes('CASI ACEPTA');
+    const isAccept = !isCasiAcepta && decisionText.includes('ACEPTA');
+
+    const glow = isAccept ? '0 0 40px rgba(34, 197, 94, 0.4), 0 8px 32px rgba(0,0,0,0.8)' :
+      isCasiAcepta ? '0 0 40px rgba(234, 179, 8, 0.4), 0 8px 32px rgba(0,0,0,0.8)' :
+        isEvalua ? '0 0 40px rgba(251, 146, 60, 0.4), 0 8px 32px rgba(0,0,0,0.8)' :
+          '0 0 40px rgba(239, 68, 68, 0.4), 0 8px 32px rgba(0,0,0,0.8)';
+
+    const borderColor = isAccept ? 'rgba(34, 197, 94, 0.6)' :
+      isCasiAcepta ? 'rgba(234, 179, 8, 0.6)' :
+        isEvalua ? 'rgba(251, 146, 60, 0.6)' :
+          'rgba(239, 68, 68, 0.6)';
+
+    decisionPanel.style.setProperty('box-shadow', glow, 'important');
+    decisionPanel.style.setProperty('border', `2px solid ${borderColor}`, 'important');
+    decisionPanel.style.setProperty('transform', 'scale(1.01)', 'important');
+  }, 150);
+
   debugLog(`✅ Panel mostrado: ${decision} - RPM $${actualRPM.toFixed(2)}/mi - Ganancia $${Math.round(netProfit)}`);
 
   // ========== NOTAS + HISTORIAL + DÍA ==========
