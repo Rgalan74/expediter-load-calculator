@@ -20,101 +20,24 @@ window.lexAI = window.lexAI || {};
 
 window.lexAI.showLexAnalysisModal = function (analysis) {
   const safe = lexUIHelpers.safe;
-  const existingModal = document.getElementById('lexLoadModal');
-  if (existingModal) existingModal.remove();
 
-  const modal = document.createElement('div');
-  modal.id = 'lexLoadModal';
-  modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4';
-  modal.style.zIndex = '10000';
+  // En lugar de modal, poblamos la sección en app.html
+  const insightSection = document.getElementById('lexInsightSection');
+  const zoneText = document.getElementById('lexZoneText');
+  const reasonsList = document.getElementById('lexReasonsList');
 
-  // Colores según recomendación
-  let headerGradient = 'linear-gradient(to right, #059669, #2563eb)';
-  let decisionBadgeClass = 'bg-blue-100 text-blue-800 border-blue-200';
-  let decisionIcon = '🤔';
+  if (!insightSection || !zoneText || !reasonsList) return;
 
-  if (analysis.color === 'green' || analysis.recommendation.toUpperCase().includes('ACEPTA')) {
-    headerGradient = 'linear-gradient(to right, #10b981, #059669)';
-    decisionBadgeClass = 'bg-emerald-100 text-emerald-800 border-emerald-200';
-    decisionIcon = '✅';
-  } else if (analysis.color === 'red' || analysis.recommendation.toUpperCase().includes('RECHAZA') || analysis.recommendation.toUpperCase().includes('NO')) {
-    headerGradient = 'linear-gradient(to right, #ef4444, #b91c1c)';
-    decisionBadgeClass = 'bg-red-100 text-red-800 border-red-200';
-    decisionIcon = '❌';
-  } else {
-    headerGradient = 'linear-gradient(to right, #f59e0b, #d97706)';
-    decisionBadgeClass = 'bg-amber-100 text-amber-800 border-amber-200';
-    decisionIcon = '⚠️';
-  }
+  // Llenar datos
+  zoneText.textContent = analysis.stateExperience || 'Estás analizando una ruta en esta zona.';
 
-  modal.innerHTML = `
-    <div class="rounded-2xl shadow-2xl w-full flex flex-col" style="max-height: 92vh; max-width: 580px; background: #0d0d18; border: 1px solid rgba(0,217,255,0.2); box-shadow: 0 0 60px rgba(0,217,255,0.15), 0 25px 50px rgba(0,0,0,0.8);">
-      <div class="text-white flex-shrink-0" style="background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a1a2e 100%); border-bottom: 1px solid rgba(0,217,255,0.2); padding: 1.25rem 1.5rem; border-radius: 1rem 1rem 0 0;">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div style="background: linear-gradient(135deg, rgba(0,217,255,0.2), rgba(255,107,53,0.2)); border: 1px solid rgba(0,217,255,0.3); border-radius: 50%; padding: 0.5rem;">
-              <img src="img/lex/lex-thinking.png" class="w-10 h-10 rounded-full">
-            </div>
-            <div>
-              <h3 class="text-lg font-bold" style="background: linear-gradient(90deg, #00D9FF, #FF6B35); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Análisis de Carga</h3>
-              <p style="color: rgba(255,255,255,0.6); font-size: 0.75rem;">Evaluación inteligente de rentabilidad</p>
-            </div>
-          </div>
-          <button onclick="closeLexLoadModal()" style="color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">&times;</button>
-        </div>
-      </div>
+  reasonsList.innerHTML = analysis.reasons && analysis.reasons.length
+    ? analysis.reasons.map(r => `<li style="font-size:0.8rem;color:rgba(255,255,255,0.85);display:flex;align-items:flex-start;gap:0.4rem;"><span style="color:#00D9FF;margin-top:2px;">▸</span><span>${r}</span></li>`).join('')
+    : '<li style="font-size:0.8rem;color:rgba(255,255,255,0.5);">Métricas estándar para la evaluación general.</li>';
 
-      <div class="flex-1 overflow-y-auto" style="padding: 1.5rem;">
-        
-        <!-- Decisión -->
-        <div class="flex items-center justify-center mb-6">
-            <div style="padding: 0.75rem 2rem; border-radius: 9999px; border: 2px solid; font-size: 1.25rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem; background: ${headerGradient}; border-color: rgba(255,255,255,0.3); color: #ffffff; box-shadow: 0 0 30px rgba(0,0,0,0.5); letter-spacing: 0.05em;">
-                <span style="font-size: 1.5rem;">${decisionIcon}</span>
-                <span>${analysis.recommendation.toUpperCase()}</span>
-            </div>
-        </div>
-
-        <!-- KPIs principales -->
-        <div class="grid grid-cols-2 gap-3 mb-5">
-          <div style="background: rgba(0,217,255,0.08); border: 1px solid rgba(0,217,255,0.25); border-radius: 0.75rem; padding: 1rem; text-align: center;">
-            <p style="font-size: 0.7rem; color: rgba(0,217,255,0.7); text-transform: uppercase; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 0.25rem;">RPM de la carga</p>
-            <p style="font-size: 1.75rem; font-weight: 800; color: #00D9FF;">$${safe(analysis.rpm, 2)}</p>
-          </div>
-          <div style="background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.25); border-radius: 0.75rem; padding: 1rem; text-align: center;">
-            <p style="font-size: 0.7rem; color: rgba(255,107,53,0.7); text-transform: uppercase; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 0.25rem;">Tu Promedio Histórico</p>
-            <p style="font-size: 1.75rem; font-weight: 800; color: #FF6B35;">$${safe(analysis.yourAvgRPM, 2)}</p>
-          </div>
-        </div>
-
-        <!-- Experiencia -->
-        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.75rem; padding: 1rem; margin-bottom: 1.25rem;">
-          <p style="font-size: 0.75rem; font-weight: 700; color: #00D9FF; margin-bottom: 0.25rem;">📍 Historial de zona</p>
-          <p style="font-size: 0.875rem; color: rgba(255,255,255,0.8);">${analysis.stateExperience || 'Estás analizando una ruta en esta zona.'}</p>
-        </div>
-
-        <!-- Razones y Motivos -->
-        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.75rem; padding: 1rem;">
-          <p style="font-size: 0.75rem; font-weight: 700; color: rgba(255,255,255,0.7); margin-bottom: 0.75rem;">💡 Fundamentos de la decisión</p>
-          <ul style="display: flex; flex-direction: column; gap: 0.5rem;">
-            ${analysis.reasons && analysis.reasons.length
-      ? analysis.reasons.map(r => `<li style="font-size: 0.875rem; color: rgba(255,255,255,0.85); display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #00D9FF; margin-top: 2px;">▸</span><span>${r}</span></li>`).join('')
-      : '<li style="font-size: 0.875rem; color: rgba(255,255,255,0.5);">Métricas estándar para la evaluación general.</li>'
-    }
-          </ul>
-        </div>
-      </div>
-
-      <div style="padding: 1rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 0.5rem;">
-        <button type="button" onclick="closeLexLoadModal(); setTimeout(() => window.openLexChatModal(), 150);" style="flex: 1; padding: 0.75rem 1rem; background: linear-gradient(90deg, #00D9FF, #FF6B35); color: #000; font-weight: 700; border-radius: 0.75rem; border: none; cursor: pointer; font-size: 0.9rem; letter-spacing: 0.02em;">
-          💬 Conversar con Lex
-        </button>
-        <button type="button" onclick="closeLexLoadModal()" style="flex: 1; padding: 0.75rem 1rem; background: transparent; color: rgba(255,255,255,0.6); font-weight: 600; border-radius: 0.75rem; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; font-size: 0.9rem; transition: background 0.2s;">
-          ✕ Volver
-        </button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
+  // Mostrar sección con animación
+  insightSection.classList.remove('hidden');
+  insightSection.style.animation = 'fadeIn 0.3s ease-in-out';
 };
 
 window.closeLexLoadModal = function () {
