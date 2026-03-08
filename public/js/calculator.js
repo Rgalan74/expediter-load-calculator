@@ -3187,12 +3187,12 @@ async function showWeatherModal(destination, origin = null) {
       const date = new Date(day.date);
       const dayName = i === 0 ? 'Hoy' : date.toLocaleDateString('es-US', { weekday: 'short' });
       return `
-                <div class="bg-gradient-to-r from-gray-50 to-white rounded-xl p-3 flex items-center justify-between border border-gray-100 hover:shadow-md transition">
+                <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:0.75rem;padding:0.5rem 0.75rem;" class="flex items-center justify-between transition">
                   <div class="flex items-center gap-3">
-                    <img src="https:${day.day.condition.icon}" alt="${day.day.condition.text}" class="w-12 h-12">
+                    <img src="https:${day.day.condition.icon}" alt="${day.day.condition.text}" class="w-8 h-8">
                     <div>
-                      <div class="font-bold text-gray-900">${dayName}</div>
-                      <div class="text-sm text-gray-600">${day.day.condition.text}</div>
+                      <p class="font-bold" style="color:#ffffff">${dayName}</p></div>
+                      <p class="text-sm" style="color:rgba(255,255,255,0.6)">${day.day.condition.text}</p></div>
                     </div>
                   </div>
                   <div class="text-right">
