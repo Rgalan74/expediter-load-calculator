@@ -48,62 +48,67 @@ window.lexAI.showLexAnalysisModal = function (analysis) {
   }
 
   modal.innerHTML = `
-    <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full flex flex-col" style="max-height: 90vh;">
-      <div class="text-white p-4 rounded-t-2xl flex-shrink-0" style="background: ${headerGradient} !important;">
-        <div class="flex items-center gap-3">
-          <img src="img/lex/lex-thinking.png" class="w-10 h-10 rounded-full bg-white/10 p-1">
-          <div>
-            <h3 class="text-lg font-bold">Análisis de Carga</h3>
-            <p class="text-xs text-white/80">Evaluación inteligente de rentabilidad</p>
+    <div class="rounded-2xl shadow-2xl w-full flex flex-col" style="max-height: 92vh; max-width: 580px; background: #0d0d18; border: 1px solid rgba(0,217,255,0.2); box-shadow: 0 0 60px rgba(0,217,255,0.15), 0 25px 50px rgba(0,0,0,0.8);">
+      <div class="text-white flex-shrink-0" style="background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a1a2e 100%); border-bottom: 1px solid rgba(0,217,255,0.2); padding: 1.25rem 1.5rem; border-radius: 1rem 1rem 0 0;">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div style="background: linear-gradient(135deg, rgba(0,217,255,0.2), rgba(255,107,53,0.2)); border: 1px solid rgba(0,217,255,0.3); border-radius: 50%; padding: 0.5rem;">
+              <img src="img/lex/lex-thinking.png" class="w-10 h-10 rounded-full">
+            </div>
+            <div>
+              <h3 class="text-lg font-bold" style="background: linear-gradient(90deg, #00D9FF, #FF6B35); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Análisis de Carga</h3>
+              <p style="color: rgba(255,255,255,0.6); font-size: 0.75rem;">Evaluación inteligente de rentabilidad</p>
+            </div>
           </div>
+          <button onclick="closeLexLoadModal()" style="color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">&times;</button>
         </div>
       </div>
 
-      <div class="p-5 flex-1 overflow-y-auto">
+      <div class="flex-1 overflow-y-auto" style="padding: 1.5rem;">
         
         <!-- Decisión -->
         <div class="flex items-center justify-center mb-6">
-            <div class="px-6 py-3 rounded-full border-2 text-xl font-bold flex items-center gap-2 ${decisionBadgeClass} shadow-sm">
-                <span>${decisionIcon}</span>
+            <div style="padding: 0.75rem 2rem; border-radius: 9999px; border: 2px solid; font-size: 1.25rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem; background: ${headerGradient}; border-color: rgba(255,255,255,0.3); color: #ffffff; box-shadow: 0 0 30px rgba(0,0,0,0.5); letter-spacing: 0.05em;">
+                <span style="font-size: 1.5rem;">${decisionIcon}</span>
                 <span>${analysis.recommendation.toUpperCase()}</span>
             </div>
         </div>
 
         <!-- KPIs principales -->
         <div class="grid grid-cols-2 gap-3 mb-5">
-          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center shadow-sm">
-            <p class="text-[11px] text-slate-500 uppercase font-semibold mb-1">RPM de la carga</p>
-            <p class="text-2xl font-bold text-slate-800">$${safe(analysis.rpm, 2)}</p>
+          <div style="background: rgba(0,217,255,0.08); border: 1px solid rgba(0,217,255,0.25); border-radius: 0.75rem; padding: 1rem; text-align: center;">
+            <p style="font-size: 0.7rem; color: rgba(0,217,255,0.7); text-transform: uppercase; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 0.25rem;">RPM de la carga</p>
+            <p style="font-size: 1.75rem; font-weight: 800; color: #00D9FF;">$${safe(analysis.rpm, 2)}</p>
           </div>
-          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center shadow-sm">
-            <p class="text-[11px] text-slate-500 uppercase font-semibold mb-1">Tu Promedio Histórico</p>
-            <p class="text-2xl font-bold text-slate-800">$${safe(analysis.yourAvgRPM, 2)}</p>
+          <div style="background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.25); border-radius: 0.75rem; padding: 1rem; text-align: center;">
+            <p style="font-size: 0.7rem; color: rgba(255,107,53,0.7); text-transform: uppercase; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 0.25rem;">Tu Promedio Histórico</p>
+            <p style="font-size: 1.75rem; font-weight: 800; color: #FF6B35;">$${safe(analysis.yourAvgRPM, 2)}</p>
           </div>
         </div>
 
         <!-- Experiencia -->
-        <div class="bg-blue-50 border border-blue-200 p-4 rounded-xl mb-5 shadow-sm">
-          <p class="text-xs font-bold text-blue-800 mb-1">📍 Historial de zona</p>
-          <p class="text-sm text-blue-900">${analysis.stateExperience || 'Estás analizando una ruta en esta zona.'}</p>
+        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.75rem; padding: 1rem; margin-bottom: 1.25rem;">
+          <p style="font-size: 0.75rem; font-weight: 700; color: #00D9FF; margin-bottom: 0.25rem;">📍 Historial de zona</p>
+          <p style="font-size: 0.875rem; color: rgba(255,255,255,0.8);">${analysis.stateExperience || 'Estás analizando una ruta en esta zona.'}</p>
         </div>
 
         <!-- Razones y Motivos -->
-        <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl shadow-sm">
-          <p class="text-xs font-bold text-slate-700 mb-2">💡 Fundamentos de la decisión</p>
-          <ul class="space-y-2">
+        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.75rem; padding: 1rem;">
+          <p style="font-size: 0.75rem; font-weight: 700; color: rgba(255,255,255,0.7); margin-bottom: 0.75rem;">💡 Fundamentos de la decisión</p>
+          <ul style="display: flex; flex-direction: column; gap: 0.5rem;">
             ${analysis.reasons && analysis.reasons.length
-      ? analysis.reasons.map(r => `<li class="text-sm text-slate-700 flex items-start gap-2"><span class="text-blue-500 mt-0.5">•</span> <span>${r}</span></li>`).join('')
-      : '<li class="text-sm text-slate-500">Métricas estándar para la evaluación general.</li>'
+      ? analysis.reasons.map(r => `<li style="font-size: 0.875rem; color: rgba(255,255,255,0.85); display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #00D9FF; margin-top: 2px;">▸</span><span>${r}</span></li>`).join('')
+      : '<li style="font-size: 0.875rem; color: rgba(255,255,255,0.5);">Métricas estándar para la evaluación general.</li>'
     }
           </ul>
         </div>
       </div>
 
-      <div class="p-4 border-t border-slate-200 flex flex-col sm:flex-row gap-2">
-        <button type="button" onclick="window.openLexChatModal()" class="flex-1 px-4 py-2.5 bg-slate-900 text-white font-semibold rounded-lg hover:bg-slate-800 transition shadow-sm text-sm">
+      <div style="padding: 1rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 0.5rem;">
+        <button type="button" onclick="window.openLexChatModal()" style="flex: 1; padding: 0.75rem 1rem; background: linear-gradient(90deg, #00D9FF, #FF6B35); color: #000; font-weight: 700; border-radius: 0.75rem; border: none; cursor: pointer; font-size: 0.9rem; letter-spacing: 0.02em;">
           💬 Conversar con Lex
         </button>
-        <button type="button" onclick="closeLexLoadModal()" class="flex-1 px-4 py-2.5 bg-slate-100 text-slate-700 font-semibold rounded-lg hover:bg-slate-200 transition border border-slate-300 shadow-sm text-sm">
+        <button type="button" onclick="closeLexLoadModal()" style="flex: 1; padding: 0.75rem 1rem; background: transparent; color: rgba(255,255,255,0.6); font-weight: 600; border-radius: 0.75rem; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; font-size: 0.9rem; transition: background 0.2s;">
           ✕ Volver
         </button>
       </div>
