@@ -1211,14 +1211,17 @@ function showDecisionPanel(calculationData = {}) {
   setTimeout(() => {
     const metricCards = document.querySelectorAll('#decisionPanel div.backdrop-blur');
     const decisionText = document.getElementById('decisionPanel')?.textContent || '';
-    const isAccept = decisionText.includes('ACEPTA');
+    const isCasiAcepta = decisionText.includes('CASI ACEPTA');
+    const isAccept = !isCasiAcepta && decisionText.includes('ACEPTA');
     const isReject = decisionText.includes('RECHAZA');
     const bg = isAccept ? 'rgba(34, 197, 94, 0.25)' :
       isReject ? 'rgba(239, 68, 68, 0.25)' :
-        'rgba(251, 146, 60, 0.25)';
+        isCasiAcepta ? 'rgba(234, 179, 8, 0.25)' :
+          'rgba(251, 146, 60, 0.25)';
     const border = isAccept ? '1px solid rgba(34, 197, 94, 0.5)' :
       isReject ? '1px solid rgba(239, 68, 68, 0.5)' :
-        '1px solid rgba(251, 146, 60, 0.5)';
+        isCasiAcepta ? '1px solid rgba(234, 179, 8, 0.5)' :
+          '1px solid rgba(251, 146, 60, 0.5)';
     metricCards.forEach(card => {
       card.style.setProperty('background', bg, 'important');
       card.style.setProperty('border', border, 'important');
