@@ -105,7 +105,7 @@ window.lexAI.showLexAnalysisModal = function (analysis) {
       </div>
 
       <div style="padding: 1rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; gap: 0.5rem;">
-        <button type="button" onclick="window.openLexChatModal()" style="flex: 1; padding: 0.75rem 1rem; background: linear-gradient(90deg, #00D9FF, #FF6B35); color: #000; font-weight: 700; border-radius: 0.75rem; border: none; cursor: pointer; font-size: 0.9rem; letter-spacing: 0.02em;">
+        <button type="button" onclick="closeLexLoadModal(); setTimeout(() => window.openLexChatModal(), 150);" style="flex: 1; padding: 0.75rem 1rem; background: linear-gradient(90deg, #00D9FF, #FF6B35); color: #000; font-weight: 700; border-radius: 0.75rem; border: none; cursor: pointer; font-size: 0.9rem; letter-spacing: 0.02em;">
           💬 Conversar con Lex
         </button>
         <button type="button" onclick="closeLexLoadModal()" style="flex: 1; padding: 0.75rem 1rem; background: transparent; color: rgba(255,255,255,0.6); font-weight: 600; border-radius: 0.75rem; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; font-size: 0.9rem; transition: background 0.2s;">
@@ -242,7 +242,7 @@ window.lexAI.showHistoryAnalysisModal = function (analysis) {
 
 <button 
   type="button"
-  onclick="window.openLexChatModal()"
+  onclick="closeLexHistoryModal(); setTimeout(() => window.openLexChatModal(), 150);"
   class="lex-modal-btn lex-modal-btn-primary"
 >
   💬 Chat con Lex
@@ -401,7 +401,7 @@ window.lexAI.showFinanceAnalysisModal = function (analysis) {
 
 <button 
   type="button"
-  onclick="window.openLexChatModal()"
+  onclick="closeLexFinanceModal(); setTimeout(() => window.openLexChatModal(), 150);"
   class="lex-modal-btn lex-modal-btn-primary"
 >
   💬 Chat con Lex
