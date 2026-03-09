@@ -359,10 +359,13 @@ async function updateSummaryStats() {
             debugLog('📊 Gastos encontrados:', expensesSnapshot.docs.length);
 
 
-            // Sumar TODOS los gastos (sin filtro de fechas - Opción A)
+            // Filtrar gastos por el mismo rango de fechas que las cargas
             expensesSnapshot.docs.forEach(doc => {
               const expense = doc.data();
-              totalExpenses += Number(expense.amount || 0);
+              const expDate = expense.date || expense.expenseDate || '';
+              if (expDate >= minDate && expDate <= maxDate) {
+                totalExpenses += Number(expense.amount || 0);
+              }
             });
 
 
