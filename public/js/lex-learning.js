@@ -593,8 +593,10 @@ window.analyzeLexLoad = async function () {
       });
     }
 
-    // Modal Rico de Resultados
-    if (window.lexAI && typeof window.lexAI.showLexAnalysisModal === 'function') {
+    // Integración de resultados
+    if (window.lexAI && typeof window.lexAI.showLexInsightInPanel === 'function') {
+      window.lexAI.showLexInsightInPanel(analysis);
+    } else if (window.lexAI && typeof window.lexAI.showLexAnalysisModal === 'function') {
       window.lexAI.showLexAnalysisModal(analysis);
     } else {
       // Fallback

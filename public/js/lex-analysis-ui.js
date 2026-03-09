@@ -18,7 +18,7 @@ const lexUIHelpers = {
 
 window.lexAI = window.lexAI || {};
 
-window.lexAI.showLexAnalysisModal = function (analysis) {
+window.lexAI.showLexInsightInPanel = function (analysis) {
   const safe = lexUIHelpers.safe;
 
   // En lugar de modal, poblamos la sección en app.html
