@@ -362,14 +362,15 @@ async function updateSummaryStats() {
             // Filtrar gastos por el mismo rango de fechas que las cargas
             expensesSnapshot.docs.forEach(doc => {
               const expense = doc.data();
-              const expDate = expense.date || expense.expenseDate || '';
+              const expDate = expense.date || '';
               if (expDate >= minDate && expDate <= maxDate) {
                 totalExpenses += Number(expense.amount || 0);
               }
             });
+            debugLog('📊 Total gastos (filtrados por fecha):', totalExpenses);
 
 
-            debugLog('📊 Total gastos (TODOS):', totalExpenses);
+
           }
         }
       } catch (error) {
