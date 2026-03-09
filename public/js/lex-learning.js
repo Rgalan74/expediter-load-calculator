@@ -606,12 +606,9 @@ window.analyzeLexLoad = async function () {
   try {
     const analysis = await analyzeLoadWithLearning(loadData);
 
-    // Mostramos feedback en el avatar
+    // Solo actualizamos el estado visual (carita/color), sin burbuja de texto redundante
     if (window.setLexState) {
-      window.setLexState(analysis.color === 'green' ? 'happy' : (analysis.color === 'red' ? 'sad' : 'warning'), {
-        message: analysis.recommendation + " - " + analysis.reasons[0],
-        duration: 5000
-      });
+      window.setLexState(analysis.color === 'green' ? 'happy' : (analysis.color === 'red' ? 'sad' : 'warning'));
     }
 
     // Integración de resultados
