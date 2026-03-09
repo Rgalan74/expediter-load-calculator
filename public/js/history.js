@@ -363,7 +363,10 @@ async function updateSummaryStats() {
             expensesSnapshot.docs.forEach(doc => {
               const expense = doc.data();
               const expDate = expense.date || '';
-              if (expDate >= minDate && expDate <= maxDate) {
+              const selectedYear = document.getElementById('historyYearSelect')?.value || 'all';
+              const expMinDate = selectedYear !== 'all' ? `${selectedYear}-01-01` : '2000-01-01';
+              const expMaxDate = selectedYear !== 'all' ? `${selectedYear}-12-31` : '2099-12-31';
+              if (expDate >= expMinDate && expDate <= expMaxDate) {
                 totalExpenses += Number(expense.amount || 0);
               }
             });
