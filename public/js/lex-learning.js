@@ -517,6 +517,23 @@ async function analyzeLoadWithLearning(loadData) {
       reasons.push(`Precaución: El pago está ${Math.abs(vsYourAvg).toFixed(1)}% por debajo de tu promedio. Intenta negociar al menos $${profile.avgRPM.toFixed(2)}/mi para que la ruta valga la vuelta.`);
     }
 
+    // 🔄 SINCRONIZACIÓN ABSOLUTA CON CALCULADORA
+    // Sobrescribimos el estado de Lex para que obligatoriamente coincida con la matemática avanzada
+    // del panel principal si esta carga acaba de ser evaluada allí, evitando contradicciones de color/texto.
+    if (window._lastDecisionData && Math.abs(window._lastDecisionData.actualRPM - rpm) < 0.05) {
+      const calcDecisionStr = window._lastDecisionData.decision || '';
+      if (calcDecisionStr === 'RECHAZA') {
+        color = 'red';
+        recommendation = 'RECHAZA ❌';
+      } else if (calcDecisionStr === 'ACEPTA') {
+        color = 'green';
+        recommendation = 'ACEPTA ✅';
+      } else {
+        color = 'yellow';
+        recommendation = calcDecisionStr + ' ⚠️';
+      }
+    }
+
     // Contexto del estado enriquecido
     if (stateStats) {
       if (stateStats.loads >= 3) {
