@@ -478,6 +478,27 @@ async function analyzeLoadWithLearning(loadData) {
     let reasons = [];
     let color = 'yellow';
 
+    // ⚠️ Alerta de carga corta
+    const shortLoadAlert = (() => {
+      const miles = totalMiles || 0;
+      if (miles > 0 && miles < 100) {
+        const total = rpm * miles;
+        if (total < 150) {
+          return `⚠️ Carga corta (${miles} mi) — Rutas bajo 100 millas necesitan mínimo $150 flat. Esta carga paga $${total.toFixed(0)} — no cubre el tiempo invertido.`;
+        }
+      } else if (miles >= 100 && miles < 150) {
+        if (rpm < 2.50) {
+          return `⚠️ Carga corta (${miles} mi) — Para rutas de 100–150 millas necesitas mínimo $2.50/mi. Esta carga paga $${rpm.toFixed(2)}/mi — considera negociar.`;
+        }
+      } else if (miles >= 150 && miles <= 200) {
+        if (rpm < 2.00) {
+          return `⚠️ Carga corta (${miles} mi) — Para rutas de 150–200 millas necesitas mínimo $2.00/mi. Esta carga paga $${rpm.toFixed(2)}/mi — evalúa si vale el tiempo.`;
+        }
+      }
+      return null;
+    })();
+    if (shortLoadAlert) reasons.unshift(shortLoadAlert);
+
     if (rpm < profile.minSafeRPM) {
       recommendation = 'RECHAZA ❌';
       color = 'red';
