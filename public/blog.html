@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Blog de SmartLoad Solution. Consejos, estrategias y análisis para maximizar tu rentabilidad como cargo van expediter." />
+  <title>Blog | Smart Load Solution</title>
+  <link rel="canonical" href="https://smartloadsolution.com/blog.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://smartloadsolution.com/blog.html" />
+  <meta property="og:title" content="Blog | Smart Load Solution" />
+  <meta property="og:description" content="Consejos, estrategias y análisis para maximizar tu rentabilidad como expediter." />
+  <meta property="og:image" content="https://smartloadsolution.com/img/og-image-es.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" type="image/png" href="img/logo-app.png" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/landing-page.css?v=2">
+
+  <style>
+    :root {
+      --bg-dark: #0a0a0f;
+      --primary-cyan: #00D9FF;
+      --primary-orange: #FF6B35;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: white; overflow-x: hidden; }
+    .gradient-text {
+      background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .blog-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .blog-card:hover {
+      border-color: rgba(0,217,255,0.3);
+      transform: translateY(-2px);
+    }
+    .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(0,217,255,0.1);
+      color: var(--primary-cyan);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header style="position: sticky; top: 0; z-index: 100; background: rgba(10,10,15,0.95); border-bottom: 1px solid rgba(255,255,255,0.08);">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 1rem 1.5rem;">
+      <div class="flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-3">
+          <img src="img/logo-smartload-light.png" alt="SmartLoad Solution Logo" class="h-10 w-auto" onerror="this.src='img/logo-app.png'" />
+          <span class="text-xl font-bold">Smart Load Solution</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
+          <a href="index.html" class="text-gray-300 hover:text-white transition">Inicio</a>
+          <a href="about.html" class="text-gray-300 hover:text-white transition">Acerca</a>
+          <a href="resources.html" class="text-gray-300 hover:text-white transition">Recursos</a>
+          <a href="plans.html" class="text-gray-300 hover:text-white transition">Planes</a>
+        </nav>
+        <a href="auth.html" class="hidden md:inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition">
+          Iniciar Sesión →
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section style="padding: 5rem 1.5rem 3rem; text-align: center;">
+    <div style="max-width: 700px; margin: 0 auto;">
+      <p class="text-sm font-semibold mb-3" style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 0.1em;">Aprende y crece</p>
+      <h1 class="text-4xl md:text-5xl font-black mb-4">
+        Blog <span class="gradient-text">SmartLoad</span>
+      </h1>
+      <p class="text-gray-400 text-lg">Estrategias, análisis y consejos para expediters que quieren ganar más.</p>
+    </div>
+  </section>
+
+  <!-- ARTICULOS -->
+  <section style="padding: 0 1.5rem 5rem;">
+    <div style="max-width: 1000px; margin: 0 auto;">
+
+      <!-- Featured -->
+      <div class="blog-card mb-8 md:flex">
+        <div class="md:w-2/5" style="background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%); min-height: 240px; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+          <span style="font-size: 4rem;">📊</span>
+        </div>
+        <div class="md:w-3/5 p-6 md:p-8 flex flex-col justify-center">
+          <span class="tag mb-3">Guía</span>
+          <h2 class="text-2xl font-bold text-white mb-3">Cómo calcular tu RPM real (y por qué el de los brokers está mal)</h2>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">
+            El RPM que te dan los brokers no incluye el deadhead, el tiempo de espera, ni los gastos reales de tu vehículo. Aquí te explicamos cómo calcular tu costo real por milla y por qué hace la diferencia en cada carga.
+          </p>
+          <div class="flex items-center gap-3 text-xs text-gray-500">
+            <span>SmartLoad Team</span>
+            <span>·</span>
+            <span>5 min de lectura</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid de artículos -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <div class="blog-card">
+          <div style="background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0f 100%); height: 160px; display: flex; align-items: center; justify-content: center;">
+            <span style="font-size: 3rem;">🗺️</span>
+          </div>
+          <div class="p-6">
+            <span class="tag mb-3" style="background: rgba(255,107,53,0.1); color: var(--primary-orange);">Estrategia</span>
+            <h3 class="font-bold text-white mt-2 mb-2">Las 5 zonas más rentables para expediters en 2024</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">Análisis de datos reales de RPM promedio por región y qué zonas dan mejor retorno en los meses de alta demanda.</p>
+            <div class="text-xs text-gray-500">4 min de lectura</div>
+          </div>
+        </div>
+
+        <div class="blog-card">
+          <div style="background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0f 100%); height: 160px; display: flex; align-items: center; justify-content: center;">
+            <span style="font-size: 3rem;">💰</span>
+          </div>
+          <div class="p-6">
+            <span class="tag mb-3">Finanzas</span>
+            <h3 class="font-bold text-white mt-2 mb-2">Gastos que todo expediter olvida calcular</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">Desde el mantenimiento preventivo hasta los impuestos de self-employment: la lista completa de gastos que afectan tu bottom line.</p>
+            <div class="text-xs text-gray-500">6 min de lectura</div>
+          </div>
+        </div>
+
+        <div class="blog-card">
+          <div style="background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0f 100%); height: 160px; display: flex; align-items: center; justify-content: center;">
+            <span style="font-size: 3rem;">⚡</span>
+          </div>
+          <div class="p-6">
+            <span class="tag mb-3" style="background: rgba(255,107,53,0.1); color: var(--primary-orange);">Productividad</span>
+            <h3 class="font-bold text-white mt-2 mb-2">Cómo decidir en 30 segundos si una carga vale la pena</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">El flujo de decisión rápida que usan los expediters más exitosos para aceptar o rechazar cargas sin dudar.</p>
+            <div class="text-xs text-gray-500">3 min de lectura</div>
+          </div>
+        </div>
+
+        <div class="blog-card">
+          <div style="background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0f 100%); height: 160px; display: flex; align-items: center; justify-content: center;">
+            <span style="font-size: 3rem;">🛡️</span>
+          </div>
+          <div class="p-6">
+            <span class="tag mb-3">Legal</span>
+            <h3 class="font-bold text-white mt-2 mb-2">LLC vs Sole Proprietor para expediters: qué te conviene</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-4">Ventajas fiscales, protección de activos y requisitos de seguros según tu estructura legal como transportista independiente.</p>
+            <div class="text-xs text-gray-500">7 min de lectura</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Newsletter CTA -->
+      <div class="mt-12 text-center p-8 rounded-2xl" style="background: rgba(0,217,255,0.05); border: 1px solid rgba(0,217,255,0.15);">
+        <h3 class="text-xl font-bold mb-2">Próximamente más artículos</h3>
+        <p class="text-gray-400 mb-5">Estamos trabajando en contenido nuevo cada semana. Crea tu cuenta para recibir notificaciones.</p>
+        <a href="auth.html" class="inline-block font-bold py-3 px-8 rounded-lg transition" style="background: var(--primary-cyan); color: #0a0a0f;">
+          Crear cuenta gratis →
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="padding: 4rem 1.5rem 2rem; background: var(--bg-dark); border-top: 1px solid rgba(255,255,255,0.1);">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <img src="img/logo-smartload-light.png" alt="SmartLoad Solution" class="h-8 w-auto" onerror="this.src='img/logo-app.png'" />
+            <span class="font-bold text-lg">SmartLoad</span>
+          </div>
+          <p class="text-gray-400 text-sm leading-relaxed">La plataforma inteligente para transportistas que quieren maximizar su ganancia.</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-white mb-4">Empresa</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="about.html" class="text-gray-400 hover:text-white transition">Acerca de Nosotros</a></li>
+            <li><a href="plans.html" class="text-gray-400 hover:text-white transition">Planes y Precios</a></li>
+            <li><a href="contact.html" class="text-gray-400 hover:text-white transition">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-white mb-4">Recursos</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="resources.html" class="text-gray-400 hover:text-white transition">Centro de Recursos</a></li>
+            <li><a href="blog.html" class="text-gray-400 hover:text-white transition">Blog</a></li>
+            <li><a href="faq.html" class="text-gray-400 hover:text-white transition">FAQ</a></li>
+            <li><a href="support.html" class="text-gray-400 hover:text-white transition">Soporte</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-white mb-4">Legal</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="privacy.html" class="text-gray-400 hover:text-white transition">Privacidad</a></li>
+            <li><a href="terms.html" class="text-gray-400 hover:text-white transition">Términos de Uso</a></li>
+            <li><a href="refund.html" class="text-gray-400 hover:text-white transition">Reembolsos</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="text-center pt-8 border-t border-gray-800">
+        <p class="text-gray-400 text-sm">&copy; 2024 SmartLoad Solution. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

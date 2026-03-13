@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Preguntas frecuentes sobre SmartLoad Solution. Todo lo que necesitas saber para empezar a maximizar tus ganancias como expediter." />
+  <title>Preguntas Frecuentes | Smart Load Solution</title>
+  <link rel="canonical" href="https://smartloadsolution.com/faq.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://smartloadsolution.com/faq.html" />
+  <meta property="og:title" content="Preguntas Frecuentes | Smart Load Solution" />
+  <meta property="og:description" content="Respuestas a las preguntas más comunes sobre SmartLoad Solution." />
+  <meta property="og:image" content="https://smartloadsolution.com/img/og-image-es.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" type="image/png" href="img/logo-app.png" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/landing-page.css?v=2">
+
+  <style>
+    :root {
+      --bg-dark: #0a0a0f;
+      --primary-cyan: #00D9FF;
+      --primary-orange: #FF6B35;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: white; overflow-x: hidden; }
+    .faq-item { border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .faq-answer { display: none; }
+    .faq-item.open .faq-answer { display: block; }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    .faq-chevron { transition: transform 0.2s; }
+    .gradient-text {
+      background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="glass" style="position: sticky; top: 0; z-index: 100; background: rgba(10,10,15,0.95); border-bottom: 1px solid rgba(255,255,255,0.08);">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 1rem 1.5rem;">
+      <div class="flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-3">
+          <img src="img/logo-smartload-light.png" alt="SmartLoad Solution Logo" class="h-10 w-auto" onerror="this.src='img/logo-app.png'" />
+          <span class="text-xl font-bold">Smart Load Solution</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
+          <a href="index.html" class="text-gray-300 hover:text-white transition">Inicio</a>
+          <a href="about.html" class="text-gray-300 hover:text-white transition">Acerca</a>
+          <a href="resources.html" class="text-gray-300 hover:text-white transition">Recursos</a>
+          <a href="plans.html" class="text-gray-300 hover:text-white transition">Planes</a>
+        </nav>
+        <a href="auth.html" class="hidden md:inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition">
+          Iniciar Sesión →
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section style="padding: 5rem 1.5rem 3rem; text-align: center;">
+    <div style="max-width: 700px; margin: 0 auto;">
+      <p class="text-sm font-semibold mb-3" style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 0.1em;">Soporte</p>
+      <h1 class="text-4xl md:text-5xl font-black mb-4">
+        Preguntas <span class="gradient-text">Frecuentes</span>
+      </h1>
+      <p class="text-gray-400 text-lg">Todo lo que necesitas saber sobre SmartLoad Solution.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section style="padding: 0 1.5rem 5rem;">
+    <div style="max-width: 800px; margin: 0 auto;">
+
+      <!-- Categoria: General -->
+      <h2 class="text-xl font-bold mb-4" style="color: var(--primary-cyan);">General</h2>
+
+      <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
+        <div class="flex items-center justify-between">
+          <h3 class="font-semibold text-white pr-4">¿Qué es SmartLoad Solution?</h3>
+          <svg class="faq-chevron w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer mt-3 text-gray-400 leading-relaxed">
+          SmartLoad Solution es una plataforma profesional diseñada para cargo van expediters. Te permite calcular el RPM real de cada carga, identificar zonas rentables, rastrear tus gastos y tomar decisiones financieras basadas en datos — todo desde tu celular o computadora.
+        </div>
+      </div>
+
+      <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
+        <div class="flex items-center justify-between">
+          <h3 class="font-semibold text-white pr-4">¿Necesito experiencia técnica para usarlo?</h3>
+          <svg class="faq-chevron w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer mt-3 text-gray-400 leading-relaxed">
+          No. SmartLoad está diseñado para expediters, no para ingenieros. La interfaz es intuitiva y en menos de 5 minutos puedes calcular tu primera carga.
+        </div>
+      </div>
+
+      <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
+        <div class="flex items-center justify-between">
+          <h3 class="font-semibold text-white pr-4">¿Funciona en iOS y Android?</h3>
+          <svg class="faq-chevron w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer mt-3 text-gray-400 leading-relaxed">
+          Sí. SmartLoad es una Progressive Web App (PWA) que funciona en cualquier dispositivo con un navegador moderno. Puedes instalarlo en tu teléfono directamente desde el navegador, sin necesidad de App Store ni Google Play.
+        </div>
+      </div>
+
+      <!-- Categoria: Planes -->
+      <h2 class="text-xl font-bold mb-4 mt-10" style="color: var(--primary-cyan);">Planes y Precios</h2>
+
+      <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
+        <div class="flex items-center justify-between">
+          <h3 class="font-semibold text-white pr-4">¿Hay una versión gratuita?</h3>
+          <svg class="faq-chevron w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer mt-3 text-gray-400 leading-relaxed">
+          Sí. El plan Starter es completamente gratuito e incluye el calculador de RPM, el análisis de rentabilidad básico y el rastreador de carga. No se requiere tarjeta de crédito.
+        </div>
+      </div>
+
+      <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
+        <div class="flex items-center justify-between">
+          <h3 class="font-semibold text-white pr-4">¿Puedo cancelar mi suscripción en cualquier momento?</h3>
+          <svg class="faq-chevron w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer mt-3 text-gray-400 leading-relaxed">
+          Sí. No hay contratos ni compromisos de largo plazo. Puedes cancelar tu suscripción en cualquier momento desde la configuración de tu cuenta y seguirás teniendo acceso hasta el final del período ya pagado.
+        </div>
+      </div>
+
+      <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
+        <div class="flex items-center justify-between">
+          <h3 class="font-semibold text-white pr-4">¿Qué diferencia hay entre Professional y Premium?</h3>
+          <svg class="faq-chevron w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer mt-3 text-gray-400 leading-relaxed">
+          Professional incluye los módulos 1-6 con análisis financiero avanzado. Premium incluye todos los módulos (1-8) más acceso completo a Lex AI, el asistente inteligente que analiza tus cargas en tiempo real. Consulta la <a href="plans.html" style="color: var(--primary-cyan);">página de planes</a> para una comparación detallada.
+        </div>
+      </div>
+
+      <!-- Categoria: Cuenta -->
+      <h2 class="text-xl font-bold mb-4 mt-10" style="color: var(--primary-cyan);">Cuenta y Datos</h2>
+
+      <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
+        <div class="flex items-center justify-between">
+          <h3 class="font-semibold text-white pr-4">¿Mis datos están seguros?</h3>
+          <svg class="faq-chevron w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer mt-3 text-gray-400 leading-relaxed">
+          Sí. Utilizamos Firebase de Google para almacenamiento de datos con cifrado en tránsito y en reposo. Nunca vendemos tu información a terceros. Consulta nuestra <a href="privacy.html" style="color: var(--primary-cyan);">Política de Privacidad</a> para más detalles.
+        </div>
+      </div>
+
+      <div class="faq-item py-5 cursor-pointer" onclick="toggleFaq(this)">
+        <div class="flex items-center justify-between">
+          <h3 class="font-semibold text-white pr-4">¿Puedo acceder desde múltiples dispositivos?</h3>
+          <svg class="faq-chevron w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </div>
+        <div class="faq-answer mt-3 text-gray-400 leading-relaxed">
+          Sí. Tu cuenta sincroniza en tiempo real entre todos tus dispositivos. Calcula desde el teléfono en la carretera y revisa tus finanzas desde la computadora en casa.
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="mt-12 text-center p-8 rounded-2xl" style="background: rgba(0,217,255,0.05); border: 1px solid rgba(0,217,255,0.15);">
+        <h3 class="text-xl font-bold mb-2">¿Tienes otra pregunta?</h3>
+        <p class="text-gray-400 mb-4">Nuestro equipo de soporte está listo para ayudarte.</p>
+        <a href="support.html" class="inline-block font-semibold py-2 px-6 rounded-lg transition" style="background: var(--primary-cyan); color: #0a0a0f;">
+          Contactar Soporte
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="padding: 4rem 1.5rem 2rem; background: var(--bg-dark); border-top: 1px solid rgba(255,255,255,0.1);">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <img src="img/logo-smartload-light.png" alt="SmartLoad Solution" class="h-8 w-auto" onerror="this.src='img/logo-app.png'" />
+            <span class="font-bold text-lg">SmartLoad</span>
+          </div>
+          <p class="text-gray-400 text-sm leading-relaxed">La plataforma inteligente para transportistas que quieren maximizar su ganancia.</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-white mb-4">Empresa</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="about.html" class="text-gray-400 hover:text-white transition">Acerca de Nosotros</a></li>
+            <li><a href="plans.html" class="text-gray-400 hover:text-white transition">Planes y Precios</a></li>
+            <li><a href="contact.html" class="text-gray-400 hover:text-white transition">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-white mb-4">Recursos</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="resources.html" class="text-gray-400 hover:text-white transition">Centro de Recursos</a></li>
+            <li><a href="blog.html" class="text-gray-400 hover:text-white transition">Blog</a></li>
+            <li><a href="faq.html" class="text-gray-400 hover:text-white transition">FAQ</a></li>
+            <li><a href="support.html" class="text-gray-400 hover:text-white transition">Soporte</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-white mb-4">Legal</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="privacy.html" class="text-gray-400 hover:text-white transition">Privacidad</a></li>
+            <li><a href="terms.html" class="text-gray-400 hover:text-white transition">Términos de Uso</a></li>
+            <li><a href="refund.html" class="text-gray-400 hover:text-white transition">Reembolsos</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="text-center pt-8 border-t border-gray-800">
+        <p class="text-gray-400 text-sm">&copy; 2024 SmartLoad Solution. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleFaq(item) {
+      item.classList.toggle('open');
+    }
+  </script>
+
+</body>
+</html>
