@@ -1,0 +1,40 @@
+User-agent: *
+
+# ✅ Permitir páginas públicas
+Allow: /
+Allow: /about.html
+Allow: /plans.html
+Allow: /contact.html
+Allow: /resources.html
+Allow: /academy.html
+Allow: /privacy.html
+Allow: /terms.html
+Allow: /refund.html
+Allow: /css/
+Allow: /img/
+
+# 🔒 Bloquear app (requiere autenticación)
+Disallow: /app.html
+
+# ℹ️ auth.html es pública (login/registro) pero no necesita indexarse
+# El noindex se maneja directamente en el <head> del HTML
+Allow: /auth.html
+
+# 🔒 Bloquear módulos de Academy (contenido de pago)
+Disallow: /academy/module-1/
+Disallow: /academy/module-2/
+Disallow: /academy/module-3/
+Disallow: /academy/module-4/
+Disallow: /academy/module-5/
+Disallow: /academy/module-6/
+Disallow: /academy/module-7/
+Disallow: /academy/module-8/
+
+# 🔒 Bloquear archivos de configuración y sistema
+Disallow: /firebase.json
+Disallow: /firestore.rules
+Disallow: /js/firebase-config.js
+Disallow: /js/stripe-config.js
+
+# 🗺️ Sitemap
+Sitemap: https://smartloadsolution.com/sitemap.xml
