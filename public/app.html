@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
+
 
   <!-- 📱 PWA / Mobile -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -12,7 +12,7 @@
   <!-- Note: theme-color works in Chrome/Safari/Edge, not Firefox/Opera -->
   <meta name="theme-color" content="#3b82f6">
   <link rel="manifest" href="/manifest.json">
-  <meta name="apple-mobile-web-app-title" content="Expediter Load Calculator">
+  <meta name="apple-mobile-web-app-title" content="SmartLoad">
 
   <!-- 📝 SEO -->
   <meta name="description"
@@ -20,7 +20,7 @@
   <meta name="author" content="Galan Cargo Express">
 
   <!-- 🔖 Título -->
-  <title>App | Expediter Load Calculator</title>\n
+  <title>App | Expediter Load Calculator</title>
   <!-- Security SEO: Prevent Indexing of Internal App Pages -->
   <meta name="robots" content="noindex, nofollow" />
 
@@ -33,15 +33,16 @@
   <meta property="og:image" content="https://app.smartloadsolution.com/img/hero-bg.png" />
 
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://app.smartloadsolution.com/app.html" />
-  <meta property="twitter:title" content="App | Expediter Load Calculator" />
-  <meta property="twitter:description"
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://app.smartloadsolution.com/app.html" />
+  <meta name="twitter:title" content="App | Expediter Load Calculator" />
+  <meta name="twitter:description"
     content="Panel de control para expediteros. Calcula cargas, visualiza zonas, historial y estadísticas." />
-  <meta property="twitter:image" content="https://app.smartloadsolution.com/img/hero-bg.png" />
+  <meta name="twitter:image" content="https://app.smartloadsolution.com/img/hero-bg.png" />
 
   <!-- 📷 Icono -->
   <link rel="icon" type="image/png" href="img/logo-app.png">
+  <link rel="apple-touch-icon" href="/img/icons/ios/180.png" />
 
   <!-- 🎨 Google Fonts - Inter (Professional typography) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -56,11 +57,11 @@
   <link rel="stylesheet" href="css/mobile-styles.css?v=2.8.0">
   <link rel="stylesheet" href="css/mobile-typography.css">
   <link rel="stylesheet" href="css/app.css?v=4.3.0">
-  <link rel="stylesheet" href="css/zones-print.css">
+  <link rel="stylesheet" href="css/zones-print.css" media="print">
   <link rel="stylesheet" href="css/calculator-decision.css?v=1.0.0">
   <link rel="stylesheet" href="css/ui-enhancements.css?v=1.0.0">
   <link rel="stylesheet" href="css/onboarding.css?v=1.0.1">
-  <link rel="stylesheet" href="css/print-styles.css">
+  <link rel="stylesheet" href="css/print-styles.css" media="print">
   <link rel="stylesheet" href="css/report-modal-styles.css">
   <!-- <link rel="stylesheet" href="css/theme-overrides.css?v=5.21.0"> -->
   <!-- MOBILE CALCULATOR FIX - Must load LAST to override all other styles -->
