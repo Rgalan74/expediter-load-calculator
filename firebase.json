@@ -15,6 +15,31 @@
     ],
     "headers": [
       {
+        "source": "**",
+        "headers": [
+          {
+            "key": "X-Frame-Options",
+            "value": "SAMEORIGIN"
+          },
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "Referrer-Policy",
+            "value": "strict-origin-when-cross-origin"
+          },
+          {
+            "key": "Permissions-Policy",
+            "value": "camera=(), microphone=(), geolocation=(self), payment=(self)"
+          },
+          {
+            "key": "Content-Security-Policy",
+            "value": "default-src 'self'; script-src 'self' 'unsafe-inline' cdn.tailwindcss.com cdn.jsdelivr.net www.gstatic.com cdnjs.cloudflare.com connect.facebook.net maps.googleapis.com www.googletagmanager.com; style-src 'self' 'unsafe-inline' cdn.tailwindcss.com cdn.jsdelivr.net fonts.googleapis.com; font-src 'self' fonts.googleapis.com fonts.gstatic.com; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.firebaseapp.com https://firestore.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://openrouter.ai https://api.weatherapi.com https://api.rainviewer.com https://tilecache.rainviewer.com https://tile.openweathermap.org https://www.googletagmanager.com https://www.google-analytics.com; img-src 'self' data: https://www.facebook.com https://smartloadsolution.com https://app.smartloadsolution.com; frame-src 'none'; object-src 'none'; base-uri 'self'"
+          }
+        ]
+      },
+      {
         "source": "**/*.@(jpg|jpeg|gif|png|svg|webp|ico)",
         "headers": [
           {

@@ -48,8 +48,8 @@ window.resetModuleInit = resetModuleInit;
 // ========================================
 // Controla si los logs de debug se muestran o no
 
-// ✅ CARGAR DEBUG_MODE desde localStorage (persiste entre recargas)
-window.DEBUG_MODE = localStorage.getItem('DEBUG_MODE') === 'false' ? false : true;
+// DEBUG_MODE: solo activo si se activó explícitamente (false por defecto en producción)
+window.DEBUG_MODE = localStorage.getItem('DEBUG_MODE') === 'true';
 
 /**
  * Log de debug - Solo se muestra si DEBUG_MODE está activo
