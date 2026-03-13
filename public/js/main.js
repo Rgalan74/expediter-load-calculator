@@ -5,8 +5,6 @@ let appState = {
     currentTab: 'calculator',
     isLoading: false
 };
-// Control para evitar repetición de debug
-window.hasDebuggedFinances = false;
 
 // HELPER FUNCTION - Esperar a que una función esté disponible (resuelve race conditions)
 function waitForFunction(funcName, timeout = 5000) {
@@ -464,57 +462,44 @@ window.addEventListener('hashchange', () => {
     }
 });
 
-//  Debug utilities MEJORADAS (SIN BUCLES)
-window.appState = appState;
-window.debugApp = () => {
-    debugLog(" [MAIN] Debug:", {
-        currentTab: appState.currentTab,
-        currentUser: window.currentUser?.email || 'null',
-        availableFunctions: {
-            getLoadHistory: typeof getLoadHistory,
-            loadDashboardData: typeof loadDashboardData,
-            loadFinancesData: typeof loadFinancesData,
-            loadZonesData: typeof loadZonesData,
-            openTab: typeof openTab
-        },
-        domElements: {
-            financesPeriodSelect: !!document.getElementById('financesPeriodSelect'),
-            totalRevenue: !!document.getElementById('totalRevenue'),
-            cashFlowChart: !!document.getElementById('cashFlowChart')
-        },
-        libraries: {
-            firebase: typeof firebase,
-            Chart: typeof Chart
-        }
-    });
-};
 
-// Comentar o eliminar esta función que estÍ¡ en bucle infinito
-/*
-window.debugFinances = () => {
- if (!window.hasDebuggedFinances) {
- debugFinancesSetup();
- window.hasDebuggedFinances = true;
- }
- debugLog("Manual debug completed. To load finances manually, run:");
- debugLog("window.loadFinancesData()");
-};
-*/
-
-
-//  FUNCION MANUAL PARA CARGAR FINANZAS
-window.manualLoadFinances = () => {
-    if (typeof loadFinancesData === 'function' && window.currentUser) {
-        debugLog(" [MAIN] Manual finances load...");
-        loadFinancesData();
-    } else {
-        console.error("Â [MAIN] Cannot load finances manually:", {
-            function: typeof loadFinancesData,
-            user: !!window.currentUser
+// Debug utilities — solo disponibles cuando DEBUG_MODE está activo
+if (window.DEBUG_MODE) {
+    window.appState = appState;
+    window.debugApp = () => {
+        debugLog("[MAIN] Debug:", {
+            currentTab: appState.currentTab,
+            currentUser: window.currentUser?.email || 'null',
+            availableFunctions: {
+                getLoadHistory: typeof getLoadHistory,
+                loadDashboardData: typeof loadDashboardData,
+                loadFinancesData: typeof loadFinancesData,
+                loadZonesData: typeof loadZonesData,
+                openTab: typeof openTab
+            },
+            domElements: {
+                financesPeriodSelect: !!document.getElementById('financesPeriodSelect'),
+                totalRevenue: !!document.getElementById('totalRevenue'),
+                cashFlowChart: !!document.getElementById('cashFlowChart')
+            },
+            libraries: {
+                firebase: typeof firebase,
+                Chart: typeof Chart
+            }
         });
-    }
-};
-
+    };
+    window.manualLoadFinances = () => {
+        if (typeof loadFinancesData === 'function' && window.currentUser) {
+            debugLog("[MAIN] Manual finances load...");
+            loadFinancesData();
+        } else {
+            console.error("[MAIN] Cannot load finances manually:", {
+                function: typeof loadFinancesData,
+                user: !!window.currentUser
+            });
+        }
+    };
+}
 //  Submenu interno de Finanzas
 document.addEventListener("DOMContentLoaded", () => {
     initializeOnce('main-finances-subtabs', () => {
