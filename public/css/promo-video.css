@@ -974,15 +974,15 @@ body {
 
 /* ── VIDEO CONTAINER ── */
 .lp-video-wrap {
-  max-width: 960px;
-  margin: 32px auto 0;
-  padding: 0 16px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
   position: relative;
 }
 
 .lp-video-frame {
   position: relative;
-  border-radius: 20px;
+  border-radius: 16px;
   overflow: hidden;
   border: 1px solid var(--border);
   box-shadow: 0 40px 80px rgba(0, 0, 0, .6), 0 0 0 1px rgba(255, 109, 74, .1);
@@ -993,13 +993,19 @@ body {
 
 @media (min-width: 480px) {
   .lp-video-frame {
-    height: 580px;
+    height: 600px;
   }
 }
 
 @media (min-width: 768px) {
   .lp-video-frame {
-    height: 700px;
+    height: 720px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .lp-video-frame {
+    height: 800px;
   }
 }
 
