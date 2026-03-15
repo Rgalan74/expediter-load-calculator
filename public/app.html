@@ -2030,6 +2030,30 @@
             }, 2000);
           }); // ← FALTABA ESTE CIERRE
         </script>
+        <!-- 0. MI PLAN -->
+        <div class="card-section">
+          <h3 class="text-lg font-semibold mb-4">👑 Mi Plan</h3>
+          <div id="planInfoSection">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-3 mb-2">
+                  <span id="planBadge" class="text-xs font-bold px-3 py-1 rounded-full" style="background:rgba(0,217,255,0.15);border:1px solid rgba(0,217,255,0.4);color:#00D9FF;">Cargando...</span>
+                  <span id="planStatusBadge" class="text-xs font-semibold px-2 py-1 rounded-full hidden" style="background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);color:#22c55e;">Activo</span>
+                </div>
+                <p id="planDescription" class="text-sm text-gray-500">—</p>
+              </div>
+              <div class="flex gap-3 flex-wrap">
+                <a href="/plans.html" id="upgradePlanLink" class="hidden text-sm font-semibold px-4 py-2 rounded-lg transition" style="background:#FF6B35;color:#fff;">
+                  Mejorar Plan →
+                </a>
+                <button id="manageBillingBtn" onclick="window.StripeIntegration && window.StripeIntegration.openBillingPortal()" class="hidden text-sm font-semibold px-4 py-2 rounded-lg transition" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#fff;">
+                  Gestionar Suscripción
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- 1. PERFIL DE OPERACION -->
         <div class="card-section">
           <h3 class="text-lg font-semibold mb-4">🚛 Perfil de Operación</h3>
@@ -2921,6 +2945,53 @@
   <!-- 🔧 WORKAROUND: Modal de categorías creado dinámicamente por caché de Firebase -->
   <script src="js/theme-manager.js"></script>
   <script src="js/theme-fix-core.js?v=5.21.0"></script>
+
+  <script>
+    // ── MI PLAN SECTION ──────────────────────────────────────────────────────
+    function renderPlanInfo() {
+      const plan = window.userPlan;
+      if (!plan) return;
+
+      const badge = document.getElementById('planBadge');
+      const statusBadge = document.getElementById('planStatusBadge');
+      const desc = document.getElementById('planDescription');
+      const upgradeLink = document.getElementById('upgradePlanLink');
+      const billingBtn = document.getElementById('manageBillingBtn');
+      if (!badge) return;
+
+      const planNames = { free: 'Plan Gratuito', professional: 'Professional', premium: 'Premium', admin: 'Admin' };
+      const planDescs = {
+        free: 'Acceso básico · hasta 10 cargas/mes',
+        professional: 'Acceso completo · cargas ilimitadas · reportes avanzados',
+        premium: 'Todo Professional + Tax Reports + Export avanzado',
+        admin: 'Acceso total al sistema'
+      };
+
+      const planId = plan.id || 'free';
+      badge.textContent = planNames[planId] || planId;
+      desc.textContent = planDescs[planId] || '';
+
+      if (planId !== 'free' && planId !== 'admin') {
+        statusBadge.classList.remove('hidden');
+        billingBtn.classList.remove('hidden');
+      }
+      if (planId === 'free') {
+        upgradeLink.classList.remove('hidden');
+        badge.style.background = 'rgba(156,163,175,0.15)';
+        badge.style.borderColor = 'rgba(156,163,175,0.3)';
+        badge.style.color = '#9ca3af';
+      }
+    }
+
+    // Esperar a que userPlan esté disponible
+    let planCheckAttempts = 0;
+    const planCheckInterval = setInterval(() => {
+      if (window.userPlan || planCheckAttempts++ > 20) {
+        clearInterval(planCheckInterval);
+        renderPlanInfo();
+      }
+    }, 300);
+  </script>
 </body>
 
 </html>

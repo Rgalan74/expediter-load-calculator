@@ -247,6 +247,13 @@ service cloud.firestore {
     }
     
     // ========================================
+    // EMAIL (trigger-email extension)
+    // ========================================
+    match /mail/{docId} {
+      allow create: if isAuthenticated();
+    }
+
+    // ========================================
     // DENY ALL ELSE
     // ========================================
     match /{document=**} {
