@@ -442,6 +442,15 @@
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
 
+          // Enviar email de bienvenida (no bloquea el registro si falla)
+          firebase.firestore().collection("mail").add({
+            to: [email],
+            message: {
+              subject: "Bienvenido a Smart Load Solution",
+              text: `Hola ${fullName},\n\nTu cuenta en Smart Load Solution ha sido creada correctamente.\n\nYa puedes comenzar a usar la plataforma para calcular cargas, analizar zonas y mejorar tu rentabilidad.\n\nBienvenido,\nSmart Load Solution`
+            }
+          }).catch(e => console.warn("[auth] Email de bienvenida no enviado:", e.message));
+
           console.log("✅ User profile saved");
 
           showMessage("✅ Cuenta creada exitosamente, redirigiendo...", "success");

@@ -16,8 +16,8 @@
 // ⚠️ ACTUALIZAR estos IDs cuando cambien los precios en Stripe Dashboard
 const STRIPE_PRICE_MAP = {
     free: null, // No tiene precio en Stripe
-    professional: 'price_1T4CmZPrcqI2pVW0wjZkexA8', // $14.99/mes — VERIFICAR en Stripe
-    premium: 'price_1T4CpaPrcqI2pVW0EgoJJq6Q'  // $29.99/mes — VERIFICAR en Stripe
+    professional: 'price_1TBCyEPrcqI2pVW0vcn6xbxd', // $14.99/mes — TEST MODE
+    premium: 'price_1TBCzcPrcqI2pVW07PAeFG9I'        // $29.99/mes — TEST MODE
 };
 
 // ========================================
