@@ -736,7 +736,7 @@
           <p><strong>Desbloquea todo con Professional</strong></p>
           <p>Cargas ilimitadas, finanzas avanzadas y más por $14.99/mes</p>
         </div>
-        <a href="plans.html" class="btn btn-primary">Ver Planes →</a>
+        <a href="plans.html" class="btn btn-primary">Comparar Planes →</a>
       </div>
 
     </div>
@@ -970,7 +970,16 @@
     // Action buttons
     const btns = document.getElementById('subBtns');
     if (planId === 'free') {
-      btns.innerHTML = `<a href="plans.html" class="btn btn-primary">⬆️ Hacer Upgrade</a>`;
+      btns.innerHTML = `
+        <button class="btn btn-primary" onclick="window.StripeIntegration && window.StripeIntegration.createCheckoutSession('professional')">⬆️ Professional — $14.99/mes</button>
+        <button class="btn btn-secondary" onclick="window.StripeIntegration && window.StripeIntegration.createCheckoutSession('premium')" style="border-color:var(--orange);color:var(--orange)">⬆️ Premium + AI — $29.99/mes</button>
+      `;
+    } else if (planId === 'professional') {
+      btns.innerHTML = `
+        <button class="btn btn-primary" onclick="window.StripeIntegration && window.StripeIntegration.upgradeSubscription('premium')">⬆️ Upgrade a Premium + AI — $29.99/mes</button>
+        <button class="btn btn-cyan" onclick="openBilling()">🧾 Portal de Facturación</button>
+        <button class="btn btn-danger" onclick="confirmCancel()">✕ Cancelar Suscripción</button>
+      `;
     } else if (planId !== 'admin') {
       btns.innerHTML = `
         <button class="btn btn-cyan" onclick="openBilling()">🧾 Portal de Facturación</button>
