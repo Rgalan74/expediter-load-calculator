@@ -14,8 +14,9 @@ const PLANS = {
             hasZones: true,
             hasAccounts: false,
             hasAdvancedReports: false,
-            canExportAdvanced: false,
+            hasExportAdvanced: false,
             hasLex: false,
+            hasWeatherDetails: false,
             historyDays: 30,
             hasTaxReports: false,
             hasAcademy: true,
@@ -39,8 +40,9 @@ const PLANS = {
             hasZones: true,
             hasAccounts: true,
             hasAdvancedReports: true,
-            canExportAdvanced: true,
+            hasExportAdvanced: true,
             hasLex: false,
+            hasWeatherDetails: false,
             historyDays: 90,
             hasTaxReports: false,
             hasAcademy: true,
@@ -66,8 +68,9 @@ const PLANS = {
             hasZones: true,
             hasAccounts: true,
             hasAdvancedReports: true,
-            canExportAdvanced: true,
+            hasExportAdvanced: true,
             hasLex: true,
+            hasWeatherDetails: true,
             historyDays: -1,
             hasTaxReports: true,
             hasPrioritySupport: true,
@@ -94,8 +97,9 @@ const PLANS = {
             hasZones: true,
             hasAccounts: true,
             hasAdvancedReports: true,
-            canExportAdvanced: true,
+            hasExportAdvanced: true,
             hasLex: true,
+            hasWeatherDetails: true,
             historyDays: -1,
             hasTaxReports: true,
             hasPrioritySupport: true,
@@ -113,27 +117,75 @@ async function getUserPlan(userId) {
             .doc(userId)
             .get();
 
-        if (userDoc.exists) {
-            const userData = userDoc.data();
-            const planId = (userData.role === 'admin') ? 'admin' : (userData.plan || 'free');
+        const userData = userDoc.exists ? userDoc.data() : {};
 
-            const planData = PLANS[planId] || PLANS.free;
-
+        // Admin override
+        if (userData.role === 'admin') {
             return {
-                ...planData,
-                userId: userId,
-                subscriptionStatus: userData.subscriptionStatus || 'active',
-                subscriptionEndDate: userData.subscriptionEndDate || null,
+                ...PLANS['admin'],
+                userId,
+                subscriptionStatus: 'active',
                 loadsThisMonth: userData.loadsThisMonth || 0,
                 monthStartDate: userData.monthStartDate || new Date().toISOString()
             };
         }
 
+        // Verificar suscripción activa en Stripe (funciona en live y test mode)
+        const PRICE_TO_PLAN = {
+            'price_1TBCyEPrcqI2pVW0vcn6xbxd': 'professional', // TEST
+            'price_1TBCzcPrcqI2pVW07PAeFG9I': 'premium',       // TEST
+            'price_1T4CmZPrcqI2pVW0wjZkexA8': 'professional', // LIVE
+            'price_1T4CpaPrcqI2pVW0EgoJJq6Q': 'premium'        // LIVE
+        };
+
+        const subsSnap = await firebase.firestore()
+            .collection('customers').doc(userId)
+            .collection('subscriptions')
+            .where('status', '==', 'active')
+            .get();
+
+        // Prioridad de planes: premium > professional > free
+        const PLAN_PRIORITY = { free: 0, professional: 1, premium: 2, admin: 3 };
+
+        let planId = 'free';
+        let stripeSubId = userData.subscriptionId || null;
+
+        if (!subsSnap.empty) {
+            // Si hay varias suscripciones activas (ej: upgrade en progreso), usar la de mayor nivel
+            let bestPriority = -1;
+            for (const doc of subsSnap.docs) {
+                const priceId = doc.data().items?.[0]?.price?.id;
+                const docPlanId = PRICE_TO_PLAN[priceId] || 'free';
+                const priority = PLAN_PRIORITY[docPlanId] ?? 0;
+                if (priority > bestPriority) {
+                    bestPriority = priority;
+                    planId = docPlanId;
+                    stripeSubId = doc.id;
+                }
+            }
+
+            // Sincronizar en users/{uid} para consistencia
+            await firebase.firestore().collection('users').doc(userId)
+                .set({
+                    plan: planId,
+                    subscriptionStatus: 'active',
+                    subscriptionId: stripeSubId,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+        } else {
+            planId = userData.plan || 'free';
+        }
+
+        const planData = PLANS[planId] || PLANS.free;
+
         return {
-            ...PLANS.free,
-            userId: userId,
-            subscriptionStatus: 'active',
-            loadsThisMonth: 0
+            ...planData,
+            userId,
+            subscriptionId: stripeSubId,
+            subscriptionStatus: userData.subscriptionStatus || 'active',
+            subscriptionEndDate: userData.subscriptionEndDate || null,
+            loadsThisMonth: userData.loadsThisMonth || 0,
+            monthStartDate: userData.monthStartDate || new Date().toISOString()
         };
 
     } catch (error) {

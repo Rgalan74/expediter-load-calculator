@@ -1413,9 +1413,10 @@ function showDecisionPanel(calculationData = {}) {
         weatherBadge.style.cssText = 'background: linear-gradient(to right, #38bdf8, #3b82f6) !important; color: white !important; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 2px solid rgba(255,255,255,0.5); text-shadow: 0 1px 2px rgba(0,0,0,0.2); padding: 0.375rem 0.75rem; border-radius: 9999px; font-weight: 600; white-space: nowrap; cursor: pointer;';
         // Actualizar onclick con destino correcto
         weatherBadge.onclick = () => {
-          const planId = window.userPlan?.id || 'free';
-          const hasPremium = ['premium', 'admin'].includes(planId);
-          if (hasPremium) {
+          const hasWeatherAccess = typeof window.canAccessFeature === 'function'
+              ? window.canAccessFeature(window.userPlan, 'WeatherDetails')
+              : false;
+          if (hasWeatherAccess) {
             showWeatherModal(destination, origin);
           } else {
             showUpgradeModal('Pronóstico del clima detallado — disponible en Plan Premium');
@@ -1561,6 +1562,91 @@ async function saveLoad(existingLoadId = null) {
   // Guard: prevenir doble-click
   if (_isSaving) return;
   _isSaving = true;
+
+  // ✅ GATE: Verificar límite de cargas (solo en cargas nuevas, no en ediciones)
+  if (!existingLoadId) {
+    try {
+      // Siempre leer de Firestore para tener el contador actualizado
+      const uid = window.currentUser?.uid;
+      const userPlan = uid && typeof window.getUserPlan === 'function'
+        ? await window.getUserPlan(uid)
+        : window.userPlan;
+
+      if (userPlan && typeof window.canCreateMoreLoads === 'function' && !window.canCreateMoreLoads(userPlan)) {
+        _isSaving = false;
+
+        // Mostrar modal de upgrade
+        if (typeof window.showUpgradeModal === 'function') {
+          window.showUpgradeModal('Cargas ilimitadas');
+        }
+
+        // Email de límite alcanzado (una sola vez por sesión para no spamear)
+        if (!sessionStorage.getItem('limitEmailSent')) {
+          sessionStorage.setItem('limitEmailSent', '1');
+          const user = firebase.auth().currentUser;
+          if (user) {
+            const maxLoads = userPlan.limits?.maxLoadsPerMonth || 30;
+            firebase.firestore().collection('mail').add({
+              to: [user.email],
+              message: {
+                subject: '¡Alcanzaste tu límite de cargas este mes! 🚐',
+                html: `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#0f172a;font-family:'Segoe UI',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;padding:40px 20px;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="background:#1e293b;border-radius:16px;overflow:hidden;max-width:600px;">
+        <tr>
+          <td style="background:linear-gradient(135deg,#1e293b,#0f172a);padding:40px;text-align:center;border-bottom:2px solid #FF6D4A;">
+            <h1 style="margin:0;font-size:28px;font-weight:800;color:#ffffff;">Smart<span style="color:#FF6D4A;">Load</span> Solution</h1>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:40px;">
+            <div style="text-align:center;margin-bottom:24px;font-size:48px;">🚐</div>
+            <h2 style="margin:0 0 16px;color:#ffffff;font-size:22px;text-align:center;">Llegaste al límite de ${maxLoads} cargas este mes</h2>
+            <p style="margin:0 0 28px;color:#94a3b8;font-size:15px;line-height:1.6;text-align:center;">Tu Plan Starter incluye ${maxLoads} cargas por mes. Actualiza a Professional para cargas ilimitadas y mucho más.</p>
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;border-radius:12px;padding:24px;margin-bottom:28px;">
+              <tr><td>
+                <p style="margin:0 0 16px;color:#FF6D4A;font-size:13px;font-weight:700;text-transform:uppercase;">Plan Professional — $14.99/mes</p>
+                <table width="100%">
+                  <tr><td style="padding:6px 0;color:#94a3b8;font-size:14px;">✅ &nbsp;Cargas ilimitadas</td></tr>
+                  <tr><td style="padding:6px 0;color:#94a3b8;font-size:14px;">✅ &nbsp;Dashboard financiero completo</td></tr>
+                  <tr><td style="padding:6px 0;color:#94a3b8;font-size:14px;">✅ &nbsp;Análisis de zonas y mercados</td></tr>
+                  <tr><td style="padding:6px 0;color:#94a3b8;font-size:14px;">✅ &nbsp;Reportes avanzados</td></tr>
+                  <tr><td style="padding:6px 0;color:#94a3b8;font-size:14px;">✅ &nbsp;Smart Load Academy</td></tr>
+                </table>
+              </td></tr>
+            </table>
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr><td align="center">
+                <a href="https://smartloadsolution.com/plans.html" style="display:inline-block;background:#FF6D4A;color:#ffffff;text-decoration:none;padding:14px 36px;border-radius:8px;font-weight:700;font-size:15px;">Ver Planes →</a>
+              </td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:24px 40px;border-top:1px solid #334155;text-align:center;">
+            <p style="margin:0;color:#94a3b8;font-size:12px;">Smart Load Solution · <a href="https://smartloadsolution.com" style="color:#FF6D4A;text-decoration:none;">smartloadsolution.com</a></p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`
+              }
+            }).catch(e => console.warn('[saveLoad] Email límite no enviado:', e.message));
+          }
+        }
+
+        return;
+      }
+    } catch (planError) {
+      console.warn('[saveLoad] Error verificando plan, continuando:', planError.message);
+    }
+  }
 
   let loadData;
   const saveBtn = document.getElementById('saveBtn');
@@ -1719,6 +1805,12 @@ async function saveLoad(existingLoadId = null) {
     } else {
       const doc = await window.db.collection('loads').add(loadData);
       debugLog('✅ Carga guardada con ID:', doc.id);
+      // Incrementar contador mensual solo en cargas nuevas
+      if (window.currentUser?.uid && typeof window.incrementMonthlyLoads === 'function') {
+        window.incrementMonthlyLoads(window.currentUser.uid).catch(e =>
+          console.warn('[saveLoad] Error incrementando contador:', e.message)
+        );
+      }
     }
 
     // NUEVO: Actualizar perfil de Lex con la nueva carga
@@ -2329,7 +2421,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       if (saveBtn) {
-        saveBtn.addEventListener('click', saveLoad);
+        saveBtn.addEventListener('click', () => saveLoad());
         debugLog(' Boton guardar configurado');
       }
 

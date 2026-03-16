@@ -525,7 +525,7 @@
 
     <script src="../js/academy.js"></script>
     <script>
-        const MODULE_NUM = 5, LESSON_NUM = 4; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true; alert('¡Lección PRO completada! 🔮\n\nAhora sabes 3 métodos de forecasting.\nPace tracking elimina sorpresas.\nAdivinar → SABER.') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true } });
+        const MODULE_NUM = 5, LESSON_NUM = 4; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true; alert('¡Lección PRO completada! 🔮Ahora sabes 3 métodos de forecasting.Pace tracking elimina sorpresas.Adivinar → SABER.') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true } });
     </script>
 </body>
 

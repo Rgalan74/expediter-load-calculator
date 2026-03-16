@@ -886,8 +886,8 @@
             <h3 class="text-xl font-semibold mb-4 text-center">🗺️ Mapa de Ruta</h3>
 
             <div class="flex flex-wrap gap-2 mb-4 justify-center">
-              <button onclick="updateMap()" class="px-4 py-2 rounded-lg text-sm font-semibold shadow-md"
-                style="background:#fb923c;color:#07050a;" style="color: white !important;">
+              <button onclick="updateMap()" class="px-4 py-2 rounded-lg text-sm font-semibold shadow-md text-white"
+                style="background:#fb923c;color:#ffffff !important;">
                 🔄 Actualizar Mapa
               </button>
               <button onclick="openGoogleMapsDirections()"
@@ -2043,9 +2043,12 @@
                 <p id="planDescription" class="text-sm text-gray-500">—</p>
               </div>
               <div class="flex gap-3 flex-wrap">
-                <a href="/plans.html" id="upgradePlanLink" class="hidden text-sm font-semibold px-4 py-2 rounded-lg transition" style="background:#FF6B35;color:#fff;">
+                <a href="/plans.html" id="upgradePlanLink" class="hidden text-sm font-semibold px-4 py-2 rounded-lg transition" style="background:#FF6B35;color:#ffffff !important;text-shadow:0 1px 2px rgba(0,0,0,0.4);box-shadow:0 2px 8px rgba(255,107,53,0.5);">
                   Mejorar Plan →
                 </a>
+                <button id="upgradeToPremiumBtn" onclick="window.StripeIntegration && window.StripeIntegration.upgradeSubscription('premium')" class="hidden text-sm font-semibold px-4 py-2 rounded-lg transition" style="background:#FF6B35;color:#ffffff !important;text-shadow:0 1px 2px rgba(0,0,0,0.4);box-shadow:0 2px 8px rgba(255,107,53,0.5);">
+                  ⬆️ Upgrade a Premium
+                </button>
                 <button id="manageBillingBtn" onclick="window.StripeIntegration && window.StripeIntegration.openBillingPortal()" class="hidden text-sm font-semibold px-4 py-2 rounded-lg transition" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#fff;">
                   Gestionar Suscripción
                 </button>
@@ -2088,16 +2091,58 @@
               <label for="operatingState" class="block text-sm font-medium text-gray-700 mb-2">
                 Estado Base
               </label>
-              <select id="operatingState" name="operatingState" class="border p-3 w-full rounded-lg"
-                onchange="toggleCustomStateInput()">
-                <option value="FL">Florida</option>
-                <option value="TX">Texas</option>
+              <select id="operatingState" name="operatingState" class="border p-3 w-full rounded-lg">
+                <option value="AL">Alabama</option>
+                <option value="AK">Alaska</option>
+                <option value="AZ">Arizona</option>
+                <option value="AR">Arkansas</option>
                 <option value="CA">California</option>
+                <option value="CO">Colorado</option>
+                <option value="CT">Connecticut</option>
+                <option value="DE">Delaware</option>
+                <option value="FL">Florida</option>
+                <option value="GA">Georgia</option>
+                <option value="HI">Hawaii</option>
+                <option value="ID">Idaho</option>
+                <option value="IL">Illinois</option>
+                <option value="IN">Indiana</option>
+                <option value="IA">Iowa</option>
+                <option value="KS">Kansas</option>
+                <option value="KY">Kentucky</option>
+                <option value="LA">Louisiana</option>
+                <option value="ME">Maine</option>
+                <option value="MD">Maryland</option>
+                <option value="MA">Massachusetts</option>
+                <option value="MI">Michigan</option>
+                <option value="MN">Minnesota</option>
+                <option value="MS">Mississippi</option>
+                <option value="MO">Missouri</option>
+                <option value="MT">Montana</option>
+                <option value="NE">Nebraska</option>
+                <option value="NV">Nevada</option>
+                <option value="NH">New Hampshire</option>
+                <option value="NJ">New Jersey</option>
+                <option value="NM">New Mexico</option>
                 <option value="NY">New York</option>
-                <option value="other">Otro</option>
+                <option value="NC">North Carolina</option>
+                <option value="ND">North Dakota</option>
+                <option value="OH">Ohio</option>
+                <option value="OK">Oklahoma</option>
+                <option value="OR">Oregon</option>
+                <option value="PA">Pennsylvania</option>
+                <option value="RI">Rhode Island</option>
+                <option value="SC">South Carolina</option>
+                <option value="SD">South Dakota</option>
+                <option value="TN">Tennessee</option>
+                <option value="TX">Texas</option>
+                <option value="UT">Utah</option>
+                <option value="VT">Vermont</option>
+                <option value="VA">Virginia</option>
+                <option value="WA">Washington</option>
+                <option value="WV">West Virginia</option>
+                <option value="WI">Wisconsin</option>
+                <option value="WY">Wyoming</option>
               </select>
-              <input type="text" id="customState" name="customState" placeholder="Ingresa tu estado"
-                class="hidden border p-3 w-full rounded-lg mt-2" />
             </div>
           </div>
         </div>
@@ -2593,20 +2638,20 @@
   <!-- Scripts de la aplicación EN ESTE ORDEN -->
   <!-- Scripts de la aplicación EN ESTE ORDEN -->
 
-  <!-- New modules - Load first -->\r\n <!-- MOCK DATA removed: file is entirely commented out, no need to load -->
+  <!-- New modules - Load first -->\r <!-- MOCK DATA removed: file is entirely commented out, no need to load -->
 
   <script src="js/security.js"></script>
   <script src="js/ui-feedback.js"></script>
 
-  <!-- 🍪 Cookie Consent + Analytics (consent gates analytics loading) -->
-  <script src="js/cookie-consent.js?v=1.0.0"></script>
-  <script src="js/analytics-manager.js?v=1.0.0"></script>
-
   <!-- Existing scripts -->
   <script src="js/config.js?v=2.1.0"></script>
   <script src="js/helpers.js"></script>
+
+  <!-- 🍪 Cookie Consent + Analytics (después de config.js para que Firebase esté inicializado) -->
+  <script src="js/cookie-consent.js?v=1.0.0"></script>
+  <script src="js/analytics-manager.js?v=1.0.0"></script>
   <script src="js/settings.js"></script>
-  <script src="js/calculator.js?v=2.1.1"></script>
+  <script src="js/calculator.js?v=2.1.2"></script>
   <script src="js/custom-categories.js"></script>
   <script src="js/cpm-engine.js"></script>
 
@@ -2630,10 +2675,10 @@
   <script src="js/sync-manager.js?v=1.0.0"></script>
 
   <!-- 💳 Stripe Integration - Payments & Subscriptions -->
-  <script src="js/stripe-config.js?v=1.0.0"></script>
+  <script src="js/stripe-config.js?v=1.1.0"></script>
   <script src="js/upgrade-modal.js?v=1.0.0"></script>
 
-  <script src="js/userPlans.js"></script>
+  <script src="js/userPlans.js?v=1.1.0"></script>
   <script src="js/history.js?v=2.0.1"></script>
 
   <!-- 💰 Finances modules - Load in order (refactored) -->
@@ -2906,7 +2951,13 @@
 
       let portalButtonHTML = '';
       if (esPago) {
-        portalButtonHTML = `<button onclick="window.StripeIntegration && window.StripeIntegration.openBillingPortal ? window.StripeIntegration.openBillingPortal() : openBillingPortal(); document.getElementById('miCuentaModal').remove()" style="background:#10b981;color:white;padding:0.75rem;border-radius:0.5rem;font-weight:700;border:none;cursor:pointer;width:100%;text-align:center;display:flex;justify-content:center;align-items:center;gap:0.5rem">💳 Gestionar Suscripción</button>`;
+        const currentPlanId = window.userPlan?.id || '';
+        const upgradeButtonHTML = currentPlanId === 'professional'
+          ? `<button onclick="window.StripeIntegration && window.StripeIntegration.upgradeSubscription('premium'); document.getElementById('miCuentaModal').remove()" style="background:#FF6D4A;color:white;padding:0.75rem;border-radius:0.5rem;font-weight:700;border:none;cursor:pointer;width:100%;text-align:center;">⬆️ Upgrade a Premium</button>`
+          : '';
+        portalButtonHTML = `
+          ${upgradeButtonHTML}
+          <button onclick="window.StripeIntegration && window.StripeIntegration.openBillingPortal ? window.StripeIntegration.openBillingPortal() : openBillingPortal(); document.getElementById('miCuentaModal').remove()" style="background:#10b981;color:white;padding:0.75rem;border-radius:0.5rem;font-weight:700;border:none;cursor:pointer;width:100%;text-align:center;display:flex;justify-content:center;align-items:center;gap:0.5rem">💳 Gestionar Suscripción</button>`;
       } else {
         // Si no es admin ni developer, ofrecer mejorar plan
         if (rolName === 'Usuario') {
@@ -2967,6 +3018,7 @@
         admin: 'Acceso total al sistema'
       };
 
+      const upgradeBtn = document.getElementById('upgradeToPremiumBtn');
       const planId = plan.id || 'free';
       badge.textContent = planNames[planId] || planId;
       desc.textContent = planDescs[planId] || '';
@@ -2974,6 +3026,9 @@
       if (planId !== 'free' && planId !== 'admin') {
         statusBadge.classList.remove('hidden');
         billingBtn.classList.remove('hidden');
+      }
+      if (planId === 'professional' && upgradeBtn) {
+        upgradeBtn.classList.remove('hidden');
       }
       if (planId === 'free') {
         upgradeLink.classList.remove('hidden');

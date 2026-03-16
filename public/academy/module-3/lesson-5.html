@@ -518,7 +518,7 @@
 
     <script src="../js/academy.js"></script>
     <script>
-        const MODULE_NUM = 3, LESSON_NUM = 5; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Módulo 3 Completado'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true; alert('¡Módulo 3 completado! 🎉\n\nDominaste la estrategia de zonas.\n\nMódulo 4 es PRO content.') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Módulo 3 Completado'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true } });
+        const MODULE_NUM = 3, LESSON_NUM = 5; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Módulo 3 Completado'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true; alert('¡Módulo 3 completado! 🎉Dominaste la estrategia de zonas.Módulo 4 es PRO content.') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Módulo 3 Completado'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true } });
     </script>
 </body>
 
