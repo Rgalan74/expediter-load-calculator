@@ -176,25 +176,21 @@ async function createCheckoutSession(planId) {
         return;
     }
 
-    // Cancelar suscripciones activas existentes antes de crear nueva
+    // Detectar suscripción activa existente para que el backend la cancele al completar
+    let existingSubId = null;
     try {
         const existingSubs = await firebase.firestore()
             .collection('customers').doc(user.uid)
             .collection('subscriptions')
             .where('status', '==', 'active')
+            .limit(1)
             .get();
-
         if (!existingSubs.empty) {
-            console.log('[STRIPE] Cancelando', existingSubs.size, 'suscripción(es) activa(s)...');
-            const cancelPromises = existingSubs.docs.map(doc =>
-                doc.ref.update({ cancel_at_period_end: true })
-            );
-            await Promise.all(cancelPromises);
-            console.log('[STRIPE] Suscripciones anteriores marcadas para cancelar');
+            existingSubId = existingSubs.docs[0].id;
+            console.log('[STRIPE] Sub activa detectada, se cancelará al completar checkout:', existingSubId);
         }
-    } catch (cancelError) {
-        console.warn('[STRIPE] No se pudieron cancelar subs anteriores:', cancelError);
-        // No bloqueamos el checkout si falla esto
+    } catch (e) {
+        console.warn('[STRIPE] No se pudo detectar sub existente:', e.message);
     }
 
     // ✅ META PIXEL: Intención de pago confirmada
@@ -222,7 +218,8 @@ async function createCheckoutSession(planId) {
                 cancel_url: window.location.origin + '/plans.html',
                 metadata: {
                     plan: planId,
-                    firebaseId: user.uid
+                    firebaseId: user.uid,
+                    ...(existingSubId ? { upgrading_from_subscription: existingSubId } : {})
                 }
             });
 
