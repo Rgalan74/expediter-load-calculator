@@ -203,7 +203,8 @@ async function setupAuthListener() {
         window.userPlan = window.PLANS?.free || {
           id: 'free',
           name: 'Plan Gratuito',
-          limits: { maxLoadsPerMonth: 50, hasFinances: false, hasZones: false }
+          limits: { maxLoadsPerMonth: 30, hasFinances: false, hasZones: false },
+          loadsThisMonth: 0
         };
       }
 

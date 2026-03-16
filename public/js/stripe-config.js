@@ -14,10 +14,17 @@
 
 // Mapeo de plan IDs a Stripe Price IDs
 // ⚠️ ACTUALIZAR estos IDs cuando cambien los precios en Stripe Dashboard
-const STRIPE_PRICE_MAP = {
-    free: null, // No tiene precio en Stripe
-    professional: 'price_1TBCyEPrcqI2pVW0vcn6xbxd', // $14.99/mes — TEST MODE
-    premium: 'price_1TBCzcPrcqI2pVW07PAeFG9I'        // $29.99/mes — TEST MODE
+// ⚠️ Para cambiar entre TEST y LIVE, cambia IS_TEST_MODE
+const IS_TEST_MODE = true;
+
+const STRIPE_PRICE_MAP = IS_TEST_MODE ? {
+    free: null,
+    professional: 'price_1TBCyEPrcqI2pVW0vcn6xbxd', // $14.99/mes — TEST
+    premium: 'price_1TBCzcPrcqI2pVW07PAeFG9I'        // $29.99/mes — TEST
+} : {
+    free: null,
+    professional: 'price_1T4CmZPrcqI2pVW0wjZkexA8',  // $14.99/mes — LIVE
+    premium: 'price_1T4CpaPrcqI2pVW0EgoJJq6Q'         // $29.99/mes — LIVE
 };
 
 // ========================================
@@ -61,7 +68,7 @@ async function canUserPerformAction(action) {
         case 'taxReports':
             return window.canAccessFeature(userPlan, 'TaxReports');
         case 'exportAdvanced':
-            return window.canAccessFeature(userPlan, 'ExportAdvanced') || window.canAccessFeature(userPlan, 'CanExportAdvanced');
+            return window.canAccessFeature(userPlan, 'ExportAdvanced');
         default:
             // Finanzas y Zonas están disponibles para todos
             return true;
@@ -85,6 +92,73 @@ function stripeShowUpgradePrompt(feature) {
 // ========================================
 // INTEGRACIÓN CON STRIPE CHECKOUT
 // ========================================
+
+/**
+ * Upgrade desde Professional → Premium.
+ * Pasa el subscriptionId actual en metadata para que el backend lo cancele.
+ */
+async function upgradeSubscription(targetPlan) {
+    const user = firebase.auth().currentUser;
+    if (!user) { window.location.href = '/auth.html'; return; }
+
+    const currentPlan = await window.getUserPlan(user.uid);
+    const currentSubscriptionId = currentPlan?.subscriptionId || null;
+
+    if (!currentSubscriptionId) {
+        // Sin suscripción activa — checkout normal
+        return createCheckoutSession(targetPlan);
+    }
+
+    const priceId = STRIPE_PRICE_MAP[targetPlan];
+    if (!priceId) { console.error('[STRIPE] Invalid plan:', targetPlan); return; }
+
+    if (typeof window.trackMeta === 'function') {
+        const planData = window.PLANS && window.PLANS[targetPlan];
+        window.trackMeta('InitiateCheckout', { value: planData ? planData.price : 0, currency: 'USD', plan: targetPlan });
+    }
+
+    try {
+        if (typeof showToast === 'function') showToast('Iniciando upgrade de plan...', 'info');
+
+        const checkoutSessionRef = await firebase.firestore()
+            .collection('customers')
+            .doc(user.uid)
+            .collection('checkout_sessions')
+            .add({
+                price: priceId,
+                success_url: window.location.origin + '/app.html?session_id={CHECKOUT_SESSION_ID}',
+                cancel_url: window.location.origin + '/plans.html',
+                metadata: {
+                    plan: targetPlan,
+                    firebaseId: user.uid,
+                    upgrading_from_subscription: currentSubscriptionId
+                }
+            });
+
+        if (typeof showToast === 'function') showToast('Esperando respuesta del servidor...', 'info');
+
+        const unsubscribe = checkoutSessionRef.onSnapshot((snap) => {
+            const data = snap.data();
+            if (!data) return;
+            if (data.error) {
+                console.error('❌ Stripe error:', data.error);
+                if (typeof showToast === 'function') showToast('Error: ' + data.error.message, 'error');
+                unsubscribe();
+                return;
+            }
+            if (data.url) {
+                if (typeof showToast === 'function') showToast('Redirigiendo a Stripe...', 'success');
+                window.location.assign(data.url);
+                unsubscribe();
+            }
+        });
+
+        setTimeout(() => { unsubscribe(); }, 15000);
+    } catch (error) {
+        console.error('Error creating upgrade checkout:', error);
+        if (typeof showToast === 'function') showToast('Error al iniciar upgrade', 'error');
+    }
+}
 
 /**
  * Crear checkout session para suscripción
@@ -171,29 +245,105 @@ async function handleCheckoutResult() {
     const urlParams = new URLSearchParams(window.location.search);
     const sessionId = urlParams.get('session_id');
 
-    if (sessionId) {
-        showToast('¡Suscripción activada exitosamente! 🎉', 'success');
+    if (!sessionId) return;
 
-        // ✅ META PIXEL: Purchase browser-side (fallback del webhook server-side)
-        // event_id = sessionId → Meta deduplica automáticamente con el evento server-side
+    showToast('¡Suscripción activada exitosamente! 🎉', 'success');
+
+    // Limpiar URL inmediatamente
+    window.history.replaceState({}, document.title, '/app.html');
+
+    // Esperar a que Firebase Auth restaure la sesión (currentUser es null en DOMContentLoaded)
+    const unsubscribeAuth = firebase.auth().onAuthStateChanged(async (user) => {
+        unsubscribeAuth(); // Solo escuchar una vez
+
+        // META PIXEL
         if (typeof window.trackMeta === 'function') {
-            window.trackMeta('Purchase', {
-                currency: 'USD',
-                value: 0  // el server-side ya manda el valor real; este es solo fallback
-            });
+            window.trackMeta('Purchase', { currency: 'USD', value: 0 });
         } else if (typeof window.fbq === 'function') {
-            // Fallback si trackMeta no está disponible (ej. usuario llegó directo a app.html)
             window.fbq('track', 'Purchase', { currency: 'USD', value: 0 }, { eventID: sessionId });
         }
 
-        // Limpiar URL
-        window.history.replaceState({}, document.title, '/app.html');
+        if (!user) {
+            setTimeout(() => window.location.reload(), 2000);
+            return;
+        }
 
-        // Recargar datos de usuario
-        setTimeout(() => {
-            window.location.reload();
-        }, 2000);
-    }
+        // Email de confirmación de upgrade
+        try {
+            // Esperar 4s para que el webhook procese el plan antes de leerlo
+            await new Promise(resolve => setTimeout(resolve, 4000));
+
+            const userPlan = typeof window.getUserPlan === 'function'
+                ? await window.getUserPlan(user.uid)
+                : null;
+            const planName = userPlan?.name || 'Professional';
+            const planPrice = userPlan?.price || '14.99';
+
+            await firebase.firestore().collection('mail').add({
+                to: [user.email],
+                message: {
+                    subject: `¡Bienvenido al Plan ${planName}! 🎉`,
+                    html: `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#0f172a;font-family:'Segoe UI',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;padding:40px 20px;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="background:#1e293b;border-radius:16px;overflow:hidden;max-width:600px;">
+        <tr>
+          <td style="background:linear-gradient(135deg,#1e293b,#0f172a);padding:40px;text-align:center;border-bottom:2px solid #FF6D4A;">
+            <h1 style="margin:0;font-size:28px;font-weight:800;color:#ffffff;">Smart<span style="color:#FF6D4A;">Load</span> Solution</h1>
+            <p style="margin:8px 0 0;color:#94a3b8;font-size:14px;">Inteligencia de Carga para el Transportista Moderno</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:40px;">
+            <div style="text-align:center;margin-bottom:28px;">
+              <div style="display:inline-block;background:#FF6D4A;color:#ffffff;padding:8px 20px;border-radius:20px;font-size:13px;font-weight:700;">PLAN ${planName.toUpperCase()} ACTIVADO</div>
+            </div>
+            <h2 style="margin:0 0 16px;color:#ffffff;font-size:22px;text-align:center;">¡Tu suscripción está activa! 🚀</h2>
+            <p style="margin:0 0 28px;color:#94a3b8;font-size:15px;line-height:1.6;text-align:center;">Ahora tienes acceso completo a todas las funciones del Plan ${planName} por $${planPrice}/mes.</p>
+            <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;border-radius:12px;padding:24px;margin-bottom:28px;">
+              <tr><td>
+                <p style="margin:0 0 16px;color:#FF6D4A;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Lo que incluye tu plan</p>
+                <table width="100%">
+                  <tr><td style="padding:6px 0;color:#94a3b8;font-size:14px;">✅ &nbsp;Cargas ilimitadas</td></tr>
+                  <tr><td style="padding:6px 0;color:#94a3b8;font-size:14px;">✅ &nbsp;Dashboard financiero completo</td></tr>
+                  <tr><td style="padding:6px 0;color:#94a3b8;font-size:14px;">✅ &nbsp;Análisis de zonas y mercados</td></tr>
+                  <tr><td style="padding:6px 0;color:#94a3b8;font-size:14px;">✅ &nbsp;Reportes avanzados</td></tr>
+                  <tr><td style="padding:6px 0;color:#94a3b8;font-size:14px;">✅ &nbsp;Smart Load Academy</td></tr>
+                  ${planName === 'Premium + AI' ? '<tr><td style="padding:6px 0;color:#94a3b8;font-size:14px;">✅ &nbsp;Lex AI Assistant</td></tr>' : ''}
+                </table>
+              </td></tr>
+            </table>
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr><td align="center">
+                <a href="https://smartloadsolution.com/app.html" style="display:inline-block;background:#FF6D4A;color:#ffffff;text-decoration:none;padding:14px 36px;border-radius:8px;font-weight:700;font-size:15px;">Ir a la App →</a>
+              </td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:24px 40px;border-top:1px solid #334155;text-align:center;">
+            <p style="margin:0;color:#94a3b8;font-size:12px;">Smart Load Solution · <a href="https://smartloadsolution.com" style="color:#FF6D4A;text-decoration:none;">smartloadsolution.com</a></p>
+            <p style="margin:8px 0 0;color:#64748b;font-size:11px;">Recibiste este email porque activaste una suscripción en nuestra plataforma.</p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`
+                }
+            });
+            console.log('✅ Email de upgrade enviado');
+        } catch (emailError) {
+            console.error('❌ Error enviando email de upgrade:', emailError);
+        }
+
+        // Recargar para reflejar el nuevo plan
+        window.location.reload();
+    });
 }
 
 /**
@@ -271,6 +421,7 @@ window.StripeIntegration = {
     canUserPerformAction,
     showUpgradePrompt: stripeShowUpgradePrompt,
     createCheckoutSession,
+    upgradeSubscription,
     cancelSubscription,
     openBillingPortal,
     STRIPE_PRICE_MAP
