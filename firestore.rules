@@ -236,7 +236,10 @@ service cloud.firestore {
       // Actualización de ROLES:
       // Solo admins pueden modificar roles
       allow update: if isAdminByRole() && isModifyingRoleFields();
-      
+
+      // Eliminación: usuario puede eliminar su propio perfil
+      allow delete: if isOwner(userId);
+
       match /checkout_sessions/{sessionId} {
         allow read, write: if isOwner(userId);
       }
