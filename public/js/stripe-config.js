@@ -176,6 +176,27 @@ async function createCheckoutSession(planId) {
         return;
     }
 
+    // Cancelar suscripciones activas existentes antes de crear nueva
+    try {
+        const existingSubs = await firebase.firestore()
+            .collection('customers').doc(user.uid)
+            .collection('subscriptions')
+            .where('status', '==', 'active')
+            .get();
+
+        if (!existingSubs.empty) {
+            console.log('[STRIPE] Cancelando', existingSubs.size, 'suscripción(es) activa(s)...');
+            const cancelPromises = existingSubs.docs.map(doc =>
+                doc.ref.update({ cancel_at_period_end: true })
+            );
+            await Promise.all(cancelPromises);
+            console.log('[STRIPE] Suscripciones anteriores marcadas para cancelar');
+        }
+    } catch (cancelError) {
+        console.warn('[STRIPE] No se pudieron cancelar subs anteriores:', cancelError);
+        // No bloqueamos el checkout si falla esto
+    }
+
     // ✅ META PIXEL: Intención de pago confirmada
     if (typeof window.trackMeta === 'function') {
         const planData = window.PLANS && window.PLANS[planId];
