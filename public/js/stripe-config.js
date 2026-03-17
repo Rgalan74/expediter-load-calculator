@@ -15,17 +15,10 @@
 // Mapeo de plan IDs a Stripe Price IDs
 // ⚠️ ACTUALIZAR estos IDs cuando cambien los precios en Stripe Dashboard
 // ⚠️ Para cambiar entre TEST y LIVE, cambia IS_TEST_MODE
-const IS_TEST_MODE = false;
-
-const STRIPE_PRICE_MAP = IS_TEST_MODE ? {
+const STRIPE_PRICE_MAP = {
     free: null,
-    professional: 'price_1TBCyEPrcqI2pVW0vcn6xbxd', // $14.99/mes — TEST
-    premium: 'price_1TBCzcPrcqI2pVW07PAeFG9I'        // $29.99/mes — TEST
-} : {
-    free: null,
-    starter: 'price_1TAbirPrcqI2pVW0WDb2tNAx',        // $1.00/mes — LIVE Test Plan
-    professional: 'price_1T4CmZPrcqI2pVW0wjZkexA8',  // $14.99/mes — LIVE
-    premium: 'price_1T4CpaPrcqI2pVW0EgoJJq6Q'         // $29.99/mes — LIVE
+    professional: 'price_1TBzVvPrcqI2pVW0NGKl0Znw', // LIVE TEST $1.00
+    premium: 'price_1TBzXhPrcqI2pVW0bToystoo'        // LIVE TEST $1.50
 };
 
 // ========================================
