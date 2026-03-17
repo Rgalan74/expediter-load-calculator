@@ -826,7 +826,7 @@
 </script>
 
 <script src="js/userPlans.js"></script>
-<script src="js/stripe-config.js?v=2.0.0"></script>
+<script src="js/stripe-config.js?v=2.1.0"></script>
 
 <script>
   const auth = firebase.auth();
@@ -971,6 +971,7 @@
     const btns = document.getElementById('subBtns');
     if (planId === 'free') {
       btns.innerHTML = `
+        <button class="btn btn-green" onclick="window.StripeIntegration && window.StripeIntegration.createCheckoutSession('starter')">🚀 Test Plan — $1.00/mes</button>
         <button class="btn btn-primary" onclick="window.StripeIntegration && window.StripeIntegration.createCheckoutSession('professional')">⬆️ Professional — $14.99/mes</button>
         <button class="btn btn-secondary" onclick="window.StripeIntegration && window.StripeIntegration.createCheckoutSession('premium')" style="border-color:var(--orange);color:var(--orange)">⬆️ Premium + AI — $29.99/mes</button>
       `;

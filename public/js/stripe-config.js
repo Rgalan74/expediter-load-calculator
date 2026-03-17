@@ -23,6 +23,7 @@ const STRIPE_PRICE_MAP = IS_TEST_MODE ? {
     premium: 'price_1TBCzcPrcqI2pVW07PAeFG9I'        // $29.99/mes — TEST
 } : {
     free: null,
+    starter: 'price_1TAbirPrcqI2pVW0WDb2tNAx',        // $1.00/mes — LIVE Test Plan
     professional: 'price_1T4CmZPrcqI2pVW0wjZkexA8',  // $14.99/mes — LIVE
     premium: 'price_1T4CpaPrcqI2pVW0EgoJJq6Q'         // $29.99/mes — LIVE
 };
