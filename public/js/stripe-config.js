@@ -15,7 +15,7 @@
 // Mapeo de plan IDs a Stripe Price IDs
 // ⚠️ ACTUALIZAR estos IDs cuando cambien los precios en Stripe Dashboard
 // ⚠️ Para cambiar entre TEST y LIVE, cambia IS_TEST_MODE
-const IS_TEST_MODE = true;
+const IS_TEST_MODE = false;
 
 const STRIPE_PRICE_MAP = IS_TEST_MODE ? {
     free: null,
