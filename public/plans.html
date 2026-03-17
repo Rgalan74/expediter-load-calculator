@@ -423,6 +423,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-functions-compat.js"></script>
   <script>
     firebase.initializeApp({
       apiKey: "AIzaSyAkEYDbxkjXJx5wNh_7wMdIqmklOMCIyHY",
@@ -451,14 +452,40 @@
     const mobileMenu = document.getElementById('mobileMenu');
     mobileMenuBtn?.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
 
-    function selectPlan(planId) {
-      if (_currentUser && window.StripeIntegration) {
-        // Ya logueado → checkout directo desde aquí
-        console.log('🔵 [PLANS] Checkout directo para:', planId);
+    async function selectPlan(planId) {
+      // Si no está logueado → auth
+      if (!_currentUser) {
+        localStorage.setItem('pendingPlan', planId);
+        window.location.href = 'auth.html';
+        return;
+      }
+
+      // Verificar plan actual
+      const currentPlan = await window.getUserPlan(_currentUser.uid);
+
+      // Si ya tiene plan pagado → Portal de Stripe para cambiar/upgradear
+      if (currentPlan.id !== 'free' && currentPlan.id !== 'admin') {
+        try {
+          showToast('Abriendo portal de facturación...', 'info');
+          const fn = firebase.app().functions('us-central1')
+            .httpsCallable('ext-firestore-stripe-payments-createPortalLink');
+          const { data } = await fn({
+            returnUrl: window.location.origin + '/plans.html',
+            locale: 'auto'
+          });
+          window.location.assign(data.url);
+        } catch(e) {
+          console.error('Error abriendo portal:', e);
+          // Fallback: checkout normal
+          window.StripeIntegration.createCheckoutSession(planId);
+        }
+        return;
+      }
+
+      // Si es free → nuevo checkout normal
+      if (window.StripeIntegration) {
         window.StripeIntegration.createCheckoutSession(planId);
       } else {
-        // No logueado → auth.html → login → checkout
-        localStorage.setItem('pendingPlan', planId);
         window.location.href = 'auth.html';
       }
     }
