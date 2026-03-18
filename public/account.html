@@ -977,7 +977,7 @@
       `;
     } else if (planId === 'professional') {
       btns.innerHTML = `
-        <button class="btn btn-primary" onclick="window.StripeIntegration && window.StripeIntegration.upgradeSubscription('premium')">⬆️ Upgrade a Premium + AI — $29.99/mes</button>
+        <button class="btn btn-primary" onclick="upgradeToPremium()">⬆️ Upgrade a Premium + AI — $29.99/mes</button>
         <button class="btn btn-cyan" onclick="openBilling()">🧾 Portal de Facturación</button>
         <button class="btn btn-danger" onclick="confirmCancel()">✕ Cancelar Suscripción</button>
       `;
@@ -1050,6 +1050,22 @@
       toast('Email de reset enviado a ' + user.email, 'success');
     } catch(e) {
       toast('Error enviando email', 'error');
+    }
+  }
+
+  // ── UPGRADE A PREMIUM VÍA PORTAL ──
+  async function upgradeToPremium() {
+    try {
+      toast('Abriendo portal...', 'info');
+      const fn = firebase.app().functions('us-central1')
+        .httpsCallable('ext-firestore-stripe-payments-createPortalLink');
+      const { data } = await fn({
+        returnUrl: window.location.href,
+        locale: 'auto'
+      });
+      window.location.assign(data.url);
+    } catch(e) {
+      toast('Error: ' + e.message, 'error');
     }
   }
 
