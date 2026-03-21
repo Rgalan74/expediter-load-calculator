@@ -125,20 +125,42 @@
     }
 
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.15);
       color: white;
-      padding: 0.75rem 1.5rem;
-      border-radius: 0.75rem;
-      font-weight: 600;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 700;
       text-decoration: none;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
       transition: all 0.3s;
     }
 
     .btn-secondary:hover {
-      background: rgba(0, 217, 255, 0.05);
-      border-color: var(--primary-cyan);
-      color: var(--primary-cyan);
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.5);
+      color: white;
+    }
+
+    .btn-purple {
+      background: linear-gradient(135deg, #7c3aed, #a855f7);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+      box-shadow: 0 10px 20px rgba(139, 92, 246, 0.35);
+    }
+
+    .btn-purple:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(139, 92, 246, 0.5);
     }
 
     footer {
@@ -241,7 +263,7 @@
               <li class="flex items-start gap-2"><span class="text-gray-600 mt-0.5">✗</span><span
                   class="text-gray-500">Exportación Excel</span></li>
             </ul>
-            <a href="auth.html" class="btn-secondary block text-center">Empezar Gratis</a>
+            <a href="auth.html" class="btn-secondary block text-center" style="justify-content:center;">Empezar Gratis</a>
           </div>
 
           <!-- PRO PLAN -->
@@ -311,9 +333,8 @@
               <li class="flex items-start gap-2"><span class="text-green-400 mt-0.5">✓</span><span><strong
                     class="text-white">Academy completa</strong> — Módulos 1-8</span></li>
             </ul>
-            <a onclick="selectPlan('premium')" class="btn-primary block text-center"
-              style="justify-content: center; cursor:pointer; background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));"><span>Obtener
-                Poder Total</span><span class="text-2xl">→</span></a>
+            <a onclick="selectPlan('premium')" class="btn-purple block text-center"
+              style="justify-content: center; cursor:pointer;"><span>Obtener Poder Total</span><span class="text-2xl">→</span></a>
             <p class="text-center text-sm text-gray-500 mt-4">✓ Cancela cuando quieras • ✓ Garantía 14 días</p>
           </div>
 
@@ -445,7 +466,7 @@
     });
   </script>
   <script src="js/userPlans.js"></script>
-  <script src="js/stripe-config.js?v=2.1.0"></script>
+  <script src="js/stripe-config.js?v=3.2.0"></script>
 
   <script>
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
