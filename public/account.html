@@ -731,13 +731,7 @@
       <div class="btn-row" id="subBtns"></div>
 
       <!-- Upgrade banner (solo free) -->
-      <div class="upgrade-banner" id="upgradeBanner" style="display:none;">
-        <div>
-          <p><strong>Desbloquea todo con Professional</strong></p>
-          <p>Cargas ilimitadas, finanzas avanzadas y más por $14.99/mes</p>
-        </div>
-        <a href="plans.html" class="btn btn-primary">Comparar Planes →</a>
-      </div>
+      <div class="upgrade-banner" id="upgradeBanner" style="display:none;"></div>
 
     </div>
   </div>
@@ -825,8 +819,8 @@
   });
 </script>
 
-<script src="js/userPlans.js"></script>
-<script src="js/stripe-config.js?v=3.0.0"></script>
+<script src="js/userPlans.js?v=3.1.0"></script>
+<script src="js/stripe-config.js?v=3.2.0"></script>
 
 <script>
   const auth = firebase.auth();
@@ -941,7 +935,6 @@
     // Usage bar (free only)
     if (planId === 'free') {
       document.getElementById('usageSection').style.display = 'block';
-      document.getElementById('upgradeBanner').style.display = 'flex';
       const loads = plan.loadsThisMonth || 0;
       const max = plan.limits.maxLoadsPerMonth;
       const pct = Math.min((loads / max) * 100, 100);
@@ -970,21 +963,34 @@
     // Action buttons
     const btns = document.getElementById('subBtns');
     if (planId === 'free') {
-      btns.innerHTML = `
-        <button class="btn btn-primary" onclick="window.StripeIntegration && window.StripeIntegration.createCheckoutSession('professional')">⬆️ Professional — $14.99/mes</button>
-        <button class="btn btn-secondary" onclick="window.StripeIntegration && window.StripeIntegration.createCheckoutSession('premium')" style="border-color:var(--orange);color:var(--orange)">⬆️ Premium + AI — $29.99/mes</button>
-      `;
+      btns.innerHTML = '';
     } else if (planId === 'professional') {
       btns.innerHTML = `
         <button class="btn btn-primary" onclick="upgradeToPremium()">⬆️ Upgrade a Premium + AI — $29.99/mes</button>
         <button class="btn btn-cyan" onclick="openBilling()">🧾 Portal de Facturación</button>
         <button class="btn btn-danger" onclick="confirmCancel()">✕ Cancelar Suscripción</button>
       `;
-    } else if (planId !== 'admin') {
+    } else if (planId === 'premium') {
       btns.innerHTML = `
         <button class="btn btn-cyan" onclick="openBilling()">🧾 Portal de Facturación</button>
         <button class="btn btn-danger" onclick="confirmCancel()">✕ Cancelar Suscripción</button>
       `;
+    } else if (planId === 'admin') {
+      btns.innerHTML = '';
+    }
+
+    // Upgrade banner
+    if (planId === 'free') {
+      document.getElementById('upgradeBanner').style.display = 'flex';
+      document.getElementById('upgradeBanner').innerHTML = `
+        <div>
+          <p><strong>Desbloquea todo con Professional o Premium</strong></p>
+          <p>Desde $14.99/mes — Cargas ilimitadas, finanzas avanzadas y más</p>
+        </div>
+        <a href="plans.html" class="btn btn-primary">⬆️ Hacer Upgrade →</a>
+      `;
+    } else {
+      document.getElementById('upgradeBanner').style.display = 'none';
     }
   }
 

@@ -1,7 +1,7 @@
 /**
  * stripe-config.js
  * Integración con Stripe para Expediter
- * Version: 2.0.0
+ * Version: 3.2.0
  *
  * IMPORTANTE: Los planes se definen en userPlans.js (window.PLANS)
  * Este archivo solo maneja la integración de pagos con Stripe.
@@ -17,8 +17,8 @@
 // ⚠️ Para cambiar entre TEST y LIVE, cambia IS_TEST_MODE
 const STRIPE_PRICE_MAP = {
     free: null,
-    professional: 'price_1T4CmZPrcqI2pVW0wjZkexA8', // $14.99/mes — LIVE
-    premium: 'price_1T4CpaPrcqI2pVW0EgoJJq6Q'        // $29.99/mes — LIVE
+    professional: 'price_1TBCyEPrcqI2pVW0vcn6xbxd', // TEST
+    premium: 'price_1TBCzcPrcqI2pVW07PAeFG9I'        // TEST
 };
 
 // ========================================
@@ -121,7 +121,7 @@ async function upgradeSubscription(targetPlan) {
             .add({
                 price: priceId,
                 success_url: window.location.origin + '/app.html?session_id={CHECKOUT_SESSION_ID}',
-                cancel_url: window.location.origin + '/plans.html',
+                cancel_url: window.location.href,
                 metadata: {
                     plan: targetPlan,
                     firebaseId: user.uid,
@@ -209,7 +209,7 @@ async function createCheckoutSession(planId) {
             .add({
                 price: priceId,
                 success_url: window.location.origin + '/app.html?session_id={CHECKOUT_SESSION_ID}',
-                cancel_url: window.location.origin + '/plans.html',
+                cancel_url: window.location.href,
                 metadata: {
                     plan: planId,
                     firebaseId: user.uid,
