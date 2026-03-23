@@ -1,7 +1,7 @@
 /**
  * stripe-config.js
  * Integración con Stripe para Expediter
- * Version: 3.2.0
+ * Version: 3.5.0
  *
  * IMPORTANTE: Los planes se definen en userPlans.js (window.PLANS)
  * Este archivo solo maneja la integración de pagos con Stripe.
@@ -17,8 +17,8 @@
 // ⚠️ Para cambiar entre TEST y LIVE, cambia IS_TEST_MODE
 const STRIPE_PRICE_MAP = {
     free: null,
-    professional: 'price_1TBCyEPrcqI2pVW0vcn6xbxd', // TEST
-    premium: 'price_1TBCzcPrcqI2pVW07PAeFG9I'        // TEST
+    professional: 'price_1T4CmZPrcqI2pVW0wjZkexA8', // $14.99/mes — LIVE
+    premium: 'price_1T4CpaPrcqI2pVW0EgoJJq6Q'        // $29.99/mes — LIVE
 };
 
 // ========================================
@@ -254,6 +254,14 @@ async function createCheckoutSession(planId) {
  * Manejar resultado de checkout
  */
 async function handleCheckoutResult() {
+    // Detectar regreso del portal
+    if (localStorage.getItem('returningFromPortal')) {
+        localStorage.removeItem('returningFromPortal');
+        if (typeof showToast === 'function') showToast('Sincronizando tu plan... ⏳', 'info');
+        setTimeout(() => window.location.reload(), 3000);
+        return;
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
     const sessionId = urlParams.get('session_id');
 
@@ -353,6 +361,66 @@ async function handleCheckoutResult() {
             console.error('❌ Error enviando email de upgrade:', emailError);
         }
 
+        // Detectar upgrade/downgrade via portal de Stripe
+        const planAntes = localStorage.getItem('planBeforePortal');
+        if (planAntes) {
+            const planAhoraObj = await window.getUserPlan(firebase.auth().currentUser?.uid);
+            const planAhora = planAhoraObj?.id;
+
+            if (planAhora && planAntes !== planAhora) {
+                localStorage.removeItem('planBeforePortal');
+                const user = firebase.auth().currentUser;
+                if (user && planAhoraObj) {
+                    const planName = planAhoraObj.name;
+                    const planPrice = planAhoraObj.price;
+                    await firebase.firestore().collection('mail').add({
+                        to: [user.email],
+                        message: {
+                            subject: `¡Bienvenido al Plan ${planName}! 🎉`,
+                            html: `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#0f172a;font-family:'Segoe UI',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;padding:40px 20px;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="background:#1e293b;border-radius:16px;overflow:hidden;max-width:600px;">
+        <tr>
+          <td style="background:linear-gradient(135deg,#1e293b,#0f172a);padding:40px;text-align:center;border-bottom:2px solid #FF6D4A;">
+            <h1 style="margin:0;font-size:28px;font-weight:800;color:#ffffff;">Smart<span style="color:#FF6D4A;">Load</span> Solution</h1>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:40px;">
+            <div style="text-align:center;margin-bottom:24px;">
+              <div style="display:inline-block;background:#FF6D4A;color:#ffffff;padding:8px 20px;border-radius:20px;font-size:13px;font-weight:700;">PLAN ${planName.toUpperCase()} ACTIVADO</div>
+            </div>
+            <h2 style="margin:0 0 16px;color:#ffffff;font-size:22px;text-align:center;">¡Tu plan fue actualizado! 🚀</h2>
+            <p style="margin:0 0 28px;color:#94a3b8;font-size:15px;line-height:1.6;text-align:center;">Ahora tienes acceso completo al Plan ${planName} por $${planPrice}/mes.</p>
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px;">
+              <tr><td align="center">
+                <a href="https://app.smartloadsolution.com/app.html" style="display:inline-block;background:#FF6D4A;color:#ffffff;text-decoration:none;padding:14px 36px;border-radius:8px;font-weight:700;font-size:15px;">Ir a la App →</a>
+              </td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:24px 40px;border-top:1px solid #334155;text-align:center;">
+            <p style="margin:0;color:#94a3b8;font-size:12px;">Smart Load Solution · <a href="https://smartloadsolution.com" style="color:#FF6D4A;text-decoration:none;">smartloadsolution.com</a></p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`
+                        }
+                    }).catch(e => console.warn('[STRIPE] Email plan change:', e.message));
+                }
+            } else {
+                localStorage.removeItem('planBeforePortal');
+            }
+        }
+
         // Recargar para reflejar el nuevo plan
         window.location.reload();
     });
@@ -410,9 +478,12 @@ async function openBillingPortal() {
             locale: 'auto'
         });
 
+        localStorage.setItem('returningFromPortal', '1');
+        localStorage.setItem('planBeforePortal', await getCurrentUserPlan());
         window.location.assign(data.url);
 
     } catch (error) {
+        localStorage.removeItem('returningFromPortal');
         console.error('Error opening portal:', error);
         showToast('Error al abrir portal de facturación', 'error');
     }
