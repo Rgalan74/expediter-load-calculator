@@ -1,7 +1,7 @@
 /**
  * stripe-config.js
  * Integración con Stripe para Expediter
- * Version: 3.5.0
+ * Version: 3.5.1
  *
  * IMPORTANTE: Los planes se definen en userPlans.js (window.PLANS)
  * Este archivo solo maneja la integración de pagos con Stripe.
@@ -255,7 +255,8 @@ async function createCheckoutSession(planId) {
  */
 async function handleCheckoutResult() {
     // Detectar regreso del portal
-    if (localStorage.getItem('returningFromPortal')) {
+    const _portalTs = localStorage.getItem('returningFromPortal');
+    if (_portalTs && (Date.now() - parseInt(_portalTs)) < 300000) {
         localStorage.removeItem('returningFromPortal');
         if (typeof showToast === 'function') showToast('Sincronizando tu plan... ⏳', 'info');
         setTimeout(() => window.location.reload(), 3000);
@@ -478,7 +479,7 @@ async function openBillingPortal() {
             locale: 'auto'
         });
 
-        localStorage.setItem('returningFromPortal', '1');
+        localStorage.setItem('returningFromPortal', Date.now().toString());
         localStorage.setItem('planBeforePortal', await getCurrentUserPlan());
         window.location.assign(data.url);
 
