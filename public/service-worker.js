@@ -4,7 +4,7 @@
  * Version: 1.0.0
  */
 
-const CACHE_NAME = 'smartload-v1.0.15'; // Bumped for chrome-extension fix
+const CACHE_NAME = 'smartload-v1.0.18'; // Bumped for SW fetch exclusions
 
 // Archivos esenciales para funcionar offline
 const CORE_ASSETS = [
@@ -65,6 +65,16 @@ self.addEventListener('fetch', event => {
     url.hostname.includes('googleapis') ||
     url.hostname.includes('stripe') ||
     url.hostname.includes('maps.google') ||
+    url.hostname.includes('facebook') ||
+    url.hostname.includes('jsdelivr') ||
+    url.hostname.includes('cloudflare') ||
+    url.hostname.includes('openrouter') ||
+    url.hostname.includes('weatherapi') ||
+    url.hostname.includes('rainviewer') ||
+    url.hostname.includes('openweathermap') ||
+    url.hostname.includes('googletagmanager') ||
+    url.hostname.includes('google-analytics') ||
+    url.hostname !== 'app.smartloadsolution.com' && url.hostname !== 'smartloadsolution.com' ||
     event.request.method !== 'GET'
   ) {
     return; // No interceptar
