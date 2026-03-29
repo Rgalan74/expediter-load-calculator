@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Role Badge Display
  * Muestra el badge visual del rol del usuario en el header
  */
@@ -40,7 +40,7 @@ async function showRoleBadge() {
         roleBadgeRetryCount++;
 
         if (roleBadgeRetryCount >= MAX_ROLE_BADGE_RETRIES) {
-            console.warn('⚠️ RolesManager no disponible después de 10 intentos, abandonando...');
+            debugLog('⚠️ RolesManager no disponible después de 10 intentos, abandonando...');
             return;
         }
 
@@ -56,7 +56,7 @@ async function showRoleBadge() {
         roleBadgeRetryCount++;
 
         if (roleBadgeRetryCount >= MAX_ROLE_BADGE_RETRIES) {
-            console.warn('⚠️ Rol de usuario no cargado después de 10 intentos, usando default');
+            debugLog('⚠️ Rol de usuario no cargado después de 10 intentos, usando default');
             // Mostrar badge de user por defecto
         } else {
             debugLog(`⏳ Esperando a que RolesManager cargue el rol... (${roleBadgeRetryCount}/${MAX_ROLE_BADGE_RETRIES})`);
@@ -81,7 +81,7 @@ async function showRoleBadge() {
         const mobileText = document.getElementById('mobileRoleText');
 
         if (!badge || !icon || !text) {
-            console.warn('⚠️ Elementos del badge de rol no encontrados en DOM');
+            debugLog('⚠️ Elementos del badge de rol no encontrados en DOM');
             return;
         }
 
@@ -172,7 +172,7 @@ async function showRoleBadge() {
         hideUpgradePlanForPrivileged();
 
     } catch (error) {
-        console.error('❌ Error mostrando badge de rol:', error);
+        debugLog('❌ Error mostrando badge de rol:', error);
     }
 }
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -397,7 +397,7 @@
                     try {
                         plan = await getUserPlan(user.uid);
                     } catch (e) {
-                        console.error('[ACADEMY] Error obteniendo plan:', e);
+                        debugLog('[ACADEMY] Error obteniendo plan:', e);
                         plan = window.PLANS.free;
                     }
 

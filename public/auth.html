@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -300,7 +300,7 @@
     // Fallbacks para funciones que stripe-config.js necesita
     window.debugLog = window.debugLog || function () { };
     window.showToast = window.showToast || function (msg, type) {
-      console.log('[TOAST]', type, msg);
+      debugLog('[TOAST]', type, msg);
     };
 
     // ✅ Meta Pixel helper — seguro en cualquier contexto
@@ -311,11 +311,11 @@
 
       if (typeof window.fbq === "function") {
         window.fbq("track", eventName, params, { eventID: eventId });
-        console.log("✅ Meta event:", eventName, params, eventId);
+        debugLog("✅ Meta event:", eventName, params, eventId);
         return true;
       }
 
-      console.warn("⚠️ fbq no está listo todavía");
+      debugLog("⚠️ fbq no está listo todavía");
       return false;
     }
 
@@ -332,7 +332,7 @@
     function showMessage(message, type = "info") {
       const authMessage = document.getElementById("authMessage");
       if (!authMessage) {
-        console.log(message);
+        debugLog(message);
         return;
       }
 
@@ -376,12 +376,12 @@
       const tabLogin = document.getElementById("tabLogin");
       const tabRegister = document.getElementById("tabRegister");
 
-      console.log("🚀 Auth page loaded");
+      debugLog("🚀 Auth page loaded");
 
       // Verificar si el usuario ya está autenticado
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-          console.log("✅ User already authenticated:", user.email);
+          debugLog("✅ User already authenticated:", user.email);
           const hasPendingPlan = localStorage.getItem('pendingPlan');
           if (hasPendingPlan) {
             // Usuario ya logueado + plan pendiente → directo a checkout
@@ -397,7 +397,7 @@
         const email = form.email.value.trim();
         const password = form.password.value.trim();
 
-        console.log("🔑 Attempting login for:", email);
+        debugLog("🔑 Attempting login for:", email);
 
         if (!email || !password) {
           showMessage("⚠️ Todos los campos son obligatorios", "error");
@@ -407,7 +407,7 @@
         try {
           showMessage("Iniciando sesión...", "info");
           const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
-          console.log("✅ Login successful:", userCredential.user.email);
+          debugLog("✅ Login successful:", userCredential.user.email);
           showMessage("✅ Inicio de sesión exitoso, redirigiendo...", "success");
 
           // Redirect after a short delay
@@ -415,7 +415,7 @@
             redirectAfterAuth();
           }, 1500);
         } catch (error) {
-          console.error("❌ Error en login:", error);
+          debugLog("❌ Error en login:", error);
           showMessage("❌ " + formatFirebaseError(error), "error");
         }
       }
@@ -426,7 +426,7 @@
         const password = form.password.value.trim();
         const phone = form.phone ? form.phone.value.trim() : '';
 
-        console.log("📝 Attempting registration for:", email);
+        debugLog("📝 Attempting registration for:", email);
 
         if (!fullName || !email || !password) {
           showMessage("⚠️ Nombre, correo y contraseña son obligatorios", "error");
@@ -441,16 +441,18 @@
         try {
           showMessage("Creando cuenta...", "info");
           const userCred = await firebase.auth().createUserWithEmailAndPassword(email, password);
-          console.log("✅ Registration successful:", userCred.user.email);
+          debugLog("✅ Registration successful:", userCred.user.email);
 
-          // Guardar información adicional del usuario
+          // Guardar información adicional del usuario vía initializeUserPlan
+          if (typeof window.initializeUserPlan === 'function') {
+            await window.initializeUserPlan(userCred.user.uid, email);
+          }
+          // Merge fullName y phone (campos extra que initializeUserPlan no incluye)
           await firebase.firestore().collection("users").doc(userCred.user.uid).set({
             fullName,
-            email,
-            phone,
-            suscripcionActiva: false,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
+            phone: phone || '',
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
 
           // Enviar email de bienvenida (no bloquea el registro si falla)
           firebase.firestore().collection("mail").add({
@@ -515,9 +517,9 @@
 </body>
 </html>`
             }
-          }).catch(e => console.warn("[auth] Email de bienvenida no enviado:", e.message));
+          }).catch(e => debugLog("[auth] Email de bienvenida no enviado:", e.message));
 
-          console.log("✅ User profile saved");
+          debugLog("✅ User profile saved");
 
           showMessage("✅ Cuenta creada exitosamente, redirigiendo...", "success");
 
@@ -535,7 +537,7 @@
 
           return; // IMPORTANTÍSIMO para que no corra otro redirect viejo
         } catch (error) {
-          console.error("❌ Error en registro:", error);
+          debugLog("❌ Error en registro:", error);
           showMessage("❌ " + formatFirebaseError(error), "error");
         }
       }
@@ -596,7 +598,7 @@
           await firebase.auth().sendPasswordResetEmail(email);
           showMessage("✅ Enlace de recuperación enviado a " + email + ". Revisa tu bandeja de entrada.", "success");
         } catch (error) {
-          console.error("❌ Error en password reset:", error);
+          debugLog("❌ Error en password reset:", error);
           showMessage("❌ " + formatFirebaseError(error), "error");
         }
       }
@@ -639,7 +641,7 @@
       const tabFromUrl = new URLSearchParams(window.location.search).get("tab");
       setActiveAuthTab(tabFromUrl === "register" ? "register" : "login");
 
-      console.log("✅ Auth page setup complete");
+      debugLog("✅ Auth page setup complete");
     });
 
     let _redirecting = false;
@@ -649,7 +651,7 @@
       _redirecting = true;
 
       const pendingPlan = localStorage.getItem('pendingPlan');
-      console.log('🔵 redirectAfterAuth, pendingPlan:', pendingPlan);
+      debugLog('🔵 redirectAfterAuth, pendingPlan:', pendingPlan);
 
       if (pendingPlan) {
         localStorage.removeItem('pendingPlan');
@@ -658,10 +660,10 @@
           const user = firebase.auth().currentUser;
           if (user && window.StripeIntegration) {
             clearInterval(checkReady);
-            console.log('🔵 Iniciando checkout para:', pendingPlan);
+            debugLog('🔵 Iniciando checkout para:', pendingPlan);
             window.StripeIntegration.createCheckoutSession(pendingPlan)
               .catch(err => {
-                console.error('❌ Checkout error:', err);
+                debugLog('❌ Checkout error:', err);
                 window.location.href = 'app.html';
               });
           }
@@ -670,7 +672,7 @@
         setTimeout(() => {
           clearInterval(checkReady);
           if (!window.StripeIntegration || !firebase.auth().currentUser) {
-            console.error('❌ Timeout esperando Stripe/Auth');
+            debugLog('❌ Timeout esperando Stripe/Auth');
             localStorage.setItem('pendingPlan', pendingPlan);
             window.location.href = 'app.html';
           }

@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 //  LEX.JS - Control visual del asistente Lex
 //  Adaptado exactamente a tus 9 imágenes en /img/lex/
 // ==========================================================
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof window.openLexChatModal === 'function') {
       window.openLexChatModal();
     } else {
-      console.warn('[LEX] openLexChatModal no está disponible');
+      debugLog('[LEX] openLexChatModal no está disponible');
     }
   });
 
@@ -198,7 +198,7 @@ window.openLexChatModal = function () {
     window.lexChatMemory = new ConversationMemory(10);
     debugLog('💭 ConversationMemory created for this chat session');
   } else {
-    console.warn('💭 ConversationMemory class not available');
+    debugLog('💭 ConversationMemory class not available');
   }
 
   // Contenedor para colocar el panel (ahora con blur 100% de fondo)
@@ -644,7 +644,7 @@ window.openLexChatModal = function () {
         appendLexMessage(mensaje);
       }
     } catch (e) {
-      console.warn('[LEX] Error en saludo proactivo:', e);
+      debugLog('[LEX] Error en saludo proactivo:', e);
     }
   }, 600);
 
@@ -767,11 +767,11 @@ window.openLexChatModal = function () {
         // Aquí podríamos hacer que handleLexChatMessage llame a otra función
         // para generar texto y luego usar appendLexMessage(...)
       } catch (err) {
-        console.error('[LEX CHAT] Error procesando mensaje:', err);
+        debugLog('[LEX CHAT] Error procesando mensaje:', err);
         appendLexMessage('Hubo un error procesando tu pregunta. 😕');
       }
     } else {
-      console.error('[LEX CHAT] handleLexChatMessage no está definido');
+      debugLog('[LEX CHAT] handleLexChatMessage no está definido');
       appendLexMessage('Aún no tengo conectada mi lógica interna/externa, pero ya leo tus mensajes. 😉');
     }
 
@@ -785,7 +785,7 @@ window.lexQuickAction = async function (action) {
   const input = document.getElementById('lexChatInput');
 
   if (!messages || !input) {
-    console.error('[LEX] Chat no está abierto');
+    debugLog('[LEX] Chat no está abierto');
     return;
   }
 
@@ -861,7 +861,7 @@ async function showProactiveInsights() {
       });
     }
   } catch (error) {
-    console.error('[LEX] Error showing proactive insights:', error);
+    debugLog('[LEX] Error showing proactive insights:', error);
   }
 }
 
@@ -952,7 +952,7 @@ window.submitLexFeedback = async function () {
     window.switchLexTab('chat');
 
   } catch (error) {
-    console.error('Error submitting feedback:', error);
+    debugLog('Error submitting feedback:', error);
     alert('Error al enviar feedback. Por favor intenta de nuevo.');
   }
 };

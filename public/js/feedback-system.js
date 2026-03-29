@@ -1,4 +1,4 @@
-/**
+﻿/**
  * FEEDBACK SYSTEM - Bug Reports & Feature Requests
  * Allows users to submit feedback directly from the app
  */
@@ -269,7 +269,7 @@ class FeedbackSystem {
       document.getElementById('feedbackModal').remove();
 
     } catch (error) {
-      console.error('Error submitting feedback:', error);
+      debugLog('Error submitting feedback:', error);
       alert('Error al enviar feedback. Por favor intenta de nuevo.');
     }
   }

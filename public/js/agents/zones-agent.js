@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 //  ZONES AGENT - Experto en análisis geográfico
 // ==========================================================
 
@@ -294,4 +294,4 @@ if (window.lexMaster) {
   window.lexMaster.registerAgent('zones', zonesAgent);
 }
 
-console.log('🗺️ ZonesAgent loaded');
+debugLog('🗺️ ZonesAgent loaded');

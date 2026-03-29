@@ -1,4 +1,4 @@
-/**
+﻿/**
  * calculator-lazy-loader.js
  * Lazy loading system for calculator modules
  * Version: 1.0.0
@@ -58,7 +58,7 @@ function loadScript(src, moduleName) {
         };
 
         script.onerror = () => {
-            console.error(`❌ Error loading module: ${moduleName}`);
+            debugLog(`❌ Error loading module: ${moduleName}`);
             reject(new Error(`Failed to load ${moduleName}`));
         };
 
@@ -90,7 +90,7 @@ async function loadWeatherModule() {
 
         return Promise.resolve();
     } catch (error) {
-        console.error('Error loading Weather module:', error);
+        debugLog('Error loading Weather module:', error);
         return Promise.reject(error);
     }
 }
@@ -115,7 +115,7 @@ async function loadDecisionModule() {
 
         return Promise.resolve();
     } catch (error) {
-        console.error('Error loading Decision module:', error);
+        debugLog('Error loading Decision module:', error);
         return Promise.reject(error);
     }
 }
@@ -140,7 +140,7 @@ async function loadMapsModule() {
 
         return Promise.resolve();
     } catch (error) {
-        console.error('Error loading Maps module:', error);
+        debugLog('Error loading Maps module:', error);
         return Promise.reject(error);
     }
 }
@@ -165,7 +165,7 @@ async function loadNotesModule() {
 
         return Promise.resolve();
     } catch (error) {
-        console.error('Error loading Notes module:', error);
+        debugLog('Error loading Notes module:', error);
         return Promise.reject(error);
     }
 }
@@ -182,7 +182,7 @@ async function getWeatherForDestinationLazy(destination) {
         await loadWeatherModule();
         return window.CalculatorWeather.getWeatherForDestination(destination);
     } catch (error) {
-        console.error('Error loading weather:', error);
+        debugLog('Error loading weather:', error);
         return null;
     }
 }
@@ -195,7 +195,7 @@ async function loadRouteMapLazy() {
         await loadWeatherModule();
         window.CalculatorWeather.loadRouteMap();
     } catch (error) {
-        console.error('Error loading route map:', error);
+        debugLog('Error loading route map:', error);
     }
 }
 
@@ -207,7 +207,7 @@ async function getDecisionInteligenteLazy(rpm, millas, factores) {
         await loadDecisionModule();
         return await window.CalculatorDecision.getDecisionInteligente(rpm, millas, factores);
     } catch (error) {
-        console.error('Error loading decision:', error);
+        debugLog('Error loading decision:', error);
         return null;
     }
 }
@@ -220,7 +220,7 @@ async function initGoogleMapsLazy() {
         await loadMapsModule();
         window.CalculatorMaps.initGoogleMaps();
     } catch (error) {
-        console.error('Error loading maps:', error);
+        debugLog('Error loading maps:', error);
     }
 }
 
@@ -234,7 +234,7 @@ async function showDestinationNotesLazy(destination) {
         await loadNotesModule();
         window.CalculatorNotes.showDestinationNotes(destination);
     } catch (error) {
-        console.error('Error loading notes:', error);
+        debugLog('Error loading notes:', error);
     }
 }
 
@@ -246,7 +246,7 @@ async function openNotesModalLazy(destination) {
         await loadNotesModule();
         window.CalculatorNotes.openNotesModal(destination);
     } catch (error) {
-        console.error('Error loading notes modal:', error);
+        debugLog('Error loading notes modal:', error);
     }
 }
 

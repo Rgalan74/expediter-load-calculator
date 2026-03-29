@@ -3,16 +3,7 @@
  * Registro del Service Worker — ACTIVO
  */
 
-// Desregistrar versiones viejas primero para limpiar cache anterior
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(function (registrations) {
-        for (let registration of registrations) {
-            registration.unregister();
-        }
-    });
-}
-
-// Registrar Service Worker
+// Registrar Service Worker al cargar la página
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         registerServiceWorker();
@@ -44,17 +35,24 @@ async function registerServiceWorker() {
         }, 60 * 60 * 1000);
 
     } catch (error) {
-        console.error('❌ Service Worker registration failed:', error);
+        debugLog('❌ Service Worker registration failed:', error);
     }
 }
 
+// M2 fix: usar toast en lugar de confirm() nativo (mejor UX mobile)
 function showUpdateNotification() {
-    const message = '🎉 Nueva versión disponible! ¿Actualizar ahora?';
-    if (confirm(message)) {
+    if (typeof showToast === 'function') {
+        showToast('🎉 Nueva versión disponible. Recarga para actualizar.', 'info');
+        // Auto-recargar después de 5s con el nuevo SW activo
         if (navigator.serviceWorker.controller) {
             navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
         }
-        window.location.reload();
+        setTimeout(() => window.location.reload(), 5000);
+    } else {
+        // Fallback silencioso — SW se activará en la próxima carga normal
+        if (navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
+        }
     }
 }
 

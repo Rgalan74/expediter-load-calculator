@@ -1,16 +1,16 @@
-// ==========================================================
+﻿// ==========================================================
 //  LEX MODALS - Adaptador de agentes a modales visuales
 // ==========================================================
 
 class LexModals {
   constructor() {
-    console.log('🎨 LexModals inicializado');
+    debugLog('🎨 LexModals inicializado');
   }
 
   // Mostrar resultado según tipo de agente
   showAgentResult(agentResult, context = {}) {
     if (!agentResult || !agentResult.agent) {
-      console.error('[LexModals] Resultado inválido:', agentResult);
+      debugLog('[LexModals] Resultado inválido:', agentResult);
       return;
     }
 
@@ -28,7 +28,7 @@ class LexModals {
         this.showFinancesModal(agentResult);
         break;
       default:
-        console.warn('[LexModals] Agente sin modal:', agentResult.agent);
+        debugLog('[LexModals] Agente sin modal:', agentResult.agent);
     }
   }
 

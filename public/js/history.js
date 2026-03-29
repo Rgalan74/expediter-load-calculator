@@ -1,4 +1,4 @@
-// history.js - VERSIÓN CORREGIDA PARA CARGAS HISTÓRICAS
+﻿// history.js - VERSIÓN CORREGIDA PARA CARGAS HISTÓRICAS
 
 // IMPORTS COMENTADOS - Usando funciones globales en su lugar
 // import { sanitizeHTML } from './security.js';
@@ -25,7 +25,7 @@ function getLoadHistory() {
   setLoadingState(true);
 
   if (typeof firebase === 'undefined' || !firebase.firestore) {
-    console.error(" Firebase not available");
+    debugLog(" Firebase not available");
     showHistoryMessage("Error: Firebase no está disponible", "error");
     setLoadingState(false);
     return;
@@ -129,13 +129,13 @@ function getLoadHistory() {
         }
 
       } catch (error) {
-        console.error(" Error updating history UI components:", error);
+        debugLog(" Error updating history UI components:", error);
         showHistoryMessage("Error actualizando componentes: " + error.message, "error");
         setLoadingState(false);
       }
     })
     .catch(error => {
-      console.error(" Error loading history data:", error);
+      debugLog(" Error loading history data:", error);
       setLoadingState(false);
       showHistoryMessage(" Error loading history: " + error.message, "error");
       setErrorState("Error cargando datos");
@@ -191,7 +191,7 @@ function renderFilteredImmediate() {
 
     debugLog(` History filtered and rendered: ${filteredData.length} loads from ${allData.length} total`);
   } catch (error) {
-    console.error("Error filtering history data:", error);
+    debugLog("Error filtering history data:", error);
     showHistoryMessage("Error al filtrar datos", "error");
   }
 }
@@ -253,7 +253,7 @@ function setErrorState(message) {
 function populateHistoryMonthSelector() {
   const selector = document.getElementById("historyMonthSelect");
   if (!selector) {
-    console.warn("Month selector not found");
+    debugLog("Month selector not found");
     return;
   }
 
@@ -348,7 +348,7 @@ async function updateSummaryStats() {
         if (minDate && maxDate) {
           // Verificar que Firebase esté disponible
           if (typeof firebase === 'undefined' || !firebase.firestore) {
-            console.warn('⚠️ Firebase no disponible, usando totalExpenses = 0');
+            debugLog('⚠️ Firebase no disponible, usando totalExpenses = 0');
           } else {
             // Cargar todos los gastos del usuario
             const expensesSnapshot = await firebase.firestore()
@@ -377,7 +377,7 @@ async function updateSummaryStats() {
           }
         }
       } catch (error) {
-        console.error("❌ Error cargando gastos para History:", error);
+        debugLog("❌ Error cargando gastos para History:", error);
         // Si hay error, totalExpenses queda en 0
       }
     } else {
@@ -400,7 +400,7 @@ async function updateSummaryStats() {
 
     debugLog('✅ updateSummaryStats completado');
   } catch (error) {
-    console.error('❌ ERROR CRÍTICO en updateSummaryStats:', error);
+    debugLog('❌ ERROR CRÍTICO en updateSummaryStats:', error);
     // Fallback: mostrar al menos los valores básicos
     updateElement('sumTotal', filteredData?.length || 0);
     updateElement('sumMiles', '0');
@@ -415,7 +415,7 @@ async function updateSummaryStats() {
 function renderHistoryTable() {
   const table = document.getElementById("loadList");
   if (!table) {
-    console.warn(" Load list table not found");
+    debugLog(" Load list table not found");
     return;
   }
 
@@ -464,7 +464,7 @@ function renderHistoryTable() {
 
     debugLog(` History table rendered successfully with ${filteredData.length} rows`);
   } catch (error) {
-    console.error(" Error rendering history table:", error);
+    debugLog(" Error rendering history table:", error);
     table.innerHTML = '<tr><td colspan="9" class="p-4 text-center text-red-500">Error al mostrar los datos.</td></tr>';
   }
 }
@@ -509,7 +509,7 @@ function executeDeleteLoad(loadId) {
       if (window.CPMEngine) window.CPMEngine.clearCache();
     })
     .catch(error => {
-      console.error(" Error deleting load:", error);
+      debugLog(" Error deleting load:", error);
       showToast("Error al eliminar la carga: " + error.message, "error");
     });
 }
@@ -549,7 +549,7 @@ function exportToCSV() {
     showHistoryMessage(` CSV exportado con ${filteredData.length} cargas`, "success");
     debugLog(" CSV exported successfully");
   } catch (error) {
-    console.error("Error exporting CSV:", error);
+    debugLog("Error exporting CSV:", error);
     showHistoryMessage(" Error al exportar CSV", "error");
   }
 }
@@ -816,7 +816,7 @@ async function saveEditedLoad() {
     }, 500);
 
   } catch (error) {
-    console.error(" Error en saveEditedLoad:", error);
+    debugLog(" Error en saveEditedLoad:", error);
     showHistoryMessage(" Error: " + error.message, "error");
   }
 }
@@ -892,7 +892,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (typeof renderFiltered === "function") {
         renderFiltered();
       } else {
-        console.error(" La función renderFiltered no está definida");
+        debugLog(" La función renderFiltered no está definida");
       }
     });
 
@@ -902,7 +902,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (typeof exportToCSV === "function") {
         exportToCSV(); // ejecuta tu función real
       } else {
-        console.error(" La función exportToCSV no está definida");
+        debugLog(" La función exportToCSV no está definida");
       }
     });
 
@@ -970,7 +970,7 @@ window.analyzeLexHistory = async function () {
       const result = await window.lexAI.analyzeHistoryLoads(dataToAnalyze);
       return result;
     } else {
-      console.warn("[LEX-HISTORY] lexAI o analyzeHistoryLoads no disponibles");
+      debugLog("[LEX-HISTORY] lexAI o analyzeHistoryLoads no disponibles");
       if (window.setLexState) {
         window.setLexState('warning', {
           message: 'No pude acceder al análisis de historial de Lex ⚙️',
@@ -980,7 +980,7 @@ window.analyzeLexHistory = async function () {
       return null;
     }
   } catch (err) {
-    console.error('[LEX-HISTORY] Error en analyzeLexHistory:', err);
+    debugLog('[LEX-HISTORY] Error en analyzeLexHistory:', err);
     if (window.setLexState) {
       window.setLexState('warning', {
         message: 'Algo falló al analizar el historial con Lex 🛠️',

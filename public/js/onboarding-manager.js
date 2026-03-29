@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Onboarding Manager
  * Detecta y gestiona el flujo de onboarding para usuarios nuevos
  * 
@@ -57,7 +57,7 @@ class OnboardingManager {
             }
 
         } catch (error) {
-            console.error('❌ Error en onboarding init:', error);
+            debugLog('❌ Error en onboarding init:', error);
         }
     }
 
@@ -85,7 +85,7 @@ class OnboardingManager {
 
             return profile;
         } catch (error) {
-            console.error('Error obteniendo perfil:', error);
+            debugLog('Error obteniendo perfil:', error);
             return null;
         }
     }
@@ -514,7 +514,7 @@ class OnboardingManager {
 
             debugLog('📌 Skip registrado');
         } catch (error) {
-            console.error('Error tracking skip:', error);
+            debugLog('Error tracking skip:', error);
         }
     }
 
@@ -597,7 +597,7 @@ function initOnboardingWhenReady() {
                     onboardingManager = new OnboardingManager();
                     await onboardingManager.init();
                 } catch (error) {
-                    console.error('❌ OnboardingManager: Error en init:', error);
+                    debugLog('❌ OnboardingManager: Error en init:', error);
                 }
             }, 2000); // 2 segundos después de auth state changed
         } else {

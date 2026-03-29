@@ -1,4 +1,4 @@
-// finances-lazy-override.js - Lazy Loading Override System
+﻿// finances-lazy-override.js - Lazy Loading Override System
 // Version: 1.0.0
 // Last Updated: 2025-12-19
 
@@ -32,7 +32,7 @@ window.openExpenseModal = async function (expense = null) {
                 return;
             }
         } catch (error) {
-            console.error('Error loading expenses module, using fallback:', error);
+            debugLog('Error loading expenses module, using fallback:', error);
         }
     }
     // Fallback to original
@@ -48,7 +48,7 @@ window.closeExpenseModal = async function () {
                 return;
             }
         } catch (error) {
-            console.error('Error loading expenses module, using fallback:', error);
+            debugLog('Error loading expenses module, using fallback:', error);
         }
     }
     // Fallback to original
@@ -64,7 +64,7 @@ window.saveExpenseToFirebase = async function () {
                 return;
             }
         } catch (error) {
-            console.error('Error loading expenses module, using fallback:', error);
+            debugLog('Error loading expenses module, using fallback:', error);
         }
     }
     // Fallback to original
@@ -80,7 +80,7 @@ window.editExpense = async function (id) {
                 return;
             }
         } catch (error) {
-            console.error('Error loading expenses module, using fallback:', error);
+            debugLog('Error loading expenses module, using fallback:', error);
         }
     }
     // Fallback to original
@@ -96,7 +96,7 @@ window.deleteExpense = async function (id) {
                 return;
             }
         } catch (error) {
-            console.error('Error loading expenses module, using fallback:', error);
+            debugLog('Error loading expenses module, using fallback:', error);
         }
     }
     // Fallback to original
@@ -123,7 +123,7 @@ window.generatePLReport = async function () {
                 return;
             }
         } catch (error) {
-            console.error('Error loading reports module, using fallback:', error);
+            debugLog('Error loading reports module, using fallback:', error);
         }
     }
     // Fallback
@@ -139,7 +139,7 @@ window.exportReportToPDF = async function () {
                 return;
             }
         } catch (error) {
-            console.error('Error loading reports module, using fallback:', error);
+            debugLog('Error loading reports module, using fallback:', error);
         }
     }
     // Fallback
@@ -155,7 +155,7 @@ window.openReportModal = async function (type, title, subtitle, icon) {
                 return;
             }
         } catch (error) {
-            console.error('Error loading reports module, using fallback:', error);
+            debugLog('Error loading reports module, using fallback:', error);
         }
     }
     // Fallback
@@ -171,7 +171,7 @@ window.closeReportModal = async function () {
                 return;
             }
         } catch (error) {
-            console.error('Error loading reports module, using fallback:', error);
+            debugLog('Error loading reports module, using fallback:', error);
         }
     }
     // Fallback

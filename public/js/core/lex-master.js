@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 //  LEX MASTER - Orquestador de agentes
 // ==========================================================
 
@@ -11,14 +11,14 @@ class LexMaster {
       currentLoad: null,
       userProfile: null
     };
-    console.log('🎯 LexMaster inicializado');
+    debugLog('🎯 LexMaster inicializado');
   }
 
   // Registrar agente
   registerAgent(name, agent) {
     agent.connectToEventBus(this.eventBus);
     this.agents[name] = agent;
-    console.log(`✅ Agente registrado: ${name}`);
+    debugLog(`✅ Agente registrado: ${name}`);
     this.eventBus.emit('AGENT_REGISTERED', { name, caps: agent.capabilities });
   }
 
@@ -29,7 +29,7 @@ class LexMaster {
 
   // Procesar solicitud (punto de entrada principal)
   async processRequest(userMessage, context = {}) {
-    console.log('🎯 [LexMaster] Procesando:', userMessage);
+    debugLog('🎯 [LexMaster] Procesando:', userMessage);
 
     try {
       // Actualizar contexto
@@ -37,11 +37,11 @@ class LexMaster {
 
       // 1. Detectar intent
       const intent = await this.detectIntent(userMessage);
-      console.log('💭 Intent:', intent.primary || intent.intent);
+      debugLog('💭 Intent:', intent.primary || intent.intent);
 
       // 2. Seleccionar agentes
       const agents = this.selectAgents(intent);
-      console.log('🎯 Agentes:', agents.map(a => a.name));
+      debugLog('🎯 Agentes:', agents.map(a => a.name));
 
       // 3. Ejecutar
       const results = [];
@@ -52,10 +52,10 @@ class LexMaster {
           const duration = Date.now() - start;
           agent.recordTask(true, duration);
           results.push(result);
-          console.log(`✅ [${agent.name}] ${duration}ms`);
+          debugLog(`✅ [${agent.name}] ${duration}ms`);
         } catch (err) {
           agent.recordTask(false, Date.now() - start);
-          console.error(`❌ [${agent.name}]`, err);
+          debugLog(`❌ [${agent.name}]`, err);
           results.push({ agent: agent.name, error: err.message });
         }
       }
@@ -69,7 +69,7 @@ class LexMaster {
       return { success: true, results, synthesis, intent };
 
     } catch (err) {
-      console.error('❌ [LexMaster] Error:', err);
+      debugLog('❌ [LexMaster] Error:', err);
       return { success: false, error: err.message };
     }
   }
@@ -247,4 +247,4 @@ class LexMaster {
 
 // Crear instancia global
 window.lexMaster = new LexMaster();
-console.log('🎯 LexMaster loaded');
+debugLog('🎯 LexMaster loaded');

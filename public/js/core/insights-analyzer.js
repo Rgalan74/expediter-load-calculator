@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 //  INSIGHTS ANALYZER - Proactive pattern detection
 // ==========================================================
 
@@ -154,4 +154,4 @@ window.InsightsAnalyzer = {
     }
 };
 
-console.log('💡 InsightsAnalyzer loaded');
+debugLog('💡 InsightsAnalyzer loaded');

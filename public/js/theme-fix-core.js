@@ -1,4 +1,4 @@
-/**
+﻿/**
  * THEME FIX CORE v5.21.0
  * Enforces correct input styling for Light/Dark modes
  * NOW DELEGATES LIGHT MODE STYLES TO: public/css/theme-overrides.css
@@ -6,7 +6,7 @@
 (function () {
     // Debug logging (internal only)
     function log(msg) {
-        // console.log(`[ThemeFix] ${msg}`);
+        // debugLog(`[ThemeFix] ${msg}`);
     }
 
     function forceThemeInputs() {
@@ -65,7 +65,7 @@
             }
 
         } catch (e) {
-            console.error('ThemeFix Error:', e);
+            debugLog('ThemeFix Error:', e);
         }
     }
 

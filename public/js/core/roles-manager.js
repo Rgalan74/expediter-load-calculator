@@ -51,28 +51,25 @@ class RolesManager {
      * Inicializa el sistema de roles
      */
     async init(user = null, db = null) {
-        console.log('🔐 RolesManager: Iniciando...');
+        debugLog('🔐 [ROLES] Iniciando...');
 
-        // Usar parámetros si se proveen, sino usar globales
         this.currentUser = user || window.currentUser;
         this.db = db || window.db;
 
-        // Verificar que tenemos lo necesario
         if (!this.currentUser || !this.db) {
-            console.log('⏳ RolesManager: Faltan datos (user o db), esperando...');
+            debugLog('⏳ [ROLES] Faltan datos (user o db), esperando...');
             setTimeout(() => this.init(), 500);
             return;
         }
 
         try {
-            // Cargar rol del usuario actual
             await this.loadUserRole();
-            console.log('✅ RolesManager inicializado:', {
+            debugLog('✅ [ROLES] inicializado:', {
                 role: this.userRole,
                 permissions: this.userPermissions.length
             });
         } catch (error) {
-            console.error('❌ Error en RolesManager init:', error);
+            debugLog('❌ [ROLES] Error en init:', error);
         }
     }
 
@@ -84,7 +81,7 @@ class RolesManager {
             const userDoc = await this.db.collection('users').doc(this.currentUser.uid).get();
 
             if (!userDoc.exists) {
-                console.warn('⚠️ Usuario no existe en Firestore');
+                debugLog('⚠️ [ROLES] Usuario no existe en Firestore');
                 this.userRole = 'user';
                 this.userPermissions = RolesManager.ROLE_PERMISSIONS.user;
                 return;
@@ -94,14 +91,13 @@ class RolesManager {
             this.userRole = userData.role || 'user';
             this.userPermissions = RolesManager.ROLE_PERMISSIONS[this.userRole] || [];
 
-            console.log('👤 Rol cargado:', {
+            debugLog('👤 [ROLES] Rol cargado:', {
                 uid: this.currentUser.uid,
                 email: this.currentUser.email,
                 role: this.userRole
             });
         } catch (error) {
-            console.error('Error cargando rol de usuario:', error);
-            // Default a user si hay error
+            debugLog('❌ [ROLES] Error cargando rol:', error);
             this.userRole = 'user';
             this.userPermissions = RolesManager.ROLE_PERMISSIONS.user;
         }
@@ -186,7 +182,7 @@ class RolesManager {
 
             return role;
         } catch (error) {
-            console.error('Error obteniendo rol de usuario:', error);
+            debugLog('❌ [ROLES] Error obteniendo rol:', error);
             return 'user';
         }
     }
@@ -233,9 +229,9 @@ class RolesManager {
                 });
             }
 
-            console.log('✅ Rol asignado exitosamente:', { userId, role });
+            debugLog('✅ [ROLES] Rol asignado:', { userId, role });
         } catch (error) {
-            console.error('Error asignando rol:', error);
+            debugLog('❌ [ROLES] Error asignando rol:', error);
             throw error;
         }
     }
@@ -268,7 +264,7 @@ class RolesManager {
 
             return users;
         } catch (error) {
-            console.error('Error listando usuarios:', error);
+            debugLog('❌ [ROLES] Error listando usuarios:', error);
             throw error;
         }
     }
@@ -287,7 +283,7 @@ class RolesManager {
      */
     clearCache() {
         this.roleCache.clear();
-        console.log('🧹 Cache de roles limpiado');
+        debugLog('🧹 [ROLES] Cache limpiado');
     }
 }
 
@@ -307,42 +303,38 @@ window.getRolesManager = () => rolesManager;
  * Inicializa RolesManager cuando Firebase esté listo
  */
 function initRolesManagerWhenReady() {
-    // Verificar que window.auth y window.db estén disponibles
     if (!window.auth || !window.db) {
         setTimeout(initRolesManagerWhenReady, 300);
         return;
     }
 
-    console.log('✅ RolesManager: Firebase disponible, configurando listener...');
+    debugLog('✅ [ROLES] Firebase disponible, configurando listener...');
 
-    // Usar el auth ya inicializado
     window.auth.onAuthStateChanged(async (user) => {
         if (user) {
-            console.log('👤 RolesManager: Usuario detectado, iniciando...', user.email);
+            debugLog('👤 [ROLES] Usuario detectado, iniciando...', user.email);
 
-            // Inicializar pasando user y db directamente
             setTimeout(async () => {
                 try {
                     await rolesManager.init(user, window.db);
                 } catch (error) {
-                    console.error('❌ RolesManager: Error en init:', error);
+                    debugLog('❌ [ROLES] Error en init:', error);
                 }
-            }, 500); // Pequeño delay para asegurar que window.db esté disponible
+            }, 500);
         } else {
-            console.log('⏸️ RolesManager: No hay usuario autenticado');
+            debugLog('⏸️ [ROLES] No hay usuario autenticado');
         }
     });
 }
 
-// Iniciar cuando el DOM esté listo
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-        console.log('📋 RolesManager: DOM cargado, esperando Firebase...');
+        debugLog('📋 [ROLES] DOM cargado, esperando Firebase...');
         initRolesManagerWhenReady();
     });
 } else {
-    console.log('📋 RolesManager: DOM ya listo, esperando Firebase...');
+    debugLog('📋 [ROLES] DOM ya listo, esperando Firebase...');
     initRolesManagerWhenReady();
 }
 
-console.log('✅ roles-manager.js cargado');
+debugLog('✅ [ROLES] roles-manager.js cargado');

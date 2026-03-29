@@ -1,4 +1,4 @@
-//  main.js - VERSIÍ CORREGIDA SIN BUCLE INFINITO
+﻿//  main.js - VERSIÍ CORREGIDA SIN BUCLE INFINITO
 
 // Estado global de la aplicación
 let appState = {
@@ -20,7 +20,7 @@ function waitForFunction(funcName, timeout = 5000) {
                 debugLog(` [MAIN] Function '${funcName}' available after ${attempts} attempts (${elapsed}ms)`);
                 resolve();
             } else if (elapsed > timeout) {
-                console.warn(` [MAIN] Timeout: '${funcName}' not available after ${timeout}ms`);
+                debugLog(` [MAIN] Timeout: '${funcName}' not available after ${timeout}ms`);
                 reject(new Error(`Timeout waiting for ${funcName}`));
             } else {
                 setTimeout(check, 50); // Revisar cada 50ms
@@ -55,7 +55,7 @@ function openTab(tabId) {
             appState.currentTab = tabId;
             debugLog(` [MAIN] Tab ${tabId} activated`);
         } else {
-            console.error(`Â [MAIN] Tab element not found: ${tabId}`);
+            debugLog(`Â [MAIN] Tab element not found: ${tabId}`);
             return;
         }
 
@@ -63,11 +63,11 @@ function openTab(tabId) {
         if (window.currentUser) {
             loadTabData(tabId);
         } else {
-            console.warn(` [MAIN] No user available for tab ${tabId}, will load when user is ready`);
+            debugLog(` [MAIN] No user available for tab ${tabId}, will load when user is ready`);
         }
 
     } catch (error) {
-        console.error(`Â [MAIN] Error opening tab ${tabId}:`, error);
+        debugLog(`Â [MAIN] Error opening tab ${tabId}:`, error);
         showMessage("Error al cambiar de pestaña", "error");
     }
 }
@@ -124,7 +124,7 @@ async function loadTabData(tabId) {
 
                     debugLog(" [MAIN] Datos financieros cargados exitosamente");
                 } catch (err) {
-                    console.error(" [MAIN] Error cargando datos financieros:", err);
+                    debugLog(" [MAIN] Error cargando datos financieros:", err);
                     if (typeof showMessage === 'function') {
                         showMessage("Error al cargar datos financieros. Por favor recarga la página.", "error");
                     }
@@ -163,7 +163,7 @@ async function loadTabData(tabId) {
                 debugLog(` [MAIN] No specific handler for tab: ${tabId}`);
         }
     } catch (error) {
-        console.error(`Â [MAIN] Error loading data for tab ${tabId}:`, error);
+        debugLog(`Â [MAIN] Error loading data for tab ${tabId}:`, error);
         if (typeof showMessage === 'function') {
             showMessage(`Error cargando ${tabId}`, "error");
         }
@@ -289,7 +289,7 @@ function setupLogout() {
                 window.location.href = 'auth.html';
             }
         } catch (error) {
-            console.error("  [MAIN] Error signing out:", error);
+            debugLog("  [MAIN] Error signing out:", error);
             if (typeof showMessage === 'function') {
                 showMessage("Error al cerrar sesión", "error");
             } else {
@@ -346,7 +346,7 @@ function setupInitialApp() {
 
         debugLog(" [MAIN] Initial app setup completed");
     } catch (error) {
-        console.error("Â [MAIN] Error during app setup:", error);
+        debugLog("Â [MAIN] Error during app setup:", error);
     }
     //  Avisar que main.js ya terminó de inicializar
     window.mainJsReady = true;
@@ -368,7 +368,7 @@ function loadInitialData() {
         debugLog(` [MAIN] Loading data for current tab: ${appState.currentTab}`);
         loadTabData(appState.currentTab);
     } else {
-        console.warn(" [MAIN] Cannot load initial data:", {
+        debugLog(" [MAIN] Cannot load initial data:", {
             user: !!window.currentUser,
             currentTab: appState.currentTab
         });
@@ -493,7 +493,7 @@ if (window.DEBUG_MODE) {
             debugLog("[MAIN] Manual finances load...");
             loadFinancesData();
         } else {
-            console.error("[MAIN] Cannot load finances manually:", {
+            debugLog("[MAIN] Cannot load finances manually:", {
                 function: typeof loadFinancesData,
                 user: !!window.currentUser
             });
@@ -553,7 +553,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (typeof loadAccountsData === "function") {
                     loadAccountsData();
                 } else {
-                    console.warn(" loadAccountsData no existe");
+                    debugLog(" loadAccountsData no existe");
                 }
             }
         }
@@ -574,3 +574,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+
+// Exponer globalmente para que config.js la llame de forma defensiva
+window.loadInitialData = loadInitialData;

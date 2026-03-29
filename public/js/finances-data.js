@@ -1,4 +1,4 @@
-/**
+﻿/**
  * finances-data.js
  * Data loading and processing for financial module
  * Extracted from finances.js - Consolidates duplicate load functions
@@ -222,7 +222,7 @@ async function loadFinancialData(period = "all", forceReload = false) {
         };
 
     } catch (error) {
-        console.error("❌ Error cargando datos financieros:", error);
+        debugLog("❌ Error cargando datos financieros:", error);
         throw error;
     }
 }

@@ -1,4 +1,4 @@
-//  zones.js - VERSIN COMPLETAMENTE CORREGIDA
+﻿//  zones.js - VERSIN COMPLETAMENTE CORREGIDA
 
 // Variables globales
 let rpmPorEstado = {};
@@ -55,7 +55,7 @@ function loadZonesData() {
             zonesDataLoaded = true;
         })
         .catch(error => {
-            console.error(" Error loading zones data:", error);
+            debugLog(" Error loading zones data:", error);
             showZonesError("Error cargando datos: " + error.message);
             if (window.showToast) {
                 showToast('Error al cargar zonas: ' + error.message, 'error');
@@ -318,7 +318,7 @@ function showStateInfo(stateCode, rpm, resumen, isClick = false) {
 //  FUNCIN PINTARESTADOS CORREGIDA
 function pintarEstados(svgDoc) {
     if (!svgDoc) {
-        console.warn(" [ZONES] SVG document no disponible para pintado");
+        debugLog(" [ZONES] SVG document no disponible para pintado");
         return;
     }
 
@@ -566,7 +566,7 @@ function verifyPainting(svgDoc) {
     if (successRate >= 90) {
         debugLog(` [ZONES] Pintado verificado: ${successCount}/${totalStates} estados`);
     } else {
-        console.warn(` [ZONES] Pintado incompleto: ${successCount}/${totalStates} estados`);
+        debugLog(` [ZONES] Pintado incompleto: ${successCount}/${totalStates} estados`);
     }
 }
 
@@ -584,7 +584,7 @@ let currentCitySort = { column: 'count', asc: false }; // Por defecto: más carg
 function initializeCitiesMap() {
     const mapElement = document.getElementById('citiesMap');
     if (!mapElement) {
-        console.warn(" Elemento citiesMap no encontrado");
+        debugLog(" Elemento citiesMap no encontrado");
         // Intentar crearlo si el contenedor existe
         const container = document.getElementById('citiesMapContainer');
         if (container && !container.querySelector('#citiesMap')) {
@@ -599,7 +599,7 @@ function initializeCitiesMap() {
     }
 
     if (typeof google === 'undefined' || !google.maps) {
-        console.warn(" Google Maps no est disponible");
+        debugLog(" Google Maps no est disponible");
         return;
     }
 
@@ -645,7 +645,7 @@ function loadCitiesData() {
             hideCitiesLoading(); //  AGREGADO
         })
         .catch(error => {
-            console.error(" Error loading cities:", error);
+            debugLog(" Error loading cities:", error);
             showCitiesError(error.message);
             if (window.showToast) {
                 showToast('Error al cargar ciudades: ' + error.message, 'error');
@@ -714,7 +714,7 @@ async function showCitiesOnMap() {
                 bounds.extend(result);
             }
         } catch (error) {
-            console.warn(` No se pudo geocodificar: ${destination}`);
+            debugLog(` No se pudo geocodificar: ${destination}`);
         }
     }
 
@@ -1053,7 +1053,7 @@ window.analyzeLexZones = async function () {
             if (typeof calcularEstadisticas === 'function') {
                 stats = calcularEstadisticas(loads);
             } else {
-                console.warn('[LEX-ZONES] calcularEstadisticas no está definida');
+                debugLog('[LEX-ZONES] calcularEstadisticas no está definida');
                 alert('No pude calcular las estadísticas de zonas.');
                 return;
             }
@@ -1084,7 +1084,7 @@ window.analyzeLexZones = async function () {
         debugLog('[LEX-ZONES] Análisis completado:', analysis);
         return analysis;
     } catch (err) {
-        console.error('[LEX-ZONES] Error:', err);
+        debugLog('[LEX-ZONES] Error:', err);
         if (window.setLexState) {
             window.setLexState('warning', {
                 message: 'Tuve un problema al analizar tus zonas 🛠️',
@@ -1428,7 +1428,7 @@ async function loadMarketNotes() {
         renderMarketNotes();
 
     } catch (e) {
-        console.error('Error cargando notas:', e);
+        debugLog('Error cargando notas:', e);
         container.innerHTML = '<p class="text-sm text-red-500 text-center py-4">Error cargando notas.</p>';
     }
 }
@@ -1548,7 +1548,7 @@ window.renderMarketNotes = function () {
 
 // Guardar nota desde el tab de Zonas
 async function saveMarketNote() {
-    console.log(" [ZONES] saveMarketNote triggered");
+    debugLog(" [ZONES] saveMarketNote triggered");
     const input = document.getElementById('noteZoneInput');
     const textarea = document.getElementById('noteZoneText');
     const type = document.getElementById('noteZoneType');
@@ -1562,7 +1562,7 @@ async function saveMarketNote() {
     if (!window.currentUser) return alert('Debes iniciar sesión');
 
     try {
-        console.log(" [ZONES] Attempting to save note to Firestore:", { destination, note, noteType, uid: window.currentUser.uid });
+        debugLog(" [ZONES] Attempting to save note to Firestore:", { destination, note, noteType, uid: window.currentUser.uid });
         await firebase.firestore().collection('notes').add({
             userId: window.currentUser.uid,
             key: destination.toLowerCase().replace(/,.*$/, '').trim(),
@@ -1572,12 +1572,12 @@ async function saveMarketNote() {
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        console.log(" [ZONES] Note saved successfully");
+        debugLog(" [ZONES] Note saved successfully");
         input.value = '';
         textarea.value = '';
         loadMarketNotes();
     } catch (e) {
-        console.error(' [ZONES] CRITICAL Error guardando nota:', e);
+        debugLog(' [ZONES] CRITICAL Error guardando nota:', e);
         console.trace(e);
         alert('Error guardando la nota: ' + e.message);
     }

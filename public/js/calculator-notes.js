@@ -1,4 +1,4 @@
-/**
+﻿/**
  * calculator-notes.js
  * Destination notes management system
  * Extracted from calculator.js for lazy loading
@@ -24,7 +24,7 @@ function normalizeDestination(value) {
  */
 async function getNotesForDestination(normalizedKey) {
     if (!window.currentUser) {
-        console.warn('User not authenticated');
+        debugLog('User not authenticated');
         return { empty: true, docs: [] };
     }
 
@@ -46,7 +46,7 @@ async function getNotesForDestination(normalizedKey) {
             docs: filteredDocs
         };
     } catch (error) {
-        console.error('Error getting notes:', error);
+        debugLog('Error getting notes:', error);
         return { empty: true, docs: [] };
     }
 }
@@ -186,7 +186,7 @@ async function addNoteToDestination(key) {
             window.showToast('✅ Nota guardada', 'success');
         }
     } catch (error) {
-        console.error('Error adding note:', error);
+        debugLog('Error adding note:', error);
         alert('Error guardando nota');
     }
 }
@@ -215,7 +215,7 @@ async function editNote(noteId, oldText) {
             window.showToast('✅ Nota actualizada', 'success');
         }
     } catch (error) {
-        console.error('Error editing note:', error);
+        debugLog('Error editing note:', error);
         alert('Error editando nota');
     }
 }
@@ -240,7 +240,7 @@ async function deleteNote(noteId) {
             window.showToast('✅ Nota eliminada', 'success');
         }
     } catch (error) {
-        console.error('Error deleting note:', error);
+        debugLog('Error deleting note:', error);
         alert('Error eliminando nota');
     }
 }

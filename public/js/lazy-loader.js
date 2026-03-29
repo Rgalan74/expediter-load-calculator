@@ -1,4 +1,4 @@
-// lazy-loader.js - Dynamic Module Loading System
+﻿// lazy-loader.js - Dynamic Module Loading System
 // Version: 1.0.0
 // Last Updated: 2025-12-19
 
@@ -36,7 +36,7 @@ function loadScript(src, moduleName) {
         };
 
         script.onerror = () => {
-            console.error(`❌ Error cargando módulo: ${moduleName}`);
+            debugLog(`❌ Error cargando módulo: ${moduleName}`);
             reject(new Error(`Failed to load ${moduleName}`));
         };
 
@@ -71,7 +71,7 @@ async function loadChartsModule() {
 
         return Promise.resolve();
     } catch (error) {
-        console.error('Error cargando Charts module:', error);
+        debugLog('Error cargando Charts module:', error);
         return Promise.reject(error);
     }
 }
@@ -103,7 +103,7 @@ async function loadReportsModule() {
 
         return Promise.resolve();
     } catch (error) {
-        console.error('Error cargando Reports module:', error);
+        debugLog('Error cargando Reports module:', error);
         return Promise.reject(error);
     }
 }
@@ -135,7 +135,7 @@ async function loadExpensesModule() {
 
         return Promise.resolve();
     } catch (error) {
-        console.error('Error cargando Expenses module:', error);
+        debugLog('Error cargando Expenses module:', error);
         return Promise.reject(error);
     }
 }
@@ -152,7 +152,7 @@ async function updateFinancialChartsLazy(context = "global") {
         await loadChartsModule();
         window.FinancesCharts.updateFinancialCharts(context);
     } catch (error) {
-        console.error('Error actualizando gráficos:', error);
+        debugLog('Error actualizando gráficos:', error);
         showMessage('Error cargando gráficos', 'error');
     }
 }
@@ -165,7 +165,7 @@ async function generatePLReportLazy() {
         await loadReportsModule();
         window.FinancesReports.generatePLReport();
     } catch (error) {
-        console.error('Error generando reporte:', error);
+        debugLog('Error generando reporte:', error);
         showMessage('Error cargando reporte', 'error');
     }
 }
@@ -178,7 +178,7 @@ async function generateTaxReportLazy() {
         await loadReportsModule();
         window.FinancesReports.generateTaxReport();
     } catch (error) {
-        console.error('Error generando reporte fiscal:', error);
+        debugLog('Error generando reporte fiscal:', error);
         showMessage('Error cargando reporte fiscal', 'error');
     }
 }
@@ -191,7 +191,7 @@ async function openExpenseModalLazy(expense = null) {
         await loadExpensesModule();
         window.FinancesExpenses.openExpenseModal(expense);
     } catch (error) {
-        console.error('Error abriendo modal de gastos:', error);
+        debugLog('Error abriendo modal de gastos:', error);
         showMessage('Error cargando modal de gastos', 'error');
     }
 }

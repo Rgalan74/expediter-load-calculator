@@ -1,4 +1,4 @@
-/**
+﻿/**
  * SYNC MANAGER - Auto-sync when online
  * Syncs offline data to Firebase when connection is restored
  */
@@ -59,7 +59,7 @@ class SyncManager {
             debugLog('✅ Sync completed successfully');
             this.showNotification('Sync Complete', 'All your data is up to date');
         } catch (error) {
-            console.error('❌ Sync failed:', error);
+            debugLog('❌ Sync failed:', error);
             this.showNotification('Sync Failed', 'Will retry later');
         } finally {
             this.syncInProgress = false;
@@ -101,7 +101,7 @@ class SyncManager {
 
                 debugLog(`✅ Synced calculation #${calc.id} → ${docRef.id}`);
             } catch (error) {
-                console.error(`❌ Failed to sync calculation #${calc.id}:`, error);
+                debugLog(`❌ Failed to sync calculation #${calc.id}:`, error);
             }
         }
     }
@@ -141,7 +141,7 @@ class SyncManager {
 
                 debugLog(`✅ Synced expense #${expense.id} → ${docRef.id}`);
             } catch (error) {
-                console.error(`❌ Failed to sync expense #${expense.id}:`, error);
+                debugLog(`❌ Failed to sync expense #${expense.id}:`, error);
             }
         }
     }

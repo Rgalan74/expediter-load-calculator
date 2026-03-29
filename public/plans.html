@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -32,8 +32,8 @@
   <meta property="twitter:title" content="Planes y Precios | Smart Load Solution" />
   <meta property="twitter:description" content="Compara nuestros planes Starter, Professional y Premium + AI. Encuentra el plan perfecto para tu negocio de transporte." />
   <meta property="twitter:image" content="https://smartloadsolution.com/img/og-image-es.jpg" />
-  <link rel="icon" type="image/png" href="img/logo-app.webp" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/webp" href="img/logo-app.webp" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
   <style>
@@ -187,9 +187,11 @@
     <div class="container">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <img src="img/logo-app.webp" alt="Smart Load Solution Logo" class="h-10 md:h-12 w-auto"
-            onerror="this.src='img/logo-app.png'" />
-          <span class="text-xl md:text-2xl font-bold">Smart Load Solution</span>
+          <a href="index.html" class="flex items-center gap-3" style="text-decoration:none;color:inherit;">
+            <img src="img/logo-app.webp" alt="Smart Load Solution Logo" class="h-10 md:h-12 w-auto"
+              onerror="this.src='img/logo-app.png'" />
+            <span class="text-xl md:text-2xl font-bold">Smart Load Solution</span>
+          </a>
         </div>
         <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
           <a href="index.html" class="text-gray-300 hover:text-white transition">Inicio</a>
@@ -222,18 +224,21 @@
   </header>
 
   <main>
-    <section class="section" style="padding-top: 6rem;">
+    <section class="section" style="padding-top: 2.5rem; padding-bottom: 0;">
       <div class="container">
         <div class="text-center max-w-4xl mx-auto">
-          <h1 class="text-5xl md:text-6xl font-black mb-6">Elige el <span class="gradient-text">Plan Perfecto</span>
+          <p style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #FF6B35; margin-bottom: 0.75rem;">
+            Sin contratos · Cancela cuando quieras
+          </p>
+          <h1 class="text-3xl md:text-6xl font-black mb-3">Elige el <span class="gradient-text">Plan Perfecto</span>
           </h1>
-          <p class="text-xl text-gray-300 mb-8">Empieza gratis o desbloquea todo el poder de Smart Load Solution con
+          <p class="text-base md:text-xl text-gray-300 mb-4">Empieza gratis o desbloquea todo el poder de Smart Load Solution con
             nuestros planes profesionales.</p>
         </div>
       </div>
     </section>
 
-    <section class="section" style="background: var(--bg-darker); padding-top: 2rem;">
+    <section class="section" style="background: var(--bg-darker); padding-top: 1.5rem;">
       <div class="container">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
 
@@ -429,9 +434,10 @@
             <li><a href="refund.html">Reembolsos</a></li>
           </ul>
           <div class="flex gap-4 text-xl">
-            <a href="#" aria-label="Facebook">📘</a>
-            <a href="#" aria-label="Twitter">🐦</a>
-            <a href="#" aria-label="LinkedIn">💼</a>
+            <a href="https://www.facebook.com/galan.expediter" aria-label="Facebook" target="_blank" rel="noopener noreferrer">📘</a>
+            <a href="https://www.tiktok.com/@galan.expediter" aria-label="TikTok" target="_blank" rel="noopener noreferrer">🎵</a>
+            <a href="https://www.instagram.com/galan.expediter/" aria-label="Instagram" target="_blank" rel="noopener noreferrer">📸</a>
+            <a href="https://www.youtube.com/@galan.expediter" aria-label="YouTube" target="_blank" rel="noopener noreferrer">▶️</a>
           </div>
         </div>
       </div>
@@ -456,7 +462,7 @@
     // Fallbacks para stripe-config.js
     window.debugLog = window.debugLog || function () { };
     window.showToast = window.showToast || function (msg, type) {
-      console.log('[TOAST]', type, msg);
+      debugLog('[TOAST]', type, msg);
     };
 
     // Cachear estado de auth al cargar
@@ -474,43 +480,38 @@
     mobileMenuBtn?.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
 
     async function selectPlan(planId) {
-      // Si no está logueado → auth
       if (!_currentUser) {
         localStorage.setItem('pendingPlan', planId);
         window.location.href = 'auth.html';
         return;
       }
 
-      // Verificar plan actual
+      // Guard: admins no necesitan suscripción
       const currentPlan = await window.getUserPlan(_currentUser.uid);
+      if (currentPlan.id === 'admin') {
+        if (typeof showToast === 'function') showToast('Eres administrador — no necesitas suscripción', 'info');
+        return;
+      }
 
-      // Si ya tiene plan pagado → Portal de Stripe para cambiar/upgradear
-      if (currentPlan.id !== 'free' && currentPlan.id !== 'admin') {
-        try {
-          showToast('Abriendo portal de facturación...', 'info');
-          const fn = firebase.app().functions('us-central1')
-            .httpsCallable('ext-firestore-stripe-payments-createPortalLink');
-          const { data } = await fn({
-            returnUrl: window.location.origin + '/plans.html',
-            locale: 'auto'
-          });
-          window.location.assign(data.url);
-        } catch(e) {
-          console.error('Error abriendo portal:', e);
-          // Fallback: checkout normal
-          window.StripeIntegration.createCheckoutSession(planId);
+      // Si ya tiene plan pagado → Portal de Stripe (via openBillingPortal que maneja planBeforePortal)
+      if (currentPlan.id !== 'free') {
+        if (window.StripeIntegration) {
+          // openBillingPortal ya guarda planBeforePortal y returningFromPortal
+          await window.StripeIntegration.openBillingPortal();
+        } else {
+          window.location.href = 'account.html';
         }
         return;
       }
 
-      // Si es free → nuevo checkout normal
+      // Plan free → nuevo checkout
       if (window.StripeIntegration) {
         window.StripeIntegration.createCheckoutSession(planId);
       } else {
+        localStorage.setItem('pendingPlan', planId);
         window.location.href = 'auth.html';
       }
     }
-  </script>
   </script>
 </body>
 

@@ -1,4 +1,4 @@
-// finances.js - Refactored Version
+﻿// finances.js - Refactored Version
 // ⚠️ Core functionality moved to finances-core.js and finances-data.js
 
 // ========================================
@@ -235,7 +235,7 @@ function normalizeDate(d, mode = "month") {
 // loadFinancesData - NOW IN finances-data.js (as loadFinancialData)
 async function loadFinancesData(period = "all", forceReload = false) {
   if (!window.currentUser) {
-    console.error(" No hay usuario autenticado");
+    debugLog(" No hay usuario autenticado");
     return;
   }
   const uid = window.currentUser.uid;
@@ -520,10 +520,10 @@ async function updateFinancialCharts(context = "global") {
         window.FinancesCharts.updateFinancialCharts(context);
       }
     } catch (error) {
-      console.error('Error loading charts module:', error);
+      debugLog('Error loading charts module:', error);
     }
   } else {
-    console.warn('Lazy loader not available, charts module cannot be loaded');
+    debugLog('Lazy loader not available, charts module cannot be loaded');
   }
 }
 
@@ -538,7 +538,7 @@ async function updateCashFlowChart() {
         window.FinancesCharts.updateCashFlowChart();
       }
     } catch (error) {
-      console.error('Error loading charts module:', error);
+      debugLog('Error loading charts module:', error);
     }
   }
 }
@@ -554,7 +554,7 @@ async function updateExpenseBreakdownChart() {
         window.FinancesCharts.updateExpenseBreakdownChart();
       }
     } catch (error) {
-      console.error('Error loading charts module:', error);
+      debugLog('Error loading charts module:', error);
     }
   }
 }
@@ -570,7 +570,7 @@ async function updateLoadDistributionChart() {
         window.FinancesCharts.updateLoadDistributionChart();
       }
     } catch (error) {
-      console.error('Error loading charts module:', error);
+      debugLog('Error loading charts module:', error);
     }
   }
 }
@@ -629,13 +629,13 @@ function showFinancesMessage(message, type = "info") {
   } else {
     switch (type) {
       case "error":
-        console.error(" Finances:", message);
+        debugLog(" Finances:", message);
         break;
       case "success":
         debugLog("OK Finances:", message);
         break;
       case "warning":
-        console.warn(" Finances:", message);
+        debugLog(" Finances:", message);
         break;
       default:
         debugLog(" Finances:", message);
@@ -739,7 +739,7 @@ async function saveExpenseToFirebase() {
 
   // Verificación de elementos antes de acceder a .value
   if (!amountEl || !typeEl || !descEl || !dateEl) {
-    console.error("❌ Elementos del formulario de gastos no encontrados");
+    debugLog("❌ Elementos del formulario de gastos no encontrados");
     showFinancesMessage("Error: Formulario no disponible. Intenta recargar la página.", "error");
     return;
   }
@@ -947,7 +947,7 @@ function generatePLReport() {
   // Generar contenido del reporte
   const container = document.getElementById("reportContent");
   if (!container) {
-    console.warn(" Contenedor reportContent no encontrado");
+    debugLog(" Contenedor reportContent no encontrado");
     return;
   }
 
@@ -1663,7 +1663,7 @@ function updateFinancialKPIs() {
       element.textContent = value;
       return true;
     }
-    console.warn(`Elemento no encontrado: ${id}`);
+    debugLog(`Elemento no encontrado: ${id}`);
     return false;
   };
 
@@ -1738,7 +1738,7 @@ function populateYearSelect() {
 
   const yearSelect = document.getElementById("yearSelect");
   if (!yearSelect) {
-    console.warn(" No se encontr el selector de aos (yearSelect)");
+    debugLog(" No se encontr el selector de aos (yearSelect)");
     return;
   }
 
@@ -1759,7 +1759,7 @@ function populateYearSelect() {
     if (typeof updateMonthOptions === "function") {
       updateMonthOptions();
     } else {
-      console.warn(" updateMonthOptions no est definida an");
+      debugLog(" updateMonthOptions no est definida an");
     }
   }
 }
@@ -1771,7 +1771,7 @@ function updateMonthOptions() {
   const monthSelect = document.getElementById("monthSelect");
 
   if (!monthSelect) {
-    console.warn(" No se encontr el selector de mes");
+    debugLog(" No se encontr el selector de mes");
     return;
   }
 
@@ -1837,7 +1837,7 @@ function updateMonthOptions() {
     if (typeof filterByYearMonth === "function") {
       filterByYearMonth();
     } else {
-      console.warn(" filterByYearMonth no est definida an");
+      debugLog(" filterByYearMonth no est definida an");
     }
   }
 }
@@ -1908,7 +1908,7 @@ function applyFilter(context = "global") {
       updateBusinessMetrics();
 
       debugLog("OK UI completa de finanzas actualizada");
-    }).catch(err => console.error("Error aplicando filtro:", err));
+    }).catch(err => debugLog("Error aplicando filtro:", err));
   }
 }
 
@@ -1990,7 +1990,7 @@ function applyPeriod(context) {
         updateFinancialCharts();
         updateBusinessMetrics();
       }).catch(err => {
-        console.error(" Error aplicando filtro global:", err);
+        debugLog(" Error aplicando filtro global:", err);
       });
     }
 
@@ -2001,7 +2001,7 @@ function applyPeriod(context) {
     if (typeof loadAccountsData === "function") {
       loadAccountsData();
     } else {
-      console.warn(" loadAccountsData no implementado an");
+      debugLog(" loadAccountsData no implementado an");
     }
   }
 }
@@ -2032,7 +2032,7 @@ function filterByYearMonth(context = "global") {
   }
 
   if (!yearSelect || !monthSelect) {
-    console.error(` [CLEAN] Selectores no encontrados para contexto: ${context}`);
+    debugLog(` [CLEAN] Selectores no encontrados para contexto: ${context}`);
     return;
   }
 
@@ -2184,7 +2184,7 @@ function updateExpenseCategoriesUI(categories) {
     if (element) {
       element.textContent = value;
     } else {
-      console.warn(` [FINANCES] Elemento no encontrado: ${id}`);
+      debugLog(` [FINANCES] Elemento no encontrado: ${id}`);
     }
   };
 
@@ -2487,7 +2487,7 @@ async function markAsPaid(loadId) {
     loadAccountsData();
     showMessage("Carga marcada como pagada exitosamente", "success");
   } catch (error) {
-    console.error(" Error marcando como pagada:", error);
+    debugLog(" Error marcando como pagada:", error);
     showMessage("Error al marcar como pagada", "error");
   }
 }
@@ -2515,7 +2515,7 @@ async function markAsUnpaid(loadId) {
     loadAccountsData();
     showMessage("Carga desmarcada exitosamente", "success");
   } catch (error) {
-    console.error("❌ Error desmarcando carga:", error);
+    debugLog("❌ Error desmarcando carga:", error);
     showMessage("Error al desmarcar carga", "error");
   }
 }
@@ -3058,7 +3058,7 @@ async function markAsPaid(loadId) {
     loadAccountsData();
     showMessage("Carga marcada como pagada exitosamente", "success");
   } catch (error) {
-    console.error(" Error marcando como pagada:", error);
+    debugLog(" Error marcando como pagada:", error);
     showMessage("Error al marcar como pagada", "error");
   }
 }
@@ -3657,7 +3657,7 @@ window.analyzeLexFinances = async function () {
 
     return { kpis, loads, expenses, periodKey, periodLabel };
   } catch (err) {
-    console.error("[LEX-FINANCES] Error en analyzeLexFinances:", err);
+    debugLog("[LEX-FINANCES] Error en analyzeLexFinances:", err);
     if (window.setLexState) {
       window.setLexState("warning", {
         message: "Tuve un problema al leer tus datos financieros 🛠️",
@@ -3946,7 +3946,7 @@ function generateComprehensiveReport() {
   });
 
   if (!reportContent) {
-    console.warn(" reportContent container not found");
+    debugLog(" reportContent container not found");
     return;
   }
 
@@ -4507,7 +4507,7 @@ async function saveCustomCategory() {
     await window.CustomCategories.populateExpenseCategoriesSelect();
     await loadCustomCategoriesList();
   } catch (error) {
-    console.error('❌ Error creating category:', error);
+    debugLog('❌ Error creating category:', error);
     showFinancesMessage('Error al crear la categoría', 'error');
 
     if (window.showToast) {
@@ -4550,7 +4550,7 @@ async function loadCustomCategoriesList() {
       \u003c/div\u003e
     `).join('');
   } catch (error) {
-    console.error('❌ Error loading categories list:', error);
+    debugLog('❌ Error loading categories list:', error);
     container.style.display = 'none';
     container.innerHTML = '';
   }
@@ -4574,7 +4574,7 @@ async function deleteCategory(categoryId) {
     await window.CustomCategories.populateExpenseCategoriesSelect();
     await loadCustomCategoriesList();
   } catch (error) {
-    console.error('❌ Error deleting category:', error);
+    debugLog('❌ Error deleting category:', error);
     showFinancesMessage('Error al eliminar la categoría', 'error');
 
     if (window.showToast) {
@@ -4594,10 +4594,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       await loadCustomCategoriesList();
       debugFinances('✅ Custom categories initialized');
     } catch (error) {
-      console.error('❌ Error initializing custom categories:', error);
+      debugLog('❌ Error initializing custom categories:', error);
     }
   } else {
-    console.warn('⚠️ CustomCategories module not loaded');
+    debugLog('⚠️ CustomCategories module not loaded');
   }
 
   // 🔧 WORKAROUND: Crear modal dinámicamente porque Firebase cachea HTML agresivamente

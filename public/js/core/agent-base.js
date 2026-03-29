@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 //  AGENT BASE - Clase padre para todos los agentes de Lex
 // ==========================================================
 
@@ -39,13 +39,13 @@ class AgentBase {
   // Conectar EventBus
   connectToEventBus(eventBus) {
     this.eventBus = eventBus;
-    console.log(`✅ ${this.name} → EventBus`);
+    debugLog(`✅ ${this.name} → EventBus`);
   }
 
   // Logging
   log(msg, level = 'INFO') {
     const emoji = { INFO: 'ℹ️', SUCCESS: '✅', ERROR: '❌', WARNING: '⚠️' }[level] || 'ℹ️';
-    console.log(`${emoji} [${this.name}] ${msg}`);
+    debugLog(`${emoji} [${this.name}] ${msg}`);
   }
 
   // Memoria corto plazo

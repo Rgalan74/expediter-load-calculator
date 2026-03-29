@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ANALYTICS MANAGER - Google Analytics 4 + Firebase Analytics
  * Tracks user interactions and app performance
  */
@@ -40,7 +40,7 @@ class AnalyticsManager {
             this.trackPageView(window.location.pathname);
 
         } catch (error) {
-            console.error('❌ Analytics initialization failed:', error);
+            debugLog('❌ Analytics initialization failed:', error);
         }
     }
 
@@ -69,7 +69,7 @@ class AnalyticsManager {
             };
 
             script.onerror = () => {
-                console.warn('⚠️ GA4 failed to load (ad blocker?)');
+                debugLog('⚠️ GA4 failed to load (ad blocker?)');
                 resolve(); // Don't fail if blocked
             };
 

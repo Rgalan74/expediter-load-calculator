@@ -1,4 +1,4 @@
-// SETTINGS.JS - VERSIÃ“N COMPLETA Y FUNCIONAL
+﻿// SETTINGS.JS - VERSIÃ“N COMPLETA Y FUNCIONAL
 // Maneja todas las configuraciones del negocio expediter
 
 debugLog(" Loading settings.js - Complete version...");
@@ -180,7 +180,7 @@ function calculateTotals() {
         return { totalFixed, fixedCostPerMile, monthlyMiles };
 
     } catch (error) {
-        console.error(" Error calculating totals:", error);
+        debugLog(" Error calculating totals:", error);
         return { totalFixed: 0, fixedCostPerMile: 0 };
     }
 }
@@ -233,7 +233,7 @@ function loadVehicleTemplate(vehicleType) {
         return template;
 
     } catch (error) {
-        console.error(" Error loading vehicle template:", error);
+        debugLog(" Error loading vehicle template:", error);
         showConfigMessage(" Error al cargar plantilla", "error");
     }
 }
@@ -353,6 +353,15 @@ function saveUserConfiguration() {
                 showConfigMessage(" Configuración guardada exitosamente", "success");
                 if (window.CPMEngine) window.CPMEngine.clearCache();
 
+                // Notificar al onboardingManager que el onboarding está completo
+                if (window.onboardingManager) {
+                    window.onboardingManager.userProfile = window.onboardingManager.userProfile || {};
+                    window.onboardingManager.userProfile.onboarding = { completed: true };
+                    // Ocultar banner de recordatorio si está visible
+                    const reminder = document.getElementById('setupReminder');
+                    if (reminder) reminder.remove();
+                }
+
                 // ✅ OCULTAR LOADING
                 if (saveBtn) {
                     saveBtn.disabled = false;
@@ -365,7 +374,7 @@ function saveUserConfiguration() {
                 return config;
             })
             .catch((error) => {
-                console.error(" Error saving to Firestore:", error);
+                debugLog(" Error saving to Firestore:", error);
 
                 // Fallback a localStorage
                 localStorage.setItem('userConfig_backup', JSON.stringify(config));
@@ -381,7 +390,7 @@ function saveUserConfiguration() {
             });
 
     } catch (error) {
-        console.error(" Error saving configuration:", error);
+        debugLog(" Error saving configuration:", error);
         showConfigMessage(" Error al guardar configuración: " + error.message, "error");
     }
 }
@@ -425,7 +434,7 @@ function loadUserConfiguration() {
             return config;
         })
         .catch((error) => {
-            console.error(" Error loading from Firestore:", error);
+            debugLog(" Error loading from Firestore:", error);
 
             // Fallback a localStorage
             try {
@@ -439,7 +448,7 @@ function loadUserConfiguration() {
                     showConfigMessage("No hay configuración guardada", "error");
                 }
             } catch (backupError) {
-                console.error(" Error loading backup configuration:", backupError);
+                debugLog(" Error loading backup configuration:", backupError);
                 showConfigMessage(" Error al cargar configuración", "error");
             }
         });
@@ -500,7 +509,7 @@ function applyConfigurationToForm(config) {
         showConfigMessage(` Configuración cargada (${fieldsLoaded} campos)`, "success");
 
     } catch (error) {
-        console.error(" Error applying configuration to form:", error);
+        debugLog(" Error applying configuration to form:", error);
         showConfigMessage(" Error al aplicar configuración", "error");
     }
 }
@@ -631,7 +640,7 @@ async function initializeAdminSection() {
         await AdminPanel.addAdminButtonToSettings();
 
     } catch (error) {
-        console.error('Error inicializando secci�n admin:', error);
+        debugLog('Error inicializando secci�n admin:', error);
     }
 }
 

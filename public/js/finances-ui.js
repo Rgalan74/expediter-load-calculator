@@ -1,4 +1,4 @@
-/**
+﻿/**
  * finances-ui.js
  * UI update functions for financial module
  * Extracted from finances.js for better organization
@@ -22,13 +22,13 @@ function showFinancesMessage(message, type = "info") {
     } else {
         switch (type) {
             case "error":
-                console.error("❌ Finances:", message);
+                debugLog("❌ Finances:", message);
                 break;
             case "success":
                 debugLog("✅ Finances:", message);
                 break;
             case "warning":
-                console.warn("⚠️ Finances:", message);
+                debugLog("⚠️ Finances:", message);
                 break;
             default:
                 debugLog("ℹ️ Finances:", message);

@@ -220,7 +220,7 @@ async function initializeLexProfile() {
     try {
       stateNotes = await buildStateNotesFromNotesCollection(uid);
     } catch (err) {
-      console.error('[LEX] Error construyendo stateNotes desde notes:', err);
+      debugLog('[LEX] Error construyendo stateNotes desde notes:', err);
       stateNotes = {};
     }
 
@@ -265,7 +265,7 @@ async function initializeLexProfile() {
     return profile;
 
   } catch (error) {
-    console.error('❌ Error inicializando perfil:', error);
+    debugLog('❌ Error inicializando perfil:', error);
     throw error;
   }
 }
@@ -415,7 +415,7 @@ async function updateLexProfileWithLoad(loadData) {
     debugLog('[LEX] Perfil de Lex actualizado');
 
   } catch (error) {
-    console.error('❌ Error actualizando perfil:', error);
+    debugLog('❌ Error actualizando perfil:', error);
   }
 }
 
@@ -448,7 +448,7 @@ async function getLexProfile() {
     return profileData;
 
   } catch (error) {
-    console.error('❌ Error leyendo perfil:', error);
+    debugLog('❌ Error leyendo perfil:', error);
     throw error;
   }
 }
@@ -571,7 +571,7 @@ async function analyzeLoadWithLearning(loadData) {
     };
 
   } catch (error) {
-    console.error('❌ Error en análisis:', error);
+    debugLog('❌ Error en análisis:', error);
     return {
       recommendation: 'ERROR',
       color: 'gray',
@@ -639,7 +639,7 @@ window.analyzeLexLoad = async function () {
     }
 
   } catch (e) {
-    console.error("Error al analizar con Lex:", e);
+    debugLog("Error al analizar con Lex:", e);
     alert("Hubo un problema al conectar con Lex AI");
   }
 };
@@ -813,7 +813,7 @@ window.lexAI.analyzeHistoryLoads = async function (loadsInput) {
 
     return { loads: loads.length, avgRPM, avgProfit, profitMargin };
   } catch (err) {
-    console.error('[LEX] Error analizando historial:', err);
+    debugLog('[LEX] Error analizando historial:', err);
     if (window.setLexState) {
       window.setLexState('sad', { message: 'Tuve un problema al analizar el historial', duration: 4000 });
     }
@@ -844,7 +844,7 @@ window.lexAI.analyzeFinanceLoads = async function (financeData) {
       window.lexAI.showFinanceAnalysisModal(payload);
     }
   } catch (err) {
-    console.error('[LEX] Error con modal financiero:', err);
+    debugLog('[LEX] Error con modal financiero:', err);
   }
 };
 
