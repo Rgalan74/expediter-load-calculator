@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 //  CONVERSATION MEMORY - Context tracking for Lex AI
 //  Remembers recent messages and extracts entities
 // ==========================================================
@@ -10,7 +10,7 @@ class ConversationMemory {
         this.context = {};  // Current context {lastState: '', lastRPM: null, lastMiles: null}
         this.maxMessages = maxMessages;
 
-        console.log('[CONVERSATION-MEMORY] Initialized with max', maxMessages, 'messages');
+        debugLog('[CONVERSATION-MEMORY] Initialized with max', maxMessages, 'messages');
     }
 
     /**
@@ -37,7 +37,7 @@ class ConversationMemory {
             this.extractEntities(text);
         }
 
-        console.log('[CONVERSATION-MEMORY] Added', role, 'message. Total:', this.history.length);
+        debugLog('[CONVERSATION-MEMORY] Added', role, 'message. Total:', this.history.length);
     }
 
     /**
@@ -66,7 +66,7 @@ class ConversationMemory {
         if (state) {
             this.entities.states.push(state);
             this.context.lastState = state;
-            console.log('[CONVERSATION-MEMORY] Extracted state:', state);
+            debugLog('[CONVERSATION-MEMORY] Extracted state:', state);
         }
 
         // Extract RPM (use global function if available)
@@ -89,7 +89,7 @@ class ConversationMemory {
         if (rpm) {
             this.entities.rpms.push(rpm);
             this.context.lastRPM = rpm;
-            console.log('[CONVERSATION-MEMORY] Extracted RPM:', rpm);
+            debugLog('[CONVERSATION-MEMORY] Extracted RPM:', rpm);
         }
 
         // Extract miles
@@ -98,7 +98,7 @@ class ConversationMemory {
             const miles = parseInt(milesMatch[1]);
             this.entities.miles.push(miles);
             this.context.lastMiles = miles;
-            console.log('[CONVERSATION-MEMORY] Extracted miles:', miles);
+            debugLog('[CONVERSATION-MEMORY] Extracted miles:', miles);
         }
 
         // Extract all numbers for general reference
@@ -155,7 +155,7 @@ class ConversationMemory {
         this.history = [];
         this.entities = {};
         this.context = {};
-        console.log('[CONVERSATION-MEMORY] Cleared');
+        debugLog('[CONVERSATION-MEMORY] Cleared');
     }
 
     /**
@@ -176,4 +176,4 @@ class ConversationMemory {
 
 // Make available globally
 window.ConversationMemory = ConversationMemory;
-console.log('💭 ConversationMemory class loaded');
+debugLog('💭 ConversationMemory class loaded');

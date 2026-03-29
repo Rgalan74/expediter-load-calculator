@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 //  RESPONSE BUILDERS - Reusable response generators
 //  Now with SENTIMENT ADAPTATION
 // ==========================================================
@@ -337,4 +337,4 @@ window.ResponseBuilders = {
     }
 };
 
-console.log('📦 ResponseBuilders loaded');
+debugLog('📦 ResponseBuilders loaded');

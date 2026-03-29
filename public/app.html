@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -2026,7 +2026,7 @@
                 if (doc.exists && (doc.data().plan === 'admin' || doc.data().role === 'admin')) {
                   document.getElementById('adminPanelSection').classList.remove('hidden');
                 }
-              } catch (e) { console.log('Admin check:', e); }
+              } catch (e) { debugLog('Admin check:', e); }
             }, 2000);
           }); // ← FALTABA ESTE CIERRE
         </script>

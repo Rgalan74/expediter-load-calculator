@@ -1,4 +1,4 @@
-//  helpers.js - Script normal sin ES6 modules
+﻿//  helpers.js - Script normal sin ES6 modules
 
 // ========================================
 // ✅ SISTEMA DE INICIALIZACIÓN ÚNICA
@@ -15,11 +15,11 @@ window.moduleInitialized = window.moduleInitialized || {};
  */
 function initializeOnce(moduleName, initFunction) {
     if (window.moduleInitialized[moduleName]) {
-        console.log(`⚠️ [${moduleName}] Ya inicializado, skipping`);
+        debugLog(`⚠️ [${moduleName}] Ya inicializado, skipping`);
         return false;
     }
-    
-    console.log(`✅ [${moduleName}] Inicializando...`);
+
+    debugLog(`✅ [${moduleName}] Inicializando...`);
     initFunction();
     window.moduleInitialized[moduleName] = true;
     return true;
@@ -32,10 +32,10 @@ function initializeOnce(moduleName, initFunction) {
 function resetModuleInit(moduleName) {
     if (moduleName) {
         delete window.moduleInitialized[moduleName];
-        console.log(`🔄 [${moduleName}] Reset completado`);
+        debugLog(`🔄 [${moduleName}] Reset completado`);
     } else {
         window.moduleInitialized = {};
-        console.log(`🔄 Todos los módulos reseteados`);
+        debugLog(`🔄 Todos los módulos reseteados`);
     }
 }
 
@@ -56,7 +56,7 @@ window.DEBUG_MODE = localStorage.getItem('DEBUG_MODE') === 'true';
  */
 function debugLog(...args) {
     if (window.DEBUG_MODE) {
-        console.log(...args);
+        debugLog(...args);
     }
 }
 
@@ -64,21 +64,21 @@ function debugLog(...args) {
  * Log informativo - Siempre se muestra (importante para el usuario)
  */
 function infoLog(...args) {
-    console.log(...args);
+    debugLog(...args);
 }
 
 /**
  * Log de advertencia - Siempre se muestra
  */
 function warnLog(...args) {
-    console.warn(...args);
+    debugLog(...args);
 }
 
 /**
  * Log de error - Siempre se muestra
  */
 function errorLog(...args) {
-    console.error(...args);
+    debugLog(...args);
 }
 
 // Hacer funciones globales
@@ -92,13 +92,13 @@ window.toggleDebug = function() {
     window.DEBUG_MODE = !window.DEBUG_MODE;
     // ✅ GUARDAR en localStorage para que persista
     localStorage.setItem('DEBUG_MODE', window.DEBUG_MODE.toString());
-    console.log(`🔧 DEBUG_MODE ${window.DEBUG_MODE ? 'ACTIVADO ✅' : 'DESACTIVADO ❌'}`);
-    console.log('🔄 Recarga la página (Ctrl+R) para aplicar cambios');
+    debugLog(`🔧 DEBUG_MODE ${window.DEBUG_MODE ? 'ACTIVADO ✅' : 'DESACTIVADO ❌'}`);
+    debugLog('🔄 Recarga la página (Ctrl+R) para aplicar cambios');
     return window.DEBUG_MODE;
 };
 
-console.log('🔧 Sistema de logging cargado. DEBUG_MODE:', window.DEBUG_MODE);
-console.log('💡 Usa toggleDebug() en consola para activar/desactivar logs');
+debugLog('🔧 Sistema de logging cargado. DEBUG_MODE:', window.DEBUG_MODE);
+debugLog('💡 Usa toggleDebug() en consola para activar/desactivar logs');
 
 //  Funciones de utilidad globales
 function formatAmount(amount) {
@@ -114,7 +114,7 @@ function updateElement(id, value) {
  el.textContent = value;
  return true;
  } else {
- console.warn(`Element not found: ${id}`);
+ debugLog(`Element not found: ${id}`);
  return false;
  }
 }
@@ -123,7 +123,7 @@ function updateElement(id, value) {
 function showMessage(message, type = "info", elementId = "globalMessage") {
  const div = document.getElementById(elementId);
  if (!div) {
- console.log(`Message (${type}): ${message}`);
+ debugLog(`Message (${type}): ${message}`);
  return;
  }
 
@@ -214,31 +214,6 @@ function showHistoryMessage(message, type = "info") {
  showMessage(message, type, "historyMessage");
 }
 
-// DEPRECATED - Usar formatDateLocal() en su lugar
-// DEPRECATED - Usar formatDateLocal() en su lugar
-// DEPRECATED - Usar formatDateLocal() en su lugar
-// DEPRECATED - Usar formatDateLocal() en su lugar
-// DEPRECATED - Usar formatDateLocal() en su lugar
-// DEPRECATED - Usar formatDateLocal() en su lugar
-// DEPRECATED - Usar formatDateLocal() en su lugar
-// DEPRECATED - Usar formatDateLocal() en su lugar
-// DEPRECATED - Usar formatDateLocal() en su lugar
-// DEPRECATED - Usar formatDateLocal() en su lugar
-// DEPRECATED - Usar formatDateLocal() en su lugar
-// DEPRECATED - Usar formatDateLocal() en su lugar
-
-function formatMonth(date) {
- if (!date) return "";
- 
- try {
- const d = new Date(date);
- if (isNaN(d.getTime())) return "";
- return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
- } catch (error) {
- console.error("Error formatting month:", error);
- return "";
- }
-}
 
 //  NUEVA FUNCIÍ CENTRALIZADA - Normalización de fechas de cargas
 // Esta función maneja todos los casos posibles de fechas en el sistema
@@ -261,7 +236,7 @@ function normalizeLoadDate(loadData) {
  date = new Date(loadData.createdAt).toISOString().split('T')[0];
  }
  } catch (e) {
- console.warn(' Error normalizando fecha:', e);
+ debugLog(' Error normalizando fecha:', e);
  date = new Date().toISOString().split('T')[0];
  }
  }
@@ -406,7 +381,7 @@ function formatDateLocal(date) {
  const day = String(d.getDate()).padStart(2, '0');
  return `${year}-${month}-${day}`;
  } catch (error) {
- console.error("Error formatting date:", error);
+ debugLog("Error formatting date:", error);
  return "";
  }
 }
@@ -431,4 +406,4 @@ function debounce(func, wait = 300) {
 // Hacer global
 window.debounce = debounce;
 
-console.log(' Helpers.js loaded successfully (normal script)');
+debugLog(' Helpers.js loaded successfully (normal script)');

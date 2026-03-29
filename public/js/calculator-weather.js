@@ -1,4 +1,4 @@
-/**
+﻿/**
  * calculator-weather.js
  * Weather and radar functionality for route planning
  * Extracted from calculator.js for lazy loading
@@ -56,7 +56,7 @@ async function getWeatherForDestination(destination) {
         };
 
     } catch (error) {
-        console.warn('No se pudo obtener clima:', error);
+        debugLog('No se pudo obtener clima:', error);
         return {
             temp: null,
             condition: 'No disponible',
@@ -158,7 +158,7 @@ async function loadRouteMap() {
                 }
             }
         } else {
-            console.error('Directions request failed:', status);
+            debugLog('Directions request failed:', status);
             mapDiv.innerHTML = '<div class="flex items-center justify-center h-full text-red-600">Error cargando ruta</div>';
         }
     });
@@ -232,7 +232,7 @@ function toggleRadarLayer() {
                 button.className = 'px-3 py-2 bg-red-600 text-white rounded-lg text-sm font-semibold hover:bg-red-700 transition';
             })
             .catch(error => {
-                console.error('Error cargando radar:', error);
+                debugLog('Error cargando radar:', error);
                 alert('No se pudo cargar el radar');
             });
     }
@@ -269,7 +269,7 @@ async function getWeatherByCoords(lat, lng) {
             wind: Math.round(data.current.wind_mph)
         };
     } catch (error) {
-        console.warn('Error getting weather by coords:', error);
+        debugLog('Error getting weather by coords:', error);
         return null;
     }
 }

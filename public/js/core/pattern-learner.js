@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 //  PATTERN LEARNER - Learn from user's decision history
 // ==========================================================
 
@@ -205,4 +205,4 @@ window.PatternLearner = {
     }
 };
 
-console.log('🧠 PatternLearner loaded');
+debugLog('🧠 PatternLearner loaded');

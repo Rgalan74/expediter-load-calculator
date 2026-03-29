@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ui-enhancements.js
  * Mejoras UI/UX para la aplicación Expediter
  * - Animaciones sutiles
@@ -160,7 +160,7 @@ async function copyToClipboard(text, buttonElement = null) {
 
         return true;
     } catch (error) {
-        console.error('Error copiando:', error);
+        debugLog('Error copiando:', error);
         showToast('Error al copiar', 'error');
         return false;
     }

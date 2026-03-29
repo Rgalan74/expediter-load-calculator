@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 //  FINANCES AGENT - Experto en análisis financiero
 // ==========================================================
 
@@ -235,4 +235,4 @@ if (window.lexMaster) {
   window.lexMaster.registerAgent('finances', financesAgent);
 }
 
-console.log('💰 FinancesAgent loaded');
+debugLog('💰 FinancesAgent loaded');

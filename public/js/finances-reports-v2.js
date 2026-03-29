@@ -1,4 +1,4 @@
-// finances-reports.js - Report Generation Module
+﻿// finances-reports.js - Report Generation Module
 // Version: 1.0.0
 // Dependencies: html2pdf, finances-core.js
 // Last Updated: 2025-12-19
@@ -103,7 +103,7 @@ function generatePLReport() {
   // Generar contenido del reporte
   const container = document.getElementById("reportContent");
   if (!container) {
-    console.warn("⚠️ Contenedor reportContent no encontrado");
+    debugLog("⚠️ Contenedor reportContent no encontrado");
     return;
   }
 
@@ -382,7 +382,7 @@ function generateCompanyReport() {
 
   const container = document.getElementById("reportContent");
   if (!container) {
-    console.warn("⚠️ Contenedor reportContent no encontrado");
+    debugLog("⚠️ Contenedor reportContent no encontrado");
     return;
   }
 
@@ -656,7 +656,7 @@ function generateExpenseBreakdownReport() {
 
   const container = document.getElementById("reportContent");
   if (!container) {
-    console.warn("⚠️ Contenedor reportContent no encontrado");
+    debugLog("⚠️ Contenedor reportContent no encontrado");
     return;
   }
 
@@ -920,7 +920,7 @@ function generateProfitabilityReport() {
 
   const container = document.getElementById("reportContent");
   if (!container) {
-    console.warn("⚠️ Contenedor reportContent no encontrado");
+    debugLog("⚠️ Contenedor reportContent no encontrado");
     return;
   }
 

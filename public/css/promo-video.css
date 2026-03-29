@@ -1012,6 +1012,7 @@ body {
 .lp-video-frame .promo-wrapper {
   border-radius: 0;
   box-shadow: none;
+  height: 100%; /* fill the frame on desktop */
 }
 
 .lp-video-glow {
@@ -1590,6 +1591,18 @@ body {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
+  /* Video full-width en mobile — sin gaps laterales */
+  .lp-video-wrap {
+    padding: 0;
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+  }
+
+  /* Controles: transición suave para auto-hide */
+  #controls {
+    transition: opacity 0.4s ease;
+  }
+
   .lp-header__nav {
     display: none;
   }
@@ -1610,9 +1623,10 @@ body {
   /* ── SCREEN SCENE: columna en mobile ── */
   .screen-scene {
     flex-direction: column;
-    padding: 4vw 4vw 60px;
-    gap: 1rem;
+    padding: 2vw 4vw 72px; /* más espacio en bottom para que controles no tapen */
+    gap: 0.5rem;
     justify-content: flex-start;
+    overflow: hidden; /* no scroll — el contenido debe caber */
   }
 
   .screen-info {
@@ -1654,14 +1668,20 @@ body {
   .screen-mockup {
     max-width: 100%;
     width: 100%;
-    margin-top: 0.25rem;
+    margin-top: 0;
     transform: none !important;
     opacity: 0;
+    flex-shrink: 1;
   }
 
   .screen-mockup.show {
     transform: none !important;
     opacity: 1;
+  }
+
+  .mockup-screen {
+    max-height: 180px;
+    overflow: hidden;
   }
 
   /* ── CONTROLES DEL SLIDER ── */
@@ -1709,8 +1729,8 @@ body {
 
   /* ── WRAPPER Y FRAME ── */
   .lp-video-frame {
-    height: 520px !important;
-    border-radius: 12px;
+    height: 590px !important;
+    border-radius: 0;
   }
 
   .promo-wrapper {
@@ -1816,7 +1836,7 @@ body {
 /* ── MOBILE MUY PEQUEÑO (< 420px) ── */
 @media (max-width: 420px) {
   .lp-video-frame {
-    height: 500px !important;
+    height: 560px !important;
   }
 
   .ctrl-btn {

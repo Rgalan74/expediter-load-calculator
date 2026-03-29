@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Admin Panel - Sistema de Gestión de Usuarios y Roles
  * Permite a administradores ver y gestionar usuarios, asignar roles
  */
@@ -10,7 +10,7 @@
 async function showAdminPanel() {
     // Verificar permisos
     if (!window.rolesManager || !window.rolesManager.isAdmin()) {
-        console.error('❌ No tienes permisos para acceder al panel de administración');
+        debugLog('❌ No tienes permisos para acceder al panel de administración');
         if (typeof showToast === 'function') {
             showToast('No tienes permisos para acceder', 'error');
         }
@@ -35,7 +35,7 @@ async function showAdminPanel() {
         attachAdminPanelListeners();
 
     } catch (error) {
-        console.error(' Error abriendo panel de admin:', error);
+        debugLog(' Error abriendo panel de admin:', error);
         if (typeof showToast === 'function') {
             showToast('Error al cargar panel: ' + error.message, 'error');
         }
@@ -414,7 +414,7 @@ async function confirmRoleChange(userId) {
         setTimeout(() => showAdminPanel(), 1000);
 
     } catch (error) {
-        console.error('Error cambiando rol:', error);
+        debugLog('Error cambiando rol:', error);
         if (typeof showToast === 'function') {
             showToast('❌ Error: ' + error.message, 'error');
         }

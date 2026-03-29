@@ -13,7 +13,7 @@
  * y permitir la verificación de firma HMAC de Stripe.
  */
 
-const { onRequest } = require("firebase-functions/v2/https");
+const { onRequest, onCall, HttpsError } = require("firebase-functions/v2/https");
 const { setGlobalOptions } = require("firebase-functions/v2");
 const logger = require("firebase-functions/logger");
 const crypto = require("crypto");
@@ -132,23 +132,24 @@ app.post("/", async (req, res) => {
                     if (planId && firebaseId) {
                         await activateUserPlan(firebaseId, planId, invoice.subscription);
 
-                        // Net de seguridad: cancelar cualquier otra sub activa del mismo customer
-                        if (invoice.billing_reason === "subscription_create") {
-                            await cancelOtherSubscriptions(invoice.customer, invoice.subscription);
-                        }
+                        // Net de seguridad: deshabilitado temporalmente para evitar cancelar sub recién creada
+                        // if (invoice.billing_reason === "subscription_create") {
+                        //     await cancelOtherSubscriptions(invoice.customer, invoice.subscription);
+                        // }
 
-                        // Enviar email de confirmación de pago
+                        // Enviar email HTML de confirmación de pago
                         const userEmail = invoice.customer_email;
-                        const planNames = {
-                            professional: "Professional ($14.99/mes)",
-                            premium: "Premium ($29.99/mes)",
+                        const planMeta = {
+                            professional: { name: "Professional", price: "14.99" },
+                            premium:      { name: "Premium + AI", price: "29.99" },
                         };
-                        if (userEmail) {
+                        if (userEmail && planMeta[planId]) {
+                            const { name: planName, price: planPrice } = planMeta[planId];
                             await db.collection("mail").add({
                                 to: [userEmail],
                                 message: {
-                                    subject: "¡Tu suscripción está activa! 🎉",
-                                    text: `Hola,\n\nTu pago fue procesado correctamente y tu plan ${planNames[planId] || planId} ya está activo en Smart Load Solution.\n\nYa tienes acceso completo a todas las funciones de tu plan.\n\nEntra aquí:\nhttps://smartloadsolution.com/app.html\n\nGracias por confiar en nosotros,\nSmart Load Solution`,
+                                    subject: `¡Bienvenido al Plan ${planName}! 🎉`,
+                                    html: buildActivationEmail(planName, planPrice),
                                 },
                             }).catch(e => logger.warn("[stripeWebhook] Email no enviado:", e.message));
                         }
@@ -239,7 +240,7 @@ app.post("/", async (req, res) => {
 
                 const firebaseId = await getFirebaseIdFromCustomer(sub.customer);
                 if (firebaseId) {
-                    await downgradeUserPlan(firebaseId, sub.customer);
+                    await downgradeUserPlan(firebaseId, sub.customer, sub.id);
                 }
                 break;
             }
@@ -265,6 +266,34 @@ exports.stripeWebhook = onRequest(
     app
 );
 
+// ─── Cancelar suscripción del usuario (callable) ──────────────────────────────
+exports.cancelUserSubscription = onCall(
+    { secrets: ["STRIPE_SECRET_KEY"] },
+    async (request) => {
+        const uid = request.auth?.uid;
+        if (!uid) throw new HttpsError("unauthenticated", "Debes estar autenticado");
+        if (!STRIPE_SECRET_KEY) throw new HttpsError("internal", "Stripe no configurado");
+
+        const userDoc = await db.collection("users").doc(uid).get();
+        const subscriptionId = userDoc.exists ? userDoc.data().subscriptionId : null;
+        if (!subscriptionId) throw new HttpsError("not-found", "No se encontró suscripción activa");
+
+        const response = await fetch(`https://api.stripe.com/v1/subscriptions/${subscriptionId}`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${STRIPE_SECRET_KEY}`,
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: "cancel_at_period_end=true",
+        });
+        const result = await response.json();
+        if (result.error) throw new HttpsError("internal", result.error.message);
+
+        logger.info("[cancelUserSubscription] ✅ Cancelación programada:", subscriptionId, "uid:", uid);
+        return { success: true };
+    }
+);
+
 // ─── Activar plan en Firestore ─────────────────────────────────────────────────
 async function activateUserPlan(firebaseId, planId, subscriptionId) {
     logger.info("[activateUserPlan]", firebaseId, "→", planId);
@@ -278,7 +307,17 @@ async function activateUserPlan(firebaseId, planId, subscriptionId) {
 }
 
 // ─── Bajar plan a free ─────────────────────────────────────────────────────────
-async function downgradeUserPlan(firebaseId, customerId) {
+async function downgradeUserPlan(firebaseId, customerId, deletedSubId) {
+    // Si la sub eliminada no coincide con la que está en Firestore, ignorar
+    if (deletedSubId) {
+        const userDoc = await db.collection("users").doc(firebaseId).get();
+        const currentSubId = userDoc.exists ? userDoc.data().subscriptionId : null;
+        if (currentSubId && currentSubId !== deletedSubId) {
+            logger.info(`[downgradeUserPlan] Sub eliminada (${deletedSubId}) ≠ sub actual (${currentSubId}) — ignorando`);
+            return;
+        }
+    }
+
     // Verificar si aún tiene suscripción activa antes de bajar a free
     if (customerId && STRIPE_SECRET_KEY) {
         const stripe = new Stripe(STRIPE_SECRET_KEY);

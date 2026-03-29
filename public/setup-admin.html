@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -419,7 +419,7 @@
                     }, 2000);
 
                 } catch (error) {
-                    console.error('Error asignando rol:', error);
+                    debugLog('Error asignando rol:', error);
 
                     // Si el usuario no existe, crearlo
                     if (error.code === 'not-found') {

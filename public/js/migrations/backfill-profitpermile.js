@@ -1,13 +1,13 @@
-/**
+﻿/**
  * backfill-profitpermile.js
  * Migración one-time: añade profitPerMile a cargas antiguas que no lo tienen.
  * Pegar en la consola del browser con el usuario ya autenticado.
  */
 (async function backfillProfitPerMile() {
     const uid = window.currentUser?.uid || firebase.auth().currentUser?.uid;
-    if (!uid) { console.error('❌ No hay usuario autenticado'); return; }
+    if (!uid) { debugLog('❌ No hay usuario autenticado'); return; }
 
-    console.log('🔄 Iniciando migración profitPerMile para userId:', uid);
+    debugLog('🔄 Iniciando migración profitPerMile para userId:', uid);
 
     const snapshot = await firebase.firestore()
         .collection('loads')
@@ -26,10 +26,10 @@
         }
     });
 
-    console.log(`📦 ${snapshot.size} cargas totales — ${toUpdate.length} necesitan profitPerMile`);
+    debugLog(`📦 ${snapshot.size} cargas totales — ${toUpdate.length} necesitan profitPerMile`);
 
     if (toUpdate.length === 0) {
-        console.log('✅ Nada que migrar.');
+        debugLog('✅ Nada que migrar.');
         return;
     }
 
@@ -47,8 +47,8 @@
 
         await batch.commit();
         updated += chunk.length;
-        console.log(`✅ Actualizadas ${updated}/${toUpdate.length} cargas...`);
+        debugLog(`✅ Actualizadas ${updated}/${toUpdate.length} cargas...`);
     }
 
-    console.log(`🎉 Migración completa: ${updated} cargas actualizadas con profitPerMile.`);
+    debugLog(`🎉 Migración completa: ${updated} cargas actualizadas con profitPerMile.`);
 })();

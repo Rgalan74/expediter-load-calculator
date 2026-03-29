@@ -191,7 +191,7 @@ async function getWeatherForDestination(destination) {
     };
 
   } catch (error) {
-    console.warn('No se pudo obtener clima:', error);
+    debugLog('No se pudo obtener clima:', error);
     return {
       temp: null,
       condition: 'No disponible',
@@ -293,7 +293,7 @@ async function loadRouteMap() {
         }
       }
     } else {
-      console.error('Directions request failed:', status);
+      debugLog('Directions request failed:', status);
       mapDiv.innerHTML = '<div class="flex items-center justify-center h-full text-red-600">Error cargando ruta</div>';
     }
   });
@@ -366,7 +366,7 @@ function toggleRadarLayer() {
         button.className = 'px-3 py-2 bg-red-600 text-white rounded-lg text-sm font-semibold hover:bg-red-700 transition';
       })
       .catch(error => {
-        console.error('Error cargando radar:', error);
+        debugLog('Error cargando radar:', error);
         alert('No se pudo cargar el radar');
       });
   }
@@ -869,7 +869,7 @@ async function calculate() {
     showToast('Carga calculada exitosamente', 'success', 2000);
 
   } catch (error) {
-    console.error(' Error en calculo:', error);
+    debugLog(' Error en calculo:', error);
     showToast('Error al calcular: ' + error.message, 'error');
   } finally {
     // Always hide loading state and reset guard
@@ -1017,7 +1017,7 @@ function showDecisionPanel(calculationData = {}) {
   const panel = document.getElementById('decisionPanel');
 
   if (!panel) {
-    console.warn("Panel de decisión no encontrado");
+    debugLog("Panel de decisión no encontrado");
     return;
   }
 
@@ -1424,7 +1424,7 @@ function showDecisionPanel(calculationData = {}) {
         };
       }
     }).catch(error => {
-      console.error('Error clima:', error);
+      debugLog('Error clima:', error);
       const weatherBadge = document.getElementById('weatherBadge');
       if (weatherBadge) {
         weatherBadge.textContent = '🌤️ No disponible';
@@ -1475,7 +1475,7 @@ window.showDestinationNotes = showDestinationNotes;
 function copyPriceToClipboard() {
   const totalChargeEl = document.getElementById('totalCharge');
   if (!totalChargeEl) {
-    console.warn("Elemento totalCharge no encontrado");
+    debugLog("Elemento totalCharge no encontrado");
     return;
   }
 
@@ -1504,7 +1504,7 @@ function copyPriceToClipboard() {
     }
 
   }).catch(err => {
-    console.error('Error copiando precio:', err);
+    debugLog('Error copiando precio:', err);
     alert(`Precio: ${price}\n(Copiado manualmente)`);
   });
 
@@ -1543,7 +1543,7 @@ function acceptAndSave() {
 
     debugLog(' Carga aceptada y guardada');
   } else {
-    console.warn("Función saveLoad no disponible");
+    debugLog("Función saveLoad no disponible");
     alert("No se puede guardar la carga en este momento. Revisa la sesión e inténtalo de nuevo.");
   }
 }
@@ -1637,14 +1637,14 @@ async function saveLoad(existingLoadId = null) {
 </body>
 </html>`
               }
-            }).catch(e => console.warn('[saveLoad] Email límite no enviado:', e.message));
+            }).catch(e => debugLog('[saveLoad] Email límite no enviado:', e.message));
           }
         }
 
         return;
       }
     } catch (planError) {
-      console.warn('[saveLoad] Error verificando plan, continuando:', planError.message);
+      debugLog('[saveLoad] Error verificando plan, continuando:', planError.message);
     }
   }
 
@@ -1704,7 +1704,7 @@ async function saveLoad(existingLoadId = null) {
         loadDate = getTodayDateString();
       }
     } catch (err) {
-      console.warn(" No se encontro campo de fecha, usando hoy:", err);
+      debugLog(" No se encontro campo de fecha, usando hoy:", err);
       loadDate = getTodayDateString();
     }
 
@@ -1808,7 +1808,7 @@ async function saveLoad(existingLoadId = null) {
       // Incrementar contador mensual solo en cargas nuevas
       if (window.currentUser?.uid && typeof window.incrementMonthlyLoads === 'function') {
         window.incrementMonthlyLoads(window.currentUser.uid).catch(e =>
-          console.warn('[saveLoad] Error incrementando contador:', e.message)
+          debugLog('[saveLoad] Error incrementando contador:', e.message)
         );
       }
     }
@@ -1819,7 +1819,7 @@ async function saveLoad(existingLoadId = null) {
         await window.lexAI.updateProfileWithLoad(loadData);
         debugLog('🧠 Lex aprendió de esta carga');
       } catch (error) {
-        console.error('⚠️ Error actualizando perfil de Lex:', error);
+        debugLog('⚠️ Error actualizando perfil de Lex:', error);
         // No interrumpir el flujo si falla Lex
       }
     }
@@ -1831,7 +1831,7 @@ async function saveLoad(existingLoadId = null) {
     }, 500);
 
   } catch (error) {
-    console.error('Error guardando carga:', error);
+    debugLog('Error guardando carga:', error);
 
     // 🗄️ Offline fallback: save to IndexedDB if Firestore fails
     if (window.offlineStorage && !navigator.onLine) {
@@ -1840,7 +1840,7 @@ async function saveLoad(existingLoadId = null) {
         window.showMessage?.('📴 Sin internet — carga guardada localmente. Se sincronizará automáticamente.', 'warning');
         debugLog('[OFFLINE] Carga guardada en IndexedDB para sync posterior');
       } catch (offlineError) {
-        console.error('❌ Error guardando offline:', offlineError);
+        debugLog('❌ Error guardando offline:', offlineError);
         window.showMessage?.('Error al guardar la carga: ' + error.message, 'error');
       }
     } else {
@@ -2003,7 +2003,7 @@ function updateMap() {
   if (googleMap && directionsService && directionsRenderer) {
     showRouteOnMap(origin, destination);
   } else {
-    console.warn(" Map not ready, showing fallback");
+    debugLog(" Map not ready, showing fallback");
     showMapFallback(origin, destination);
   }
 }
@@ -2040,7 +2040,7 @@ function openGoogleMapsDirections() {
 //  FUNCION: Mostrar ruta en mapa
 function showRouteOnMap(origin, destination) {
   if (!directionsService || !directionsRenderer) {
-    console.warn("Google Maps services not ready");
+    debugLog("Google Maps services not ready");
     return;
   }
 
@@ -2069,7 +2069,7 @@ function showRouteOnMap(origin, destination) {
 
       debugLog(` Ruta calculada: ${Math.round(distance)} millas`);
     } else {
-      console.error('Error calculando ruta:', status);
+      debugLog('Error calculando ruta:', status);
       showMapFallback(origin, destination);
     }
   });
@@ -2139,13 +2139,13 @@ function updateTotalMiles() {
 function initGoogleMaps() {
   try {
     if (typeof google === 'undefined') {
-      console.warn("Google Maps API no cargada");
+      debugLog("Google Maps API no cargada");
       return;
     }
 
     const mapElement = document.getElementById('map');
     if (!mapElement) {
-      console.warn("Elemento de mapa no encontrado");
+      debugLog("Elemento de mapa no encontrado");
       return;
     }
 
@@ -2179,7 +2179,7 @@ function initGoogleMaps() {
     }
 
   } catch (error) {
-    console.error("Error inicializando Google Maps:", error);
+    debugLog("Error inicializando Google Maps:", error);
   }
 }
 
@@ -2198,7 +2198,7 @@ window.initMap = initMap;
 async function setupGoogleAutocomplete() {
   try {
     if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
-      console.warn("Google Places API no disponible");
+      debugLog("Google Places API no disponible");
       return;
     }
 
@@ -2208,7 +2208,7 @@ async function setupGoogleAutocomplete() {
     const destinationInput = document.getElementById('destination');
 
     if (!originInput || !destinationInput) {
-      console.warn("Inputs de origin/destination no encontrados");
+      debugLog("Inputs de origin/destination no encontrados");
       return;
     }
 
@@ -2239,7 +2239,7 @@ async function setupGoogleAutocomplete() {
     setupLegacyAutocomplete();
 
   } catch (error) {
-    console.error("Error configurando autocompletado:", error);
+    debugLog("Error configurando autocompletado:", error);
   }
 }
 
@@ -2301,21 +2301,21 @@ function setupLegacyAutocomplete() {
 
     debugLog(" Autocomplete legacy configurado");
   } catch (error) {
-    console.error("Error en legacy autocomplete:", error);
+    debugLog("Error en legacy autocomplete:", error);
   }
 }
 
 //  FUNCION: Calcular distancia usando valores de inputs ocultos
 function calculateDistanceFromHidden(origin, destination) {
   if (!origin || !destination) {
-    console.warn(" Faltan valores para calcular");
+    debugLog(" Faltan valores para calcular");
     return;
   }
 
   debugLog(" Calculando distancia:", origin, "", destination);
 
   if (!google.maps.DistanceMatrixService) {
-    console.error(" DistanceMatrixService no disponible");
+    debugLog(" DistanceMatrixService no disponible");
     return;
   }
 
@@ -2346,7 +2346,7 @@ function calculateDistanceFromHidden(origin, destination) {
         debugLog(" Millas actualizadas en el campo");
       }
     } else {
-      console.error(" Error calculando distancia:", status);
+      debugLog(" Error calculando distancia:", status);
     }
   });
 }
@@ -2479,7 +2479,7 @@ function setupAutoCalculation() {
     if (typeof window.calculate === "function") {
       window.calculate();
     } else {
-      console.warn(" calculate() no esta disponible todavia");
+      debugLog(" calculate() no esta disponible todavia");
     }
   }, 400);
 
@@ -2544,7 +2544,7 @@ async function getNotesForDestination(normalizedKey) {
 
     return snapshot;
   } catch (error) {
-    console.error(" Error en getNotesForDestination:", error);
+    debugLog(" Error en getNotesForDestination:", error);
     return { empty: true, docs: [] };
   }
 }
@@ -2674,7 +2674,7 @@ async function addNoteToDestination(key) {
     openNotesModal(rawDestination);
     showDestinationNotes(rawDestination);
   } catch (error) {
-    console.error(" Error guardando nota:", error);
+    debugLog(" Error guardando nota:", error);
     alert("Ocurrió un problema guardando la nota. Inténtalo de nuevo.");
   }
 
@@ -2709,7 +2709,7 @@ async function editNote(noteId, oldText) {
     openNotesModal(currentDestinationKey);
     showDestinationNotes(document.getElementById("destination")?.value?.trim());
   } catch (error) {
-    console.error(" Error editando nota:", error);
+    debugLog(" Error editando nota:", error);
   }
 }
 
@@ -2723,7 +2723,7 @@ async function deleteNote(noteId) {
     openNotesModal(currentDestinationKey);
     showDestinationNotes(document.getElementById("destination")?.value?.trim());
   } catch (error) {
-    console.error(" Error eliminando nota:", error);
+    debugLog(" Error eliminando nota:", error);
     alert("No se pudo eliminar la nota. Inténtalo otra vez.");
   }
 }
@@ -2733,7 +2733,7 @@ if (typeof window.refreshLexStateNotes === "function") {
     try {
       await window.refreshLexStateNotes();
     } catch (e) {
-      console.warn("[LEX] Error refrescando stateNotes después de cambiar nota:", e);
+      debugLog("[LEX] Error refrescando stateNotes después de cambiar nota:", e);
     }
   })();
 }
@@ -2752,7 +2752,7 @@ window.deleteNote = deleteNote;
 async function debugNotas() {
   const uid = window.currentUser?.uid;
   if (!uid) {
-    console.warn(" Usuario no autenticado");
+    debugLog(" Usuario no autenticado");
     return;
   }
 
@@ -2847,7 +2847,7 @@ function calculatorIsReady() {
 
   // Si algo no existe, no hacemos nada
   if (!originEl || !destinationEl || !loadedEl || !deadheadEl || !rpmEl || !rateEl) {
-    console.warn('[LEX] No encontrÃ© uno de los campos de la calculadora');
+    debugLog('[LEX] No encontrÃ© uno de los campos de la calculadora');
     return false;
   }
 
@@ -2945,7 +2945,7 @@ document.addEventListener('DOMContentLoaded', () => {
     calcInputs.forEach(id => {
       const input = document.getElementById(id);
       if (!input) {
-        console.warn('[LEX] Input no encontrado al registrar listener:', id);
+        debugLog('[LEX] Input no encontrado al registrar listener:', id);
         return;
       }
 
@@ -3451,7 +3451,7 @@ async function showWeatherModal(destination, origin = null) {
     }
 
   } catch (error) {
-    console.error('Error forecast:', error);
+    debugLog('Error forecast:', error);
     alert('No se pudo obtener el pronóstico del clima');
   }
 }
@@ -3653,7 +3653,7 @@ async function loadRouteMapWithWeather() {
       debugLog('✅ Mapa completo con', numWaypoints, 'puntos');
 
     } else {
-      console.error('❌ Error de ruta:', status);
+      debugLog('❌ Error de ruta:', status);
       const loading = document.getElementById('mapLoading');
       if (loading) loading.innerHTML = '<div class="text-center text-red-600">Error cargando ruta: ' + status + '</div>';
     }
@@ -3675,7 +3675,7 @@ async function getWeatherByCoords(lat, lng) {
       wind: Math.round(data.current.wind_mph)
     };
   } catch (error) {
-    console.error('Error clima:', error);
+    debugLog('Error clima:', error);
     return null;
   }
 }

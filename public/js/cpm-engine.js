@@ -1,4 +1,4 @@
-// cpm-engine.js - Motor Central de CPM
+﻿// cpm-engine.js - Motor Central de CPM
 // Fuente única de verdad para costos por milla
 // Version: 1.0.0
 
@@ -66,7 +66,7 @@ const CPMEngine = {
       }
 
     } catch (error) {
-      console.error('❌ CPMEngine error:', error);
+      debugLog('❌ CPMEngine error:', error);
       return this._fromConfig();
     }
   },

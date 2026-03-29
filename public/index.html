@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -1088,6 +1088,25 @@
             if (auto) scheduleNext();
           };
 
+          // Auto-hide controls en mobile (se ocultan solos, aparecen al tocar)
+          if (window.innerWidth <= 768) {
+            const ctrlsEl = document.getElementById('controls');
+            let ctrlHideTimer;
+            function showControls() {
+              ctrlsEl.style.opacity = '1';
+              ctrlsEl.style.pointerEvents = 'auto';
+              clearTimeout(ctrlHideTimer);
+              ctrlHideTimer = setTimeout(() => {
+                if (auto) {
+                  ctrlsEl.style.opacity = '0';
+                  ctrlsEl.style.pointerEvents = 'none';
+                }
+              }, 3000);
+            }
+            document.getElementById('stage').addEventListener('touchstart', showControls, { passive: true });
+            setTimeout(showControls, 1500); // ocultar 1.5s después del inicio
+          }
+
           // Keyboard
           document.addEventListener('keydown', e => {
             if (e.key === 'ArrowRight') goTo(current + 1);
@@ -1131,7 +1150,7 @@
               // Unmute and play (if not already playing)
               const playPromise = bgMusic.play();
               if (playPromise !== undefined) {
-                playPromise.catch(e => console.log('Audio play failed:', e));
+                playPromise.catch(e => debugLog('Audio play failed:', e));
               }
 
               // Fade in
@@ -1174,7 +1193,7 @@
             if (isMuted) return; // Only play if user has explicitly unmuted
             const playPromise = bgMusic.play();
             if (playPromise !== undefined) {
-              playPromise.catch(e => console.log('Autoplay prevented'));
+              playPromise.catch(e => debugLog('Autoplay prevented'));
             }
             document.body.removeEventListener('click', initAudio);
           }, { once: true });
@@ -1839,10 +1858,10 @@
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')
           .then(registration => {
-            console.log('✅ Service Worker registered successfully:', registration.scope);
+            debugLog('✅ Service Worker registered successfully:', registration.scope);
           })
           .catch(error => {
-            console.log('❌ Service Worker registration failed:', error);
+            debugLog('❌ Service Worker registration failed:', error);
           });
       });
     }

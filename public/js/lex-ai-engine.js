@@ -68,7 +68,7 @@
             }
             return true;
         } catch (e) {
-            console.error('[LEX-AI] Error guardando nota:', e);
+            debugLog('[LEX-AI] Error guardando nota:', e);
             return false;
         }
     }
@@ -209,7 +209,7 @@ ${mesAnteriorNombre.toUpperCase()} (mes anterior):
 - Cargas: ${anterior.cargas} | Ingresos: $${anterior.ingresos.toFixed(2)} | Gastos: $${anterior.gastos.toFixed(2)}
 - Ganancia neta: $${(anterior.ingresos - anterior.gastos).toFixed(2)} | RPM: $${anterior.rpm.toFixed(3)}/mi${rpmDiffAnterior !== null ? ` (${parseFloat(rpmDiffAnterior) >= 0 ? '+' : ''}${rpmDiffAnterior}% vs histórico)` : ''}`;
         } catch (e) {
-            console.warn('[LEX-AI] Error cargando contexto financiero:', e);
+            debugLog('[LEX-AI] Error cargando contexto financiero:', e);
         }
 
         return `Eres Lex, asistente de IA experto en expediting (camionería express en USA).
@@ -431,29 +431,29 @@ FORMATO DE RESPUESTA:
 
         // Si no está configurado el API key, usar el handler original
         if (!isConfigured()) {
-            console.warn('[LEX-AI] API key no configurado. Usando sistema anterior.');
+            debugLog('[LEX-AI] API key no configurado. Usando sistema anterior.');
             if (typeof originalHandler === 'function') {
                 return originalHandler(messageText);
             }
             return;
         }
 
-        // Verificar plan del usuario — solo professional y premium tienen Lex AI
-        const planId = window.userPlan?.id || 'free';
-        const userRole = window.currentUser?.role || '';
-        const hasLexAccess = ['professional', 'premium', 'admin'].includes(planId) || userRole === 'admin';
+        // Verificar plan del usuario — solo premium y admin tienen Lex AI
+        const hasLexAccess = typeof window.canAccessFeature === 'function'
+            ? window.canAccessFeature(window.userPlan, 'Lex')
+            : false;
 
         if (!hasLexAccess) {
             const replyFnPlan = typeof window.appendLexMessageFromRouter === 'function'
                 ? window.appendLexMessageFromRouter : null;
             if (replyFnPlan) {
                 replyFnPlan(
-                    '🔒 Lex AI está disponible en los planes Professional y Premium.\n\n' +
+                    '🔒 Lex AI está disponible en el plan Premium.\n\n' +
                     'Con Lex AI puedes:\n' +
                     '• Analizar cualquier carga con lenguaje natural\n' +
                     '• Detectar cargas trampa automáticamente\n' +
                     '• Negociar con datos reales de tu historial\n\n' +
-                    '👉 Actualiza tu plan en Configuración para activarlo.'
+                    '<a href="/plans.html" style="display:inline-block;margin-top:8px;padding:8px 18px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-radius:8px;font-weight:600;text-decoration:none;font-size:13px;">👑 Ver Plan Premium →</a>'
                 );
             }
             if (typeof window.setLexState === 'function') {
@@ -513,7 +513,7 @@ FORMATO DE RESPUESTA:
             }
 
         } catch (err) {
-            console.error('[LEX-AI] Error:', err.message);
+            debugLog('[LEX-AI] Error:', err.message);
 
             // Limpiar UI en caso de error
             removeTypingIndicator();

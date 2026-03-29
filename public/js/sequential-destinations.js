@@ -1,4 +1,4 @@
-// 🎯 SEQUENTIAL DESTINATIONS - Google Maps Style
+﻿// 🎯 SEQUENTIAL DESTINATIONS - Google Maps Style
 // System for adding destinations sequentially (like stops in a route)
 
 debugLog('[DESTINATIONS] Loading sequential destinations system...');
@@ -16,7 +16,7 @@ function addDestination() {
 
     const container = document.getElementById('destinationsContainer');
     if (!container) {
-        console.error('[DESTINATIONS] Container not found!');
+        debugLog('[DESTINATIONS] Container not found!');
         return;
     }
 
@@ -57,12 +57,12 @@ function initializeDestinationAutocomplete(destId) {
     const input = document.getElementById(`${destId}-input`);
 
     if (!input) {
-        console.error(`[DESTINATIONS] Input not found for ${destId}`);
+        debugLog(`[DESTINATIONS] Input not found for ${destId}`);
         return;
     }
 
     if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
-        console.error('[DESTINATIONS] Google Maps not loaded');
+        debugLog('[DESTINATIONS] Google Maps not loaded');
         return;
     }
 
@@ -145,7 +145,7 @@ function calculateRoute() {
     }
 
     if (typeof google === 'undefined' || !google.maps || !google.maps.DirectionsService) {
-        console.error('[DESTINATIONS] Google Maps DirectionsService not available');
+        debugLog('[DESTINATIONS] Google Maps DirectionsService not available');
         return;
     }
 
@@ -177,7 +177,7 @@ function calculateRoute() {
             updateMileage(result);
             renderMapRoute(result); // Render route on map
         } else {
-            console.error(`[DESTINATIONS] ❌ Route calculation failed: ${status}`);
+            debugLog(`[DESTINATIONS] ❌ Route calculation failed: ${status}`);
         }
     });
 }
@@ -222,7 +222,7 @@ function renderMapRoute(directionsResult, retryCount = 0) {
     // Check if map is ready
     if (!window.googleMap) {
         if (retryCount >= MAX_RETRIES) {
-            console.error('[DESTINATIONS] ❌ Failed to initialize map after', MAX_RETRIES, 'attempts. Skipping map rendering.');
+            debugLog('[DESTINATIONS] ❌ Failed to initialize map after', MAX_RETRIES, 'attempts. Skipping map rendering.');
             debugLog('[DESTINATIONS] Mileage updated but map rendering skipped');
             return;
         }

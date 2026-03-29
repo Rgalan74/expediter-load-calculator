@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 //  HISTORY AGENT - Experto en análisis histórico
 // ==========================================================
 
@@ -271,4 +271,4 @@ if (window.lexMaster) {
   window.lexMaster.registerAgent('history', historyAgent);
 }
 
-console.log('📊 HistoryAgent loaded');
+debugLog('📊 HistoryAgent loaded');

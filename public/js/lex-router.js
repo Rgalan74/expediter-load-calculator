@@ -1,4 +1,4 @@
-// ======================================================
+﻿// ======================================================
 // LEX ROUTER: Chat basado en perfil, estados y comparación de RPM
 // ======================================================
 
@@ -634,14 +634,14 @@
 
   async function getProfileSafe() {
     if (typeof window.getLexProfile !== 'function') {
-      console.warn('[LEX-ROUTER] getLexProfile no está disponible');
+      debugLog('[LEX-ROUTER] getLexProfile no está disponible');
       return null;
     }
     try {
       const profile = await window.getLexProfile();
       return profile || null;
     } catch (err) {
-      console.error('[LEX-ROUTER] Error al obtener perfil de Lex:', err);
+      debugLog('[LEX-ROUTER] Error al obtener perfil de Lex:', err);
       return null;
     }
   }
@@ -1037,7 +1037,7 @@
       try {
         intentResult = window.lexDetectIntent(originalText);
       } catch (e) {
-        console.warn('[LEX-ROUTER] Error en lexDetectIntent:', e);
+        debugLog('[LEX-ROUTER] Error en lexDetectIntent:', e);
       }
     }
 
@@ -1120,7 +1120,7 @@
             replyFn('No encontré suficientes datos financieros para hacerte un buen reporte. Asegúrate de registrar gastos y cobros. 🔧');
           }
         }).catch(err => {
-          console.error('Error generando finanzas desde el chat:', err);
+          debugLog('Error generando finanzas desde el chat:', err);
           if (replyFn) replyFn('Tuve un pequeño problema leyendo los números. 🛠️');
         });
       } else {
@@ -1206,7 +1206,7 @@
             });
           }
         } catch (error) {
-          console.error('[LEX-ROUTER] Error analyzing patterns:', error);
+          debugLog('[LEX-ROUTER] Error analyzing patterns:', error);
         }
       }
 
@@ -1372,11 +1372,11 @@
       if (typeof getLexProfile === 'function') {
         profile = await getLexProfile();
       } else {
-        console.warn('[LEX-CHAT] getLexProfile no está definido');
+        debugLog('[LEX-CHAT] getLexProfile no está definido');
         return 'Todavía no tengo listo mi perfil de aprendizaje. Pronto podré usar tus datos reales. 😉';
       }
     } catch (e) {
-      console.error('[LEX-CHAT] Error cargando perfil:', e);
+      debugLog('[LEX-CHAT] Error cargando perfil:', e);
       return 'Hubo un problema leyendo tus datos. Intenta de nuevo en un momento. 🛠️';
     }
 

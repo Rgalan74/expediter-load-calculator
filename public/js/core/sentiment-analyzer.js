@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 //  SENTIMENT ANALYZER - Detect user emotional state
 // ==========================================================
 
@@ -163,4 +163,4 @@ window.SentimentAnalyzer = {
     }
 };
 
-console.log('🎭 SentimentAnalyzer loaded');
+debugLog('🎭 SentimentAnalyzer loaded');

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * calculator-maps.js
  * Google Maps integration for route planning
  * Extracted from calculator.js for lazy loading
@@ -19,13 +19,13 @@ let directionsRenderer = null;
 function initGoogleMaps() {
     try {
         if (typeof google === 'undefined') {
-            console.warn("Google Maps API not loaded");
+            debugLog("Google Maps API not loaded");
             return;
         }
 
         const mapElement = document.getElementById('map');
         if (!mapElement) {
-            console.warn("Map element not found");
+            debugLog("Map element not found");
             return;
         }
 
@@ -57,7 +57,7 @@ function initGoogleMaps() {
         }
 
     } catch (error) {
-        console.error("Error initializing Google Maps:", error);
+        debugLog("Error initializing Google Maps:", error);
     }
 }
 
@@ -77,7 +77,7 @@ function initMap() {
 async function setupGoogleAutocomplete() {
     try {
         if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
-            console.warn("Google Places API not available");
+            debugLog("Google Places API not available");
             return;
         }
 
@@ -85,7 +85,7 @@ async function setupGoogleAutocomplete() {
         const destinationInput = document.getElementById('destination');
 
         if (!originInput || !destinationInput) {
-            console.warn("Origin/Destination inputs not found");
+            debugLog("Origin/Destination inputs not found");
             return;
         }
 
@@ -116,7 +116,7 @@ async function setupGoogleAutocomplete() {
         }
 
     } catch (error) {
-        console.error("Error setting up autocomplete:", error);
+        debugLog("Error setting up autocomplete:", error);
     }
 }
 
@@ -141,7 +141,7 @@ function updateMap() {
         if (status === 'OK') {
             directionsRenderer.setDirections(result);
         } else {
-            console.warn('Directions request failed:', status);
+            debugLog('Directions request failed:', status);
         }
     });
 }
@@ -151,7 +151,7 @@ function updateMap() {
  */
 function showRouteOnMap(origin, destination) {
     if (!googleMap || !directionsService || !directionsRenderer) {
-        console.warn('Maps not initialized');
+        debugLog('Maps not initialized');
         return;
     }
 

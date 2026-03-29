@@ -1,4 +1,4 @@
-// finances-expenses.js - Expense CRUD Operations Module
+﻿// finances-expenses.js - Expense CRUD Operations Module
 // Version: 1.0.0
 // Dependencies: Firebase, finances-core.js
 // Last Updated: 2025-12-19
@@ -35,7 +35,7 @@ async function saveExpenseToFirebase() {
 
     // Verificación de elementos antes de acceder a .value
     if (!amountEl || !typeEl || !descEl || !dateEl) {
-        console.error("❌ Elementos del formulario de gastos no encontrados");
+        debugLog("❌ Elementos del formulario de gastos no encontrados");
         showFinancesMessage("Error: Formulario no disponible. Intenta recargar la página.", "error");
         return;
     }
@@ -372,7 +372,7 @@ function sortExpensesBy(column) {
     if (typeof loadFinancesData === 'function') {
         loadFinancesData();
     } else {
-        console.warn("loadFinancesData no disponible para re-renderizar gastos");
+        debugLog("loadFinancesData no disponible para re-renderizar gastos");
     }
 }
 

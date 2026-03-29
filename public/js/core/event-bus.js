@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 //  EVENT BUS - Sistema de mensajería entre agentes
 // ==========================================================
 
@@ -7,7 +7,7 @@ class AgentEventBus {
     this.listeners = {};
     this.history = [];
     this.maxHistory = 50;
-    console.log('📡 EventBus inicializado');
+    debugLog('📡 EventBus inicializado');
   }
 
   // Emitir evento
@@ -28,7 +28,7 @@ class AgentEventBus {
       try {
         callback(event.data, event);
       } catch (err) {
-        console.error(`❌ EventBus error en ${eventType}:`, err);
+        debugLog(`❌ EventBus error en ${eventType}:`, err);
       }
     });
 
@@ -94,4 +94,4 @@ class AgentEventBus {
 
 // Crear instancia global
 window.agentEventBus = new AgentEventBus();
-console.log('📡 EventBus loaded');
+debugLog('📡 EventBus loaded');

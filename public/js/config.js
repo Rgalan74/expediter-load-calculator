@@ -17,33 +17,12 @@ const firebaseConfig = {
 let authInitialized = false;
 let authCheckComplete = false;
 
-// ✅ Debug function
+// ✅ Debug function — respeta DEBUG_MODE (no logea en producción)
 function debugLog(message, data = null) {
-  console.log(`🔧 AUTH DEBUG: ${message}`, data || '');
+  if (!window.DEBUG_MODE) return;
+  debugLog(`🔧 AUTH DEBUG: ${message}`, data || '');
 }
 
-// ✅ Función para esperar autenticación
-function waitForAuth(callback, maxAttempts = 10) {
-  let attempts = 0;
-
-  const checkAuth = () => {
-    attempts++;
-    debugLog(`Verificando auth - Intento ${attempts}/${maxAttempts}`);
-
-    if (authCheckComplete) {
-      debugLog("✅ Auth check completado, ejecutando callback");
-      callback();
-    } else if (attempts < maxAttempts) {
-      debugLog("⏳ Auth aún no completado, esperando...");
-      setTimeout(checkAuth, 500);
-    } else {
-      debugLog("❌ Auth check timeout, ejecutando callback anyway");
-      callback();
-    }
-  };
-
-  checkAuth();
-}
 
 // ✅ Inicializar Firebase
 function initializeFirebaseAuth() {
@@ -72,7 +51,7 @@ function initializeFirebaseAuth() {
       window.analytics = analytics;
       debugLog('✅ Firebase Analytics inicializado');
     } catch (error) {
-      console.warn('⚠️ Analytics no disponible:', error.message);
+      debugLog('⚠️ Analytics no disponible:', error.message);
     }
 
     // ✅ CONFIGURAR PERSISTENCIA EXPLÍCITAMENTE
@@ -227,7 +206,7 @@ async function setupAuthListener() {
         setTimeout(() => {
           clearInterval(checkStripe);
           if (!window.StripeIntegration) {
-            console.error('❌ [CONFIG] StripeIntegration no disponible después de 10s');
+            debugLog('❌ [CONFIG] StripeIntegration no disponible después de 10s');
           }
         }, 10000);
       }
@@ -262,7 +241,7 @@ async function setupAuthListener() {
             }
           }
         } catch (e) {
-          console.warn('⚠️ CPM Engine init error:', e);
+          debugLog('⚠️ CPM Engine init error:', e);
         }
       }, 2000); // 2 seg para que carguen todos los módulos
 
@@ -293,13 +272,17 @@ async function setupAuthListener() {
             states: Object.keys(window._userStateStats || {}).length
           });
         } catch (e) {
-          console.warn('⚠️ Error poblando cache user-agnostic:', e);
+          debugLog('⚠️ Error poblando cache user-agnostic:', e);
         }
       }, 3000); // 3 seg — después del CPMEngine
 
       // Cargar datos después de mostrar app
       setTimeout(() => {
-        loadInitialData();
+        if (typeof window.loadInitialData === 'function') {
+          window.loadInitialData();
+        } else {
+          debugLog('⚠️ [CONFIG] loadInitialData no disponible aún');
+        }
       }, 1000);
 
     } else {
@@ -402,32 +385,7 @@ function requireAuth() {
   return window.currentUser;
 }
 
-// ✅ Función para cargar datos iniciales 
-function loadInitialData() {
-  debugLog("📂 Cargando datos iniciales...");
-
-  if (!window.currentUser) {
-    debugLog("❌ No hay usuario para cargar datos");
-    return;
-  }
-
-  // Esperar a que main.js esté listo
-  if (typeof window.openTab === 'function') {
-    debugLog("✅ main.js disponible, cargando tab data");
-    const currentTab = document.querySelector('.tab-link.text-blue-600')?.getAttribute('data-tab')
-      || window.appState.currentTab
-      || 'calculator';
-    if (typeof window.loadTabData === 'function') {
-      window.loadTabData(currentTab);
-    }
-  } else {
-    debugLog("⏳ Esperando main.js (evento)...");
-    document.addEventListener("mainJsReady", () => {
-      debugLog("✅ main.js listo, ejecutando loadInitialData...");
-      loadInitialData();
-    }, { once: true });
-  }
-}
+// loadInitialData es definida en main.js — no duplicar aquí
 
 
 // ✅ Debug function para verificar estado
@@ -444,7 +402,7 @@ function debugAuthState() {
 // ✅ Exponer funciones globalmente
 window.requireAuth = requireAuth;
 window.debugAuthState = debugAuthState;
-window.loadInitialData = loadInitialData;
+// loadInitialData es definida y expuesta desde main.js
 
 // ✅ Inicializar cuando DOM esté listo
 document.addEventListener("DOMContentLoaded", () => {

@@ -1,4 +1,4 @@
-// ===============================
+﻿// ===============================
 // SISTEMA DE PLANES DE USUARIO
 // userPlans.js - VERSIÃ“N CORREGIDA
 // ===============================
@@ -189,7 +189,7 @@ async function getUserPlan(userId) {
         };
 
     } catch (error) {
-        console.error('Error obteniendo plan:', error);
+        debugLog('Error obteniendo plan:', error);
         return PLANS.free;
     }
 }
@@ -212,7 +212,7 @@ async function initializeUserPlan(userId, email) {
         debugLog('[PLANS] Plan de usuario inicializado');
         return true;
     } catch (error) {
-        console.error(' Error inicializando plan:', error);
+        debugLog(' Error inicializando plan:', error);
         return false;
     }
 }
@@ -239,7 +239,7 @@ async function setUserAsAdmin(userId) {
         debugLog('[PLANS] Usuario convertido a Admin');
         return true;
     } catch (error) {
-        console.error(' Error asignando admin:', error);
+        debugLog(' Error asignando admin:', error);
         return false;
     }
 }
@@ -298,60 +298,95 @@ async function incrementMonthlyLoads(userId) {
 
         return true;
     } catch (error) {
-        console.error('Error incrementando cargas:', error);
+        debugLog('Error incrementando cargas:', error);
         return false;
     }
 }
 
-function showUpgradeModal(featureName, currentPlan = 'free') {
+function showUpgradeModal(featureName, currentPlanId = 'free') {
+    // Eliminar modal existente si hay uno
+    const existing = document.getElementById('upgradeModal');
+    if (existing) existing.remove();
+
+    // Determinar qué plan target mostrar según la feature bloqueada y el plan actual
+    // Features que SOLO están en Premium:
+    const premiumOnlyFeatures = ['lex', 'weatherDetails', 'taxReports'];
+    const featureKey = featureName
+        ? `has${featureName.charAt(0).toUpperCase() + featureName.slice(1)}`
+        : null;
+
+    const needsPremium = premiumOnlyFeatures.some(f =>
+        featureName?.toLowerCase().includes(f.toLowerCase())
+    );
+
+    // Si ya tiene Professional → mostrar Premium. De lo contrario → mostrar Professional
+    const targetPlanId = (currentPlanId === 'professional' || needsPremium) ? 'premium' : 'professional';
+    const targetPlan = PLANS[targetPlanId];
+    const isPremiumTarget = targetPlanId === 'premium';
+
+    const accentColor = isPremiumTarget ? '#8b5cf6' : '#FF6D4A';
+    const accentBg = isPremiumTarget ? 'rgba(139,92,246,0.1)' : 'rgba(255,109,74,0.1)';
+    const accentBorder = isPremiumTarget ? 'rgba(139,92,246,0.4)' : 'rgba(255,109,74,0.4)';
+    const btnColor = isPremiumTarget
+        ? 'background:linear-gradient(135deg,#7c3aed,#a855f7)'
+        : 'background:#FF6D4A';
+    const planEmoji = isPremiumTarget ? '✨' : '🚀';
+
+    const featuresHtml = targetPlan.features
+        .map(f => `<li style="padding:4px 0;color:#94a3b8;font-size:13px;">✓ &nbsp;${f}</li>`)
+        .join('');
+
     const modal = document.createElement('div');
     modal.id = 'upgradeModal';
-    modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;z-index:9999;padding:16px;';
     modal.innerHTML = `
- <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 p-8">
- <div class="text-center mb-6">
- <div class="text-6xl mb-4"></div>
- <h2 class="text-2xl font-bold text-gray-900 mb-2">Feature Premium</h2>
- <p class="text-gray-600">
- <strong>${featureName}</strong> está disponible en nuestro Plan Profesional
- </p>
- </div>
- 
- <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
- <p class="text-sm text-blue-800 mb-2">
- <strong>Plan Profesional - $14.99/mes</strong>
- </p>
- <ul class="text-sm text-blue-700 space-y-1">
- <li> Cargas ilimitadas</li>
- <li> Sistema de finanzas completo</li>
- <li> Cuentas por cobrar</li>
- <li> Mapa de zonas rentables</li>
- <li> Reportes avanzados</li>
- </ul>
- </div>
- 
- <div class="flex gap-3">
- <button onclick="closeUpgradeModal()" 
- class="flex-1 bg-gray-300 text-gray-700 px-4 py-3 rounded-lg font-semibold hover:bg-gray-400">
- Tal vez después
- </button>
- <button onclick="goToPlans()" 
- class="flex-1 bg-blue-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-blue-700">
- Ver Planes
- </button>
- </div>
- </div>
- `;
+<div style="background:#1e293b;border-radius:16px;max-width:420px;width:100%;padding:32px;box-shadow:0 25px 50px rgba(0,0,0,0.5);border:1px solid ${accentBorder};">
+  <div style="text-align:center;margin-bottom:24px;">
+    <div style="font-size:48px;margin-bottom:12px;">${planEmoji}</div>
+    <h2 style="margin:0 0 8px;font-size:22px;font-weight:800;color:#fff;">
+      ${featureName ? `"${featureName}"` : 'Esta función'} requiere <span style="color:${accentColor};">${targetPlan.name}</span>
+    </h2>
+    <p style="margin:0;color:#94a3b8;font-size:14px;">Desbloquea todas las funciones avanzadas</p>
+  </div>
+
+  <div style="background:${accentBg};border:1px solid ${accentBorder};border-radius:12px;padding:16px;margin-bottom:24px;">
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:12px;">
+      <span style="font-size:28px;font-weight:900;color:#fff;">$${targetPlan.price}</span>
+      <span style="color:#94a3b8;font-size:13px;">/mes</span>
+    </div>
+    <ul style="margin:0;padding:0;list-style:none;">
+      ${featuresHtml}
+    </ul>
+  </div>
+
+  <div style="display:flex;gap:12px;">
+    <button onclick="closeUpgradeModal()"
+      style="flex:1;background:rgba(255,255,255,0.08);color:#94a3b8;border:none;padding:12px;border-radius:8px;font-weight:600;cursor:pointer;font-size:14px;">
+      Tal vez después
+    </button>
+    <button onclick="goToPlans()"
+      style="flex:1;${btnColor};color:#fff;border:none;padding:12px;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px;">
+      Ver Planes →
+    </button>
+  </div>
+</div>`;
+
+    // Cerrar al hacer click en el backdrop
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeUpgradeModal();
+    });
 
     document.body.appendChild(modal);
 
     if (window.trackEvent) {
         window.trackEvent('upgrade_prompt_shown', {
             feature: featureName,
-            current_plan: currentPlan
+            current_plan: currentPlanId,
+            target_plan: targetPlanId
         });
     }
 }
+
 
 function closeUpgradeModal() {
     const modal = document.getElementById('upgradeModal');

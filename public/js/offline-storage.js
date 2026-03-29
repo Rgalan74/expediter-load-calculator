@@ -1,4 +1,4 @@
-/**
+﻿/**
  * INDEXEDDB MANAGER - Offline Storage
  * Stores calculations and user data offline
  */
@@ -18,7 +18,7 @@ class OfflineStorage {
             const request = indexedDB.open(this.dbName, this.dbVersion);
 
             request.onerror = () => {
-                console.error('❌ IndexedDB error:', request.error);
+                debugLog('❌ IndexedDB error:', request.error);
                 reject(request.error);
             };
 
@@ -88,7 +88,7 @@ class OfflineStorage {
             };
 
             request.onerror = () => {
-                console.error('❌ Error saving calculation:', request.error);
+                debugLog('❌ Error saving calculation:', request.error);
                 reject(request.error);
             };
         });
@@ -118,7 +118,7 @@ class OfflineStorage {
             };
 
             request.onerror = () => {
-                console.error('❌ Error saving expense:', request.error);
+                debugLog('❌ Error saving expense:', request.error);
                 reject(request.error);
             };
         });
@@ -286,7 +286,7 @@ window.addEventListener('load', async () => {
         await window.offlineStorage.init();
         debugLog('🗄️ Offline storage ready');
     } catch (error) {
-        console.error('Failed to initialize offline storage:', error);
+        debugLog('Failed to initialize offline storage:', error);
     }
 });
 

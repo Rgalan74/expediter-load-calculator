@@ -1,4 +1,4 @@
-
+﻿
           const TOTAL = 12;
           let current = 0;
           let auto = true;
@@ -164,7 +164,7 @@
               // Unmute and play (if not already playing)
               const playPromise = bgMusic.play();
               if (playPromise !== undefined) {
-                playPromise.catch(e => console.log('Audio play failed:', e));
+                playPromise.catch(e => debugLog('Audio play failed:', e));
               }
 
               // Fade in
@@ -207,7 +207,7 @@
             if (isMuted) return; // Only play if user has explicitly unmuted
             const playPromise = bgMusic.play();
             if (playPromise !== undefined) {
-              playPromise.catch(e => console.log('Autoplay prevented'));
+              playPromise.catch(e => debugLog('Autoplay prevented'));
             }
             document.body.removeEventListener('click', initAudio);
           }, { once: true });

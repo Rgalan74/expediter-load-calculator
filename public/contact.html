@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -170,6 +170,22 @@
       color: white;
       font-family: 'Inter', sans-serif;
       transition: all 0.3s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    /* Fix select dropdown options — los browsers necesitan esto explicitamente */
+    select.form-input {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23fff' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+
+    select.form-input option {
+      background-color: #1e293b;
+      color: white;
     }
 
     .form-input:focus {
@@ -186,6 +202,26 @@
       resize: vertical;
       min-height: 150px;
     }
+
+    /* Toast de confirmación */
+    .contact-toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1e293b;
+      border: 1px solid rgba(0, 217, 255, 0.4);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      z-index: 9999;
+      transition: transform 0.4s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+    .contact-toast.show { transform: translateX(-50%) translateY(0); }
 
     footer {
       background: rgba(5, 5, 8, 0.95);
@@ -213,9 +249,11 @@
     <div class="container">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <img src="img/logo-app.webp" alt="Smart Load Solution Logo" class="h-10 md:h-12 w-auto"
-            onerror="this.src='img/logo-app.png'" />
-          <span class="text-xl md:text-2xl font-bold">Smart Load Solution</span>
+          <a href="index.html" class="flex items-center gap-3" style="text-decoration:none;color:inherit;">
+            <img src="img/logo-app.webp" alt="Smart Load Solution Logo" class="h-10 md:h-12 w-auto"
+              onerror="this.src='img/logo-app.png'" />
+            <span class="text-xl md:text-2xl font-bold">Smart Load Solution</span>
+          </a>
         </div>
         <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
           <a href="index.html" class="text-gray-300 hover:text-white transition">Inicio</a>
@@ -401,30 +439,69 @@
             <li><a href="refund.html">Reembolsos</a></li>
           </ul>
           <div class="flex gap-4 text-xl">
-            <a href="#" aria-label="Facebook">📘</a>
-            <a href="#" aria-label="Twitter">🐦</a>
-            <a href="#" aria-label="LinkedIn">💼</a>
+            <a href="https://www.facebook.com/galan.expediter" aria-label="Facebook" target="_blank" rel="noopener noreferrer">📘</a>
+            <a href="https://www.tiktok.com/@galan.expediter" aria-label="TikTok" target="_blank" rel="noopener noreferrer">🎵</a>
+            <a href="https://www.instagram.com/galan.expediter/" aria-label="Instagram" target="_blank" rel="noopener noreferrer">📸</a>
+            <a href="https://www.youtube.com/@galan.expediter" aria-label="YouTube" target="_blank" rel="noopener noreferrer">▶️</a>
           </div>
         </div>
       </div>
       <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
-        © 2024 Smart Load Solution. Todos los derechos reservados.
+        © 2026 Smart Load Solution. Todos los derechos reservados.
       </div>
     </div>
   </footer>
 
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script>
+    // Inicializar EmailJS
+    emailjs.init("XBYk_FycQM7ZmtZB2");
+
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     mobileMenuBtn?.addEventListener('click', () => {
       mobileMenu.classList.toggle('hidden');
     });
 
-    // Form submission handler
-    document.getElementById('contactForm')?.addEventListener('submit', function (e) {
+    document.getElementById('contactForm')?.addEventListener('submit', function(e) {
       e.preventDefault();
-      alert('Gracias por tu mensaje. Te responderemos pronto!Nota: Este es un demo. Implementa integración con tu backend o servicio de email.');
-      this.reset();
+
+      const btn = this.querySelector('button[type="submit"]');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<span>Enviando...</span>';
+      btn.disabled = true;
+
+      const templateParams = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value,
+        time: new Date().toLocaleString('es-US', {timeZone: 'America/New_York'})
+      };
+
+      // Email 1 → A Ricardo (Contact Us)
+      emailjs.send('service_xdjd6se', 'template_dgwrp77', templateParams)
+        .then(() => {
+          // Email 2 → Al driver (Auto-Reply)
+          return emailjs.send('service_xdjd6se', 'template_7439wb8', templateParams);
+        })
+        .then(() => {
+          btn.innerHTML = '<span>✓ Mensaje Enviado</span>';
+          btn.style.background = '#22c55e';
+          this.reset();
+          setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.background = '';
+            btn.disabled = false;
+          }, 4000);
+        })
+        .catch((error) => {
+          debugLog('[CONTACT] EmailJS error:', error);
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+          alert('Error al enviar. Por favor escríbenos directamente a support@smartloadsolution.com');
+        });
     });
   </script>
 

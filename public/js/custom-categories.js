@@ -1,4 +1,4 @@
-// custom-categories.js - Custom Expense Categories Manager
+﻿// custom-categories.js - Custom Expense Categories Manager
 // Version: 1.0.0
 // Allows users to create and manage custom expense categories
 
@@ -41,7 +41,7 @@ async function getAllCategories() {
         const customCategories = doc.data()?.customExpenseCategories || [];
         return [...DEFAULT_CATEGORIES, ...customCategories];
     } catch (error) {
-        console.error('❌ Error loading custom categories:', error);
+        debugLog('❌ Error loading custom categories:', error);
         return DEFAULT_CATEGORIES;
     }
 }
@@ -82,7 +82,7 @@ async function createCustomCategory(name, icon, color, isOperational = false) {
         debugLog('✅ Custom category created:', newCategory);
         return newCategory;
     } catch (error) {
-        console.error('❌ Error creating custom category:', error);
+        debugLog('❌ Error creating custom category:', error);
         throw error;
     }
 }
@@ -114,7 +114,7 @@ async function deleteCustomCategory(categoryId) {
         debugLog('✅ Custom category deleted:', categoryId);
         return true;
     } catch (error) {
-        console.error('❌ Error deleting custom category:', error);
+        debugLog('❌ Error deleting custom category:', error);
         throw error;
     }
 }
@@ -126,7 +126,7 @@ async function deleteCustomCategory(categoryId) {
 async function populateExpenseCategoriesSelect() {
     const select = document.getElementById('expenseType');
     if (!select) {
-        console.warn('⚠️ Select expenseType not found');
+        debugLog('⚠️ Select expenseType not found');
         return;
     }
 

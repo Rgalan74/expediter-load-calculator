@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -901,7 +901,7 @@
       const data = userDoc.exists ? userDoc.data() : {};
       renderPage(user, data, plan);
     } catch(e) {
-      console.error(e);
+      debugLog(e);
       toast('Error cargando datos', 'error');
     } finally {
       document.getElementById('loadingOverlay').classList.add('hidden');
@@ -1096,12 +1096,13 @@
 
   async function cancelSub() {
     try {
-      await db.collection('users').doc(auth.currentUser.uid).update({
-        'subscription.cancel_at_period_end': true
-      });
+      toast('Cancelando suscripción...', 'info');
+      const fn = firebase.app().functions('us-central1').httpsCallable('cancelUserSubscription');
+      await fn({});
       toast('Suscripción programada para cancelar al final del período', 'info');
+      setTimeout(() => window.location.reload(), 2000);
     } catch(e) {
-      toast('Error: ' + e.message, 'error');
+      toast('Error: ' + (e.message || 'intenta de nuevo'), 'error');
     }
   }
 

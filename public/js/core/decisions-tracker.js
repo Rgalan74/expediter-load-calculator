@@ -1,4 +1,4 @@
-// ==========================================================
+﻿// ==========================================================
 //  DECISIONS TRACKER - Track user decisions for learning
 // ==========================================================
 
@@ -37,10 +37,10 @@ window.DecisionsTracker = {
             // Save updated profile
             await this.saveProfile(profile);
 
-            console.log('[DECISIONS] Tracked:', decision, 'for', loadData.state, '@', loadData.rpm);
+            debugLog('[DECISIONS] Tracked:', decision, 'for', loadData.state, '@', loadData.rpm);
 
         } catch (error) {
-            console.error('[DECISIONS] Error tracking:', error);
+            debugLog('[DECISIONS] Error tracking:', error);
         }
     },
 
@@ -66,4 +66,4 @@ window.DecisionsTracker = {
     }
 };
 
-console.log('📝 DecisionsTracker loaded');
+debugLog('📝 DecisionsTracker loaded');

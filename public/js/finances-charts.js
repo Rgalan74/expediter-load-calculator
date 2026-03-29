@@ -1,4 +1,4 @@
-// finances-charts.js - Chart.js Visualizations Module
+﻿// finances-charts.js - Chart.js Visualizations Module
 // Version: 1.0.0
 // Dependencies: Chart.js, finances-core.js
 // Last Updated: 2025-12-19
@@ -63,7 +63,7 @@ function updateFinancialCharts(context = "global") {
 function updateCashFlowChart() {
     const canvas = document.getElementById('cashFlowChart');
     if (!canvas) {
-        console.warn("⚠️ Canvas cashFlowChart no encontrado");
+        debugLog("⚠️ Canvas cashFlowChart no encontrado");
         return;
     }
 
