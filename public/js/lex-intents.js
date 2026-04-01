@@ -64,7 +64,9 @@
   const PRICING_VERBS = [
     'aceptar', 'rechazar', 'negociar', 'pedir', 'cobrar',
     'ofrecer', 'tirar', 'coger', 'agarrar', 'tomar',
-    'contraofertar', 'subir', 'bajar'
+    'contraofertar', 'subir', 'bajar',
+    // english
+    'accept', 'reject', 'take', 'grab', 'offer', 'negotiate', 'pass'
   ];
 
   const PRICING_EXPRESSIONS = [
@@ -73,39 +75,57 @@
     'es poco', 'es mucho', 'me ofrecen', 'me tiraron',
     'lo agarro', 'es bueno', 'es malo', 'lo tomo', 'lo acepto',
     // spanglish
-    'rate ta good', 'rate esta low', 'rate esta high', 'good rate', 'bad rate'
+    'rate ta good', 'rate esta low', 'rate esta high', 'good rate', 'bad rate',
+    // english
+    'should i take', 'should i accept', 'is it worth', 'good load', 'bad load',
+    'worth it', 'take it', 'too low', 'too high', 'should i pass'
   ];
 
   // C. Comparación con histórico
   const COMPARISON_KEYWORDS = [
     'promedio', 'comparar', 'mejor', 'peor', 'vs', 'contra',
     'mas que', 'menos que', 'igual', 'diferente', 'historico',
-    'antes', 'ultima vez', 'anterior', 'mis cargas', 'mi historial'
+    'antes', 'ultima vez', 'anterior', 'mis cargas', 'mi historial',
+    // english
+    'average', 'compare', 'better', 'worse', 'history', 'historical',
+    'last time', 'my loads', 'my history', 'than usual', 'above average', 'below average'
   ];
 
   const COMPARISON_EXPRESSIONS = [
     'vs mi promedio', 'mejor que antes', 'mas de lo que',
-    'menos de lo que', 'comparado con', 'igual que', 'peor que la ultima'
+    'menos de lo que', 'comparado con', 'igual que', 'peor que la ultima',
+    // english
+    'vs my average', 'better than before', 'compared to', 'how does it compare',
+    'is this better', 'is this worse'
   ];
 
   // D. Estado / zona / mercado
   const STATE_ZONE_KEYWORDS = [
     'estado', 'zona', 'area', 'region', 'mercado', 'lugar', 'ciudad',
     'midwest', 'costa', 'coast', 'norte', 'sur',
-    'trap', 'trampa', 'zona caliente', 'mercado muerto'
+    'trap', 'trampa', 'zona caliente', 'mercado muerto',
+    // english
+    'zone', 'state', 'market', 'city', 'location', 'north', 'south', 'east', 'west',
+    'hot market', 'dead market', 'trap zone', 'good market', 'bad market'
   ];
 
   const STATE_ZONE_EXPRESSIONS = [
     'como esta', 'que tal', 'vale la pena', 'es trampa',
     'me quedo parado', 'me quedo trancado', 'hay salidas',
-    'trap zone', 'zona caliente', 'mercado muerto', 'esta fuerte el mercado'
+    'trap zone', 'zona caliente', 'mercado muerto', 'esta fuerte el mercado',
+    // english
+    'how is the market', 'is it a trap', 'good zone', 'bad zone',
+    'stuck there', 'any loads out', 'is it worth going', 'how is freight'
   ];
 
   // E. Historial personal
   const HISTORY_KEYWORDS = [
     'historial', 'antes', 'anterior', 'ultimas', 'previas', 'pasadas',
     'stats', 'estadisticas', 'numeros', 'como me ha ido',
-    'he ganado', 'he cobrado', 'mis cargas', 'experiencia'
+    'he ganado', 'he cobrado', 'mis cargas', 'experiencia',
+    // english
+    'history', 'previous', 'past', 'my stats', 'my numbers', 'how have i done',
+    'my loads', 'experience', 'last loads', 'recent loads'
   ];
 
   const HISTORY_EXPRESSIONS = [
@@ -116,7 +136,13 @@
     'mis stats',
     'que tal me va',
     'ultimas cargas',
-    'cargas previas'
+    'cargas previas',
+    // english
+    'according to my history',
+    'how have i done in',
+    'my numbers in',
+    'my previous loads',
+    'show my stats'
   ];
 
   const DEADHEAD_KEYWORDS = [
@@ -197,7 +223,9 @@
   // K. Negociacion / contraoferta
   const NEGOTIATION_KEYWORDS = [
     'negociar', 'contraofertar', 'subir', 'pedir mas', 'regatear',
-    'counter', 'contraoferta', 'mas dinero', 'aumentar', 'ajustar'
+    'counter', 'contraoferta', 'mas dinero', 'aumentar', 'ajustar',
+    // english
+    'counteroffer', 'negotiate', 'ask for more', 'push back', 'more money'
   ];
 
   const NEGOTIATION_EXPRESSIONS = [
@@ -208,7 +236,15 @@
     'subir el precio',
     'cuanto ofrecer yo',
     'cuanto mas puedo pedir',
-    'cuanto mas podria sacarle'
+    'cuanto mas podria sacarle',
+    // english
+    'how much to ask',
+    'should i negotiate',
+    'what to counter',
+    'ask for more',
+    'how much more',
+    'what should i counter',
+    'counter offer'
   ];
 
   // L. Preguntas sobre la app / información
@@ -218,7 +254,11 @@
     'zonas trap', 'zona trap', 'estados trap', 'traps',
     'que zonas', 'cuales estados', 'que estados',
     'como', 'calcular', 'como calcular', 'aprender', 'enseñame',
-    'como se', 'como hago', 'como puedo'
+    'como se', 'como hago', 'como puedo',
+    // english
+    'what are', 'tell me', 'explain', 'what is', 'how does', 'help',
+    'how to', 'calculate', 'learn', 'show me', 'what can you', 'which states',
+    'what zones', 'avoid', 'what to avoid'
   ];
 
   const APP_INFO_EXPRESSIONS = [
@@ -231,14 +271,26 @@
     'como funciona lex',
     'que puedes hacer',
     'como se calcula',
-    'enseñame a calcular'
+    'enseñame a calcular',
+    // english
+    'what are trap zones',
+    'which zones are traps',
+    'what states to avoid',
+    'how does lex work',
+    'what can you do',
+    'how to calculate',
+    'teach me',
+    'explain to me'
   ];
 
   // M. Finanzas y resumen de negocio
   const FINANCE_KEYWORDS = [
     'finanza', 'financiero', 'mes', 'semana', 'año',
     'resumen', 'kpi', 'numeros', 'como voy',
-    'ganancia total', 'reporte'
+    'ganancia total', 'reporte',
+    // english
+    'finance', 'financial', 'month', 'week', 'year', 'summary',
+    'earnings', 'profit', 'income', 'revenue', 'how am i doing', 'report'
   ];
 
   const FINANCE_EXPRESSIONS = [
@@ -247,7 +299,16 @@
     'como esta mi mes',
     'numeros del mes',
     'mis finanzas',
-    'reporte financiero'
+    'reporte financiero',
+    // english
+    'financial summary',
+    'how is my month',
+    'how am i doing this month',
+    'monthly numbers',
+    'my finances',
+    'financial report',
+    'show my earnings',
+    'how much have i made'
   ];
 
   // ============================
@@ -320,7 +381,9 @@
     // NEW: Bonus for instructional questions (como calcular, como hacer, etc)
     let instructionalBonus = 0;
     if ((t.includes('como') && (t.includes('calcul') || t.includes('hac') || t.includes('funciona'))) ||
-      t.includes('enseñame') || t.includes('aprender') || t.includes('que es')) {
+      t.includes('enseñame') || t.includes('aprender') || t.includes('que es') ||
+      (t.includes('how') && (t.includes('calcul') || t.includes('work') || t.includes('do'))) ||
+      t.includes('teach me') || t.includes('explain') || t.includes('what is')) {
       instructionalBonus = 3; // High bonus to prioritize educational questions
     }
 
@@ -338,7 +401,7 @@
     }
 
     // Bonus for clear comparison intent
-    if ((t.includes('promedio') || t.includes('vs')) && historyScore > 0) {
+    if ((t.includes('promedio') || t.includes('average') || t.includes('vs')) && historyScore > 0) {
       contextBonus.historyComparison = 2;
     }
 

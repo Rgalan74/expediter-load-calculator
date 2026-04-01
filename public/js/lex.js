@@ -1,4 +1,4 @@
-﻿// ==========================================================
+// ==========================================================
 //  LEX.JS - Control visual del asistente Lex
 //  Adaptado exactamente a tus 9 imágenes en /img/lex/
 // ==========================================================
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Bienvenida
   setLexState('idle', {
-    message: 'Hola, soy Lex. Haz click en mi para analizar cargas, zonas, finanzas e historial.',
+    message: window.i18n?.t('lex.hover_bubble') || 'Hola, soy Lex. Click en mi para analizar cargas.',
     duration: 1000
   });
 
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (lexCurrentState === 'sleep') return;
 
     setLexState('thinking', {
-      message: 'Click para ver analisis detallado de la seccion actual',
+      message: window.i18n?.t('lex.hover_bubble') || 'Click para ver analisis detallado de la seccion actual',
       duration: 3000
     });
   });
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 👋 Welcome message on app load
   setTimeout(() => {
     setLexState('idle', {
-      message: '👋 Hola! Soy Lex. Click en mí para conversar.',
+      message: window.i18n?.t('lex.welcome_bubble') || '👋 Hola! Soy Lex. Click en mí para conversar.',
       duration: 2500
     });
 
@@ -278,7 +278,7 @@ window.openLexChatModal = function () {
           </div>
           <div style="font-size: 11px; color: #fb923c; display: flex; align-items: center; gap: 4px;">
             <span style="width:6px; height:6px; border-radius:50%; background:#22c55e; display:inline-block;"></span>
-            Asistente activo
+            ${window.i18n?.t('lex.status_active') || 'Asistente activo'}
           </div>
         </div>
         <button
@@ -320,7 +320,7 @@ window.openLexChatModal = function () {
           border-bottom: 2px solid #fb923c;
           font-family: Inter, sans-serif;
         ">
-          📊 Análisis
+          ${window.i18n?.t('lex.tab_analysis') || '📊 Análisis'}
         </button>
         <button id="lexTabChat" onclick="window.switchLexTab('chat')" style="
           flex: 1;
@@ -336,7 +336,7 @@ window.openLexChatModal = function () {
           border-bottom: 2px solid transparent;
           font-family: Inter, sans-serif;
         ">
-          💬 Chat
+          ${window.i18n?.t('lex.tab_chat') || '💬 Chat'}
         </button>
         <button id="lexTabFeedback" onclick="window.switchLexTab('feedback')" style="
           flex: 1;
@@ -352,7 +352,7 @@ window.openLexChatModal = function () {
           border-bottom: 2px solid transparent;
           font-family: Inter, sans-serif;
         ">
-          📝 Feedback
+          ${window.i18n?.t('lex.tab_feedback') || '📝 Feedback'}
         </button>
       </div>
     </div>
@@ -371,7 +371,7 @@ window.openLexChatModal = function () {
         font-size: 12px;
       ">
         <div style="font-size: 32px; margin-bottom: 8px;">📊</div>
-        <p>Haz click en los botones de acciones rápidas para analizar:</p>
+        <p>${window.i18n?.t('lex.analysis_prompt') || 'Haz click en los botones de acciones rápidas para analizar:'}</p>
       </div>
       
       <!-- QUICK ACTIONS -->
@@ -384,7 +384,7 @@ window.openLexChatModal = function () {
         gap: 4px;
       ">
         <div style="font-size: 12px; color: #fb923c; font-weight: 600; margin-bottom: 2px;">
-          ⚡ Acciones rápidas:
+          ${window.i18n?.t('lex.quick_actions_label') || '⚡ Acciones rápidas:'}
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
           <button onclick="window.lexQuickAction('analizar')" style="
@@ -398,7 +398,7 @@ window.openLexChatModal = function () {
             cursor: pointer;
             transition: all 0.2s;
           " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
-            📊 Analizar carga
+            ${window.i18n?.t('lex.action_analyze') || '📊 Analizar carga'}
           </button>
           <button onclick="window.lexQuickAction('mes')" style="
             padding: 12px 8px;
@@ -411,7 +411,7 @@ window.openLexChatModal = function () {
             cursor: pointer;
             transition: all 0.2s;
           " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
-            📈 ¿Cómo va mi mes?
+            ${window.i18n?.t('lex.action_month') || '📈 ¿Cómo va mi mes?'}
           </button>
           <button onclick="window.lexQuickAction('zona')" style="
             padding: 12px 8px;
@@ -424,7 +424,7 @@ window.openLexChatModal = function () {
             cursor: pointer;
             transition: all 0.2s;
           " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
-            🗺️ Stats de zona
+            ${window.i18n?.t('lex.action_zone') || '🗺️ Stats de zona'}
           </button>
           <button onclick="window.lexQuickAction('finanzas')" style="
             padding: 12px 8px;
@@ -437,7 +437,7 @@ window.openLexChatModal = function () {
             cursor: pointer;
             transition: all 0.2s;
           " onmouseover="this.style.background='#1f2937'" onmouseout="this.style.background='#111827'">
-            💰 Resumen financiero
+            ${window.i18n?.t('lex.action_finances') || '💰 Resumen financiero'}
           </button>
         </div>
       </div>
@@ -482,7 +482,7 @@ window.openLexChatModal = function () {
             font-size: 10px;
             max-width: 85%;
           ">
-            <p style="opacity:0.4; font-size:11px;">Cargando resumen...</p>
+            <p style="opacity:0.4; font-size:11px;">${window.i18n?.t('lex.chat_loading') || 'Cargando resumen...'}</p>
           </div>
         </div>
       </div>
@@ -502,7 +502,7 @@ window.openLexChatModal = function () {
         <input
           id="lexChatInput"
           type="text"
-          placeholder="Ej: RPM de esta carga?"
+          placeholder="${window.i18n?.t('lex.placeholder') || 'Ej: RPM de esta carga?'}"
           style="
             flex: 1;
             background-color: #020617;
@@ -529,7 +529,7 @@ window.openLexChatModal = function () {
             box-shadow: 0 2px 6px rgba(251,146,60,0.3);
           "
         >
-          Enviar
+          ${window.i18n?.t('lex.btn_send') || 'Enviar'}
         </button>
       </form>
     </div>
@@ -538,7 +538,7 @@ window.openLexChatModal = function () {
     <div id="lexContentFeedback" style="display: none; flex: 1; flex-direction: column; overflow-y: auto; padding: 12px;">
       <div style="margin-bottom: 14px;">
         <label style="display: block; font-weight: 600; color: #f9fafb; margin-bottom: 6px; font-size: 10px;">
-          Tipo de feedback
+          ${window.i18n?.t('lex.feedback_type_label') || 'Tipo de feedback'}
         </label>
         <select id="lexFeedbackType" style="
           width: 100%;
@@ -550,18 +550,18 @@ window.openLexChatModal = function () {
           background: #111827;
           color: #e5e7eb;
         ">
-          <option value="bug">🐛 Reportar un error</option>
-          <option value="feature">💡 Sugerir una mejora</option>
-          <option value="question">❓ Hacer una pregunta</option>
-          <option value="other">💬 Otro</option>
+          <option value="bug">${window.i18n?.t('lex.feedback_type_bug') || '🐛 Reportar un error'}</option>
+          <option value="feature">${window.i18n?.t('lex.feedback_type_feature') || '💡 Sugerir una mejora'}</option>
+          <option value="question">${window.i18n?.t('lex.feedback_type_question') || '❓ Hacer una pregunta'}</option>
+          <option value="other">${window.i18n?.t('lex.feedback_type_other') || '💬 Otro'}</option>
         </select>
       </div>
 
       <div style="margin-bottom: 14px;">
         <label style="display: block; font-weight: 600; color: #f9fafb; margin-bottom: 6px; font-size: 10px;">
-          Descripción
+          ${window.i18n?.t('lex.feedback_desc_label') || 'Descripción'}
         </label>
-        <textarea id="lexFeedbackMessage" rows="4" placeholder="Cuéntanos qué pasó o qué te gustaría ver..." style="
+        <textarea id="lexFeedbackMessage" rows="4" placeholder="${window.i18n?.t('lex.feedback_placeholder') || 'Cuéntanos qué pasó o qué te gustaría ver...'}" style="
           width: 100%;
           padding: 8px;
           border: 1px solid #374151;
@@ -586,11 +586,11 @@ window.openLexChatModal = function () {
         cursor: pointer;
         font-family: Inter, sans-serif;
       ">
-        📤 Enviar Feedback
+          ${window.i18n?.t('lex.feedback_btn_submit') || '📤 Enviar Feedback'}
       </button>
 
       <p style="font-size: 12px; color: #6b7280; margin-top: 8px; text-align: center;">
-        Tu feedback nos ayuda a mejorar la app
+          ${window.i18n?.t('lex.feedback_note') || 'Tu feedback nos ayuda a mejorar la app'}
       </p>
     </div>
   `;
@@ -768,11 +768,11 @@ window.openLexChatModal = function () {
         // para generar texto y luego usar appendLexMessage(...)
       } catch (err) {
         debugLog('[LEX CHAT] Error procesando mensaje:', err);
-        appendLexMessage('Hubo un error procesando tu pregunta. 😕');
+        appendLexMessage(window.i18n?.t('lex.error_processing') || 'Hubo un error procesando tu pregunta. 😕');
       }
     } else {
       debugLog('[LEX CHAT] handleLexChatMessage no está definido');
-      appendLexMessage('Aún no tengo conectada mi lógica interna/externa, pero ya leo tus mensajes. 😉');
+      appendLexMessage(window.i18n?.t('lex.logic_not_connected') || 'Aún no tengo conectada mi lógica interna/externa, pero ya leo tus mensajes. 😉');
     }
 
     scrollToBottom();
@@ -791,10 +791,10 @@ window.lexQuickAction = async function (action) {
 
   // Map actions to queries
   const actionQueries = {
-    'analizar': 'Analiza la carga actual',
-    'mes': '¿Cómo va mi mes?',
-    'zona': 'Stats de esta zona',
-    'finanzas': 'Resumen financiero'
+    'analizar': window.i18n?.t('lex.query_analyze') || 'Analiza la carga actual',
+    'mes': window.i18n?.t('lex.query_month') || '¿Cómo va mi mes?',
+    'zona': window.i18n?.t('lex.query_zone') || 'Stats de esta zona',
+    'finanzas': window.i18n?.t('lex.query_finances') || 'Resumen financiero'
   };
 
   const query = actionQueries[action] || action;
@@ -913,7 +913,7 @@ window.submitLexFeedback = async function () {
   const message = document.getElementById('lexFeedbackMessage').value;
 
   if (!message.trim()) {
-    alert('Por favor describe tu feedback');
+    alert(window.i18n?.t('lex.feedback_required') || 'Por favor describe tu feedback');
     return;
   }
 
@@ -948,12 +948,33 @@ window.submitLexFeedback = async function () {
     document.getElementById('lexFeedbackMessage').value = '';
 
     // Show success & switch to chat
-    alert('✅ ¡Gracias por tu feedback!');
+    alert(window.i18n?.t('lex.feedback_success') || '✅ ¡Gracias por tu feedback!');
     window.switchLexTab('chat');
 
   } catch (error) {
     debugLog('Error submitting feedback:', error);
-    alert('Error al enviar feedback. Por favor intenta de nuevo.');
+    alert(window.i18n?.t('lex.feedback_error') || 'Error al enviar feedback. Por favor intenta de nuevo.');
   }
 };
+
+// ==========================================================
+//  LANGUAGE CHANGE — rebuild panel so labels update
+// ==========================================================
+document.addEventListener('languageChanged', () => {
+  const overlay = document.getElementById('lexChatOverlay');
+  if (overlay) {
+    // Panel is open — close and destroy so it rebuilds with new language
+    if (typeof window.closeLexChatModal === 'function') {
+      window.closeLexChatModal();
+    }
+    overlay.remove();
+    window.lexChatOpen = false;
+  }
+  // Also update the bubble message if visible
+  const bubble = document.getElementById('lexBubble');
+  if (bubble && !bubble.classList.contains('hidden')) {
+    const msg = bubble.querySelector('.lex-bubble-text');
+    if (msg) msg.textContent = window.i18n?.t('lex.hover_bubble') || 'Click to analyze loads.';
+  }
+});
 

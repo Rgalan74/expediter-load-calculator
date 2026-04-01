@@ -36,7 +36,7 @@ async function saveExpenseToFirebase() {
     // Verificación de elementos antes de acceder a .value
     if (!amountEl || !typeEl || !descEl || !dateEl) {
         debugLog("❌ Elementos del formulario de gastos no encontrados");
-        showFinancesMessage("Error: Formulario no disponible. Intenta recargar la página.", "error");
+        showFinancesMessage(window.i18n?.t('finances.form_not_available') || "Error: Form not available. Try reloading the page.", "error");
         return;
     }
 
@@ -46,12 +46,12 @@ async function saveExpenseToFirebase() {
     const date = dateEl.value;
 
     if (!window.currentUser) {
-        showFinancesMessage("Debe iniciar sesión", "error");
+        showFinancesMessage(window.i18n?.t('finances.sign_in_required') || "Please sign in", "error");
         return;
     }
 
     if (!amount || amount <= 0 || !type || !date) {
-        showFinancesMessage("Todos los campos son obligatorios", "error");
+        showFinancesMessage(window.i18n?.t('finances.all_fields_required') || "All fields are required", "error");
         return;
     }
 
@@ -74,16 +74,16 @@ async function saveExpenseToFirebase() {
         if (editId) {
             await firebase.firestore().collection("expenses").doc(editId).update(expense);
             debugFinances(`✅ Gasto actualizado (${editId}):`, expense);
-            showFinancesMessage("✅ Gasto editado correctamente", "success");
+            showFinancesMessage(window.i18n?.t('finances.expense_updated_ok') || "✅ Expense updated successfully", "success");
             if (window.showToast) {
-                showToast('✅ Gasto actualizado exitosamente', 'success');
+                showToast(window.i18n?.t('finances.expense_updated_ok') || '✅ Expense updated successfully', 'success');
             }
         } else {
             const docRef = await firebase.firestore().collection("expenses").add(expense);
             debugFinances(`✅ Gasto agregado (${docRef.id}):`, expense);
-            showFinancesMessage("✅ Gasto agregado correctamente", "success");
+            showFinancesMessage(window.i18n?.t('finances.expense_saved_ok') || "✅ Expense saved successfully", "success");
             if (window.showToast) {
-                showToast('✅ Gasto guardado exitosamente', 'success');
+                showToast(window.i18n?.t('finances.expense_saved_ok') || '✅ Expense saved successfully', 'success');
             }
         }
 
@@ -94,9 +94,9 @@ async function saveExpenseToFirebase() {
         loadFinancesData();
     } catch (error) {
         debugFinances("❌ Error guardando gasto:", error);
-        showFinancesMessage("❌ No se pudo guardar el gasto", "error");
+        showFinancesMessage(window.i18n?.t('finances.expense_save_error') || "❌ Could not save expense", "error");
         if (window.showToast) {
-            showToast('❌ Error al guardar el gasto', 'error');
+            showToast(window.i18n?.t('finances.expense_save_error') || '❌ Could not save expense', 'error');
         }
     } finally {
         if (saveBtn) saveBtn.disabled = false;
@@ -112,7 +112,7 @@ async function editExpense(id) {
         const doc = await firebase.firestore().collection("expenses").doc(id).get();
 
         if (!doc.exists) {
-            showFinancesMessage("❌ Gasto no encontrado", "error");
+            showFinancesMessage(window.i18n?.t('finances.expense_not_found') || "❌ Expense not found", "error");
             return;
         }
 
@@ -128,7 +128,7 @@ async function editExpense(id) {
         debugFinances(`📝 Editando gasto (${id}):`, exp);
     } catch (err) {
         debugFinances("❌ Error al editar gasto:", err);
-        showFinancesMessage("❌ No se pudo cargar el gasto", "error");
+        showFinancesMessage(window.i18n?.t('finances.expense_load_error') || "❌ Could not load expense", "error");
     }
 }
 
@@ -137,7 +137,7 @@ async function editExpense(id) {
 // ========================================
 
 async function deleteExpense(id) {
-    if (!confirm('¿Estás seguro de eliminar este gasto?')) {
+    if (!confirm(window.i18n?.t('finances.confirm_delete_expense') || 'Are you sure you want to delete this expense?')) {
         return;
     }
 
@@ -145,16 +145,16 @@ async function deleteExpense(id) {
         await firebase.firestore().collection("expenses").doc(id).delete();
         if (window.CPMEngine) window.CPMEngine.clearCache();
         debugFinances(`✅ Gasto eliminado (${id})`);
-        showFinancesMessage("✅ Gasto eliminado correctamente", "success");
+        showFinancesMessage(window.i18n?.t('finances.expense_deleted_ok') || "✅ Expense deleted successfully", "success");
         if (window.showToast) {
-            showToast('✅ Gasto eliminado exitosamente', 'success');
+            showToast(window.i18n?.t('finances.expense_deleted_ok') || '✅ Expense deleted successfully', 'success');
         }
         loadFinancesData(); // Refresh
     } catch (error) {
         debugFinances("❌ Error eliminando gasto:", error);
-        showFinancesMessage("❌ No se pudo eliminar el gasto", "error");
+        showFinancesMessage(window.i18n?.t('finances.expense_delete_error') || "❌ Could not delete expense", "error");
         if (window.showToast) {
-            showToast('❌ Error al eliminar el gasto', 'error');
+            showToast(window.i18n?.t('finances.expense_delete_error') || '❌ Could not delete expense', 'error');
         }
     }
 }
@@ -236,7 +236,7 @@ async function renderExpensesList(filteredExpenses = []) {
         expensesList.innerHTML = `
             <tr>
                 <td colspan="5" class="p-4 text-center text-gray-500">
-                    No hay gastos registrados para este periodo
+                    ${window.i18n?.t('finances.no_expenses_period') || 'No expenses registered for this period'}
                 </td>
             </tr>`;
         return;
@@ -294,8 +294,8 @@ async function renderExpensesList(filteredExpenses = []) {
             <td class="p-2 text-sm">${expense.description || "-"}</td>
             <td class="p-2 text-sm font-semibold">${formatCurrency(expense.amount)}</td>
             <td class="p-2 text-sm">
-                <button onclick="editExpense('${expense.id}')" class="text-blue-600 hover:underline mr-2">Editar</button>
-                <button onclick="deleteExpense('${expense.id}')" class="text-red-600 hover:underline">Eliminar</button>
+                <button onclick="editExpense('${expense.id}')" class="text-blue-600 hover:underline mr-2">${window.i18n?.t('finances.btn_edit') || 'Edit'}</button>
+                <button onclick="deleteExpense('${expense.id}')" class="text-red-600 hover:underline">${window.i18n?.t('finances.btn_delete') || 'Delete'}</button>
             </td>
         </tr>`;
     });

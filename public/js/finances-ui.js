@@ -227,7 +227,7 @@ function populateYearSelect() {
 
     const sortedYears = Array.from(years).sort().reverse();
 
-    yearSelect.innerHTML = '<option value="">Todos los años</option>';
+    yearSelect.innerHTML = `<option value="">${window.i18n?.t('finances.all_years') || 'All Years'}</option>`;
     sortedYears.forEach(year => {
         const option = document.createElement("option");
         option.value = year;
@@ -256,7 +256,7 @@ function updateMonthOptions() {
     const selectedYear = yearSelect.value;
 
     if (!selectedYear) {
-        monthSelect.innerHTML = '<option value="">Todos los meses</option>';
+        monthSelect.innerHTML = `<option value="">${window.i18n?.t('finances.all_months') || 'All Months'}</option>`;
         monthSelect.disabled = true;
         return;
     }
@@ -281,9 +281,18 @@ function updateMonthOptions() {
     });
 
     const monthNames = {
-        "01": "Enero", "02": "Febrero", "03": "Marzo", "04": "Abril",
-        "05": "Mayo", "06": "Junio", "07": "Julio", "08": "Agosto",
-        "09": "Septiembre", "10": "Octubre", "11": "Noviembre", "12": "Diciembre"
+        "01": window.i18n?.t('common.month_jan') || 'January',
+        "02": window.i18n?.t('common.month_feb') || 'February',
+        "03": window.i18n?.t('common.month_mar') || 'March',
+        "04": window.i18n?.t('common.month_apr') || 'April',
+        "05": window.i18n?.t('common.month_may') || 'May',
+        "06": window.i18n?.t('common.month_jun') || 'June',
+        "07": window.i18n?.t('common.month_jul') || 'July',
+        "08": window.i18n?.t('common.month_aug') || 'August',
+        "09": window.i18n?.t('common.month_sep') || 'September',
+        "10": window.i18n?.t('common.month_oct') || 'October',
+        "11": window.i18n?.t('common.month_nov') || 'November',
+        "12": window.i18n?.t('common.month_dec') || 'December'
     };
 
     const sortedMonths = Array.from(months).sort();

@@ -16,7 +16,7 @@ function getLoadHistory() {
 
   if (!window.currentUser) {
     debugLog(" No user logged in for history");
-    showHistoryMessage("Debe iniciar sesión para ver el historial", "error");
+    showHistoryMessage(window.i18n?.t('history.must_sign_in') || "Sign in to view history", "error");
     setLoadingState(false);
     return;
   }
@@ -26,7 +26,7 @@ function getLoadHistory() {
 
   if (typeof firebase === 'undefined' || !firebase.firestore) {
     debugLog(" Firebase not available");
-    showHistoryMessage("Error: Firebase no está disponible", "error");
+    showHistoryMessage(window.i18n?.t('history.firebase_error') || "Error: Firebase is not available", "error");
     setLoadingState(false);
     return;
   }
@@ -123,22 +123,22 @@ function getLoadHistory() {
         setLoadingState(false);
 
         if (allData.length === 0) {
-          showHistoryMessage("No hay cargas guardadas. Crea tu primera carga en la calculadora.", "info");
+          showHistoryMessage(window.i18n?.t('history.no_loads_create') || "No loads saved. Create your first load in the calculator.", "info");
         } else {
-          showHistoryMessage(` Se cargaron ${allData.length} cargas exitosamente`, "success");
+          showHistoryMessage(window.i18n?.t('history.loads_loaded_count', { count: allData.length }) || `${allData.length} loads loaded successfully`, "success");
         }
 
       } catch (error) {
         debugLog(" Error updating history UI components:", error);
-        showHistoryMessage("Error actualizando componentes: " + error.message, "error");
+        showHistoryMessage((window.i18n?.t('history.error_filter') || "Error updating components") + ": " + error.message, "error");
         setLoadingState(false);
       }
     })
     .catch(error => {
       debugLog(" Error loading history data:", error);
       setLoadingState(false);
-      showHistoryMessage(" Error loading history: " + error.message, "error");
-      setErrorState("Error cargando datos");
+      showHistoryMessage((window.i18n?.t('history.error_filter') || "Error loading history") + ": " + error.message, "error");
+      setErrorState(window.i18n?.t('history.error_filter') || "Error loading data");
     });
 }
 
@@ -192,7 +192,7 @@ function renderFilteredImmediate() {
     debugLog(` History filtered and rendered: ${filteredData.length} loads from ${allData.length} total`);
   } catch (error) {
     debugLog("Error filtering history data:", error);
-    showHistoryMessage("Error al filtrar datos", "error");
+    showHistoryMessage(window.i18n?.t('history.error_filter') || "Error filtering data", "error");
   }
 }
 
@@ -205,7 +205,7 @@ function setLoadingState(isLoading) {
  <tr>
  <td colspan="9" class="p-4 text-center text-gray-500">
  <div class="spinner mx-auto mb-2"></div>
- Cargando historial...
+ ${window.i18n?.t('history.loading') || 'Loading history...'}
  </td>
  </tr>
  `;
@@ -219,7 +219,7 @@ function showHistoryEmpty() {
   loadList.innerHTML = `
  <tr>
  <td colspan="9" class="p-4 text-center text-gray-500">
- No hay cargas para analizar. ¡Crea algunas cargas primero!
+ ${window.i18n?.t('history.empty_history') || 'No loads to analyze. Create some loads first!'}
  </td>
  </tr>
  `;
@@ -242,7 +242,7 @@ function setErrorState(message) {
  <div class="bg-red-50 border border-red-200 rounded p-4">
  <p class="text-red-600 font-semibold"> ${message}</p>
  <button onclick="getLoadHistory()" class="mt-3 bg-red-500 text-white px-4 py-2 rounded text-sm hover:bg-red-600">
- Reintentar
+ ${window.i18n?.t('history.retry') || 'Retry'}
  </button>
  </div>
  </td>
@@ -269,7 +269,7 @@ function populateHistoryMonthSelector() {
 
   const sortedMonths = Array.from(months).sort((a, b) => b.localeCompare(a));
 
-  selector.innerHTML = '<option value="">Todos los Meses</option>';
+  selector.innerHTML = `<option value="">${window.i18n?.t('history.all_months') || 'All Months'}</option>`;
 
   sortedMonths.forEach(month => {
     const option = document.createElement("option");
@@ -293,7 +293,7 @@ function populateHistoryYearSelector() {
 
   const sortedYears = Array.from(years).sort((a, b) => b.localeCompare(a));
 
-  selector.innerHTML = '<option value="">Todos los años</option>';
+  selector.innerHTML = `<option value="">${window.i18n?.t('history.all_years') || 'All Years'}</option>`;
   sortedYears.forEach(year => {
     const option = document.createElement('option');
     option.value = year;
@@ -310,11 +310,18 @@ function renderFiltered() {
 }
 
 function updateCounts() {
-  const filteredCountEl = document.getElementById('filteredCount');
-  const totalCountEl = document.getElementById('totalCount');
-
-  if (filteredCountEl) filteredCountEl.textContent = filteredData.length;
-  if (totalCountEl) totalCountEl.textContent = allData.length;
+  const label = document.getElementById('historyCountLabel');
+  if (label) {
+    const showing = window.i18n?.t('history.showing') || 'Showing';
+    const of = window.i18n?.t('history.showing_of') || 'of';
+    const loads = window.i18n?.t('history.showing_loads') || 'loads';
+    label.innerHTML = `${showing} <span id="filteredCount">${filteredData.length}</span> ${of} <span id="totalCount">${allData.length}</span> ${loads}`;
+  } else {
+    const filteredCountEl = document.getElementById('filteredCount');
+    const totalCountEl = document.getElementById('totalCount');
+    if (filteredCountEl) filteredCountEl.textContent = filteredData.length;
+    if (totalCountEl) totalCountEl.textContent = allData.length;
+  }
 }
 
 async function updateSummaryStats() {
@@ -420,7 +427,7 @@ function renderHistoryTable() {
   }
 
   if (!Array.isArray(filteredData) || filteredData.length === 0) {
-    table.innerHTML = '<tr><td colspan="9" class="p-4 text-center text-gray-500">No hay datos disponibles con los filtros actuales.</td></tr>';
+    table.innerHTML = `<tr><td colspan="9" class="p-4 text-center text-gray-500">${window.i18n?.t('history.no_data_filters') || 'No data available with current filters.'}</td></tr>`;
     return;
   }
 
@@ -452,8 +459,8 @@ function renderHistoryTable() {
  <td class="px-4 py-3 text-sm border-b border-blue-100 whitespace-nowrap">$${formatAmount(safeLoad.rpm)}</td>
  <td class="px-4 py-3 text-sm border-b border-blue-100 whitespace-nowrap">$${formatAmount(safeLoad.totalCharge)}</td>
  <td class="px-4 py-3 text-sm border-b border-blue-100 flex gap-2 whitespace-nowrap">
- <button class="text-blue-600 hover:text-blue-800 font-medium" onclick="editLoad('${safeLoad.id}')">Editar</button>
- <button class="text-red-600 hover:text-red-800 font-medium" onclick="deleteLoad('${safeLoad.id}')">Eliminar</button>
+ <button class="text-blue-600 hover:text-blue-800 font-medium" onclick="editLoad('${safeLoad.id}')">${window.i18n?.t('history.btn_edit') || 'Edit'}</button>
+ <button class="text-red-600 hover:text-red-800 font-medium" onclick="deleteLoad('${safeLoad.id}')">${window.i18n?.t('history.btn_delete') || 'Delete'}</button>
  </td>
  </tr>
 `;
@@ -465,19 +472,19 @@ function renderHistoryTable() {
     debugLog(` History table rendered successfully with ${filteredData.length} rows`);
   } catch (error) {
     debugLog(" Error rendering history table:", error);
-    table.innerHTML = '<tr><td colspan="9" class="p-4 text-center text-red-500">Error al mostrar los datos.</td></tr>';
+    table.innerHTML = `<tr><td colspan="9" class="p-4 text-center text-red-500">${window.i18n?.t('history.error_render') || 'Error displaying data.'}</td></tr>`;
   }
 }
 
 function deleteLoad(loadId) {
   if (!loadId) {
-    showHistoryMessage("ID de carga inválido", "error");
+    showHistoryMessage(window.i18n?.t('history.invalid_load_id') || "Invalid load ID", "error");
     return;
   }
 
   // Use modern confirm dialog instead of window.confirm
   confirmDialog(
-    "¿Estás seguro de que deseas eliminar esta carga? Esta acción no se puede deshacer.",
+    window.i18n?.t('history.confirm_delete_action') || "Are you sure you want to delete this load? This action cannot be undone.",
     () => {
       // onConfirm - Execute delete
       executeDeleteLoad(loadId);
@@ -501,7 +508,7 @@ function executeDeleteLoad(loadId) {
     .then(() => {
       allData = allData.filter(l => l.id !== loadId);
       renderFilteredImmediate();
-      showToast("Carga eliminada exitosamente", "success");
+      showToast(window.i18n?.t('history.delete_success') || "Load deleted successfully", "success");
       debugLog(" Load deleted successfully");
       // ✅ Actualizar perfil de Lex después de borrar carga
       if (window.initializeLexProfile) window.initializeLexProfile();
@@ -510,18 +517,18 @@ function executeDeleteLoad(loadId) {
     })
     .catch(error => {
       debugLog(" Error deleting load:", error);
-      showToast("Error al eliminar la carga: " + error.message, "error");
+      showToast((window.i18n?.t('history.delete_error') || "Error deleting load: ") + error.message, "error");
     });
 }
 
 function exportToCSV() {
   if (!Array.isArray(filteredData) || filteredData.length === 0) {
-    showHistoryMessage("No hay datos para exportar", "error");
+    showHistoryMessage(window.i18n?.t('history.no_data_export') || "No data to export", "error");
     return;
   }
 
   try {
-    const headers = ['Fecha', 'Número de Carga', 'Origen', 'Destino', 'Millas', 'RPM', 'Tarifa', 'Empresa'];
+    const headers = (window.i18n?.t('history.csv_headers') || 'Date,Load #,Origin,Destination,Miles,RPM,Rate,Company').split(',');
     const csvContent = [
       headers.join(','),
       ...filteredData.map(load => [
@@ -546,11 +553,11 @@ function exportToCSV() {
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
 
-    showHistoryMessage(` CSV exportado con ${filteredData.length} cargas`, "success");
+    showHistoryMessage(window.i18n?.t('history.csv_exported', { count: filteredData.length }) || `${filteredData.length} loads exported`, "success");
     debugLog(" CSV exported successfully");
   } catch (error) {
     debugLog("Error exporting CSV:", error);
-    showHistoryMessage(" Error al exportar CSV", "error");
+    showHistoryMessage(window.i18n?.t('history.export_error') || "Error exporting CSV", "error");
   }
 }
 
@@ -558,7 +565,7 @@ function exportToCSV() {
 function loadIntoCalculator(loadId) {
   const load = allData.find(l => l.id === loadId);
   if (!load) {
-    showHistoryMessage("Carga no encontrada", "error");
+    showHistoryMessage(window.i18n?.t('history.load_not_found') || "Load not found", "error");
     return;
   }
 
@@ -600,7 +607,7 @@ function loadIntoCalculator(loadId) {
       }
     }, 100);
 
-    showHistoryMessage(" Carga cargada en la calculadora", "success");
+    showHistoryMessage(window.i18n?.t('history.loaded_to_calculator') || "Load loaded into calculator", "success");
   }, 200);
 }
 
@@ -610,7 +617,7 @@ let currentEditingLoad = null;
 function editLoad(loadId) {
   const load = allData.find(l => l.id === loadId);
   if (!load) {
-    showHistoryMessage("Carga no encontrada", "error");
+    showHistoryMessage(window.i18n?.t('history.load_not_found') || "Load not found", "error");
     return;
   }
 
@@ -748,8 +755,8 @@ async function saveEditedLoad() {
     const origin = document.getElementById('editOrigin')?.value.trim() || '';
     const destination = document.getElementById('editDestination')?.value.trim() || '';
 
-    if (!origin || !destination) throw new Error('Origen y destino son requeridos');
-    if (totalMiles <= 0) throw new Error('Las millas totales deben ser mayores a 0');
+    if (!origin || !destination) throw new Error(window.i18n?.t('history.origin_dest_required') || 'Origin and destination are required');
+    if (totalMiles <= 0) throw new Error(window.i18n?.t('history.total_miles_required') || 'Total miles must be greater than 0');
 
     // Recalcular flexible RPM Total
     if (lastEditedField === 'editRpm' && totalMiles > 0) {
@@ -804,7 +811,7 @@ async function saveEditedLoad() {
     }
 
     closeEditModal();
-    showHistoryMessage(" Carga actualizada exitosamente", "success");
+    showHistoryMessage(window.i18n?.t('history.load_updated') || "Load updated successfully", "success");
     renderFilteredImmediate();
 
     setTimeout(() => {
@@ -842,6 +849,16 @@ document.addEventListener('click', function (event) {
 
 
 debugLog(" Funciones completas del modal cargadas");
+
+// Re-render dynamic history content on language change
+document.addEventListener('languageChanged', () => {
+  if (allData.length > 0) {
+    populateHistoryMonthSelector();
+    populateHistoryYearSelector();
+    renderHistoryTable();
+    updateCounts();
+  }
+});
 
 // Event listeners
 document.addEventListener("DOMContentLoaded", () => {
@@ -949,18 +966,18 @@ window.analyzeLexHistory = async function () {
       debugLog(" [LEX-HISTORY] No hay cargas para analizar");
       if (window.setLexState) {
         window.setLexState('sad', {
-          message: 'No tengo cargas en el historial para analizar todavía 😕',
+          message: window.i18n?.t('history.lex_no_loads_state') || 'No history loads to analyze yet 😕',
           duration: 4000
         });
       }
-      alert('No hay cargas en el historial para analizar con Lex.');
+      alert(window.i18n?.t('history.lex_no_loads_alert') || 'No history loads to analyze with Lex.');
       return null;
     }
 
     // Animación / estado de Lex
     if (window.setLexState) {
       window.setLexState('thinking', {
-        message: `Analizando ${dataToAnalyze.length} cargas de tu historial 📚`,
+        message: `${window.i18n?.t('history.lex_analyzing') || 'Analyzing'} ${dataToAnalyze.length} ${window.i18n?.t('history.lex_analyzing_loads') || 'loads from your history'} 📚`,
         duration: 4000
       });
     }
@@ -973,7 +990,7 @@ window.analyzeLexHistory = async function () {
       debugLog("[LEX-HISTORY] lexAI o analyzeHistoryLoads no disponibles");
       if (window.setLexState) {
         window.setLexState('warning', {
-          message: 'No pude acceder al análisis de historial de Lex ⚙️',
+          message: window.i18n?.t('history.lex_unavailable') || 'Could not access Lex history analysis ⚙️',
           duration: 4000
         });
       }
@@ -1050,7 +1067,7 @@ function populateMonthPickerModal() {
     html = `
       <div class="text-center py-8 text-gray-500">
         <span class="text-4xl mb-2 block">📭</span>
-        <p>No hay meses con cargas registradas</p>
+        <p>${window.i18n?.t('history.no_months_registered') || 'No months with registered loads'}</p>
       </div>
     `;
   }

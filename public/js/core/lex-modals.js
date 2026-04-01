@@ -102,7 +102,8 @@ class LexModals {
       window.lexAI.showHistoryAnalysisModal(analysis);
     } else {
       // Fallback: modal simple
-      this.showSimpleModal('History', `${data.totalLoads} cargas analizadas`, insights.positive);
+      const isEs = (window.i18n?.currentLang || 'en') === 'es';
+      this.showSimpleModal('History', isEs ? `${data.totalLoads} cargas analizadas` : `${data.totalLoads} loads analyzed`, insights.positive);
     }
   }
 
@@ -119,6 +120,7 @@ class LexModals {
     modal.id = 'lexZonesModal';
     modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
 
+    const isEs = (window.i18n?.currentLang || 'en') === 'es';
     modal.innerHTML = `
       <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full flex flex-col" style="max-height: 90vh;">
         <!-- Header -->
@@ -126,8 +128,8 @@ class LexModals {
           <div class="flex items-center gap-3">
             <img src="img/lex/lex-thinking.png" class="w-10 h-10 rounded-full bg-white/10 p-1">
             <div>
-              <h3 class="text-lg font-bold">Análisis de Zonas</h3>
-              <p class="text-xs text-emerald-100">Tu rendimiento geográfico</p>
+              <h3 class="text-lg font-bold">${isEs ? 'Análisis de Zonas' : 'Zone Analysis'}</h3>
+              <p class="text-xs text-emerald-100">${isEs ? 'Tu rendimiento geográfico' : 'Your geographic performance'}</p>
             </div>
           </div>
         </div>
@@ -136,12 +138,12 @@ class LexModals {
           <!-- Top States -->
           ${data.userZones.topStates.length > 0 ? `
             <div class="mb-4">
-              <h4 class="font-bold text-emerald-700 mb-2">🏆 Mejores Estados</h4>
+              <h4 class="font-bold text-emerald-700 mb-2">🏆 ${isEs ? 'Mejores Estados' : 'Best States'}</h4>
               <div class="space-y-2">
                 ${data.userZones.topStates.slice(0, 5).map(s => `
                   <div class="flex justify-between items-center bg-emerald-50 p-2 rounded">
                     <span class="font-semibold">${s.state}</span>
-                    <span class="text-sm">$${s.avgRPM.toFixed(2)}/mi (${s.loads} cargas)</span>
+                    <span class="text-sm">$${s.avgRPM.toFixed(2)}/mi (${s.loads} ${isEs ? 'cargas' : 'loads'})</span>
                   </div>
                 `).join('')}
               </div>
@@ -151,12 +153,12 @@ class LexModals {
           <!-- Trap Zones -->
           ${data.userZones.trapStates.length > 0 ? `
             <div class="mb-4">
-              <h4 class="font-bold text-red-700 mb-2">⚠️ Zonas Trampa</h4>
+              <h4 class="font-bold text-red-700 mb-2">⚠️ ${isEs ? 'Zonas Trampa' : 'Trap Zones'}</h4>
               <div class="space-y-2">
                 ${data.userZones.trapStates.map(s => `
                   <div class="flex justify-between items-center bg-red-50 p-2 rounded">
                     <span class="font-semibold">${s.state}</span>
-                    <span class="text-sm">$${s.avgRPM.toFixed(2)}/mi (${s.loads} cargas)</span>
+                    <span class="text-sm">$${s.avgRPM.toFixed(2)}/mi (${s.loads} ${isEs ? 'cargas' : 'loads'})</span>
                   </div>
                 `).join('')}
               </div>
@@ -165,7 +167,7 @@ class LexModals {
 
           <!-- Recommendations -->
           <div class="bg-blue-50 border border-blue-200 p-4 rounded-xl">
-            <h4 class="font-bold text-blue-700 mb-2">💡 Recomendaciones</h4>
+            <h4 class="font-bold text-blue-700 mb-2">💡 ${isEs ? 'Recomendaciones' : 'Recommendations'}</h4>
             <ul class="space-y-1">
               ${recommendations.map(r => `<li class="text-sm text-blue-900">• ${r}</li>`).join('')}
             </ul>
@@ -174,10 +176,10 @@ class LexModals {
 
         <div class="p-4 border-t border-gray-200 flex gap-2">
           <button onclick="window.openLexChatModal()" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-            💬 Chat con Lex
+            💬 ${isEs ? 'Chat con Lex' : 'Chat with Lex'}
           </button>
           <button onclick="closeLexZonesModal()" class="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300">
-            ✕ Cerrar
+            ✕ ${isEs ? 'Cerrar' : 'Close'}
           </button>
         </div>
       </div>

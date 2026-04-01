@@ -1,4 +1,4 @@
-﻿// custom-categories.js - Custom Expense Categories Manager
+// custom-categories.js - Custom Expense Categories Manager
 // Version: 1.0.0
 // Allows users to create and manage custom expense categories
 
@@ -10,18 +10,19 @@
  */
 
 // Categorías predeterminadas del sistema
+// Names use i18n so they resolve at runtime (i18n may not be ready at module load)
 const DEFAULT_CATEGORIES = [
-    { id: "fuel", name: "Combustible", icon: "🚛", isSystem: true, isOperational: true },
-    { id: "maintenance", name: "Mantenimiento", icon: "🔧", isSystem: true, isOperational: true },
-    { id: "tires", name: "Llantas", icon: "⚙️", isSystem: true, isOperational: true },
-    { id: "repairs", name: "Reparaciones", icon: "🛠️", isSystem: true, isOperational: true },
-    { id: "insurance", name: "Seguro", icon: "🛡️", isSystem: true, isOperational: true },
-    { id: "carpayment", name: "Pago de Auto", icon: "🚗", isSystem: true, isOperational: true },
-    { id: "tolls", name: "Peajes", icon: "🛣️", isSystem: true, isOperational: true },
-    { id: "permits", name: "Permisos", icon: "📋", isSystem: true, isOperational: true },
-    { id: "food", name: "Comida", icon: "🍔", isSystem: true, isOperational: false },
-    { id: "lodging", name: "Hospedaje", icon: "🏨", isSystem: true, isOperational: false },
-    { id: "other", name: "Otros", icon: "📦", isSystem: true, isOperational: false }
+    { id: "fuel",        get name() { return window.i18n?.t('finances.expense_fuel')        || 'Fuel'; },        icon: "🚛", isSystem: true, isOperational: true },
+    { id: "maintenance", get name() { return window.i18n?.t('finances.expense_maintenance')  || 'Maintenance'; }, icon: "🔧", isSystem: true, isOperational: true },
+    { id: "tires",       get name() { return window.i18n?.t('finances.expense_tires')        || 'Tires'; },       icon: "⚙️", isSystem: true, isOperational: true },
+    { id: "repairs",     get name() { return window.i18n?.t('finances.expense_repairs')      || 'Repairs'; },     icon: "🛠️", isSystem: true, isOperational: true },
+    { id: "insurance",   get name() { return window.i18n?.t('finances.expense_insurance')    || 'Insurance'; },   icon: "🛡️", isSystem: true, isOperational: true },
+    { id: "carpayment",  get name() { return window.i18n?.t('finances.expense_car_payment')  || 'Car Payment'; }, icon: "🚗", isSystem: true, isOperational: true },
+    { id: "tolls",       get name() { return window.i18n?.t('finances.expense_tolls')        || 'Tolls'; },       icon: "🛣️", isSystem: true, isOperational: true },
+    { id: "permits",     get name() { return window.i18n?.t('finances.expense_permits')      || 'Permits'; },     icon: "📋", isSystem: true, isOperational: true },
+    { id: "food",        get name() { return window.i18n?.t('finances.expense_food')         || 'Food'; },        icon: "🍔", isSystem: true, isOperational: false },
+    { id: "lodging",     get name() { return window.i18n?.t('finances.expense_lodging')      || 'Lodging'; },     icon: "🏨", isSystem: true, isOperational: false },
+    { id: "other",       get name() { return window.i18n?.t('finances.expense_other')        || 'Other'; },       icon: "📦", isSystem: true, isOperational: false }
 ];
 
 /**
@@ -151,7 +152,7 @@ async function populateExpenseCategoriesSelect() {
     if (customCats.length > 0) {
         const separator = document.createElement('option');
         separator.disabled = true;
-        separator.textContent = '─── Categorías Personalizadas ───';
+        separator.textContent = `─── ${window.i18n?.t('finances.custom_categories_label') || 'Custom Categories'} ───`;
         select.appendChild(separator);
 
         // Agregar categorías personalizadas
@@ -213,3 +214,10 @@ window.CustomCategories = {
 };
 
 debugLog("✅ Custom Categories module loaded successfully");
+
+// Re-populate expense select when language changes so category names update
+document.addEventListener('languageChanged', () => {
+    if (document.getElementById('expenseType')) {
+        populateExpenseCategoriesSelect();
+    }
+});

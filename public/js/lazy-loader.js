@@ -1,4 +1,4 @@
-﻿// lazy-loader.js - Dynamic Module Loading System
+// lazy-loader.js - Dynamic Module Loading System
 // Version: 1.0.0
 // Last Updated: 2025-12-19
 
@@ -62,7 +62,7 @@ async function loadChartsModule() {
     debugLog("📊 Cargando Charts module...");
 
     try {
-        await loadScript('js/finances-charts.js?v=1.0.2', 'FinancesCharts');
+        await loadScript('js/finances-charts.js?v=1.1.1', 'FinancesCharts');
 
         // Verificar que se cargó correctamente
         if (!window.FinancesCharts) {

@@ -1082,11 +1082,13 @@
       internal = false;
     }
 
+    const _isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+
     if (typeof window.setLexState === 'function') {
       window.setLexState('thinking', {
         message: internal
-          ? 'Estoy revisando lo que ya aprendí de tus cargas… 📊'
-          : 'Esto parece una pregunta externa, más adelante usaré una API 🌐',
+          ? (_isEs ? 'Estoy revisando lo que ya aprendí de tus cargas… 📊' : 'Reviewing what I know about your loads… 📊')
+          : (_isEs ? 'Esto parece una pregunta externa, más adelante usaré una API 🌐' : 'This looks like an external question, I\'ll use an API for that soon 🌐'),
         duration: 2500
       });
     }
@@ -1098,8 +1100,9 @@
     // 3️⃣ Si es externa → mensaje genérico y salir
     if (!internal) {
       if (replyFn) {
-        replyFn(
-          'Eso suena a una pregunta externa (clima, noticias, precios globales...). Más adelante conectaré una API para ayudarte también con eso. 🌐'
+        replyFn(_isEs
+          ? 'Eso suena a una pregunta externa (clima, noticias, precios globales...). Más adelante conectaré una API para ayudarte también con eso. 🌐'
+          : 'That sounds like an external question (weather, news, global prices...). I\'ll connect an API for that soon. 🌐'
         );
       }
       return;
@@ -1110,21 +1113,26 @@
 
     if (isFinances) {
       if (typeof window.analyzeLexFinances === 'function') {
-        // analyzeLexFinances ya inyecta el estado visual y abre el modal si corresponde
-        // pero podemos darle un mensaje de espera en el chat
-        if (replyFn) replyFn('💰 Dame un segundo, estoy calculando el resumen de tus finanzas...');
-
-        // Ejecutamos la función asíncrona (analiza y muestra resultados)
+        if (replyFn) replyFn(_isEs
+          ? '💰 Dame un segundo, estoy calculando el resumen de tus finanzas...'
+          : '💰 Give me a second, calculating your financial summary...'
+        );
         window.analyzeLexFinances().then(result => {
           if (!result && replyFn) {
-            replyFn('No encontré suficientes datos financieros para hacerte un buen reporte. Asegúrate de registrar gastos y cobros. 🔧');
+            replyFn(_isEs
+              ? 'No encontré suficientes datos financieros. Asegúrate de registrar gastos y cobros. 🔧'
+              : 'Not enough financial data found. Make sure to log your expenses and revenue. 🔧'
+            );
           }
         }).catch(err => {
           debugLog('Error generando finanzas desde el chat:', err);
-          if (replyFn) replyFn('Tuve un pequeño problema leyendo los números. 🛠️');
+          if (replyFn) replyFn(_isEs ? 'Tuve un pequeño problema leyendo los números. 🛠️' : 'Had a small problem reading the numbers. 🛠️');
         });
       } else {
-        if (replyFn) replyFn('El módulo financiero está apagado en este momento. Inténtalo recargando la página. 📊');
+        if (replyFn) replyFn(_isEs
+          ? 'El módulo financiero está apagado en este momento. Inténtalo recargando la página. 📊'
+          : 'The financial module is off right now. Try reloading the page. 📊'
+        );
       }
       return;
     }
@@ -1133,8 +1141,7 @@
     const isAppInfo = intentResult && intentResult.intent === 'APP_INFO';
 
     if (isAppInfo) {
-      // Academy Resources Mapping
-      const ACADEMY_RESOURCES = {
+      const ACADEMY_RESOURCES = _isEs ? {
         rpm: { title: 'Entender el RPM real', url: 'academy/module-1/lesson-1.html', description: 'Aprende qué es el RPM y por qué el 90% lo calcula mal' },
         costos: { title: 'Costos y Break-even', url: 'academy/module-1/lesson-2.html', description: 'Costos visibles vs invisibles y tu número de supervivencia' },
         ganancia: { title: 'Ganancia bruta vs real', url: 'academy/module-1/lesson-4.html', description: 'Por qué "carga pagada" no significa "carga rentable"' },
@@ -1142,6 +1149,14 @@
         negociacion: { title: 'Negociación y rates', url: 'academy/module-3/index.html', description: 'Técnicas de negociación y cómo defender tu rate' },
         deadhead: { title: 'Deadhead calculation', url: 'academy/module-1/lesson-3.html', description: 'Cómo calcular y considerar millas vacías en tus decisiones' },
         finanzas: { title: 'Finanzas del negocio', url: 'academy/module-4/index.html', description: 'Manejo financiero y contable de tu operación' }
+      } : {
+        rpm: { title: 'Understanding Real RPM', url: 'academy/module-1/lesson-1.html', description: 'Learn what RPM is and why 90% of drivers calculate it wrong' },
+        costos: { title: 'Costs & Break-even', url: 'academy/module-1/lesson-2.html', description: 'Visible vs hidden costs and your survival number' },
+        ganancia: { title: 'Gross vs Real Profit', url: 'academy/module-1/lesson-4.html', description: 'Why "paid load" doesn\'t mean "profitable load"' },
+        zonas: { title: 'Zone & Route Analysis', url: 'academy/module-2/index.html', description: 'How to evaluate geographic zones and profitable routes' },
+        negociacion: { title: 'Negotiation & Rates', url: 'academy/module-3/index.html', description: 'Negotiation techniques and how to defend your rate' },
+        deadhead: { title: 'Deadhead Calculation', url: 'academy/module-1/lesson-3.html', description: 'How to calculate and factor in empty miles' },
+        finanzas: { title: 'Business Finances', url: 'academy/module-4/index.html', description: 'Financial and accounting management for your operation' }
       };
 
       function findAcademyResources(text) {
@@ -1150,10 +1165,10 @@
         if (lowerText.includes('rpm') || lowerText.includes('tarifa') || lowerText.includes('rate')) resources.push(ACADEMY_RESOURCES.rpm);
         if (lowerText.includes('cost') || lowerText.includes('gast') || lowerText.includes('bre')) resources.push(ACADEMY_RESOURCES.costos);
         if (lowerText.includes('ganancia') || lowerText.includes('profit') || lowerText.includes('rentab')) resources.push(ACADEMY_RESOURCES.ganancia);
-        if (lowerText.includes('zona') || lowerText.includes('ruta') || lowerText.includes('geograf')) resources.push(ACADEMY_RESOURCES.zonas);
-        if (lowerText.includes('negoc') || lowerText.includes('contraofer') || lowerText.includes('pedir')) resources.push(ACADEMY_RESOURCES.negociacion);
+        if (lowerText.includes('zona') || lowerText.includes('zone') || lowerText.includes('ruta') || lowerText.includes('route')) resources.push(ACADEMY_RESOURCES.zonas);
+        if (lowerText.includes('negoc') || lowerText.includes('contraofer') || lowerText.includes('counter') || lowerText.includes('pedir')) resources.push(ACADEMY_RESOURCES.negociacion);
         if (lowerText.includes('deadhead') || lowerText.includes('vaci') || lowerText.includes('empty')) resources.push(ACADEMY_RESOURCES.deadhead);
-        if (lowerText.includes('finanz') || lowerText.includes('contab') || lowerText.includes('dinero')) resources.push(ACADEMY_RESOURCES.finanzas);
+        if (lowerText.includes('finanz') || lowerText.includes('finance') || lowerText.includes('contab') || lowerText.includes('dinero')) resources.push(ACADEMY_RESOURCES.finanzas);
         return resources;
       }
 
@@ -1162,20 +1177,19 @@
 
       let response = '';
       if (academyResources.length > 0) {
-        response = '📚 Encontré recursos relacionados en la Academia:\n\n';
+        response = _isEs ? '📚 Encontré recursos relacionados en la Academia:\n\n' : '📚 Found related resources in the Academy:\n\n';
         academyResources.forEach((resource, index) => {
           response += `${index + 1}. **${resource.title}**\n`;
           response += `   ${resource.description}\n`;
-          response += `   👉 [Ir a la lección](${resource.url})\n\n`;
+          response += `   👉 [${_isEs ? 'Ir a la lección' : 'Go to lesson'}](${resource.url})\n\n`;
         });
-        response += 'También puedo ayudarte con análisis en tiempo real si tienes datos específicos (RPM, estado, millas, etc.). 💡';
+        response += _isEs
+          ? 'También puedo ayudarte con análisis en tiempo real si tienes datos específicos (RPM, estado, millas, etc.). 💡'
+          : 'I can also help with real-time analysis if you have specific data (RPM, state, miles, etc.). 💡';
       } else {
-        response = 'No tengo información específica sobre eso aún, pero puedo ayudarte con:\n' +
-          '• Análisis de cargas y RPM\n' +
-          '• Información de zonas trap (CA, FL, NV)\n' +
-          '• Comparación con tu historial\n' +
-          '• Sugerencias de negociación\n\n' +
-          '📚 También puedes explorar la [Academia](academy/start-here/index.html) para aprender más sobre trucking. 🎓';
+        response = _isEs
+          ? 'No tengo información específica sobre eso aún, pero puedo ayudarte con:\n• Análisis de cargas y RPM\n• Información de zonas trap (CA, FL, NV)\n• Comparación con tu historial\n• Sugerencias de negociación\n\n📚 También puedes explorar la [Academia](academy/start-here/index.html) para aprender más sobre trucking. 🎓'
+          : 'I don\'t have specific info on that yet, but I can help you with:\n• Load and RPM analysis\n• Trap zone info (CA, FL, NV)\n• Comparison with your history\n• Negotiation suggestions\n\n📚 You can also explore the [Academy](academy/start-here/index.html) to learn more about trucking. 🎓';
       }
 
       replyFn && replyFn(response);
@@ -1260,10 +1274,13 @@
           const prediction = window.PatternLearner.predictAcceptance(patterns, state, rpm);
 
           if (prediction && prediction.confidence > 0.7) {
+            const _isEsP = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
             responses.push({
               type: 'PATTERN_PREDICTION',
-              title: '🧠 Basado en tu historial',
-              content: `${prediction.willAccept ? '✅' : '❌'} Usualmente ${prediction.willAccept ? 'aceptas' : 'rechazas'} cargas así\n${prediction.reasons.join('\n')}`,
+              title: _isEsP ? '🧠 Basado en tu historial' : '🧠 Based on your history',
+              content: _isEsP
+                ? `${prediction.willAccept ? '✅' : '❌'} Usualmente ${prediction.willAccept ? 'aceptas' : 'rechazas'} cargas así\n${prediction.reasons.join('\n')}`
+                : `${prediction.willAccept ? '✅' : '❌'} You usually ${prediction.willAccept ? 'accept' : 'reject'} loads like this\n${prediction.reasons.join('\n')}`,
               priority: 2
             });
           }
@@ -1300,8 +1317,10 @@
 
     if (!profile) {
       if (replyFn) {
-        replyFn(
-          'Todavía no tengo perfil de aprendizaje cargado. Asegúrate de tener historial de cargas y de haber inicializado Lex Learning. 🧠'
+        const _isEsNP = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+        replyFn(_isEsNP
+          ? 'Todavía no tengo perfil de aprendizaje cargado. Asegúrate de tener historial de cargas y de haber inicializado Lex Learning. 🧠'
+          : 'I don\'t have a learning profile loaded yet. Make sure you have load history and have initialized Lex Learning. 🧠'
         );
       }
       return;
@@ -1373,11 +1392,17 @@
         profile = await getLexProfile();
       } else {
         debugLog('[LEX-CHAT] getLexProfile no está definido');
-        return 'Todavía no tengo listo mi perfil de aprendizaje. Pronto podré usar tus datos reales. 😉';
+        const _isEsIC = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+        return _isEsIC
+          ? 'Todavía no tengo listo mi perfil de aprendizaje. Pronto podré usar tus datos reales. 😉'
+          : 'My learning profile isn\'t ready yet. Soon I\'ll be able to use your real data. 😉';
       }
     } catch (e) {
       debugLog('[LEX-CHAT] Error cargando perfil:', e);
-      return 'Hubo un problema leyendo tus datos. Intenta de nuevo en un momento. 🛠️';
+      const _isEsIC2 = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+      return _isEsIC2
+        ? 'Hubo un problema leyendo tus datos. Intenta de nuevo en un momento. 🛠️'
+        : 'There was a problem reading your data. Try again in a moment. 🛠️';
     }
 
     // 2. Si tengo estado y RPM → comparación de oferta
@@ -1391,12 +1416,18 @@
     }
 
     // 4. Fallback: no pude sacar estado ni rpm útiles
-    return (
-      'Puedo ayudarte mejor si me das al menos un estado o ciudad y opcionalmente el RPM.\n' +
-      'Ejemplos:\n' +
-      '• "Es bueno 1.10 para TX?"\n' +
-      '• "Cómo está GA para mí últimamente?"\n' +
-      '• "Qué precio aceptar en Miami?"'
+    const _isEsIC3 = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    return _isEsIC3
+      ? ('Puedo ayudarte mejor si me das al menos un estado o ciudad y opcionalmente el RPM.\n' +
+        'Ejemplos:\n' +
+        '• "Es bueno 1.10 para TX?"\n' +
+        '• "Cómo está GA para mí últimamente?"\n' +
+        '• "Qué precio aceptar en Miami?"')
+      : ('I can help better if you give me at least a state or city and optionally the RPM.\n' +
+        'Examples:\n' +
+        '• "Is 1.10 good for TX?"\n' +
+        '• "How has GA been performing for me lately?"\n' +
+        '• "What rate should I accept in Miami?"'
     );
   }
 

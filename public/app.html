@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -419,13 +419,13 @@
 
         <!-- Center: Navigation (Hidden on Mobile) -->
         <nav class="hidden md:flex items-center gap-6 text-sm font-medium ml-8">
-          <button class="tab-link n8n-nav-link tab-pill-active" data-tab="calculator">Calculadora</button>
-          <button class="tab-link n8n-nav-link tab-pill-inactive" data-tab="history">Historial</button>
-          <button class="tab-link n8n-nav-link tab-pill-inactive" data-tab="finances">Finanzas</button>
-          <button class="tab-link n8n-nav-link tab-pill-inactive" data-tab="zones">Zonas</button>
-          <button class="tab-link n8n-nav-link tab-pill-inactive" data-tab="settings">Configuración</button>
+          <button class="tab-link n8n-nav-link tab-pill-active" data-tab="calculator" data-i18n="nav.calculator">Calculator</button>
+          <button class="tab-link n8n-nav-link tab-pill-inactive" data-tab="history" data-i18n="nav.history">History</button>
+          <button class="tab-link n8n-nav-link tab-pill-inactive" data-tab="finances" data-i18n="nav.finances">Finances</button>
+          <button class="tab-link n8n-nav-link tab-pill-inactive" data-tab="zones" data-i18n="nav.zones">Zones</button>
+          <button class="tab-link n8n-nav-link tab-pill-inactive" data-tab="settings" data-i18n="nav.settings">Settings</button>
           <a href="academy.html" class="tab-link n8n-nav-link tab-pill-inactive"
-            style="text-decoration:none">Academia</a>
+            style="text-decoration:none" data-i18n="nav.academy">Academy</a>
         </nav>
 
         <!-- Right: Actions -->
@@ -439,6 +439,14 @@
           </a>
 
           <!-- Theme toggles eliminados permanentemente por solicitud del usuario -->
+
+          <!-- 🌐 Language Toggle -->
+          <button id="langToggle"
+            onclick="window.i18n.setLanguage(window.i18n.currentLang === 'en' ? 'es' : 'en')"
+            class="hidden md:flex items-center bg-transparent border border-gray-600 text-gray-300 hover:text-white hover:border-gray-400 px-2 py-1 rounded-md text-sm font-semibold transition-all focus:outline-none"
+            title="Change language">
+            🌐 EN
+          </button>
 
           <!-- Botón Mi Cuenta (Desktop) -->
           <button onclick="window.location.href='account.html'" class="hidden md:flex bg-transparent border-0 text-gray-300 hover:text-white hover:bg-white/10
@@ -476,7 +484,7 @@
 
           <!-- Modal Header -->
           <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-            <h3 class="text-lg font-semibold text-gray-900">➕ Nueva Categoría de Gasto</h3>
+            <h3 class="text-lg font-semibold text-gray-900" data-i18n="finances.modal_new_category_title">➕ New Expense Category</h3>
             <button type="button" onclick="closeCategoryModal()" class="text-gray-400 hover:text-gray-600">
               <span class="text-2xl">&times;</span>
             </button>
@@ -488,16 +496,16 @@
 
               <!-- Nombre -->
               <div>
-                <label for="categoryName" class="block text-sm font-medium text-gray-700 mb-1">Nombre de la
-                  Categoría</label>
-                <input type="text" id="categoryName" placeholder="Ej: Préstamos, Marketing, etc."
+                <label for="categoryName" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="finances.modal_category_name_label">Category Name</label>
+                <input type="text" id="categoryName" placeholder="e.g. Loans, Marketing..."
+                  data-i18n="finances.modal_category_name_ph"
                   class="border border-gray-300 rounded px-3 py-2 w-full focus:border-purple-500 focus:outline-none"
                   maxlength="30" required>
               </div>
 
               <!-- Icono (selector simple) -->
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Ícono</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="finances.modal_icon_label">Icon</label>
                 <div id="iconSelector" class="grid grid-cols-8 gap-2">
                   <!-- Íconos comunes -->
                   <button type="button"
@@ -554,7 +562,7 @@
 
               <!-- Color -->
               <div>
-                <label for="categoryColor" class="block text-sm font-medium text-gray-700 mb-1">Color (opcional)</label>
+                <label for="categoryColor" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="finances.modal_color_label">Color (optional)</label>
                 <input type="color" id="categoryColor" value="#6b7280"
                   class="border border-gray-300 rounded px-3 py-2 w-full h-10">
               </div>
@@ -565,12 +573,14 @@
           <!-- Modal Footer -->
           <div class="border-t border-gray-200 px-6 py-4 flex flex-col sm:flex-row gap-3 sm:justify-end">
             <button type="button" onclick="closeCategoryModal()"
-              class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 order-2 sm:order-1">
-              Cancelar
+              class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 order-2 sm:order-1"
+              data-i18n="common.cancel">
+              Cancel
             </button>
             <button type="button" onclick="saveCustomCategory()"
-              class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 order-1 sm:order-2">
-              💾 Crear Categoría
+              class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 order-1 sm:order-2"
+              data-i18n="finances.modal_create_category_btn">
+              💾 Create Category
             </button>
           </div>
 
@@ -585,13 +595,12 @@
 
       <div id="mobileMenu" class="md:hidden hidden flex-col px-4 pb-4 space-y-2 bg-white text-sm font-semibold text-gray-900 shadow
             transform transition-all duration-300 ease-in-out origin-top scale-y-0 opacity-0">
-        <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="calculator">📊 Calculadora</button>
-        <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="history">📋 Historial</button>
-        <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="finances">💰 Finanzas</button>
-        <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="zones">🗺️ Zonas</button>
-        <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="settings">⚙️ Configuración</button>
-        <a href="academy.html" class="text-left w-full hover:text-[#FF6D4A] py-1 block" style="text-decoration:none">📚
-          Academia</a>
+        <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="calculator" data-i18n="nav.calculator">📊 Calculator</button>
+        <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="history" data-i18n="nav.history">📋 History</button>
+        <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="finances" data-i18n="nav.finances">💰 Finances</button>
+        <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="zones" data-i18n="nav.zones">🗺️ Zones</button>
+        <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="settings" data-i18n="nav.settings">⚙️ Settings</button>
+        <a href="academy.html" class="text-left w-full hover:text-[#FF6D4A] py-1 block" style="text-decoration:none" data-i18n="nav.academy">📚 Academy</a>
 
         <!-- Separador -->
         <div class="border-t border-gray-200 my-2"></div>
@@ -600,11 +609,16 @@
         <span id="mobileRoleIcon" class="hidden">👑</span>
         <span id="mobileRoleText" class="hidden">Usuario</span>
 
-        <!-- Tema toggle eliminado del menú lateral -->
+        <!-- 🌐 Language Toggle (Mobile) -->
+        <button id="langToggleMobile"
+          onclick="window.i18n.setLanguage(window.i18n.currentLang === 'en' ? 'es' : 'en')"
+          class="text-left w-full text-gray-500 hover:text-gray-800 font-semibold px-3 py-2 rounded-md transition-colors flex items-center gap-2">
+          🌐 <span id="langToggleMobileLabel">EN</span>
+        </button>
 
         <button onclick="window.location.href='account.html'"
           class="text-left w-full text-indigo-400 hover:text-indigo-300 font-semibold px-3 py-2 rounded-md transition-colors flex items-center gap-2">
-          👤 Mi Cuenta
+          👤 <span data-i18n="nav.my_account">My Account</span>
         </button>
       </div>
     </header>
@@ -623,8 +637,8 @@
 
           <!-- Encabezado -->
           <div class="section-header text-center">
-            <h2 class="font-bold mb-4">📊 Calculadora de Cargas</h2>
-            <p class="subtitle">Cálculos con decisión automática</p>
+            <h2 class="font-bold mb-4" data-i18n="calculator.title">Load Calculator</h2>
+            <p class="subtitle" data-i18n="calculator.subtitle">Smart calculations with automatic decision</p>
           </div>
 
           <!-- Indicador de configuración (populated by onboarding-manager) -->
@@ -635,13 +649,13 @@
 
             <!-- 📍 Información de Ruta -->
             <div class="card-section lg:col-span-2">
-              <h3 class="text-2xl font-bold mb-4">📍 Información de Ruta</h3>
+              <h3 class="text-2xl font-bold mb-4" data-i18n="calculator.section_route">📍 Route Information</h3>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
                 <!-- Origen y destino -->
                 <div class="space-y-4">
                   <input class="border p-3 w-full rounded-lg text-base placeholder:text-sm" id="origin"
-                    placeholder="Origen (ej: Miami, FL)">
+                    data-i18n="calculator.origin_placeholder" placeholder="Origin (e.g. Miami, FL)">
 
                   <!-- DESTINOS DINÁMICOS - Container -->
                   <div id="destinationsContainer" class="space-y-3">
@@ -651,7 +665,7 @@
                   <!-- Botón Añadir Destino -->
                   <button type="button" id="addDestinationBtn" onclick="addDestination()"
                     class="w-full bg-purple-100 hover:bg-purple-200 text-purple-700 font-semibold py-3 px-3 rounded-lg border-2 border-purple-300 transition flex items-center justify-center gap-2 text-base">
-                    <span class="text-lg">+</span> Añadir destino
+                    <span class="text-lg">+</span> <span data-i18n="calculator.add_stop">Add Stop</span>
                   </button>
 
                   <!-- Hidden Destino field for backward compatibility -->
@@ -661,19 +675,19 @@
                 <!-- Empresa + Notas -->
                 <div class="space-y-4">
                   <input class="border p-3 w-full rounded-lg text-base placeholder:text-sm" id="companyName"
-                    placeholder="Empresa (opcional)">
+                    placeholder="Company (optional)">
 
                   <input class="border p-3 w-full rounded-lg text-base placeholder:text-sm" id="loadNumber"
-                    placeholder="Número de Carga (opcional)">
+                    placeholder="Load # (optional)">
 
                   <!-- 📝 Notas previas (CRUD) -->
                   <!-- 📌 Cuadro amarillo en calculadora -->
                   <div id="previousNoteBox"
                     class="p-3 rounded-lg bg-yellow-50 border border-yellow-200 text-sm text-gray-800 hidden">
-                    <p id="notesStatusText">ℹ️ No hay notas para este destino.</p>
+                    <p id="notesStatusText">ℹ️ No notes for this destination.</p>
                     <button onclick="openNotesModal(document.getElementById('destination').value)"
                       class="mt-2 text-white px-3 py-1 rounded text-sm font-semibold" style="background:#fb923c;">
-                      📖 Ver Notas
+                      📖 View Notes
                     </button>
                   </div>
                 </div>
@@ -682,25 +696,25 @@
 
             <!-- 📏 Información de Millas -->
             <div class="card-section col-span-1">
-              <h3 class="text-2xl font-bold mb-4">📏 Información de Millas</h3>
+              <h3 class="text-2xl font-bold mb-4" data-i18n="calculator.section_route">📏 Miles Information</h3>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label class="block text-base font-medium mb-2">Millas Cotizadas *</label>
+                  <label class="block text-base font-medium mb-2" data-i18n="calculator.miles_label">Total Miles *</label>
                   <input type="number" id="loadedMiles" placeholder="644"
                     class="border p-3 w-full rounded-lg text-base">
-                  <p class="text-xs mt-1">Incluye loaded + deadhead to pickup</p>
+                  <p class="text-xs mt-1">Loaded + deadhead to pickup</p>
                 </div>
                 <div>
-                  <label class="block text-base font-medium mb-2">Millas Vacías (opcional)</label>
+                  <label class="block text-base font-medium mb-2" data-i18n="calculator.deadhead_label">Deadhead Miles (optional)</label>
                   <input type="number" id="deadheadMiles" placeholder="0"
                     class="border p-3 w-full rounded-lg text-base">
-                  <p class="text-xs mt-1">Solo si necesitas separar deadhead</p>
+                  <p class="text-xs mt-1">Only if you need to separate deadhead</p>
                 </div>
                 <div>
-                  <label class="block text-base font-medium mb-2">Total Millas</label>
+                  <label class="block text-base font-medium mb-2">Total Miles</label>
                   <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-3 text-center">
                     <span id="tripMiles" class="text-2xl font-bold text-blue-800">0</span>
-                    <span class="text-blue-600 text-sm ml-1">millas</span>
+                    <span class="text-blue-600 text-sm ml-1">mi</span>
                   </div>
                 </div>
               </div>
@@ -708,24 +722,24 @@
 
             <!-- 💰 Finanzas -->
             <div class="card-section col-span-1">
-              <h3 class="text-2xl font-bold mb-4">💰 Información Financiera</h3>
+              <h3 class="text-2xl font-bold mb-4">💰 Financial Information</h3>
               <div class="space-y-4">
                 <div>
-                  <label class="block text-base font-medium mb-2">RPM ($/milla) *</label>
+                  <label class="block text-base font-medium mb-2" data-i18n="calculator.rpm_label">RPM ($/mile) *</label>
                   <input type="number" id="rpm" step="0.01" placeholder="2.20"
                     class="border p-3 w-full rounded-lg text-base">
                 </div>
                 <div>
-                  <label class="block text-base font-medium mb-2">Tarifa ($)</label>
+                  <label class="block text-base font-medium mb-2" data-i18n="calculator.rate_label">Total Rate ($)</label>
                   <input type="number" id="rate" step="0.01" placeholder="800"
                     class="border p-3 w-full rounded-lg text-base">
                 </div>
                 <div>
-                  <label class="block text-base font-medium mb-2">Peajes ($)</label>
+                  <label class="block text-base font-medium mb-2">Tolls ($)</label>
                   <input type="number" id="tolls" placeholder="25" class="border p-3 w-full rounded-lg text-base">
                 </div>
                 <div>
-                  <label class="block text-base font-medium mb-2">Otros Costos ($)</label>
+                  <label class="block text-base font-medium mb-2">Other Costs ($)</label>
                   <input type="number" id="otherCosts" placeholder="0" class="border p-3 w-full rounded-lg text-base">
                 </div>
               </div>
@@ -747,7 +761,7 @@
                     </div>
                   </div>
                   <div class="text-right flex-shrink-0">
-                    <div class="text-xs text-white/80">Cotización</div>
+                    <div class="text-xs text-white/80" data-i18n="calculator.decision_quote">Quote</div>
                     <div id="quickPrice" class="text-2xl md:text-3xl font-bold">$0</div>
                   </div>
                 </div>
@@ -759,11 +773,11 @@
                     <div id="quickRPM" class="text-lg md:text-xl font-bold">$0.00</div>
                   </div>
                   <div class="bg-white/20 backdrop-blur rounded-lg p-2 text-center">
-                    <div class="text-xs text-white/80">Ganancia</div>
+                    <div class="text-xs text-white/80" data-i18n="calculator.decision_profit">Profit</div>
                     <div id="quickNetProfit" class="text-lg md:text-xl font-bold">$0</div>
                   </div>
                   <div class="bg-white/20 backdrop-blur rounded-lg p-2 text-center">
-                    <div class="text-xs text-white/80">Margen</div>
+                    <div class="text-xs text-white/80" data-i18n="calculator.profit_margin_label">Margin</div>
                     <div id="quickMargin" class="text-lg md:text-xl font-bold">0%</div>
                   </div>
                   <div class="bg-white/20 backdrop-blur rounded-lg p-2 text-center">
@@ -781,23 +795,23 @@
                 <div class="md:grid md:grid-cols-2 md:gap-4 mb-3 md:mb-4">
                   <!-- Costos Variables -->
                   <div class="bg-gray-50 border border-gray-200 rounded-lg p-3 md:p-4 mb-3 md:mb-0 costs-section">
-                    <h4 class="font-bold text-gray-800 mb-2 md:mb-3 text-sm">💸 Costos Variables</h4>
+                    <h4 class="font-bold text-gray-800 mb-2 md:mb-3 text-sm" data-i18n="calculator.variable_costs_label">💸 Variable Costs</h4>
                     <div class="space-y-1.5 md:space-y-2 text-sm">
                       <div class="flex justify-between items-center">
-                        <span class="text-gray-700">⛽ Combustible (<span id="totalMilesForFuel">0</span> mi):</span>
+                        <span class="text-gray-700">⛽ Fuel (<span id="totalMilesForFuel">0</span> mi):</span>
                         <strong id="fuelCost" class="text-white">$0.00</strong>
                       </div>
                       <div class="flex justify-between items-center">
-                        <span class="text-gray-700">💵 Tolls + Otros:</span>
+                        <span class="text-gray-700" data-i18n="calculator.tolls_other_label">💵 Tolls + Other:</span>
                         <strong id="tollsAndOthers" class="text-white">$0.00</strong>
                       </div>
                       <div class="flex justify-between items-center text-xs text-gray-500">
-                        <span>🔧 Costos Fijos incluidos</span>
+                        <span data-i18n="calculator.fixed_costs_label">🔧 Fixed Costs included</span>
                         <span id="fixedCosts" class="text-gray-300">$0.00</span>
                       </div>
                       <hr class="border-gray-300">
                       <div class="flex justify-between items-center font-bold">
-                        <span class="text-gray-900">Total Gastos:</span>
+                        <span class="text-gray-900" data-i18n="calculator.total_expenses_label">Total Expenses:</span>
                         <span id="totalExpenses" class="text-white text-lg">$0.00</span>
                       </div>
                     </div>
@@ -807,13 +821,13 @@
                   <div id="profitSection" class="border-2 rounded-lg p-3 md:p-4">
                     <div class="flex items-center justify-between">
                       <div class="flex-1">
-                        <div class="text-xs mb-1" id="profitLabel">💰 Ganancia Neta</div>
+                        <div class="text-xs mb-1" id="profitLabel">💰 Net Profit</div>
                         <div id="netProfit" class="text-2xl md:text-3xl font-bold">$0.00</div>
-                        <div id="profitDetails" class="text-xs mt-1 font-semibold">$0.00/mi • 0% margen</div>
+                        <div id="profitDetails" class="text-xs mt-1 font-semibold">$0.00/mi • 0% margin</div>
                       </div>
                       <div class="text-right text-xs flex-shrink-0">
                         <div id="estimatedTimeShort" class="text-white font-semibold">⏱️ 0h</div>
-                        <div id="fuelStopsShort" class="text-white font-semibold">⛽ 0 paradas</div>
+                        <div id="fuelStopsShort" class="text-white font-semibold">⛽ 0 stops</div>
                       </div>
                     </div>
                   </div>
@@ -828,21 +842,18 @@
                   <div class="flex items-center gap-2 mb-2">
                     <img src="img/lex/lex-thinking.png" alt="Lex AI" class="w-7 h-7 rounded-full"
                       style="border:1px solid rgba(0,217,255,0.4);">
-                    <span style="font-size:1rem;font-weight:700;color:#00D9FF;letter-spacing:0.05em;">ANÁLISIS DE
-                      LEX</span>
+                    <span data-i18n="lex.analysis_title" style="font-size:1rem;font-weight:700;color:#00D9FF;letter-spacing:0.05em;">LEX ANALYSIS</span>
                   </div>
                   <!-- Historial de zona -->
                   <div id="lexZoneHistory"
                     style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:0.75rem;padding:0.75rem;">
-                    <p style="font-size:0.9rem;font-weight:700;color:#00D9FF;margin-bottom:0.25rem;">📍 Historial de
-                      zona</p>
+                    <p data-i18n="lex.zone_history" style="font-size:0.9rem;font-weight:700;color:#00D9FF;margin-bottom:0.25rem;">📍 Zone History</p>
                     <p id="lexZoneText" style="font-size:1rem;color:rgba(255,255,255,0.8);line-height:1.4;"></p>
                   </div>
                   <!-- Fundamentos -->
                   <div id="lexReasons"
                     style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:0.75rem;padding:0.75rem;">
-                    <p style="font-size:0.9rem;font-weight:700;color:rgba(255,255,255,0.6);margin-bottom:0.5rem;">💡
-                      Fundamentos de la decisión</p>
+                    <p data-i18n="lex.decision_rationale" style="font-size:0.9rem;font-weight:700;color:rgba(255,255,255,0.6);margin-bottom:0.5rem;">💡 Decision Rationale</p>
                     <ul id="lexReasonsList" style="display:flex;flex-direction:column;gap:0.4rem;"></ul>
                   </div>
                 </div>
@@ -851,7 +862,7 @@
                   <button onclick="window.openLexChatModal()"
                     class="w-full font-semibold px-4 py-2.5 rounded-lg transition text-base md:text-lg min-h-[48px]"
                     style="background:linear-gradient(90deg,#00D9FF,#FF6B35);color:#000;font-weight:700;">
-                    💬 Conversar con Lex
+                    💬 <span data-i18n="lex.title">Chat with Lex</span>
                   </button>
                 </div>
 
@@ -865,12 +876,16 @@
           <div class="card-section text-center mt-6">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4 max-w-md mx-auto">
 
-              <!-- Botón Guardar -->
+              <!-- Botón Aceptar y Guardar -->
               <button id="saveBtn" class="btn-success">
-                💾 Guardar Carga
+                <span data-i18n="calculator.btn_accept_save">✅ Accept & Save</span>
+              </button>
+              <!-- Botón Copiar Precio -->
+              <button id="copyPriceBtn" onclick="copyPriceToClipboard()" class="btn-secondary">
+                <span data-i18n="calculator.btn_copy_price">📋 Copy Price</span>
               </button>
               <button id="clearBtn" class="btn-secondary">
-                🧹 Limpiar
+                🧹 <span data-i18n="calculator.btn_clear">Clear</span>
               </button>
 
             </div>
@@ -883,17 +898,17 @@
 
           <!-- Map Section -->
           <div class="card-section">
-            <h3 class="text-xl font-semibold mb-4 text-center">🗺️ Mapa de Ruta</h3>
+            <h3 class="text-xl font-semibold mb-4 text-center" data-i18n="calculator.map_title">🗺️ Route Map</h3>
 
             <div class="flex flex-wrap gap-2 mb-4 justify-center">
               <button onclick="updateMap()" class="px-4 py-2 rounded-lg text-sm font-semibold shadow-md text-white"
                 style="background:#fb923c;color:#ffffff !important;">
-                🔄 Actualizar Mapa
+                <span data-i18n="calculator.btn_update_map">🔄 Update Map</span>
               </button>
               <button onclick="openGoogleMapsDirections()"
                 class="bg-green-500 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-600 shadow-md"
                 style="color: white !important;">
-                📱 Abrir en Google Maps
+                <span data-i18n="calculator.btn_open_gmaps">📱 Open in Google Maps</span>
               </button>
             </div>
 
@@ -903,7 +918,7 @@
                 class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center rounded-lg hidden">
                 <div class="text-center">
                   <div class="spinner mx-auto mb-2"></div>
-                  <p class="text-gray-600">Cargando mapa...</p>
+                  <p class="text-gray-600" data-i18n="calculator.map_loading">Loading map...</p>
                 </div>
               </div>
             </div>
@@ -911,7 +926,7 @@
             <div class="mt-3 text-sm text-gray-600 bg-blue-50 p-3 rounded">
               <p class="flex items-center gap-2">
                 <span>🗺️</span>
-                <span><strong>Mapa interactivo:</strong> Se muestra la ruta calculada automáticamente</span>
+                <span data-i18n="calculator.map_hint"><strong>Interactive map:</strong> The calculated route is displayed automatically</span>
               </p>
             </div>
           </div>
@@ -937,7 +952,7 @@
             const interval = parseFloat(document.getElementById('maintenanceInterval').value);
 
             if (!serviceCost || !interval || interval === 0) {
-              alert('Por favor ingresa valores válidos');
+              alert(window.i18n?.t('errors.invalid_values') || 'Please enter valid values');
               return;
             }
 
@@ -947,7 +962,7 @@
             // Show success message
             const summary = document.querySelector('[onclick="calculateMaintenanceCost()"]').closest('details').querySelector('summary');
             const originalText = summary.textContent;
-            summary.textContent = '✅ Calculado: $' + costPerMile + '/mi';
+            summary.textContent = '✅ Calculated: $' + costPerMile + '/mi';
             setTimeout(() => { summary.textContent = originalText; }, 3000);
           }
 
@@ -957,7 +972,7 @@
             const lifespan = parseFloat(document.getElementById('tireLifespan').value);
 
             if (!tireCost || !lifespan || lifespan === 0) {
-              alert('Por favor ingresa valores válidos');
+              alert(window.i18n?.t('errors.invalid_values') || 'Please enter valid values');
               return;
             }
 
@@ -967,7 +982,7 @@
             // Show success message
             const summary = document.querySelector('[onclick="calculateTireCost()"]').closest('details').querySelector('summary');
             const originalText = summary.textContent;
-            summary.textContent = '✅ Calculado: $' + costPerMile + '/mi';
+            summary.textContent = '✅ Calculated: $' + costPerMile + '/mi';
             setTimeout(() => { summary.textContent = originalText; }, 3000);
           }
 
@@ -978,7 +993,7 @@
             const monthlyMiles = parseFloat(document.getElementById('monthlyMilesGoal')?.value || 8000);
 
             if (!reserve || reserve === 0) {
-              alert('Por favor ingresa un monto de reserva válido');
+              alert(window.i18n?.t('errors.invalid_reserve') || 'Please enter a valid reserve amount');
               return;
             }
 
@@ -1023,73 +1038,73 @@
 
           <!-- Header -->
           <div class="section-header text-center">
-            <h2 class="font-bold mb-4">📜 Historial de Cargas</h2>
-            <p class="subtitle">Administra y analiza tus registros de cargas</p>
+            <h2 class="font-bold mb-4" data-i18n="history.title">📋 Load History</h2>
+            <p class="subtitle" data-i18n="history.subtitle">Your complete load record</p>
           </div>
 
           <!-- Filters -->
           <div class="card-section">
-            <h3 class="text-2xl font-semibold mb-4">🔍 Filtros</h3>
+            <h3 class="text-2xl font-semibold mb-4" data-i18n="history.filters_title">🔍 Filters</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
 
-              <label for="filterOrigin" class="sr-only">Origen</label>
+              <label for="filterOrigin" class="sr-only" data-i18n="history.col_origin">Origin</label>
               <input type="text" id="filterOrigin" name="filterOrigin" class="border p-3 rounded-lg w-full text-base"
-                placeholder="Origen">
+                placeholder="Origin" data-i18n="history.filter_origin_ph">
 
-              <label for="filterDestination" class="sr-only">Destino</label>
+              <label for="filterDestination" class="sr-only" data-i18n="history.col_destination">Destination</label>
               <input type="text" id="filterDestination" name="filterDestination"
-                class="border p-3 rounded-lg w-full text-base" placeholder="Destino">
+                class="border p-3 rounded-lg w-full text-base" placeholder="Destination" data-i18n="history.filter_dest_ph">
 
-              <label for="historyYearSelect" class="sr-only">Año</label>
+              <label for="historyYearSelect" class="sr-only">Year</label>
               <select id="historyYearSelect" name="historyYearSelect" class="border p-3 rounded-lg w-full text-base">
-                <option value="">Todos los años</option>
+                <option value="" data-i18n="history.all_years">All Years</option>
               </select>
 
-              <label for="historyMonthSelect" class="sr-only">Mes</label>
+              <label for="historyMonthSelect" class="sr-only">Month</label>
               <select id="historyMonthSelect" name="historyMonthSelect" class="border p-3 rounded-lg w-full text-base">
-                <option value="">Todos los meses</option>
+                <option value="" data-i18n="history.all_months">All Months</option>
               </select>
 
-              <button id="filterBtn" type="button" class="btn-primary w-full sm:w-auto">
-                🔍 Filtrar
+              <button id="filterBtn" type="button" class="btn-primary w-full sm:w-auto" data-i18n="history.filter_btn">
+                🔍 Filter
               </button>
             </div>
           </div>
 
 
-          <!-- 📊 Resumen de Estadísticas (Historial) -->
+          <!-- 📊 Statistics Summary -->
           <div class="card-section">
-            <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">📊 Resumen de Estadísticas</h3>
+            <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200" data-i18n="history.stats_title">📊 Statistics Summary</h3>
             <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
               <div
                 class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center shadow-sm">
-                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Total Cargas</h4>
+                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1" data-i18n="history.stats_total_loads">Total Loads</h4>
                 <p class="kpi-value text-2xl font-bold text-gray-900 dark:text-white" id="sumTotal">0</p>
-                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Cargas completadas</p>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1" data-i18n="history.stats_loads_completed">Completed loads</p>
               </div>
               <div
                 class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center shadow-sm">
-                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Millas Totales</h4>
+                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1" data-i18n="history.stats_total_miles">Total Miles</h4>
                 <p class="kpi-value text-2xl font-bold text-gray-900 dark:text-white" id="sumMiles">0</p>
-                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Distancia recorrida</p>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1" data-i18n="history.stats_distance">Distance traveled</p>
               </div>
               <div
                 class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center shadow-sm">
-                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Ingresos Totales</h4>
+                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1" data-i18n="history.stats_revenue">Total Revenue</h4>
                 <p class="kpi-value text-2xl font-bold text-gray-900 dark:text-white" id="sumRevenue">$0</p>
-                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Monto bruto acumulado</p>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1" data-i18n="history.stats_gross">Gross accumulated</p>
               </div>
               <div
                 class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center shadow-sm">
-                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Ganancias Netas</h4>
+                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1" data-i18n="history.stats_net_profit">Net Profit</h4>
                 <p class="kpi-value text-2xl font-bold text-gray-900 dark:text-white" id="sumProfit">$0</p>
-                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Después de gastos</p>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1" data-i18n="history.stats_after_expenses">After expenses</p>
               </div>
               <div
                 class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center shadow-sm">
-                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">RPM Promedio</h4>
+                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1" data-i18n="history.stats_avg_rpm">Avg RPM</h4>
                 <p class="kpi-value text-2xl font-bold text-gray-900 dark:text-white" id="sumRpm">$0</p>
-                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Dólares por milla</p>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1" data-i18n="history.stats_per_mile">Dollars per mile</p>
               </div>
             </div>
           </div>
@@ -1097,12 +1112,13 @@
           <!-- Table -->
           <div class="card-section">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
-              <p class="text-sm text-gray-600 order-2 sm:order-1">
-                Mostrando <span id="filteredCount">0</span> de <span id="totalCount">0</span> cargas
+              <p class="text-sm text-gray-600 order-2 sm:order-1" id="historyCountLabel">
+                <span data-i18n="history.showing">Showing</span> <span id="filteredCount">0</span> <span data-i18n="history.showing_of">of</span> <span id="totalCount">0</span> <span data-i18n="history.showing_loads">loads</span>
               </p>
               <button id="exportExcelBtn" type="button" class="btn-success text-sm px-3 py-2 order-1 sm:order-2"
-                style="font-size: 14px !important; color: white !important; -webkit-text-fill-color: white !important;">
-                📤 Exportar Excel
+                style="font-size: 14px !important; color: white !important; -webkit-text-fill-color: white !important;"
+                data-i18n="history.export_excel">
+                📤 Export Excel
               </button>
             </div>
             <!-- Contenedor con altura máxima y scroll (responsive) -->
@@ -1112,37 +1128,37 @@
                   <tr>
                     <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition select-none"
                       onclick="sortHistoryBy('date')">
-                      Fecha <span id="sort-hist-date" class="history-sort-icon ml-1 text-gray-400">↓</span>
+                      <span data-i18n="history.col_date">Date</span> <span id="sort-hist-date" class="history-sort-icon ml-1 text-gray-400">↓</span>
                     </th>
                     <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition select-none"
                       onclick="sortHistoryBy('loadNumber')">
-                      Load # <span id="sort-hist-loadNumber" class="history-sort-icon ml-1 text-gray-400">↕</span>
+                      <span data-i18n="history.col_load_num">Load #</span> <span id="sort-hist-loadNumber" class="history-sort-icon ml-1 text-gray-400">↕</span>
                     </th>
                     <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition select-none"
                       onclick="sortHistoryBy('origin')">
-                      Origen <span id="sort-hist-origin" class="history-sort-icon ml-1 text-gray-400">↕</span>
+                      <span data-i18n="history.col_origin">Origin</span> <span id="sort-hist-origin" class="history-sort-icon ml-1 text-gray-400">↕</span>
                     </th>
                     <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition select-none"
                       onclick="sortHistoryBy('destination')">
-                      Destino <span id="sort-hist-destination" class="history-sort-icon ml-1 text-gray-400">↕</span>
+                      <span data-i18n="history.col_destination">Destination</span> <span id="sort-hist-destination" class="history-sort-icon ml-1 text-gray-400">↕</span>
                     </th>
                     <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition select-none"
                       onclick="sortHistoryBy('companyName')">
-                      Compañía <span id="sort-hist-companyName" class="history-sort-icon ml-1 text-gray-400">↕</span>
+                      <span data-i18n="history.col_company">Company</span> <span id="sort-hist-companyName" class="history-sort-icon ml-1 text-gray-400">↕</span>
                     </th>
                     <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition select-none"
                       onclick="sortHistoryBy('totalMiles')">
-                      Millas <span id="sort-hist-totalMiles" class="history-sort-icon ml-1 text-gray-400">↕</span>
+                      <span data-i18n="history.col_miles">Miles</span> <span id="sort-hist-totalMiles" class="history-sort-icon ml-1 text-gray-400">↕</span>
                     </th>
                     <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition select-none"
                       onclick="sortHistoryBy('rpm')">
-                      RPM <span id="sort-hist-rpm" class="history-sort-icon ml-1 text-gray-400">↕</span>
+                      <span data-i18n="history.col_rpm">RPM</span> <span id="sort-hist-rpm" class="history-sort-icon ml-1 text-gray-400">↕</span>
                     </th>
                     <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition select-none"
                       onclick="sortHistoryBy('totalCharge')">
-                      Tarifa <span id="sort-hist-totalCharge" class="history-sort-icon ml-1 text-gray-400">↕</span>
+                      <span data-i18n="history.col_rate">Rate</span> <span id="sort-hist-totalCharge" class="history-sort-icon ml-1 text-gray-400">↕</span>
                     </th>
-                    <th class="p-2 text-left">Acciones</th>
+                    <th class="p-2 text-left" data-i18n="history.col_actions">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="loadList" class="divide-y divide-gray-200 text-base">
@@ -1161,8 +1177,8 @@
 
           <!-- Header -->
           <div class="section-header text-center">
-            <h2 class="font-bold mb-4">💰 Gestión Financiera</h2>
-            <p class="subtitle">Control total de tus ingresos, gastos y rentabilidad</p>
+            <h2 class="font-bold mb-4" data-i18n="finances.title">💰 Financial Management</h2>
+            <p class="subtitle" data-i18n="finances.subtitle">Full control of your income, expenses and profitability</p>
           </div>
 
           <!-- Submenú interno (Pill Navigation) -->
@@ -1170,13 +1186,13 @@
             <div class="inline-flex bg-gray-100 p-1.5 rounded-xl shadow-inner">
               <button
                 class="fin-subtab px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 transition-all duration-200"
-                data-subtab="summary">🧮 Resumen</button>
+                data-subtab="summary" data-i18n="finances.tab_summary">🧮 Summary</button>
               <button
                 class="fin-subtab px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 transition-all duration-200"
-                data-subtab="reports">🧾 Reportes</button>
+                data-subtab="reports" data-i18n="finances.tab_reports">🧾 Reports</button>
               <button
                 class="fin-subtab px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 transition-all duration-200"
-                data-subtab="accounts">💵 Cuentas</button>
+                data-subtab="accounts" data-i18n="finances.tab_accounts">💵 Accounts</button>
             </div>
           </div>
 
@@ -1188,86 +1204,86 @@
               <div class="grid grid-cols-2 md:flex md:flex-row gap-4 items-start md:items-center">
                 <!-- Año -->
                 <div class="flex items-center gap-2">
-                  <label for="yearSelect" class="text-sm font-medium text-gray-700">Año</label>
+                  <label for="yearSelect" class="text-sm font-medium text-gray-700" data-i18n="finances.label_year">Year</label>
                   <select id="yearSelect" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
                 </div>
 
                 <!-- Mes -->
                 <div class="flex items-center gap-2">
-                  <label for="monthSelect" class="text-sm font-medium text-gray-700">Mes</label>
+                  <label for="monthSelect" class="text-sm font-medium text-gray-700" data-i18n="finances.label_month">Month</label>
                   <select id="monthSelect" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
                 </div>
 
                 <!-- Botón -->
                 <button class="col-span-2 md:col-span-1 px-4 py-2 rounded text-sm font-medium"
-                  style="background:#FF6D4A;color:#ffffff;" onclick="applyPeriod('global')">
-                  🔄 Actualizar
+                  style="background:#FF6D4A;color:#ffffff;" onclick="applyPeriod('global')" data-i18n="finances.btn_apply">
+                  Apply
                 </button>
               </div>
             </div>
 
             <!-- Info de actualización -->
             <div class="text-right">
-              <span id="lastUpdated" class="text-sm text-gray-500">Actualizado: --</span>
+              <span class="text-sm text-gray-500"><span data-i18n="finances.last_updated_label">Updated:</span> <span id="lastUpdated">--</span></span>
             </div>
 
             <!-- Resumen del período -->
             <div id="periodSummary" class="mt-3 text-sm bg-blue-50 border border-blue-200 rounded p-3 hidden">
               <div class="flex items-center gap-2">
                 <span class="text-blue-600">📊</span>
-                <span id="periodInfo" class="text-blue-800 font-medium">Analizando datos...</span>
+                <span id="periodInfo" class="text-blue-800 font-medium" data-i18n="finances.analyzing_data">Analyzing data...</span>
               </div>
             </div>
 
             <!-- KPIs UNIFICADOS - Todos en una sola fila - Optimizado para mobile -->
             <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 md:gap-3 mb-6">
-              <!-- Ingresos -->
+              <!-- Revenue -->
               <div
                 class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
-                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Ingresos</h4>
+                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" data-i18n="finances.total_revenue">Revenue</h4>
                 <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="totalRevenue">$0.00</p>
               </div>
 
-              <!-- Gastos -->
+              <!-- Expenses -->
               <div
                 class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
-                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Gastos</h4>
+                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" data-i18n="finances.total_expenses">Expenses</h4>
                 <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="totalExpensesSummary">$0.00
                 </p>
               </div>
 
-              <!-- Ganancia -->
+              <!-- Profit -->
               <div
                 class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
-                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Ganancia</h4>
+                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" data-i18n="finances.net_profit">Profit</h4>
                 <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="netProfit">$0.00</p>
               </div>
 
-              <!-- Millas -->
+              <!-- Miles -->
               <div
                 class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
-                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Millas</h4>
+                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" data-i18n="finances.total_miles">Miles</h4>
                 <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="totalMiles">0</p>
               </div>
 
               <!-- RPM -->
               <div
                 class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
-                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">RPM</h4>
+                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" data-i18n="finances.avg_rpm">RPM</h4>
                 <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="avgRpm">$0.00</p>
               </div>
 
-              <!-- Costo por Milla -->
+              <!-- $/Mile -->
               <div
                 class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
-                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">$/Milla</h4>
+                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">$/mi</h4>
                 <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="costPerMile">$0.00</p>
               </div>
 
-              <!-- Eficiencia -->
+              <!-- Margin -->
               <div
                 class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
-                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Eficiencia</h4>
+                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" data-i18n="finances.profit_margin">Margin</h4>
                 <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="efficiency">0%</p>
               </div>
             </div>
@@ -1275,48 +1291,50 @@
             <!-- Gestión de Gastos -->
             <div class="card-section">
               <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
-                <h3 class="text-base sm:text-lg font-semibold">💳 Gestión de Gastos</h3>
+                <h3 class="text-base sm:text-lg font-semibold">💳 <span data-i18n="finances.total_expenses">Expenses</span></h3>
                 <div class="flex flex-col sm:flex-row gap-2">
                   <button onclick="openExpenseModal()" class="bg-green-600 px-3 py-2 rounded hover:bg-green-700 text-sm"
-                    style="color: white !important; -webkit-text-fill-color: white !important;">
-                    ➕ Agregar Gasto
+                    style="color: white !important; -webkit-text-fill-color: white !important;"
+                    data-i18n="finances.btn_add_expense">
+                    ➕ Add Expense
                   </button>
                   <button onclick="openCategoryModal()"
                     class="bg-purple-600 px-3 py-2 rounded hover:bg-purple-700 text-sm"
-                    style="color: white !important; -webkit-text-fill-color: white !important;">
-                    ⚙️ Categorías
+                    style="color: white !important; -webkit-text-fill-color: white !important;"
+                    data-i18n="finances.btn_categories">
+                    ⚙️ Categories
                   </button>
                 </div>
               </div>
 
-              <!-- Lista de gastos recientes -->
+              <!-- Expense list -->
               <div class="overflow-x-auto">
                 <table class="min-w-full text-sm border border-gray-300">
                   <thead class="bg-gray-100 select-none">
                     <tr>
                       <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition"
                         onclick="sortExpensesBy('date')">
-                        Fecha <span id="sort-exp-date" class="ml-1 text-blue-600 font-bold">↓</span>
+                        <span data-i18n="finances.expense_date">Date</span> <span id="sort-exp-date" class="ml-1 text-blue-600 font-bold">↓</span>
                       </th>
                       <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition"
                         onclick="sortExpensesBy('type')">
-                        Categoría <span id="sort-exp-type" class="ml-1 text-gray-400">↕</span>
+                        <span data-i18n="finances.expense_type">Type</span> <span id="sort-exp-type" class="ml-1 text-gray-400">↕</span>
                       </th>
                       <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition"
                         onclick="sortExpensesBy('description')">
-                        Descripción <span id="sort-exp-description" class="ml-1 text-gray-400">↕</span>
+                        <span data-i18n="finances.expense_description">Description</span> <span id="sort-exp-description" class="ml-1 text-gray-400">↕</span>
                       </th>
                       <th class="p-2 text-left cursor-pointer hover:bg-gray-200 transition"
                         onclick="sortExpensesBy('amount')">
-                        Monto <span id="sort-exp-amount" class="ml-1 text-gray-400">↕</span>
+                        <span data-i18n="finances.expense_amount">Amount</span> <span id="sort-exp-amount" class="ml-1 text-gray-400">↕</span>
                       </th>
-                      <th class="p-2 text-left">Acciones</th>
+                      <th class="p-2 text-left" data-i18n="history.col_actions">Actions</th>
                     </tr>
                   </thead>
                   <tbody id="expensesList">
                     <tr>
-                      <td colspan="5" class="p-4 text-center text-gray-500">
-                        No hay gastos registrados para este período
+                      <td colspan="5" class="p-4 text-center text-gray-500" data-i18n="finances.no_data">
+                        No data for this period
                       </td>
                     </tr>
                   </tbody>
@@ -1328,7 +1346,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <!-- Cash Flow Chart -->
               <div class="card-section">
-                <h3 class="text-lg font-semibold mb-4">📈 Rendimiento Financiero</h3>
+                <h3 class="text-lg font-semibold mb-4" data-i18n="finances.chart_financial_performance">📈 Financial Performance</h3>
                 <div id="cashFlowChartContainer" class="h-96 bg-gray-50 rounded-lg p-4">
                   <canvas id="cashFlowChart"></canvas>
                 </div>
@@ -1336,7 +1354,7 @@
 
               <!-- Expense Breakdown -->
               <div class="card-section">
-                <h3 class="text-lg font-semibold mb-4">🥧 Distribución de Gastos</h3>
+                <h3 class="text-lg font-semibold mb-4" data-i18n="finances.chart_expense_distribution">🥧 Expense Distribution</h3>
                 <div id="expenseBreakdownChartContainer" class="h-96 bg-gray-50 rounded-lg p-4">
                   <canvas id="expenseBreakdownChart"></canvas>
                 </div>
@@ -1347,7 +1365,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
               <!-- RPM Trends -->
               <div class="card-section">
-                <h3 class="text-lg font-semibold mb-4">📈 Tendencia RPM</h3>
+                <h3 class="text-lg font-semibold mb-4" data-i18n="finances.chart_rpm_trend">📈 RPM Trend</h3>
                 <div class="h-80 bg-gray-50 rounded-lg p-4">
                   <canvas id="rpmTrendChart"></canvas>
                 </div>
@@ -1355,7 +1373,7 @@
 
               <!-- Distribución de Cargas -->
               <div class="card-section">
-                <h3 class="text-lg font-semibold mb-4">🎯 Distribución de Cargas</h3>
+                <h3 class="text-lg font-semibold mb-4" data-i18n="finances.chart_load_distribution">🎯 Load Distribution</h3>
                 <div class="h-80 bg-gray-50 rounded-lg p-4">
                   <canvas id="loadDistributionChart"></canvas>
                 </div>
@@ -1369,28 +1387,29 @@
 
             <!-- ✅ Selector Unificado (Reportes) -->
             <div class="card-section">
-              <h3 class="text-base font-semibold mb-3" style="color: white !important;">📊 Filtrar Período</h3>
+              <h3 class="text-base font-semibold mb-3" style="color: white !important;" data-i18n="finances.filter_period">📊 Filter Period</h3>
               <div class="grid grid-cols-2 gap-3">
-                <!-- Año -->
+                <!-- Year -->
                 <div class="flex flex-col gap-1">
                   <label for="reportYear" class="text-xs font-medium"
-                    style="color: rgba(255,255,255,0.8) !important;">Año</label>
+                    style="color: rgba(255,255,255,0.8) !important;" data-i18n="finances.label_year">Year</label>
                   <select id="reportYear" class="border rounded px-2 py-2 w-full text-sm"></select>
                 </div>
 
-                <!-- Mes -->
+                <!-- Month -->
                 <div class="flex flex-col gap-1">
                   <label for="reportMonth" class="text-xs font-medium"
-                    style="color: rgba(255,255,255,0.8) !important;">Mes</label>
+                    style="color: rgba(255,255,255,0.8) !important;" data-i18n="finances.label_month">Month</label>
                   <select id="reportMonth" class="border rounded px-2 py-2 w-full text-sm"></select>
                 </div>
               </div>
 
-              <!-- Botón - Full width -->
+              <!-- Button - Full width -->
               <button class="w-full mt-3 px-4 py-2 rounded text-sm font-medium"
-                style="background:#fb923c;color:#07050a;" style="color: white !important;"
-                onclick="applyPeriod('reports')">
-                🔄 Actualizar Datos
+                style="background:#fb923c;color:#07050a;"
+                onclick="applyPeriod('reports')"
+                data-i18n="finances.btn_update_data">
+                🔄 Update Data
               </button>
             </div>
 
@@ -1398,150 +1417,155 @@
             <!-- 📘 Tarjetas de Reportes -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-              <!-- 📊 Reporte Financiero Completo (P&L) -->
+              <!-- 📊 P&L Report -->
               <div class="card-section p-4 rounded-lg"
                 style="background: linear-gradient(135deg, rgba(30,58,138,0.8) 0%, rgba(59,130,246,0.6) 100%);">
                 <!-- Header -->
                 <div class="border-b border-white/20 pb-3 mb-3">
-                  <h3 class="text-lg font-bold" style="color: white !important;">
-                    📊 Estado de Resultados (P&L)
+                  <h3 class="text-lg font-bold" style="color: white !important;" data-i18n="finances.report_pl_title">
+                    📊 P&L Statement
                   </h3>
                 </div>
                 <!-- Description -->
                 <div class="mb-4">
-                  <p class="text-sm mb-2" style="color: rgba(255,255,255,0.85) !important;">
-                    Análisis profesional con métricas clave, flujo de efectivo, y tendencias.
+                  <p class="text-sm mb-2" style="color: rgba(255,255,255,0.85) !important;" data-i18n="finances.report_pl_desc">
+                    Professional analysis with key metrics, cash flow, and trends.
                   </p>
                   <div class="text-xs" style="color: rgba(255,255,255,0.6) !important;">
-                    ✅ Resumen Ejecutivo<br>
-                    ✅ Métricas Operativas<br>
-                    ✅ Desglose de Gastos<br>
-                    ✅ Análisis de Cargas
+                    <div data-i18n="finances.report_pl_item1">✅ Executive Summary</div>
+                    <div data-i18n="finances.report_pl_item2">✅ Operating Metrics</div>
+                    <div data-i18n="finances.report_pl_item3">✅ Expense Breakdown</div>
+                    <div data-i18n="finances.report_pl_item4">✅ Load Analysis</div>
                   </div>
                 </div>
                 <!-- Button -->
                 <button onclick="generatePLReport()"
                   class="w-full px-4 py-2 rounded-lg font-medium transition shadow-md"
-                  style="background-color: white !important; color: #1e3a8a !important; border: 2px solid rgba(255,255,255,0.5) !important;">
-                  📊 Generar P&L Report
+                  style="background-color: white !important; color: #1e3a8a !important; border: 2px solid rgba(255,255,255,0.5) !important;"
+                  data-i18n="finances.report_pl_btn">
+                  📊 Generate P&L Report
                 </button>
               </div>
 
-              <!-- 🏢 Reporte por Compañías -->
+              <!-- 🏢 Company Report -->
               <div class="card-section p-4 rounded-lg"
                 style="background: linear-gradient(135deg, rgba(88,28,135,0.8) 0%, rgba(168,85,247,0.6) 100%);">
                 <!-- Header -->
                 <div class="border-b border-white/20 pb-3 mb-3">
-                  <h3 class="text-lg font-bold" style="color: white !important;">
-                    🏢 Reporte por Compañías
+                  <h3 class="text-lg font-bold" style="color: white !important;" data-i18n="finances.report_company_title">
+                    🏢 Company Report
                   </h3>
                 </div>
                 <!-- Description -->
                 <div class="mb-4">
-                  <p class="text-sm mb-2" style="color: rgba(255,255,255,0.85) !important;">
-                    Análisis detallado de ingresos, cargas y RPM por cada compañía.
+                  <p class="text-sm mb-2" style="color: rgba(255,255,255,0.85) !important;" data-i18n="finances.report_company_desc">
+                    Detailed analysis of revenue, loads, and RPM per company.
                   </p>
                   <div class="text-xs" style="color: rgba(255,255,255,0.6) !important;">
-                    ✅ Ingresos por Compañía<br>
-                    ✅ Top 3 Mejores<br>
-                    ✅ RPM Promedio<br>
-                    ✅ Total de Cargas
+                    <div data-i18n="finances.report_company_item1">✅ Revenue by Company</div>
+                    <div data-i18n="finances.report_company_item2">✅ Top 3 Best</div>
+                    <div data-i18n="finances.report_company_item3">✅ Avg RPM</div>
+                    <div data-i18n="finances.report_company_item4">✅ Total Loads</div>
                   </div>
                 </div>
                 <!-- Button -->
                 <button onclick="generateCompanyReport()"
                   class="w-full px-4 py-2 rounded-lg font-medium transition shadow-md"
-                  style="background-color: white !important; color: #581c87 !important; border: 2px solid rgba(255,255,255,0.5) !important;">
-                  🏢 Analizar Compañías
+                  style="background-color: white !important; color: #581c87 !important; border: 2px solid rgba(255,255,255,0.5) !important;"
+                  data-i18n="finances.report_company_btn">
+                  🏢 Analyze Companies
                 </button>
               </div>
 
-              <!-- 📈 Desglose de Gastos -->
+              <!-- 📈 Expense Breakdown -->
               <div class="card-section p-4 rounded-lg"
                 style="background: linear-gradient(135deg, rgba(194,65,12,0.8) 0%, rgba(249,115,22,0.6) 100%);">
                 <!-- Header -->
                 <div class="border-b border-white/20 pb-3 mb-3">
-                  <h3 class="text-lg font-bold" style="color: white !important;">
-                    📈 Desglose de Gastos
+                  <h3 class="text-lg font-bold" style="color: white !important;" data-i18n="finances.report_expense_title">
+                    📈 Expense Breakdown
                   </h3>
                 </div>
                 <!-- Description -->
                 <div class="mb-4">
-                  <p class="text-sm mb-2" style="color: rgba(255,255,255,0.85) !important;">
-                    Análisis completo de gastos por categoría con visualización.
+                  <p class="text-sm mb-2" style="color: rgba(255,255,255,0.85) !important;" data-i18n="finances.report_expense_desc">
+                    Full analysis of expenses by category with visualization.
                   </p>
                   <div class="text-xs" style="color: rgba(255,255,255,0.6) !important;">
-                    ✅ Gastos por Categoría<br>
-                    ✅ Top 3 Categorías<br>
-                    ✅ % del Total<br>
-                    ✅ Gráfico Visual
+                    <div data-i18n="finances.report_expense_item1">✅ Expenses by Category</div>
+                    <div data-i18n="finances.report_expense_item2">✅ Top 3 Categories</div>
+                    <div data-i18n="finances.report_expense_item3">✅ % of Total</div>
+                    <div data-i18n="finances.report_expense_item4">✅ Visual Chart</div>
                   </div>
                 </div>
                 <!-- Button -->
                 <button onclick="generateExpenseBreakdownReport()"
                   class="w-full px-4 py-2 rounded-lg font-medium transition shadow-md"
-                  style="background-color: white !important; color: #c2410c !important; border: 2px solid rgba(255,255,255,0.5) !important;">
-                  📈 Ver Desglose
+                  style="background-color: white !important; color: #c2410c !important; border: 2px solid rgba(255,255,255,0.5) !important;"
+                  data-i18n="finances.report_expense_btn">
+                  📈 View Breakdown
                 </button>
               </div>
 
-              <!-- 🗺️ Rentabilidad por Zona -->
+              <!-- 🗺️ Zone Profitability -->
               <div class="card-section p-4 rounded-lg"
                 style="background: linear-gradient(135deg, rgba(22,101,52,0.8) 0%, rgba(34,197,94,0.6) 100%);">
                 <!-- Header -->
                 <div class="border-b border-white/20 pb-3 mb-3">
-                  <h3 class="text-lg font-bold" style="color: white !important;">
-                    🗺️ Rentabilidad por Zona
+                  <h3 class="text-lg font-bold" style="color: white !important;" data-i18n="finances.report_zone_title">
+                    🗺️ Zone Profitability
                   </h3>
                 </div>
                 <!-- Description -->
                 <div class="mb-4">
-                  <p class="text-sm mb-2" style="color: rgba(255,255,255,0.85) !important;">
-                    Identifica las rutas más y menos rentables por RPM.
+                  <p class="text-sm mb-2" style="color: rgba(255,255,255,0.85) !important;" data-i18n="finances.report_zone_desc">
+                    Identify the most and least profitable routes by RPM.
                   </p>
                   <div class="text-xs" style="color: rgba(255,255,255,0.6) !important;">
-                    ✅ Top 5 Mejores Rutas<br>
-                    ✅ Top 5 Peores Rutas<br>
-                    ✅ RPM por Ruta<br>
-                    ✅ Recomendaciones
+                    <div data-i18n="finances.report_zone_item1">✅ Top 5 Best Routes</div>
+                    <div data-i18n="finances.report_zone_item2">✅ Top 5 Worst Routes</div>
+                    <div data-i18n="finances.report_zone_item3">✅ RPM by Route</div>
+                    <div data-i18n="finances.report_zone_item4">✅ Recommendations</div>
                   </div>
                 </div>
                 <!-- Button -->
                 <button onclick="generateProfitabilityReport()"
                   class="w-full px-4 py-2 rounded-lg font-medium transition shadow-md"
-                  style="background-color: white !important; color: #166534 !important; border: 2px solid rgba(255,255,255,0.5) !important;">
-                  🗺️ Analizar Zonas
+                  style="background-color: white !important; color: #166534 !important; border: 2px solid rgba(255,255,255,0.5) !important;"
+                  data-i18n="finances.report_zone_btn">
+                  🗺️ Analyze Zones
                 </button>
               </div>
 
-              <!-- 🧾 Reporte de Impuestos (IRS) -->
+              <!-- 🧾 Tax Report (IRS) -->
               <div class="card-section p-4 rounded-lg"
                 style="background: linear-gradient(135deg, rgba(161,98,7,0.8) 0%, rgba(234,179,8,0.6) 100%); grid-column: 1 / -1;">
                 <!-- Header -->
                 <div class="border-b border-white/20 pb-3 mb-3 flex items-center gap-2">
-                  <h3 class="text-lg font-bold flex-1" style="color: white !important;">
-                    🧾 Reporte de Impuestos (IRS)
+                  <h3 class="text-lg font-bold flex-1" style="color: white !important;" data-i18n="finances.report_tax_title">
+                    🧾 Tax Report (IRS)
                   </h3>
                   <span
                     class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full font-bold uppercase tracking-wider">Premium</span>
                 </div>
                 <!-- Description -->
                 <div class="mb-4">
-                  <p class="text-sm mb-2 font-medium" style="color: rgba(255,255,255,0.95) !important;">
-                    Genera una forma alineada al IRS Schedule C (Form 1040) lista para tu CPA.
+                  <p class="text-sm mb-2 font-medium" style="color: rgba(255,255,255,0.95) !important;" data-i18n="finances.report_tax_desc">
+                    Generate a form aligned with IRS Schedule C (Form 1040) ready for your CPA.
                   </p>
                   <div class="grid grid-cols-2 gap-2 text-xs mt-3" style="color: rgba(255,255,255,0.8) !important;">
-                    <div>✅ Part I - Gross Income</div>
-                    <div>✅ Resumen Schedule SE</div>
-                    <div>✅ Part II - Expenses (Líneas 9-27)</div>
-                    <div>✅ Standard vs Actual Method</div>
+                    <div data-i18n="finances.report_tax_item1">✅ Part I - Gross Income</div>
+                    <div data-i18n="finances.report_tax_item2">✅ Schedule SE Summary</div>
+                    <div data-i18n="finances.report_tax_item3">✅ Part II - Expenses (Lines 9-27)</div>
+                    <div data-i18n="finances.report_tax_item4">✅ Standard vs Actual Method</div>
                   </div>
                 </div>
                 <!-- Button -->
                 <button onclick="generateTaxReport()"
                   class="w-full px-4 py-3 rounded-lg font-bold transition shadow-lg flex items-center justify-center gap-2"
-                  style="background-color: white !important; color: #a16207 !important; border: 2px solid rgba(255,255,255,0.8) !important; font-size: 1.1em; -webkit-text-fill-color: #a16207 !important;">
-                  <strong style="color: #a16207 !important;">Generar Reporte Fiscal 🇺🇸</strong>
+                  style="background-color: white !important; color: #a16207 !important; border: 2px solid rgba(255,255,255,0.8) !important; font-size: 1.1em; -webkit-text-fill-color: #a16207 !important;"
+                  data-i18n="finances.report_tax_btn">
+                  Generate Tax Report 🇺🇸
                 </button>
               </div>
 
@@ -1560,8 +1584,8 @@
                   <div class="flex items-center gap-3">
                     <span class="text-2xl" id="reportModalIcon">📊</span>
                     <div>
-                      <h2 class="text-lg font-bold" id="reportModalTitle">Reporte Financiero</h2>
-                      <p class="text-xs text-white/70" id="reportModalSubtitle">Período: --</p>
+                      <h2 class="text-lg font-bold" id="reportModalTitle" data-i18n="finances.report_modal_title">Financial Report</h2>
+                      <p class="text-xs text-white/70" id="reportModalSubtitle" data-i18n="finances.report_modal_period">Period: --</p>
                     </div>
                   </div>
                   <button onclick="closeReportModal()"
@@ -1576,7 +1600,7 @@
                   <!-- El contenido del reporte se inyecta aquí dinámicamente -->
                   <div class="text-center py-12 text-gray-500">
                     <span class="text-4xl block mb-3">📋</span>
-                    <p>Generando reporte...</p>
+                    <p data-i18n="finances.generating_report">Generating report...</p>
                   </div>
                 </div>
 
@@ -1584,17 +1608,20 @@
                 <div class="flex-shrink-0 bg-white border-t p-3 flex flex-wrap justify-center gap-2">
                   <button onclick="printReport()"
                     class="px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition"
-                    style="background:#fb923c;color:#07050a;">
-                    🖨️ Imprimir / PDF
+                    style="background:#fb923c;color:#07050a;"
+                    data-i18n="finances.btn_print">
+                    🖨️ Print / PDF
                   </button>
                   <button onclick="exportReportToPDF()"
-                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition">
-                    📥 Exportar PDF (beta)
+                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition"
+                    data-i18n="finances.btn_export_pdf">
+                    📥 Export PDF (beta)
                   </button>
                   <button onclick="closeReportModal()"
                     class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition"
-                    style="color: #374151 !important; -webkit-text-fill-color: #374151 !important;">
-                    ❌ Cerrar
+                    style="color: #374151 !important; -webkit-text-fill-color: #374151 !important;"
+                    data-i18n="finances.btn_close_report">
+                    ❌ Close
                   </button>
                 </div>
 
@@ -1606,50 +1633,49 @@
           <!-- 💵 Contenido CUENTAS -->
           <div id="finances-accounts" class="fin-subcontent hidden space-y-6">
 
-            <!-- ✅ Selector Unificado (Cuentas) -->
+            <!-- ✅ Accounts Filter -->
             <div class="card-section">
               <div class="grid grid-cols-2 md:flex md:flex-row gap-4 items-start md:items-center">
-                <!-- Año -->
+                <!-- Year -->
                 <div class="flex items-center gap-2">
-                  <label for="accountsYear" class="text-sm font-medium text-gray-700 hidden md:inline">Año</label>
+                  <label for="accountsYear" class="text-sm font-medium text-gray-700 hidden md:inline" data-i18n="finances.label_year">Year</label>
                   <select id="accountsYear" class="border border-gray-300 rounded px-3 py-2 w-32"></select>
                 </div>
 
-                <!-- Mes -->
+                <!-- Month -->
                 <div class="flex items-center gap-2">
-                  <label for="accountsMonth" class="text-sm font-medium text-gray-700 hidden md:inline">Mes</label>
+                  <label for="accountsMonth" class="text-sm font-medium text-gray-700 hidden md:inline" data-i18n="finances.label_month">Month</label>
                   <select id="accountsMonth" class="border border-gray-300 rounded px-3 py-2 w-40"></select>
                 </div>
 
-
-
-                <!-- Estado -->
+                <!-- Status -->
                 <div class="flex items-center gap-2">
-                  <label for="accountsStatus" class="text-sm font-medium text-gray-700 hidden md:inline">Estado</label>
+                  <label for="accountsStatus" class="text-sm font-medium text-gray-700 hidden md:inline" data-i18n="finances.label_status">Status</label>
                   <select id="accountsStatus" class="border border-gray-300 rounded px-3 py-2 w-32">
-                    <option value="">Todos</option>
-                    <option value="pending">Pendientes</option>
-                    <option value="overdue">Vencidas</option>
-                    <option value="paid">Pagadas</option>
+                    <option value="" data-i18n="finances.status_all">All</option>
+                    <option value="pending" data-i18n="finances.status_pending">Pending</option>
+                    <option value="overdue" data-i18n="finances.status_overdue">Overdue</option>
+                    <option value="paid" data-i18n="finances.status_paid">Paid</option>
                   </select>
                 </div>
 
-                <!-- Ordenamiento -->
+                <!-- Sort -->
                 <div class="flex items-center gap-2">
-                  <label for="accountsSort" class="text-sm font-medium text-gray-700 hidden md:inline">Ordenar</label>
+                  <label for="accountsSort" class="text-sm font-medium text-gray-700 hidden md:inline" data-i18n="finances.label_sort">Sort</label>
                   <select id="accountsSort" class="border border-gray-300 rounded px-3 py-2 w-32 md:w-40">
-                    <option value="date-desc">Reciente</option>
-                    <option value="date-asc">Fecha</option>
-                    <option value="amount-desc">Mayor</option>
-                    <option value="amount-asc">Menor</option>
-                    <option value="company"> A-Z</option>
-                    <option value="overdue">Vencidas</option>
+                    <option value="date-desc" data-i18n="finances.sort_recent">Recent</option>
+                    <option value="date-asc" data-i18n="finances.sort_date">Date</option>
+                    <option value="amount-desc" data-i18n="finances.sort_amount_desc">Highest</option>
+                    <option value="amount-asc" data-i18n="finances.sort_amount_asc">Lowest</option>
+                    <option value="company" data-i18n="finances.sort_company_az">Company A-Z</option>
+                    <option value="overdue" data-i18n="finances.sort_overdue">Overdue</option>
                   </select>
                 </div>
-                <!-- Botón Actualizar -->
+                <!-- Update Button -->
                 <button class="col-span-2 md:col-span-1 px-4 py-2 rounded text-sm font-medium"
-                  style="background:#fb923c;color:#07050a;" onclick="applyPeriod('accounts')">
-                  Actualizar
+                  style="background:#fb923c;color:#07050a;" onclick="applyPeriod('accounts')"
+                  data-i18n="finances.btn_update_short">
+                  Update
                 </button>
               </div>
             </div>
@@ -1674,7 +1700,7 @@
 
           <!-- Modal Header -->
           <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-            <h3 class="text-lg font-semibold text-gray-900">➕ Agregar Gasto</h3>
+            <h3 class="text-lg font-semibold text-gray-900" data-i18n="finances.btn_add_expense">➕ Add Expense</h3>
             <button type="button" onclick="closeExpenseModal()" class="text-gray-400 hover:text-gray-600">
               <span class="text-2xl">&times;</span>
             </button>
@@ -1684,52 +1710,52 @@
           <div class="px-6 py-4">
             <div class="space-y-4">
 
-              <!-- Fecha -->
+              <!-- Date -->
               <div>
-                <label for="expenseDate" class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
+                <label for="expenseDate" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="finances.expense_date">Date</label>
                 <input type="date" id="expenseDate" name="expenseDate"
                   class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none"
                   required>
               </div>
 
-              <!-- Categoría -->
+              <!-- Type -->
               <div>
-                <label for="expenseType" class="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
+                <label for="expenseType" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="finances.expense_type">Type</label>
                 <select id="expenseType" name="expenseType"
                   class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none"
                   required>
-                  <option value="">Seleccione una categoría</option>
-                  <option value="fuel">🚚 Combustible</option>
-                  <option value="maintenance">🔧 Mantenimiento</option>
-                  <option value="food">🍔 Comida</option>
-                  <option value="lodging">🏨 Hospedaje</option>
-                  <option value="tolls">🛣️ Peajes</option>
-                  <option value="insurance">🛡️ Seguro</option>
-                  <option value="permits">📋 Permisos</option>
-                  <option value="carpayment">🚗 Pago de Auto</option>
-                  <option value="other">📦 Otros</option>
+                  <option value="" data-i18n="finances.expense_category_ph">Select a category</option>
+                  <option value="fuel" data-i18n="finances.expense_fuel">🚚 Fuel</option>
+                  <option value="maintenance" data-i18n="finances.expense_maintenance">🔧 Maintenance</option>
+                  <option value="food" data-i18n="finances.expense_food">🍔 Food</option>
+                  <option value="lodging" data-i18n="finances.expense_lodging">🏨 Lodging</option>
+                  <option value="tolls" data-i18n="finances.expense_tolls">🛣️ Tolls</option>
+                  <option value="insurance" data-i18n="finances.expense_insurance">🛡️ Insurance</option>
+                  <option value="permits" data-i18n="finances.expense_permits">📋 Permits</option>
+                  <option value="carpayment" data-i18n="finances.expense_car_payment">🚗 Car Payment</option>
+                  <option value="other" data-i18n="finances.expense_other">📦 Other</option>
                 </select>
               </div>
 
-              <!-- Monto -->
+              <!-- Amount -->
               <div>
-                <label for="expenseAmount" class="block text-sm font-medium text-gray-700 mb-1">Monto ($)</label>
+                <label for="expenseAmount" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="finances.expense_amount">Amount ($)</label>
                 <input type="number" id="expenseAmount" name="expenseAmount" placeholder="0.00" step="0.01" min="0"
                   class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none"
                   required>
               </div>
 
-              <!-- Descripción -->
+              <!-- Description -->
               <div>
-                <label for="expenseDescription" class="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
-                <input type="text" id="expenseDescription" name="expenseDescription" placeholder="Descripción del gasto"
+                <label for="expenseDescription" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="finances.expense_description">Description</label>
+                <input type="text" id="expenseDescription" name="expenseDescription" placeholder="Expense description"
                   class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
               </div>
 
-              <!-- Deducible -->
+              <!-- Tax deductible -->
               <div class="flex items-center">
                 <input type="checkbox" id="expenseDeductible" name="expenseDeductible" class="mr-2">
-                <label for="expenseDeductible" class="text-sm text-gray-600">Este gasto es deducible</label>
+                <label for="expenseDeductible" class="text-sm text-gray-600" data-i18n="finances.expense_deductible">Tax deductible</label>
               </div>
 
             </div>
@@ -1738,12 +1764,12 @@
           <!-- Modal Footer -->
           <div class="border-t border-gray-200 px-6 py-4 flex flex-col sm:flex-row gap-3 sm:justify-end">
             <button type="button" onclick="closeExpenseModal()"
-              class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 order-2 sm:order-1">
-              Cancelar
+              class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 order-2 sm:order-1" data-i18n="common.cancel">
+              Cancel
             </button>
             <button type="button" onclick="saveExpenseToFirebase()"
-              class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 order-1 sm:order-2">
-              💾 Guardar Gasto
+              class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 order-1 sm:order-2" data-i18n="finances.btn_save_expense">
+              💾 Save Expense
             </button>
           </div>
 
@@ -1755,8 +1781,8 @@
       <section id="zones" class="tab-content hidden">
         <div class="w-full px-3 md:px-6 py-4 md:py-6 space-y-4 md:space-y-8">
           <div class="section-header text-center">
-            <h2 class="font-bold mb-4">🗺️ Zonas / Heatmap</h2>
-            <p class="subtitle">Analiza la rentabilidad por estado con mapa interactivo</p>
+            <h2 class="font-bold mb-4" data-i18n="zones.title">🗺️ Zones / Heatmap</h2>
+            <p class="subtitle" data-i18n="zones.subtitle">Analyze profitability by state with an interactive map</p>
           </div>
 
           <!-- Map placeholder -->
@@ -1764,14 +1790,14 @@
             <div class="flex-1 bg-gray-100 border rounded p-8 text-center">
               <object id="interactiveMap" data="usa_states_ids_fixed_by_title.svg" type="image/svg+xml"
                 class="w-full h-80">
-                <p class="text-gray-600">🗺️ Mapa SVG no disponible</p>
+                <p class="text-gray-600" data-i18n="zones.map_svg_unavailable">🗺️ SVG Map unavailable</p>
               </object>
             </div>
 
             <div class="w-full lg:w-[300px] bg-gray-50 border border-gray-200 rounded-lg shadow p-4">
-              <h3 class="text-lg font-semibold text-gray-900 mb-4">ℹ️ Información del Estado</h3>
+              <h3 class="text-lg font-semibold text-gray-900 mb-4" data-i18n="zones.state_info_title">ℹ️ State Info</h3>
               <div class="text-center text-gray-500">
-                <p class="text-sm">Pasa el cursor sobre un estado</p>
+                <p class="text-sm" data-i18n="zones.state_info_hover">Hover over a state to see details</p>
               </div>
             </div>
           </div>
@@ -1781,22 +1807,22 @@
             <div class="flex items-center p-3 bg-red-50 border border-red-200 rounded-lg">
               <div class="w-4 h-4 bg-red-600 rounded-full mr-3"></div>
               <div>
-                <p class="font-medium text-red-800">Zona roja</p>
-                <p class="text-sm text-red-600">Menor a $0.75 RPM</p>
+                <p class="font-medium text-red-800" data-i18n="zones.zone_red_label">Red Zone</p>
+                <p class="text-sm text-red-600" data-i18n="zones.zone_red_desc">Below $0.75 RPM</p>
               </div>
             </div>
             <div class="flex items-center p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
               <div class="w-4 h-4 bg-yellow-400 rounded-full mr-3"></div>
               <div>
-                <p class="font-medium text-yellow-800">Zona amarilla</p>
-                <p class="text-sm text-yellow-600">Entre $0.75 – $1.05 RPM</p>
+                <p class="font-medium text-yellow-800" data-i18n="zones.zone_yellow_label">Yellow Zone</p>
+                <p class="text-sm text-yellow-600" data-i18n="zones.zone_yellow_desc">Between $0.75 – $1.05 RPM</p>
               </div>
             </div>
             <div class="flex items-center p-3 bg-green-50 border border-green-200 rounded-lg">
               <div class="w-4 h-4 bg-green-600 rounded-full mr-3"></div>
               <div>
-                <p class="font-medium text-green-800">Zona verde</p>
-                <p class="text-sm text-green-600">Mayor a $1.05 RPM</p>
+                <p class="font-medium text-green-800" data-i18n="zones.zone_green_label">Green Zone</p>
+                <p class="text-sm text-green-600" data-i18n="zones.zone_green_desc">Above $1.05 RPM</p>
               </div>
             </div>
           </div>
@@ -1804,11 +1830,11 @@
           <!-- Zones table -->
           <div class="card-section">
             <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-2 mb-4">
-              <h3 class="text-lg font-semibold">📍 Tabla de zonas por estado</h3>
+              <h3 class="text-lg font-semibold" data-i18n="zones.table_title">📍 State Zone Table</h3>
               <button onclick="printZonesReport()"
                 class="px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 transition w-full md:w-auto justify-center"
                 style="background:#fb923c;color:#07050a;">
-                📊 Imprimir Reporte
+                <span data-i18n="zones.btn_print_report">📊 Print Report</span>
               </button>
             </div>
             <!-- Contenedor con altura máxima y scroll (responsive) -->
@@ -1818,28 +1844,28 @@
                   <tr>
                     <th class="p-3 text-left cursor-pointer hover:bg-gray-200 transition select-none"
                       onclick="sortZonesBy('state')">
-                      Estado <span id="sort-state" class="ml-1 text-gray-400">↕</span>
+                      <span data-i18n="zones.col_state">State</span> <span id="sort-state" class="ml-1 text-gray-400">↕</span>
                     </th>
-                    <th class="p-3 text-left">Zona</th>
+                    <th class="p-3 text-left" data-i18n="zones.col_zone">Zone</th>
                     <th class="p-3 text-left cursor-pointer hover:bg-gray-200 transition select-none"
                       onclick="sortZonesBy('count')">
-                      Cargas <span id="sort-count" class="ml-1 text-gray-400">↕</span>
+                      <span data-i18n="zones.col_loads">Loads</span> <span id="sort-count" class="ml-1 text-gray-400">↕</span>
                     </th>
                     <th class="p-3 text-left cursor-pointer hover:bg-gray-200 transition select-none"
                       onclick="sortZonesBy('avgRpm')">
-                      RPM <span id="sort-avgRpm" class="ml-1 text-gray-400">↕</span>
+                      <span data-i18n="zones.col_rpm">RPM</span> <span id="sort-avgRpm" class="ml-1 text-gray-400">↕</span>
                     </th>
                     <th class="p-3 text-left cursor-pointer hover:bg-gray-200 transition select-none"
                       onclick="sortZonesBy('profit')">
-                      Ganancia <span id="sort-profit" class="ml-1 text-gray-400">↕</span>
+                      <span data-i18n="zones.col_profit">Profit</span> <span id="sort-profit" class="ml-1 text-gray-400">↕</span>
                     </th>
-                    <th class="p-3 text-left">Rendimiento</th>
+                    <th class="p-3 text-left" data-i18n="zones.col_performance">Performance</th>
                   </tr>
                 </thead>
                 <tbody id="zoneDataBody">
                   <tr>
-                    <td colspan="6" class="p-4 text-center text-gray-500">
-                      Sin datos disponibles. ¡Crea algunas cargas para ver el análisis de zonas!
+                    <td colspan="6" class="p-4 text-center text-gray-500" data-i18n="zones.no_data">
+                      No data available. Create some loads to see zone analysis!
                     </td>
                   </tr>
                 </tbody>
@@ -1849,9 +1875,8 @@
 
           <!-- 🆕 MAPA DE CIUDADES CON GOOGLE MAPS -->
           <div class="card-section mt-8">
-            <h3 class="text-lg font-semibold mb-4">🌎 Mapa de Ciudades de Destino</h3>
-            <p class="text-sm text-gray-600 mb-4">Visualiza todas las ciudades donde has entregado cargas, con
-              marcadores de color según RPM</p>
+            <h3 class="text-lg font-semibold mb-4" data-i18n="zones.cities_map_title">🌎 Destination Cities Map</h3>
+            <p class="text-sm text-gray-600 mb-4" data-i18n="zones.cities_map_subtitle">Visualize all cities where you've delivered loads, with color markers by RPM</p>
 
             <!-- Contenedor del mapa -->
             <div id="citiesMapContainer" class="mb-4">
@@ -1863,29 +1888,29 @@
               <div class="flex items-center p-3 bg-green-50 border border-green-200 rounded-lg">
                 <div class="w-4 h-4 bg-green-600 rounded-full mr-3"></div>
                 <div>
-                  <p class="font-medium text-green-800">Alta rentabilidad</p>
-                  <p class="text-sm text-green-600">RPM > $1.05</p>
+                  <p class="font-medium text-green-800" data-i18n="zones.cities_high_profit">High Profitability</p>
+                  <p class="text-sm text-green-600">RPM &gt; $1.05</p>
                 </div>
               </div>
               <div class="flex items-center p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
                 <div class="w-4 h-4 bg-yellow-500 rounded-full mr-3"></div>
                 <div>
-                  <p class="font-medium text-yellow-800">Rentabilidad media</p>
+                  <p class="font-medium text-yellow-800" data-i18n="zones.cities_med_profit">Medium Profitability</p>
                   <p class="text-sm text-yellow-600">$0.75 - $1.05 RPM</p>
                 </div>
               </div>
               <div class="flex items-center p-3 bg-red-50 border border-red-200 rounded-lg">
                 <div class="w-4 h-4 bg-red-600 rounded-full mr-3"></div>
                 <div>
-                  <p class="font-medium text-red-800">Baja rentabilidad</p>
-                  <p class="text-sm text-red-600">RPM < $0.75</p>
+                  <p class="font-medium text-red-800" data-i18n="zones.cities_low_profit">Low Profitability</p>
+                  <p class="text-sm text-red-600">RPM &lt; $0.75</p>
                 </div>
               </div>
             </div>
 
             <!-- Tabla de top ciudades -->
             <div>
-              <h4 class="text-md font-semibold mb-2">🧮 Top Ciudades por Cargas</h4>
+              <h4 class="text-md font-semibold mb-2" data-i18n="zones.cities_table_title">🧮 Top Cities by Loads</h4>
               <!-- Contenedor con altura máxima y scroll (responsive) -->
               <div class="overflow-x-auto overflow-y-auto border border-gray-300 rounded-lg" style="max-height: 350px;">
                 <table class="min-w-full text-xs md:text-sm">
@@ -1894,26 +1919,26 @@
                       <th class="p-3 text-left w-10">#</th>
                       <th class="p-3 text-left cursor-pointer hover:bg-gray-200 transition select-none"
                         onclick="sortCitiesBy('city')">
-                        Ciudad <span id="sort-city-city" class="ml-1 text-gray-400">↕</span>
+                        <span data-i18n="zones.col_city">City</span> <span id="sort-city-city" class="ml-1 text-gray-400">↕</span>
                       </th>
                       <th class="p-3 text-center cursor-pointer hover:bg-gray-200 transition select-none"
                         onclick="sortCitiesBy('count')">
-                        Cargas <span id="sort-city-count" class="ml-1 text-blue-600 font-bold">↓</span>
+                        <span data-i18n="zones.col_loads">Loads</span> <span id="sort-city-count" class="ml-1 text-blue-600 font-bold">↓</span>
                       </th>
                       <th class="p-3 text-center cursor-pointer hover:bg-gray-200 transition select-none"
                         onclick="sortCitiesBy('avgRPM')">
-                        RPM <span id="sort-city-avgRPM" class="ml-1 text-gray-400">↕</span>
+                        <span data-i18n="zones.col_rpm">RPM</span> <span id="sort-city-avgRPM" class="ml-1 text-gray-400">↕</span>
                       </th>
                       <th class="p-3 text-center cursor-pointer hover:bg-gray-200 transition select-none"
                         onclick="sortCitiesBy('totalProfit')">
-                        Ganancia <span id="sort-city-totalProfit" class="ml-1 text-gray-400">↕</span>
+                        <span data-i18n="zones.col_profit">Profit</span> <span id="sort-city-totalProfit" class="ml-1 text-gray-400">↕</span>
                       </th>
                     </tr>
                   </thead>
                   <tbody id="citiesTableBody">
                     <tr>
-                      <td colspan="4" class="p-4 text-center text-gray-500">
-                        Cargando datos de ciudades...
+                      <td colspan="4" class="p-4 text-center text-gray-500" data-i18n="zones.cities_loading">
+                        Loading city data...
                       </td>
                     </tr>
                   </tbody>
@@ -1925,26 +1950,28 @@
           <!-- NOTAS DE MERCADO -->
           <div class="card-section mt-6">
             <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-2 mb-4">
-              <h3 class="text-lg font-semibold">📝 Notas de Mercado</h3>
+              <h3 class="text-lg font-semibold" data-i18n="zones.market_notes_title">📝 Market Notes</h3>
             </div>
 
             <!-- Formulario para agregar nota -->
             <div class="flex flex-col gap-3 w-full">
-              <input id="noteZoneInput" type="text" placeholder="Ciudad o estado (ej: Atlanta, GA)"
+              <input id="noteZoneInput" type="text" data-i18n-placeholder="zones.note_placeholder_zone"
+                placeholder="City or state (e.g. Atlanta, GA)"
                 class="w-full border border-gray-600 bg-gray-800 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
               <select id="noteZoneType"
                 class="w-full md:w-48 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none">
-                <option value="destino">Como Destino</option>
-                <option value="origen">Como Origen</option>
-                <option value="ambos">Ambos</option>
+                <option value="destino" data-i18n="zones.note_type_destination">As Destination</option>
+                <option value="origen" data-i18n="zones.note_type_origin">As Origin</option>
+                <option value="ambos" data-i18n="zones.note_type_both">Both</option>
               </select>
             </div>
-            <textarea id="noteZoneText" rows="2" placeholder="Escribe tu nota de mercado..."
+            <textarea id="noteZoneText" rows="2" data-i18n-placeholder="zones.note_placeholder_text"
+              placeholder="Write your market note..."
               class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
             <button onclick="saveMarketNote()"
-              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition">
-              💾 Guardar Nota
-            </button>
+              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+              data-i18n="zones.btn_save_note">
+              💾 Save Note
             </button>
           </div>
 
@@ -1954,47 +1981,52 @@
             <div class="flex flex-col md:flex-row gap-3">
               <div class="relative flex-1">
                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center market-filter-icon">🔍</span>
-                <input type="text" id="marketNotesSearch" placeholder="Buscar ciudad, estado o palabra clave..."
+                <input type="text" id="marketNotesSearch" data-i18n-placeholder="zones.search_placeholder"
+                  placeholder="Search city, state or keyword..."
                   class="w-full pl-9 pr-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6D4A] border market-filter-input"
                   oninput="renderMarketNotes()" />
               </div>
               <select id="marketNotesStateFilter"
                 class="w-full md:w-36 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF6D4A] border market-filter-input"
                 onchange="renderMarketNotes()">
-                <option value="ALL">Todos los Estados</option>
+                <option value="ALL" data-i18n="zones.filter_all_states">All States</option>
               </select>
             </div>
 
             <!-- Píldoras de Tipo -->
             <div class="flex flex-wrap gap-2 items-center text-sm">
-              <span class="font-medium mr-1 market-filter-label">Filtrar:</span>
+              <span class="font-medium mr-1 market-filter-label" data-i18n="zones.filter_label">Filter:</span>
               <button type="button" onclick="setMarketNotesTypeFilter('ALL')" id="btnNotesType-ALL"
                 class="px-3 py-1 rounded-full text-white font-medium transition-colors leading-none market-filter-pill-active"
-                style="background-color: #FF6D4A;">Todas</button>
+                style="background-color: #FF6D4A;" data-i18n="zones.filter_all">All</button>
               <button type="button" onclick="setMarketNotesTypeFilter('origen')" id="btnNotesType-origen"
-                class="px-3 py-1 rounded-full font-medium transition-colors leading-none market-filter-pill">Origen</button>
+                class="px-3 py-1 rounded-full font-medium transition-colors leading-none market-filter-pill"
+                data-i18n="zones.filter_origin">Origin</button>
               <button type="button" onclick="setMarketNotesTypeFilter('destino')" id="btnNotesType-destino"
-                class="px-3 py-1 rounded-full font-medium transition-colors leading-none market-filter-pill">Destino</button>
+                class="px-3 py-1 rounded-full font-medium transition-colors leading-none market-filter-pill"
+                data-i18n="zones.filter_destination">Destination</button>
               <button type="button" onclick="setMarketNotesTypeFilter('ambos')" id="btnNotesType-ambos"
-                class="px-3 py-1 rounded-full font-medium transition-colors leading-none market-filter-pill">Ambos</button>
+                class="px-3 py-1 rounded-full font-medium transition-colors leading-none market-filter-pill"
+                data-i18n="zones.filter_both">Both</button>
             </div>
           </div>
 
           <!-- Lista de notas guardadas (Con Scroll max-height) -->
           <div id="marketNotesList" class="space-y-2 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
-            <p class="text-sm text-gray-500 text-center py-4">Cargando notas...</p>
+            <p class="text-sm text-gray-500 text-center py-4" data-i18n="zones.notes_loading">Loading notes...</p>
           </div>
         </div>
 
   </div>
   </section>
 
+
   <!-- Settings Tab -->
   <section id="settings" class="tab-content hidden">
     <div class="w-full px-3 md:px-6 py-4 md:py-6 space-y-4 md:space-y-8">
       <div class="section-header text-center">
-        <h2 class="font-bold mb-4">⚙️ Configuración de Tu Negocio</h2>
-        <p class="subtitle">Personaliza la app según tu tipo de operación y costos reales</p>
+        <h2 class="font-bold mb-4" data-i18n="settings.title">⚙️ Settings</h2>
+        <p class="subtitle" data-i18n="settings.subtitle">Configure your costs and preferences</p>
 
         <!-- Mensaje de confirmación -->
         <div id="configMessage" class="config-message" style="display: none;"></div>
@@ -2006,11 +2038,11 @@
             <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-2 md:gap-4">
               <div>
                 <h3 class="text-white font-bold text-sm md:text-lg mb-0.5">👑 Admin Panel</h3>
-                <p class="text-purple-100 text-xs md:text-sm">Gestiona usuarios y sistema</p>
+                <p class="text-purple-100 text-xs md:text-sm" data-i18n="settings.admin_description">Manage users and system</p>
               </div>
               <button onclick="showAdminPanel()"
                 class="bg-white text-purple-600 font-semibold px-3 py-1.5 md:px-6 md:py-3 rounded-lg hover:bg-gray-100 transition text-xs md:text-base w-full md:w-auto">
-                Abrir
+                <span data-i18n="settings.admin_btn_open">Open</span>
               </button>
             </div>
           </div>
@@ -2032,25 +2064,38 @@
         </script>
         <!-- 0. MI PLAN -->
         <div class="card-section">
-          <h3 class="text-lg font-semibold mb-4">👑 Mi Plan</h3>
+          <h3 class="text-lg font-semibold mb-4" data-i18n="account.section_plan">👑 My Plan</h3>
           <div id="planInfoSection">
             <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               <div>
                 <div class="flex items-center gap-3 mb-2">
-                  <span id="planBadge" class="text-xs font-bold px-3 py-1 rounded-full" style="background:rgba(0,217,255,0.15);border:1px solid rgba(0,217,255,0.4);color:#00D9FF;">Cargando...</span>
-                  <span id="planStatusBadge" class="text-xs font-semibold px-2 py-1 rounded-full hidden" style="background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);color:#22c55e;">Activo</span>
+                  <span id="planBadge" class="text-xs font-bold px-3 py-1 rounded-full"
+                    style="background:rgba(0,217,255,0.15);border:1px solid rgba(0,217,255,0.4);color:#00D9FF;">Loading...</span>
+                  <span id="planStatusBadge" class="text-xs font-semibold px-2 py-1 rounded-full hidden"
+                    style="background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);color:#22c55e;" data-i18n="account.plan_active">Active</span>
                 </div>
                 <p id="planDescription" class="text-sm text-gray-500">—</p>
               </div>
               <div class="flex gap-3 flex-wrap">
-                <a href="/plans.html" id="upgradePlanLink" class="hidden text-sm font-semibold px-4 py-2 rounded-lg transition" style="background:#FF6B35;color:#ffffff !important;text-shadow:0 1px 2px rgba(0,0,0,0.4);box-shadow:0 2px 8px rgba(255,107,53,0.5);">
-                  Mejorar Plan →
+                <a href="/plans.html" id="upgradePlanLink"
+                  class="hidden text-sm font-semibold px-4 py-2 rounded-lg transition"
+                  style="background:#FF6B35;color:#ffffff !important;text-shadow:0 1px 2px rgba(0,0,0,0.4);box-shadow:0 2px 8px rgba(255,107,53,0.5);"
+                  data-i18n="account.btn_upgrade">
+                  Upgrade Plan →
                 </a>
-                <button id="upgradeToPremiumBtn" onclick="window.StripeIntegration && window.StripeIntegration.upgradeSubscription('premium')" class="hidden text-sm font-semibold px-4 py-2 rounded-lg transition" style="background:#FF6B35;color:#ffffff !important;text-shadow:0 1px 2px rgba(0,0,0,0.4);box-shadow:0 2px 8px rgba(255,107,53,0.5);">
-                  ⬆️ Upgrade a Premium
+                <button id="upgradeToPremiumBtn"
+                  onclick="window.StripeIntegration && window.StripeIntegration.upgradeSubscription('premium')"
+                  class="hidden text-sm font-semibold px-4 py-2 rounded-lg transition"
+                  style="background:#FF6B35;color:#ffffff !important;text-shadow:0 1px 2px rgba(0,0,0,0.4);box-shadow:0 2px 8px rgba(255,107,53,0.5);"
+                  data-i18n="account.btn_upgrade_premium">
+                  ⬆️ Upgrade to Premium
                 </button>
-                <button id="manageBillingBtn" onclick="window.StripeIntegration && window.StripeIntegration.openBillingPortal()" class="hidden text-sm font-semibold px-4 py-2 rounded-lg transition" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#fff;">
-                  Gestionar Suscripción
+                <button id="manageBillingBtn"
+                  onclick="window.StripeIntegration && window.StripeIntegration.openBillingPortal()"
+                  class="hidden text-sm font-semibold px-4 py-2 rounded-lg transition"
+                  style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#fff;"
+                  data-i18n="account.btn_manage_billing">
+                  Manage Subscription
                 </button>
               </div>
             </div>
@@ -2059,12 +2104,12 @@
 
         <!-- 1. PERFIL DE OPERACION -->
         <div class="card-section">
-          <h3 class="text-lg font-semibold mb-4">🚛 Perfil de Operación</h3>
+          <h3 class="text-lg font-semibold mb-4" data-i18n="settings.section_profile">👤 Operator Profile</h3>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <label for="vehicleType" class="block text-sm font-medium text-gray-700 mb-2">
-                Tipo de Vehículo
+                Vehicle Type
               </label>
               <select id="vehicleType" name="vehicleType" onchange="loadVehicleTemplate(this.value)"
                 class="border p-3 w-full rounded-lg">
@@ -2072,24 +2117,24 @@
                 <option value="boxtruck">Box Truck</option>
                 <option value="semi">Semi Trailer</option>
                 <option value="hotshot">Hotshot Pickup</option>
-                <option value="custom">Otro (Personalizado)</option>
+                <option value="custom">Custom</option>
               </select>
-              <input type="text" id="customVehicleType" name="customVehicleType" placeholder="Ingresa tipo de vehículo"
+              <input type="text" id="customVehicleType" name="customVehicleType" placeholder="Enter vehicle type"
                 class="hidden border p-3 w-full rounded-lg mt-2" />
-              <p class="text-xs text-gray-500 mt-1">Carga plantilla de costos típicos</p>
+              <p class="text-xs text-gray-500 mt-1">Loads typical cost template</p>
             </div>
 
             <div>
               <label for="businessName" class="block text-sm font-medium text-gray-700 mb-2">
-                Nombre del Negocio
+                Business Name
               </label>
-              <input type="text" id="businessName" name="businessName" placeholder="Tu empresa LLC"
+              <input type="text" id="businessName" name="businessName" placeholder="Your LLC"
                 class="border p-3 w-full rounded-lg">
             </div>
 
             <div>
               <label for="operatingState" class="block text-sm font-medium text-gray-700 mb-2">
-                Estado Base
+                Home State
               </label>
               <select id="operatingState" name="operatingState" class="border p-3 w-full rounded-lg">
                 <option value="AL">Alabama</option>
@@ -2149,60 +2194,60 @@
 
         <!-- 2. COSTOS FIJOS MENSUALES -->
         <div class="card-section">
-          <h3 class="text-lg font-semibold mb-4">💰 Costos Fijos Mensuales</h3>
+          <h3 class="text-lg font-semibold mb-4" data-i18n="settings.section_costs">💰 Operating Costs</h3>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-4">
               <div>
-                <label for="vehiclePayment" class="block text-sm font-medium text-gray-700 mb-2">
-                  Pago del Vehículo
+                <label for="vehiclePayment" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="finances.expense_car_payment">
+                  🚗 Car Payment
                 </label>
                 <input type="number" id="vehiclePayment" name="vehiclePayment" step="1" value="800"
                   oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
               </div>
 
               <div>
-                <label for="insurance" class="block text-sm font-medium text-gray-700 mb-2">
-                  Seguro Mensual
+                <label for="insurance" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings.label_insurance">
+                  Insurance per Mile ($)
                 </label>
                 <input type="number" id="insurance" name="insurance" step="1" value="1250" oninput="calculateTotals()"
                   class="border p-3 w-full rounded-lg">
               </div>
 
               <div>
-                <label for="licenses" class="block text-sm font-medium text-gray-700 mb-2">
-                  Licencias/Permisos
+                <label for="licenses" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="finances.expense_permits">
+                  Permits
                 </label>
                 <input type="number" id="licenses" name="licenses" step="1" value="150" oninput="calculateTotals()"
                   class="border p-3 w-full rounded-lg">
               </div>
 
               <div>
-                <label for="otherFixed" class="block text-sm font-medium text-gray-700 mb-2">
-                  Otros Gastos Fijos
+                <label for="otherFixed" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings.label_other_costs">
+                  Other Costs per Mile ($)
                 </label>
                 <input type="number" id="otherFixed" name="otherFixed" step="1" value="200" oninput="calculateTotals()"
                   class="border p-3 w-full rounded-lg">
-                <p class="text-xs text-gray-500 mt-1">Teléfono, internet, etc.</p>
+                <p class="text-xs text-gray-500 mt-1">Phone, internet, etc.</p>
               </div>
             </div>
 
             <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h4 class="font-semibold text-blue-800 mb-3">🧮 Resumen Automático</h4>
+              <h4 class="font-semibold text-blue-800 mb-3">🧮 Auto Summary</h4>
 
               <div class="space-y-2 text-sm">
                 <div class="flex justify-between">
-                  <span>Total Fijo Mensual:</span>
+                  <span>Monthly Fixed Total:</span>
                   <span id="totalFixed" class="font-bold">$2,400</span>
                 </div>
 
                 <div class="flex justify-between">
-                  <span>Costo Fijo por Milla:</span>
+                  <span>Fixed Cost per Mile:</span>
                   <span id="fixedCostPerMile" class="font-bold text-blue-600">$0.300</span>
                 </div>
 
                 <div class="text-xs text-blue-600 mt-2">
-                  * Basado en tus millas mensuales objetivo
+                  * Based on your monthly miles target
                 </div>
               </div>
             </div>
@@ -2211,17 +2256,17 @@
 
         <!-- 3. COSTOS VARIABLES POR MILLA -->
         <div class="card-section">
-          <h3 class="text-lg font-semibold mb-4"> Costos Variables por Milla</h3>
+          <h3 class="text-lg font-semibold mb-4" data-i18n="settings.section_variable_costs">📦 Variable Costs per Mile</h3>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-4">
               <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-                <h4 class="font-semibold text-yellow-800 mb-2">Combustible</h4>
+                <h4 class="font-semibold text-yellow-800 mb-2" data-i18n="finances.expense_fuel">Fuel</h4>
 
                 <div class="grid grid-cols-2 gap-3">
                   <div>
                     <label for="fuelMPG" class="block text-xs font-medium text-gray-700 mb-1">
-                      MPG de tu vehículo
+                      MPG (your vehicle)
                     </label>
                     <input type="number" id="fuelMPG" name="fuelMPG" step="0.1" value="18" oninput="calculateFuelCost()"
                       class="border p-2 w-full rounded text-sm">
@@ -2229,7 +2274,7 @@
 
                   <div>
                     <label for="fuelPricePerGallon" class="block text-xs font-medium text-gray-700 mb-1">
-                      Precio por galón
+                      Price per gallon
                     </label>
                     <input type="number" id="fuelPricePerGallon" name="fuelPricePerGallon" step="0.01" value="3.50"
                       oninput="calculateFuelCost()" class="border p-2 w-full rounded text-sm">
@@ -2237,105 +2282,102 @@
                 </div>
 
                 <div class="mt-2 text-center">
-                  <span class="text-xs text-yellow-700">Costo calculado: </span>
+                  <span class="text-xs text-yellow-700">Calculated cost: </span>
                   <span id="calculatedFuelCost" class="font-bold text-yellow-800">$0.194/mi</span>
                 </div>
               </div>
 
               <div>
-                <label for="maintenancePerMile" class="block text-sm font-medium text-gray-700 mb-2">
-                  Mantenimiento ($/milla)
+                <label for="maintenancePerMile" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings.label_maintenance">
+                  Maintenance per Mile ($)
                 </label>
                 <input type="number" id="maintenancePerMile" name="maintenancePerMile" step="0.001" value="0.080"
                   class="border p-3 w-full rounded-lg">
                 <details class="mt-2 bg-blue-50 border border-blue-200 rounded p-2">
-                  <summary class="cursor-pointer text-sm font-medium text-blue-700">📊 Calculadora de Mantenimiento
+                  <summary class="cursor-pointer text-sm font-medium text-blue-700">📊 Maintenance Calculator
                   </summary>
                   <div class="mt-2 space-y-2">
-                    <input type="number" id="maintenanceServiceCost" placeholder="Costo por servicio ($)"
+                    <input type="number" id="maintenanceServiceCost" placeholder="Service cost ($)"
                       class="border p-2 w-full rounded text-sm">
-                    <input type="number" id="maintenanceInterval" placeholder="Intervalo (millas)"
+                    <input type="number" id="maintenanceInterval" placeholder="Interval (miles)"
                       class="border p-2 w-full rounded text-sm">
                     <button onclick="calculateMaintenanceCost()" class="px-3 py-1 rounded text-sm w-full font-semibold"
-                      style="background:#fb923c;color:#07050a;">Calcular
-                      $/mi</button>
+                      style="background:#fb923c;color:#07050a;">Calculate $/mi</button>
                   </div>
                 </details>
-                <p class="text-xs text-gray-500 mt-1">Cambios de aceite, filtros, etc.</p>
+                <p class="text-xs text-gray-500 mt-1">Oil changes, filters, etc.</p>
               </div>
 
               <div>
                 <label for="tiresPerMile" class="block text-sm font-medium text-gray-700 mb-2">
-                  Llantas ($/milla)
+                  Tires ($/mile)
                 </label>
                 <input type="number" id="tiresPerMile" name="tiresPerMile" step="0.001" value="0.060"
                   class="border p-3 w-full rounded-lg">
                 <details class="mt-2 bg-orange-50 border border-orange-200 rounded p-2">
-                  <summary class="cursor-pointer text-sm font-medium text-orange-700">🛞 Calculadora de Llantas
+                  <summary class="cursor-pointer text-sm font-medium text-orange-700">🛞 Tire Cost Calculator
                   </summary>
                   <div class="mt-2 space-y-2">
-                    <input type="number" id="tireCost" placeholder="Costo del juego de llantas ($)"
+                    <input type="number" id="tireCost" placeholder="Tire set cost ($)"
                       class="border p-2 w-full rounded text-sm">
-                    <input type="number" id="tireLifespan" placeholder="Vida útil (millas)"
+                    <input type="number" id="tireLifespan" placeholder="Lifespan (miles)"
                       class="border p-2 w-full rounded text-sm">
                     <button onclick="calculateTireCost()"
-                      class="bg-orange-600 text-white px-3 py-1 rounded text-sm w-full hover:bg-orange-700">Calcular
-                      $/mi</button>
+                      class="bg-orange-600 text-white px-3 py-1 rounded text-sm w-full hover:bg-orange-700">Calculate $/mi</button>
                   </div>
                 </details>
-                <p class="text-xs text-gray-500 mt-1">Promedio de vida útil</p>
+                <p class="text-xs text-gray-500 mt-1">Average useful life</p>
               </div>
 
               <div>
                 <label for="repairsPerMile" class="block text-sm font-medium text-gray-700 mb-2">
-                  Reparaciones ($/milla)
+                  Repairs ($/mile)
                 </label>
                 <input type="number" id="repairsPerMile" name="repairsPerMile" step="0.001" value="0.040"
                   class="border p-3 w-full rounded-lg">
                 <details class="mt-2 bg-red-50 border border-red-200 rounded p-2">
-                  <summary class="cursor-pointer text-sm font-medium text-red-700">🔧 Calculadora de Reparaciones
+                  <summary class="cursor-pointer text-sm font-medium text-red-700">🔧 Repair Cost Calculator
                   </summary>
                   <div class="mt-2 space-y-2">
                     <select id="repairPeriod" class="border p-2 w-full rounded text-sm">
-                      <option value="monthly">Reserva Mensual</option>
-                      <option value="annual">Reserva Anual</option>
+                      <option value="monthly">Monthly Reserve</option>
+                      <option value="annual">Annual Reserve</option>
                     </select>
-                    <input type="number" id="repairReserve" placeholder="Monto de reserva ($)"
+                    <input type="number" id="repairReserve" placeholder="Reserve amount ($)"
                       class="border p-2 w-full rounded text-sm">
                     <button onclick="calculateRepairCost()"
-                      class="bg-red-600 text-white px-3 py-1 rounded text-sm w-full hover:bg-red-700">Calcular
-                      $/mi</button>
+                      class="bg-red-600 text-white px-3 py-1 rounded text-sm w-full hover:bg-red-700">Calculate $/mi</button>
                   </div>
                 </details>
-                <p class="text-xs text-gray-500 mt-1">Emergencias y averías</p>
+                <p class="text-xs text-gray-500 mt-1">Emergencies and breakdowns</p>
               </div>
             </div>
 
             <div class="bg-green-50 border border-green-200 rounded-lg p-4">
-              <h4 class="font-semibold text-green-800 mb-3">🎯 Configuración de Costos</h4>
+              <h4 class="font-semibold text-green-800 mb-3">🎯 Cost Configuration</h4>
 
               <div class="space-y-3">
                 <div class="flex items-center">
                   <input type="checkbox" id="useRealCosts" name="useRealCosts" checked class="mr-3">
                   <label for="useRealCosts" class="text-sm font-medium text-gray-700">
-                    Usar costos reales calculados
+                    Use calculated real costs
                   </label>
                 </div>
 
                 <div>
                   <label for="realCostsPeriod" class="block text-sm font-medium text-gray-700 mb-2">
-                    Período para cálculo automático
+                    Period for auto calculation
                   </label>
                   <select id="realCostsPeriod" name="realCostsPeriod" class="border p-2 w-full rounded text-sm">
-                    <option value="1">Ultimo mes</option>
-                    <option value="3" selected>Ultimos 3 meses</option>
-                    <option value="6">Ultimos 6 meses</option>
-                    <option value="12">Ultimo año</option>
+                    <option value="1">Last month</option>
+                    <option value="3" selected>Last 3 months</option>
+                    <option value="6">Last 6 months</option>
+                    <option value="12">Last year</option>
                   </select>
                 </div>
 
                 <div class="text-xs text-green-600 mt-2">
-                  Cuando está activado, la app calcula tus costos reales basados en tus viajes y gastos registrados.
+                  When enabled, the app calculates your real costs based on your logged trips and expenses.
                 </div>
               </div>
             </div>
@@ -2344,60 +2386,63 @@
 
         <!-- 4. METAS DE NEGOCIO -->
         <div class="card-section">
-          <h3 class="text-lg font-semibold mb-4">🎯 Metas de Negocio</h3>
+          <h3 class="text-lg font-semibold mb-4" data-i18n="settings.section_preferences">🎯 Preferences</h3>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <label for="targetRPM" class="block text-sm font-medium text-gray-700 mb-2">
-                RPM Mínimo Objetivo
+              <label for="targetRPM" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings.label_min_rpm">
+                Minimum RPM ($)
               </label>
               <input type="number" id="targetRPM" name="targetRPM" step="0.01" value="1.25"
                 class="border p-3 w-full rounded-lg">
-              <p class="text-xs text-gray-500 mt-1">Tarifa mínima que aceptas</p>
+              <p class="text-xs text-gray-500 mt-1">Minimum rate you accept</p>
             </div>
 
             <div>
-              <label for="monthlyMilesGoal" class="block text-sm font-medium text-gray-700 mb-2">
-                Millas Mensuales Objetivo
+              <label for="monthlyMilesGoal" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings.label_miles_per_month">
+                Miles per Month
               </label>
               <input type="number" id="monthlyMilesGoal" name="monthlyMilesGoal" step="100" value="8000"
                 oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
-              <p class="text-xs text-gray-500 mt-1">Meta de millas por mes</p>
+              <p class="text-xs text-gray-500 mt-1">Monthly miles goal</p>
             </div>
 
             <div>
-              <label for="targetProfit" class="block text-sm font-medium text-gray-700 mb-2">
-                Margen de Ganancia (%)
+              <label for="targetProfit" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings.label_target_profit">
+                Target Profit Margin (%)
               </label>
               <input type="number" id="targetProfit" name="targetProfit" step="1" value="30" min="0" max="100"
                 class="border p-3 w-full rounded-lg">
-              <p class="text-xs text-gray-500 mt-1">Ganancia neta objetivo</p>
+              <p class="text-xs text-gray-500 mt-1">Net profit target</p>
             </div>
           </div>
         </div>
 
-        <!-- 5. BOTONES DE ACCIÃ“N -->
+        <!-- 5. BOTONES DE ACCIÓN -->
         <div class="card-section">
           <div class="flex flex-col md:flex-row gap-4 justify-center">
             <button onclick="saveUserConfiguration()" class="px-6 py-3 rounded-lg font-semibold"
-              style="background:#fb923c;color:#07050a;">
-              💾 Guardar Configuración
+              style="background:#fb923c;color:#07050a;"
+              data-i18n="settings.btn_save_settings">
+              💾 Save Settings
             </button>
 
             <button onclick="loadUserConfiguration()"
-              class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 font-semibold">
-              🔄 Recargar Guardada
+              class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 font-semibold"
+              data-i18n="settings.btn_reload_saved">
+              🔄 Reload Saved
             </button>
 
             <button onclick="loadVehicleTemplate(document.getElementById('vehicleType').value)"
-              class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-semibold">
-              🚛 Aplicar Plantilla
+              class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-semibold"
+              data-i18n="settings.btn_apply_template">
+              🚛 Apply Template
             </button>
           </div>
 
           <div class="text-center mt-4">
-            <p class="text-sm text-gray-600">
-              Tu configuración se guarda automáticamente y se sincroniza entre dispositivos
+            <p class="text-sm text-gray-600" data-i18n="settings.config_sync_note">
+              Your configuration is saved automatically and synced across devices
             </p>
           </div>
         </div>
@@ -2416,7 +2461,7 @@
         <!-- Header -->
         <div class="text-white p-4 flex justify-between items-center"
           style="background:linear-gradient(135deg,#1a0a05 0%,#2d1408 100%);border-bottom:1px solid rgba(251,146,60,0.3);">
-          <h3 class="text-lg font-bold flex items-center gap-2">
+          <h3 class="text-lg font-bold flex items-center gap-2" data-i18n="settings.month_picker_title">
             📅 Seleccionar Mes
           </h3>
           <button onclick="closeMonthPicker()"
@@ -2427,15 +2472,16 @@
         <div id="monthPickerGrid" class="p-4 overflow-y-auto" style="max-height: 60vh;">
           <div class="grid grid-cols-1 gap-2" id="monthButtonsContainer">
             <!-- Los meses se generarán dinámicamente -->
-            <div class="text-center text-gray-500 py-4">Cargando meses...</div>
+            <div class="text-center text-gray-500 py-4" data-i18n="settings.month_picker_loading">Loading months...</div>
           </div>
         </div>
 
         <!-- Footer con botón Cancelar -->
         <div class="border-t p-4" style="background-color: #f8fafc;">
           <button onclick="closeMonthPicker()" class="w-full py-3 font-semibold rounded-xl transition"
-            style="background-color: #e5e7eb !important; color: #374151 !important; -webkit-text-fill-color: #374151 !important;">
-            ❌ Cancelar
+            style="background-color: #e5e7eb !important; color: #374151 !important; -webkit-text-fill-color: #374151 !important;"
+            data-i18n="settings.btn_cancel">
+            ❌ Cancel
           </button>
         </div>
 
@@ -2462,7 +2508,7 @@
 
       <!-- Header fijo -->
       <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between flex-none">
-        <h3 class="text-lg font-semibold text-gray-900">✏️ Editar Carga</h3>
+        <h3 class="text-lg font-semibold text-gray-900" data-i18n="edit_modal.title">✏️ Edit Load</h3>
         <button type="button" onclick="closeEditModal()" class="text-gray-400 hover:text-gray-600">
           <span class="text-2xl">&times;</span>
         </button>
@@ -2472,125 +2518,126 @@
       <div class="px-6 py-4 overflow-y-auto flex-1" style="max-height:65vh;">
         <div class="space-y-4">
 
-          <!-- Información básica -->
+          <!-- Basic info -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label for="editDate" class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
+              <label for="editDate" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="edit_modal.label_date">Date</label>
               <input type="date" id="editDate" name="editDate"
                 class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none"
                 required>
             </div>
             <div>
-              <label for="editLoadNumber" class="block text-sm font-medium text-gray-700 mb-1">Número de Carga</label>
-              <input type="text" id="editLoadNumber" name="editLoadNumber" placeholder="Número de carga"
+              <label for="editLoadNumber" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="edit_modal.label_load_num">Load Number</label>
+              <input type="text" id="editLoadNumber" name="editLoadNumber" placeholder="Load number"
+                data-i18n="edit_modal.ph_load_num"
                 class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
             </div>
           </div>
 
-          <!-- Origen y Destino -->
+          <!-- Origin & Destination -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label for="editOrigin" class="block text-sm font-medium text-gray-700 mb-1">Origen *</label>
+              <label for="editOrigin" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="edit_modal.label_origin">Origin</label>
               <input type="text" id="editOrigin" name="editOrigin" placeholder="Miami, FL"
                 class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none"
                 required>
             </div>
             <div>
-              <label for="editDestination" class="block text-sm font-medium text-gray-700 mb-1">Destino *</label>
+              <label for="editDestination" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="edit_modal.label_destination">Destination</label>
               <input type="text" id="editDestination" name="editDestination" placeholder="Atlanta, GA"
                 class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none"
                 required>
             </div>
           </div>
 
-          <!-- Millas -->
+          <!-- Miles -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label for="editLoadedMiles" class="block text-sm font-medium text-gray-700 mb-1">Millas Cargadas
-                *</label>
+              <label for="editLoadedMiles" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="edit_modal.label_loaded_miles">Loaded Miles</label>
               <input type="number" id="editLoadedMiles" name="editLoadedMiles" placeholder="600" min="0" required
                 class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
             </div>
             <div>
-              <label for="editDeadheadMiles" class="block text-sm font-medium text-gray-700 mb-1">Millas
-                Vacías</label>
+              <label for="editDeadheadMiles" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="edit_modal.label_deadhead_miles">Deadhead Miles</label>
               <input type="number" id="editDeadheadMiles" name="editDeadheadMiles" placeholder="25" min="0"
                 class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
             </div>
             <div>
-              <label for="editTotalMiles" class="block text-sm font-medium text-gray-700 mb-1">Total Millas</label>
+              <label for="editTotalMiles" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="edit_modal.label_total_miles">Total Miles</label>
               <input type="number" id="editTotalMiles" name="editTotalMiles" readonly
                 class="border border-gray-200 rounded px-3 py-2 w-full bg-gray-50 text-gray-600">
             </div>
           </div>
 
-          <!-- Información financiera -->
+          <!-- Financial info -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label for="editRpm" class="block text-sm font-medium text-gray-700 mb-1">RPM ($/milla) *</label>
+              <label for="editRpm" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="edit_modal.label_rpm">RPM ($/mile)</label>
               <input type="number" id="editRpm" name="editRpm" placeholder="1.25" step="0.01" min="0" required
                 class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
             </div>
             <div>
-              <label for="editTotalCharge" class="block text-sm font-medium text-gray-700 mb-1">Total a Cobrar</label>
+              <label for="editTotalCharge" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="edit_modal.label_total_charge">Total Rate</label>
               <input type="number" id="editTotalCharge" name="editTotalCharge" step="0.01" min="0"
                 class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
             </div>
           </div>
 
-          <!-- Costos adicionales -->
+          <!-- Additional costs -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label for="editTolls" class="block text-sm font-medium text-gray-700 mb-1">Peajes ($)</label>
+              <label for="editTolls" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="edit_modal.label_tolls">Tolls ($)</label>
               <input type="number" id="editTolls" name="editTolls" placeholder="25.00" step="0.01" min="0"
                 class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
             </div>
             <div>
-              <label for="editOtherCosts" class="block text-sm font-medium text-gray-700 mb-1">Otros Costos
-                ($)</label>
+              <label for="editOtherCosts" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="edit_modal.label_other_costs">Other Costs ($)</label>
               <input type="number" id="editOtherCosts" name="editOtherCosts" placeholder="15.00" step="0.01" min="0"
                 class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
             </div>
             <div>
-              <label for="editRepositionMiles" class="block text-sm font-medium text-gray-700">Reposicionamiento
-                (millas)</label>
-              <input type="number" id="editRepositionMiles" class="border p-2 w-full rounded" placeholder="Ej: 120">
+              <label for="editRepositionMiles" class="block text-sm font-medium text-gray-700" data-i18n="edit_modal.label_reposition">Repositioning (miles)</label>
+              <input type="number" id="editRepositionMiles" class="border p-2 w-full rounded"
+                placeholder="Ex: 120" data-i18n="edit_modal.ph_reposition">
             </div>
           </div>
 
-          <!-- Empresa y notas -->
+          <!-- Company & notes -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label for="editCompanyName" class="block text-sm font-medium text-gray-700 mb-1">Empresa</label>
-              <input type="text" id="editCompanyName" name="editCompanyName" placeholder="Nombre de la empresa"
+              <label for="editCompanyName" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="edit_modal.label_company">Company</label>
+              <input type="text" id="editCompanyName" name="editCompanyName" placeholder="Company name"
+                data-i18n="edit_modal.ph_company"
                 class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
             </div>
             <div class="md:col-span-2">
-              <label for="editNotes" class="block text-sm font-medium text-gray-700 mb-1">Notas de experiencia</label>
-              <textarea id="editNotes" name="editNotes" placeholder="Ej: RPM bajo, mejor relocalizar a Nashville"
+              <label for="editNotes" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="edit_modal.label_notes">Experience Notes</label>
+              <textarea id="editNotes" name="editNotes"
+                placeholder="Ex: Low RPM, better to reposition to Nashville"
+                data-i18n="edit_modal.ph_notes"
                 rows="3"
                 class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none"></textarea>
             </div>
           </div>
 
-          <!-- Resultados calculados -->
+          <!-- Auto calculations -->
           <div class="border-t border-gray-200 pt-4">
-            <h4 class="text-md font-medium text-gray-900 mb-3">🧮 Cálculos Automáticos</h4>
+            <h4 class="text-md font-medium text-gray-900 mb-3" data-i18n="edit_modal.auto_calc_title">🧮 Auto Calculations</h4>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
               <div class="bg-gray-50 p-2 rounded">
-                <span class="text-gray-600">Costo Operativo:</span>
+                <span class="text-gray-600" data-i18n="edit_modal.label_op_cost">Operating Cost:</span>
                 <div id="editOperatingCost" class="font-semibold text-red-600">$0.00</div>
               </div>
               <div class="bg-gray-50 p-2 rounded">
-                <span class="text-gray-600">Costo Combustible:</span>
+                <span class="text-gray-600" data-i18n="edit_modal.label_fuel_cost">Fuel Cost:</span>
                 <div id="editFuelCost" class="font-semibold text-red-600">$0.00</div>
               </div>
               <div class="bg-gray-50 p-2 rounded">
-                <span class="text-gray-600">Ganancia Neta:</span>
+                <span class="text-gray-600" data-i18n="edit_modal.label_net_profit">Net Profit:</span>
                 <div id="editNetProfit" class="font-semibold text-green-600">$0.00</div>
               </div>
               <div class="bg-gray-50 p-2 rounded">
-                <span class="text-gray-600">Margen:</span>
+                <span class="text-gray-600" data-i18n="edit_modal.label_margin">Margin:</span>
                 <div id="editProfitMargin" class="font-semibold text-blue-600">0%</div>
               </div>
             </div>
@@ -2602,12 +2649,13 @@
       <!-- Footer fijo -->
       <div class="border-t border-gray-200 px-6 py-4 flex flex-col sm:flex-row gap-3 sm:justify-end bg-white flex-none">
         <button type="button" onclick="closeEditModal()"
-          class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 order-2 sm:order-1">
-          Cancelar
+          class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 order-2 sm:order-1"
+          data-i18n="edit_modal.btn_cancel">
+          Cancel
         </button>
         <button type="button" onclick="saveEditedLoad()" class="px-4 py-2 rounded order-1 sm:order-2 font-semibold"
-          style="background:#fb923c;color:#07050a;">
-          💾 Guardar Cambios
+          style="background:#fb923c;color:#07050a;" data-i18n="edit_modal.btn_save">
+          💾 Save Changes
         </button>
       </div>
 
@@ -2646,6 +2694,7 @@
   <!-- Existing scripts -->
   <script src="js/config.js?v=2.1.0"></script>
   <script src="js/helpers.js"></script>
+  <script src="js/i18n/language-manager.js?v=1.0.0"></script>
 
   <!-- 🍪 Cookie Consent + Analytics (después de config.js para que Firebase esté inicializado) -->
   <script src="js/cookie-consent.js?v=1.0.0"></script>
@@ -2794,7 +2843,7 @@
 
       <!-- Modal Header -->
       <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between sticky top-0 bg-white">
-        <h3 class="text-lg font-semibold text-gray-900">⚙️ Gestión de Categorías de Gastos</h3>
+        <h3 class="text-lg font-semibold text-gray-900" data-i18n="finances.manage_categories_title">⚙️ Manage Expense Categories</h3>
         <button type="button" onclick="closeCategoryModal()" class="text-gray-400 hover:text-gray-600">
           <span class="text-2xl">&times;</span>
         </button>
@@ -2805,22 +2854,22 @@
 
         <!-- Formulario de Nueva Categoría -->
         <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
-          <h4 class="text-md font-semibold text-purple-900 mb-3">➕ Crear Nueva Categoría</h4>
+          <h4 class="text-md font-semibold text-purple-900 mb-3" data-i18n="finances.create_new_category_title">➕ Create New Category</h4>
 
           <div class="space-y-4">
 
             <!-- Nombre -->
             <div>
-              <label for="categoryName" class="block text-sm font-medium text-gray-700 mb-1">Nombre de la
-                Categoría</label>
-              <input type="text" id="categoryName" placeholder="Ej: Préstamos, Marketing, etc."
+              <label for="categoryName" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="finances.modal_category_name_label">Category Name</label>
+              <input type="text" id="categoryName" placeholder="e.g. Loans, Marketing..."
+                data-i18n="finances.modal_category_name_ph"
                 class="border border-gray-300 rounded px-3 py-2 w-full focus:border-purple-500 focus:outline-none"
                 maxlength="30" required>
             </div>
 
             <!-- Icono (selector simple) -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Ícono</label>
+              <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="finances.modal_icon_label">Icon</label>
               <div id="iconSelector" class="grid grid-cols-8 gap-2">
                 <!-- Íconos comunes -->
                 <button type="button"
@@ -2877,15 +2926,16 @@
 
             <!-- Color -->
             <div>
-              <label for="categoryColor" class="block text-sm font-medium text-gray-700 mb-1">Color (opcional)</label>
+              <label for="categoryColor" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="finances.modal_color_label">Color (optional)</label>
               <input type="color" id="categoryColor" value="#6b7280"
                 class="border border-gray-300 rounded px-3 py-2 w-full h-10">
             </div>
 
             <!-- Botón Crear -->
             <button type="button" onclick="saveCustomCategory()"
-              class="w-full bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
-              💾 Crear Categoría
+              class="w-full bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+              data-i18n="finances.modal_create_category_btn">
+              💾 Create Category
             </button>
 
           </div>
@@ -2893,7 +2943,7 @@
 
         <!-- Lista de Categorías Personalizadas -->
         <div>
-          <h4 class="text-md font-semibold text-gray-900 mb-3">📋 Tus Categorías Personalizadas</h4>
+          <h4 class="text-md font-semibold text-gray-900 mb-3" data-i18n="finances.custom_categories_label">📋 Your Custom Categories</h4>
           <div id="customCategoriesList" class="grid grid-cols-2 md:grid-cols-3 gap-3">
             <!-- Se poblará dinámicamente -->
           </div>
@@ -2904,8 +2954,9 @@
       <!-- Modal Footer -->
       <div class="border-t border-gray-200 px-6 py-4 flex justify-end sticky bottom-0 bg-white">
         <button type="button" onclick="closeCategoryModal()"
-          class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
-          Cerrar
+          class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+          data-i18n="finances.btn_close_categories">
+          Close
         </button>
       </div>
 
@@ -2930,12 +2981,19 @@
       const billingBtn = document.getElementById('manageBillingBtn');
       if (!badge) return;
 
-      const planNames = { free: 'Plan Gratuito', professional: 'Professional', premium: 'Premium', admin: 'Admin' };
+      const t = (key, fallback) => window.i18n?.t(key) || fallback;
+
+      const planNames = {
+        free: t('account.plan_free', 'Free Plan'),
+        professional: t('account.plan_professional', 'Professional'),
+        premium: t('account.plan_premium', 'Premium'),
+        admin: 'Admin'
+      };
       const planDescs = {
-        free: 'Acceso básico · hasta 10 cargas/mes',
-        professional: 'Acceso completo · cargas ilimitadas · reportes avanzados',
-        premium: 'Todo Professional + Tax Reports + Export avanzado',
-        admin: 'Acceso total al sistema'
+        free: t('account.plan_desc_free', 'Basic access · up to 30 loads/month'),
+        professional: t('account.plan_desc_professional', 'Full access · unlimited loads · advanced reports'),
+        premium: t('account.plan_desc_premium', 'Everything in Pro + AI + Tax Reports'),
+        admin: t('account.plan_desc_admin', 'Full system access')
       };
 
       const upgradeBtn = document.getElementById('upgradeToPremiumBtn');
@@ -2966,6 +3024,27 @@
         renderPlanInfo();
       }
     }, 300);
+
+    // Re-render on language change
+    document.addEventListener('languageChanged', renderPlanInfo);
+  </script>
+
+
+  <script>
+    // 🌐 Language toggle — sincroniza botón con idioma activo (desktop + mobile)
+    function syncLangButtons(lang) {
+      const btn = document.getElementById('langToggle');
+      if (btn) btn.textContent = '🌐 ' + lang.toUpperCase();
+      const mobileLabel = document.getElementById('langToggleMobileLabel');
+      if (mobileLabel) mobileLabel.textContent = lang.toUpperCase();
+    }
+    document.addEventListener('languageChanged', (e) => {
+      syncLangButtons(e.detail.lang);
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+      const lang = localStorage.getItem('app_language') || 'en';
+      syncLangButtons(lang);
+    });
   </script>
 </body>
 

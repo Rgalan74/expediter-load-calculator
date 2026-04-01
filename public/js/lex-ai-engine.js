@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 //  LEX-AI-ENGINE.JS v1.5
 //  Motor de AI real para Lex via OpenRouter + DeepSeek V3
 //  Reemplaza respuestas pre-escritas con AI conversacional
@@ -90,7 +90,9 @@
             ? (((d.actualRPM - d.thresholds.cpm) / d.actualRPM) * 100).toFixed(1)
             : '?';
 
-        return `
+        const isEsCtx = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+        if (isEsCtx) {
+            return `
 CARGA ACTIVA EN EL CALCULADOR (el usuario ya tiene esta carga en pantalla):
 - Ruta: ${origen} → ${destino}
 - Millas: ${d.totalMiles}
@@ -99,6 +101,17 @@ CARGA ACTIVA EN EL CALCULADOR (el usuario ya tiene esta carga en pantalla):
 - Margen actual: ${margen}%
 - Decisión del panel: ${d.decision}
 Si el usuario pregunta "¿la acepto?", "¿qué opinas?" o "analízala" sin dar datos, se refiere a ESTA carga.`;
+        } else {
+            return `
+ACTIVE LOAD IN CALCULATOR (user has this load on screen):
+- Route: ${origen} → ${destino}
+- Miles: ${d.totalMiles}
+- Rate: $${tarifa}
+- RPM: $${d.actualRPM.toFixed(3)}/mi
+- Current margin: ${margen}%
+- Panel decision: ${d.decision}
+If the user asks "should I take it?", "what do you think?" or "analyze it" without giving data, they mean THIS load.`;
+        }
     }
 
     // ============================================================
@@ -141,24 +154,25 @@ Si el usuario pregunta "¿la acepto?", "¿qué opinas?" o "analízala" sin dar d
         const mitad = Math.ceil(stateEntries.length / 2);
         const bestKeys = new Set(stateEntries.slice(0, mitad).map(([st]) => st));
 
+        const currentLang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+        const isEs = currentLang === 'es';
+
         const bestStates = stateEntries.slice(0, mitad)
-            .map(([st, s]) => `  - ${st}: $${s.avgRPM.toFixed(2)}/mi (${s.loads} cargas)`)
+            .map(([st, s]) => `  - ${st}: $${s.avgRPM.toFixed(2)}/mi (${s.loads} ${isEs ? 'cargas' : 'loads'})`)
             .join('\n');
 
         const worstStates = stateEntries.slice(-mitad).reverse()
             .filter(([st]) => !bestKeys.has(st))
-            .map(([st, s]) => `  - ${st}: $${s.avgRPM.toFixed(2)}/mi (${s.loads} cargas)`)
+            .map(([st, s]) => `  - ${st}: $${s.avgRPM.toFixed(2)}/mi (${s.loads} ${isEs ? 'cargas' : 'loads'})`)
             .join('\n');
 
         // Desglose de costos
         let costsText = '';
         if (p.currentCosts) {
             const c = p.currentCosts;
-            costsText = `\nDESGLOSE DE COSTOS REALES:
-  - Combustible: $${(c.combustible || 0).toFixed(3)}/mi
-  - Mantenimiento: $${(c.mantenimiento || 0).toFixed(3)}/mi
-  - Costos fijos: $${(c.costosFijos || 0).toFixed(3)}/mi
-  - Comida/varios: $${(c.comida || 0).toFixed(3)}/mi`;
+            costsText = isEs
+                ? `\nDESGLOSE DE COSTOS REALES:\n  - Combustible: $${(c.combustible || 0).toFixed(3)}/mi\n  - Mantenimiento: $${(c.mantenimiento || 0).toFixed(3)}/mi\n  - Costos fijos: $${(c.costosFijos || 0).toFixed(3)}/mi\n  - Comida/varios: $${(c.comida || 0).toFixed(3)}/mi`
+                : `\nREAL COST BREAKDOWN:\n  - Fuel: $${(c.combustible || 0).toFixed(3)}/mi\n  - Maintenance: $${(c.mantenimiento || 0).toFixed(3)}/mi\n  - Fixed costs: $${(c.costosFijos || 0).toFixed(3)}/mi\n  - Food/misc: $${(c.comida || 0).toFixed(3)}/mi`;
         }
 
         // Contexto financiero — mes actual y mes anterior
@@ -166,13 +180,14 @@ Si el usuario pregunta "¿la acepto?", "¿qué opinas?" o "analízala" sin dar d
         try {
             const now = new Date();
             const uid = window.currentUser?.uid;
+            const locale = isEs ? 'es' : 'en-US';
 
             const firstDayActual = new Date(now.getFullYear(), now.getMonth(), 1);
             const firstDayAnterior = new Date(now.getFullYear(), now.getMonth() - 1, 1);
             const lastDayAnterior = new Date(now.getFullYear(), now.getMonth(), 1);
-            const mesActualNombre = now.toLocaleString('es', { month: 'long', year: 'numeric' });
-            const mesAnteriorNombre = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-                .toLocaleString('es', { month: 'long', year: 'numeric' });
+            const currentMonthName = now.toLocaleString(locale, { month: 'long', year: 'numeric' });
+            const prevMonthName = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+                .toLocaleString(locale, { month: 'long', year: 'numeric' });
 
             const [loadsActual, loadsAnterior, expActual, expAnterior] = await Promise.all([
                 firebase.firestore().collection('loads').where('userId', '==', uid)
@@ -188,10 +203,10 @@ Si el usuario pregunta "¿la acepto?", "¿qué opinas?" o "analízala" sin dar d
             ]);
 
             const calcMes = (loads, exps) => {
-                let ingresos = 0, millas = 0, gastos = 0;
-                loads.forEach(d => { ingresos += d.data().totalCharge || 0; millas += d.data().totalMiles || 0; });
-                exps.forEach(d => { gastos += d.data().amount || 0; });
-                return { ingresos, millas, gastos, rpm: millas > 0 ? ingresos / millas : 0, cargas: loads.size };
+                let revenue = 0, miles = 0, expenses = 0;
+                loads.forEach(d => { revenue += d.data().totalCharge || 0; miles += d.data().totalMiles || 0; });
+                exps.forEach(d => { expenses += d.data().amount || 0; });
+                return { revenue, miles, expenses, rpm: miles > 0 ? revenue / miles : 0, loads: loads.size };
             };
 
             const actual = calcMes(loadsActual, expActual);
@@ -199,21 +214,42 @@ Si el usuario pregunta "¿la acepto?", "¿qué opinas?" o "analízala" sin dar d
             const rpmDiffActual = avgRPM > 0 ? (((actual.rpm - avgRPM) / avgRPM) * 100).toFixed(1) : null;
             const rpmDiffAnterior = avgRPM > 0 ? (((anterior.rpm - avgRPM) / avgRPM) * 100).toFixed(1) : null;
 
-            financeContext = `
+            if (isEs) {
+                financeContext = `
 CONTEXTO FINANCIERO:
-${mesActualNombre.toUpperCase()} (mes actual):
-- Cargas: ${actual.cargas} | Ingresos: $${actual.ingresos.toFixed(2)} | Gastos: $${actual.gastos.toFixed(2)}
-- Ganancia neta: $${(actual.ingresos - actual.gastos).toFixed(2)} | RPM: $${actual.rpm.toFixed(3)}/mi${rpmDiffActual !== null ? ` (${parseFloat(rpmDiffActual) >= 0 ? '+' : ''}${rpmDiffActual}% vs histórico)` : ''}
+${currentMonthName.toUpperCase()} (mes actual):
+- Cargas: ${actual.loads} | Ingresos: $${actual.revenue.toFixed(2)} | Gastos: $${actual.expenses.toFixed(2)}
+- Ganancia neta: $${(actual.revenue - actual.expenses).toFixed(2)} | RPM: $${actual.rpm.toFixed(3)}/mi${rpmDiffActual !== null ? ` (${parseFloat(rpmDiffActual) >= 0 ? '+' : ''}${rpmDiffActual}% vs histórico)` : ''}
 
-${mesAnteriorNombre.toUpperCase()} (mes anterior):
-- Cargas: ${anterior.cargas} | Ingresos: $${anterior.ingresos.toFixed(2)} | Gastos: $${anterior.gastos.toFixed(2)}
-- Ganancia neta: $${(anterior.ingresos - anterior.gastos).toFixed(2)} | RPM: $${anterior.rpm.toFixed(3)}/mi${rpmDiffAnterior !== null ? ` (${parseFloat(rpmDiffAnterior) >= 0 ? '+' : ''}${rpmDiffAnterior}% vs histórico)` : ''}`;
+${prevMonthName.toUpperCase()} (mes anterior):
+- Cargas: ${anterior.loads} | Ingresos: $${anterior.revenue.toFixed(2)} | Gastos: $${anterior.expenses.toFixed(2)}
+- Ganancia neta: $${(anterior.revenue - anterior.expenses).toFixed(2)} | RPM: $${anterior.rpm.toFixed(3)}/mi${rpmDiffAnterior !== null ? ` (${parseFloat(rpmDiffAnterior) >= 0 ? '+' : ''}${rpmDiffAnterior}% vs historical)` : ''}`;
+            } else {
+                financeContext = `
+FINANCIAL CONTEXT:
+${currentMonthName.toUpperCase()} (current month):
+- Loads: ${actual.loads} | Revenue: $${actual.revenue.toFixed(2)} | Expenses: $${actual.expenses.toFixed(2)}
+- Net profit: $${(actual.revenue - actual.expenses).toFixed(2)} | RPM: $${actual.rpm.toFixed(3)}/mi${rpmDiffActual !== null ? ` (${parseFloat(rpmDiffActual) >= 0 ? '+' : ''}${rpmDiffActual}% vs historical avg)` : ''}
+
+${prevMonthName.toUpperCase()} (previous month):
+- Loads: ${anterior.loads} | Revenue: $${anterior.revenue.toFixed(2)} | Expenses: $${anterior.expenses.toFixed(2)}
+- Net profit: $${(anterior.revenue - anterior.expenses).toFixed(2)} | RPM: $${anterior.rpm.toFixed(3)}/mi${rpmDiffAnterior !== null ? ` (${parseFloat(rpmDiffAnterior) >= 0 ? '+' : ''}${rpmDiffAnterior}% vs historical avg)` : ''}`;
+            }
         } catch (e) {
             debugLog('[LEX-AI] Error cargando contexto financiero:', e);
         }
 
-        return `Eres Lex, asistente de IA experto en expediting (camionería express en USA).
-Responde SIEMPRE en español. Sé directo, práctico y usa números concretos.
+        const langInstruction = isEs
+            ? 'Responde SIEMPRE en español. Sé directo, práctico y usa números concretos.'
+            : 'IMPORTANT: Always respond in English. Never switch to Spanish. Be direct, practical, and use concrete numbers.';
+
+        const decisionTerms = isEs
+            ? 'ACEPTA / CASI ACEPTA / EVALÚA CON CUIDADO / RECHAZA'
+            : 'ACCEPT / ALMOST ACCEPT / EVALUATE CAREFULLY / REJECT';
+
+        if (isEs) {
+            return `Eres Lex, asistente de IA experto en expediting (camionería express en USA).
+${langInstruction}
 Cuando analices una carga, muestra los cálculos clave (RPM, costo, ganancia).
 
 PERFIL REAL DEL CONDUCTOR:
@@ -235,8 +271,8 @@ ${bestStates || '  (sin datos suficientes aún)'}
 ${worstStates ? `\nESTADOS CON MENOR RPM para este conductor:\n${worstStates}` : ''}
 ${Object.keys(p.stateNotes || {}).length > 0 ? `NOTAS OPERATIVAS DEL CONDUCTOR (experiencia real por estado):
 ${Object.entries(p.stateNotes || {}).map(([state, notes]) =>
-            `  ${state}:\n${notes.map(n => `    - "${n}"`).join('\n')}`
-        ).join('\n')}
+                `  ${state}:\n${notes.map(n => `    - "${n}"`).join('\n')}`
+            ).join('\n')}
 IMPORTANTE: Cuando analices una carga hacia alguno de estos estados, SIEMPRE menciona las notas relevantes antes de dar tu recomendación.` : ''}
 
 REGLAS DE ANÁLISIS:
@@ -252,7 +288,50 @@ ${financeContext}
 FORMATO DE RESPUESTA:
 - Máximo 5-6 líneas para preguntas simples
 - Usa números concretos en dólares
-- Termina con recomendación clara usando exactamente estos términos: ACEPTA / CASI ACEPTA / EVALÚA CON CUIDADO / RECHAZA`;
+- Termina con recomendación clara usando exactamente estos términos: ${decisionTerms}`;
+        } else {
+            return `You are Lex, an AI expert in expediting (express trucking in the USA).
+${langInstruction}
+When analyzing a load, show the key calculations (RPM, cost, profit).
+
+DRIVER REAL PROFILE:
+- Real CPM (cost per mile): $${cpm.toFixed(3)}/mi
+- Historical average RPM: $${avgRPM.toFixed(3)}/mi
+- Target profit margin: ${(targetProfitPct * 100).toFixed(0)}%
+- Registered loads: ${totalLoads}
+${costsText}
+
+THIS DRIVER'S DECISION THRESHOLDS:
+- REJECT if RPM < $${cpm.toFixed(3)} (losing money)
+- EVALUATE CAREFULLY if $${cpm.toFixed(3)} ≤ RPM < $${midThreshold.toFixed(3)}
+- ALMOST ACCEPT if $${midThreshold.toFixed(3)} ≤ RPM < $${acceptThreshold.toFixed(3)}
+- ACCEPT if RPM ≥ $${acceptThreshold.toFixed(3)}
+
+STATE HISTORY (${totalLoads} real loads):
+BEST states for this driver:
+${bestStates || '  (not enough data yet)'}
+${worstStates ? `\nLOWEST RPM STATES for this driver:\n${worstStates}` : ''}
+${Object.keys(p.stateNotes || {}).length > 0 ? `DRIVER OPERATIONAL NOTES (real experience by state):
+${Object.entries(p.stateNotes || {}).map(([state, notes]) =>
+                `  ${state}:\n${notes.map(n => `    - "${n}"`).join('\n')}`
+            ).join('\n')}
+IMPORTANT: When analyzing a load to any of these states, ALWAYS mention the relevant notes before giving your recommendation.` : ''}
+
+ANALYSIS RULES:
+1. RPM = total rate / total miles (including deadhead)
+2. Evaluate each load on its own merits — do not assume return to any fixed hub
+3. A difficult state is one that historically gives bad RPM for THIS specific driver
+4. Real margin = (RPM - CPM) / RPM × 100
+5. Suggested counteroffer = $${acceptThreshold.toFixed(3)} × total miles
+
+${getActiveLoadContext() || ''}
+${financeContext}
+
+RESPONSE FORMAT:
+- Maximum 5-6 lines for simple questions
+- Use concrete dollar amounts
+- End with a clear recommendation using exactly these terms: ${decisionTerms}`;
+        }
     }
 
 
@@ -421,9 +500,14 @@ FORMATO DE RESPUESTA:
                 ? window.appendLexMessageFromRouter : null;
             const ok = await saveNoteFromChat(lugar, nota);
             if (replyFnNote) {
+                const isEs = (window.i18n?.currentLang || 'en') === 'es';
                 replyFnNote(ok
-                    ? `✅ Nota guardada para **${lugar}**:\n"${nota}"\n\nLa tendré en cuenta la próxima vez que analice una carga hacia esa zona.`
-                    : `❌ No pude guardar la nota. Intenta de nuevo.`
+                    ? isEs
+                        ? `✅ Nota guardada para **${lugar}**:\n"${nota}"\n\nLa tendré en cuenta la próxima vez que analice una carga hacia esa zona.`
+                        : `✅ Note saved for **${lugar}**:\n"${nota}"\n\nI'll keep it in mind the next time I analyze a load to that zone.`
+                    : isEs
+                        ? `❌ No pude guardar la nota. Intenta de nuevo.`
+                        : `❌ Couldn't save the note. Please try again.`
                 );
             }
             return;
@@ -447,13 +531,21 @@ FORMATO DE RESPUESTA:
             const replyFnPlan = typeof window.appendLexMessageFromRouter === 'function'
                 ? window.appendLexMessageFromRouter : null;
             if (replyFnPlan) {
+                const isEs = (window.i18n?.currentLang || 'en') === 'es';
                 replyFnPlan(
-                    '🔒 Lex AI está disponible en el plan Premium.\n\n' +
-                    'Con Lex AI puedes:\n' +
-                    '• Analizar cualquier carga con lenguaje natural\n' +
-                    '• Detectar cargas trampa automáticamente\n' +
-                    '• Negociar con datos reales de tu historial\n\n' +
-                    '<a href="/plans.html" style="display:inline-block;margin-top:8px;padding:8px 18px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-radius:8px;font-weight:600;text-decoration:none;font-size:13px;">👑 Ver Plan Premium →</a>'
+                    isEs
+                        ? '🔒 Lex AI está disponible en el plan Premium.\n\n' +
+                          'Con Lex AI puedes:\n' +
+                          '• Analizar cualquier carga con lenguaje natural\n' +
+                          '• Detectar cargas trampa automáticamente\n' +
+                          '• Negociar con datos reales de tu historial\n\n' +
+                          '<a href="/plans.html" style="display:inline-block;margin-top:8px;padding:8px 18px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-radius:8px;font-weight:600;text-decoration:none;font-size:13px;">👑 Ver Plan Premium →</a>'
+                        : '🔒 Lex AI is available on the Premium plan.\n\n' +
+                          'With Lex AI you can:\n' +
+                          '• Analyze any load in natural language\n' +
+                          '• Automatically detect trap loads\n' +
+                          '• Negotiate using real data from your history\n\n' +
+                          '<a href="/plans.html" style="display:inline-block;margin-top:8px;padding:8px 18px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-radius:8px;font-weight:600;text-decoration:none;font-size:13px;">👑 View Premium Plan →</a>'
                 );
             }
             if (typeof window.setLexState === 'function') {
@@ -468,8 +560,11 @@ FORMATO DE RESPUESTA:
 
         // Estado visual: pensando + typing indicator
         if (typeof window.setLexState === 'function') {
+            const thinkingMsg = window.i18n?.currentLang === 'es'
+                ? '🤖 Analizando con AI...'
+                : '🤖 Analyzing with AI...';
             window.setLexState('thinking', {
-                message: '🤖 Analizando con AI...',
+                message: thinkingMsg,
                 duration: 8000
             });
         }
@@ -527,7 +622,10 @@ FORMATO DE RESPUESTA:
             }
 
             if (replyFn) {
-                replyFn('Tuve un problema al conectarme. Intenta de nuevo en un momento. 🛠️');
+                const errMsg = (window.i18n?.currentLang || 'en') === 'es'
+                    ? 'Tuve un problema al conectarme. Intenta de nuevo en un momento. 🛠️'
+                    : 'I had a connection problem. Please try again in a moment. 🛠️';
+                replyFn(errMsg);
             }
 
             if (typeof window.setLexState === 'function') {

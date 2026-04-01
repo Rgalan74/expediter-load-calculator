@@ -1,4 +1,4 @@
-﻿// finances.js - Refactored Version
+// finances.js - Refactored Version
 // ⚠️ Core functionality moved to finances-core.js and finances-data.js
 
 // ========================================
@@ -412,7 +412,7 @@ function renderExpensesList(filteredExpenses = []) {
     expensesList.innerHTML = `
             <tr>
                 <td colspan="5" class="p-4 text-center text-gray-500">
-                    No hay gastos registrados para este periodo
+                    ${window.i18n?.t('finances.no_expenses_period') || 'No expenses registered for this period'}
                 </td>
             </tr>`;
     return;
@@ -453,8 +453,8 @@ function renderExpensesList(filteredExpenses = []) {
             <td class="px-4 py-3 text-sm whitespace-nowrap">${expense.description || "-"}</td>
             <td class="px-4 py-3 text-sm font-semibold text-red-700 whitespace-nowrap">${formatCurrency(expense.amount)}</td>
             <td class="px-4 py-3 text-sm whitespace-nowrap">
-                <button onclick="editExpense('${expense.id}')" class="text-blue-600 hover:text-blue-800 font-medium mr-3">Editar</button>
-                <button onclick="deleteExpense('${expense.id}')" class="text-red-600 hover:text-red-800 font-medium">Eliminar</button>
+                <button onclick="editExpense('${expense.id}')" class="text-blue-600 hover:text-blue-800 font-medium mr-3">${window.i18n?.t('finances.btn_edit') || 'Edit'}</button>
+                <button onclick="deleteExpense('${expense.id}')" class="text-red-600 hover:text-red-800 font-medium">${window.i18n?.t('finances.btn_delete') || 'Delete'}</button>
             </td>
         </tr>
     `);
@@ -574,6 +574,42 @@ async function updateLoadDistributionChart() {
     }
   }
 }
+
+// =============================================
+// SUBSCRIBE TO LANGUAGE CHANGES (Observer pattern)
+// Loads charts module on demand so labels update
+// even if Finances tab was never opened yet
+// =============================================
+(function registerChartLanguageObserver() {
+  async function refreshCharts() {
+    if (window.FinancesCharts) {
+      // Charts module already loaded → update directly
+      window.FinancesCharts.updateExpenseBreakdownChart();
+      window.FinancesCharts.updateLoadDistributionChart();
+      window.FinancesCharts.updateCashFlowChart();
+    } else if (typeof window.loadChartsModule === 'function') {
+      // Charts module not yet loaded → load it first then update
+      try {
+        await window.loadChartsModule();
+        if (window.FinancesCharts) {
+          window.FinancesCharts.updateExpenseBreakdownChart();
+          window.FinancesCharts.updateLoadDistributionChart();
+          window.FinancesCharts.updateCashFlowChart();
+        }
+      } catch (e) {
+        debugLog('[FINANCES] Error loading charts module on language change:', e);
+      }
+    }
+  }
+
+  if (window.i18n && typeof window.i18n.subscribe === 'function') {
+    window.i18n.subscribe(refreshCharts);
+    debugLog('[FINANCES] Subscribed to language changes via Observer');
+  } else {
+    document.addEventListener('languageChanged', refreshCharts);
+    debugLog('[FINANCES] Subscribed to languageChanged event (fallback)');
+  }
+})();
 
 function updateBusinessMetrics() {
   debugFinances(" Actualizando mtricas de negocio...");
@@ -811,7 +847,7 @@ async function deleteExpense(id) {
     return;
   }
 
-  const confirmDelete = confirm(" Ests seguro de que deseas eliminar este gasto?");
+  const confirmDelete = confirm(window.i18n?.t('finances.confirm_delete_expense') || 'Are you sure you want to delete this expense?');
   if (!confirmDelete) return;
 
   try {
@@ -895,9 +931,9 @@ function generatePLReport() {
   let periodLabel = "Todos los perodos";
   if (year && month) {
     const monthNames = {
-      "01": "Enero", "02": "Febrero", "03": "Marzo", "04": "Abril",
-      "05": "Mayo", "06": "Junio", "07": "Julio", "08": "Agosto",
-      "09": "Septiembre", "10": "Octubre", "11": "Noviembre", "12": "Diciembre"
+      "01": window.i18n?.t('common.month_jan')||'January', "02": window.i18n?.t('common.month_feb')||'February', "03": window.i18n?.t('common.month_mar')||'March', "04": window.i18n?.t('common.month_apr')||'April',
+      "05": window.i18n?.t('common.month_may')||'May', "06": window.i18n?.t('common.month_jun')||'June', "07": window.i18n?.t('common.month_jul')||'July', "08": window.i18n?.t('common.month_aug')||'August',
+      "09": window.i18n?.t('common.month_sep')||'September', "10": window.i18n?.t('common.month_oct')||'October', "11": window.i18n?.t('common.month_nov')||'November', "12": window.i18n?.t('common.month_dec')||'December'
     };
     periodLabel = `${monthNames[month]} ${year}`;
   } else if (year) {
@@ -923,16 +959,17 @@ function generatePLReport() {
     categories[type] = (categories[type] || 0) + (Number(exp.amount) || 0);
   });
 
+  const t = (k, fb) => window.i18n?.t(k) || fb;
   const categoryLabels = {
-    fuel: "🚚 Combustible",
-    maintenance: "🔧 Mantenimiento",
-    food: "🍔 Comida",
-    lodging: "🏨 Hospedaje",
-    tolls: "🛣️ Peajes",
-    insurance: "🛡️ Seguro",
-    permits: "📄 Permisos",
-    carpayment: "🚗 Pago de Auto",
-    other: "📌 Otros"
+    fuel:        `🚚 ${t('finances.expense_fuel',        'Fuel')}`,
+    maintenance: `🔧 ${t('finances.expense_maintenance', 'Maintenance')}`,
+    food:        `🍔 ${t('finances.expense_food',        'Food')}`,
+    lodging:     `🏨 ${t('finances.expense_lodging',     'Lodging')}`,
+    tolls:       `🛣️ ${t('finances.expense_tolls',       'Tolls')}`,
+    insurance:   `🛡️ ${t('finances.expense_insurance',   'Insurance')}`,
+    permits:     `📄 ${t('finances.expense_permits',     'Permits')}`,
+    carpayment:  `🚗 ${t('finances.expense_car_payment', 'Car Payment')}`,
+    other:       `📌 ${t('finances.expense_other',       'Other')}`
   };
 
   // Anlisis de distribucin de cargas
@@ -1512,8 +1549,8 @@ function exportFinancialData() {
   // =======================
   // 1. Ingresos (cargas)
   // =======================
-  csvData.push(['=== INGRESOS (CARGAS) ===']);
-  csvData.push(['Fecha', 'Origen', 'Destino', 'Millas', 'RPM', 'Ingresos']);
+  csvData.push([window.i18n?.t('finances.csv_revenues_section') || '=== REVENUE (LOADS) ===']);
+  csvData.push((window.i18n?.t('finances.csv_revenues_headers') || 'Date,Origin,Destination,Miles,RPM,Revenue').split(','));
 
   financesData.forEach(load => {
     csvData.push([
@@ -1530,8 +1567,8 @@ function exportFinancialData() {
   // 2. Gastos manuales
   // =======================
   csvData.push(['']);
-  csvData.push(['=== GASTOS MANUALES ===']);
-  csvData.push(['Fecha', 'Categora', 'Descripcin', 'Monto', 'Deducible']);
+  csvData.push([window.i18n?.t('finances.csv_expenses_section') || '=== MANUAL EXPENSES ===']);
+  csvData.push((window.i18n?.t('finances.csv_expenses_headers') || 'Date,Category,Description,Amount,Deductible').split(','));
 
   expensesData.forEach(exp => {
     csvData.push([
@@ -1551,12 +1588,12 @@ function exportFinancialData() {
   const netProfit = totalRevenue - totalExpenses;
 
   csvData.push(['']);
-  csvData.push(['=== RESUMEN ===']);
-  csvData.push(['Total Ingresos', formatCurrency(totalRevenue)]);
-  csvData.push(['Total Gastos', formatCurrency(totalExpenses)]);
-  csvData.push(['Ganancia Neta', formatCurrency(netProfit)]);
-  csvData.push(['Total Cargas', financesData.length]);
-  csvData.push(['Total Gastos', expensesData.length]);
+  csvData.push([window.i18n?.t('finances.csv_summary_section') || '=== SUMMARY ===']);
+  csvData.push([window.i18n?.t('finances.csv_total_revenue') || 'Total Revenue', formatCurrency(totalRevenue)]);
+  csvData.push([window.i18n?.t('finances.csv_total_expenses') || 'Total Expenses', formatCurrency(totalExpenses)]);
+  csvData.push([window.i18n?.t('finances.csv_net_profit') || 'Net Profit', formatCurrency(netProfit)]);
+  csvData.push([window.i18n?.t('finances.csv_total_loads') || 'Total Loads', financesData.length]);
+  csvData.push([window.i18n?.t('finances.csv_total_expenses') || 'Total Expenses', expensesData.length]);
 
   // =======================
   // 4. Generar archivo CSV
@@ -1743,7 +1780,7 @@ function populateYearSelect() {
   }
 
   //  Poblar selector
-  yearSelect.innerHTML = '<option value=""> Todos los Aos</option>';
+  yearSelect.innerHTML = `<option value="">${window.i18n?.t('finances.all_years') || 'All Years'}</option>`;
   years.forEach(year => {
     const option = document.createElement("option");
     option.value = year;
@@ -1776,7 +1813,7 @@ function updateMonthOptions() {
   }
 
   // OK Siempre dejamos la opcin de "Todos los Meses"
-  monthSelect.innerHTML = '<option value=""> Todos los Meses</option>';
+  monthSelect.innerHTML = `<option value="">${window.i18n?.t('finances.all_months') || 'All Months'}</option>`;
 
   if (!year) {
     debugLog(" No hay ao seleccionado, solo se muestra 'Todos los Meses'");
@@ -1938,14 +1975,27 @@ function initPeriodSelectors(context = "global") {
   if (yearEl && monthEl) {
     // Poblar opciones...
     const minYear = 2023;
-    yearEl.innerHTML = `<option value="">Todos</option>`;
+    yearEl.innerHTML = `<option value="">${window.i18n?.t('finances.all_periods') || 'All'}</option>`;
     for (let y = minYear; y <= parseInt(currentYear); y++) {
       yearEl.innerHTML += `<option value="${y}">${y}</option>`;
     }
     yearEl.value = currentYear;
 
-    const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-    monthEl.innerHTML = `<option value="">Todos</option>`;
+    const meses = [
+      window.i18n?.t('common.month_jan')||'January',
+      window.i18n?.t('common.month_feb')||'February',
+      window.i18n?.t('common.month_mar')||'March',
+      window.i18n?.t('common.month_apr')||'April',
+      window.i18n?.t('common.month_may')||'May',
+      window.i18n?.t('common.month_jun')||'June',
+      window.i18n?.t('common.month_jul')||'July',
+      window.i18n?.t('common.month_aug')||'August',
+      window.i18n?.t('common.month_sep')||'September',
+      window.i18n?.t('common.month_oct')||'October',
+      window.i18n?.t('common.month_nov')||'November',
+      window.i18n?.t('common.month_dec')||'December'
+    ];
+    monthEl.innerHTML = `<option value="">${window.i18n?.t('finances.all_periods') || 'All'}</option>`;
     for (let m = 1; m <= 12; m++) {
       const mm = String(m).padStart(2, "0");
       monthEl.innerHTML += `<option value="${mm}">${meses[m - 1]}</option>`;
@@ -2540,7 +2590,7 @@ function updateAccountsSummary(summary) {
       </div>
       
       <div class="bg-white dark:bg-gray-800 border-l-4 border-red-500 p-4 rounded-r-lg shadow-sm">
-        <h3 class="text-lg font-semibold text-gray-500 dark:text-gray-400">🚨 Vencidas</h3>
+        <h3 class="text-lg font-semibold text-gray-500 dark:text-gray-400">${window.i18n?.t('finances.overdue_section_title') || '🚨 Overdue'}</h3>
         <p class="text-2xl font-bold text-gray-900 dark:text-white">${formatCurrency(summary.overdue.amount)}</p>
         <p class="text-sm text-gray-400 dark:text-gray-500">${summary.overdue.count} cargas</p>
       </div>
@@ -2579,7 +2629,7 @@ function renderPendingPayments(loads) {
         <td class="p-2 text-sm font-semibold">${formatCurrency(load.totalCharge)}</td>
         <td class="p-2 text-sm">${load.dueDate}</td>
         <td class="p-2 text-sm ${statusClass}">
-          ${isOverdue ? `Vencida (${load.daysOverdue} das)` : 'Pendiente'}
+          ${isOverdue ? (window.i18n?.t('finances.overdue_days', { days: load.daysOverdue }) || `Overdue (${load.daysOverdue} days)`) : (window.i18n?.t('finances.pending_label') || 'Pending')}
         </td>
         <td class="p-2 text-sm">
           <button onclick="markAsPaid('${load.id}')" 
@@ -2805,7 +2855,7 @@ function updateCashFlowChartEnhanced() {
       labels: labels,
       datasets: [
         {
-          label: ' Ingresos',
+          label: window.i18n?.t('finances.chart_revenue') || 'Revenue',
           data: revenues,
           borderColor: '#10b981',
           backgroundColor: chartType === 'bar' ? 'rgba(16, 185, 129, 0.8)' : 'rgba(16, 185, 129, 0.1)',
@@ -2814,7 +2864,7 @@ function updateCashFlowChartEnhanced() {
           borderWidth: chartType === 'bar' ? 2 : 3
         },
         {
-          label: ' Gastos',
+          label: window.i18n?.t('finances.chart_expenses_label') || 'Expenses',
           data: expenses,
           borderColor: '#ef4444',
           backgroundColor: chartType === 'bar' ? 'rgba(239, 68, 68, 0.8)' : 'rgba(239, 68, 68, 0.1)',
@@ -2823,7 +2873,7 @@ function updateCashFlowChartEnhanced() {
           borderWidth: chartType === 'bar' ? 2 : 3
         },
         {
-          label: ' Ganancia',
+          label: window.i18n?.t('finances.chart_profit') || 'Profit',
           data: profits,
           borderColor: '#3b82f6',
           backgroundColor: chartType === 'bar' ? 'rgba(59, 130, 246, 0.8)' : 'rgba(59, 130, 246, 0.1)',
@@ -3096,9 +3146,9 @@ function renderPendingLoads(loads) {
     if (paidLoads.length === 0) {
       html = `
         <div class="text-center py-12">
-          <div class="text-6xl mb-4">OK</div>
-          <h3 class="text-xl font-semibold text-gray-600 mb-2">No hay cargas pagadas</h3>
-          <p class="text-gray-500">Las cargas pagadas aparecern aqui</p>
+          <div class="text-6xl mb-4">✅</div>
+          <h3 class="text-xl font-semibold text-gray-600 mb-2">${window.i18n?.t('finances.no_paid_loads') || 'No paid loads'}</h3>
+          <p class="text-gray-500">${window.i18n?.t('finances.paid_loads_appear_here') || 'Paid loads will appear here'}</p>
         </div>
       `;
     } else {
@@ -3109,23 +3159,23 @@ function renderPendingLoads(loads) {
           <td class="p-2 text-sm">${load.loadNumber || '-'}</td>
           <td class="p-2 text-sm font-semibold text-green-900">${formatCurrency(load.totalCharge)}</td>
           <td class="p-2 text-sm">${load.actualPaymentDate || load.paymentDate || '-'}</td>
-          <td class="p-2 text-sm text-green-600 font-medium">OK Pagada</td>
+          <td class="p-2 text-sm text-green-600 font-medium">${window.i18n?.t('finances.status_paid_text') || '✓ Paid'}</td>
         </tr>
       `).join('');
 
       html = `
         <div class="mb-4">
-          <h3 class="text-lg font-bold text-green-700 mb-4">Cargas Pagadas (${paidLoads.length})</h3>
+          <h3 class="text-lg font-bold text-green-700 mb-4">${window.i18n?.t('finances.paid_loads_title') || 'Paid Loads'} (${paidLoads.length})</h3>
           <div class="bg-green-50 border border-green-200 rounded-lg overflow-x-auto">
             <table class="min-w-full">
               <thead class="bg-green-100">
                 <tr>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Fecha</th>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Compañia</th>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Numero</th>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Monto</th>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Fecha Pago</th>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Estado</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">${window.i18n?.t('finances.expense_date') || 'Date'}</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">${window.i18n?.t('history.col_company') || 'Company'}</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">${window.i18n?.t('history.col_load_num') || 'Load #'}</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">${window.i18n?.t('finances.expense_amount') || 'Amount'}</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">${window.i18n?.t('finances.col_pay_date') || 'Payment Date'}</th>
+                  <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">${window.i18n?.t('finances.status_label') || 'Status'}</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-green-200">
@@ -3144,17 +3194,17 @@ function renderPendingLoads(loads) {
     // Estado de Cargas Vencidas
     html += overdueLoads.length > 0 ? `
       <div class="mb-8">
-        <h3 class="text-lg font-bold text-red-700 mb-4"> Cargas Vencidas (${overdueLoads.length})</h3>
+        <h3 class="text-lg font-bold text-red-700 mb-4">${window.i18n?.t('finances.overdue_loads_title') || 'Overdue Loads'} (${overdueLoads.length})</h3>
         <div class="bg-red-50 border border-red-200 rounded-lg overflow-x-auto">
           <table class="min-w-full">
             <thead class="bg-red-100">
               <tr>
-                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Fecha Carga</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Compañia</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Numero</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Monto</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Vencida Desde</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">Accion</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">${window.i18n?.t('finances.expense_date') || 'Date'}</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">${window.i18n?.t('history.col_company') || 'Company'}</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">${window.i18n?.t('history.col_load_num') || 'Load #'}</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">${window.i18n?.t('finances.expense_amount') || 'Amount'}</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">${window.i18n?.t('finances.overdue_since_label') || 'Overdue Since'}</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-red-700 uppercase">${window.i18n?.t('history.col_actions') || 'Action'}</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-red-200">
@@ -3166,11 +3216,11 @@ function renderPendingLoads(loads) {
                     <td class="px-4 py-3 text-sm font-medium">${load.companyName || '-'}</td>
                     <td class="px-4 py-3 text-sm">${load.loadNumber || '-'}</td>
                     <td class="px-4 py-3 text-sm font-bold text-red-900">${formatCurrency(load.totalCharge)}</td>
-                    <td class="px-4 py-3 text-sm text-red-600">${daysOverdue} das</td>
+                    <td class="px-4 py-3 text-sm text-red-600">${daysOverdue} ${window.i18n?.t('finances.overdue_days_label') || 'days'}</td>
                     <td class="px-4 py-3 text-sm">
-                      <button onclick="markAsPaid('${load.id}')" 
+                      <button onclick="markAsPaid('${load.id}')"
                               class="bg-green-600 text-white px-3 py-1 rounded text-xs hover:bg-green-700">
-                        OK Marcar Pagada
+                        ${window.i18n?.t('finances.status_paid') || 'Mark Paid'}
                       </button>
                     </td>
                   </tr>
@@ -3185,17 +3235,17 @@ function renderPendingLoads(loads) {
     // Estado de Cargas Pendientes
     html += activePending.length > 0 ? `
       <div class="mb-8">
-        <h3 class="text-lg font-bold text-yellow-700 mb-4"> Cargas Pendientes de Pago (${activePending.length})</h3>
+        <h3 class="text-lg font-bold text-yellow-700 mb-4">⏳ ${window.i18n?.t('finances.pending_loads_title') || 'Pending Loads'} (${activePending.length})</h3>
         <div class="bg-yellow-50 border border-yellow-200 rounded-lg overflow-x-auto">
           <table class="min-w-full">
             <thead class="bg-yellow-100">
               <tr>
-                <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">Fecha Carga</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">Compañia</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">Numero</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">Monto</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">Se Paga El</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">Accion</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">${window.i18n?.t('finances.col_load_date') || 'Load Date'}</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">${window.i18n?.t('history.col_company') || 'Company'}</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">${window.i18n?.t('history.col_load_num') || 'Load #'}</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">${window.i18n?.t('finances.expense_amount') || 'Amount'}</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">${window.i18n?.t('finances.col_expected_pay') || 'Expected Payment'}</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-yellow-700 uppercase">${window.i18n?.t('finances.col_action') || 'Action'}</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-yellow-200">
@@ -3205,11 +3255,11 @@ function renderPendingLoads(loads) {
                   <td class="px-4 py-3 text-sm font-medium">${load.companyName || '-'}</td>
                   <td class="px-4 py-3 text-sm">${load.loadNumber || '-'}</td>
                   <td class="px-4 py-3 text-sm font-bold text-yellow-900">${formatCurrency(load.totalCharge)}</td>
-                  <td class="px-4 py-3 text-sm">${load.expectedPaymentDate || 'Calculando...'}</td>
+                  <td class="px-4 py-3 text-sm">${load.expectedPaymentDate || (window.i18n?.t('finances.calculating') || 'Calculating...')}</td>
                   <td class="px-4 py-3 text-sm">
-                    <button onclick="markAsPaid('${load.id}')" 
+                    <button onclick="markAsPaid('${load.id}')"
                             class="bg-green-600 text-white px-3 py-1 rounded text-xs hover:bg-green-700">
-                      Marcar Pagada
+                      ${window.i18n?.t('finances.mark_paid') || 'Mark Paid'}
                     </button>
                   </td>
                 </tr>
@@ -3221,9 +3271,9 @@ function renderPendingLoads(loads) {
     ` : `
       <div class="text-center py-12 bg-white rounded-lg border-2 border-dashed border-gray-300">
         <div class="text-4xl mb-3">📭</div>
-        <h3 class="text-lg font-bold text-gray-700 mb-1">No hay cuentas activas</h3>
+        <h3 class="text-lg font-bold text-gray-700 mb-1">${window.i18n?.t('finances.no_active_accounts') || 'No active accounts'}</h3>
         <p class="text-gray-500 max-w-md mx-auto">
-          Las cargas marcadas como "Pagadas" o "Pendientes" aparecerán aquí para que lleves el control de tus cobros.
+          ${window.i18n?.t('finances.active_accounts_desc') || 'Loads marked as Paid or Pending will appear here to track your collections.'}
         </p>
       </div>
     `;
@@ -3231,18 +3281,18 @@ function renderPendingLoads(loads) {
     // Tabla completa de Cargas Pagadas cuando filtro es "Todos"
     html += paidLoads.length > 0 && statusFilter === '' ? `
       <div class="mb-8">
-        <h3 class="text-lg font-bold text-green-700 mb-4">Cargas Pagadas (${paidLoads.length})</h3>
-        <div class="bg-yellow-50 border border-yellow-200 rounded-lg overflow-x-auto">
+        <h3 class="text-lg font-bold text-green-700 mb-4">${window.i18n?.t('finances.paid_loads_title') || 'Paid Loads'} (${paidLoads.length})</h3>
+        <div class="bg-green-50 border border-green-200 rounded-lg overflow-x-auto">
           <table class="min-w-full">
             <thead class="bg-green-100">
               <tr>
-                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Fecha</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Compañía</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Número</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Monto</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Fecha Pago</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Estado</th>
-                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">Acciones</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">${window.i18n?.t('finances.expense_date') || 'Date'}</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">${window.i18n?.t('history.col_company') || 'Company'}</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">${window.i18n?.t('history.col_load_num') || 'Load #'}</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">${window.i18n?.t('finances.expense_amount') || 'Amount'}</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">${window.i18n?.t('finances.col_pay_date') || 'Payment Date'}</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">${window.i18n?.t('finances.status_label') || 'Status'}</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-green-700 uppercase">${window.i18n?.t('finances.col_actions_label') || 'Actions'}</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-green-200">
@@ -3253,11 +3303,11 @@ function renderPendingLoads(loads) {
                   <td class="p-2 text-sm">${load.loadNumber || '-'}</td>
                   <td class="p-2 text-sm font-semibold text-green-900">${formatCurrency(load.totalCharge)}</td>
                   <td class="p-2 text-sm">${load.actualPaymentDate || load.paymentDate || '-'}</td>
-                  <td class="p-2 text-sm text-green-600 font-medium">✓ Pagada</td>
+                  <td class="p-2 text-sm text-green-600 font-medium">${window.i18n?.t('finances.status_paid_text') || '✓ Paid'}</td>
                   <td class="p-2 text-sm">
-                    <button onclick="markAsUnpaid('${load.id}')" 
+                    <button onclick="markAsUnpaid('${load.id}')"
                             class="bg-red-600 text-white px-2 py-1 rounded text-xs hover:bg-red-700">
-                      Desmarcar
+                      ${window.i18n?.t('finances.unmark_paid') || 'Unmark'}
                     </button>
                   </td>
                 </tr>
@@ -3268,11 +3318,10 @@ function renderPendingLoads(loads) {
       </div>
     ` : paidLoads.length > 0 ? `
       <div class="mb-8">
-        <h3 class="text-lg font-bold text-green-700 mb-4">Resumen de Cargas Pagadas</h3>
+        <h3 class="text-lg font-bold text-green-700 mb-4">${window.i18n?.t('finances.paid_summary_title') || 'Paid Loads Summary'}</h3>
         <div class="bg-green-50 border border-green-200 rounded-lg p-4">
           <p class="text-green-800">
-            <strong>${paidLoads.length} cargas</strong> han sido pagadas por un total de 
-            <strong>${formatCurrency(totalPaid)}</strong>
+            ${(window.i18n?.t('finances.paid_summary_text') || '{{count}} loads have been paid for a total of {{amount}}').replace('{{count}}', `<strong>${paidLoads.length}</strong>`).replace('{{amount}}', `<strong>${formatCurrency(totalPaid)}</strong>`)}
           </p>
         </div>
       </div>
@@ -3283,8 +3332,8 @@ function renderPendingLoads(loads) {
       html = `
         <div class="text-center py-12">
           <div class="text-6xl mb-4"></div>
-          <h3 class="text-xl font-semibold text-gray-600 mb-2">No hay cargas por gestionar</h3>
-          <p class="text-gray-500">Las cargas aparecen aqui cuando tengan informacion de pago</p>
+          <h3 class="text-xl font-semibold text-gray-600 mb-2">${window.i18n?.t('finances.no_loads_to_manage') || 'No loads to manage'}</h3>
+          <p class="text-gray-500">${window.i18n?.t('finances.loads_appear_here') || 'Loads appear here when they have payment information'}</p>
         </div>
       `;
     }
@@ -3370,51 +3419,52 @@ function renderAccountsSummaryCards(loads) {
   debugLog(` Resumen: ${paidLoads.length} pagadas, ${activePendingLoads.length} pendientes, ${overdueLoads.length} vencidas`);
 
   // Renderizar tarjetas
+  const t = (key, p) => window.i18n?.t(key, p) || '';
   summaryEl.innerHTML = `
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-      
-      <!-- Tarjeta: Pagadas -->
+
+      <!-- Paid -->
       <div class="bg-green-50 border-2 border-green-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
         <div class="flex items-center justify-between mb-2">
-          <h3 class="text-sm font-medium text-green-700 uppercase tracking-wide">Pagadas</h3>
+          <h3 class="text-sm font-medium text-green-700 uppercase tracking-wide">${t('finances.status_paid') || 'Paid'}</h3>
         </div>
         <div class="mt-2">
           <p class="text-3xl font-bold text-green-900">${paidLoads.length}</p>
-          <p class="text-sm text-green-600 mt-1">cargas</p>
+          <p class="text-sm text-green-600 mt-1">${t('finances.csv_total_loads') || 'loads'}</p>
         </div>
         <div class="mt-3 pt-3 border-t border-green-200">
           <p class="text-lg font-semibold text-green-800">${formatCurrency(paidTotal)}</p>
-          <p class="text-xs text-green-600">Monto total cobrado</p>
+          <p class="text-xs text-green-600">${t('finances.csv_total_revenue') || 'Total collected'}</p>
         </div>
       </div>
 
-      <!-- Tarjeta: Pendientes (TOTAL SIN PAGAR) -->
+      <!-- Pending (Uncollected) -->
       <div class="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
         <div class="flex items-center justify-between mb-2">
-          <h3 class="text-sm font-medium text-yellow-700 uppercase tracking-wide">💰 Sin Cobrar</h3>
+          <h3 class="text-sm font-medium text-yellow-700 uppercase tracking-wide">💰 ${t('finances.status_pending') || 'Pending'}</h3>
         </div>
         <div class="mt-2">
           <p class="text-3xl font-bold text-yellow-900">${pendingLoads.length}</p>
-          <p class="text-sm text-yellow-600 mt-1">cargas totales</p>
+          <p class="text-sm text-yellow-600 mt-1">${t('finances.csv_total_loads') || 'loads'}</p>
         </div>
         <div class="mt-3 pt-3 border-t border-yellow-200">
           <p class="text-lg font-semibold text-yellow-800">${formatCurrency(pendingLoads.reduce((sum, load) => sum + (load.totalCharge || 0), 0))}</p>
-          <p class="text-xs text-yellow-600">Total por cobrar</p>
+          <p class="text-xs text-yellow-600">${t('finances.pending_label') || 'Pending'}</p>
         </div>
       </div>
 
-      <!-- Tarjeta: Vencidas -->
+      <!-- Overdue -->
       <div class="bg-red-50 border-2 border-red-200 rounded-lg p-4 hover:shadow-lg transition-shadow">
         <div class="flex items-center justify-between mb-2">
-          <h3 class="text-sm font-medium text-red-700 uppercase tracking-wide"> Vencidas</h3>
+          <h3 class="text-sm font-medium text-red-700 uppercase tracking-wide">${t('finances.status_overdue') || 'Overdue'}</h3>
         </div>
         <div class="mt-2">
           <p class="text-3xl font-bold text-red-900">${overdueLoads.length}</p>
-          <p class="text-sm text-red-600 mt-1">cargas</p>
+          <p class="text-sm text-red-600 mt-1">${t('finances.csv_total_loads') || 'loads'}</p>
         </div>
         <div class="mt-3 pt-3 border-t border-red-200">
           <p class="text-lg font-semibold text-red-800">${formatCurrency(overdueTotal)}</p>
-          <p class="text-xs text-red-600">En mora</p>
+          <p class="text-xs text-red-600">${t('finances.overdue_section_title') || 'Overdue'}</p>
         </div>
       </div>
 
@@ -4481,7 +4531,7 @@ async function saveCustomCategory() {
   const isOperational = document.getElementById('isOperationalYes').checked;
 
   if (!name) {
-    showFinancesMessage('El nombre de la categoría es requerido', 'error');
+    showFinancesMessage(window.i18n?.t('finances.category_name_required') || 'Category name is required', 'error');
     return;
   }
 
@@ -4617,14 +4667,14 @@ function createCategoryModalIfNeeded() {
   }
 
   debugLog('🔧 Creando modal de categorías dinámicamente desde finances.js...');
-
+  const t = (k, fb) => window.i18n?.t(k) || fb;
   const modalHTML = `
   <div id="categoryModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full flex flex-col" style="max-height: 85vh;">
       
       <!-- Modal Header -->
       <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between sticky top-0 bg-white">
-        <h3 class="text-lg font-semibold text-gray-900">⚙️ Gestión de Categorías de Gastos</h3>
+        <h3 class="text-lg font-semibold text-gray-900">⚙️ ${t('finances.manage_categories_title', 'Manage Expense Categories')}</h3>
         <button type="button" onclick="closeCategoryModal()" class="text-gray-400 hover:text-gray-600">
           <span class="text-2xl">&times;</span>
         </button>
@@ -4633,81 +4683,80 @@ function createCategoryModalIfNeeded() {
       <!-- Modal Body -->
       <div class="px-6 py-4 overflow-y-auto flex-1">
         
-        <!-- Formulario de Nueva Categoría -->
+        <!-- New Category Form -->
         <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
-          <h4 class="text-md font-semibold text-purple-900 mb-3">➕ Crear Nueva Categoría</h4>
+          <h4 class="text-md font-semibold text-purple-900 mb-3">➕ ${t('finances.create_new_category_title', 'Create New Category')}</h4>
           
           <div class="space-y-4">
             
-            <!-- Nombre -->
+            <!-- Name -->
             <div>
-              <label for="categoryName" class="block text-sm font-medium text-gray-700 mb-1">Nombre de la Categoría</label>
-              <input type="text" id="categoryName" placeholder="Ej: Préstamos, Marketing, etc."
+              <label for="categoryName" class="block text-sm font-medium text-gray-700 mb-1">${t('finances.modal_category_name_label', 'Category Name')}</label>
+              <input type="text" id="categoryName" placeholder="${t('finances.modal_category_name_ph', 'e.g. Loans, Marketing...')}"
                      class="border border-gray-300 rounded px-3 py-2 w-full focus:border-purple-500 focus:outline-none"
                      maxlength="30" required>
             </div>
 
-            <!-- Icono (selector simple) -->
+            <!-- Icon -->
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Ícono</label>
+              <label class="block text-sm font-medium text-gray-700 mb-2">${t('finances.modal_icon_label', 'Icon')}</label>
               <div id="iconSelector" class="grid grid-cols-8 gap-2">
-                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('💳')">💳</button>
-                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('💰')">💰</button>
-                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('💻')">💻</button>
-                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('📱')">📱</button>
-                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('🏦')">🏦</button>
-                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('🏠')">🏠</button>
-                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('🎓')">🎓</button>
-                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('⚡')">⚡</button>
-                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('🔧')">🔧</button>
-                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('🛠️')">🛠️</button>
-                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('📦')">📦</button>
-                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('🎯')">🎯</button>
-                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('📊')">📊</button>
-                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('💡')">💡</button>
-                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('🚀')">🚀</button>
-                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('⭐')">⭐</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('\ud83d\udcb3')">\ud83d\udcb3</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('\ud83d\udcb0')">\ud83d\udcb0</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('\ud83d\udcbb')">\ud83d\udcbb</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('\ud83d\udcf1')">\ud83d\udcf1</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('\ud83c\udfe6')">\ud83c\udfe6</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('\ud83c\udfe0')">\ud83c\udfe0</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('\ud83c\udf93')">\ud83c\udf93</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('\u26a1')">\u26a1</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('\ud83d\udd27')">\ud83d\udd27</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('\ud83d\udee0\ufe0f')">\ud83d\udee0\ufe0f</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('\ud83d\udce6')">\ud83d\udce6</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('\ud83c\udfaf')">\ud83c\udfaf</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('\ud83d\udcca')">\ud83d\udcca</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('\ud83d\udca1')">\ud83d\udca1</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('\ud83d\ude80')">\ud83d\ude80</button>
+                <button type="button" class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition" onclick="selectIcon('\u2b50')">\u2b50</button>
               </div>
-              <input type="hidden" id="selectedIcon" value="📌">
+              <input type="hidden" id="selectedIcon" value="\ud83d\udccc">
             </div>
 
             <!-- Color -->
             <div>
-              <label for="categoryColor" class="block text-sm font-medium text-gray-700 mb-1">Color (opcional)</label>
+              <label for="categoryColor" class="block text-sm font-medium text-gray-700 mb-1">${t('finances.modal_color_label', 'Color (optional)')}</label>
               <input type="color" id="categoryColor" value="#6b7280"
                      class="border border-gray-300 rounded px-3 py-2 w-full h-10">
             </div>
-            <!-- Tipo de gasto -->
-<div>
-  <label class="block text-sm font-medium text-gray-700 mb-2">¿Tipo de gasto?</label>
-  <div class="flex gap-3">
-    <label class="flex items-center gap-2 cursor-pointer">
-      <input type="radio" name="isOperational" id="isOperationalYes" value="true" checked
-             class="text-purple-600">
-      <span class="text-sm">🚛 Operacional <span class="text-xs text-gray-500">(afecta CPM)</span></span>
-    </label>
-    <label class="flex items-center gap-2 cursor-pointer">
-      <input type="radio" name="isOperational" id="isOperationalNo" value="false"
-             class="text-purple-600">
-      <span class="text-sm">📦 General <span class="text-xs text-gray-500">(no afecta CPM)</span></span>
-    </label>
-  </div>
-</div>
-            
-            <!-- Botón Crear -->
+
+            <!-- Expense Type -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">${t('finances.modal_category_type_label', 'Expense Type?')}</label>
+              <div class="flex gap-3">
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="isOperational" id="isOperationalYes" value="true" checked class="text-purple-600">
+                  <span class="text-sm">\ud83d\ude9b ${t('finances.modal_type_operational', 'Operational (affects CPM)')}</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="isOperational" id="isOperationalNo" value="false" class="text-purple-600">
+                  <span class="text-sm">\ud83d\udce6 ${t('finances.modal_type_general', "General (doesn't affect CPM)")}</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Create Button -->
             <button type="button" onclick="saveCustomCategory()"
                     class="w-full bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
-              💾 Crear Categoría
+              \ud83d\udcbe ${t('finances.modal_create_category_btn', 'Create Category')}
             </button>
             
           </div>
         </div>
 
-        <!-- Lista de Categorías Personalizadas -->
+        <!-- Custom Categories List -->
         <div>
-          <h4 class="text-md font-semibold text-gray-900 mb-3">📋 Tus Categorías Personalizadas</h4>
+          <h4 class="text-md font-semibold text-gray-900 mb-3">\ud83d\udccb ${t('finances.custom_categories_label', 'Custom Categories')}</h4>
           <div id="customCategoriesList" class="grid grid-cols-2 md:grid-cols-3 gap-3">
-            <!-- Se poblará dinámicamente -->
+            <!-- Populated dynamically -->
           </div>
         </div>
         
@@ -4717,7 +4766,7 @@ function createCategoryModalIfNeeded() {
       <div class="border-t border-gray-200 px-6 py-4 flex justify-end sticky bottom-0 bg-white">
         <button type="button" onclick="closeCategoryModal()"
                 class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
-          Cerrar
+          ${t('finances.btn_close_categories', 'Close')}
         </button>
       </div>
 

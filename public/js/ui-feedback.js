@@ -80,15 +80,19 @@ window.confirmDialog = function (message, onConfirm, onCancel) {
   modal.className = 'modal-content bg-white rounded-lg shadow-2xl p-6 max-w-md w-full mx-4';
   modal.style.cssText = 'animation: scaleIn 0.2s ease-out;';
 
+  const confirmTitle = window.i18n?.t('confirm_dialog.title') || 'Confirm action';
+  const cancelLabel = window.i18n?.t('confirm_dialog.btn_cancel') || 'Cancel';
+  const confirmLabel = window.i18n?.t('confirm_dialog.btn_confirm') || 'Confirm';
+
   modal.innerHTML = `
-    <h3 class="text-xl font-semibold mb-4">Confirmar acción</h3>
+    <h3 class="text-xl font-semibold mb-4">${confirmTitle}</h3>
     <p class="text-gray-700 mb-6">${message}</p>
     <div class="flex gap-3 justify-end">
       <button id="cancelBtn" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition" style="color: #1e293b !important;">
-        Cancelar
+        ${cancelLabel}
       </button>
       <button id="confirmBtn" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition">
-        Confirmar
+        ${confirmLabel}
       </button>
     </div>
   `;

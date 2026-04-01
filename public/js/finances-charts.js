@@ -1,4 +1,4 @@
-﻿// finances-charts.js - Chart.js Visualizations Module
+// finances-charts.js - Chart.js Visualizations Module
 // Version: 1.0.0
 // Dependencies: Chart.js, finances-core.js
 // Last Updated: 2025-12-19
@@ -45,8 +45,9 @@ function updateFinancialCharts(context = "global") {
 
     try {
         if (context === "global" || context === "summary") {
-            updateCashFlowChart(); // OK Sin parámetro, que lea los selectores internamente
+            updateCashFlowChart();
             updateExpenseBreakdownChart();
+            updateLoadDistributionChart();
         }
 
         debugFinances("✅ Gráficos actualizados exitosamente");
@@ -99,16 +100,20 @@ function updateCashFlowChart() {
     const expenses = labels.map(m => monthlyData[m].expenses);
     const profits = labels.map(m => monthlyData[m].revenue - monthlyData[m].expenses);
 
+    const locale = window.i18n?.currentLang === 'es' ? 'es-ES' : 'en-US';
     const formattedLabels = labels.map(month => {
         const [y, m] = month.split("-");
-        return new Date(y, m - 1).toLocaleString("es-ES", { month: "short", year: "numeric" });
+        return new Date(y, m - 1).toLocaleString(locale, { month: "short", year: "numeric" });
     });
 
     if (cashFlowChart) {
         cashFlowChart.data.labels = formattedLabels;
         cashFlowChart.data.datasets[0].data = revenues;
+        cashFlowChart.data.datasets[0].label = window.i18n?.t('finances.chart_revenue') || 'Revenue';
         cashFlowChart.data.datasets[1].data = expenses;
+        cashFlowChart.data.datasets[1].label = window.i18n?.t('finances.chart_expenses_label') || 'Expenses';
         cashFlowChart.data.datasets[2].data = profits;
+        cashFlowChart.data.datasets[2].label = window.i18n?.t('finances.chart_profit') || 'Profit';
         cashFlowChart.update();
         debugLog("✅ Gráfico actualizado con", labels.length, "meses");
     } else {
@@ -117,9 +122,9 @@ function updateCashFlowChart() {
             data: {
                 labels: formattedLabels,
                 datasets: [
-                    { label: 'Ingresos', data: revenues, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.2)', tension: 0.3, fill: true },
-                    { label: 'Gastos', data: expenses, borderColor: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.2)', tension: 0.3, fill: true },
-                    { label: 'Ganancia', data: profits, borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.2)', tension: 0.3, fill: true }
+                    { label: window.i18n?.t('finances.chart_revenue') || 'Revenue', data: revenues, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.2)', tension: 0.3, fill: true },
+                    { label: window.i18n?.t('finances.chart_expenses_label') || 'Expenses', data: expenses, borderColor: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.2)', tension: 0.3, fill: true },
+                    { label: window.i18n?.t('finances.chart_profit') || 'Profit', data: profits, borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.2)', tension: 0.3, fill: true }
                 ]
             },
             options: {
@@ -149,9 +154,13 @@ function updateExpenseBreakdownChart() {
 
     debugFinances("🥧 Creando gráfico de distribución de gastos...");
 
-    // 🧹 Destruir instancia previa
-    if (expenseBreakdownChart && typeof expenseBreakdownChart.destroy === "function") {
+    // 🧹 Destroy any existing Chart.js instance on this canvas (handles module reload)
+    const existingExpense = Chart.getChart(canvas);
+    if (existingExpense) {
+        expenseBreakdownChart = existingExpense; // re-adopt the existing instance
+    } else if (expenseBreakdownChart && typeof expenseBreakdownChart.destroy === 'function') {
         expenseBreakdownChart.destroy();
+        expenseBreakdownChart = null;
     }
 
     // Categorías internas
@@ -177,14 +186,14 @@ function updateExpenseBreakdownChart() {
     });
 
     const labels = [
-        'Combustible',
-        'Mantenimiento',
-        'Comida',
-        'Hospedaje',
-        'Peajes',
-        'Seguros',
-        'Permisos',
-        'Otros'
+        window.i18n?.t('finances.expense_fuel') || 'Fuel',
+        window.i18n?.t('finances.expense_maintenance') || 'Maintenance',
+        window.i18n?.t('finances.expense_food') || 'Food',
+        window.i18n?.t('finances.expense_lodging') || 'Lodging',
+        window.i18n?.t('finances.expense_tolls') || 'Tolls',
+        window.i18n?.t('finances.expense_insurance') || 'Insurance',
+        window.i18n?.t('finances.expense_permits') || 'Permits',
+        window.i18n?.t('finances.expense_other') || 'Other'
     ];
 
     const data = [
@@ -213,10 +222,14 @@ function updateExpenseBreakdownChart() {
     if (totalExpenses === 0) {
         debugFinances("⚠️ No hay gastos para el gráfico de distribución");
 
-        // Destruir gráfico si existe
-        if (expenseBreakdownChart && typeof expenseBreakdownChart.destroy === "function") {
+        // Destruir gráfico si existe (usando Chart.getChart para seguridad)
+        const existingChart = Chart.getChart(canvas);
+        if (existingChart) {
+            existingChart.destroy();
+        } else if (expenseBreakdownChart && typeof expenseBreakdownChart.destroy === 'function') {
             expenseBreakdownChart.destroy();
         }
+        expenseBreakdownChart = null;
 
         // Mostrar mensaje SIN borrar el canvas
         const container = canvas.parentElement;
@@ -224,7 +237,7 @@ function updateExpenseBreakdownChart() {
         if (!messageDiv) {
             messageDiv = document.createElement('div');
             messageDiv.className = 'no-data-message text-center text-gray-500 p-8 absolute inset-0 flex items-center justify-center';
-            messageDiv.textContent = 'No hay gastos para mostrar';
+            messageDiv.textContent = window.i18n?.t('finances.no_expenses_chart') || 'No expenses to show';
             container.style.position = 'relative';
             container.appendChild(messageDiv);
         }
@@ -239,6 +252,15 @@ function updateExpenseBreakdownChart() {
         messageDiv.style.display = 'none';
     }
     canvas.style.display = 'block';
+
+    // UPDATE IN-PLACE if chart already exists (avoids canvas destroy/recreate issues)
+    if (expenseBreakdownChart && expenseBreakdownChart.data) {
+        expenseBreakdownChart.data.labels = labels;
+        expenseBreakdownChart.data.datasets[0].data = data;
+        expenseBreakdownChart.update();
+        debugLog("\u2705 Expense breakdown chart updated in-place");
+        return;
+    }
 
     try {
         expenseBreakdownChart = new Chart(canvas, {
@@ -288,12 +310,12 @@ function updateLoadDistributionChart() {
         return;
     }
 
-    // Destruir gráfico existente
-    if (window.loadDistributionChart && typeof window.loadDistributionChart.destroy === "function") {
-        window.loadDistributionChart.destroy();
+    // 🧹 Destroy any existing Chart.js instance on this canvas (handles module reload)
+    const existingLoad = Chart.getChart(canvas);
+    if (existingLoad) {
+        window.loadDistributionChart = existingLoad; // re-adopt the existing instance
     }
 
-    // Clasificar cargas por distancia
     let shortHauls = 0;   // < 300 millas
     let mediumHauls = 0;  // 300-600 millas
     let longHauls = 0;    // > 600 millas
@@ -309,16 +331,32 @@ function updateLoadDistributionChart() {
         }
     });
 
+    const newLabels = [
+        window.i18n?.t('finances.chart_load_short') || 'Short (<300mi)',
+        window.i18n?.t('finances.chart_load_medium') || 'Medium (300-600mi)',
+        window.i18n?.t('finances.chart_load_long') || 'Long (>600mi)'
+    ];
+
+    // UPDATE IN-PLACE if chart already exists (avoids canvas destroy/recreate issues)
+    if (window.loadDistributionChart && window.loadDistributionChart.data) {
+        window.loadDistributionChart.data.labels = newLabels;
+        window.loadDistributionChart.data.datasets[0].data = [shortHauls, mediumHauls, longHauls];
+        window.loadDistributionChart.update();
+        debugLog("\u2705 Load distribution chart updated in-place");
+        return;
+    }
+
+    // First-time creation
     window.loadDistributionChart = new Chart(canvas, {
         type: 'doughnut',
         data: {
-            labels: ['Cortas (<300mi)', 'Medianas (300-600mi)', 'Largas (>600mi)'],
+            labels: newLabels,
             datasets: [{
                 data: [shortHauls, mediumHauls, longHauls],
                 backgroundColor: [
-                    '#fbbf24', // Amarillo para cortas
-                    '#3b82f6', // Azul para medianas  
-                    '#10b981'  // Verde para largas
+                    '#fbbf24',
+                    '#3b82f6',
+                    '#10b981'
                 ],
                 borderWidth: 2,
                 borderColor: '#ffffff'
@@ -361,5 +399,27 @@ window.updateFinancialCharts = updateFinancialCharts;
 window.updateCashFlowChart = updateCashFlowChart;
 window.updateExpenseBreakdownChart = updateExpenseBreakdownChart;
 window.updateLoadDistributionChart = updateLoadDistributionChart;
+
+// =============================================
+// SUBSCRIBE TO LANGUAGE CHANGES (Observer pattern)
+// This fires when i18n.setLanguage() is called,
+// BEFORE the DOM event, and is always synchronous
+// =============================================
+if (window.i18n && typeof window.i18n.subscribe === 'function') {
+    window.i18n.subscribe(() => {
+        updateExpenseBreakdownChart();
+        updateLoadDistributionChart();
+        updateCashFlowChart();
+    });
+    debugLog("✅ Charts subscribed to language changes via Observer");
+} else {
+    // Fallback: wait for i18n to be ready
+    document.addEventListener('languageChanged', () => {
+        updateExpenseBreakdownChart();
+        updateLoadDistributionChart();
+        updateCashFlowChart();
+    });
+    debugLog("✅ Charts subscribed to languageChanged event (fallback)");
+}
 
 debugLog("💰 Charts module loaded successfully");

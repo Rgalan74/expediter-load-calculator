@@ -1,4 +1,4 @@
-﻿//  zones.js - VERSIN COMPLETAMENTE CORREGIDA
+//  zones.js - VERSIN COMPLETAMENTE CORREGIDA
 
 // Variables globales
 let rpmPorEstado = {};
@@ -23,7 +23,7 @@ function loadZonesData() {
 
     if (!window.currentUser) {
         debugLog(" No user logged in for zones");
-        showZonesEmpty("Debe iniciar sesin para ver las zonas");
+        showZonesEmpty(window.i18n?.t('zones.login_required') || "Must log in to see zones");
         return;
     }
 
@@ -35,7 +35,7 @@ function loadZonesData() {
         .get()
         .then(snapshot => {
             if (snapshot.empty) {
-                showZonesEmpty("No hay cargas para analizar zonas");
+                showZonesEmpty(window.i18n?.t('zones.no_loads') || "No loads to analyze zones");
                 return;
             }
 
@@ -56,7 +56,7 @@ function loadZonesData() {
         })
         .catch(error => {
             debugLog(" Error loading zones data:", error);
-            showZonesError("Error cargando datos: " + error.message);
+            showZonesError((window.i18n?.t('zones.error_loading') || "Error loading data: ") + error.message);
             if (window.showToast) {
                 showToast('Error al cargar zonas: ' + error.message, 'error');
             }
@@ -129,9 +129,9 @@ function renderZonesTable() {
         let label = "Zona gris";
         let zoneClass = "zone-gray";
 
-        if (rawRpm < 0.75) { label = "Zona roja"; zoneClass = "zone-red"; }
-        else if (rawRpm < 1.05) { label = "Zona amarilla"; zoneClass = "zone-yellow"; }
-        else { label = "Zona verde"; zoneClass = "zone-green"; }
+        if (rawRpm < 0.75) { label = window.i18n?.t('zones.zone_red') || "Red Zone"; zoneClass = "zone-red"; }
+        else if (rawRpm < 1.05) { label = window.i18n?.t('zones.zone_yellow') || "Yellow Zone"; zoneClass = "zone-yellow"; }
+        else { label = window.i18n?.t('zones.zone_green') || "Green Zone"; zoneClass = "zone-green"; }
 
         return {
             state,
@@ -197,7 +197,7 @@ function renderZonesTable() {
     });
 
     if (rows.length === 0) {
-        showZonesEmpty("No hay datos suficientes para generar la tabla.");
+        showZonesEmpty(window.i18n?.t('zones.no_enough_data') || "Not enough data to generate the table.");
     }
 }
 
@@ -271,9 +271,9 @@ function setupInfoPanel() {
             infoPanel.id = 'stateInfoPanel';
             infoPanel.className = 'mt-4 p-4 bg-white border border-gray-200 rounded-lg shadow-sm';
             infoPanel.innerHTML = `
-                <h4 class="font-semibold text-lg mb-3 text-gray-800"> Informacin del Estado</h4>
+                <h4 class="font-semibold text-lg mb-3 text-gray-800">${window.i18n?.t('zones.state_info_panel_title') || 'State Info'}</h4>
                 <div id="stateDetails" class="text-gray-500 text-center">
-                    <p class="text-sm">Pasa el cursor sobre un estado para ver detalles</p>
+                    <p class="text-sm">${window.i18n?.t('zones.state_info_hover') || 'Hover over a state to see details'}</p>
                 </div>
             `;
             sidebar.appendChild(infoPanel);
@@ -286,7 +286,9 @@ function showStateInfo(stateCode, rpm, resumen, isClick = false) {
     const detailsDiv = document.getElementById('stateDetails');
     if (!detailsDiv) return;
 
-    const zoneLabel = rpm >= 1.05 ? 'Zona Verde' : rpm >= 0.75 ? 'Zona Amarilla' : 'Zona Roja';
+    const zoneLabel = rpm >= 1.05 ? (window.i18n?.t('zones.zone_green') || 'Green Zone')
+        : rpm >= 0.75 ? (window.i18n?.t('zones.zone_yellow') || 'Yellow Zone')
+        : (window.i18n?.t('zones.zone_red') || 'Red Zone');
     const zoneColor = rpm >= 1.05 ? 'text-green-600' : rpm >= 0.75 ? 'text-yellow-600' : 'text-red-600';
     const zoneIcon = rpm >= 1.05 ? '' : rpm >= 0.75 ? '' : '';
 
@@ -299,15 +301,15 @@ function showStateInfo(stateCode, rpm, resumen, isClick = false) {
             
             <div class="bg-gray-50 p-3 rounded space-y-2">
                 <div class="flex justify-between">
-                    <span class="text-gray-600 text-sm">RPM Promedio:</span>
+                    <span class="text-gray-600 text-sm">${window.i18n?.t('zones.state_info_avg_rpm') || 'Avg RPM:'}</span>
                     <span class="font-bold text-blue-600 text-lg">$${rpm.toFixed(2)}</span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-gray-600 text-sm">Total Cargas:</span>
+                    <span class="text-gray-600 text-sm">${window.i18n?.t('zones.state_info_total_loads') || 'Total Loads:'}</span>
                     <span class="font-semibold">${resumen?.count || 0}</span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-gray-600 text-sm">Ganancia Total:</span>
+                    <span class="text-gray-600 text-sm">${window.i18n?.t('zones.state_info_total_profit') || 'Total Profit:'}</span>
                     <span class="font-semibold text-green-600">$${(resumen?.totalProfit || 0).toFixed(2)}</span>
                 </div>
             </div>
@@ -514,7 +516,7 @@ function sortZonesBy(column) {
 function showZonesLoading() {
     const body = document.getElementById("zoneDataBody");
     if (body) {
-        body.innerHTML = '<tr><td colspan="6" class="p-4 text-center">Cargando zonas...</td></tr>';
+        body.innerHTML = `<tr><td colspan="6" class="p-4 text-center">${window.i18n?.t('zones.loading') || 'Loading zones...'}</td></tr>`;
     }
 }
 
@@ -772,8 +774,11 @@ function createCityMarker(location, data) {
 
 // Crear contenido del InfoWindow
 function createInfoWindowContent(data) {
-    const zoneLabel = data.avgRPM >= 1.05 ? ' Zona Verde' :
-        data.avgRPM >= 0.75 ? ' Zona Amarilla' : ' Zona Roja';
+    const zoneLabel = data.avgRPM >= 1.05 ?
+        ` ${window.i18n?.t('zones.zone_green') || 'Green Zone'}` :
+        data.avgRPM >= 0.75 ?
+        ` ${window.i18n?.t('zones.zone_yellow') || 'Yellow Zone'}` :
+        ` ${window.i18n?.t('zones.zone_red') || 'Red Zone'}`;
 
     return `
         <div style="padding: 10px; min-width: 200px;">
@@ -781,11 +786,11 @@ function createInfoWindowContent(data) {
             <div style="background: #f3f4f6; padding: 8px; border-radius: 4px; margin-bottom: 8px;">
                 <p style="margin: 4px 0;"><strong>${zoneLabel}</strong></p>
                 <p style="margin: 4px 0;">RPM Promedio: <strong>$${data.avgRPM.toFixed(2)}</strong></p>
-                <p style="margin: 4px 0;">Total Cargas: <strong>${data.count}</strong></p>
-                <p style="margin: 4px 0;">Ganancia Total: <strong style="color: green;">$${data.totalProfit.toFixed(2)}</strong></p>
+                <p style="margin: 4px 0;">${window.i18n?.t('zones.infowindow_total_loads') || 'Total Loads:'} <strong>${data.count}</strong></p>
+                <p style="margin: 4px 0;">${window.i18n?.t('zones.infowindow_total_profit') || 'Total Profit:'} <strong style="color: green;">$${data.totalProfit.toFixed(2)}</strong></p>
             </div>
             <p style="margin: 8px 0; text-align: center; color: #6b7280; font-size: 12px;">
-                Click para ver todas las cargas 
+                ${window.i18n?.t('zones.map_click_loads') || 'Click to see all loads'}
             </p>
         </div>
     `;
@@ -1448,7 +1453,7 @@ function populateStatesDropdown() {
     });
 
     const currentVal = select.value;
-    select.innerHTML = '<option value="ALL">Todos los Estados</option>';
+    select.innerHTML = `<option value="ALL">${window.i18n?.t('zones.filter_all_states') || 'All States'}</option>`;
 
     Array.from(states).sort().forEach(state => {
         const opt = document.createElement('option');
@@ -1487,7 +1492,7 @@ window.renderMarketNotes = function () {
     if (!container) return;
 
     if (window.currentMarketNotes.length === 0) {
-        container.innerHTML = '<p class="text-sm text-gray-500 text-center py-4">No tienes notas guardadas aún.</p>';
+        container.innerHTML = `<p class="text-sm text-gray-500 text-center py-4">${window.i18n?.t('zones.no_notes') || 'No saved notes yet.'}</p>`;
         return;
     }
 
@@ -1496,9 +1501,9 @@ window.renderMarketNotes = function () {
     const typeFilter = window.marketNotesTypeFilter || 'ALL';
 
     const typeBadge = {
-        destino: '<span class="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full">Destino</span>',
-        origen: '<span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">Origen</span>',
-        ambos: '<span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded-full">Ambos</span>',
+        destino: `<span class="bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded-full">${window.i18n?.t('zones.filter_destination') || 'Destination'}</span>`,
+        origen: `<span class="bg-green-100 text-green-700 text-xs px-2 py-0.5 rounded-full">${window.i18n?.t('zones.filter_origin') || 'Origin'}</span>`,
+        ambos: `<span class="bg-purple-100 text-purple-700 text-xs px-2 py-0.5 rounded-full">${window.i18n?.t('zones.filter_both') || 'Both'}</span>`,
     };
 
     let filtered = window.currentMarketNotes.filter(d => {

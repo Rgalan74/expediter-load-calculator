@@ -26,7 +26,7 @@ function generatePLReport() {
   debugLog("📊 Generando Estado de Resultados Profesional...");
 
   // ✅ Abrir modal con loading
-  openReportModal('pl', 'Estado de Resultados', 'Cargando datos...', '📘');
+  openReportModal('pl', window.i18n?.t('finances.report_pl_title') || 'P&L Statement', window.i18n?.t('finances.generating_report') || 'Loading...', '📘');
 
   const reportContent = document.getElementById("reportContent");
   if (reportContent) {
@@ -51,9 +51,9 @@ function generatePLReport() {
   let periodLabel = "Todos los periodos";
   if (year && month) {
     const monthNames = {
-      "01": "Enero", "02": "Febrero", "03": "Marzo", "04": "Abril",
-      "05": "Mayo", "06": "Junio", "07": "Julio", "08": "Agosto",
-      "09": "Septiembre", "10": "Octubre", "11": "Noviembre", "12": "Diciembre"
+      "01": window.i18n?.t('common.month_jan')||'January', "02": window.i18n?.t('common.month_feb')||'February', "03": window.i18n?.t('common.month_mar')||'March', "04": window.i18n?.t('common.month_apr')||'April',
+      "05": window.i18n?.t('common.month_may')||'May', "06": window.i18n?.t('common.month_jun')||'June', "07": window.i18n?.t('common.month_jul')||'July', "08": window.i18n?.t('common.month_aug')||'August',
+      "09": window.i18n?.t('common.month_sep')||'September', "10": window.i18n?.t('common.month_oct')||'October', "11": window.i18n?.t('common.month_nov')||'November', "12": window.i18n?.t('common.month_dec')||'December'
     };
     periodLabel = `${monthNames[month]} ${year}`;
   } else if (year) {
@@ -80,15 +80,15 @@ function generatePLReport() {
   });
 
   const categoryLabels = {
-    fuel: "🚚 Combustible",
-    maintenance: "🔧 Mantenimiento",
-    food: "🍔 Comida",
-    lodging: "🏨 Hospedaje",
-    tolls: "🛣️ Peajes",
-    insurance: "🛡️ Seguro",
-    permits: "📄 Permisos",
-    carpayment: "🚗 Pago de Auto",
-    other: "📌 Otros"
+    fuel: `🚚 ${window.i18n?.t('finances.expense_fuel') || 'Fuel'}`,
+    maintenance: `🔧 ${window.i18n?.t('finances.expense_maintenance') || 'Maintenance'}`,
+    food: `🍔 ${window.i18n?.t('finances.expense_food') || 'Food'}`,
+    lodging: `🏨 ${window.i18n?.t('finances.expense_lodging') || 'Lodging'}`,
+    tolls: `🛣️ ${window.i18n?.t('finances.expense_tolls') || 'Tolls'}`,
+    insurance: `🛡️ ${window.i18n?.t('finances.expense_insurance') || 'Insurance'}`,
+    permits: `📄 ${window.i18n?.t('finances.expense_permits') || 'Permits'}`,
+    carpayment: `🚗 ${window.i18n?.t('finances.expense_car_payment') || 'Car Payment'}`,
+    other: `📌 ${window.i18n?.t('finances.expense_other') || 'Other'}`
   };
 
   // Análisis de distribución de cargas
@@ -127,10 +127,10 @@ function generatePLReport() {
     <div id="print-area-pl">
       <!-- Header -->
       <div style="text-align: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #000;">
-        <h1 style="font-size: 24px; font-weight: bold; color: #000; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;">ESTADO DE RESULTADOS</h1>
+        <h1 style="font-size: 24px; font-weight: bold; color: #000; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;">${window.i18n?.t('finances.report_pl_header') || 'INCOME STATEMENT'}</h1>
         <p style="font-size: 14px; color: #000; margin: 5px 0;">Expediter Load Calculator</p>
-        <p style="font-size: 12px; color: #000; margin: 5px 0;">Período: ${periodLabel}</p>
-        <p style="font-size: 10px; color: #000; margin: 5px 0;">Generado el ${currentDate}</p>
+        <p style="font-size: 12px; color: #000; margin: 5px 0;">${window.i18n?.t('finances.report_period') || 'Period:'} ${periodLabel}</p>
+        <p style="font-size: 10px; color: #000; margin: 5px 0;">${window.i18n?.t('finances.report_generated_on') || 'Generated on'} ${currentDate}</p>
       </div>
 
       <style>
@@ -165,30 +165,30 @@ function generatePLReport() {
 
     <!-- Resumen ejecutivo -->
     <div style="margin-bottom: 25px;">
-      <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">RESUMEN EJECUTIVO</h3>
+      <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">${window.i18n?.t('finances.report_exec_summary') || 'EXECUTIVE SUMMARY'}</h3>
       <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; font-size: 12px;">
         <thead>
           <tr style="background-color: #fff;">
-            <th style="border: 1px solid #000; padding: 10px; text-align: left; font-weight: bold;">Concepto</th>
-            <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">Monto</th>
-            <th style="border: 1px solid #000; padding: 10px; text-align: left; font-weight: bold;">Detalle</th>
+            <th style="border: 1px solid #000; padding: 10px; text-align: left; font-weight: bold;">${window.i18n?.t('finances.report_col_concept') || 'Concept'}</th>
+            <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">${window.i18n?.t('finances.report_col_amount') || 'Amount'}</th>
+            <th style="border: 1px solid #000; padding: 10px; text-align: left; font-weight: bold;">${window.i18n?.t('finances.report_col_detail') || 'Detail'}</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td style="border: 1px solid #000; padding: 8px; text-align: left;">Ingresos Totales</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: left;">${window.i18n?.t('finances.report_total_revenue_label') || 'Total Revenue'}</td>
             <td style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${formatCurrency(totalRevenue)}</td>
-            <td style="border: 1px solid #000; padding: 8px; text-align: left;">${totalLoads} cargas completadas</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: left;">${totalLoads} ${window.i18n?.t('finances.report_loads_completed') || 'completed loads'}</td>
           </tr>
           <tr>
-            <td style="border: 1px solid #000; padding: 8px; text-align: left;">Gastos Totales</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: left;">${window.i18n?.t('finances.report_total_expenses_label') || 'Total Expenses'}</td>
             <td style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${formatCurrency(totalExpenses)}</td>
-            <td style="border: 1px solid #000; padding: 8px; text-align: left;">Gastos operativos reales</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: left;">${window.i18n?.t('finances.report_operating_expenses') || 'Actual operating expenses'}</td>
           </tr>
           <tr style="background-color: #f0f0f0;">
-            <td style="border: 1px solid #000; padding: 8px; text-align: left; font-weight: bold;">Ganancia Neta</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: left; font-weight: bold;">${window.i18n?.t('finances.report_net_profit') || 'Net Profit'}</td>
             <td style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${formatCurrency(netProfit)}</td>
-            <td style="border: 1px solid #000; padding: 8px; text-align: left;">Margen: ${margin.toFixed(1)}%</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: left;">${window.i18n?.t('finances.report_margin_label') || 'Margin:'} ${margin.toFixed(1)}%</td>
           </tr>
         </tbody>
       </table>
@@ -196,29 +196,29 @@ function generatePLReport() {
 
     <!-- Métricas operativas -->
     <div style="margin-bottom: 25px;">
-      <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">MÉTRICAS OPERATIVAS</h3>
+      <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">${window.i18n?.t('finances.report_op_metrics_header') || 'OPERATING METRICS'}</h3>
       <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; font-size: 12px;">
         <thead>
           <tr>
-            <th style="border: 1px solid #000; padding: 10px; text-align: left; font-weight: bold;">Métrica</th>
-            <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">Valor</th>
+            <th style="border: 1px solid #000; padding: 10px; text-align: left; font-weight: bold;">${window.i18n?.t('finances.report_col_metric') || 'Metric'}</th>
+            <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">${window.i18n?.t('finances.report_col_value') || 'Value'}</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td style="border: 1px solid #000; padding: 8px; text-align: left;">Millas Totales</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: left;">${window.i18n?.t('finances.report_total_miles_label') || 'Total Miles'}</td>
             <td style="border: 1px solid #000; padding: 8px; text-align: right;">${totalMiles.toLocaleString()}</td>
           </tr>
           <tr>
-            <td style="border: 1px solid #000; padding: 8px; text-align: left;">RPM Promedio</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: left;">${window.i18n?.t('finances.report_avg_rpm') || 'Avg RPM'}</td>
             <td style="border: 1px solid #000; padding: 8px; text-align: right;">${formatCurrency(avgRpm)}</td>
           </tr>
           <tr>
-            <td style="border: 1px solid #000; padding: 8px; text-align: left;">Costo por Milla</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: left;">${window.i18n?.t('finances.report_cost_per_mile_label') || 'Cost per Mile'}</td>
             <td style="border: 1px solid #000; padding: 8px; text-align: right;">${formatCurrency(costPerMile)}</td>
           </tr>
           <tr>
-            <td style="border: 1px solid #000; padding: 8px; text-align: left;">Promedio por Carga</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: left;">${window.i18n?.t('finances.report_avg_per_load') || 'Avg per Load'}</td>
             <td style="border: 1px solid #000; padding: 8px; text-align: right;">${formatCurrency(totalLoads > 0 ? totalRevenue / totalLoads : 0)}</td>
           </tr>
         </tbody>
@@ -227,13 +227,13 @@ function generatePLReport() {
 
     <!-- Desglose de gastos -->
     <div style="margin-bottom: 25px;">
-      <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">DESGLOSE DE GASTOS</h3>
+      <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">${window.i18n?.t('finances.report_expense_breakdown_header') || 'EXPENSE BREAKDOWN'}</h3>
       <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; font-size: 12px;">
         <thead>
           <tr>
-            <th style="border: 1px solid #000; padding: 10px; text-align: left; font-weight: bold;">Categoría</th>
-            <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">Monto</th>
-            <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">% del Total</th>
+            <th style="border: 1px solid #000; padding: 10px; text-align: left; font-weight: bold;">${window.i18n?.t('finances.report_col_category') || 'Category'}</th>
+            <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">${window.i18n?.t('finances.report_col_amount') || 'Amount'}</th>
+            <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">${window.i18n?.t('finances.report_col_pct') || '% of Total'}</th>
           </tr>
         </thead>
         <tbody>
@@ -262,28 +262,28 @@ function generatePLReport() {
 
     <!-- Análisis de cargas -->
     <div style="margin-bottom: 25px;">
-      <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">ANÁLISIS DE CARGAS POR DISTANCIA</h3>
+      <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">${window.i18n?.t('finances.report_load_analysis_header') || 'LOAD ANALYSIS BY DISTANCE'}</h3>
       <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; font-size: 12px;">
         <thead>
           <tr>
-            <th style="border: 1px solid #000; padding: 10px; text-align: left; font-weight: bold;">Tipo</th>
-            <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">Cantidad</th>
-            <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">% del Total</th>
+            <th style="border: 1px solid #000; padding: 10px; text-align: left; font-weight: bold;">${window.i18n?.t('finances.report_col_type') || 'Type'}</th>
+            <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">${window.i18n?.t('finances.report_col_count') || 'Count'}</th>
+            <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">${window.i18n?.t('finances.report_col_pct') || '% of Total'}</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td style="border: 1px solid #000; padding: 8px; text-align: left;">Cargas Cortas (&lt;300 mi)</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: left;">${window.i18n?.t('finances.report_short_loads_label') || 'Short Loads (<300 mi)'}</td>
             <td style="border: 1px solid #000; padding: 8px; text-align: right;">${shortHauls}</td>
             <td style="border: 1px solid #000; padding: 8px; text-align: right;">${totalLoads > 0 ? ((shortHauls / totalLoads) * 100).toFixed(1) : 0}%</td>
           </tr>
           <tr>
-            <td style="border: 1px solid #000; padding: 8px; text-align: left;">Cargas Medianas (300-600 mi)</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: left;">${window.i18n?.t('finances.report_medium_loads_label') || 'Medium Loads (300-600 mi)'}</td>
             <td style="border: 1px solid #000; padding: 8px; text-align: right;">${mediumHauls}</td>
             <td style="border: 1px solid #000; padding: 8px; text-align: right;">${totalLoads > 0 ? ((mediumHauls / totalLoads) * 100).toFixed(1) : 0}%</td>
           </tr>
           <tr>
-            <td style="border: 1px solid #000; padding: 8px; text-align: left;">Cargas Largas (&gt;600 mi)</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: left;">${window.i18n?.t('finances.report_long_loads_label') || 'Long Loads (>600 mi)'}</td>
             <td style="border: 1px solid #000; padding: 8px; text-align: right;">${longHauls}</td>
             <td style="border: 1px solid #000; padding: 8px; text-align: right;">${totalLoads > 0 ? ((longHauls / totalLoads) * 100).toFixed(1) : 0}%</td>
           </tr>
@@ -294,7 +294,7 @@ function generatePLReport() {
 
   // Actualizar subtítulo del modal con el período
   const subtitleEl = document.getElementById("reportModalSubtitle");
-  if (subtitleEl) subtitleEl.textContent = `Período: ${periodLabel}`;
+  if (subtitleEl) subtitleEl.textContent = `${window.i18n?.t('finances.report_period') || 'Period:'} ${periodLabel}`;
 
   debugLog("✅ Estado de Resultados profesional generado");
 }
@@ -307,7 +307,7 @@ function generateCompanyReport() {
   debugLog("🏢 Generando Reporte por Compañías...");
 
   // ✅ Abrir modal con loading
-  openReportModal('company', 'Reporte por Compañías', 'Cargando datos...', '🏢');
+  openReportModal('company', window.i18n?.t('finances.report_company_title') || 'Company Report', window.i18n?.t('finances.generating_report') || 'Loading...', '🏢');
 
   const reportContent = document.getElementById("reportContent");
   if (reportContent) {
@@ -331,9 +331,9 @@ function generateCompanyReport() {
   let periodLabel = "Todos los periodos";
   if (year && month) {
     const monthNames = {
-      "01": "Enero", "02": "Febrero", "03": "Marzo", "04": "Abril",
-      "05": "Mayo", "06": "Junio", "07": "Julio", "08": "Agosto",
-      "09": "Septiembre", "10": "Octubre", "11": "Noviembre", "12": "Diciembre"
+      "01": window.i18n?.t('common.month_jan')||'January', "02": window.i18n?.t('common.month_feb')||'February', "03": window.i18n?.t('common.month_mar')||'March', "04": window.i18n?.t('common.month_apr')||'April',
+      "05": window.i18n?.t('common.month_may')||'May', "06": window.i18n?.t('common.month_jun')||'June', "07": window.i18n?.t('common.month_jul')||'July', "08": window.i18n?.t('common.month_aug')||'August',
+      "09": window.i18n?.t('common.month_sep')||'September', "10": window.i18n?.t('common.month_oct')||'October', "11": window.i18n?.t('common.month_nov')||'November', "12": window.i18n?.t('common.month_dec')||'December'
     };
     periodLabel = `${monthNames[month]} ${year}`;
   } else if (year) {
@@ -406,10 +406,10 @@ function generateCompanyReport() {
     <div id="print-area-co">
       <!-- Header -->
       <div style="text-align: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #000;">
-        <h1 style="font-size: 24px; font-weight: bold; color: #000; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;">REPORTE POR COMPAÑÍAS</h1>
+        <h1 style="font-size: 24px; font-weight: bold; color: #000; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;">${window.i18n?.t('finances.report_company_header') || 'COMPANY REVENUE REPORT'}</h1>
         <p style="font-size: 14px; color: #000; margin: 5px 0;">Expediter Load Calculator</p>
-        <p style="font-size: 12px; color: #000; margin: 5px 0;">Período: ${periodLabel}</p>
-        <p style="font-size: 10px; color: #000; margin: 5px 0;">Generado el ${currentDate}</p>
+        <p style="font-size: 12px; color: #000; margin: 5px 0;">${window.i18n?.t('finances.report_period') || 'Period:'} ${periodLabel}</p>
+        <p style="font-size: 10px; color: #000; margin: 5px 0;">${window.i18n?.t('finances.report_generated_on') || 'Generated on'} ${currentDate}</p>
       </div>
 
       <style>
@@ -442,27 +442,27 @@ function generateCompanyReport() {
 
     <!-- Resumen ejecutivo -->
     <div style="margin-bottom: 25px;">
-      <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">RESUMEN EJECUTIVO</h3>
+      <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">${window.i18n?.t('finances.report_exec_summary') || 'EXECUTIVE SUMMARY'}</h3>
       <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; font-size: 12px;">
         <tbody>
           <tr>
-            <td style="border: 1px solid #000; padding: 8px; text-align: left; width: 50%;">Total de Compañías</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: left; width: 50%;">${window.i18n?.t('finances.report_total_companies') || 'Total Companies'}</td>
             <td style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${sortedCompanies.length}</td>
           </tr>
           <tr>
-            <td style="border: 1px solid #000; padding: 8px; text-align: left;">Ingresos Totales</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: left;">${window.i18n?.t('finances.report_total_revenue_label') || 'Total Revenue'}</td>
             <td style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${formatCurrency(totalRevenue)}</td>
           </tr>
           <tr>
-            <td style="border: 1px solid #000; padding: 8px; text-align: left;">Cargas Completadas</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: left;">${window.i18n?.t('finances.report_loads_completed_label') || 'Completed Loads'}</td>
             <td style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${totalLoads}</td>
           </tr>
           <tr>
-            <td style="border: 1px solid #000; padding: 8px; text-align: left;">Millas Totales</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: left;">${window.i18n?.t('finances.report_total_miles_label') || 'Total Miles'}</td>
             <td style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${totalMiles.toLocaleString()}</td>
           </tr>
           <tr style="background-color: #f0f0f0;">
-            <td style="border: 1px solid #000; padding: 8px; text-align: left; font-weight: bold;">RPM Promedio</td>
+            <td style="border: 1px solid #000; padding: 8px; text-align: left; font-weight: bold;">${window.i18n?.t('finances.report_avg_rpm') || 'Avg RPM'}</td>
             <td style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${formatCurrency(totalMiles > 0 ? totalRevenue / totalMiles : 0)}</td>
           </tr>
         </tbody>
@@ -471,17 +471,17 @@ function generateCompanyReport() {
 
     <!-- Tabla completa de todas las compañías -->
     <div style="margin-bottom: 25px;">
-      <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">DETALLE POR COMPAÑÍA</h3>
+      <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">${window.i18n?.t('finances.report_company_detail_header') || 'COMPANY DETAIL'}</h3>
       <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; font-size: 11px;">
         <thead>
           <tr>
-            <th style="border: 1px solid #000; padding: 8px; text-align: left; font-weight: bold;">Compañía</th>
-            <th style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">Ingresos</th>
+            <th style="border: 1px solid #000; padding: 8px; text-align: left; font-weight: bold;">${window.i18n?.t('finances.report_col_company_label') || 'Company'}</th>
+            <th style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${window.i18n?.t('finances.report_col_revenue_label') || 'Revenue'}</th>
             <th style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">%</th>
-            <th style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">Cargas</th>
-            <th style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">Millas</th>
+            <th style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${window.i18n?.t('finances.report_col_loads_label') || 'Loads'}</th>
+            <th style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${window.i18n?.t('finances.report_col_miles_label') || 'Miles'}</th>
             <th style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">RPM</th>
-            <th style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">$/Carga</th>
+            <th style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${window.i18n?.t('finances.report_col_per_load') || '$/Load'}</th>
           </tr>
         </thead>
         <tbody>
@@ -517,7 +517,7 @@ function generateCompanyReport() {
 
   // Actualizar subtítulo del modal con el período
   const subtitleEl = document.getElementById("reportModalSubtitle");
-  if (subtitleEl) subtitleEl.textContent = `Período: ${periodLabel}`;
+  if (subtitleEl) subtitleEl.textContent = `${window.i18n?.t('finances.report_period') || 'Period:'} ${periodLabel}`;
 
   debugLog("✅ Reporte por Compañías generado exitosamente");
 }
@@ -583,7 +583,7 @@ function generateExpenseBreakdownReport() {
   debugLog("📈 Generando Reporte de Desglose de Gastos...");
 
   // ✅ Abrir modal con loading
-  openReportModal('expenses', 'Desglose de Gastos', 'Cargando datos...', '📈');
+  openReportModal('expenses', window.i18n?.t('finances.report_expense_title') || 'Expense Breakdown', window.i18n?.t('finances.generating_report') || 'Loading...', '📈');
 
   const reportContent = document.getElementById("reportContent");
   if (reportContent) {
@@ -607,9 +607,9 @@ function generateExpenseBreakdownReport() {
   let periodLabel = "Todos los periodos";
   if (year && month) {
     const monthNames = {
-      "01": "Enero", "02": "Febrero", "03": "Marzo", "04": "Abril",
-      "05": "Mayo", "06": "Junio", "07": "Julio", "08": "Agosto",
-      "09": "Septiembre", "10": "Octubre", "11": "Noviembre", "12": "Diciembre"
+      "01": window.i18n?.t('common.month_jan')||'January', "02": window.i18n?.t('common.month_feb')||'February', "03": window.i18n?.t('common.month_mar')||'March', "04": window.i18n?.t('common.month_apr')||'April',
+      "05": window.i18n?.t('common.month_may')||'May', "06": window.i18n?.t('common.month_jun')||'June', "07": window.i18n?.t('common.month_jul')||'July', "08": window.i18n?.t('common.month_aug')||'August',
+      "09": window.i18n?.t('common.month_sep')||'September', "10": window.i18n?.t('common.month_oct')||'October', "11": window.i18n?.t('common.month_nov')||'November', "12": window.i18n?.t('common.month_dec')||'December'
     };
     periodLabel = `${monthNames[month]} ${year}`;
   } else if (year) {
@@ -633,14 +633,14 @@ function generateExpenseBreakdownReport() {
   });
 
   const categoryLabels = {
-    fuel: "Combustible",
-    maintenance: "Mantenimiento",
-    food: "Comida",
-    lodging: "Hospedaje",
-    tolls: "Peajes",
-    insurance: "Seguro",
-    permits: "Permisos",
-    other: "Otros"
+    fuel: window.i18n?.t('finances.expense_fuel') || 'Fuel',
+    maintenance: window.i18n?.t('finances.expense_maintenance') || 'Maintenance',
+    food: window.i18n?.t('finances.expense_food') || 'Food',
+    lodging: window.i18n?.t('finances.expense_lodging') || 'Lodging',
+    tolls: window.i18n?.t('finances.expense_tolls') || 'Tolls',
+    insurance: window.i18n?.t('finances.expense_insurance') || 'Insurance',
+    permits: window.i18n?.t('finances.expense_permits') || 'Permits',
+    other: window.i18n?.t('finances.expense_other') || 'Other'
   };
 
   // Calcular totales
@@ -680,10 +680,10 @@ function generateExpenseBreakdownReport() {
     <div id="print-area-exp">
       <!-- Header -->
       <div style="text-align: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #000;">
-        <h1 style="font-size: 24px; font-weight: bold; color: #000; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;">DESGLOSE DE GASTOS</h1>
+        <h1 style="font-size: 24px; font-weight: bold; color: #000; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;">${window.i18n?.t('finances.report_expense_breakdown_header') || 'EXPENSE BREAKDOWN'}</h1>
         <p style="font-size: 14px; color: #000; margin: 5px 0;">Expediter Load Calculator</p>
-        <p style="font-size: 12px; color: #000; margin: 5px 0;">Período: ${periodLabel}</p>
-        <p style="font-size: 10px; color: #000; margin: 5px 0;">Generado el ${currentDate}</p>
+        <p style="font-size: 12px; color: #000; margin: 5px 0;">${window.i18n?.t('finances.report_period') || 'Period:'} ${periodLabel}</p>
+        <p style="font-size: 10px; color: #000; margin: 5px 0;">${window.i18n?.t('finances.report_generated_on') || 'Generated on'} ${currentDate}</p>
       </div>
 
       <style>
@@ -717,19 +717,19 @@ function generateExpenseBreakdownReport() {
 
       <!-- Resumen de Gastos -->
       <div style="margin-bottom: 25px;">
-        <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">RESUMEN DE GASTOS</h3>
+        <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">${window.i18n?.t('finances.report_expense_summary_header') || 'EXPENSE SUMMARY'}</h3>
         <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; font-size: 12px;">
           <tbody>
             <tr>
-              <td style="border: 1px solid #000; padding: 8px; text-align: left;">Gastos Totales</td>
+              <td style="border: 1px solid #000; padding: 8px; text-align: left;">${window.i18n?.t('finances.report_total_expenses_label') || 'Total Expenses'}</td>
               <td style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${formatCurrency(totalExpenses)}</td>
             </tr>
             <tr>
-              <td style="border: 1px solid #000; padding: 8px; text-align: left;">Total de Transacciones</td>
+              <td style="border: 1px solid #000; padding: 8px; text-align: left;">${window.i18n?.t('finances.report_total_transactions') || 'Total Transactions'}</td>
               <td style="border: 1px solid #000; padding: 8px; text-align: right;">${totalCount}</td>
             </tr>
             <tr>
-              <td style="border: 1px solid #000; padding: 8px; text-align: left;">Categorías Activas</td>
+              <td style="border: 1px solid #000; padding: 8px; text-align: left;">${window.i18n?.t('finances.report_active_categories') || 'Active Categories'}</td>
               <td style="border: 1px solid #000; padding: 8px; text-align: right;">${sortedCategories.length}</td>
             </tr>
           </tbody>
@@ -816,7 +816,7 @@ function generateExpenseBreakdownReport() {
 
   // Actualizar subtítulo del modal con el período
   const subtitleEl = document.getElementById("reportModalSubtitle");
-  if (subtitleEl) subtitleEl.textContent = `Período: ${periodLabel}`;
+  if (subtitleEl) subtitleEl.textContent = `${window.i18n?.t('finances.report_period') || 'Period:'} ${periodLabel}`;
 
   debugLog("✅ Reporte de Desglose de Gastos generado exitosamente");
 }
@@ -829,7 +829,7 @@ function generateProfitabilityReport() {
   debugLog("🗺️ Generando Reporte de Rentabilidad por Zona...");
 
   // ✅ Abrir modal con loading
-  openReportModal('profitability', 'Rentabilidad por Zona', 'Cargando datos...', '🗺️');
+  openReportModal('profitability', window.i18n?.t('finances.report_zone_title') || 'Zone Profitability', window.i18n?.t('finances.generating_report') || 'Loading...', '🗺️');
 
   const reportContent = document.getElementById("reportContent");
   if (reportContent) {
@@ -853,9 +853,9 @@ function generateProfitabilityReport() {
   let periodLabel = "Todos los periodos";
   if (year && month) {
     const monthNames = {
-      "01": "Enero", "02": "Febrero", "03": "Marzo", "04": "Abril",
-      "05": "Mayo", "06": "Junio", "07": "Julio", "08": "Agosto",
-      "09": "Septiembre", "10": "Octubre", "11": "Noviembre", "12": "Diciembre"
+      "01": window.i18n?.t('common.month_jan')||'January', "02": window.i18n?.t('common.month_feb')||'February', "03": window.i18n?.t('common.month_mar')||'March', "04": window.i18n?.t('common.month_apr')||'April',
+      "05": window.i18n?.t('common.month_may')||'May', "06": window.i18n?.t('common.month_jun')||'June', "07": window.i18n?.t('common.month_jul')||'July', "08": window.i18n?.t('common.month_aug')||'August',
+      "09": window.i18n?.t('common.month_sep')||'September', "10": window.i18n?.t('common.month_oct')||'October', "11": window.i18n?.t('common.month_nov')||'November', "12": window.i18n?.t('common.month_dec')||'December'
     };
     periodLabel = `${monthNames[month]} ${year}`;
   } else if (year) {
@@ -1071,7 +1071,7 @@ function generateProfitabilityReport() {
 
   // Actualizar subtítulo del modal con el período
   const subtitleEl = document.getElementById("reportModalSubtitle");
-  if (subtitleEl) subtitleEl.textContent = `Período: ${periodLabel}`;
+  if (subtitleEl) subtitleEl.textContent = `${window.i18n?.t('finances.report_period') || 'Period:'} ${periodLabel}`;
 
   debugLog("✅ Reporte de Rentabilidad por Zona generado exitosamente");
 }

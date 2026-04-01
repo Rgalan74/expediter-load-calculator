@@ -554,38 +554,38 @@ async function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
   let decision, level, icon, color, razon;
 
   if (rpm < cpm) {
-    decision = 'RECHAZA';
+    decision = 'REJECT';
     level = 'reject';
     icon = '❌';
     color = 'decision-reject';
     const perdida = ((cpm - rpm) * 100).toFixed(1);
-    razon = `Pierdes $${perdida} por cada 100mi — RPM $${rpm.toFixed(3)} no cubre tu costo de $${cpm.toFixed(3)}/mi`;
+    razon = `Losing $${perdida} per 100mi — RPM $${rpm.toFixed(3)} doesn't cover your cost of $${cpm.toFixed(3)}/mi`;
 
   } else if (rpm >= acceptThreshold) {
-    decision = 'ACEPTA';
+    decision = 'ACCEPT';
     level = 'accept';
     icon = '✅';
     color = 'decision-accept';
     const margenReal = (((rpm - cpm) / rpm) * 100).toFixed(1);
     const ganancia100 = ((rpm - cpm) * 100).toFixed(0);
-    razon = `Margen ${margenReal}% — ganas $${ganancia100} por cada 100mi`;
+    razon = `Margin ${margenReal}% — earning $${ganancia100} per 100mi`;
 
   } else if (rpm >= midThreshold) {
-    decision = 'CASI ACEPTA';
+    decision = 'ALMOST ACCEPT';
     level = 'warning-high';
     icon = '🟡';
     color = 'decision-warning-high';
     const margenReal = (((rpm - cpm) / rpm) * 100).toFixed(1);
     const falta = ((acceptThreshold - rpm) * 100).toFixed(1);
-    razon = `Margen ${margenReal}% — faltan $${falta}¢/100mi para tu objetivo`;
+    razon = `Margin ${margenReal}% — $${falta}¢/100mi short of your target`;
 
   } else {
-    decision = 'EVALUA CON CUIDADO';
+    decision = 'EVALUATE';
     level = 'warning-low';
     icon = '🟠';
     color = 'decision-warning-low';
     const margenReal = (((rpm - cpm) / rpm) * 100).toFixed(1);
-    razon = `Margen ${margenReal}% — cubre costos pero debajo de tu umbral minimo`;
+    razon = `Margin ${margenReal}% — covers costs but below your minimum threshold`;
   }
 
   // Contexto del estado — solo informa, no cambia decision
@@ -866,7 +866,7 @@ async function calculate() {
     debugLog(" Calculo completado con costos reales");
 
     // Show success toast
-    showToast('Carga calculada exitosamente', 'success', 2000);
+    showToast(window.i18n?.t('calculator.load_calculated_success') || 'Load calculated successfully', 'success', 2000);
 
   } catch (error) {
     debugLog(' Error en calculo:', error);
@@ -1038,7 +1038,7 @@ function showDecisionPanel(calculationData = {}) {
   const margin = profitMargin || (totalCharge > 0 ? (netProfit / totalCharge) * 100 : 0);
 
   // ========== DETERMINAR DECISIÓN — user-agnostic ==========
-  let decision = 'EVALÚA';
+  let decision = 'EVALUATE';
   let decisionClasses = ['decision-header-warning-low'];
   let decisionIcon = '🟠';
   let profitClass = 'profit-section-warning';
@@ -1052,22 +1052,22 @@ function showDecisionPanel(calculationData = {}) {
   const _midThreshold = _avgRPM > 0 ? Math.min(_targetRPM_margen, _avgRPM) : _targetRPM_margen;
 
   if (actualRPM < _cpm) {
-    decision = 'RECHAZA';
+    decision = 'REJECT';
     decisionClasses = ['decision-header-reject'];
     decisionIcon = '❌';
     profitClass = 'profit-section-negative';
   } else if (actualRPM >= _acceptThreshold) {
-    decision = 'ACEPTA';
+    decision = 'ACCEPT';
     decisionClasses = ['decision-header-accept', 'pulse-glow-green'];
     decisionIcon = '✅';
     profitClass = 'profit-section-positive';
   } else if (actualRPM >= _midThreshold) {
-    decision = 'CASI ACEPTA';
+    decision = 'ALMOST ACCEPT';
     decisionClasses = ['decision-header-warning-high'];
     decisionIcon = '🟡';
     profitClass = 'profit-section-warning';
   } else {
-    decision = 'EVALÚA';
+    decision = 'EVALUATE';
     decisionClasses = ['decision-header-warning-low'];
     decisionIcon = '🟠';
     profitClass = 'profit-section-warning';
@@ -1082,7 +1082,13 @@ function showDecisionPanel(calculationData = {}) {
   const routeEl = document.getElementById('decisionRoute');
   const iconEl = document.getElementById('decisionIcon');
 
-  if (titleEl) titleEl.textContent = decision;
+  if (titleEl) {
+    const _decisionKeyMap = { 'ACCEPT': 'decision_accept', 'REJECT': 'decision_reject', 'ALMOST ACCEPT': 'decision_almost', 'EVALUATE': 'decision_evaluate' };
+    const _decisionKey = _decisionKeyMap[decision];
+    titleEl.setAttribute('data-decision', decision); // store EN value for DOM checks
+    if (_decisionKey) titleEl.setAttribute('data-i18n', 'calculator.' + _decisionKey);
+    titleEl.textContent = (_decisionKey && window.i18n?.t('calculator.' + _decisionKey)) || decision;
+  }
   if (iconEl) iconEl.textContent = decisionIcon;
   if (routeEl && origin && destination) {
     routeEl.textContent = `${origin} → ${destination} • ${totalMiles.toFixed(0)} mi`;
@@ -1116,7 +1122,7 @@ function showDecisionPanel(calculationData = {}) {
         const badgeColor = parseFloat(diff) >= 0
           ? 'bg-green-600/30 border border-green-400/40'
           : 'bg-yellow-600/30 border border-yellow-400/40';
-        badgesHTML += `<span class="${badgeColor} px-2 md:px-3 py-1 rounded-full backdrop-blur whitespace-nowrap">📍 ${destinationState}: ${signo}${diff}% vs histórico</span>`;
+        badgesHTML += `<span class="${badgeColor} px-2 md:px-3 py-1 rounded-full backdrop-blur whitespace-nowrap">📍 ${destinationState}: ${signo}${diff}% vs avg</span>`;
       } else if (originState && destinationState) {
         badgesHTML += `<span class="px-2 md:px-3 py-1 rounded-full backdrop-blur whitespace-nowrap">🗺️ ${originState} → ${destinationState}</span>`;
       }
@@ -1134,7 +1140,7 @@ function showDecisionPanel(calculationData = {}) {
     badgesHTML += `<span class="px-2 md:px-3 py-1 rounded-full backdrop-blur whitespace-nowrap">⏱️ ${estimatedTime}</span>`;
 
     // Badge de clima (se actualizará con API) - ESTILO DISTINTIVO CON !important
-    badgesHTML += `<span id="weatherBadge" class="px-3 py-1.5 rounded-full font-semibold whitespace-nowrap cursor-pointer" onclick="showWeatherModal('${destination}')" style="background: linear-gradient(to right, #38bdf8, #3b82f6) !important; color: white !important; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 2px solid rgba(255,255,255,0.5); text-shadow: 0 1px 2px rgba(0,0,0,0.2);">🌤️ Cargando...</span>`;
+    badgesHTML += `<span id="weatherBadge" class="px-3 py-1.5 rounded-full font-semibold whitespace-nowrap cursor-pointer" onclick="showWeatherModal('${destination}')" style="background: linear-gradient(to right, #38bdf8, #3b82f6) !important; color: white !important; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 2px solid rgba(255,255,255,0.5); text-shadow: 0 1px 2px rgba(0,0,0,0.2);">🌤️ Loading...</span>`;
 
     badgesContainer.innerHTML = badgesHTML;
   }
@@ -1172,7 +1178,9 @@ function showDecisionPanel(calculationData = {}) {
   }
 
   if (document.getElementById('profitLabel')) {
-    document.getElementById('profitLabel').textContent = netProfit >= 0 ? '💰 Ganancia Neta' : '💀 Pérdida Neta';
+    const _profitKey = netProfit >= 0 ? 'net_profit_label' : 'net_loss_label';
+    document.getElementById('profitLabel').setAttribute('data-i18n', 'calculator.' + _profitKey);
+    document.getElementById('profitLabel').textContent = window.i18n?.t('calculator.' + _profitKey) || (netProfit >= 0 ? '💰 Net Profit' : '💀 Net Loss');
   }
 
   if (document.getElementById('netProfit')) {
@@ -1182,7 +1190,11 @@ function showDecisionPanel(calculationData = {}) {
   }
 
   if (document.getElementById('profitDetails')) {
-    document.getElementById('profitDetails').textContent = `$${profitPerMile.toFixed(2)}/mi • ${margin.toFixed(1)}% margen`;
+    const _marginWord = window.i18n?.t('calculator.margin_short') || 'margin';
+    const _detailsEl = document.getElementById('profitDetails');
+    _detailsEl.setAttribute('data-profit-per-mile', profitPerMile.toFixed(2));
+    _detailsEl.setAttribute('data-margin', margin.toFixed(1));
+    _detailsEl.textContent = `$${profitPerMile.toFixed(2)}/mi • ${margin.toFixed(1)}% ${_marginWord}`;
   }
 
   // Tiempo y paradas - use real duration from Google Maps if available
@@ -1201,7 +1213,10 @@ function showDecisionPanel(calculationData = {}) {
   }
 
   if (document.getElementById('fuelStopsShort')) {
-    document.getElementById('fuelStopsShort').textContent = `⛽ ${fuelStops} paradas`;
+    const _stopsWord = window.i18n?.t('calculator.stops_short') || 'stops';
+    const _stopsEl = document.getElementById('fuelStopsShort');
+    _stopsEl.setAttribute('data-fuel-stops', fuelStops);
+    _stopsEl.textContent = `⛽ ${fuelStops} ${_stopsWord}`;
   }
 
   // Mostrar panel
@@ -1210,11 +1225,11 @@ function showDecisionPanel(calculationData = {}) {
   // Colorear metric cards según decisión
   setTimeout(() => {
     const metricCards = document.querySelectorAll('#decisionPanel div.backdrop-blur');
-    const decisionText = document.getElementById('decisionPanel')?.textContent || '';
-    const isReject = decisionText.includes('RECHAZA');
-    const isEvalua = decisionText.includes('EVALÚA') || decisionText.includes('EVALUA');
-    const isCasiAcepta = decisionText.includes('CASI ACEPTA');
-    const isAccept = !isCasiAcepta && decisionText.includes('ACEPTA');
+    const _decisionVal = document.getElementById('decisionTitle')?.getAttribute('data-decision') || '';
+    const isReject = _decisionVal === 'REJECT';
+    const isEvalua = _decisionVal === 'EVALUATE';
+    const isCasiAcepta = _decisionVal === 'ALMOST ACCEPT';
+    const isAccept = _decisionVal === 'ACCEPT';
     const bg = isAccept ? 'rgba(34, 197, 94, 0.25)' :   // 🟢 Verde
       isCasiAcepta ? 'rgba(234, 179, 8, 0.25)' :   // 🟡 Amarillo
         isEvalua ? 'rgba(251, 146, 60, 0.25)' :   // 🟠 Naranja
@@ -1233,12 +1248,11 @@ function showDecisionPanel(calculationData = {}) {
   setTimeout(() => {
     const decisionPanel = document.querySelector('#decisionPanel > div.decision-panel');
     if (!decisionPanel) return;
-    const decisionText = decisionPanel.textContent || '';
-
-    const isReject = decisionText.includes('RECHAZA');
-    const isEvalua = decisionText.includes('EVALÚA') || decisionText.includes('EVALUA');
-    const isCasiAcepta = decisionText.includes('CASI ACEPTA');
-    const isAccept = !isCasiAcepta && decisionText.includes('ACEPTA');
+    const _decisionVal2 = document.getElementById('decisionTitle')?.getAttribute('data-decision') || '';
+    const isReject = _decisionVal2 === 'REJECT';
+    const isEvalua = _decisionVal2 === 'EVALUATE';
+    const isCasiAcepta = _decisionVal2 === 'ALMOST ACCEPT';
+    const isAccept = _decisionVal2 === 'ACCEPT';
 
     const glow = isAccept ? '0 0 40px rgba(34, 197, 94, 0.4), 0 8px 32px rgba(0,0,0,0.8)' :
       isCasiAcepta ? '0 0 40px rgba(234, 179, 8, 0.4), 0 8px 32px rgba(0,0,0,0.8)' :
@@ -1283,7 +1297,7 @@ function showDecisionPanel(calculationData = {}) {
       if (label) label.style.setProperty('font-size', '0.85rem', 'important');
       const subtext = profit.querySelectorAll('p, div, span');
       subtext.forEach(el => {
-        if (el.textContent.includes('/mi') || el.textContent.includes('margen')) {
+        if (el.textContent.includes('/mi') || el.textContent.includes('margin')) {
           el.style.setProperty('font-size', '0.9rem', 'important');
         }
       });
@@ -1314,16 +1328,17 @@ function showDecisionPanel(calculationData = {}) {
       const _diffAceptar = ((actualRPM - _acceptThreshold) / _acceptThreshold * 100).toFixed(1);
       const _diffColor = parseFloat(_diffAceptar) >= 0 ? '#4ade80' : '#f87171';
 
+      const _t = (k, p) => window.i18n?.t(k, p) || k;
       html += `<div class="decision-info-block">
-        <div class="decision-info-label">📊 Tus umbrales de decisión</div>
+        <div class="decision-info-label">📊 ${_t('calculator.decision_thresholds_label')}</div>
         <div class="decision-info-text">
-          🔴 Rechaza &lt; $${_cpm.toFixed(3)} &nbsp;·&nbsp;
-          🟠 Evalúa $${_cpm.toFixed(3)}–$${_midThreshold.toFixed(3)} &nbsp;·&nbsp;
-          🟡 Casi acepta $${_midThreshold.toFixed(3)}–$${_acceptThreshold.toFixed(3)} &nbsp;·&nbsp;
-          🟢 Acepta ≥ $${_acceptThreshold.toFixed(3)}
-          <br>Tu RPM: <strong>$${actualRPM.toFixed(3)}</strong> &nbsp;·&nbsp;
-          Margen: <strong>${_margenReal}%</strong> &nbsp;·&nbsp;
-          <span style="color:${_diffColor}">${parseFloat(_diffAceptar) >= 0 ? '+' : ''}${_diffAceptar}% vs objetivo</span>
+          🔴 ${_t('calculator.threshold_reject')} &lt; $${_cpm.toFixed(3)} &nbsp;·&nbsp;
+          🟠 ${_t('calculator.threshold_evaluate')} $${_cpm.toFixed(3)}–$${_midThreshold.toFixed(3)} &nbsp;·&nbsp;
+          🟡 ${_t('calculator.threshold_almost')} $${_midThreshold.toFixed(3)}–$${_acceptThreshold.toFixed(3)} &nbsp;·&nbsp;
+          🟢 ${_t('calculator.threshold_accept')} ≥ $${_acceptThreshold.toFixed(3)}
+          <br>${_t('calculator.your_rpm_label')}: <strong>$${actualRPM.toFixed(3)}</strong> &nbsp;·&nbsp;
+          ${_t('calculator.margin_short')}: <strong>${_margenReal}%</strong> &nbsp;·&nbsp;
+          <span style="color:${_diffColor}">${parseFloat(_diffAceptar) >= 0 ? '+' : ''}${_diffAceptar}% ${_t('calculator.vs_target')}</span>
         </div>
       </div>`;
 
@@ -1348,7 +1363,7 @@ function showDecisionPanel(calculationData = {}) {
         }).join('');
 
         html += `<div class="decision-info-block decision-info-nota">
-    <div class="decision-info-label">📍 Notas para ${destinationState || destination.split(',')[0]} (${notas.length})</div>
+    <div class="decision-info-label">📍 ${_t('calculator.notes_for')} ${destinationState || destination.split(',')[0]} (${notas.length})</div>
     <div class="decision-info-text">${notasHtml}</div>
   </div>`;
       }
@@ -1369,12 +1384,12 @@ function showDecisionPanel(calculationData = {}) {
           const maxRPM = Math.max(...rpms);
           const minRPM = Math.min(...rpms);
           html += `<div class="decision-info-block decision-info-hist">
-            <div class="decision-info-label">📈 Historial ${originState} → ${destinationState} (${cargas.length} cargas)</div>
+            <div class="decision-info-label">📈 ${_t('calculator.hist_label')} ${originState} → ${destinationState} (${cargas.length} ${_t('calculator.hist_loads')})</div>
             <div class="decision-info-text">
-              Promedio: <strong>$${avgRPM.toFixed(2)}/mi</strong> · Mejor: <strong>$${maxRPM.toFixed(2)}</strong> · Menor: $${minRPM.toFixed(2)}
+              ${_t('calculator.hist_avg')}: <strong>$${avgRPM.toFixed(2)}/mi</strong> · ${_t('calculator.hist_best')}: <strong>$${maxRPM.toFixed(2)}</strong> · ${_t('calculator.hist_min')}: $${minRPM.toFixed(2)}
               ${actualRPM < avgRPM
-              ? `<br><span style="color:#fbbf24">⚠️ Esta carga está $${(avgRPM - actualRPM).toFixed(2)} bajo tu promedio</span>`
-              : `<br><span style="color:#4ade80">✓ Dentro de tu rango histórico</span>`}
+              ? `<br><span style="color:#fbbf24">⚠️ ${_t('calculator.hist_below_avg', { diff: (avgRPM - actualRPM).toFixed(2) })}</span>`
+              : `<br><span style="color:#4ade80">✓ ${_t('calculator.hist_within_range')}</span>`}
             </div>
           </div>`;
         }
@@ -1382,17 +1397,17 @@ function showDecisionPanel(calculationData = {}) {
 
       // 4) Día y hora
       const now = new Date();
-      const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+      const _dayKeys = ['day_sunday', 'day_monday', 'day_tuesday', 'day_wednesday', 'day_thursday', 'day_friday', 'day_saturday'];
       const hora = now.getHours();
-      const momentoStr = hora < 12 ? 'AM' : hora < 18 ? 'tarde' : 'noche';
+      const momentoStr = hora < 12 ? _t('calculator.time_am') : hora < 18 ? _t('calculator.time_pm') : _t('calculator.time_night');
       const esFinSemana = now.getDay() === 0 || now.getDay() === 6;
       const notaDia = esFinSemana
-        ? '⚠️ Fin de semana — volumen bajo, pocas cargas disponibles'
+        ? `⚠️ ${_t('calculator.note_weekend')}`
         : now.getDay() <= 3
-          ? '✓ Inicio de semana — buen volumen de cargas'
-          : '→ Jueves/Viernes — mercado activo';
+          ? `✓ ${_t('calculator.note_start_week')}`
+          : `→ ${_t('calculator.note_thu_fri')}`;
       html += `<div class="decision-info-block">
-        <div class="decision-info-label">📅 ${dias[now.getDay()]} ${momentoStr}</div>
+        <div class="decision-info-label">📅 ${_t('calculator.' + _dayKeys[now.getDay()])} ${momentoStr}</div>
         <div class="decision-info-text">${notaDia}</div>
       </div>`;
 
@@ -1419,7 +1434,7 @@ function showDecisionPanel(calculationData = {}) {
           if (hasWeatherAccess) {
             showWeatherModal(destination, origin);
           } else {
-            showUpgradeModal('Pronóstico del clima detallado — disponible en Plan Premium');
+            showUpgradeModal('Detailed weather forecast — available on Premium Plan');
           }
         };
       }
@@ -1427,7 +1442,7 @@ function showDecisionPanel(calculationData = {}) {
       debugLog('Error clima:', error);
       const weatherBadge = document.getElementById('weatherBadge');
       if (weatherBadge) {
-        weatherBadge.textContent = '🌤️ No disponible';
+        weatherBadge.textContent = '🌤️ Unavailable';
       }
     });
   }
@@ -1435,6 +1450,22 @@ function showDecisionPanel(calculationData = {}) {
 
 //  Exponer globalmente
 window.calculate = calculate;
+
+// Re-translate dynamic decision panel elements when language changes
+document.addEventListener('languageChanged', () => {
+  // profitDetails
+  const detailsEl = document.getElementById('profitDetails');
+  if (detailsEl && detailsEl.dataset.profitPerMile) {
+    const marginWord = window.i18n?.t('calculator.margin_short') || 'margin';
+    detailsEl.textContent = `$${detailsEl.dataset.profitPerMile}/mi • ${detailsEl.dataset.margin}% ${marginWord}`;
+  }
+  // fuelStopsShort
+  const stopsEl = document.getElementById('fuelStopsShort');
+  if (stopsEl && stopsEl.dataset.fuelStops) {
+    const stopsWord = window.i18n?.t('calculator.stops_short') || 'stops';
+    stopsEl.textContent = `⛽ ${stopsEl.dataset.fuelStops} ${stopsWord}`;
+  }
+});
 
 //  Inicializar cuando cargue la página
 document.addEventListener("DOMContentLoaded", () => {
@@ -1544,7 +1575,7 @@ function acceptAndSave() {
     debugLog(' Carga aceptada y guardada');
   } else {
     debugLog("Función saveLoad no disponible");
-    alert("No se puede guardar la carga en este momento. Revisa la sesión e inténtalo de nuevo.");
+    alert("Unable to save the load at this time. Check your session and try again.");
   }
 }
 
@@ -1837,7 +1868,7 @@ async function saveLoad(existingLoadId = null) {
     if (window.offlineStorage && !navigator.onLine) {
       try {
         await window.offlineStorage.saveCalculation(loadData);
-        window.showMessage?.('📴 Sin internet — carga guardada localmente. Se sincronizará automáticamente.', 'warning');
+        window.showMessage?.('📴 No internet — load saved locally. It will sync automatically.', 'warning');
         debugLog('[OFFLINE] Carga guardada en IndexedDB para sync posterior');
       } catch (offlineError) {
         debugLog('❌ Error guardando offline:', offlineError);
@@ -3235,7 +3266,7 @@ async function showWeatherModal(destination, origin = null) {
                 📍 ${data.location.name}
               </h2>
               <p class="text-white/80 text-sm mt-1">${data.location.region}, ${data.location.country}</p>
-              <p class="text-white/60 text-xs mt-1">${new Date().toLocaleDateString('es-US', { weekday: 'long', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' })}</p>
+              <p class="text-white/60 text-xs mt-1">${new Date().toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' })}</p>
             </div>
             <button onclick="closeWeatherModal()" class="text-white/80 hover:text-white w-10 h-10 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition text-xl">&times;</button>
           </div>
@@ -3245,7 +3276,7 @@ async function showWeatherModal(destination, origin = null) {
             <div>
               <div class="text-3xl font-bold">${tempF}°F</div>
               <div class="text-lg text-white/90">${current.condition.text}</div>
-              <div class="text-sm text-white/70 mt-1">Sensación: ${Math.round(current.feelslike_f)}°F</div>
+              <div class="text-sm text-white/70 mt-1">Feels like: ${Math.round(current.feelslike_f)}°F</div>
             </div>
           </div>
         </div>
@@ -3255,14 +3286,14 @@ async function showWeatherModal(destination, origin = null) {
       <div class="flex border-b bg-gray-50" style="flex-shrink: 0;">
         <button onclick="switchWeatherTab('current')" id="tabCurrent" class="flex-1 px-4 py-4 text-sm font-bold border-b-3 border-blue-600 text-blue-600 flex items-center justify-center gap-2 transition-all">
           <span class="text-lg">🌤️</span>
-          <span class="hidden sm:inline">Clima Actual</span>
-          <span class="sm:hidden">Actual</span>
+          <span class="hidden sm:inline">Current Weather</span>
+          <span class="sm:hidden">Current</span>
         </button>
         ${originCity ? `
           <button onclick="switchWeatherTab('route')" id="tabRoute" class="flex-1 px-4 py-4 text-sm font-bold border-b-3 border-transparent text-gray-500 hover:text-blue-600 flex items-center justify-center gap-2 transition-all">
             <span class="text-lg">🗺️</span>
-            <span class="hidden sm:inline">Ver Ruta</span>
-            <span class="sm:hidden">Ruta</span>
+            <span class="hidden sm:inline">View Route</span>
+            <span class="sm:hidden">Route</span>
           </button>
         ` : ''}
       </div>
@@ -3275,7 +3306,7 @@ async function showWeatherModal(destination, origin = null) {
           <div class="bg-red-50 border-l-4 border-red-500 p-4 m-4 rounded-r-lg animate-pulse">
             <div class="flex items-center gap-2 mb-2">
               <span class="text-2xl">⚠️</span>
-              <h3 class="font-bold text-red-900">Alerta Meteorológica</h3>
+              <h3 class="font-bold text-red-900">Weather Alert</h3>
             </div>
             <p class="text-sm text-red-800">${alerts[0].headline}</p>
             ${alerts[0].desc ? `<p class="text-xs text-red-700 mt-2 line-clamp-3">${alerts[0].desc.substring(0, 200)}...</p>` : ''}
@@ -3288,22 +3319,22 @@ async function showWeatherModal(destination, origin = null) {
             <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center hover:shadow-md transition">
               <div class="text-2xl mb-1">💨</div>
               <div class="text-xl font-bold text-gray-900">${Math.round(current.wind_mph)} mph</div>
-              <div class="text-xs text-gray-500">Viento ${current.wind_dir}</div>
+              <div class="text-xs text-gray-500">Wind ${current.wind_dir}</div>
             </div>
             <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center hover:shadow-md transition">
               <div class="text-2xl mb-1">💧</div>
               <div class="text-xl font-bold text-gray-900">${current.humidity}%</div>
-              <div class="text-xs text-gray-500">Humedad</div>
+              <div class="text-xs text-gray-500">Humidity</div>
             </div>
             <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center hover:shadow-md transition">
               <div class="text-2xl mb-1">☀️</div>
               <div class="text-xl font-bold text-gray-900">${current.uv}</div>
-              <div class="text-xs text-gray-500">Índice UV</div>
+              <div class="text-xs text-gray-500">UV Index</div>
             </div>
             <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center hover:shadow-md transition">
               <div class="text-2xl mb-1">👁️</div>
               <div class="text-xl font-bold text-gray-900">${current.vis_miles} mi</div>
-              <div class="text-xs text-gray-500">Visibilidad</div>
+              <div class="text-xs text-gray-500">Visibility</div>
             </div>
           </div>
         </div>
@@ -3311,12 +3342,12 @@ async function showWeatherModal(destination, origin = null) {
         <!-- Pronóstico 3 días mejorado -->
         <div class="p-4">
           <h3 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
-            <span class="text-xl">📅</span> Pronóstico 3 Días
+            <span class="text-xl">📅</span> 3-Day Forecast
           </h3>
           <div class="space-y-2">
             ${forecast.map((day, i) => {
       const date = new Date(day.date);
-      const dayName = i === 0 ? 'Hoy' : date.toLocaleDateString('es-US', { weekday: 'short' });
+      const dayName = i === 0 ? 'Today' : date.toLocaleDateString('en-US', { weekday: 'short' });
       return `
                 <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:0.75rem;padding:0.5rem 0.75rem;" class="flex items-center justify-between transition">
                   <div class="flex items-center gap-3">
@@ -3346,7 +3377,7 @@ async function showWeatherModal(destination, origin = null) {
         <!-- Botón compartir -->
         <div class="p-4 border-t bg-gray-50">
           <button onclick="shareWeatherInfo('${data.location.name}', ${tempF}, '${current.condition.text}')" class="w-full py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-blue-700 transition flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
-            <span>📤</span> Compartir Pronóstico
+            <span>📤</span> Share Forecast
           </button>
         </div>
       </div>
@@ -3359,7 +3390,7 @@ async function showWeatherModal(destination, origin = null) {
             <div id="mapLoading" class="absolute inset-0 flex items-center justify-center text-gray-600 bg-gray-100 z-10">
               <div class="text-center">
                 <div class="text-4xl mb-2 animate-bounce">🗺️</div>
-                <div class="text-sm">Cargando mapa...</div>
+                <div class="text-sm">Loading map...</div>
               </div>
             </div>
           </div>
@@ -3367,10 +3398,10 @@ async function showWeatherModal(destination, origin = null) {
           <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:0.75rem;padding:1rem;">
             <div class="flex items-center justify-between mb-3">
               <h3 class="font-bold flex items-center gap-2" style="color:#ffffff;">
-                <span>🌦️</span> Capas de Clima
+                <span>🌦️</span> Weather Layers
               </h3>
               <button onclick="clearAllWeatherLayers()" class="text-xs font-semibold px-3 py-1.5 rounded-lg transition" style="background:rgba(239,68,68,0.15);color:rgba(255,100,100,0.9);border:1px solid rgba(239,68,68,0.3);">
-                🗑️ Limpiar
+                🗑️ Clear
               </button>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -3378,13 +3409,13 @@ async function showWeatherModal(destination, origin = null) {
                 <span>🌡️</span> Temp
               </button>
               <button onclick="toggleWeatherLayer('precipitation')" id="btnPrecipitation" class="px-3 py-3 rounded-xl text-sm font-semibold transition flex items-center justify-center gap-2" style="background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.2);color:#ffffff;">
-                <span>🌧️</span> Lluvia
+                <span>🌧️</span> Rain
               </button>
               <button onclick="toggleWeatherLayer('clouds')" id="btnClouds" class="px-3 py-3 rounded-xl text-sm font-semibold transition flex items-center justify-center gap-2" style="background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.2);color:#ffffff;">
-                <span>☁️</span> Nubes
+                <span>☁️</span> Clouds
               </button>
               <button onclick="toggleWeatherLayer('wind')" id="btnWind" class="px-3 py-3 rounded-xl text-sm font-semibold transition flex items-center justify-center gap-2" style="background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.2);color:#ffffff;">
-                <span>💨</span> Viento
+                <span>💨</span> Wind
               </button>
             </div>
           </div>
@@ -3392,12 +3423,12 @@ async function showWeatherModal(destination, origin = null) {
           <div class="bg-white rounded-xl border-2 border-gray-200 overflow-hidden">
             <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-3">
               <h3 class="font-bold flex items-center gap-2">
-                <span>📍</span> Puntos de Control
+                <span>📍</span> Route Checkpoints
               </h3>
             </div>
             <div id="waypointWeather" class="p-4 space-y-2">
               <div class="text-center text-gray-500 text-sm py-4 flex items-center justify-center gap-2">
-                <span class="animate-spin">⏳</span> Cargando clima en puntos clave...
+                <span class="animate-spin">⏳</span> Loading weather at key points...
               </div>
             </div>
           </div>
@@ -3903,24 +3934,24 @@ function closeWeatherModal() {
 
 // Función para compartir pronóstico del clima
 function shareWeatherInfo(location, temp, condition) {
-  const text = `🌤️ Clima en ${location}: ${temp}°F - ${condition}`;
+  const text = `🌤️ Weather in ${location}: ${temp}°F - ${condition}`;
 
   if (navigator.share) {
     navigator.share({
-      title: 'Pronóstico del Clima',
+      title: 'Weather Forecast',
       text: text,
       url: window.location.href
     }).catch(console.error);
   } else {
-    // Fallback: copiar al portapapeles
+    // Fallback: copy to clipboard
     navigator.clipboard.writeText(text).then(() => {
       if (typeof showToast === 'function') {
-        showToast('📋 Pronóstico copiado al portapapeles', 'success');
+        showToast('📋 Forecast copied to clipboard', 'success');
       } else {
-        alert('Copiado: ' + text);
+        alert('Copied: ' + text);
       }
     }).catch(() => {
-      prompt('Copia este texto:', text);
+      prompt('Copy this text:', text);
     });
   }
 }

@@ -484,15 +484,15 @@ async function analyzeLoadWithLearning(loadData) {
       if (miles > 0 && miles < 100) {
         const total = rpm * miles;
         if (total < 150) {
-          return `⚠️ Carga corta (${miles} mi) — Rutas bajo 100 millas necesitan mínimo $150 flat. Esta carga paga $${total.toFixed(0)} — no cubre el tiempo invertido.`;
+          return window.i18n?.t('lex.reason_short_under100', { miles, total: total.toFixed(0) }) || `⚠️ Short load (${miles} mi) — Routes under 100 miles need at least $150 flat. This load pays $${total.toFixed(0)} — doesn't cover the time invested.`;
         }
       } else if (miles >= 100 && miles < 150) {
         if (rpm < 2.50) {
-          return `⚠️ Carga corta (${miles} mi) — Para rutas de 100–150 millas necesitas mínimo $2.50/mi. Esta carga paga $${rpm.toFixed(2)}/mi — considera negociar.`;
+          return window.i18n?.t('lex.reason_short_100_150', { miles, rpm: rpm.toFixed(2) }) || `⚠️ Short load (${miles} mi) — For 100–150 mile routes you need at least $2.50/mi. This load pays $${rpm.toFixed(2)}/mi — consider negotiating.`;
         }
       } else if (miles >= 150 && miles <= 200) {
         if (rpm < 2.00) {
-          return `⚠️ Carga corta (${miles} mi) — Para rutas de 150–200 millas necesitas mínimo $2.00/mi. Esta carga paga $${rpm.toFixed(2)}/mi — evalúa si vale el tiempo.`;
+          return window.i18n?.t('lex.reason_short_150_200', { miles, rpm: rpm.toFixed(2) }) || `⚠️ Short load (${miles} mi) — For 150–200 mile routes you need at least $2.00/mi. This load pays $${rpm.toFixed(2)}/mi — evaluate if it's worth your time.`;
         }
       }
       return null;
@@ -500,21 +500,21 @@ async function analyzeLoadWithLearning(loadData) {
     if (shortLoadAlert) reasons.unshift(shortLoadAlert);
 
     if (rpm < profile.minSafeRPM) {
-      recommendation = 'RECHAZA ❌';
+      recommendation = 'REJECT ❌';
       color = 'red';
-      reasons.push(`Peligro financiero: El RPM de $${rpm.toFixed(2)} está $${(profile.minSafeRPM - rpm).toFixed(2)} por debajo de tu línea de supervivencia operativa ($${profile.minSafeRPM.toFixed(2)}/mi). Aceptar esto significa pagar por trabajar.`);
+      reasons.push(window.i18n?.t('lex.reason_financial_risk', { rpm: rpm.toFixed(2), diff: (profile.minSafeRPM - rpm).toFixed(2), min: profile.minSafeRPM.toFixed(2) }) || `Financial risk: RPM of $${rpm.toFixed(2)} is $${(profile.minSafeRPM - rpm).toFixed(2)} below your operational survival line ($${profile.minSafeRPM.toFixed(2)}/mi). Accepting this means paying to work.`);
     } else if (rpm >= profile.avgRPM * 1.1) {
-      recommendation = 'ACEPTA ✅';
+      recommendation = 'ACCEPT ✅';
       color = 'green';
-      reasons.push(`Excelente oportunidad: Esta carga rinde un ${vsYourAvg.toFixed(1)}% mejor que tu promedio histórico consolidado de $${profile.avgRPM.toFixed(2)}/mi.`);
+      reasons.push(window.i18n?.t('lex.reason_excellent_opp', { pct: vsYourAvg.toFixed(1), avg: profile.avgRPM.toFixed(2) }) || `Excellent opportunity: This load performs ${vsYourAvg.toFixed(1)}% better than your consolidated historical average of $${profile.avgRPM.toFixed(2)}/mi.`);
     } else if (rpm >= profile.avgRPM) {
-      recommendation = 'FACTIBLE 👍';
+      recommendation = 'FEASIBLE 👍';
       color = 'green';
-      reasons.push(`Carga sólida: El pago cumple con tu estándar habitual ($${profile.avgRPM.toFixed(2)}/mi). Es una ruta segura para mantener tu margen de ganancia constante.`);
+      reasons.push(window.i18n?.t('lex.reason_solid_load', { avg: profile.avgRPM.toFixed(2) }) || `Solid load: The rate meets your usual standard ($${profile.avgRPM.toFixed(2)}/mi). This is a safe route to maintain your profit margin.`);
     } else {
-      recommendation = 'NEGOCIA ⚠️';
+      recommendation = 'NEGOTIATE ⚠️';
       color = 'yellow';
-      reasons.push(`Precaución: El pago está ${Math.abs(vsYourAvg).toFixed(1)}% por debajo de tu promedio. Intenta negociar al menos $${profile.avgRPM.toFixed(2)}/mi para que la ruta valga la vuelta.`);
+      reasons.push(window.i18n?.t('lex.reason_caution', { pct: Math.abs(vsYourAvg).toFixed(1), avg: profile.avgRPM.toFixed(2) }) || `Caution: The rate is ${Math.abs(vsYourAvg).toFixed(1)}% below your average. Try to negotiate at least $${profile.avgRPM.toFixed(2)}/mi to make the route worth it.`);
     }
 
     // 🔄 SINCRONIZACIÓN ABSOLUTA CON CALCULADORA
@@ -522,12 +522,12 @@ async function analyzeLoadWithLearning(loadData) {
     // del panel principal si esta carga acaba de ser evaluada allí, evitando contradicciones de color/texto.
     if (window._lastDecisionData && Math.abs(window._lastDecisionData.actualRPM - rpm) < 0.05) {
       const calcDecisionStr = window._lastDecisionData.decision || '';
-      if (calcDecisionStr === 'RECHAZA') {
+      if (calcDecisionStr === 'REJECT') {
         color = 'red';
-        recommendation = 'RECHAZA ❌';
-      } else if (calcDecisionStr === 'ACEPTA') {
+        recommendation = 'REJECT ❌';
+      } else if (calcDecisionStr === 'ACCEPT') {
         color = 'green';
-        recommendation = 'ACEPTA ✅';
+        recommendation = 'ACCEPT ✅';
       } else {
         color = 'yellow';
         recommendation = calcDecisionStr + ' ⚠️';
@@ -538,17 +538,17 @@ async function analyzeLoadWithLearning(loadData) {
     if (stateStats) {
       if (stateStats.loads >= 3) {
         if (vsStateAvg > 10) {
-          reasons.push(`Buena zona: Históricamente te ha ido muy bien en ${destState}, y esta oferta supera el promedio de tus ${stateStats.loads} cargas anteriores allí.`);
+          reasons.push(window.i18n?.t('lex.reason_good_zone', { state: destState, count: stateStats.loads }) || `Good zone: Historically you've done very well in ${destState}, and this offer beats the average of your ${stateStats.loads} previous loads there.`);
         } else if (vsStateAvg < -10) {
-          reasons.push(`Advertencia de zona: Toma en cuenta que el pago ofrecido está por debajo de lo que sueles sacar cuando vas a ${destState} ($${stateStats.avgRPM.toFixed(2)}/mi).`);
+          reasons.push(window.i18n?.t('lex.reason_zone_warning', { state: destState, avg: stateStats.avgRPM.toFixed(2) }) || `Zone warning: Keep in mind the rate offered is below what you usually get going to ${destState} ($${stateStats.avgRPM.toFixed(2)}/mi).`);
         } else {
-          reasons.push(`Zona estable: El pago está alineado con la rentabilidad que demostraste en tus últimas ${stateStats.loads} cargas hacia ${destState}.`);
+          reasons.push(window.i18n?.t('lex.reason_stable_zone', { count: stateStats.loads, state: destState }) || `Stable zone: The rate aligns with the profitability you've shown on your last ${stateStats.loads} loads to ${destState}.`);
         }
       } else {
-        reasons.push(`Zona de exploración: Aún no tengo suficientes datos de tu rentabilidad en ${destState} (solo ${stateStats.loads} cargas previas). Registra el resultado de esta carga para aprender más.`);
+        reasons.push(window.i18n?.t('lex.reason_exploration', { state: destState, count: stateStats.loads }) || `Exploration zone: I don't have enough data on your profitability in ${destState} yet (only ${stateStats.loads} previous loads). Log this load's result so I can learn more.`);
       }
     } else {
-      reasons.push(`Territorio nuevo: Nunca has registrado una carga que termine en ${destState}. Asegúrate de revisar las métricas de retorno antes de saltar a esta nueva zona.`);
+      reasons.push(window.i18n?.t('lex.reason_new_territory', { state: destState }) || `New territory: You've never logged a load ending in ${destState}. Make sure to review return metrics before jumping into this new zone.`);
     }
 
     // Calcular ganancia estimada
@@ -563,7 +563,9 @@ async function analyzeLoadWithLearning(loadData) {
       vsYourAvg: vsYourAvg.toFixed(1),
       vsStateAvg: vsStateAvg ? vsStateAvg.toFixed(1) : null,
       stateAvgRPM: stateStats?.avgRPM || null,
-      stateExperience: stateStats ? `${stateStats.loads} cargas previas` : 'Primera vez',
+      stateExperience: stateStats
+        ? `${stateStats.loads} ${window.i18n?.t('lex.previous_loads') || 'previous loads'}`
+        : (window.i18n?.t('lex.first_time') || 'First time'),
       reasons,
       estimatedProfit: estimatedProfit.toFixed(2),
       destState,
@@ -575,7 +577,7 @@ async function analyzeLoadWithLearning(loadData) {
     return {
       recommendation: 'ERROR',
       color: 'gray',
-      reasons: ['Error cargando perfil de aprendizaje'],
+      reasons: ['Error loading learning profile'],
       profileLoaded: false
     };
   }
@@ -635,7 +637,7 @@ window.analyzeLexLoad = async function () {
       window.lexAI.showLexAnalysisModal(analysis);
     } else {
       // Fallback
-      alert(`🧠 LEX AI Análisis:\n\nRecomendación: ${analysis.recommendation}\nRPM: $${analysis.rpm.toFixed(2)} (Tu promedio: $${analysis.yourAvgRPM.toFixed(2)})\n\nMotivos:\n- ${analysis.reasons.join('\n- ')}\n\nExperiencia en esta zona: ${analysis.stateExperience}`);
+      alert(`🧠 LEX AI Analysis:\n\nRecommendation: ${analysis.recommendation}\nRPM: $${analysis.rpm.toFixed(2)} (Your avg: $${analysis.yourAvgRPM.toFixed(2)})\n\nReasons:\n- ${analysis.reasons.join('\n- ')}\n\nZone experience: ${analysis.stateExperience}`);
     }
 
   } catch (e) {

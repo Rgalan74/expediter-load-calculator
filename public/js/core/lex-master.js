@@ -85,32 +85,38 @@ class LexMaster {
     const text = (msg || '').toLowerCase();
 
     // Historia (PRIMERO - más específico)
-    if (text.includes('histor') || text.includes('antes') || text.includes('promedio')) {
+    if (text.includes('histor') || text.includes('antes') || text.includes('promedio') ||
+        text.includes('history') || text.includes('average') || text.includes('previous')) {
       return { primary: 'COMPARE_HISTORY', confidence: 0.8, raw: msg };
     }
 
     // Zonas (ESPECÍFICO)
-    if (text.includes('zona') || text.includes('estado') || text.includes('trap') || text.includes('geograf')) {
+    if (text.includes('zona') || text.includes('estado') || text.includes('trap') || text.includes('geograf') ||
+        text.includes('zone') || text.includes('state') || text.includes('market') || text.includes('region')) {
       return { primary: 'CHECK_ZONE', confidence: 0.8, raw: msg };
     }
 
     // Finanzas (ESPECÍFICO)
-    if (text.includes('finanz') || text.includes('gananci') || text.includes('gasto')) {
+    if (text.includes('finanz') || text.includes('gananci') || text.includes('gasto') ||
+        text.includes('financ') || text.includes('earning') || text.includes('profit') || text.includes('revenue') || text.includes('month')) {
       return { primary: 'REVIEW_FINANCES', confidence: 0.8, raw: msg };
     }
 
     // Pricing/RPM
-    if (text.includes('rpm') || text.includes('precio') || text.includes('rate')) {
+    if (text.includes('rpm') || text.includes('precio') || text.includes('rate') ||
+        text.includes('tarifa') || text.includes('worth') || text.includes('pay')) {
       return { primary: 'PRICING', confidence: 0.8, raw: msg };
     }
 
     // Negociación
-    if (text.includes('negoci') || text.includes('contraofer')) {
+    if (text.includes('negoci') || text.includes('contraofer') ||
+        text.includes('counter') || text.includes('negotiate') || text.includes('ask for more')) {
       return { primary: 'NEGOTIATION', confidence: 0.8, raw: msg };
     }
 
     // Analizar carga (DESPUÉS - más genérico)
-    if (text.includes('analiz') || text.includes('calcul') || text.includes('carga')) {
+    if (text.includes('analiz') || text.includes('calcul') || text.includes('carga') ||
+        text.includes('analyze') || text.includes('load') || text.includes('calculate')) {
       return { primary: 'ANALYZE_LOAD', confidence: 0.8, raw: msg };
     }
 
@@ -188,7 +194,7 @@ class LexMaster {
         decision: 'EVALUA',
         confidence: 0.3,
         contributingAgents: [],
-        reasons: ['No se obtuvieron recomendaciones de los agentes'],
+        reasons: ['No recommendations obtained from agents'],
         votes: {}
       };
     }
