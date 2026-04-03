@@ -1,4 +1,4 @@
-﻿//  helpers.js - Script normal sin ES6 modules
+//  helpers.js - Script normal sin ES6 modules
 
 // ========================================
 // ✅ SISTEMA DE INICIALIZACIÓN ÚNICA
@@ -56,7 +56,7 @@ window.DEBUG_MODE = localStorage.getItem('DEBUG_MODE') === 'true';
  */
 function debugLog(...args) {
     if (window.DEBUG_MODE) {
-        debugLog(...args);
+        console.log(...args);
     }
 }
 
@@ -64,21 +64,21 @@ function debugLog(...args) {
  * Log informativo - Siempre se muestra (importante para el usuario)
  */
 function infoLog(...args) {
-    debugLog(...args);
+    console.log(...args);
 }
 
 /**
- * Log de advertencia - Siempre se muestra
+ * Log de advertencia - Siempre visible (no depende de DEBUG_MODE)
  */
 function warnLog(...args) {
-    debugLog(...args);
+    console.warn(...args);
 }
 
 /**
- * Log de error - Siempre se muestra
+ * Log de error - Siempre visible (no depende de DEBUG_MODE)
  */
 function errorLog(...args) {
-    debugLog(...args);
+    console.error(...args);
 }
 
 // Hacer funciones globales

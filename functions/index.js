@@ -1,4 +1,4 @@
-﻿/**
+/**
  * functions/index.js
  * Cloud Functions para Expediter / Smart Load Solution
  *
@@ -34,17 +34,14 @@ const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
 const IS_TEST_MODE = false; // LIVE MODE
 
 // Mapeo inverso: Stripe Price ID → plan ID interno
+// ⚠️ Solo precios LIVE de producción. Los precios de test no deben estar aquí.
 const PRICE_TO_PLAN = {
-    // TEST MODE
+    // TEST MODE (Stripe test keys)
     "price_1TBCyEPrcqI2pVW0vcn6xbxd": "professional",
     "price_1TBCzcPrcqI2pVW07PAeFG9I": "premium",
     // LIVE MODE
-    "price_1T4CmZPrcqI2pVW0wjZkexA8": "professional", // $14.99/mes — LIVE
-    "price_1T4CpaPrcqI2pVW0EgoJJq6Q": "premium",       // $29.99/mes — LIVE
-    "price_1TAbirPrcqI2pVW0WDb2tNAx": "professional",  // $1.00/mes — LIVE Test Plan (old)
-    // LIVE TEST PRICES
-    "price_1TBzVvPrcqI2pVW0NGKl0Znw": "professional", // $1.00 — LIVE TEST
-    "price_1TBzXhPrcqI2pVW0bToystoo": "premium",       // $1.50 — LIVE TEST
+    "price_1T4CmZPrcqI2pVW0wjZkexA8": "professional", // $14.99/mes
+    "price_1T4CpaPrcqI2pVW0EgoJJq6Q": "premium",       // $29.99/mes
 };
 
 // ─── Express app — captura raw body antes de cualquier parsing ────────────────
@@ -168,18 +165,13 @@ app.post("/", async (req, res) => {
                     break;
                 }
 
-                const SUB_PRICE_TO_PLAN = {
-                    'price_1TBCyEPrcqI2pVW0vcn6xbxd': 'professional',
-                    'price_1TBCzcPrcqI2pVW07PAeFG9I': 'premium',
-                    'price_1T4CmZPrcqI2pVW0wjZkexA8': 'professional',
-                    'price_1T4CpaPrcqI2pVW0EgoJJq6Q': 'premium'
-                };
+                // Reusar PRICE_TO_PLAN global para evitar desincronización
                 const PLAN_NAMES = { 'professional': 'Professional', 'premium': 'Premium + AI' };
 
                 const newPriceId = subscription.items?.data?.[0]?.price?.id;
                 const oldPriceId = previousAttributes?.items?.data?.[0]?.price?.id;
-                const newPlanId = SUB_PRICE_TO_PLAN[newPriceId] || null;
-                const oldPlanId = SUB_PRICE_TO_PLAN[oldPriceId] || null;
+                const newPlanId = PRICE_TO_PLAN[newPriceId] || null;
+                const oldPlanId = PRICE_TO_PLAN[oldPriceId] || null;
 
                 const scheduleCreated = subscription.schedule && !previousAttributes?.schedule;
                 const priceChanged = oldPriceId && newPriceId && oldPriceId !== newPriceId;
@@ -228,7 +220,7 @@ app.post("/", async (req, res) => {
                 }
 
                 if (priceChanged && newPlanId) {
-                    const isDowngrade = SUB_PRICE_TO_PLAN[oldPriceId] === 'premium' && newPlanId === 'professional';
+                    const isDowngrade = PRICE_TO_PLAN[oldPriceId] === 'premium' && newPlanId === 'professional';
                     const planName = PLAN_NAMES[newPlanId];
                     const planPrice = newPlanId === 'premium' ? '29.99' : '14.99';
                     const lang = await getUserLang(firebaseUid);

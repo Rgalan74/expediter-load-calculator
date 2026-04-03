@@ -10,6 +10,15 @@ let filteredData = [];
 // Estado de ordenamiento
 window.currentHistorySort = { column: 'date', asc: false }; // Por defecto: más recientes primero
 
+// ─── Helper: obtener límite de historial del plan actual ─────────────────────
+function getPlanHistoryDays() {
+  const plan = window.userPlan;
+  if (!plan) return -1; // sin límite si no hay plan cargado
+  if (plan.limits?.isAdmin) return -1;
+  const days = plan.limits?.historyDays;
+  return (days === undefined || days === null) ? -1 : days;
+}
+
 // FUNCION PRINCIPAL CORREGIDA - getLoadHistory
 function getLoadHistory() {
   debugLog(" Starting to load history...");
@@ -31,11 +40,26 @@ function getLoadHistory() {
     return;
   }
 
-  // CONSULTA CORREGIDA - SIN orderBy que excluye cargas sin createdAt
-  firebase.firestore()
+  const historyDays = getPlanHistoryDays();
+
+  // Construir query con o sin filtro de fecha según el plan
+  let query = firebase.firestore()
     .collection("loads")
-    .where("userId", "==", window.currentUser.uid)
-    .get()
+    .where("userId", "==", window.currentUser.uid);
+
+  let cutoffDateStr = null;
+  if (historyDays > 0) {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - historyDays);
+    cutoffDateStr = cutoff.toISOString().split('T')[0]; // YYYY-MM-DD
+    query = query.where("date", ">=", cutoffDateStr);
+    debugLog(` [HISTORY] Plan ${window.userPlan?.id} — mostrando últimos ${historyDays} días desde:`, cutoffDateStr);
+  }
+
+  // Mostrar / ocultar banner de límite de plan
+  showHistoryPlanBanner(historyDays, cutoffDateStr);
+
+  query.get()
     .then(snapshot => {
       debugLog(` Firebase returned ${snapshot.docs.length} documents for history`);
 
@@ -249,6 +273,52 @@ function setErrorState(message) {
  </tr>
  `;
 }
+
+// ─── Banner de límite de plan ─────────────────────────────────────────────────
+function showHistoryPlanBanner(historyDays, cutoffDateStr) {
+  // Eliminar banner anterior si existe
+  const existingBanner = document.getElementById('historyPlanBanner');
+  if (existingBanner) existingBanner.remove();
+
+  // Sin límite → no mostrar banner
+  if (!historyDays || historyDays <= 0) return;
+
+  const isEn = window.i18n?.currentLang === 'en';
+  const planName = window.userPlan?.name || (isEn ? 'your plan' : 'tu plan');
+  const cutoffFormatted = cutoffDateStr
+    ? new Date(cutoffDateStr + 'T00:00:00').toLocaleDateString(
+        isEn ? 'en-US' : 'es-US',
+        { year: 'numeric', month: 'long', day: 'numeric' }
+      )
+    : '';
+
+  const message = isEn
+    ? `<strong>${planName}</strong> includes the last <strong>${historyDays} days</strong> of history (from ${cutoffFormatted}).`
+    : `El plan <strong>${planName}</strong> incluye los últimos <strong>${historyDays} días</strong> de historial (desde ${cutoffFormatted}).`;
+  const ctaText = isEn ? 'Upgrade for unlimited history →' : 'Mejorar plan para historial ilimitado →';
+
+  const banner = document.createElement('div');
+  banner.id = 'historyPlanBanner';
+  banner.style.cssText = 'margin:0 0 12px;padding:12px 16px;background:rgba(255,109,74,0.08);border:1px solid rgba(255,109,74,0.35);border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;';
+  banner.innerHTML = `
+    <span style="font-size:13px;color:#94a3b8;">🔒 ${message}</span>
+    <button onclick="window.location.href='plans.html'"
+      style="background:#FF6D4A;color:#fff;border:none;padding:8px 16px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">
+      ${ctaText}
+    </button>`;
+
+  // Insertar encima de la tabla del historial
+  const tableWrapper = document.getElementById('loadList')?.closest('table, [id*="history"], section, .tab-content');
+  const insertTarget = document.getElementById('historyPlanBannerAnchor') || tableWrapper?.parentElement;
+  if (insertTarget) {
+    insertTarget.insertBefore(banner, insertTarget.firstChild);
+  } else {
+    // Fallback: arriba del cuerpo de la tabla
+    const loadList = document.getElementById('loadList');
+    if (loadList) loadList.parentElement?.insertAdjacentElement('beforebegin', banner);
+  }
+}
+
 
 function populateHistoryMonthSelector() {
   const selector = document.getElementById("historyMonthSelect");

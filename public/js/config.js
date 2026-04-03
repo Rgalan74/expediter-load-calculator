@@ -17,11 +17,7 @@ const firebaseConfig = {
 let authInitialized = false;
 let authCheckComplete = false;
 
-// ✅ Debug function — respeta DEBUG_MODE (no logea en producción)
-function debugLog(message, data = null) {
-  if (!window.DEBUG_MODE) return;
-  debugLog(`🔧 AUTH DEBUG: ${message}`, data || '');
-}
+// debugLog viene de helpers.js (global) — no redefinir aquí
 
 
 // ✅ Inicializar Firebase
