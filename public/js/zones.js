@@ -17,9 +17,12 @@ let currentZoneSort = { column: '', asc: true };
 // Funcin principal para cargar datos de zonas
 function loadZonesData() {
     if (zonesDataLoaded) {
-        debugLog(" Zones data already loaded, skipping");
+        debugLog(" Zones data already loaded — repintando mapa SVG...");
+        // Los datos ya están en memoria, solo re-pintar el mapa por si el SVG lo perdió
+        initializeMap();
         return;
     }
+
 
     if (!window.currentUser) {
         debugLog(" No user logged in for zones");
@@ -42,16 +45,19 @@ function loadZonesData() {
             const loads = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             calcularEstadisticas(loads);
             renderZonesTable();
+            // Inicializar mapa SVG — puede necesitar retry si el <object> estaba hidden
             initializeMap();
             // Inicializar mapa de ciudades
             initializeCitiesMap();
             loadCitiesData();
 
-            // Configurar layout responsivo despus de que carga el mapa
+            // Configurar layout responsivo después de que carga el mapa
             setTimeout(() => {
                 setupResponsiveMapLayout();
             }, 500);
 
+            // Marcar como cargado SOLO si el mapa se pintó correctamente
+            // Si el SVG aún no estaba disponible, initializeMap lo marcará al terminar
             zonesDataLoaded = true;
         })
         .catch(error => {
@@ -201,19 +207,37 @@ function renderZonesTable() {
     }
 }
 
-// Funcin initializeMap mejorada con hover
+// Inicializar mapa SVG — con retry robusto para cuando el <object> estaba hidden
 function initializeMap() {
     const mapObject = document.getElementById("interactiveMap");
     if (!mapObject) return;
 
-    if (mapObject.contentDocument) {
-        pintarEstados(mapObject.contentDocument);
-        setupMapInteractivity(mapObject.contentDocument);
+    function tryPaint(attempt) {
+        const svgDoc = mapObject.contentDocument;
+        if (svgDoc && svgDoc.documentElement && svgDoc.documentElement.tagName !== 'parsererror') {
+            pintarEstados(svgDoc);
+            setupMapInteractivity(svgDoc);
+            debugLog(` [ZONES] Mapa pintado en intento ${attempt}`);
+        } else if (attempt < 20) {
+            // Reintentar cada 200ms por hasta 4 segundos
+            setTimeout(() => tryPaint(attempt + 1), 200);
+            debugLog(` [ZONES] SVG no listo, reintento ${attempt + 1}...`);
+        } else {
+            debugLog(' [ZONES] SVG no disponible después de 20 intentos');
+        }
+    }
+
+    // Si el SVG ya está cargado (contentDocument ya disponible)
+    if (mapObject.contentDocument && mapObject.contentDocument.documentElement) {
+        tryPaint(1);
     } else {
+        // Esperar el evento load del <object>
         mapObject.addEventListener("load", () => {
-            pintarEstados(mapObject.contentDocument);
-            setupMapInteractivity(mapObject.contentDocument);
+            tryPaint(1);
         }, { once: true });
+        // También iniciar retry por si el evento load ya ocurrió antes de que
+        // registráramos el listener (caso: tab estaba visible al cargar la página)
+        setTimeout(() => tryPaint(1), 100);
     }
 }
 
