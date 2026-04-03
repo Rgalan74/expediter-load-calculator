@@ -18,17 +18,19 @@ let currentZoneSort = { column: '', asc: true };
 function loadZonesData() {
     if (zonesDataLoaded) {
         debugLog(" Zones data already loaded — repintando mapa SVG...");
-        // Los datos ya están en memoria, solo re-pintar el mapa por si el SVG lo perdió
         initializeMap();
         return;
     }
-
 
     if (!window.currentUser) {
         debugLog(" No user logged in for zones");
         showZonesEmpty(window.i18n?.t('zones.login_required') || "Must log in to see zones");
         return;
     }
+
+    // ✅ Cargar el mapa SVG SIEMPRE, antes de la consulta a Firestore
+    // El mapa se muestra inmediatamente (sin colores) y se pinta cuando llegan los datos
+    initializeMap();
 
     showZonesLoading();
 
@@ -39,25 +41,30 @@ function loadZonesData() {
         .then(snapshot => {
             if (snapshot.empty) {
                 showZonesEmpty(window.i18n?.t('zones.no_loads') || "No loads to analyze zones");
+                zonesDataLoaded = true; // no volver a consultar
                 return;
             }
 
             const loads = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             calcularEstadisticas(loads);
             renderZonesTable();
-            // Inicializar mapa SVG — puede necesitar retry si el <object> estaba hidden
-            initializeMap();
+            // Si el SVG ya está inline (fetch completó), pintar ahora mismo
+            // Si el SVG todavía está cargando, initializeMap() lo pintará cuando termine
+            if (svgMapLoaded) {
+                pintarEstados();
+                setupMapInteractivity();
+            }
+            // else: initializeMap() ya fue llamado antes, pintará al terminar el fetch
+
             // Inicializar mapa de ciudades
             initializeCitiesMap();
             loadCitiesData();
 
-            // Configurar layout responsivo después de que carga el mapa
+            // Configurar layout responsivo
             setTimeout(() => {
                 setupResponsiveMapLayout();
-            }, 500);
+            }, 300);
 
-            // Marcar como cargado SOLO si el mapa se pintó correctamente
-            // Si el SVG aún no estaba disponible, initializeMap lo marcará al terminar
             zonesDataLoaded = true;
         })
         .catch(error => {
