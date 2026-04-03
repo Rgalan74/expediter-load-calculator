@@ -92,7 +92,25 @@ window.trackEvent = trackEvent;
 async function setupAuthListener() {
   debugLog("👂 Configurando auth listener...");
 
-  // ✅ TIMEOUT DE SEGURIDAD
+  // ✅ AVISO DE CONEXIÓN LENTA — aparece a los 4s, antes del timeout real
+  const slowConnTimeout = setTimeout(() => {
+    if (!authCheckComplete) {
+      debugLog("⏳ Auth tardando más de lo normal — posible red lenta");
+      const loadingScreen = document.getElementById('loadingScreen');
+      if (loadingScreen) {
+        const msg = loadingScreen.querySelector('.slow-conn-msg');
+        if (!msg) {
+          const p = document.createElement('p');
+          p.className = 'slow-conn-msg';
+          p.style.cssText = 'color:#94a3b8;font-size:13px;margin-top:8px;';
+          p.textContent = window.i18n?.t('auth.slow_connection') || 'Slow connection detected...';
+          loadingScreen.appendChild(p);
+        }
+      }
+    }
+  }, 4000);
+
+  // ✅ TIMEOUT DE SEGURIDAD — aumentado a 8s para redes móviles lentas
   const authTimeout = setTimeout(() => {
     if (!authCheckComplete) {
       debugLog("⏰ Timeout de auth - considerando como no autenticado");
@@ -100,10 +118,11 @@ async function setupAuthListener() {
       setCurrentUser(null);
       showLoginScreen();
     }
-  }, 5000); // 5 segundos máximo
+  }, 8000); // 8 segundos (era 5s)
 
   auth.onAuthStateChanged(async (user) => {
-    clearTimeout(authTimeout); // Cancelar timeout
+    clearTimeout(authTimeout);   // Cancelar timeout
+    clearTimeout(slowConnTimeout); // Cancelar aviso de red lenta
     authCheckComplete = true;
     authInitialized = true;
 

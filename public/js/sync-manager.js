@@ -1,4 +1,4 @@
-﻿/**
+/**
  * SYNC MANAGER - Auto-sync when online
  * Syncs offline data to Firebase when connection is restored
  */
@@ -15,13 +15,19 @@ class SyncManager {
     setupOnlineListener() {
         window.addEventListener('online', () => {
             debugLog('🌐 Connection restored - Starting sync...');
-            this.showNotification('Connection restored', 'Syncing your data...');
+            this.showNotification(
+                window.i18n?.t('sync.online_title') || 'Connection restored',
+                window.i18n?.t('sync.online_body') || 'Syncing your data...'
+            );
             this.syncAll();
         });
 
         window.addEventListener('offline', () => {
             debugLog('📴 Connection lost - Offline mode active');
-            this.showNotification('Offline Mode', 'Your data will be saved locally');
+            this.showNotification(
+                window.i18n?.t('sync.offline_title') || 'Offline Mode',
+                window.i18n?.t('sync.offline_body') || 'Your data will be saved locally'
+            );
         });
 
         // Check if we're online on load
@@ -57,10 +63,16 @@ class SyncManager {
             await this.syncExpenses();
 
             debugLog('✅ Sync completed successfully');
-            this.showNotification('Sync Complete', 'All your data is up to date');
+            this.showNotification(
+                window.i18n?.t('sync.complete_title') || 'Sync Complete',
+                window.i18n?.t('sync.complete_body') || 'All your data is up to date'
+            );
         } catch (error) {
             debugLog('❌ Sync failed:', error);
-            this.showNotification('Sync Failed', 'Will retry later');
+            this.showNotification(
+                window.i18n?.t('sync.failed_title') || 'Sync Failed',
+                window.i18n?.t('sync.failed_body') || 'Will retry later'
+            );
         } finally {
             this.syncInProgress = false;
         }

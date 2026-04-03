@@ -46,7 +46,10 @@ async function getCurrentUserPlan() {
  */
 async function canUserPerformAction(action) {
     if (!window.currentUser) return false;
-    const userPlan = await window.getUserPlan(window.currentUser.uid);
+
+    // Usar plan cacheado por config.js (evita extra Firestore read en cada acción)
+    // Fallback a getUserPlan() solo si el caché no está disponible aún
+    const userPlan = window.userPlan || await window.getUserPlan(window.currentUser.uid);
     if (!userPlan) return false;
 
     switch (action) {

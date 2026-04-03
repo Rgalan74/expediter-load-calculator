@@ -699,7 +699,8 @@
     "err_enter_email": "⚠️ Ingresa tu correo electrónico primero",
     "msg_reset_sending": "Enviando enlace de recuperación...",
     "msg_reset_ok": "✅ Enlace de recuperación enviado a {{email}}. Revisa tu bandeja de entrada.",
-    "lang_preference": "Idioma preferido"
+    "lang_preference": "Idioma preferido",
+    "slow_connection": "Conexión lenta detectada, por favor espera..."
   },
   "plans": {
     "title": "Elige tu Plan",
@@ -1693,5 +1694,15 @@
     "read_min": "min lectura",
     "module_label": "Módulo",
     "lesson_label": "Lección"
+  },
+  "sync": {
+    "online_title": "Conexion restaurada",
+    "online_body": "Sincronizando tus datos...",
+    "offline_title": "Modo sin conexion",
+    "offline_body": "Tus datos se guardaran localmente",
+    "complete_title": "Sincronizacion completa",
+    "complete_body": "Todos tus datos estan actualizados",
+    "failed_title": "Error de sincronizacion",
+    "failed_body": "Se reintentara mas tarde"
   }
 }

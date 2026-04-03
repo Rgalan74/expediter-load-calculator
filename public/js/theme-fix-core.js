@@ -1,4 +1,4 @@
-﻿/**
+/**
  * THEME FIX CORE v5.21.0
  * Enforces correct input styling for Light/Dark modes
  * NOW DELEGATES LIGHT MODE STYLES TO: public/css/theme-overrides.css
@@ -69,14 +69,34 @@
         }
     }
 
-    // Run immediately and periodically
+    // Run immediately on load
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', forceThemeInputs);
     } else {
         forceThemeInputs();
     }
 
-    // Loop to ensure it sticks
-    setInterval(forceThemeInputs, 2000);
+    // ✅ MutationObserver — solo corre cuando el DOM cambia (nuevo contenido)
+    // o cuando se cambia el atributo data-theme. Sin polling ni CPU desperdiciado.
+    const observer = new MutationObserver((mutations) => {
+        const hasNewInputs = mutations.some(m =>
+            [...m.addedNodes].some(n =>
+                n.nodeType === 1 &&
+                (n.tagName === 'INPUT' || n.tagName === 'SELECT' || n.tagName === 'TEXTAREA' ||
+                 (n.querySelectorAll && n.querySelectorAll('input, select, textarea').length > 0))
+            )
+        );
+        const themeChanged = mutations.some(m =>
+            m.type === 'attributes' && m.attributeName === 'data-theme'
+        );
+        if (hasNewInputs || themeChanged) forceThemeInputs();
+    });
+
+    observer.observe(document.documentElement, {
+        attributes: true,          // detectar cambio de data-theme en <html>
+        attributeFilter: ['data-theme'],
+        childList: true,
+        subtree: true              // detectar inputs en cualquier nivel del DOM
+    });
 
 })();
