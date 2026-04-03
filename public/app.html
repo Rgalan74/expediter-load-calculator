@@ -1785,13 +1785,12 @@
             <p class="subtitle" data-i18n="zones.subtitle">Analyze profitability by state with an interactive map</p>
           </div>
 
-          <!-- Map placeholder -->
+          <!-- Map placeholder — SVG se inyecta inline por zones.js via fetch() -->
           <div class="flex flex-col lg:flex-row gap-10">
-            <div class="flex-1 bg-gray-100 border rounded p-8 text-center">
-              <object id="interactiveMap" data="usa_states_ids_fixed_by_title.svg" type="image/svg+xml"
-                class="w-full h-80">
-                <p class="text-gray-600" data-i18n="zones.map_svg_unavailable">🗺️ SVG Map unavailable</p>
-              </object>
+            <div class="flex-1 bg-gray-100 border rounded p-4 text-center" style="min-height:320px;">
+              <div id="svgMapContainer" class="w-full" style="min-height:300px;">
+                <p class="text-gray-400 text-sm pt-12">🗺️ Loading map...</p>
+              </div>
             </div>
 
             <div class="w-full lg:w-[300px] bg-gray-50 border border-gray-200 rounded-lg shadow p-4">

@@ -207,50 +207,71 @@ function renderZonesTable() {
     }
 }
 
-// Inicializar mapa SVG — con retry robusto para cuando el <object> estaba hidden
+// ✅ ESTRATEGIA DEFINITIVA: fetch() + SVG inline
+// Razón: <object> + contentDocument falla en Firebase Hosting (políticas de seguridad
+// del browser bloquean acceso al DOM de SVGs externos incluso en mismo dominio).
+// Solución: cargar el SVG como texto con fetch() e inyectarlo directamente en el DOM.
+let svgMapLoaded = false; // evitar recargas multiple
+
 function initializeMap() {
-    const mapObject = document.getElementById("interactiveMap");
-    if (!mapObject) return;
-
-    function tryPaint(attempt) {
-        const svgDoc = mapObject.contentDocument;
-        if (svgDoc && svgDoc.documentElement && svgDoc.documentElement.tagName !== 'parsererror') {
-            pintarEstados(svgDoc);
-            setupMapInteractivity(svgDoc);
-            debugLog(` [ZONES] Mapa pintado en intento ${attempt}`);
-        } else if (attempt < 20) {
-            // Reintentar cada 200ms por hasta 4 segundos
-            setTimeout(() => tryPaint(attempt + 1), 200);
-            debugLog(` [ZONES] SVG no listo, reintento ${attempt + 1}...`);
-        } else {
-            debugLog(' [ZONES] SVG no disponible después de 20 intentos');
-        }
+    const container = document.getElementById('svgMapContainer');
+    if (!container) {
+        debugLog(' [ZONES] svgMapContainer no encontrado');
+        return;
     }
 
-    // Si el SVG ya está cargado (contentDocument ya disponible)
-    if (mapObject.contentDocument && mapObject.contentDocument.documentElement) {
-        tryPaint(1);
-    } else {
-        // Esperar el evento load del <object>
-        mapObject.addEventListener("load", () => {
-            tryPaint(1);
-        }, { once: true });
-        // También iniciar retry por si el evento load ya ocurrió antes de que
-        // registráramos el listener (caso: tab estaba visible al cargar la página)
-        setTimeout(() => tryPaint(1), 100);
+    // Si el SVG ya está inline, solo re-pintar
+    const existingSvg = container.querySelector('svg');
+    if (existingSvg && svgMapLoaded) {
+        debugLog(' [ZONES] SVG ya cargado — re-pintando estados...');
+        pintarEstados();
+        setupMapInteractivity();
+        return;
     }
+
+    debugLog(' [ZONES] Cargando SVG via fetch()...');
+    container.innerHTML = '<p class="text-gray-400 text-sm pt-12">🗺️ Loading map...</p>';
+
+    fetch('usa_states_ids_fixed_by_title.svg')
+        .then(res => {
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            return res.text();
+        })
+        .then(svgText => {
+            // Insertar SVG inline
+            container.innerHTML = svgText;
+
+            // Asegurarse de que el SVG ocupe el ancho del contenedor
+            const svgEl = container.querySelector('svg');
+            if (svgEl) {
+                svgEl.style.width = '100%';
+                svgEl.style.height = 'auto';
+                svgEl.style.maxHeight = '500px';
+                svgEl.removeAttribute('width');
+                svgEl.removeAttribute('height');
+                svgEl.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+            }
+
+            svgMapLoaded = true;
+            pintarEstados();
+            setupMapInteractivity();
+            debugLog(' [ZONES] Mapa SVG inyectado inline correctamente ✅');
+        })
+        .catch(err => {
+            debugLog(' [ZONES] Error cargando SVG:', err);
+            container.innerHTML = `<p class="text-red-500 text-sm pt-4">⚠️ ${window.i18n?.t('zones.map_svg_unavailable') || 'Map unavailable'}</p>`;
+        });
 }
 
 // Nueva funcin para configurar interactividad
-function setupMapInteractivity(svgDoc) {
-    if (!svgDoc) return;
-
+function setupMapInteractivity() {
+    // Con SVG inline, usamos document directamente
     // Crear panel de informacin si no existe
     setupInfoPanel();
 
     // Configurar hover para cada estado con datos
     Object.keys(rpmPorEstado).forEach(stateCode => {
-        const stateElement = svgDoc.getElementById(stateCode);
+        const stateElement = document.getElementById(stateCode);
 
         if (stateElement) {
             const rpm = rpmPorEstado[stateCode];
@@ -287,8 +308,8 @@ function setupInfoPanel() {
     let infoPanel = document.getElementById('stateInfoPanel');
 
     if (!infoPanel) {
-        const mapObject = document.getElementById('interactiveMap');
-        const sidebar = mapObject.parentElement.parentElement.children[1];
+        const container = document.getElementById('svgMapContainer');
+        const sidebar = container?.parentElement?.parentElement?.children[1];
 
         if (sidebar) {
             infoPanel = document.createElement('div');
@@ -341,17 +362,19 @@ function showStateInfo(stateCode, rpm, resumen, isClick = false) {
     `;
 }
 
-//  FUNCIN PINTARESTADOS CORREGIDA
-function pintarEstados(svgDoc) {
-    if (!svgDoc) {
-        debugLog(" [ZONES] SVG document no disponible para pintado");
+//  FUNCIN PINTARESTADOS — usa SVG inline en el DOM
+function pintarEstados() {
+    const container = document.getElementById('svgMapContainer');
+    if (!container || !container.querySelector('svg')) {
+        debugLog(" [ZONES] SVG no inyectado aún, no se puede pintar");
         return;
     }
 
     debugLog(" [ZONES] Iniciando pintado de estados...");
 
     // Resetear estilos antes de pintar
-    const allElements = svgDoc.querySelectorAll('[id]');
+    const svgEl = container.querySelector('svg');
+    const allElements = svgEl.querySelectorAll('[id]');
     allElements.forEach(element => {
         element.style.removeProperty('background-color');
         element.style.removeProperty('color');
@@ -361,7 +384,7 @@ function pintarEstados(svgDoc) {
     let statesPainted = 0;
 
     Object.keys(rpmPorEstado).forEach(stateCode => {
-        const element = svgDoc.getElementById(stateCode);
+        const element = document.getElementById(stateCode);
         const rpm = rpmPorEstado[stateCode];
 
         if (!element || isNaN(rpm)) return;
@@ -385,144 +408,51 @@ function pintarEstados(svgDoc) {
         debugLog(` ${stateCode}: RPM $${rpm.toFixed(2)} = ${color}`);
     });
 
-    // Forzar refresh del SVG
-    const svgElement = svgDoc.documentElement;
-    if (svgElement) {
-        svgElement.style.display = 'none';
-        svgElement.offsetHeight;
-        svgElement.style.display = '';
+    // Forzar re-render del SVG
+    if (svgEl) {
+        svgEl.style.display = 'none';
+        void svgEl.offsetHeight; // fuerza reflow
+        svgEl.style.display = '';
         debugLog(" [ZONES] SVG refresh forzado");
     }
 
     debugLog(` Estados pintados con colores: ${statesPainted}`);
 }
 
-//  FUNCIN LAYOUT RESPONSIVO - VERSIN CORREGIDA PARA MOBILE
+//  FUNCIN LAYOUT RESPONSIVO (simplificada para SVG inline)
 function setupResponsiveMapLayout() {
-    const mapObject = document.getElementById('interactiveMap');
-    if (!mapObject) return;
+    const svgContainer = document.getElementById('svgMapContainer');
+    if (!svgContainer) return;
 
-    const mapContainer = mapObject.parentElement;
-    const flexContainer = mapContainer?.parentElement;
-    const panelLateral = flexContainer?.children[1];
+    const mapCard = svgContainer.parentElement;          // div.flex-1 bg-gray-100
+    const flexRow = mapCard?.parentElement;              // div.flex.flex-col.lg:flex-row
+    const panelLateral = flexRow?.children[1];           // div.w-full.lg:w-[300px]
 
-    debugLog(" Configurando layout responsivo del mapa...");
+    if (!flexRow || !panelLateral) return;
 
-    if (mapContainer && panelLateral) {
-        // Detectar si es mobile
-        const isMobile = window.innerWidth <= 768;
+    const isMobile = window.innerWidth <= 768;
 
-        if (isMobile) {
-            debugLog(" Modo mobile detectado - aplicando layout mobile");
-
-            // SOLUCIN FINAL MOBILE
-            mapContainer.style.minWidth = 'unset';
-            mapContainer.style.width = '100%';
-            mapContainer.style.padding = '0.5rem 0';
-            mapContainer.style.paddingLeft = '0';
-            mapContainer.style.paddingRight = '0';
-            mapContainer.style.margin = '0';
-            mapContainer.style.marginLeft = '-1rem';
-            mapContainer.style.marginRight = '-1rem';
-
-            // Forzar flex-direction column en mobile
-            if (flexContainer) {
-                flexContainer.style.flexDirection = 'column';
-                flexContainer.style.gap = '1rem';
-                flexContainer.style.paddingLeft = '0.5rem';
-                flexContainer.style.paddingRight = '0.5rem';
-            }
-
-            // Mapa responsive en mobile
-            mapObject.style.width = '100%';
-            mapObject.style.height = '400px';
-            mapObject.style.setProperty('height', '400px', 'important');
-            mapObject.style.maxWidth = 'none';
-            mapObject.style.margin = '0 auto';
-            mapObject.style.display = 'block';
-
-            // Panel lateral debajo en mobile
-            panelLateral.style.width = '100%';
-            panelLateral.style.maxWidth = 'none';
-            panelLateral.style.marginTop = '1rem';
-            panelLateral.style.order = '2';
-
-
-        } else {
-            debugLog(" Modo desktop detectado - aplicando layout desktop");
-
-            // DESKTOP: Layout original CORREGIDO
-            mapContainer.className = mapContainer.className.replace('flex-1', 'flex-[3]');
-            mapContainer.style.minWidth = '600px';
-
-            // LIMPIAR estilos mobile que pueden interferir
-            mapContainer.style.marginLeft = '';
-            mapContainer.style.marginRight = '';
-            mapContainer.style.padding = '';
-            mapContainer.style.paddingLeft = '';
-            mapContainer.style.paddingRight = '';
-
-            // Restaurar estilos desktop originales
-            mapContainer.style.padding = '2rem';
-
-            // Configurar el mapa
-            mapObject.style.width = '100%';
-            mapObject.style.height = '500px';
-            mapObject.style.minWidth = '500px';
-            mapObject.style.maxWidth = '100%';
-            mapObject.style.margin = '';
-            mapObject.style.display = '';
-
-            // Configurar panel lateral (25% del espacio)
-            panelLateral.style.flex = '1';
-            panelLateral.style.maxWidth = '280px';
-            panelLateral.style.minWidth = '220px';
-            panelLateral.style.width = '';
-            panelLateral.style.marginTop = '';
-            panelLateral.style.order = '';
-
-            // Limpiar estilos del flex container mobile
-            if (flexContainer) {
-                flexContainer.style.flexDirection = '';
-                flexContainer.style.gap = '';
-                flexContainer.style.paddingLeft = '';
-                flexContainer.style.paddingRight = '';
-            }
-
-            // Responsive para pantallas pequeas (solo desktop)
-            const mediaQuery = window.matchMedia('(max-width: 1024px)');
-            function handleResponsive(e) {
-                if (e.matches) {
-                    mapObject.style.height = '400px';
-                    mapObject.style.minWidth = '300px';
-                    panelLateral.style.maxWidth = 'none';
-                } else {
-                    mapObject.style.height = '500px';
-                    mapObject.style.minWidth = '500px';
-                    panelLateral.style.maxWidth = '280px';
-                }
-            }
-
-            mediaQuery.addListener(handleResponsive);
-            handleResponsive(mediaQuery);
-        }
-        // Event listener para resize MEJORADO
-        let resizeTimeout;
-        const handleResize = () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                // Volver a aplicar layout segn nuevo tamao
-                setupResponsiveMapLayout();
-            }, 150);
-        };
-
-        // Remover listener anterior si existe
-        window.removeEventListener('resize', window.mapResizeHandler);
-        window.mapResizeHandler = handleResize;
-        window.addEventListener('resize', handleResize);
-
-        debugLog(" Layout responsivo configurado correctamente");
+    if (isMobile) {
+        flexRow.style.flexDirection = 'column';
+        panelLateral.style.width = '100%';
+        panelLateral.style.maxWidth = 'none';
+    } else {
+        flexRow.style.flexDirection = '';
+        panelLateral.style.width = '';
+        panelLateral.style.maxWidth = '';
     }
+
+    // Registrar handler de resize (una sola vez)
+    if (!window.mapResizeHandler) {
+        let resizeTimeout;
+        window.mapResizeHandler = () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(setupResponsiveMapLayout, 150);
+        };
+        window.addEventListener('resize', window.mapResizeHandler);
+    }
+
+    debugLog(' Layout responsivo del mapa configurado');
 }
 
 // Funciones de ordenamiento
