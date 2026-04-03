@@ -1,4 +1,4 @@
-﻿// finances-reports.js - Report Generation Module
+// finances-reports.js - Report Generation Module
 // Version: 1.0.0
 // Dependencies: html2pdf, finances-core.js
 // Last Updated: 2025-12-19
@@ -17,10 +17,50 @@
  * - openReportModal() - Abrir modal de reportes
  * - closeReportModal() - Cerrar modal
  */
+// ─── Helper: garantiza que window.financesData/expensesData estén cargados ───
+// Los datos se asignan cuando el usuario abre el subtab 'Resumen'.
+// Si entra directo a 'Reportes', need to load them first.
+async function ensureFinancesData() {
+  if (window.financesData && window.financesData.length > 0) {
+    debugLog('[REPORTS] Datos ya en caché ✅');
+    return true;
+  }
 
-// ========================================
-// PROFIT & LOSS REPORT
-// ========================================
+  debugLog('[REPORTS] Datos no disponibles — cargando desde Firestore...');
+
+  if (!window.currentUser) {
+    debugLog('[REPORTS] Sin usuario autenticado');
+    return false;
+  }
+
+  try {
+    // Intentar usar loadFinancesData() del módulo de finances si existe
+    if (typeof window.loadFinancesData === 'function') {
+      const result = await window.loadFinancesData('all');
+      if (result?.loads) {
+        window.financesData = result.loads;
+        window.expensesData = result.expenses || [];
+        debugLog('[REPORTS] Datos cargados vía loadFinancesData ✅');
+        return true;
+      }
+    }
+
+    // Fallback: cargar directamente desde Firestore
+    const uid = window.currentUser.uid;
+    const [loadsSnap, expSnap] = await Promise.all([
+      firebase.firestore().collection('loads').where('userId', '==', uid).get(),
+      firebase.firestore().collection('expenses').where('userId', '==', uid).get()
+    ]);
+
+    window.financesData = loadsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+    window.expensesData = expSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+    debugLog(`[REPORTS] Cargados ${window.financesData.length} cargas, ${window.expensesData.length} gastos ✅`);
+    return window.financesData.length > 0;
+  } catch (err) {
+    debugLog('[REPORTS] Error cargando datos:', err);
+    return false;
+  }
+}
 
 function generatePLReport() {
   debugLog("📊 Generando Estado de Resultados Profesional...");
@@ -33,13 +73,19 @@ function generatePLReport() {
     reportContent.innerHTML = '<div class="flex flex-col items-center justify-center p-12"><div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent mb-4"></div><p class="text-gray-600">Generando reporte...</p></div>';
   }
 
-  if (!financesData || !expensesData) {
-    if (reportContent) {
-      reportContent.innerHTML = '<div class="text-center p-12 text-red-500"><span class="text-4xl block mb-3">⚠️</span><p>No hay datos suficientes para generar el reporte</p></div>';
+  // Asegurar datos disponibles (carga automática si es necesario)
+  ensureFinancesData().then(hasData => {
+    if (!hasData) {
+      if (reportContent) {
+        reportContent.innerHTML = '<div class="text-center p-12 text-red-500"><span class="text-4xl block mb-3">⚠️</span><p>' + (window.i18n?.t('finances.report_no_data') || 'No hay datos suficientes para generar el reporte') + '</p></div>';
+      }
+      return;
     }
-    return;
-  }
+    _renderPLReport(reportContent);
+  });
+}
 
+function _renderPLReport(reportContent) {
   // Datos ya filtrados
   const filteredLoads = window.financesData || [];
   const filteredExpenses = window.expensesData || [];
@@ -305,22 +351,20 @@ function generatePLReport() {
 
 function generateCompanyReport() {
   debugLog("🏢 Generando Reporte por Compañías...");
-
-  // ✅ Abrir modal con loading
   openReportModal('company', window.i18n?.t('finances.report_company_title') || 'Company Report', window.i18n?.t('finances.generating_report') || 'Loading...', '🏢');
-
   const reportContent = document.getElementById("reportContent");
-  if (reportContent) {
-    reportContent.innerHTML = '<div class="flex flex-col items-center justify-center p-12"><div class="animate-spin rounded-full h-12 w-12 border-4 border-purple-500 border-t-transparent mb-4"></div><p class="text-gray-600">Analizando datos por compañía...</p></div>';
-  }
+  if (reportContent) reportContent.innerHTML = '<div class="flex flex-col items-center justify-center p-12"><div class="animate-spin rounded-full h-12 w-12 border-4 border-purple-500 border-t-transparent mb-4"></div><p class="text-gray-600">Analizando datos por compañía...</p></div>';
 
-  if (!window.financesData || window.financesData.length === 0) {
-    if (reportContent) {
-      reportContent.innerHTML = '<div class="text-center p-12 text-red-500"><span class="text-4xl block mb-3">⚠️</span><p>No hay datos suficientes para generar el reporte</p></div>';
+  ensureFinancesData().then(hasData => {
+    if (!hasData) {
+      if (reportContent) reportContent.innerHTML = '<div class="text-center p-12 text-red-500"><span class="text-4xl block mb-3">⚠️</span><p>' + (window.i18n?.t('finances.report_no_data') || 'No hay datos suficientes') + '</p></div>';
+      return;
     }
-    return;
-  }
+    _renderCompanyReport(reportContent);
+  });
+}
 
+function _renderCompanyReport(reportContent) {
   // Datos ya filtrados
   const filteredLoads = window.financesData || [];
 
@@ -581,22 +625,20 @@ function printReport() {
 
 function generateExpenseBreakdownReport() {
   debugLog("📈 Generando Reporte de Desglose de Gastos...");
-
-  // ✅ Abrir modal con loading
   openReportModal('expenses', window.i18n?.t('finances.report_expense_title') || 'Expense Breakdown', window.i18n?.t('finances.generating_report') || 'Loading...', '📈');
-
   const reportContent = document.getElementById("reportContent");
-  if (reportContent) {
-    reportContent.innerHTML = '<div class="flex flex-col items-center justify-center p-12"><div class="animate-spin rounded-full h-12 w-12 border-4 border-orange-500 border-t-transparent mb-4"></div><p class="text-gray-600">Analizando gastos...</p></div>';
-  }
+  if (reportContent) reportContent.innerHTML = '<div class="flex flex-col items-center justify-center p-12"><div class="animate-spin rounded-full h-12 w-12 border-4 border-orange-500 border-t-transparent mb-4"></div><p class="text-gray-600">Analizando gastos...</p></div>';
 
-  if (!window.expensesData || window.expensesData.length === 0) {
-    if (reportContent) {
-      reportContent.innerHTML = '<div class="text-center p-12 text-red-500"><span class="text-4xl block mb-3">⚠️</span><p>No hay datos de gastos para generar el reporte</p></div>';
+  ensureFinancesData().then(hasData => {
+    if (!hasData || !window.expensesData || window.expensesData.length === 0) {
+      if (reportContent) reportContent.innerHTML = '<div class="text-center p-12 text-red-500"><span class="text-4xl block mb-3">⚠️</span><p>' + (window.i18n?.t('finances.report_no_data') || 'No hay datos de gastos') + '</p></div>';
+      return;
     }
-    return;
-  }
+    _renderExpenseBreakdownReport(reportContent);
+  });
+}
 
+function _renderExpenseBreakdownReport(reportContent) {
   // Datos ya filtrados
   const filteredExpenses = window.expensesData || [];
 
@@ -827,22 +869,20 @@ function generateExpenseBreakdownReport() {
 
 function generateProfitabilityReport() {
   debugLog("🗺️ Generando Reporte de Rentabilidad por Zona...");
-
-  // ✅ Abrir modal con loading
   openReportModal('profitability', window.i18n?.t('finances.report_zone_title') || 'Zone Profitability', window.i18n?.t('finances.generating_report') || 'Loading...', '🗺️');
-
   const reportContent = document.getElementById("reportContent");
-  if (reportContent) {
-    reportContent.innerHTML = '<div class="flex flex-col items-center justify-center p-12"><div class="animate-spin rounded-full h-12 w-12 border-4 border-green-500 border-t-transparent mb-4"></div><p class="text-gray-600">Analizando rutas...</p></div>';
-  }
+  if (reportContent) reportContent.innerHTML = '<div class="flex flex-col items-center justify-center p-12"><div class="animate-spin rounded-full h-12 w-12 border-4 border-green-500 border-t-transparent mb-4"></div><p class="text-gray-600">Analizando rutas...</p></div>';
 
-  if (!window.financesData || window.financesData.length === 0) {
-    if (reportContent) {
-      reportContent.innerHTML = '<div class="text-center p-12 text-red-500"><span class="text-4xl block mb-3">⚠️</span><p>No hay datos suficientes para generar el reporte</p></div>';
+  ensureFinancesData().then(hasData => {
+    if (!hasData) {
+      if (reportContent) reportContent.innerHTML = '<div class="text-center p-12 text-red-500"><span class="text-4xl block mb-3">⚠️</span><p>' + (window.i18n?.t('finances.report_no_data') || 'No hay datos suficientes') + '</p></div>';
+      return;
     }
-    return;
-  }
+    _renderProfitabilityReport(reportContent);
+  });
+}
 
+function _renderProfitabilityReport(reportContent) {
   // Datos ya filtrados
   const filteredLoads = window.financesData || [];
 
