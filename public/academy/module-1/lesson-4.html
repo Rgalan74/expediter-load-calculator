@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -131,15 +131,18 @@
             font-weight: 700
         }
     </style>
+  <script src="../../js/i18n/language-manager.js"></script>
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">&#8592; Volver a la App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'" data-i18n="academy.back_app">← Back to App</a></nav>
     <article class="lesson-container">
         <nav class="breadcrumb">
             <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 1</a> → Lección 4
         </nav>
 
+        <!-- ===== SPANISH VERSION ===== -->
+        <div data-lang="es">
         <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
             <h1>Ganancia Bruta vs Ganancia Real (Y el Factor Tiempo)</h1>
             <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
@@ -416,12 +419,331 @@
                 <a href="lesson-5.html" class="btn btn-primary">Siguiente: Estrategia vs Transacción →</a>
             </nav>
         </footer>
+        </div><!-- end data-lang="es" -->
+
+        <!-- ===== ENGLISH VERSION ===== -->
+        <div data-lang="en" style="display:none">
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Gross Profit vs Real Profit (And the Time Factor)</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 7 min read</span>
+                <span>🎓 Module 1 - Lesson 4</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>📌 THE THREE LAYERS OF PROFIT</h2>
+                <p>Most operators only see the first one:</p>
+                <ol>
+                    <li><strong>💰 Gross Profit</strong> = What you see in the offer</li>
+                    <li><strong>💵 Real Profit</strong> = What remains after ALL costs</li>
+                    <li><strong>⏰ Profit per Hour</strong> = Real profit ÷ Time invested</li>
+                </ol>
+
+                <div
+                    style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;text-align:center;margin:2rem 0">
+                    <p style="font-size:1.25rem;font-weight:700">Only #3 tells you if it is actually worth it</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>📊 REAL CASE: The Load That "Paid Well"</h2>
+
+                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem;margin:2rem 0">
+                    <p><strong>Load Offer:</strong></p>
+                    <ul>
+                        <li>Origin: Dallas, TX</li>
+                        <li>Destination: Chicago, IL</li>
+                        <li>Pay: $1,200</li>
+                        <li>Loaded miles: 900</li>
+                    </ul>
+
+                    <p style="margin-top:1.5rem"><strong>❌ SURFACE-LEVEL ANALYSIS:</strong></p>
+                    <p>$1,200 ÷ 900 miles = $1.33/mile</p>
+                    <p style="font-style:italic">"$1.33/mile! Good rate, I'll take it."</p>
+                </div>
+
+                <div style="background:rgba(0,217,255,.1);padding:1.5rem;border-radius:.75rem;margin:2rem 0">
+                    <p><strong>✅ LEVEL 1 ANALYSIS: Real Profit</strong></p>
+                    <p><strong>REVENUE:</strong> Pay: $1,200</p>
+                    <p style="margin-top:1rem"><strong>COSTS:</strong></p>
+                    <ul>
+                        <li>Deadhead (50 miles): 50 × $0.94 = $47</li>
+                        <li>Loaded (900 miles): 900 × $0.94 = $846</li>
+                        <li>Repositioning (100 miles): 100 × $0.94 = $94</li>
+                        <li><strong>Total costs: $987</strong></li>
+                    </ul>
+                    <p style="margin-top:1rem;font-size:1.1rem"><strong>REAL PROFIT: $1,200 - $987 = $213</strong></p>
+                    <p style="font-style:italic">"$213 profit, not bad..."</p>
+                </div>
+
+                <div
+                    style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem;border:2px solid #64C864">
+                    <p style="font-weight:700;color:#64C864">✅✅ LEVEL 2 ANALYSIS: Profit per Hour (THE TRUTH)</p>
+
+                    <p style="margin-top:1rem"><strong>TIME INVESTED:</strong></p>
+                    <ul>
+                        <li>Deadhead drive: 1 hour</li>
+                        <li>Loading time: 1.5 hours</li>
+                        <li>Drive time (900 mi @ 60 mph): 15 hours</li>
+                        <li>Unloading time: 1 hour</li>
+                        <li>Mandatory breaks (HOS): 2 hours</li>
+                        <li>Repositioning drive: 2 hours</li>
+                        <li><strong>TOTAL TIME: 22.5 hours</strong></li>
+                    </ul>
+
+                    <div
+                        style="background:rgba(255,107,53,.2);padding:1rem;border-radius:.5rem;text-align:center;margin-top:1rem">
+                        <p style="font-size:1.5rem;font-weight:900;color:#FF6B35">$213 ÷ 22.5 hours = $9.47/hour</p>
+                    </div>
+
+                    <p style="margin-top:1rem;font-weight:700;color:#FF6B35">🚨 BRUTAL REALITY: $9.47/hour is BELOW
+                        minimum wage</p>
+                    <p style="margin-top:.5rem">You worked almost a full day for less than a job at McDonald's</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 COMPARISON WITH ANOTHER LOAD</h2>
+
+                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>Alternative Load:</strong></p>
+                    <ul>
+                        <li>Origin: Dallas, TX</li>
+                        <li>Destination: Houston, TX</li>
+                        <li>Pay: $400</li>
+                        <li>Loaded miles: 250</li>
+                    </ul>
+
+                    <p style="margin-top:1rem"><strong>Full analysis:</strong></p>
+                    <ul>
+                        <li>REVENUE: $400</li>
+                        <li>COSTS: $263 (30 DH + 250 loaded + 0 repos)</li>
+                        <li>REAL PROFIT: $137</li>
+                        <li>TIME: 5.5 hours</li>
+                        <li style="color:#64C864;font-weight:700">PROFIT/HOUR: $24.91/hour ✅</li>
+                    </ul>
+                </div>
+
+                <h2 style="margin-top:2rem">📊 FINAL COMPARISON</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>LOAD A (Chicago)</th>
+                            <th>LOAD B (Houston)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Total pay</td>
+                            <td>$1,200 ✅</td>
+                            <td>$400 ❌</td>
+                        </tr>
+                        <tr>
+                            <td>Real profit</td>
+                            <td>$213</td>
+                            <td>$137</td>
+                        </tr>
+                        <tr>
+                            <td>Time invested</td>
+                            <td>22.5 hrs</td>
+                            <td>5.5 hrs</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.1)">
+                            <td><strong>Profit/hour</strong></td>
+                            <td style="color:#FF6B35">$9.47/hr ❌</td>
+                            <td style="color:#64C864">$24.91/hr ✅</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout tip">
+                    <strong>BEST STRATEGY: Run Load B TWICE (11 hours total)</strong>
+                    <ul>
+                        <li>Profit: $137 × 2 = $274</li>
+                        <li>Time: 11 hours</li>
+                        <li>Rate: $24.91/hour</li>
+                    </ul>
+                    <p style="margin-top:1rem"><strong>vs. Load A once (22.5 hours):</strong></p>
+                    <ul>
+                        <li>Profit: $213</li>
+                        <li>Time: 22.5 hours</li>
+                        <li>Rate: $9.47/hour</li>
+                    </ul>
+                    <p style="margin-top:1rem;font-weight:700;color:#64C864">DIFFERENCE: $61 MORE in HALF the time</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 PROFIT-PER-HOUR TARGETS</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Level</th>
+                            <th>$/Hour</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Beginner/Survival</td>
+                            <td>$20-30</td>
+                            <td>You're learning — acceptable at first</td>
+                        </tr>
+                        <tr>
+                            <td>Competent</td>
+                            <td>$35-45</td>
+                            <td>You're running a decent business</td>
+                        </tr>
+                        <tr style="background:rgba(0,217,255,.05)">
+                            <td>Professional</td>
+                            <td><strong>$50-65</strong></td>
+                            <td>You've mastered the game</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.1)">
+                            <td>Elite</td>
+                            <td><strong>$70+</strong></td>
+                            <td>Top 5% of expediters</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p style="text-align:center;font-weight:700;margin-top:1rem">Where are YOU?</p>
+            </section>
+
+            <section>
+                <h2>✏️ ANALYZE YOUR LAST COMPLETE LOAD</h2>
+
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>STEP 1: Revenue</strong></p>
+                    <p>Total pay received: $_________</p>
+
+                    <p style="margin-top:1.5rem"><strong>STEP 2: Costs</strong></p>
+                    <ul>
+                        <li>Deadhead miles: _______ × $_____ = $_____</li>
+                        <li>Loaded miles: _______ × $_____ = $_____</li>
+                        <li>Repositioning miles: _______ × $_____ = $_____</li>
+                        <li><strong>TOTAL COSTS: $_________ (A)</strong></li>
+                    </ul>
+
+                    <p style="margin-top:1.5rem"><strong>STEP 3: Real Profit</strong></p>
+                    <p>Pay - Costs: <strong>$_________ (B)</strong></p>
+
+                    <p style="margin-top:1.5rem"><strong>STEP 4: Time Invested</strong></p>
+                    <ul>
+                        <li>Deadhead drive: _____ hrs</li>
+                        <li>Loading/wait time: _____ hrs</li>
+                        <li>Drive time: _____ hrs</li>
+                        <li>Unloading: _____ hrs</li>
+                        <li>Breaks/delays: _____ hrs</li>
+                        <li>Repositioning: _____ hrs</li>
+                        <li><strong>TOTAL HOURS: _____ (C)</strong></li>
+                    </ul>
+
+                    <div
+                        style="background:linear-gradient(135deg,rgba(0,217,255,.2),rgba(255,107,53,.2));padding:1.5rem;border-radius:.75rem;text-align:center;margin-top:1.5rem">
+                        <p style="font-size:1.1rem"><strong>STEP 5: Your Profit per Hour</strong></p>
+                        <p style="font-size:2rem;font-weight:900;color:#00D9FF">(B) ÷ (C) = $_____/hour</p>
+                    </div>
+
+                    <p style="margin-top:1rem">Does it beat your $40/hour target? _____ (Yes/No)</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🚀 STRATEGIES TO MAXIMIZE $/HOUR</h2>
+
+                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>1. Prioritize Turnaround Speed</strong></p>
+                    <p>Fast load (4-6 hrs) at $1.30/mile > Long load (18-20 hrs) at $1.40/mile</p>
+
+                    <p style="margin-top:1.5rem"><strong>2. Avoid "Loading Hell"</strong></p>
+                    <p>Customers with 3+ hours of wait time — even if they pay $0.10-0.15 more — are NOT worth it</p>
+
+                    <p style="margin-top:1.5rem"><strong>3. Favor Zones with Quick Reload</strong></p>
+                    <p>Zone B: Load pays $1.35, reload in 8 hrs > Zone A: Load pays $1.50, wait time 48 hrs</p>
+
+                    <p style="margin-top:1.5rem"><strong>4. Consider "Short Premium Loads"</strong></p>
+                    <p>300-mile load at $1.60/mile in 5 hours = $36/hour<br>
+                        vs. 1,000-mile load at $1.40/mile in 18 hours = $22/hour</p>
+                    <p style="font-weight:700;color:#64C864">The "small" load pays 64% better per hour</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 KEY TAKEAWAY</h2>
+
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">Total profit matters.<br>Real profit
+                        matters more.<br>Profit PER HOUR is what TRULY counts.</p>
+                    <p style="margin-top:1.5rem">Think in TIME, not just in MONEY.</p>
+                    <p style="margin-top:1rem">A load that pays "a lot" but takes "a long time"<br>can be WORSE than a
+                        small, fast load.</p>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn-en" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as Complete</button>
+            <nav class="lesson-nav">
+                <a href="lesson-3.html" class="btn btn-secondary">← Back to Previous Lesson</a>
+                <a href="lesson-5.html" class="btn btn-primary">Next: Strategy vs Transaction →</a>
+            </nav>
+        </footer>
+        </div><!-- end data-lang="en" -->
+
     </article>
 
     <script src="../js/academy.js"></script>
     <script>
-        const MODULE_NUM = 1, LESSON_NUM = 4; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true; alert('¡Lección completada! 🎉') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true } });
+        const MODULE_NUM = 1, LESSON_NUM = 4;
+        function markLessonComplete() {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress) {
+                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.disabled = true;
+                });
+                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.disabled = true;
+                });
+            }
+        });
     </script>
+
+  <script>
+    // Academy bilingual content toggle
+    (function applyAcademyLang() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    })();
+    document.addEventListener('languageChanged', function() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    });
+  </script>
+
 </body>
 
 </html>

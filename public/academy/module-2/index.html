@@ -1,26 +1,34 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Módulo 2: Dominando los Números | Smart Load Academia</title>
+    <title>Module 2: Mastering the Numbers | Smart Load Academia</title>
     <link rel="icon" type="image/png" href="../../img/logo-app.png" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../css/academy.css">
+  <script src="../../js/i18n/language-manager.js"></script>
 </head>
 
 <body style="font-family: 'Inter', sans-serif; background: #0a0a0f; color: #e0e0e0;">
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">&#8592; Volver a la App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'" data-i18n="academy.back_app">← Back to App</a></nav>
 
     <div style="max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem;">
 
-        <!-- Breadcrumb -->
-        <nav style="color: #888; margin-bottom: 2rem; font-size: 0.875rem;">
+        <!-- Breadcrumb ES -->
+        <nav data-lang="es" style="color: #888; margin-bottom: 2rem; font-size: 0.875rem;">
             <a href="../../academy.html" style="color: #00D9FF; text-decoration: none;">Academy</a> → Módulo 2
         </nav>
+        <!-- Breadcrumb EN -->
+        <nav data-lang="en" style="display:none; color: #888; margin-bottom: 2rem; font-size: 0.875rem;">
+            <a href="../../academy.html" style="color: #00D9FF; text-decoration: none;">Academy</a> → Module 2
+        </nav>
+
+        <!-- ===== SPANISH VERSION ===== -->
+        <div data-lang="es">
 
         <!-- Header -->
         <header style="margin-bottom: 3rem;">
@@ -185,9 +193,195 @@
             style="display: inline-block; background: rgba(255, 255, 255, 0.1); color: white; padding: 1rem 2rem; border-radius: 0.75rem; font-weight: 700; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.2);">←
             Volver al Academy</a>
 
+        </div><!-- end data-lang="es" -->
+
+        <!-- ===== ENGLISH VERSION ===== -->
+        <div data-lang="en" style="display:none">
+
+        <!-- Header -->
+        <header style="margin-bottom: 3rem;">
+            <div
+                style="display: inline-block; background: rgba(0, 217, 255, 0.1); color: #00D9FF; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.875rem; margin-bottom: 1rem;">
+                MODULE 2 - FREE</div>
+            <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 1rem; line-height: 1.2;">Mastering the Numbers
+            </h1>
+            <p style="font-size: 1.25rem; color: #b0b0b0; margin-bottom: 2rem;">From theory to practice: Use Smart
+                Load Solution like a pro</p>
+
+            <div style="display: flex; gap: 1.5rem; font-size: 0.875rem; color: #888; flex-wrap: wrap;">
+                <span>⏱️ 45 minutes</span>
+                <span>🟢 Easy</span>
+                <span>📖 5 lessons</span>
+                <span>🎯 Calculator Master</span>
+            </div>
+        </header>
+
+        <!-- Objective -->
+        <section
+            style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(255, 107, 53, 0.1)); padding: 2rem; border-radius: 1rem; margin-bottom: 3rem; border: 1px solid rgba(0, 217, 255, 0.2);">
+            <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; color: #00D9FF;">🎯 Module Objective
+            </h2>
+            <p style="margin-bottom: 1rem;">Turn the theory from Module 1 into practical action using Smart Load
+                Solution.</p>
+            <p style="font-weight: 700; margin-bottom: 0.5rem;">By the end of this module:</p>
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin-bottom: 0.5rem;">✅ You'll master the calculator like a pro</li>
+                <li style="margin-bottom: 0.5rem;">✅ You'll analyze loads in 30 seconds (vs 10 minutes manually)</li>
+                <li style="margin-bottom: 0.5rem;">✅ You'll make decisions with total confidence</li>
+                <li style="margin-bottom: 0.5rem;">✅ You'll avoid the most common data entry mistakes</li>
+                <li>✅ You'll see a real transformation case study using the app</li>
+            </ul>
+        </section>
+
+        <!-- Connection to Module 1 -->
+        <div
+            style="background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 0.75rem; margin-bottom: 3rem; border-left: 4px solid #00D9FF;">
+            <p style="margin: 0;"><strong>Connection to Module 1:</strong><br>
+                Module 1: You learned <strong>WHAT</strong> to calculate and <strong>WHY</strong><br>
+                Module 2: You'll learn <strong>HOW</strong> to calculate it using the tool</p>
+        </div>
+
+        <!-- Lessons Grid -->
+        <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 2rem;">📚 Lessons</h2>
+
+        <div style="display: grid; gap: 1.5rem; margin-bottom: 3rem;">
+
+            <!-- Lesson 1 -->
+            <a href="lesson-1.html"
+                style="display: block; background: rgba(20, 20, 20, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; padding: 1.5rem; text-decoration: none; color: inherit; transition: all 0.3s ease;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                    <div>
+                        <div style="font-size: 0.875rem; color: #888; margin-bottom: 0.5rem;">LESSON 1</div>
+                        <h3 style="font-size: 1.25rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem;">How
+                            to Use the Calculator Correctly</h3>
+                        <p style="color: #b0b0b0; margin-bottom: 1rem;">Complete step-by-step for the Calculator. From
+                            Excel/paper to decisions in 30 seconds.</p>
+                    </div>
+                    <div style="font-size: 2rem;">📱</div>
+                </div>
+                <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: #888;">
+                    <span>⏱️ 10 min read</span>
+                    <span>🟢 Easy</span>
+                </div>
+            </a>
+
+            <!-- Lesson 2 -->
+            <a href="lesson-2.html"
+                style="display: block; background: rgba(20, 20, 20, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; padding: 1.5rem; text-decoration: none; color: inherit; transition: all 0.3s ease;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                    <div>
+                        <div style="font-size: 0.875rem; color: #888; margin-bottom: 0.5rem;">LESSON 2</div>
+                        <h3 style="font-size: 1.25rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem;">Loaded
+                            Miles vs Deadhead Miles</h3>
+                        <p style="color: #b0b0b0; margin-bottom: 1rem;">How to think deadhead + loaded as one complete
+                            cycle. Deadhead ratio and optimization.</p>
+                    </div>
+                    <div style="font-size: 2rem;">🛣️</div>
+                </div>
+                <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: #888;">
+                    <span>⏱️ 9 min read</span>
+                    <span>🟢 Easy</span>
+                </div>
+            </a>
+
+            <!-- Lesson 3 -->
+            <a href="lesson-3.html"
+                style="display: block; background: rgba(20, 20, 20, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; padding: 1.5rem; text-decoration: none; color: inherit; transition: all 0.3s ease;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                    <div>
+                        <div style="font-size: 0.875rem; color: #888; margin-bottom: 0.5rem;">LESSON 3</div>
+                        <h3 style="font-size: 1.25rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem;">
+                            Reading Results: Accept, Negotiate, or Decline</h3>
+                        <p style="color: #b0b0b0; margin-bottom: 1rem;">Decision criteria, negotiation scripts, and
+                            when to decline without regret.</p>
+                    </div>
+                    <div style="font-size: 2rem;">⚖️</div>
+                </div>
+                <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: #888;">
+                    <span>⏱️ 8 min read</span>
+                    <span>🟢 Easy</span>
+                </div>
+            </a>
+
+            <!-- Lesson 4 -->
+            <a href="lesson-4.html"
+                style="display: block; background: rgba(20, 20, 20, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; padding: 1.5rem; text-decoration: none; color: inherit; transition: all 0.3s ease;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                    <div>
+                        <div style="font-size: 0.875rem; color: #888; margin-bottom: 0.5rem;">LESSON 4</div>
+                        <h3 style="font-size: 1.25rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem;">Common
+                            Data Entry Mistakes</h3>
+                        <p style="color: #b0b0b0; margin-bottom: 1rem;">The 7 most costly mistakes and how to avoid them.
+                            Pre-calculation checklist.</p>
+                    </div>
+                    <div style="font-size: 2rem;">⚠️</div>
+                </div>
+                <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: #888;">
+                    <span>⏱️ 8 min read</span>
+                    <span>🟢 Easy</span>
+                </div>
+            </a>
+
+            <!-- Lesson 5 -->
+            <a href="lesson-5.html"
+                style="display: block; background: rgba(20, 20, 20, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; padding: 1.5rem; text-decoration: none; color: inherit; transition: all 0.3s ease;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                    <div>
+                        <div style="font-size: 0.875rem; color: #888; margin-bottom: 0.5rem;">LESSON 5</div>
+                        <h3 style="font-size: 1.25rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem;">Real
+                            Case: Carlos's Transformation</h3>
+                        <p style="color: #b0b0b0; margin-bottom: 1rem;">From $2,800/mo to $5,100/mo in 3 months.
+                            Complete before/after step by step.</p>
+                    </div>
+                    <div style="font-size: 2rem;">📈</div>
+                </div>
+                <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: #888;">
+                    <span>⏱️ 10 min read</span>
+                    <span>🟢 Easy</span>
+                    <span>⭐ Inspiring</span>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- CTA -->
+        <div
+            style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.15), rgba(255, 107, 53, 0.15)); padding: 2rem; border-radius: 1rem; text-align: center; margin-bottom: 2rem; border: 2px solid rgba(0, 217, 255, 0.3);">
+            <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem;">🚀 Ready to master the Calculator?
+            </h3>
+            <p style="margin-bottom: 1.5rem;">In 45 minutes you'll go from slow manual calculations to professional decisions in 30 seconds.</p>
+            <a href="lesson-1.html"
+                style="display: inline-block; background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%); color: white; padding: 1rem 2rem; border-radius: 0.75rem; font-weight: 700; text-decoration: none; transition: all 0.3s ease;">Start
+                Module 2 →</a>
+        </div>
+
+        <!-- Back -->
+        <a href="../../academy.html"
+            style="display: inline-block; background: rgba(255, 255, 255, 0.1); color: white; padding: 1rem 2rem; border-radius: 0.75rem; font-weight: 700; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.2);">←
+            Back to Academy</a>
+
+        </div><!-- end data-lang="en" -->
+
     </div>
 
     <script src="../js/academy.js"></script>
+
+  <script>
+    // Academy bilingual content toggle
+    (function applyAcademyLang() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    })();
+    document.addEventListener('languageChanged', function() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    });
+  </script>
+
 </body>
 
 </html>

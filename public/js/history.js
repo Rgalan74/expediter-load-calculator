@@ -1,4 +1,4 @@
-﻿// history.js - VERSIÓN CORREGIDA PARA CARGAS HISTÓRICAS
+// history.js - VERSIÓN CORREGIDA PARA CARGAS HISTÓRICAS
 
 // IMPORTS COMENTADOS - Usando funciones globales en su lugar
 // import { sanitizeHTML } from './security.js';
@@ -1048,7 +1048,7 @@ function populateMonthPickerModal() {
 
   let html = `
     <button onclick="selectMonth('')" class="w-full py-4 px-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-blue-700 transition shadow-md flex items-center justify-center gap-2">
-      <span>📅</span> Todos los meses
+      <span>📅</span> ${window.i18n?.t('history.all_months') || 'All Months'}
     </button>
   `;
 
@@ -1085,7 +1085,7 @@ function selectMonth(month) {
   // Actualizar el botón de mostrar con el mes seleccionado
   const triggerBtn = document.getElementById('monthPickerTrigger');
   if (triggerBtn) {
-    triggerBtn.textContent = month || 'Todos los meses';
+    triggerBtn.textContent = month || (window.i18n?.t('history.all_months') || 'All Months');
   }
 
   closeMonthPicker();

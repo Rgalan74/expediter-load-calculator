@@ -1,290 +1,204 @@
-﻿<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow">
-  <meta name="description"
-    content="SmartLoad Solution - Acceso a la plataforma de inteligencia de carga para transportistas." />
-  <title>Acceso | SmartLoad Solution</title>
-  <!-- Canonical Link -->
+  <meta name="description" content="SmartLoad Solution - Access the load intelligence platform for carriers." />
+  <title>Log In | SmartLoad Solution</title>
   <link rel="canonical" href="https://app.smartloadsolution.com/auth.html" />
-
-  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://app.smartloadsolution.com/auth.html" />
-  <meta property="og:title" content="Acceso | SmartLoad Solution" />
-  <meta property="og:description"
-    content="SmartLoad Solution - Acceso a la plataforma de inteligencia de carga para transportistas." />
+  <meta property="og:title" content="Log In | SmartLoad Solution" />
+  <meta property="og:description" content="SmartLoad Solution - Access the load intelligence platform for carriers." />
   <meta property="og:image" content="https://app.smartloadsolution.com/img/hero-bg.png" />
-
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://app.smartloadsolution.com/auth.html" />
-  <meta property="twitter:title" content="Acceso | SmartLoad Solution" />
-  <meta property="twitter:description"
-    content="SmartLoad Solution - Acceso a la plataforma de inteligencia de carga para transportistas." />
-  <meta property="twitter:image" content="https://app.smartloadsolution.com/img/hero-bg.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://app.smartloadsolution.com/auth.html" />
+  <meta name="twitter:title" content="Log In | SmartLoad Solution" />
+  <meta name="twitter:description" content="SmartLoad Solution - Access the load intelligence platform for carriers." />
+  <meta name="twitter:image" content="https://app.smartloadsolution.com/img/hero-bg.png" />
 
   <link rel="icon" type="image/webp" href="img/logo-app.webp" />
   <link rel="apple-touch-icon" href="img/logo-app.png" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="js/i18n/language-manager.js"></script>
 
   <style>
-    /* 🎨 DESIGN SYSTEM - Dark Theme */
     :root {
-      /* Colors */
       --bg-dark: #0a0a0f;
       --bg-darker: #050508;
       --bg-card: #141414;
       --text-primary: #ffffff;
       --text-secondary: #b0b0b0;
       --text-muted: #666666;
-
-      /* Accent Colors - CYAN/ORANGE THEME */
       --primary-cyan: #00D9FF;
       --primary-orange: #FF6B35;
       --accent-blue: #3b82f6;
-
-      /* Gradients */
       --gradient-primary: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
       --gradient-text: linear-gradient(90deg, #00D9FF, #FF6B35);
-
-      /* Effects */
       --glass-bg: rgba(20, 20, 20, 0.6);
       --glass-border: rgba(255, 255, 255, 0.1);
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-primary);
-      overflow-x: hidden;
-      margin: 0;
-      padding: 0;
-    }
-
-    /* Header */
-    header {
-      position: relative;
-      top: 0;
-      margin-top: 0;
-      z-index: 1000;
-      padding: 1.25rem 0;
-      background: transparent;
-    }
-
-    html,
-    body {
-      margin: 0 !important;
-      padding: 0 !important;
-    }
-
-    header .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      text-decoration: none;
-    }
-
-    .logo-img {
-      width: 3rem;
-      height: 3rem;
-      border-radius: 9999px;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .logo-text {
-      font-size: 1.25rem;
-      font-weight: 800;
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    /* Tabs */
-    .tab-btn.active {
-      background: var(--gradient-primary);
-      color: white;
-    }
-
-    .tab-btn {
-      transition: all 0.3s ease;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .tab-btn:hover {
-      background: rgba(255, 255, 255, 0.05);
-      border-color: var(--primary-cyan);
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg-dark); color: var(--text-primary); overflow-x: hidden; }
+    html, body { margin: 0 !important; padding: 0 !important; }
+    header { position: relative; top: 0; margin-top: 0; z-index: 1000; padding: 1.25rem 0; background: transparent; }
+    header .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+    .logo-container { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+    .logo-img { width: 3rem; height: 3rem; border-radius: 9999px; border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    .logo-text { font-size: 1.25rem; font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .tab-btn.active { background: var(--gradient-primary); color: white; }
+    .tab-btn { transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.1); }
+    .tab-btn:hover { background: rgba(255,255,255,0.05); border-color: var(--primary-cyan); }
   </style>
 
   <link rel="stylesheet" href="css/ember-patch.css?v=2">
 
   <!-- Meta Pixel Code -->
   <script>
-    !function (f, b, e, v, n, t, s) {
-      if (f.fbq) return; n = f.fbq = function () {
-        n.callMethod ?
-          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-      };
-      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
-      n.queue = []; t = b.createElement(e); t.async = !0;
-      t.src = v; s = b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t, s)
-    }(window, document, 'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '1227322958231625');
     fbq('track', 'PageView');
   </script>
-  <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=1227322958231625&ev=PageView&noscript=1" /></noscript>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1227322958231625&ev=PageView&noscript=1" /></noscript>
   <!-- End Meta Pixel Code -->
 
 </head>
 
 <body class="bg-gray-900 text-white min-h-screen overflow-hidden" style="margin:0;padding:0;">
 
-  <!-- Imagen de fondo -->
+  <!-- Background image -->
   <div class="absolute inset-0 z-0">
     <img src="img/van-background.webp" alt="Van Background" class="w-full h-full object-cover opacity-100" />
   </div>
 
-  <!-- Capa de oscurecimiento -->
+  <!-- Overlay -->
   <div class="absolute inset-0 bg-black bg-opacity-60 z-10"></div>
 
   <!-- Header -->
-  <header class="relative z-20"
-    style="background-image: url('img/header-background.PNG'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+  <header class="relative z-20" style="background-image: url('img/header-background.PNG'); background-size: cover; background-position: center; background-repeat: no-repeat;">
     <div class="container">
       <a href="index.html" class="logo-container">
-        <img src="img/logo-app.webp" alt="SmartLoad Solution Logo" class="logo-img" />
+        <img src="img/logo-app.webp" alt="SmartLoad Solution Logo" class="logo-img" onerror="this.src='img/logo-app.png'" />
         <span class="logo-text">SmartLoad Solution</span>
       </a>
     </div>
   </header>
 
-  <!-- Hero y formulario con tabs -->
+  <!-- Auth form -->
   <main class="relative z-20 flex flex-col items-center justify-center min-h-screen px-4">
-    <div class="max-w-3xl w-full bg-white bg-opacity-90 text-gray-900 rounded-xl shadow-lg p-8">
+    <div class="max-w-3xl w-full bg-white bg-opacity-90 text-gray-900 rounded-xl shadow-lg p-8" style="position:relative;">
+
+      <!-- Language toggle inside card -->
+      <div style="position:absolute;top:1rem;right:1rem;display:flex;align-items:center;gap:0.25rem;font-size:0.8rem;font-weight:700;">
+        <button id="btn-en" onclick="window.i18n.setLanguage('en')" style="background:none;border:none;cursor:pointer;padding:0.2rem 0.5rem;border-radius:4px;color:#9ca3af;transition:color 0.2s;">EN</button>
+        <span style="color:#d1d5db;">|</span>
+        <button id="btn-es" onclick="window.i18n.setLanguage('es')" style="background:none;border:none;cursor:pointer;padding:0.2rem 0.5rem;border-radius:4px;color:#9ca3af;transition:color 0.2s;">ES</button>
+      </div>
+
       <div class="text-center mb-6">
-        <h1 class="text-2xl font-bold text-gray-900">Bienvenido</h1>
-        <p class="text-sm text-gray-500">Convierte tu van en una máquina de ganancias 🚐💰</p>
+        <h1 class="text-2xl font-bold text-gray-900" data-i18n="auth.welcome">Welcome</h1>
+        <p class="text-sm text-gray-500" data-i18n="auth.tagline">Turn your van into a profit machine 🚐💰</p>
       </div>
 
       <!-- Tabs -->
       <div class="flex justify-center mb-6 space-x-4">
-        <button id="tabLogin" class="tab-btn px-6 py-3 rounded-lg font-semibold bg-gray-200 text-gray-800">
-          Iniciar sesión
-        </button>
-        <button id="tabRegister" class="tab-btn px-6 py-3 rounded-lg font-semibold bg-gray-200 text-gray-800">
-          Registrarse
-        </button>
+        <button id="tabLogin" class="tab-btn px-6 py-3 rounded-lg font-semibold bg-gray-200 text-gray-800" data-i18n="auth.tab_login">Log In</button>
+        <button id="tabRegister" class="tab-btn px-6 py-3 rounded-lg font-semibold bg-gray-200 text-gray-800" data-i18n="auth.tab_register">Sign Up</button>
       </div>
 
-      <!-- Formulario Login -->
+      <!-- Login form -->
       <div id="loginPanel" class="tab-content">
         <form id="loginForm" class="space-y-4">
           <div>
-            <input name="email" type="email" placeholder="Correo electrónico"
+            <input name="email" type="email" data-i18n="auth.placeholder_email" placeholder="Email"
               class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" required />
           </div>
           <div>
-            <input name="password" type="password" placeholder="Contraseña"
+            <input name="password" type="password" data-i18n="auth.placeholder_password" placeholder="Password"
               class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" required />
           </div>
           <button type="submit"
             class="bg-blue-600 text-white px-4 py-3 w-full rounded-lg hover:bg-blue-700 font-semibold transition duration-300">
-            Iniciar sesión
+            <span data-i18n="auth.btn_login">Log In</span>
           </button>
           <p class="text-center mt-3">
-            <a href="#" id="forgotPasswordLink" class="text-blue-600 hover:text-blue-800 text-sm">
-              ¿Olvidaste tu contraseña?
-            </a>
+            <a href="#" id="forgotPasswordLink" class="text-blue-600 hover:text-blue-800 text-sm" data-i18n="auth.forgot_password">Forgot your password?</a>
           </p>
         </form>
       </div>
 
-      <!-- Formulario Registro -->
+      <!-- Register form -->
       <div id="registerPanel" class="tab-content hidden">
         <form id="registerForm" class="space-y-4">
           <div>
-            <input name="fullName" type="text" placeholder="Nombre completo"
+            <input name="fullName" type="text" data-i18n="auth.placeholder_name" placeholder="Full Name"
               class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" required />
           </div>
           <div>
-            <input name="email" type="email" placeholder="Correo electrónico"
+            <input name="email" type="email" data-i18n="auth.placeholder_email" placeholder="Email"
               class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" required />
           </div>
           <div>
-            <input name="password" type="password" placeholder="Contraseña (mínimo 6 caracteres)"
+            <input name="password" type="password" data-i18n="auth.placeholder_password_register" placeholder="Password (minimum 6 characters)"
               class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" required />
           </div>
           <div>
-            <input name="phone" type="text" placeholder="Teléfono (opcional)"
+            <input name="phone" type="text" data-i18n="auth.placeholder_phone" placeholder="Phone (optional)"
               class="border border-gray-300 p-3 w-full rounded-lg focus:border-blue-500 focus:outline-none" />
+          </div>
+          <!-- ✅ FASE 3: Language preference selector -->
+          <div>
+            <p class="text-xs font-semibold text-gray-500 mb-2" data-i18n="auth.lang_preference">Preferred Language / Idioma preferido</p>
+            <div class="flex gap-2">
+              <button type="button" id="reg-lang-en"
+                onclick="selectRegLang('en')"
+                style="flex:1;padding:0.625rem;border-radius:0.5rem;border:2px solid #3b82f6;background:#eff6ff;color:#1d4ed8;font-weight:700;font-size:0.875rem;cursor:pointer;transition:all 0.2s;">
+                🇺🇸 English
+              </button>
+              <button type="button" id="reg-lang-es"
+                onclick="selectRegLang('es')"
+                style="flex:1;padding:0.625rem;border-radius:0.5rem;border:2px solid #d1d5db;background:white;color:#6b7280;font-weight:700;font-size:0.875rem;cursor:pointer;transition:all 0.2s;">
+                🇲🇽 Español
+              </button>
+            </div>
+            <input type="hidden" id="reg-language" value="en">
           </div>
           <div>
             <label class="flex items-center space-x-2 text-sm text-gray-700 cursor-pointer">
               <input type="checkbox" name="acceptTerms"
                 class="form-checkbox h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" required>
-              <span>
-                Acepto los <a href="terms.html" class="text-blue-600 hover:text-blue-800 hover:underline"
-                  target="_blank">Términos de Uso</a> y la
-                <a href="privacy.html" class="text-blue-600 hover:text-blue-800 hover:underline"
-                  target="_blank">Política de Privacidad</a>
-              </span>
+              <span data-i18n-html="auth.terms_agree">I accept the <a href="terms.html" class="text-blue-600 hover:text-blue-800 hover:underline" target="_blank">Terms of Use</a> and the <a href="privacy.html" class="text-blue-600 hover:text-blue-800 hover:underline" target="_blank">Privacy Policy</a></span>
             </label>
           </div>
           <button type="submit"
             class="bg-green-600 text-white px-4 py-3 w-full rounded-lg hover:bg-green-700 font-semibold transition duration-300">
-            Crear cuenta
+            <span data-i18n="auth.btn_register">Create Account</span>
           </button>
         </form>
       </div>
 
-      <!-- Mensaje de estado -->
+      <!-- Status message -->
       <p id="authMessage" class="text-center text-sm text-red-600 mt-4 hidden"></p>
 
-      <!-- Link para volver al inicio -->
+      <!-- Back link -->
       <div class="text-center mt-6">
-        <a href="index.html" class="text-blue-600 hover:text-blue-800 text-sm">
-          ← Volver al inicio
-        </a>
+        <a href="index.html" class="text-blue-600 hover:text-blue-800 text-sm" data-i18n="auth.back_home">← Back to Home</a>
       </div>
     </div>
   </main>
 
-  <!-- Firebase CDN (versión 9 compatible) -->
+  <!-- Firebase CDN -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
 
   <script>
-    // Configuración de Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyAkEYDbxkjXJx5wNh_7wMdIqmklOMCIyHY",
       authDomain: "expediter-dev.firebaseapp.com",
@@ -294,81 +208,68 @@
       appId: "1:447653997176:web:4e356867bb64b488ab5b8d"
     };
 
-    // Inicializar Firebase
     firebase.initializeApp(firebaseConfig);
 
-    // Fallbacks para funciones que stripe-config.js necesita
     window.debugLog = window.debugLog || function () { };
-    window.showToast = window.showToast || function (msg, type) {
-      debugLog('[TOAST]', type, msg);
-    };
+    window.showToast = window.showToast || function (msg, type) { debugLog('[TOAST]', type, msg); };
 
-    // ✅ Meta Pixel helper — seguro en cualquier contexto
     function trackMeta(eventName, params) {
       params = params || {};
-
       const eventId = 'evt_' + Date.now();
-
       if (typeof window.fbq === "function") {
         window.fbq("track", eventName, params, { eventID: eventId });
         debugLog("✅ Meta event:", eventName, params, eventId);
         return true;
       }
-
       debugLog("⚠️ fbq no está listo todavía");
       return false;
     }
-
-    // Exponer en window para que otros scripts (stripe-config.js, etc.) puedan usarlo
     window.trackMeta = trackMeta;
   </script>
 
-  <!-- Stripe + Plans para checkout directo desde auth -->
   <script src="js/userPlans.js"></script>
   <script src="js/stripe-config.js?v=3.5.1"></script>
 
   <script>
-    // ✅ Helper function para mostrar mensajes
-    function showMessage(message, type = "info") {
+    // i18n helper — safe to call before or after init
+    function t(key, params) {
+      return window.i18n?.t(key, params || {}) || key;
+    }
+
+    function showMessage(message, type) {
+      type = type || "info";
       const authMessage = document.getElementById("authMessage");
-      if (!authMessage) {
-        debugLog(message);
-        return;
-      }
-
-      // Limpiar clases anteriores
+      if (!authMessage) { debugLog(message); return; }
       authMessage.className = "text-center text-sm mt-4";
-
-      // Agregar clase según tipo
-      switch (type) {
-        case "success":
-          authMessage.className += " text-green-600";
-          break;
-        case "error":
-          authMessage.className += " text-red-600";
-          break;
-        default:
-          authMessage.className += " text-blue-600";
-          break;
-      }
-
+      if (type === "success") authMessage.className += " text-green-600";
+      else if (type === "error") authMessage.className += " text-red-600";
+      else authMessage.className += " text-blue-600";
       authMessage.textContent = message;
       authMessage.classList.remove("hidden");
-
-      // Auto-hide después de 5 segundos
-      setTimeout(() => {
-        authMessage.classList.add("hidden");
-      }, 5000);
+      setTimeout(() => { authMessage.classList.add("hidden"); }, 5000);
     }
 
     function hideMessage() {
       const authMessage = document.getElementById("authMessage");
-      if (authMessage) {
-        authMessage.classList.add("hidden");
-      }
+      if (authMessage) authMessage.classList.add("hidden");
     }
 
     document.addEventListener("DOMContentLoaded", () => {
+      // Language toggle active state
+      if (window.i18n) {
+        window.i18n.init();
+        const active = 'color:#1d4ed8;font-weight:800;', inactive = 'color:#9ca3af;font-weight:700;';
+        function updateLangBtns(lang) {
+          const isEs = lang === 'es';
+          const enBtn = document.getElementById('btn-en');
+          const esBtn = document.getElementById('btn-es');
+          if (enBtn) { enBtn.style.color = isEs ? '#9ca3af' : '#1d4ed8'; enBtn.style.fontWeight = isEs ? '700' : '800'; }
+          if (esBtn) { esBtn.style.color = isEs ? '#1d4ed8' : '#9ca3af'; esBtn.style.fontWeight = isEs ? '800' : '700'; }
+        }
+        updateLangBtns(window.i18n.currentLang || 'en');
+        document.addEventListener('languageChanged', (e) => updateLangBtns(e.detail.lang));
+      }
+
       const loginForm = document.getElementById("loginForm");
       const registerForm = document.getElementById("registerForm");
       const loginPanel = document.getElementById("loginPanel");
@@ -378,17 +279,15 @@
 
       debugLog("🚀 Auth page loaded");
 
-      // Verificar si el usuario ya está autenticado
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           debugLog("✅ User already authenticated:", user.email);
           const hasPendingPlan = localStorage.getItem('pendingPlan');
           if (hasPendingPlan) {
-            // Usuario ya logueado + plan pendiente → directo a checkout
-            showMessage("Sesión activa, iniciando checkout...", "success");
+            showMessage(t('auth.msg_session_active'), "success");
             setTimeout(() => { redirectAfterAuth(); }, 500);
           } else {
-            showMessage("Sesión activa: " + user.email + ". Haz clic en Iniciar Sesión para continuar.", "success");
+            showMessage(t('auth.msg_session_user', { email: user.email }), "success");
           }
         }
       });
@@ -396,24 +295,17 @@
       async function handleLoginSubmit(form) {
         const email = form.email.value.trim();
         const password = form.password.value.trim();
-
         debugLog("🔑 Attempting login for:", email);
-
         if (!email || !password) {
-          showMessage("⚠️ Todos los campos son obligatorios", "error");
+          showMessage(t('auth.error_required'), "error");
           return;
         }
-
         try {
-          showMessage("Iniciando sesión...", "info");
+          showMessage(t('auth.logging_in'), "info");
           const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
           debugLog("✅ Login successful:", userCredential.user.email);
-          showMessage("✅ Inicio de sesión exitoso, redirigiendo...", "success");
-
-          // Redirect after a short delay
-          setTimeout(() => {
-            redirectAfterAuth();
-          }, 1500);
+          showMessage(t('auth.login_success'), "success");
+          setTimeout(() => { redirectAfterAuth(); }, 1500);
         } catch (error) {
           debugLog("❌ Error en login:", error);
           showMessage("❌ " + formatFirebaseError(error), "error");
@@ -425,41 +317,99 @@
         const email = form.email.value.trim();
         const password = form.password.value.trim();
         const phone = form.phone ? form.phone.value.trim() : '';
-
         debugLog("📝 Attempting registration for:", email);
-
         if (!fullName || !email || !password) {
-          showMessage("⚠️ Nombre, correo y contraseña son obligatorios", "error");
+          showMessage(t('auth.error_name_email_password'), "error");
           return;
         }
-
         if (password.length < 6) {
-          showMessage("⚠️ La contraseña debe tener al menos 6 caracteres", "error");
+          showMessage(t('auth.error_min_password'), "error");
           return;
         }
-
         try {
-          showMessage("Creando cuenta...", "info");
+          showMessage(t('auth.registering'), "info");
           const userCred = await firebase.auth().createUserWithEmailAndPassword(email, password);
           debugLog("✅ Registration successful:", userCred.user.email);
 
-          // Guardar información adicional del usuario vía initializeUserPlan
           if (typeof window.initializeUserPlan === 'function') {
             await window.initializeUserPlan(userCred.user.uid, email);
           }
-          // Merge fullName y phone (campos extra que initializeUserPlan no incluye)
+          // ✅ FASE 3: Save preferred language on account creation
+          const selectedLang = document.getElementById('reg-language')?.value || window.i18n?.currentLang || 'en';
           await firebase.firestore().collection("users").doc(userCred.user.uid).set({
             fullName,
+            email,
             phone: phone || '',
+            preferredLanguage: selectedLang,
             updatedAt: firebase.firestore.FieldValue.serverTimestamp()
           }, { merge: true });
+          // Apply the chosen language immediately
+          if (window.i18n) window.i18n.setLanguage(selectedLang);
 
-          // Enviar email de bienvenida (no bloquea el registro si falla)
+          // Welcome email (non-blocking)
           firebase.firestore().collection("mail").add({
             to: [email],
             message: {
-              subject: "¡Bienvenido a Smart Load Solution! 🚐",
-              html: `<!DOCTYPE html>
+              subject: selectedLang === 'en'
+                ? "Welcome to Smart Load Solution! 🚐"
+                : "¡Bienvenido a Smart Load Solution! 🚐",
+              html: selectedLang === 'en' ? `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#0f172a;font-family:'Segoe UI',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;padding:40px 20px;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="background:#1e293b;border-radius:16px;overflow:hidden;max-width:600px;">
+        <tr>
+          <td style="background:linear-gradient(135deg,#1e293b,#0f172a);padding:40px;text-align:center;border-bottom:2px solid #FF6D4A;">
+            <h1 style="margin:0;font-size:28px;font-weight:800;color:#ffffff;">Smart<span style="color:#FF6D4A;">Load</span> Solution</h1>
+            <p style="margin:8px 0 0;color:#94a3b8;font-size:14px;">Load Intelligence for the Modern Carrier</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:40px;">
+            <h2 style="margin:0 0 16px;color:#ffffff;font-size:22px;">Welcome, ${fullName}! 👋</h2>
+            <p style="margin:0 0 20px;color:#94a3b8;font-size:15px;line-height:1.6;">Your account has been created successfully. Start making smarter decisions on every load.</p>
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px;">
+              <tr><td style="padding:12px;background:#0f172a;border-radius:8px;">
+                <table width="100%"><tr>
+                  <td width="40" style="font-size:24px;">🧮</td>
+                  <td><p style="margin:0;color:#ffffff;font-size:14px;font-weight:600;">Load Calculator</p><p style="margin:4px 0 0;color:#64748b;font-size:13px;">Calculate RPM, net profit and deadhead in seconds</p></td>
+                </tr></table>
+              </td></tr>
+              <tr><td style="padding:4px 0;"></td></tr>
+              <tr><td style="padding:12px;background:#0f172a;border-radius:8px;">
+                <table width="100%"><tr>
+                  <td width="40" style="font-size:24px;">📊</td>
+                  <td><p style="margin:0;color:#ffffff;font-size:14px;font-weight:600;">Financial Dashboard</p><p style="margin:4px 0 0;color:#64748b;font-size:13px;">Track income, expenses and monthly profitability</p></td>
+                </tr></table>
+              </td></tr>
+              <tr><td style="padding:4px 0;"></td></tr>
+              <tr><td style="padding:12px;background:#0f172a;border-radius:8px;">
+                <table width="100%"><tr>
+                  <td width="40" style="font-size:24px;">🗺️</td>
+                  <td><p style="margin:0;color:#ffffff;font-size:14px;font-weight:600;">Zone Analysis</p><p style="margin:4px 0 0;color:#64748b;font-size:13px;">Identify trap zones and most profitable routes</p></td>
+                </tr></table>
+              </td></tr>
+            </table>
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr><td align="center">
+                <a href="https://smartloadsolution.com/app.html" style="display:inline-block;background:#FF6D4A;color:#ffffff;text-decoration:none;padding:14px 36px;border-radius:8px;font-weight:700;font-size:15px;">Go to App →</a>
+              </td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:24px 40px;border-top:1px solid #334155;text-align:center;">
+            <p style="margin:0;color:#94a3b8;font-size:12px;">Smart Load Solution · <a href="https://smartloadsolution.com" style="color:#FF6D4A;text-decoration:none;">smartloadsolution.com</a></p>
+            <p style="margin:8px 0 0;color:#64748b;font-size:11px;">You received this email because you created an account on our platform.</p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>` : `<!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"></head>
 <body style="margin:0;padding:0;background:#0f172a;font-family:'Segoe UI',Arial,sans-serif;">
@@ -520,22 +470,12 @@
           }).catch(e => debugLog("[auth] Email de bienvenida no enviado:", e.message));
 
           debugLog("✅ User profile saved");
+          showMessage(t('auth.register_success'), "success");
 
-          showMessage("✅ Cuenta creada exitosamente, redirigiendo...", "success");
+          trackMeta("CompleteRegistration", { method: "email", value: 1.00, currency: "USD" });
 
-          // ✅ Disparar evento de registro exitoso
-          trackMeta("CompleteRegistration", {
-            method: "email",
-            value: 1.00,
-            currency: "USD"
-          });
-
-          // ✅ Esperar para que el evento salga antes del redirect
-          setTimeout(() => {
-            redirectAfterAuth();
-          }, 2500);
-
-          return; // IMPORTANTÍSIMO para que no corra otro redirect viejo
+          setTimeout(() => { redirectAfterAuth(); }, 2500);
+          return;
         } catch (error) {
           debugLog("❌ Error en registro:", error);
           showMessage("❌ " + formatFirebaseError(error), "error");
@@ -544,105 +484,97 @@
 
       function setActiveAuthTab(tab) {
         const isLogin = tab === "login";
-
         loginPanel.classList.toggle("hidden", !isLogin);
         registerPanel.classList.toggle("hidden", isLogin);
-
         tabLogin.classList.toggle("active", isLogin);
         tabRegister.classList.toggle("active", !isLogin);
-
         hideMessage();
-
         if (loginForm) loginForm.reset();
         if (registerForm) registerForm.reset();
       }
 
       function formatFirebaseError(error) {
-        if (!error || !error.code) return error?.message || "Error desconocido";
-
+        if (!error || !error.code) return error?.message || t('auth.error_unknown');
         switch (error.code) {
-          case "auth/email-already-in-use":
-            return "El correo ya está registrado";
-          case "auth/invalid-email":
-            return "Correo electrónico inválido";
-          case "auth/weak-password":
-            return "La contraseña debe tener al menos 6 caracteres";
-          case "auth/user-not-found":
-            return "Usuario no encontrado";
-          case "auth/wrong-password":
-            return "Contraseña incorrecta";
-          case "auth/invalid-credential":
-            return "Credenciales inválidas";
-          case "auth/too-many-requests":
-            return "Demasiados intentos fallidos. Intenta más tarde";
-          case "auth/network-request-failed":
-            return "Error de conexión. Verifica tu internet";
-          default:
-            return error.message || "Error desconocido";
+          case "auth/email-already-in-use":    return t('auth.error_email_in_use');
+          case "auth/invalid-email":           return t('auth.error_invalid_email');
+          case "auth/weak-password":           return t('auth.error_weak_password');
+          case "auth/user-not-found":          return t('auth.error_user_not_found');
+          case "auth/wrong-password":          return t('auth.error_wrong_password');
+          case "auth/invalid-credential":      return t('auth.error_invalid_credential');
+          case "auth/too-many-requests":       return t('auth.error_too_many_requests');
+          case "auth/network-request-failed":  return t('auth.error_network');
+          default:                             return error.message || t('auth.error_unknown');
         }
       }
 
-      // ✅ Password Recovery
       async function handlePasswordReset() {
         const emailInput = loginForm?.querySelector('input[name="email"]');
         const email = emailInput?.value?.trim();
-
         if (!email) {
-          showMessage("⚠️ Ingresa tu correo electrónico primero", "error");
+          showMessage(t('auth.err_enter_email'), "error");
           emailInput?.focus();
           return;
         }
-
         try {
-          showMessage("Enviando enlace de recuperación...", "info");
+          showMessage(t('auth.msg_reset_sending'), "info");
           await firebase.auth().sendPasswordResetEmail(email);
-          showMessage("✅ Enlace de recuperación enviado a " + email + ". Revisa tu bandeja de entrada.", "success");
+          showMessage(t('auth.msg_reset_ok', { email }), "success");
         } catch (error) {
           debugLog("❌ Error en password reset:", error);
           showMessage("❌ " + formatFirebaseError(error), "error");
         }
       }
 
-      // Event listeners
       if (loginForm) {
-        loginForm.addEventListener("submit", (e) => {
-          e.preventDefault();
-          handleLoginSubmit(e.target);
-        });
+        loginForm.addEventListener("submit", (e) => { e.preventDefault(); handleLoginSubmit(e.target); });
       }
 
       const forgotLink = document.getElementById('forgotPasswordLink');
       if (forgotLink) {
-        forgotLink.addEventListener('click', (e) => {
-          e.preventDefault();
-          handlePasswordReset();
-        });
+        forgotLink.addEventListener('click', (e) => { e.preventDefault(); handlePasswordReset(); });
       }
 
       if (registerForm) {
-        registerForm.addEventListener("submit", (e) => {
-          e.preventDefault();
-          handleRegisterSubmit(e.target);
-        });
+        registerForm.addEventListener("submit", (e) => { e.preventDefault(); handleRegisterSubmit(e.target); });
       }
 
-      if (tabLogin) {
-        tabLogin.addEventListener("click", () => setActiveAuthTab("login"));
-      }
-
+      if (tabLogin) tabLogin.addEventListener("click", () => setActiveAuthTab("login"));
       if (tabRegister) {
         tabRegister.addEventListener("click", () => {
-          trackMeta("Lead", { source: "auth_tab_register" }); // 👤 Interés en registrarse
+          trackMeta("Lead", { source: "auth_tab_register" });
           setActiveAuthTab("register");
         });
       }
 
-      // Establecer tab inicial
       const tabFromUrl = new URLSearchParams(window.location.search).get("tab");
       setActiveAuthTab(tabFromUrl === "register" ? "register" : "login");
 
       debugLog("✅ Auth page setup complete");
     });
+
+    // ✅ FASE 3: Language selector helper
+    window.selectRegLang = function(lang) {
+      const hiddenInput = document.getElementById('reg-language');
+      const btnEn = document.getElementById('reg-lang-en');
+      const btnEs = document.getElementById('reg-lang-es');
+      if (hiddenInput) hiddenInput.value = lang;
+      if (lang === 'en') {
+        if (btnEn) { btnEn.style.borderColor='#3b82f6'; btnEn.style.background='#eff6ff'; btnEn.style.color='#1d4ed8'; }
+        if (btnEs) { btnEs.style.borderColor='#d1d5db'; btnEs.style.background='white'; btnEs.style.color='#6b7280'; }
+      } else {
+        if (btnEs) { btnEs.style.borderColor='#3b82f6'; btnEs.style.background='#eff6ff'; btnEs.style.color='#1d4ed8'; }
+        if (btnEn) { btnEn.style.borderColor='#d1d5db'; btnEn.style.background='white'; btnEn.style.color='#6b7280'; }
+      }
+      // Also update the UI language preview immediately
+      if (window.i18n) window.i18n.setLanguage(lang);
+    };
+    // Initialize selector to match current i18n language on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const initLang = localStorage.getItem('app_language') || 'en';
+      if (initLang === 'es') window.selectRegLang?.('es');
+    });
+
 
     let _redirecting = false;
 
@@ -655,7 +587,6 @@
 
       if (pendingPlan) {
         localStorage.removeItem('pendingPlan');
-        // Esperar a que el usuario y StripeIntegration estén listos
         const checkReady = setInterval(() => {
           const user = firebase.auth().currentUser;
           if (user && window.StripeIntegration) {
@@ -668,7 +599,6 @@
               });
           }
         }, 500);
-        // Safety: si después de 10s no está listo, ir a app.html
         setTimeout(() => {
           clearInterval(checkReady);
           if (!window.StripeIntegration || !firebase.auth().currentUser) {

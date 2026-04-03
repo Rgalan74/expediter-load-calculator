@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -116,11 +116,15 @@
             margin-top: 2rem
         }
     </style>
+  <script src="../../js/i18n/language-manager.js"></script>
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">&#8592; Volver a la App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'" data-i18n="academy.back_app">← Back to App</a></nav>
     <article class="lesson-container">
+
+<!-- ==================== ESPAÑOL ==================== -->
+<div data-lang="es">
         <nav class="breadcrumb">
             <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 5 [PRO]</a> → Lección 5
         </nav>
@@ -253,8 +257,7 @@
                     <li>10/10 señales ✅ = Adelante con confianza</li>
                     <li>7-9/10 ✅ = Probablemente listo, planea cuidadosamente</li>
                     <li>4-6/10 ⚠️ = Espera, construye más primero</li>
-                    <li>
-                        <4 /10 ❌=NO estás listo, enfócate en Fase 1</li>
+                    <li>&lt;4/10 ❌ = NO estás listo, enfócate en Fase 1</li>
                 </ul>
             </section>
 
@@ -341,7 +344,7 @@
                         <li><strong>Expandir después de UN mes bueno</strong> (espera 12 meses consistentes)</li>
                         <li><strong>Asumir van #2 = 2X ganancia</strong> (primeros meses puedes ganar MENOS)</li>
                         <li><strong>No tener reserva de emergencia</strong> (necesitas $15-20K)</li>
-                        <li><strong>Estructura de pago mala</strong> (>35% para chofer no es sostenible)</li>
+                        <li><strong>Estructura de pago mala</strong> (&gt;35% para chofer no es sostenible)</li>
                         <li><strong>Contratar amigo/familiar sin verificar</strong> (trata como hiring profesional)</li>
                         <li><strong>No tener sistemas documentados</strong> (todo "en tu cabeza")</li>
                         <li><strong>Expandir para "escapar" manejar</strong> (administrar es MÁS trabajo)</li>
@@ -373,7 +376,7 @@
                 <p
                     style="background:rgba(255,215,0,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700;margin-top:1.5rem">
                     Sweet spot: 25-30% de ganancia después de gastos<br>
-                    NUNCA: >35% o % de ingresos brutos
+                    NUNCA: &gt;35% o % de ingresos brutos
                 </p>
             </section>
 
@@ -448,19 +451,390 @@
         </div>
 
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
-                completada</button>
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como completada</button>
             <nav class="lesson-nav">
                 <a href="lesson-4.html" class="btn btn-secondary">← Lección anterior</a>
                 <a href="index.html" class="btn btn-primary">🎉 Módulo completado →</a>
             </nav>
         </footer>
+</div>
+
+<!-- ==================== ENGLISH ==================== -->
+<div data-lang="en" style="display:none">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Module 5 [PRO]</a> → Lesson 5
+        </nav>
+
+        <div
+            style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
+            🔒 PRO CONTENT</div>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>When to Expand: Second Van and Scaling Up</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 16 min read</span>
+                <span>🎓 Module 5 - Lesson 5</span>
+                <span>🚀 Expansion</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>🚀 THE MILLION-DOLLAR QUESTION</h2>
+
+                <div style="background:rgba(255,215,0,.1);padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.5rem;font-weight:800;margin-bottom:1rem">"Should I buy a second van<br>and hire a driver?"</p>
+                    <p>This is THE most important decision<br>you will make in your expediting business.</p>
+                    <div style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem">
+                        <p><strong>Done right</strong> = You double income, build a real business</p>
+                        <p style="margin:0"><strong>Done wrong</strong> = You're out of business in 6 months</p>
+                    </div>
+                </div>
+
+                <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem;margin-top:1.5rem">
+                    <p><strong>HARD REALITY:</strong></p>
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">70% of operators who expand to 2 vans<br>go back to 1 van within the first year.</p>
+                    <p style="margin:0"><strong>Why?</strong> They expanded at the wrong time or for the wrong reasons.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 THE 3 PHASES OF THE BUSINESS</h2>
+
+                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem;margin-bottom:1rem">
+                    <h3 style="margin-top:0">PHASE 1: OWNER-OPERATOR (You Alone)</h3>
+                    <ul style="margin:0">
+                        <li>1 van, you handle everything</li>
+                        <li>Profit: $3,500-6,000/month</li>
+                        <li>Duration: Years 1-3</li>
+                        <li><strong>GOAL:</strong> Master operations, build relationships</li>
+                    </ul>
+                </div>
+
+                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem;margin-bottom:1rem">
+                    <h3 style="margin-top:0">PHASE 2: MICRO-FLEET (2-3 Vans)</h3>
+                    <ul style="margin:0">
+                        <li>2-3 vans, 1-2 hired drivers</li>
+                        <li>Profit: $6,000-12,000/month</li>
+                        <li>Duration: Years 3-5</li>
+                        <li><strong>GOAL:</strong> Test scalability, build systems</li>
+                    </ul>
+                </div>
+
+                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
+                    <h3 style="margin-top:0">PHASE 3: SMALL FLEET (4+ Vans)</h3>
+                    <ul style="margin:0">
+                        <li>4+ vans, you manage only</li>
+                        <li>Profit: $10,000-20,000+/month</li>
+                        <li>Duration: Year 5+</li>
+                        <li><strong>GOAL:</strong> Sustainable business</li>
+                    </ul>
+                </div>
+
+                <p
+                    style="background:rgba(255,255,255,.05);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700;margin-top:1.5rem">
+                    Staying in Phase 1 is not failure.<br>It's a lifestyle choice.
+                </p>
+            </section>
+
+            <section>
+                <h2>✅ THE 10 SIGNS YOU'RE READY TO EXPAND</h2>
+
+                <div class="checklist">
+                    <p><strong>□ SIGN #1: SOLID FINANCIALS</strong></p>
+                    <ul style="margin:0;font-size:.9rem">
+                        <li>Consistent profit $5,000+/month for 12+ months</li>
+                        <li>Margin &gt;35% for 6+ months</li>
+                        <li>Emergency reserve $15,000-20,000</li>
+                    </ul>
+                </div>
+
+                <div class="checklist">
+                    <p><strong>□ SIGN #2: DEMAND EXCEEDS CAPACITY</strong></p>
+                    <ul style="margin:0;font-size:.9rem">
+                        <li>Turning down 5-10 loads/week due to lack of time</li>
+                        <li>Tier 1 brokers asking for more loads</li>
+                        <li>You could fill a second van 60-70% immediately</li>
+                    </ul>
+                </div>
+
+                <div class="checklist">
+                    <p><strong>□ SIGN #3: ESTABLISHED RELATIONSHIPS</strong></p>
+                    <ul style="margin:0;font-size:.9rem">
+                        <li>5-7 solid Tier 1 brokers</li>
+                        <li>They call you first regularly</li>
+                        <li>Relationships are 18+ months old</li>
+                    </ul>
+                </div>
+
+                <div class="checklist">
+                    <p><strong>□ SIGN #4: DOCUMENTED SYSTEMS</strong></p>
+                    <ul style="margin:0;font-size:.9rem">
+                        <li>Written processes for everything</li>
+                        <li>Perfect financial tracking</li>
+                        <li>Not everything is "in your head"</li>
+                    </ul>
+                </div>
+
+                <div class="checklist">
+                    <p><strong>□ SIGN #5: PROVEN PROFITABLE LANES</strong></p>
+                    <ul style="margin:0;font-size:.9rem">
+                        <li>4-6 Tier S/A lanes identified</li>
+                        <li>Lanes consistently generate $1.50+/mi</li>
+                    </ul>
+                </div>
+
+                <p style="margin-top:1.5rem"><strong>SCORING:</strong></p>
+                <ul style="margin:0">
+                    <li>10/10 signs ✅ = Move forward with confidence</li>
+                    <li>7-9/10 ✅ = Probably ready, plan carefully</li>
+                    <li>4-6/10 ⚠️ = Wait, build more first</li>
+                    <li>&lt;4/10 ❌ = NOT ready, focus on Phase 1</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>💰 SECOND VAN MATH (REALISTIC)</h2>
+
+                <h3>INITIAL INVESTMENT</h3>
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>VAN #2 (Used, 2018-2020):</strong></p>
+                    <ul>
+                        <li>Cost: $35,000-45,000</li>
+                        <li>Down payment (20%): $7,000-9,000</li>
+                        <li>Monthly payment: $600-800/month (60 months)</li>
+                    </ul>
+                    <p><strong>INITIAL SETUP:</strong></p>
+                    <ul style="margin:0">
+                        <li>Additional insurance: $800-1,000</li>
+                        <li>Equipment (ELD, GPS): $500-800</li>
+                        <li>Legal/permits: $200-400</li>
+                        <li><strong>TOTAL ONE-TIME: $8,800-11,700</strong></li>
+                    </ul>
+                </div>
+
+                <h3>ADDITIONAL MONTHLY EXPENSES</h3>
+                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;margin-top:1rem">
+                    <p><strong>FIXED FOR VAN #2:</strong></p>
+                    <ul style="margin-bottom:1rem">
+                        <li>Van payment: $700</li>
+                        <li>Insurance: $850</li>
+                        <li>Technology: $100</li>
+                        <li><strong>SUBTOTAL: $1,675/month</strong></li>
+                    </ul>
+                    <p><strong>DRIVER:</strong></p>
+                    <ul style="margin:0">
+                        <li>Salary: $1,200-1,500/week</li>
+                        <li>Or 25-30% of net profit</li>
+                        <li><strong>ESTIMATE: $2,500-3,500/month</strong></li>
+                    </ul>
+                    <p
+                        style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1rem;margin-bottom:0">
+                        <strong>TOTAL ADDITIONAL EXPENSES: $4,175-5,175/month</strong><br><br>
+                        Revenue needed to break even: <strong>$6,500-7,000/month</strong><br>
+                        To be profitable (30% margin): <strong>$9,300-10,000/month</strong>
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>📊 REALISTIC TIMELINE</h2>
+
+                <div style="display:grid;grid-template-columns:1fr;gap:1rem;margin:2rem 0">
+                    <div
+                        style="background:rgba(255,107,53,.15);padding:1rem;border-radius:.5rem;border-left:4px solid #FF6B35">
+                        <p style="margin:0"><strong>Months 1-3:</strong> Losing money (-$400-800/month)</p>
+                    </div>
+                    <div
+                        style="background:rgba(255,215,0,.1);padding:1rem;border-radius:.5rem;border-left:4px solid #FFD700">
+                        <p style="margin:0"><strong>Months 4-6:</strong> Break-even (+$0-300/month)</p>
+                    </div>
+                    <div
+                        style="background:rgba(100,200,100,.08);padding:1rem;border-radius:.5rem;border-left:4px solid #64C864">
+                        <p style="margin:0"><strong>Months 7-12:</strong> Small profit (+$300-600/month)</p>
+                    </div>
+                    <div
+                        style="background:rgba(100,200,100,.15);padding:1rem;border-radius:.5rem;border-left:4px solid #64C864">
+                        <p style="margin:0"><strong>Year 2+:</strong> Real profit (+$800-1,200/month per van)</p>
+                    </div>
+                </div>
+
+                <p
+                    style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
+                    Total investment first 12 months: ~$19,800<br>
+                    ROI in year 2: $8,000-14,000/year<br>
+                    Recover investment in 18-24 months
+                </p>
+            </section>
+
+            <section>
+                <h2>🚨 FATAL EXPANSION MISTAKES</h2>
+
+                <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>The 10 mistakes that lead to failure:</strong></p>
+                    <ol>
+                        <li><strong>Expanding after ONE good month</strong> (wait for 12 consistent months)</li>
+                        <li><strong>Assuming van #2 = 2X profit</strong> (first months you may earn LESS)</li>
+                        <li><strong>No emergency reserve</strong> (you need $15-20K)</li>
+                        <li><strong>Bad pay structure</strong> (&gt;35% to driver is not sustainable)</li>
+                        <li><strong>Hiring friends/family without vetting</strong> (treat it like professional hiring)</li>
+                        <li><strong>No documented systems</strong> (everything "in your head")</li>
+                        <li><strong>Expanding to "escape" driving</strong> (managing is MORE work)</li>
+                        <li><strong>Financing van at the wrong time</strong> (buy used, large down payment)</li>
+                        <li><strong>Not calculating real break-even</strong> (do the math BEFORE)</li>
+                        <li><strong>Unrealistic expectations</strong> (12-18 months for real profit)</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section>
+                <h2>🤝 DRIVER PAY STRUCTURE</h2>
+
+                <h3>RECOMMENDED OPTION: HYBRID</h3>
+                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>Low base + moderate percentage</strong></p>
+                    <p><strong>EXAMPLE:</strong></p>
+                    <ul>
+                        <li>Base: $600/week (guaranteed floor)</li>
+                        <li>+ 20% of profit after expenses</li>
+                        <li>Typical total: $1,000-1,500/week</li>
+                    </ul>
+                    <p style="margin:0"><strong>ADVANTAGES:</strong><br>
+                        ✅ Balance between security and incentive<br>
+                        ✅ Driver has a floor but incentive to produce<br>
+                        ✅ You have protection</p>
+                </div>
+
+                <p
+                    style="background:rgba(255,215,0,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700;margin-top:1.5rem">
+                    Sweet spot: 25-30% of profit after expenses<br>
+                    NEVER: &gt;35% or % of gross revenue
+                </p>
+            </section>
+
+            <section>
+                <h2>🔄 ALTERNATIVES TO TRADITIONAL EXPANSION</h2>
+
+                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>YOU DON'T HAVE TO expand to 2+ vans. There are other ways to grow:</strong></p>
+
+                    <p><strong>ALTERNATIVE #1: OPTIMIZE YOUR CURRENT VAN</strong></p>
+                    <ul>
+                        <li>Raise rates +$0.15/mi</li>
+                        <li>Reduce expenses -5%</li>
+                        <li>Improve utilization +10%</li>
+                        <li><strong>RESULT: +$800-1,200/month without an additional van</strong></li>
+                    </ul>
+
+                    <p><strong>ALTERNATIVE #2: PREMIUM SERVICES</strong></p>
+                    <ul>
+                        <li>Specialize (medical, aerospace)</li>
+                        <li>Additional certifications</li>
+                        <li><strong>RESULT: $1.80-2.50/mi in a niche</strong></li>
+                    </ul>
+
+                    <p style="margin-bottom:0"><strong>ALTERNATIVE #3: LIFESTYLE BUSINESS</strong></p>
+                    <ul style="margin:0">
+                        <li>$6-8K/month solo, 30-35 hrs/week</li>
+                        <li>Low stress, good profit</li>
+                        <li><strong>SUCCESS does not = mandatory expansion</strong></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 FINAL CONCLUSION - MODULE 5 COMPLETE</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem">
+                    <p style="font-size:1.25rem;font-weight:700;text-align:center;margin-bottom:1.5rem">You have completed your financial transformation</p>
+
+                    <div style="text-align:left;max-width:600px;margin:0 auto">
+                        <p><strong>FROM:</strong> "I think I made money this month"</p>
+                        <p><strong>TO:</strong> "Net profit $4,465, margin 41.5%, trend +10.7%, next month projection $4,600-4,900"</p>
+
+                        <hr style="border-color:rgba(255,255,255,.2);margin:1.5rem 0">
+
+                        <p><strong>THE 5 NUMBERS YOU MUST ALWAYS KNOW:</strong></p>
+                        <ol>
+                            <li><strong>Monthly Net Profit</strong> (not gross revenue)</li>
+                            <li><strong>Profit Margin</strong> (what % do you keep?)</li>
+                            <li><strong>Real RPM per Lane</strong> (which lanes are best?)</li>
+                            <li><strong>Next Month Projection</strong> (what to expect?)</li>
+                            <li><strong>Monthly Minimum Number</strong> (break-even)</li>
+                        </ol>
+
+                        <p
+                            style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;text-align:center;margin-top:1.5rem;margin-bottom:0">
+                            <strong>The secret to success:</strong><br><br>
+                            MEASURE everything ✅<br>
+                            ANALYZE data ✅<br>
+                            OPTIMIZE based on numbers ✅<br>
+                            DECIDE with data, not emotions ✅<br><br>
+                            <span style="color:#FFD700;font-size:1.25rem">15 min/week reviewing numbers<br>
+                                = $500-1,000/month more in profit</span><br><br>
+                            ROI: INFINITE
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn-en" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as Complete</button>
+            <nav class="lesson-nav">
+                <a href="lesson-4.html" class="btn btn-secondary">← Previous Lesson</a>
+                <a href="index.html" class="btn btn-primary">🎉 Module Complete →</a>
+            </nav>
+        </footer>
+</div>
+
     </article>
 
     <script src="../js/academy.js"></script>
     <script>
-        const MODULE_NUM = 5, LESSON_NUM = 5; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true; alert('🎉 ¡MÓDULO 5 COMPLETADO! 🎉Has dominado Análisis Financiero & KPIs.Ahora sabes:✅ Tracking financiero real✅ Los 10 KPIs esenciales✅ Rentabilidad por ruta✅ Forecasting preciso✅ Cuándo y cómo expandirYa no adivinas. SABES tus números.¿Listo para Módulo 6 (Optimización Operativa)?') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true } });
+        const MODULE_NUM = 5, LESSON_NUM = 5;
+        function markLessonComplete() {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress) {
+                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.disabled = true;
+                });
+                alert(isEs ? '🎉 ¡MÓDULO 5 COMPLETADO! 🎉\nHas dominado Análisis Financiero & KPIs.\nAhora sabes:\n✅ Tracking financiero real\n✅ Los 10 KPIs esenciales\n✅ Rentabilidad por ruta\n✅ Forecasting preciso\n✅ Cuándo y cómo expandir\nYa no adivinas. SABES tus números.\n¿Listo para Módulo 6 (Optimización Operativa)?' : '🎉 MODULE 5 COMPLETE! 🎉\nYou have mastered Financial Analysis & KPIs.\nNow you know:\n✅ Real financial tracking\n✅ The 10 essential KPIs\n✅ Profitability by lane\n✅ Accurate forecasting\n✅ When and how to expand\nNo more guessing. You KNOW your numbers.\nReady for Module 6 (Operational Optimization)?');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.disabled = true;
+                });
+            }
+        });
     </script>
+
+  <script>
+    // Academy bilingual content toggle
+    (function applyAcademyLang() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    })();
+    document.addEventListener('languageChanged', function() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    });
+  </script>
+
 </body>
 
 </html>

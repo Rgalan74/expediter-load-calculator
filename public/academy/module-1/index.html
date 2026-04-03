@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -94,16 +94,18 @@
             text-decoration: none;
         }
     </style>
+  <script src="../../js/i18n/language-manager.js"></script>
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">&#8592; Volver a la App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'" data-i18n="academy.back_app">← Back to App</a></nav>
     <div class="container">
         <!-- Breadcrumb -->
         <div class="breadcrumb">
             <a href="../../academy.html">← Academy</a> → Módulo 1
         </div>
 
+        <div data-lang="es">
         <!-- Module Header -->
         <div class="module-header" style="margin-bottom: 3rem;">
             <div style="font-size: 3rem; margin-bottom: 1rem;">🎓</div>
@@ -170,6 +172,76 @@
                 </div>
             </a>
         </div>
+        </div>
+
+        <div data-lang="en" style="display:none">
+        <!-- Module Header -->
+        <div class="module-header" style="margin-bottom: 3rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🎓</div>
+            <h1 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 1rem;">
+                Module 1: Mindset & Fundamentals
+            </h1>
+            <p style="font-size: 1.25rem; color: #b0b0b0; margin-bottom: 2rem;">
+                Before you use the app, learn to think with real numbers
+            </p>
+
+            <!-- Progress -->
+            <div style="margin-bottom: 2rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                    <span style="font-size: 0.875rem; color: #888;">Module progress</span>
+                    <span id="moduleProgressText-en" style="font-size: 0.875rem; color: #888;">0/5 lessons</span>
+                </div>
+                <div style="height: 12px; background: rgba(255,255,255,0.1); border-radius: 1rem; overflow: hidden;">
+                    <div id="moduleProgressBar-en"
+                        style="height: 100%; width: 0%; background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%); transition: width 0.5s ease;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lessons List -->
+        <div class="lessons-list">
+            <a href="lesson-1.html" class="lesson-card" data-lesson="1">
+                <div class="lesson-number">1</div>
+                <div class="lesson-content">
+                    <h3 class="lesson-title">What Real RPM Is (and Why 90% Calculate It Wrong)</h3>
+                    <p class="lesson-time">📖 5 min read</p>
+                </div>
+            </a>
+
+            <a href="lesson-2.html" class="lesson-card" data-lesson="2">
+                <div class="lesson-number">2</div>
+                <div class="lesson-content">
+                    <h3 class="lesson-title">Visible Costs vs Hidden Costs</h3>
+                    <p class="lesson-time">📖 6 min read</p>
+                </div>
+            </a>
+
+            <a href="lesson-3.html" class="lesson-card" data-lesson="3">
+                <div class="lesson-number">3</div>
+                <div class="lesson-content">
+                    <h3 class="lesson-title">Break-Even: Your Survival Number</h3>
+                    <p class="lesson-time">📖 7 min read</p>
+                </div>
+            </a>
+
+            <a href="lesson-4.html" class="lesson-card" data-lesson="4">
+                <div class="lesson-number">4</div>
+                <div class="lesson-content">
+                    <h3 class="lesson-title">Gross Profit vs Real Profit</h3>
+                    <p class="lesson-time">📖 6 min read</p>
+                </div>
+            </a>
+
+            <a href="lesson-5.html" class="lesson-card" data-lesson="5">
+                <div class="lesson-number">5</div>
+                <div class="lesson-content">
+                    <h3 class="lesson-title">Why "Paid Load" Doesn't Mean "Profitable Load"</h3>
+                    <p class="lesson-time">📖 5 min read</p>
+                </div>
+            </a>
+        </div>
+        </div>
     </div>
 
     <script src="../js/academy.js"></script>
@@ -191,12 +263,35 @@
             if (window.AcademyProgress) {
                 const progress = window.AcademyProgress.getModuleProgress(moduleNum);
                 const completed = window.AcademyProgress.getProgress().modules[moduleNum].completed.length;
+                const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
 
                 document.getElementById('moduleProgressBar').style.width = `${progress}%`;
-                document.getElementById('moduleProgressText').textContent = `${completed}/5 lecciones`;
+                document.getElementById('moduleProgressText').textContent = `${completed}/5 ${isEs ? 'lecciones' : 'lessons'}`;
+
+                const barEn = document.getElementById('moduleProgressBar-en');
+                const textEn = document.getElementById('moduleProgressText-en');
+                if (barEn) barEn.style.width = `${progress}%`;
+                if (textEn) textEn.textContent = `${completed}/5 lessons`;
             }
         });
     </script>
+
+  <script>
+    // Academy bilingual content toggle
+    (function applyAcademyLang() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    })();
+    document.addEventListener('languageChanged', function() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    });
+  </script>
+
 </body>
 
 </html>

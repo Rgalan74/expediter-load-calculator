@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -185,10 +185,11 @@
             }
         }
     </style>
+  <script src="../../js/i18n/language-manager.js"></script>
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">&#8592; Volver a la App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'" data-i18n="academy.back_app">← Back to App</a></nav>
     <article class="lesson-container">
         <nav class="breadcrumb">
             <a href="../../academy.html">Academy</a> →
@@ -196,6 +197,7 @@
             Lección 1
         </nav>
 
+        <div data-lang="es">
         <header class="lesson-header">
             <h1>Qué es el RPM Real (y por qué el 90% lo calcula mal)</h1>
             <div class="lesson-meta">
@@ -392,6 +394,205 @@
                 <a href="lesson-2.html" class="btn btn-primary">Siguiente: Costos visibles vs invisibles →</a>
             </nav>
         </footer>
+        </div>
+
+        <div data-lang="en" style="display:none">
+        <header class="lesson-header">
+            <h1>What Real RPM Is (and Why 90% Calculate It Wrong)</h1>
+            <div class="lesson-meta">
+                <span>📖 6 min read</span>
+                <span>🎓 Module 1 - Lesson 1</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>📌 THE MOST COMMON MISTAKE</h2>
+                <p>Most expediters calculate RPM like this:</p>
+
+                <pre><code>Total Pay ÷ Loaded Miles = RPM</code></pre>
+
+                <div class="callout warning">
+                    <strong>❌ THIS IS WRONG</strong>
+                    <p>Why? Because you're ignoring the miles you don't get paid for but that still cost you money.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>✅ THE CORRECT FORMULA</h2>
+                <pre><code>REAL RPM = Total Pay ÷ (Deadhead + Loaded + Repositioning)</code></pre>
+
+                <p><strong>Where:</strong></p>
+                <ul>
+                    <li><strong>Deadhead</strong> = Miles from your position to pickup</li>
+                    <li><strong>Loaded</strong> = Miles you get paid for (pickup → delivery)</li>
+                    <li><strong>Repositioning</strong> = Miles from delivery to your next freight zone</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>📊 FULL EXAMPLE</h2>
+
+                <div class="callout example">
+                    <strong>Situation:</strong>
+                    <ul>
+                        <li>Your position: Toledo, OH</li>
+                        <li>Pickup: Detroit, MI (65 miles deadhead)</li>
+                        <li>Delivery: Laredo, TX (1,000 loaded miles)</li>
+                        <li>Offered pay: $1,500</li>
+                    </ul>
+                </div>
+
+                <div class="comparison-table">
+                    <h3>❌ Wrong Calculation #1 (how 70% do it)</h3>
+                    <pre><code>$1,500 ÷ 1,000 miles = $1.50/mile
+"$1.50/mile! Great rate!"</code></pre>
+                </div>
+
+                <div class="comparison-table">
+                    <h3>⚠️ Wrong Calculation #2 (how 25% do it)</h3>
+                    <pre><code>$1,500 ÷ (65 + 1,000) = $1.41/mile
+"Well, $1.41/mile is still decent..."</code></pre>
+                </div>
+
+                <div class="comparison-table" style="border: 2px solid #00D9FF;">
+                    <h3>✅ CORRECT Calculation (how the top 5% do it)</h3>
+                    <p><strong>Full analysis:</strong></p>
+                    <ul>
+                        <li>Deadhead (Toledo → Detroit): 65 miles</li>
+                        <li>Loaded miles (Detroit → Laredo): 1,000 miles</li>
+                        <li>Repositioning (Laredo → San Antonio): 280 miles</li>
+                        <li><strong>Total REAL miles: 1,345 miles</strong></li>
+                    </ul>
+                    <pre><code>REAL RPM: $1,500 ÷ 1,345 = $1.12/mile</code></pre>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 IMPACT ANALYSIS</h2>
+
+                <div
+                    style="background: rgba(255, 107, 53, 0.1); padding: 1.5rem; border-radius: 0.75rem; margin: 2rem 0;">
+                    <p><strong>Wrong calculation:</strong> $1.50/mile<br>
+                        <strong>Correct calculation:</strong> $1.12/mile<br>
+                        <strong style="color: #FF6B35;">DIFFERENCE: $0.38/mile (34% error)</strong>
+                    </p>
+
+                    <p style="margin-top: 1rem;"><strong>Over 1,345 miles = $511 in imaginary earnings</strong></p>
+
+                    <p>If your break-even is $1.10/mile, you think you're making $0.40/mile when you're ACTUALLY only
+                        making $0.02/mile.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🗺️ How to Determine Repositioning Miles</h2>
+
+                <p><strong>Key question:</strong> "Where do I need to be for my next load?"</p>
+
+                <div class="callout tip">
+                    <strong>💡 Smart Load Solution helps you</strong>
+                    <p>The app shows a "hot zones" map based on YOUR history:</p>
+                    <ul>
+                        <li>How many miles to the nearest zone with good freight?</li>
+                        <li>What's your average wait time in that zone?</li>
+                        <li>What average RPM do you get there?</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>📊 Zone Comparison</h2>
+                <p><strong>Example: Two loads, same pay</strong></p>
+
+                <div class="comparison-table">
+                    <h3>LOAD A: Detroit → El Paso, TX</h3>
+                    <ul>
+                        <li>Pay: $1,400</li>
+                        <li>Loaded: 1,200 miles</li>
+                        <li>Deadhead: 50 miles</li>
+                        <li>Repositioning: 350 miles (El Paso is a dead zone)</li>
+                        <li><strong>Total: 1,600 miles</strong></li>
+                        <li style="color: #FF6B35;"><strong>Real RPM: $0.875/mile ❌</strong></li>
+                    </ul>
+                </div>
+
+                <div class="comparison-table" style="border: 2px solid #64C864;">
+                    <h3>LOAD B: Detroit → Atlanta, GA</h3>
+                    <ul>
+                        <li>Pay: $1,400</li>
+                        <li>Loaded: 700 miles</li>
+                        <li>Deadhead: 50 miles</li>
+                        <li>Repositioning: 0 miles (Atlanta is a premium zone)</li>
+                        <li><strong>Total: 750 miles</strong></li>
+                        <li style="color: #64C864;"><strong>Real RPM: $1.87/mile ✅</strong></li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: #64C864;"><strong>DIFFERENCE: $0.995/mile (114% better)</strong>
+                    </p>
+                </div>
+
+                <p><strong>Same pay, completely different results.</strong></p>
+            </section>
+
+            <section>
+                <h2>✏️ HANDS-ON EXERCISE</h2>
+                <p>Recalculate your last load:</p>
+
+                <div style="background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 0.75rem;">
+                    <p>My last load:</p>
+                    <ul>
+                        <li>Pay received: $_________</li>
+                        <li>Loaded miles: _________</li>
+                        <li>My previous calculation: $_________/mile</li>
+                        <li style="margin-top: 1rem;">Real deadhead: _________ miles</li>
+                        <li>Real repositioning: _________ miles</li>
+                        <li>REAL total miles: _________</li>
+                        <li style="margin-top: 1rem; color: #00D9FF;"><strong>Correct REAL RPM:
+                                $_________/mile</strong></li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Difference:</strong> $_________/mile</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 IMMEDIATE ACTION (2 minutes)</h2>
+
+                <div class="callout tip">
+                    <strong>Before moving on to the next lesson:</strong>
+                    <ul>
+                        <li>✅ Open Smart Load Solution</li>
+                        <li>✅ Go to your last recorded load</li>
+                        <li>✅ Recalculate the RPM including ALL miles</li>
+                        <li>✅ Did the number change? Write it down</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 KEY TAKEAWAY</h2>
+
+                <div
+                    style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(255, 107, 53, 0.1)); padding: 2rem; border-radius: 0.75rem; text-align: center; margin: 2rem 0;">
+                    <p style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">If you don't count ALL the
+                        miles,<br>you're making decisions blind.</p>
+                    <p style="font-size: 1.1rem;">Real RPM is the only number that matters.<br>"Apparent" RPM only fools you.</p>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn-en" class="btn btn-secondary" onclick="markLessonComplete()">
+                ✓ Mark as Complete
+            </button>
+
+            <nav class="lesson-nav">
+                <a href="index.html" class="btn btn-secondary">← Back to Module</a>
+                <a href="lesson-2.html" class="btn btn-primary">Next: Visible vs Hidden Costs →</a>
+            </nav>
+        </footer>
+        </div>
     </article>
 
     <script src="../js/academy.js"></script>
@@ -400,25 +601,46 @@
         const LESSON_NUM = 1;
 
         function markLessonComplete() {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
             if (window.AcademyProgress) {
                 window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-                const btn = document.getElementById('markCompleteBtn');
-                btn.textContent = '✓ Completada';
-                btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                btn.disabled = true;
-                alert('¡Lección completada! 🎉');
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.disabled = true;
+                });
+                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
             if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
-                const btn = document.getElementById('markCompleteBtn');
-                btn.textContent = '✓ Completada';
-                btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                btn.disabled = true;
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.disabled = true;
+                });
             }
         });
     </script>
+
+  <script>
+    // Academy bilingual content toggle
+    (function applyAcademyLang() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    })();
+    document.addEventListener('languageChanged', function() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    });
+  </script>
+
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * stripe-config.js
  * Integración con Stripe para Expediter
  * Version: 3.5.1
@@ -78,7 +78,7 @@ function stripeShowUpgradePrompt(feature) {
     } else {
         // Fallback con toast si el modal no está disponible
         if (typeof showToast === 'function') {
-            showToast('🔒 Esta función requiere un plan superior. Ve a Planes para más info.', 'warning');
+            showToast(window.i18n?.t('stripe.upgrade_prompt') || '🔒 Esta función requiere un plan superior. Ve a Planes para más info.', 'warning');
         }
     }
 }
@@ -112,7 +112,7 @@ async function upgradeSubscription(targetPlan) {
     }
 
     try {
-        if (typeof showToast === 'function') showToast('Iniciando upgrade de plan...', 'info');
+        if (typeof showToast === 'function') showToast(window.i18n?.t('stripe.upgrade_starting') || 'Iniciando upgrade de plan...', 'info');
 
         const checkoutSessionRef = await firebase.firestore()
             .collection('customers')
@@ -129,7 +129,7 @@ async function upgradeSubscription(targetPlan) {
                 }
             });
 
-        if (typeof showToast === 'function') showToast('Esperando respuesta del servidor...', 'info');
+        if (typeof showToast === 'function') showToast(window.i18n?.t('stripe.waiting_server') || 'Esperando respuesta del servidor...', 'info');
 
         const unsubscribe = checkoutSessionRef.onSnapshot((snap) => {
             const data = snap.data();
@@ -141,7 +141,7 @@ async function upgradeSubscription(targetPlan) {
                 return;
             }
             if (data.url) {
-                if (typeof showToast === 'function') showToast('Redirigiendo a Stripe...', 'success');
+                if (typeof showToast === 'function') showToast(window.i18n?.t('stripe.redirecting') || 'Redirigiendo a Stripe...', 'success');
                 window.location.assign(data.url);
                 unsubscribe();
             }
@@ -150,7 +150,7 @@ async function upgradeSubscription(targetPlan) {
         setTimeout(() => { unsubscribe(); }, 15000);
     } catch (error) {
         debugLog('Error creating upgrade checkout:', error);
-        if (typeof showToast === 'function') showToast('Error al iniciar upgrade', 'error');
+        if (typeof showToast === 'function') showToast(window.i18n?.t('stripe.error_upgrade') || 'Error al iniciar upgrade', 'error');
     }
 }
 
@@ -198,7 +198,7 @@ async function createCheckoutSession(planId) {
     }
 
     try {
-        if (typeof showToast === 'function') showToast('Iniciando sesión de pago...', 'info');
+        if (typeof showToast === 'function') showToast(window.i18n?.t('stripe.checkout_starting') || 'Iniciando sesión de pago...', 'info');
 
         // Crear checkout session usando Firebase Extension
         // DEBE coincidir con la colección configurada en la extensión (customers)
@@ -217,7 +217,7 @@ async function createCheckoutSession(planId) {
                 }
             });
 
-        if (typeof showToast === 'function') showToast('Esperando respuesta del servidor...', 'info');
+        if (typeof showToast === 'function') showToast(window.i18n?.t('stripe.waiting_server') || 'Esperando respuesta del servidor...', 'info');
 
         // Esperar a que se genere la URL
         const unsubscribe = checkoutSessionRef.onSnapshot((snap) => {
@@ -233,7 +233,7 @@ async function createCheckoutSession(planId) {
             }
 
             if (data.url) {
-                if (typeof showToast === 'function') showToast('Redirigiendo a Stripe...', 'success');
+                if (typeof showToast === 'function') showToast(window.i18n?.t('stripe.redirecting') || 'Redirigiendo a Stripe...', 'success');
                 window.location.assign(data.url);
                 unsubscribe();
             }
@@ -246,7 +246,7 @@ async function createCheckoutSession(planId) {
 
     } catch (error) {
         debugLog('Error creating checkout:', error);
-        if (typeof showToast === 'function') showToast('Error al iniciar proceso de pago', 'error');
+        if (typeof showToast === 'function') showToast(window.i18n?.t('stripe.error_checkout') || 'Error al iniciar proceso de pago', 'error');
     }
 }
 
@@ -258,7 +258,7 @@ async function handleCheckoutResult() {
     const _portalTs = localStorage.getItem('returningFromPortal');
     if (_portalTs && (Date.now() - parseInt(_portalTs)) < 300000) {
         localStorage.removeItem('returningFromPortal');
-        if (typeof showToast === 'function') showToast('Sincronizando tu plan... ⏳', 'info');
+        if (typeof showToast === 'function') showToast(window.i18n?.t('stripe.syncing_plan') || 'Sincronizando tu plan... ⏳', 'info');
 
         // Bug #8 fix: detectar cambio de plan vía portal AQUÍ (no en el flujo de session_id)
         const planAntes = localStorage.getItem('planBeforePortal');
@@ -273,39 +273,8 @@ async function handleCheckoutResult() {
                 const planAhora = planAhoraObj?.id;
                 if (planAhora && planAntes !== planAhora && planAhoraObj) {
                     localStorage.removeItem('planBeforePortal');
-                    const planName = planAhoraObj.name;
-                    const planPrice = planAhoraObj.price;
-                    firebase.firestore().collection('mail').add({
-                        to: [authUser.email],
-                        message: {
-                            subject: `Tu plan fue actualizado a ${planName} — Smart Load Solution`,
-                            html: `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
-<body style="margin:0;padding:0;background:#0f172a;font-family:'Segoe UI',Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;padding:40px 20px;">
-    <tr><td align="center">
-      <table width="600" cellpadding="0" cellspacing="0" style="background:#1e293b;border-radius:16px;overflow:hidden;max-width:600px;">
-        <tr><td style="background:linear-gradient(135deg,#1e293b,#0f172a);padding:40px;text-align:center;border-bottom:2px solid #FF6D4A;">
-          <h1 style="margin:0;font-size:28px;font-weight:800;color:#fff;">Smart<span style="color:#FF6D4A;">Load</span> Solution</h1>
-        </td></tr>
-        <tr><td style="padding:40px;">
-          <div style="text-align:center;margin-bottom:24px;">
-            <div style="display:inline-block;background:#FF6D4A;color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;font-weight:700;">PLAN ${planName.toUpperCase()} ACTIVO</div>
-          </div>
-          <h2 style="margin:0 0 16px;color:#fff;font-size:22px;text-align:center;">Tu plan fue actualizado 🚀</h2>
-          <p style="margin:0 0 28px;color:#94a3b8;font-size:15px;line-height:1.6;text-align:center;">Ahora tienes acceso al Plan <strong style="color:#fff;">${planName}</strong> por $${planPrice}/mes.</p>
-          <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
-            <a href="https://app.smartloadsolution.com/app.html" style="display:inline-block;background:#FF6D4A;color:#fff;text-decoration:none;padding:14px 36px;border-radius:8px;font-weight:700;font-size:15px;">Ir a la App →</a>
-          </td></tr></table>
-        </td></tr>
-        <tr><td style="padding:24px 40px;border-top:1px solid #334155;text-align:center;">
-          <p style="margin:0;color:#94a3b8;font-size:12px;">Smart Load Solution · <a href="https://smartloadsolution.com" style="color:#FF6D4A;text-decoration:none;">smartloadsolution.com</a></p>
-        </td></tr>
-      </table>
-    </td></tr>
-  </table>
-</body></html>`
-                        }
-                    }).catch(e => debugLog('[STRIPE] Email portal plan change:', e.message));
+                    // Email manejado por webhook customer.subscription.updated en functions/index.js
+                    debugLog('[STRIPE] Plan actualizado vía portal:', planAhora);
                 } else {
                     localStorage.removeItem('planBeforePortal');
                 }
@@ -334,7 +303,7 @@ async function handleCheckoutResult() {
         }
 
         // ✅ Bug #3 fix: toast DENTRO del callback, después de confirmar auth
-        if (typeof showToast === 'function') showToast('¡Suscripción activada exitosamente! 🎉', 'success');
+        if (typeof showToast === 'function') showToast(window.i18n?.t('stripe.subscribed_ok') || '¡Suscripción activada exitosamente! 🎉', 'success');
 
         // META PIXEL
         if (typeof window.trackMeta === 'function') {
@@ -355,43 +324,8 @@ async function handleCheckoutResult() {
 
             if (planAhora && planAntes !== planAhora) {
                 localStorage.removeItem('planBeforePortal');
-                if (user && planAhoraObj) {
-                    const planName = planAhoraObj.name;
-                    const planPrice = planAhoraObj.price;
-                    await firebase.firestore().collection('mail').add({
-                        to: [user.email],
-                        message: {
-                            subject: `¡Bienvenido al Plan ${planName}! 🎉`,
-                            html: `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
-<body style="margin:0;padding:0;background:#0f172a;font-family:'Segoe UI',Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;padding:40px 20px;">
-    <tr><td align="center">
-      <table width="600" cellpadding="0" cellspacing="0" style="background:#1e293b;border-radius:16px;overflow:hidden;max-width:600px;">
-        <tr><td style="background:linear-gradient(135deg,#1e293b,#0f172a);padding:40px;text-align:center;border-bottom:2px solid #FF6D4A;">
-          <h1 style="margin:0;font-size:28px;font-weight:800;color:#ffffff;">Smart<span style="color:#FF6D4A;">Load</span> Solution</h1>
-        </td></tr>
-        <tr><td style="padding:40px;">
-          <div style="text-align:center;margin-bottom:24px;">
-            <div style="display:inline-block;background:#FF6D4A;color:#ffffff;padding:8px 20px;border-radius:20px;font-size:13px;font-weight:700;">PLAN ${planName.toUpperCase()} ACTIVADO</div>
-          </div>
-          <h2 style="margin:0 0 16px;color:#ffffff;font-size:22px;text-align:center;">¡Tu plan fue actualizado! 🚀</h2>
-          <p style="margin:0 0 28px;color:#94a3b8;font-size:15px;line-height:1.6;text-align:center;">Ahora tienes acceso completo al Plan ${planName} por $${ planPrice}/mes.</p>
-          <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px;">
-            <tr><td align="center">
-              <a href="https://app.smartloadsolution.com/app.html" style="display:inline-block;background:#FF6D4A;color:#ffffff;text-decoration:none;padding:14px 36px;border-radius:8px;font-weight:700;font-size:15px;">Ir a la App →</a>
-            </td></tr>
-          </table>
-        </td></tr>
-        <tr><td style="padding:24px 40px;border-top:1px solid #334155;text-align:center;">
-          <p style="margin:0;color:#94a3b8;font-size:12px;">Smart Load Solution · <a href="https://smartloadsolution.com" style="color:#FF6D4A;text-decoration:none;">smartloadsolution.com</a></p>
-        </td></tr>
-      </table>
-    </td></tr>
-  </table>
-</body></html>`
-                        }
-                    }).catch(e => debugLog('[STRIPE] Email plan change:', e.message));
-                }
+                // Email manejado por webhook customer.subscription.updated en functions/index.js
+                debugLog('[STRIPE] Plan cambiado via session_id:', planAhora);
             } else {
                 localStorage.removeItem('planBeforePortal');
             }
@@ -409,21 +343,21 @@ async function cancelSubscription() {
     const user = firebase.auth().currentUser;
     if (!user) return;
 
-    const confirmed = confirm('¿Estás seguro que quieres cancelar tu suscripción? Perderás acceso a las funciones premium al final del período de facturación.');
+    const confirmed = confirm(window.i18n?.t('stripe.cancel_confirm') || '¿Estás seguro que quieres cancelar tu suscripción? Perderás acceso a las funciones premium al final del período de facturación.');
     if (!confirmed) return;
 
     try {
-        showToast('Cancelando suscripción...', 'info');
+        showToast(window.i18n?.t('stripe.canceling') || 'Cancelando suscripción...', 'info');
 
         const functionRef = firebase.app().functions('us-central1').httpsCallable('cancelUserSubscription');
         await functionRef({});
 
-        showToast('Suscripción programada para cancelar al final del período', 'info');
+        showToast(window.i18n?.t('stripe.canceled_ok') || 'Suscripción programada para cancelar al final del período', 'info');
         setTimeout(() => window.location.reload(), 2000);
 
     } catch (error) {
         debugLog('Error canceling subscription:', error);
-        showToast('Error al cancelar suscripción: ' + (error.message || 'intenta de nuevo'), 'error');
+        showToast((window.i18n?.t('stripe.error_cancel') || 'Error al cancelar suscripción') + ': ' + (error.message || (window.i18n?.t('common.try_again') || 'intenta de nuevo')), 'error');
     }
 }
 
@@ -435,7 +369,7 @@ async function openBillingPortal() {
     if (!user) return;
 
     try {
-        showToast('Abriendo portal de facturación...', 'info');
+        showToast(window.i18n?.t('stripe.portal_opening') || 'Abriendo portal de facturación...', 'info');
 
         const functionRef = firebase
             .app()
@@ -454,7 +388,7 @@ async function openBillingPortal() {
     } catch (error) {
         localStorage.removeItem('returningFromPortal');
         debugLog('Error opening portal:', error);
-        showToast('Error al abrir portal de facturación', 'error');
+        showToast(window.i18n?.t('stripe.error_portal') || 'Error al abrir portal de facturación', 'error');
     }
 }
 

@@ -42,7 +42,7 @@ async function registerServiceWorker() {
 // M2 fix: usar toast en lugar de confirm() nativo (mejor UX mobile)
 function showUpdateNotification() {
     if (typeof showToast === 'function') {
-        showToast('🎉 Nueva versión disponible. Recarga para actualizar.', 'info');
+        showToast(window.i18n?.t('pwa.new_version') || '🎉 Nueva versión disponible. Recarga para actualizar.', 'info');
         // Auto-recargar después de 5s con el nuevo SW activo
         if (navigator.serviceWorker.controller) {
             navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });

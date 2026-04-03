@@ -1,5 +1,5 @@
-﻿<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
@@ -14,23 +14,22 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
-    content="Descubre la historia de Smart Load Solution y cómo ayudamos a transportistas a maximizar su rentabilidad." />
-  <title>Acerca de Nosotros | Smart Load Solution</title>
-  <!-- Canonical Link -->
+    content="Discover the story behind Smart Load Solution and how we help carriers maximize their profitability." />
+  <title>About Us | Smart Load Solution</title>
   <link rel="canonical" href="https://app.smartloadsolution.com/about.html" />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://app.smartloadsolution.com/about.html" />
-  <meta property="og:title" content="Acerca de Nosotros | Smart Load Solution" />
-  <meta property="og:description" content="Descubre la historia de Smart Load Solution y cómo ayudamos a transportistas a maximizar su rentabilidad." />
+  <meta property="og:title" content="About Us | Smart Load Solution" />
+  <meta property="og:description" content="Discover the story behind Smart Load Solution and how we help carriers maximize their profitability." />
   <meta property="og:image" content="https://smartloadsolution.com/img/og-image-es.jpg" />
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
   <meta property="twitter:url" content="https://app.smartloadsolution.com/about.html" />
-  <meta property="twitter:title" content="Acerca de Nosotros | Smart Load Solution" />
-  <meta property="twitter:description" content="Descubre la historia de Smart Load Solution y cómo ayudamos a transportistas a maximizar su rentabilidad." />
+  <meta property="twitter:title" content="About Us | Smart Load Solution" />
+  <meta property="twitter:description" content="Discover the story behind Smart Load Solution and how we help carriers maximize their profitability." />
   <meta property="twitter:image" content="https://smartloadsolution.com/img/og-image-es.jpg" />
   <link rel="icon" type="image/png" href="img/logo-app.webp" />
   <script src="https://cdn.tailwindcss.com"></script>
@@ -39,8 +38,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
 
+  <!-- Internationalization (i18n) Engine -->
+  <script src="js/i18n/language-manager.js"></script>
+
   <style>
-    /* 🎨 DESIGN SYSTEM - CYAN/ORANGE THEME */
     :root {
       --bg-dark: #0a0a0f;
       --bg-darker: #050508;
@@ -51,11 +52,7 @@
       --gradient-primary: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Inter', sans-serif;
@@ -71,24 +68,12 @@
     }
 
     @keyframes gradientShift {
-
-      0%,
-      100% {
-        background-position: 0% 50%;
-      }
-
-      50% {
-        background-position: 100% 50%;
-      }
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
 
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 1rem;
-    }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
 
-    /* Glass Header */
     .glass {
       background: rgba(15, 15, 25, 0.8);
       backdrop-filter: blur(12px);
@@ -106,9 +91,7 @@
       background-clip: text;
     }
 
-    .section {
-      padding: 5rem 0;
-    }
+    .section { padding: 5rem 0; }
 
     .btn-primary {
       background: var(--primary-orange);
@@ -160,28 +143,20 @@
       border-color: rgba(59, 130, 246, 0.3);
     }
 
-    /* Footer styles */
     footer {
       background: rgba(5, 5, 8, 0.95);
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       padding: 3rem 0 1.5rem;
     }
 
-    footer a {
-      color: #9ca3af;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    footer a:hover {
-      color: white;
-    }
+    footer a { color: #9ca3af; text-decoration: none; transition: color 0.3s; }
+    footer a:hover { color: white; }
   </style>
 </head>
 
 <body class="bg-animated">
 
-  <!-- 🔝 HEADER (Same as index.html) -->
+  <!-- 🔝 HEADER -->
   <header class="glass"
     style="position: relative; background-image: url('img/header-background.PNG'); background-size: cover; background-position: center; background-repeat: no-repeat;">
     <div class="container">
@@ -198,18 +173,23 @@
 
         <!-- Desktop Navigation -->
         <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
-          <a href="index.html" class="text-gray-300 hover:text-white transition">Inicio</a>
-          <a href="index.html#features" class="text-gray-300 hover:text-white transition">Features</a>
-          <a href="index.html#pricing" class="text-gray-300 hover:text-white transition">Pricing</a>
-          <a href="about.html" class="text-white">Acerca</a>
-          <a href="resources.html" class="text-gray-300 hover:text-white transition">Recursos</a>
-          <a href="plans.html" class="text-gray-300 hover:text-white transition">Planes</a>
+          <a href="index.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_home">Home</a>
+          <a href="index.html#features" class="text-gray-300 hover:text-white transition" data-i18n="nav.features">Features</a>
+          <a href="index.html#pricing" class="text-gray-300 hover:text-white transition" data-i18n="nav.pricing">Pricing</a>
+          <a href="about.html" class="text-white" data-i18n="about.nav_about">About</a>
+          <a href="resources.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_resources">Resources</a>
+          <a href="plans.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_plans">Plans</a>
         </nav>
 
-        <!-- CTA Button -->
-        <div class="hidden md:block">
-          <a href="auth.html" class="btn-secondary" style="padding: 0.75rem 1.5rem; font-size: 0.875rem;">
-            Iniciar Sesión →
+        <!-- CTA + Language Toggle -->
+        <div class="hidden md:flex items-center gap-4">
+          <div style="display:flex;align-items:center;gap:0.25rem;font-size:0.8rem;font-weight:600;">
+            <button id="btn-en" onclick="window.i18n.setLanguage('en')" style="background:none;border:none;cursor:pointer;padding:0.2rem 0.4rem;border-radius:4px;color:#9ca3af;transition:color 0.2s;" class="active">EN</button>
+            <span style="color:#4b5563;">|</span>
+            <button id="btn-es" onclick="window.i18n.setLanguage('es')" style="background:none;border:none;cursor:pointer;padding:0.2rem 0.4rem;border-radius:4px;color:#9ca3af;transition:color 0.2s;">ES</button>
+          </div>
+          <a href="auth.html" class="btn-secondary" style="padding: 0.75rem 1.5rem; font-size: 0.875rem;" data-i18n="about.nav_login">
+            Log In →
           </a>
         </div>
 
@@ -223,29 +203,34 @@
 
       <!-- Mobile Menu -->
       <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 space-y-4">
-        <a href="index.html" class="block text-gray-300 hover:text-white transition">Inicio</a>
-        <a href="index.html#features" class="block text-gray-300 hover:text-white transition">Features</a>
-        <a href="index.html#pricing" class="block text-gray-300 hover:text-white transition">Pricing</a>
-        <a href="about.html" class="block text-white">Acerca</a>
-        <a href="resources.html" class="block text-gray-300 hover:text-white transition">Recursos</a>
-        <a href="plans.html" class="block text-gray-300 hover:text-white transition">Planes</a>
-        <a href="auth.html" class="btn-secondary block text-center">Iniciar Sesión →</a>
+        <a href="index.html" class="block text-gray-300 hover:text-white transition" data-i18n="about.nav_home">Home</a>
+        <a href="index.html#features" class="block text-gray-300 hover:text-white transition" data-i18n="nav.features">Features</a>
+        <a href="index.html#pricing" class="block text-gray-300 hover:text-white transition" data-i18n="nav.pricing">Pricing</a>
+        <a href="about.html" class="block text-white" data-i18n="about.nav_about">About</a>
+        <a href="resources.html" class="block text-gray-300 hover:text-white transition" data-i18n="about.nav_resources">Resources</a>
+        <a href="plans.html" class="block text-gray-300 hover:text-white transition" data-i18n="about.nav_plans">Plans</a>
+        <div class="flex items-center gap-2 px-2 py-2 mt-2 border-t border-gray-700">
+          <button id="btn-en-mobile" onclick="window.i18n.setLanguage('en')" style="background:none;border:none;cursor:pointer;padding:0.2rem 0.5rem;border-radius:4px;color:#9ca3af;font-weight:600;font-size:0.875rem;">EN</button>
+          <span style="color:#4b5563;">|</span>
+          <button id="btn-es-mobile" onclick="window.i18n.setLanguage('es')" style="background:none;border:none;cursor:pointer;padding:0.2rem 0.5rem;border-radius:4px;color:#9ca3af;font-weight:600;font-size:0.875rem;">ES</button>
+        </div>
+        <a href="auth.html" class="btn-secondary block text-center mt-2" data-i18n="about.nav_login">Log In →</a>
       </div>
     </div>
   </header>
 
   <!-- 📖 ABOUT PAGE CONTENT -->
   <main>
+
     <!-- Hero Section -->
     <section class="section" style="padding-top: 6rem;">
       <div class="container">
         <div class="text-center max-w-4xl mx-auto">
           <h1 class="text-5xl md:text-6xl font-black mb-6">
-            Sobre <span class="gradient-text">Smart Load Solution</span>
+            <span class="gradient-text" data-i18n="about.hero_heading">About Smart Load Solution</span>
           </h1>
-          <p class="text-xl text-gray-300 mb-8">
-            Nuestra misión es empoderar a transportistas independientes con herramientas inteligentes para maximizar
-            su rentabilidad y tomar decisiones informadas.
+          <p class="text-xl text-gray-300 mb-8" data-i18n="about.hero_sub">
+            Our mission is to empower independent carriers with smart tools to maximize their profitability and make informed decisions.
           </p>
         </div>
       </div>
@@ -256,22 +241,17 @@
       <div class="container">
         <div class="max-w-4xl mx-auto">
           <h2 class="text-3xl md:text-4xl font-black mb-8 text-center">
-            🚚 <span class="gradient-text">Nuestra Historia</span>
+            🚚 <span class="gradient-text" data-i18n="about.story_heading">Our Story</span>
           </h2>
-
           <div class="space-y-6 text-gray-300 text-lg leading-relaxed">
-            <p>
-              Smart Load Solution nació de la experiencia real en las carreteras. Como transportistas independientes,
-              enfrentamos los mismos desafíos que tú: decidir qué cargas aceptar, calcular costos reales, y maximizar
-              cada milla recorrida.
+            <p data-i18n="about.story_p1">
+              Smart Load Solution was born from real experience on the road. As independent carriers, we faced the same challenges you do: deciding which loads to accept, calculating real costs, and maximizing every mile driven.
             </p>
-            <p>
-              Cansados de usar hojas de cálculo y hacer cálculos mentales aproximados, decidimos crear una herramienta
-              que nos permitiera tomar decisiones basadas en datos reales, no en corazonadas.
+            <p data-i18n="about.story_p2">
+              Tired of using spreadsheets and doing rough mental math, we decided to build a tool that would let us make decisions based on real data, not gut feelings.
             </p>
-            <p>
-              Hoy, Smart Load Solution es la plataforma de confianza para cientos de transportistas que buscan llevar
-              su negocio al siguiente nivel con inteligencia de datos y análisis financiero en tiempo real.
+            <p data-i18n="about.story_p3">
+              Today, Smart Load Solution is the trusted platform for hundreds of carriers looking to take their business to the next level with data intelligence and real-time financial analysis.
             </p>
           </div>
         </div>
@@ -282,38 +262,32 @@
     <section class="section">
       <div class="container">
         <h2 class="text-3xl md:text-4xl font-black mb-12 text-center">
-          💫 <span class="gradient-text">Nuestra Misión y Valores</span>
+          💫 <span class="gradient-text" data-i18n="about.values_heading">Our Mission & Values</span>
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-          <!-- Value 1 -->
           <div class="story-card">
             <div class="text-4xl mb-4">🎯</div>
-            <h3 class="text-xl font-bold mb-3">Transparencia Total</h3>
-            <p class="text-gray-400">
-              Creemos en la transparencia absoluta. Sin sorpresas, sin letra pequeña. Sabemos exactamente qué pagas
-              y qué obtienes.
+            <h3 class="text-xl font-bold mb-3" data-i18n="about.val1_title">Full Transparency</h3>
+            <p class="text-gray-400" data-i18n="about.val1_desc">
+              We believe in absolute transparency. No surprises, no fine print. You know exactly what you pay and what you get.
             </p>
           </div>
 
-          <!-- Value 2 -->
           <div class="story-card">
             <div class="text-4xl mb-4">⚡</div>
-            <h3 class="text-xl font-bold mb-3">Velocidad & Precisión</h3>
-            <p class="text-gray-400">
-              Cada segundo cuenta en la carretera. Nuestras herramientas están diseñadas para darte respuestas
-              precisas en segundos, no minutos.
+            <h3 class="text-xl font-bold mb-3" data-i18n="about.val2_title">Speed & Precision</h3>
+            <p class="text-gray-400" data-i18n="about.val2_desc">
+              Every second counts on the road. Our tools are designed to give you accurate answers in seconds, not minutes.
             </p>
           </div>
 
-          <!-- Value 3 -->
           <div class="story-card">
             <div class="text-4xl mb-4">🤝</div>
-            <h3 class="text-xl font-bold mb-3">Hecho por Transportistas</h3>
-            <p class="text-gray-400">
-              No somos una empresa tech que nunca ha tocado un volante. Somos transportistas que construyeron la
-              herramienta que necesitábamos.
+            <h3 class="text-xl font-bold mb-3" data-i18n="about.val3_title">Built by Carriers</h3>
+            <p class="text-gray-400" data-i18n="about.val3_desc">
+              We're not a tech company that's never touched a steering wheel. We're carriers who built the tool we needed.
             </p>
           </div>
 
@@ -326,7 +300,7 @@
       <div class="container">
         <div class="max-w-4xl mx-auto">
           <h2 class="text-3xl md:text-4xl font-black mb-8 text-center">
-            ⚡ <span class="gradient-text">¿Por Qué Somos Diferentes?</span>
+            ⚡ <span class="gradient-text" data-i18n="about.diff_heading">Why We're Different</span>
           </h2>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -334,36 +308,32 @@
             <div class="flex items-start gap-4">
               <span class="text-green-400 text-2xl mt-1">✓</span>
               <div>
-                <h4 class="font-bold mb-2">Calculadora Instantánea de RPM</h4>
-                <p class="text-gray-400 text-sm">Calcula la rentabilidad real en menos de 30 segundos antes de
-                  aceptar cualquier carga.</p>
+                <h4 class="font-bold mb-2" data-i18n="about.diff1_title">Instant RPM Calculator</h4>
+                <p class="text-gray-400 text-sm" data-i18n="about.diff1_desc">Calculate real profitability in under 30 seconds before accepting any load.</p>
               </div>
             </div>
 
             <div class="flex items-start gap-4">
               <span class="text-green-400 text-2xl mt-1">✓</span>
               <div>
-                <h4 class="font-bold mb-2">Análisis Financiero Completo</h4>
-                <p class="text-gray-400 text-sm">Dashboard con métricas clave: ingresos, gastos, profit margin, y
-                  tendencias mensuales.</p>
+                <h4 class="font-bold mb-2" data-i18n="about.diff2_title">Full Financial Analysis</h4>
+                <p class="text-gray-400 text-sm" data-i18n="about.diff2_desc">Dashboard with key metrics: revenue, expenses, profit margin, and monthly trends.</p>
               </div>
             </div>
 
             <div class="flex items-start gap-4">
               <span class="text-green-400 text-2xl mt-1">✓</span>
               <div>
-                <h4 class="font-bold mb-2">Mapa de Zonas Rentables</h4>
-                <p class="text-gray-400 text-sm">Identifica qué estados y rutas te generan más profit basado en tu
-                  historial real.</p>
+                <h4 class="font-bold mb-2" data-i18n="about.diff3_title">Profitable Zone Map</h4>
+                <p class="text-gray-400 text-sm" data-i18n="about.diff3_desc">Identify which states and routes generate the most profit based on your real history.</p>
               </div>
             </div>
 
             <div class="flex items-start gap-4">
               <span class="text-green-400 text-2xl mt-1">✓</span>
               <div>
-                <h4 class="font-bold mb-2">Historial Editable & Exportable</h4>
-                <p class="text-gray-400 text-sm">Guarda, edita y exporta todas tus cargas a Excel/CSV para reportes
-                  fiscales o análisis.</p>
+                <h4 class="font-bold mb-2" data-i18n="about.diff4_title">Editable & Exportable History</h4>
+                <p class="text-gray-400 text-sm" data-i18n="about.diff4_desc">Save, edit, and export all your loads to Excel/CSV for tax reports or analysis.</p>
               </div>
             </div>
 
@@ -377,22 +347,21 @@
       <div class="container">
         <div class="text-center max-w-3xl mx-auto">
           <h2 class="text-4xl md:text-5xl font-black mb-6">
-            ¿Listo para <span class="gradient-text">Maximizar tu Rentabilidad?</span>
+            <span data-i18n="about.cta_heading">Ready to Maximize Your Profitability?</span>
           </h2>
-          <p class="text-xl text-gray-300 mb-8">
-            Únete a cientos de transportistas que ya están tomando mejores decisiones con Smart Load Solution.
+          <p class="text-xl text-gray-300 mb-8" data-i18n="about.cta_sub">
+            Join hundreds of carriers already making better decisions with Smart Load Solution.
           </p>
           <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="auth.html" class="btn-primary">
-              <span>Probar 50 Cargas GRATIS</span>
-              <span class="text-2xl">→</span>
+            <a href="auth.html" class="btn-primary" data-i18n="about.cta_btn_primary">
+              Try 50 Loads FREE →
             </a>
-            <a href="plans.html" class="btn-secondary">
-              Ver Planes y Precios
+            <a href="plans.html" class="btn-secondary" data-i18n="about.cta_btn_secondary">
+              See Plans & Pricing
             </a>
           </div>
-          <p class="text-sm text-gray-500 mt-6">
-            ✓ Sin tarjeta • ✓ Setup en &lt;2 min • ✓ Cancela cuando quieras
+          <p class="text-sm text-gray-500 mt-6" data-i18n="about.cta_fine">
+            ✓ No card required • ✓ Setup in &lt;2 min • ✓ Cancel anytime
           </p>
         </div>
       </div>
@@ -400,7 +369,7 @@
 
   </main>
 
-  <!-- 🦶 FOOTER (Same as index.html) -->
+  <!-- 🦶 FOOTER -->
   <footer>
     <div class="container">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
@@ -408,44 +377,43 @@
         <!-- Column 1: Brand -->
         <div>
           <div class="flex items-center gap-2 mb-4">
-            <img src="img/logo-app.webp" alt="Logo" class="h-8 w-auto"
-              onerror="this.src='img/logo-app.png'" />
+            <img src="img/logo-app.webp" alt="Logo" class="h-8 w-auto" onerror="this.src='img/logo-app.png'" />
             <span class="font-bold text-lg">Smart Load</span>
           </div>
-          <p class="text-sm text-gray-400">
-            Inteligencia de carga para el transportista moderno.
+          <p class="text-sm text-gray-400" data-i18n="about.footer_tagline">
+            Smart load intelligence for the modern carrier.
           </p>
         </div>
 
         <!-- Column 2: Company -->
         <div>
-          <h4 class="font-bold mb-4">Empresa</h4>
+          <h4 class="font-bold mb-4" data-i18n="about.footer_col_company">Company</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="about.html">Acerca de Nosotros</a></li>
-            <li><a href="plans.html">Planes y Precios</a></li>
-            <li><a href="index.html#testimonials">Testimonios</a></li>
-            <li><a href="contact.html">Contacto</a></li>
+            <li><a href="about.html" data-i18n="about.footer_about">About Us</a></li>
+            <li><a href="plans.html" data-i18n="about.footer_plans">Plans & Pricing</a></li>
+            <li><a href="index.html#testimonials" data-i18n="about.footer_testimonials">Testimonials</a></li>
+            <li><a href="contact.html" data-i18n="about.footer_contact">Contact</a></li>
           </ul>
         </div>
 
         <!-- Column 3: Resources -->
         <div>
-          <h4 class="font-bold mb-4">Recursos</h4>
+          <h4 class="font-bold mb-4" data-i18n="about.footer_col_resources">Resources</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="resources.html">Centro de Recursos</a></li>
-            <li><a href="resources.html#blog">Blog</a></li>
-            <li><a href="resources.html#faq">FAQ</a></li>
-            <li><a href="resources.html#support">Soporte</a></li>
+            <li><a href="resources.html" data-i18n="about.footer_resources">Resource Center</a></li>
+            <li><a href="resources.html#blog" data-i18n="about.footer_blog">Blog</a></li>
+            <li><a href="resources.html#faq" data-i18n="about.footer_faq">FAQ</a></li>
+            <li><a href="resources.html#support" data-i18n="about.footer_support">Support</a></li>
           </ul>
         </div>
 
         <!-- Column 4: Legal -->
         <div>
-          <h4 class="font-bold mb-4">Legal</h4>
+          <h4 class="font-bold mb-4" data-i18n="about.footer_col_legal">Legal</h4>
           <ul class="space-y-2 text-sm mb-4">
-            <li><a href="privacy.html">Privacidad</a></li>
-            <li><a href="terms.html">Términos de Uso</a></li>
-            <li><a href="refund.html">Reembolsos</a></li>
+            <li><a href="privacy.html" data-i18n="about.footer_privacy">Privacy</a></li>
+            <li><a href="terms.html" data-i18n="about.footer_terms">Terms of Use</a></li>
+            <li><a href="refund.html" data-i18n="about.footer_refund">Refunds</a></li>
           </ul>
           <div class="flex gap-4 text-xl">
             <a href="https://www.facebook.com/galan.expediter" aria-label="Facebook" target="_blank" rel="noopener noreferrer">📘</a>
@@ -458,19 +426,41 @@
       </div>
 
       <!-- Copyright -->
-      <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
-        © 2026 Smart Load Solution. Todos los derechos reservados.
+      <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500" data-i18n="about.footer_copyright">
+        © 2026 Smart Load Solution. All rights reserved.
       </div>
     </div>
   </footer>
 
   <script>
-    // Mobile menu toggle (same as index.html)
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+  </script>
 
-    mobileMenuBtn?.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
+  <!-- i18n Init -->
+  <script>
+    function updateLangButtons(lang) {
+      const isEs = lang === 'es';
+      const btnEn = document.getElementById('btn-en');
+      const btnEs = document.getElementById('btn-es');
+      const btnEnM = document.getElementById('btn-en-mobile');
+      const btnEsM = document.getElementById('btn-es-mobile');
+      if (btnEn) { btnEn.style.color = isEs ? '#9ca3af' : '#00D9FF'; btnEn.style.fontWeight = isEs ? '600' : '700'; }
+      if (btnEs) { btnEs.style.color = isEs ? '#00D9FF' : '#9ca3af'; btnEs.style.fontWeight = isEs ? '700' : '600'; }
+      if (btnEnM) { btnEnM.style.color = isEs ? '#9ca3af' : '#00D9FF'; btnEnM.style.fontWeight = isEs ? '600' : '700'; }
+      if (btnEsM) { btnEsM.style.color = isEs ? '#00D9FF' : '#9ca3af'; btnEsM.style.fontWeight = isEs ? '700' : '600'; }
+    }
+
+    // language-manager.js already calls init() itself on DOMContentLoaded.
+    // We only need to sync button visuals from localStorage (no race condition).
+    document.addEventListener('DOMContentLoaded', () => {
+      updateLangButtons(localStorage.getItem('app_language') || 'en');
+    });
+
+    // Re-sync buttons every time the language actually changes
+    document.addEventListener('languageChanged', (e) => {
+      updateLangButtons(e.detail?.lang || localStorage.getItem('app_language') || 'en');
     });
   </script>
 

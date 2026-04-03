@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lección 1: Diversificación de Ingresos | Smart Load Academia</title>
+    <title>Lesson 1: Income Diversification | Smart Load Academia</title>
     <link rel="icon" type="image/png" href="../../img/logo-app.png" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
@@ -132,19 +132,22 @@
             margin-top: 2rem
         }
     </style>
+  <script src="../../js/i18n/language-manager.js"></script>
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">&#8592; Volver a la App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'" data-i18n="academy.back_app">← Back to App</a></nav>
     <article class="lesson-container">
         <nav class="breadcrumb">
-            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 7 [PRO]</a> → Lección 1
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Module 7 [PRO]</a> → <span data-lang="es">Lección 1</span><span data-lang="en" style="display:none">Lesson 1</span>
         </nav>
 
         <div
             style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
-            🔒 CONTENIDO PRO</div>
+            <span data-lang="es">🔒 CONTENIDO PRO</span><span data-lang="en" style="display:none">🔒 PRO CONTENT</span></div>
 
+        <!-- ======== SPANISH ======== -->
+        <div data-lang="es">
         <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
             <h1>Diversificación de Ingresos: Más Allá de Solo Manejar</h1>
             <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
@@ -380,7 +383,7 @@
                         <ul>
                             <li><strong>Fase 1 (Meses 1-6):</strong> +$500-1,000/mes (una fuente)</li>
                             <li><strong>Fase 2 (Meses 7-12):</strong> +$1,000-1,500/mes (dos fuentes)</li>
-                            <li><strong>Fase 3 (Año 2):</strong> +$1,500-2,500/mes (optimizado)</strong></li>
+                            <li><strong>Fase 3 (Año 2):</strong> +$1,500-2,500/mes (optimizado)</li>
                         </ul>
 
                         <p
@@ -408,19 +411,326 @@
         </div>
 
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
-                completada</button>
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como completada</button>
             <nav class="lesson-nav">
                 <a href="index.html" class="btn btn-secondary">← Volver al módulo</a>
-                <a href="#" class="btn btn-primary" style="opacity:0.5;pointer-events:none">Siguiente lección →</a>
+                <a href="lesson-2.html" class="btn btn-primary">Siguiente: Nichos Premium →</a>
             </nav>
         </footer>
+        </div>
+        <!-- ======== END SPANISH ======== -->
+
+        <!-- ======== ENGLISH ======== -->
+        <div data-lang="en" style="display:none">
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Income Diversification: Beyond Just Driving</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 18 min read</span>
+                <span>🎓 Module 7 - Lesson 1</span>
+                <span>💰 Diversification</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>💡 THE TIME-FOR-MONEY TRAP</h2>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
+                    <div
+                        style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FF6B35">
+                        <p><strong>PROBLEM: Only driving = Linear income</strong></p>
+                        <ul style="margin:0;font-size:.9rem">
+                            <li>Work 1 hour → Earn $X</li>
+                            <li>Work 2 hours → Earn $2X</li>
+                            <li>Physical ceiling: 60-70 hrs/week</li>
+                            <li><strong>Stop driving → $0</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background:rgba(100,200,100,.15);padding:1.5rem;border-radius:.75rem;border-left:4px solid #64C864">
+                        <p><strong>SOLUTION: Multiple streams = Scalability</strong></p>
+                        <ul style="margin:0;font-size:.9rem">
+                            <li>Primary: Expediting</li>
+                            <li>Stream 2: Complementary services</li>
+                            <li>Stream 3: Knowledge/experience</li>
+                            <li><strong>Stop driving → Others keep running</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p
+                    style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
+                    GOAL: Not to replace expediting<br>
+                    COMPLEMENT it with additional sources
+                </p>
+            </section>
+
+            <section>
+                <h2>🎯 THE 7 COMPLEMENTARY INCOME SOURCES</h2>
+
+                <h3>SOURCE #1: Strategic Subcontracting</h3>
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>CONCEPT:</strong> Take loads you can't handle yourself and assign them to trusted carriers.</p>
+                    <p><strong>MODEL:</strong></p>
+                    <ul>
+                        <li>Broker offers: $1,500</li>
+                        <li>You can't take it (already have a load)</li>
+                        <li>Subcontract to another carrier for: $1,200</li>
+                        <li><strong>Your profit: $300 (without driving)</strong></li>
+                    </ul>
+                    <p><strong>REALISTIC NUMBERS:</strong><br>
+                        4-6 loads/month × $200-350 margin = <strong>$800-2,100/month extra</strong><br>
+                        Time: 5-8 hrs/month</p>
+                    <p style="margin:0"><strong>REQUIREMENTS:</strong> Broker authority ($300 + $75K bond), or informal dispatch service, 3-5 trusted carriers in your network</p>
+                </div>
+
+                <h3>SOURCE #2: Specialized Premium Services</h3>
+                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>CONCEPT:</strong> Offer services that 90% of carriers do NOT offer. Charge a premium.
+                    </p>
+
+                    <table style="margin-top:1rem">
+                        <thead>
+                            <tr>
+                                <th>SERVICE</th>
+                                <th>PREMIUM</th>
+                                <th>EXTRA/MONTH</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>White Glove Service</strong><br>Art, delicate equipment, packaging</td>
+                                <td>+$0.40-0.80/mi</td>
+                                <td>$800-2,400</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Same-Day Medical</strong><br>Samples, equipment, medications</td>
+                                <td>+$0.50-1.00/mi</td>
+                                <td>$1,080-1,350</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Hot Shot Automotive</strong><br>Critical parts, line-down</td>
+                                <td>$2.00-3.50/mi</td>
+                                <td>$5,000-8,000</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Photography/Inspection</strong><br>Detailed photos, reports</td>
+                                <td>+$25-75/load</td>
+                                <td>$800</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>SOURCE #3: Consulting and Training</h3>
+                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>CONCEPT:</strong> Your experience has VALUE. Teach others what you know.</p>
+                    <ul>
+                        <li><strong>1-on-1 Coaching:</strong> $100-150/hr, 2-4 clients/month = $400-800/month</li>
+                        <li><strong>Digital Course/eBook:</strong> $47-97, 5-10 sales/month = $235-970/month (passive)</li>
+                        <li><strong>Dispatch Service:</strong> 3-5 carriers × $200/week = $2,400-4,000/month</li>
+                        <li><strong>YouTube/Blog:</strong> $0-500/month year 1, $1K-5K/month year 3+ (compounding)</li>
+                    </ul>
+                </div>
+
+                <h3>SOURCE #4: Referrals and Commissions</h3>
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>CONCEPT:</strong> Earn commission by referring clients/services.</p>
+                    <ul>
+                        <li><strong>Carrier referrals to brokers:</strong> $200-500 per referral = $300-600/month</li>
+                        <li><strong>Smart Load affiliate:</strong> 20% recurring commission, 10 referrals = $30/month passive</li>
+                        <li><strong>Factoring Services:</strong> $500-1,000 one-time per client</li>
+                        <li><strong>Insurance/ELD/Tech:</strong> $50-300 per client</li>
+                    </ul>
+                    <p style="margin:0"><strong>TOTAL POTENTIAL: $500-2,000/month</strong> (with active network)</p>
+                </div>
+
+                <h3>SOURCE #5: Maintenance/Detailing Services</h3>
+                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>CONCEPT:</strong> If you have the space and skills, offer services to other carriers.
+                    </p>
+                    <ul>
+                        <li><strong>Mobile oil changes:</strong> $35-55 profit/change, 4-6/week = $560-1,320/month</li>
+                        <li><strong>Van detailing:</strong> $140-210 profit/van, 2-3/week = $1,120-2,520/month</li>
+                    </ul>
+                    <p style="margin:0"><strong>BEST FOR:</strong> Have a garage, enjoy mechanical work, local network</p>
+                </div>
+
+                <h3>SOURCE #6: Van Rental During Downtime</h3>
+                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>CONCEPT:</strong> Idle van = wasted asset. Rent it out when you're not using it.</p>
+                    <ul>
+                        <li><strong>Turo Commercial:</strong> $60-90/day net, 4-6 days/month = $240-540/month</li>
+                        <li><strong>Backup carrier:</strong> $150-200/day during vacations, 2 times/year =
+                            $1,500-2,000/year</li>
+                    </ul>
+                    <p style="margin:0">⚠️ <strong>Considerations:</strong> Additional insurance, wear and tear, damage risk, verify policy</p>
+                </div>
+
+                <h3>SOURCE #7: Products/Merchandise</h3>
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>CONCEPT:</strong> If you build a brand, it can be monetized.</p>
+                    <ul style="margin:0">
+                        <li><strong>Community merch:</strong> T-shirts, hats, stickers (print-on-demand) =
+                            $100-300/month</li>
+                        <li><strong>Useful products:</strong> Van organizers, custom load locks = Niche but scalable</li>
+                    </ul>
+                    <p style="margin-top:1rem;margin-bottom:0"><strong>BEST FOR:</strong> Already have an online presence, engaged community</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>📊 DIVERSIFICATION STRATEGY</h2>
+
+                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
+                    <p style="font-weight:700;text-align:center;font-size:1.1rem;margin-bottom:1rem">DON'T DO
+                        EVERYTHING AT ONCE</p>
+
+                    <p><strong>PHASE 1 (Months 1-6):</strong></p>
+                    <ul>
+                        <li>Keep expediting as 100% of income</li>
+                        <li>Pick ONE complementary source</li>
+                        <li>Example: White glove service</li>
+                        <li><strong>Goal: +$500-1,000/month additional</strong></li>
+                    </ul>
+
+                    <p><strong>PHASE 2 (Months 7-12):</strong></p>
+                    <ul>
+                        <li>Expediting: 80-85% of income</li>
+                        <li>Source 1 established: 10-15%</li>
+                        <li>Add Source 2 (e.g., referrals + consulting)</li>
+                        <li><strong>Goal: +$1,000-1,500/month total additional</strong></li>
+                    </ul>
+
+                    <p><strong>PHASE 3 (Year 2):</strong></p>
+                    <ul style="margin:0">
+                        <li>Expediting: 70-75% of income</li>
+                        <li>Complementary sources: 25-30%</li>
+                        <li>Optimize what works, cut what doesn't</li>
+                        <li><strong>Goal: +$1,500-2,500/month additional</strong></li>
+                    </ul>
+
+                    <p
+                        style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1.5rem;margin-bottom:0;text-align:center;font-weight:700">
+                        <strong>YEAR 2 RESULT:</strong><br>
+                        Expediting income: $5,500/month<br>
+                        Additional income: $2,000/month<br>
+                        <span style="color:#FFD700;font-size:1.25rem">TOTAL: $7,500/month (+36%)</span><br>
+                        Less dependence on driving alone
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 KEY TAKEAWAY</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Diversification ≠ Distraction</p>
+
+                    <div style="text-align:left;max-width:600px;margin:0 auto">
+                        <p><strong>The 7 complementary sources:</strong></p>
+                        <ol>
+                            <li>Subcontracting: $800-2,100/month</li>
+                            <li>Premium services: $800-8,000/month</li>
+                            <li>Consulting: $400-4,000/month</li>
+                            <li>Referrals: $500-2,000/month</li>
+                            <li>Maintenance: $560-2,520/month</li>
+                            <li>Van rental: $240-2,000/year</li>
+                            <li>Products: $100-300/month</li>
+                        </ol>
+
+                        <hr style="border-color:rgba(255,255,255,.2);margin:1.5rem 0">
+
+                        <p><strong>Implementation strategy:</strong></p>
+                        <ul>
+                            <li><strong>Phase 1 (Months 1-6):</strong> +$500-1,000/month (one source)</li>
+                            <li><strong>Phase 2 (Months 7-12):</strong> +$1,000-1,500/month (two sources)</li>
+                            <li><strong>Phase 3 (Year 2):</strong> +$1,500-2,500/month (optimized)</li>
+                        </ul>
+
+                        <p
+                            style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
+                            <strong>IT'S NOT ABOUT:</strong><br>
+                            ❌ Working more hours<br>
+                            ❌ Replacing expediting<br>
+                            ❌ Doing everything at once<br><br>
+                            <strong style="color:#FFD700">IT'S ABOUT:</strong><br>
+                            ✅ Leveraging what you already have<br>
+                            ✅ Multiple paths to income<br>
+                            ✅ Progressive building<br>
+                            ✅ Assets that scale
+                        </p>
+
+                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">
+                            Your expediting = Solid foundation<br>
+                            Complementary sources = Upside<br><br>
+                            <span style="color:#FFD700">Together = Resilient, scalable business</span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn-en" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as Complete</button>
+            <nav class="lesson-nav">
+                <a href="index.html" class="btn btn-secondary">← Back to Module</a>
+                <a href="lesson-2.html" class="btn btn-primary">Next: Premium Niches →</a>
+            </nav>
+        </footer>
+        </div>
+        <!-- ======== END ENGLISH ======== -->
+
     </article>
 
     <script src="../js/academy.js"></script>
     <script>
-        const MODULE_NUM = 7, LESSON_NUM = 1; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true; alert('¡Lección PRO completada! 💰7 fuentes de ingreso complementarias:1. Subcontratación ($800-2,100/mes)2. Servicios premium ($800-8,000/mes)3. Consultoría ($400-4,000/mes)4. Referidos ($500-2,000/mes)5. Mantenimiento ($560-2,520/mes)6. Alquiler van ($240-2,000/año)7. Productos ($100-300/mes)Estrategia: Una fuente a la vez.No reemplazar, COMPLEMENTAR.') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true } });
+        const MODULE_NUM = 7, LESSON_NUM = 1;
+
+        function markLessonComplete() {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress) {
+                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.disabled = true;
+                });
+                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.disabled = true;
+                });
+            }
+        });
     </script>
+
+  <script>
+    // Academy bilingual content toggle
+    (function applyAcademyLang() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    })();
+    document.addEventListener('languageChanged', function() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    });
+  </script>
+
 </body>
 
 </html>

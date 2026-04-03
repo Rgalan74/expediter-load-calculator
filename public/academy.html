@@ -1,8 +1,8 @@
-﻿<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
+  <meta charset="UTF-8" />
 
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-EK7NM7PJE2"></script>
@@ -12,438 +12,383 @@
     gtag('js', new Date());
     gtag('config', 'G-EK7NM7PJE2');
   </script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description"
-        content="Smart Load Academia - Aprende a pensar como un operador rentable con nuestro centro de aprendizaje interactivo." />
-    <title>Smart Load Academia | Centro de Aprendizaje</title>
-  <!-- Canonical Link -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Smart Load Academy - Learn to think like a profitable operator with our interactive learning center." />
+  <title>Smart Load Academy | Learning Center</title>
   <link rel="canonical" href="https://app.smartloadsolution.com/academy.html" />
-
-  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://app.smartloadsolution.com/academy.html" />
-  <meta property="og:title" content="Smart Load Academia | Centro de Aprendizaje" />
-  <meta property="og:description" content="Smart Load Academia - Aprende a pensar como un operador rentable con nuestro centro de aprendizaje interactivo." />
+  <meta property="og:title" content="Smart Load Academy | Learning Center" />
+  <meta property="og:description" content="Smart Load Academy - Learn to think like a profitable operator with our interactive learning center." />
   <meta property="og:image" content="https://app.smartloadsolution.com/img/hero-bg.png" />
+  <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://app.smartloadsolution.com/academy.html" />
-  <meta property="twitter:title" content="Smart Load Academia | Centro de Aprendizaje" />
-  <meta property="twitter:description" content="Smart Load Academia - Aprende a pensar como un operador rentable con nuestro centro de aprendizaje interactivo." />
-  <meta property="twitter:image" content="https://app.smartloadsolution.com/img/hero-bg.png" />
+  <link rel="icon" type="image/webp" href="img/logo-app.webp" />
+  <link rel="apple-touch-icon" href="img/logo-app.png" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="academy/css/academy.css">
+  <script src="js/i18n/language-manager.js"></script>
 
-    <link rel="icon" type="image/png" href="img/logo-app.png" />
-    <link rel="apple-touch-icon" href="img/logo-app.png" />
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="academy/css/academy.css">
-
-    <style>
-        /* Same design system as index.html */
-        :root {
-            --bg-dark: #0a0a0f;
-            --bg-darker: #050508;
-            --bg-card: #141414;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0b0;
-            --primary-cyan: #00D9FF;
-            --primary-orange: #FF6B35;
-            --gradient-primary: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-primary);
-        }
-
-        .gradient-text {
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        header {
-            top: 0;
-            z-index: 1000;
-            padding: 1.25rem 0;
-        }
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-
-        .glass {
-            background: rgba(20, 20, 20, 0.6);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-    </style>
+  <style>
+    :root {
+      --bg-dark: #0a0a0f;
+      --bg-darker: #050508;
+      --bg-card: #141414;
+      --text-primary: #ffffff;
+      --text-secondary: #b0b0b0;
+      --primary-cyan: #00D9FF;
+      --primary-orange: #FF6B35;
+      --gradient-primary: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg-dark); color: var(--text-primary); }
+    .gradient-text { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+    .glass { background: rgba(20,20,20,0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
+    header { top: 0; z-index: 1000; padding: 1.25rem 0; }
+  </style>
 </head>
 
 <body class="bg-animated">
 
-    <!-- HEADER -->
-    <header class="glass"
-        style="position: relative; background-image: url('img/header-background.PNG'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-        <div class="container" style="position: relative; z-index: 1;">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <img src="img/logo-app.webp" alt="Smart Load Solution Logo" class="h-10 md:h-12 w-auto"
-                        onerror="this.src='img/logo-app.png'" />
-                    <span class="text-xl md:text-2xl font-bold">Smart Load Academia</span>
-                </div>
-
-                <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
-                    <a href="index.html" class="text-gray-300 hover:text-white transition">Inicio</a>
-                    <a href="resources.html" class="text-gray-300 hover:text-white transition">Recursos</a>
-                    <a href="academy.html" class="text-white">Academia</a>
-                    <a href="app.html" class="text-white bg-orange-500 hover:bg-orange-600 transition px-4 py-2 rounded-lg font-semibold">← Volver a la App</a>
-                </nav>
-
-                <button id="mobileMenuBtn" class="md:hidden text-white">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
+  <!-- HEADER -->
+  <header class="glass" style="position: relative; background-image: url('img/header-background.PNG'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+    <div class="container" style="position: relative; z-index: 1;">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:0.75rem;">
+            <img src="img/logo-app.webp" alt="Smart Load Solution Logo" class="h-10 md:h-12 w-auto" onerror="this.src='img/logo-app.png'" />
+            <span class="text-xl md:text-2xl font-bold">Smart Load Academy</span>
+          </a>
         </div>
-    </header>
 
-    <!-- HERO SECTION -->
-    <section class="academy-hero">
-        <div class="container">
-            <div class="text-center max-w-4xl mx-auto py-20">
-                <h1 class="text-5xl md:text-6xl font-black mb-6">
-                    📚 Smart Load <span class="gradient-text">Academia</span>
-                </h1>
-                <p class="text-2xl text-gray-300 mb-8">
-                    Aprende a pensar como un operador rentable<br>(no como un chofer más)
-                </p>
+        <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
+          <a href="index.html" class="text-gray-300 hover:text-white transition" data-i18n="academy.nav_home">Home</a>
+          <a href="resources.html" class="text-gray-300 hover:text-white transition" data-i18n="academy.nav_resources">Resources</a>
+          <a href="academy.html" class="text-white" data-i18n="academy.nav_academy">Academy</a>
+          <a href="app.html" class="text-white bg-orange-500 hover:bg-orange-600 transition px-4 py-2 rounded-lg font-semibold" data-i18n="academy.nav_back_app">← Back to App</a>
+        </nav>
 
-                <!-- Progress Overview -->
-                <div class="progress-overview">
-                    <div class="stat-card">
-                        <div class="stat-value" id="completedModules">0/8</div>
-                        <div class="stat-label">Módulos Completados</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="overallProgress">0%</div>
-                        <div class="stat-label">Progreso General</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="badgesEarned">0</div>
-                        <div class="stat-label">Insignias Ganadas</div>
-                    </div>
-                </div>
-            </div>
+        <div class="hidden md:flex items-center gap-3">
+          <div style="display:flex;align-items:center;gap:0.25rem;font-size:0.8rem;font-weight:600;">
+            <button id="btn-en" onclick="window.i18n.setLanguage('en')" style="background:none;border:none;cursor:pointer;padding:0.2rem 0.4rem;border-radius:4px;color:#9ca3af;transition:color 0.2s;">EN</button>
+            <span style="color:#4b5563;">|</span>
+            <button id="btn-es" onclick="window.i18n.setLanguage('es')" style="background:none;border:none;cursor:pointer;padding:0.2rem 0.4rem;border-radius:4px;color:#9ca3af;transition:color 0.2s;">ES</button>
+          </div>
         </div>
-    </section>
 
-    <!-- MODULES GRID -->
-    <section class="modules-section">
-        <div class="container">
-            <div class="modules-grid">
+        <button id="mobileMenuBtn" class="md:hidden text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
 
-                <!-- START HERE - QUICK WIN (Featured) -->
-                <div class="module-card free"
-                    style="grid-column: 1 / -1; background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1)); border: 2px solid rgba(255, 215, 0, 0.3);">
-                    <span class="module-badge"
-                        style="background: linear-gradient(90deg, #FFD700, #FFA500); color: #000;">💥 EMPIEZA
-                        AQUÍ</span>
-                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: center;">
-                        <div style="text-align: center;">
-                            <div style="font-size: 4rem; margin-bottom: 1rem;">🎯</div>
-                            <div
-                                style="font-size: 0.875rem; color: #888; text-transform: uppercase; letter-spacing: 1px;">
-                                Victoria Rápida</div>
-                        </div>
-                        <div>
-                            <h3 style="font-size: 1.75rem; font-weight: 900; margin-bottom: 0.75rem; color: #FFD700;">El
-                                error #1 que cometen los expediters</h3>
-                            <p style="color: #d0d0d0; margin-bottom: 1rem; font-size: 1.1rem;">
-                                💰 <strong>5 minutos que te pueden ahorrar $500 esta semana</strong>
-                            </p>
-                            <div class="module-meta" style="margin-bottom: 1.5rem;">
-                                <span>⏱️ 5 minutos</span>
-                                <span>🟢 Muy fácil</span>
-                                <span>📖 1 lección</span>
-                            </div>
-                            <a href="academy/start-here/" class="btn-module"
-                                style="background: linear-gradient(90deg, #FFD700, #FFA500); color: #000; max-width: 300px;">Empezar
-                                Ahora →</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- MODULE 1 - FREE -->
-                <div class="module-card free">
-                    <span class="module-badge free">Gratis</span>
-                    <div class="module-number">Módulo 1</div>
-                    <div class="module-icon">🎓</div>
-                    <h3 class="module-title">Mentalidad & Fundamentos</h3>
-                    <p class="module-desc">Antes de usar la app, aprende a pensar con números reales</p>
-
-                    <div class="module-meta">
-                        <span>⏱️ 35 min</span>
-                        <span>🟢 Fácil</span>
-                        <span>📖 5 lecciones</span>
-                    </div>
-
-                    <div class="progress-bar">
-                        <div class="progress-fill" data-module="1" style="width: 0%"></div>
-                    </div>
-                    <div class="progress-text" data-module="1">0/5 lecciones</div>
-
-                    <a href="academy/module-1/" class="btn-module">Empezar →</a>
-                </div>
-
-                <!-- MODULE 2 - FREE -->
-                <div class="module-card free">
-                    <span class="module-badge free">Gratis</span>
-                    <div class="module-number">Módulo 2</div>
-                    <div class="module-icon">📊</div>
-                    <h3 class="module-title">Dominando los Números</h3>
-                    <p class="module-desc">Conecta la teoría con tu app (Calculator)</p>
-
-                    <div class="module-meta">
-                        <span>📖 5 lecciones</span>
-                        <span>⏱️ 35 min</span>
-                    </div>
-
-                    <div class="progress-bar">
-                        <div class="progress-fill" data-module="2" style="width: 0%"></div>
-                    </div>
-                    <div class="progress-text" data-module="2">0/5 lecciones</div>
-
-                    <a href="academy/module-2/" class="btn-module">Empezar →</a>
-                </div>
-
-                <!-- MODULE 3 - FREE -->
-                <div class="module-card free">
-                    <span class="module-badge free">Gratis</span>
-                    <div class="module-number">Módulo 3</div>
-                    <div class="module-icon">🗺️</div>
-                    <h3 class="module-title">Estrategia de Rutas & Zonas</h3>
-                    <p class="module-desc">Deja de rodar a ciegas</p>
-
-                    <div class="module-meta">
-                        <span>📖 5 lecciones</span>
-                        <span>⏱️ 40 min</span>
-                    </div>
-
-                    <div class="progress-bar">
-                        <div class="progress-fill" data-module="3" style="width: 0%"></div>
-                    </div>
-                    <div class="progress-text" data-module="3">0/5 lecciones</div>
-
-                    <a href="academy/module-3/" class="btn-module">Empezar →</a>
-                </div>
-
-                <!-- MODULE 4 - LOCKED (Pro) -->
-                <div class="module-card locked">
-                    <span class="module-badge locked">🔒 Pro</span>
-                    <div class="module-number">Módulo 4</div>
-                    <div class="module-icon">💰</div>
-                    <h3 class="module-title">Negociación & Rates</h3>
-                    <p class="module-desc">No es suerte, es estrategia</p>
-
-                    <div class="module-meta">
-                        <span>📖 5 lecciones</span>
-                        <span>⏱️ 35 min</span>
-                    </div>
-
-                    <div class="locked-overlay">
-                        <div class="lock-icon">🔒</div>
-                        <p>Disponible en Plan Pro</p>
-                    </div>
-
-                    <a href="plans.html" class="btn-module locked">Desbloquear →</a>
-                </div>
-
-                <!-- MODULE 5 - LOCKED (Pro) -->
-                <div class="module-card locked">
-                    <span class="module-badge locked">🔒 Pro</span>
-                    <div class="module-number">Módulo 5</div>
-                    <div class="module-icon">📈</div>
-                    <h3 class="module-title">Análisis Financiero</h3>
-                    <p class="module-desc">Dominio del Panel e Historial</p>
-
-                    <div class="module-meta">
-                        <span>📖 5 lecciones</span>
-                        <span>⏱️ 40 min</span>
-                    </div>
-
-                    <div class="locked-overlay">
-                        <div class="lock-icon">🔒</div>
-                        <p>Disponible en Plan Pro</p>
-                    </div>
-
-                    <a href="plans.html" class="btn-module locked">Desbloquear →</a>
-                </div>
-
-                <!-- MODULE 6 - LOCKED (Pro) -->
-                <div class="module-card locked">
-                    <span class="module-badge locked">🔒 Pro</span>
-                    <div class="module-number">Módulo 6</div>
-                    <div class="module-icon">🤖</div>
-                    <h3 class="module-title">Inteligencia con Lex AI</h3>
-                    <p class="module-desc">La ventaja competitiva</p>
-
-                    <div class="module-meta">
-                        <span>⏱️ 30 min</span>
-                        <span>🟡 Intermedio</span>
-                        <span>📖 5 lecciones</span>
-                    </div>
-
-                    <div class="locked-overlay">
-                        <div class="lock-icon">🔒</div>
-                        <p>Disponible en Plan Pro</p>
-                    </div>
-
-                    <a href="plans.html" class="btn-module locked">Desbloquear →</a>
-                </div>
-
-                <!-- MODULE 7 - LOCKED (Premium) -->
-                <div class="module-card locked">
-                    <span class="module-badge premium">🔒 Premium</span>
-                    <div class="module-number">Módulo 7</div>
-                    <div class="module-icon">⚙️</div>
-                    <h3 class="module-title">Optimización Operativa</h3>
-                    <p class="module-desc">Ganar más sin correr más</p>
-
-                    <div class="module-meta">
-                        <span>📖 5 lecciones</span>
-                        <span>⏱️ 35 min</span>
-                    </div>
-
-                    <div class="locked-overlay">
-                        <div class="lock-icon">🔒</div>
-                        <p>Disponible en Plan Premium</p>
-                    </div>
-
-                    <a href="plans.html" class="btn-module locked">Desbloquear →</a>
-                </div>
-
-                <!-- MODULE 8 - LOCKED (Premium) -->
-                <div class="module-card locked">
-                    <span class="module-badge premium">🔒 Premium</span>
-                    <div class="module-number">Módulo 8</div>
-                    <div class="module-icon">🚀</div>
-                    <h3 class="module-title">Nivel Pro (Avanzado)</h3>
-                    <p class="module-desc">Escala sin quemarte</p>
-
-                    <div class="module-meta">
-                        <span>📖 5 lecciones</span>
-                        <span>⏱️ 40 min</span>
-                    </div>
-
-                    <div class="locked-overlay">
-                        <div class="lock-icon">🔒</div>
-                        <p>Disponible en Plan Premium</p>
-                    </div>
-
-                    <a href="plans.html" class="btn-module locked">Desbloquear →</a>
-                </div>
-
-            </div>
+      <!-- Mobile menu -->
+      <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 space-y-4">
+        <a href="index.html" class="block text-gray-300 hover:text-white transition" data-i18n="academy.nav_home">Home</a>
+        <a href="resources.html" class="block text-gray-300 hover:text-white transition" data-i18n="academy.nav_resources">Resources</a>
+        <a href="academy.html" class="block text-white" data-i18n="academy.nav_academy">Academy</a>
+        <a href="app.html" class="block text-white bg-orange-500 hover:bg-orange-600 transition px-4 py-2 rounded-lg font-semibold text-center" data-i18n="academy.nav_back_app">← Back to App</a>
+        <div class="flex items-center gap-2 px-2 py-2 mt-2 border-t border-gray-700">
+          <button id="btn-en-mobile" onclick="window.i18n.setLanguage('en')" style="background:none;border:none;cursor:pointer;padding:0.2rem 0.5rem;border-radius:4px;color:#9ca3af;font-weight:600;font-size:0.875rem;">EN</button>
+          <span style="color:#4b5563;">|</span>
+          <button id="btn-es-mobile" onclick="window.i18n.setLanguage('es')" style="background:none;border:none;cursor:pointer;padding:0.2rem 0.5rem;border-radius:4px;color:#9ca3af;font-weight:600;font-size:0.875rem;">ES</button>
         </div>
-    </section>
+      </div>
+    </div>
+  </header>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <script src="js/config.js"></script>
-    <script src="js/userPlans.js"></script>
-    <script src="academy/js/academy.js"></script>
+  <!-- HERO SECTION -->
+  <section class="academy-hero">
+    <div class="container">
+      <div class="text-center max-w-4xl mx-auto py-20">
+        <h1 class="text-5xl md:text-6xl font-black mb-6">
+          📚 Smart Load <span class="gradient-text">Academy</span>
+        </h1>
+        <p class="text-2xl text-gray-300 mb-8" data-i18n="academy.hero_sub">Learn to think like a profitable operator (not just another driver)</p>
 
-    <script>
-        // === AUTH GUARD + PLAN GATE ===
-        // Wait for config.js to initialize Firebase App
-        const checkFirebase = setInterval(() => {
-            if (firebase.apps.length > 0) {
-                clearInterval(checkFirebase);
-                firebase.auth().onAuthStateChanged(async (user) => {
-                    if (!user) {
-                        // Modo sin login (Módulos 1-3 libres, progreso en localStorage)
-                        debugLog('[ACADEMY] Usuario invitado. Activando modo local.');
-                        // Redirigir módulos premium a login si no están logueados
-                        document.querySelectorAll('.module-card.locked .btn-module').forEach(btn => {
-                            btn.href = 'auth.html?redirect=academy.html';
-                            btn.textContent = 'Inicia sesión para ver →';
-                        });
-                        AcademyProgress.setUser(null);
-                        AcademyProgress.init();
-                        return;
-                    }
+        <!-- Progress Overview -->
+        <div class="progress-overview">
+          <div class="stat-card">
+            <div class="stat-value" id="completedModules">0/8</div>
+            <div class="stat-label" data-i18n="academy.stat_modules">Modules Completed</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="overallProgress">0%</div>
+            <div class="stat-label" data-i18n="academy.stat_progress">Overall Progress</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="badgesEarned">0</div>
+            <div class="stat-label" data-i18n="academy.stat_badges">Badges Earned</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-                    // Obtener plan del usuario
-                    let plan;
-                    try {
-                        plan = await getUserPlan(user.uid);
-                    } catch (e) {
-                        debugLog('[ACADEMY] Error obteniendo plan:', e);
-                        plan = window.PLANS.free;
-                    }
+  <!-- MODULES GRID -->
+  <section class="modules-section">
+    <div class="container">
+      <div class="modules-grid">
 
-                    const allowedModules = plan.limits?.academyModules || [0, 1, 2, 3];
+        <!-- START HERE - QUICK WIN (Featured) -->
+        <div class="module-card free" style="grid-column: 1 / -1; background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,165,0,0.1)); border: 2px solid rgba(255,215,0,0.3);">
+          <span class="module-badge" style="background: linear-gradient(90deg, #FFD700, #FFA500); color: #000;" data-i18n="academy.start_badge">💥 START HERE</span>
+          <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: center;">
+            <div style="text-align: center;">
+              <div style="font-size: 4rem; margin-bottom: 1rem;">🎯</div>
+              <div style="font-size: 0.875rem; color: #888; text-transform: uppercase; letter-spacing: 1px;" data-i18n="academy.start_label">Quick Win</div>
+            </div>
+            <div>
+              <h3 style="font-size: 1.75rem; font-weight: 900; margin-bottom: 0.75rem; color: #FFD700;" data-i18n="academy.start_title">The #1 mistake expediters make</h3>
+              <p style="color: #d0d0d0; margin-bottom: 1rem; font-size: 1.1rem;" data-i18n="academy.start_desc">💰 5 minutes that could save you $500 this week</p>
+              <div class="module-meta" style="margin-bottom: 1.5rem;">
+                <span data-i18n="academy.start_time">⏱️ 5 minutes</span>
+                <span data-i18n="academy.start_diff">🟢 Very easy</span>
+                <span data-i18n="academy.start_lessons">📖 1 lesson</span>
+              </div>
+              <a href="academy/start-here/" class="btn-module" style="background: linear-gradient(90deg, #FFD700, #FFA500); color: #000; max-width: 300px;" data-i18n="academy.start_btn">Start Now →</a>
+            </div>
+          </div>
+        </div>
 
-                    // Desbloquear dinámicamente los módulos del plan
-                    document.querySelectorAll('.module-card.locked').forEach(card => {
-                        const numEl = card.querySelector('.module-number');
-                        if (!numEl) return;
-                        const moduleNum = parseInt(numEl.textContent.replace('Módulo', '').trim());
-                        if (isNaN(moduleNum)) return;
+        <!-- MODULE 1 - FREE -->
+        <div class="module-card free">
+          <span class="module-badge free" data-i18n="academy.badge_free">Free</span>
+          <div class="module-number" data-i18n="academy.m1_num">Module 1</div>
+          <div class="module-icon">🎓</div>
+          <h3 class="module-title" data-i18n="academy.m1_title">Mindset & Fundamentals</h3>
+          <p class="module-desc" data-i18n="academy.m1_desc">Before using the app, learn to think with real numbers</p>
+          <div class="module-meta">
+            <span data-i18n="academy.m1_time">⏱️ 35 min</span>
+            <span data-i18n="academy.m1_diff">🟢 Easy</span>
+            <span data-i18n="academy.m1_lessons">📖 5 lessons</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" data-module="1" style="width: 0%"></div></div>
+          <div class="progress-text" data-module="1">0/5</div>
+          <a href="academy/module-1/" class="btn-module" data-i18n="academy.btn_start">Start →</a>
+        </div>
 
-                        if (allowedModules.includes(moduleNum)) {
-                            // Desbloquear visualmente
-                            card.classList.remove('locked');
-                            card.querySelector('.locked-overlay')?.remove();
-                            const badge = card.querySelector('.module-badge');
-                            if (badge) {
-                                badge.textContent = 'Profesional';
-                                badge.classList.remove('locked', 'premium');
-                                badge.classList.add('professional');
-                            }
-                            const btn = card.querySelector('.btn-module');
-                            if (btn) {
-                                btn.classList.remove('locked');
-                                btn.href = `academy/module-${moduleNum}/`;
-                                btn.textContent = 'Empezar →';
-                            }
-                        }
-                    });
+        <!-- MODULE 2 - FREE -->
+        <div class="module-card free">
+          <span class="module-badge free" data-i18n="academy.badge_free">Free</span>
+          <div class="module-number" data-i18n="academy.m2_num">Module 2</div>
+          <div class="module-icon">📊</div>
+          <h3 class="module-title" data-i18n="academy.m2_title">Mastering the Numbers</h3>
+          <p class="module-desc" data-i18n="academy.m2_desc">Connect the theory with your app (Calculator)</p>
+          <div class="module-meta">
+            <span data-i18n="academy.m2_lessons">📖 5 lessons</span>
+            <span data-i18n="academy.m2_time">⏱️ 35 min</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" data-module="2" style="width: 0%"></div></div>
+          <div class="progress-text" data-module="2">0/5</div>
+          <a href="academy/module-2/" class="btn-module" data-i18n="academy.btn_start">Start →</a>
+        </div>
 
-                    // Inicializar progreso con Firebase
-                    AcademyProgress.setUser(user.uid);
-                    AcademyProgress.init();
-                }); // End onAuthStateChanged
-            } // End if (firebase.apps.length > 0)
-        }, 100); // Check every 100ms
+        <!-- MODULE 3 - FREE -->
+        <div class="module-card free">
+          <span class="module-badge free" data-i18n="academy.badge_free">Free</span>
+          <div class="module-number" data-i18n="academy.m3_num">Module 3</div>
+          <div class="module-icon">🗺️</div>
+          <h3 class="module-title" data-i18n="academy.m3_title">Route & Zone Strategy</h3>
+          <p class="module-desc" data-i18n="academy.m3_desc">Stop riding blind</p>
+          <div class="module-meta">
+            <span data-i18n="academy.m3_lessons">📖 5 lessons</span>
+            <span data-i18n="academy.m3_time">⏱️ 40 min</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" data-module="3" style="width: 0%"></div></div>
+          <div class="progress-text" data-module="3">0/5</div>
+          <a href="academy/module-3/" class="btn-module" data-i18n="academy.btn_start">Start →</a>
+        </div>
 
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', () => {
-                alert('Mobile menu (implement similar to index.html)');
+        <!-- MODULE 4 - LOCKED (Pro) -->
+        <div class="module-card locked">
+          <span class="module-badge locked" data-i18n="academy.badge_pro">🔒 Pro</span>
+          <div class="module-number" data-i18n="academy.m4_num">Module 4</div>
+          <div class="module-icon">💰</div>
+          <h3 class="module-title" data-i18n="academy.m4_title">Negotiation & Rates</h3>
+          <p class="module-desc" data-i18n="academy.m4_desc">It's not luck, it's strategy</p>
+          <div class="module-meta">
+            <span data-i18n="academy.m4_lessons">📖 5 lessons</span>
+            <span data-i18n="academy.m4_time">⏱️ 35 min</span>
+          </div>
+          <div class="locked-overlay">
+            <div class="lock-icon">🔒</div>
+            <p data-i18n="academy.locked_pro">Available in Pro Plan</p>
+          </div>
+          <a href="plans.html" class="btn-module locked" data-i18n="academy.btn_unlock">Unlock →</a>
+        </div>
+
+        <!-- MODULE 5 - LOCKED (Pro) -->
+        <div class="module-card locked">
+          <span class="module-badge locked" data-i18n="academy.badge_pro">🔒 Pro</span>
+          <div class="module-number" data-i18n="academy.m5_num">Module 5</div>
+          <div class="module-icon">📈</div>
+          <h3 class="module-title" data-i18n="academy.m5_title">Financial Analysis</h3>
+          <p class="module-desc" data-i18n="academy.m5_desc">Dashboard & History mastery</p>
+          <div class="module-meta">
+            <span data-i18n="academy.m5_lessons">📖 5 lessons</span>
+            <span data-i18n="academy.m5_time">⏱️ 40 min</span>
+          </div>
+          <div class="locked-overlay">
+            <div class="lock-icon">🔒</div>
+            <p data-i18n="academy.locked_pro">Available in Pro Plan</p>
+          </div>
+          <a href="plans.html" class="btn-module locked" data-i18n="academy.btn_unlock">Unlock →</a>
+        </div>
+
+        <!-- MODULE 6 - LOCKED (Pro) -->
+        <div class="module-card locked">
+          <span class="module-badge locked" data-i18n="academy.badge_pro">🔒 Pro</span>
+          <div class="module-number" data-i18n="academy.m6_num">Module 6</div>
+          <div class="module-icon">🤖</div>
+          <h3 class="module-title" data-i18n="academy.m6_title">Intelligence with Lex AI</h3>
+          <p class="module-desc" data-i18n="academy.m6_desc">The competitive advantage</p>
+          <div class="module-meta">
+            <span data-i18n="academy.m6_time">⏱️ 30 min</span>
+            <span data-i18n="academy.m6_diff">🟡 Intermediate</span>
+            <span data-i18n="academy.m6_lessons">📖 5 lessons</span>
+          </div>
+          <div class="locked-overlay">
+            <div class="lock-icon">🔒</div>
+            <p data-i18n="academy.locked_pro">Available in Pro Plan</p>
+          </div>
+          <a href="plans.html" class="btn-module locked" data-i18n="academy.btn_unlock">Unlock →</a>
+        </div>
+
+        <!-- MODULE 7 - LOCKED (Premium) -->
+        <div class="module-card locked">
+          <span class="module-badge premium" data-i18n="academy.badge_premium">🔒 Premium</span>
+          <div class="module-number" data-i18n="academy.m7_num">Module 7</div>
+          <div class="module-icon">⚙️</div>
+          <h3 class="module-title" data-i18n="academy.m7_title">Operational Optimization</h3>
+          <p class="module-desc" data-i18n="academy.m7_desc">Earn more without running more</p>
+          <div class="module-meta">
+            <span data-i18n="academy.m7_lessons">📖 5 lessons</span>
+            <span data-i18n="academy.m7_time">⏱️ 35 min</span>
+          </div>
+          <div class="locked-overlay">
+            <div class="lock-icon">🔒</div>
+            <p data-i18n="academy.locked_premium">Available in Premium Plan</p>
+          </div>
+          <a href="plans.html" class="btn-module locked" data-i18n="academy.btn_unlock">Unlock →</a>
+        </div>
+
+        <!-- MODULE 8 - LOCKED (Premium) -->
+        <div class="module-card locked">
+          <span class="module-badge premium" data-i18n="academy.badge_premium">🔒 Premium</span>
+          <div class="module-number" data-i18n="academy.m8_num">Module 8</div>
+          <div class="module-icon">🚀</div>
+          <h3 class="module-title" data-i18n="academy.m8_title">Pro Level (Advanced)</h3>
+          <p class="module-desc" data-i18n="academy.m8_desc">Scale without burning out</p>
+          <div class="module-meta">
+            <span data-i18n="academy.m8_lessons">📖 5 lessons</span>
+            <span data-i18n="academy.m8_time">⏱️ 40 min</span>
+          </div>
+          <div class="locked-overlay">
+            <div class="lock-icon">🔒</div>
+            <p data-i18n="academy.locked_premium">Available in Premium Plan</p>
+          </div>
+          <a href="plans.html" class="btn-module locked" data-i18n="academy.btn_unlock">Unlock →</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/userPlans.js"></script>
+  <script src="academy/js/academy.js"></script>
+
+  <script>
+    function t(key) { return window.i18n?.t(key) || key; }
+
+    // Mobile menu
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenuBtn?.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+
+    // Language toggle active state
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.i18n) {
+        window.i18n.init();
+        const isEs = (window.i18n.currentLang || 'en') === 'es';
+        const active = 'color:#00D9FF;', inactive = 'color:#9ca3af;';
+        document.getElementById('btn-en').style.cssText += isEs ? inactive : active;
+        document.getElementById('btn-es').style.cssText += isEs ? active : inactive;
+        const enM = document.getElementById('btn-en-mobile'), esM = document.getElementById('btn-es-mobile');
+        if (enM) enM.style.cssText += isEs ? inactive : active;
+        if (esM) esM.style.cssText += isEs ? active : inactive;
+      }
+    });
+
+    // AUTH GUARD + PLAN GATE
+    const checkFirebase = setInterval(() => {
+      if (firebase.apps.length > 0) {
+        clearInterval(checkFirebase);
+        firebase.auth().onAuthStateChanged(async (user) => {
+          if (!user) {
+            debugLog('[ACADEMY] Usuario invitado. Activando modo local.');
+            document.querySelectorAll('.module-card.locked .btn-module').forEach(btn => {
+              btn.href = 'auth.html?redirect=academy.html';
+              btn.setAttribute('data-i18n', 'academy.btn_login_to_view');
+              btn.textContent = t('academy.btn_login_to_view');
             });
-        }
-    </script>
+            AcademyProgress.setUser(null);
+            AcademyProgress.init();
+            return;
+          }
+
+          let plan;
+          try {
+            plan = await getUserPlan(user.uid);
+          } catch (e) {
+            debugLog('[ACADEMY] Error obteniendo plan:', e);
+            plan = window.PLANS.free;
+          }
+
+          const allowedModules = plan.limits?.academyModules || [0, 1, 2, 3];
+
+          document.querySelectorAll('.module-card.locked').forEach(card => {
+            const numEl = card.querySelector('.module-number');
+            if (!numEl) return;
+            const moduleNum = parseInt(numEl.textContent.replace(/[^0-9]/g, '').trim());
+            if (isNaN(moduleNum)) return;
+
+            if (allowedModules.includes(moduleNum)) {
+              card.classList.remove('locked');
+              card.querySelector('.locked-overlay')?.remove();
+              const badge = card.querySelector('.module-badge');
+              if (badge) {
+                badge.setAttribute('data-i18n', 'academy.badge_professional');
+                badge.textContent = t('academy.badge_professional');
+                badge.classList.remove('locked', 'premium');
+                badge.classList.add('professional');
+              }
+              const btn = card.querySelector('.btn-module');
+              if (btn) {
+                btn.classList.remove('locked');
+                btn.href = `academy/module-${moduleNum}/`;
+                btn.setAttribute('data-i18n', 'academy.btn_start');
+                btn.textContent = t('academy.btn_start');
+              }
+            }
+          });
+
+          AcademyProgress.setUser(user.uid);
+          AcademyProgress.init();
+        });
+      }
+    }, 100);
+  </script>
 
 </body>
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
@@ -13,15 +13,15 @@
     gtag('config', 'G-EK7NM7PJE2');
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Centro de soporte de SmartLoad Solution. Estamos aquí para ayudarte a resolver cualquier duda o problema." />
-  <title>Soporte | Smart Load Solution</title>
+  <meta name="description" content="SmartLoad Solution support center. We're here to help you resolve any questions or issues." />
+  <title>Support | Smart Load Solution</title>
   <link rel="canonical" href="https://smartloadsolution.com/support.html" />
 
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://smartloadsolution.com/support.html" />
-  <meta property="og:title" content="Soporte | Smart Load Solution" />
-  <meta property="og:description" content="Centro de soporte de SmartLoad Solution. Estamos aquí para ayudarte." />
-  <meta property="og:image" content="https://smartloadsolution.com/img/og-image-es.jpg" />
+  <meta property="og:title" content="Support | Smart Load Solution" />
+  <meta property="og:description" content="SmartLoad Solution support center. We're here to help you." />
+  <meta property="og:image" content="https://smartloadsolution.com/img/og-image.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
 
   <link rel="icon" type="image/png" href="img/logo-app.png" />
@@ -30,6 +30,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/landing-page.css?v=2">
+  <script src="js/i18n/language-manager.js"></script>
 
   <style>
     :root {
@@ -69,6 +70,10 @@
     }
     label { font-size: 0.875rem; color: #9ca3af; font-weight: 500; }
     select option { background: #1a1a2e; color: white; }
+    .lang-toggle { display: flex; align-items: center; gap: 0.25rem; font-size: 0.8rem; font-weight: 600; }
+    .lang-toggle button { background: none; border: none; cursor: pointer; padding: 0.2rem 0.4rem; border-radius: 4px; color: #9ca3af; transition: color 0.2s; }
+    .lang-toggle button.active { color: var(--primary-cyan); }
+    .lang-toggle .sep { color: #4b5563; }
   </style>
 </head>
 
@@ -83,14 +88,19 @@
           <span class="text-xl font-bold">Smart Load Solution</span>
         </a>
         <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
-          <a href="index.html" class="text-gray-300 hover:text-white transition">Inicio</a>
-          <a href="about.html" class="text-gray-300 hover:text-white transition">Acerca</a>
-          <a href="faq.html" class="text-gray-300 hover:text-white transition">FAQ</a>
-          <a href="plans.html" class="text-gray-300 hover:text-white transition">Planes</a>
+          <a href="index.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_home">Home</a>
+          <a href="about.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_about">About</a>
+          <a href="faq.html" class="text-gray-300 hover:text-white transition" data-i18n="about.footer_faq">FAQ</a>
+          <a href="plans.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_plans">Plans</a>
         </nav>
-        <a href="auth.html" class="hidden md:inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition">
-          Iniciar Sesión →
-        </a>
+        <div class="flex items-center gap-4">
+          <div class="lang-toggle hidden md:flex">
+            <button onclick="window.i18n.setLanguage('en')" id="btn-en" class="active">EN</button>
+            <span class="sep">|</span>
+            <button onclick="window.i18n.setLanguage('es')" id="btn-es">ES</button>
+          </div>
+          <a href="auth.html" class="hidden md:inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition" data-i18n="about.nav_login">Log In →</a>
+        </div>
       </div>
     </div>
   </header>
@@ -98,23 +108,23 @@
   <!-- HERO -->
   <section style="padding: 5rem 1.5rem 3rem; text-align: center;">
     <div style="max-width: 700px; margin: 0 auto;">
-      <p class="text-sm font-semibold mb-3" style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 0.1em;">Estamos aquí para ti</p>
+      <p class="text-sm font-semibold mb-3" style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 0.1em;" data-i18n="support.hero_eyebrow">We're Here for You</p>
       <h1 class="text-4xl md:text-5xl font-black mb-4">
-        Centro de <span class="gradient-text">Soporte</span>
+        <span class="gradient-text" data-i18n="support.hero_heading">Support Center</span>
       </h1>
-      <p class="text-gray-400 text-lg">¿Tienes un problema o pregunta? Cuéntanos y te respondemos lo antes posible.</p>
+      <p class="text-gray-400 text-lg" data-i18n="support.hero_sub">Have a problem or question? Tell us and we'll get back to you as soon as possible.</p>
     </div>
   </section>
 
-  <!-- OPCIONES DE CONTACTO -->
+  <!-- CONTACT OPTIONS -->
   <section style="padding: 0 1.5rem 3rem;">
     <div style="max-width: 900px; margin: 0 auto;">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
 
         <div class="support-card text-center">
           <div class="text-3xl mb-3">✉️</div>
-          <h3 class="font-bold text-white mb-1">Email</h3>
-          <p class="text-gray-400 text-sm mb-3">Respuesta en menos de 24 horas</p>
+          <h3 class="font-bold text-white mb-1" data-i18n="support.email_title">Email</h3>
+          <p class="text-gray-400 text-sm mb-3" data-i18n="support.email_sub">Response within 24 hours</p>
           <a href="mailto:galan.expediter@gmail.com" style="color: var(--primary-cyan); font-size: 0.875rem; font-weight: 600;">
             galan.expediter@gmail.com
           </a>
@@ -122,69 +132,68 @@
 
         <div class="support-card text-center">
           <div class="text-3xl mb-3">❓</div>
-          <h3 class="font-bold text-white mb-1">FAQ</h3>
-          <p class="text-gray-400 text-sm mb-3">Respuestas a preguntas comunes</p>
-          <a href="faq.html" style="color: var(--primary-cyan); font-size: 0.875rem; font-weight: 600;">
-            Ver preguntas frecuentes →
+          <h3 class="font-bold text-white mb-1" data-i18n="support.faq_title">FAQ</h3>
+          <p class="text-gray-400 text-sm mb-3" data-i18n="support.faq_sub">Answers to common questions</p>
+          <a href="faq.html" style="color: var(--primary-cyan); font-size: 0.875rem; font-weight: 600;" data-i18n="support.faq_link">
+            View frequently asked questions →
           </a>
         </div>
 
         <div class="support-card text-center">
           <div class="text-3xl mb-3">📚</div>
-          <h3 class="font-bold text-white mb-1">Recursos</h3>
-          <p class="text-gray-400 text-sm mb-3">Guías y tutoriales</p>
-          <a href="resources.html" style="color: var(--primary-cyan); font-size: 0.875rem; font-weight: 600;">
-            Centro de recursos →
+          <h3 class="font-bold text-white mb-1" data-i18n="support.resources_title">Resources</h3>
+          <p class="text-gray-400 text-sm mb-3" data-i18n="support.resources_sub">Guides and tutorials</p>
+          <a href="resources.html" style="color: var(--primary-cyan); font-size: 0.875rem; font-weight: 600;" data-i18n="support.resources_link">
+            Resource center →
           </a>
         </div>
 
       </div>
 
-      <!-- FORMULARIO -->
+      <!-- FORM -->
       <div class="support-card" style="max-width: 640px; margin: 0 auto;">
-        <h2 class="text-2xl font-bold mb-2">Envíanos un mensaje</h2>
-        <p class="text-gray-400 text-sm mb-6">Completa el formulario y te respondemos a la brevedad.</p>
+        <h2 class="text-2xl font-bold mb-2" data-i18n="support.form_heading">Send Us a Message</h2>
+        <p class="text-gray-400 text-sm mb-6" data-i18n="support.form_sub">Fill out the form and we'll get back to you shortly.</p>
 
         <form id="supportForm" onsubmit="handleSubmit(event)" novalidate>
           <div class="space-y-4">
 
             <div>
-              <label for="name">Nombre</label>
-              <input type="text" id="name" name="name" placeholder="Tu nombre completo" required />
+              <label for="name" data-i18n="support.label_name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your full name" required />
             </div>
 
             <div>
-              <label for="email">Correo electrónico</label>
-              <input type="email" id="email" name="email" placeholder="tu@email.com" required />
+              <label for="email" data-i18n="support.label_email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@email.com" required />
             </div>
 
             <div>
-              <label for="category">Categoría</label>
+              <label for="category" data-i18n="support.label_category">Category</label>
               <select id="category" name="category">
-                <option value="general">Pregunta general</option>
-                <option value="billing">Facturación y pagos</option>
-                <option value="technical">Problema técnico</option>
-                <option value="account">Mi cuenta</option>
-                <option value="feature">Sugerencia de mejora</option>
+                <option value="general" data-i18n="support.opt_general">General question</option>
+                <option value="billing" data-i18n="support.opt_billing">Billing & payments</option>
+                <option value="technical" data-i18n="support.opt_technical">Technical issue</option>
+                <option value="account" data-i18n="support.opt_account">My account</option>
+                <option value="feature" data-i18n="support.opt_feature">Feature suggestion</option>
               </select>
             </div>
 
             <div>
-              <label for="message">Mensaje</label>
-              <textarea id="message" name="message" rows="5" placeholder="Describe tu problema o pregunta con el mayor detalle posible..." required style="resize: vertical;"></textarea>
+              <label for="message" data-i18n="support.label_message">Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="Describe your problem or question in as much detail as possible..." required style="resize: vertical;"></textarea>
             </div>
 
             <button type="submit" id="submitBtn"
               class="w-full font-bold py-3 px-6 rounded-lg transition"
-              style="background: var(--primary-cyan); color: #0a0a0f; cursor: pointer; border: none; font-size: 1rem;">
-              Enviar Mensaje
+              style="background: var(--primary-cyan); color: #0a0a0f; cursor: pointer; border: none; font-size: 1rem;"
+              data-i18n="support.btn_send">
+              Send Message
             </button>
 
             <div id="formSuccess" class="hidden text-center py-3 rounded-lg" style="background: rgba(0,217,255,0.1); border: 1px solid rgba(0,217,255,0.3); color: var(--primary-cyan);">
-              ✓ Mensaje enviado. Te responderemos pronto.
             </div>
             <div id="formError" class="hidden text-center py-3 rounded-lg" style="background: rgba(255,107,53,0.1); border: 1px solid rgba(255,107,53,0.3); color: var(--primary-orange);">
-              Por favor completa todos los campos requeridos.
             </div>
 
           </div>
@@ -203,36 +212,36 @@
             <img src="img/logo-app.webp" alt="SmartLoad Solution" class="h-8 w-auto" onerror="this.src='img/logo-app.png'" />
             <span class="font-bold text-lg">SmartLoad</span>
           </div>
-          <p class="text-gray-400 text-sm leading-relaxed">La plataforma inteligente para transportistas que quieren maximizar su ganancia.</p>
+          <p class="text-gray-400 text-sm leading-relaxed" data-i18n="about.footer_tagline">Smart load intelligence for the modern carrier.</p>
         </div>
         <div>
-          <h4 class="font-bold text-white mb-4">Empresa</h4>
+          <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_company">Company</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="about.html" class="text-gray-400 hover:text-white transition">Acerca de Nosotros</a></li>
-            <li><a href="plans.html" class="text-gray-400 hover:text-white transition">Planes y Precios</a></li>
-            <li><a href="contact.html" class="text-gray-400 hover:text-white transition">Contacto</a></li>
+            <li><a href="about.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_about">About Us</a></li>
+            <li><a href="plans.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_plans">Plans & Pricing</a></li>
+            <li><a href="contact.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_contact">Contact</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-bold text-white mb-4">Recursos</h4>
+          <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_resources">Resources</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="resources.html" class="text-gray-400 hover:text-white transition">Centro de Recursos</a></li>
-            <li><a href="blog.html" class="text-gray-400 hover:text-white transition">Blog</a></li>
-            <li><a href="faq.html" class="text-gray-400 hover:text-white transition">FAQ</a></li>
-            <li><a href="support.html" class="text-gray-400 hover:text-white transition">Soporte</a></li>
+            <li><a href="resources.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_resources">Resource Center</a></li>
+            <li><a href="blog.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_blog">Blog</a></li>
+            <li><a href="faq.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_faq">FAQ</a></li>
+            <li><a href="support.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_support">Support</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-bold text-white mb-4">Legal</h4>
+          <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_legal">Legal</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="privacy.html" class="text-gray-400 hover:text-white transition">Privacidad</a></li>
-            <li><a href="terms.html" class="text-gray-400 hover:text-white transition">Términos de Uso</a></li>
-            <li><a href="refund.html" class="text-gray-400 hover:text-white transition">Reembolsos</a></li>
+            <li><a href="privacy.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_privacy">Privacy</a></li>
+            <li><a href="terms.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_terms">Terms of Use</a></li>
+            <li><a href="refund.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_refund">Refunds</a></li>
           </ul>
         </div>
       </div>
       <div class="text-center pt-8 border-t border-gray-800">
-        <p class="text-gray-400 text-sm">&copy; 2024 SmartLoad Solution. All rights reserved.</p>
+        <p class="text-gray-400 text-sm" data-i18n="about.footer_copyright">© 2026 Smart Load Solution. All rights reserved.</p>
       </div>
     </div>
   </footer>
@@ -240,6 +249,7 @@
   <script>
     function handleSubmit(e) {
       e.preventDefault();
+      const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
       const name = document.getElementById('name').value.trim();
       const email = document.getElementById('email').value.trim();
       const message = document.getElementById('message').value.trim();
@@ -248,27 +258,37 @@
       document.getElementById('formError').classList.add('hidden');
 
       if (!name || !email || !message) {
-        document.getElementById('formError').classList.remove('hidden');
+        const errEl = document.getElementById('formError');
+        errEl.textContent = isEs ? 'Por favor completa todos los campos requeridos.' : 'Please complete all required fields.';
+        errEl.classList.remove('hidden');
         return;
       }
 
       const btn = document.getElementById('submitBtn');
-      btn.textContent = 'Enviando...';
+      btn.textContent = isEs ? 'Enviando...' : 'Sending...';
       btn.disabled = true;
 
-      // Redirect to mailto as fallback
       const category = document.getElementById('category').value;
-      const subject = encodeURIComponent('Soporte SmartLoad [' + category + '] - ' + name);
-      const body = encodeURIComponent(message + 'De: ' + name + 'Email: ' + email);
+      const subject = encodeURIComponent('SmartLoad Support [' + category + '] - ' + name);
+      const body = encodeURIComponent(message + '\n\nFrom: ' + name + '\nEmail: ' + email);
       window.location.href = 'mailto:galan.expediter@gmail.com?subject=' + subject + '&body=' + body;
 
       setTimeout(() => {
-        document.getElementById('formSuccess').classList.remove('hidden');
-        btn.textContent = 'Enviar Mensaje';
+        const successEl = document.getElementById('formSuccess');
+        successEl.textContent = isEs ? '✓ Mensaje enviado. Te responderemos pronto.' : '✓ Message sent. We\'ll respond soon.';
+        successEl.classList.remove('hidden');
+        btn.textContent = isEs ? 'Enviar Mensaje' : 'Send Message';
         btn.disabled = false;
         e.target.reset();
       }, 1000);
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      window.i18n.init();
+      const lang = window.i18n.currentLang || 'en';
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+    });
   </script>
 
 </body>

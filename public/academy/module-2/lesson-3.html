@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -137,15 +137,17 @@
             margin-top: 2rem
         }
     </style>
+  <script src="../../js/i18n/language-manager.js"></script>
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">&#8592; Volver a la App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'" data-i18n="academy.back_app">← Back to App</a></nav>
     <article class="lesson-container">
         <nav class="breadcrumb">
             <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 2</a> → Lección 3
         </nav>
 
+<div data-lang="es">
         <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
             <h1>Interpretar el Resultado: Aceptar, Negociar o Rechazar</h1>
             <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
@@ -350,12 +352,251 @@
                 <a href="lesson-4.html" class="btn btn-primary">Siguiente: Errores comunes →</a>
             </nav>
         </footer>
-    </article>
+
+        </div>
+
+        <div data-lang="en" style="display:none">
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Interpreting the Result: Accept, Negotiate, or Decline</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 8 min read</span>
+                <span>🎓 Module 2 - Lesson 3</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>🎯 THE 3 POSSIBLE OUTCOMES</h2>
+                <p>After running the numbers on a load, there are really only three paths you can take:</p>
+
+                <div style="display:grid;gap:1rem;margin:2rem 0">
+                    <div
+                        style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem;border-left:4px solid #64C864">
+                        <strong>✅ ACCEPT</strong> → The load meets or exceeds your targets. Lock it in!
+                    </div>
+                    <div
+                        style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FFD700">
+                        <strong>⚠️ NEGOTIATE</strong> → The load is close, but needs a little push to make it work.
+                    </div>
+                    <div
+                        style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FF6B35">
+                        <strong>❌ DECLINE</strong> → The load simply isn't profitable. Walk away.
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>✅ WHEN TO ACCEPT IMMEDIATELY</h2>
+
+                <div style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>The "Green Light" Criteria - AUTO-ACCEPT if ALL of these are true:</strong></p>
+                    <ul style="list-style:none;padding:0">
+                        <li>☐ Profit margin > 25%</li>
+                        <li>☐ Real RPM > $1.40/mile</li>
+                        <li>☐ Deadhead ratio < 15%</li>
+                        <li>☐ Delivery is in a strong freight zone</li>
+                        <li>☐ Hourly rate > $40/hr</li>
+                    </ul>
+                    <p style="margin:0;font-weight:700;text-align:center;margin-top:1rem">If it checks all 5 boxes, don't overthink it. ACCEPT.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>⚠️ WHEN TO NEGOTIATE</h2>
+
+                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>The Negotiation Zone:</strong></p>
+                    <ul>
+                        <li>Profit margin: 15-25% (Borderline)</li>
+                        <li>Real RPM: $1.20 - $1.40/mile</li>
+                        <li>Or there's a specific negative factor that could easily be offset by a higher payout.</li>
+                    </ul>
+                </div>
+
+                <h3>💬 POWERFUL NEGOTIATION SCRIPTS</h3>
+
+                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
+                    <p><strong>Script #1: High Deadhead</strong></p>
+                    <p style="font-style:italic">"Hey, the load pays well, but I've got about 150 miles of deadhead to get to you. To make the numbers work on my end, I'd need to be closer to $1,250 instead of $1,100. Can we make that happen?"</p>
+                </div>
+
+                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
+                    <p><strong>Script #2: Weak Delivery Zone</strong></p>
+                    <p style="font-style:italic">"I see this delivers right into [Dead Zone]. It typically takes me 48 hours just to find a reload out of there. Is there any flexibility on the rate? I was thinking $1,350 rather than $1,200."</p>
+                </div>
+
+                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
+                    <p><strong>Script #3: Multiple Stops</strong></p>
+                    <p style="font-style:italic">"I noticed this run has 3 stops. That easily adds 2-3 hours to my day. My base rate would be $1,300, but with the extra stops, I'd need $1,450. Can we work with that number?"</p>
+                </div>
+
+                <div class="callout tip">
+                    <strong>THE SECRET SAUCE:</strong>
+                    <p style="margin:0">Always justify your counter-offer with a specific, logical reason. Never just say "I want more money."</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>❌ WHEN TO WALK AWAY WITHOUT NEGOTIATING</h2>
+
+                <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>Absolute Red Flags - INSTANT DECLINE if:</strong></p>
+                    <ul style="list-style:none;padding:0">
+                        <li>☐ Profit margin < 10% or negative</li>
+                        <li>☐ Real RPM < $1.10/mile</li>
+                        <li>☐ Deadhead ratio > 25%</li>
+                        <li>☐ Delivery in a dead zone with zero added compensation</li>
+                        <li>☐ Load requires gear or equipment you don't carry</li>
+                        <li>☐ Broker seems shady or untrustworthy</li>
+                    </ul>
+                    <p style="margin-top:1rem;font-weight:700;text-align:center">There is no point negotiating these. Politely DECLINE and move on.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>📊 THE COMPLETE DECISION MATRIX</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Profit Margin</th>
+                            <th>Real RPM</th>
+                            <th>Your Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background:rgba(100,200,100,.15)">
+                            <td>> 30%</td>
+                            <td>> $1.50</td>
+                            <td><strong>✅ ACCEPT INSTANTLY</strong></td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.1)">
+                            <td>25-30%</td>
+                            <td>$1.40 - 1.50</td>
+                            <td><strong>✅ ACCEPT</strong></td>
+                        </tr>
+                        <tr style="background:rgba(255,215,0,.1)">
+                            <td>20-25%</td>
+                            <td>$1.30 - 1.40</td>
+                            <td><strong>⚠️ ACCEPT/NEGOTIATE</strong></td>
+                        </tr>
+                        <tr style="background:rgba(255,215,0,.15)">
+                            <td>15-20%</td>
+                            <td>$1.20 - 1.30</td>
+                            <td><strong>⚠️ NEGOTIATE HARD</strong></td>
+                        </tr>
+                        <tr style="background:rgba(255,107,53,.1)">
+                            <td>10-15%</td>
+                            <td>$1.10 - 1.20</td>
+                            <td><strong>❌ LIKELY DECLINE</strong></td>
+                        </tr>
+                        <tr style="background:rgba(255,107,53,.15)">
+                            <td>< 10%</td>
+                            <td>< $1.10</td>
+                            <td><strong>❌ INSTANT DECLINE</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>🧠 ADDITIONAL FACTORS TO CONSIDER</h2>
+
+                <h3>1. Context and Timing</h3>
+                <p><strong>The exact same load hits differently depending on the context:</strong></p>
+                <ul>
+                    <li><strong>Monday 9 AM:</strong> A load giving a 20% margin → Wait for something better ⚠️</li>
+                    <li><strong>Friday 5 PM:</strong> A load giving a 20% margin → Accept it! ✅ (The weekend is starting soon)</li>
+                </ul>
+
+                <h3>2. Your Financial Reality</h3>
+                <ul>
+                    <li>Having a phenomenal week (already at $2,000 profit) → Be picky and selective.</li>
+                    <li>Having a miserable week (only $600 profit) → You might need to take borderline loads.</li>
+                    <li>End of the month (bills are due) → Be more flexible.</li>
+                </ul>
+                <p><strong>HOWEVER:</strong> Never accept a load that activelyLOSES you money. EVER.</p>
+
+                <h3>3. Market Conditions</h3>
+                <ul>
+                    <li><strong>Saturated Market (Too many vans):</strong> Margins get tighter. A 20-22% margin might actually be "great."</li>
+                    <li><strong>Tight Market (Lots of freight):</strong> You have the leverage. Demand premium rates (30-35% margins are reachable).</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>💡 THE KEY TAKEAWAY</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">Not every load deserves the same energy or treatment:</p>
+                    <ul style="text-align:left;max-width:500px;margin:0 auto;list-style:none;padding:0">
+                        <li>✅ Truly great loads → Accept in under 30 seconds</li>
+                        <li>⚠️ Borderline loads → Negotiate with total confidence</li>
+                        <li>❌ Terrible loads → Decline without a single ounce of regret</li>
+                    </ul>
+                    <p style="margin-top:1.5rem;font-weight:700">Your time is your most precious asset. Don't waste it trying to negotiate the impossible.</p>
+                    <p style="margin:0;color:#00D9FF">Trust your numbers. If the app shows a RED alert, it almost always means RED.</p>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn-en" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as
+                Complete</button>
+            <nav class="lesson-nav">
+                <a href="lesson-2.html" class="btn btn-secondary">← Previous Lesson</a>
+                <a href="lesson-4.html" class="btn btn-primary">Next: Most Common Mistakes →</a>
+            </nav>
+        </footer>
+        </div>    </article>
 
     <script src="../js/academy.js"></script>
     <script>
-        const MODULE_NUM = 2, LESSON_NUM = 3; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true; alert('¡Lección completada! 🎉') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true } });
+        const MODULE_NUM = 2, LESSON_NUM = 3; 
+
+function markLessonComplete() { 
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    if (window.AcademyProgress) { 
+        window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); 
+        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
+            btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; 
+            btn.disabled = true; 
+        });
+        alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
+    } 
+} 
+
+document.addEventListener('DOMContentLoaded', () => { 
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { 
+        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
+            btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; 
+            btn.disabled = true;
+        });
+    } 
+});
     </script>
+
+  <script>
+    // Academy bilingual content toggle
+    (function applyAcademyLang() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    })();
+    document.addEventListener('languageChanged', function() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    });
+  </script>
+
 </body>
 
 </html>

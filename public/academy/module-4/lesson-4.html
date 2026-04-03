@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -125,14 +125,17 @@
             margin-top: 2rem
         }
     </style>
+  <script src="../../js/i18n/language-manager.js"></script>
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">&#8592; Volver a la App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'" data-i18n="academy.back_app">← Back to App</a></nav>
     <article class="lesson-container">
         <nav class="breadcrumb">
             <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 4 [PRO]</a> → Lección 4
         </nav>
+        <div data-lang="es">
+
 
         <div
             style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
@@ -563,12 +566,480 @@
                 <a href="index.html" class="btn btn-primary">Volver al módulo →</a>
             </nav>
         </footer>
+
+        </div>
+
+        <div data-lang="en" style="display:none">
+        <div
+            style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700; margin-top:2rem">
+            🔒 PRO CONTENT</div>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Red Flags and When to Say NO</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 11 min read</span>
+                <span>🎓 Module 4 - Lesson 4</span>
+                <span>🚨 Protection</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>🚩 WHY THIS MATTERS</h2>
+
+                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;margin:2rem 0">
+                    <p><strong>Not all brokers are good people.<br>
+                            Not all freight loads are worth it.<br>
+                            Some loads are NOT WORTH the cash they pay.</strong></p>
+
+                    <p style="margin-top:1.5rem"><strong>Knowing exactly when to confidently say "NO" means you:</strong></p>
+                    <ul style="margin:0">
+                        <li>Protect your business license.</li>
+                        <li>Protect your valuable time.</li>
+                        <li>Protect your hard-earned reputation.</li>
+                        <li>Protect your daily mental health.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>🚨 RED FLAGS LEVEL 1: CAUTION REQUIRED</h2>
+
+                <div class="alert-yellow">
+                    <h3>🟡 Flag #1: Extremely Vague Load Details</h3>
+                    <p><strong>REAL EXAMPLE:</strong></p>
+                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        You: "What is the exact pickup city?"<br>
+                        Broker: "Somewhere in the greater Chicago area"<br><br>
+                        You: "What is the specific delivery window?"<br>
+                        Broker: "Flexible, sometime this week"<br><br>
+                        You: "What is the actual commodity?"<br>
+                        Broker: "Just general freight, no big deal"
+                    </p>
+
+                    <p><strong>WHY IT'S A MAJOR PROBLEM:</strong></p>
+                    <ul>
+                        <li>"Chicago area" could legally mean a 40-mile massive difference in traffic.</li>
+                        <li>"Flexible" often means the client doesn't care (low priority = shockingly low pay).</li>
+                        <li>"General freight" could be insanely heavy, oversized, or even hazardous.</li>
+                        <li>Vagueness = an amateur broker or a broker deliberately hiding a terrible load.</li>
+                    </ul>
+
+                    <p><strong>YOUR ACTION:</strong></p>
+                    <ul style="margin:0">
+                        <li>⚠️ Proceed with intense caution.</li>
+                        <li>Demand explicit specifics before accepting.</li>
+                        <li>Get absolutely everything in writing.</li>
+                        <li>If they remain vague, decline immediately.</li>
+                    </ul>
+                </div>
+
+                <div class="alert-yellow">
+                    <h3>🟡 Flag #2: The Rate Keeps Mysteriously Changing</h3>
+                    <p><strong>REAL EXAMPLE:</strong></p>
+                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        Monday: "The load pays exactly $1,200"<br>
+                        Tuesday: "So actually, it's $1,150 now"<br>
+                        Wednesday: "The customer just said $1,100 is their hard max"
+                    </p>
+
+                    <p><strong>WHY IT'S A MAJOR PROBLEM:</strong></p>
+                    <ul>
+                        <li>The broker holds zero authority over the client.</li>
+                        <li>OR they are actively testing your financial desperation.</li>
+                        <li>OR they are genuinely disorganized (a red flag in itself).</li>
+                        <li>Your highly valuable time is being wasted.</li>
+                    </ul>
+
+                    <p><strong>YOUR ACTION:</strong></p>
+                    <p style="margin:0">⚠️ Set a hard boundary: "I need a firm, non-negotiable rate to commit. Call me back when you have the final number."<br>
+                        If the games continue → Decline and move on.</p>
+                </div>
+
+                <div class="alert-yellow">
+                    <h3>🟡 Flag #3: Pressuring You For An Immediate Decision</h3>
+                    <p><strong>REAL EXAMPLE:</strong></p>
+                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        Broker: "I need an answer RIGHT THIS SECOND or I'm moving<br>
+                        on to the next carrier."<br>
+                        [You haven't even had time to calculate your fuel costs]
+                    </p>
+
+                    <p><strong>WHY IT'S EXTREMELY SUSPICIOUS:</strong></p>
+                    <ul>
+                        <li>Legitimate urgency exists, yes, but...</li>
+                        <li>...legitimate elite brokers will always give you 15-20 mins.</li>
+                        <li>Intense pressure = trying to bypass your logical judgment.</li>
+                        <li>It almost always hides a severe problem with the load.</li>
+                    </ul>
+
+                    <p><strong>YOUR ACTION:</strong></p>
+                    <p style="margin:0">⚠️ Call the bluff: "I need 15 minutes to run my math. If you need to move on to another guy, I totally understand. But I do not commit to freight blindly."<br><br>
+                        Real urgency? They will absolutely wait the 15 mins.<br>
+                        Fake urgency? They will disappear (and you dodged a bullet).</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🔴 RED FLAGS LEVEL 2: IMMINENT DANGER</h2>
+
+                <div class="alert-red">
+                    <h3>🔴 Flag #4: Asking You For Deposits or "Fees"</h3>
+                    <p><strong>REAL EXAMPLE:</strong></p>
+                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        Broker: "There is a standard $200 onboarding setup fee"<br>
+                        Broker: "I need a $150 insurance deposit up front"<br>
+                        Broker: "Pay me $100 for the official load assignment fee"
+                    </p>
+
+                    <p
+                        style="background:rgba(255,0,0,.2);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700;font-size:1.25rem">
+                        ⚠️ THIS IS A 100% BLATANT SCAM 🚨🚨🚨
+                    </p>
+
+                    <p><strong>THE HARSH REALITY:</strong></p>
+                    <ul>
+                        <li>Legitimate brokers NEVER, EVER charge carriers.</li>
+                        <li>You provide the physical service; THEY pay YOU.</li>
+                        <li>Any request for an upfront "fee" = a 100% guaranteed scam.</li>
+                        <li>They will take your money and vanish instantly.</li>
+                    </ul>
+
+                    <p><strong>YOUR ACTION:</strong></p>
+                    <p style="margin:0">❌ DECLINE INSTANTLY AND AGGRESSIVELY<br>
+                        • Block their phone number immediately.<br>
+                        • Report them to the FMCSA if you have their details.<br>
+                        • Warn other carriers on message boards.</p>
+                </div>
+
+                <div class="alert-red">
+                    <h3>🔴 Flag #5: The Broker Cannot Be Verified By MC Number</h3>
+                    <p><strong>REAL EXAMPLE:</strong></p>
+                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        You: "What is your official MC number?"<br>
+                        Broker: "Oh, I don't have it handy right now"<br>
+                        Broker: "We are a brand new company under a parent org"<br>
+                        Broker: "Just look us up online, we're legit"
+                    </p>
+
+                    <p><strong>THE REQUIRED VERIFICATION PROTOCOL:</strong></p>
+                    <ul>
+                        <li>Go straight to the FMCSA SAFER website.</li>
+                        <li>Look up their provided MC number.</li>
+                        <li>Verify: Active status, legal Authority, and Insurance.</li>
+                        <li>Check their Broker Bond (must be $75K minimum legally).</li>
+                    </ul>
+
+                    <p><strong>YOUR ACTION:</strong></p>
+                    <p style="margin:0">❌ If you cannot verify them → DECLINE IMMEDIATELY.<br>
+                        No exceptions. Ever.</p>
+                </div>
+
+                <div class="alert-red">
+                    <h3>🔴 Flag #6: Refusal To Send A Written Rate Confirmation</h3>
+                    <p><strong>REAL EXAMPLE:</strong></p>
+                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        You: "Can you email over the written rate confirmation?"<br>
+                        Broker: "Verbal agreement is fine man, we're good"<br>
+                        Broker: "I always send it after the delivery is complete"<br>
+                        Broker: "Our IT system is currently down"
+                    </p>
+
+                    <p><strong>WHY THIS IS CRITICAL:</strong></p>
+                    <ul>
+                        <li>Verbal agreements are completely legally unenforceable.</li>
+                        <li>The broker can radically change the pay rate later.</li>
+                        <li>You possess zero legal proof of the agreement.</li>
+                        <li>It is a guaranteed recipe for a massive payment dispute.</li>
+                    </ul>
+
+                    <p><strong>YOUR ACTION:</strong></p>
+                    <p style="margin:0">❌ No written rate con = No freight moves.<br>
+                        "I literally require written confirmation prior to dispatch. It is a hard company policy, zero exceptions."<br><br>
+                        If they still refuse → They are actively planning to rip you off.</p>
+                </div>
+
+                <div class="alert-red">
+                    <h3>🔴 Flag #7: Payment Terms Beyond >30 Days</h3>
+                    <p><strong>THE INDUSTRY STANDARD REALITY:</strong></p>
+                    <ul>
+                        <li>15-30 days: Normal and standard ✅</li>
+                        <li>30-45 days: Acceptable ONLY if it is a massive premium rate.</li>
+                        <li>45+ days: A massive warning flag ⚠️</li>
+                        <li>60+ days: The absolute danger zone 🚨</li>
+                    </ul>
+
+                    <p><strong>YOUR ACTION:</strong></p>
+                    <p style="margin:0">⚠️ Decline immediately unless:<br>
+                        • The rate is a +25-30% massive premium.<br>
+                        • The broker has a flawless historical credit rating.<br>
+                        • You can financially afford to wait that long.<br>
+                        • You employ a factoring company (cash advance service).</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🚩 PHYSICAL FREIGHT RED FLAGS</h2>
+
+                <div class="alert-yellow">
+                    <h3>🟡 Freight Flag #1: "The Customer Doesn't Know You're Coming"</h3>
+                    <p><strong>REAL EXAMPLE:</strong> You arrive at pickup.<br>
+                        Customer: "We never got a pickup notice for today."<br>
+                        Customer: "We have absolutely nothing ready for you."</p>
+
+                    <p><strong>THE MASSIVE COST TO YOU:</strong></p>
+                    <ul>
+                        <li>2-4 hours completely wasted sitting.</li>
+                        <li>Potential detention pay battles (often leading to $0).</li>
+                        <li>Losing out on other lucrative load opportunities.</li>
+                    </ul>
+
+                    <p><strong>THE PREVENTION TACTIC:</strong></p>
+                    <p style="margin:0">Before you ever launch the van: "Can you confirm the client is explicitly expecting me at [time]? Do they have my contact info?"<br><br>
+                        If there is any hesitation → Force the broker to call the client while you wait.</p>
+                </div>
+
+                <div class="alert-yellow">
+                    <h3>🟡 Freight Flag #2: Undisclosed Multiple Stops</h3>
+                    <p><strong>REAL EXAMPLE:</strong><br>
+                        Rate Con says: "Detroit to Nashville"<br>
+                        At the pickup dock: "Oh yeah, you have 3 quick stops along the way."</p>
+
+                    <p><strong>THE DEVASTATING IMPACT:</strong></p>
+                    <ul>
+                        <li>Every single stop = +1-2 hours of delays.</li>
+                        <li>Significantly more loading/unloading labor.</li>
+                        <li>You are getting the identical pay for 4x the total work.</li>
+                    </ul>
+
+                    <p><strong>YOUR ACTION:</strong></p>
+                    <p style="margin:0">⚠️ Renegotiate intensely on the spot:<br>
+                        "The rate confirmation legally explicitly states 1 stop. For 3 additional stops, I require $200 more before I depart."</p>
+                </div>
+
+                <div class="alert-red">
+                    <h3>🔴 Freight Flag #3: The Commodity Does Not Match</h3>
+                    <p
+                        style="background:rgba(255,0,0,.2);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
+                        ⚠️ EXTREME SAFETY + LIABILITY HAZARD 🚨
+                    </p>
+
+                    <p><strong>REAL EXAMPLE:</strong><br>
+                        Rate Con says: "General auto parts"<br>
+                        At the pickup dock: It is literally hazardous chemicals.</p>
+
+                    <p><strong>WHY THIS IS DEADLY SERIOUS:</strong></p>
+                    <ul>
+                        <li>Hazardous materials require intense special federal certification.</li>
+                        <li>Your insurance coverage is completely invalid for this.</li>
+                        <li>It is highly illegal to transport without compliance.</li>
+                        <li>Massive federal fines ($75K+) if DOT catches you.</li>
+                        <li>You could permanently lose your operating authority.</li>
+                    </ul>
+
+                    <p><strong>YOUR ACTION:</strong></p>
+                    <p style="margin:0">❌ REFUSE to load the vehicle.<br>
+                        "This was not legally disclosed as HAZMAT. I am not certified or equipped. I am officially rejecting this load."<br><br>
+                        <strong>Your CDL/Authority > Their Profit Margin</strong>
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💬 HOW TO PROFESSIONALLY SAY NO</h2>
+
+                <h3>Script #1: The Soft Decline (Keep The Relationship Open)</h3>
+                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>Situation:</strong> The rate is just way too low, but you genuinely want to work with this broker again.</p>
+                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        "Hey [Name], I really appreciate you thinking of me<br>
+                        for this run. Unfortunately, my numbers just don't<br>
+                        work at that specific rate for this particular lane.<br>
+                        <br>
+                        But I definitely want to keep working together.<br>
+                        Please keep me in mind for your [route] loads<br>
+                        or anything landing in the $1.40-1.70/mile range.<br>
+                        <br>
+                        I'll always answer when you call."
+                    </p>
+                    <p style="margin:0"><strong>TONE GOAL:</strong> Grateful, specific about future needs, highly positive.</p>
+                </div>
+
+                <h3>Script #2: The Firm Decline (Protect Your Business)</h3>
+                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem;margin-top:1.5rem">
+                    <p><strong>Situation:</strong> There is a valid red flag issue, and you need to decline firmly.</p>
+                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        "I really appreciate the offer, but I'm going to have<br>
+                        to pass on this one.<br>
+                        <br>
+                        [Optional: very brief, professional reason]<br>
+                        'The payment terms simply don't work for my business model.'<br>
+                        'I require a written rate confirmation before dispatching.'<br>
+                        'The load details aren't clear enough for me to commit.'<br>
+                        <br>
+                        Thanks for understanding."
+                    </p>
+                    <p style="margin:0"><strong>TONE GOAL:</strong> Polite but unyielding, leaving absolutely zero room for negotiation.</p>
+                </div>
+
+                <h3>Script #3: The Hard No (Burn The Bridge If Necessary)</h3>
+                <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem;margin-top:1.5rem">
+                    <p><strong>Situation:</strong> It is an obvious scam, highly illegal, or a physically dangerous situation.</p>
+                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        "I will not be able to work with you on this.<br>
+                        <br>
+                        [If scam]: This structure appears highly fraudulent.<br>
+                        [If illegal]: This explicitly violates FMCSA regulations.<br>
+                        [If unethical]: This does not align with my operating standards.<br>
+                        <br>
+                        Please do not contact me again."<br>
+                        <br>
+                        [Block the number immediately]
+                    </p>
+                    <p style="margin:0"><strong>TONE GOAL:</strong> Direct, completely final, with no space for discussion.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 THE GUT-CHECK FRAMEWORK</h2>
+
+                <div style="background:rgba(255,215,0,.1);padding:2rem;border-radius:.75rem">
+                    <p style="font-weight:700;text-align:center;margin-bottom:1.5rem">When evaluating a questionable load, ruthlessly ASK YOURSELF:</p>
+
+                    <ol>
+                        <li><strong>"Would I confidently tell my wife/parent I am taking this?"</strong><br>
+                            If NO → Decline it.</li>
+
+                        <li><strong>"Am I only considering this because I am financially desperate today?"</strong><br>
+                            If YES → Decline it. Desperation breeds disasters.</li>
+
+                        <li><strong>"Would I take this exact load if it paid 2x the rate?"</strong><br>
+                            If NO → The problem isn't the money, the problem is the load itself.</li>
+
+                        <li><strong>"Will I intensely regret taking this tomorrow morning?"</strong><br>
+                            If MAYBE → Decline it. Trust your instincts.</li>
+
+                        <li><strong>"Is my hesitation just normal caution, or a genuine safety/business concern?"</strong><br>
+                            If GENUINE CONCERN → Decline it immediately.</li>
+                    </ol>
+
+                    <p
+                        style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;text-align:center;margin-top:1.5rem;margin-bottom:0">
+                        <strong>THE IRON RULE:</strong><br>
+                        If 2 or more of these raise red flags → YOU MUST DECLINE.
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 THE CORE TAKEAWAY</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(255,107,53,.15),rgba(255,215,0,.15));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.5rem;font-weight:700;margin-bottom:1.5rem">Saying "NO" is a business superpower.</p>
+
+                    <div style="text-align:left;max-width:500px;margin:0 auto">
+                        <p><strong>Every single bad load you effectively decline:</strong></p>
+                        <ul>
+                            <li>Shields your business from devastating losses.</li>
+                            <li>Saves your highly valuable time.</li>
+                            <li>Protects your commercial operating license.</li>
+                            <li>Preserves your mental sanity.</li>
+                        </ul>
+
+                        <p style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1.5rem">
+                            <strong>Red Flags always exist in distinct tiers:</strong><br>
+                            🟡 Yellow: Caution required, demand specifics.<br>
+                            🔴 Red: Imminent danger, likely decline.<br>
+                            🚨 Emergency: Run away immediately without a word.
+                        </p>
+
+                        <p style="margin-top:1.5rem"><strong>The Bulletproof Declination Framework:</strong></p>
+                        <ol>
+                            <li>Verify the MC number (Absolutely non-negotiable).</li>
+                            <li>Secure a written rate con (Absolutely non-negotiable).</li>
+                            <li>Verify fair payment terms (≤30 days is the standard).</li>
+                            <li>Run the 5-question gut-check.</li>
+                            <li>When in real doubt → Decline.</li>
+                        </ol>
+
+                        <p
+                            style="background:rgba(255,215,0,.15);padding:1rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
+                            <strong>It is VASTLY better to:</strong><br>
+                            Ruthlessly turn down 10 questionable loads<br>
+                            To cleanly secure 1 excellent, perfect load.<br>
+                            <br>
+                            <strong>Rather than to:</strong><br>
+                            Blindly accept 10 questionable loads<br>
+                            And get completely ripped off on 4 of them.
+                        </p>
+
+                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">Your ability to say "no" acts as the armor of your business.<br>
+                            Deploy it with unwavering confidence.<br><br>
+                            In the expediter game, your reputation is EVERYTHING.<br>
+                            Defend it violently by rejecting freight that fails to meet your high standards.</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn-en" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as
+                Complete</button>
+            <nav class="lesson-nav">
+                <a href="lesson-3.html" class="btn btn-secondary">← Previous Lesson</a>
+                <a href="index.html" class="btn btn-primary">Back to Module Hub →</a>
+            </nav>
+        </footer>
+        </div>
     </article>
 
     <script src="../js/academy.js"></script>
     <script>
-        const MODULE_NUM = 4, LESSON_NUM = 4; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true; alert('¡Lección PRO completada! 🎉Tu "no" protege tu negocio. Úsalo con confianza.') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true } });
+        const MODULE_NUM = 4, LESSON_NUM = 4; 
+
+function markLessonComplete() { 
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    if (window.AcademyProgress) { 
+        window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); 
+        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
+            btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; 
+            btn.disabled = true; 
+        });
+        alert(isEs ? '¡Lección PRO completada! 🎉\nTu "no" protege tu negocio. Úsalo con confianza.' : 'PRO Lesson completed! 🎉\nYour "no" protects your business. Use it with confidence.');
+    } 
+} 
+
+document.addEventListener('DOMContentLoaded', () => { 
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { 
+        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
+            btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; 
+            btn.disabled = true;
+        });
+    } 
+});
     </script>
+
+  <script>
+    // Academy bilingual content toggle
+    (function applyAcademyLang() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    })();
+    document.addEventListener('languageChanged', function() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    });
+  </script>
+
 </body>
 
 </html>

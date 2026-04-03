@@ -1,4 +1,4 @@
-﻿//  CALCULATOR.JS - VERSION INTEGRADA COMPLETA
+//  CALCULATOR.JS - VERSION INTEGRADA COMPLETA
 // Combina: Costos reales + Todas las funcionalidades existentes
 
 // IMPORTS COMENTADOS - Usando funciones globales en su lugar
@@ -836,7 +836,8 @@ async function calculate() {
         stopsData.forEach((stop, index) => {
           const stopDiv = document.createElement('div');
           stopDiv.className = 'text-white/90 text-xs';
-          stopDiv.innerHTML = `📍 Parada ${index + 1}: ${stop.from} → ${stop.to} | ${stop.miles}mi @ $${stop.rpm.toFixed(2)} = <strong>$${stop.revenue.toFixed(0)}</strong>`;
+          const stopLabel = window.i18n?.t('calculator.stop_label') || 'Parada';
+          stopDiv.innerHTML = `📍 ${stopLabel} ${index + 1}: ${stop.from} → ${stop.to} | ${stop.miles}mi @ $${stop.rpm.toFixed(2)} = <strong>$${stop.revenue.toFixed(0)}</strong>`;
           roundTripBreakdownEl.appendChild(stopDiv);
         });
 
@@ -855,7 +856,7 @@ async function calculate() {
     // Lex listo para ayudar
     if (typeof window.setLexState === 'function') {
       window.setLexState('attention', {
-        message: 'Carga calculada. Si quieres mi recomendacion, haz clic en mi',
+        message: window.i18n?.t('lex.load_calculated_hint') || 'Carga calculada. Si quieres mi recomendacion, haz clic en mi',
         duration: 6000
       });
     }

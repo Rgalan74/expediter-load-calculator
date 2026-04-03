@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -225,10 +225,11 @@
             margin: 2rem 0;
         }
     </style>
+  <script src="../../js/i18n/language-manager.js"></script>
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">&#8592; Volver a la App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'" data-i18n="academy.back_app">← Back to App</a></nav>
     <article class="lesson-container">
         <nav class="breadcrumb">
             <a href="../../academy.html">← Academy</a> → START HERE
@@ -236,7 +237,8 @@
 
         <div class="quick-win-badge">💥 QUICK WIN</div>
 
-        <header class="lesson-header">
+        <div data-lang="es">
+<header class="lesson-header">
             <h1>El error #1 que cometen los expediters</h1>
 
             <div class="value-prop">
@@ -609,7 +611,378 @@
                 </a>
             </nav>
         </footer>
-    </article>
+    
+        </div>
+
+        <div data-lang="en" style="display:none">
+        <header class="lesson-header">
+            <h1>The #1 Mistake Most Expediters Make</h1>
+
+            <div class="value-prop">
+                <h2>💰 5 minutes that can save you $500+ this week</h2>
+                <p style="margin: 0; color: #b0b0b0;">And exactly how to fix it on your very next load</p>
+            </div>
+
+            <div style="display: flex; gap: 1.5rem; font-size: 0.875rem; color: #888;">
+                <span>⏱️ 5 min read</span>
+                <span>🟢 Super easy</span>
+                <span>🎯 Quick Win</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>💰 THE BRUTAL REALITY</h2>
+                <p>Right now, you are probably losing <strong>$400-$600 a week</strong> without even realizing it.</p>
+                <p>It's not because of a lack of freight.<br>
+                    It's not because of bad rates.<br>
+                    It's simply because of a <strong>calculation mistake that 90% of expediters make</strong>.</p>
+            </section>
+
+            <section>
+                <h2>❌ THE MISTAKE</h2>
+                <p><strong>You are calculating your RPM like this:</strong></p>
+
+                <div class="comparison-box">
+                    <p><strong>Example:</strong></p>
+                    <ul>
+                        <li>Load pays: $1,200</li>
+                        <li>Loaded miles: 800</li>
+                        <li>RPM: $1,200 ÷ 800 = <strong>$1.50/mile</strong></li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-style: italic;">"$1.50/mile! Awesome, I'll take it."</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🔍 WHAT YOU'RE FORGETTING</h2>
+                <p><strong>The miles you DON'T get paid for, but STILL cost you money:</strong></p>
+
+                <ol>
+                    <li><strong>DEADHEAD</strong> (miles to drive to the pickup)<br>
+                        Your spot → Pickup = 120 miles</li>
+
+                    <li style="margin-top: 0.5rem;"><strong>REPOSITIONING</strong> (miles after delivery)<br>
+                        Delivery location → Next freight hotspot = 180 miles</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>💣 THE REAL IMPACT</h2>
+                <p><strong>Same load, CORRECT calculation:</strong></p>
+
+                <div class="comparison-box">
+                    <ul>
+                        <li>Pay: $1,200</li>
+                        <li>Loaded miles: 800</li>
+                        <li>Deadhead: 120</li>
+                        <li>Repositioning: 180</li>
+                        <li
+                            style="border-top: 1px solid rgba(255,255,255,0.2); margin-top: 0.5rem; padding-top: 0.5rem;">
+                            <strong>TOTAL REAL MILES: 1,100</strong></li>
+                    </ul>
+                    <div
+                        style="background: rgba(255, 107, 53, 0.2); padding: 1rem; border-radius: 0.5rem; text-align: center; margin-top: 1rem;">
+                        <p style="font-size: 1.5rem; font-weight: 900; margin: 0; color: #FF6B35;">REAL RPM: $1,200 ÷
+                            1,100 = $1.09/mile</p>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <p style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">😱 WAIT... WHAT?</p>
+                    <p>What you thought: <strong>$1.50/mile</strong><br>
+                        The reality: <strong>$1.09/mile</strong></p>
+                    <p
+                        style="border-top: 2px solid rgba(255, 215, 0, 0.4); margin-top: 1rem; padding-top: 1rem; font-size: 1.3rem; font-weight: 900; color: #FFD700;">
+                        THE DIFFERENCE: $0.41/mile</p>
+                    <p style="margin: 0;">Calculation error: <strong>38%</strong></p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💸 HOW MUCH IS THIS ERROR COSTING YOU?</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Timeframe</th>
+                            <th>Imaginary Loss</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Per week</strong><br>(4,000 miles × $0.41)</td>
+                            <td style="color: #FF6B35; font-weight: 700;">$1,640/week</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Per month</strong><br>($1,640 × 4 weeks)</td>
+                            <td style="color: #FF6B35; font-weight: 700;">$6,560/month</td>
+                        </tr>
+                        <tr style="background: rgba(255, 107, 53, 0.1);">
+                            <td><strong>Per year</strong><br>($6,560 × 12 months)</td>
+                            <td style="color: #FF6B35; font-weight: 900; font-size: 1.2rem;">$78,720/year</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="callout warning">
+                    <strong>At the end of the year, you'll wonder:</strong>
+                    <p>"Why didn't I save any of that money?"</p>
+                    <p style="margin: 0;">You believed you made $78,720 more than you actually did.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>✅ THE FIX (IN 3 SIMPLE STEPS)</h2>
+
+                <div class="comparison-box">
+                    <p><strong>STEP 1:</strong> Before accepting ANY load, ask yourself:</p>
+                    <ul>
+                        <li>❓ How many deadhead miles do I need?</li>
+                        <li>❓ Where exactly is this load taking me?</li>
+                        <li>❓ How many miles will it take to reposition to a good freight zone?</li>
+                    </ul>
+
+                    <p style="margin-top: 1.5rem;"><strong>STEP 2:</strong> Calculate your REAL RPM:</p>
+                    <div
+                        style="background: rgba(0, 217, 255, 0.1); padding: 1rem; border-radius: 0.5rem; text-align: center;">
+                        <code
+                            style="color: #00D9FF; font-size: 1.1rem;">REAL RPM = Total Pay ÷ (Deadhead + Loaded + Repositioning)</code>
+                    </div>
+
+                    <p style="margin-top: 1.5rem;"><strong>STEP 3:</strong> Compare it against your true costs:</p>
+                    <p>If your operating cost is $1.00/mile:</p>
+                    <ul>
+                        <li>An RPM of $1.09/mile = Only $0.09/mile in actual profit ❌</li>
+                        <li>An RPM of $1.50/mile = $0.50/mile in actual profit ✅</li>
+                    </ul>
+                    <p style="margin: 0; font-weight: 700; text-align: center; margin-top: 1rem;">The difference is
+                        MASSIVE.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 TAKE ACTION IMMEDIATELY (DO THIS NOW)</h2>
+                <p><strong>Grab the very LAST load you accepted:</strong></p>
+
+                <div class="worksheet">
+                    <p><strong>1️⃣</strong> How much did it pay? $____________</p>
+                    <p><strong>2️⃣</strong> How many loaded miles? ____________</p>
+                    <p><strong>3️⃣</strong> What was your original RPM calculation? $____________/mile</p>
+
+                    <p style="margin-top: 2rem; font-weight: 700;">Now, let's calculate the REAL RPM:</p>
+
+                    <p><strong>4️⃣</strong> How many deadhead miles? ____________</p>
+                    <p><strong>5️⃣</strong> How many repositioning miles? ____________</p>
+                    <p><strong>6️⃣</strong> Total REAL miles: ____________</p>
+                    <p><strong>7️⃣</strong> REAL RPM: $_______ ÷ _______ = <strong
+                            style="color: #00D9FF;">$_______/mile</strong></p>
+
+                    <div
+                        style="background: rgba(255, 215, 0, 0.1); border: 2px solid rgba(255, 215, 0, 0.3); padding: 1rem; border-radius: 0.5rem; margin-top: 1.5rem;">
+                        <p style="font-weight: 700; text-align: center;">THE DIFFERENCE:</p>
+                        <p>Your original calculation: $____________/mile<br>
+                            Your REAL RPM: $____________/mile<br>
+                            <strong style="color: #FFD700;">The Error: $____________/mile</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="callout warning">
+                    <strong>😱 HOW DRASTICALLY DID YOUR NUMBERS CHANGE?</strong>
+                    <p>If the difference is >$0.20/mile:</p>
+                    <p style="color: #FF6B35; font-weight: 700;">🚨 You've been making major decisions with 20-40%
+                        inaccurate information.</p>
+                    <p>This explains why:</p>
+                    <ul>
+                        <li>✗ Your profits aren't matching your expectations.</li>
+                        <li>✗ Some "good" loads ended up hurting your wallet.</li>
+                        <li>✗ You finish the month asking, "Where did all my money go?"</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>📱 SMART LOAD SOLUTION DOES THIS AUTOMATICALLY</h2>
+
+                <div class="callout tip">
+                    <strong>The app runs the numbers for you:</strong>
+                    <ol>
+                        <li>You enter origin, pickup, and delivery.</li>
+                        <li>The app auto-calculates your deadhead (via Google Maps).</li>
+                        <li>It suggests repositioning routes to strong freight zones.</li>
+                        <li>It instantly shows your REAL RPM.</li>
+                    </ol>
+                    <p style="margin-top: 1rem;">⏱️ Time spent: <strong>30 seconds</strong> (vs 5 mins doing it manually)<br>
+                        ✅ Accuracy: <strong>100%</strong> (Say goodbye to human error!)</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💰 THE ROI ON THIS "QUICK WIN"</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Timeframe</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Next week</strong></td>
+                            <td>Avoid 2-3 unprofitable loads<br>Save $200-$300<br>Improve profitability 15-25%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Next month</strong></td>
+                            <td style="color: #64C864; font-weight: 700;">Take home $800-$1,200 MORE in real profits!<br>Make choices based on real data.</td>
+                        </tr>
+                        <tr style="background: rgba(100, 200, 100, 0.1);">
+                            <td><strong>Next year</strong></td>
+                            <td style="color: #64C864; font-weight: 900;">An extra $9,600-$14,400 in your pocket<br>Complete business transformation!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>🎓 NEXT STEP</h2>
+
+                <div class="callout win">
+                    <strong>That was just ONE mistake.</strong>
+                    <p>There are 6 more silent errors killing your profitability right now:</p>
+                    <ul>
+                        <li>✅ Mistake #1: Improper RPM calculation → <strong>FIXED</strong> (this quick win!)</li>
+                        <li>❌ Mistake #2: Ignoring invisible costs</li>
+                        <li>❌ Mistake #3: Not knowing your personal break-even number</li>
+                        <li>❌ Mistake #4: Staring at total profit instead of profit/hour</li>
+                        <li>❌ Mistake #5: Looking at single loads instead of full weeks</li>
+                        <li>❌ Mistake #6: Failing to analyze zones strategically</li>
+                        <li>❌ Mistake #7: Taking loads "just to move"</li>
+                    </ul>
+                </div>
+
+                <div class="cta-box">
+                    <p style="font-size: 1.5rem; font-weight: 900; margin-bottom: 1rem;">🚀 READY TO FIX THE OTHER 6?</p>
+                    <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">Jump into <strong>Module 1: Mindset & Fundamentals</strong></p>
+                    <p>⏱️ 50 minutes that will change your business forever.</p>
+
+                    <div style="text-align: left; max-width: 500px; margin: 1.5rem auto;">
+                        <p><strong>You'll learn:</strong></p>
+                        <ul>
+                            <li>✅ Your TRUE costs per mile</li>
+                            <li>✅ Your personal break-even number</li>
+                            <li>✅ Your real profit per hour</li>
+                            <li>✅ Master-level zone strategy</li>
+                            <li>✅ How to say "no" with absolute confidence</li>
+                        </ul>
+
+                        <p style="margin-top: 1rem;"><strong>The Result:</strong></p>
+                        <ul>
+                            <li>💰 +$1,000-$2,000/month in true profit</li>
+                            <li>📈 Bulletproof confidence in your choices</li>
+                            <li>🎯 Complete control of your destiny</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>✅ TODAY'S CHECKLIST</h2>
+                <p><strong>Before you hit accept on your NEXT load:</strong></p>
+
+                <div class="worksheet">
+                    <ul style="list-style: none; padding: 0;">
+                        <li>☐ I calculated the real deadhead (no guessing!)</li>
+                        <li>☐ I researched the destination zone (is there freight?)</li>
+                        <li>☐ I calculated the needed repositioning miles</li>
+                        <li>☐ I added up ALL miles (DH + Loaded + Repo)</li>
+                        <li>☐ I divided the total pay by my REAL miles</li>
+                        <li>☐ I compared my Real RPM vs my cost per mile</li>
+                        <li>☐ I'm only accepting if Real RPM > my cost + 20% minimum</li>
+                    </ul>
+
+                    <div
+                        style="background: rgba(100, 200, 100, 0.1); border: 2px solid #64C864; padding: 1rem; border-radius: 0.5rem; margin-top: 1.5rem; text-align: center;">
+                        <p style="margin: 0; font-weight: 700;">If you check off these 7 boxes, you're already doing better than 80% of expediters out there.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 QUICK WIN WRAP-UP</h2>
+
+                <div
+                    style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(255, 107, 53, 0.1)); padding: 2rem; border-radius: 1rem; text-align: center; margin: 2rem 0;">
+                    <p style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">In just 5 minutes, you've completely unlocked:</p>
+                    <ul style="text-align: left; max-width: 500px; margin: 1rem auto;">
+                        <li>✅ The hidden trap costing you $400-$600/week</li>
+                        <li>✅ Exactly how to calculate it properly</li>
+                        <li>✅ Why your bank account hasn't matched your expectations</li>
+                        <li>✅ How to dodge this bullet on your next run</li>
+                    </ul>
+
+                    <p style="margin-top: 1.5rem; font-weight: 700;">The ultimate value of this quick win:</p>
+                    <p style="font-size: 1.1rem;">→ Up to $800 saved this week<br>
+                        → Thousands protected this month<br>
+                        <span style="color: #FFD700; font-size: 1.3rem; font-weight: 900;">→ A staggering $24,000-$36,000 completely reframed this year!</span>
+                    </p>
+                    <p style="margin-top: 1rem;">All because you decided to calculate your RPM the right way.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 IT'S YOUR CALL NOW</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Option A: Keep Guessing</th>
+                            <th>Option B: Fix EVERYTHING</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="background: rgba(255, 107, 53, 0.1);">
+                                ❌ Keep bleeding $500+/week<br>
+                                ❌ Make blind decisions<br>
+                                ❌ Wonder why the savings account never grows
+                            </td>
+                            <td style="background: rgba(100, 200, 100, 0.1);">
+                                ✅ Module 1 (50 min) → Ironclad Fundamentals<br>
+                                ✅ Module 2 (40 min) → The Ultimate Calculator<br>
+                                ✅ Module 3 (50 min) → Pro Zone Strategies<br>
+                                ✅ +5 More Modules → Total Transformation
+                            </td>
+                        </tr>
+                        <tr style="background: rgba(100, 200, 100, 0.05);">
+                            <td colspan="2" style="text-align: center;">
+                                <strong>Total Time: ~6 Hours | ROI: An extra $2,000-$4,000+/month</strong>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <button id="markCompleteBtn-en" class="btn btn-gold" onclick="markLessonComplete()"
+                    style="font-size: 1.1rem; padding: 1.25rem 2.5rem;">
+                    ✓ Understood - Let's Go to the Course!
+                </button>
+            </div>
+
+            <nav style="display: flex; justify-content: center; margin-top: 2rem;">
+                <a href="../module-1/" class="btn btn-primary" style="font-size: 1.1rem; padding: 1.25rem 2.5rem;">
+                    🚀 START MODULE 1 NOW →
+                </a>
+            </nav>
+        </footer>
+        </div>
+</article>
 
     <script src="../js/academy.js"></script>
     <script>
@@ -631,6 +1004,23 @@
             }
         });
     </script>
+
+  <script>
+    // Academy bilingual content toggle
+    (function applyAcademyLang() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    })();
+    document.addEventListener('languageChanged', function() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    });
+  </script>
+
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -120,15 +120,17 @@
             margin-top: 2rem
         }
     </style>
+  <script src="../../js/i18n/language-manager.js"></script>
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">&#8592; Volver a la App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'" data-i18n="academy.back_app">← Back to App</a></nav>
     <article class="lesson-container">
         <nav class="breadcrumb">
             <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 3</a> → Lección 3
         </nav>
 
+<div data-lang="es">
         <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
             <h1>Usando el Zone Heat Map (Guía Visual)</h1>
             <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
@@ -422,12 +424,350 @@
                 <a href="lesson-4.html" class="btn btn-primary">Siguiente: Deadhead Estratégico →</a>
             </nav>
         </footer>
-    </article>
+
+        </div>
+
+        <div data-lang="en" style="display:none">
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Using the Zone Heat Map (A Visual Guide)</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 9 min read</span>
+                <span>🎓 Module 3 - Lesson 3</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>🗺️ WHAT IS THE ZONE HEAT MAP?</h2>
+                <p><strong>It is your visual GPS for profitability.</strong></p>
+                <p>Instead of struggling to read massive tables and numbers, you INSTANTLY see:</p>
+                <ul>
+                    <li>Exactly where you are making the most money</li>
+                    <li>Where you are burning precious time waiting</li>
+                    <li>Where you should immediately position your van</li>
+                    <li>Where you should NEVER go</li>
+                </ul>
+                <p><strong>And the best part? It's all based purely on YOUR personal history, not industry averages.</strong></p>
+            </section>
+
+            <section>
+                <h2>📱 ACCESSING THE HEAT MAP</h2>
+
+                <div class="mockup">
+                    Smart Load Solution<br>
+                    Home → Zones → Heat Map<br>
+                    <br>
+                    Display Options:<br>
+                    ○ Profit per Mile<br>
+                    ○ Average Wait Time<br>
+                    ○ Load Count<br>
+                    ○ Success Rate<br>
+                    ● Combined Score<br>
+                    <br>
+                    Time Period:<br>
+                    ○ Last 30 days<br>
+                    ○ Last 90 days<br>
+                    ● Last 6 months (highly recommended)<br>
+                    ○ All time
+                </div>
+            </section>
+
+            <section>
+                <h2>🎨 INTERPRETING THE COLORS</h2>
+
+                <h3>View: Profit Per Mile</h3>
+                <ul style="list-style:none;padding:0">
+                    <li style="background:rgba(100,200,100,.15);padding:.75rem;border-radius:.5rem;margin-bottom:.5rem">
+                        <strong>🟢🟢 Dark Green = $1.60+/mi</strong> (Your gold mines)
+                    </li>
+                    <li style="background:rgba(100,200,100,.1);padding:.75rem;border-radius:.5rem;margin-bottom:.5rem">
+                        <strong>🟢 Green = $1.40-1.60/mi</strong> (Solid, reliable zones)
+                    </li>
+                    <li style="background:rgba(255,215,0,.1);padding:.75rem;border-radius:.5rem;margin-bottom:.5rem">
+                        <strong>🟡 Yellow = $1.20-1.40/mi</strong> (Acceptable)
+                    </li>
+                    <li style="background:rgba(255,165,0,.1);padding:.75rem;border-radius:.5rem;margin-bottom:.5rem">
+                        <strong>🟠 Orange = $1.00-1.20/mi</strong> (Marginal at best)
+                    </li>
+                    <li style="background:rgba(255,107,53,.1);padding:.75rem;border-radius:.5rem">
+                        <strong>🔴 Red = <$1.00 /mi</strong> (Avoid like the plague)
+                    </li>
+                </ul>
+
+                <h3 style="margin-top:2rem">View: Average Wait Time</h3>
+                <ul style="list-style:none;padding:0">
+                    <li style="background:rgba(100,200,100,.15);padding:.75rem;border-radius:.5rem;margin-bottom:.5rem">
+                        <strong>🟢🟢 < 12 hrs</strong> - Excellent velocity
+                    </li>
+                    <li style="background:rgba(100,200,100,.1);padding:.75rem;border-radius:.5rem;margin-bottom:.5rem">
+                        <strong>🟢 12-24 hrs</strong> - Good velocity
+                    </li>
+                    <li style="background:rgba(255,215,0,.1);padding:.75rem;border-radius:.5rem;margin-bottom:.5rem">
+                        <strong>🟡 24-36 hrs</strong> - Slow
+                    </li>
+                    <li style="background:rgba(255,165,0,.1);padding:.75rem;border-radius:.5rem;margin-bottom:.5rem">
+                        <strong>🟠 36-48 hrs</strong> - Very slow
+                    </li>
+                    <li style="background:rgba(255,107,53,.1);padding:.75rem;border-radius:.5rem">
+                        <strong>🔴 > 48 hrs</strong> - Straight up dead zone. Stay out.
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>📊 THE COMBINED SCORE</h2>
+                <p>This is where the real power lives: the "Combined Score" view.</p>
+
+                <div class="mockup">
+                    🗺️ ZONE HEAT MAP<br>
+                    View: Combined Score<br>
+                    ────────────────────────────────<br>
+                    The Combined Score factors in:<br>
+                    • Profit per mile (40% weight)<br>
+                    • Wait time (30% weight)<br>
+                    • Load availability (20% weight)<br>
+                    • Your success rate (10% weight)<br>
+                    <br>
+                    [INTERACTIVE MAP DISPLAY]<br>
+                    <br>
+                    Detroit Metro: ███████ 94/100 🟢<br>
+                    Chicago: ██████ 89/100 🟢<br>
+                    Atlanta: ██████ 91/100 🟢<br>
+                    Nashville: █████ 82/100 🟢<br>
+                    Indianapolis: █████ 80/100 🟡<br>
+                    Phoenix: ███ 58/100 🟡<br>
+                    El Paso: █ 22/100 🔴<br>
+                    Laredo: █ 18/100 🔴
+                </div>
+
+                <p><strong>HOW TO USE THE SCORE:</strong></p>
+                <ul>
+                    <li>Score 80+: Build your core driving circuit around these.</li>
+                    <li>Score 60-79: Perfectly fine for occasional visits.</li>
+                    <li>Score < 60: Avoid utterly, unless there are extreme premium circumstances.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>🔍 DRILLING DOWN: THE ZONE DETAILS</h2>
+                <p>Just tap on any zone on the map to pull up the full breakdown:</p>
+
+                <div class="mockup">
+                    📍 DETROIT METRO DETAILED REPORT<br>
+                    Combined Score: 94/100 🟢🟢<br>
+                    <br>
+                    📊 YOUR PERFORMANCE HERE:<br>
+                    ├─ Loads completed: 24<br>
+                    ├─ Avg profit/mile: $1.72<br>
+                    ├─ Avg wait time: 9.2 hrs<br>
+                    ├─ Success rate: 96%<br>
+                    └─ Total net profit: $6,840<br>
+                    <br>
+                    ⏰ TIMING PATTERNS:<br>
+                    Best days: Mon-Wed (11 loads)<br>
+                    Slow days: Fri-Sun (3 loads)<br>
+                    Peak hours: 6am - 10am<br>
+                    <br>
+                    🎯 HOTTEST LANES OUT OF HERE:<br>
+                    1. Detroit → Chicago: $1.68/mi<br>
+                    2. Detroit → Atlanta: $1.65/mi<br>
+                    3. Detroit → Charlotte: $1.58/mi<br>
+                    <br>
+                    💡 YOUR BEST CONTACTS HERE:<br>
+                    • Broker: John @ XYZ (5 loads)<br>
+                    • Broker: Sarah @ ABC (4 loads)<br>
+                    <br>
+                    📅 NEXT RECOMMENDED VISIT:<br>
+                    Mon-Tue of next week<br>
+                    (Historical pattern: high volume of profitable loads)
+                </div>
+
+                <p><strong>This is PURE GOLD for planning your week.</strong></p>
+            </section>
+
+            <section>
+                <h2>🎯 BONUS FEATURE: THE ROUTE PLANNER</h2>
+
+                <div class="mockup">
+                    🛣️ SMART ROUTE PLANNER<br>
+                    Current location: Toledo, OH<br>
+                    <br>
+                    I want to:<br>
+                    ○ Find best zone within 200 mi<br>
+                    ● Plan profitable circuit<br>
+                    ○ Return home profitably<br>
+                    <br>
+                    [CALCULATE BEST ROUTE]<br>
+                    <br>
+                    📊 RECOMMENDED CIRCUIT:<br>
+                    <br>
+                    Toledo → Detroit (65 mi) 🟢🟢<br>
+                    ├─ Score: 94/100<br>
+                    ├─ Expected wait: 9 hrs<br>
+                    └─ Avg rate out: $1.65/mi<br>
+                    <br>
+                    Detroit → Chicago (280 mi) 🟢🟢<br>
+                    ├─ Score: 89/100<br>
+                    ├─ Expected wait: 12 hrs<br>
+                    └─ Avg rate out: $1.58/mi<br>
+                    <br>
+                    Chicago → Indianapolis (185 mi) 🟢<br>
+                    ├─ Score: 80/100<br>
+                    ├─ Expected wait: 18 hrs<br>
+                    └─ Avg rate out: $1.52/mi<br>
+                    <br>
+                    Indianapolis → Toledo (280 mi) 🟢<br>
+                    └─ Completing the circuit<br>
+                    <br>
+                    CIRCUIT SUMMARY:<br>
+                    ├─ Total miles: ~810 mi<br>
+                    ├─ Estimated days: 3-4 days<br>
+                    ├─ Projected net profit: $850-1,100<br>
+                    ├─ All zones score 80+<br>
+                    └─ High confidence route ✅
+                </div>
+            </section>
+
+            <section>
+                <h2>🚨 THE ZONE ALERT PROTECTION</h2>
+
+                <div
+                    style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;border:2px solid rgba(255,107,53,.3)">
+                    <p><strong>⚠️ ZONE ALERT NOTIFICATION</strong></p>
+                    <p>You're currently calculating a load to: <strong>El Paso, TX</strong></p>
+                    <p style="margin-top:1rem"><strong>🔴 WARNING: Historically low-performing zone</strong></p>
+                    <p>Your personal history in El Paso:</p>
+                    <ul>
+                        <li>Loads taken: 2</li>
+                        <li>Avg RPM out: $1.05/mi</li>
+                        <li>Avg wait time: 54 hours</li>
+                        <li>Overall Zone score: 22/100</li>
+                        <li>Last visit result: Lost $120</li>
+                    </ul>
+                    <p style="margin-top:1rem"><strong>⚠️ OUR RECOMMENDATION:</strong><br>
+                        This load needs to pay you at least <strong>$2.00/mi</strong> just to compensate for the brutal wait time,
+                        expensive repositioning, and historically terrible backhaul rates.</p>
+                    <p>Broker offer right now: $1.30/mi ❌</p>
+                    <p><strong>Suggested counter-offer: Ask for $2.10/mi</strong></p>
+                </div>
+
+                <p style="margin-top:1rem"><strong>The app acts like your personal dispatcher, refusing to let you repeat past mistakes.</strong></p>
+            </section>
+
+            <section>
+                <h2>🎯 PRO TRICKS TO MASTER THE HEAT MAP</h2>
+
+                <h3>1. The 15-Minute Weekly Planning Session</h3>
+                <p>Every Sunday, dedicate 15 minutes to planning. This small habit translates to roughly +$200-$400 more per week.</p>
+                <ul>
+                    <li>Open up your Heat Map.</li>
+                    <li>Check out your current location.</li>
+                    <li>Identify 3 target "Dark Green" zones for the week.</li>
+                    <li>Set alerts specifically for loads heading to those zones.</li>
+                    <li>Track your performance against your plan.</li>
+                </ul>
+
+                <h3>2. The Seasonal Master Adjustment</h3>
+                <p>Right before the start of every quarter (Q1, Q2, Q3, Q4):</p>
+                <ul>
+                    <li>Change your view to "Last 3 months."</li>
+                    <li>Compare it with the exact same quarter from last year.</li>
+                    <li>Adjust your driving circuit based on emerging patterns.</li>
+                    <li>Update your primary target zones.</li>
+                </ul>
+                <p><strong>For Example:</strong><br>
+                    Q4 → Add more Florida routes (the snowbirds are flocking south)<br>
+                    Q2 → Heavily reduce Phoenix (summer is totally dead)</p>
+
+                <h3>3. The Broker Overlay Trick</h3>
+                <p>Combine your Heat Map with your Broker Performance metrics:</p>
+                <p>"Show me zones where Broker John is highly active."</p>
+                <p><strong>Strategy:</strong> When you're sitting in Detroit or Chicago, you prioritize John's offers first.</p>
+            </section>
+
+            <section>
+                <h2>💡 THE KEY TAKEAWAY</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">The Heat Map is NOT just a pretty graph.<br>It is
+                        your #1 strategic weapon.</p>
+                    <p>What used to take you:</p>
+                    <ul style="text-align:left;max-width:400px;margin:1rem auto">
+                        <li>Complex, messy spreadsheets</li>
+                        <li>Trying to memorize dozens of past loads</li>
+                        <li>Blindly guessing at market patterns</li>
+                        <li>Weeks of financial analysis</li>
+                    </ul>
+                    <p style="margin-top:1rem">Now only takes you:</p>
+                    <ul style="text-align:left;max-width:400px;margin:1rem auto">
+                        <li>Exactly 30 seconds</li>
+                        <li>A visually obvious map</li>
+                        <li>Data updated in real-time</li>
+                        <li>Decisions based entirely on YOUR personal business data</li>
+                    </ul>
+                    <p style="margin-top:1.5rem;font-weight:700;color:#00D9FF">Use it WEEKLY. Your profits will naturally increase
+                        15-25% simply by positioning yourself better.</p>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn-en" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as
+                Complete</button>
+            <nav class="lesson-nav">
+                <a href="lesson-2.html" class="btn btn-secondary">← Previous Lesson</a>
+                <a href="lesson-4.html" class="btn btn-primary">Next: Strategic Deadhead →</a>
+            </nav>
+        </footer>
+        </div>    </article>
 
     <script src="../js/academy.js"></script>
     <script>
-        const MODULE_NUM = 3, LESSON_NUM = 3; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true; alert('¡Lección completada! 🎉') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true } });
+        const MODULE_NUM = 3, LESSON_NUM = 3; 
+
+function markLessonComplete() { 
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    if (window.AcademyProgress) { 
+        window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); 
+        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
+            btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; 
+            btn.disabled = true; 
+        });
+        alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
+    } 
+} 
+
+document.addEventListener('DOMContentLoaded', () => { 
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { 
+        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
+            btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; 
+            btn.disabled = true;
+        });
+    } 
+});
     </script>
+
+  <script>
+    // Academy bilingual content toggle
+    (function applyAcademyLang() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    })();
+    document.addEventListener('languageChanged', function() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    });
+  </script>
+
 </body>
 
 </html>

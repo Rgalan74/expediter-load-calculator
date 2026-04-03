@@ -604,11 +604,14 @@ window.openLexChatModal = function () {
       const uid = window.currentUser?.uid;
       if (!uid) return;
 
+      const _isEsGreet = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
       const now = new Date();
       const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
       const hora = now.getHours();
-      const saludo = hora < 12 ? 'Buenos días' : hora < 18 ? 'Buenas tardes' : 'Buenas noches';
-      const mesNombre = now.toLocaleString('es', { month: 'long' });
+      const saludo = _isEsGreet
+        ? (hora < 12 ? 'Buenos días' : hora < 18 ? 'Buenas tardes' : 'Buenas noches')
+        : (hora < 12 ? 'Good morning' : hora < 18 ? 'Good afternoon' : 'Good evening');
+      const mesNombre = now.toLocaleString(_isEsGreet ? 'es' : 'en-US', { month: 'long' });
 
       const [loadsSnap, profileSnap] = await Promise.all([
         firebase.firestore().collection('loads')
@@ -630,15 +633,20 @@ window.openLexChatModal = function () {
       const diff = avgRPM > 0 ? (((rpmMes - avgRPM) / avgRPM) * 100).toFixed(1) : null;
       const tendencia = diff === null ? ''
         : parseFloat(diff) >= 0
-          ? ` 📈 RPM ${diff}% sobre tu histórico.`
-          : ` 📉 RPM ${Math.abs(diff)}% bajo tu histórico.`;
+          ? (_isEsGreet ? ` 📈 RPM ${diff}% sobre tu histórico.` : ` 📈 RPM ${diff}% above your average.`)
+          : (_isEsGreet ? ` 📉 RPM ${Math.abs(diff)}% bajo tu histórico.` : ` 📉 RPM ${Math.abs(diff)}% below your average.`);
 
       const cargaActiva = window._lastDecisionData;
       const cargaText = cargaActiva
-        ? `\nTienes una carga en el calculador: **${cargaActiva.decision}** — $${cargaActiva.actualRPM.toFixed(2)}/mi.`
+        ? (_isEsGreet
+            ? `\nTienes una carga en el calculador: **${cargaActiva.decision}** — $${cargaActiva.actualRPM.toFixed(2)}/mi.`
+            : `\nYou have a load in the calculator: **${cargaActiva.decision}** — $${cargaActiva.actualRPM.toFixed(2)}/mi.`)
         : '';
 
-      const mensaje = `${saludo} 👋 — ${mesNombre}: **${loadsSnap.size} cargas**, $${ingresosMes.toFixed(0)} ingresos.${tendencia}${cargaText}\n¿En qué te ayudo?`;
+      const loadsLabel = _isEsGreet ? 'cargas' : 'loads';
+      const revenueLabel = _isEsGreet ? 'ingresos' : 'revenue';
+      const helpLabel = _isEsGreet ? '¿En qué te ayudo?' : 'How can I help you?';
+      const mensaje = `${saludo} 👋 — ${mesNombre}: **${loadsSnap.size} ${loadsLabel}**, $${ingresosMes.toFixed(0)} ${revenueLabel}.${tendencia}${cargaText}\n${helpLabel}`;
 
       if (typeof appendLexMessage === 'function') {
         appendLexMessage(mensaje);

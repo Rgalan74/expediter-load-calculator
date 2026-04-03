@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lección 1: Tracking Financiero Real | Smart Load Academia</title>
+    <title>Lesson 1: Real Financial Tracking | Smart Load Academy</title>
     <link rel="icon" type="image/png" href="../../img/logo-app.png" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
@@ -131,20 +131,23 @@
             margin-top: 2rem
         }
     </style>
+  <script src="../../js/i18n/language-manager.js"></script>
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">&#8592; Volver a la App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'" data-i18n="academy.back_app">← Back to App</a></nav>
     <article class="lesson-container">
+
+        <div
+            style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
+            🔒 PRO</div>
+
+        <div data-lang="es">
         <nav class="breadcrumb">
             <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 5 [PRO]</a> → Lección 1
         </nav>
 
-        <div
-            style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
-            🔒 CONTENIDO PRO</div>
-
-        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+        <header class="lesson-header" style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
             <h1>Más Allá de "Cuánto Gané": Tracking Financiero Real</h1>
             <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
                 <span>📖 12 min lectura</span>
@@ -439,19 +442,368 @@
         </div>
 
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
-                completada</button>
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como completada</button>
             <nav class="lesson-nav">
                 <a href="index.html" class="btn btn-secondary">← Volver al módulo</a>
                 <a href="lesson-2.html" class="btn btn-primary">Siguiente: KPIs →</a>
             </nav>
         </footer>
+        </div>
+
+        <div data-lang="en" style="display:none">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Module 5 [PRO]</a> → Lesson 1
+        </nav>
+
+        <header class="lesson-header" style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Beyond "How Much Did I Make": Real Financial Tracking</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 12 min read</span>
+                <span>🎓 Module 5 - Lesson 1</span>
+                <span>📊 Analysis</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>💰 THE INCOME ILLUSION</h2>
+
+                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;margin:2rem 0">
+                    <p><strong>COMMON SCENARIO:</strong></p>
+                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
+                        Driver A: "I made $12,000 this month!"<br>
+                        Driver B: "I only made $9,000"<br><br>
+                        Who is doing better?
+                    </p>
+                    <p style="text-align:center;font-weight:700;font-size:1.25rem;margin-top:1.5rem">ANSWER: It depends.
+                    </p>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
+                    <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                        <p><strong>Driver A:</strong></p>
+                        <ul style="margin:0;font-size:.9rem">
+                            <li>Revenue: $12,000</li>
+                            <li>Miles: 9,500</li>
+                            <li>Fuel: $4,200</li>
+                            <li>Maintenance: $1,100</li>
+                            <li>Other expenses: $2,800</li>
+                            <li><strong style="color:#FF6B35">Profit: $3,900</strong></li>
+                            <li>Margin: 32.5%</li>
+                        </ul>
+                    </div>
+
+                    <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
+                        <p><strong>Driver B:</strong></p>
+                        <ul style="margin:0;font-size:.9rem">
+                            <li>Revenue: $9,000</li>
+                            <li>Miles: 6,200</li>
+                            <li>Fuel: $2,400</li>
+                            <li>Maintenance: $550</li>
+                            <li>Other expenses: $1,850</li>
+                            <li><strong style="color:#64C864">Profit: $4,200</strong></li>
+                            <li>Margin: 46.7%</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p
+                    style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
+                    Driver B earns LESS but takes home MORE.<br>Why? EFFICIENCY.
+                </p>
+            </section>
+
+            <section>
+                <h2>📊 THE 3 LAYERS OF NUMBERS</h2>
+
+                <div
+                    style="background:rgba(0,217,255,.05);padding:1.5rem;border-radius:.75rem;margin:1.5rem 0;border-left:4px solid #00D9FF">
+                    <p><strong>LAYER 1: GROSS REVENUE (What you invoice)</strong></p>
+                    <ul style="margin:0">
+                        <li>Total load payments</li>
+                        <li>FSC (Fuel Surcharge)</li>
+                        <li>Detention pay</li>
+                        <li>Bonuses/incentives</li>
+                        <li><strong>EXAMPLE: $10,500/month</strong></li>
+                    </ul>
+                </div>
+
+                <div
+                    style="background:rgba(255,215,0,.05);padding:1.5rem;border-radius:.75rem;margin:1.5rem 0;border-left:4px solid #FFD700">
+                    <p><strong>LAYER 2: OPERATING EXPENSES (What you pay)</strong></p>
+                    <p><strong>VARIABLE:</strong></p>
+                    <ul>
+                        <li>Fuel, DEF, Tolls</li>
+                        <li>Meals on the road</li>
+                        <li>Preventive maintenance</li>
+                    </ul>
+                    <p><strong>FIXED:</strong></p>
+                    <ul style="margin-bottom:0">
+                        <li>Van payment, Insurance</li>
+                        <li>Licenses/plates</li>
+                        <li>Subscriptions, Phone</li>
+                        <li><strong>EXAMPLE: $6,800/month</strong></li>
+                    </ul>
+                </div>
+
+                <div
+                    style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem;margin:1.5rem 0;border-left:4px solid #64C864">
+                    <p><strong>LAYER 3: NET PROFIT (What you actually earn)</strong></p>
+                    <p style="margin:0">Revenue - Expenses<br>
+                        <strong>EXAMPLE: $10,500 - $6,800 = $3,700</strong><br>
+                        <strong>MARGIN: 35.2%</strong>
+                    </p>
+                </div>
+
+                <p
+                    style="background:rgba(255,107,53,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
+                    MOST operators only look at Layer 1.<br>YOU need to master all 3.
+                </p>
+            </section>
+
+            <section>
+                <h2>🔍 DETAILED EXPENSE BREAKDOWN</h2>
+
+                <h3>VARIABLE EXPENSES (Per Mile)</h3>
+                <div class="mockup">
+                    💵 TYPICAL VARIABLE EXPENSES<br>
+                    <br>
+                    FUEL:<br>
+                    ├─ Average price: $3.50/gal<br>
+                    ├─ Van consumption: 17-20 MPG<br>
+                    ├─ Cost per mile: $0.18-0.21<br>
+                    └─ % of revenue: 28-32%<br>
+                    <br>
+                    DEF (Diesel Exhaust Fluid):<br>
+                    ├─ Cost: ~$0.03-0.05/mi<br>
+                    └─ % of revenue: 2-3%<br>
+                    <br>
+                    MAINTENANCE:<br>
+                    ├─ Oil/filters: $0.04/mi<br>
+                    ├─ Tires: $0.03/mi<br>
+                    ├─ Brakes/suspension: $0.03/mi<br>
+                    ├─ Unexpected repairs: $0.02/mi<br>
+                    └─ TOTAL: $0.12-0.15/mi<br>
+                    <br>
+                    TOLLS:<br>
+                    ├─ Depends on route<br>
+                    └─ Average: $0.02-0.08/mi<br>
+                    <br>
+                    MEALS:<br>
+                    ├─ If driving away from home<br>
+                    └─ $20-30/day on the road<br>
+                    <br>
+                    ═══════════════════════════<br>
+                    TOTAL VARIABLE: $0.58-0.76/mi
+                </div>
+
+                <h3>FIXED EXPENSES (Per Month)</h3>
+                <div class="mockup">
+                    🏦 MONTHLY FIXED EXPENSES<br>
+                    <br>
+                    VAN:<br>
+                    ├─ Loan payment: $800-1,200<br>
+                    │ (Or depreciation if owned outright)<br>
+                    └─ % of revenue: 8-12%<br>
+                    <br>
+                    INSURANCE:<br>
+                    ├─ Liability: $300-500<br>
+                    ├─ Cargo: $200-300<br>
+                    ├─ Physical damage: $150-250<br>
+                    └─ TOTAL: $650-1,050/month<br>
+                    % of revenue: 6-10%<br>
+                    <br>
+                    LICENSES/PLATES:<br>
+                    ├─ Commercial plates: $100-150/year<br>
+                    ├─ Various permits: $50-100/year<br>
+                    └─ Monthly average: $15-25<br>
+                    <br>
+                    TECHNOLOGY:<br>
+                    ├─ Smart Load Solution Pro: $15<br>
+                    ├─ Load boards: $30-50<br>
+                    ├─ GPS/ELD: $25-40<br>
+                    ├─ Phone: $60-80<br>
+                    └─ TOTAL: $130-185/month<br>
+                    <br>
+                    ACCOUNTING/ADMIN:<br>
+                    ├─ Accountant: $100-200/month<br>
+                    ├─ Accounting software: $30-50<br>
+                    └─ TOTAL: $130-250/month<br>
+                    <br>
+                    ═══════════════════════════<br>
+                    TOTAL FIXED: $1,725-2,710/month<br>
+                    <br>
+                    If you drive 8,000 mi/month:<br>
+                    = $0.22-0.34/mi in fixed costs
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 THE SIMPLE TRACKING SYSTEM</h2>
+
+                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>ABSOLUTE MINIMUM - Record daily:</strong></p>
+
+                    <ol>
+                        <li><strong>REVENUE TODAY:</strong> Load #1: $XXX, Load #2: $XXX, TOTAL: $XXX</li>
+                        <li><strong>MILES TODAY:</strong> Deadhead: XXX, Loaded: XXX, TOTAL: XXX</li>
+                        <li><strong>EXPENSES TODAY:</strong> Fuel: $XXX (XX gallons), Tolls: $XXX, Meals: $XXX</li>
+                        <li><strong>NOTES:</strong> Anything unusual</li>
+                    </ol>
+
+                    <p
+                        style="background:rgba(255,215,0,.15);padding:1rem;border-radius:.5rem;margin:0;text-align:center">
+                        <strong>TIME REQUIRED:</strong> 3-5 minutes/day<br>
+                        <strong>BENEFIT:</strong> Complete clarity on your business
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 SETTING YOUR "MINIMUM NUMBER"</h2>
+
+                <div style="background:rgba(255,215,0,.1);padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">MONTHLY BREAK-EVEN CALCULATION</p>
+
+                    <div
+                        style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;max-width:400px;margin:0 auto">
+                        <p style="margin:0;text-align:left">
+                            Monthly fixed expenses: $_________<br>
+                            ÷ Target margin (35-40%): 0.35-0.40<br>
+                            ═══════════════════════════<br>
+                            <strong style="color:#FFD700">= MINIMUM REVENUE REQUIRED</strong>
+                        </p>
+                    </div>
+
+                    <div style="margin-top:2rem;text-align:left;max-width:500px;margin:2rem auto 0">
+                        <p><strong>EXAMPLE:</strong></p>
+                        <p>Fixed expenses: $2,200/month<br>
+                            ÷ 0.40 (40% target margin)<br>
+                            = $5,500 minimum revenue</p>
+
+                        <p><strong>This means:</strong></p>
+                        <ul style="margin:0">
+                            <li>You need to invoice AT LEAST $5,500/month</li>
+                            <li>To cover fixed costs AND generate profit</li>
+                            <li>Below this = losing money</li>
+                            <li>Above this = building your business</li>
+                        </ul>
+                    </div>
+
+                    <p style="margin-top:2rem;font-weight:700;font-size:1.25rem">YOUR MINIMUM NUMBER: $_________/month</p>
+                    <p style="margin:0">MEMORIZE IT. If you see you're tracking below it mid-month,<br>you KNOW you need more loads NOW.
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 KEY TAKEAWAY</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">"How much did I make?" is the wrong question</p>
+
+                    <div style="text-align:left;max-width:500px;margin:0 auto">
+                        <p><strong>❌ Wrong questions:</strong></p>
+                        <ul>
+                            <li>"How much did I make this month?"</li>
+                        </ul>
+
+                        <p><strong>✅ Right questions:</strong></p>
+                        <ul>
+                            <li>How much did I INVOICE? (gross revenue)</li>
+                            <li>How much did I SPEND? (total expenses)</li>
+                            <li>How much did I KEEP? (net profit)</li>
+                            <li>What was my MARGIN? (%)</li>
+                            <li>How does it COMPARE to previous months? (trend)</li>
+                        </ul>
+
+                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem">
+                            <strong>The 3 numbers you MUST always know:</strong><br><br>
+                            1. YOUR MONTHLY MINIMUM NUMBER<br>
+                            &nbsp;&nbsp;&nbsp;(Break-even with a healthy margin)<br><br>
+                            2. YOUR TARGET MARGIN<br>
+                            &nbsp;&nbsp;&nbsp;(35-45% is healthy in expediting)<br><br>
+                            3. YOUR TREND<br>
+                            &nbsp;&nbsp;&nbsp;(Improving or declining?)
+                        </p>
+
+                        <p style="margin-top:1.5rem;text-align:center;font-weight:700">
+                            Financial tracking is NOT complicated.<br>
+                            It's 3-5 minutes of logging per day.<br><br>
+                            But the difference between doing it and not<br>
+                            is the difference between:<br>
+                            Guessing whether you made money<br>
+                            vs<br>
+                            KNOWING your exact profitability
+                        </p>
+
+                        <p
+                            style="margin:0;background:rgba(255,107,53,.15);padding:1rem;border-radius:.5rem;text-align:center">
+                            <strong>One month without tracking =<br>one month flying blind</strong>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn-en" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as Complete</button>
+            <nav class="lesson-nav">
+                <a href="index.html" class="btn btn-secondary">← Back to Module</a>
+                <a href="lesson-2.html" class="btn btn-primary">Next: KPIs →</a>
+            </nav>
+        </footer>
+        </div>
+
     </article>
 
     <script src="../js/academy.js"></script>
     <script>
-        const MODULE_NUM = 5, LESSON_NUM = 1; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true; alert('¡Lección PRO completada! 📊Ahora sabes la diferencia entre cobrar y ganar.Las 3 capas: Ingresos → Gastos → Ganancia Neta') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true } });
+        const MODULE_NUM = 5, LESSON_NUM = 1;
+
+        function markLessonComplete() {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress) {
+                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.disabled = true;
+                });
+                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.disabled = true;
+                });
+            }
+        });
     </script>
+
+  <script>
+    // Academy bilingual content toggle
+    (function applyAcademyLang() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    })();
+    document.addEventListener('languageChanged', function() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    });
+  </script>
+
 </body>
 
 </html>

@@ -135,6 +135,11 @@ async function setupAuthListener() {
           user.role = userData.role || null;
           user.plan = userData.plan || 'free';
           debugLog("✅ Costos y preferencias cargados", user.costs);
+
+          // ✅ FASE 2: Aplicar idioma preferido del usuario (sin 2ª lectura a Firestore)
+          if (window.i18n?.applyUserLanguage) {
+            window.i18n.applyUserLanguage(userData);
+          }
         } else {
           debugLog("⚠️ Perfil no encontrado en Firestore, usando defaults");
         }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -130,15 +130,17 @@
             margin-top: 2rem
         }
     </style>
+  <script src="../../js/i18n/language-manager.js"></script>
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">&#8592; Volver a la App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'" data-i18n="academy.back_app">← Back to App</a></nav>
     <article class="lesson-container">
         <nav class="breadcrumb">
             <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 3</a> → Lección 4
         </nav>
 
+<div data-lang="es">
         <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
             <h1>Deadhead Estratégico: Cuándo Vale la Pena "Pagar" por Posicionarte</h1>
             <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
@@ -491,12 +493,409 @@
                 <a href="lesson-5.html" class="btn btn-primary">Siguiente: Chain Thinking →</a>
             </nav>
         </footer>
-    </article>
+
+        </div>
+
+        <div data-lang="en" style="display:none">
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Strategic Deadhead: When It Actually Pays to Drive Empty</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 9 min read</span>
+                <span>🎓 Module 3 - Lesson 4</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>🤔 THE CRITICAL QUESTION</h2>
+                <p><strong>Should you EVER willingly pay (by burning fuel) to drive empty to a new zone without a load?</strong></p>
+                <p style="font-size:1.25rem;font-weight:700;color:#00D9FF">The Answer: Yes, absolutely.<br>
+                    Sometimes deadhead is an INVESTMENT, not an expense.</p>
+            </section>
+
+            <section>
+                <h2>💰 DEADHEAD AS AN INVESTMENT VS. AN EXPENSE</h2>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
+                    <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
+                        <p><strong>❌ AN EXPENSE:</strong></p>
+                        <p>Deadhead that generates literally zero return.</p>
+                        <p><strong>Example:</strong></p>
+                        <ul style="margin:0">
+                            <li>You drop off in Columbus.</li>
+                            <li>You deadhead 180 miles to Cleveland "just because."</li>
+                            <li>Cleveland turns out to also be a mediocre freight zone.</li>
+                            <li><strong>The Result: You just paid $189 for absolutely nothing.</strong></li>
+                        </ul>
+                    </div>
+
+                    <div style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem">
+                        <p><strong>✅ AN INVESTMENT:</strong></p>
+                        <p>Deadhead that strategically positions you for a massive profit jump.</p>
+                        <p><strong>Example:</strong></p>
+                        <ul style="margin:0">
+                            <li>You drop off in Louisville (Score 68, avg wait 32 hrs).</li>
+                            <li>You strategically deadhead 280 miles to Detroit (Score 94, avg wait 9 hrs).</li>
+                            <li>Your cost to do this: 280 mi × $1.05 = $294</li>
+                            <li>The Detroit load pays $1.70/mi in 9 hrs vs waiting 32 hrs in Louisville for $1.35/mi.</li>
+                            <li><strong>Result: That $294 investment creates +$500 in extra profit = ROI: 170%</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>📊 THE FORMULA: WHEN IS IT WORTH IT?</h2>
+
+                <div
+                    style="background:rgba(0,217,255,.05);padding:1.5rem;border-radius:.75rem;text-align:center;margin:2rem 0">
+                    <p style="font-size:1.1rem;margin-bottom:.5rem"><strong>THE DEADHEAD ROI CALCULATOR:</strong></p>
+                    <p style="font-size:1.5rem;font-weight:900;color:#00D9FF;margin:1rem 0">ROI = (Expected Profit
+                        Increase - Deadhead Cost) ÷ Deadhead Cost × 100</p>
+
+                    <div style="text-align:left;max-width:500px;margin:1.5rem auto 0">
+                        <p>If ROI is > 50% → It's probably worth it.</p>
+                        <p>If ROI is > 100% → Definitely do it right now.</p>
+                        <p>If ROI is < 30% → Probably not worth the effort.</p>
+                        <p style="margin:0">If ROI is < 0% → Terrible idea, stay put.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 REAL WORLD SCENARIO: LAREDO vs SAN ANTONIO</h2>
+                <p><strong>The Situation:</strong> You just finished a delivery in Laredo, TX.</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Option A: Stay & Wait</th>
+                            <th>Option B: Reposition to pure gold</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Zone</td>
+                            <td>Laredo</td>
+                            <td>San Antonio (280 mi away)</td>
+                        </tr>
+                        <tr>
+                            <td>Deadhead Cost</td>
+                            <td>$0</td>
+                            <td>$294</td>
+                        </tr>
+                        <tr>
+                            <td>Avg Wait Time</td>
+                            <td>68 hrs</td>
+                            <td>18 hrs</td>
+                        </tr>
+                        <tr>
+                            <td>Expected Next Load Rate</td>
+                            <td>$1.05/mi</td>
+                            <td>$1.45/mi</td>
+                        </tr>
+                        <tr>
+                            <td>Freight Availability</td>
+                            <td>Terrible</td>
+                            <td>Excellent</td>
+                        </tr>
+                        <tr style="background:rgba(0,217,255,.05)">
+                            <td><strong>Total Profit Over Next 4 Days</strong></td>
+                            <td><strong>$350</strong></td>
+                            <td><strong>$800</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div
+                    style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem;text-align:center;margin:2rem 0">
+                    <p><strong>THE BREAKDOWN:</strong></p>
+                    <ul style="text-align:left;display:inline-block">
+                        <li>Cost to reposition yourself: $294</li>
+                        <li>Raw difference in profit: $800 - $350 = $450</li>
+                        <li>Net Benefit (Profit - Cost): $450 - $294 = $156</li>
+                        <li>ROI: ($156 ÷ $294) × 100 = 53%</li>
+                        <li>Time Saved over your life: 50 hrs (68 - 18)</li>
+                    </ul>
+                    <p style="margin-top:1rem;font-weight:700;font-size:1.25rem;color:#64C864">✅ IT IS ABSOLUTELY WORTH MOVING to
+                        San Antonio<br>
+                        You make $156 more AND you get 2 days of your life back.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🗺️ COMMON "ESCAPE" ZONES</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>From (Dead Zone)</th>
+                            <th>To (Good Zone)</th>
+                            <th>Empty Miles</th>
+                            <th>Expected ROI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background:rgba(100,200,100,.08)">
+                            <td>Laredo, TX</td>
+                            <td>San Antonio, TX</td>
+                            <td>280</td>
+                            <td><strong>53% ✅</strong></td>
+                        </tr>
+                        <tr style="background:rgba(255,215,0,.08)">
+                            <td>El Paso, TX</td>
+                            <td>Dallas, TX</td>
+                            <td>640</td>
+                            <td>28% ⚠️</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.08)">
+                            <td>Phoenix, AZ</td>
+                            <td>Las Vegas, NV</td>
+                            <td>290</td>
+                            <td><strong>45% ✅</strong></td>
+                        </tr>
+                        <tr style="background:rgba(255,107,53,.08)">
+                            <td>Montana in General</td>
+                            <td>Denver, CO</td>
+                            <td>700+</td>
+                            <td>15% ❌</td>
+                        </tr>
+                        <tr style="background:rgba(255,215,0,.08)">
+                            <td>Albuquerque, NM</td>
+                            <td>Dallas or Phoenix</td>
+                            <td>450</td>
+                            <td>35% ⚠️</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p><strong>HOW TO READ THIS:</strong></p>
+                <ul>
+                    <li>HIGH ROI (>50%): Don't think, just drive.</li>
+                    <li>MEDIUM ROI (30-50%): Weigh your options; it might be worth it in a slow season.</li>
+                    <li>LOW ROI (<30%): Stay put unless you are genuinely desperate to get home.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>⏰ THE MASSIVE FACTOR OF TIME</h2>
+                <p>Deadhead doesn't just cost gas and wear-and-tear; it costs your precious TIME.</p>
+
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>A COMPLETE CALCULATION:</strong></p>
+                    <p>Deadheading 300 miles to a far superior zone:</p>
+                    <ul>
+                        <li>Cost of miles: 300 × $1.05 = $315</li>
+                        <li>Drive time: roughly 5 hours</li>
+                        <li>Opportunity Cost (What your time is worth): 5 hrs × $40/hr = $200</li>
+                        <li><strong>TOTAL INVESTMENT COST: $515</strong></li>
+                    </ul>
+
+                    <p style="margin-top:1rem">The Benefits in the new zone:</p>
+                    <ul>
+                        <li>Reduced wait time: 48 hrs drops to 12 hrs = 36 hours saved.</li>
+                        <li>Value of that time recovered: 36 hrs × $40/hr = $1,440</li>
+                        <li>Better load rate: +$0.30/mi extra on a standard 600 mile outbound load = $180</li>
+                        <li><strong>TOTAL PROJECTED BENEFIT: $1,620</strong></li>
+                    </ul>
+
+                    <p style="margin-top:1rem;text-align:center;font-size:1.25rem;font-weight:700;color:#64C864">
+                        YOUR NET GAIN: $1,620 - $515 = $1,105<br>
+                        ROI: 215% ✅✅<br>
+                        SLAM DUNK - Start the engine and go.
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 OUR REPOSITIONING ADVISOR</h2>
+
+                <div class="mockup">
+                    🔄 REPOSITIONING ADVISOR<br>
+                    Current location: Laredo, TX<br>
+                    Current Zone score: 18/100 🔴<br>
+                    <br>
+                    ⚠️ You're sitting in a historically awful zone.<br>
+                    <br>
+                    OUR RECOMMENDED REPOSITIONING ESCAPES:<br>
+                    <br>
+                    🥇 Option 1: San Antonio, TX<br>
+                    ├─ Distance: 280 mi<br>
+                    ├─ Expected Cost: $294<br>
+                    ├─ Drive time: 4.5 hrs<br>
+                    ├─ San Antonio Zone score: 76/100 🟢<br>
+                    ├─ Avg Wait There: 18 hrs<br>
+                    ├─ Expected ROI: 53%<br>
+                    └─ Net Benefit: $156 more cash + saving 50 hours<br>
+                    <br>
+                    🥈 Option 2: Corpus Christi, TX<br>
+                    ├─ Distance: 220 mi<br>
+                    ├─ Expected Cost: $231<br>
+                    ├─ Zone score: 65/100 🟡<br>
+                    ├─ Expected ROI: 38%<br>
+                    └─ A moderate but acceptable improvement.<br>
+                    <br>
+                    🥉 Option 3: Wait it out in Laredo<br>
+                    ├─ Cost: $0 upfront<br>
+                    ├─ Expected Wait: 68 punishing hours<br>
+                    ├─ Next Load Rate: ~$1.05/mi<br>
+                    └─ Total cost: $0 upfront, but 3 days of your life completely lost.<br>
+                    <br>
+                    💡 SUMMARY RECOMMENDATION:<br>
+                    Start driving to San Antonio immediately.<br>
+                    <br>
+                    Based on your personal history, drivers<br>
+                    who repositioned from here earned 47% more<br>
+                    per week than those who stubbornily waited.
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 ADVANCED STRATEGY: THE "HOME BASE RADIUS"</h2>
+                <p><strong>The Concept:</strong> Clearly define a highly profitable "home base" and a strict radius of action around it.</p>
+
+                <div style="background:rgba(0,217,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>An Example:</strong></p>
+                    <ul>
+                        <li>Your Home Base: Detroit</li>
+                        <li>Your Operating Radius: 500 miles</li>
+                        <li>Zones cleanly inside radius: Chicago, Indianapolis, Columbus, Cleveland, Nashville.</li>
+                        <li><strong>The Strategy:</strong> Your primary goal expands outward, but always arcs back toward the radius.</li>
+                    </ul>
+
+                    <p style="margin-top:1rem"><strong>THE IRON-CLAD RULE:</strong></p>
+                    <p>If you drop off OUTSIDE your radius (>500 mi away):<br>
+                        → Your next load MUST push you back toward the radius, OR pay an ungodly premium to keep you out there.</p>
+
+                    <p>If you drop off INSIDE your radius:<br>
+                        → You can afford to be highly flexible with your next load.</p>
+
+                    <p style="margin-top:1rem"><strong>THE MASSIVE BENEFIT:</strong></p>
+                    <ul style="margin:0">
+                        <li>You never mathematically "get lost" taking cheap loads deeper into dead zones.</li>
+                        <li>You stick strictly to zones you physically know.</li>
+                        <li>It creates a highly predictable, lower-stress lifestyle.</li>
+                        <li>It mathematically maximizes your familiarity advantage.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>📊 A MONTHLY DEADHEAD "BUDGET"</h2>
+                <p><strong>A Pro-Level Concept:</strong> Budget exactly X miles per month solely for strategic repositioning leaps.</p>
+
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>The Example:</strong></p>
+                    <ul>
+                        <li>Your Monthly Budget: 800 miles explicitly for repositioning.</li>
+                        <li>Strategic Usage:
+                            <ul>
+                                <li>280 mi: Escape Laredo → San Antonio</li>
+                                <li>200 mi: Push Louisville → Indianapolis</li>
+                                <li>320 mi: Escape Phoenix → Las Vegas</li>
+                            </ul>
+                        </li>
+                        <li><strong>Total: 800 miles of calculated "investment driving."</strong></li>
+                    </ul>
+
+                    <p style="margin-top:1rem">
+                        The Cost: 800 × $1.05 = $840/month<br>
+                        The Expected Benefit: +$1,500 to $2,000/month increase in net profit.<br>
+                        <strong>Total ROI: 180-240%</strong>
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 THE KEY TAKEAWAY</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">Deadhead isn't a four-letter word.<br>Sometimes it
+                        is the absolute smartest financial decision you can make.</p>
+
+                    <div style="text-align:left;max-width:500px;margin:1.5rem auto">
+                        <p><strong>BAD deadhead is:</strong></p>
+                        <ul>
+                            <li>Aimless and without purpose.</li>
+                            <li>Fails to improve your overall positioning.</li>
+                            <li>Is a literal expense with zero return.</li>
+                        </ul>
+
+                        <p style="margin-top:1rem"><strong>GOOD deadhead is:</strong></p>
+                        <ul>
+                            <li>An escape hatch from a terrifying dead zone.</li>
+                            <li>A strategic leap into high-paying freight.</li>
+                            <li>Generates an ROI greater than 50%.</li>
+                            <li>Is a pure investment with incredibly clear returns.</li>
+                        </ul>
+                    </div>
+
+                    <p style="margin-top:1.5rem;font-weight:700;color:#FFD700">Think like an investor with every mile: "Does this deadhead run 
+                        give me an ROI?"<br>
+                        If yes → Burn the fuel with confidence.<br>
+                        If no → Reject the idea and find another plan.</p>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn-en" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as
+                Complete</button>
+            <nav class="lesson-nav">
+                <a href="lesson-3.html" class="btn btn-secondary">← Previous Lesson</a>
+                <a href="lesson-5.html" class="btn btn-primary">Next: Chain Thinking →</a>
+            </nav>
+        </footer>
+        </div>    </article>
 
     <script src="../js/academy.js"></script>
     <script>
-        const MODULE_NUM = 3, LESSON_NUM = 4; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true; alert('¡Lección completada! 🎉') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true } });
+        const MODULE_NUM = 3, LESSON_NUM = 4; 
+
+function markLessonComplete() { 
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    if (window.AcademyProgress) { 
+        window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); 
+        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
+            btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; 
+            btn.disabled = true; 
+        });
+        alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
+    } 
+} 
+
+document.addEventListener('DOMContentLoaded', () => { 
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { 
+        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
+            btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; 
+            btn.disabled = true;
+        });
+    } 
+});
     </script>
+
+  <script>
+    // Academy bilingual content toggle
+    (function applyAcademyLang() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    })();
+    document.addEventListener('languageChanged', function() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    });
+  </script>
+
 </body>
 
 </html>

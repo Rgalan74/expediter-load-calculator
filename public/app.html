@@ -675,18 +675,18 @@
                 <!-- Empresa + Notas -->
                 <div class="space-y-4">
                   <input class="border p-3 w-full rounded-lg text-base placeholder:text-sm" id="companyName"
-                    placeholder="Company (optional)">
+                    data-i18n="calculator.company_placeholder" placeholder="Company (optional)">
 
                   <input class="border p-3 w-full rounded-lg text-base placeholder:text-sm" id="loadNumber"
-                    placeholder="Load # (optional)">
+                    data-i18n="calculator.load_number_placeholder" placeholder="Load # (optional)">
 
                   <!-- 📝 Notas previas (CRUD) -->
                   <!-- 📌 Cuadro amarillo en calculadora -->
                   <div id="previousNoteBox"
                     class="p-3 rounded-lg bg-yellow-50 border border-yellow-200 text-sm text-gray-800 hidden">
-                    <p id="notesStatusText">ℹ️ No notes for this destination.</p>
+                    <p id="notesStatusText" data-i18n="calculator.no_notes_destination">ℹ️ No notes for this destination.</p>
                     <button onclick="openNotesModal(document.getElementById('destination').value)"
-                      class="mt-2 text-white px-3 py-1 rounded text-sm font-semibold" style="background:#fb923c;">
+                      class="mt-2 text-white px-3 py-1 rounded text-sm font-semibold" style="background:#fb923c;" data-i18n="calculator.view_notes_btn">
                       📖 View Notes
                     </button>
                   </div>
@@ -702,16 +702,16 @@
                   <label class="block text-base font-medium mb-2" data-i18n="calculator.miles_label">Total Miles *</label>
                   <input type="number" id="loadedMiles" placeholder="644"
                     class="border p-3 w-full rounded-lg text-base">
-                  <p class="text-xs mt-1">Loaded + deadhead to pickup</p>
+                  <p class="text-xs mt-1" data-i18n="calculator.loaded_deadhead_subtitle">Loaded + deadhead to pickup</p>
                 </div>
                 <div>
                   <label class="block text-base font-medium mb-2" data-i18n="calculator.deadhead_label">Deadhead Miles (optional)</label>
                   <input type="number" id="deadheadMiles" placeholder="0"
                     class="border p-3 w-full rounded-lg text-base">
-                  <p class="text-xs mt-1">Only if you need to separate deadhead</p>
+                  <p class="text-xs mt-1" data-i18n="calculator.separate_deadhead_subtitle">Only if you need to separate deadhead</p>
                 </div>
                 <div>
-                  <label class="block text-base font-medium mb-2">Total Miles</label>
+                  <label class="block text-base font-medium mb-2" data-i18n="calculator.total_miles_label">Total Miles</label>
                   <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-3 text-center">
                     <span id="tripMiles" class="text-2xl font-bold text-blue-800">0</span>
                     <span class="text-blue-600 text-sm ml-1">mi</span>
@@ -722,7 +722,7 @@
 
             <!-- 💰 Finanzas -->
             <div class="card-section col-span-1">
-              <h3 class="text-2xl font-bold mb-4">💰 Financial Information</h3>
+              <h3 class="text-2xl font-bold mb-4" data-i18n="calculator.financial_info_title">💰 Financial Information</h3>
               <div class="space-y-4">
                 <div>
                   <label class="block text-base font-medium mb-2" data-i18n="calculator.rpm_label">RPM ($/mile) *</label>
@@ -735,11 +735,11 @@
                     class="border p-3 w-full rounded-lg text-base">
                 </div>
                 <div>
-                  <label class="block text-base font-medium mb-2">Tolls ($)</label>
+                  <label class="block text-base font-medium mb-2" data-i18n="calculator.tolls_usd_label">Tolls ($)</label>
                   <input type="number" id="tolls" placeholder="25" class="border p-3 w-full rounded-lg text-base">
                 </div>
                 <div>
-                  <label class="block text-base font-medium mb-2">Other Costs ($)</label>
+                  <label class="block text-base font-medium mb-2" data-i18n="calculator.other_costs_usd_label">Other Costs ($)</label>
                   <input type="number" id="otherCosts" placeholder="0" class="border p-3 w-full rounded-lg text-base">
                 </div>
               </div>
@@ -756,7 +756,7 @@
                   <div class="flex items-start md:items-center gap-2 md:gap-3 flex-1">
                     <span id="decisionIcon" class="text-3xl md:text-4xl">⚡</span>
                     <div class="flex-1">
-                      <h3 id="decisionTitle" class="text-xl md:text-2xl font-bold">CALCULANDO...</h3>
+                      <h3 id="decisionTitle" class="text-xl md:text-2xl font-bold" data-i18n="calculator.calculating">CALCULATING...</h3>
                       <p id="decisionRoute" class="text-white/90 text-xs md:text-sm mt-0.5 md:mt-1"></p>
                     </div>
                   </div>
@@ -769,7 +769,7 @@
                 <!-- Grid métricas -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-3">
                   <div class="bg-white/20 backdrop-blur rounded-lg p-2 text-center">
-                    <div class="text-xs text-white/80">RPM</div>
+                    <div class="text-xs text-white/80" data-i18n="calculator.rpm_short">RPM</div>
                     <div id="quickRPM" class="text-lg md:text-xl font-bold">$0.00</div>
                   </div>
                   <div class="bg-white/20 backdrop-blur rounded-lg p-2 text-center">
@@ -781,7 +781,7 @@
                     <div id="quickMargin" class="text-lg md:text-xl font-bold">0%</div>
                   </div>
                   <div class="bg-white/20 backdrop-blur rounded-lg p-2 text-center">
-                    <div class="text-xs text-white/80">$/Mi</div>
+                    <div class="text-xs text-white/80" data-i18n="calculator.profit_per_mile_short">$/Mi</div>
                     <div id="quickProfitPerMile" class="text-lg md:text-xl font-bold">$0.00</div>
                   </div>
                 </div>

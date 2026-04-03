@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ui-enhancements.js
  * Mejoras UI/UX para la aplicación Expediter
  * - Animaciones sutiles
@@ -146,7 +146,7 @@ async function copyToClipboard(text, buttonElement = null) {
 
         if (buttonElement) {
             const originalText = buttonElement.textContent;
-            buttonElement.textContent = '✓ Copiado';
+            buttonElement.textContent = window.i18n?.t('ui.btn_copied') || '✓ Copiado';
             buttonElement.classList.add('bg-green-500');
 
             setTimeout(() => {
@@ -155,13 +155,13 @@ async function copyToClipboard(text, buttonElement = null) {
             }, 2000);
         }
 
-        showToast('Copiado al portapapeles', 'success');
+        showToast(window.i18n?.t('ui.copied') || 'Copiado al portapapeles', 'success');
         hapticFeedback();
 
         return true;
     } catch (error) {
         debugLog('Error copiando:', error);
-        showToast('Error al copiar', 'error');
+        showToast(window.i18n?.t('ui.copy_error') || 'Error al copiar', 'error');
         return false;
     }
 }

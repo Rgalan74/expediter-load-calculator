@@ -1,4 +1,4 @@
-﻿// ===============================
+// ===============================
 // SISTEMA DE PLANES DE USUARIO
 // userPlans.js - VERSIÃ“N CORREGIDA
 // ===============================
@@ -22,13 +22,17 @@ const PLANS = {
             hasAcademy: true,
             academyModules: [0, 1, 2, 3]
         },
-        features: [
-            '30 cargas guardadas',
-            'Calculadora RPM básica',
-            'Dashboard financiero básico',
-            'Mapa de zonas básico',
-            'Academia — Módulos 1-3 gratis'
-        ]
+        // features es un getter dinámico para respetar el idioma activo
+        get features() {
+            const t = window.i18n ? window.i18n.t.bind(window.i18n) : (k) => k;
+            return [
+                t('plans.starter_f1_plain'),
+                t('plans.feature_basic_rpm'),
+                t('plans.feature_basic_finances'),
+                t('plans.feature_basic_zones'),
+                t('plans.feature_academy_free')
+            ];
+        }
     },
     professional: {
         id: 'professional',
@@ -48,15 +52,18 @@ const PLANS = {
             hasAcademy: true,
             academyModules: [0, 1, 2, 3, 4, 5, 6]
         },
-        features: [
-            'Cargas ilimitadas',
-            'Sistema financiero completo',
-            'Mapa de zonas avanzado',
-            'Historial de 90 días',
-            'Reportes financieros en PDF',
-            'Exportación Excel/CSV',
-            'Academia — Módulos 1-6 (Pro)'
-        ]
+        get features() {
+            const t = window.i18n ? window.i18n.t.bind(window.i18n) : (k) => k;
+            return [
+                t('plans.feature_unlimited_loads'),
+                t('plans.feature_full_finances'),
+                t('plans.feature_advanced_zones'),
+                t('plans.feature_history_90'),
+                t('plans.feature_pdf_reports'),
+                t('plans.feature_excel_export'),
+                t('plans.feature_academy_pro')
+            ];
+        }
     },
     premium: {
         id: 'premium',
@@ -77,15 +84,18 @@ const PLANS = {
             hasAcademy: true,
             academyModules: [0, 1, 2, 3, 4, 5, 6, 7, 8]
         },
-        features: [
-            'Todo lo del plan Professional',
-            'Lex AI Assistant',
-            'Historial ilimitado',
-            'Análisis predictivo con AI',
-            'Reportes de impuestos',
-            'Soporte prioritario',
-            'Academia completa — Módulos 1-8'
-        ]
+        get features() {
+            const t = window.i18n ? window.i18n.t.bind(window.i18n) : (k) => k;
+            return [
+                t('plans.feature_everything_pro'),
+                t('plans.feature_lex_ai'),
+                t('plans.feature_unlimited_history'),
+                t('plans.feature_ai_analysis'),
+                t('plans.feature_tax_reports'),
+                t('plans.feature_priority_support'),
+                t('plans.feature_full_academy')
+            ];
+        }
     },
     admin: {
         id: 'admin',
@@ -339,20 +349,26 @@ function showUpgradeModal(featureName, currentPlanId = 'free') {
     const modal = document.createElement('div');
     modal.id = 'upgradeModal';
     modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;z-index:9999;padding:16px;';
+    const t = window.i18n ? window.i18n.t.bind(window.i18n) : (k) => k;
+    const modalTitle = featureName
+        ? t('upgrade_modal.title').replace('{{feature}}', `"${featureName}"`).replace('{{plan}}', targetPlan.name)
+        : `${targetPlan.name}`;
+    const perMonth = t('plans.per_month') || '/mo';
+
     modal.innerHTML = `
 <div style="background:#1e293b;border-radius:16px;max-width:420px;width:100%;padding:32px;box-shadow:0 25px 50px rgba(0,0,0,0.5);border:1px solid ${accentBorder};">
   <div style="text-align:center;margin-bottom:24px;">
     <div style="font-size:48px;margin-bottom:12px;">${planEmoji}</div>
     <h2 style="margin:0 0 8px;font-size:22px;font-weight:800;color:#fff;">
-      ${featureName ? `"${featureName}"` : 'Esta función'} requiere <span style="color:${accentColor};">${targetPlan.name}</span>
+      ${modalTitle}
     </h2>
-    <p style="margin:0;color:#94a3b8;font-size:14px;">Desbloquea todas las funciones avanzadas</p>
+    <p style="margin:0;color:#94a3b8;font-size:14px;">${t('upgrade_modal.subtitle')}</p>
   </div>
 
   <div style="background:${accentBg};border:1px solid ${accentBorder};border-radius:12px;padding:16px;margin-bottom:24px;">
     <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:12px;">
       <span style="font-size:28px;font-weight:900;color:#fff;">$${targetPlan.price}</span>
-      <span style="color:#94a3b8;font-size:13px;">/mes</span>
+      <span style="color:#94a3b8;font-size:13px;">${perMonth}</span>
     </div>
     <ul style="margin:0;padding:0;list-style:none;">
       ${featuresHtml}
@@ -362,11 +378,11 @@ function showUpgradeModal(featureName, currentPlanId = 'free') {
   <div style="display:flex;gap:12px;">
     <button onclick="closeUpgradeModal()"
       style="flex:1;background:rgba(255,255,255,0.08);color:#94a3b8;border:none;padding:12px;border-radius:8px;font-weight:600;cursor:pointer;font-size:14px;">
-      Tal vez después
+      ${t('upgrade_modal.btn_maybe_later')}
     </button>
     <button onclick="goToPlans()"
       style="flex:1;${btnColor};color:#fff;border:none;padding:12px;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px;">
-      Ver Planes →
+      ${t('upgrade_modal.btn_see_plans')}
     </button>
   </div>
 </div>`;

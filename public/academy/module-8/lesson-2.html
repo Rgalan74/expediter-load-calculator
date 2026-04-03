@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lección 2: Balance Trabajo-Vida Real | Smart Load Academia</title>
+    <title>Lesson 2: Real Work-Life Balance | Smart Load Academy</title>
     <link rel="icon" type="image/png" href="../../img/logo-app.png" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
@@ -99,18 +99,21 @@
             margin-top: 2rem
         }
     </style>
+  <script src="../../js/i18n/language-manager.js"></script>
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">&#8592; Volver a la App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'" data-i18n="academy.back_app">← Back to App</a></nav>
     <article class="lesson-container">
-        <nav class="breadcrumb">
-            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 8 [PRO]</a> → Lección 2
-        </nav>
 
         <div
             style="display:inline-block;background:linear-gradient(90deg,#FFD700,#FF6B35);color:#000;padding:0.5rem 1rem;border-radius:2rem;font-size:0.75rem;margin-bottom:1rem;font-weight:700;">
-            🔒 CONTENIDO PRO - MÓDULO FINAL</div>
+            🔒 PRO CONTENT - FINAL MODULE</div>
+
+<div data-lang="es">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 8 [PRO]</a> → Lección 2
+        </nav>
 
         <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
             <h1>Balance Trabajo-Vida Real: No Fantasía, Estrategias Prácticas</h1>
@@ -130,7 +133,7 @@
                     <p><strong>MITO:</strong> "Balance significa 50/50 trabajo y vida personal"</p>
                     <p><strong>REALIDAD:</strong> Balance en expediting es DINÁMICO, no estático.</p>
                     <p style="margin:0"><strong>Semana típica:</strong><br>
-                        Lunes-Viernes: 70% trab ajo, 30% vida | Sábado: 40% trabajo, 60% vida | Domingo: 0% trabajo,
+                        Lunes-Viernes: 70% trabajo, 30% vida | Sábado: 40% trabajo, 60% vida | Domingo: 0% trabajo,
                         100% vida<br>
                         <span style="color:#FFD700;font-weight:700">Promedio semanal: 60% trabajo, 40% vida</span>
                     </p>
@@ -172,7 +175,7 @@
                 </div>
 
                 <h3>ÁREA #2: Familia y Relaciones</h3>
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75req">
+                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
                     <p><strong>COMUNICACIÓN PROACTIVA:</strong></p>
                     <p>"Hoy tengo carga Detroit-Nashville. Salgo 6am, entrego 2pm, regreso 8pm. Cenaremos juntos."<br>
                         → Familia puede planear su día (vs "No sé cuándo llegaré")</p>
@@ -257,19 +260,203 @@
         </div>
 
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
-                completada</button>
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como completada</button>
             <nav class="lesson-nav">
                 <a href="lesson-1.html" class="btn btn-secondary">← Lección anterior</a>
-                <a href="lesson-3.html" class="btn btn-primary">Siguiente lección →</a>
+                <a href="lesson-3.html" class="btn btn-primary">Siguiente: Salud Física para Long-Haul Success →</a>
             </nav>
         </footer>
+</div>
+
+<div data-lang="en" style="display:none">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Module 8 [PRO]</a> → Lesson 2
+        </nav>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Real Work-Life Balance: Not Fantasy, Practical Strategies</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 9 min read</span>
+                <span>🎓 Module 8 - Lesson 2</span>
+                <span>⚖️ Balance</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>⚖️ THE TRUTH ABOUT "BALANCE"</h2>
+
+                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem;margin-bottom:2rem">
+                    <p><strong>MYTH:</strong> "Balance means 50/50 work and personal life"</p>
+                    <p><strong>REALITY:</strong> Balance in expediting is DYNAMIC, not static.</p>
+                    <p style="margin:0"><strong>Typical week:</strong><br>
+                        Mon-Fri: 70% work, 30% life | Saturday: 40% work, 60% life | Sunday: 0% work, 100% life<br>
+                        <span style="color:#FFD700;font-weight:700">Weekly average: 60% work, 40% life</span>
+                    </p>
+                </div>
+
+                <div style="background:rgba(0,217,255,.1);padding:1.5rem;border-radius:.75rem;text-align:center">
+                    <p style="font-weight:700;font-size:1.1rem;margin-bottom:1rem">BETTER DEFINITION OF BALANCE:</p>
+                    <p style="margin:0">"I can work hard when I need to, but I can also fully disconnect.<br>
+                        My family feels like a priority. My health is not sacrificed.<br>
+                        I enjoy what I do most of the time.<br>
+                        <strong style="color:#FFD700">And this is SUSTAINABLE for years.</strong>"
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 THE 4 AREAS OF BALANCE</h2>
+
+                <h3>AREA #1: Time and Energy</h3>
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>PROBLEM:</strong> Expediting consumes time AND energy. You may have free time but be too exhausted to enjoy it.</p>
+
+                    <p><strong>PERIODIZATION (Like athletes):</strong></p>
+                    <ul>
+                        <li><strong>HIGH intensity weeks (2-3):</strong> 60-65 hrs, maximize income, long routes OK</li>
+                        <li><strong>RECOVERY weeks (1):</strong> 45-50 hrs, short/easy routes only, recharge</li>
+                        <li><strong>Cycle:</strong> 3 weeks ON, 1 week LIGHT → Sustainable</li>
+                    </ul>
+
+                    <p><strong>MICRO-BREAKS:</strong> Every 2-3 hrs, stop 10-15 min, walk, stretch → You arrive with MORE energy</p>
+
+                    <p style="margin:0"><strong>STRATEGIC "EASY" LOADS:</strong><br>
+                        Mix 60% normal, 30% low energy, 10% high energy. Not everything can be urgent/difficult.</p>
+                </div>
+
+                <h3>AREA #2: Family and Relationships</h3>
+                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>PROACTIVE COMMUNICATION:</strong></p>
+                    <p>"Today I have a load Detroit-Nashville. I leave at 6am, deliver at 2pm, back at 8pm. We'll have dinner together."<br>
+                        → Family can plan their day (vs "I don't know when I'll be back")</p>
+
+                    <p><strong>PLANNED QUALITY TIME:</strong></p>
+                    <ul>
+                        <li><strong>DAILY:</strong> 30 min family meal (no phone), 15 min before bed</li>
+                        <li><strong>WEEKLY:</strong> Date night, activity with kids, 2-3 hrs disconnected</li>
+                        <li><strong>MONTHLY:</strong> Family weekend, memorable experience together</li>
+                    </ul>
+
+                    <p style="margin:0"><strong>PRESENCE > PERFECTION:</strong><br>
+                        30 min fully present > 3 hrs distracted on your phone<br>
+                        When you're with family, you ARE with family. No work.</p>
+                </div>
+
+                <h3>AREA #3: Personal Development</h3>
+                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>If you don't invest in YOU, you depreciate.</strong></p>
+
+                    <ul style="margin:0">
+                        <li><strong>CONTINUOUS EDUCATION:</strong> 30-60 min/week (podcasts while driving), industry + business + personal</li>
+                        <li><strong>FITNESS:</strong> 30 min activity/day minimum. Better: Gym 3-4x/week</li>
+                        <li><strong>HOBBIES:</strong> You need something that is NOT work. Reading, photography, music, DIY projects</li>
+                        <li><strong>SOCIAL NETWORK:</strong> Weekly call to a close friend, maintain friendships, don't let everything wither</li>
+                    </ul>
+                </div>
+
+                <h3>AREA #4: Purpose and Meaning</h3>
+                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>CRUCIAL QUESTION: "WHY do I do this?"</strong></p>
+
+                    <p><strong>LEVEL 1:</strong> "I need to pay bills" → Weak motivation<br>
+                        <strong>LEVEL 2:</strong> "I want to give my family a good life" → Better, sustainable<br>
+                        <strong>LEVEL 3:</strong> "I'm building financial independence. Modeling hard work for my kids. Contributing to the economy. Building something of value." → Deep, long-term sustainable
+                    </p>
+
+                    <p style="margin:0;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;text-align:center">
+                        <strong>IMPORTANT:</strong> If your work and values are completely misaligned = inevitable burnout.<br>
+                        Expediting may not be for everyone. And that's OK.
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 KEY TAKEAWAY</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Balance is not 50/50. It's SUSTAINABLE long-term.</p>
+
+                    <div style="text-align:left;max-width:600px;margin:0 auto">
+                        <p><strong>The 4 areas:</strong></p>
+                        <ol>
+                            <li><strong>TIME &amp; ENERGY:</strong> Periodization (3 ON, 1 LIGHT), micro-breaks, load mix</li>
+                            <li><strong>FAMILY:</strong> Proactive communication, planned quality time, presence > perfection</li>
+                            <li><strong>DEVELOPMENT:</strong> Education, fitness, hobbies, social network</li>
+                            <li><strong>PURPOSE:</strong> Know your "Why", values alignment, long-term vision</li>
+                        </ol>
+
+                        <p
+                            style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center;font-weight:700">
+                            It's NOT perfection. It's sustainable progress.<br><br>
+                            Don't sacrifice family for money.<br>
+                            Don't sacrifice health for success.<br>
+                            Don't lose meaning for busyness.<br><br>
+                            <span style="color:#FFD700;font-size:1.2rem">Balance = being able to maintain this for 10, 20, 30 years without collapsing</span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn-en" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as Complete</button>
+            <nav class="lesson-nav">
+                <a href="lesson-1.html" class="btn btn-secondary">← Previous Lesson</a>
+                <a href="lesson-3.html" class="btn btn-primary">Next: Physical Health for Long-Haul Success →</a>
+            </nav>
+        </footer>
+</div>
+
     </article>
 
     <script src="../js/academy.js"></script>
     <script>
-        const MODULE_NUM = 8, LESSON_NUM = 2; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true; alert('¡Lección PRO completada! ⚖️Balance NO es 50/50.Es ritmo SOSTENIBLE a largo plazo.4 áreas:1. Tiempo/Energía: Periodización2. Familia: Quality time planificado3. Desarrollo: Educación, fitness, hobbies4. Propósito: Saber tu "Por Qué"30 min presente > 3 hrs distraído') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true } });
+        const MODULE_NUM = 8, LESSON_NUM = 2;
+
+        function markLessonComplete() {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress) {
+                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.disabled = true;
+                });
+                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.disabled = true;
+                });
+            }
+        });
     </script>
+
+  <script>
+    // Academy bilingual content toggle
+    (function applyAcademyLang() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    })();
+    document.addEventListener('languageChanged', function() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    });
+  </script>
+
 </body>
 
 </html>

@@ -4,6 +4,11 @@
  * Maneja la carga de JSONs, el reemplazo en el DOM y la preferencia de idioma.
  */
 
+// Safe fallback: debugLog may not be defined on standalone pages (about, contact, etc.)
+if (typeof debugLog === 'undefined') {
+    window.debugLog = () => {};
+}
+
 class LanguageManager {
     constructor() {
         this.currentLang = localStorage.getItem('app_language') || 'en'; // Inglés por defecto
@@ -102,6 +107,21 @@ class LanguageManager {
     }
 
     /**
+     * Aplica el idioma preferido del usuario desde su perfil de Firestore.
+     * Recibe userData ya cargado para evitar una segunda lectura de Firestore.
+     * Llamado por config.js justo después de leer el perfil del usuario.
+     */
+    async applyUserLanguage(userData) {
+        const savedLang = userData?.preferredLanguage;
+        if (savedLang && savedLang !== this.currentLang) {
+            debugLog(`[I18N] Aplicando idioma de cuenta: ${savedLang}`);
+            await this.setLanguage(savedLang);
+        } else if (!savedLang) {
+            debugLog(`[I18N] Sin preferencia en Firestore, manteniendo: ${this.currentLang}`);
+        }
+    }
+
+    /**
      * Obtiene una traducción específica usando notación de puntos (ej: "nav.home")
      */
     translate(key, params = {}) {
@@ -139,7 +159,7 @@ class LanguageManager {
         elements.forEach(el => {
             const key = el.getAttribute('data-i18n');
             const translation = this.translate(key);
-            
+
             // Si es un input, usamos placeholder o un value
             if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
                 if (el.hasAttribute('placeholder')) {
@@ -150,6 +170,14 @@ class LanguageManager {
             } else {
                 el.innerText = translation;
             }
+        });
+
+        // data-i18n-html: igual pero con innerHTML (para texto con <strong>, <br>, etc.)
+        const htmlElements = rootNode.querySelectorAll('[data-i18n-html]');
+        htmlElements.forEach(el => {
+            const key = el.getAttribute('data-i18n-html');
+            const translation = this.translate(key);
+            el.innerHTML = translation;
         });
     }
 

@@ -647,41 +647,52 @@
   }
 
   function buildGlobalSummary(profile) {
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
     const avgRPM = Number(profile.avgRPM || 0);
     const avgCPM = Number(profile.avgCPM || 0);
     const avgProfit = Number(profile.avgProfit || 0);
     const minSafeRPM = Number(profile.minSafeRPM || 0);
 
-    let msg = 'Resumen rápido de tu operación:\n';
+    let msg = isEs ? 'Resumen rápido de tu operación:\n' : 'Quick summary of your operation:\n';
 
     if (avgRPM > 0) {
-      msg += `• RPM promedio histórico: $${avgRPM.toFixed(2)}/mi.\n`;
+      msg += isEs
+        ? `• RPM promedio histórico: $${avgRPM.toFixed(2)}/mi.\n`
+        : `• Historical average RPM: $${avgRPM.toFixed(2)}/mi.\n`;
     }
     if (avgCPM > 0) {
-      msg += `• Costo promedio por milla: $${avgCPM.toFixed(2)}/mi.\n`;
+      msg += isEs
+        ? `• Costo promedio por milla: $${avgCPM.toFixed(2)}/mi.\n`
+        : `• Average cost per mile: $${avgCPM.toFixed(2)}/mi.\n`;
     }
     if (minSafeRPM > 0) {
-      msg += `• RPM mínimo seguro estimado: $${minSafeRPM.toFixed(2)}/mi.\n`;
+      msg += isEs
+        ? `• RPM mínimo seguro estimado: $${minSafeRPM.toFixed(2)}/mi.\n`
+        : `• Estimated minimum safe RPM: $${minSafeRPM.toFixed(2)}/mi.\n`;
     }
     if (avgProfit > 0) {
-      msg += `• Ganancia promedio por carga: $${avgProfit.toFixed(0)} aprox.\n`;
+      msg += isEs
+        ? `• Ganancia promedio por carga: $${avgProfit.toFixed(0)} aprox.\n`
+        : `• Average profit per load: ~$${avgProfit.toFixed(0)}.\n`;
     }
 
-    const preferred = Array.isArray(profile.preferredStates)
-      ? profile.preferredStates
-      : [];
-    const avoid = Array.isArray(profile.avoidStates)
-      ? profile.avoidStates
-      : [];
+    const preferred = Array.isArray(profile.preferredStates) ? profile.preferredStates : [];
+    const avoid = Array.isArray(profile.avoidStates) ? profile.avoidStates : [];
 
     if (preferred.length > 0) {
-      msg += `\nMejores estados (según tu historial): ${preferred.slice(0, 5).join(', ')}.\n`;
+      msg += isEs
+        ? `\nMejores estados (según tu historial): ${preferred.slice(0, 5).join(', ')}.\n`
+        : `\nBest states (based on your history): ${preferred.slice(0, 5).join(', ')}.\n`;
     }
     if (avoid.length > 0) {
-      msg += `Estados a evitar: ${avoid.slice(0, 5).join(', ')}.\n`;
+      msg += isEs
+        ? `Estados a evitar: ${avoid.slice(0, 5).join(', ')}.\n`
+        : `States to avoid: ${avoid.slice(0, 5).join(', ')}.\n`;
     }
 
-    msg += '\nÚsame para comparar ofertas contra estos números, no solo contra el RPM que te dice el dispatcher. 😉';
+    msg += isEs
+      ? '\nÚsame para comparar ofertas contra estos números, no solo contra el RPM que te dice el dispatcher. 😉'
+      : '\nUse me to compare offers against these numbers, not just the RPM your dispatcher quotes you. 😉';
 
     return msg;
   }
@@ -708,9 +719,12 @@
 
 
   function buildStateSummary(profile, state) {
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
     const stats = profile.stateStats && profile.stateStats[state];
     if (!stats || !stats.totalMiles) {
-      return `No tengo suficiente historial para analizar ${state} todavía. Registra algunas cargas más hacia ese estado y podré darte un mejor criterio. 🙂`;
+      return isEs
+        ? `No tengo suficiente historial para analizar ${state} todavía. Registra algunas cargas más hacia ese estado y podré darte un mejor criterio. 🙂`
+        : `I don't have enough history to analyze ${state} yet. Log a few more loads to that state and I'll give you better insight. 🙂`;
     }
 
     const loads = stats.loads || 0;
@@ -730,73 +744,89 @@
       : false;
 
     let label = '';
-    if (preferred) label = '✅ Está en tu lista de estados buenos.';
-    else if (avoid) label = '⚠️ Está en tu lista de estados complicados.';
+    if (preferred) label = isEs ? '✅ Está en tu lista de estados buenos.' : '✅ It\'s on your good states list.';
+    else if (avoid) label = isEs ? '⚠️ Está en tu lista de estados complicados.' : '⚠️ It\'s on your avoid list.';
 
-    let msg = `Análisis de tu historial en ${state}:\n`;
-    msg += `• Cargas registradas: ${loads}.\n`;
-    msg += `• RPM promedio: $${avgRPM.toFixed(2)}/mi.\n`;
+    let msg = isEs ? `Análisis de tu historial en ${state}:\n` : `Your history analysis for ${state}:\n`;
+    msg += isEs ? `• Cargas registradas: ${loads}.\n` : `• Loads recorded: ${loads}.\n`;
+    msg += `• ${isEs ? 'RPM promedio' : 'Average RPM'}: $${avgRPM.toFixed(2)}/mi.\n`;
     if (avgProfit) {
-      msg += `• Ganancia promedio por carga: $${avgProfit.toFixed(0)}.\n`;
+      msg += isEs ? `• Ganancia promedio por carga: $${avgProfit.toFixed(0)}.\n` : `• Average profit per load: $${avgProfit.toFixed(0)}.\n`;
     }
     if (avgDeadhead) {
-      msg += `• Deadhead promedio: ${avgDeadhead.toFixed(0)} millas.\n`;
+      msg += isEs ? `• Deadhead promedio: ${avgDeadhead.toFixed(0)} millas.\n` : `• Average deadhead: ${avgDeadhead.toFixed(0)} miles.\n`;
     }
     if (label) {
       msg += `\n${label}\n`;
     }
 
-    // 📝 Nota personal sobre el estado (si existe)
     const note = getStateNote(profile, state);
     if (note) {
-      msg += `\n📝 Nota personal sobre ${state}: ${note}\n`;
+      msg += isEs ? `\n📝 Nota personal sobre ${state}: ${note}\n` : `\n📝 Personal note for ${state}: ${note}\n`;
     }
 
-    msg += '\nCuando te ofrezcan una carga hacia este estado, compárala con estos números antes de decir que sí. 😉';
+    msg += isEs
+      ? '\nCuando te ofrezcan una carga hacia este estado, compárala con estos números antes de decir que sí. 😉'
+      : '\nWhen you get an offer to this state, compare it against these numbers before saying yes. 😉';
 
     return msg;
   }
 
 
   function buildRPMGlobalComparison(profile, rpm) {
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
     const avgRPM = Number(profile.avgRPM || 0);
     const minSafeRPM = Number(profile.minSafeRPM || 0);
 
     const classification = classifyRPM(rpm, null, avgRPM, minSafeRPM);
-    let msg = `${classification.label} — Oferta con RPM: $${rpm.toFixed(2)}/mi\n\n`;
-
+    const displayLabel = classification.color === 'good' ? '✅ GOOD' : classification.color === 'bad' ? '❌ BAD' : '⚠️ FAIR';
+    let msg = `${isEs ? classification.label : displayLabel} — ${isEs ? 'Oferta con RPM' : 'Offer with RPM'}: $${rpm.toFixed(2)}/mi\n\n`;
 
     if (minSafeRPM > 0) {
       if (rpm < minSafeRPM) {
-        msg += `• Está por DEBAJO de tu RPM mínimo seguro ($${minSafeRPM.toFixed(2)}/mi). 👎\n`;
+        msg += isEs
+          ? `• Está por DEBAJO de tu RPM mínimo seguro ($${minSafeRPM.toFixed(2)}/mi). 👎\n`
+          : `• It's BELOW your minimum safe RPM ($${minSafeRPM.toFixed(2)}/mi). 👎\n`;
       } else {
-        msg += `• Está POR ENCIMA de tu RPM mínimo seguro ($${minSafeRPM.toFixed(2)}/mi). ✅\n`;
+        msg += isEs
+          ? `• Está POR ENCIMA de tu RPM mínimo seguro ($${minSafeRPM.toFixed(2)}/mi). ✅\n`
+          : `• It's ABOVE your minimum safe RPM ($${minSafeRPM.toFixed(2)}/mi). ✅\n`;
       }
     }
 
     if (avgRPM > 0) {
       if (rpm < avgRPM * 0.95) {
-        msg += `• Está por debajo de tu RPM promedio global ($${avgRPM.toFixed(2)}/mi).\n`;
+        msg += isEs
+          ? `• Está por debajo de tu RPM promedio global ($${avgRPM.toFixed(2)}/mi).\n`
+          : `• It's below your global average RPM ($${avgRPM.toFixed(2)}/mi).\n`;
       } else if (rpm > avgRPM * 1.05) {
-        msg += `• Está por ENCIMA de tu RPM promedio global ($${avgRPM.toFixed(2)}/mi). 💰\n`;
+        msg += isEs
+          ? `• Está por ENCIMA de tu RPM promedio global ($${avgRPM.toFixed(2)}/mi). 💰\n`
+          : `• It's ABOVE your global average RPM ($${avgRPM.toFixed(2)}/mi). 💰\n`;
       } else {
-        msg += `• Está muy cerca de tu RPM promedio global ($${avgRPM.toFixed(2)}/mi).\n`;
+        msg += isEs
+          ? `• Está muy cerca de tu RPM promedio global ($${avgRPM.toFixed(2)}/mi).\n`
+          : `• It's very close to your global average RPM ($${avgRPM.toFixed(2)}/mi).\n`;
       }
     }
 
-    // 🔥 Conclusión final según clasificación
-    if (classification.label === "✅ BUENA") {
-      msg += '\nRecomendación final: **ACEPTAR**. Para tu promedio global esto está muy bien. Solo cuida el deadhead. 🚚💰';
+    if (classification.color === 'good') {
+      msg += isEs
+        ? '\nRecomendación final: **ACEPTAR**. Para tu promedio global esto está muy bien. Solo cuida el deadhead. 🚚💰'
+        : '\nFinal recommendation: **ACCEPT**. For your global average this is solid. Just watch the deadhead. 🚚💰';
     }
-    else if (classification.label === "⚠️ REGULAR") {
-      msg += '\nRecomendación final: **NEGOCIAR**. Está decente, pero puedes apretar un poco. ⚠️';
+    else if (classification.color === 'regular') {
+      msg += isEs
+        ? '\nRecomendación final: **NEGOCIAR**. Está decente, pero puedes apretar un poco. ⚠️'
+        : '\nFinal recommendation: **NEGOTIATE**. It\'s decent, but you can push a bit. ⚠️';
     }
     else {
-      msg += '\nRecomendación final: **RECHAZAR**. Está por debajo de lo que tú necesitas para ganar consistentemente. ❌';
+      msg += isEs
+        ? '\nRecomendación final: **RECHAZAR**. Está por debajo de lo que tú necesitas para ganar consistentemente. ❌'
+        : '\nFinal recommendation: **REJECT**. It\'s below what you need to earn consistently. ❌';
     }
 
     return msg;
-
   }
 
   function classifyRPM(rpm, avgStateRPM, avgGlobalRPM, minSafeRPM) {
@@ -826,14 +856,13 @@
   // CONSEJO DE NEGOCIACIÓN (cuando el intent es NEGOTIATION)
   // ======================================================
   function buildNegotiationAdvice(profile, state, rpm) {
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
     const minSafe = Number(profile.minSafeRPM || 0);
     const globalAvg = Number(profile.avgRPM || 0);
     const stateStats = state && profile.stateStats ? profile.stateStats[state] : null;
 
     const avgStateRPM = stateStats ? Number(stateStats.avgRPM || 0) : null;
 
-    // Punto base recomendado para pedir
-    // Si hay promedio por estado, usamos eso. Si no, usamos global + colchón.
     let targetBase = globalAvg || minSafe;
     if (avgStateRPM && avgStateRPM > 0) {
       targetBase = Math.max(avgStateRPM, minSafe + 0.05);
@@ -841,62 +870,60 @@
       targetBase = Math.max(globalAvg, minSafe + 0.05);
     }
 
-    // Pequeño colchón para contraoferta
     let counterLow = targetBase + 0.05;
     let counterHigh = counterLow + 0.05;
 
-    // Redondeos bonitos
     targetBase = Number(targetBase.toFixed(2));
     counterLow = Number(counterLow.toFixed(2));
     counterHigh = Number(counterHigh.toFixed(2));
 
-    // Construir mensaje
     const lines = [];
 
     if (state) {
-      lines.push(`🧮 Negociación hacia ${state}:`);
+      lines.push(isEs ? `🧮 Negociación hacia ${state}:` : `🧮 Negotiation for ${state}:`);
     } else {
-      lines.push('🧮 Negociación basada en tus números:');
+      lines.push(isEs ? '🧮 Negociación basada en tus números:' : '🧮 Negotiation based on your numbers:');
     }
 
     if (rpm) {
       const offer = Number(rpm);
-      lines.push(`• Oferta actual: $${offer.toFixed(2)}/mi.`);
+      lines.push(isEs ? `• Oferta actual: $${offer.toFixed(2)}/mi.` : `• Current offer: $${offer.toFixed(2)}/mi.`);
 
       if (avgStateRPM && avgStateRPM > 0) {
-        lines.push(`• Tu promedio histórico en ese estado: $${avgStateRPM.toFixed(2)}/mi.`);
+        lines.push(isEs
+          ? `• Tu promedio histórico en ese estado: $${avgStateRPM.toFixed(2)}/mi.`
+          : `• Your historical average for that state: $${avgStateRPM.toFixed(2)}/mi.`);
       }
 
-      lines.push(`• Tu RPM mínimo seguro: $${minSafe.toFixed(2)}/mi.`);
-      lines.push(`• Objetivo razonable para pedir: alrededor de $${targetBase.toFixed(2)}/mi.`);
+      lines.push(isEs ? `• Tu RPM mínimo seguro: $${minSafe.toFixed(2)}/mi.` : `• Your minimum safe RPM: $${minSafe.toFixed(2)}/mi.`);
+      lines.push(isEs
+        ? `• Objetivo razonable para pedir: alrededor de $${targetBase.toFixed(2)}/mi.`
+        : `• Reasonable target to ask for: around $${targetBase.toFixed(2)}/mi.`);
 
       if (offer < targetBase) {
-        lines.push(
-          `💬 Recomendación: contraoferta entre **$${counterLow.toFixed(2)} y $${counterHigh.toFixed(2)}/mi**. ` +
-          `Si no suben cerca de eso, úsala solo si necesitas moverte de la zona.`
-        );
+        lines.push(isEs
+          ? `💬 Recomendación: contraoferta entre **$${counterLow.toFixed(2)} y $${counterHigh.toFixed(2)}/mi**. Si no suben cerca de eso, úsala solo si necesitas moverte de la zona.`
+          : `💬 Recommendation: counter between **$${counterLow.toFixed(2)} and $${counterHigh.toFixed(2)}/mi**. If they won't go near that, only take it if you need to reposition.`);
       } else {
-        lines.push(
-          `💬 Recomendación: ya está cerca o por encima de lo que sueles cobrar. ` +
-          `Puedes pedir un poquito más (ej. **$${counterLow.toFixed(2)}**), pero sin arriesgar perderla si te conviene la zona.`
-        );
+        lines.push(isEs
+          ? `💬 Recomendación: ya está cerca o por encima de lo que sueles cobrar. Puedes pedir un poquito más (ej. **$${counterLow.toFixed(2)}**), pero sin arriesgar perderla si te conviene la zona.`
+          : `💬 Recommendation: it's already close to or above your usual rate. You can ask a little more (e.g. **$${counterLow.toFixed(2)}**), but don't risk losing it if the lane works for you.`);
       }
     } else {
-      // No tenemos RPM exacto, solo pregunta tipo "cuánto pedir"
-      lines.push(`• Tu RPM promedio global: $${globalAvg.toFixed(2)}/mi.`);
-      lines.push(`• Tu RPM mínimo seguro estimado: $${minSafe.toFixed(2)}/mi.`);
+      lines.push(isEs ? `• Tu RPM promedio global: $${globalAvg.toFixed(2)}/mi.` : `• Your global average RPM: $${globalAvg.toFixed(2)}/mi.`);
+      lines.push(isEs ? `• Tu RPM mínimo seguro estimado: $${minSafe.toFixed(2)}/mi.` : `• Your estimated minimum safe RPM: $${minSafe.toFixed(2)}/mi.`);
 
       if (avgStateRPM && avgStateRPM > 0) {
-        lines.push(`• Tu RPM promedio en ese estado: $${avgStateRPM.toFixed(2)}/mi.`);
-        lines.push(
-          `💬 Recomendación: empieza pidiendo **entre $${counterLow.toFixed(2)} y $${counterHigh.toFixed(2)}/mi** ` +
-          `y ten en mente que por debajo de **$${minSafe.toFixed(2)}/mi** empiezas a comprometer tu ganancia real.`
-        );
+        lines.push(isEs
+          ? `• Tu RPM promedio en ese estado: $${avgStateRPM.toFixed(2)}/mi.`
+          : `• Your average RPM for that state: $${avgStateRPM.toFixed(2)}/mi.`);
+        lines.push(isEs
+          ? `💬 Recomendación: empieza pidiendo **entre $${counterLow.toFixed(2)} y $${counterHigh.toFixed(2)}/mi** y ten en mente que por debajo de **$${minSafe.toFixed(2)}/mi** empiezas a comprometer tu ganancia real.`
+          : `💬 Recommendation: start asking **between $${counterLow.toFixed(2)} and $${counterHigh.toFixed(2)}/mi** and keep in mind that below **$${minSafe.toFixed(2)}/mi** you start cutting into your real profit.`);
       } else {
-        lines.push(
-          `💬 Recomendación: para negociar sin número claro, apunta a **$${counterLow.toFixed(2)}–$${counterHigh.toFixed(2)}/mi** ` +
-          `y evita bajar de **$${minSafe.toFixed(2)}/mi** salvo que necesites moverte de la zona.`
-        );
+        lines.push(isEs
+          ? `💬 Recomendación: para negociar sin número claro, apunta a **$${counterLow.toFixed(2)}–$${counterHigh.toFixed(2)}/mi** y evita bajar de **$${minSafe.toFixed(2)}/mi** salvo que necesites moverte de la zona.`
+          : `💬 Recommendation: without a specific number, aim for **$${counterLow.toFixed(2)}–$${counterHigh.toFixed(2)}/mi** and avoid going below **$${minSafe.toFixed(2)}/mi** unless you really need to reposition.`);
       }
     }
 
@@ -905,6 +932,7 @@
 
 
   function buildRPMStateComparison(profile, state, rpm) {
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
     const stats = profile.stateStats && profile.stateStats[state];
     const avgStateRPM = stats && stats.avgRPM
       ? stats.avgRPM
@@ -914,54 +942,79 @@
     const minSafeRPM = Number(profile.minSafeRPM || 0);
 
     const classification = classifyRPM(rpm, avgStateRPM, avgRPM, minSafeRPM);
+    const displayLabel = classification.color === 'good' ? '✅ GOOD' : classification.color === 'bad' ? '❌ BAD' : '⚠️ FAIR';
 
-    let msg = `${classification.label} — Oferta hacia ${state} con RPM: $${rpm.toFixed(2)}/mi\n\n`;
+    let msg = `${isEs ? classification.label : displayLabel} — ${isEs ? `Oferta hacia ${state} con RPM` : `Offer to ${state} with RPM`}: $${rpm.toFixed(2)}/mi\n\n`;
 
     if (minSafeRPM > 0) {
       if (rpm < minSafeRPM) {
-        msg += `• Está por DEBAJO de tu RPM mínimo seguro ($${minSafeRPM.toFixed(2)}/mi). 👎\n`;
+        msg += isEs
+          ? `• Está por DEBAJO de tu RPM mínimo seguro ($${minSafeRPM.toFixed(2)}/mi). 👎\n`
+          : `• It's BELOW your minimum safe RPM ($${minSafeRPM.toFixed(2)}/mi). 👎\n`;
       } else {
-        msg += `• Está POR ENCIMA de tu RPM mínimo seguro ($${minSafeRPM.toFixed(2)}/mi). ✅\n`;
+        msg += isEs
+          ? `• Está POR ENCIMA de tu RPM mínimo seguro ($${minSafeRPM.toFixed(2)}/mi). ✅\n`
+          : `• It's ABOVE your minimum safe RPM ($${minSafeRPM.toFixed(2)}/mi). ✅\n`;
       }
     }
 
     if (avgStateRPM) {
       if (rpm < avgStateRPM * 0.95) {
-        msg += `• Está por debajo de tu RPM promedio en ${state} ($${avgStateRPM.toFixed(2)}/mi).\n`;
+        msg += isEs
+          ? `• Está por debajo de tu RPM promedio en ${state} ($${avgStateRPM.toFixed(2)}/mi).\n`
+          : `• It's below your average RPM for ${state} ($${avgStateRPM.toFixed(2)}/mi).\n`;
       } else if (rpm > avgStateRPM * 1.05) {
-        msg += `• Está por ENCIMA de tu RPM promedio en ${state} ($${avgStateRPM.toFixed(2)}/mi). 💰\n`;
+        msg += isEs
+          ? `• Está por ENCIMA de tu RPM promedio en ${state} ($${avgStateRPM.toFixed(2)}/mi). 💰\n`
+          : `• It's ABOVE your average RPM for ${state} ($${avgStateRPM.toFixed(2)}/mi). 💰\n`;
       } else {
-        msg += `• Está muy cerca de lo que sueles cobrar en ${state} ($${avgStateRPM.toFixed(2)}/mi).\n`;
+        msg += isEs
+          ? `• Está muy cerca de lo que sueles cobrar en ${state} ($${avgStateRPM.toFixed(2)}/mi).\n`
+          : `• It's very close to what you usually earn in ${state} ($${avgStateRPM.toFixed(2)}/mi).\n`;
       }
     } else if (avgRPM > 0) {
       if (rpm < avgRPM * 0.95) {
-        msg += `• Comparado con tu promedio global ($${avgRPM.toFixed(2)}/mi), está algo por debajo.\n`;
+        msg += isEs
+          ? `• Comparado con tu promedio global ($${avgRPM.toFixed(2)}/mi), está algo por debajo.\n`
+          : `• Compared to your global average ($${avgRPM.toFixed(2)}/mi), it's a bit low.\n`;
       } else if (rpm > avgRPM * 1.05) {
-        msg += `• Comparado con tu promedio global ($${avgRPM.toFixed(2)}/mi), está por ENCIMA. 💰\n`;
+        msg += isEs
+          ? `• Comparado con tu promedio global ($${avgRPM.toFixed(2)}/mi), está por ENCIMA. 💰\n`
+          : `• Compared to your global average ($${avgRPM.toFixed(2)}/mi), it's ABOVE. 💰\n`;
       } else {
-        msg += `• Está cerca de tu promedio global ($${avgRPM.toFixed(2)}/mi).\n`;
+        msg += isEs
+          ? `• Está cerca de tu promedio global ($${avgRPM.toFixed(2)}/mi).\n`
+          : `• It's close to your global average ($${avgRPM.toFixed(2)}/mi).\n`;
       }
     }
 
     if (stats && stats.avgDeadhead) {
-      msg += `• Tu deadhead promedio histórico en ${state} es de ${stats.avgDeadhead.toFixed(0)} millas.\n`;
+      msg += isEs
+        ? `• Tu deadhead promedio histórico en ${state} es de ${stats.avgDeadhead.toFixed(0)} millas.\n`
+        : `• Your historical average deadhead to ${state} is ${stats.avgDeadhead.toFixed(0)} miles.\n`;
     }
 
-    // 📝 Nota personal sobre el estado (si existe)
     const note = getStateNote(profile, state);
     if (note) {
-      msg += `\n📝 Nota personal sobre ${state}: ${note}\n`;
+      msg += isEs
+        ? `\n📝 Nota personal sobre ${state}: ${note}\n`
+        : `\n📝 Personal note for ${state}: ${note}\n`;
     }
 
-    // 🔥 Conclusión final según clasificación
-    if (classification.label === "✅ BUENA") {
-      msg += '\nRecomendación final: **TIRALE**. Está fuerte para lo que sueles cobrar ahí. Solo revisa el deadhead y si ese estado te deja salir fácil. 🚚🔥';
+    if (classification.color === 'good') {
+      msg += isEs
+        ? '\nRecomendación final: **TIRALE**. Está fuerte para lo que sueles cobrar ahí. Solo revisa el deadhead y si ese estado te deja salir fácil. 🚚🔥'
+        : '\nFinal recommendation: **TAKE IT**. It\'s solid for what you usually earn there. Just check the deadhead and that the state gets you out easily. 🚚🔥';
     }
-    else if (classification.label === "⚠️ REGULAR") {
-      msg += '\nRecomendación final: **NEGOCIA** unos centavos. Si no suben, úsala solo si necesitas moverte de la zona. ⚠️';
+    else if (classification.color === 'regular') {
+      msg += isEs
+        ? '\nRecomendación final: **NEGOCIA** unos centavos. Si no suben, úsala solo si necesitas moverte de la zona. ⚠️'
+        : '\nFinal recommendation: **NEGOTIATE** a few cents. If they won\'t move, only take it if you need to reposition. ⚠️';
     }
     else {
-      msg += '\nRecomendación final: **NO LA AGARRES**. No te conviene para tus números y ese estado puede ponerte a perder tiempo. ❌';
+      msg += isEs
+        ? '\nRecomendación final: **NO LA AGARRES**. No te conviene para tus números y ese estado puede ponerte a perder tiempo. ❌'
+        : '\nFinal recommendation: **PASS ON IT**. It doesn\'t work for your numbers and that state may leave you stuck. ❌';
     }
 
     return msg;
@@ -971,6 +1024,7 @@
   // AYUDA RÁPIDA DE DECISIÓN (sí / no / negocia)
   // ======================================================
   function buildDecisionHelp(profile, state, rpm) {
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
     const minSafe = Number(profile.minSafeRPM || profile.minSafe || 0);
     const globalAvg = Number(profile.avgRPM || 0);
     const stateStats = state && profile.stateStats ? profile.stateStats[state] : null;
@@ -985,39 +1039,42 @@
       let label, action, emoji;
 
       if (offer < minSafe) {
-        label = '❌ MALA';
-        action = 'RECHÁZALA';
+        label = isEs ? '❌ MALA' : '❌ BAD';
+        action = isEs ? 'RECHÁZALA' : 'REJECT IT';
         emoji = '❌';
       } else if (offer >= refAvg) {
-        label = '✅ BUENA';
-        action = 'ACÉPTALA';
+        label = isEs ? '✅ BUENA' : '✅ GOOD';
+        action = isEs ? 'ACÉPTALA' : 'ACCEPT IT';
         emoji = '✅';
       } else {
-        label = '⚠️ REGULAR';
-        action = 'NEGOCIA';
+        label = isEs ? '⚠️ REGULAR' : '⚠️ FAIR';
+        action = isEs ? 'NEGOCIA' : 'NEGOTIATE';
         emoji = '⚠️';
       }
 
       if (state) {
-        lines.push(`${label} — Oferta hacia ${state} con RPM: $${offer.toFixed(2)}/mi`);
+        lines.push(`${label} — ${isEs ? `Oferta hacia ${state} con RPM` : `Offer to ${state} with RPM`}: $${offer.toFixed(2)}/mi`);
       } else {
-        lines.push(`${label} — Oferta con RPM: $${offer.toFixed(2)}/mi`);
+        lines.push(`${label} — ${isEs ? 'Oferta con RPM' : 'Offer with RPM'}: $${offer.toFixed(2)}/mi`);
       }
 
       if (minSafe > 0) {
-        lines.push(`• Tu RPM mínimo seguro: $${minSafe.toFixed(2)}/mi.`);
+        lines.push(isEs ? `• Tu RPM mínimo seguro: $${minSafe.toFixed(2)}/mi.` : `• Your minimum safe RPM: $${minSafe.toFixed(2)}/mi.`);
       }
       if (stateAvg && stateAvg > 0) {
-        lines.push(`• Tu RPM promedio en ese estado: $${stateAvg.toFixed(2)}/mi.`);
+        lines.push(isEs ? `• Tu RPM promedio en ese estado: $${stateAvg.toFixed(2)}/mi.` : `• Your average RPM for that state: $${stateAvg.toFixed(2)}/mi.`);
       } else if (globalAvg > 0) {
-        lines.push(`• Tu RPM promedio global: $${globalAvg.toFixed(2)}/mi.`);
+        lines.push(isEs ? `• Tu RPM promedio global: $${globalAvg.toFixed(2)}/mi.` : `• Your global average RPM: $${globalAvg.toFixed(2)}/mi.`);
       }
 
-      lines.push(`💬 Recomendación rápida: **${action}**. ${emoji}`);
+      lines.push(`💬 ${isEs ? `Recomendación rápida: **${action}**. ${emoji}` : `Quick recommendation: **${action}**. ${emoji}`}`);
     } else {
-      // No hay RPM en el texto → pedimos que especifiques
-      lines.push('Para darte un sí o no rápido necesito al menos el RPM aproximado ($/milla) de la oferta.');
-      lines.push('Ej: "Es bueno 1.10 para TX?" o "Me ofrecen 0.95 para GA, qué te parece?".');
+      lines.push(isEs
+        ? 'Para darte un sí o no rápido necesito al menos el RPM aproximado ($/milla) de la oferta.'
+        : 'To give you a quick yes or no I need at least the approximate RPM ($/mile) of the offer.');
+      lines.push(isEs
+        ? 'Ej: "Es bueno 1.10 para TX?" o "Me ofrecen 0.95 para GA, qué te parece?".'
+        : 'E.g.: "Is 1.10 good for TX?" or "They\'re offering 0.95 for GA, what do you think?".');
     }
 
     return lines.join('\n');
@@ -1433,6 +1490,9 @@
 
   // Opcional: respuesta para preguntas externas (futuro API)
   async function handleExternalChatMessage(originalText) {
-    return 'Esta pregunta parece necesitar info de fuera de la app (noticias, clima, etc.). Más adelante conectaré una API para ayudarte también con eso. 🌐';
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    return isEs
+      ? 'Esta pregunta parece necesitar info de fuera de la app (noticias, clima, etc.). Más adelante conectaré una API para ayudarte también con eso. 🌐'
+      : 'This question seems to need info from outside the app (news, weather, etc.). I\'ll connect an API for that soon. 🌐';
   }
 })();

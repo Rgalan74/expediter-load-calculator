@@ -220,12 +220,18 @@ const AcademyProgress = {
             if (fillEl) fillEl.style.width = `${pct}%`;
 
             const textEl = document.querySelector(`.progress-text[data-module="${i}"]`);
-            if (textEl) textEl.textContent = `${completed}/${total} lecciones`;
+            if (textEl) {
+                const label = window.i18n?.t('academy.lesson_label')?.toLowerCase() || 'lessons';
+                textEl.textContent = `${completed}/${total} ${label === 'lección' ? 'lecciones' : 'lessons'}`;
+            }
         }
     },
 
     async reset() {
-        if (confirm('¿Estás seguro de que quieres reiniciar todo tu progreso?')) {
+        const msg = window.i18n?.currentLang === 'en' 
+            ? 'Are you sure you want to reset all your progress?' 
+            : '¿Estás seguro de que quieres reiniciar todo tu progreso?';
+        if (confirm(msg)) {
             const fresh = this._defaultProgress();
             await this.saveProgress(fresh);
             location.reload();

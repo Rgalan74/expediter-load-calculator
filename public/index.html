@@ -168,11 +168,13 @@
 
         <!-- CTA Button & Language Toggle -->
         <div class="hidden md:flex items-center gap-4">
-          <div class="text-sm font-bold text-gray-300 bg-gray-800 bg-opacity-50 px-3 py-1 rounded-full cursor-pointer hover:bg-opacity-80 transition" onclick="window.i18n.setLanguage(window.i18n.currentLang === 'en' ? 'es' : 'en')">
-            <span id="langToggleText">🌐 EN | ES</span>
+          <div style="display:flex;align-items:center;gap:0.25rem;font-size:0.8rem;font-weight:600;">
+            <button id="btn-en" onclick="window.i18n.setLanguage('en')" style="background:none;border:none;cursor:pointer;padding:0.2rem 0.4rem;border-radius:4px;color:#9ca3af;transition:color 0.2s;" class="active">EN</button>
+            <span style="color:#4b5563;">|</span>
+            <button id="btn-es" onclick="window.i18n.setLanguage('es')" style="background:none;border:none;cursor:pointer;padding:0.2rem 0.4rem;border-radius:4px;color:#9ca3af;transition:color 0.2s;">ES</button>
           </div>
           <a href="auth.html" class="btn-secondary" style="padding: 0.75rem 1.5rem; font-size: 0.875rem;" data-i18n="nav.login">
-            Iniciar Sesión →
+            Log In →
           </a>
         </div>
 
@@ -192,11 +194,10 @@
         <a href="resources.html" class="block text-gray-200 hover:text-white transition px-2 py-1" data-i18n="nav.resources">Recursos</a>
         <a href="plans.html" class="block text-gray-200 hover:text-white transition px-2 py-1" data-i18n="nav.plans">Planes</a>
         
-        <div class="flex items-center justify-between px-2 py-2 mt-2 border-t border-gray-700">
-          <span class="text-gray-300 text-sm">Idioma / Language:</span>
-          <div class="text-sm font-bold text-white bg-gray-700 px-4 py-1 rounded-full cursor-pointer" onclick="window.i18n.setLanguage(window.i18n.currentLang === 'en' ? 'es' : 'en')">
-            🌐 ES | EN
-          </div>
+        <div class="flex items-center gap-2 px-2 py-2 mt-2 border-t border-gray-700">
+          <button id="btn-en-mobile" onclick="window.i18n.setLanguage('en')" style="background:none;border:none;cursor:pointer;padding:0.2rem 0.5rem;border-radius:4px;color:#9ca3af;font-weight:600;font-size:0.875rem;">EN</button>
+          <span style="color:#4b5563;">|</span>
+          <button id="btn-es-mobile" onclick="window.i18n.setLanguage('es')" style="background:none;border:none;cursor:pointer;padding:0.2rem 0.5rem;border-radius:4px;color:#9ca3af;font-weight:600;font-size:0.875rem;">ES</button>
         </div>
 
         <a href="auth.html" class="btn-secondary block text-center mt-4" data-i18n="nav.login">Iniciar Sesión →</a>
@@ -213,23 +214,23 @@
 
     <!-- Hero Text -->
     <div style="max-width: 760px; margin: 0 auto 3.5rem; text-align: center;">
-      <p style="font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #FF6B35; margin-bottom: 1rem;">
+      <p data-i18n="landing.hero_tagline" style="font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #FF6B35; margin-bottom: 1rem;">
         La plataforma para transportistas independientes
       </p>
       <h2 style="font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; line-height: 1.1; color: #fff; margin-bottom: 1.25rem;">
-        Maximiza tu ganancia.<br>
-        <span style="background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+        <span data-i18n="landing.hero_heading_line1">Maximiza tu ganancia.</span><br>
+        <span data-i18n="landing.hero_heading_line2" style="background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
           Cada carga, cada dólar.
         </span>
       </h2>
-      <p style="font-size: 1.1rem; color: #9ca3af; line-height: 1.7; margin-bottom: 2rem; max-width: 580px; margin-left: auto; margin-right: auto;">
+      <p data-i18n="landing.hero_desc" style="font-size: 1.1rem; color: #9ca3af; line-height: 1.7; margin-bottom: 2rem; max-width: 580px; margin-left: auto; margin-right: auto;">
         Calcula costos reales, analiza rutas y toma decisiones inteligentes antes de aceptar una carga.
       </p>
       <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-        <a href="auth.html" style="display: inline-block; background: #FF6B35; color: #fff; font-weight: 700; font-size: 1rem; padding: 0.85rem 2rem; border-radius: 10px; text-decoration: none; transition: opacity 0.2s;">
+        <a href="auth.html" data-i18n="landing.hero_cta_primary" style="display: inline-block; background: #FF6B35; color: #fff; font-weight: 700; font-size: 1rem; padding: 0.85rem 2rem; border-radius: 10px; text-decoration: none; transition: opacity 0.2s;">
           Empieza Gratis →
         </a>
-        <a href="plans.html" style="display: inline-block; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); color: #fff; font-weight: 600; font-size: 1rem; padding: 0.85rem 2rem; border-radius: 10px; text-decoration: none; transition: background 0.2s;">
+        <a href="plans.html" data-i18n="landing.hero_cta_secondary" style="display: inline-block; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); color: #fff; font-weight: 600; font-size: 1rem; padding: 0.85rem 2rem; border-radius: 10px; text-decoration: none; transition: background 0.2s;">
           Ver Planes
         </a>
       </div>
@@ -285,23 +286,23 @@
        SCENE 2 — PROBLEMA
   ════════════════════════════════════════ -->
           <section class="scene" id="s2">
-            <div class="pain-title">¿Cuánto pierdes<br>por no calcular bien?</div>
+            <div class="pain-title" data-i18n-html="landing.pain_title">¿Cuánto pierdes<br>por no calcular bien?</div>
             <div class="pain-list">
               <div class="pain-item" style="animation-delay:.2s">
                 <span class="icon">😤</span>
-                Aceptas cargas que no cubren tus gastos reales
+                <span data-i18n="landing.pain_1">Aceptas cargas que no cubren tus gastos reales</span>
               </div>
               <div class="pain-item" style="animation-delay:.5s">
                 <span class="icon">📋</span>
-                Llevas cuentas en papel o en tu cabeza
+                <span data-i18n="landing.pain_2">Llevas cuentas en papel o en tu cabeza</span>
               </div>
               <div class="pain-item" style="animation-delay:.8s">
                 <span class="icon">📉</span>
-                No sabes qué rutas son realmente rentables
+                <span data-i18n="landing.pain_3">No sabes qué rutas son realmente rentables</span>
               </div>
               <div class="pain-item" style="animation-delay:1.1s">
                 <span class="icon">⏱️</span>
-                Pierdes tiempo calculando en lugar de manejar
+                <span data-i18n="landing.pain_4">Pierdes tiempo calculando en lugar de manejar</span>
               </div>
             </div>
           </section>
@@ -310,28 +311,28 @@
        SCENE 3 — SOLUCIÓN
   ════════════════════════════════════════ -->
           <section class="scene" id="s3">
-            <div class="solution-title">Existe una mejor forma</div>
-            <div class="solution-sub">Toma decisiones basadas en <strong>datos reales</strong>, no en corazonadas</div>
+            <div class="solution-title" data-i18n="landing.solution_title">Existe una mejor forma</div>
+            <div class="solution-sub" data-i18n-html="landing.solution_sub">Toma decisiones basadas en <strong>datos reales</strong>, no en corazonadas</div>
             <div class="features-grid">
               <div class="feat-card">
                 <div class="feat-icon">📱</div>
-                <div class="feat-name">Calculadora Instantánea</div>
-                <div class="feat-desc">RPM, ganancias y costos en menos de 30 segundos</div>
+                <div class="feat-name" data-i18n="landing.feat1_name">Calculadora Instantánea</div>
+                <div class="feat-desc" data-i18n="landing.feat1_desc">RPM, ganancias y costos en menos de 30 segundos</div>
               </div>
               <div class="feat-card">
                 <div class="feat-icon">📊</div>
-                <div class="feat-name">Dashboard Financiero</div>
-                <div class="feat-desc">Ingresos, gastos y rentabilidad en un solo lugar</div>
+                <div class="feat-name" data-i18n="landing.feat2_name">Dashboard Financiero</div>
+                <div class="feat-desc" data-i18n="landing.feat2_desc">Ingresos, gastos y rentabilidad en un solo lugar</div>
               </div>
               <div class="feat-card">
                 <div class="feat-icon">🗺️</div>
-                <div class="feat-name">Mapa de Zonas</div>
-                <div class="feat-desc">Descubre qué estados te generan más profit</div>
+                <div class="feat-name" data-i18n="landing.feat3_name">Mapa de Zonas</div>
+                <div class="feat-desc" data-i18n="landing.feat3_desc">Descubre qué estados te generan más profit</div>
               </div>
               <div class="feat-card">
                 <div class="feat-icon">📜</div>
-                <div class="feat-name">Historial Completo</div>
-                <div class="feat-desc">96+ cargas organizadas y exportables a Excel</div>
+                <div class="feat-name" data-i18n="landing.feat4_name">Historial Completo</div>
+                <div class="feat-desc" data-i18n="landing.feat4_desc">96+ cargas organizadas y exportables a Excel</div>
               </div>
             </div>
           </section>
@@ -341,9 +342,9 @@
   ════════════════════════════════════════ -->
           <section class="scene screen-scene" id="s4">
             <div class="screen-info">
-              <div class="screen-badge">HERRAMIENTA #1</div>
-              <div class="screen-title">Calculadora<br><span class="highlight-cyan">de Cargas</span></div>
-              <div class="screen-desc">
+              <div class="screen-badge" data-i18n="landing.s4_badge">HERRAMIENTA #1</div>
+              <div class="screen-title" data-i18n-html="landing.s4_title">Calculadora<br><span class="highlight-cyan">de Cargas</span></div>
+              <div class="screen-desc" data-i18n-html="landing.s4_desc">
                 Ingresa origen, destino y tarifa — obtén al instante si la carga <strong style="color:#00ff88">vale la
                   pena</strong> o no.<br><br>
                 RPM, millas vacías, peajes, combustible. Todo calculado automáticamente con <strong>decisión
@@ -352,11 +353,11 @@
               <div class="screen-stats">
                 <div class="stat-box">
                   <div class="stat-val">30s</div>
-                  <div class="stat-label">Decisión</div>
+                  <div class="stat-label" data-i18n="landing.s4_stat1">Decisión</div>
                 </div>
                 <div class="stat-box">
                   <div class="stat-val">100%</div>
-                  <div class="stat-label">Preciso</div>
+                  <div class="stat-label" data-i18n="landing.s4_stat2">Preciso</div>
                 </div>
               </div>
             </div>
@@ -426,24 +427,24 @@
   ════════════════════════════════════════ -->
           <section class="scene screen-scene" id="s5">
             <div class="screen-info">
-              <div class="screen-badge">HERRAMIENTA #2</div>
-              <div class="screen-title">Historial<br><span class="highlight-orange">de Cargas</span></div>
-              <div class="screen-desc">
+              <div class="screen-badge" data-i18n="landing.s5_badge">HERRAMIENTA #2</div>
+              <div class="screen-title" data-i18n-html="landing.s5_title">Historial<br><span class="highlight-orange">de Cargas</span></div>
+              <div class="screen-desc" data-i18n-html="landing.s5_desc">
                 Cada viaje registrado automáticamente. Filtra por origen, destino o mes. Exporta todo a <strong
                   style="color:#ffd700">Excel</strong> para tus impuestos o análisis.
               </div>
               <div class="screen-stats">
                 <div class="stat-box">
                   <div class="stat-val" style="color:var(--orange)">96</div>
-                  <div class="stat-label">Cargas</div>
+                  <div class="stat-label" data-i18n="landing.s5_stat1">Cargas</div>
                 </div>
                 <div class="stat-box">
                   <div class="stat-val" style="color:var(--orange)">59,995</div>
-                  <div class="stat-label">Millas</div>
+                  <div class="stat-label" data-i18n="landing.s5_stat2">Millas</div>
                 </div>
                 <div class="stat-box">
                   <div class="stat-val" style="color:var(--orange)">$57K</div>
-                  <div class="stat-label">Ingresos</div>
+                  <div class="stat-label" data-i18n="landing.s5_stat3">Ingresos</div>
                 </div>
               </div>
             </div>
@@ -527,24 +528,24 @@
   ════════════════════════════════════════ -->
           <section class="scene screen-scene" id="s6">
             <div class="screen-info">
-              <div class="screen-badge">HERRAMIENTA #3</div>
-              <div class="screen-title">Gestión<br><span class="highlight-green">Financiera</span></div>
-              <div class="screen-desc">
+              <div class="screen-badge" data-i18n="landing.s6_badge">HERRAMIENTA #3</div>
+              <div class="screen-title" data-i18n-html="landing.s6_title">Gestión<br><span class="highlight-green">Financiera</span></div>
+              <div class="screen-desc" data-i18n-html="landing.s6_desc">
                 Control total de ingresos vs gastos. Ve tu ganancia real mes a mes, registra todos tus gastos y mide tu
                 eficiencia operativa al <strong style="color:#00ff88">94.2%</strong>.
               </div>
               <div class="screen-stats">
                 <div class="stat-box">
                   <div class="stat-val" style="color:var(--green)">$51,739</div>
-                  <div class="stat-label">Ingresos</div>
+                  <div class="stat-label" data-i18n="landing.s6_stat1">Ingresos</div>
                 </div>
                 <div class="stat-box">
                   <div class="stat-val" style="color:#ff4444">$39,018</div>
-                  <div class="stat-label">Gastos</div>
+                  <div class="stat-label" data-i18n="landing.s6_stat2">Gastos</div>
                 </div>
                 <div class="stat-box">
                   <div class="stat-val" style="color:var(--green)">$12,720</div>
-                  <div class="stat-label">Ganancia</div>
+                  <div class="stat-label" data-i18n="landing.s6_stat3">Ganancia</div>
                 </div>
               </div>
             </div>
@@ -637,9 +638,9 @@
   ════════════════════════════════════════ -->
           <section class="scene screen-scene" id="s7">
             <div class="screen-info">
-              <div class="screen-badge">HERRAMIENTA #4</div>
-              <div class="screen-title">Zonas<br><span class="highlight-cyan">/ Heatmap</span></div>
-              <div class="screen-desc">
+              <div class="screen-badge" data-i18n="landing.s7_badge">HERRAMIENTA #4</div>
+              <div class="screen-title" data-i18n-html="landing.s7_title">Zonas<br><span class="highlight-cyan">/ Heatmap</span></div>
+              <div class="screen-desc" data-i18n-html="landing.s7_desc">
                 Mapa interactivo de EE.UU. que colorea cada estado según su rentabilidad real basada en <strong>tu
                   historial</strong>.<br><br>
                 🟢 Verde = más de $1.05 RPM &nbsp;|&nbsp; 🟡 Amarillo = $0.75–$1.05 &nbsp;|&nbsp; 🔴 Rojo = menos de
@@ -648,11 +649,11 @@
               <div class="screen-stats">
                 <div class="stat-box">
                   <div class="stat-val" style="color:var(--green)">$1.16</div>
-                  <div class="stat-label">RPM Florida</div>
+                  <div class="stat-label" data-i18n="landing.s7_stat1">RPM Florida</div>
                 </div>
                 <div class="stat-box">
                   <div class="stat-val" style="color:var(--green)">$1,450</div>
-                  <div class="stat-label">Ganancia FL</div>
+                  <div class="stat-label" data-i18n="landing.s7_stat2">Ganancia FL</div>
                 </div>
               </div>
             </div>
@@ -724,11 +725,11 @@
           <section class="scene screen-scene" id="s8"
             style="background: radial-gradient(ellipse at 40% 50%, #1a0030 0%, #050a14 65%);">
             <div class="screen-info">
-              <div class="screen-badge" style="background:linear-gradient(135deg,#a855f7,#ec4899);">⭐ PREMIUM EXCLUSIVO
+              <div class="screen-badge" data-i18n="landing.s8_badge" style="background:linear-gradient(135deg,#a855f7,#ec4899);">⭐ PREMIUM EXCLUSIVO
               </div>
-              <div class="screen-title" style="font-size:clamp(2rem,5vw,3.5rem);">Lex <span
+              <div class="screen-title" data-i18n-html="landing.s8_title" style="font-size:clamp(2rem,5vw,3.5rem);">Lex <span
                   style="color:#c084fc;">AI</span><br>Assistant</div>
-              <div class="screen-desc">
+              <div class="screen-desc" data-i18n-html="landing.s8_desc">
                 Tu copiloto inteligente disponible 24/7. Analiza cada carga, predice rentabilidad y te da
                 recomendaciones
                 basadas en <strong style="color:#c084fc;">tu historial real</strong>.<br><br>
@@ -737,15 +738,15 @@
               <div class="screen-stats">
                 <div class="stat-box" style="border-color:rgba(168,85,247,.3); background:rgba(168,85,247,.08);">
                   <div class="stat-val" style="color:#c084fc;">🧠</div>
-                  <div class="stat-label">Análisis AI</div>
+                  <div class="stat-label" data-i18n="landing.s8_stat1">Análisis AI</div>
                 </div>
                 <div class="stat-box" style="border-color:rgba(168,85,247,.3); background:rgba(168,85,247,.08);">
                   <div class="stat-val" style="color:#c084fc;">24/7</div>
-                  <div class="stat-label">Disponible</div>
+                  <div class="stat-label" data-i18n="landing.s8_stat2">Disponible</div>
                 </div>
                 <div class="stat-box" style="border-color:rgba(255,215,0,.3); background:rgba(255,215,0,.06);">
                   <div class="stat-val" style="color:#ffd700;">$29.99</div>
-                  <div class="stat-label">/mes</div>
+                  <div class="stat-label" data-i18n="landing.s8_stat3">/mes</div>
                 </div>
               </div>
             </div>
@@ -842,9 +843,9 @@
   ════════════════════════════════════════ -->
           <section class="scene screen-scene" id="s9">
             <div class="screen-info">
-              <div class="screen-badge">HERRAMIENTA #5</div>
-              <div class="screen-title">Config<br><span class="highlight-orange">Tu Negocio</span></div>
-              <div class="screen-desc">
+              <div class="screen-badge" data-i18n="landing.s9_badge">HERRAMIENTA #5</div>
+              <div class="screen-title" data-i18n-html="landing.s9_title">Config<br><span class="highlight-orange">Tu Negocio</span></div>
+              <div class="screen-desc" data-i18n-html="landing.s9_desc">
                 Personaliza la app 100% a tu operación. Tipo de vehículo, costos fijos reales, estado base. Todo
                 preconfigurado para que los cálculos sean <strong style="color:var(--orange)">exactamente
                   tuyos</strong>.
@@ -852,11 +853,11 @@
               <div class="screen-stats">
                 <div class="stat-box">
                   <div class="stat-val" style="color:var(--orange)">$2,400</div>
-                  <div class="stat-label">Costo fijo</div>
+                  <div class="stat-label" data-i18n="landing.s9_stat1">Costo fijo</div>
                 </div>
                 <div class="stat-box">
                   <div class="stat-val" style="color:var(--orange)">$0.20</div>
-                  <div class="stat-label">$/Milla fija</div>
+                  <div class="stat-label" data-i18n="landing.s9_stat2">$/Milla fija</div>
                 </div>
               </div>
             </div>
@@ -921,11 +922,11 @@
        SCENE 10 — RESULTADOS
   ════════════════════════════════════════ -->
           <section class="scene" id="s10">
-            <div class="solution-title"
+            <div class="solution-title" data-i18n="landing.results_title"
               style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,5vw,3.5rem); margin-bottom:.5rem;">
               Resultados
               Reales</div>
-            <div style="color:rgba(255,255,255,.5); margin-bottom:2rem; font-size:1rem; text-align:center;">
+            <div data-i18n="landing.results_sub" style="color:rgba(255,255,255,.5); margin-bottom:2rem; font-size:1rem; text-align:center;">
               Transportistas
               que
               ya usan Smart Load Solution</div>
@@ -933,28 +934,28 @@
               style="display:flex; flex-wrap:wrap; justify-content:center; gap:1.5rem; max-width:100%; width:100%;">
               <div class="big-stat">
                 <div class="big-stat-num" id="cnt1">0</div>
-                <div class="big-stat-label">Cargas Registradas</div>
+                <div class="big-stat-label" data-i18n="landing.results_stat1">Cargas Registradas</div>
               </div>
               <div class="big-stat">
                 <div class="big-stat-num" id="cnt2">0</div>
-                <div class="big-stat-label">Millas Totales</div>
+                <div class="big-stat-label" data-i18n="landing.results_stat2">Millas Totales</div>
               </div>
               <div class="big-stat">
                 <div class="big-stat-num" id="cnt3">$0</div>
-                <div class="big-stat-label">Ingresos Totales</div>
+                <div class="big-stat-label" data-i18n="landing.results_stat3">Ingresos Totales</div>
               </div>
               <div class="big-stat">
                 <div class="big-stat-num" id="cnt4">0%</div>
-                <div class="big-stat-label">Más Ganancias</div>
+                <div class="big-stat-label" data-i18n="landing.results_stat4">Más Ganancias</div>
               </div>
             </div>
             <div
               style="background:rgba(0,229,255,.06); border:1px solid rgba(0,229,255,.15); border-radius:16px; padding:1.5rem 2.5rem; max-width:600px; text-align:center;">
-              <div style="font-size:1.2rem; color:rgba(255,255,255,.8); line-height:1.7; font-style:italic;">
+              <div data-i18n-html="landing.results_quote" style="font-size:1.2rem; color:rgba(255,255,255,.8); line-height:1.7; font-style:italic;">
                 "Antes aceptaba cargas que parecían buenas pero al final perdía dinero. Con SmartLoad sé <strong
                   style="color:var(--cyan)">en 30 segundos</strong> si vale la pena."
               </div>
-              <div style="margin-top:.8rem; font-size:.85rem; color:rgba(255,255,255,.4);">— Miguel R., Expediter ·
+              <div data-i18n="landing.results_quote_attr" style="margin-top:.8rem; font-size:.85rem; color:rgba(255,255,255,.4);">— Miguel R., Expediter ·
                 Florida
               </div>
             </div>
@@ -964,16 +965,16 @@
        SCENE 11 — CTA FINAL
   ════════════════════════════════════════ -->
           <section class="scene" id="s12">
-            <div class="cta-pre">Empieza hoy mismo</div>
-            <div class="cta-title">Maximiza tu<br><span>Rentabilidad</span></div>
-            <div class="cta-sub">Únete a cientos de transportistas que ya toman mejores decisiones</div>
+            <div class="cta-pre" data-i18n="landing.cta_pre">Empieza hoy mismo</div>
+            <div class="cta-title" data-i18n-html="landing.cta_title">Maximiza tu<br><span>Rentabilidad</span></div>
+            <div class="cta-sub" data-i18n="landing.cta_sub">Únete a cientos de transportistas que ya toman mejores decisiones</div>
             <div class="cta-buttons">
-              <a href="/auth.html?source=promo" class="btn-primary-cta">🚀 Comenzar Gratis</a>
-              <a href="/index.html" class="btn-secondary-cta">Conocer Más</a>
+              <a href="/auth.html?source=promo" class="btn-primary-cta" data-i18n="landing.cta_btn_primary">🚀 Comenzar Gratis</a>
+              <a href="/index.html" class="btn-secondary-cta" data-i18n="landing.cta_btn_secondary">Conocer Más</a>
             </div>
             <div class="price-badge">
-              <div class="price-free">GRATIS para empezar</div>
-              <div class="price-desc">50 cargas sin tarjeta de crédito • Plan Pro desde $19/mes</div>
+              <div class="price-free" data-i18n="landing.cta_price_free">GRATIS para empezar</div>
+              <div class="price-desc" data-i18n="landing.cta_price_desc">50 cargas sin tarjeta de crédito • Plan Pro desde $19/mes</div>
             </div>
           </section>
 
@@ -1308,10 +1309,10 @@
     <div class="glow-orb" style="background: var(--primary-orange); top: -100px; left: -200px;"></div>
 
     <div class="container text-center">
-      <h2 class="text-3xl md:text-4xl font-black mb-4">
+      <h2 class="text-3xl md:text-4xl font-black mb-4" data-i18n-html="landing.features_heading">
         Todo lo que Necesitas en un <span class="gradient-text">Solo Lugar</span>
       </h2>
-      <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-12">
+      <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-12" data-i18n="landing.features_sub">
         Herramientas profesionales diseñadas específicamente para transportistas independientes
       </p>
 
@@ -1324,19 +1325,17 @@
           <div class="text-4xl mb-4">
             <span class="inline-block bg-gradient-to-br from-cyan-400 to-blue-500 p-3 rounded-xl">📊</span>
           </div>
-          <h3 class="text-2xl md:text-3xl font-bold mb-3">Calculadora RPM en Tiempo Real</h3>
-          <p class="text-gray-300 text-base md:text-lg leading-relaxed mb-4">
+          <h3 class="text-2xl md:text-3xl font-bold mb-3" data-i18n="landing.fc1_title">Calculadora RPM en Tiempo Real</h3>
+          <p class="text-gray-300 text-base md:text-lg leading-relaxed mb-4" data-i18n="landing.fc1_desc">
             Introduce los detalles de una carga y obtén tu **Ingreso Por Milla** real en menos de 30 segundos.
             Considera millas totales, deadhead, combustible, y costos operativos.
           </p>
           <ul class="space-y-2 text-sm md:text-base text-gray-200">
-            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Cálculo automático de ganancia
-              neta
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span data-i18n="landing.fc1_b1">Cálculo automático de ganancia neta</span>
             </li>
-            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Incluye costos variables por milla
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span data-i18n="landing.fc1_b2">Incluye costos variables por milla</span>
             </li>
-            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Recomendación instantánea:
-              Aceptar/Rechazar</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span data-i18n="landing.fc1_b3">Recomendación instantánea: Aceptar/Rechazar</span></li>
           </ul>
         </div>
 
@@ -1346,13 +1345,13 @@
           <div class="text-4xl mb-4">
             <span class="inline-block bg-gradient-to-br from-purple-400 to-pink-500 p-3 rounded-xl">🤖</span>
           </div>
-          <h3 class="text-2xl font-bold mb-3">Asistente Inteligente AI</h3>
-          <p class="text-gray-300 text-base leading-relaxed mb-4">
+          <h3 class="text-2xl font-bold mb-3" data-i18n="landing.fc2_title">Asistente Inteligente AI</h3>
+          <p class="text-gray-300 text-base leading-relaxed mb-4" data-i18n="landing.fc2_desc">
             Lex AI aprende de tus cargas anteriores y te recomienda mejores rutas y zonas rentables.
           </p>
           <ul class="space-y-2 text-sm text-gray-300">
-            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Análisis de patrones</li>
-            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Predicción de rentabilidad</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span data-i18n="landing.fc2_b1">Análisis de patrones</span></li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span data-i18n="landing.fc2_b2">Predicción de rentabilidad</span></li>
           </ul>
         </div>
 
@@ -1362,13 +1361,13 @@
           <div class="text-4xl mb-4">
             <span class="inline-block bg-gradient-to-br from-orange-400 to-red-500 p-3 rounded-xl">🗺️</span>
           </div>
-          <h3 class="text-2xl font-bold mb-3">Mapa de Zonas Rentables</h3>
-          <p class="text-gray-300 text-base leading-relaxed mb-4">
+          <h3 class="text-2xl font-bold mb-3" data-i18n="landing.fc3_title">Mapa de Zonas Rentables</h3>
+          <p class="text-gray-300 text-base leading-relaxed mb-4" data-i18n="landing.fc3_desc">
             Visualiza en un mapa interactivo qué estados y rutas han sido más rentables para ti.
           </p>
           <ul class="space-y-2 text-sm text-gray-300">
-            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Mapa de calor de rentabilidad</li>
-            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Filtros por fecha</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span data-i18n="landing.fc3_b1">Mapa de calor de rentabilidad</span></li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span data-i18n="landing.fc3_b2">Filtros por fecha</span></li>
           </ul>
         </div>
 
@@ -1378,15 +1377,15 @@
           <div class="text-4xl mb-4">
             <span class="inline-block bg-gradient-to-br from-blue-400 to-cyan-500 p-3 rounded-xl">💰</span>
           </div>
-          <h3 class="text-2xl md:text-3xl font-bold mb-3">Panel Financiero Mensual</h3>
-          <p class="text-gray-300 text-base md:text-lg leading-relaxed mb-4">
+          <h3 class="text-2xl md:text-3xl font-bold mb-3" data-i18n="landing.fc4_title">Panel Financiero Mensual</h3>
+          <p class="text-gray-300 text-base md:text-lg leading-relaxed mb-4" data-i18n="landing.fc4_desc">
             Panel completo con métricas clave: ingresos totales, gastos, ganancia neta, RPM promedio,
             y tendencias mensuales. Exporta reportes en Excel para tu contabilidad.
           </p>
           <ul class="space-y-2 text-sm md:text-base text-gray-300">
-            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Gráficos de tendencias</li>
-            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Comparación mes a mes</li>
-            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Exportación Excel/CSV</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span data-i18n="landing.fc4_b1">Gráficos de tendencias</span></li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span data-i18n="landing.fc4_b2">Comparación mes a mes</span></li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span data-i18n="landing.fc4_b3">Exportación Excel/CSV</span></li>
           </ul>
         </div>
 
@@ -1396,13 +1395,13 @@
           <div class="text-4xl mb-4">
             <span class="inline-block bg-gradient-to-br from-green-400 to-emerald-500 p-3 rounded-xl">📚</span>
           </div>
-          <h3 class="text-2xl font-bold mb-3">Historial Completo</h3>
-          <p class="text-gray-300 text-base leading-relaxed mb-4">
+          <h3 class="text-2xl font-bold mb-3" data-i18n="landing.fc5_title">Historial Completo</h3>
+          <p class="text-gray-300 text-base leading-relaxed mb-4" data-i18n="landing.fc5_desc">
             Todas tus cargas guardadas, editables, y exportables. Nunca pierdas track de tu trabajo.
           </p>
           <ul class="space-y-2 text-sm text-gray-300">
-            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Búsqueda avanzada</li>
-            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Edición en tiempo real</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span data-i18n="landing.fc5_b1">Búsqueda avanzada</span></li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span data-i18n="landing.fc5_b2">Edición en tiempo real</span></li>
           </ul>
         </div>
 
@@ -1415,10 +1414,10 @@
     <div class="container text-center">
 
       <!-- Section Header -->
-      <h2 class="text-3xl md:text-4xl font-black mb-4">
+      <h2 class="text-3xl md:text-4xl font-black mb-4" data-i18n-html="landing.pricing_heading">
         Planes que se <span class="gradient-text">Pagan Solos</span>
       </h2>
-      <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-12">
+      <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-12" data-i18n="landing.pricing_sub">
         Comienza gratis. Actualiza cuando quieras más poder.
       </p>
 
@@ -1433,7 +1432,7 @@
               <span class="text-4xl md:text-5xl font-black">$0</span>
               <span class="text-gray-300">/mes</span>
             </div>
-            <p class="text-sm text-gray-400 mt-2">
+            <p class="text-sm text-gray-400 mt-2" data-i18n="landing.plan_starter_tagline">
               Perfecto para conocer la plataforma
             </p>
           </div>
@@ -1441,39 +1440,39 @@
           <ul class="space-y-3 mb-8 text-gray-200">
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span><strong>30 cargas</strong> por mes</span>
+              <span data-i18n-html="landing.plan_starter_f1"><strong>30 cargas</strong> por mes</span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span>Calculadora RPM básica</span>
+              <span data-i18n="landing.plan_starter_f2">Calculadora RPM básica</span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span>Historial básico (30 días)</span>
+              <span data-i18n="landing.plan_starter_f3">Historial básico (30 días)</span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span>Panel financiero básico</span>
+              <span data-i18n="landing.plan_starter_f4">Panel financiero básico</span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span>Mapa de zonas básico</span>
+              <span data-i18n="landing.plan_starter_f5">Mapa de zonas básico</span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span>Academia — Módulos 1-3 gratis</span>
+              <span data-i18n="landing.plan_starter_f6">Academia — Módulos 1-3 gratis</span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-gray-500 mt-0.5">✗</span>
-              <span class="text-gray-400">Lex AI</span>
+              <span class="text-gray-400" data-i18n="landing.plan_starter_f7">Lex AI</span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-gray-500 mt-0.5">✗</span>
-              <span class="text-gray-400">Exportación Excel</span>
+              <span class="text-gray-400" data-i18n="landing.plan_starter_f8">Exportación Excel</span>
             </li>
           </ul>
 
-          <a href="auth.html" class="btn-secondary block text-center">
+          <a href="auth.html" class="btn-secondary block text-center" data-i18n="landing.plan_starter_btn">
             Empezar Gratis
           </a>
         </div>
@@ -1489,7 +1488,7 @@
               <span class="text-4xl md:text-5xl font-black" style="color: #60a5fa;">$14.99</span>
               <span class="text-gray-300">/mes</span>
             </div>
-            <p class="text-sm text-green-400 mt-2 font-semibold">
+            <p class="text-sm text-green-400 mt-2 font-semibold" data-i18n="landing.plan_pro_tagline">
               💰 Ideal para transportistas activos
             </p>
           </div>
@@ -1497,40 +1496,40 @@
           <ul class="space-y-3 mb-8 text-gray-300">
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span><strong class="text-white">Cargas ilimitadas</strong></span>
+              <span data-i18n-html="landing.plan_pro_f1"><strong class="text-white">Cargas ilimitadas</strong></span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span><strong class="text-white">Sistema financiero completo</strong></span>
+              <span data-i18n-html="landing.plan_pro_f2"><strong class="text-white">Sistema financiero completo</strong></span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span><strong class="text-white">Mapa de zonas avanzado</strong></span>
+              <span data-i18n-html="landing.plan_pro_f3"><strong class="text-white">Mapa de zonas avanzado</strong></span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span><strong class="text-white">Academia — Módulos 1-6</strong> (Pro)</span>
+              <span data-i18n-html="landing.plan_pro_f4"><strong class="text-white">Academia — Módulos 1-6</strong> (Pro)</span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span>Historial de 90 días</span>
+              <span data-i18n="landing.plan_pro_f5">Historial de 90 días</span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span>Reportes financieros en PDF</span>
+              <span data-i18n="landing.plan_pro_f6">Reportes financieros en PDF</span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span>Exportación Excel/CSV</span>
+              <span data-i18n="landing.plan_pro_f7">Exportación Excel/CSV</span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-gray-500 mt-0.5">✗</span>
-              <span class="text-gray-400">Lex AI Assistant</span>
+              <span class="text-gray-400" data-i18n="landing.plan_pro_f8">Lex AI Assistant</span>
             </li>
           </ul>
 
           <a href="auth.html" class="btn-primary block text-center" style="justify-content: center;">
-            <span>Elegir Professional</span>
+            <span data-i18n="landing.plan_pro_btn">Elegir Professional</span>
             <span class="text-xl">→</span>
           </a>
         </div>
@@ -1543,7 +1542,7 @@
           <!-- Most Popular Badge -->
           <div class="absolute -top-4 left-1/2 -translate-x-1/2">
             <span
-              class="bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2 rounded-full text-sm font-bold text-white shadow-lg whitespace-nowrap">
+              class="bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2 rounded-full text-sm font-bold text-white shadow-lg whitespace-nowrap" data-i18n="landing.plan_premium_badge">
               ⭐ MÁS POPULAR
             </span>
           </div>
@@ -1554,7 +1553,7 @@
               <span class="text-4xl md:text-5xl font-black gradient-text">$29.99</span>
               <span class="text-gray-300">/mes</span>
             </div>
-            <p class="text-sm text-green-400 mt-2 font-semibold">
+            <p class="text-sm text-green-400 mt-2 font-semibold" data-i18n="landing.plan_premium_tagline">
               🚀 Se paga solo con 2-3 cargas mejor optimizadas
             </p>
           </div>
@@ -1562,40 +1561,40 @@
           <ul class="space-y-3 mb-8 text-gray-300">
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span><strong class="text-white">Todo lo de Professional</strong></span>
+              <span data-i18n-html="landing.plan_premium_f1"><strong class="text-white">Todo lo de Professional</strong></span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span><strong class="text-white">Lex AI Assistant</strong> — recomendaciones inteligentes</span>
+              <span data-i18n-html="landing.plan_premium_f2"><strong class="text-white">Lex AI Assistant</strong> — recomendaciones inteligentes</span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span><strong class="text-white">Historial ilimitado</strong></span>
+              <span data-i18n-html="landing.plan_premium_f3"><strong class="text-white">Historial ilimitado</strong></span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span><strong class="text-white">Análisis predictivo con AI</strong></span>
+              <span data-i18n-html="landing.plan_premium_f4"><strong class="text-white">Análisis predictivo con AI</strong></span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span>Reportes de impuestos</span>
+              <span data-i18n="landing.plan_premium_f5">Reportes de impuestos</span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span><strong class="text-white">Soporte prioritario</strong></span>
+              <span data-i18n-html="landing.plan_premium_f6"><strong class="text-white">Soporte prioritario</strong></span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-green-400 mt-0.5">✓</span>
-              <span><strong class="text-white">Academia completa</strong> — Módulos 1-8</span>
+              <span data-i18n-html="landing.plan_premium_f7"><strong class="text-white">Academia completa</strong> — Módulos 1-8</span>
             </li>
           </ul>
 
           <a href="auth.html" class="btn-primary block text-center" style="justify-content: center;">
-            <span>Comenzar Ahora</span>
+            <span data-i18n="landing.plan_premium_btn">Comenzar Ahora</span>
             <span class="text-2xl">→</span>
           </a>
 
-          <p class="text-center text-sm text-gray-400 mt-4">
+          <p class="text-center text-sm text-gray-400 mt-4" data-i18n="landing.plan_premium_guarantee">
             ✓ Cancela cuando quieras • ✓ Garantía 30 días
           </p>
         </div>
@@ -1604,7 +1603,7 @@
 
       <!-- ROI Statement -->
       <div class="mt-12 glass rounded-xl p-6 max-w-3xl mx-auto">
-        <p class="text-lg text-gray-200">
+        <p class="text-lg text-gray-200" data-i18n-html="landing.pricing_roi">
           <strong class="text-white">¿Vale la pena?</strong> Si optimizas solo <strong class="gradient-text">2-3 cargas
             al mes</strong>
           y evitas aceptar cargas malas que te cuestan dinero, el Plan Pro se paga solo.
@@ -1621,10 +1620,10 @@
     <div class="container text-center">
 
       <!-- Section Header -->
-      <h2 class="text-3xl md:text-4xl font-black mb-4">
+      <h2 class="text-3xl md:text-4xl font-black mb-4" data-i18n-html="landing.testimonials_heading">
         Lo Que Dicen Nuestros <span class="gradient-text">Usuarios</span>
       </h2>
-      <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-12">
+      <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-12" data-i18n="landing.testimonials_sub">
         Transportistas que están ganando más con decisiones basadas en datos
       </p>
 
@@ -1640,13 +1639,13 @@
             </div>
             <div>
               <p class="font-bold text-white">Miguel R.</p>
-              <p class="text-sm text-gray-400">Expediter, TX</p>
+              <p class="text-sm text-gray-400" data-i18n="landing.t1_location">Expediter, TX</p>
             </div>
           </div>
           <div class="flex gap-1 mb-3 text-yellow-400">
             ⭐⭐⭐⭐⭐
           </div>
-          <p class="text-gray-300 leading-relaxed">
+          <p class="text-gray-300 leading-relaxed" data-i18n-html="landing.t1_quote">
             "Antes aceptaba cargas que parecían buenas pero al final perdía dinero.
             Con SmartLoad ahora sé <strong class="text-white">en segundos</strong> si vale la pena.
             Mi ganancia aumentó casi <strong class="text-green-400">30%</strong> en 2 meses."
@@ -1662,13 +1661,13 @@
             </div>
             <div>
               <p class="font-bold text-white">José L.</p>
-              <p class="text-sm text-gray-400">Operador Independiente, FL</p>
+              <p class="text-sm text-gray-400" data-i18n="landing.t2_location">Operador Independiente, FL</p>
             </div>
           </div>
           <div class="flex gap-1 mb-3 text-yellow-400">
             ⭐⭐⭐⭐⭐
           </div>
-          <p class="text-gray-300 leading-relaxed">
+          <p class="text-gray-300 leading-relaxed" data-i18n-html="landing.t2_quote">
             "El mapa de zonas me cambió el juego. Ahora veo claramente qué estados me dan más ganancia
             y evito perder tiempo en rutas malas. <strong class="text-white">Los $19 se pagan solos</strong> cada mes."
           </p>
@@ -1683,13 +1682,13 @@
             </div>
             <div>
               <p class="font-bold text-white">Carlos M.</p>
-              <p class="text-sm text-gray-400">Van Driver, IL</p>
+              <p class="text-sm text-gray-400" data-i18n="landing.t3_location">Van Driver, IL</p>
             </div>
           </div>
           <div class="flex gap-1 mb-3 text-yellow-400">
             ⭐⭐⭐⭐⭐
           </div>
-          <p class="text-gray-300 leading-relaxed">
+          <p class="text-gray-300 leading-relaxed" data-i18n-html="landing.t3_quote">
             "Simple, rápido y efectivo. Ya no pierdo tiempo calculando a mano.
             Lex AI me recomienda las mejores rutas basándose en mi historial.
             <strong class="text-white">Herramienta indispensable</strong>."
@@ -1712,7 +1711,7 @@
 
           <!-- Left: Content -->
           <div class="text-left">
-            <h2 class="text-4xl md:text-5xl font-black mb-6">
+            <h2 class="text-4xl md:text-5xl font-black mb-6" data-i18n-html="landing.final_cta_heading">
               ¿Listo para Aumentar tu <span class="gradient-text">Ganancia?</span>
             </h2>
 
@@ -1723,27 +1722,27 @@
                   style="background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan);">
                   ✓
                 </div>
-                <span class="text-lg font-medium">Configuración en menos de 5 minutos</span>
+                <span class="text-lg font-medium" data-i18n="landing.final_cta_b1">Configuración en menos de 5 minutos</span>
               </div>
               <div class="flex items-center gap-4">
                 <div class="w-8 h-8 rounded-full flex items-center justify-center"
                   style="background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan);">
                   ✓
                 </div>
-                <span class="text-lg font-medium">Sin tarjeta de crédito requerida</span>
+                <span class="text-lg font-medium" data-i18n="landing.final_cta_b2">Sin tarjeta de crédito requerida</span>
               </div>
               <div class="flex items-center gap-4">
                 <div class="w-8 h-8 rounded-full flex items-center justify-center"
                   style="background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan);">
                   ✓
                 </div>
-                <span class="text-lg font-medium">Acceso inmediato a todas las funciones</span>
+                <span class="text-lg font-medium" data-i18n="landing.final_cta_b3">Acceso inmediato a todas las funciones</span>
               </div>
             </div>
 
             <!-- CTA Button -->
             <a href="auth.html" class="btn-primary" style="font-size: 1.25rem; padding: 1.25rem 3rem;">
-              <span>Empezar Ahora</span>
+              <span data-i18n="landing.final_cta_btn">Empezar Ahora</span>
               <span class="text-3xl">→</span>
             </a>
           </div>
@@ -1776,7 +1775,7 @@
               onerror="this.src='img/logo-app.png'" />
             <span class="font-bold text-lg">SmartLoad</span>
           </div>
-          <p class="text-gray-400 text-sm leading-relaxed">
+          <p class="text-gray-400 text-sm leading-relaxed" data-i18n="landing.footer_tagline">
             La plataforma inteligente para transportistas que quieren maximizar su ganancia con decisiones basadas en
             datos.
           </p>
@@ -1784,33 +1783,33 @@
 
         <!-- Column 2: Empresa -->
         <div>
-          <h4 class="font-bold text-white mb-4">Empresa</h4>
+          <h4 class="font-bold text-white mb-4" data-i18n="landing.footer_col_company">Empresa</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="about.html" class="text-gray-400 hover:text-white transition">Acerca de Nosotros</a></li>
-            <li><a href="plans.html" class="text-gray-400 hover:text-white transition">Planes y Precios</a></li>
-            <li><a href="#testimonials" class="text-gray-400 hover:text-white transition">Testimonios</a></li>
-            <li><a href="contact.html" class="text-gray-400 hover:text-white transition">Contacto</a></li>
+            <li><a href="about.html" class="text-gray-400 hover:text-white transition" data-i18n="landing.footer_about">Acerca de Nosotros</a></li>
+            <li><a href="plans.html" class="text-gray-400 hover:text-white transition" data-i18n="landing.footer_plans">Planes y Precios</a></li>
+            <li><a href="#testimonials" class="text-gray-400 hover:text-white transition" data-i18n="landing.footer_testimonials">Testimonios</a></li>
+            <li><a href="contact.html" class="text-gray-400 hover:text-white transition" data-i18n="landing.footer_contact">Contacto</a></li>
           </ul>
         </div>
 
         <!-- Column 3: Recursos -->
         <div>
-          <h4 class="font-bold text-white mb-4">Recursos</h4>
+          <h4 class="font-bold text-white mb-4" data-i18n="landing.footer_col_resources">Recursos</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="resources.html" class="text-gray-400 hover:text-white transition">Centro de Recursos</a></li>
-            <li><a href="blog.html" class="text-gray-400 hover:text-white transition">Blog</a></li>
-            <li><a href="faq.html" class="text-gray-400 hover:text-white transition">FAQ</a></li>
-            <li><a href="support.html" class="text-gray-400 hover:text-white transition">Soporte</a></li>
+            <li><a href="resources.html" class="text-gray-400 hover:text-white transition" data-i18n="landing.footer_resources">Centro de Recursos</a></li>
+            <li><a href="blog.html" class="text-gray-400 hover:text-white transition" data-i18n="landing.footer_blog">Blog</a></li>
+            <li><a href="faq.html" class="text-gray-400 hover:text-white transition" data-i18n="landing.footer_faq">FAQ</a></li>
+            <li><a href="support.html" class="text-gray-400 hover:text-white transition" data-i18n="landing.footer_support">Soporte</a></li>
           </ul>
         </div>
 
         <!-- Column 4: Legal & Social -->
         <div>
-          <h4 class="font-bold text-white mb-4">Legal</h4>
+          <h4 class="font-bold text-white mb-4" data-i18n="landing.footer_col_legal">Legal</h4>
           <ul class="space-y-2 text-sm mb-6">
-            <li><a href="privacy.html" class="text-gray-400 hover:text-white transition">Privacidad</a></li>
-            <li><a href="terms.html" class="text-gray-400 hover:text-white transition">Términos de Uso</a></li>
-            <li><a href="refund.html" class="text-gray-400 hover:text-white transition">Reembolsos</a></li>
+            <li><a href="privacy.html" class="text-gray-400 hover:text-white transition" data-i18n="landing.footer_privacy">Privacidad</a></li>
+            <li><a href="terms.html" class="text-gray-400 hover:text-white transition" data-i18n="landing.footer_terms">Términos de Uso</a></li>
+            <li><a href="refund.html" class="text-gray-400 hover:text-white transition" data-i18n="landing.footer_refund">Reembolsos</a></li>
           </ul>
 
           <!-- Social Media Placeholders -->
@@ -1883,6 +1882,25 @@
 
   <!-- 🍪 Cookie Consent Banner -->
   <script src="js/cookie-consent.js?v=1.0.0"></script>
+
+  <!-- i18n Init -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.i18n) {
+        window.i18n.init();
+        const lang = window.i18n.currentLang || 'en';
+        const isEs = lang === 'es';
+        const activeStyle = 'color:#00D9FF;';
+        const inactiveStyle = 'color:#9ca3af;';
+        document.getElementById('btn-en').style.cssText += isEs ? inactiveStyle : activeStyle;
+        document.getElementById('btn-es').style.cssText += isEs ? activeStyle : inactiveStyle;
+        const enM = document.getElementById('btn-en-mobile');
+        const esM = document.getElementById('btn-es-mobile');
+        if (enM) enM.style.cssText += isEs ? inactiveStyle : activeStyle;
+        if (esM) esM.style.cssText += isEs ? activeStyle : inactiveStyle;
+      }
+    });
+  </script>
 
 </body>
 

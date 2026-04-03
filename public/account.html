@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Mi Cuenta | Smart Load Solution</title>
+  <title>My Account | Smart Load Solution</title>
   <link rel="icon" type="image/png" href="img/logo-app.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -621,17 +621,15 @@
     <img src="img/logo-app.webp" alt="Smart Load Solution" onerror="this.src='img/logo-app.png'">
     <span>Smart Load Solution</span>
   </a>
-  <a href="app.html" class="back-btn">
-    ← Volver a la App
-  </a>
+  <a href="app.html" class="back-btn" data-i18n="account.back_btn">← Back to App</a>
 </header>
 
 <!-- Main -->
 <main class="container">
 
   <div class="page-title">
-    <h1>Mi Cuenta</h1>
-    <p>Gestiona tu perfil, suscripción y seguridad</p>
+    <h1 data-i18n="account.title">My Account</h1>
+    <p data-i18n="account.page_subtitle">Manage your profile, subscription, and security</p>
   </div>
 
   <!-- PROFILE HERO -->
@@ -649,31 +647,31 @@
     <div class="section-header">
       <div class="section-icon orange">👤</div>
       <div>
-        <div class="section-title">Información Personal</div>
-        <div class="section-subtitle">Tu nombre y datos de contacto</div>
+        <div class="section-title" data-i18n="account.profile_title">Personal Information</div>
+        <div class="section-subtitle" data-i18n="account.profile_subtitle">Your name and contact details</div>
       </div>
     </div>
     <div class="section-body">
       <div class="form-grid">
         <div class="field">
-          <label>Nombre Completo</label>
-          <input type="text" id="fieldName" placeholder="Tu nombre" />
+          <label data-i18n="account.label_name">Full Name</label>
+          <input type="text" id="fieldName" placeholder="Your name" data-i18n="account.placeholder_name" />
         </div>
         <div class="field">
-          <label>Empresa / Negocio</label>
-          <input type="text" id="fieldBusiness" placeholder="Nombre de tu empresa" />
+          <label data-i18n="account.label_company">Company / Business</label>
+          <input type="text" id="fieldBusiness" placeholder="Your company name" data-i18n="account.placeholder_business" />
         </div>
         <div class="field">
-          <label>Email</label>
+          <label data-i18n="account.label_email">Email</label>
           <input type="email" id="fieldEmail" class="readonly" readonly />
         </div>
         <div class="field">
-          <label>Teléfono</label>
-          <input type="tel" id="fieldPhone" placeholder="Tu teléfono" />
+          <label data-i18n="account.label_phone">Phone</label>
+          <input type="tel" id="fieldPhone" placeholder="Your phone" data-i18n="account.placeholder_phone" />
         </div>
       </div>
       <div class="btn-row">
-        <button class="btn btn-primary" onclick="saveProfile()">💾 Guardar Cambios</button>
+        <button class="btn btn-primary" onclick="saveProfile()" data-i18n="account.btn_save_profile">💾 Save Changes</button>
       </div>
     </div>
   </div>
@@ -683,8 +681,8 @@
     <div class="section-header">
       <div class="section-icon cyan">💳</div>
       <div>
-        <div class="section-title">Suscripción</div>
-        <div class="section-subtitle">Tu plan actual y opciones de gestión</div>
+        <div class="section-title" data-i18n="account.subscription_title">Subscription</div>
+        <div class="section-subtitle" data-i18n="account.subscription_subtitle">Your current plan and management options</div>
       </div>
     </div>
     <div class="section-body">
@@ -693,18 +691,18 @@
       <div class="sub-card" id="subCard">
         <div class="sub-info">
           <h3 id="subPlanName">Plan Starter</h3>
-          <p id="subStatus" class="status-dot">Activo</p>
+          <p id="subStatus" class="status-dot">Active</p>
         </div>
         <div class="sub-price">
           <div class="amount" id="subPrice">$0</div>
-          <div class="period" id="subPeriod">gratis</div>
+          <div class="period" id="subPeriod">free</div>
         </div>
       </div>
 
       <!-- Usage (solo free) -->
       <div id="usageSection" style="margin-top:20px; display:none;">
         <div class="usage-row">
-          <span class="usage-label">Cargas este mes</span>
+          <span class="usage-label" data-i18n="account.usage_label">Loads this month</span>
           <span class="usage-count" id="usageCount">0 / 30</span>
         </div>
         <div class="usage-bar">
@@ -715,12 +713,12 @@
       <!-- Renewal info -->
       <div id="renewalSection" style="margin-top:16px; display:none;">
         <div class="info-row">
-          <span class="label">Próxima renovación</span>
+          <span class="label" data-i18n="account.renewal_label">Next renewal</span>
           <span class="value" id="renewalDate">—</span>
         </div>
         <div class="info-row">
-          <span class="label">Estado de pago</span>
-          <span class="value" style="color:var(--green)">Al día ✓</span>
+          <span class="label" data-i18n="account.payment_status">Payment status</span>
+          <span class="value" style="color:var(--green)" data-i18n="account.payment_ok">Up to date ✓</span>
         </div>
       </div>
 
@@ -741,59 +739,83 @@
     <div class="section-header">
       <div class="section-icon yellow">🔐</div>
       <div>
-        <div class="section-title">Seguridad</div>
-        <div class="section-subtitle">Contraseña y acceso a tu cuenta</div>
+        <div class="section-title" data-i18n="account.security_title">Security</div>
+        <div class="section-subtitle" data-i18n="account.security_subtitle">Password and account access</div>
       </div>
     </div>
     <div class="section-body">
       <div class="form-grid">
         <div class="field">
-          <label>Nueva Contraseña</label>
-          <input type="password" id="fieldNewPass" placeholder="Mínimo 6 caracteres" />
+          <label data-i18n="account.label_new_password">New Password</label>
+          <input type="password" id="fieldNewPass" placeholder="Minimum 6 characters" data-i18n="account.placeholder_new_pass" />
         </div>
         <div class="field">
-          <label>Confirmar Contraseña</label>
-          <input type="password" id="fieldConfirmPass" placeholder="Repite la contraseña" />
+          <label data-i18n="account.label_confirm_password">Confirm Password</label>
+          <input type="password" id="fieldConfirmPass" placeholder="Repeat password" data-i18n="account.placeholder_confirm_pass" />
         </div>
       </div>
       <div class="btn-row">
-        <button class="btn btn-secondary" onclick="changePassword()">🔑 Cambiar Contraseña</button>
-        <button class="btn btn-secondary" onclick="sendPasswordReset()">📧 Enviar Reset por Email</button>
+        <button class="btn btn-secondary" onclick="changePassword()" data-i18n="account.btn_change_password">🔑 Change Password</button>
+        <button class="btn btn-secondary" onclick="sendPasswordReset()" data-i18n="account.btn_reset_email">📧 Send Reset Email</button>
       </div>
     </div>
   </div>
 
-  <!-- 4. SESIÓN -->
+  <!-- 4. IDIOMA / LANGUAGE PREFERENCE — FASE 4 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon cyan">🌐</div>
+      <div>
+        <div class="section-title" data-i18n="account.lang_title">Language Preference</div>
+        <div class="section-subtitle" data-i18n="account.lang_subtitle">Choose the language for your account</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;" data-i18n="account.lang_desc">
+        Your language preference is saved to your account and applied automatically every time you log in, on any device.
+      </p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <button id="acc-lang-en" onclick="setAccountLanguage('en')"
+          style="flex:1;min-width:140px;padding:14px;border-radius:10px;border:2px solid rgba(0,217,255,0.5);background:rgba(0,217,255,0.08);color:#00D9FF;font-weight:700;font-size:15px;cursor:pointer;transition:all 0.2s;">
+          🇺🇸 English
+        </button>
+        <button id="acc-lang-es" onclick="setAccountLanguage('es')"
+          style="flex:1;min-width:140px;padding:14px;border-radius:10px;border:2px solid rgba(255,255,255,0.1);background:transparent;color:var(--text-muted);font-weight:700;font-size:15px;cursor:pointer;transition:all 0.2s;">
+          🇲🇽 Español
+        </button>
+      </div>
+      <p id="langSavedMsg" style="font-size:13px;color:var(--green);margin-top:12px;display:none;" data-i18n="account.lang_saved">✓ Language saved to your account</p>
+    </div>
+  </div>
+
+  <!-- 5. SESIÓN -->
   <div class="section">
     <div class="section-header">
       <div class="section-icon green">🚪</div>
       <div>
-        <div class="section-title">Sesión</div>
-        <div class="section-subtitle">Cerrar sesión en este dispositivo</div>
+        <div class="section-title" data-i18n="account.session_title">Session</div>
+        <div class="section-subtitle" data-i18n="account.session_subtitle">Log out of this device</div>
       </div>
     </div>
     <div class="section-body">
-      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">
-        Al cerrar sesión necesitarás volver a iniciar sesión con tu email y contraseña.
-      </p>
-      <button class="btn btn-danger" onclick="signOut()">🚪 Cerrar Sesión</button>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;" data-i18n="account.session_text">Logging out means you will need to sign back in with your email and password.</p>
+      <button class="btn btn-danger" onclick="signOut()" data-i18n="account.btn_sign_out">🚪 Log Out</button>
     </div>
   </div>
+
 
   <!-- 5. DANGER ZONE -->
   <div class="section danger-zone">
     <div class="section-header">
       <div class="section-icon red">⚠️</div>
       <div>
-        <div class="section-title">Zona de Peligro</div>
-        <div class="section-subtitle">Acciones irreversibles</div>
+        <div class="section-title" data-i18n="account.danger_title">Danger Zone</div>
+        <div class="section-subtitle" data-i18n="account.danger_subtitle">Irreversible actions</div>
       </div>
     </div>
     <div class="section-body">
-      <p class="danger-text">
-        Eliminar tu cuenta borrará permanentemente todos tus datos: cargas guardadas, configuración, historial financiero y cancelará tu suscripción activa. Esta acción no se puede deshacer.
-      </p>
-      <button class="btn btn-danger" onclick="confirmDeleteAccount()">🗑️ Eliminar Mi Cuenta</button>
+      <p class="danger-text" data-i18n="account.danger_text">Deleting your account will permanently erase all your data: saved loads, settings, financial history, and will cancel your active subscription. This action cannot be undone.</p>
+      <button class="btn btn-danger" onclick="confirmDeleteAccount()" data-i18n="account.btn_delete_account">🗑️ Delete My Account</button>
     </div>
   </div>
 
@@ -819,6 +841,7 @@
   });
 </script>
 
+<script src="js/i18n/language-manager.js"></script>
 <script src="js/userPlans.js?v=3.1.0"></script>
 <script src="js/stripe-config.js?v=3.5.1"></script>
 
@@ -838,50 +861,53 @@
   }
 
   // ── PLAN DATA ──
-  const PLAN_CONFIG = {
-    free: {
-      name: 'Plan Starter', price: '$0', period: 'gratis', badge: 'free',
-      features: [
-        { label: '30 cargas/mes', active: true },
-        { label: 'Calculator básico', active: true },
-        { label: 'Finanzas avanzadas', active: false },
-        { label: 'Cargas ilimitadas', active: false },
-        { label: 'Reportes avanzados', active: false },
-        { label: 'Lex AI', active: false },
-      ]
-    },
-    professional: {
-      name: 'Plan Professional', price: '$14.99', period: '/mes', badge: 'professional',
-      features: [
-        { label: 'Cargas ilimitadas', active: true },
-        { label: 'Finanzas completas', active: true },
-        { label: 'Análisis de zonas', active: true },
-        { label: 'Reportes avanzados', active: true },
-        { label: 'Smart Load Academy', active: true },
-        { label: 'Lex AI', active: false },
-      ]
-    },
-    premium: {
-      name: 'Plan Premium + AI', price: '$29.99', period: '/mes', badge: 'premium',
-      features: [
-        { label: 'Cargas ilimitadas', active: true },
-        { label: 'Finanzas completas', active: true },
-        { label: 'Análisis de zonas', active: true },
-        { label: 'Reportes avanzados', active: true },
-        { label: 'Smart Load Academy', active: true },
-        { label: 'Lex AI Assistant', active: true },
-      ]
-    },
-    admin: {
-      name: 'Administrador', price: '$0', period: 'acceso total', badge: 'admin',
-      features: [
-        { label: 'Todo ilimitado', active: true },
-        { label: 'Panel de admin', active: true },
-        { label: 'Lex AI', active: true },
-        { label: 'Gestión de usuarios', active: true },
-      ]
-    }
-  };
+  function getPlanConfig() {
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    return {
+      free: {
+        name: isEs ? 'Plan Starter' : 'Starter Plan', price: '$0', period: isEs ? 'gratis' : 'free', badge: 'free',
+        features: [
+          { label: isEs ? '30 cargas/mes' : '30 loads/mo', active: true },
+          { label: isEs ? 'Calculator básico' : 'Basic calculator', active: true },
+          { label: isEs ? 'Finanzas avanzadas' : 'Advanced finances', active: false },
+          { label: isEs ? 'Cargas ilimitadas' : 'Unlimited loads', active: false },
+          { label: isEs ? 'Reportes avanzados' : 'Advanced reports', active: false },
+          { label: 'Lex AI', active: false },
+        ]
+      },
+      professional: {
+        name: isEs ? 'Plan Professional' : 'Professional Plan', price: '$14.99', period: isEs ? '/mes' : '/mo', badge: 'professional',
+        features: [
+          { label: isEs ? 'Cargas ilimitadas' : 'Unlimited loads', active: true },
+          { label: isEs ? 'Finanzas completas' : 'Full financial system', active: true },
+          { label: isEs ? 'Análisis de zonas' : 'Zone analysis', active: true },
+          { label: isEs ? 'Reportes avanzados' : 'Advanced reports', active: true },
+          { label: 'Smart Load Academy', active: true },
+          { label: 'Lex AI', active: false },
+        ]
+      },
+      premium: {
+        name: isEs ? 'Plan Premium + AI' : 'Premium Plan + AI', price: '$29.99', period: isEs ? '/mes' : '/mo', badge: 'premium',
+        features: [
+          { label: isEs ? 'Cargas ilimitadas' : 'Unlimited loads', active: true },
+          { label: isEs ? 'Finanzas completas' : 'Full financial system', active: true },
+          { label: isEs ? 'Análisis de zonas' : 'Zone analysis', active: true },
+          { label: isEs ? 'Reportes avanzados' : 'Advanced reports', active: true },
+          { label: 'Smart Load Academy', active: true },
+          { label: 'Lex AI Assistant', active: true },
+        ]
+      },
+      admin: {
+        name: isEs ? 'Administrador' : 'Administrator', price: '$0', period: isEs ? 'acceso total' : 'full access', badge: 'admin',
+        features: [
+          { label: isEs ? 'Todo ilimitado' : 'Everything unlimited', active: true },
+          { label: isEs ? 'Panel de admin' : 'Admin panel', active: true },
+          { label: 'Lex AI', active: true },
+          { label: isEs ? 'Gestión de usuarios' : 'User management', active: true },
+        ]
+      }
+    };
+  }
 
   // ── INIT ──
   auth.onAuthStateChanged(async (user) => {
@@ -900,17 +926,22 @@
 
       const data = userDoc.exists ? userDoc.data() : {};
       renderPage(user, data, plan);
+
+      // ✅ FASE 4: Initialize language selector with user's saved preference
+      initLangSelector(data.preferredLanguage || localStorage.getItem('app_language') || 'en');
     } catch(e) {
       debugLog(e);
-      toast('Error cargando datos', 'error');
+      const _isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+      toast(_isEs ? 'Error cargando datos' : 'Error loading data', 'error');
     } finally {
       document.getElementById('loadingOverlay').classList.add('hidden');
     }
   });
 
   function renderPage(user, data, plan) {
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
     const planId = plan.id || 'free';
-    const config = PLAN_CONFIG[planId] || PLAN_CONFIG.free;
+    const config = getPlanConfig()[planId] || getPlanConfig().free;
 
     // Hero
     const name = data.fullName || user.email.split('@')[0];
@@ -947,8 +978,8 @@
       document.getElementById('renewalSection').style.display = 'block';
       const end = data.subscriptionEndDate;
       document.getElementById('renewalDate').textContent = end
-        ? new Date(end.seconds ? end.seconds * 1000 : end).toLocaleDateString('es-US', { year:'numeric', month:'long', day:'numeric' })
-        : 'Renovación mensual';
+        ? new Date(end.seconds ? end.seconds * 1000 : end).toLocaleDateString(isEs ? 'es-US' : 'en-US', { year:'numeric', month:'long', day:'numeric' })
+        : (isEs ? 'Renovación mensual' : 'Monthly renewal');
     }
 
     // Features
@@ -966,14 +997,14 @@
       btns.innerHTML = '';
     } else if (planId === 'professional') {
       btns.innerHTML = `
-        <button class="btn btn-primary" onclick="upgradeToPremium()">⬆️ Upgrade a Premium + AI — $29.99/mes</button>
-        <button class="btn btn-cyan" onclick="openBilling()">🧾 Portal de Facturación</button>
-        <button class="btn btn-danger" onclick="confirmCancel()">✕ Cancelar Suscripción</button>
+        <button class="btn btn-primary" onclick="upgradeToPremium()">${isEs ? '⬆️ Upgrade a Premium + AI — $29.99/mes' : '⬆️ Upgrade to Premium + AI — $29.99/mo'}</button>
+        <button class="btn btn-cyan" onclick="openBilling()">${isEs ? '🧾 Portal de Facturación' : '🧾 Billing Portal'}</button>
+        <button class="btn btn-danger" onclick="confirmCancel()">${isEs ? '✕ Cancelar Suscripción' : '✕ Cancel Subscription'}</button>
       `;
     } else if (planId === 'premium') {
       btns.innerHTML = `
-        <button class="btn btn-cyan" onclick="openBilling()">🧾 Portal de Facturación</button>
-        <button class="btn btn-danger" onclick="confirmCancel()">✕ Cancelar Suscripción</button>
+        <button class="btn btn-cyan" onclick="openBilling()">${isEs ? '🧾 Portal de Facturación' : '🧾 Billing Portal'}</button>
+        <button class="btn btn-danger" onclick="confirmCancel()">${isEs ? '✕ Cancelar Suscripción' : '✕ Cancel Subscription'}</button>
       `;
     } else if (planId === 'admin') {
       btns.innerHTML = '';
@@ -984,10 +1015,10 @@
       document.getElementById('upgradeBanner').style.display = 'flex';
       document.getElementById('upgradeBanner').innerHTML = `
         <div>
-          <p><strong>Desbloquea todo con Professional o Premium</strong></p>
-          <p>Desde $14.99/mes — Cargas ilimitadas, finanzas avanzadas y más</p>
+          <p><strong>${isEs ? 'Desbloquea todo con Professional o Premium' : 'Unlock everything with Professional or Premium'}</strong></p>
+          <p>${isEs ? 'Desde $14.99/mes — Cargas ilimitadas, finanzas avanzadas y más' : 'From $14.99/mo — Unlimited loads, advanced finances and more'}</p>
         </div>
-        <a href="plans.html" class="btn btn-primary">⬆️ Hacer Upgrade →</a>
+        <a href="plans.html" class="btn btn-primary">${isEs ? '⬆️ Hacer Upgrade →' : '⬆️ Upgrade Now →'}</a>
       `;
     } else {
       document.getElementById('upgradeBanner').style.display = 'none';
@@ -1003,7 +1034,8 @@
     const business = document.getElementById('fieldBusiness').value.trim();
     const phone = document.getElementById('fieldPhone').value.trim();
 
-    if (!name) { toast('El nombre es requerido', 'error'); return; }
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    if (!name) { toast(isEs ? 'El nombre es requerido' : 'Name is required', 'error'); return; }
 
     try {
       await db.collection('users').doc(user.uid).update({
@@ -1017,29 +1049,80 @@
       document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
       document.getElementById('heroName').textContent = name;
 
-      toast('Perfil actualizado', 'success');
+      toast(isEs ? 'Perfil actualizado' : 'Profile updated', 'success');
     } catch(e) {
-      toast('Error guardando: ' + e.message, 'error');
+      toast((isEs ? 'Error guardando: ' : 'Error saving: ') + e.message, 'error');
+    }
+  }
+
+  // ── ✅ FASE 4: LANGUAGE PREFERENCE ──
+  function initLangSelector(lang) {
+    const btnEn = document.getElementById('acc-lang-en');
+    const btnEs = document.getElementById('acc-lang-es');
+    if (!btnEn || !btnEs) return;
+    if (lang === 'es') {
+      btnEs.style.borderColor = 'rgba(0,217,255,0.5)';
+      btnEs.style.background  = 'rgba(0,217,255,0.08)';
+      btnEs.style.color       = '#00D9FF';
+      btnEn.style.borderColor = 'rgba(255,255,255,0.1)';
+      btnEn.style.background  = 'transparent';
+      btnEn.style.color       = 'var(--text-muted)';
+    } else {
+      btnEn.style.borderColor = 'rgba(0,217,255,0.5)';
+      btnEn.style.background  = 'rgba(0,217,255,0.08)';
+      btnEn.style.color       = '#00D9FF';
+      btnEs.style.borderColor = 'rgba(255,255,255,0.1)';
+      btnEs.style.background  = 'transparent';
+      btnEs.style.color       = 'var(--text-muted)';
+    }
+  }
+
+  async function setAccountLanguage(lang) {
+    const user = auth.currentUser;
+    const isEs = lang === 'es';
+
+    // 1. Update UI immediately
+    initLangSelector(lang);
+    if (window.i18n) window.i18n.setLanguage(lang);
+
+    // 2. Save to Firestore
+    if (user) {
+      try {
+        await db.collection('users').doc(user.uid).set(
+          { preferredLanguage: lang },
+          { merge: true }
+        );
+        const msg = document.getElementById('langSavedMsg');
+        if (msg) {
+          msg.textContent = isEs ? '✓ Idioma guardado en tu cuenta' : '✓ Language saved to your account';
+          msg.style.display = 'block';
+          setTimeout(() => { msg.style.display = 'none'; }, 3000);
+        }
+        toast(isEs ? 'Idioma actualizado a Español' : 'Language updated to English', 'success');
+      } catch(e) {
+        toast('Error saving language: ' + e.message, 'error');
+      }
     }
   }
 
   // ── CHANGE PASSWORD ──
   async function changePassword() {
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
     const newPass = document.getElementById('fieldNewPass').value;
     const confirm = document.getElementById('fieldConfirmPass').value;
 
-    if (!newPass) { toast('Ingresa una nueva contraseña', 'error'); return; }
-    if (newPass.length < 6) { toast('Mínimo 6 caracteres', 'error'); return; }
-    if (newPass !== confirm) { toast('Las contraseñas no coinciden', 'error'); return; }
+    if (!newPass) { toast(isEs ? 'Ingresa una nueva contraseña' : 'Enter a new password', 'error'); return; }
+    if (newPass.length < 6) { toast(isEs ? 'Mínimo 6 caracteres' : 'Minimum 6 characters', 'error'); return; }
+    if (newPass !== confirm) { toast(isEs ? 'Las contraseñas no coinciden' : "Passwords don't match", 'error'); return; }
 
     try {
       await auth.currentUser.updatePassword(newPass);
       document.getElementById('fieldNewPass').value = '';
       document.getElementById('fieldConfirmPass').value = '';
-      toast('Contraseña actualizada', 'success');
+      toast(isEs ? 'Contraseña actualizada' : 'Password updated', 'success');
     } catch(e) {
       if (e.code === 'auth/requires-recent-login') {
-        toast('Sesión expirada. Cierra sesión y vuelve a entrar para cambiar la contraseña', 'error');
+        toast(isEs ? 'Sesión expirada. Cierra sesión y vuelve a entrar para cambiar la contraseña' : 'Session expired. Log out and back in to change your password', 'error');
       } else {
         toast('Error: ' + e.message, 'error');
       }
@@ -1048,20 +1131,22 @@
 
   // ── PASSWORD RESET ──
   async function sendPasswordReset() {
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
     const user = auth.currentUser;
     if (!user) return;
     try {
       await auth.sendPasswordResetEmail(user.email);
-      toast('Email de reset enviado a ' + user.email, 'success');
+      toast((isEs ? 'Email de reset enviado a ' : 'Reset email sent to ') + user.email, 'success');
     } catch(e) {
-      toast('Error enviando email', 'error');
+      toast(isEs ? 'Error enviando email' : 'Error sending email', 'error');
     }
   }
 
   // ── UPGRADE A PREMIUM VÍA PORTAL ──
   async function upgradeToPremium() {
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
     try {
-      toast('Abriendo portal...', 'info');
+      toast(isEs ? 'Abriendo portal...' : 'Opening portal...', 'info');
       const fn = firebase.app().functions('us-central1')
         .httpsCallable('ext-firestore-stripe-payments-createPortalLink');
       const { data } = await fn({
@@ -1076,33 +1161,38 @@
 
   // ── BILLING PORTAL ──
   async function openBilling() {
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
     try {
-      toast('Abriendo portal...', 'info');
+      toast(isEs ? 'Abriendo portal...' : 'Opening portal...', 'info');
       const fn = firebase.app().functions('us-central1')
         .httpsCallable('ext-firestore-stripe-payments-createPortalLink');
       const { data } = await fn({ returnUrl: window.location.href, locale: 'auto' });
       window.location.assign(data.url);
     } catch(e) {
-      toast('Error abriendo portal: ' + e.message, 'error');
+      toast((isEs ? 'Error abriendo portal: ' : 'Error opening portal: ') + e.message, 'error');
     }
   }
 
   // ── CANCEL SUBSCRIPTION ──
   function confirmCancel() {
-    if (confirm('¿Seguro que quieres cancelar tu suscripción?\n\nSeguirás teniendo acceso hasta el final del período pagado.')) {
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    if (confirm(isEs
+      ? '¿Seguro que quieres cancelar tu suscripción?\n\nSeguirás teniendo acceso hasta el final del período pagado.'
+      : 'Are you sure you want to cancel your subscription?\n\nYou\'ll retain access until the end of your paid period.')) {
       cancelSub();
     }
   }
 
   async function cancelSub() {
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
     try {
-      toast('Cancelando suscripción...', 'info');
+      toast(isEs ? 'Cancelando suscripción...' : 'Canceling subscription...', 'info');
       const fn = firebase.app().functions('us-central1').httpsCallable('cancelUserSubscription');
       await fn({});
-      toast('Suscripción programada para cancelar al final del período', 'info');
+      toast(isEs ? 'Suscripción programada para cancelar al final del período' : 'Subscription scheduled to cancel at end of period', 'info');
       setTimeout(() => window.location.reload(), 2000);
     } catch(e) {
-      toast('Error: ' + (e.message || 'intenta de nuevo'), 'error');
+      toast('Error: ' + (e.message || (isEs ? 'intenta de nuevo' : 'try again')), 'error');
     }
   }
 
@@ -1114,11 +1204,15 @@
 
   // ── DELETE ACCOUNT ──
   function confirmDeleteAccount() {
-    const input = prompt('Esta acción es IRREVERSIBLE.\n\nEscribe "ELIMINAR" para confirmar:');
-    if (input === 'ELIMINAR') {
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    const confirmWord = isEs ? 'ELIMINAR' : 'DELETE';
+    const input = prompt(isEs
+      ? `Esta acción es IRREVERSIBLE.\n\nEscribe "${confirmWord}" para confirmar:`
+      : `This action is IRREVERSIBLE.\n\nType "${confirmWord}" to confirm:`);
+    if (input === confirmWord) {
       deleteAccount();
     } else if (input !== null) {
-      toast('Texto incorrecto. Cuenta no eliminada.', 'error');
+      toast(isEs ? 'Texto incorrecto. Cuenta no eliminada.' : 'Incorrect text. Account not deleted.', 'error');
     }
   }
 
@@ -1132,8 +1226,9 @@
       await user.delete();
       window.location.href = 'auth.html';
     } catch(e) {
+      const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
       if (e.code === 'auth/requires-recent-login') {
-        toast('Sesión expirada. Cierra sesión y vuelve a entrar para eliminar la cuenta', 'error');
+        toast(isEs ? 'Sesión expirada. Cierra sesión y vuelve a entrar para eliminar la cuenta' : 'Session expired. Log out and back in to delete your account', 'error');
       } else {
         toast('Error: ' + e.message, 'error');
       }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -116,14 +116,17 @@
             margin-top: 2rem
         }
     </style>
+  <script src="../../js/i18n/language-manager.js"></script>
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">&#8592; Volver a la App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'" data-i18n="academy.back_app">← Back to App</a></nav>
     <article class="lesson-container">
         <nav class="breadcrumb">
             <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 5 [PRO]</a> → Lección 3
         </nav>
+        <div data-lang="es">
+
 
         <div
             style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
@@ -406,12 +409,319 @@
                 <a href="lesson-4.html" class="btn btn-primary">Siguiente: Forecasting →</a>
             </nav>
         </footer>
+
+        </div>
+
+        <div data-lang="en" style="display:none">
+        <div
+            style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700; margin-top:2rem">
+            🔒 PRO CONTENT</div>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Route Profitability Analysis</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 14 min read</span>
+                <span>🎓 Module 5 - Lesson 3</span>
+                <span>🗺 Routes</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>🗺 THE UNCOMFORTABLE TRUTH</h2>
+                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
+                    <p style="font-style:italic">"I thought all my loads were profitable.<br>
+                        After analyzing my routes one by one, I discovered:</p>
+                    <ul>
+                        <li>20% of my routes generated 60% of my total profit.</li>
+                        <li>30% of my routes were barely breaking even.</li>
+                        <li>15% of my routes were ACTIVELY LOSING money.</li>
+                    </ul>
+                    <p style="margin:0">I was grinding hard on BAD routes<br>while completely ignoring the GOOD ones."</p>
+                    <p style="margin-top:1rem;text-align:right;font-weight:700">- Ricardo, after 3 months of proper tracking</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 THE CONCEPT: NOT ALL MILES ARE EQUAL</h2>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
+                    <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem;border-left:4px solid #64C864">
+                        <p><strong>ROUTE A: Detroit → Chicago</strong></p>
+                        <ul style="font-size:.9rem;margin:0">
+                            <li>Distance: 280 miles</li>
+                            <li>Average payment: $520</li>
+                            <li>Real RPM: $1.86/mi</li>
+                            <li>Average deadhead: 15 mi</li>
+                            <li>Total time: 5 hours</li>
+                            <li>Average net profit: $245</li>
+                            <li><strong style="color:#64C864">Profit/hour: $49/hr ✅</strong></li>
+                        </ul>
+                    </div>
+                    <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FF6B35">
+                        <p><strong>ROUTE B: Detroit → Laredo</strong></p>
+                        <ul style="font-size:.9rem;margin:0">
+                            <li>Distance: 1,600 miles</li>
+                            <li>Average payment: $1,800</li>
+                            <li>Real RPM: $1.12/mi</li>
+                            <li>Average deadhead: 280 mi</li>
+                            <li>Total time: 26 hours</li>
+                            <li>Average net profit: $280</li>
+                            <li><strong style="color:#FF6B35">Profit/hour: $10.77/hr ❌</strong></li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
+                    Route B pays MORE money upfront ($1,800 vs $520)<br>
+                    But Route A generates FAR MORE profit per hour.<br><br>
+                    Which one would you rather run twice a week?
+                </p>
+            </section>
+
+            <section>
+                <h2>🎯 THE ROUTE CLASSIFICATION SYSTEM</h2>
+
+                <div class="tier-box" style="background:rgba(100,200,100,.15);border-color:#64C864">
+                    <p><strong>S-TIER 🟢🟢 (ELITE)</strong></p>
+                    <ul style="margin:0;font-size:.9rem">
+                        <li>RPM &gt; $1.70/mi consistently</li>
+                        <li>Net margin &gt; 40%</li>
+                        <li>Profit/hour &gt; $45</li>
+                        <li>Easy, available backhaul</li>
+                        <li>High frequency of available loads</li>
+                        <li><strong>ACTION: MAXIMIZE — Actively pursue these aggressively.</strong></li>
+                    </ul>
+                </div>
+
+                <div class="tier-box" style="background:rgba(100,200,100,.1);border-color:#64C864">
+                    <p><strong>A-TIER 🟢 (PREFERRED)</strong></p>
+                    <ul style="margin:0;font-size:.9rem">
+                        <li>RPM $1.50-1.70/mi</li>
+                        <li>Net margin 35-40%</li>
+                        <li>Profit/hour $35-45</li>
+                        <li>Moderate, reliable backhaul</li>
+                        <li><strong>ACTION: PRIORITIZE — Always accept these without hesitation.</strong></li>
+                    </ul>
+                </div>
+
+                <div class="tier-box" style="background:rgba(255,215,0,.1);border-color:#FFD700">
+                    <p><strong>B-TIER 🟡 (ACCEPTABLE)</strong></p>
+                    <ul style="margin:0;font-size:.9rem">
+                        <li>RPM $1.30-1.50/mi</li>
+                        <li>Net margin 25-35%</li>
+                        <li>Profit/hour $25-35</li>
+                        <li>Variable, unreliable backhaul</li>
+                        <li><strong>ACTION: ACCEPT — Only if it fits into your circuit strategy.</strong></li>
+                    </ul>
+                </div>
+
+                <div class="tier-box" style="background:rgba(255,165,0,.1);border-color:#FFA500">
+                    <p><strong>C-TIER 🟠 (AVOID)</strong></p>
+                    <ul style="margin:0;font-size:.9rem">
+                        <li>RPM $1.10-1.30/mi</li>
+                        <li>Net margin 15-25%</li>
+                        <li>Profit/hour $15-25</li>
+                        <li>Difficult or non-existent backhaul</li>
+                        <li><strong>ACTION: AVOID — Only consider if financially desperate.</strong></li>
+                    </ul>
+                </div>
+
+                <div class="tier-box" style="background:rgba(255,107,53,.15);border-color:#FF6B35">
+                    <p><strong>D-TIER 🔴 (REJECT)</strong></p>
+                    <ul style="margin:0;font-size:.9rem">
+                        <li>RPM &lt; $1.10/mi</li>
+                        <li>Net margin &lt; 15%</li>
+                        <li>Profit/hour &lt; $15</li>
+                        <li>Virtually no backhaul options</li>
+                        <li><strong>ACTION: ALWAYS REJECT — Never accept these under any circumstances.</strong></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>📱 ROUTE ANALYSIS INSIDE SMART LOAD</h2>
+                <div class="mockup">
+                    🗺 ROUTE ANALYSIS - YOUR PERSONAL TOP 10<br>
+                    <br>
+                    Data based on 6 months of your loaded history<br>
+                    <br>
+                    🥇 #1: DETROIT → CHICAGO<br>
+                    ├─ Total Loads Run: 18<br>
+                    ├─ Average RPM: $1.86/mi<br>
+                    ├─ Average Net Margin: 44.2%<br>
+                    ├─ Profit Per Hour: $49<br>
+                    ├─ Tier Classification: S 🟢🟢<br>
+                    └─ AI RECOMMENDATION: Run this more often.<br>
+                    <br>
+                    🥈 #2: CHICAGO → INDIANAPOLIS<br>
+                    ├─ Total Loads Run: 12<br>
+                    ├─ Average RPM: $1.72/mi<br>
+                    ├─ Average Net Margin: 41.8%<br>
+                    ├─ Profit Per Hour: $46<br>
+                    ├─ Tier Classification: S 🟢🟢<br>
+                    └─ AI RECOMMENDATION: Maintain current frequency.<br>
+                    <br>
+                    🥉 #3: INDIANAPOLIS → NASHVILLE<br>
+                    ├─ Total Loads Run: 10<br>
+                    ├─ Average RPM: $1.65/mi<br>
+                    ├─ Average Net Margin: 38.5%<br>
+                    ├─ Profit Per Hour: $42<br>
+                    ├─ Tier Classification: A 🟢<br>
+                    └─ AI RECOMMENDATION: High priority lane.<br>
+                    <br>
+                    🔴 YOUR 3 WORST PERFORMING ROUTES:<br>
+                    ├─ Detroit → Laredo: Only $10.77/hr<br>
+                    ├─ Toledo → El Paso: Only $9.25/hr<br>
+                    └─ Chicago → Phoenix: Only $12.80/hr<br>
+                    <br>
+                    💡 YOUR OPTIMIZATION OPPORTUNITY:<br>
+                    If you eliminate your worst 3 routes and<br>
+                    increase your top 3 routes by just 20%:<br>
+                    Monthly profit increase: +$1,240 🚀
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 BUILDING YOUR OPTIMAL WEEKLY CIRCUIT</h2>
+                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>OPTIMAL WEEKLY CIRCUIT — LIVE EXAMPLE:</strong></p>
+                    <table style="width:100%;border-collapse:collapse;margin:1rem 0">
+                        <tr style="background:rgba(100,200,100,.05)">
+                            <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.1)"><strong>MONDAY:</strong> Detroit → Chicago (Tier S)</td>
+                            <td style="padding:.5rem;text-align:right">+$245 profit, 5 hrs</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.05)">
+                            <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.1)"><strong>TUESDAY:</strong> Chicago → Indianapolis (Tier S)</td>
+                            <td style="padding:.5rem;text-align:right">+$220 profit, 4 hrs</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.03)">
+                            <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.1)"><strong>WEDNESDAY:</strong> Indianapolis → Nashville (Tier A)</td>
+                            <td style="padding:.5rem;text-align:right">+$280 profit, 5 hrs</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.03)">
+                            <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.1)"><strong>THURSDAY:</strong> Nashville → Atlanta (Tier A)</td>
+                            <td style="padding:.5rem;text-align:right">+$320 profit, 4 hrs</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.05)">
+                            <td style="padding:.5rem"><strong>FRIDAY:</strong> Atlanta → Detroit (Tier S)</td>
+                            <td style="padding:.5rem;text-align:right">+$680 profit, 11 hrs</td>
+                        </tr>
+                    </table>
+                    <div style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1rem">
+                        <p style="margin:0"><strong>WEEKLY TOTALS:</strong></p>
+                        <ul style="margin:.5rem 0 0 0">
+                            <li>Total Miles: ~1,950</li>
+                            <li>Drive Time: 29 hrs active driving</li>
+                            <li>Net Profit: $1,745</li>
+                            <li>Profit/Hour: $60.17 ✅</li>
+                            <li>ONLY Tier S &amp; A routes</li>
+                        </ul>
+                        <p style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.1)">
+                            <strong>MONTHLY (4 weeks):</strong> $6,980<br>
+                            <strong>vs RANDOM CIRCUIT:</strong> $4,200<br>
+                            <strong style="color:#FFD700">DIFFERENCE: +$2,780/month (+66%) 🚀</strong>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 THE CORE TAKEAWAY</h2>
+                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Not all routes are created equal.<br>The secret is not working MORE hours.<br>It is working the RIGHT routes.</p>
+                    <div style="text-align:left;max-width:500px;margin:0 auto">
+                        <p><strong>Route analysis consistently reveals:</strong></p>
+                        <ul>
+                            <li>20% of your routes generate 60% of all profit (Tier S/A).</li>
+                            <li>50% of your routes are just "okay" (Tier B).</li>
+                            <li>30% of your routes are actively destroying profitability (Tier C/D).</li>
+                        </ul>
+                        <p><strong>The metrics that matter most, per route:</strong></p>
+                        <ol>
+                            <li><strong>Profit Per Hour</strong> (the #1 metric, always)</li>
+                            <li>Net Margin (measures business sustainability)</li>
+                            <li>RPM (measures rate efficiency)</li>
+                            <li>Backhaul Rate (measures load continuity)</li>
+                            <li>Load Frequency (measures operational consistency)</li>
+                        </ol>
+                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
+                            <strong>The Optimization Process:</strong><br>
+                            WEEKS 1-2: Identify your unprofitable bad routes.<br>
+                            WEEKS 3-6: Test replacement routes strategically.<br>
+                            WEEKS 7-10: Gradually replace the bad with the good.<br>
+                            WEEKS 11-12: Evaluate your total financial results.<br><br>
+                            <strong style="color:#FFD700">Typical real-world outcome:<br>+30-50% increase in monthly net profit</strong>
+                        </p>
+                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">
+                            Eliminate 2-3 of your worst routes.<br>
+                            Maximize 2-3 of your best routes.<br>
+                            = Transform your business completely in 90 days.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn-en" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as Complete</button>
+            <nav class="lesson-nav">
+                <a href="lesson-2.html" class="btn btn-secondary">← Previous Lesson</a>
+                <a href="lesson-4.html" class="btn btn-primary">Next: Forecasting →</a>
+            </nav>
+        </footer>
+        </div>
     </article>
 
     <script src="../js/academy.js"></script>
     <script>
-        const MODULE_NUM = 5, LESSON_NUM = 3; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true; alert('¡Lección PRO completada! 🗺️Ahora sabes clasificar rutas por tier.Sistema S/A/B/C/D.Ganancia/hora es la métrica #1.') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true } });
+        const MODULE_NUM = 5, LESSON_NUM = 3; 
+
+function markLessonComplete() { 
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    if (window.AcademyProgress) { 
+        window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); 
+        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
+            btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; 
+            btn.disabled = true; 
+        });
+        alert(isEs ? '¡Lección PRO completada! ✅
+Ahora sabes clasificar rutas por tier.
+Ganancia/hora es la métrica #1.' : 'PRO Lesson completed! ✅
+You now classify routes by tier.
+Profit/hour is your #1 metric.');
+    } 
+} 
+
+document.addEventListener('DOMContentLoaded', () => { 
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { 
+        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
+            btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; 
+            btn.disabled = true;
+        });
+    } 
+});
     </script>
+
+  <script>
+    // Academy bilingual content toggle
+    (function applyAcademyLang() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    })();
+    document.addEventListener('languageChanged', function() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    });
+  </script>
+
 </body>
 
 </html>

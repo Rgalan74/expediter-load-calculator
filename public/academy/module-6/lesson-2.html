@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -132,11 +132,15 @@
             margin-top: 2rem
         }
     </style>
+  <script src="../../js/i18n/language-manager.js"></script>
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">&#8592; Volver a la App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'" data-i18n="academy.back_app">← Back to App</a></nav>
     <article class="lesson-container">
+
+<!-- ==================== ESPAÑOL ==================== -->
+<div data-lang="es">
         <nav class="breadcrumb">
             <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 6 [PRO]</a> → Lección 2
         </nav>
@@ -388,19 +392,312 @@
         </div>
 
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
-                completada</button>
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como completada</button>
             <nav class="lesson-nav">
                 <a href="lesson-1.html" class="btn btn-secondary">← Lección anterior</a>
                 <a href="index.html" class="btn btn-primary">Volver al módulo →</a>
             </nav>
         </footer>
+</div>
+
+<!-- ==================== ENGLISH ==================== -->
+<div data-lang="en" style="display:none">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Module 6 [PRO]</a> → Lesson 2
+        </nav>
+
+        <div
+            style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
+            🔒 PRO CONTENT</div>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Preventive vs Reactive Maintenance</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 9 min read</span>
+                <span>🎓 Module 6 - Lesson 2</span>
+                <span>🔧 Maintenance</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>🔧 THE MAINTENANCE EQUATION</h2>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
+                    <div
+                        style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FF6B35">
+                        <p><strong>REACTIVE (Average operator):</strong></p>
+                        <p style="font-style:italic">"I fix it when it breaks"</p>
+                        <ul style="margin:0;font-size:.9rem">
+                            <li>Waits until there's a problem</li>
+                            <li>Emergency repairs</li>
+                            <li>Pays premium prices</li>
+                            <li>Loses income (van down)</li>
+                            <li><strong style="color:#FF6B35">COST: $600-900/month</strong></li>
+                        </ul>
+                    </div>
+
+                    <div
+                        style="background:rgba(100,200,100,.15);padding:1.5rem;border-radius:.75rem;border-left:4px solid #64C864">
+                        <p><strong>PREVENTIVE (Elite operator):</strong></p>
+                        <p style="font-style:italic">"I maintain before it breaks"</p>
+                        <ul style="margin:0;font-size:.9rem">
+                            <li>Follows strict schedule</li>
+                            <li>Scheduled maintenance</li>
+                            <li>Pays normal prices</li>
+                            <li>Zero unexpected downtime</li>
+                            <li><strong style="color:#64C864">COST: $300-500/month</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p
+                    style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
+                    DIFFERENCE: $200-400/month saved<br>
+                    + Peace of mind + Reliable van + Less stress
+                </p>
+            </section>
+
+            <section>
+                <h2>📅 THE MASTER SCHEDULE</h2>
+
+                <h3>EVERY 5,000 MILES (Typical monthly)</h3>
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <ul>
+                        <li><strong>Oil and filter change</strong> (DIY: $45, Shop: $75-90) - Use synthetic</li>
+                        <li><strong>Tire rotation</strong> (DIY: $0, Shop: $25-40) - Extends life 25%</li>
+                        <li><strong>Fluid inspection</strong> (Coolant, brake, power steering, DEF)</li>
+                        <li><strong>Visual inspection</strong> (Tires, lights, wipers, leaks)</li>
+                    </ul>
+                    <p style="margin:0"><strong>COST: $70-130/month</strong> (shop) or <strong>$45-60/month</strong> (DIY)</p>
+                </div>
+
+                <h3>EVERY 15,000 MILES (Quarterly)</h3>
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <ul>
+                        <li><strong>Air filter change</strong> ($25-65) - Directly affects MPG</li>
+                        <li><strong>Cabin filter change</strong> ($15-50) - Air quality/A/C</li>
+                        <li><strong>Brake inspection</strong> (pad thickness, rotors)</li>
+                        <li><strong>Battery test</strong> (voltage, clean terminals)</li>
+                    </ul>
+                    <p style="margin:0"><strong>ADDITIONAL COST: $40-90</strong></p>
+                </div>
+
+                <h3>EVERY 30,000 MILES (Semi-annual)</h3>
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <ul>
+                        <li><strong>Transmission:</strong> Fluid change ($150-250) - Extends life 100K+ mi</li>
+                        <li><strong>Differential:</strong> Fluid change ($80-120)</li>
+                        <li><strong>Coolant flush:</strong> Full replacement ($100-150)</li>
+                        <li><strong>Wheel alignment:</strong> 4 wheels ($100-150) - Improves MPG</li>
+                        <li><strong>Suspension inspection:</strong> Shocks, control arms</li>
+                    </ul>
+                    <p style="margin:0"><strong>COST: $430-670 every 30K</strong></p>
+                </div>
+
+                <h3>EVERY 60,000 MILES (Typical annual)</h3>
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <ul style="margin:0">
+                        <li><strong>Spark plugs</strong> (if gas engine): $120-200 - Improves MPG</li>
+                        <li><strong>Serpentine belt:</strong> $80-150 - Prevents breakdown</li>
+                        <li><strong>Brake fluid flush:</strong> $70-100</li>
+                        <li><strong>Power steering flush:</strong> $80-120 - Prevents pump failure</li>
+                    </ul>
+                    <p style="margin-top:1rem;margin-bottom:0"><strong>COST: $350-570 every 60K</strong></p>
+                </div>
+            </section>
+
+            <section>
+                <h2>📊 ANNUAL SUMMARY (90K miles/year)</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>FREQUENCY</th>
+                            <th>SERVICE</th>
+                            <th>ANNUAL COST</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Monthly (12×)</td>
+                            <td>Oil/inspection</td>
+                            <td>$840-1,560</td>
+                        </tr>
+                        <tr>
+                            <td>Quarterly (4×)</td>
+                            <td>Filters/brakes</td>
+                            <td>$160-360</td>
+                        </tr>
+                        <tr>
+                            <td>Semi-annual (3×)</td>
+                            <td>Major service</td>
+                            <td>$1,290-2,010</td>
+                        </tr>
+                        <tr>
+                            <td>Annual (1.5×)</td>
+                            <td>Full service</td>
+                            <td>$525-855</td>
+                        </tr>
+                        <tr style="background:rgba(100,200,100,.15)">
+                            <td colspan="2"><strong>TOTAL PREVENTIVE</strong></td>
+                            <td><strong>$2,815-4,785/year</strong><br>= $235-399/month</td>
+                        </tr>
+                        <tr style="background:rgba(255,107,53,.15)">
+                            <td colspan="2"><strong>Typical REACTIVE</strong></td>
+                            <td><strong>$7,200-10,800/year</strong><br>= $600-900/month</td>
+                        </tr>
+                        <tr style="background:rgba(255,215,0,.15)">
+                            <td colspan="2"><strong>SAVINGS</strong></td>
+                            <td><strong>$4,385-6,015/year</strong><br>= $365-501/month 🚀</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>🛠️ DIY vs SHOP: WHEN TO DO WHAT</h2>
+
+                <h3>DO IT YOURSELF (Save 40-60%)</h3>
+                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>EASY (Anyone can do it):</strong></p>
+                    <ul>
+                        <li>✅ Oil change (savings: $30-45)</li>
+                        <li>✅ Tire rotation (savings: $25-40)</li>
+                        <li>✅ Air/cabin filter change (savings: $40-55)</li>
+                        <li>✅ Wiper replacement (savings: $15-25)</li>
+                        <li>✅ Lights/bulbs (savings: $10-30)</li>
+                    </ul>
+                    <p><strong>EQUIPMENT NEEDED:</strong> Jack, jack stands, wrench set, drain pan $170-265<br>
+                        ROI: 3-4 oil changes</p>
+                    <p style="margin:0"><strong>ANNUAL DIY SAVINGS: $600-900</strong></p>
+                </div>
+
+                <h3>TAKE IT TO THE SHOP (Worth it)</h3>
+                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
+                    <ul style="margin:0">
+                        <li>❌ Diagnosis (noises, check engine, vibrations)</li>
+                        <li>❌ Complex work (transmission, differential, alignment, A/C)</li>
+                        <li>❌ Safety-critical (brakes without experience, steering, suspension)</li>
+                        <li>❌ Under warranty (use approved dealer/shop)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>🚨 WARNING SIGNS - DON'T IGNORE</h2>
+
+                <div style="background:rgba(255,107,53,.2);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>SOUNDS YOU MUST NEVER IGNORE:</strong></p>
+                    <ul>
+                        <li><strong>🔴 Squealing when braking:</strong> Worn brake pads (Now: $250-400, If ignored: $800-1,200)</li>
+                        <li><strong>🔴 Engine knocking:</strong> Oil/detonation problem (Now: $200-800, If ignored: $3,000-8,000)</li>
+                        <li><strong>🔴 Transmission grinding:</strong> Transmission failing (Now: $150-600, If ignored: $2,500-5,000)</li>
+                        <li><strong>🔴 Click-click when turning:</strong> CV joint failing (Now: $200-400, If ignored: $500-800)</li>
+                    </ul>
+                </div>
+
+                <div style="background:rgba(255,107,53,.2);padding:1.5rem;border-radius:.75rem;margin-top:1rem">
+                    <p><strong>CRITICAL DASHBOARD LIGHTS:</strong></p>
+                    <ul style="margin:0">
+                        <li><strong>🔴 OIL PRESSURE (Red):</strong> STOP IMMEDIATELY - Can destroy engine in minutes</li>
+                        <li><strong>🔴 BRAKE WARNING (Red):</strong> Check fluid, do not drive if it persists</li>
+                        <li><strong>🔴 BATTERY (Red):</strong> Alternator failing - Fix same day</li>
+                        <li><strong>🟡 CHECK ENGINE:</strong> Read the code, some are OK to wait, others are urgent</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 KEY CONCLUSION</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Maintenance is not an expense.<br>It's an INVESTMENT in your work tool.</p>
+
+                    <div style="text-align:left;max-width:500px;margin:0 auto">
+                        <p><strong>Two philosophies:</strong></p>
+                        <p><strong>REACTIVE:</strong> "Fix it when it breaks"<br>
+                            └─ $600-900/month + downtime + stress</p>
+                        <p><strong>PREVENTIVE:</strong> "Maintain before it breaks"<br>
+                            └─ $300-500/month + zero downtime + peace of mind</p>
+
+                        <p
+                            style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
+                            <strong>The master schedule:</strong><br>
+                            5K mi: Oil, rotation, inspection<br>
+                            15K mi: + Filters, brake check<br>
+                            30K mi: + Transmission, alignment<br>
+                            60K mi: + Full service<br><br>
+                            <strong style="color:#FFD700;font-size:1.25rem">Cost of ignoring it:<br>3 years: $5,300 MORE EXPENSIVE</strong>
+                        </p>
+
+                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">
+                            15 weekly minutes of inspection<br>
+                            = Can prevent $2,000+ in repairs<br><br>
+                            Your van IS your business.<br>
+                            Treat it that way.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn-en" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as Complete</button>
+            <nav class="lesson-nav">
+                <a href="lesson-1.html" class="btn btn-secondary">← Previous Lesson</a>
+                <a href="index.html" class="btn btn-primary">Back to Module →</a>
+            </nav>
+        </footer>
+</div>
+
     </article>
 
     <script src="../js/academy.js"></script>
     <script>
-        const MODULE_NUM = 6, LESSON_NUM = 2; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true; alert('¡Lección PRO completada! 🔧Preventivo ahorra $200-400/mes vs reactivo.Calendario: 5K/15K/30K/60K millas.DIY ahorra 40-60% en trabajos simples.Nunca ignores luces rojas de dashboard.') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true } });
+        const MODULE_NUM = 6, LESSON_NUM = 2;
+        function markLessonComplete() {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress) {
+                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.disabled = true;
+                });
+                alert(isEs ? '¡Lección PRO completada! 🔧\nPreventivo ahorra $200-400/mes vs reactivo.\nCalendario: 5K/15K/30K/60K millas.\nDIY ahorra 40-60% en trabajos simples.\nNunca ignores luces rojas de dashboard.' : 'PRO Lesson complete! 🔧\nPreventive saves $200-400/month vs reactive.\nSchedule: 5K/15K/30K/60K miles.\nDIY saves 40-60% on simple jobs.\nNever ignore red dashboard lights.');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.disabled = true;
+                });
+            }
+        });
     </script>
+
+  <script>
+    // Academy bilingual content toggle
+    (function applyAcademyLang() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    })();
+    document.addEventListener('languageChanged', function() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    });
+  </script>
+
 </body>
 
 </html>

@@ -776,7 +776,7 @@ async function saveExpenseToFirebase() {
   // Verificación de elementos antes de acceder a .value
   if (!amountEl || !typeEl || !descEl || !dateEl) {
     debugLog("❌ Elementos del formulario de gastos no encontrados");
-    showFinancesMessage("Error: Formulario no disponible. Intenta recargar la página.", "error");
+    showFinancesMessage(window.i18n?.t('finances.form_not_available') || "Error: Formulario no disponible. Intenta recargar la página.", "error");
     return;
   }
 
@@ -786,12 +786,12 @@ async function saveExpenseToFirebase() {
   const date = dateEl.value;
 
   if (!window.currentUser) {
-    showFinancesMessage("Debe iniciar sesin", "error");
+    showFinancesMessage(window.i18n?.t('finances.sign_in_required') || "Debe iniciar sesión", "error");
     return;
   }
 
   if (!amount || amount <= 0 || !type || !date) {
-    showFinancesMessage("Todos los campos son obligatorios", "error");
+    showFinancesMessage(window.i18n?.t('finances.all_fields_required') || "Todos los campos son obligatorios", "error");
     return;
   }
 
@@ -3486,7 +3486,8 @@ window.analyzeLexFinances = async function () {
     }
 
     // 1. Determinar período actual (según selects de Finanzas)
-    let periodLabel = "todo el período";
+    const _isEsFinPeriod = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    let periodLabel = _isEsFinPeriod ? "todo el período" : "all periods";
     let periodKey = "all";
 
     if (typeof getSelectedPeriod === "function") {
@@ -3496,7 +3497,7 @@ window.analyzeLexFinances = async function () {
         periodLabel = `${year}-${month}`;
       } else if (year) {
         periodKey = year;
-        periodLabel = `año ${year}`;
+        periodLabel = _isEsFinPeriod ? `año ${year}` : `year ${year}`;
       }
     }
 
@@ -3545,7 +3546,9 @@ window.analyzeLexFinances = async function () {
       );
       if (window.setLexState) {
         window.setLexState("sad", {
-          message: `No tengo datos financieros para ${periodLabel} todavía 😕`,
+          message: _isEsFinPeriod
+            ? `No tengo datos financieros para ${periodLabel} todavía 😕`
+            : `No financial data found for ${periodLabel} yet 😕`,
           duration: 5000,
         });
       }
@@ -3598,34 +3601,40 @@ window.analyzeLexFinances = async function () {
     const margin = Number(kpis.margin || 0);
     const netProfit = Number(kpis.netProfit || 0);
 
+    const _isEsFin = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
     const insights = [];
     const alerts = [];
 
     if (netProfit <= 0 || margin <= 5) {
       lexState = "sad";
-      alerts.push(
-        "Este período está muy ajustado o en pérdida. Revisa tarifas mínimas y gastos fijos."
+      alerts.push(_isEsFin
+        ? "Este período está muy ajustado o en pérdida. Revisa tarifas mínimas y gastos fijos."
+        : "This period is very tight or at a loss. Review your minimum rates and fixed expenses."
       );
     } else if (netProfit > 0 && margin >= 20) {
       lexState = "happy";
-      insights.push(
-        "Buen margen de ganancia, tu operación se ve saludable en este período."
+      insights.push(_isEsFin
+        ? "Buen margen de ganancia, tu operación se ve saludable en este período."
+        : "Good profit margin — your operation looks healthy this period."
       );
     } else {
       lexState = "thinking";
-      insights.push(
-        "Período estable, pero con espacio para mejorar margen y control de costos."
+      insights.push(_isEsFin
+        ? "Período estable, pero con espacio para mejorar margen y control de costos."
+        : "Stable period, but there's room to improve your margin and cost control."
       );
     }
 
     if (numLoads > 0 && avgRevenuePerLoad > 0) {
-      insights.push(
-        `Ingreso promedio por carga: $${avgRevenuePerLoad.toFixed(0)}`
+      insights.push(_isEsFin
+        ? `Ingreso promedio por carga: $${avgRevenuePerLoad.toFixed(0)}`
+        : `Revenue per load: $${avgRevenuePerLoad.toFixed(0)}`
       );
     }
     if (numLoads > 0 && avgExpensePerLoad > 0) {
-      alerts.push(
-        `Gasto promedio por carga: $${avgExpensePerLoad.toFixed(0)}`
+      alerts.push(_isEsFin
+        ? `Gasto promedio por carga: $${avgExpensePerLoad.toFixed(0)}`
+        : `Expense per load: $${avgExpensePerLoad.toFixed(0)}`
       );
     }
 
@@ -3637,28 +3646,28 @@ window.analyzeLexFinances = async function () {
     };
 
     const parts = [];
-    parts.push(`Período: ${periodLabel}`);
-    parts.push(`Ingresos: $${safeNumber(kpis.totalRevenue, 0)}`);
-    parts.push(`Gastos: $${safeNumber(kpis.totalExpenses, 0)}`);
-    parts.push(`Ganancia: $${safeNumber(kpis.netProfit, 0)}`);
-    parts.push(`Margen: ${safeNumber(kpis.margin, 1)}%`);
+    parts.push(`${_isEsFin ? 'Período' : 'Period'}: ${periodLabel}`);
+    parts.push(`${_isEsFin ? 'Ingresos' : 'Revenue'}: $${safeNumber(kpis.totalRevenue, 0)}`);
+    parts.push(`${_isEsFin ? 'Gastos' : 'Expenses'}: $${safeNumber(kpis.totalExpenses, 0)}`);
+    parts.push(`${_isEsFin ? 'Ganancia' : 'Profit'}: $${safeNumber(kpis.netProfit, 0)}`);
+    parts.push(`${_isEsFin ? 'Margen' : 'Margin'}: ${safeNumber(kpis.margin, 1)}%`);
     if (kpis.totalMiles) {
       parts.push(`RPM: $${safeNumber(kpis.avgRpm, 2)}/mi`);
     }
     if (numLoads) {
-      parts.push(`Cargas: ${numLoads}`);
+      parts.push(`${_isEsFin ? 'Cargas' : 'Loads'}: ${numLoads}`);
     }
     if (numExpenses) {
-      parts.push(`Gastos registrados: ${numExpenses}`);
+      parts.push(`${_isEsFin ? 'Gastos registrados' : 'Recorded expenses'}: ${numExpenses}`);
     }
 
     let prefix = "";
     if (lexState === "happy") {
-      prefix = "✅ Buen período, tus números van bien.\n";
+      prefix = _isEsFin ? "✅ Buen período, tus números van bien.\n" : "✅ Good period, your numbers look solid.\n";
     } else if (lexState === "sad") {
-      prefix = "⚠️ Ojo, este período está ajustado.\n";
+      prefix = _isEsFin ? "⚠️ Ojo, este período está ajustado.\n" : "⚠️ Watch out, this period is tight.\n";
     } else {
-      prefix = "📊 Te resumo tus finanzas:\n";
+      prefix = _isEsFin ? "📊 Te resumo tus finanzas:\n" : "📊 Here's your financial summary:\n";
     }
 
     if (window.setLexState) {
@@ -3685,10 +3694,16 @@ window.analyzeLexFinances = async function () {
       alerts,
       summary:
         lexState === "happy"
-          ? "Buen balance entre ingresos y gastos. Mantén este nivel de tarifas y control de costos."
+          ? (_isEsFin
+              ? "Buen balance entre ingresos y gastos. Mantén este nivel de tarifas y control de costos."
+              : "Good balance between revenue and expenses. Keep this rate level and cost control up.")
           : lexState === "sad"
-            ? "Este período se ve apretado. Puede ser buen momento para ajustar tarifas mínimas y revisar tus principales gastos."
-            : "Tus números están en un punto intermedio. Con pequeños ajustes podrías mejorar bastante tu margen.",
+            ? (_isEsFin
+                ? "Este período se ve apretado. Puede ser buen momento para ajustar tarifas mínimas y revisar tus principales gastos."
+                : "This period looks tight. It may be a good time to adjust your minimum rates and review your main expenses.")
+            : (_isEsFin
+                ? "Tus números están en un punto intermedio. Con pequeños ajustes podrías mejorar bastante tu margen."
+                : "Your numbers are in the middle range. Small adjustments could significantly improve your margin."),
     };
 
     // 8. Mostrar MODAL financiero de Lex si está disponible

@@ -1,26 +1,30 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Módulo 3: Estrategia de Rutas & Zonas | Smart Load Academia</title>
+    <title>Module 3: Route & Zone Strategy | Smart Load Academy</title>
     <link rel="icon" type="image/png" href="../../img/logo-app.png" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../css/academy.css">
+  <script src="../../js/i18n/language-manager.js"></script>
 </head>
 
 <body style="font-family: 'Inter', sans-serif; background: #0a0a0f; color: #e0e0e0;">
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">&#8592; Volver a la App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'" data-i18n="academy.back_app">← Back to App</a></nav>
 
     <div style="max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem;">
 
         <!-- Breadcrumb -->
         <nav style="color: #888; margin-bottom: 2rem; font-size: 0.875rem;">
-            <a href="../../academy.html" style="color: #00D9FF; text-decoration: none;">Academy</a> → Módulo 3
+            <a href="../../academy.html" style="color: #00D9FF; text-decoration: none;">Academy</a> → <span data-lang="es">Módulo 3</span><span data-lang="en" style="display:none">Module 3</span>
         </nav>
+
+        <!-- SPANISH -->
+        <div data-lang="es">
 
         <!-- Header -->
         <header style="margin-bottom: 3rem;">
@@ -85,7 +89,7 @@
                     <div style="font-size: 2rem;">🗺️</div>
                 </div>
                 <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: #888;">
-                    <span>⏱️ 12 min</span>
+                    <span>⏱️ 12 min lectura</span>
                     <span>🟡 Intermedio</span>
                 </div>
             </a>
@@ -104,7 +108,7 @@
                     <div style="font-size: 2rem;">🔄</div>
                 </div>
                 <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: #888;">
-                    <span>⏱️ 11 min</span>
+                    <span>⏱️ 11 min lectura</span>
                     <span>🟡 Intermedio</span>
                 </div>
             </a>
@@ -124,7 +128,7 @@
                     <div style="font-size: 2rem;">🔥</div>
                 </div>
                 <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: #888;">
-                    <span>⏱️ 9 min</span>
+                    <span>⏱️ 9 min lectura</span>
                     <span>🟡 Intermedio</span>
                 </div>
             </a>
@@ -144,7 +148,7 @@
                     <div style="font-size: 2rem;">🎯</div>
                 </div>
                 <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: #888;">
-                    <span>⏱️ 9 min</span>
+                    <span>⏱️ 9 min lectura</span>
                     <span>🟡 Intermedio</span>
                 </div>
             </a>
@@ -164,7 +168,7 @@
                     <div style="font-size: 2rem;">♟️</div>
                 </div>
                 <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: #888;">
-                    <span>⏱️ 10 min</span>
+                    <span>⏱️ 10 min lectura</span>
                     <span>🟡 Intermedio</span>
                     <span>⭐ Estratégico</span>
                 </div>
@@ -189,9 +193,199 @@
             style="display: inline-block; background: rgba(255, 255, 255, 0.1); color: white; padding: 1rem 2rem; border-radius: 0.75rem; font-weight: 700; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.2);">←
             Volver al Academy</a>
 
+        </div><!-- end data-lang="es" -->
+
+        <!-- ENGLISH -->
+        <div data-lang="en" style="display:none">
+
+        <!-- Header -->
+        <header style="margin-bottom: 3rem;">
+            <div
+                style="display: inline-block; background: rgba(255, 215, 0, 0.15); color: #FFD700; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.875rem; margin-bottom: 1rem; border: 1px solid rgba(255, 215, 0, 0.3);">
+                MODULE 3 - FREE</div>
+            <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 1rem; line-height: 1.2;">Route & Zone
+                Strategy</h1>
+            <p style="font-size: 1.25rem; color: #b0b0b0; margin-bottom: 2rem;">Stop running blind. Think
+                geographically like the top performers.</p>
+
+            <div style="display: flex; gap: 1.5rem; font-size: 0.875rem; color: #888; flex-wrap: wrap;">
+                <span>⏱️ 50 minutes</span>
+                <span>🟡 Intermediate</span>
+                <span>📖 5 lessons</span>
+                <span>🗺️ Geographic Strategy</span>
+            </div>
+        </header>
+
+        <!-- Objective -->
+        <section
+            style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 107, 53, 0.1)); padding: 2rem; border-radius: 1rem; margin-bottom: 3rem; border: 1px solid rgba(255, 215, 0, 0.2);">
+            <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; color: #FFD700;">🎯 Module Goal
+            </h2>
+            <p style="margin-bottom: 1rem;">Stop running blind and start thinking geographically like the top
+                performers.</p>
+            <p style="font-weight: 700; margin-bottom: 0.5rem;">By the end of this module:</p>
+            <ul style="list-style: none; padding: 0;">
+                <li style="margin-bottom: 0.5rem;">✅ You'll identify your personal "gold zones"</li>
+                <li style="margin-bottom: 0.5rem;">✅ You'll know which states to avoid and which to target</li>
+                <li style="margin-bottom: 0.5rem;">✅ You'll use the Zone Heat Map as a strategic GPS</li>
+                <li style="margin-bottom: 0.5rem;">✅ You'll know when deadhead is an investment, not an expense</li>
+                <li>✅ You'll position your van like a chess player</li>
+            </ul>
+        </section>
+
+        <!-- Connection -->
+        <div
+            style="background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 0.75rem; margin-bottom: 3rem; border-left: 4px solid #FFD700;">
+            <p style="margin: 0;"><strong>Connection with previous modules:</strong><br>
+                Module 1: You understand the numbers (CPM, RPM, break-even)<br>
+                Module 2: You master the calculator<br>
+                Module 3: You apply all of this <strong>GEOGRAPHICALLY</strong></p>
+        </div>
+
+        <!-- Lessons Grid -->
+        <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 2rem;">📚 Lessons</h2>
+
+        <div style="display: grid; gap: 1.5rem; margin-bottom: 3rem;">
+
+            <!-- Lesson 1 -->
+            <a href="lesson-1.html"
+                style="display: block; background: rgba(20, 20, 20, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; padding: 1.5rem; text-decoration: none; color: inherit; transition: all 0.3s ease;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                    <div>
+                        <div style="font-size: 0.875rem; color: #888; margin-bottom: 0.5rem;">LESSON 1</div>
+                        <h3 style="font-size: 1.25rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem;">What
+                            Are Profitable Zones</h3>
+                        <p style="color: #b0b0b0; margin-bottom: 1rem;">The 5 critical factors. S-Tier to D-Tier
+                            system. Identify YOUR personal gold zones.</p>
+                    </div>
+                    <div style="font-size: 2rem;">🗺️</div>
+                </div>
+                <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: #888;">
+                    <span>⏱️ 12 min read</span>
+                    <span>🟡 Intermediate</span>
+                </div>
+            </a>
+
+            <!-- Lesson 2 -->
+            <a href="lesson-2.html"
+                style="display: block; background: rgba(20, 20, 20, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; padding: 1.5rem; text-decoration: none; color: inherit; transition: all 0.3s ease;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                    <div>
+                        <div style="font-size: 0.875rem; color: #888; margin-bottom: 0.5rem;">LESSON 2</div>
+                        <h3 style="font-size: 1.25rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem;">States
+                            Good to Enter vs Exit</h3>
+                        <p style="color: #b0b0b0; margin-bottom: 1rem;">Flow direction. Balanced vs Import-heavy vs
+                            Dead zones. Lane strategy.</p>
+                    </div>
+                    <div style="font-size: 2rem;">🔄</div>
+                </div>
+                <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: #888;">
+                    <span>⏱️ 11 min read</span>
+                    <span>🟡 Intermediate</span>
+                </div>
+            </a>
+
+            <!-- Lesson 3 -->
+            <a href="lesson-3.html"
+                style="display: block; background: rgba(20, 20, 20, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; padding: 1.5rem; text-decoration: none; color: inherit; transition: all 0.3s ease; opacity: 0.6;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                    <div>
+                        <div style="font-size: 0.875rem; color: #888; margin-bottom: 0.5rem;">LESSON 3 • Coming Soon
+                        </div>
+                        <h3 style="font-size: 1.25rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem;">Zone
+                            Heat Map</h3>
+                        <p style="color: #b0b0b0; margin-bottom: 1rem;">How to use the heat map tool for strategic
+                            decisions.</p>
+                    </div>
+                    <div style="font-size: 2rem;">🔥</div>
+                </div>
+                <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: #888;">
+                    <span>⏱️ 9 min read</span>
+                    <span>🟡 Intermediate</span>
+                </div>
+            </a>
+
+            <!-- Lesson 4 -->
+            <a href="lesson-4.html"
+                style="display: block; background: rgba(20, 20, 20, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; padding: 1.5rem; text-decoration: none; color: inherit; transition: all 0.3s ease; opacity: 0.6;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                    <div>
+                        <div style="font-size: 0.875rem; color: #888; margin-bottom: 0.5rem;">LESSON 4 • Coming Soon
+                        </div>
+                        <h3 style="font-size: 1.25rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem;">
+                            Strategic Deadhead</h3>
+                        <p style="color: #b0b0b0; margin-bottom: 1rem;">When paying to reposition is worth it for
+                            better positioning.</p>
+                    </div>
+                    <div style="font-size: 2rem;">🎯</div>
+                </div>
+                <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: #888;">
+                    <span>⏱️ 9 min read</span>
+                    <span>🟡 Intermediate</span>
+                </div>
+            </a>
+
+            <!-- Lesson 5 -->
+            <a href="lesson-5.html"
+                style="display: block; background: rgba(20, 20, 20, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; padding: 1.5rem; text-decoration: none; color: inherit; transition: all 0.3s ease; opacity: 0.6;">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                    <div>
+                        <div style="font-size: 0.875rem; color: #888; margin-bottom: 0.5rem;">LESSON 5 • Coming Soon
+                        </div>
+                        <h3 style="font-size: 1.25rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem;">
+                            Building Your Personal Circuit</h3>
+                        <p style="color: #b0b0b0; margin-bottom: 1rem;">From random wandering to profitable circuit.
+                            90-day plan.</p>
+                    </div>
+                    <div style="font-size: 2rem;">♟️</div>
+                </div>
+                <div style="display: flex; gap: 1rem; font-size: 0.875rem; color: #888;">
+                    <span>⏱️ 10 min read</span>
+                    <span>🟡 Intermediate</span>
+                    <span>⭐ Strategic</span>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- CTA -->
+        <div
+            style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 107, 53, 0.15)); padding: 2rem; border-radius: 1rem; text-align: center; margin-bottom: 2rem; border: 2px solid rgba(255, 215, 0, 0.3);">
+            <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem;">🗺️ Ready to think
+                geographically?</h3>
+            <p style="margin-bottom: 1.5rem;">In 50 minutes you'll learn to see the US map as a strategic chessboard.</p>
+            <a href="lesson-1.html"
+                style="display: inline-block; background: linear-gradient(90deg, #FFD700 0%, #FF6B35 100%); color: #000; padding: 1rem 2rem; border-radius: 0.75rem; font-weight: 700; text-decoration: none; transition: all 0.3s ease;">Start
+                Module 3 →</a>
+        </div>
+
+        <!-- Back -->
+        <a href="../../academy.html"
+            style="display: inline-block; background: rgba(255, 255, 255, 0.1); color: white; padding: 1rem 2rem; border-radius: 0.75rem; font-weight: 700; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.2);">←
+            Back to Academy</a>
+
+        </div><!-- end data-lang="en" -->
+
     </div>
 
     <script src="../js/academy.js"></script>
+
+  <script>
+    // Academy bilingual content toggle
+    (function applyAcademyLang() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    })();
+    document.addEventListener('languageChanged', function() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    });
+  </script>
+
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -115,15 +115,17 @@
             margin-top: 2rem
         }
     </style>
+  <script src="../../js/i18n/language-manager.js"></script>
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">&#8592; Volver a la App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'" data-i18n="academy.back_app">← Back to App</a></nav>
     <article class="lesson-container">
         <nav class="breadcrumb">
             <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 2</a> → Lección 4
         </nav>
 
+<div data-lang="es">
         <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
             <h1>Errores Comunes al Introducir Datos (Y Cómo Evitarlos)</h1>
             <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
@@ -303,12 +305,221 @@
                 <a href="lesson-5.html" class="btn btn-primary">Siguiente: Caso Carlos →</a>
             </nav>
         </footer>
-    </article>
+
+        </div>
+
+        <div data-lang="en" style="display:none">
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Common Data Entry Mistakes (And How to Uncomplicate Them)</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 8 min read</span>
+                <span>🎓 Module 2 - Lesson 4</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>🚨 THE 7 MOST EXPENSIVE MISTAKES</h2>
+
+                <h3>❌ MISTAKE #1: Ignoring Repositioning Miles</h3>
+                <div class="callout warning">
+                    <p><strong>The Mistake:</strong> Leaving the "Repositioning" field completely blank when you deliver to a dead zone.</p>
+                    <p><strong>The Reality:</strong> Say a load goes to Laredo, TX. You WILL need to drive 280 empty miles back to San Antonio just to find the next load.<br>
+                        Apparent RPM: $1.60/mile → REAL RPM: $1.25/mile<br>
+                        <strong>The impact: A $0.35/mile error = roughly $448 in "phantom profits" that don't exist.</strong>
+                    </p>
+                    <p><strong>✅ The Fix:</strong> ALWAYS ask yourself: "Is there freight exactly where I'm delivering?" If the answer is NO → Add repositioning miles. Simple as that.</p>
+                </div>
+
+                <h3>❌ MISTAKE #2: Using Incomplete Vague Addresses</h3>
+                <div class="callout warning">
+                    <p><strong>The Mistake:</strong> Typing just "Chicago" (the metropolitan area is massive, easily spanning over 100 miles).</p>
+                    <p><strong>The Reality:</strong> "Chicago" could mean Downtown, the O'Hare airport (15mi away), Joliet (40mi away), or Aurora (45mi away).<br>
+                        <strong>The impact: A potential error of 40-80 miles.</strong>
+                    </p>
+                    <p><strong>✅ The Fix:</strong><br>
+                        ❌ Bad: "Chicago"<br>
+                        ✅ Better: "Chicago, IL"<br>
+                        ✅✅ BEST: "1234 Main St, Chicago, IL 60601"</p>
+                </div>
+
+                <h3>❌ MISTAKE #3: Forgetting to Update Current Location</h3>
+                <div class="callout warning">
+                    <p><strong>The Mistake:</strong> You were in Detroit on Monday, drove to Atlanta on Tuesday, but your calculator still thinks you're in Detroit.</p>
+                    <p><strong>The Reality:</strong> Your entire deadhead calculation will be COMPLETELY wrong.</p>
+                    <p><strong>✅ The Fix:</strong> Every single time you open the calculator, verify your location. We highly recommend enabling GPS auto-update in your Settings to take that off your plate.</p>
+                </div>
+
+                <h3>❌ MISTAKE #4: Leaving Tolls and Fees out of Payment</h3>
+                <div class="callout warning">
+                    <p><strong>The Mistake:</strong> The broker says: "$1,200 base + $60 tolls" → You enter: "$1,200". ❌</p>
+                    <p><strong>The Reality:</strong> If the broker is reimbursing tolls or detentions, that is additional REVENUE hitting your account.</p>
+                    <p><strong>✅ The Fix:</strong> Add EVERYTHING together:<br>
+                        Base: $1,200 + FSC: $150 + Tolls: $60 + Detention: $50 = <strong>$1,460 total income</strong></p>
+                </div>
+
+                <h3>❌ MISTAKE #5: Confusing "Loaded Miles" with "Total Miles"</h3>
+                <div class="callout warning">
+                    <p><strong>The Mistake:</strong> Broker says "it's an 800-mile run" → You assume that's total miles → You input it incorrectly.</p>
+                    <p><strong>The Reality:</strong> Brokers almost ALWAYS quote LOADED miles only. Your deadhead to the pickup is completely your problem.</p>
+                    <p><strong>✅ The Fix:</strong> 99% of the time, just leave the "Loaded Miles" field BLANK. Let the app automatically calculate the exact routing for you.</p>
+                </div>
+
+                <h3>❌ MISTAKE #6: Failing to Save Rejected Loads</h3>
+                <div class="callout warning">
+                    <p><strong>The Mistake:</strong> You calculate a load → It looks terrible → You close the app (leaving no record that it ever happened).</p>
+                    <p><strong>The Reality:</strong> Our Lex AI doesn't learn, and you lose valuable reference data for similar loads in the future.</p>
+                    <p><strong>✅ The Fix:</strong> ALWAYS hit save to History, even if you DECLINED it. Lex will quickly learn your preferences and start pointing out trends.</p>
+                </div>
+
+                <h3>❌ MISTAKE #7: Using an Outdated Cost Per Mile (CPM)</h3>
+                <div class="callout warning">
+                    <p><strong>The Mistake:</strong> You configured your CPM 6 months ago at $0.95/mile. Meanwhile, fuel skyrocketed and insurance went up → Your actual CPM is now $1.15/mile.</p>
+                    <p><strong>The Reality:</strong> The app will mistakenly tell you loads are "profitable" when you're actually losing cash.</p>
+                    <p><strong>✅ The Fix:</strong> Review your CPM MONTHLY. Just head to Settings → Cost Per Mile → Hit [Update]. Stay sharp.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>📋 THE CHECKLIST: Before Calculating ANY Load</h2>
+
+                <div
+                    style="background:rgba(0,217,255,.05);padding:2rem;border-radius:.75rem;border:2px solid rgba(0,217,255,.3)">
+                    <p style="font-weight:700;text-align:center;font-size:1.1rem;margin-bottom:1.5rem">✅ THE PRE-CALCULATION CHECKLIST</p>
+                    <ul style="list-style:none;padding:0">
+                        <li style="padding:.5rem 0">☐ Is my current location correct (or auto-updated)?</li>
+                        <li style="padding:.5rem 0">☐ Do I have the FULL pickup address (not just a city)?</li>
+                        <li style="padding:.5rem 0">☐ Do I have the FULL delivery address?</li>
+                        <li style="padding:.5rem 0">☐ Did I include ALL payment details (base + FSC + tolls + fees)?</li>
+                        <li style="padding:.5rem 0">☐ Do I know if the delivery zone will require repositioning?</li>
+                        <li style="padding:.5rem 0">☐ Is my CPM accurately updated for this month?</li>
+                        <li style="padding:.5rem 0">☐ Did I clarify if the broker quote was "loaded" or "total" miles?</li>
+                    </ul>
+                    <p style="margin-top:1.5rem;text-align:center;font-weight:700">If every single box gets a ✅ → Run the calculation with absolute confidence.<br>If you're missing info → Call the broker immediately and get it.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🔧 BONUS FEATURE: SMART ERROR DETECTION</h2>
+                <p>Did you know our app automatically watches your back for common mistakes?</p>
+
+                <div
+                    style="background:rgba(20,20,20,.9);border:2px solid rgba(255,215,0,.3);padding:1.5rem;border-radius:.75rem;font-family:'Courier New',monospace;font-size:.9rem">
+                    ⚠️ POSSIBLE ERROR DETECTED<br>
+                    <br>
+                    You entered:<br>
+                    Current: Dallas, TX<br>
+                    Pickup: Dallas, TX<br>
+                    Delivery: Laredo, TX<br>
+                    Repositioning: [BLANK]<br>
+                    <br>
+                    ⚠️ Warning:<br>
+                    Laredo is historically a low-freight zone.<br>
+                    <br>
+                    Typical repositioning needed:<br>
+                    • San Antonio: 280 mi<br>
+                    • Corpus Christi: 220 mi<br>
+                    • Austin: 320 mi<br>
+                    <br>
+                    Include repositioning?<br>
+                    [YES, add San Antonio] [NO, I have an amazing backhaul plan]
+                </div>
+
+                <p style="margin-top:1rem"><strong>The app acts like your personal dispatcher, protecting you from costly oversights.</strong></p>
+            </section>
+
+            <section>
+                <h2>🎯 IMMEDIATE ACTION (Takes 5 minutes)</h2>
+                <ol>
+                    <li>✅ Open the Settings tab in your app.</li>
+                    <li>✅ Verify your current CPM against your actual expenses.</li>
+                    <li>✅ When was the last time you updated it? ______</li>
+                    <li>✅ If it's been more than 30 days, re-run your numbers using Module 1. Let's get accurate.</li>
+                    <li>✅ Enable GPS Auto-Location if you haven't already.</li>
+                    <li>✅ Review your last 3 saved loads in History: Do you spot any of these 7 mistakes?</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>💡 THE KEY TAKEAWAY</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">Garbage in = Garbage out</p>
+                    <p>The calculator app is flawless at crunching numbers...<br>...but only if you feed it flawless data.</p>
+                    <div style="margin-top:1.5rem;text-align:left;max-width:500px;margin-left:auto;margin-right:auto">
+                        <p><strong>Watch out for the 7 common slip-ups:</strong></p>
+                        <ol style="padding-left:1.2rem">
+                            <li>Ignoring repositioning</li>
+                            <li>Vague addresses</li>
+                            <li>Outdated current locations</li>
+                            <li>Missing toll/fee reimbursements</li>
+                            <li>Confusing loaded miles with total miles</li>
+                            <li>Forgetting to save declined loads</li>
+                            <li>Relying on an outdated CPM</li>
+                        </ol>
+                    </div>
+                    <p style="margin-top:1.5rem;font-weight:700;color:#00D9FF">Avoid these → Your business numbers will be 99% bulletproof.</p>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn-en" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as
+                Complete</button>
+            <nav class="lesson-nav">
+                <a href="lesson-3.html" class="btn btn-secondary">← Previous Lesson</a>
+                <a href="lesson-5.html" class="btn btn-primary">Next: Carlos' Case Study →</a>
+            </nav>
+        </footer>
+        </div>    </article>
 
     <script src="../js/academy.js"></script>
     <script>
-        const MODULE_NUM = 2, LESSON_NUM = 4; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true; alert('¡Lección completada! 🎉') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; btn.disabled = true } });
+        const MODULE_NUM = 2, LESSON_NUM = 4; 
+
+function markLessonComplete() { 
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    if (window.AcademyProgress) { 
+        window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); 
+        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
+            btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; 
+            btn.disabled = true; 
+        });
+        alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
+    } 
+} 
+
+document.addEventListener('DOMContentLoaded', () => { 
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { 
+        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
+            btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; 
+            btn.disabled = true;
+        });
+    } 
+});
     </script>
+
+  <script>
+    // Academy bilingual content toggle
+    (function applyAcademyLang() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    })();
+    document.addEventListener('languageChanged', function() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    });
+  </script>
+
 </body>
 
 </html>

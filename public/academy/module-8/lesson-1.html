@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lección 1: Reconociendo y Previniendo Burnout | Smart Load Academia</title>
+    <title>Lesson 1: Recognizing & Preventing Burnout | Smart Load Academy</title>
     <link rel="icon" type="image/png" href="../../img/logo-app.png" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
@@ -122,18 +122,21 @@
             margin-top: 2rem
         }
     </style>
+  <script src="../../js/i18n/language-manager.js"></script>
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">&#8592; Volver a la App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="../../img/logo-app.webp" onerror="this.src='../../img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'" data-i18n="academy.back_app">← Back to App</a></nav>
     <article class="lesson-container">
-        <nav class="breadcrumb">
-            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 8 [PRO]</a> → Lección 1
-        </nav>
 
         <div
             style="display:inline-block;background:linear-gradient(90deg,#FFD700,#FF6B35);color:#000;padding:0.5rem 1rem;border-radius:2rem;font-size:0.75rem;margin-bottom:1rem;font-weight:700;">
-            🔒 CONTENIDO PRO - MÓDULO FINAL</div>
+            🔒 PRO CONTENT - FINAL MODULE</div>
+
+<div data-lang="es">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Módulo 8 [PRO]</a> → Lección 1
+        </nav>
 
         <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
             <h1>Reconociendo y Previniendo Burnout: Las Señales de Alerta</h1>
@@ -294,7 +297,7 @@
                         <li>¿Cuántas señales burnout tengo?</li>
                         <li>Nivel energía 1-10</li>
                         <li>Calidad sueño 1-10</li>
-                        <li>Si promedio <6: Ajustes necesarios YA</li>
+                        <li>Si promedio &lt;6: Ajustes necesarios YA</li>
                     </ul>
                     <p style="margin:0"><strong>INTERVENCIÓN TEMPRANA (Si 4+ señales):</strong><br>
                         INMEDIATO: Tomar 2-3 días OFF, declinar cargas, dormir 8-9 hrs, hablar con persona confianza<br>
@@ -312,7 +315,7 @@
                     <div style="text-align:left;max-width:600px;margin:0 auto">
                         <p><strong>Sistema de prevención:</strong></p>
                         <ul>
-                            <li><strong>CAPA 1:</strong> Límites claros (<60 hrs/sem, 1 día OFF/sem mínimo)</li>
+                            <li><strong>CAPA 1:</strong> Límites claros (&lt;60 hrs/sem, 1 día OFF/sem mínimo)</li>
                             <li><strong>CAPA 2:</strong> Rutinas recuperación (diaria, semanal, mensual, trimestral,
                                 anual)</li>
                             <li><strong>CAPA 3:</strong> Monitoreo semanal, intervención temprana</li>
@@ -333,19 +336,261 @@
         </div>
 
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
-                completada</button>
+            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como completada</button>
             <nav class="lesson-nav">
                 <a href="index.html" class="btn btn-secondary">← Volver al módulo</a>
-                <a href="lesson-2.html" class="btn btn-primary">Siguiente lección →</a>
+                <a href="lesson-2.html" class="btn btn-primary">Siguiente: Balance Trabajo-Vida Real →</a>
             </nav>
         </footer>
+</div>
+
+<div data-lang="en" style="display:none">
+        <nav class="breadcrumb">
+            <a href="../../academy.html">Academy</a> → <a href="index.html">Module 8 [PRO]</a> → Lesson 1
+        </nav>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Recognizing & Preventing Burnout: The Warning Signs</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 9 min read</span>
+                <span>🎓 Module 8 - Lesson 1</span>
+                <span>⚠️ Burnout</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>⚠️ THE TRUTH ABOUT BURNOUT</h2>
+
+                <div
+                    style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FF6B35;margin-bottom:2rem">
+                    <p style="font-weight:700;margin-bottom:1rem">Burnout does NOT arrive suddenly. It is a gradual process you ignore until it is too late.</p>
+                    <p style="margin:0"><strong>60% of expediters leave the industry within the first 3 years.</strong><br>
+                        Reasons: Physical burnout, mental exhaustion, destroyed relationships, deteriorated health.<br>
+                        <span style="color:#FFD700">NOT because they can't make money. Because the COST is too high.</span>
+                    </p>
+                </div>
+
+                <h3>THE 5 STAGES OF BURNOUT:</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>STAGE</th>
+                            <th>PERIOD</th>
+                            <th>SIGNS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1. Enthusiasm</strong></td>
+                            <td>Months 1-6</td>
+                            <td>"This is incredible!" 70+ hrs/week, high energy</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. Normalization</strong></td>
+                            <td>Months 7-18</td>
+                            <td>Routine, 60-70 hrs, fatigue, "it's normal" ⚠️</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. Frustration</strong></td>
+                            <td>Months 19-30</td>
+                            <td>Chronic exhaustion, irritability, strained relationships</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4. Apathy</strong></td>
+                            <td>Months 31-42</td>
+                            <td>"I don't care anymore", cynicism, isolation</td>
+                        </tr>
+                        <tr>
+                            <td><strong>5. Crisis</strong></td>
+                            <td>Months 43+</td>
+                            <td>Physical/mental collapse, impossible to continue</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p
+                    style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
+                    GOAL: Never reach Stage 3<br>
+                    Recognize Stage 2 and act NOW
+                </p>
+            </section>
+
+            <section>
+                <h2>🚨 THE 15 EARLY WARNING SIGNS</h2>
+
+                <h3>PHYSICAL (1-5):</h3>
+                <ul>
+                    <li><strong>Chronic fatigue:</strong> Sleeping 7-8 hrs but waking up exhausted, needing multiple coffees to function</li>
+                    <li><strong>Sleep problems:</strong> Difficulty sleeping, waking at 3am, constant work-related dreams</li>
+                    <li><strong>Physical pain:</strong> Chronic back pain, frequent headaches, muscle tension</li>
+                    <li><strong>Weakened immune system:</strong> Frequent colds, slow recovery</li>
+                    <li><strong>Appetite/weight changes:</strong> Overeating or no appetite, unintentional weight gain/loss</li>
+                </ul>
+
+                <h3>MENTAL (6-10):</h3>
+                <ul>
+                    <li><strong>Difficulty concentrating:</strong> Mind wanders, new mistakes, forgetfulness</li>
+                    <li><strong>Cynicism and negativity:</strong> Everything is annoying, constant complaints</li>
+                    <li><strong>Loss of motivation:</strong> Doing only the bare minimum, procrastination</li>
+                    <li><strong>Anxiety:</strong> Constant worry, panic over small things</li>
+                    <li><strong>Depression:</strong> Sadness without reason, loss of interest in hobbies</li>
+                </ul>
+
+                <h3>RELATIONAL (11-13):</h3>
+                <ul>
+                    <li><strong>Irritability:</strong> Family absorbs your frustration, explosions over small things</li>
+                    <li><strong>Social isolation:</strong> Canceling plans, "I have no energy"</li>
+                    <li><strong>Increased conflicts:</strong> Fights with partner, tension with brokers</li>
+                </ul>
+
+                <h3>PROFESSIONAL (14-15):</h3>
+                <ul style="margin:0">
+                    <li><strong>Declining performance:</strong> Late to pickups, administrative errors</li>
+                    <li><strong>Exit thoughts:</strong> "Why do I keep doing this?"</li>
+                </ul>
+
+                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem;margin-top:2rem">
+                    <p style="font-weight:700;margin-bottom:1rem">BURNOUT SCORING:</p>
+                    <ul style="margin:0">
+                        <li><strong>0-3 signs:</strong> 🟢 Normal, manageable</li>
+                        <li><strong>4-7 signs:</strong> 🟡 Early warning, act NOW</li>
+                        <li><strong>8-11 signs:</strong> 🟠 Moderate burnout, intervention needed</li>
+                        <li><strong>12-15 signs:</strong> 🔴 Severe burnout, drastic changes urgently needed</li>
+                    </ul>
+                    <p style="margin-top:1rem;margin-bottom:0;text-align:center;font-weight:700">
+                        You don't need all the signs. 4-5 signs = it's already a problem.
+                    </p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🛡️ PREVENTION SYSTEM (3 LAYERS)</h2>
+
+                <h3>LAYER 1: Boundaries</h3>
+                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>A) TIME LIMITS</strong></p>
+                    <ul>
+                        <li>Maximum 60 hrs/week TOTAL</li>
+                        <li>Minimum 1 full day OFF/week</li>
+                        <li>No more than 12 consecutive days working</li>
+                        <li>2-3 weeks vacation/year — NON-NEGOTIABLE</li>
+                    </ul>
+                    <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;margin:0;font-size:.9rem">
+                        <strong>RULE:</strong> "If I need to work 70+ hrs to survive, my business model is broken. Fix the business, don't work more."
+                    </p>
+                </div>
+
+                <h3>LAYER 2: Recovery Routines</h3>
+                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
+                    <ul style="margin:0">
+                        <li><strong>DAILY:</strong> 7-8 hrs sleep, 3 real meals, 30 min physical activity, 15 min screen-free before bed</li>
+                        <li><strong>WEEKLY:</strong> 1 day completely OFF, no work email/text, family time</li>
+                        <li><strong>MONTHLY:</strong> 1 long weekend, no thinking about work, recharge</li>
+                        <li><strong>QUARTERLY:</strong> 4-5 days off, short trip, total disconnection</li>
+                        <li><strong>ANNUALLY:</strong> 2-3 weeks real vacation, complete reset</li>
+                    </ul>
+                </div>
+
+                <h3 style="margin-top:1.5rem">LAYER 3: Monitoring & Adjustments</h3>
+                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>WEEKLY SELF-CHECK (Sunday, 10 min):</strong></p>
+                    <ul style="margin-bottom:1rem">
+                        <li>How many burnout signs do I have?</li>
+                        <li>Energy level 1-10</li>
+                        <li>Sleep quality 1-10</li>
+                        <li>If average &lt;6: Adjustments needed NOW</li>
+                    </ul>
+                    <p style="margin:0"><strong>EARLY INTERVENTION (If 4+ signs):</strong><br>
+                        IMMEDIATE: Take 2-3 days OFF, decline loads, sleep 8-9 hrs, talk to someone you trust<br>
+                        SHORT TERM: Reduce hrs to 50-55 max, reject problematic loads</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 KEY TAKEAWAY</h2>
+                <div
+                    style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
+                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Burnout is a PROCESS, not an event.<br>It builds gradually. You can prevent it.</p>
+
+                    <div style="text-align:left;max-width:600px;margin:0 auto">
+                        <p><strong>Prevention system:</strong></p>
+                        <ul>
+                            <li><strong>LAYER 1:</strong> Clear boundaries (&lt;60 hrs/week, 1 day OFF/week minimum)</li>
+                            <li><strong>LAYER 2:</strong> Recovery routines (daily, weekly, monthly, quarterly, annual)</li>
+                            <li><strong>LAYER 3:</strong> Weekly monitoring, early intervention</li>
+                        </ul>
+
+                        <p
+                            style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center;font-weight:700">
+                            REMEMBER:<br>
+                            You can't make money if you're in the hospital.<br>
+                            You can't enjoy success if you hate your life.<br>
+                            You can't sustain a business if you collapse.<br><br>
+                            <span style="color:#FFD700;font-size:1.25rem">Health > Money. Always.</span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn-en" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as Complete</button>
+            <nav class="lesson-nav">
+                <a href="index.html" class="btn btn-secondary">← Back to Module</a>
+                <a href="lesson-2.html" class="btn btn-primary">Next: Real Work-Life Balance →</a>
+            </nav>
+        </footer>
+</div>
+
     </article>
 
     <script src="../js/academy.js"></script>
     <script>
-        const MODULE_NUM = 8, LESSON_NUM = 1; function markLessonComplete() { if (window.AcademyProgress) { window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true; alert('¡Lección PRO completada! ⚠️15 señales de burnout:5 Físicas, 5 Mentales, 3 Relacionales, 2 Profesionales4+ señales = problema YAPrevención:Capa 1: Límites (<60 hrs/sem)Capa 2: Rutinas recuperaciónCapa 3: Monitoreo semanalSalud > Dinero. Siempre.') } } document.addEventListener('DOMContentLoaded', () => { if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { const btn = document.getElementById('markCompleteBtn'); btn.textContent = '✓ Completada'; btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; btn.disabled = true } });
+        const MODULE_NUM = 8, LESSON_NUM = 1;
+
+        function markLessonComplete() {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress) {
+                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.disabled = true;
+                });
+                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.disabled = true;
+                });
+            }
+        });
     </script>
+
+  <script>
+    // Academy bilingual content toggle
+    (function applyAcademyLang() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    })();
+    document.addEventListener('languageChanged', function() {
+      const lang = window.i18n?.currentLang || localStorage.getItem('app_language') || 'en';
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.style.display = el.dataset.lang === lang ? '' : 'none';
+      });
+    });
+  </script>
+
 </body>
 
 </html>

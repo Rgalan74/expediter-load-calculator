@@ -1,4 +1,4 @@
-﻿/**
+/**
  * calculator-notes.js
  * Destination notes management system
  * Extracted from calculator.js for lazy loading
@@ -79,10 +79,12 @@ async function showDestinationNotes(destination) {
     const status = document.getElementById("notesStatusText");
 
     if (notes.length > 0) {
-        status.textContent = `📝 Tienes ${notes.length} nota(s) guardada(s) para este destino`;
+        const t = window.i18n?.t.bind(window.i18n);
+        const msg = t ? t('notes.has_notes', { count: notes.length }) : `📝 Tienes ${notes.length} nota(s) guardada(s) para este destino`;
+        status.textContent = msg;
         box.classList.remove("hidden");
     } else {
-        status.textContent = "ℹ️ No hay notas para este destino todavía.";
+        status.textContent = window.i18n?.t('notes.no_notes_yet') || "ℹ️ No hay notas para este destino todavía.";
         box.classList.remove("hidden");
     }
 }
@@ -97,35 +99,38 @@ async function openNotesModal(destination) {
     const title = document.getElementById("notesModalTitle");
     const list = document.getElementById("notesListModal");
 
+    const t = window.i18n?.t.bind(window.i18n);
     if (!currentDestinationKey) {
-        title.textContent = "Notas";
-        list.innerHTML = `<p class="text-gray-500 text-sm">No se especificó un destino.</p>`;
+        title.textContent = t ? t('notes.header_prefix') : "Notas";
+        list.innerHTML = `<p class="text-gray-500 text-sm">${t ? t('notes.no_destination') : 'No se especificó un destino.'}</p>`;
         modal.classList.remove("hidden");
         modal.classList.add("flex");
         return;
     }
 
-    title.textContent = `Notas: ${destination}`;
+    title.textContent = `${t ? t('notes.header_prefix') : 'Notas:'} ${destination}`;
 
     const result = await getNotesForDestination(currentDestinationKey);
 
     if (result.empty) {
-        list.innerHTML = `<p class="text-gray-500 text-sm">No hay notas para este destino.</p>`;
+        list.innerHTML = `<p class="text-gray-500 text-sm">${window.i18n?.t('notes.no_notes') || 'No hay notas para este destino.'}</p>`;
     } else {
+        const btnEdit = window.i18n?.t('notes.btn_edit') || '✏️ Editar';
+        const btnDel  = window.i18n?.t('notes.btn_delete') || '🗑️ Borrar';
         list.innerHTML = result.docs.map(doc => {
             const data = doc.data();
-            return `
+        return `
         <div class="bg-gray-50 rounded-lg p-3 mb-2">
           <div class="flex justify-between items-start">
             <p class="text-sm flex-1">${data.text || ''}</p>
             <div class="flex gap-2 ml-2">
-              <button onclick="editNote('${doc.id}', '${(data.text || '').replace(/'/g, "\\'")})" 
+              <button onclick="editNote('${doc.id}', '${(data.text || '').replace(/'/g, "\\'")}')"
                       class="text-blue-600 hover:text-blue-800 text-xs">
-                ✏️ Editar
+                ${btnEdit}
               </button>
-              <button onclick="deleteNote('${doc.id}')" 
+              <button onclick="deleteNote('${doc.id}')"
                       class=" text-red-600 hover:text-red-800 text-xs">
-                🗑️ Borrar
+                ${btnDel}
               </button>
             </div>
           </div>
@@ -157,12 +162,12 @@ async function addNoteToDestination(key) {
     const text = input?.value?.trim();
 
     if (!text) {
-        alert("Por favor escribe una nota");
+        alert(window.i18n?.t('notes.write_note') || 'Por favor escribe una nota');
         return;
     }
 
     if (!window.currentUser) {
-        alert("Debes estar autenticado");
+        alert(window.i18n?.t('notes.must_login') || 'Debes estar autenticado');
         return;
     }
 
@@ -183,11 +188,11 @@ async function addNoteToDestination(key) {
         }
 
         if (typeof window.showToast === 'function') {
-            window.showToast('✅ Nota guardada', 'success');
+            window.showToast(window.i18n?.t('notes.saved') || '✅ Nota guardada', 'success');
         }
     } catch (error) {
         debugLog('Error adding note:', error);
-        alert('Error guardando nota');
+        alert(window.i18n?.t('notes.error_save') || 'Error guardando nota');
     }
 }
 
@@ -195,7 +200,7 @@ async function addNoteToDestination(key) {
  * Edit note
  */
 async function editNote(noteId, oldText) {
-    const newText = prompt("Editar nota:", oldText);
+    const newText = prompt(window.i18n?.t('notes.edit_prompt') || 'Editar nota:', oldText);
 
     if (newText === null || newText.trim() === "") {
         return;
@@ -212,11 +217,11 @@ async function editNote(noteId, oldText) {
         }
 
         if (typeof window.showToast === 'function') {
-            window.showToast('✅ Nota actualizada', 'success');
+            window.showToast(window.i18n?.t('notes.updated') || '✅ Nota actualizada', 'success');
         }
     } catch (error) {
         debugLog('Error editing note:', error);
-        alert('Error editando nota');
+        alert(window.i18n?.t('notes.error_edit') || 'Error editando nota');
     }
 }
 
@@ -224,7 +229,7 @@ async function editNote(noteId, oldText) {
  * Delete note
  */
 async function deleteNote(noteId) {
-    if (!confirm("¿Seguro que quieres eliminar esta nota?")) {
+    if (!confirm(window.i18n?.t('notes.confirm_delete') || '¿Seguro que quieres eliminar esta nota?')) {
         return;
     }
 
@@ -237,11 +242,11 @@ async function deleteNote(noteId) {
         }
 
         if (typeof window.showToast === 'function') {
-            window.showToast('✅ Nota eliminada', 'success');
+            window.showToast(window.i18n?.t('notes.deleted') || '✅ Nota eliminada', 'success');
         }
     } catch (error) {
         debugLog('Error deleting note:', error);
-        alert('Error eliminando nota');
+        alert(window.i18n?.t('notes.error_delete') || 'Error eliminando nota');
     }
 }
 
