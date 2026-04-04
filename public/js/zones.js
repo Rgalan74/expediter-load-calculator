@@ -116,43 +116,39 @@ function calcularEstadisticas(loads) {
     return resumenPorEstado;
 }
 
-// Score compuesto: RPM (65%) + Frecuencia de cargas (35%)
-// Objetivo: identificar estados con BUEN PRECIO y donde SIEMPRE HAY CARGA
+// Zona por reglas directas: RPM + confianza por volumen
+// Regla 1: zona base del RPM (usa los mismos umbrales del usuario: $0.75 / $0.90)
+// Regla 2: si < 3 cargas → bajar un nivel (verde→amarillo, amarillo→rojo)
+//   Razón: con 1-2 cargas no hay suficiente muestra para confiar en el dato
 function calcularScoreCompuesto() {
     scorePorEstado = {};
 
-    const estados = Object.keys(rpmPorEstado);
-    if (estados.length === 0) return;
-
-    // Normalización de RPM: $0.75 = 0, $1.80 = 1 (tope práctico para expediting)
-    const RPM_MIN = 0.75;
-    const RPM_MAX = 1.80;
-
-    // Máximo de cargas en cualquier estado (para normalizar frecuencia)
-    const maxCargas = Math.max(...estados.map(c => resumenPorEstado[c]?.count || 0));
-
-    estados.forEach(code => {
-        const rpm = rpmPorEstado[code] || 0;
+    Object.keys(rpmPorEstado).forEach(code => {
+        const rpm    = rpmPorEstado[code] || 0;
         const cargas = resumenPorEstado[code]?.count || 0;
 
-        // Score RPM (0-1): qué tan buen precio paga el estado
-        const rpmScore = Math.max(0, Math.min(1, (rpm - RPM_MIN) / (RPM_MAX - RPM_MIN)));
+        // Zona base del precio (RPM)
+        let score;
+        if      (rpm >= 0.90) score = 75;  // Verde
+        else if (rpm >= 0.75) score = 37;  // Amarillo
+        else                  score = 10;  // Rojo
 
-        // Score frecuencia (0-1): qué tan seguido hay carga disponible
-        const freqScore = maxCargas > 0 ? (cargas / maxCargas) : 0;
+        // Penalización por muestra insuficiente (< 3 cargas)
+        if (cargas < 3 && score > 10) {
+            score = score === 75 ? 37 : 10;  // verde→amarillo, amarillo→rojo
+        }
 
-        // Score final 0-100
-        scorePorEstado[code] = Math.round((rpmScore * 0.65 + freqScore * 0.35) * 100);
-
-        debugLog(` [SCORE] ${code}: RPM=$${rpm.toFixed(2)} (${(rpmScore*100).toFixed(0)}pts) + Cargas=${cargas}/${maxCargas} (${(freqScore*100).toFixed(0)}pts) = Score ${scorePorEstado[code]}/100`);
+        scorePorEstado[code] = score;
+        const zona = score >= 50 ? 'VERDE' : score >= 25 ? 'AMARILLO' : 'ROJO';
+        debugLog(` [SCORE] ${code}: RPM=$${rpm.toFixed(2)} × ${cargas} cargas → ${zona} (score ${score})`);
     });
 }
 
-// Helper: color/label de zona basado en score
+// Helper: devuelve label/color/icono/colorMapa según score
 function getZoneFromScore(score) {
-    if (score >= 50) return { label: window.i18n?.t('zones.zone_green') || 'Green Zone', color: 'text-green-600', icon: '🟢', mapColor: '#16a34a' };
+    if (score >= 50) return { label: window.i18n?.t('zones.zone_green')  || 'Green Zone',  color: 'text-green-600',  icon: '🟢', mapColor: '#16a34a' };
     if (score >= 25) return { label: window.i18n?.t('zones.zone_yellow') || 'Yellow Zone', color: 'text-yellow-600', icon: '🟡', mapColor: '#facc15' };
-    return           { label: window.i18n?.t('zones.zone_red') || 'Red Zone',    color: 'text-red-600',   icon: '🔴', mapColor: '#dc2626' };
+    return             { label: window.i18n?.t('zones.zone_red')    || 'Red Zone',    color: 'text-red-600',    icon: '🔴', mapColor: '#dc2626' };
 }
 
 
@@ -411,31 +407,22 @@ function showStateInfo(stateCode, rpm, resumen, isClick = false) {
         debugLog(` [ZONES] ⚠️ scorePorEstado["${stateCode}"] no encontrado — derivado del color SVG: ${fillColor} → score ${score}`);
     }
 
-    const zone  = getZoneFromScore(score);
+    const cargas = resumen?.count || 0;
+    const rpmBase = rpm >= 0.90 ? 75 : rpm >= 0.75 ? 37 : 10;
+    const pocaMuestra = cargas < 3;
+
+    const zone      = getZoneFromScore(score);
     const zoneLabel = zone.label;
     const zoneColor = zone.color;
     const zoneIcon  = zone.icon;
-
-    // Barra de score
-    const barColor = score >= 50 ? '#16a34a' : score >= 25 ? '#facc15' : '#dc2626';
-    const scoreBar = `<div style="width:${score}%;background:${barColor};height:6px;border-radius:3px;"></div>`;
+    const rpmZone   = getZoneFromScore(rpmBase);
 
     detailsDiv.innerHTML = `
         <div class="text-left space-y-3">
             <div class="text-center">
                 <h5 class="font-bold text-2xl text-gray-800">${stateCode}</h5>
                 <span class="${zoneColor} font-semibold text-lg">${zoneIcon} ${zoneLabel}</span>
-            </div>
-
-            <!-- Score compuesto -->
-            <div class="bg-gray-50 p-2 rounded">
-                <div class="flex justify-between items-center mb-1">
-                    <span class="text-gray-500 text-xs">Score (RPM + Frecuencia)</span>
-                    <span class="font-bold text-sm ${zoneColor}">${score}/100</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded" style="height:6px;">
-                    ${scoreBar}
-                </div>
+                ${pocaMuestra ? `<div class="mt-1 text-xs text-orange-600 font-medium">⚠️ Poca muestra (${cargas} carga${cargas !== 1 ? 's' : ''})</div>` : ''}
             </div>
 
             <div class="bg-gray-50 p-3 rounded space-y-2">
@@ -445,12 +432,13 @@ function showStateInfo(stateCode, rpm, resumen, isClick = false) {
                 </div>
                 <div class="flex justify-between">
                     <span class="text-gray-600 text-sm">${window.i18n?.t('zones.state_info_total_loads') || 'Total Loads:'}</span>
-                    <span class="font-semibold">${resumen?.count || 0}</span>
+                    <span class="font-semibold">${cargas}</span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-gray-600 text-sm">${window.i18n?.t('zones.state_info_total_profit') || 'Total Profit:'}</span>
                     <span class="font-semibold text-green-600">$${(resumen?.totalProfit || 0).toFixed(2)}</span>
                 </div>
+                ${pocaMuestra ? `<div class="text-xs text-gray-400 border-t pt-2 mt-2">Con más cargas sería: ${rpmZone.icon} ${rpmZone.label}</div>` : ''}
             </div>
         </div>
     `;
