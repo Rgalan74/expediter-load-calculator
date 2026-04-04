@@ -237,7 +237,8 @@ function initializeMap() {
     }
 
     debugLog(' [ZONES] Cargando SVG via fetch()...');
-    container.innerHTML = '<p class="text-gray-400 text-sm pt-12">🗺️ Loading map...</p>';
+    container.innerHTML = '<p class="text-gray-400 text-sm pt-16 text-center">🗺️ Loading map...</p>';
+    container.style.minHeight = '420px';
 
     fetch('usa_states_ids_fixed_by_title.svg')
         .then(res => {
@@ -245,24 +246,38 @@ function initializeMap() {
             return res.text();
         })
         .then(svgText => {
-            // Insertar SVG inline
-            container.innerHTML = svgText;
+            // Parsear SVG correctamente con DOMParser
+            const parser = new DOMParser();
+            const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+            const parsedSvg = svgDoc.querySelector('svg');
 
-            // Asegurarse de que el SVG ocupe el ancho del contenedor
-            const svgEl = container.querySelector('svg');
-            if (svgEl) {
-                svgEl.style.width = '100%';
-                svgEl.style.height = 'auto';
-                svgEl.style.maxHeight = '500px';
-                svgEl.removeAttribute('width');
-                svgEl.removeAttribute('height');
-                svgEl.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+            if (!parsedSvg) {
+                throw new Error('SVG parse failed — no <svg> element found');
             }
+
+            // Verificar que no hubo error de parseo
+            const parseError = svgDoc.querySelector('parsererror');
+            if (parseError) {
+                throw new Error('SVG parsererror: ' + parseError.textContent);
+            }
+
+            // Importar el nodo SVG al documento principal
+            const importedSvg = document.importNode(parsedSvg, true);
+
+            // Dimensiones: viewBox="0 0 1200 800" está en el SVG
+            // Forzar width/height para que sea visible siempre
+            importedSvg.setAttribute('width', '100%');
+            importedSvg.setAttribute('height', '100%');
+            importedSvg.style.cssText = 'width:100%;height:100%;min-height:400px;display:block;overflow:visible;';
+
+            // Insertar en el contenedor
+            container.innerHTML = '';
+            container.appendChild(importedSvg);
 
             svgMapLoaded = true;
             pintarEstados();
             setupMapInteractivity();
-            debugLog(' [ZONES] Mapa SVG inyectado inline correctamente ✅');
+            debugLog(' [ZONES] Mapa SVG inyectado via DOMParser correctamente ✅');
         })
         .catch(err => {
             debugLog(' [ZONES] Error cargando SVG:', err);
