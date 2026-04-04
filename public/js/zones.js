@@ -130,7 +130,7 @@ function renderZonesTable() {
         let zoneClass = "zone-gray";
 
         if (rawRpm < 0.75) { label = window.i18n?.t('zones.zone_red') || "Red Zone"; zoneClass = "zone-red"; }
-        else if (rawRpm < 1.05) { label = window.i18n?.t('zones.zone_yellow') || "Yellow Zone"; zoneClass = "zone-yellow"; }
+        else if (rawRpm < 0.90) { label = window.i18n?.t('zones.zone_yellow') || "Yellow Zone"; zoneClass = "zone-yellow"; }
         else { label = window.i18n?.t('zones.zone_green') || "Green Zone"; zoneClass = "zone-green"; }
 
         return {
@@ -170,7 +170,7 @@ function renderZonesTable() {
         // Barra de progreso condicional
         let progressBar = '';
         if (row.avgRpm > 0) {
-            const barColor = row.avgRpm >= 1.05 ? 'bg-green-500' : row.avgRpm >= 0.75 ? 'bg-yellow-500' : 'bg-red-500';
+            const barColor = row.avgRpm >= 0.90 ? 'bg-green-500' : row.avgRpm >= 0.75 ? 'bg-yellow-500' : 'bg-red-500';
             const width = Math.max(8, Math.min((row.avgRpm / 2) * 100, 100)); // Escala: $2.00 = 100%
             progressBar = `<div class="h-2 rounded ${barColor}" style="width: ${width}%"></div>`;
         } else if (row.zoneClass === 'zone-blue') {
@@ -409,7 +409,7 @@ function pintarEstados(svgDoc) {
 
         if (!element || isNaN(rpm)) return;
 
-        let color = rpm < 0.75 ? '#dc2626' : rpm < 1.05 ? '#facc15' : '#16a34a';
+        let color = rpm < 0.75 ? '#dc2626' : rpm < 0.90 ? '#facc15' : '#16a34a';
 
         // Aplicar mltiples mtodos
         element.setAttribute('fill', color);
