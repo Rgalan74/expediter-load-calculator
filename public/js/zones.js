@@ -397,7 +397,20 @@ function showStateInfo(stateCode, rpm, resumen, isClick = false) {
     const detailsDiv = document.getElementById('stateDetails');
     if (!detailsDiv) return;
 
-    const score = scorePorEstado[stateCode] ?? 0;
+    // Obtener score del estado — si no existe, derivar del color actual del SVG
+    let score = scorePorEstado[stateCode];
+    if (score === undefined || score === null) {
+        // Fallback: leer el color actual del elemento SVG en el mapa
+        const mapObject = document.getElementById('interactiveMap');
+        const svgDoc = mapObject?.contentDocument;
+        const el = svgDoc?.getElementById(stateCode);
+        const fillColor = el ? (el.getAttribute('fill') || el.style.fill || '') : '';
+        if (fillColor === '#16a34a') score = 75;        // Verde
+        else if (fillColor === '#facc15') score = 37;   // Amarillo
+        else score = 10;                                // Rojo o desconocido
+        debugLog(` [ZONES] ⚠️ scorePorEstado["${stateCode}"] no encontrado — derivado del color SVG: ${fillColor} → score ${score}`);
+    }
+
     const zone  = getZoneFromScore(score);
     const zoneLabel = zone.label;
     const zoneColor = zone.color;
