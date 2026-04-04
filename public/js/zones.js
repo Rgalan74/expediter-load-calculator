@@ -3,6 +3,7 @@
 // Variables globales
 let rpmPorEstado = {};
 let resumenPorEstado = {};
+let scorePorEstado = {};   // Score compuesto 0-100: RPM(65%) + Frecuencia(35%)
 let zonesDataLoaded = false;
 let currentZoneSort = { column: '', asc: true };
 
@@ -109,7 +110,49 @@ function calcularEstadisticas(loads) {
         rpmPorEstado[code] = data.count > 0 ? (data.total / data.count) : 0;
     });
 
+    // Calcular score compuesto tras tener el promedio de RPM
+    calcularScoreCompuesto();
+
     return resumenPorEstado;
+}
+
+// Score compuesto: RPM (65%) + Frecuencia de cargas (35%)
+// Objetivo: identificar estados con BUEN PRECIO y donde SIEMPRE HAY CARGA
+function calcularScoreCompuesto() {
+    scorePorEstado = {};
+
+    const estados = Object.keys(rpmPorEstado);
+    if (estados.length === 0) return;
+
+    // Normalización de RPM: $0.75 = 0, $1.80 = 1 (tope práctico para expediting)
+    const RPM_MIN = 0.75;
+    const RPM_MAX = 1.80;
+
+    // Máximo de cargas en cualquier estado (para normalizar frecuencia)
+    const maxCargas = Math.max(...estados.map(c => resumenPorEstado[c]?.count || 0));
+
+    estados.forEach(code => {
+        const rpm = rpmPorEstado[code] || 0;
+        const cargas = resumenPorEstado[code]?.count || 0;
+
+        // Score RPM (0-1): qué tan buen precio paga el estado
+        const rpmScore = Math.max(0, Math.min(1, (rpm - RPM_MIN) / (RPM_MAX - RPM_MIN)));
+
+        // Score frecuencia (0-1): qué tan seguido hay carga disponible
+        const freqScore = maxCargas > 0 ? (cargas / maxCargas) : 0;
+
+        // Score final 0-100
+        scorePorEstado[code] = Math.round((rpmScore * 0.65 + freqScore * 0.35) * 100);
+
+        debugLog(` [SCORE] ${code}: RPM=$${rpm.toFixed(2)} (${(rpmScore*100).toFixed(0)}pts) + Cargas=${cargas}/${maxCargas} (${(freqScore*100).toFixed(0)}pts) = Score ${scorePorEstado[code]}/100`);
+    });
+}
+
+// Helper: color/label de zona basado en score
+function getZoneFromScore(score) {
+    if (score >= 50) return { label: window.i18n?.t('zones.zone_green') || 'Green Zone', color: 'text-green-600', icon: '🟢', mapColor: '#16a34a' };
+    if (score >= 25) return { label: window.i18n?.t('zones.zone_yellow') || 'Yellow Zone', color: 'text-yellow-600', icon: '🟡', mapColor: '#facc15' };
+    return           { label: window.i18n?.t('zones.zone_red') || 'Red Zone',    color: 'text-red-600',   icon: '🔴', mapColor: '#dc2626' };
 }
 
 
@@ -125,18 +168,15 @@ function renderZonesTable() {
         // RPM Promedio solo existe si hubo cargas SALIENDO de este estado
         const rawRpm = rpmPorEstado[state] || 0;
 
-        // Determinar etiqueta y color basado en el RPM
-        let label = "Zona gris";
-        let zoneClass = "zone-gray";
-
-        if (rawRpm < 0.75) { label = window.i18n?.t('zones.zone_red') || "Red Zone"; zoneClass = "zone-red"; }
-        else if (rawRpm < 0.90) { label = window.i18n?.t('zones.zone_yellow') || "Yellow Zone"; zoneClass = "zone-yellow"; }
-        else { label = window.i18n?.t('zones.zone_green') || "Green Zone"; zoneClass = "zone-green"; }
+        // Score compuesto (RPM 65% + Frecuencia 35%)
+        const score = scorePorEstado[state] ?? 0;
+        const zone = getZoneFromScore(score);
 
         return {
             state,
-            label,
-            zoneClass,
+            label: zone.label,
+            zoneClass: score >= 50 ? 'zone-green' : score >= 25 ? 'zone-yellow' : 'zone-red',
+            score,
             count: stats.count,
             avgRpm: rawRpm,
             profit: stats.totalProfit
@@ -170,8 +210,8 @@ function renderZonesTable() {
         // Barra de progreso condicional
         let progressBar = '';
         if (row.avgRpm > 0) {
-            const barColor = row.avgRpm >= 0.90 ? 'bg-green-500' : row.avgRpm >= 0.75 ? 'bg-yellow-500' : 'bg-red-500';
-            const width = Math.max(8, Math.min((row.avgRpm / 2) * 100, 100)); // Escala: $2.00 = 100%
+            const barColor = row.score >= 50 ? 'bg-green-500' : row.score >= 25 ? 'bg-yellow-500' : 'bg-red-500';
+            const width = Math.max(8, Math.min(row.score, 100));
             progressBar = `<div class="h-2 rounded ${barColor}" style="width: ${width}%"></div>`;
         } else if (row.zoneClass === 'zone-blue') {
             // Barra azul completa para indicar actividad de destino
@@ -186,6 +226,10 @@ function renderZonesTable() {
             <td class="p-3 font-medium">${row.count}</td>
             <td class="p-3 font-mono font-bold text-blue-700">${rpmDisplay}</td>
             <td class="p-3 font-mono ${row.profit >= 0 ? 'text-green-600' : 'text-red-600'}">$${row.profit.toFixed(2)}</td>
+            <td class="p-3 text-center">
+                <span class="font-bold text-lg ${row.score >= 50 ? 'text-green-600' : row.score >= 25 ? 'text-yellow-600' : 'text-red-600'}">${row.score}</span>
+                <span class="text-gray-400 text-xs">/100</span>
+            </td>
             <td class="p-3">
                 <div class="h-2 w-full bg-gray-200 rounded overflow-hidden">
                     ${progressBar}
@@ -353,11 +397,15 @@ function showStateInfo(stateCode, rpm, resumen, isClick = false) {
     const detailsDiv = document.getElementById('stateDetails');
     if (!detailsDiv) return;
 
-    const zoneLabel = rpm >= 1.05 ? (window.i18n?.t('zones.zone_green') || 'Green Zone')
-        : rpm >= 0.75 ? (window.i18n?.t('zones.zone_yellow') || 'Yellow Zone')
-        : (window.i18n?.t('zones.zone_red') || 'Red Zone');
-    const zoneColor = rpm >= 1.05 ? 'text-green-600' : rpm >= 0.75 ? 'text-yellow-600' : 'text-red-600';
-    const zoneIcon = rpm >= 1.05 ? '' : rpm >= 0.75 ? '' : '';
+    const score = scorePorEstado[stateCode] ?? 0;
+    const zone  = getZoneFromScore(score);
+    const zoneLabel = zone.label;
+    const zoneColor = zone.color;
+    const zoneIcon  = zone.icon;
+
+    // Barra de score
+    const barColor = score >= 50 ? '#16a34a' : score >= 25 ? '#facc15' : '#dc2626';
+    const scoreBar = `<div style="width:${score}%;background:${barColor};height:6px;border-radius:3px;"></div>`;
 
     detailsDiv.innerHTML = `
         <div class="text-left space-y-3">
@@ -365,7 +413,18 @@ function showStateInfo(stateCode, rpm, resumen, isClick = false) {
                 <h5 class="font-bold text-2xl text-gray-800">${stateCode}</h5>
                 <span class="${zoneColor} font-semibold text-lg">${zoneIcon} ${zoneLabel}</span>
             </div>
-            
+
+            <!-- Score compuesto -->
+            <div class="bg-gray-50 p-2 rounded">
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-gray-500 text-xs">Score (RPM + Frecuencia)</span>
+                    <span class="font-bold text-sm ${zoneColor}">${score}/100</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded" style="height:6px;">
+                    ${scoreBar}
+                </div>
+            </div>
+
             <div class="bg-gray-50 p-3 rounded space-y-2">
                 <div class="flex justify-between">
                     <span class="text-gray-600 text-sm">${window.i18n?.t('zones.state_info_avg_rpm') || 'Avg RPM:'}</span>
@@ -409,7 +468,7 @@ function pintarEstados(svgDoc) {
 
         if (!element || isNaN(rpm)) return;
 
-        let color = rpm < 0.75 ? '#dc2626' : rpm < 0.90 ? '#facc15' : '#16a34a';
+        let color = getZoneFromScore(scorePorEstado[stateCode] ?? 0).mapColor;
 
         // Aplicar mltiples mtodos
         element.setAttribute('fill', color);
@@ -618,14 +677,14 @@ function sortZonesBy(column) {
 function showZonesLoading() {
     const body = document.getElementById("zoneDataBody");
     if (body) {
-        body.innerHTML = `<tr><td colspan="6" class="p-4 text-center">${window.i18n?.t('zones.loading') || 'Loading zones...'}</td></tr>`;
+        body.innerHTML = `<tr><td colspan="7" class="p-4 text-center">${window.i18n?.t('zones.loading') || 'Loading zones...'}</td></tr>`;
     }
 }
 
 function showZonesEmpty(message) {
     const body = document.getElementById("zoneDataBody");
     if (body) {
-        body.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-500">${message}</td></tr>`;
+        body.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-gray-500">${message}</td></tr>`;
     }
 }
 

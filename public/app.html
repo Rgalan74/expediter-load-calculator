@@ -1859,12 +1859,16 @@
                       onclick="sortZonesBy('profit')">
                       <span data-i18n="zones.col_profit">Profit</span> <span id="sort-profit" class="ml-1 text-gray-400">↕</span>
                     </th>
+                    <th class="p-3 text-center cursor-pointer hover:bg-gray-200 transition select-none"
+                      onclick="sortZonesBy('score')">
+                      <span>Score</span> <span id="sort-score" class="ml-1 text-gray-400">↕</span>
+                    </th>
                     <th class="p-3 text-left" data-i18n="zones.col_performance">Performance</th>
                   </tr>
                 </thead>
                 <tbody id="zoneDataBody">
                   <tr>
-                    <td colspan="6" class="p-4 text-center text-gray-500" data-i18n="zones.no_data">
+                    <td colspan="7" class="p-4 text-center text-gray-500" data-i18n="zones.no_data">
                       No data available. Create some loads to see zone analysis!
                     </td>
                   </tr>
