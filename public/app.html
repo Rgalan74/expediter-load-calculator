@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en" id="htmlRoot">
 
 <head>
   <meta charset="UTF-8">
@@ -43,6 +43,34 @@
   <!-- 📷 Icono -->
   <link rel="icon" type="image/png" href="img/logo-app.png">
   <link rel="apple-touch-icon" href="/img/icons/ios/180.png" />
+  
+  <!-- 🤫 FILTRO DE CONSOLA: Silenciador de Advertencias de Google Maps -->
+  <script>
+    (function() {
+      const originalWarn = console.warn;
+      const originalError = console.error;
+      const mapsIgnoreWords = [
+        "google.maps.DirectionsService is deprecated",
+        "google.maps.DirectionsRenderer is deprecated",
+        "google.maps.places.Autocomplete is not available",
+        "google.maps.places.Autocomplete is deprecated"
+      ];
+      
+      function shouldIgnore(args) {
+        if (!args || args.length === 0 || typeof args[0] !== 'string') return false;
+        return mapsIgnoreWords.some(word => args[0].includes(word));
+      }
+
+      console.warn = function(...args) {
+        if (!shouldIgnore(args)) originalWarn.apply(console, args);
+      };
+      
+      console.error = function(...args) {
+        // En algunos casos Maps lanza las warnings como errores
+        if (!shouldIgnore(args)) originalError.apply(console, args);
+      };
+    })();
+  </script>
 
   <!-- 🎨 Google Fonts - Inter (Professional typography) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -450,15 +478,15 @@
 
           <!-- Botón Mi Cuenta (Desktop) -->
           <button onclick="window.location.href='account.html'" class="hidden md:flex bg-transparent border-0 text-gray-300 hover:text-white hover:bg-white/10
-               w-9 h-9 rounded-md justify-center items-center transition-all focus:outline-none" title="Mi Cuenta"
-            aria-label="Mi Cuenta">
+               w-9 h-9 rounded-md justify-center items-center transition-all focus:outline-none" title="My Account"
+            aria-label="My Account" data-i18n-title="nav.my_account" data-i18n-aria-label="nav.my_account">
             <span class="text-lg leading-none">👤</span>
           </button>
 
           <!-- Botón logout (Desktop) -->
           <button id="logoutBtn" class="hidden md:flex bg-transparent border-0 text-red-500 hover:text-red-400 hover:bg-red-500/10
                w-9 h-9 rounded-md justify-center items-center transition-all focus:outline-none group"
-            title="Cerrar sesión" aria-label="Cerrar sesión">
+            title="Sign Out" aria-label="Sign Out" data-i18n-title="nav.logout" data-i18n-aria-label="nav.logout">
             <svg class="w-5 h-5 flex-shrink-0" style="fill: none; visibility: visible; display: block;"
               viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke-width="2" stroke-linecap="round"
@@ -477,115 +505,7 @@
 
       </div>
 
-      <!-- ✅ MODAL PARA CREAR CATEGORÍA PERSONALIZADA -->
-      <div id="categoryModal"
-        class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
-
-          <!-- Modal Header -->
-          <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-            <h3 class="text-lg font-semibold text-gray-900" data-i18n="finances.modal_new_category_title">➕ New Expense Category</h3>
-            <button type="button" onclick="closeCategoryModal()" class="text-gray-400 hover:text-gray-600">
-              <span class="text-2xl">&times;</span>
-            </button>
-          </div>
-
-          <!-- Modal Body -->
-          <div class="px-6 py-4">
-            <div class="space-y-4">
-
-              <!-- Nombre -->
-              <div>
-                <label for="categoryName" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="finances.modal_category_name_label">Category Name</label>
-                <input type="text" id="categoryName" placeholder="e.g. Loans, Marketing..."
-                  data-i18n="finances.modal_category_name_ph"
-                  class="border border-gray-300 rounded px-3 py-2 w-full focus:border-purple-500 focus:outline-none"
-                  maxlength="30" required>
-              </div>
-
-              <!-- Icono (selector simple) -->
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="finances.modal_icon_label">Icon</label>
-                <div id="iconSelector" class="grid grid-cols-8 gap-2">
-                  <!-- Íconos comunes -->
-                  <button type="button"
-                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                    onclick="selectIcon('💳')">💳</button>
-                  <button type="button"
-                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                    onclick="selectIcon('💰')">💰</button>
-                  <button type="button"
-                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                    onclick="selectIcon('💻')">💻</button>
-                  <button type="button"
-                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                    onclick="selectIcon('📱')">📱</button>
-                  <button type="button"
-                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                    onclick="selectIcon('🏦')">🏦</button>
-                  <button type="button"
-                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                    onclick="selectIcon('🏠')">🏠</button>
-                  <button type="button"
-                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                    onclick="selectIcon('🎓')">🎓</button>
-                  <button type="button"
-                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                    onclick="selectIcon('⚡')">⚡</button>
-                  <button type="button"
-                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                    onclick="selectIcon('🔧')">🔧</button>
-                  <button type="button"
-                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                    onclick="selectIcon('🛠️')">🛠️</button>
-                  <button type="button"
-                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                    onclick="selectIcon('📦')">📦</button>
-                  <button type="button"
-                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                    onclick="selectIcon('🎯')">🎯</button>
-                  <button type="button"
-                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                    onclick="selectIcon('📊')">📊</button>
-                  <button type="button"
-                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                    onclick="selectIcon('💡')">💡</button>
-                  <button type="button"
-                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                    onclick="selectIcon('🚀')">🚀</button>
-                  <button type="button"
-                    class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                    onclick="selectIcon('⭐')">⭐</button>
-                </div>
-                <input type="hidden" id="selectedIcon" value="📌">
-              </div>
-
-              <!-- Color -->
-              <div>
-                <label for="categoryColor" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="finances.modal_color_label">Color (optional)</label>
-                <input type="color" id="categoryColor" value="#6b7280"
-                  class="border border-gray-300 rounded px-3 py-2 w-full h-10">
-              </div>
-
-            </div>
-          </div>
-
-          <!-- Modal Footer -->
-          <div class="border-t border-gray-200 px-6 py-4 flex flex-col sm:flex-row gap-3 sm:justify-end">
-            <button type="button" onclick="closeCategoryModal()"
-              class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 order-2 sm:order-1"
-              data-i18n="common.cancel">
-              Cancel
-            </button>
-            <button type="button" onclick="saveCustomCategory()"
-              class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 order-1 sm:order-2"
-              data-i18n="finances.modal_create_category_btn">
-              💾 Create Category
-            </button>
-          </div>
-
-        </div>
-      </div>
+      <!-- categoryModal: created dynamically by finances.js createCategoryModalIfNeeded() -->
 
 
 
@@ -1404,6 +1324,64 @@
                 </div>
               </div>
 
+              <!-- Home State (for Tax Report) -->
+              <div class="flex flex-col gap-1 mt-3">
+                <label for="reportHomeState" class="text-xs font-medium"
+                  style="color: rgba(255,255,255,0.8) !important;" data-i18n="finances.label_home_state">🏠 Home State (for Tax Report)</label>
+                <select id="reportHomeState" class="border rounded px-2 py-2 w-full text-sm">
+                  <option value="AL">Alabama (4.95%)</option>
+                  <option value="AK">Alaska — No State Income Tax ✅</option>
+                  <option value="AZ">Arizona (2.50%)</option>
+                  <option value="AR">Arkansas (4.70%)</option>
+                  <option value="CA">California (up to 13.30%)</option>
+                  <option value="CO">Colorado (4.40%)</option>
+                  <option value="CT">Connecticut (6.99%)</option>
+                  <option value="DE">Delaware (6.60%)</option>
+                  <option value="FL" selected>Florida — No State Income Tax ✅</option>
+                  <option value="GA">Georgia (5.49%)</option>
+                  <option value="HI">Hawaii (11.00%)</option>
+                  <option value="ID">Idaho (5.80%)</option>
+                  <option value="IL">Illinois (4.95%)</option>
+                  <option value="IN">Indiana (3.05%)</option>
+                  <option value="IA">Iowa (3.80%)</option>
+                  <option value="KS">Kansas (5.70%)</option>
+                  <option value="KY">Kentucky (4.00%)</option>
+                  <option value="LA">Louisiana (4.25%)</option>
+                  <option value="ME">Maine (7.15%)</option>
+                  <option value="MD">Maryland (5.75% + local)</option>
+                  <option value="MA">Massachusetts (5.00%)</option>
+                  <option value="MI">Michigan (4.05%)</option>
+                  <option value="MN">Minnesota (9.85%)</option>
+                  <option value="MS">Mississippi (5.00%)</option>
+                  <option value="MO">Missouri (4.95%)</option>
+                  <option value="MT">Montana (6.75%)</option>
+                  <option value="NE">Nebraska (5.84%)</option>
+                  <option value="NV">Nevada — No State Income Tax ✅</option>
+                  <option value="NH">New Hampshire — No State Income Tax ✅</option>
+                  <option value="NJ">New Jersey (10.75%)</option>
+                  <option value="NM">New Mexico (5.90%)</option>
+                  <option value="NY">New York (10.90%)</option>
+                  <option value="NC">North Carolina (4.50%)</option>
+                  <option value="ND">North Dakota (2.50%)</option>
+                  <option value="OH">Ohio (3.99%)</option>
+                  <option value="OK">Oklahoma (4.75%)</option>
+                  <option value="OR">Oregon (9.90%)</option>
+                  <option value="PA">Pennsylvania (3.07%)</option>
+                  <option value="RI">Rhode Island (5.99%)</option>
+                  <option value="SC">South Carolina (6.40%)</option>
+                  <option value="SD">South Dakota — No State Income Tax ✅</option>
+                  <option value="TN">Tennessee — No State Income Tax ✅</option>
+                  <option value="TX">Texas — No State Income Tax ✅</option>
+                  <option value="UT">Utah (4.65%)</option>
+                  <option value="VT">Vermont (8.75%)</option>
+                  <option value="VA">Virginia (5.75%)</option>
+                  <option value="WA">Washington — No State Income Tax ✅</option>
+                  <option value="WV">West Virginia (6.50%)</option>
+                  <option value="WI">Wisconsin (7.65%)</option>
+                  <option value="WY">Wyoming — No State Income Tax ✅</option>
+                </select>
+              </div>
+
               <!-- Button - Full width -->
               <button class="w-full mt-3 px-4 py-2 rounded text-sm font-medium"
                 style="background:#fb923c;color:#07050a;"
@@ -1715,6 +1693,7 @@
                 <label for="expenseDate" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="finances.expense_date">Date</label>
                 <input type="date" id="expenseDate" name="expenseDate"
                   class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none"
+                  style="color: white !important; -webkit-text-fill-color: white !important; color-scheme: dark;"
                   required>
               </div>
 
@@ -2841,131 +2820,7 @@
     </div>
   </div>
 
-  <!-- ✅ MODAL PARA GESTIONAR CATEGORÍAS -->
-  <div id="categoryModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-
-      <!-- Modal Header -->
-      <div class="border-b border-gray-200 px-6 py-4 flex items-center justify-between sticky top-0 bg-white">
-        <h3 class="text-lg font-semibold text-gray-900" data-i18n="finances.manage_categories_title">⚙️ Manage Expense Categories</h3>
-        <button type="button" onclick="closeCategoryModal()" class="text-gray-400 hover:text-gray-600">
-          <span class="text-2xl">&times;</span>
-        </button>
-      </div>
-
-      <!-- Modal Body -->
-      <div class="px-6 py-4">
-
-        <!-- Formulario de Nueva Categoría -->
-        <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
-          <h4 class="text-md font-semibold text-purple-900 mb-3" data-i18n="finances.create_new_category_title">➕ Create New Category</h4>
-
-          <div class="space-y-4">
-
-            <!-- Nombre -->
-            <div>
-              <label for="categoryName" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="finances.modal_category_name_label">Category Name</label>
-              <input type="text" id="categoryName" placeholder="e.g. Loans, Marketing..."
-                data-i18n="finances.modal_category_name_ph"
-                class="border border-gray-300 rounded px-3 py-2 w-full focus:border-purple-500 focus:outline-none"
-                maxlength="30" required>
-            </div>
-
-            <!-- Icono (selector simple) -->
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="finances.modal_icon_label">Icon</label>
-              <div id="iconSelector" class="grid grid-cols-8 gap-2">
-                <!-- Íconos comunes -->
-                <button type="button"
-                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                  onclick="selectIcon('💳')">💳</button>
-                <button type="button"
-                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                  onclick="selectIcon('💰')">💰</button>
-                <button type="button"
-                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                  onclick="selectIcon('💻')">💻</button>
-                <button type="button"
-                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                  onclick="selectIcon('📱')">📱</button>
-                <button type="button"
-                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                  onclick="selectIcon('🏦')">🏦</button>
-                <button type="button"
-                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                  onclick="selectIcon('🏠')">🏠</button>
-                <button type="button"
-                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                  onclick="selectIcon('🎓')">🎓</button>
-                <button type="button"
-                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                  onclick="selectIcon('⚡')">⚡</button>
-                <button type="button"
-                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                  onclick="selectIcon('🔧')">🔧</button>
-                <button type="button"
-                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                  onclick="selectIcon('🛠️')">🛠️</button>
-                <button type="button"
-                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                  onclick="selectIcon('📦')">📦</button>
-                <button type="button"
-                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                  onclick="selectIcon('🎯')">🎯</button>
-                <button type="button"
-                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                  onclick="selectIcon('📊')">📊</button>
-                <button type="button"
-                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                  onclick="selectIcon('💡')">💡</button>
-                <button type="button"
-                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                  onclick="selectIcon('🚀')">🚀</button>
-                <button type="button"
-                  class="icon-option text-2xl p-2 border rounded hover:bg-purple-100 hover:border-purple-500 transition"
-                  onclick="selectIcon('⭐')">⭐</button>
-              </div>
-              <input type="hidden" id="selectedIcon" value="📌">
-            </div>
-
-            <!-- Color -->
-            <div>
-              <label for="categoryColor" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="finances.modal_color_label">Color (optional)</label>
-              <input type="color" id="categoryColor" value="#6b7280"
-                class="border border-gray-300 rounded px-3 py-2 w-full h-10">
-            </div>
-
-            <!-- Botón Crear -->
-            <button type="button" onclick="saveCustomCategory()"
-              class="w-full bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
-              data-i18n="finances.modal_create_category_btn">
-              💾 Create Category
-            </button>
-
-          </div>
-        </div>
-
-        <!-- Lista de Categorías Personalizadas -->
-        <div>
-          <h4 class="text-md font-semibold text-gray-900 mb-3" data-i18n="finances.custom_categories_label">📋 Your Custom Categories</h4>
-          <div id="customCategoriesList" class="grid grid-cols-2 md:grid-cols-3 gap-3">
-            <!-- Se poblará dinámicamente -->
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Modal Footer -->
-      <div class="border-t border-gray-200 px-6 py-4 flex justify-end sticky bottom-0 bg-white">
-        <button type="button" onclick="closeCategoryModal()"
-          class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-          data-i18n="finances.btn_close_categories">
-          Close
-        </button>
-      </div>
-
-    </div>
-  </div>
+  <!-- categoryModal: created dynamically by finances.js createCategoryModalIfNeeded() -->
 
 
   <!-- 🔧 WORKAROUND: Modal de categorías creado dinámicamente por caché de Firebase -->
