@@ -1,4 +1,4 @@
-﻿// 🧠 LEX LEARNING SYSTEM
+// 🧠 LEX LEARNING SYSTEM
 // Sistema de aprendizaje automático de Lex basado en datos históricos
 // Sin APIs externas - Todo en Firebase
 
@@ -241,17 +241,17 @@ async function initializeLexProfile() {
       preferredStates,
       avoidStates,
       currentCosts: (window.TU_COSTO_REAL) ? {
-        combustible: window.TU_COSTO_REAL.combustible || 0.182,
-        mantenimiento: window.TU_COSTO_REAL.mantenimiento || 0.020,
-        comida: window.TU_COSTO_REAL.comida || 0.028,
-        costosFijos: window.TU_COSTO_REAL.costosFijos || 0.346,
-        total: window.TU_COSTO_REAL.TOTAL || 0.576
+        combustible:   window.TU_COSTO_REAL.combustible   || 0.195,
+        mantenimiento: window.TU_COSTO_REAL.mantenimiento || 0.051,
+        comida:        0,  // eliminado del modelo de costos
+        costosFijos:   window.TU_COSTO_REAL.costosFijos   || 0.288,
+        total:         window.TU_COSTO_REAL.TOTAL          || 0.534
       } : {
-        combustible: 0.182,
-        mantenimiento: 0.020,
-        comida: 0.028,
-        costosFijos: 0.346,
-        total: 0.576
+        combustible:   0.195,
+        mantenimiento: 0.051,
+        comida:        0,
+        costosFijos:   0.288,
+        total:         0.534
       },
       stateNotes // 🔹 NUEVO: notas por estado para Lex
     };
@@ -414,6 +414,11 @@ async function updateLexProfileWithLoad(loadData) {
 
     debugLog('[LEX] Perfil de Lex actualizado');
 
+    // Invalidar cache del AI engine — la próxima pregunta usará datos frescos
+    if (typeof window.lexInvalidateProfileCache === 'function') {
+      window.lexInvalidateProfileCache();
+    }
+
   } catch (error) {
     debugLog('❌ Error actualizando perfil:', error);
   }
@@ -522,6 +527,8 @@ async function analyzeLoadWithLearning(loadData) {
     // del panel principal si esta carga acaba de ser evaluada allí, evitando contradicciones de color/texto.
     if (window._lastDecisionData && Math.abs(window._lastDecisionData.actualRPM - rpm) < 0.05) {
       const calcDecisionStr = window._lastDecisionData.decision || '';
+      const calcReasons = window._lastDecisionData.reasons || {};
+
       if (calcDecisionStr === 'REJECT') {
         color = 'red';
         recommendation = 'REJECT ❌';
@@ -531,6 +538,23 @@ async function analyzeLoadWithLearning(loadData) {
       } else {
         color = 'yellow';
         recommendation = calcDecisionStr + ' ⚠️';
+      }
+
+      // Si el panel degradó por ganancia diaria baja, reemplazar reasons positivos
+      // para que Lex no contradiga la decisión del panel
+      if (calcReasons.lowDailyProfit) {
+        reasons = reasons.filter(r => {
+          const lower = r.toLowerCase();
+          return !lower.includes('sólid') && !lower.includes('solid') &&
+                 !lower.includes('excelente') && !lower.includes('excellent') &&
+                 !lower.includes('feasible');
+        });
+        const lowProfitMsg = window.i18n?.t('lex.reason_low_daily_profit', {
+          daily: calcReasons.gananciaDia,
+          min: calcReasons.minDailyProfit,
+          days: calcReasons.diasInvertidos
+        }) || `Good RPM but only ~$${calcReasons.gananciaDia}/day for ${calcReasons.diasInvertidos} day(s) invested. Minimum recommended: $${calcReasons.minDailyProfit}/day.`;
+        reasons.unshift(lowProfitMsg);
       }
     }
 
@@ -608,7 +632,7 @@ window.analyzeLexLoad = async function () {
   const totalCharge = parseNum(document.getElementById('totalCharge')?.textContent);
 
   if (!destStr || totalMiles <= 0 || rpm <= 0) {
-    alert("Calcula primero una ruta válida (Origen, Destino, Millas y RPM) para que Lex pueda analizarla.");
+    debugLog('[Lex] analyzeLexLoad: datos insuficientes, esperando ruta válida.');
     return;
   }
 
@@ -630,19 +654,16 @@ window.analyzeLexLoad = async function () {
       window.setLexState(analysis.color === 'green' ? 'happy' : (analysis.color === 'red' ? 'sad' : 'warning'));
     }
 
-    // Integración de resultados
+    // Integración de resultados — solo si el chat ya está abierto (no forzar apertura automática)
+    // La burbuja proactiva (lexDecisionChanged) ya informó al usuario visualmente
     if (window.lexAI && typeof window.lexAI.showLexInsightInPanel === 'function') {
-      window.lexAI.showLexInsightInPanel(analysis);
+      window.lexAI.showLexInsightInPanel(analysis, { autoOpen: false });
     } else if (window.lexAI && typeof window.lexAI.showLexAnalysisModal === 'function') {
       window.lexAI.showLexAnalysisModal(analysis);
-    } else {
-      // Fallback
-      alert(`🧠 LEX AI Analysis:\n\nRecommendation: ${analysis.recommendation}\nRPM: $${analysis.rpm.toFixed(2)} (Your avg: $${analysis.yourAvgRPM.toFixed(2)})\n\nReasons:\n- ${analysis.reasons.join('\n- ')}\n\nZone experience: ${analysis.stateExperience}`);
     }
 
   } catch (e) {
     debugLog("Error al analizar con Lex:", e);
-    alert("Hubo un problema al conectar con Lex AI");
   }
 };
 

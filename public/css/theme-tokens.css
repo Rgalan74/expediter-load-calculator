@@ -30,15 +30,15 @@
   --brand-green-border: rgba(163, 230, 53, 0.22);
 
   /* --- FONDOS --- */
-  --theme-bg-page: #030308;
-  --theme-bg-secondary: #0d0a10;
-  --theme-bg-card: rgba(22, 20, 38, 1);
-  --theme-bg-card-solid: #16143a;
-  --theme-bg-card-hover: rgba(28, 20, 34, 0.92);
-  --theme-bg-input: rgba(8, 5, 12, 0.92);
-  --theme-bg-modal: #0d0a10;
-  --theme-bg-header: rgba(7, 5, 10, 0.95);
-  --theme-bg-nav: rgba(7, 5, 10, 0.97);
+  --theme-bg-page: #050a12;
+  --theme-bg-secondary: #0a0f1c;
+  --theme-bg-card: rgba(10, 16, 30, 1);
+  --theme-bg-card-solid: #0d1626;
+  --theme-bg-card-hover: rgba(14, 22, 38, 0.92);
+  --theme-bg-input: rgba(4, 8, 18, 0.92);
+  --theme-bg-modal: #0a0f1c;
+  --theme-bg-header: rgba(4, 7, 14, 0.95);
+  --theme-bg-nav: rgba(4, 7, 14, 0.97);
   --theme-bg-overlay: rgba(0, 0, 0, 0.78);
 
   /* --- GLASSMORPHISM --- */
@@ -96,9 +96,9 @@
   --theme-info-text: #fdba74;
 
   /* --- GRADIENTE FONDO ANIMADO --- */
-  --theme-gradient-start: #07050a;
-  --theme-gradient-mid: #0d0a10;
-  --theme-gradient-end: #07050a;
+  --theme-gradient-start: #060a12;
+  --theme-gradient-mid: #0a0f1e;
+  --theme-gradient-end: #060a12;
 
   /* --- TOGGLE --- */
   --theme-toggle-bg: rgba(20, 15, 25, 0.8);
@@ -264,7 +264,7 @@ html[data-theme="dark"] body {
     radial-gradient(ellipse at 20% 50%, rgba(251, 146, 60, 0.05) 0%, transparent 55%),
     radial-gradient(ellipse at 80% 20%, rgba(163, 230, 53, 0.03) 0%, transparent 50%),
     radial-gradient(ellipse at 60% 80%, rgba(251, 146, 60, 0.03) 0%, transparent 50%),
-    linear-gradient(135deg, #07050a 0%, #0d0a10 40%, #0a0710 70%, #07050a 100%) !important;
+    linear-gradient(135deg, #060a12 0%, #0a0f1e 40%, #07090f 70%, #060a12 100%) !important;
   animation: none !important;
 }
 

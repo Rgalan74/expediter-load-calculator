@@ -66,6 +66,154 @@
   <link rel="stylesheet" href="css/landing-page.css?v=2">
   <link rel="stylesheet" href="css/promo-video.css?v=3">
 
+  <!-- Auth redirect: send logged-in users straight to the app -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <!-- SLS Lead Modal CSS -->
+  <style>
+    #slsLeadModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    #slsLeadModal.active { display: flex; }
+    .sls-modal-card {
+      background: #0f0f1a;
+      border: 1px solid rgba(0, 217, 255, 0.25);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      max-width: 440px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 0 60px rgba(0, 217, 255, 0.12);
+      animation: slsFadeIn 0.25s ease;
+    }
+    @keyframes slsFadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .sls-close {
+      position: absolute;
+      top: 1rem; right: 1.25rem;
+      background: none; border: none;
+      color: #b0b0b0; font-size: 1.4rem;
+      cursor: pointer; line-height: 1;
+      transition: color 0.2s;
+    }
+    .sls-close:hover { color: #fff; }
+    .sls-badge {
+      display: inline-block;
+      background: rgba(0, 217, 255, 0.1);
+      border: 1px solid rgba(0, 217, 255, 0.3);
+      color: #00D9FF;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 100px;
+      margin-bottom: 1rem;
+    }
+    .sls-modal-card h2 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 800; font-size: 1.5rem;
+      color: #ffffff; margin: 0 0 0.5rem; line-height: 1.2;
+    }
+    .sls-modal-card h2 .gradient {
+      background: linear-gradient(90deg, #00D9FF, #FF6B35);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .sls-modal-card p {
+      color: #b0b0b0; font-size: 0.9rem;
+      margin: 0 0 1.5rem; line-height: 1.5;
+    }
+    .sls-form {
+      display: flex; flex-direction: column; gap: 0.75rem;
+    }
+    .sls-form input {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px; color: #fff;
+      font-size: 0.95rem; padding: 0.75rem 1rem;
+      outline: none; transition: border-color 0.2s;
+      font-family: 'Inter', sans-serif;
+      width: 100%; box-sizing: border-box;
+    }
+    .sls-form input::placeholder { color: #666; }
+    .sls-form input:focus { border-color: rgba(0, 217, 255, 0.5); }
+    .sls-submit {
+      background: linear-gradient(90deg, #00D9FF, #FF6B35);
+      border: none; border-radius: 8px;
+      color: #0a0a0f;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem; font-weight: 800;
+      padding: 0.85rem 1rem; cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      width: 100%; margin-top: 0.25rem;
+    }
+    .sls-submit:hover { opacity: 0.9; }
+    .sls-submit:active { transform: scale(0.98); }
+    .sls-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .sls-privacy {
+      text-align: center; font-size: 0.75rem;
+      color: #555; margin-top: 0.75rem;
+    }
+    .sls-success {
+      display: none; text-align: center; padding: 1rem 0;
+    }
+    .sls-success .sls-check { font-size: 3rem; margin-bottom: 0.75rem; }
+    .sls-success h3 {
+      font-family: 'Inter', sans-serif; font-weight: 800;
+      font-size: 1.3rem; color: #fff; margin: 0 0 0.5rem;
+    }
+    .sls-success p { color: #b0b0b0; font-size: 0.9rem; margin: 0; }
+    .sls-skip-link {
+      display: inline-block; margin-top: 1.25rem;
+      color: #00D9FF; font-size: 0.85rem;
+      text-decoration: none; font-weight: 600;
+    }
+    .sls-error {
+      color: #ff6b6b; font-size: 0.82rem;
+      display: none; margin-top: 0.25rem;
+    }
+    .sls-lang-toggle { text-align: right; margin-bottom: 1rem; }
+    .sls-lang-toggle button {
+      background: none; border: none; color: #666;
+      font-size: 0.78rem; cursor: pointer;
+      font-family: 'Inter', sans-serif; transition: color 0.2s;
+    }
+    .sls-lang-toggle button.active { color: #00D9FF; font-weight: 700; }
+    .sls-lang-toggle button:hover  { color: #aaa; }
+  </style>
+  <script>
+    (function () {
+      var firebaseConfig = {
+        apiKey: "AIzaSyAkEYDbxkjXJx5wNh_7wMdIqmklOMCIyHY",
+        authDomain: "expediter-dev.firebaseapp.com",
+        projectId: "expediter-dev",
+        storageBucket: "expediter-dev.appspot.com",
+        messagingSenderId: "447653997176",
+        appId: "1:447653997176:web:4e356867bb64b488ab5b8d"
+      };
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          window.location.replace('/app.html');
+        }
+      });
+    })();
+  </script>
+
   <!-- Internationalization (i18n) Engine -->
   <script src="js/i18n/language-manager.js"></script>
 
@@ -1900,6 +2048,249 @@
         if (esM) esM.style.cssText += isEs ? activeStyle : inactiveStyle;
       }
     });
+  </script>
+
+  <!-- 🔐 Secrets (no subir al repo — ver .gitignore) -->
+  <script src="js/secrets.js"></script>
+
+  <!-- ================================================
+       SLS LEAD CAPTURE MODAL
+       ================================================ -->
+  <div id="slsLeadModal" role="dialog" aria-modal="true" aria-labelledby="slsModalTitle">
+    <div class="sls-modal-card">
+      <button class="sls-close" id="slsCloseBtn" aria-label="Cerrar">&times;</button>
+      <div class="sls-lang-toggle">
+        <button id="slsLangEN" class="active" onclick="slsSetLang('en')">EN</button>
+        &nbsp;|&nbsp;
+        <button id="slsLangES" onclick="slsSetLang('es')">ES</button>
+      </div>
+      <div id="slsFormContent">
+        <div class="sls-badge" id="slsBadge">🆓 7-Day Free Trial</div>
+        <h2 id="slsModalTitle"></h2>
+        <p id="slsSubtext"></p>
+        <form class="sls-form" id="slsLeadForm" onsubmit="slsSubmitForm(event)">
+          <input type="text"  id="slsName"  autocomplete="given-name" required maxlength="50" />
+          <input type="email" id="slsEmail" autocomplete="email"      required />
+          <div class="sls-error" id="slsErrorMsg"></div>
+          <button type="submit" class="sls-submit" id="slsSubmitBtn"></button>
+        </form>
+        <p class="sls-privacy" id="slsPrivacy"></p>
+      </div>
+      <div class="sls-success" id="slsSuccess">
+        <div class="sls-check">✅</div>
+        <h3 id="slsSuccessTitle"></h3>
+        <p  id="slsSuccessText"></p>
+        <a href="/auth.html" class="sls-skip-link" id="slsSuccessLink"></a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  // ================================================================
+  //  SLS Lead Capture Modal — Abril 2026
+  // ================================================================
+  var SLS_CONFIG = {
+    brevoApiKey: window.__BREVO_KEY__ || "",   // key gestionada fuera del repo
+    brevoListId: 2,
+    redirectUrl:  "/auth.html"
+  };
+
+  var SLS_TEXTS = {
+    en: {
+      badge:            "🆓 7-Day Free Trial",
+      headlineHtml:     'Stop guessing.<br><span class="gradient">Know your number.</span>',
+      subtext:          "Enter your email and get instant access + a free RPM guide every driver needs.",
+      namePlaceholder:  "Your first name",
+      emailPlaceholder: "Your email address",
+      submitBtn:        "Get Free Access →",
+      privacy:          "No spam. Unsubscribe anytime. Your info is safe.",
+      successTitle:     "You're in!",
+      successText:      "Check your inbox — your access link is on its way.",
+      successLink:      "Continue to app →",
+      errorMsg:         "Something went wrong. Please try again.",
+      loading:          "Saving your spot..."
+    },
+    es: {
+      badge:            "🆓 7 Días Gratis",
+      headlineHtml:     'Deja de adivinar.<br><span class="gradient">Conoce tu número.</span>',
+      subtext:          "Deja tu email y recibe acceso inmediato + la guía de RPM que todo driver necesita.",
+      namePlaceholder:  "Tu nombre",
+      emailPlaceholder: "Tu correo electrónico",
+      submitBtn:        "Quiero Acceso Gratis →",
+      privacy:          "Sin spam. Cancela cuando quieras.",
+      successTitle:     "¡Ya estás dentro!",
+      successText:      "Revisa tu correo — tu link de acceso está en camino.",
+      successLink:      "Ir a la app →",
+      errorMsg:         "Algo salió mal. Intenta de nuevo.",
+      loading:          "Guardando tu lugar..."
+    }
+  };
+
+  var slsLang = "en";
+
+  function slsSetLang(lang) {
+    slsLang = lang;
+    var t = SLS_TEXTS[lang];
+    document.getElementById("slsBadge").textContent          = t.badge;
+    document.getElementById("slsModalTitle").innerHTML       = t.headlineHtml;
+    document.getElementById("slsSubtext").textContent        = t.subtext;
+    document.getElementById("slsName").placeholder           = t.namePlaceholder;
+    document.getElementById("slsEmail").placeholder          = t.emailPlaceholder;
+    document.getElementById("slsSubmitBtn").textContent      = t.submitBtn;
+    document.getElementById("slsPrivacy").textContent        = t.privacy;
+    document.getElementById("slsSuccessTitle").textContent   = t.successTitle;
+    document.getElementById("slsSuccessText").textContent    = t.successText;
+    document.getElementById("slsSuccessLink").textContent    = t.successLink;
+    document.getElementById("slsLangEN").classList.toggle("active", lang === "en");
+    document.getElementById("slsLangES").classList.toggle("active", lang === "es");
+  }
+
+  // Auto-detect browser language
+  (function() {
+    var lang = (navigator.language || "en").toLowerCase();
+    slsSetLang(lang.startsWith("es") ? "es" : "en");
+  })();
+
+  // ── UTM Tracking ──────────────────────────────────────────────────
+  function slsGetUTMs() {
+    var p = new URLSearchParams(window.location.search);
+    return {
+      utm_source:   p.get("utm_source")   || "direct",
+      utm_medium:   p.get("utm_medium")   || "none",
+      utm_campaign: p.get("utm_campaign") || "none",
+      utm_content:  p.get("utm_content")  || "none",
+      landing_page: window.location.pathname,
+      referrer:     document.referrer     || "direct"
+    };
+  }
+  (function() {
+    var utms = slsGetUTMs();
+    if (utms.utm_source !== "direct") {
+      sessionStorage.setItem("sls_utms", JSON.stringify(utms));
+    }
+  })();
+  function slsStoredUTMs() {
+    try {
+      var s = sessionStorage.getItem("sls_utms");
+      return s ? JSON.parse(s) : slsGetUTMs();
+    } catch(e) { return slsGetUTMs(); }
+  }
+
+  // ── Modal open / close ────────────────────────────────────────────
+  function slsOpenModal() {
+    document.getElementById("slsLeadModal").classList.add("active");
+    document.body.style.overflow = "hidden";
+    setTimeout(function() { document.getElementById("slsName").focus(); }, 100);
+  }
+  function slsCloseModal() {
+    document.getElementById("slsLeadModal").classList.remove("active");
+    document.body.style.overflow = "";
+  }
+  document.getElementById("slsLeadModal").addEventListener("click", function(e) {
+    if (e.target === this) slsCloseModal();
+  });
+  document.getElementById("slsCloseBtn").addEventListener("click", slsCloseModal);
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") slsCloseModal();
+  });
+
+  // Intercept all buttons linking to auth.html
+  document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll('a[href*="auth.html"]').forEach(function(btn) {
+      btn.addEventListener("click", function(e) {
+        e.preventDefault();
+        slsOpenModal();
+      });
+    });
+  });
+
+  // ── Save to Firestore ─────────────────────────────────────────────
+  async function slsSaveFirestore(lead) {
+    try {
+      var db = firebase.firestore();
+      await db.collection("leads").add(Object.assign({}, lead, {
+        timestamp:        firebase.firestore.FieldValue.serverTimestamp(),
+        trial_start:      new Date().toISOString(),
+        status:           "lead",
+        plan_type:        "none",
+        converted:        false,
+        loads_calculated: 0,
+        engagement_score: 0,
+        engagement_tag:   "cold"
+      }));
+      return true;
+    } catch(err) {
+      console.error("[SLS] Firestore error:", err);
+      return false;
+    }
+  }
+
+  // ── Save to Brevo ─────────────────────────────────────────────────
+  async function slsSaveBrevo(name, email, utms) {
+    try {
+      var res = await fetch("https://api.brevo.com/v3/contacts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": SLS_CONFIG.brevoApiKey
+        },
+        body: JSON.stringify({
+          email: email,
+          attributes: {
+            FIRSTNAME:    name,
+            UTM_SOURCE:   utms.utm_source,
+            UTM_MEDIUM:   utms.utm_medium,
+            UTM_CAMPAIGN: utms.utm_campaign,
+            LANDING_PAGE: utms.landing_page
+          },
+          listIds:       [SLS_CONFIG.brevoListId],
+          updateEnabled: true
+        })
+      });
+      return (res.status === 201 || res.status === 204);
+    } catch(err) {
+      console.error("[SLS] Brevo error:", err);
+      return false;
+    }
+  }
+
+  // ── Submit ────────────────────────────────────────────────────────
+  async function slsSubmitForm(e) {
+    e.preventDefault();
+    var name   = document.getElementById("slsName").value.trim();
+    var email  = document.getElementById("slsEmail").value.trim().toLowerCase();
+    var btn    = document.getElementById("slsSubmitBtn");
+    var errDiv = document.getElementById("slsErrorMsg");
+    var t      = SLS_TEXTS[slsLang];
+    if (!name || !email) return;
+    btn.disabled    = true;
+    btn.textContent = t.loading;
+    errDiv.style.display = "none";
+    var utms = slsStoredUTMs();
+    var lead = {
+      name:         name,
+      email:        email,
+      language:     slsLang,
+      utm_source:   utms.utm_source,
+      utm_medium:   utms.utm_medium,
+      utm_campaign: utms.utm_campaign,
+      utm_content:  utms.utm_content,
+      landing_page: utms.landing_page,
+      referrer:     utms.referrer,
+      device:       /Mobi|Android/i.test(navigator.userAgent) ? "mobile" : "desktop"
+    };
+    var results = await Promise.all([slsSaveFirestore(lead), slsSaveBrevo(name, email, utms)]);
+    if (results[0] || results[1]) {
+      document.getElementById("slsFormContent").style.display = "none";
+      document.getElementById("slsSuccess").style.display     = "block";
+      setTimeout(function() { window.location.href = SLS_CONFIG.redirectUrl; }, 3000);
+    } else {
+      errDiv.textContent   = t.errorMsg;
+      errDiv.style.display = "block";
+      btn.disabled         = false;
+      btn.textContent      = t.submitBtn;
+    }
+  }
   </script>
 
 </body>

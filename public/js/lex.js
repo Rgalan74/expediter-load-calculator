@@ -173,6 +173,71 @@ document.addEventListener('DOMContentLoaded', () => {
       setLexState('sleep');
     }, 2500);
   }, 1000); // Show 1s after app loads
+
+  // ==========================================================
+  //  LEX PROACTIVO: Reacciona al panel de decisión automáticamente
+  //  El usuario NO necesita abrir el chat — Lex despierta y habla
+  // ==========================================================
+  document.addEventListener('lexDecisionChanged', (e) => {
+    const d = e.detail;
+    if (!d || !d.actualRPM) return;
+
+    // Si el chat está abierto, no duplicar con burbuja exterior
+    if (window.lexChatOpen) return;
+
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+
+    // Determinar estado visual y mensaje según decisión
+    let lexState = 'idle';
+    let bubbleMsg = '';
+
+    const rpm = d.actualRPM.toFixed(2);
+    const dest = d.destinationState || d.destination?.split(',')[0] || '';
+
+    switch (d.decision) {
+      case 'ACCEPT':
+        lexState = 'happy';
+        bubbleMsg = isEs
+          ? `✅ ${dest ? dest + ': ' : ''}$${rpm}/mi — ¡Buena carga! Click para análisis completo.`
+          : `✅ ${dest ? dest + ': ' : ''}$${rpm}/mi — Good load! Click for full analysis.`;
+        break;
+
+      case 'ALMOST ACCEPT':
+        lexState = 'warning';
+        bubbleMsg = isEs
+          ? `🟡 $${rpm}/mi — Casi bien. Considera negociar hacia $${d.thresholds?.acceptThreshold?.toFixed(2) || '?'}/mi.`
+          : `🟡 $${rpm}/mi — Almost there. Try negotiating to $${d.thresholds?.acceptThreshold?.toFixed(2) || '?'}/mi.`;
+        break;
+
+      case 'REJECT':
+        lexState = 'sad';
+        bubbleMsg = isEs
+          ? `❌ $${rpm}/mi — No cubre costos ($${d.thresholds?.cpm?.toFixed(2) || '?'}/mi). Rechaza o negocia fuerte.`
+          : `❌ $${rpm}/mi — Below your costs ($${d.thresholds?.cpm?.toFixed(2) || '?'}/mi). Reject or negotiate hard.`;
+        break;
+
+      default: // EVALUATE
+        lexState = 'warning';
+        if (d.isShortHop) {
+          bubbleMsg = isEs
+            ? `🟠 Viaje corto — Buen RPM pero poca ganancia total. Click para ver si vale la pena.`
+            : `🟠 Short hop — Good RPM but low total gain. Click to see if it's worth it.`;
+        } else if (d.lowDailyProfit) {
+          bubbleMsg = isEs
+            ? `🟠 $${rpm}/mi — Ganancia diaria baja. Click para ver alternativas.`
+            : `🟠 $${rpm}/mi — Low daily profit. Click to see alternatives.`;
+        } else {
+          bubbleMsg = isEs
+            ? `🟠 $${rpm}/mi — Evalúa con cuidado. Click para análisis detallado.`
+            : `🟠 $${rpm}/mi — Evaluate carefully. Click for detailed analysis.`;
+        }
+        break;
+    }
+
+    // Despertar a Lex si está dormido y mostrar burbuja
+    setLexState(lexState, { message: bubbleMsg, duration: 7000 });
+    debugLog('[LEX-PROACTIVE] Burbuja mostrada:', d.decision, rpm);
+  });
 });
 
 // ======================================================
@@ -613,12 +678,17 @@ window.openLexChatModal = function () {
         : (hora < 12 ? 'Good morning' : hora < 18 ? 'Good afternoon' : 'Good evening');
       const mesNombre = now.toLocaleString(_isEsGreet ? 'es' : 'en-US', { month: 'long' });
 
-      const [loadsSnap, profileSnap] = await Promise.all([
+      const [loadsSnap, profileSnap, recentSnap] = await Promise.all([
         firebase.firestore().collection('loads')
           .where('userId', '==', uid)
           .where('date', '>=', firstDay.toISOString().split('T')[0])
           .get(),
-        firebase.firestore().collection('lexProfiles').doc(uid).get()
+        firebase.firestore().collection('lexProfiles').doc(uid).get(),
+        firebase.firestore().collection('loads')
+          .where('userId', '==', uid)
+          .orderBy('date', 'desc')
+          .limit(7)
+          .get()
       ]);
 
       const p = profileSnap.data() || {};
@@ -636,17 +706,47 @@ window.openLexChatModal = function () {
           ? (_isEsGreet ? ` 📈 RPM ${diff}% sobre tu histórico.` : ` 📈 RPM ${diff}% above your average.`)
           : (_isEsGreet ? ` 📉 RPM ${Math.abs(diff)}% bajo tu histórico.` : ` 📉 RPM ${Math.abs(diff)}% below your average.`);
 
+      // ── Cálculo de racha ─────────────────────────────────────────────────
+      let rachaText = '';
+      if (avgRPM > 0 && recentSnap.size >= 3) {
+        const recentRPMs = [];
+        recentSnap.forEach(d => {
+          const data = d.data();
+          const rpm = (data.totalCharge || 0) / (data.totalMiles || 1);
+          recentRPMs.push(rpm);
+        });
+        const firstDir = recentRPMs[0] >= avgRPM ? 'above' : 'below';
+        let streak = 0;
+        for (const rpm of recentRPMs) {
+          if ((rpm >= avgRPM ? 'above' : 'below') === firstDir) streak++;
+          else break;
+        }
+        if (firstDir === 'above' && streak >= 2) {
+          rachaText = _isEsGreet
+            ? ` 🔥 ¡Llevas **${streak} cargas seguidas** sobre tu promedio!`
+            : ` 🔥 You're on a **${streak}-load streak** above your average!`;
+        } else if (firstDir === 'below' && streak >= 3) {
+          rachaText = _isEsGreet
+            ? ` ⚠️ Las últimas **${streak} cargas** estuvieron bajo tu promedio.`
+            : ` ⚠️ Your last **${streak} loads** were below your average.`;
+        }
+      }
+      // ────────────────────────────────────────────────────────────────
+
       const cargaActiva = window._lastDecisionData;
       const cargaText = cargaActiva
         ? (_isEsGreet
-            ? `\nTienes una carga en el calculador: **${cargaActiva.decision}** — $${cargaActiva.actualRPM.toFixed(2)}/mi.`
-            : `\nYou have a load in the calculator: **${cargaActiva.decision}** — $${cargaActiva.actualRPM.toFixed(2)}/mi.`)
+            ? `
+Tienes una carga en el calculador: **${cargaActiva.decision}** — $${cargaActiva.actualRPM.toFixed(2)}/mi.`
+            : `
+You have a load in the calculator: **${cargaActiva.decision}** — $${cargaActiva.actualRPM.toFixed(2)}/mi.`)
         : '';
 
       const loadsLabel = _isEsGreet ? 'cargas' : 'loads';
       const revenueLabel = _isEsGreet ? 'ingresos' : 'revenue';
       const helpLabel = _isEsGreet ? '¿En qué te ayudo?' : 'How can I help you?';
-      const mensaje = `${saludo} 👋 — ${mesNombre}: **${loadsSnap.size} ${loadsLabel}**, $${ingresosMes.toFixed(0)} ${revenueLabel}.${tendencia}${cargaText}\n${helpLabel}`;
+      const mensaje = `${saludo} 👋 — ${mesNombre}: **${loadsSnap.size} ${loadsLabel}**, $${ingresosMes.toFixed(0)} ${revenueLabel}.${tendencia}${rachaText}${cargaText}
+${helpLabel}`;
 
       if (typeof appendLexMessage === 'function') {
         appendLexMessage(mensaje);
@@ -655,6 +755,13 @@ window.openLexChatModal = function () {
       debugLog('[LEX] Error en saludo proactivo:', e);
     }
   }, 600);
+
+  // Briefing semanal — se muestra solo una vez por semana, después del saludo
+  setTimeout(() => {
+    if (typeof window.lexRunWeeklyBriefing === 'function') {
+      window.lexRunWeeklyBriefing();
+    }
+  }, 1800);
 
   const form = document.getElementById('lexChatForm');
   const input = document.getElementById('lexChatInput');
@@ -697,40 +804,142 @@ window.openLexChatModal = function () {
     const primero = messages?.children[0];
     if (primero?.textContent?.trim().includes('Cargando')) primero.remove();
 
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+
+    // ── Suggestion Chips — contextuales según el último intent ──────────
+    const chipSets = {
+      NEGOTIATION: isEs
+        ? [['📊 Analizar carga', 'Analiza la carga actual'],
+           ['✅ ¿Lo acepto así?', '¿Vale la pena aceptar esta carga sin negociar?'],
+           ['🔄 ¿Qué Plan B tengo?', '¿Qué hago si rechazan mi contraoferta?']]
+        : [['📊 Analyze load', 'Analyze the current load'],
+           ['✅ Accept as is?', 'Is it worth accepting this load without negotiating?'],
+           ['🔄 What is my Plan B?', 'What do I do if they reject my counteroffer?']],
+
+      PRICING: isEs
+        ? [['🤝 ¿Cómo negocio?', '¿Cómo negocio esta carga?'],
+           ['📍 Stats del destino', '¿Cómo me ha ido en el estado de destino?'],
+           ['📈 ¿Cómo va mi mes?', '¿Cómo va mi mes?']]
+        : [['🤝 How do I negotiate?', 'How do I negotiate this load?'],
+           ['📍 Destination stats', 'How have I done in the destination state?'],
+           ['📈 How is my month?', 'How is my month going?']],
+
+      FINANCES: isEs
+        ? [['🏆 Mejores estados', '¿Cuáles son mis mejores estados?'],
+           ['📉 Zonas a evitar', '¿Qué zonas debo evitar?'],
+           ['📊 Analizar carga actual', 'Analiza la carga actual']]
+        : [['🏆 Best states', 'What are my best states?'],
+           ['📉 Zones to avoid', 'What zones should I avoid?'],
+           ['📊 Analyze load', 'Analyze the current load']],
+
+      STATE_SUMMARY: isEs
+        ? [['📊 Analizar carga actual', 'Analiza la carga actual'],
+           ['💰 ¿Cómo va mi mes?', '¿Cómo va mi mes?'],
+           ['🤝 Ayúdame a negociar', '¿Cómo negocio esta carga?']]
+        : [['📊 Analyze current load', 'Analyze the current load'],
+           ['💰 How is my month?', 'How is my month going?'],
+           ['🤝 Help me negotiate', 'How do I negotiate this load?']],
+
+      DEFAULT: isEs
+        ? [['📊 Analizar carga actual', 'Analiza la carga actual'],
+           ['💰 ¿Cómo va mi mes?', '¿Cómo va mi mes?'],
+           ['🗺️ Stats de zona', 'Stats de esta zona']]
+        : [['📊 Analyze load', 'Analyze the current load'],
+           ['💰 How is my month?', 'How is my month going?'],
+           ['🗺️ Zone stats', 'Zone stats for this area']]
+    };
+
+    const intentKey = window._lastLexIntent || 'DEFAULT';
+    const chips = chipSets[intentKey] || chipSets.PRICING || chipSets.DEFAULT;
+
+    // ── HTML del mensaje ─────────────────────────────────────────────────
     const wrapper = document.createElement('div');
-    wrapper.style.display = 'flex';
-    wrapper.style.alignItems = 'flex-start';
-    wrapper.style.gap = '6px';
-    wrapper.innerHTML = `
+    wrapper.style.cssText = 'display:flex; flex-direction:column; gap:4px; margin-bottom:2px;';
+
+    // Contenedor del mensaje + avatar
+    const msgRow = document.createElement('div');
+    msgRow.style.cssText = 'display:flex; align-items:flex-start; gap:6px; position:relative;';
+    msgRow.innerHTML = `
       <div style="
-        width: 20px;
-        height: 20px;
-        border-radius: 9999px;
-        background: #0f172a;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        overflow: hidden;
+        width: 20px; height: 20px; border-radius: 9999px;
+        background: #0f172a; display: flex; align-items: center;
+        justify-content: center; flex-shrink: 0; overflow: hidden;
       ">
         <img src="img/lex/lex-neutral.png" alt="Lex"
-          style="width: 100%; height: 100%; object-fit: contain;">
+          style="width: 100%; height: 100%; object-fit: contain;"
+          onerror="this.src='img/lex/lex-neutral.png'">
       </div>
-      <div
-        style="
-          background: #030712;
-          border: 1px solid #1f2937;
-          border-radius: 12px 12px 12px 4px;
-          padding: 5px 8px;
-          color: #e5e7eb;
-          font-size: 13px;
-          line-height: 1.6;
-          max-width: 85%;
-        "
-      >
+      <div class="lex-msg-bubble" style="
+        position: relative;
+        background: #030712; border: 1px solid #1f2937;
+        border-radius: 12px 12px 12px 4px;
+        padding: 5px 8px; color: #e5e7eb;
+        font-size: 13px; line-height: 1.6; max-width: 85%;
+      ">
         <p>${parseMarkdown(text)}</p>
+        <button
+          title="${isEs ? 'Copiar' : 'Copy'}"
+          data-rawtext=""
+          style="
+            position: absolute; top: 4px; right: 6px;
+            background: none; border: none; cursor: pointer;
+            font-size: 11px; color: #6b7280; padding: 0;
+            opacity: 0; transition: opacity 0.2s;
+            line-height: 1;
+          "
+          class="lex-copy-btn"
+        >📋</button>
       </div>
     `;
+
+    // Guardar rawtext y vincular lógica del botón copiar
+    const bubble = msgRow.querySelector('.lex-msg-bubble');
+    const copyBtn = msgRow.querySelector('.lex-copy-btn');
+    copyBtn._rawText = text; // referencia directa para evitar problemas de escaping en innerHTML
+    copyBtn.addEventListener('click', function() {
+      navigator.clipboard.writeText(this._rawText).then(() => {
+        this.textContent = '✅';
+        this.style.color = '#22c55e';
+        setTimeout(() => { this.textContent = '📋'; this.style.color = '#6b7280'; }, 2000);
+      }).catch(() => {
+        this.textContent = '⚠️';
+        setTimeout(() => { this.textContent = '📋'; }, 2000);
+      });
+    });
+    bubble.addEventListener('mouseenter', () => { copyBtn.style.opacity = '1'; });
+    bubble.addEventListener('mouseleave', () => { copyBtn.style.opacity = '0'; });
+
+    wrapper.appendChild(msgRow);
+
+    // ── Suggestion Chips ─────────────────────────────────────────────────
+    const chipsRow = document.createElement('div');
+    chipsRow.style.cssText = 'display:flex; flex-wrap:wrap; gap:5px; padding-left:26px; margin-top:2px;';
+
+    chips.forEach(([label, query]) => {
+      const chip = document.createElement('button');
+      chip.textContent = label;
+      chip.style.cssText = [
+        'background:#0f172a', 'border:1px solid #374151',
+        'color:#9ca3af', 'font-size:10px', 'padding:3px 8px',
+        'border-radius:9999px', 'cursor:pointer',
+        'transition:all 0.15s', 'font-family:Inter,sans-serif',
+        'white-space:nowrap'
+      ].join(';');
+      chip.onmouseenter = () => { chip.style.borderColor = '#fb923c'; chip.style.color = '#fb923c'; };
+      chip.onmouseleave = () => { chip.style.borderColor = '#374151'; chip.style.color = '#9ca3af'; };
+      chip.addEventListener('click', () => {
+        const inputEl = document.getElementById('lexChatInput');
+        const formEl = document.getElementById('lexChatForm');
+        if (inputEl && formEl) {
+          inputEl.value = query;
+          formEl.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+        }
+        chipsRow.style.display = 'none';
+      });
+      chipsRow.appendChild(chip);
+    });
+
+    wrapper.appendChild(chipsRow);
     messages.appendChild(wrapper);
   }
 

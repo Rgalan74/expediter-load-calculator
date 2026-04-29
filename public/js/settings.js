@@ -1,4 +1,4 @@
-﻿// SETTINGS.JS - VERSIÃ“N COMPLETA Y FUNCIONAL
+// SETTINGS.JS - VERSIÃ“N COMPLETA Y FUNCIONAL
 // Maneja todas las configuraciones del negocio expediter
 
 debugLog(" Loading settings.js - Complete version...");
@@ -7,14 +7,14 @@ debugLog(" Loading settings.js - Complete version...");
 const VEHICLE_TEMPLATES = {
     van: {
         name: "Van/Sprinter",
-        fuelMPG: 18,
-        maintenancePerMile: 0.080,
-        tiresPerMile: 0.060,
-        repairsPerMile: 0.040,
-        vehiclePayment: 800,
+        fuelMPG: 19,
+        maintenancePerMile: 0.014,
+        tiresPerMile: 0.012,
+        repairsPerMile: 0.025,
+        vehiclePayment: 897,
         insurance: 1250,
-        licenses: 150,
-        otherFixed: 200
+        licenses: 10,
+        otherFixed: 150
     },
     boxtruck: {
         name: "Box Truck",
@@ -159,6 +159,17 @@ function calculateTotals() {
         // Costo fijo por milla
         const fixedCostPerMile = totalFixed / monthlyMiles;
 
+        // Costos variables mensuales → CPM
+        const maintenanceMonthly = parseFloat(document.getElementById('maintenancePerMile')?.value) || 0;
+        const tiresMonthly       = parseFloat(document.getElementById('tiresPerMile')?.value) || 0;
+        const repairsMonthly     = parseFloat(document.getElementById('repairsPerMile')?.value) || 0;
+        const variableMonthly    = maintenanceMonthly + tiresMonthly + repairsMonthly;
+        const variableCPM        = monthlyMiles > 0 ? variableMonthly / monthlyMiles : 0;
+
+        const fuelCPM = parseFloat(document.getElementById('fuelPricePerGallon')?.value || 3.70) /
+                        parseFloat(document.getElementById('fuelMPG')?.value || 19);
+        const totalCPM = fuelCPM + variableCPM + fixedCostPerMile;
+
         // Actualizar display
         const totalFixedEl = document.getElementById('totalFixed');
         const fixedCostPerMileEl = document.getElementById('fixedCostPerMile');
@@ -166,18 +177,13 @@ function calculateTotals() {
         if (totalFixedEl) {
             totalFixedEl.textContent = `$${totalFixed.toLocaleString()}`;
         }
-
         if (fixedCostPerMileEl) {
             fixedCostPerMileEl.textContent = `$${fixedCostPerMile.toFixed(3)}`;
         }
 
-        debugLog(` Totals calculated:`, {
-            totalFixed: `$${totalFixed}`,
-            monthlyMiles,
-            fixedCostPerMile: `$${fixedCostPerMile.toFixed(3)}`
-        });
+        debugLog(` Totals:`, { totalFixed, fixedCostPerMile: fixedCostPerMile.toFixed(3), variableCPM: variableCPM.toFixed(3), totalCPM: totalCPM.toFixed(3) });
 
-        return { totalFixed, fixedCostPerMile, monthlyMiles };
+        return { totalFixed, fixedCostPerMile, monthlyMiles, totalCPM };
 
     } catch (error) {
         debugLog(" Error calculating totals:", error);
@@ -295,24 +301,27 @@ function saveUserConfiguration() {
         debugLog(" Configuration to save:", config);
 
         // ✅ CALCULAR costs PARA EL CALCULADOR
-        const fuelCostPerMile = config.fuelPricePerGallon / config.fuelMPG;
-        const variableCPM = fuelCostPerMile + config.maintenancePerMile + config.tiresPerMile + config.repairsPerMile;
+        // maintenancePerMile / tiresPerMile / repairsPerMile son presupuestos MENSUALES en $
+        const fuelCostPerMile   = config.fuelPricePerGallon / config.fuelMPG;
+        const variableMonthly   = config.maintenancePerMile + config.tiresPerMile + config.repairsPerMile;
+        const variableCPMExFuel = config.monthlyMilesGoal > 0 ? variableMonthly / config.monthlyMilesGoal : 0;
         const totalFixedMonthly = config.vehiclePayment + config.insurance + config.licenses + config.otherFixed;
-        const fixedCPM = config.monthlyMilesGoal > 0
-            ? totalFixedMonthly / config.monthlyMilesGoal
-            : 0;
-        const totalCPM = variableCPM + fixedCPM;
+        const fixedCPM          = config.monthlyMilesGoal > 0 ? totalFixedMonthly / config.monthlyMilesGoal : 0;
+        const totalCPM          = fuelCostPerMile + variableCPMExFuel + fixedCPM;
 
         config.costs = {
-            combustible: parseFloat(fuelCostPerMile.toFixed(4)),
-            mantenimiento: parseFloat((config.maintenancePerMile + config.tiresPerMile + config.repairsPerMile).toFixed(4)),
-            comida: 0.028,
-            costosFijos: parseFloat(fixedCPM.toFixed(4)),
-            TOTAL: parseFloat(totalCPM.toFixed(4)),
-            totalCPM: parseFloat(totalCPM.toFixed(4)),
-            isDefault: false,
-            updatedAt: new Date().toISOString()
+            combustible:   parseFloat(fuelCostPerMile.toFixed(4)),
+            mantenimiento: parseFloat(variableCPMExFuel.toFixed(4)), // (mant+tires+repairs) mensual ÷ millas
+            comida:        0,
+            costosFijos:   parseFloat(fixedCPM.toFixed(4)),
+            TOTAL:         parseFloat(totalCPM.toFixed(4)),
+            totalCPM:      parseFloat(totalCPM.toFixed(4)),
+            isDefault:     false,
+            updatedAt:     new Date().toISOString()
         };
+
+        debugLog('✅ costs calculado:', config.costs,
+            `| fuel=$${fuelCostPerMile.toFixed(3)} variable=$${variableCPMExFuel.toFixed(3)} fixed=$${fixedCPM.toFixed(3)} total=$${totalCPM.toFixed(3)}`);
 
         // ✅ Marcar vehicle y preferences como configurados por el usuario
         config.vehicle = {

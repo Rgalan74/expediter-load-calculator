@@ -72,3 +72,6 @@ public/css/ember-patch.css
 public/css/theme-tokens_backup.css
 public/js/lex-analysis-ui.js
 public/sw register.js
+
+# Claves privadas / secrets
+public/js/secrets.js

@@ -152,3 +152,734 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 }
+
+/* ==========================================================================
+   4. 📱 COMPACT MOBILE LAYOUT — Reduce todo el espaciado para móvil
+   Targets: card padding, section spacing, tab content, headings, inputs
+   ========================================================================== */
+@media (max-width: 768px) {
+
+    /* --- Header title: exento de la reducción global de .text-lg --- */
+    header .header-title,
+    header span.header-title {
+        font-size: 1.125rem !important; /* 18px */
+    }
+
+    /* --- Finanzas: selectores año+mes en la misma fila --- */
+    #finances-summary .card-section:first-of-type .grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        flex-direction: unset !important;
+        gap: 0.375rem !important;
+        padding: 0.25rem !important;
+        width: 100% !important;
+    }
+    /* Cada div (label+select) en columna compacta */
+    #finances-summary .card-section:first-of-type .grid > div {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.125rem !important;
+        width: 100% !important;
+    }
+    /* Selectores ocupan todo el ancho de su columna */
+    #finances-summary .card-section:first-of-type .grid select {
+        width: 100% !important;
+        min-height: 36px !important;
+        padding: 0.3rem 0.5rem !important;
+        font-size: 0.875rem !important;
+    }
+    /* Botón Aplicar: ocupa las 2 columnas */
+    #finances-summary .card-section:first-of-type .grid button {
+        grid-column: 1 / -1 !important;
+        width: 100% !important;
+        min-height: 36px !important;
+        padding: 0.375rem !important;
+        font-size: 0.875rem !important;
+    }
+
+    /* --- Finanzas Cuentas: tarjetas resumen en 3 columnas --- */
+    #accountsSummaryCards .grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0.375rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    /* Padding interno de cada tarjeta */
+    #accountsSummaryCards .grid > div {
+        padding: 0.5rem !important;
+    }
+    /* Título (PAGADAS / PENDIENTES / VENCIDAS) */
+    #accountsSummaryCards .grid > div h3 {
+        font-size: 0.625rem !important; /* 10px */
+        letter-spacing: 0 !important;
+        margin-bottom: 0.125rem !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+    /* Número grande */
+    #accountsSummaryCards .grid > div p.text-3xl {
+        font-size: 1.25rem !important;
+        line-height: 1.1 !important;
+    }
+    /* "Total Cargas" */
+    #accountsSummaryCards .grid > div p.text-sm {
+        font-size: 0.625rem !important;
+        margin-top: 0 !important;
+    }
+    /* Separador y monto */
+    #accountsSummaryCards .grid > div .mt-3 {
+        margin-top: 0.25rem !important;
+        padding-top: 0.25rem !important;
+    }
+    #accountsSummaryCards .grid > div p.text-lg {
+        font-size: 0.75rem !important;
+        font-weight: 700 !important;
+    }
+    #accountsSummaryCards .grid > div p.text-xs {
+        font-size: 0.5625rem !important;
+        margin-top: 0 !important;
+    }
+    #accountsSummaryCards .grid > div .mt-2 {
+        margin-top: 0.125rem !important;
+    }
+
+    /* --- Finanzas Cuentas: 4 selectores en grid 2x2 --- */
+    #finances-accounts .card-section .grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        flex-direction: unset !important;
+        gap: 0.375rem !important;
+        padding: 0.25rem !important;
+        width: 100% !important;
+    }
+    #finances-accounts .card-section .grid > div {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.125rem !important;
+        width: 100% !important;
+    }
+    #finances-accounts .card-section .grid select {
+        width: 100% !important;
+        min-height: 36px !important;
+        padding: 0.3rem 0.5rem !important;
+        font-size: 0.875rem !important;
+    }
+    /* Botón Actualizar: ocupa las 2 columnas */
+    #finances-accounts .card-section .grid button {
+        grid-column: 1 / -1 !important;
+        width: 100% !important;
+        min-height: 36px !important;
+        padding: 0.375rem !important;
+        font-size: 0.875rem !important;
+    }
+
+    /* --- Menú hamburguesa: items compactos --- */
+    #mobileMenu {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+        padding-bottom: 0.5rem !important;
+        gap: 0 !important;
+    }
+    #mobileMenu button,
+    #mobileMenu a {
+        padding: 0.5rem 0.75rem !important;
+        min-height: unset !important;
+        font-size: 0.9375rem !important; /* 15px */
+        line-height: 1.3 !important;
+    }
+    #mobileMenu .border-t {
+        margin-top: 0.375rem !important;
+        margin-bottom: 0.375rem !important;
+    }
+    #mobileMenu .space-y-2 > * + * {
+        margin-top: 0 !important;
+    }
+
+    /* --- Main: reducir top margin --- */
+    main {
+        margin-top: 0.25rem !important;
+    }
+
+    /* --- Tab content: eliminar padding vertical (horizontal ya es 0 por sección 1) --- */
+    .tab-content {
+        padding-top: 0.25rem !important;
+        padding-bottom: 0.25rem !important;
+    }
+
+    /* --- Card sections: 2rem → 0.75rem (MAYOR AHORRO DE ESPACIO) --- */
+    .card-section {
+        padding: 0.75rem !important;
+        margin-bottom: 0.5rem !important;
+        border-radius: 0.75rem !important;
+    }
+
+    /* --- Inner section wrappers: agregar override vertical (left/right ya es 0.5rem) --- */
+    section > div,
+    .tab-content > section > div {
+        padding-top: 0.25rem !important;
+        padding-bottom: 0.25rem !important;
+    }
+
+    /* --- space-y-8: 32px → 10px entre secciones --- */
+    .space-y-8 > :not([hidden]) ~ :not([hidden]) {
+        --tw-space-y-reverse: 0;
+        margin-top: calc(0.625rem * calc(1 - var(--tw-space-y-reverse))) !important;
+        margin-bottom: calc(0.625rem * var(--tw-space-y-reverse)) !important;
+    }
+
+    /* --- space-y-6: 24px → 8px --- */
+    .space-y-6 > :not([hidden]) ~ :not([hidden]) {
+        --tw-space-y-reverse: 0;
+        margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse))) !important;
+        margin-bottom: calc(0.5rem * var(--tw-space-y-reverse)) !important;
+    }
+
+    /* --- space-y-4: 16px → 6px --- */
+    .space-y-4 > :not([hidden]) ~ :not([hidden]) {
+        --tw-space-y-reverse: 0;
+        margin-top: calc(0.375rem * calc(1 - var(--tw-space-y-reverse))) !important;
+        margin-bottom: calc(0.375rem * var(--tw-space-y-reverse)) !important;
+    }
+
+    /* --- Card headings: reducir tamaño y margen inferior --- */
+    .card-section h3 {
+        font-size: 1rem !important; /* 16px — punto medio entre 18px original y 14px */
+        margin-bottom: 0.5rem !important;
+        line-height: 1.3 !important;
+        padding-bottom: 0.375rem !important;
+    }
+    .card-section h2 {
+        font-size: 1rem !important;
+        margin-bottom: 0.375rem !important;
+    }
+
+    /* --- Section header principal (título de cada pestaña) --- */
+    .section-header {
+        margin-bottom: 0.25rem !important;
+        padding-top: 0 !important;
+        padding-bottom: 0.25rem !important;
+    }
+    .section-header h2 {
+        font-size: 1.0625rem !important; /* 17px — reducido de 20px */
+        font-weight: 600 !important;
+        line-height: 1.2 !important;
+        margin-bottom: 0.125rem !important;
+    }
+    .section-header p.subtitle,
+    .section-header .subtitle {
+        font-size: 0.75rem !important; /* 12px */
+        font-weight: 400 !important;
+        margin-bottom: 0 !important;
+        line-height: 1.3 !important;
+    }
+
+    /* --- Labels: más compactos --- */
+    .card-section label,
+    label.block,
+    #calculator label,
+    #history label,
+    #finances label,
+    #settings label {
+        font-size: 0.8125rem !important; /* 13px */
+        margin-bottom: 0.125rem !important;
+        font-weight: 500 !important;
+        line-height: 1.3 !important;
+    }
+
+    /* --- Inputs: reducir altura (mantener 16px para evitar zoom iOS) --- */
+    #calculator input:not([type="checkbox"]):not([type="radio"]):not([type="color"]),
+    #calculator select,
+    #calculator textarea,
+    #history input:not([type="checkbox"]):not([type="radio"]),
+    #history select,
+    #finances input:not([type="checkbox"]):not([type="radio"]):not([type="color"]),
+    #finances select,
+    #settings input:not([type="checkbox"]):not([type="radio"]):not([type="color"]),
+    #settings select,
+    #zones input:not([type="checkbox"]):not([type="radio"]) {
+        min-height: 38px !important;
+        padding: 0.4375rem 0.625rem !important;
+    }
+
+    /* --- Botones: ligeramente más compactos manteniendo usabilidad --- */
+    #calculator button:not(.tab-link):not(#menuToggle),
+    #history button:not(.tab-link):not(#menuToggle),
+    #finances button:not(.tab-link):not(#menuToggle),
+    #settings button:not(.tab-link):not(#menuToggle),
+    #zones button:not(.tab-link):not(#menuToggle) {
+        min-height: 38px !important;
+        padding: 0.4375rem 0.875rem !important;
+    }
+
+    /* --- Grids internos: reducir gaps --- */
+    .grid.gap-8 { gap: 0.5rem !important; }
+    .grid.gap-6 { gap: 0.5rem !important; }
+    .grid.gap-4 { gap: 0.375rem !important; }
+    .grid.gap-3 { gap: 0.25rem !important; }
+
+    /* --- Márgenes: reducir spacing vertical --- */
+    .mt-6 { margin-top: 0.5rem !important; }
+    .mt-4 { margin-top: 0.375rem !important; }
+    .mb-4 { margin-bottom: 0.375rem !important; }
+    .mb-3 { margin-bottom: 0.25rem !important; }
+
+    /* --- Decision panel compacto --- */
+    #decisionPanel {
+        margin-top: 0.5rem !important;
+    }
+    #decisionHeader {
+        padding: 0.625rem !important;
+    }
+    #decisionPanel > div > div:not(#decisionHeader) {
+        padding: 0.625rem !important;
+    }
+    #decisionPanel .grid > div {
+        padding: 0.375rem !important;
+    }
+
+    /* --- Texto subtitle en inputs --- */
+    .text-xs.mt-1 {
+        margin-top: 0.0625rem !important;
+        line-height: 1.2 !important;
+    }
+
+    /* --- Card section center (botones de acción) --- */
+    .card-section.text-center {
+        padding: 0.5rem !important;
+    }
+
+    /* --- Deshabilitar hover transform en mobile (evita saltos) --- */
+    .card-section:hover {
+        transform: none !important;
+    }
+
+    /* --- Lex insight section --- */
+    #lexInsightSection > div {
+        padding: 0.5rem !important;
+    }
+
+    /* --- p-4/p-5 en decision panel content --- */
+    .decision-panel .p-4,
+    .decision-panel .p-5 {
+        padding: 0.625rem !important;
+    }
+
+    /* =====================================================
+       TIPOGRAFÍA COMPACTA — Punto medio: visible pero no enorme
+       ===================================================== */
+
+    /* Headings globales */
+    h1,
+    .text-4xl,
+    .text-3xl {
+        font-size: 1.25rem !important; /* 20px (era 24px) */
+        line-height: 1.2 !important;
+        margin-bottom: 0.375rem !important;
+    }
+
+    h2,
+    .text-2xl {
+        font-size: 1rem !important; /* 16px (era 20px) */
+        line-height: 1.2 !important;
+        margin-bottom: 0.25rem !important;
+    }
+
+    h3,
+    .text-xl {
+        font-size: 0.9375rem !important; /* 15px (era 18px) */
+        line-height: 1.2 !important;
+        margin-bottom: 0.25rem !important;
+    }
+
+    h4,
+    .text-lg {
+        font-size: 0.875rem !important; /* 14px (era 16px) */
+        line-height: 1.2 !important;
+        margin-bottom: 0.125rem !important;
+    }
+
+    /* KPI / números grandes en cards */
+    .kpi-value,
+    .text-3xl.font-bold,
+    .text-2xl.font-bold {
+        font-size: 1.125rem !important; /* 18px (era 24px) */
+        line-height: 1.2 !important;
+    }
+
+    /* Panel de Decisión — precio principal */
+    #quickPrice {
+        font-size: 1.0625rem !important; /* 17px (era 20px) */
+        line-height: 1.2 !important;
+    }
+
+    /* Panel de Decisión — título */
+    #decisionTitle {
+        font-size: 1rem !important; /* 16px (era 20px) */
+        line-height: 1.2 !important;
+    }
+
+    /* Panel de Decisión — métricas (RPM, Profit, Margin, $/mi) */
+    #quickRPM,
+    #quickNetProfit,
+    #quickMargin,
+    #quickProfitPerMile {
+        font-size: 1rem !important; /* 16px (era 18px) */
+        line-height: 1.2 !important;
+    }
+
+    /* Ganancia neta en detalle */
+    #netProfit {
+        font-size: 1.125rem !important; /* 18px (era 24px) */
+        line-height: 1.2 !important;
+    }
+
+    /* Número de millas totales */
+    #tripMiles {
+        font-size: 1.0625rem !important; /* 17px */
+    }
+
+    /* Total expenses */
+    #totalExpenses {
+        font-size: 1rem !important; /* 16px (era 18px) */
+    }
+
+    /* Icono de decisión */
+    #decisionIcon {
+        font-size: 1.75rem !important; /* 28px (era 3rem/48px) */
+    }
+}
+
+/* Extra compact para pantallas muy pequeñas ≤ 375px */
+@media (max-width: 375px) {
+    .card-section {
+        padding: 0.5rem !important;
+        margin-bottom: 0.375rem !important;
+        border-radius: 0.5rem !important;
+    }
+
+    .card-section h3 {
+        font-size: 0.9375rem !important; /* 15px */
+        margin-bottom: 0.25rem !important;
+    }
+
+    h1, .text-4xl, .text-3xl { font-size: 1.125rem !important; }
+    h2, .text-2xl { font-size: 0.9375rem !important; }
+    h3, .text-xl  { font-size: 0.875rem !important; }
+
+    .kpi-value,
+    .text-3xl.font-bold,
+    .text-2xl.font-bold {
+        font-size: 1rem !important;
+    }
+
+    #quickPrice  { font-size: 1rem !important; }
+    #quickRPM, #quickNetProfit, #quickMargin, #quickProfitPerMile {
+        font-size: 0.9375rem !important;
+    }
+    #netProfit   { font-size: 1.0625rem !important; }
+
+    .space-y-8 > :not([hidden]) ~ :not([hidden]) {
+        margin-top: 0.5rem !important;
+    }
+
+    #decisionHeader {
+        padding: 0.5rem !important;
+    }
+}
+
+/* ==========================================================================
+   5. 📋 MOBILE TABLES — Compactas, legibles, sin scroll innecesario
+   ========================================================================== */
+@media (max-width: 768px) {
+
+    /* === HISTORY KPI GRID — 5to card centrado en mobile === */
+    .hist-kpi-grid .col-span-3 {
+        grid-column: span 3 !important;
+        max-width: 50% !important;
+        margin: 0 auto !important;
+        width: 100% !important;
+    }
+
+    /* === HISTORY TABLE (9 cols → 7 visibles) === */
+
+    /* Quitar min-width fijo — permite que la tabla se adapte */
+    #history table {
+        min-width: unset !important;
+        width: 100% !important;
+        table-layout: auto !important;
+    }
+
+    /* Ocultar Load# (col 2) y Company (col 5) */
+    #history thead tr th:nth-child(2),
+    #history tbody tr td:nth-child(2),
+    #history thead tr th:nth-child(5),
+    #history tbody tr td:nth-child(5) {
+        display: none !important;
+    }
+
+    /* Celdas compactas */
+    #history table th,
+    #history table td {
+        padding: 0.3rem 0.375rem !important;
+        font-size: 0.6875rem !important; /* 11px */
+        white-space: normal !important;
+        line-height: 1.2 !important;
+        vertical-align: middle !important;
+    }
+
+    /* Columnas de texto: acortar con ellipsis */
+    #history tbody td:nth-child(3),
+    #history tbody td:nth-child(4) {
+        max-width: 5rem !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+    }
+
+    /* Acciones: solo iconos pequeños */
+    #history tbody td:last-child {
+        white-space: nowrap !important;
+        padding: 0.25rem !important;
+    }
+    #history tbody td:last-child button {
+        font-size: 0.625rem !important;
+        padding: 0.15rem 0.3rem !important;
+        min-height: unset !important;
+        line-height: 1 !important;
+    }
+
+    /* Header sticky más compacto */
+    #history thead th,
+    #history thead tr th,
+    #history table thead tr th {
+        font-size: 0.5625rem !important; /* 9px */
+        font-weight: 700 !important;
+        padding: 0.25rem 0.375rem !important;
+        white-space: nowrap !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.02em !important;
+    }
+
+    /* Filas alternas más visibles */
+    #history tbody tr:nth-child(even) {
+        background-color: rgba(255,255,255,0.04) !important;
+    }
+    #history tbody tr {
+        border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+    }
+
+
+    /* === EXPENSES TABLE (5 cols → 4 visibles) === */
+
+    /* Ocultar Description (col 3) */
+    #finances-summary table thead tr th:nth-child(3),
+    #finances-summary table tbody tr td:nth-child(3) {
+        display: none !important;
+    }
+
+    #finances-summary table {
+        width: 100% !important;
+        table-layout: auto !important;
+        min-width: unset !important;
+    }
+
+    #finances-summary table th,
+    #finances-summary table td {
+        padding: 0.3rem 0.375rem !important;
+        font-size: 0.6875rem !important;
+        white-space: normal !important;
+        line-height: 1.2 !important;
+        vertical-align: middle !important;
+    }
+
+    #finances-summary table thead th,
+    #finances-summary table thead tr th {
+        font-size: 0.5625rem !important; /* 9px */
+        font-weight: 700 !important;
+        padding: 0.25rem 0.375rem !important;
+        white-space: nowrap !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.02em !important;
+    }
+
+    /* Tipo: cortar texto largo */
+    #finances-summary tbody td:nth-child(2) {
+        max-width: 4.5rem !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+    }
+
+    /* Monto en negrita */
+    #finances-summary tbody td:nth-child(4) {
+        font-weight: 700 !important;
+        white-space: nowrap !important;
+    }
+
+    /* Acciones compactas */
+    #finances-summary tbody td:last-child button {
+        font-size: 0.625rem !important;
+        padding: 0.15rem 0.3rem !important;
+        min-height: unset !important;
+        line-height: 1 !important;
+        margin-right: 0.125rem !important;
+    }
+
+    #finances-summary tbody tr:nth-child(even) {
+        background-color: rgba(239,68,68,0.06) !important;
+    }
+    #finances-summary tbody tr {
+        border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+    }
+
+
+    /* === ZONES TABLE === */
+    #zones table {
+        min-width: unset !important;
+        width: 100% !important;
+    }
+    #zones table th,
+    #zones table td {
+        padding: 0.3rem 0.375rem !important;
+        font-size: 0.6875rem !important;
+        line-height: 1.2 !important;
+    }
+    #zones table thead th,
+    #zones table thead tr th {
+        font-size: 0.5625rem !important; /* 9px */
+        font-weight: 700 !important;
+        padding: 0.25rem 0.375rem !important;
+        white-space: nowrap !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.02em !important;
+    }
+}
+
+/* ==========================================================================
+   6. 💎 FINANCE KPI CARDS — Diseño profesional con color-coding
+   ========================================================================== */
+
+.fin-kpi-card {
+    position: relative;
+    border-radius: 0.625rem;
+    padding: 0.625rem 0.5rem 0.5rem;
+    text-align: center;
+    overflow: hidden;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    cursor: default;
+}
+
+.fin-kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 0.625rem 0.625rem 0 0;
+}
+
+.fin-kpi-card:hover {
+    transform: translateY(-2px);
+}
+
+.fin-kpi-icon {
+    display: block;
+    font-size: 0.9375rem;
+    line-height: 1;
+    margin-bottom: 0.125rem;
+}
+
+.fin-kpi-label {
+    font-size: 0.5625rem !important; /* 9px */
+    font-weight: 600 !important;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem !important;
+    line-height: 1.2 !important;
+    opacity: 0.75;
+}
+
+.fin-kpi-value {
+    font-size: 0.9375rem !important; /* 15px */
+    font-weight: 700 !important;
+    line-height: 1.1 !important;
+    margin: 0 !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* --- Color variants --- */
+.fin-kpi-green  { background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.25); }
+.fin-kpi-green::before  { background: #10b981; }
+.fin-kpi-green  .fin-kpi-label { color: #6ee7b7 !important; -webkit-text-fill-color: #6ee7b7 !important; }
+.fin-kpi-green  .fin-kpi-value { color: #34d399 !important; -webkit-text-fill-color: #34d399 !important; }
+
+.fin-kpi-red    { background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.25); }
+.fin-kpi-red::before    { background: #ef4444; }
+.fin-kpi-red    .fin-kpi-label { color: #fca5a5 !important; -webkit-text-fill-color: #fca5a5 !important; }
+.fin-kpi-red    .fin-kpi-value { color: #f87171 !important; -webkit-text-fill-color: #f87171 !important; }
+
+.fin-kpi-blue   { background: rgba(59, 130, 246, 0.12); border: 1px solid rgba(59, 130, 246, 0.25); }
+.fin-kpi-blue::before   { background: #3b82f6; }
+.fin-kpi-blue   .fin-kpi-label { color: #93c5fd !important; -webkit-text-fill-color: #93c5fd !important; }
+.fin-kpi-blue   .fin-kpi-value { color: #60a5fa !important; -webkit-text-fill-color: #60a5fa !important; }
+
+.fin-kpi-purple { background: rgba(139, 92, 246, 0.12); border: 1px solid rgba(139, 92, 246, 0.25); }
+.fin-kpi-purple::before { background: #8b5cf6; }
+.fin-kpi-purple .fin-kpi-label { color: #c4b5fd !important; -webkit-text-fill-color: #c4b5fd !important; }
+.fin-kpi-purple .fin-kpi-value { color: #a78bfa !important; -webkit-text-fill-color: #a78bfa !important; }
+
+.fin-kpi-amber  { background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.25); }
+.fin-kpi-amber::before  { background: #f59e0b; }
+.fin-kpi-amber  .fin-kpi-label { color: #fcd34d !important; -webkit-text-fill-color: #fcd34d !important; }
+.fin-kpi-amber  .fin-kpi-value { color: #fbbf24 !important; -webkit-text-fill-color: #fbbf24 !important; }
+
+.fin-kpi-cyan   { background: rgba(6, 182, 212, 0.12); border: 1px solid rgba(6, 182, 212, 0.25); }
+.fin-kpi-cyan::before   { background: #06b6d4; }
+.fin-kpi-cyan   .fin-kpi-label { color: #67e8f9 !important; -webkit-text-fill-color: #67e8f9 !important; }
+.fin-kpi-cyan   .fin-kpi-value { color: #22d3ee !important; -webkit-text-fill-color: #22d3ee !important; }
+
+.fin-kpi-pink   { background: rgba(148, 163, 184, 0.14); border: 1px solid rgba(148, 163, 184, 0.30); }
+.fin-kpi-pink::before   { background: #94a3b8; }
+.fin-kpi-pink   .fin-kpi-label { color: #94a3b8 !important; -webkit-text-fill-color: #94a3b8 !important; }
+.fin-kpi-pink   .fin-kpi-value { color: #e2e8f0 !important; -webkit-text-fill-color: #e2e8f0 !important; }
+
+.fin-kpi-slate  { background: rgba(148, 163, 184, 0.14); border: 1px solid rgba(148, 163, 184, 0.30); }
+.fin-kpi-slate::before  { background: #94a3b8; }
+.fin-kpi-slate  .fin-kpi-label { color: #94a3b8 !important; -webkit-text-fill-color: #94a3b8 !important; }
+.fin-kpi-slate  .fin-kpi-value { color: #e2e8f0 !important; -webkit-text-fill-color: #e2e8f0 !important; }
+
+/* Light mode overrides */
+[data-theme="light"] .fin-kpi-green  { background: rgba(16, 185, 129, 0.08); }
+[data-theme="light"] .fin-kpi-green  .fin-kpi-label { color: #059669 !important; -webkit-text-fill-color: #059669 !important; }
+[data-theme="light"] .fin-kpi-green  .fin-kpi-value { color: #047857 !important; -webkit-text-fill-color: #047857 !important; }
+
+[data-theme="light"] .fin-kpi-red    { background: rgba(239, 68, 68, 0.08); }
+[data-theme="light"] .fin-kpi-red    .fin-kpi-label { color: #dc2626 !important; -webkit-text-fill-color: #dc2626 !important; }
+[data-theme="light"] .fin-kpi-red    .fin-kpi-value { color: #b91c1c !important; -webkit-text-fill-color: #b91c1c !important; }
+
+[data-theme="light"] .fin-kpi-blue   { background: rgba(59, 130, 246, 0.08); }
+[data-theme="light"] .fin-kpi-blue   .fin-kpi-label { color: #2563eb !important; -webkit-text-fill-color: #2563eb !important; }
+[data-theme="light"] .fin-kpi-blue   .fin-kpi-value { color: #1d4ed8 !important; -webkit-text-fill-color: #1d4ed8 !important; }
+
+[data-theme="light"] .fin-kpi-purple { background: rgba(139, 92, 246, 0.08); }
+[data-theme="light"] .fin-kpi-purple .fin-kpi-label { color: #7c3aed !important; -webkit-text-fill-color: #7c3aed !important; }
+[data-theme="light"] .fin-kpi-purple .fin-kpi-value { color: #6d28d9 !important; -webkit-text-fill-color: #6d28d9 !important; }
+
+[data-theme="light"] .fin-kpi-amber  { background: rgba(245, 158, 11, 0.08); }
+[data-theme="light"] .fin-kpi-amber  .fin-kpi-label { color: #d97706 !important; -webkit-text-fill-color: #d97706 !important; }
+[data-theme="light"] .fin-kpi-amber  .fin-kpi-value { color: #b45309 !important; -webkit-text-fill-color: #b45309 !important; }
+
+[data-theme="light"] .fin-kpi-cyan   { background: rgba(6, 182, 212, 0.08); }
+[data-theme="light"] .fin-kpi-cyan   .fin-kpi-label { color: #0891b2 !important; -webkit-text-fill-color: #0891b2 !important; }
+[data-theme="light"] .fin-kpi-cyan   .fin-kpi-value { color: #0e7490 !important; -webkit-text-fill-color: #0e7490 !important; }
+
+[data-theme="light"] .fin-kpi-pink   { background: rgba(100, 116, 139, 0.07); }
+[data-theme="light"] .fin-kpi-pink   .fin-kpi-label { color: #475569 !important; -webkit-text-fill-color: #475569 !important; }
+[data-theme="light"] .fin-kpi-pink   .fin-kpi-value { color: #334155 !important; -webkit-text-fill-color: #334155 !important; }
+
+[data-theme="light"] .fin-kpi-slate  { background: rgba(100, 116, 139, 0.07); }
+[data-theme="light"] .fin-kpi-slate  .fin-kpi-label { color: #475569 !important; -webkit-text-fill-color: #475569 !important; }
+[data-theme="light"] .fin-kpi-slate  .fin-kpi-value { color: #334155 !important; -webkit-text-fill-color: #334155 !important; }

@@ -9,11 +9,11 @@
 //  TUS COSTOS OPERATIVOS REALES - Actualizado DINÁMICO 2025
 // Ahora obtiene los datos del perfil del usuario si existe, o usa defaults seguros
 const DEFAULT_COSTS = {
-  combustible: 0.182,
-  mantenimiento: 0.020,
-  comida: 0.028,
-  costosFijos: 0.346,
-  TOTAL: 0.576
+  combustible: 0.195,  // $3.70/gal ÷ 19 MPG
+  mantenimiento: 0.051, // mant $0.014 + tires $0.012 + reparaciones $0.025
+  comida: 0,     // eliminado — no aplica como costo operativo
+  costosFijos: 0.288, // $2,307/mes ÷ 8,000 mi (auto + seguro + permisos + otros)
+  TOTAL: 0.534
 };
 
 // Getter dinámico para usar los costos actuales del usuario
@@ -57,9 +57,9 @@ function calculateTotalExpenses(totalMiles, tolls = 0, others = 0) {
     maintenanceCost,
     foodCost,
     fixedCosts,
-    tolls,
+    tolls,   // registrado para referencia, NO sumado al total (ya está en la tarifa cobrada al dispatcher)
     others,
-    total: fuelCost + maintenanceCost + foodCost + fixedCosts + tolls + others
+    total: fuelCost + maintenanceCost + fixedCosts + others  // foodCost=0, tolls son pass-through
   };
 }
 
@@ -114,36 +114,38 @@ function clasificarZonaNueva(state) {
 
 // Umbrales RPM por zona origen + zona destino + distancia
 function getUmbrales(origenZona, destinoZona, millas) {
+  const _isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+  const r = (es, en) => _isEs ? es : en;
   if (origenZona === 'PREMIUM' && destinoZona === 'TRAP') {
-    return { acepta: Infinity, evalua: Infinity, razon: 'Zona TRAP — perderás días reposicionando' };
+    return { acepta: Infinity, evalua: Infinity, razon: r('Zona TRAP — perderás días reposicionando', 'TRAP zone — you will lose days repositioning') };
   }
   if (origenZona === 'PREMIUM') {
     if (destinoZona === 'MEDIO_DIFICIL')
-      return { acepta: 1.26, evalua: null, razon: 'Zona difícil de salir, paga $0.80-0.90 local' };
+      return { acepta: 1.26, evalua: null, razon: r('Zona difícil de salir, paga $0.80-0.90 local', 'Hard zone to exit, local loads pay $0.80-0.90') };
     if (destinoZona === 'TRAP')
-      return { acepta: 1.50, evalua: null, razon: 'Zona TRAP — necesitas premium para compensar regreso' };
-    if (millas < 100) return { acepta: 3.75, evalua: 2.50, pisoAbsoluto: 375, razon: 'Carga muy corta — piso $375' };
-    if (millas < 200) return { acepta: 2.00, evalua: 1.50, pisoAbsoluto: 400, razon: 'Carga corta — piso $400' };
-    if (millas < 400) return { acepta: 1.30, evalua: 1.13, pisoAbsoluto: 450, razon: 'Carga media desde zona Premium' };
-    if (millas < 600) return { acepta: 1.10, evalua: 0.92, pisoAbsoluto: 550, razon: 'Carga larga desde zona Premium' };
-    return { acepta: 1.00, evalua: 0.88, pisoAbsoluto: 700, razon: 'Carga muy larga desde zona Premium' };
+      return { acepta: 1.50, evalua: null, razon: r('Zona TRAP — necesitas premium para compensar regreso', 'TRAP zone — need premium to compensate return trip') };
+    if (millas < 100) return { acepta: 3.75, evalua: 2.50, pisoAbsoluto: 375, razon: r('Carga muy corta — piso $375', 'Very short load — floor $375') };
+    if (millas < 200) return { acepta: 2.00, evalua: 1.50, pisoAbsoluto: 400, razon: r('Carga corta — piso $400', 'Short load — floor $400') };
+    if (millas < 400) return { acepta: 1.30, evalua: 1.13, pisoAbsoluto: 450, razon: r('Carga media desde zona Premium', 'Medium load from Premium zone') };
+    if (millas < 600) return { acepta: 1.10, evalua: 0.92, pisoAbsoluto: 550, razon: r('Carga larga desde zona Premium', 'Long load from Premium zone') };
+    return { acepta: 1.00, evalua: 0.88, pisoAbsoluto: 700, razon: r('Carga muy larga desde zona Premium', 'Very long load from Premium zone') };
   }
   if ((origenZona === 'MEDIO' || origenZona === 'MEDIO_DIFICIL') && destinoZona === 'PREMIUM') {
-    if (millas < 300) return { acepta: 1.43, evalua: 1.09, pisoAbsoluto: 250, razon: 'Corta hacia zona Premium' };
-    return { acepta: 1.07, evalua: 0.90, razon: 'Te reposicionas en zona Premium' };
+    if (millas < 300) return { acepta: 1.43, evalua: 1.09, pisoAbsoluto: 250, razon: r('Corta hacia zona Premium', 'Short load toward Premium zone') };
+    return { acepta: 1.07, evalua: 0.90, razon: r('Te reposicionas en zona Premium', 'Repositions you in Premium zone') };
   }
   if (origenZona === 'MEDIO' || origenZona === 'MEDIO_DIFICIL') {
     if (destinoZona === 'TRAP')
-      return { acepta: 1.25, evalua: 1.00, razon: 'Zona TRAP destino — cobra premium' };
-    if (millas < 300) return { acepta: 1.43, evalua: 1.09, pisoAbsoluto: 250, razon: 'Carga corta desde zona Media' };
-    return { acepta: 1.00, evalua: 0.85, razon: 'Carga desde zona Media' };
+      return { acepta: 1.25, evalua: 1.00, razon: r('Zona TRAP destino — cobra premium', 'TRAP destination — charge premium') };
+    if (millas < 300) return { acepta: 1.43, evalua: 1.09, pisoAbsoluto: 250, razon: r('Carga corta desde zona Media', 'Short load from Medium zone') };
+    return { acepta: 1.00, evalua: 0.85, razon: r('Carga desde zona Media', 'Load from Medium zone') };
   }
   if (origenZona === 'TRAP') {
     if (destinoZona === 'PREMIUM' || destinoZona === 'MEDIO')
-      return { acepta: 0.87, evalua: 0.69, razon: 'Saliendo de TRAP — acepta para reposicionarte' };
-    return { acepta: 0.90, evalua: 0.80, razon: 'Dentro de zona TRAP' };
+      return { acepta: 0.87, evalua: 0.69, razon: r('Saliendo de TRAP — acepta para reposicionarte', 'Exiting TRAP — accept to reposition') };
+    return { acepta: 0.90, evalua: 0.80, razon: r('Dentro de zona TRAP', 'Within TRAP zone') };
   }
-  return { acepta: 1.00, evalua: 0.80, razon: 'Umbral general' };
+  return { acepta: 1.00, evalua: 0.80, razon: r('Umbral general', 'General threshold') };
 }
 
 // ========================================
@@ -541,6 +543,7 @@ async function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
       if (userSnap.exists) {
         const tp = userSnap.data().targetProfit;
         if (tp && tp > 0) targetProfitPct = tp / 100;
+        window._userVehicleType = userSnap.data().vehicleType || userSnap.data().vehicle?.type || 'van';
       }
     }
   } catch (e) { /* usar fallback */ }
@@ -778,19 +781,18 @@ async function calculate() {
     // Cálculo de ingresos (usar valores combinados si hay stops)
     debugLog('[DEBUG] Calculating totals...');
     const baseIncome = combinedRevenue;
-    const totalCharge = baseIncome; // ← solo el rate, tolls son gastos no ingreso
+    const totalCharge = baseIncome; // ← tarifa completa cobrada al dispatcher (YA incluye toll si aplica)
     debugLog('[DEBUG] totalCharge:', totalCharge);
 
-    // Use shared expense calculation function for consistency with Lex (usar millas combinadas)
-    // 🎯 FIX: Use totalMiles for fuel/expenses (includes deadhead), not combinedMiles
-    const expenseBreakdown = calculateTotalExpenses(totalMiles, tolls, others);
+    // Use shared expense calculation function — usar combinedMiles (todas las paradas del viaje)
+    const expenseBreakdown = calculateTotalExpenses(combinedMiles, tolls, others);
     const { fuelCost, maintenanceCost, foodCost, fixedCosts } = expenseBreakdown;
     const totalExpenses = expenseBreakdown.total;
 
     const netProfit = totalCharge - totalExpenses;
     const margin = totalCharge > 0 ? (netProfit / totalCharge) * 100 : 0;
-    const profitPerMile = totalMiles > 0 ? netProfit / totalMiles : 0;
-    const actualRPM = totalMiles > 0 ? totalCharge / totalMiles : 0;
+    const profitPerMile = combinedMiles > 0 ? netProfit / combinedMiles : 0;
+    const actualRPM = combinedMiles > 0 ? totalCharge / combinedMiles : 0;
 
     // Actualizar UI principal
     updateMainResults({
@@ -855,7 +857,7 @@ async function calculate() {
 
     // Lex listo para ayudar
     if (typeof window.setLexState === 'function') {
-      window.setLexState('attention', {
+      window.setLexState('thinking', {
         message: window.i18n?.t('lex.load_calculated_hint') || 'Carga calculada. Si quieres mi recomendacion, haz clic en mi',
         duration: 6000
       });
@@ -1013,6 +1015,14 @@ function updateMainResults(data) {
   updateProfitabilityStatus(data.margin);
 }
 
+// Parámetros de decisión por tipo de vehículo
+const VEHICLE_PROFILES = {
+  'van':      { shortHopMin: 150, shortHopMinTrap: 250, logDayThreshold: 300, speedAvg: 75, minDailyProfit: 100 },
+  'hotshot':  { shortHopMin: 300, shortHopMinTrap: 450, logDayThreshold: 400, speedAvg: 65, minDailyProfit: 150 },
+  'boxtruck': { shortHopMin: 350, shortHopMinTrap: 500, logDayThreshold: 400, speedAvg: 60, minDailyProfit: 200 },
+};
+const _DEFAULT_VEHICLE_PROFILE = VEHICLE_PROFILES['van'];
+
 //  FUNCIÓN: Panel de decisión con header dinámico
 function showDecisionPanel(calculationData = {}) {
   const panel = document.getElementById('decisionPanel');
@@ -1045,18 +1055,40 @@ function showDecisionPanel(calculationData = {}) {
   let profitClass = 'profit-section-warning';
 
   // Thresholds reales del usuario (sincrono desde cache si está disponible)
-  const _cpm = window._userCPM || (window.currentUser?.profileData?.operatingCostPerMile) || 0.55;
+  const _cpm = window._userCPM || window.currentUser?.costs?.TOTAL || DEFAULT_COSTS.TOTAL;
   const _avgRPM = window._userAvgRPM || 0;
   const _targetProfitPct = ((window.currentUser?.profileData?.targetProfit) || 20) / 100;
   const _targetRPM_margen = _cpm / (1 - _targetProfitPct);
   const _acceptThreshold = _avgRPM > 0 ? Math.max(_targetRPM_margen, _avgRPM) : _targetRPM_margen;
-  const _midThreshold = _avgRPM > 0 ? Math.min(_targetRPM_margen, _avgRPM) : _targetRPM_margen;
+  const _midThreshold = _avgRPM > 0
+    ? Math.max(_cpm, Math.min(_targetRPM_margen, _avgRPM))
+    : _targetRPM_margen;
 
-  if (actualRPM < _cpm) {
+  // Vehicle profile — cargo van by default
+  const _vp = VEHICLE_PROFILES[window._userVehicleType] || _DEFAULT_VEHICLE_PROFILE;
+
+  // Daily profit — no +1 logistical day for short trips (done in hours, not days)
+  const _diasInvertidos = totalMiles < _vp.logDayThreshold
+    ? Math.max(1, Math.ceil(totalMiles / 600))
+    : Math.max(1, Math.ceil(totalMiles / 600)) + 1;
+  const _gananciaDia = Math.max(0, netProfit) / _diasInvertidos;
+  const _lowDailyProfit = _gananciaDia < _vp.minDailyProfit;
+
+  // Short-hop filter — trap zones raise the minimum (you're still stuck there after)
+  const _destinoEsTrampa = window.ZONAS_TRAP?.has(destinationState);
+  const _shortHopMinimo = _destinoEsTrampa ? _vp.shortHopMinTrap : _vp.shortHopMin;
+  const _isShortHop = totalMiles > 0 && totalMiles <= 150 && netProfit < _shortHopMinimo;
+
+  if (actualRPM < _cpm || netProfit < 0) {
     decision = 'REJECT';
     decisionClasses = ['decision-header-reject'];
     decisionIcon = '❌';
     profitClass = 'profit-section-negative';
+  } else if (_isShortHop || _lowDailyProfit) {
+    decision = 'EVALUATE';
+    decisionClasses = ['decision-header-warning-low'];
+    decisionIcon = '🟠';
+    profitClass = 'profit-section-warning';
   } else if (actualRPM >= _acceptThreshold) {
     decision = 'ACCEPT';
     decisionClasses = ['decision-header-accept', 'pulse-glow-green'];
@@ -1076,7 +1108,14 @@ function showDecisionPanel(calculationData = {}) {
 
   window._lastDecisionData = {
     decision, actualRPM, totalMiles, originState, destinationState,
-    thresholds: { cpm: _cpm, midThreshold: _midThreshold, acceptThreshold: _acceptThreshold }
+    thresholds: { cpm: _cpm, midThreshold: _midThreshold, acceptThreshold: _acceptThreshold },
+    reasons: {
+      lowDailyProfit: _lowDailyProfit,
+      isShortHop: _isShortHop,
+      gananciaDia: Math.round(_gananciaDia),
+      minDailyProfit: _vp.minDailyProfit,
+      diasInvertidos: _diasInvertidos
+    }
   };
 
   const titleEl = document.getElementById('decisionTitle');
@@ -1136,7 +1175,7 @@ function showDecisionPanel(calculationData = {}) {
       estimatedTime = `${window.routeDuration.hours}h ${window.routeDuration.minutes}m`;
     } else {
       // Fallback to estimation if not available
-      estimatedTime = totalMiles > 0 ? `${Math.floor(totalMiles / 50)}h ${Math.round((totalMiles / 50 % 1) * 60)}m` : '0h';
+      estimatedTime = totalMiles > 0 ? `${Math.floor(totalMiles / _vp.speedAvg)}h ${Math.round((totalMiles / _vp.speedAvg % 1) * 60)}m` : '0h';
     }
     badgesHTML += `<span class="px-2 md:px-3 py-1 rounded-full backdrop-blur whitespace-nowrap">⏱️ ${estimatedTime}</span>`;
 
@@ -1158,7 +1197,8 @@ function showDecisionPanel(calculationData = {}) {
     document.getElementById('fuelCost').textContent = `$${fuelCost.toFixed(2)}`;
   }
   if (document.getElementById('tollsAndOthers')) {
-    document.getElementById('tollsAndOthers').textContent = `$${(tolls + others).toFixed(2)}`;
+    // Tolls ya están cobrados en la tarifa (pass-through) — no son un costo adicional
+    document.getElementById('tollsAndOthers').textContent = `$${others.toFixed(2)}`;
   }
 
   const fixedCostsValue = totalMiles * (TU_COSTO_REAL.mantenimiento + TU_COSTO_REAL.comida + TU_COSTO_REAL.costosFijos);
@@ -1166,7 +1206,7 @@ function showDecisionPanel(calculationData = {}) {
     document.getElementById('fixedCosts').textContent = `$${fixedCostsValue.toFixed(2)}`;
   }
 
-  const totalExp = fuelCost + tolls + others + fixedCostsValue;
+  const totalExp = fuelCost + others + fixedCostsValue; // tolls NO se suman: ya están en la tarifa cobrada al dispatcher
   if (document.getElementById('totalExpenses')) {
     document.getElementById('totalExpenses').textContent = `$${totalExp.toFixed(2)}`;
   }
@@ -1195,7 +1235,8 @@ function showDecisionPanel(calculationData = {}) {
     const _detailsEl = document.getElementById('profitDetails');
     _detailsEl.setAttribute('data-profit-per-mile', profitPerMile.toFixed(2));
     _detailsEl.setAttribute('data-margin', margin.toFixed(1));
-    _detailsEl.textContent = `$${profitPerMile.toFixed(2)}/mi • ${margin.toFixed(1)}% ${_marginWord}`;
+    _detailsEl.setAttribute('data-ganancia-dia', Math.round(_gananciaDia));
+    _detailsEl.textContent = `$${profitPerMile.toFixed(2)}/mi • ${margin.toFixed(1)}% ${_marginWord} • ~$${Math.round(_gananciaDia)}/day`;
   }
 
   // Tiempo y paradas - use real duration from Google Maps if available
@@ -1307,6 +1348,24 @@ function showDecisionPanel(calculationData = {}) {
 
   debugLog(`✅ Panel mostrado: ${decision} - RPM $${actualRPM.toFixed(2)}/mi - Ganancia $${Math.round(netProfit)}`);
 
+  // ========== NOTIFICAR A LEX PROACTIVO ==========
+  // Lex escucha este evento para mostrar burbuja contextual sin que el usuario abra el chat
+  document.dispatchEvent(new CustomEvent('lexDecisionChanged', {
+    detail: {
+      decision,
+      actualRPM,
+      netProfit,
+      totalMiles,
+      origin,
+      destination,
+      originState,
+      destinationState,
+      thresholds: { cpm: _cpm, midThreshold: _midThreshold, acceptThreshold: _acceptThreshold },
+      lowDailyProfit: _lowDailyProfit,
+      isShortHop: _isShortHop
+    }
+  }));
+
   // ========== ANALIZAR CON LEX AUTOMÁTICAMENTE ==========
   if (typeof window.analyzeLexLoad === 'function') {
     setTimeout(() => {
@@ -1325,23 +1384,45 @@ function showDecisionPanel(calculationData = {}) {
 
       let html = '';
 
-      const _margenReal = actualRPM > 0 ? (((actualRPM - _cpm) / actualRPM) * 100).toFixed(1) : '0';
-      const _diffAceptar = ((actualRPM - _acceptThreshold) / _acceptThreshold * 100).toFixed(1);
-      const _diffColor = parseFloat(_diffAceptar) >= 0 ? '#4ade80' : '#f87171';
-
       const _t = (k, p) => window.i18n?.t(k, p) || k;
-      html += `<div class="decision-info-block">
-        <div class="decision-info-label">📊 ${_t('calculator.decision_thresholds_label')}</div>
-        <div class="decision-info-text">
-          🔴 ${_t('calculator.threshold_reject')} &lt; $${_cpm.toFixed(3)} &nbsp;·&nbsp;
-          🟠 ${_t('calculator.threshold_evaluate')} $${_cpm.toFixed(3)}–$${_midThreshold.toFixed(3)} &nbsp;·&nbsp;
-          🟡 ${_t('calculator.threshold_almost')} $${_midThreshold.toFixed(3)}–$${_acceptThreshold.toFixed(3)} &nbsp;·&nbsp;
-          🟢 ${_t('calculator.threshold_accept')} ≥ $${_acceptThreshold.toFixed(3)}
-          <br>${_t('calculator.your_rpm_label')}: <strong>$${actualRPM.toFixed(3)}</strong> &nbsp;·&nbsp;
-          ${_t('calculator.margin_short')}: <strong>${_margenReal}%</strong> &nbsp;·&nbsp;
-          <span style="color:${_diffColor}">${parseFloat(_diffAceptar) >= 0 ? '+' : ''}${_diffAceptar}% ${_t('calculator.vs_target')}</span>
-        </div>
-      </div>`;
+
+      // Low daily profit warning — buen RPM pero ganancia diaria insuficiente
+      if (_lowDailyProfit && !_isShortHop && netProfit >= 0) {
+        html += `<div class="decision-info-block">
+          <div class="decision-info-label">📉 ${_t('calculator.low_daily_profit_label') || 'Low Daily Profit'}</div>
+          <div class="decision-info-text">${_t('calculator.low_daily_profit_detail') || `Only ~$${Math.round(_gananciaDia)}/day for ${_diasInvertidos} day(s) invested. Min recommended: $${_vp.minDailyProfit}/day`}</div>
+        </div>`;
+      }
+
+      // Short-hop warning
+      if (_isShortHop) {
+        html += `<div class="decision-info-block">
+          <div class="decision-info-label">⚠️ ${_t('calculator.short_hop_label') || 'Short Hop'}</div>
+          <div class="decision-info-text">${_t('calculator.short_hop_detail') || `Good RPM but only $${netProfit.toFixed(0)} net for a full day of work. (Min: $${_shortHopMinimo})`}</div>
+        </div>`;
+      }
+
+      // Trap penalty — auto-trigger si el destino es zona trampa
+      if (_destinoEsTrampa && destinationState && typeof window.analizarTrapPenalty === 'function') {
+        const _trap = window.analizarTrapPenalty(originState, destinationState, totalMiles, actualRPM);
+        if (_trap?.esTrampa) {
+          const _escapeMi = _trap.detalles?.regreso?.millas || 0;
+          html += `<div class="decision-info-block">
+            <div class="decision-info-label">🪤 ${_t('calculator.trap_zone_label') || 'Trap Zone'} — ${destinationState}</div>
+            <div class="decision-info-text">${_t('calculator.trap_cycle_rpm') || 'Real cycle RPM'}: <strong>$${_trap.rpmRealCiclo.toFixed(3)}/mi</strong> &nbsp;·&nbsp; ${_t('calculator.trap_cycle_profit') || 'Cycle profit'}: $${Math.round(_trap.gananciaCiclo)} &nbsp;·&nbsp; ~${_escapeMi}mi ${_t('calculator.trap_escape') || 'escape to safe zone'}</div>
+          </div>`;
+        }
+      }
+
+      // Counter-offer — solo cuando el RPM es el factor limitante (no cuando es ganancia diaria baja)
+      const _rpmEsElProblema = actualRPM < _acceptThreshold;
+      if (_rpmEsElProblema && (decision === 'ALMOST ACCEPT' || decision === 'EVALUATE') && !_isShortHop) {
+        const _targetTotal = Math.ceil(_acceptThreshold * totalMiles);
+        html += `<div class="decision-info-block">
+          <div class="decision-info-label">💬 ${_t('calculator.counter_offer_label') || 'Counter-offer'}</div>
+          <div class="decision-info-text">${_t('calculator.counter_offer_ask') || 'Ask for'} <strong>$${_acceptThreshold.toFixed(2)}/mi ($${_targetTotal.toLocaleString()} ${_t('calculator.total_label') || 'total'})</strong> ${_t('calculator.counter_offer_reason') || 'to hit your threshold'}</div>
+        </div>`;
+      }
 
       // 2) Nota del destino
       const destKey = destination.toLowerCase().replace(/,.*$/, '').trim();
@@ -1385,7 +1466,7 @@ function showDecisionPanel(calculationData = {}) {
           const maxRPM = Math.max(...rpms);
           const minRPM = Math.min(...rpms);
           html += `<div class="decision-info-block decision-info-hist">
-            <div class="decision-info-label">📈 ${_t('calculator.hist_label')} ${originState} → ${destinationState} (${cargas.length} ${_t('calculator.hist_loads')})</div>
+            <div class="decision-info-label">📈 ${_t('calculator.hist_label')} ${originState} → ${destinationState} (${cargas.length} ${cargas.length === 1 ? _t('calculator.hist_load_singular') : _t('calculator.hist_loads')})</div>
             <div class="decision-info-text">
               ${_t('calculator.hist_avg')}: <strong>$${avgRPM.toFixed(2)}/mi</strong> · ${_t('calculator.hist_best')}: <strong>$${maxRPM.toFixed(2)}</strong> · ${_t('calculator.hist_min')}: $${minRPM.toFixed(2)}
               ${actualRPM < avgRPM
@@ -1458,7 +1539,7 @@ document.addEventListener('languageChanged', () => {
   const detailsEl = document.getElementById('profitDetails');
   if (detailsEl && detailsEl.dataset.profitPerMile) {
     const marginWord = window.i18n?.t('calculator.margin_short') || 'margin';
-    detailsEl.textContent = `$${detailsEl.dataset.profitPerMile}/mi • ${detailsEl.dataset.margin}% ${marginWord}`;
+    detailsEl.textContent = `$${detailsEl.dataset.profitPerMile}/mi • ${detailsEl.dataset.margin}% ${marginWord} • ~$${detailsEl.dataset.gananciaDia}/day`;
   }
   // fuelStopsShort
   const stopsEl = document.getElementById('fuelStopsShort');
@@ -1791,7 +1872,8 @@ async function saveLoad(existingLoadId = null) {
       TU_COSTO_REAL.comida +
       TU_COSTO_REAL.costosFijos
     );
-    const totalExpenses = fuelCost + operatingCost + Number(tolls) + Number(others);
+    // Tolls son pass-through (ya están en la tarifa cobrada) — NO se suman como costo
+    const totalExpenses = fuelCost + operatingCost + Number(others);
     const netProfit = totalCharge - totalExpenses;
     const profitMargin = totalCharge > 0 ? (netProfit / totalCharge) * 100 : 0;
 

@@ -1,4 +1,4 @@
-﻿{
+{
   "_meta": {
     "lang": "es",
     "version": "1.0.0",
@@ -25,6 +25,7 @@
     "title": "Calculadora de Cargas",
     "subtitle": "Cálculos inteligentes con decisión automática",
     "section_route": "📍 Información de Ruta",
+    "section_miles": "📏 Información de Millas",
     "origin_placeholder": "Origen (ej. Miami, FL)",
     "destination_placeholder": "Destino (ej. Chicago, IL)",
     "add_stop": "+ Agregar Parada",
@@ -57,6 +58,16 @@
     "stops_label": "Paradas de Gasolina",
     "real_rpm_label": "RPM Real:",
     "counter_offer_label": "Contraoferta",
+    "counter_offer_ask": "Pide",
+    "counter_offer_reason": "para llegar a tu umbral",
+    "total_label": "total",
+    "low_daily_profit_label": "Ganancia Diaria Baja",
+    "low_daily_profit_detail": "El RPM se ve bien pero la ganancia diaria es muy baja para el tiempo invertido",
+    "short_hop_label": "Viaje Corto",
+    "trap_zone_label": "Zona Trampa",
+    "trap_cycle_rpm": "RPM real del ciclo",
+    "trap_cycle_profit": "Ganancia del ciclo",
+    "trap_escape": "escape a zona segura",
     "load_calculated_success": "Carga calculada exitosamente",
     "load_saved_success": "✅ Carga guardada exitosamente",
     "load_saved_error": "❌ Error guardando la carga. Intenta de nuevo.",
@@ -95,6 +106,7 @@
     "notes_for": "Notas para",
     "hist_label": "Historial",
     "hist_loads": "cargas",
+    "hist_load_singular": "carga",
     "hist_avg": "Prom",
     "hist_best": "Mejor",
     "hist_min": "Mín",
@@ -352,6 +364,9 @@
     "overdue_since_label": "Vencida Desde",
     "overdue_days_label": "días",
     "category_name_required": "El nombre de la categoría es requerido",
+    "category_deleted": "Categoría eliminada exitosamente",
+    "error_create_category": "Error al crear la categoría",
+    "error_delete_category": "Error al eliminar la categoría",
     "all_periods": "Todos",
     "paid_loads_title": "Cargas Pagadas",
     "no_paid_loads": "No hay cargas pagadas",
@@ -438,6 +453,10 @@
     "report_top5_profitable": "Top 5 Rutas Más Rentables (por RPM)",
     "report_top5_least_profitable": "Top 5 Rutas Menos Rentables (por RPM)",
     "report_col_route": "Ruta",
+    "report_top_routes": "TOP 5 RUTAS MÁS RENTABLES (por RPM)",
+    "report_bottom_routes": "TOP 5 RUTAS MENOS RENTABLES (por RPM)",
+    "report_recommendation": "Recomendación",
+    "report_zone_tip": "Considera evitar estas rutas o negociar mejores tarifas para mejorar la rentabilidad.",
     "expense_tires": "Llantas",
     "expense_repairs": "Reparaciones",
     "custom_categories_label": "Categorías Personalizadas",
@@ -446,12 +465,12 @@
     "modal_category_name_ph": "Ej: Préstamos, Marketing, etc.",
     "modal_icon_label": "Ícono",
     "modal_color_label": "Color (opcional)",
-    "modal_create_category_btn": "💾 Crear Categoría",
+    "modal_create_category_btn": "Guardar",
     "modal_category_type_label": "¿Tipo de gasto?",
     "modal_type_operational": "Operacional (afecta CPM)",
     "modal_type_general": "General (no afecta CPM)",
     "manage_categories_title": "⚙️ Gestión de Categorías de Gastos",
-    "create_new_category_title": "✚ Crear Nueva Categoría",
+    "create_new_category_title": "➕ Crear Nueva Categoría",
     "btn_close_categories": "Cerrar"
   },
   "zones": {
@@ -514,16 +533,18 @@
     "map_click_loads": "Click para ver todas las cargas",
     "infowindow_avg_rpm": "RPM Promedio:",
     "infowindow_total_loads": "Total Cargas:",
-    "infowindow_total_profit": "Ganancia Total:"
+    "infowindow_total_profit": "Ganancia Total:",
+    "map_load_error_title": "Error cargando mapa SVG",
+    "map_load_error_body": "El mapa de zonas no pudo cargar correctamente"
   },
   "settings": {
     "title": "⚙️ Configuración",
     "subtitle": "Configura tus costos y preferencias",
     "section_costs": "💰 Costos Operativos",
     "label_fuel_cost": "Costo de Gasolina por Milla ($)",
-    "label_maintenance": "Mantenimiento por Milla ($)",
-    "label_insurance": "Seguro por Milla ($)",
-    "label_other_costs": "Otros Costos por Milla ($)",
+    "label_maintenance": "Mantenimiento — Mensual ($)",
+    "label_insurance": "Seguro — Mensual ($)",
+    "label_other_costs": "Otros Costos — Mensual ($)",
     "label_total_cpm": "CPM Total (Costo por Milla)",
     "section_preferences": "🎯 Preferencias",
     "label_min_rpm": "RPM Mínimo ($)",
@@ -644,9 +665,7 @@
   "ui": {
     "copied": "Copiado al portapapeles",
     "copy_error": "Error al copiar",
-    "btn_copied": "✓ Copiado",
-    "processing": "Procesando...",
-    "save": "Guardar"
+    "btn_copied": "✓ Copiado"
   },
   "pwa": {
     "new_version": "🎉 Nueva versión disponible. Recarga para actualizar."
@@ -849,6 +868,7 @@
     "reason_solid_load": "Carga sólida: La tarifa cumple tu estándar habitual (${{avg}}/mi). Es una ruta segura para mantener tu margen de ganancia.",
     "load_calculated_hint": "Carga calculada. Si quieres mi recomendación, haz clic en mi",
     "reason_caution": "Precaución: La tarifa está {{pct}}% por debajo de tu promedio. Intenta negociar al menos ${{avg}}/mi para que valga la pena.",
+    "reason_low_daily_profit": "Buen RPM pero solo ~${{daily}}/día por {{days}} día(s) invertido(s). No es suficiente para justificar el tiempo. Mínimo recomendado: ${{min}}/día.",
     "reason_good_zone": "Buena zona: Históricamente te ha ido muy bien en {{state}}, y esta oferta supera el promedio de tus {{count}} cargas previas allí.",
     "reason_zone_warning": "Alerta de zona: Ten en cuenta que la tarifa ofrecida está por debajo de lo que sueles obtener yendo a {{state}} (${{avg}}/mi).",
     "reason_stable_zone": "Zona estable: La tarifa se alinea con la rentabilidad que has mostrado en tus últimas {{count}} cargas a {{state}}.",

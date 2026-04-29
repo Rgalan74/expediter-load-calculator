@@ -194,14 +194,19 @@
   ];
 
   // I. Validacion de decision
+  // NOTA: Solo frases multi-palabra — palabras cortas como 'si','no','ok','bien'
+  // son falsos positivos en casi cualquier mensaje casual.
   const VALIDATION_KEYWORDS = [
-    'bueno', 'malo', 'bien', 'mal', 'si', 'no', 'ok', 'vale',
-    'sirve', 'conviene', 'verdad', 'cierto', 'correcto'
+    'sirve', 'conviene', 'verdad', 'cierto', 'correcto',
+    // english
+    'is it good', 'is it bad', 'is it worth'
   ];
 
   const VALIDATION_EXPRESSIONS = [
     'esta bueno', 'es malo', 'si o no', 'lo tomo', 'lo acepto',
-    'vale la pena', 'conviene', 'sirve', 'esta bien verdad'
+    'vale la pena', 'esta bien verdad',
+    // english
+    'take it or not', 'good or bad', 'should i or not'
   ];
 
   // J. Duda / incertidumbre
@@ -412,14 +417,15 @@
 
     // Collect all intent scores
     const intentScores = [
-      { intent: 'PRICING', score: priceScore + (contextBonus.analyzedLoad || 0) + (contextBonus.statePricing || 0) },
+      { intent: 'PRICING',        score: priceScore + (contextBonus.analyzedLoad || 0) + (contextBonus.statePricing || 0) },
       { intent: 'COMPARE_HISTORY', score: compareScore + historyScore + (contextBonus.historyComparison || 0) },
-      { intent: 'STATE_SUMMARY', score: stateZoneScore },
-      { intent: 'NEGOTIATION', score: negotiationScore },
-      { intent: 'DECISION_HELP', score: urgencyScore + validationScore + doubtScore },
+      { intent: 'STATE_SUMMARY',  score: stateZoneScore },
+      { intent: 'STATE_MARKET',   score: moveStuckScore },   // MOVE_STUCK → STATE_MARKET
+      { intent: 'NEGOTIATION',    score: negotiationScore },
+      { intent: 'DECISION_HELP',  score: urgencyScore + validationScore + doubtScore },
       { intent: 'DEADHEAD_CONTEXT', score: deadheadScore },
-      { intent: 'APP_INFO', score: appInfoScore + instructionalBonus }, // Prioritize instructional questions
-      { intent: 'FINANCES', score: financeScore * 2 } // High priority if matched
+      { intent: 'APP_INFO',       score: appInfoScore + instructionalBonus },
+      { intent: 'FINANCES',       score: financeScore * 2 }
     ];
 
     // Filter intents above threshold and sort by score
@@ -550,8 +556,9 @@
       };
     }
 
-    // 7️⃣ Urgencia / decisión
-    if (urgencyScore > 0 || validationScore > 0 || doubtScore > 0) {
+    // 7️⃣ Urgencia / decisión — mínimo 2 matches para evitar falsos positivos
+    if (urgencyScore >= 2 || validationScore >= 2 || doubtScore >= 2 ||
+        (urgencyScore + validationScore + doubtScore) >= 3) {
       return {
         intent: 'DECISION_HELP',
         confidence: 0.6,

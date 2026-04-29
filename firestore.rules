@@ -257,6 +257,14 @@ service cloud.firestore {
     }
 
     // ========================================
+    // LEADS (captura landing page — sin auth)
+    // ========================================
+    match /leads/{leadId} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+
+    // ========================================
     // DENY ALL ELSE
     // ========================================
     match /{document=**} {

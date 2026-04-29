@@ -108,12 +108,60 @@ window.deleteExpense = async function (id) {
 // ========================================
 
 // Store originals
+const _originalGenerateCompanyReport = window.generateCompanyReport;
+const _originalGenerateExpenseBreakdownReport = window.generateExpenseBreakdownReport;
+const _originalGenerateProfitabilityReport = window.generateProfitabilityReport;
 const _originalGeneratePLReport = window.generatePLReport;
 const _originalExportReportToPDF = window.exportReportToPDF;
 const _originalOpenReportModal = window.openReportModal;
 const _originalCloseReportModal = window.closeReportModal;
 
 // Override with lazy loading
+window.generateCompanyReport = async function () {
+    if (typeof window.loadReportsModule === 'function') {
+        try {
+            await window.loadReportsModule();
+            if (window.FinancesReports && window.FinancesReports.generateCompanyReport) {
+                window.FinancesReports.generateCompanyReport();
+                return;
+            }
+        } catch (error) {
+            debugLog('Error loading reports module, using fallback:', error);
+        }
+    }
+    if (_originalGenerateCompanyReport) _originalGenerateCompanyReport();
+};
+
+window.generateExpenseBreakdownReport = async function () {
+    if (typeof window.loadReportsModule === 'function') {
+        try {
+            await window.loadReportsModule();
+            if (window.FinancesReports && window.FinancesReports.generateExpenseBreakdownReport) {
+                window.FinancesReports.generateExpenseBreakdownReport();
+                return;
+            }
+        } catch (error) {
+            debugLog('Error loading reports module, using fallback:', error);
+        }
+    }
+    if (_originalGenerateExpenseBreakdownReport) _originalGenerateExpenseBreakdownReport();
+};
+
+window.generateProfitabilityReport = async function () {
+    if (typeof window.loadReportsModule === 'function') {
+        try {
+            await window.loadReportsModule();
+            if (window.FinancesReports && window.FinancesReports.generateProfitabilityReport) {
+                window.FinancesReports.generateProfitabilityReport();
+                return;
+            }
+        } catch (error) {
+            debugLog('Error loading reports module, using fallback:', error);
+        }
+    }
+    if (_originalGenerateProfitabilityReport) _originalGenerateProfitabilityReport();
+};
+
 window.generatePLReport = async function () {
     if (typeof window.loadReportsModule === 'function') {
         try {

@@ -207,6 +207,17 @@ async function setupAuthListener() {
         };
       }
 
+      // ✅ Cargar configuración de Lex AI desde Firestore (key nunca en código fuente)
+      try {
+        const lexConfigSnap = await db.collection('appConfig').doc('openrouter').get();
+        if (lexConfigSnap.exists) {
+          window._lexConfig = lexConfigSnap.data();
+          debugLog('✅ [CONFIG] Lex AI config cargado desde Firestore');
+        }
+      } catch (e) {
+        debugLog('⚠️ [CONFIG] No se pudo cargar config de Lex AI:', e.message);
+      }
+
       showAppContent();
 
       // Detectar upgrade pendiente
@@ -231,50 +242,21 @@ async function setupAuthListener() {
         }, 10000);
       }
 
-      // ✅ INICIALIZAR CPM ENGINE después de cargar la app
-      setTimeout(async () => {
-        try {
-          if (window.CPMEngine) {
-            const result = await window.CPMEngine.getCPM();
-
-            // Si hay datos reales, actualizar costs con CPM del engine
-            if (result.source === 'real' && window.currentUser) {
-              const currentCosts = window.currentUser.costs || {};
-
-              // Distribuir el CPM real proporcionalmente
-              // mantenemos combustible de config, ajustamos el resto
-              const fuelCPM = currentCosts.combustible || 0.153;
-              const remainder = Math.max(0, result.cpm - fuelCPM); // Safety: nunca negativo
-
-              window.currentUser.costs = {
-                ...currentCosts,
-                costosFijos: parseFloat((remainder * 0.65).toFixed(4)),
-                mantenimiento: parseFloat((remainder * 0.35).toFixed(4)),
-                comida: 0,
-                TOTAL: result.cpm,
-                totalCPM: result.cpm,
-                source: 'real',
-                cpmLabel: result.label
-              };
-
-              debugLog('✅ CPM Engine aplicado al calculador:', result.cpm);
-            }
-          }
-        } catch (e) {
-          debugLog('⚠️ CPM Engine init error:', e);
-        }
-      }, 2000); // 2 seg para que carguen todos los módulos
-
-      // Poblar cache global para decisiones user-agnostic
+      // ℹ️ CPM ENGINE — solo para cache informativo y Lex AI
+      // NO sobreescribe los costos de Configuración (esos mandan para el calculador)
+      // Finanzas es para control de gastos y reportes, no para el CPM del calculador
       setTimeout(async () => {
         try {
           const uid = window.currentUser?.uid;
           if (!uid) return;
 
-          // CPM real desde CPMEngine
+          // CPM real desde CPMEngine — solo para referencia en Lex AI y reportes
           if (window.CPMEngine) {
             const cpmResult = await window.CPMEngine.getCPM();
-            if (cpmResult?.cpm) window._userCPM = cpmResult.cpm;
+            if (cpmResult?.cpm) {
+              window._userCPM = cpmResult.cpm; // informativo
+              debugLog('[CONFIG] CPM Engine (solo info):', cpmResult.cpm, '| Config CPM:', window.currentUser?.costs?.totalCPM || 'no configurado');
+            }
           }
 
           // avgRPM y stateStats desde lexProfiles
@@ -294,7 +276,7 @@ async function setupAuthListener() {
         } catch (e) {
           debugLog('⚠️ Error poblando cache user-agnostic:', e);
         }
-      }, 3000); // 3 seg — después del CPMEngine
+      }, 2000); // 2 seg para que carguen todos los módulos
 
       // Cargar datos después de mostrar app
       setTimeout(() => {

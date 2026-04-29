@@ -25,6 +25,7 @@
     "title": "Load Calculator",
     "subtitle": "Smart calculations with automatic decision",
     "section_route": "📍 Route Information",
+    "section_miles": "📏 Miles Information",
     "origin_placeholder": "Origin (e.g. Miami, FL)",
     "destination_placeholder": "Destination (e.g. Chicago, IL)",
     "add_stop": "+ Add Stop",
@@ -57,6 +58,16 @@
     "stops_label": "Fuel Stops",
     "real_rpm_label": "Real RPM:",
     "counter_offer_label": "Counter Offer",
+    "counter_offer_ask": "Ask for",
+    "counter_offer_reason": "to hit your threshold",
+    "total_label": "total",
+    "low_daily_profit_label": "Low Daily Profit",
+    "low_daily_profit_detail": "RPM looks ok but daily earnings are too low for the time invested",
+    "short_hop_label": "Short Hop",
+    "trap_zone_label": "Trap Zone",
+    "trap_cycle_rpm": "Real cycle RPM",
+    "trap_cycle_profit": "Cycle profit",
+    "trap_escape": "escape to safe zone",
     "load_calculated_success": "Load calculated successfully",
     "load_saved_success": "✅ Load saved successfully",
     "load_saved_error": "❌ Error saving load. Try again.",
@@ -95,6 +106,7 @@
     "notes_for": "Notes for",
     "hist_label": "History",
     "hist_loads": "loads",
+    "hist_load_singular": "load",
     "hist_avg": "Avg",
     "hist_best": "Best",
     "hist_min": "Min",
@@ -352,6 +364,9 @@
     "overdue_since_label": "Overdue Since",
     "overdue_days_label": "days",
     "category_name_required": "Category name is required",
+    "category_deleted": "Category deleted successfully",
+    "error_create_category": "Error creating category",
+    "error_delete_category": "Error deleting category",
     "all_periods": "All",
     "paid_loads_title": "Paid Loads",
     "no_paid_loads": "No paid loads",
@@ -438,6 +453,10 @@
     "report_top5_profitable": "Top 5 Most Profitable Routes (by RPM)",
     "report_top5_least_profitable": "Top 5 Least Profitable Routes (by RPM)",
     "report_col_route": "Route",
+    "report_top_routes": "TOP 5 MOST PROFITABLE ROUTES (by RPM)",
+    "report_bottom_routes": "TOP 5 LEAST PROFITABLE ROUTES (by RPM)",
+    "report_recommendation": "Recommendation",
+    "report_zone_tip": "Consider avoiding these routes or negotiating better rates to improve profitability.",
     "expense_tires": "Tires",
     "expense_repairs": "Repairs",
     "custom_categories_label": "Custom Categories",
@@ -446,12 +465,12 @@
     "modal_category_name_ph": "e.g. Loans, Marketing...",
     "modal_icon_label": "Icon",
     "modal_color_label": "Color (optional)",
-    "modal_create_category_btn": "💾 Create Category",
+    "modal_create_category_btn": "Save",
     "modal_category_type_label": "Expense Type?",
     "modal_type_operational": "Operational (affects CPM)",
     "modal_type_general": "General (doesn't affect CPM)",
     "manage_categories_title": "⚙️ Manage Expense Categories",
-    "create_new_category_title": "✚ Create New Category",
+    "create_new_category_title": "➕ Create New Category",
     "btn_close_categories": "Close"
   },
   "zones": {
@@ -514,16 +533,18 @@
     "map_click_loads": "Click to see all loads",
     "infowindow_avg_rpm": "Avg RPM:",
     "infowindow_total_loads": "Total Loads:",
-    "infowindow_total_profit": "Total Profit:"
+    "infowindow_total_profit": "Total Profit:",
+    "map_load_error_title": "Error loading SVG map",
+    "map_load_error_body": "The zones map could not load correctly"
   },
   "settings": {
     "title": "⚙️ Settings",
     "subtitle": "Configure your costs and preferences",
     "section_costs": "💰 Operating Costs",
     "label_fuel_cost": "Fuel Cost per Mile ($)",
-    "label_maintenance": "Maintenance per Mile ($)",
-    "label_insurance": "Insurance per Mile ($)",
-    "label_other_costs": "Other Costs per Mile ($)",
+    "label_maintenance": "Maintenance — Monthly ($)",
+    "label_insurance": "Insurance — Monthly ($)",
+    "label_other_costs": "Other Costs — Monthly ($)",
     "label_total_cpm": "Total CPM (Cost per Mile)",
     "section_preferences": "🎯 Preferences",
     "label_min_rpm": "Minimum RPM ($)",
@@ -670,7 +691,8 @@
     "err_enter_email": "⚠️ Enter your email first",
     "msg_reset_sending": "Sending recovery link...",
     "msg_reset_ok": "✅ Recovery link sent to {{email}}. Check your inbox.",
-    "lang_preference": "Preferred Language"
+    "lang_preference": "Preferred Language",
+    "slow_connection": "Slow connection detected, please wait..."
   },
   "plans": {
     "title": "Choose Your Plan",
@@ -819,6 +841,7 @@
     "reason_excellent_opp": "Excellent opportunity: This load performs {{pct}}% better than your consolidated historical average of ${{avg}}/mi.",
     "reason_solid_load": "Solid load: The rate meets your usual standard (${{avg}}/mi). This is a safe route to maintain your profit margin.",
     "reason_caution": "Caution: The rate is {{pct}}% below your average. Try to negotiate at least ${{avg}}/mi to make the route worth it.",
+    "reason_low_daily_profit": "Good RPM but only ~${{daily}}/day for {{days}} day(s) invested. Not enough to justify the time. Minimum recommended: ${{min}}/day.",
     "reason_good_zone": "Good zone: Historically you've done very well in {{state}}, and this offer beats the average of your {{count}} previous loads there.",
     "reason_zone_warning": "Zone warning: Keep in mind the rate offered is below what you usually get going to {{state}} (${{avg}}/mi).",
     "reason_stable_zone": "Stable zone: The rate aligns with the profitability you've shown on your last {{count}} loads to {{state}}.",
@@ -891,7 +914,15 @@
     "error_portal": "Error opening billing portal",
     "error_checkout": "Error starting checkout",
     "error_cancel": "Error canceling subscription: ",
-    "plan_changed": "Plan changed successfully 🎉"
+    "plan_changed": "Plan changed successfully 🎉",
+    "subscribed_ok": "Subscription activated successfully! 🎉",
+    "portal_opening": "Opening billing portal...",
+    "redirecting": "Redirecting to Stripe...",
+    "canceled_ok": "Subscription scheduled to cancel at end of period",
+    "error_upgrade": "Error starting upgrade",
+    "checkout_starting": "Starting payment session...",
+    "syncing_plan": "Syncing your plan... ⏳",
+    "upgrade_prompt": "🔒 This feature requires a higher plan. Go to Plans for more info."
   },
   "toast": {
     "loading": "Loading...",
@@ -958,7 +989,8 @@
     "month_sep": "September",
     "month_oct": "October",
     "month_nov": "November",
-    "month_dec": "December"
+    "month_dec": "December",
+    "retry": "Retry"
   },
   "edit_modal": {
     "title": "✏️ Edit Load",
@@ -1656,5 +1688,42 @@
     "read_min": "min read",
     "module_label": "Module",
     "lesson_label": "Lesson"
+  },
+  "notes": {
+    "saved": "✅ Note saved",
+    "updated": "✅ Note updated",
+    "deleted": "✅ Note deleted",
+    "error_save": "Error saving note",
+    "error_edit": "Error editing note",
+    "error_delete": "Error deleting note",
+    "write_note": "Note cannot be empty",
+    "must_login": "You must be logged in",
+    "confirm_delete": "Are you sure you want to delete this note?",
+    "edit_prompt": "Edit note:",
+    "no_destination": "Enter a destination first",
+    "header_prefix": "Notes:",
+    "no_notes": "No notes for this destination.",
+    "has_notes": "📝 You have {{count}} saved note(s) for this destination",
+    "no_notes_yet": "ℹ️ No notes for this destination yet.",
+    "btn_edit": "✏️ Edit",
+    "btn_delete": "🗑️ Delete"
+  },
+  "ui": {
+    "copied": "Copied to clipboard",
+    "copy_error": "Error copying",
+    "btn_copied": "✓ Copied"
+  },
+  "pwa": {
+    "new_version": "🎉 New version available. Reload to update."
+  },
+  "sync": {
+    "online_title": "Connection restored",
+    "online_body": "Syncing your data...",
+    "offline_title": "Offline mode",
+    "offline_body": "Your data will be saved locally",
+    "complete_title": "Sync complete",
+    "complete_body": "All your data is up to date",
+    "failed_title": "Sync error",
+    "failed_body": "Will retry later"
   }
 }

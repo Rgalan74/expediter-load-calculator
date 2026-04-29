@@ -179,6 +179,22 @@ class LanguageManager {
             const translation = this.translate(key);
             el.innerHTML = translation;
         });
+
+        // data-i18n-title: traduce el atributo title
+        rootNode.querySelectorAll('[data-i18n-title]').forEach(el => {
+            const val = this.translate(el.getAttribute('data-i18n-title'));
+            if (val) el.title = val;
+        });
+
+        // data-i18n-aria-label: traduce el atributo aria-label
+        rootNode.querySelectorAll('[data-i18n-aria-label]').forEach(el => {
+            const val = this.translate(el.getAttribute('data-i18n-aria-label'));
+            if (val) el.setAttribute('aria-label', val);
+        });
+
+        // Actualizar lang del <html>
+        const htmlRoot = document.getElementById('htmlRoot');
+        if (htmlRoot) htmlRoot.setAttribute('lang', this.currentLang);
     }
 
     /**

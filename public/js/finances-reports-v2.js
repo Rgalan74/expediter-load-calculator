@@ -981,129 +981,134 @@ function _renderProfitabilityReport(reportContent) {
 
   container.className = 'report-container';
   container.innerHTML = `
-    <!-- Header profesional -->
-    <div class="text-center mb-8 border-b pb-6">
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">🗺️ Rentabilidad por Zona</h1>
-      <h2 class="text-xl text-blue-600 font-semibold mb-2">Expediter Load Calculator</h2>
-      <p class="text-gray-600">Período: <span class="font-semibold">${periodLabel}</span></p>
-      <p class="text-sm text-gray-500">Generado el ${currentDate}</p>
-    </div>
+    <div id="print-area-profitability">
+      <style>
+        #print-area-profitability, #print-area-profitability * {
+          color: #000000 !important;
+          background-color: transparent !important;
+          font-family: 'Times New Roman', Times, serif !important;
+          box-sizing: border-box !important;
+          text-shadow: none !important;
+          box-shadow: none !important;
+        }
+        #print-area-profitability table {
+          width: 100% !important;
+          border-collapse: collapse !important;
+          border: 1px solid #000 !important;
+          margin-bottom: 20px !important;
+          table-layout: fixed !important;
+        }
+        #print-area-profitability th, #print-area-profitability td {
+          border: 1px solid #000 !important;
+          padding: 8px !important;
+          color: #000000 !important;
+          background-color: #ffffff !important;
+          word-wrap: break-word !important;
+        }
+        #print-area-profitability tr:hover, #print-area-profitability td:hover {
+          background-color: #ffffff !important;
+          color: #000000 !important;
+        }
+      </style>
 
-    <!-- Resumen ejecutivo -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-      <div class="bg-white dark:bg-gray-800 border-l-4 border-gray-400 p-4 rounded-r-lg shadow-sm">
-        <h3 class="text-lg font-semibold text-gray-500 dark:text-gray-400 mb-2">🛣️ Rutas Totales</h3>
-        <p class="text-3xl font-bold text-gray-900 dark:text-white">${sortedRoutes.length}</p>
-        <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">Diferentes rutas</p>
+      <!-- Header -->
+      <div style="text-align: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #000;">
+        <h1 style="font-size: 24px; font-weight: bold; color: #000; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;">${window.i18n?.t('finances.report_zone_title') || 'ZONE PROFITABILITY'}</h1>
+        <p style="font-size: 14px; color: #000; margin: 5px 0;">Expediter Load Calculator</p>
+        <p style="font-size: 12px; color: #000; margin: 5px 0;">${window.i18n?.t('finances.report_period') || 'Period:'} ${periodLabel}</p>
+        <p style="font-size: 10px; color: #000; margin: 5px 0;">${window.i18n?.t('finances.report_generated_on') || 'Generated on'} ${currentDate}</p>
       </div>
-      
-      <div class="bg-white dark:bg-gray-800 border-l-4 border-gray-400 p-4 rounded-r-lg shadow-sm">
-        <h3 class="text-lg font-semibold text-gray-500 dark:text-gray-400 mb-2">💵 RPM Promedio</h3>
-        <p class="text-3xl font-bold text-gray-900 dark:text-white">${formatCurrency(avgRPM)}</p>
-        <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">General</p>
-      </div>
-      
-      <div class="bg-white dark:bg-gray-800 border-l-4 border-gray-400 p-4 rounded-r-lg shadow-sm">
-        <h3 class="text-lg font-semibold text-gray-500 dark:text-gray-400 mb-2">📏 Millas Totales</h3>
-        <p class="text-3xl font-bold text-gray-900 dark:text-white">${totalMiles.toLocaleString()}</p>
-        <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">${totalLoads} cargas</p>
-      </div>
-      
-      <div class="bg-white dark:bg-gray-800 border-l-4 border-gray-400 p-4 rounded-r-lg shadow-sm">
-        <h3 class="text-lg font-semibold text-gray-500 dark:text-gray-400 mb-2">💰 Ingresos</h3>
-        <p class="text-3xl font-bold text-gray-900 dark:text-white">${formatCurrency(totalRevenue)}</p>
-        <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">Total generado</p>
-      </div>
-    </div>
 
-    <!-- Top 5 Rutas Más Rentables -->
-    <div class="mb-8">
-      <h3 class="text-xl font-bold text-gray-900 mb-4">🏆 Top 5 Rutas Más Rentables (por RPM)</h3>
-      <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="min-w-full">
-            <thead class="bg-green-50">
-              <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">#</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-green-700 uppercase tracking-wider">Ruta</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-green-700 uppercase tracking-wider">RPM</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-green-700 uppercase tracking-wider">Cargas</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-green-700 uppercase tracking-wider">Millas</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-green-700 uppercase tracking-wider">Ingresos</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              ${topRoutes.map(([route, data], index) => {
+      <!-- Resumen ejecutivo -->
+      <div style="margin-bottom: 25px;">
+        <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">${window.i18n?.t('finances.report_exec_summary') || 'EXECUTIVE SUMMARY'}</h3>
+        <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; font-size: 12px;">
+          <thead>
+            <tr>
+              <th style="border: 1px solid #000; padding: 10px; text-align: left; font-weight: bold;">${window.i18n?.t('finances.report_col_metric') || 'Metric'}</th>
+              <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">${window.i18n?.t('finances.report_col_value') || 'Value'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="border: 1px solid #000; padding: 8px; text-align: left;">🛣️ ${window.i18n?.t('finances.report_total_routes') || 'Total Routes'}</td>
+              <td style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${sortedRoutes.length}</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #000; padding: 8px; text-align: left;">📦 ${window.i18n?.t('finances.report_loads_completed') || 'Completed Loads'}</td>
+              <td style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${totalLoads}</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #000; padding: 8px; text-align: left;">📏 ${window.i18n?.t('finances.report_total_miles_label') || 'Total Miles'}</td>
+              <td style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${totalMiles.toLocaleString()}</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid #000; padding: 8px; text-align: left;">💵 ${window.i18n?.t('finances.report_avg_rpm') || 'Avg RPM'}</td>
+              <td style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${formatCurrency(avgRPM)}</td>
+            </tr>
+            <tr style="background-color: #f0f0f0 !important;">
+              <td style="border: 1px solid #000; padding: 8px; text-align: left; font-weight: bold; background-color: #f0f0f0 !important;">💰 ${window.i18n?.t('finances.report_total_revenue_label') || 'Total Revenue'}</td>
+              <td style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold; background-color: #f0f0f0 !important;">${formatCurrency(totalRevenue)}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Top 5 Rutas Más Rentables -->
+      <div style="margin-bottom: 25px;">
+        <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">🏆 ${window.i18n?.t('finances.report_top_routes') || 'TOP 5 MOST PROFITABLE ROUTES (by RPM)'}</h3>
+        <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; font-size: 12px;">
+          <thead>
+            <tr>
+              <th style="border: 1px solid #000; padding: 10px; text-align: center; font-weight: bold; width: 5%;">#</th>
+              <th style="border: 1px solid #000; padding: 10px; text-align: left; font-weight: bold;">${window.i18n?.t('finances.report_col_route') || 'Route'}</th>
+              <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">RPM</th>
+              <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">${window.i18n?.t('finances.report_col_count') || 'Loads'}</th>
+              <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">${window.i18n?.t('finances.report_total_miles_label') || 'Miles'}</th>
+              <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">${window.i18n?.t('finances.report_col_amount') || 'Revenue'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${topRoutes.map(([route, data], index) => {
     const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
     return `
-                  <tr class="hover:bg-green-50">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
-                      <span class="text-2xl">${medals[index]}</span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      ${route}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-green-700 text-right font-bold">
-                      ${formatCurrency(data.avgRPM)}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">
-                      ${data.totalLoads}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">
-                      ${data.totalMiles.toLocaleString()}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-700 text-right font-semibold">
-                      ${formatCurrency(data.totalRevenue)}
-                    </td>
-                  </tr>
-                  `;
-  }).join('')}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- Rutas Menos Rentables -->
-    <div class="mb-8">
-      <h3 class="text-xl font-bold text-gray-900 mb-4">⚠️ Top 5 Rutas Menos Rentables (por RPM)</h3>
-      <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
-        <div class="overflow-x-auto">
-          <table class="min-w-full">
-            <thead class="bg-red-50">
               <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-red-700 uppercase tracking-wider">Ruta</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-red-700 uppercase tracking-wider">RPM</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-red-700 uppercase tracking-wider">Cargas</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-red-700 uppercase tracking-wider">Ingresos</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              ${bottomRoutes.map(([route, data]) => {
-    return `
-                  <tr class="hover:bg-red-50">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      ${route}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-red-700 text-right font-bold">
-                      ${formatCurrency(data.avgRPM)}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">
-                      ${data.totalLoads}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">
-                      ${formatCurrency(data.totalRevenue)}
-                    </td>
-                  </tr>
-                  `;
+                <td style="border: 1px solid #000; padding: 8px; text-align: center;">${medals[index]}</td>
+                <td style="border: 1px solid #000; padding: 8px; text-align: left; font-weight: bold;">${route}</td>
+                <td style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${formatCurrency(data.avgRPM)}</td>
+                <td style="border: 1px solid #000; padding: 8px; text-align: right;">${data.totalLoads}</td>
+                <td style="border: 1px solid #000; padding: 8px; text-align: right;">${data.totalMiles.toLocaleString()}</td>
+                <td style="border: 1px solid #000; padding: 8px; text-align: right;">${formatCurrency(data.totalRevenue)}</td>
+              </tr>`;
   }).join('')}
-            </tbody>
-          </table>
-        </div>
+          </tbody>
+        </table>
       </div>
-      <div class="mt-4 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-        <p class="text-sm text-yellow-800">
-          💡 <strong>Recomendación:</strong> Considera evitar estas rutas o negociar mejores tarifas para mejorar la rentabilidad.
+
+      <!-- Top 5 Rutas Menos Rentables -->
+      <div style="margin-bottom: 25px;">
+        <h3 style="font-size: 14px; font-weight: bold; color: #000; margin: 0 0 12px 0; padding-bottom: 5px; border-bottom: 2px solid #000;">⚠️ ${window.i18n?.t('finances.report_bottom_routes') || 'TOP 5 LEAST PROFITABLE ROUTES (by RPM)'}</h3>
+        <table style="width: 100%; border-collapse: collapse; border: 1px solid #000; font-size: 12px;">
+          <thead>
+            <tr>
+              <th style="border: 1px solid #000; padding: 10px; text-align: left; font-weight: bold;">${window.i18n?.t('finances.report_col_route') || 'Route'}</th>
+              <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">RPM</th>
+              <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">${window.i18n?.t('finances.report_col_count') || 'Loads'}</th>
+              <th style="border: 1px solid #000; padding: 10px; text-align: right; font-weight: bold;">${window.i18n?.t('finances.report_col_amount') || 'Revenue'}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${bottomRoutes.map(([route, data]) => `
+              <tr>
+                <td style="border: 1px solid #000; padding: 8px; text-align: left; font-weight: bold;">${route}</td>
+                <td style="border: 1px solid #000; padding: 8px; text-align: right; font-weight: bold;">${formatCurrency(data.avgRPM)}</td>
+                <td style="border: 1px solid #000; padding: 8px; text-align: right;">${data.totalLoads}</td>
+                <td style="border: 1px solid #000; padding: 8px; text-align: right;">${formatCurrency(data.totalRevenue)}</td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+        <p style="font-size: 11px; color: #000; margin-top: 8px; padding: 8px; border: 1px solid #000; background-color: #fffbe6 !important;">
+          💡 <strong>${window.i18n?.t('finances.report_recommendation') || 'Recommendation'}:</strong> ${window.i18n?.t('finances.report_zone_tip') || 'Consider avoiding these routes or negotiating better rates to improve profitability.'}
         </p>
       </div>
     </div>

@@ -99,8 +99,10 @@ function getLoadHistory() {
 
         // CALCULAR CAMPOS FALTANTES BASADOS EN MILLAS
         const totalMiles = Number(data.totalMiles || data.miles || ((data.loaded || 0) + (data.deadhead || data.deadheadMiles || 0)));
-        const operatingRate = data.operatingRate || 0.33;
-        const fuelRate = data.fuelRate || 0.18;
+        const userCPM  = window.currentUser?.costs?.totalCPM || 0.534;
+        const userFuel = window.currentUser?.costs?.combustible || 0.195;
+        const operatingRate = data.operatingRate || (userCPM - userFuel);  // solo costos no-combustible
+        const fuelRate = data.fuelRate || userFuel;
 
         // MAPEAR CAMPOS ANTIGUOS A NUEVOS FORMATOS CON FALLBACKS
         return {
@@ -757,10 +759,14 @@ function updateEditCalculations() {
     document.getElementById('editRpm').value = rpm.toFixed(2);
   }
 
-  // Cálculos de costos
-  const operatingCost = totalMiles * 0.33;
-  const fuelCost = totalMiles * 0.18;
-  const totalExpenses = operatingCost + fuelCost + tolls + otherCosts;
+  // Cálculos de costos — usar CPM real del usuario
+  const costs = window.currentUser?.costs || {};
+  const cpm = Number(costs.totalCPM || costs.combustible || 0.195) + Number(costs.mantenimiento || 0.051) + Number(costs.costosFijos || 0.288);
+  const fuelCPM = Number(costs.combustible || 0.195);
+  const fuelCost = totalMiles * fuelCPM;
+  const operatingCost = totalMiles * (cpm - fuelCPM);
+  // Tolls son pass-through (ya en la tarifa) — NO se suman como costo
+  const totalExpenses = fuelCost + operatingCost + otherCosts;
   const netProfit = totalCharge - totalExpenses;
   const profitMargin = totalCharge > 0 ? (netProfit / totalCharge) * 100 : 0;
 
@@ -837,10 +843,14 @@ async function saveEditedLoad() {
       totalCharge = (rpm * totalMiles) + tolls + otherCosts;
     }
 
-    // Costos y ganancias
-    const operatingCost = totalMiles * 0.33;
-    const fuelCost = totalMiles * 0.18;
-    const totalExpenses = operatingCost + fuelCost + tolls + otherCosts;
+    // Costos y ganancias — usar CPM real del usuario
+    const costs = window.currentUser?.costs || {};
+    const cpm = Number(costs.totalCPM || 0.534);
+    const fuelCPM = Number(costs.combustible || 0.195);
+    const fuelCost = totalMiles * fuelCPM;
+    const operatingCost = totalMiles * (cpm - fuelCPM);
+    // Tolls son pass-through (ya en la tarifa) — NO se suman como costo
+    const totalExpenses = fuelCost + operatingCost + otherCosts;
     const netProfit = totalCharge - totalExpenses;
     const profitMargin = totalCharge > 0 ? (netProfit / totalCharge) * 100 : 0;
 

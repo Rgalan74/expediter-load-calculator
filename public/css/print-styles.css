@@ -15,6 +15,11 @@
         visibility: visible !important;
     }
 
+    /* Hide modal chrome — only report content prints */
+    #reportModalHeader {
+        display: none !important;
+    }
+
     /* Position modal for printing */
     #reportModal {
         position: absolute !important;
@@ -27,8 +32,9 @@
         background: white !important;
     }
 
-    /* Expand modal content to show everything */
-    #reportModal>div {
+    /* Remove flex so content flows naturally across pages */
+    #reportModal > div {
+        display: block !important;
         max-height: none !important;
         height: auto !important;
         overflow: visible !important;
@@ -37,52 +43,39 @@
         margin: 0 auto !important;
     }
 
-    /* Report content - remove any scroll or height limits */
+    /* Report content - remove all scroll/height limits */
     #reportContent {
+        display: block !important;
+        flex: none !important;
         max-height: none !important;
         height: auto !important;
         overflow: visible !important;
         padding: 20px !important;
         background: white !important;
+        position: static !important;
     }
 
-    /* Hide modal footer buttons (close, export, etc) */
-    #reportModal .flex-shrink-0.bg-white.border-t {
-        display: none !important;
-    }
-
-    /* Hide close button in header */
+    /* Hide action buttons inside report */
+    #reportContent .no-print,
+    #reportModal .flex-shrink-0.bg-white.border-t,
     #reportModal button[onclick*="closeReportModal"] {
         display: none !important;
     }
 
-    /* Header - Professional black and white */
-    #reportModalHeader {
-        page-break-after: avoid !important;
-        background: white !important;
-        color: black !important;
-        border-bottom: 3px solid black !important;
-    }
-
-    #reportModalHeader h1,
-    #reportModalHeader h2,
-    #reportModalHeader p,
-    #reportModalHeader * {
-        color: black !important;
-        -webkit-text-fill-color: black !important;
-    }
-
-    /* Prevent page breaks inside important sections */
-    .mb-6,
-    .mb-8,
-    .grid,
-    .card-section {
-        page-break-inside: avoid !important;
-        break-inside: avoid !important;
-    }
-
-    /* Tables should not break across pages */
+    /* Allow tables to break across pages (needed for long reports) */
     table {
+        page-break-inside: auto !important;
+        break-inside: auto !important;
+    }
+
+    /* Keep header rows with their first data row */
+    thead {
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+    }
+
+    /* Prevent breaks inside single rows */
+    tr {
         page-break-inside: avoid !important;
         break-inside: avoid !important;
     }

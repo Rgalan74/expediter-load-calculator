@@ -21,28 +21,97 @@ window.lexAI = window.lexAI || {};
 // Cache last analysis for re-rendering on language change
 let _lastLexAnalysis = null;
 
-window.lexAI.showLexInsightInPanel = function (analysis) {
+// ============================================================
+//  showLexInsightInPanel
+//  Convierte el resultado de analyzeLoadWithLearning en un
+//  mensaje Markdown y lo inyecta en el chat de Lex.
+//  Si el chat está cerrado lo abre automáticamente.
+// ============================================================
+window.lexAI.showLexInsightInPanel = function (analysis, options = {}) {
   _lastLexAnalysis = analysis;
-  const insightSection = document.getElementById('lexInsightSection');
-  const zoneText = document.getElementById('lexZoneText');
-  const reasonsList = document.getElementById('lexReasonsList');
+  const autoOpen = options.autoOpen !== false; // default: true
 
-  if (!insightSection || !zoneText || !reasonsList) return;
+  if (!analysis || analysis.recommendation === 'ERROR') {
+    debugLog('[LEX-UI] showLexInsightInPanel: análisis inválido, saltando');
+    return;
+  }
 
-  zoneText.textContent = analysis.stateExperience || window.i18n?.t('lex.analyzing_route') || 'Analyzing a route in this zone.';
+  const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
 
-  reasonsList.innerHTML = analysis.reasons && analysis.reasons.length
-    ? analysis.reasons.map(r => `<li style="font-size:1rem;color:rgba(255,255,255,0.85);display:flex;align-items:flex-start;gap:0.4rem;line-height:1.4;"><span style="color:#00D9FF;margin-top:2px;">▸</span><span>${r}</span></li>`).join('')
-    : `<li style="font-size:1rem;color:rgba(255,255,255,0.5);">${window.i18n?.t('lex.standard_metrics') || 'Standard metrics for general evaluation.'}</li>`;
+  // ── Encabezado con recomendación ──────────────────────────
+  const recIcon = analysis.color === 'green' ? '✅'
+    : analysis.color === 'red'   ? '❌'
+    : '⚠️';
 
-  insightSection.classList.remove('hidden');
-  insightSection.style.animation = 'fadeIn 0.3s ease-in-out';
+  const vsAvgNum  = parseFloat(analysis.vsYourAvg);
+  const vsSign    = vsAvgNum >= 0 ? '+' : '';
+  const vsStateNum = analysis.vsStateAvg !== null ? parseFloat(analysis.vsStateAvg) : null;
+
+  // ── Construir mensaje ──────────────────────────────────────
+  let msg = '';
+
+  if (isEs) {
+    msg += `${recIcon} **${analysis.recommendation}**\n`;
+    msg += `📊 RPM: **$${Number(analysis.rpm).toFixed(3)}/mi**`;
+    msg += ` — ${vsSign}${analysis.vsYourAvg}% vs tu promedio ($${Number(analysis.yourAvgRPM).toFixed(3)}/mi)\n`;
+    if (vsStateNum !== null && analysis.destState) {
+      const stSign = vsStateNum >= 0 ? '+' : '';
+      msg += `📍 En **${analysis.destState}**: ${stSign}${analysis.vsStateAvg}% vs tu histórico en esa zona (${analysis.stateExperience})\n`;
+    }
+    msg += `💵 Ganancia estimada: **$${Number(analysis.estimatedProfit).toFixed(0)}**\n`;
+    if (analysis.reasons && analysis.reasons.length) {
+      msg += `\n**Por qué:**\n`;
+      analysis.reasons.forEach(r => { msg += `• ${r}\n`; });
+    }
+    msg += `\n_¿Quieres que negocie o compare con otra oferta? Escríbeme._`;
+  } else {
+    msg += `${recIcon} **${analysis.recommendation}**\n`;
+    msg += `📊 RPM: **$${Number(analysis.rpm).toFixed(3)}/mi**`;
+    msg += ` — ${vsSign}${analysis.vsYourAvg}% vs your average ($${Number(analysis.yourAvgRPM).toFixed(3)}/mi)\n`;
+    if (vsStateNum !== null && analysis.destState) {
+      const stSign = vsStateNum >= 0 ? '+' : '';
+      msg += `📍 **${analysis.destState}**: ${stSign}${analysis.vsStateAvg}% vs your history there (${analysis.stateExperience})\n`;
+    }
+    msg += `💵 Estimated profit: **$${Number(analysis.estimatedProfit).toFixed(0)}**\n`;
+    if (analysis.reasons && analysis.reasons.length) {
+      msg += `\n**Why:**\n`;
+      analysis.reasons.forEach(r => { msg += `• ${r}\n`; });
+    }
+    msg += `\n_Want me to help negotiate or compare with another offer? Just ask._`;
+  }
+
+  // ── Inyectar en el chat ────────────────────────────────────
+  // Si el chat no está abierto, abrirlo primero y luego esperar a que el DOM esté listo
+  const injectMsg = () => {
+    if (typeof window.appendLexMessageFromRouter === 'function') {
+      window.appendLexMessageFromRouter(msg);
+      // Cambiar al tab de chat para que el usuario lo vea
+      if (typeof window.switchLexTab === 'function') {
+        window.switchLexTab('chat');
+      }
+      debugLog('[LEX-UI] Análisis inyectado en chat OK');
+    }
+  };
+
+  if (!window.lexChatOpen) {
+    if (autoOpen && typeof window.openLexChatModal === 'function') {
+      // Llamada manual del usuario (ej: botón "Analizar carga") → abrir chat y mostrar
+      window.openLexChatModal();
+      setTimeout(injectMsg, 700);
+    }
+    // autoOpen:false → análisis automático, el chat no estaba abierto → no hacer nada
+    // (el estado visual y la burbuja proactiva ya informaron al usuario)
+  } else {
+    // El chat ya está abierto — inyectar directo independientemente de autoOpen
+    injectMsg();
+  }
 };
 
 // Re-apply Lex panel on language change
 document.addEventListener('languageChanged', () => {
-  if (_lastLexAnalysis) {
-    window.lexAI.showLexInsightInPanel(_lastLexAnalysis);
+  if (_lastLexAnalysis && window.lexChatOpen) {
+    // Solo re-mostrar si el chat ya está abierto para no interrumpir
+    window.lexAI.showLexInsightInPanel(_lastLexAnalysis, { autoOpen: false });
   }
 });
 

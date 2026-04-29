@@ -59,7 +59,7 @@ function loadZonesData() {
             debugLog(" Error loading zones data:", error);
             showZonesError((window.i18n?.t('zones.error_loading') || "Error loading data: ") + error.message);
             if (window.showToast) {
-                showToast('Error al cargar zonas: ' + error.message, 'error');
+                showToast((window.i18n?.t('zones.error_loading') || 'Error loading data: ') + error.message, 'error');
             }
         });
 }
@@ -453,15 +453,8 @@ function pintarEstados(svgDoc) {
 
     debugLog(" [ZONES] Iniciando pintado de estados...");
 
-    // Resetear estilos antes de pintar
-    const allElements = svgDoc.querySelectorAll('[id]');
-    allElements.forEach(element => {
-        element.style.removeProperty('background-color');
-        element.style.removeProperty('color');
-        element.style.removeProperty('background');
-    });
-
     let statesPainted = 0;
+    const cssRules = [];
 
     Object.keys(rpmPorEstado).forEach(stateCode => {
         const element = svgDoc.getElementById(stateCode);
@@ -469,24 +462,29 @@ function pintarEstados(svgDoc) {
 
         if (!element || isNaN(rpm)) return;
 
-        let color = getZoneFromScore(scorePorEstado[stateCode] ?? 0).mapColor;
+        const color = getZoneFromScore(scorePorEstado[stateCode] ?? 0).mapColor;
 
-        // Aplicar mltiples mtodos
+        // Acumular reglas CSS con selector ID (especificidad 100 > .land clase 10)
+        cssRules.push(`#${stateCode}{fill:${color};fill-opacity:0.8;stroke:#374151;stroke-width:1}`);
+
+        // También aplicar como atributo de presentación como fallback
         element.setAttribute('fill', color);
         element.setAttribute('stroke', '#374151');
         element.setAttribute('stroke-width', '1');
 
-        element.style.fill = color;
-        element.style.fillOpacity = '0.8';
-        element.style.stroke = '#374151';
-        element.style.strokeWidth = '1';
-        element.style.display = '';
-        element.style.visibility = 'visible';
-        element.style.opacity = '1';
-
         statesPainted++;
         debugLog(` ${stateCode}: RPM $${rpm.toFixed(2)} = ${color}`);
     });
+
+    // Inyectar/actualizar bloque <style> con selectores #ID en el SVG doc
+    // Esto garantiza que sobreescribe .land { fill: #CCC } sin importar inline styles
+    let zoneStyle = svgDoc.getElementById('zone-overrides');
+    if (!zoneStyle) {
+        zoneStyle = svgDoc.createElementNS('http://www.w3.org/2000/svg', 'style');
+        zoneStyle.setAttribute('id', 'zone-overrides');
+        svgDoc.documentElement.appendChild(zoneStyle);
+    }
+    zoneStyle.textContent = cssRules.join('');
 
     // Forzar refresh del SVG
     const svgElement = svgDoc.documentElement;
@@ -502,17 +500,25 @@ function pintarEstados(svgDoc) {
 
 // Versiones inline para el fallback fetch() — usan document.getElementById
 function _pintarEstadosInline() {
+    const cssRules = [];
     Object.keys(rpmPorEstado).forEach(stateCode => {
         const element = document.getElementById(stateCode);
         const rpm = rpmPorEstado[stateCode];
         if (!element || isNaN(rpm)) return;
-        const color = rpm < 0.75 ? '#dc2626' : rpm < 1.05 ? '#facc15' : '#16a34a';
+        const color = getZoneFromScore(scorePorEstado[stateCode] ?? 0).mapColor;
+        cssRules.push(`#${stateCode}{fill:${color};fill-opacity:0.8;stroke:#374151;stroke-width:1}`);
         element.setAttribute('fill', color);
         element.setAttribute('stroke', '#374151');
         element.setAttribute('stroke-width', '1');
-        element.style.fill = color;
-        element.style.fillOpacity = '0.8';
     });
+    // Inyectar CSS con selectores #ID para sobreescribir .land clase en el SVG inlineado
+    let zoneStyle = document.getElementById('zone-overrides-inline');
+    if (!zoneStyle) {
+        zoneStyle = document.createElement('style');
+        zoneStyle.id = 'zone-overrides-inline';
+        document.head.appendChild(zoneStyle);
+    }
+    zoneStyle.textContent = cssRules.join('');
     debugLog(' [ZONES] _pintarEstadosInline completado');
 }
 
@@ -703,8 +709,10 @@ function retryZones() {
 
 function resetZonesData() {
     zonesDataLoaded = false;
+    svgMapLoaded = false;
     rpmPorEstado = {};
     resumenPorEstado = {};
+    scorePorEstado = {};
     currentZoneSort = { column: '', asc: true };
 }
 
@@ -812,7 +820,7 @@ function loadCitiesData() {
             debugLog(" Error loading cities:", error);
             showCitiesError(error.message);
             if (window.showToast) {
-                showToast('Error al cargar ciudades: ' + error.message, 'error');
+                showToast((window.i18n?.t('zones.error_loading') || 'Error loading data: ') + error.message, 'error');
             }
         });
 }
@@ -1118,7 +1126,7 @@ function showCitiesEmpty() {
             emptyOverlay = document.createElement('div');
             emptyOverlay.id = 'citiesMapEmpty';
             emptyOverlay.className = 'absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center z-10';
-            emptyOverlay.innerHTML = '<div class="text-center p-8 text-gray-500">No hay cargas para mostrar</div>';
+            emptyOverlay.innerHTML = `<div class="text-center p-8 text-gray-500">${window.i18n?.t('zones.no_data') || 'No loads to display'}</div>`;
 
             const container = mapElement.parentElement;
             if (container && !container.style.position) {
@@ -1161,10 +1169,10 @@ function showMapLoadError() {
             <div class="w-full h-80 bg-red-50 border border-red-200 rounded-lg flex items-center justify-center">
                 <div class="text-center p-6">
                     <div class="text-4xl mb-3"></div>
-                    <h3 class="text-lg font-semibold text-red-700 mb-2">Error cargando mapa SVG</h3>
-                    <p class="text-red-600 mb-4">El mapa de zonas no pudo cargar correctamente</p>
+                    <h3 class="text-lg font-semibold text-red-700 mb-2">${window.i18n?.t('zones.map_load_error_title') || 'Error loading SVG map'}</h3>
+                    <p class="text-red-600 mb-4">${window.i18n?.t('zones.map_load_error_body') || 'The zones map could not load correctly'}</p>
                     <button onclick="retryZones()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-                         Reintentar
+                        ${window.i18n?.t('common.retry') || 'Retry'}
                     </button>
                 </div>
             </div>
@@ -1190,7 +1198,7 @@ window.analyzeLexZones = async function () {
             // Si no existe, cargamos del historial en Firebase
             const user = firebase.auth().currentUser;
             if (!user) {
-                alert('Debes iniciar sesión para analizar las zonas.');
+                alert(window.i18n?.t('zones.login_required') || 'You must log in to see zones');
                 return;
             }
 
@@ -1206,11 +1214,11 @@ window.analyzeLexZones = async function () {
             if (loads.length === 0) {
                 if (window.setLexState) {
                     window.setLexState('sad', {
-                        message: 'Todavía no tengo suficientes cargas para analizar tus zonas 🗺️',
+                        message: window.i18n?.t('zones.no_loads') || 'No loads to analyze zones yet 🗺️',
                         duration: 5000
                     });
                 }
-                alert('No hay cargas registradas todavía para analizar las zonas.');
+                alert(window.i18n?.t('zones.no_loads') || 'No loads to analyze zones');
                 return;
             }
 
@@ -1221,7 +1229,7 @@ window.analyzeLexZones = async function () {
                 stats = calcularEstadisticas(loads);
             } else {
                 debugLog('[LEX-ZONES] calcularEstadisticas no está definida');
-                alert('No pude calcular las estadísticas de zonas.');
+                alert(window.i18n?.t('zones.no_enough_data') || 'Not enough data to generate statistics.');
                 return;
             }
         }
@@ -1315,34 +1323,49 @@ function prepararAnalisisZonas(stats) {
     const insights = [];
     const alerts = [];
 
+    const _isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+
     if (verdes > 0) {
-        insights.push(`Tienes ${verdes} zonas verdes con buen RPM (>$1.05/mi)`);
+        insights.push(_isEs
+            ? `Tienes ${verdes} zonas verdes con buen RPM (>$1.05/mi)`
+            : `You have ${verdes} green zones with good RPM (>$1.05/mi)`);
     }
     if (top.length > 0) {
-        insights.push(`Tu mejor zona es ${top[0].state} con $${top[0].avgRPM.toFixed(2)}/mi`);
+        insights.push(_isEs
+            ? `Tu mejor zona es ${top[0].state} con $${top[0].avgRPM.toFixed(2)}/mi`
+            : `Your best zone is ${top[0].state} at $${top[0].avgRPM.toFixed(2)}/mi`);
     }
     if (totalProfit > 0) {
-        insights.push(`Has generado $${totalProfit.toFixed(0)} en profit total en estas zonas`);
+        insights.push(_isEs
+            ? `Has generado $${totalProfit.toFixed(0)} en profit total en estas zonas`
+            : `You have generated $${totalProfit.toFixed(0)} in total profit across these zones`);
     }
 
     if (rojas > 0) {
-        alerts.push(`Tienes ${rojas} zonas rojas con RPM bajo (<$0.75/mi)`);
+        alerts.push(_isEs
+            ? `Tienes ${rojas} zonas rojas con RPM bajo (<$0.75/mi)`
+            : `You have ${rojas} red zones with low RPM (<$0.75/mi)`);
     }
     if (amarillas > verdes) {
-        alerts.push(`La mayoría de tus zonas son amarillas - busca oportunidades para mejorar RPM`);
+        alerts.push(_isEs
+            ? `La mayoría de tus zonas son amarillas - busca oportunidades para mejorar RPM`
+            : `Most of your zones are yellow — look for opportunities to improve RPM`);
     }
     if (worst.length > 0 && worst[0].avgRPM < 0.70) {
-        alerts.push(`Evita ${worst[0].state} - solo genera $${worst[0].avgRPM.toFixed(2)}/mi`);
+        alerts.push(_isEs
+            ? `Evita ${worst[0].state} - solo genera $${worst[0].avgRPM.toFixed(2)}/mi`
+            : `Avoid ${worst[0].state} — only generates $${worst[0].avgRPM.toFixed(2)}/mi`);
     }
 
-    const summary =
-        `Tienes ${verdes} estados verdes (buen RPM), ` +
-        `${amarillas} amarillos y ${rojas} rojos. ` +
-        (top.length
-            ? `Tus mejores zonas ahora mismo: ${top
-                .map(t => `${t.state} ($${t.avgRPM.toFixed(2)}/mi)`)
-                .join(', ')}.`
-            : 'Necesito más datos para identificar claramente tus mejores zonas.');
+    const summary = _isEs
+        ? `Tienes ${verdes} estados verdes (buen RPM), ${amarillas} amarillos y ${rojas} rojos. ` +
+          (top.length
+              ? `Tus mejores zonas ahora mismo: ${top.map(t => `${t.state} ($${t.avgRPM.toFixed(2)}/mi)`).join(', ')}.`
+              : 'Necesito más datos para identificar claramente tus mejores zonas.')
+        : `You have ${verdes} green states (good RPM), ${amarillas} yellow and ${rojas} red. ` +
+          (top.length
+              ? `Your best zones right now: ${top.map(t => `${t.state} ($${t.avgRPM.toFixed(2)}/mi)`).join(', ')}.`
+              : 'I need more data to clearly identify your best zones.');
 
     return {
         rows,
@@ -1370,11 +1393,15 @@ window.showLexZonesModal = function (analysis) {
     const existing = document.getElementById('lexZonesModal');
     if (existing) existing.remove();
 
+    const _isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+
     const safeNumber = (n, dec = 2) => {
         const v = Number(n);
         if (!Number.isFinite(v)) return '--';
         return v.toFixed(dec);
     };
+
+    const t = (fallbackEn, fallbackEs) => _isEs ? fallbackEs : fallbackEn;
 
     const modal = document.createElement('div');
     modal.id = 'lexZonesModal';
@@ -1383,15 +1410,15 @@ window.showLexZonesModal = function (analysis) {
     style = "background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px);"
     modal.innerHTML = `
     <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full flex flex-col" style="max-height:90vh;">
-     
-      <!-- Header con gradiente -->
+
+      <!-- Header -->
       <div class="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 rounded-t-2xl flex-shrink-0">
         <div class="flex items-center gap-3">
           <img src="img/lex/lex-thinking.png" class="w-10 h-10 rounded-full bg-white/10 p-1">
           <div>
-            <h3 class="text-lg font-bold">Análisis de Zonas</h3>
+            <h3 class="text-lg font-bold">${t('Zone Analysis', 'Análisis de Zonas')}</h3>
             <p class="text-xs text-purple-100">
-              Basado en tu historial real de cargas por estado
+              ${t('Based on your real load history by state', 'Basado en tu historial real de cargas por estado')}
             </p>
           </div>
         </div>
@@ -1401,19 +1428,19 @@ window.showLexZonesModal = function (analysis) {
         <!-- KPIs principales -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
           <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
-            <p class="text-[10px] text-slate-500 uppercase">Estados analizados</p>
+            <p class="text-[10px] text-slate-500 uppercase">${t('States analyzed', 'Estados analizados')}</p>
             <p class="text-lg font-bold text-slate-900">${analysis.total}</p>
           </div>
           <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-200">
-            <p class="text-[10px] text-emerald-600 uppercase">Zonas verdes</p>
+            <p class="text-[10px] text-emerald-600 uppercase">${t('Green zones', 'Zonas verdes')}</p>
             <p class="text-lg font-bold" style="color: #047857 !important;">${analysis.verdes}</p>
           </div>
           <div class="bg-yellow-50 p-3 rounded-xl border border-yellow-200">
-            <p class="text-[10px] text-yellow-600 uppercase">Zonas amarillas</p>
+            <p class="text-[10px] text-yellow-600 uppercase">${t('Yellow zones', 'Zonas amarillas')}</p>
             <p class="text-lg font-bold" style="color: #a16207 !important;">${analysis.amarillas}</p>
           </div>
           <div class="bg-red-50 p-3 rounded-xl border border-red-200">
-            <p class="text-[10px] text-red-600 uppercase">Zonas rojas</p>
+            <p class="text-[10px] text-red-600 uppercase">${t('Red zones', 'Zonas rojas')}</p>
             <p class="text-lg font-bold" style="color: #b91c1c !important;">${analysis.rojas}</p>
           </div>
         </div>
@@ -1422,37 +1449,37 @@ window.showLexZonesModal = function (analysis) {
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div class="bg-blue-50 border border-blue-100 p-4 rounded-xl">
             <p class="text-xs text-blue-700 font-semibold mb-1">
-              Rendimiento global
+              ${t('Global Performance', 'Rendimiento global')}
             </p>
             <p class="text-sm text-slate-800 mb-1">
-              RPM promedio: <span class="font-bold">$${safeNumber(analysis.avgRPM, 2)}/mi</span>
+              ${t('Avg RPM:', 'RPM promedio:')} <span class="font-bold">$${safeNumber(analysis.avgRPM, 2)}/mi</span>
             </p>
             <p class="text-xs text-slate-600">
-              Millas: ${safeNumber(analysis.totalMiles, 0)} · Cargas: ${analysis.totalLoads}
+              ${t('Miles', 'Millas')}: ${safeNumber(analysis.totalMiles, 0)} · ${t('Loads', 'Cargas')}: ${analysis.totalLoads}
             </p>
           </div>
 
           <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-xl">
             <p class="text-xs text-emerald-700 font-semibold mb-1">
-              Profit total
+              ${t('Total Profit', 'Profit total')}
             </p>
             <p class="text-lg font-bold" style="color: #047857 !important;">
               $${safeNumber(analysis.totalProfit, 0)}
             </p>
             <p class="text-xs text-slate-600">
-              Generado en todas las zonas
+              ${t('Generated across all zones', 'Generado en todas las zonas')}
             </p>
           </div>
 
           <div class="bg-purple-50 border border-purple-100 p-4 rounded-xl">
             <p class="text-xs text-purple-700 font-semibold mb-1">
-              Ingreso total
+              ${t('Total Revenue', 'Ingreso total')}
             </p>
             <p class="text-lg font-bold" style="color: #7e22ce !important;">
               $${safeNumber(analysis.totalRevenue, 0)}
             </p>
             <p class="text-xs text-slate-600">
-              Revenue acumulado
+              ${t('Accumulated revenue', 'Revenue acumulado')}
             </p>
           </div>
         </div>
@@ -1460,35 +1487,31 @@ window.showLexZonesModal = function (analysis) {
         <!-- Mejores y peores estados -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
-            <p class="text-xs font-semibold text-slate-700 mb-2">&#127942; Mejores estados</p>
+            <p class="text-xs font-semibold text-slate-700 mb-2">&#127942; ${t('Best States', 'Mejores estados')}</p>
             <ul class="space-y-1">
               ${analysis.top.length
             ? analysis.top
-                .map(
-                    s => `
+                .map(s => `
                 <li class="text-xs text-emerald-800">
-                  • ${s.state}: $${safeNumber(s.avgRPM, 2)}/mi (${s.count} cargas)
-                </li>`
-                )
+                  • ${s.state}: $${safeNumber(s.avgRPM, 2)}/mi (${s.count} ${t('loads', 'cargas')})
+                </li>`)
                 .join('')
-            : '<li class="text-xs text-slate-500">Aún no tengo suficientes datos para determinar tus mejores estados.</li>'
+            : `<li class="text-xs text-slate-500">${t('', "Not enough data to determine your best states yet.", "Aún no tengo suficientes datos para determinar tus mejores estados.")}</li>`
         }
             </ul>
           </div>
 
           <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl">
-            <p class="text-xs font-semibold text-amber-800 mb-2">&#9888;&#65039; Estados complicados</p>
+            <p class="text-xs font-semibold text-amber-800 mb-2">&#9888;&#65039; ${t('Challenging States', 'Estados complicados')}</p>
             <ul class="space-y-1">
               ${analysis.worst.length
             ? analysis.worst
-                .map(
-                    s => `
+                .map(s => `
                 <li class="text-xs text-amber-800">
-                  • ${s.state}: $${safeNumber(s.avgRPM, 2)}/mi (${s.count} cargas)
-                </li>`
-                )
+                  • ${s.state}: $${safeNumber(s.avgRPM, 2)}/mi (${s.count} ${t('loads', 'cargas')})
+                </li>`)
                 .join('')
-            : '<li class="text-xs text-amber-700">No se detectaron estados claramente problemáticos aún.</li>'
+            : `<li class="text-xs text-amber-700">${t('No clearly problematic states detected yet.', 'No se detectaron estados claramente problemáticos aún.')}</li>`
         }
             </ul>
           </div>
@@ -1498,34 +1521,24 @@ window.showLexZonesModal = function (analysis) {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-xl">
             <p class="text-xs font-semibold text-emerald-800 mb-2">
-              &#9989; Puntos positivos
+              &#9989; ${t('Positive Points', 'Puntos positivos')}
             </p>
             <ul class="space-y-1 max-h-40 overflow-y-auto pr-1">
               ${analysis.insights && analysis.insights.length
-            ? analysis.insights
-                .map(
-                    (i) =>
-                        `<li class="text-xs text-emerald-800">• ${i}</li>`
-                )
-                .join('')
-            : '<li class="text-xs text-emerald-700">Aún no hay suficientes datos para generar insights.</li>'
+            ? analysis.insights.map(i => `<li class="text-xs text-emerald-800">• ${i}</li>`).join('')
+            : `<li class="text-xs text-emerald-700">${t('Not enough data to generate insights yet.', 'Aún no hay suficientes datos para generar insights.')}</li>`
         }
             </ul>
           </div>
 
           <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl">
             <p class="text-xs font-semibold text-amber-800 mb-2">
-              &#128161; Alertas y oportunidades
+              &#128161; ${t('Alerts & Opportunities', 'Alertas y oportunidades')}
             </p>
             <ul class="space-y-1 max-h-40 overflow-y-auto pr-1">
               ${analysis.alerts && analysis.alerts.length
-            ? analysis.alerts
-                .map(
-                    (a) =>
-                        `<li class="text-xs text-amber-800">• ${a}</li>`
-                )
-                .join('')
-            : '<li class="text-xs text-amber-700">No se detectaron alertas importantes.</li>'
+            ? analysis.alerts.map(a => `<li class="text-xs text-amber-800">• ${a}</li>`).join('')
+            : `<li class="text-xs text-amber-700">${t('No significant alerts detected.', 'No se detectaron alertas importantes.')}</li>`
         }
             </ul>
           </div>
@@ -1533,7 +1546,7 @@ window.showLexZonesModal = function (analysis) {
 
         <!-- Resumen de estrategia -->
         <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl">
-          <p class="text-xs font-semibold text-slate-700 mb-1">&#129517; Resumen de estrategia</p>
+          <p class="text-xs font-semibold text-slate-700 mb-1">&#129517; ${t('Strategy Summary', 'Resumen de estrategia')}</p>
           <p class="text-sm text-slate-800">
             ${analysis.summary}
           </p>
@@ -1542,20 +1555,20 @@ window.showLexZonesModal = function (analysis) {
 
      <!-- Footer -->
 <div class="p-4 border-t border-slate-700/60 lex-modal-actions">
-  <button 
+  <button
     type="button"
     onclick="window.openLexChatModal()"
     class="lex-modal-btn lex-modal-btn-primary"
   >
-    💬 Chat con Lex
+    💬 ${t('Chat with Lex', 'Chat con Lex')}
   </button>
-  <button 
+  <button
     type="button"
     onclick="closeLexZonesModal()"
     class="lex-modal-btn lex-modal-btn-ghost"
   >
-    ✕ Cerrar
-  </button>  
+    ✕ ${t('Close', 'Cerrar')}
+  </button>
 </div>
     </div>
   `;
@@ -1724,9 +1737,9 @@ async function saveMarketNote() {
     const note = textarea?.value?.trim();
     const noteType = type?.value || 'destino';
 
-    if (!destination) return alert('Escribe un lugar primero');
-    if (!note) return alert('La nota no puede estar vacía');
-    if (!window.currentUser) return alert('Debes iniciar sesión');
+    if (!destination) return alert(window.i18n?.t('notes.no_destination') || 'Enter a destination first');
+    if (!note) return alert(window.i18n?.t('notes.write_note') || 'Note cannot be empty');
+    if (!window.currentUser) return alert(window.i18n?.t('notes.must_login') || 'You must be logged in');
 
     try {
         debugLog(" [ZONES] Attempting to save note to Firestore:", { destination, note, noteType, uid: window.currentUser.uid });
@@ -1746,13 +1759,13 @@ async function saveMarketNote() {
     } catch (e) {
         debugLog(' [ZONES] CRITICAL Error guardando nota:', e);
         console.trace(e);
-        alert('Error guardando la nota: ' + e.message);
+        alert((window.i18n?.t('notes.error_save') || 'Error saving note') + ': ' + e.message);
     }
 }
 
 // Editar nota desde Zonas
 async function editMarketNote(id, oldText) {
-    const nuevo = prompt('Editar nota:', oldText);
+    const nuevo = prompt(window.i18n?.t('notes.edit_prompt') || 'Edit note:', oldText);
     if (!nuevo) return;
     await firebase.firestore().collection('notes').doc(id).update({ note: nuevo });
     loadMarketNotes();

@@ -92,7 +92,7 @@
   <link rel="stylesheet" href="css/print-styles.css" media="print">
   <link rel="stylesheet" href="css/report-modal-styles.css">
   <!-- MOBILE CALCULATOR FIX - Must load LAST to override all other styles -->
-  <link rel="stylesheet" href="css/mobile-calculator-fix.css?v=1.0.0">
+  <link rel="stylesheet" href="css/mobile-calculator-fix.css?v=3.3.0">
   <link rel="stylesheet" href="css/theme-tokens.css?v=2.0.7">
   <!-- MOBILE THEME ADAPTER - Forces mobile CSS to use theme variables -->
   <link rel="stylesheet" href="css/mobile-theme-adapter.css?v=1.0.5">
@@ -616,19 +616,17 @@
 
             <!-- 📏 Información de Millas -->
             <div class="card-section col-span-1">
-              <h3 class="text-2xl font-bold mb-4" data-i18n="calculator.section_route">📏 Miles Information</h3>
+              <h3 class="text-2xl font-bold mb-4" data-i18n="calculator.section_miles">📏 Miles Information</h3>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label class="block text-base font-medium mb-2" data-i18n="calculator.miles_label">Total Miles *</label>
                   <input type="number" id="loadedMiles" placeholder="644"
                     class="border p-3 w-full rounded-lg text-base">
-                  <p class="text-xs mt-1" data-i18n="calculator.loaded_deadhead_subtitle">Loaded + deadhead to pickup</p>
                 </div>
                 <div>
                   <label class="block text-base font-medium mb-2" data-i18n="calculator.deadhead_label">Deadhead Miles (optional)</label>
                   <input type="number" id="deadheadMiles" placeholder="0"
                     class="border p-3 w-full rounded-lg text-base">
-                  <p class="text-xs mt-1" data-i18n="calculator.separate_deadhead_subtitle">Only if you need to separate deadhead</p>
                 </div>
                 <div>
                   <label class="block text-base font-medium mb-2" data-i18n="calculator.total_miles_label">Total Miles</label>
@@ -720,10 +718,6 @@
                       <div class="flex justify-between items-center">
                         <span class="text-gray-700">⛽ Fuel (<span id="totalMilesForFuel">0</span> mi):</span>
                         <strong id="fuelCost" class="text-white">$0.00</strong>
-                      </div>
-                      <div class="flex justify-between items-center">
-                        <span class="text-gray-700" data-i18n="calculator.tolls_other_label">💵 Tolls + Other:</span>
-                        <strong id="tollsAndOthers" class="text-white">$0.00</strong>
                       </div>
                       <div class="flex justify-between items-center text-xs text-gray-500">
                         <span data-i18n="calculator.fixed_costs_label">🔧 Fixed Costs included</span>
@@ -994,37 +988,32 @@
 
           <!-- 📊 Statistics Summary -->
           <div class="card-section">
-            <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200" data-i18n="history.stats_title">📊 Statistics Summary</h3>
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
-              <div
-                class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center shadow-sm">
-                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1" data-i18n="history.stats_total_loads">Total Loads</h4>
-                <p class="kpi-value text-2xl font-bold text-gray-900 dark:text-white" id="sumTotal">0</p>
-                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1" data-i18n="history.stats_loads_completed">Completed loads</p>
+            <h3 class="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-200" data-i18n="history.stats_title">📊 Statistics Summary</h3>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-2 hist-kpi-grid">
+              <div class="fin-kpi-card fin-kpi-slate">
+                <span class="fin-kpi-icon">📦</span>
+                <h4 class="fin-kpi-label" data-i18n="history.stats_total_loads">Cargas</h4>
+                <p class="fin-kpi-value" id="sumTotal">0</p>
               </div>
-              <div
-                class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center shadow-sm">
-                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1" data-i18n="history.stats_total_miles">Total Miles</h4>
-                <p class="kpi-value text-2xl font-bold text-gray-900 dark:text-white" id="sumMiles">0</p>
-                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1" data-i18n="history.stats_distance">Distance traveled</p>
+              <div class="fin-kpi-card fin-kpi-slate">
+                <span class="fin-kpi-icon">🛣️</span>
+                <h4 class="fin-kpi-label" data-i18n="history.stats_total_miles">Millas</h4>
+                <p class="fin-kpi-value" id="sumMiles">0</p>
               </div>
-              <div
-                class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center shadow-sm">
-                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1" data-i18n="history.stats_revenue">Total Revenue</h4>
-                <p class="kpi-value text-2xl font-bold text-gray-900 dark:text-white" id="sumRevenue">$0</p>
-                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1" data-i18n="history.stats_gross">Gross accumulated</p>
+              <div class="fin-kpi-card fin-kpi-green">
+                <span class="fin-kpi-icon">💵</span>
+                <h4 class="fin-kpi-label" data-i18n="history.stats_revenue">Ingresos</h4>
+                <p class="fin-kpi-value" id="sumRevenue">$0</p>
               </div>
-              <div
-                class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center shadow-sm">
-                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1" data-i18n="history.stats_net_profit">Net Profit</h4>
-                <p class="kpi-value text-2xl font-bold text-gray-900 dark:text-white" id="sumProfit">$0</p>
-                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1" data-i18n="history.stats_after_expenses">After expenses</p>
+              <div class="fin-kpi-card fin-kpi-green">
+                <span class="fin-kpi-icon">📈</span>
+                <h4 class="fin-kpi-label" data-i18n="history.stats_net_profit">Ganancia</h4>
+                <p class="fin-kpi-value" id="sumProfit">$0</p>
               </div>
-              <div
-                class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center shadow-sm">
-                <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1" data-i18n="history.stats_avg_rpm">Avg RPM</h4>
-                <p class="kpi-value text-2xl font-bold text-gray-900 dark:text-white" id="sumRpm">$0</p>
-                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1" data-i18n="history.stats_per_mile">Dollars per mile</p>
+              <div class="fin-kpi-card fin-kpi-amber col-span-2 md:col-span-1">
+                <span class="fin-kpi-icon">⚡</span>
+                <h4 class="fin-kpi-label" data-i18n="history.stats_avg_rpm">RPM Prom.</h4>
+                <p class="fin-kpi-value" id="sumRpm">$0</p>
               </div>
             </div>
           </div>
@@ -1155,56 +1144,55 @@
               </div>
             </div>
 
-            <!-- KPIs UNIFICADOS - Todos en una sola fila - Optimizado para mobile -->
-            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 md:gap-3 mb-6">
+            <!-- KPIs UNIFICADOS - Diseño compacto con color-coding -->
+            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2 md:gap-3 mb-4 fin-kpi-grid">
               <!-- Revenue -->
-              <div
-                class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
-                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" data-i18n="finances.total_revenue">Revenue</h4>
-                <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="totalRevenue">$0.00</p>
+              <div class="fin-kpi-card fin-kpi-green">
+                <span class="fin-kpi-icon">💵</span>
+                <h4 class="fin-kpi-label" data-i18n="finances.total_revenue">Ingresos</h4>
+                <p class="fin-kpi-value" id="totalRevenue">$0.00</p>
               </div>
 
               <!-- Expenses -->
-              <div
-                class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
-                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" data-i18n="finances.total_expenses">Expenses</h4>
-                <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="totalExpensesSummary">$0.00
-                </p>
+              <div class="fin-kpi-card fin-kpi-red">
+                <span class="fin-kpi-icon">💸</span>
+                <h4 class="fin-kpi-label" data-i18n="finances.total_expenses">Gastos</h4>
+                <p class="fin-kpi-value" id="totalExpensesSummary">$0.00</p>
               </div>
 
               <!-- Profit -->
-              <div
-                class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
-                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" data-i18n="finances.net_profit">Profit</h4>
-                <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="netProfit">$0.00</p>
+              <div class="fin-kpi-card fin-kpi-slate" id="profitKpiCard">
+                <span class="fin-kpi-icon">📈</span>
+                <h4 class="fin-kpi-label" data-i18n="finances.net_profit">Ganancia</h4>
+                <p class="fin-kpi-value" id="netProfit">$0.00</p>
               </div>
 
               <!-- Miles -->
-              <div
-                class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
-                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" data-i18n="finances.total_miles">Miles</h4>
-                <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="totalMiles">0</p>
+              <div class="fin-kpi-card fin-kpi-slate">
+                <span class="fin-kpi-icon">🛣️</span>
+                <h4 class="fin-kpi-label" data-i18n="finances.total_miles">Millas</h4>
+                <p class="fin-kpi-value" id="totalMiles">0</p>
               </div>
 
               <!-- RPM -->
-              <div
-                class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
-                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" data-i18n="finances.avg_rpm">RPM</h4>
-                <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="avgRpm">$0.00</p>
+              <div class="fin-kpi-card fin-kpi-amber">
+                <span class="fin-kpi-icon">⚡</span>
+                <h4 class="fin-kpi-label" data-i18n="finances.avg_rpm">RPM</h4>
+                <p class="fin-kpi-value" id="avgRpm">$0.00</p>
               </div>
 
               <!-- $/Mile -->
-              <div
-                class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
-                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">$/mi</h4>
-                <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="costPerMile">$0.00</p>
+              <div class="fin-kpi-card fin-kpi-slate">
+                <span class="fin-kpi-icon">🎯</span>
+                <h4 class="fin-kpi-label">$/mi</h4>
+                <p class="fin-kpi-value" id="costPerMile">$0.00</p>
               </div>
 
               <!-- Margin -->
-              <div
-                class="bg-white dark:bg-[#161821] border border-gray-200 dark:border-[#2A2C3D] rounded-lg p-1.5 md:p-2 text-center shadow-sm">
-                <h4 class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1" data-i18n="finances.profit_margin">Margin</h4>
-                <p class="text-base md:text-xl font-bold text-gray-900 dark:text-white" id="efficiency">0%</p>
+              <div class="fin-kpi-card fin-kpi-slate" id="marginKpiCard">
+                <span class="fin-kpi-icon">📊</span>
+                <h4 class="fin-kpi-label" data-i18n="finances.profit_margin">Margen</h4>
+                <p class="fin-kpi-value" id="efficiency">0%</p>
               </div>
             </div>
 
@@ -2185,7 +2173,7 @@
                 <label for="vehiclePayment" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="finances.expense_car_payment">
                   🚗 Car Payment
                 </label>
-                <input type="number" id="vehiclePayment" name="vehiclePayment" step="1" value="800"
+                <input type="number" id="vehiclePayment" name="vehiclePayment" step="1" value="897"
                   oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
               </div>
 
@@ -2201,7 +2189,7 @@
                 <label for="licenses" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="finances.expense_permits">
                   Permits
                 </label>
-                <input type="number" id="licenses" name="licenses" step="1" value="150" oninput="calculateTotals()"
+                <input type="number" id="licenses" name="licenses" step="1" value="10" oninput="calculateTotals()"
                   class="border p-3 w-full rounded-lg">
               </div>
 
@@ -2209,7 +2197,7 @@
                 <label for="otherFixed" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings.label_other_costs">
                   Other Costs per Mile ($)
                 </label>
-                <input type="number" id="otherFixed" name="otherFixed" step="1" value="200" oninput="calculateTotals()"
+                <input type="number" id="otherFixed" name="otherFixed" step="1" value="150" oninput="calculateTotals()"
                   class="border p-3 w-full rounded-lg">
                 <p class="text-xs text-gray-500 mt-1">Phone, internet, etc.</p>
               </div>
@@ -2251,7 +2239,7 @@
                     <label for="fuelMPG" class="block text-xs font-medium text-gray-700 mb-1">
                       MPG (your vehicle)
                     </label>
-                    <input type="number" id="fuelMPG" name="fuelMPG" step="0.1" value="18" oninput="calculateFuelCost()"
+                    <input type="number" id="fuelMPG" name="fuelMPG" step="0.1" value="19" oninput="calculateFuelCost()"
                       class="border p-2 w-full rounded text-sm">
                   </div>
 
@@ -2259,7 +2247,7 @@
                     <label for="fuelPricePerGallon" class="block text-xs font-medium text-gray-700 mb-1">
                       Price per gallon
                     </label>
-                    <input type="number" id="fuelPricePerGallon" name="fuelPricePerGallon" step="0.01" value="3.50"
+                    <input type="number" id="fuelPricePerGallon" name="fuelPricePerGallon" step="0.01" value="3.70"
                       oninput="calculateFuelCost()" class="border p-2 w-full rounded text-sm">
                   </div>
                 </div>
@@ -2272,97 +2260,52 @@
 
               <div>
                 <label for="maintenancePerMile" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings.label_maintenance">
-                  Maintenance per Mile ($)
+                  🔧 Maintenance — Monthly ($)
                 </label>
-                <input type="number" id="maintenancePerMile" name="maintenancePerMile" step="0.001" value="0.080"
-                  class="border p-3 w-full rounded-lg">
-                <details class="mt-2 bg-blue-50 border border-blue-200 rounded p-2">
-                  <summary class="cursor-pointer text-sm font-medium text-blue-700">📊 Maintenance Calculator
-                  </summary>
-                  <div class="mt-2 space-y-2">
-                    <input type="number" id="maintenanceServiceCost" placeholder="Service cost ($)"
-                      class="border p-2 w-full rounded text-sm">
-                    <input type="number" id="maintenanceInterval" placeholder="Interval (miles)"
-                      class="border p-2 w-full rounded text-sm">
-                    <button onclick="calculateMaintenanceCost()" class="px-3 py-1 rounded text-sm w-full font-semibold"
-                      style="background:#fb923c;color:#07050a;">Calculate $/mi</button>
-                  </div>
-                </details>
-                <p class="text-xs text-gray-500 mt-1">Oil changes, filters, etc.</p>
+                <input type="number" id="maintenancePerMile" name="maintenancePerMile" step="1" value="110"
+                  oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
+                <p class="text-xs text-gray-500 mt-1">Oil changes, filters, etc. per month</p>
               </div>
 
               <div>
                 <label for="tiresPerMile" class="block text-sm font-medium text-gray-700 mb-2">
-                  Tires ($/mile)
+                  ⚙️ Tires — Monthly Reserve ($)
                 </label>
-                <input type="number" id="tiresPerMile" name="tiresPerMile" step="0.001" value="0.060"
-                  class="border p-3 w-full rounded-lg">
-                <details class="mt-2 bg-orange-50 border border-orange-200 rounded p-2">
-                  <summary class="cursor-pointer text-sm font-medium text-orange-700">🛞 Tire Cost Calculator
-                  </summary>
-                  <div class="mt-2 space-y-2">
-                    <input type="number" id="tireCost" placeholder="Tire set cost ($)"
-                      class="border p-2 w-full rounded text-sm">
-                    <input type="number" id="tireLifespan" placeholder="Lifespan (miles)"
-                      class="border p-2 w-full rounded text-sm">
-                    <button onclick="calculateTireCost()"
-                      class="bg-orange-600 text-white px-3 py-1 rounded text-sm w-full hover:bg-orange-700">Calculate $/mi</button>
-                  </div>
-                </details>
-                <p class="text-xs text-gray-500 mt-1">Average useful life</p>
+                <input type="number" id="tiresPerMile" name="tiresPerMile" step="1" value="93"
+                  oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
+                <p class="text-xs text-gray-500 mt-1">Monthly savings for tire replacement</p>
               </div>
 
               <div>
                 <label for="repairsPerMile" class="block text-sm font-medium text-gray-700 mb-2">
-                  Repairs ($/mile)
+                  🛠️ Repairs — Monthly Reserve ($)
                 </label>
-                <input type="number" id="repairsPerMile" name="repairsPerMile" step="0.001" value="0.040"
-                  class="border p-3 w-full rounded-lg">
-                <details class="mt-2 bg-red-50 border border-red-200 rounded p-2">
-                  <summary class="cursor-pointer text-sm font-medium text-red-700">🔧 Repair Cost Calculator
-                  </summary>
-                  <div class="mt-2 space-y-2">
-                    <select id="repairPeriod" class="border p-2 w-full rounded text-sm">
-                      <option value="monthly">Monthly Reserve</option>
-                      <option value="annual">Annual Reserve</option>
-                    </select>
-                    <input type="number" id="repairReserve" placeholder="Reserve amount ($)"
-                      class="border p-2 w-full rounded text-sm">
-                    <button onclick="calculateRepairCost()"
-                      class="bg-red-600 text-white px-3 py-1 rounded text-sm w-full hover:bg-red-700">Calculate $/mi</button>
-                  </div>
-                </details>
-                <p class="text-xs text-gray-500 mt-1">Emergencies and breakdowns</p>
+                <input type="number" id="repairsPerMile" name="repairsPerMile" step="1" value="200"
+                  oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
+                <p class="text-xs text-gray-500 mt-1">Monthly emergency/breakdown reserve</p>
               </div>
             </div>
 
-            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
-              <h4 class="font-semibold text-green-800 mb-3">🎯 Cost Configuration</h4>
-
-              <div class="space-y-3">
-                <div class="flex items-center">
-                  <input type="checkbox" id="useRealCosts" name="useRealCosts" checked class="mr-3">
-                  <label for="useRealCosts" class="text-sm font-medium text-gray-700">
-                    Use calculated real costs
-                  </label>
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <h4 class="font-semibold text-blue-800 mb-3">ℹ️ Cost Configuration</h4>
+              <div class="space-y-3 text-sm text-blue-900">
+                <div class="flex items-start gap-2">
+                  <span class="text-green-600 mt-0.5">✅</span>
+                  <span><strong>These settings are what the calculator uses</strong> to determine your costs per mile.</span>
                 </div>
-
-                <div>
-                  <label for="realCostsPeriod" class="block text-sm font-medium text-gray-700 mb-2">
-                    Period for auto calculation
-                  </label>
-                  <select id="realCostsPeriod" name="realCostsPeriod" class="border p-2 w-full rounded text-sm">
-                    <option value="1">Last month</option>
-                    <option value="3" selected>Last 3 months</option>
-                    <option value="6">Last 6 months</option>
-                    <option value="12">Last year</option>
-                  </select>
+                <div class="flex items-start gap-2">
+                  <span class="text-blue-600 mt-0.5">📊</span>
+                  <span>The <strong>Finances</strong> tab tracks expenses and generates reports — it does <em>not</em> override these costs.</span>
                 </div>
-
-                <div class="text-xs text-green-600 mt-2">
-                  When enabled, the app calculates your real costs based on your logged trips and expenses.
+                <div class="flex items-start gap-2">
+                  <span class="text-yellow-600 mt-0.5">💡</span>
+                  <span>Keep these values updated to get accurate profit calculations on every load.</span>
                 </div>
               </div>
+              <input type="checkbox" id="useRealCosts" name="useRealCosts" class="hidden" checked>
+              <select id="realCostsPeriod" name="realCostsPeriod" class="hidden">
+                <option value="6" selected>Last 6 months</option>
+              </select>
             </div>
           </div>
         </div>
@@ -2675,8 +2618,8 @@
   <script src="js/ui-feedback.js"></script>
 
   <!-- Existing scripts -->
-  <script src="js/config.js?v=2.1.0"></script>
   <script src="js/helpers.js"></script>
+  <script src="js/config.js?v=2.1.0"></script>
   <script src="js/i18n/language-manager.js?v=1.0.0"></script>
 
   <!-- 🍪 Cookie Consent + Analytics (después de config.js para que Firebase esté inicializado) -->

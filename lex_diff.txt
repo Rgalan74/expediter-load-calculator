@@ -1,0 +1,347 @@
+diff --git a/public/js/lex-ai-engine.js b/public/js/lex-ai-engine.js
+index 0d33215..3a33c4c 100644
+--- a/public/js/lex-ai-engine.js
++++ b/public/js/lex-ai-engine.js
+@@ -76,7 +76,10 @@
+     // ============================================================
+     //  CONTEXTO DE CARGA ACTIVA EN EL CALCULADOR
+     // ============================================================
+-    function getActiveLoadContext() {
++    // Cache de clima para no hacer dos llamadas seguidas al mismo destino
++    let _weatherCache = { destination: null, data: null };
++
++    async function getActiveLoadContext() {
+         const d = window._lastDecisionData;
+         if (!d || !d.actualRPM || !d.totalMiles) return null;
+ 
+@@ -90,6 +93,33 @@
+             ? (((d.actualRPM - d.thresholds.cpm) / d.actualRPM) * 100).toFixed(1)
+             : '?';
+ 
++        // Clima del destino — async, con cache para no repetir llamadas
++        let weatherLine = '';
++        if (destino && typeof window.getWeatherForDestination === 'function') {
++            try {
++                if (_weatherCache.destination !== destino) {
++                    _weatherCache.data = await window.getWeatherForDestination(destino);
++                    _weatherCache.destination = destino;
++                }
++                const w = _weatherCache.data;
++                if (w) {
++                    const isSnow = w.condition?.toLowerCase().includes('snow') || w.temp <= 32;
++                    const isStorm = w.condition?.toLowerCase().includes('storm') || w.condition?.toLowerCase().includes('thunder');
++                    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
++                    const alert = isSnow
++                        ? (isEs ? '⚠️ ALERTA: Nieve/hielo — exige más RPM por condiciones peligrosas.' : '⚠️ ALERT: Snow/ice — demand higher RPM for dangerous conditions.')
++                        : isStorm
++                        ? (isEs ? '⚠️ ALERTA: Tormenta eléctrica — posibles retrasos.' : '⚠️ ALERT: Thunderstorm — possible delays.')
++                        : '';
++                    weatherLine = isEs
++                        ? `- Clima en destino: ${w.text}${alert ? '\n' + alert : ''}`
++                        : `- Weather at destination: ${w.text}${alert ? '\n' + alert : ''}`;
++                }
++            } catch (e) {
++                debugLog('[LEX-AI] Weather fetch failed:', e.message);
++            }
++        }
++
+         const isEsCtx = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+         if (isEsCtx) {
+             return `
+@@ -100,6 +130,7 @@ CARGA ACTIVA EN EL CALCULADOR (el usuario ya tiene esta carga en pantalla):
+ - RPM: $${d.actualRPM.toFixed(3)}/mi
+ - Margen actual: ${margen}%
+ - Decisión del panel: ${d.decision}
++${weatherLine}
+ Si el usuario pregunta "¿la acepto?", "¿qué opinas?" o "analízala" sin dar datos, se refiere a ESTA carga.`;
+         } else {
+             return `
+@@ -110,6 +141,7 @@ ACTIVE LOAD IN CALCULATOR (user has this load on screen):
+ - RPM: $${d.actualRPM.toFixed(3)}/mi
+ - Current margin: ${margen}%
+ - Panel decision: ${d.decision}
++${weatherLine}
+ If the user asks "should I take it?", "what do you think?" or "analyze it" without giving data, they mean THIS load.`;
+         }
+     }
+@@ -239,6 +271,9 @@ ${prevMonthName.toUpperCase()} (previous month):
+             debugLog('[LEX-AI] Error cargando contexto financiero:', e);
+         }
+ 
++        // Contexto de carga activa — async, debe resolverse antes del template string
++        const activeLoadContext = await getActiveLoadContext() || '';
++
+         const langInstruction = isEs
+             ? 'Responde SIEMPRE en español. Sé directo, práctico y usa números concretos.'
+             : 'IMPORTANT: Always respond in English. Never switch to Spanish. Be direct, practical, and use concrete numbers.';
+@@ -282,7 +317,7 @@ REGLAS DE ANÁLISIS:
+ 4. Margen real = (RPM - CPM) / RPM × 100
+ 5. Contraoferta sugerida = $${acceptThreshold.toFixed(3)} × millas totales
+ 
+-${getActiveLoadContext() || ''}
++${activeLoadContext}
+ ${financeContext}
+ 
+ FORMATO DE RESPUESTA:
+@@ -324,7 +359,7 @@ ANALYSIS RULES:
+ 4. Real margin = (RPM - CPM) / RPM × 100
+ 5. Suggested counteroffer = $${acceptThreshold.toFixed(3)} × total miles
+ 
+-${getActiveLoadContext() || ''}
++${activeLoadContext}
+ ${financeContext}
+ 
+ RESPONSE FORMAT:
+@@ -338,8 +373,43 @@ RESPONSE FORMAT:
+     // ============================================================
+     //  LLAMADA A OPENROUTER API
+     // ============================================================
++    // Intents que requieren el prompt completo con datos del usuario
++    const HEAVY_INTENTS = new Set([
++        'PRICING', 'PRICING_SIMPLE', 'PRICING_WITH_DEADHEAD', 'PRICING_GENERIC',
++        'COMPARE_HISTORY', 'STATE_SUMMARY', 'STATE_MARKET', 'GLOBAL_METRICS',
++        'NEGOTIATION', 'DECISION_HELP', 'DEADHEAD_CONTEXT', 'FINANCES', 'EXTERNAL',
++        'APP_INFO'
++    ]);
++
++    function buildCasualPrompt() {
++        const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
++        return isEs
++            ? 'Eres Lex, asistente logístico de SmartLoad para conductores expediters. Responde de forma amigable y breve. Si el usuario pregunta sobre cargas, tarifas o rutas, pídele que calcule primero en la calculadora.'
++            : 'You are Lex, SmartLoad logistics assistant for expediter drivers. Reply in a friendly and brief way. If the user asks about loads, rates or routes, ask them to calculate first in the calculator.';
++    }
++
+     async function callOpenRouter(userMessage, conversationHistory = []) {
+-        const systemPrompt = await buildSystemPrompt();
++        // Routing inteligente — prompt ligero para charla casual, pesado para análisis de negocio
++        let systemPrompt;
++        let maxTokens = OPENROUTER_CONFIG.maxTokens;
++
++        const intent = typeof window.lexDetectIntent === 'function'
++            ? window.lexDetectIntent(userMessage)
++            : { intent: 'OTHER' };
++
++        const isCasual = !HEAVY_INTENTS.has(intent.intent) && intent.intent !== 'EMPTY';
++        const hasActiveLoad = !!(window._lastDecisionData?.actualRPM);
++
++        if (isCasual && !hasActiveLoad) {
++            // Charla casual sin carga activa — prompt mínimo, sin Firestore
++            systemPrompt = buildCasualPrompt();
++            maxTokens = 120;
++            debugLog('[LEX-AI] Routing: CASUAL (intent:', intent.intent, ')');
++        } else {
++            // Análisis de negocio o carga activa en pantalla — prompt completo
++            systemPrompt = await buildSystemPrompt();
++            debugLog('[LEX-AI] Routing: HEAVY (intent:', intent.intent, ')');
++        }
+ 
+         // Construir mensajes con historial de conversación (máximo últimos 4)
+         const recentHistory = conversationHistory.slice(-4);
+@@ -360,8 +430,8 @@ RESPONSE FORMAT:
+             body: JSON.stringify({
+                 model: OPENROUTER_CONFIG.model,
+                 messages: messages,
+-                max_tokens: OPENROUTER_CONFIG.maxTokens,
+-                temperature: 0.4  // Más determinístico para análisis financieros
++                max_tokens: maxTokens,
++                temperature: isCasual ? 0.7 : 0.4
+             })
+         });
+ 
+@@ -483,6 +553,76 @@ RESPONSE FORMAT:
+             OPENROUTER_CONFIG.apiKey.startsWith('sk-or-');
+     }
+ 
++    // ============================================================
++    //  PARSER DE LOAD BOARD — detecta texto pegado y llena calculadora
++    // ============================================================
++    function parseLoadBoardText(text) {
++        const t = text.trim();
++
++        // Debe tener al menos millas y precio para ser un load board
++        const hasMiles = /\d+\s*mi(les?)?/i.test(t) || /\b\d{3,4}\s*m\b/i.test(t);
++        const hasPrice = /\$\s*\d[\d,]*(\.\d+)?|\b\d[\d,]*\s*(usd|dlls?|dollars?)/i.test(t);
++        if (!hasMiles && !hasPrice) return null;
++
++        // Extraer origen y destino — patrones: "CityA, ST - CityB, ST" o "CityA ST to CityB ST"
++        let origin = '', destination = '';
++        const routeMatch = t.match(
++            /([A-Za-z\s]+,?\s*[A-Z]{2})\s*(?:[-–→to]+)\s*([A-Za-z\s]+,?\s*[A-Z]{2})/i
++        );
++        if (routeMatch) {
++            origin = routeMatch[1].trim();
++            destination = routeMatch[2].trim();
++        }
++
++        // Extraer millas
++        let miles = 0;
++        const milesMatch = t.match(/(\d[\d,]*)\s*mi(?:les?)?/i) || t.match(/(\d[\d,]*)\s*m\b/i);
++        if (milesMatch) miles = parseInt(milesMatch[1].replace(/,/g, ''));
++
++        // Extraer precio total
++        let rate = 0;
++        const rateMatch = t.match(/\$\s*(\d[\d,]*(?:\.\d+)?)/);
++        if (rateMatch) rate = parseFloat(rateMatch[1].replace(/,/g, ''));
++
++        // Extraer RPM si viene explícito
++        let rpm = 0;
++        const rpmMatch = t.match(/(\d+\.\d+)\s*(?:rpm|\/mi|per mi)/i);
++        if (rpmMatch) rpm = parseFloat(rpmMatch[1]);
++        else if (miles > 0 && rate > 0) rpm = parseFloat((rate / miles).toFixed(3));
++
++        // Extraer deadhead si viene
++        let deadhead = 0;
++        const dhMatch = t.match(/(?:dh|deadhead|empty)[:\s]+(\d+)\s*mi/i);
++        if (dhMatch) deadhead = parseInt(dhMatch[1]);
++
++        // Necesitamos al menos millas o precio para continuar
++        if (miles === 0 && rate === 0) return null;
++
++        return { origin, destination, miles, deadhead, rate, rpm };
++    }
++
++    function fillCalculatorFromLoad(data) {
++        const setVal = (id, val) => {
++            const el = document.getElementById(id);
++            if (!el || !val) return;
++            el.value = val;
++            el.dispatchEvent(new Event('input', { bubbles: true }));
++            el.dispatchEvent(new Event('change', { bubbles: true }));
++        };
++
++        if (data.origin)      setVal('origin', data.origin);
++        if (data.destination) setVal('destination', data.destination);
++        if (data.miles)       setVal('loadedMiles', data.miles);
++        if (data.deadhead)    setVal('deadheadMiles', data.deadhead);
++        if (data.rate)        setVal('rate', data.rate);
++        if (data.rpm && !data.rate) setVal('rpm', data.rpm);
++
++        // Disparar cálculo automático
++        if (typeof window.calculate === 'function') {
++            setTimeout(() => window.calculate(), 100);
++        }
++    }
++
+     // ============================================================
+     //  FUNCIÓN PRINCIPAL — reemplaza handleLexChatMessage
+     // ============================================================
+@@ -492,6 +632,35 @@ RESPONSE FORMAT:
+         const text = (messageText || '').trim();
+         if (!text) return;
+ 
++        // Detectar texto pegado de load board — llenar calculadora sin gastar tokens
++        const loadBoardData = parseLoadBoardText(text);
++        if (loadBoardData && (loadBoardData.miles > 0 || loadBoardData.rate > 0)) {
++            const replyFnLB = typeof window.appendLexMessageFromRouter === 'function'
++                ? window.appendLexMessageFromRouter : null;
++            const isEs = (window.i18n?.currentLang || 'en') === 'es';
++
++            fillCalculatorFromLoad(loadBoardData);
++
++            const parts = [];
++            if (loadBoardData.origin && loadBoardData.destination)
++                parts.push(isEs ? `🗺️ Ruta: **${loadBoardData.origin} → ${loadBoardData.destination}**` : `🗺️ Route: **${loadBoardData.origin} → ${loadBoardData.destination}**`);
++            if (loadBoardData.miles)
++                parts.push(isEs ? `📏 Millas: **${loadBoardData.miles}**` : `📏 Miles: **${loadBoardData.miles}**`);
++            if (loadBoardData.rate)
++                parts.push(isEs ? `💵 Tarifa: **$${loadBoardData.rate.toLocaleString()}**` : `💵 Rate: **$${loadBoardData.rate.toLocaleString()}**`);
++            if (loadBoardData.rpm)
++                parts.push(isEs ? `📊 RPM: **$${loadBoardData.rpm.toFixed(3)}/mi**` : `📊 RPM: **$${loadBoardData.rpm.toFixed(3)}/mi**`);
++            if (loadBoardData.deadhead)
++                parts.push(isEs ? `🔄 Deadhead: **${loadBoardData.deadhead}mi**` : `🔄 Deadhead: **${loadBoardData.deadhead}mi**`);
++
++            const msg = isEs
++                ? `He detectado una carga y llenado la calculadora:\n\n${parts.join('\n')}\n\n¿Analizo esta carga para ti?`
++                : `I detected a load and filled the calculator:\n\n${parts.join('\n')}\n\nShould I analyze this load for you?`;
++
++            if (replyFnLB) replyFnLB(msg);
++            return;
++        }
++
+         // Detectar intención de guardar nota
+         const saveNoteIntent = detectSaveNote(text);
+         if (saveNoteIntent) {
+@@ -663,6 +832,83 @@ RESPONSE FORMAT:
+         }
+     };
+ 
++    // ============================================================
++    //  FASE 4: BRIEFING SEMANAL PROACTIVO
++    // ============================================================
++    function isFirstOpenThisWeek() {
++        const key = 'lex_briefing_week';
++        const now = new Date();
++        // Semana ISO 8601: lunes como inicio, basada en el jueves de la semana
++        const tmp = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
++        tmp.setUTCDate(tmp.getUTCDate() + 4 - (tmp.getUTCDay() || 7));
++        const yearStart = new Date(Date.UTC(tmp.getUTCFullYear(), 0, 1));
++        const weekNum = Math.ceil((((tmp - yearStart) / 86400000) + 1) / 7);
++        const weekKey = `${tmp.getUTCFullYear()}-W${weekNum}`;
++        const stored = localStorage.getItem(key);
++        if (stored === weekKey) return false;
++        localStorage.setItem(key, weekKey);
++        return true;
++    }
++
++    window.lexRunWeeklyBriefing = async function () {
++        if (!isConfigured()) return;
++
++        const hasLexAccess = typeof window.canAccessFeature === 'function'
++            ? window.canAccessFeature(window.userPlan, 'Lex') : false;
++        if (!hasLexAccess) return;
++
++        if (!isFirstOpenThisWeek()) {
++            debugLog('[LEX-AI] Briefing semanal ya mostrado esta semana.');
++            return;
++        }
++
++        const replyFn = typeof window.appendLexMessageFromRouter === 'function'
++            ? window.appendLexMessageFromRouter : null;
++        if (!replyFn) return;
++
++        debugLog('[LEX-AI] Generando briefing semanal...');
++
++        const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
++
++        try {
++            const systemPrompt = await buildSystemPrompt();
++            const briefingInstruction = isEs
++                ? 'Eres Lex, coach de negocios para este conductor expediter. Analiza estrictamente los datos financieros de los dos últimos meses que tienes disponibles. Responde en máximo 4 líneas con: (1) comparación mes actual vs anterior en ingresos y RPM, (2) el estado donde más conviene enfocarse esta semana según el historial, (3) un consejo concreto de acción. Sé muy directo y usa números reales. Empieza con 📊 Briefing semanal:'
++                : 'You are Lex, business coach for this expediter driver. Strictly analyze the financial data from the last two months you have available. Respond in maximum 4 lines with: (1) current vs previous month comparison on revenue and RPM, (2) the state to focus on this week based on history, (3) one concrete action tip. Be very direct and use real numbers. Start with 📊 Weekly briefing:';
++
++            const messages = [
++                { role: 'system', content: systemPrompt },
++                { role: 'user', content: briefingInstruction }
++            ];
++
++            const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
++                method: 'POST',
++                headers: {
++                    'Authorization': `Bearer ${OPENROUTER_CONFIG.apiKey}`,
++                    'Content-Type': 'application/json',
++                    'HTTP-Referer': OPENROUTER_CONFIG.referer,
++                    'X-Title': OPENROUTER_CONFIG.appTitle
++                },
++                body: JSON.stringify({
++                    model: OPENROUTER_CONFIG.model,
++                    messages,
++                    max_tokens: 200,
++                    temperature: 0.3
++                })
++            });
++
++            if (!response.ok) throw new Error(`HTTP ${response.status}`);
++            const data = await response.json();
++            const briefing = data.choices?.[0]?.message?.content;
++            if (briefing) {
++                replyFn(briefing);
++                debugLog('[LEX-AI] Briefing semanal mostrado. Tokens:', data.usage?.total_tokens);
++            }
++        } catch (e) {
++            debugLog('[LEX-AI] Error en briefing semanal:', e.message);
++        }
++    };
++
+     debugLog('[LEX-AI] Motor de AI cargado. Configurado:', isConfigured());
+ 
+ })();

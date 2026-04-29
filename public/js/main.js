@@ -53,6 +53,7 @@ function openTab(tabId) {
             targetTab.classList.add('tab-active');
             targetTab.classList.remove('hidden');
             appState.currentTab = tabId;
+            if (tabId !== 'zones' && typeof svgMapLoaded !== 'undefined') svgMapLoaded = false;
             debugLog(` [MAIN] Tab ${tabId} activated`);
         } else {
             debugLog(`Â [MAIN] Tab element not found: ${tabId}`);

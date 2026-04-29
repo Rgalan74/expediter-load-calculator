@@ -44,8 +44,14 @@ function analizarTrapPenalty(origenState, destinoState, millas, rpm) {
     if ((zonaOrigen === 'CORE_MIDWEST' || zonaOrigen === 'EXTENDED_MIDWEST') &&
         zonaDestino === 'TRAP') {
 
-        const millasRegreso = 2200;
-        const rpmSalida = 0.65; // RPM promedio que pagan para salir de TRAP
+        // Distancias estimadas promedio de escape (Bounce) hacia la zona verde más cercana para Cargo Vans
+        const millasEscapePorTrampa = {
+            'FL': 400, 'TX': 350, 'CA': 750, 'AZ': 450, 'NM': 500, 
+            'NV': 550, 'OR': 350, 'WA': 400, 'ID': 300, 'MT': 500, 
+            'WY': 400, 'UT': 400, 'CO': 400, 'ND': 300, 'SD': 300, 'NE': 300
+        };
+        const millasRegreso = millasEscapePorTrampa[destinoState] || 600; 
+        const rpmSalida = 0.65; // RPM de rescate asumido para un reposicionamiento ligero
         // Usar costo real del usuario si está disponible, o fallback al default
         const costoPorMilla = (window.TU_COSTO_REAL && window.TU_COSTO_REAL.TOTAL) ? window.TU_COSTO_REAL.TOTAL : 0.576;
 
@@ -71,7 +77,7 @@ function analizarTrapPenalty(origenState, destinoState, millas, rpm) {
             gananciaCiclo,
             diasEstimados,
             gananciaPorDia,
-            advertencia: `TRAMPA: Te saca del Midwest al ${destinoState}. Costo de regresar incluido.`,
+            advertencia: `TRAMPA: Te envía a ${destinoState} (costo de ${millasRegreso} millas de escape hacia zona segura incluido).`,
             detalles: {
                 ida: { millas, rpm, revenue: revenueIda },
                 regreso: { millas: millasRegreso, rpm: rpmSalida, revenue: revenueSalida }
@@ -188,6 +194,19 @@ async function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
     const acceptThreshold = avgRPM > 0 ? Math.max(targetRPM_margen, avgRPM) : targetRPM_margen;
     const midThreshold = avgRPM > 0 ? Math.min(targetRPM_margen, avgRPM) : targetRPM_margen;
 
+    // Calcular proyecciones de Ganancia Total y Diaria
+    const totalRevenue = rpm * millas;
+    const totalCost = cpm * millas;
+    let netProfit = totalRevenue - totalCost;
+    if (netProfit < 0) netProfit = 0; // Proteccion visual
+
+    // Cargo Van Real: ~600 millas max por día + 1 día extra sumado por logística y tiempos muertos
+    const diasInvertidos = Math.max(1, Math.ceil(millas / 600)) + 1;
+    const gananciaDia = (netProfit / diasInvertidos).toFixed(0);
+    
+    // Filtro Short-Hop: Cargas muy cortas que pagan bien por RPM pero poco en total neto (< $150 USD netos)
+    const isShortHopInsuficiente = (millas > 0 && millas <= 150 && netProfit < 150);
+
     // Logica de decision
     let decision, level, icon, color, razon;
 
@@ -197,7 +216,14 @@ async function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
         icon = '❌';
         color = 'decision-reject';
         const perdida = ((cpm - rpm) * 100).toFixed(1);
-        razon = `Pierdes $${perdida} por cada 100mi — RPM $${rpm.toFixed(3)} no cubre tu costo de $${cpm.toFixed(3)}/mi`;
+        razon = `Pierdes $${perdida} por cada 100mi — RPM $${rpm.toFixed(3)} no cubre costos`;
+
+    } else if (isShortHopInsuficiente) {
+        decision = 'CUIDADO: VIAJE CORTO';
+        level = 'warning-low';
+        icon = '🟠';
+        color = 'decision-warning-low';
+        razon = `RPM parece bueno pero ganas apenas $${netProfit.toFixed(0)} libres por perder todo el día. (Min recomendado: $150)`;
 
     } else if (rpm >= acceptThreshold) {
         decision = 'ACEPTA';
@@ -205,8 +231,7 @@ async function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
         icon = '✅';
         color = 'decision-accept';
         const margenReal = (((rpm - cpm) / rpm) * 100).toFixed(1);
-        const ganancia100 = ((rpm - cpm) * 100).toFixed(0);
-        razon = `Margen ${margenReal}% — ganas $${ganancia100} por cada 100mi`;
+        razon = `Margen ${margenReal}% — equivale a ganar ~$${gananciaDia}/día (${diasInvertidos} días aprox)`;
 
     } else if (rpm >= midThreshold) {
         decision = 'CASI ACEPTA';
@@ -214,8 +239,7 @@ async function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
         icon = '🟡';
         color = 'decision-warning-high';
         const margenReal = (((rpm - cpm) / rpm) * 100).toFixed(1);
-        const falta = ((acceptThreshold - rpm) * 100).toFixed(1);
-        razon = `Margen ${margenReal}% — faltan $${falta}¢/100mi para tu objetivo`;
+        razon = `Margen ${margenReal}% — ganancia ~$${gananciaDia}/día, un poco debajo de tu umbral histórico ideal`;
 
     } else {
         decision = 'EVALUA CON CUIDADO';
@@ -223,7 +247,7 @@ async function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
         icon = '🟠';
         color = 'decision-warning-low';
         const margenReal = (((rpm - cpm) / rpm) * 100).toFixed(1);
-        razon = `Margen ${margenReal}% — cubre costos pero debajo de tu umbral minimo`;
+        razon = `Margen ${margenReal}% — cubre costos pero deja baja ganancia total diaria (~$${gananciaDia}/día)`;
     }
 
     // Contexto del estado — solo informa, no cambia decision
@@ -231,7 +255,7 @@ async function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
         const stats = stateStats[destinoState];
         const diff = ((rpm - stats.avgRPM) / stats.avgRPM * 100).toFixed(1);
         const signo = diff >= 0 ? '+' : '';
-        razon += ` | ${destinoState}: tu historico $${stats.avgRPM.toFixed(3)}/mi (${signo}${diff}%)`;
+        razon += `<br><small>${destinoState}: tu histórico de $${stats.avgRPM.toFixed(2)}/mi (${signo}${diff}%)</small>`;
     }
 
     return {

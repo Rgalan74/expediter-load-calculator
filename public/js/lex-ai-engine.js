@@ -1,36 +1,54 @@
 // ============================================================
-//  LEX-AI-ENGINE.JS v1.5
+//  LEX-AI-ENGINE.JS v1.7
 //  Motor de AI real para Lex via OpenRouter + DeepSeek V3
-//  Reemplaza respuestas pre-escritas con AI conversacional
-//  $0.000047 - $0.000200 por mensaje
+//  La API key se carga desde Firestore en config.js — nunca en código fuente
 // ============================================================
 
 (function () {
 
-    // ⚠️  CONFIGURACIÓN — pon tu key de OpenRouter aquí
-    //     Ve a openrouter.ai/settings/keys para obtenerla
+    // Configuración base — la apiKey se inyecta en runtime desde window._lexConfig
+    // (cargado desde Firestore/config/lex_ai al hacer login)
     const OPENROUTER_CONFIG = {
-        apiKey: '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',
-        model: 'deepseek/deepseek-chat',       // DeepSeek V3 - mejor calidad/precio
-        fallbackModel: 'openrouter/free',       // Si DeepSeek falla, usa el free router
-        maxTokens: 450,
+        get apiKey() { return window._lexConfig?.apiKey || ''; },
+        get model()  { return window._lexConfig?.model  || 'deepseek/deepseek-chat'; },
+        fallbackModel: 'openrouter/free',
+        maxTokens: 600,
         referer: 'https://smartloadsolution.com',
         appTitle: 'SmartLoad Lex AI'
     };
 
     // ============================================================
-    //  CARGAR PERFIL REAL DESDE FIREBASE
+    //  CARGAR PERFIL REAL DESDE FIREBASE — con cache en memoria (5 min TTL)
+    //  Evita múltiples lecturas Firestore en una misma conversación
     // ============================================================
+    let _profileCache = null;
+    let _profileCacheTs = 0;
+    const PROFILE_CACHE_TTL = 5 * 60 * 1000; // 5 minutos
+
     async function loadRealProfile() {
+        // Servir desde cache si está fresco
+        if (_profileCache && (Date.now() - _profileCacheTs) < PROFILE_CACHE_TTL) {
+            debugLog('[LEX-AI] Profile desde cache (evita Firestore read)');
+            return _profileCache;
+        }
         try {
             if (typeof getLexProfile === 'function') {
-                return await getLexProfile();
+                _profileCache = await getLexProfile();
+                _profileCacheTs = Date.now();
+                return _profileCache;
             }
         } catch (e) {
             debugLog('[LEX-AI] Error cargando perfil Firebase:', e.message);
         }
         return null;
     }
+
+    // Invalidar cache cuando se guarda una nueva carga (llamado externamente)
+    window.lexInvalidateProfileCache = function () {
+        _profileCache = null;
+        _profileCacheTs = 0;
+        debugLog('[LEX-AI] Profile cache invalidado');
+    };
 
     // ============================================================
     //  DETECTAR Y GUARDAR NOTAS DESDE EL CHAT
@@ -76,7 +94,10 @@
     // ============================================================
     //  CONTEXTO DE CARGA ACTIVA EN EL CALCULADOR
     // ============================================================
-    function getActiveLoadContext() {
+    // Cache de clima para no hacer dos llamadas seguidas al mismo destino
+    let _weatherCache = { destination: null, data: null };
+
+    async function getActiveLoadContext() {
         const d = window._lastDecisionData;
         if (!d || !d.actualRPM || !d.totalMiles) return null;
 
@@ -90,6 +111,33 @@
             ? (((d.actualRPM - d.thresholds.cpm) / d.actualRPM) * 100).toFixed(1)
             : '?';
 
+        // Clima del destino — async, con cache para no repetir llamadas
+        let weatherLine = '';
+        if (destino && typeof window.getWeatherForDestination === 'function') {
+            try {
+                if (_weatherCache.destination !== destino) {
+                    _weatherCache.data = await window.getWeatherForDestination(destino);
+                    _weatherCache.destination = destino;
+                }
+                const w = _weatherCache.data;
+                if (w) {
+                    const isSnow = w.condition?.toLowerCase().includes('snow') || w.temp <= 32;
+                    const isStorm = w.condition?.toLowerCase().includes('storm') || w.condition?.toLowerCase().includes('thunder');
+                    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+                    const alert = isSnow
+                        ? (isEs ? '⚠️ ALERTA: Nieve/hielo — exige más RPM por condiciones peligrosas.' : '⚠️ ALERT: Snow/ice — demand higher RPM for dangerous conditions.')
+                        : isStorm
+                        ? (isEs ? '⚠️ ALERTA: Tormenta eléctrica — posibles retrasos.' : '⚠️ ALERT: Thunderstorm — possible delays.')
+                        : '';
+                    weatherLine = isEs
+                        ? `- Clima en destino: ${w.text}${alert ? '\n' + alert : ''}`
+                        : `- Weather at destination: ${w.text}${alert ? '\n' + alert : ''}`;
+                }
+            } catch (e) {
+                debugLog('[LEX-AI] Weather fetch failed:', e.message);
+            }
+        }
+
         const isEsCtx = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
         if (isEsCtx) {
             return `
@@ -100,6 +148,7 @@ CARGA ACTIVA EN EL CALCULADOR (el usuario ya tiene esta carga en pantalla):
 - RPM: $${d.actualRPM.toFixed(3)}/mi
 - Margen actual: ${margen}%
 - Decisión del panel: ${d.decision}
+${weatherLine}
 Si el usuario pregunta "¿la acepto?", "¿qué opinas?" o "analízala" sin dar datos, se refiere a ESTA carga.`;
         } else {
             return `
@@ -110,6 +159,7 @@ ACTIVE LOAD IN CALCULATOR (user has this load on screen):
 - RPM: $${d.actualRPM.toFixed(3)}/mi
 - Current margin: ${margen}%
 - Panel decision: ${d.decision}
+${weatherLine}
 If the user asks "should I take it?", "what do you think?" or "analyze it" without giving data, they mean THIS load.`;
         }
     }
@@ -239,6 +289,9 @@ ${prevMonthName.toUpperCase()} (previous month):
             debugLog('[LEX-AI] Error cargando contexto financiero:', e);
         }
 
+        // Contexto de carga activa — async, debe resolverse antes del template string
+        const activeLoadContext = await getActiveLoadContext() || '';
+
         const langInstruction = isEs
             ? 'Responde SIEMPRE en español. Sé directo, práctico y usa números concretos.'
             : 'IMPORTANT: Always respond in English. Never switch to Spanish. Be direct, practical, and use concrete numbers.';
@@ -250,6 +303,7 @@ ${prevMonthName.toUpperCase()} (previous month):
         if (isEs) {
             return `Eres Lex, asistente de IA experto en expediting (camionería express en USA).
 ${langInstruction}
+Si el usuario hace una pregunta que NO está relacionada con cargas, finanzas o expediting, respóndela directamente de forma amigable y útil — sin mencionar el perfil del conductor ni los umbrales de decisión.
 Cuando analices una carga, muestra los cálculos clave (RPM, costo, ganancia).
 
 PERFIL REAL DEL CONDUCTOR:
@@ -282,16 +336,17 @@ REGLAS DE ANÁLISIS:
 4. Margen real = (RPM - CPM) / RPM × 100
 5. Contraoferta sugerida = $${acceptThreshold.toFixed(3)} × millas totales
 
-${getActiveLoadContext() || ''}
+${activeLoadContext}
 ${financeContext}
 
 FORMATO DE RESPUESTA:
-- Máximo 5-6 líneas para preguntas simples
-- Usa números concretos en dólares
-- Termina con recomendación clara usando exactamente estos términos: ${decisionTerms}`;
+- Responde de forma natural y adaptada a la pregunta del usuario.
+- SI ESTÁS ANALIZANDO UNA CARGA, usa números concretos y termina tu mensaje con una recomendación usando exactamente estos términos: ${decisionTerms}
+- SI ES UNA PREGUNTA GENERAL o charlando, SIEMPRE responde la pregunta directamente, sin agregar recomendación.`;
         } else {
             return `You are Lex, an AI expert in expediting (express trucking in the USA).
 ${langInstruction}
+If the user asks a question NOT related to loads, finances or expediting, answer it directly in a friendly and helpful way — without referencing the driver profile or decision thresholds.
 When analyzing a load, show the key calculations (RPM, cost, profit).
 
 DRIVER REAL PROFILE:
@@ -324,13 +379,13 @@ ANALYSIS RULES:
 4. Real margin = (RPM - CPM) / RPM × 100
 5. Suggested counteroffer = $${acceptThreshold.toFixed(3)} × total miles
 
-${getActiveLoadContext() || ''}
+${activeLoadContext}
 ${financeContext}
 
 RESPONSE FORMAT:
-- Maximum 5-6 lines for simple questions
-- Use concrete dollar amounts
-- End with a clear recommendation using exactly these terms: ${decisionTerms}`;
+- Respond naturally according to the user's question.
+- IF YOU ARE ANALYZING A LOAD, use concrete dollar amounts and end your message with a recommendation using exactly these terms: ${decisionTerms}
+- IF IT IS A GENERAL QUESTION or chat, ALWAYS answer the question directly, without adding recommendation terms.`;
         }
     }
 
@@ -338,8 +393,82 @@ RESPONSE FORMAT:
     // ============================================================
     //  LLAMADA A OPENROUTER API
     // ============================================================
+    // Intents que requieren el prompt completo con datos del usuario
+    const HEAVY_INTENTS = new Set([
+        'PRICING', 'PRICING_SIMPLE', 'PRICING_WITH_DEADHEAD', 'PRICING_GENERIC',
+        'COMPARE_HISTORY', 'STATE_SUMMARY', 'STATE_MARKET', 'GLOBAL_METRICS',
+        'NEGOTIATION', 'DECISION_HELP', 'DEADHEAD_CONTEXT', 'FINANCES',
+        'APP_INFO'
+        // NOTE: 'EXTERNAL' (clima/noticias) removido — usa buildCasualPrompt() sin Firebase
+    ]);
+
+    function buildCasualPrompt() {
+        const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+        return isEs
+            ? 'Eres Lex, el asistente de IA experto de SmartLoad para expediters. PUEDES RESPONDER A CUALQUIER PREGUNTA del usuario sin restricciones (clima, traducciones, historia, ciencia, o charla general). Mantén tu personalidad amable y útil. Si te hablan sobre cargas sin dar datos concretos, aliéntalos a introducirlos en la calculadora.'
+            : 'You are Lex, the expert AI assistant by SmartLoad for expediters. YOU CAN ANSWER ANY QUESTION from the user without restrictions (weather, translations, history, science, or general chat). Keep a friendly and helpful personality. If they talk about loads without concrete data, encourage them to use the calculator.';
+    }
+
+    // ============================================================
+    //  RATE LIMITING — máx 1 llamada cada 3 segundos
+    // ============================================================
+    let _lastCallTs = 0;
+    const RATE_LIMIT_MS = 3000;
+
+    function isRateLimited() {
+        const now = Date.now();
+        if (now - _lastCallTs < RATE_LIMIT_MS) return true;
+        _lastCallTs = now;
+        return false;
+    }
+
     async function callOpenRouter(userMessage, conversationHistory = []) {
-        const systemPrompt = await buildSystemPrompt();
+        // Routing inteligente — prompt ligero para charla casual, pesado para análisis de negocio
+        let systemPrompt;
+        let maxTokens = OPENROUTER_CONFIG.maxTokens;
+
+        const intent = typeof window.lexDetectIntent === 'function'
+            ? window.lexDetectIntent(userMessage)
+            : { intent: 'OTHER' };
+
+        // Exponer intent para que lex.js pueda mostrar chips contextuales
+        window._lastLexIntent = intent.intent;
+
+        const isCasual = !HEAVY_INTENTS.has(intent.intent) && intent.intent !== 'EMPTY';
+        const hasActiveLoad = !!(window._lastDecisionData?.actualRPM);
+
+        if (isCasual && !hasActiveLoad) {
+            // Charla casual sin carga activa — prompt mínimo, sin Firestore
+            systemPrompt = buildCasualPrompt();
+            maxTokens = 450;
+            debugLog('[LEX-AI] Routing: CASUAL (intent:', intent.intent, ')');
+        } else {
+            // Análisis de negocio o carga activa en pantalla — prompt completo
+            systemPrompt = await buildSystemPrompt();
+
+            // ── NEGOTIATION BOOSTER ──────────────────────────────────────────
+            // Si el intent es negociación, inyectar instrucciones específicas
+            // para que Lex genere frases textuales para el dispatcher.
+            if (intent.intent === 'NEGOTIATION') {
+                const d = window._lastDecisionData;
+                const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+                const targetRPM = d?.thresholds?.acceptThreshold;
+                const totalMiles = d?.totalMiles;
+                const targetTotal = (targetRPM && totalMiles)
+                    ? `$${Math.ceil(targetRPM * totalMiles).toLocaleString()}`
+                    : null;
+
+                if (isEs) {
+                    systemPrompt += `\n\n[INSTRUCCIÓN ESPECIAL — NEGOCIACIÓN]\nEl usuario quiere negociar. Genera:\n1. Una frase exacta y corta que puede decirle al dispatcher (entre comillas).\n2. El número concreto a pedir${targetTotal ? ` — el objetivo es ${targetTotal} (${targetRPM?.toFixed(3)}/mi)` : ''}.\n3. Un plan B en caso de que rechacen.\nSé directo, usa el tono de alguien que conoce el negocio. Sin rodeos.`;
+                } else {
+                    systemPrompt += `\n\n[SPECIAL INSTRUCTION — NEGOTIATION]\nThe user wants to negotiate. Generate:\n1. An exact short phrase they can say to the dispatcher (in quotes).\n2. The concrete number to ask for${targetTotal ? ` — target is ${targetTotal} (${targetRPM?.toFixed(3)}/mi)` : ''}.\n3. A Plan B if they reject.\nBe direct, use the tone of someone who knows the business. No fluff.`;
+                }
+                debugLog('[LEX-AI] NEGOTIATION booster inyectado');
+            }
+            // ────────────────────────────────────────────────────────────────
+
+            debugLog('[LEX-AI] Routing: HEAVY (intent:', intent.intent, ')');
+        }
 
         // Construir mensajes con historial de conversación (máximo últimos 4)
         const recentHistory = conversationHistory.slice(-4);
@@ -348,6 +477,16 @@ RESPONSE FORMAT:
             ...recentHistory,
             { role: 'user', content: userMessage }
         ];
+
+        // maxTokens dinámico: reducir salida si el prompt es muy largo
+        // Estimación: 1 token ≈ 4 caracteres. Límite DeepSeek: ~8000 tokens de entrada.
+        const estimatedInputTokens = Math.ceil(
+            messages.reduce((acc, m) => acc + (m.content?.length || 0), 0) / 4
+        );
+        if (estimatedInputTokens > 5000) {
+            maxTokens = Math.max(200, maxTokens - Math.floor((estimatedInputTokens - 5000) / 10));
+            debugLog('[LEX-AI] Prompt largo (' + estimatedInputTokens + ' tokens est.), maxTokens ajustado a:', maxTokens);
+        }
 
         const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
             method: 'POST',
@@ -360,8 +499,8 @@ RESPONSE FORMAT:
             body: JSON.stringify({
                 model: OPENROUTER_CONFIG.model,
                 messages: messages,
-                max_tokens: OPENROUTER_CONFIG.maxTokens,
-                temperature: 0.4  // Más determinístico para análisis financieros
+                max_tokens: maxTokens,
+                temperature: isCasual ? 0.7 : 0.4
             })
         });
 
@@ -408,16 +547,39 @@ RESPONSE FORMAT:
     }
 
     // ============================================================
-    //  HISTORIAL DE CONVERSACIÓN EN MEMORIA (por sesión)
+    //  HISTORIAL DE CONVERSACIÓN — persiste en sessionStorage
+    //  (sobrevive cambios de tab, se limpia al cerrar el navegador)
     // ============================================================
-    const conversationHistory = [];
+    const HISTORY_KEY = 'lex_chat_history';
+    const MAX_HISTORY_MSGS = 10; // máx mensajes en historial
+
+    function loadHistory() {
+        try {
+            const raw = sessionStorage.getItem(HISTORY_KEY);
+            return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function saveHistory(history) {
+        try {
+            sessionStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+        } catch (e) {
+            debugLog('[LEX-AI] No se pudo guardar historial en sessionStorage:', e.message);
+        }
+    }
+
+    // Array en memoria sincronizado con sessionStorage
+    const conversationHistory = loadHistory();
 
     function addToHistory(role, content) {
         conversationHistory.push({ role, content });
-        // Mantener solo los últimos 10 mensajes para no crecer el contexto
-        if (conversationHistory.length > 10) {
-            conversationHistory.splice(0, 2);
+        // Mantener solo los últimos MAX_HISTORY_MSGS mensajes
+        if (conversationHistory.length > MAX_HISTORY_MSGS) {
+            conversationHistory.splice(0, 2); // quitar el par más antiguo (user+assistant)
         }
+        saveHistory(conversationHistory);
     }
 
     // ============================================================
@@ -484,6 +646,112 @@ RESPONSE FORMAT:
     }
 
     // ============================================================
+    //  PARSER DE LOAD BOARD — detecta texto pegado y llena calculadora
+    // ============================================================
+    function parseLoadBoardText(text) {
+        const t = text.trim();
+
+        // Mínimo de longitud — mensajes cortos nunca son load boards
+        if (t.length < 20) return null;
+
+        // ── 1. DETECTAR PRECIO ───────────────────────────────────────
+        // Formatos: $975, $1,200, $1200.50, 975 usd, 975 dlls
+        let rate = 0;
+        const ratePatterns = [
+            /\$\s*([\d,]+(?:\.\d+)?)/,                        // $1,200 o $975.50
+            /\b([\d,]+(?:\.\d+)?)\s*(?:usd|dlls?|dollars?)/i // 1200 usd
+        ];
+        for (const p of ratePatterns) {
+            const m = t.match(p);
+            if (m) { rate = parseFloat(m[1].replace(/,/g, '')); break; }
+        }
+
+        // ── 2. DETECTAR MILLAS ───────────────────────────────────────
+        // Formatos: 820mi, 820 miles, 820 m (standalone), 820miles
+        let miles = 0;
+        const milesPatterns = [
+            /\b([\d,]+)\s*miles?\b/i,      // 820 miles, 820mi
+            /\b([\d,]{3,4})\s*m\b/i        // 820 m (mínimo 3 dígitos para evitar "am")
+        ];
+        for (const p of milesPatterns) {
+            const m = t.match(p);
+            if (m) { miles = parseInt(m[1].replace(/,/g, '')); break; }
+        }
+
+        // Requiere al menos precio O millas para continuar
+        if (rate === 0 && miles === 0) return null;
+
+        // ── 3. DETECTAR RUTA (origen → destino) ─────────────────────
+        // Soporta: "City, ST - City, ST", "City ST to City ST",
+        //          "City ST → City ST", "City ST | City ST"
+        let origin = '', destination = '';
+        const routePatterns = [
+            // "City, ST - City, ST"  o  "City ST → City ST"
+            /([A-Za-z][\w\s\-\.]+?,?\s*[A-Z]{2})\s*(?:[-–—→>to|]+)\s*([A-Za-z][\w\s\-\.]+?,?\s*[A-Z]{2})/i,
+            // "City ST to City ST" sin coma
+            /([A-Za-z][\w\s]+\s+[A-Z]{2})\s+(?:to|→|-{1,2}|–)\s+([A-Za-z][\w\s]+\s+[A-Z]{2})/i,
+        ];
+        for (const p of routePatterns) {
+            const m = t.match(p);
+            if (m) {
+                origin      = m[1].trim();
+                destination = m[2].trim();
+                break;
+            }
+        }
+
+        // ── 4. DETECTAR RPM EXPLÍCITO ────────────────────────────────
+        // Formatos: 1.20/mi, 1.20 rpm, 1.20 per mile
+        let rpm = 0;
+        const rpmMatch = t.match(/\b(\d+\.\d+)\s*(?:rpm|\/mi|per\s*mi(?:le)?)/i);
+        if (rpmMatch) {
+            rpm = parseFloat(rpmMatch[1]);
+        } else if (miles > 0 && rate > 0) {
+            rpm = parseFloat((rate / miles).toFixed(3));
+        }
+
+        // ── 5. DETECTAR DEADHEAD ─────────────────────────────────────
+        // Formatos: DH 30mi, DH:30, deadhead 30 miles, empty 30mi
+        let deadhead = 0;
+        const dhMatch = t.match(/(?:dh|deadhead|empty)[:\s]+(\d+)\s*mi(?:les?)?/i)
+                     || t.match(/dh[:\s]*(\d+)/i);
+        if (dhMatch) deadhead = parseInt(dhMatch[1]);
+
+        // ── 6. VALIDACIÓN FINAL ──────────────────────────────────────
+        // Necesitamos al menos millas Y precio (o RPM) para que tenga sentido
+        const hasEnoughData = (miles > 0 && rate > 0) || (miles > 50 && rpm > 0);
+        if (!hasEnoughData) return null;
+
+        // Sanity check — valores fuera de rango no son cargas reales
+        if (miles > 0 && (miles < 10 || miles > 5000)) return null;
+        if (rate > 0 && (rate < 50 || rate > 50000)) return null;
+
+        return { origin, destination, miles, deadhead, rate, rpm };
+    }
+
+    function fillCalculatorFromLoad(data) {
+        const setVal = (id, val) => {
+            const el = document.getElementById(id);
+            if (!el || !val) return;
+            el.value = val;
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+        };
+
+        if (data.origin)      setVal('origin', data.origin);
+        if (data.destination) setVal('destination', data.destination);
+        if (data.miles)       setVal('loadedMiles', data.miles);
+        if (data.deadhead)    setVal('deadheadMiles', data.deadhead);
+        if (data.rate)        setVal('rate', data.rate);
+        if (data.rpm && !data.rate) setVal('rpm', data.rpm);
+
+        // Disparar cálculo automático
+        if (typeof window.calculate === 'function') {
+            setTimeout(() => window.calculate(), 100);
+        }
+    }
+
+    // ============================================================
     //  FUNCIÓN PRINCIPAL — reemplaza handleLexChatMessage
     // ============================================================
     const originalHandler = window.handleLexChatMessage;
@@ -491,6 +759,35 @@ RESPONSE FORMAT:
     window.handleLexChatMessage = async function (messageText) {
         const text = (messageText || '').trim();
         if (!text) return;
+
+        // Detectar texto pegado de load board — llenar calculadora sin gastar tokens
+        const loadBoardData = parseLoadBoardText(text);
+        if (loadBoardData && (loadBoardData.miles > 0 || loadBoardData.rate > 0)) {
+            const replyFnLB = typeof window.appendLexMessageFromRouter === 'function'
+                ? window.appendLexMessageFromRouter : null;
+            const isEs = (window.i18n?.currentLang || 'en') === 'es';
+
+            fillCalculatorFromLoad(loadBoardData);
+
+            const parts = [];
+            if (loadBoardData.origin && loadBoardData.destination)
+                parts.push(isEs ? `🗺️ Ruta: **${loadBoardData.origin} → ${loadBoardData.destination}**` : `🗺️ Route: **${loadBoardData.origin} → ${loadBoardData.destination}**`);
+            if (loadBoardData.miles)
+                parts.push(isEs ? `📏 Millas: **${loadBoardData.miles}**` : `📏 Miles: **${loadBoardData.miles}**`);
+            if (loadBoardData.rate)
+                parts.push(isEs ? `💵 Tarifa: **$${loadBoardData.rate.toLocaleString()}**` : `💵 Rate: **$${loadBoardData.rate.toLocaleString()}**`);
+            if (loadBoardData.rpm)
+                parts.push(isEs ? `📊 RPM: **$${loadBoardData.rpm.toFixed(3)}/mi**` : `📊 RPM: **$${loadBoardData.rpm.toFixed(3)}/mi**`);
+            if (loadBoardData.deadhead)
+                parts.push(isEs ? `🔄 Deadhead: **${loadBoardData.deadhead}mi**` : `🔄 Deadhead: **${loadBoardData.deadhead}mi**`);
+
+            const msg = isEs
+                ? `He detectado una carga y llenado la calculadora:\n\n${parts.join('\n')}\n\n¿Analizo esta carga para ti?`
+                : `I detected a load and filled the calculator:\n\n${parts.join('\n')}\n\nShould I analyze this load for you?`;
+
+            if (replyFnLB) replyFnLB(msg);
+            return;
+        }
 
         // Detectar intención de guardar nota
         const saveNoteIntent = detectSaveNote(text);
@@ -557,6 +854,16 @@ RESPONSE FORMAT:
         const replyFn = typeof window.appendLexMessageFromRouter === 'function'
             ? window.appendLexMessageFromRouter
             : null;
+
+        // Rate limiting — bloquea spam silenciosamente
+        if (isRateLimited()) {
+            debugLog('[LEX-AI] Rate limited — mensaje ignorado');
+            const isEs = (window.i18n?.currentLang || 'en') === 'es';
+            if (replyFn) replyFn(isEs
+                ? '⏳ Un momento... estoy procesando tu mensaje anterior.'
+                : '⏳ One moment... still processing your previous message.');
+            return;
+        }
 
         // Estado visual: pensando + typing indicator
         if (typeof window.setLexState === 'function') {
@@ -649,7 +956,8 @@ RESPONSE FORMAT:
         isConfigured: isConfigured,
         clearHistory: function () {
             conversationHistory.length = 0;
-            debugLog('[LEX-AI] Historial limpiado');
+            sessionStorage.removeItem(HISTORY_KEY);
+            debugLog('[LEX-AI] Historial limpiado (memoria + sessionStorage)');
         },
         getHistory: function () {
             return [...conversationHistory];
@@ -660,6 +968,59 @@ RESPONSE FORMAT:
             geminiFlash: 'google/gemini-2.0-flash-lite', // $0.10/$0.40 - más barato
             llama: 'meta-llama/llama-3.3-70b-instruct:free', // GRATIS
             free: 'openrouter/free'               // GRATIS auto-selección
+        }
+    };
+
+    // ============================================================
+    //  FASE 4: BRIEFING SEMANAL PROACTIVO
+    // ============================================================
+    function isFirstOpenThisWeek() {
+        const key = 'lex_briefing_week';
+        const now = new Date();
+        // Semana ISO 8601: lunes como inicio, basada en el jueves de la semana
+        const tmp = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+        tmp.setUTCDate(tmp.getUTCDate() + 4 - (tmp.getUTCDay() || 7));
+        const yearStart = new Date(Date.UTC(tmp.getUTCFullYear(), 0, 1));
+        const weekNum = Math.ceil((((tmp - yearStart) / 86400000) + 1) / 7);
+        const weekKey = `${tmp.getUTCFullYear()}-W${weekNum}`;
+        const stored = localStorage.getItem(key);
+        if (stored === weekKey) return false;
+        localStorage.setItem(key, weekKey);
+        return true;
+    }
+
+    window.lexRunWeeklyBriefing = async function () {
+        if (!isConfigured()) return;
+
+        const hasLexAccess = typeof window.canAccessFeature === 'function'
+            ? window.canAccessFeature(window.userPlan, 'Lex') : false;
+        if (!hasLexAccess) return;
+
+        if (!isFirstOpenThisWeek()) {
+            debugLog('[LEX-AI] Briefing semanal ya mostrado esta semana.');
+            return;
+        }
+
+        const replyFn = typeof window.appendLexMessageFromRouter === 'function'
+            ? window.appendLexMessageFromRouter : null;
+        if (!replyFn) return;
+
+        debugLog('[LEX-AI] Generando briefing semanal...');
+
+        const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+        const briefingInstruction = isEs
+            ? 'Eres Lex, coach de negocios para este conductor expediter. Analiza los datos financieros de los dos últimos meses. Responde en máximo 4 líneas: (1) comparación mes actual vs anterior en ingresos y RPM, (2) el estado donde más conviene enfocarse esta semana, (3) un consejo concreto. Sé directo y usa números reales. Empieza con 📊 Briefing semanal:'
+            : 'You are Lex, business coach for this expediter. Analyze the last two months of financial data. Respond in max 4 lines: (1) current vs previous month comparison on revenue and RPM, (2) the state to focus on this week, (3) one concrete action tip. Be direct and use real numbers. Start with 📊 Weekly briefing:';
+
+        try {
+            // Reutiliza callOpenRouter — mismos headers, fallback y log de tokens
+            const briefing = await callOpenRouter(briefingInstruction, []);
+            if (briefing) {
+                replyFn(briefing);
+                debugLog('[LEX-AI] Briefing semanal mostrado.');
+            }
+        } catch (e) {
+            debugLog('[LEX-AI] Error en briefing semanal:', e.message);
         }
     };
 
