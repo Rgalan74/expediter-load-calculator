@@ -160,124 +160,52 @@ function calcularTiempoReal(millas) {
 }
 
 /**
- * getDecisionInteligente — Logica user-agnostic
- * 4 zonas dinamicas derivadas de datos reales del usuario.
- * NOTA: ahora es async — usar await donde se llame.
+ * getDecisionInteligente — Proxy al servidor (Cloud Function evaluateLoad)
+ * La logica real corre en functions/index.js — invisible en DevTools.
+ * Fallback local si el servidor no responde.
  */
 async function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
-    const { destinoState = '' } = factoresAdicionales;
+    const { destinoState = '', origenState = '' } = factoresAdicionales;
 
-    // Obtener CPM real del usuario
-    const cpmResult = await window.CPMEngine.getCPM();
-    const cpm = cpmResult.cpm;
-
-    // Obtener avgRPM y stateStats desde lexProfiles
-    let avgRPM = 0;
-    let stateStats = {};
     try {
-        const uid = window.currentUser?.uid;
-        if (uid) {
-            const profileSnap = await firebase.firestore()
-                .collection('lexProfiles').doc(uid).get();
-            if (profileSnap.exists) {
-                avgRPM = profileSnap.data().avgRPM || 0;
-                stateStats = profileSnap.data().stateStats || {};
-            }
+        // Llamar al servidor — logica 100% oculta al cliente
+        const evaluateLoad = firebase.functions().httpsCallable('evaluateLoad');
+        const result = await evaluateLoad({ rpm, millas, origenState, destinoState });
+        const d = result.data;
+        return {
+            decision:   d.decision,
+            level:      d.level,
+            icon:       d.icon,
+            color:      'decision-' + d.level,
+            razon:      d.razon,
+            confianza:  d.confianza,
+            thresholds: d.thresholds
+        };
+
+    } catch (err) {
+        debugLog('[evaluateLoad] Servidor no disponible, fallback local:', err.message);
+
+        // Fallback local basico
+        const cpmResult = await window.CPMEngine.getCPM();
+        const cpm = cpmResult.cpm;
+        const netProfit = Math.max(0, (rpm - cpm) * millas);
+        const diasInvertidos = Math.max(1, Math.ceil(millas / 600)) + 1;
+        const gananciaDia = (netProfit / diasInvertidos).toFixed(0);
+
+        let decision, level, icon, color, razon;
+        if (rpm < cpm) {
+            decision = 'RECHAZA'; level = 'reject'; icon = '❌'; color = 'decision-reject';
+            razon = 'RPM $' + rpm.toFixed(3) + ' no cubre costos $' + cpm.toFixed(3) + '/mi';
+        } else if (rpm >= cpm * 1.20) {
+            decision = 'ACEPTA'; level = 'accept'; icon = '✅'; color = 'decision-accept';
+            razon = 'Margen ' + (((rpm-cpm)/rpm)*100).toFixed(1) + '% — ~$' + gananciaDia + '/dia';
+        } else {
+            decision = 'EVALUA CON CUIDADO'; level = 'warning-low'; icon = '🟠'; color = 'decision-warning-low';
+            razon = 'Margen ' + (((rpm-cpm)/rpm)*100).toFixed(1) + '% — cubre costos, verifica rentabilidad';
         }
-    } catch (e) { /* sin historial, usar solo cpm */ }
-
-    // Obtener targetProfit % desde config del usuario
-    let targetProfitPct = 0.20; // fallback 20%
-    try {
-        const uid = window.currentUser?.uid;
-        if (uid) {
-            const userSnap = await firebase.firestore()
-                .collection('users').doc(uid).get();
-            if (userSnap.exists) {
-                const tp = userSnap.data().targetProfit;
-                if (tp && tp > 0) targetProfitPct = tp / 100;
-            }
-        }
-    } catch (e) { /* usar fallback */ }
-
-    // Calcular thresholds dinamicos
-    const targetRPM_margen = cpm / (1 - targetProfitPct);
-    const acceptThreshold = avgRPM > 0 ? Math.max(targetRPM_margen, avgRPM) : targetRPM_margen;
-    const midThreshold = avgRPM > 0 ? Math.min(targetRPM_margen, avgRPM) : targetRPM_margen;
-
-    // Calcular proyecciones de Ganancia Total y Diaria
-    const totalRevenue = rpm * millas;
-    const totalCost = cpm * millas;
-    let netProfit = totalRevenue - totalCost;
-    if (netProfit < 0) netProfit = 0; // Proteccion visual
-
-    // Cargo Van Real: ~600 millas max por día + 1 día extra sumado por logística y tiempos muertos
-    const diasInvertidos = Math.max(1, Math.ceil(millas / 600)) + 1;
-    const gananciaDia = (netProfit / diasInvertidos).toFixed(0);
-    
-    // Filtro Short-Hop: Cargas muy cortas que pagan bien por RPM pero poco en total neto (< $150 USD netos)
-    const isShortHopInsuficiente = (millas > 0 && millas <= 150 && netProfit < 150);
-
-    // Logica de decision
-    let decision, level, icon, color, razon;
-
-    if (rpm < cpm) {
-        decision = 'RECHAZA';
-        level = 'reject';
-        icon = '❌';
-        color = 'decision-reject';
-        const perdida = ((cpm - rpm) * 100).toFixed(1);
-        razon = `Pierdes $${perdida} por cada 100mi — RPM $${rpm.toFixed(3)} no cubre costos`;
-
-    } else if (isShortHopInsuficiente) {
-        decision = 'CUIDADO: VIAJE CORTO';
-        level = 'warning-low';
-        icon = '🟠';
-        color = 'decision-warning-low';
-        razon = `RPM parece bueno pero ganas apenas $${netProfit.toFixed(0)} libres por perder todo el día. (Min recomendado: $150)`;
-
-    } else if (rpm >= acceptThreshold) {
-        decision = 'ACEPTA';
-        level = 'accept';
-        icon = '✅';
-        color = 'decision-accept';
-        const margenReal = (((rpm - cpm) / rpm) * 100).toFixed(1);
-        razon = `Margen ${margenReal}% — equivale a ganar ~$${gananciaDia}/día (${diasInvertidos} días aprox)`;
-
-    } else if (rpm >= midThreshold) {
-        decision = 'CASI ACEPTA';
-        level = 'warning-high';
-        icon = '🟡';
-        color = 'decision-warning-high';
-        const margenReal = (((rpm - cpm) / rpm) * 100).toFixed(1);
-        razon = `Margen ${margenReal}% — ganancia ~$${gananciaDia}/día, un poco debajo de tu umbral histórico ideal`;
-
-    } else {
-        decision = 'EVALUA CON CUIDADO';
-        level = 'warning-low';
-        icon = '🟠';
-        color = 'decision-warning-low';
-        const margenReal = (((rpm - cpm) / rpm) * 100).toFixed(1);
-        razon = `Margen ${margenReal}% — cubre costos pero deja baja ganancia total diaria (~$${gananciaDia}/día)`;
+        return { decision, level, icon, color, razon, confianza: 'Media',
+            thresholds: { cpm, midThreshold: cpm, acceptThreshold: cpm*1.20, avgRPM: 0, targetProfitPct: 0.20 } };
     }
-
-    // Contexto del estado — solo informa, no cambia decision
-    if (destinoState && stateStats[destinoState]?.loads >= 2) {
-        const stats = stateStats[destinoState];
-        const diff = ((rpm - stats.avgRPM) / stats.avgRPM * 100).toFixed(1);
-        const signo = diff >= 0 ? '+' : '';
-        razon += `<br><small>${destinoState}: tu histórico de $${stats.avgRPM.toFixed(2)}/mi (${signo}${diff}%)</small>`;
-    }
-
-    return {
-        decision,
-        level,
-        icon,
-        color,
-        razon,
-        confianza: (level === 'accept' || level === 'reject') ? 'Alta' : 'Media',
-        thresholds: { cpm, midThreshold, acceptThreshold, avgRPM, targetProfitPct }
-    };
 }
 
 /**

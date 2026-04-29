@@ -271,6 +271,175 @@ exports.stripeWebhook = onRequest(
     app
 );
 
+// ============================================================
+// evaluateLoad — Motor de decisión en servidor (OCULTO)
+// © 2026 SmartLoad Solution — Ricardo Galan. All rights reserved.
+// @fingerprint SLS-2026-RG74-EXPEDITER
+// ============================================================
+const ZONAS_PREMIUM      = new Set(['IL', 'WI', 'MI']);
+const ZONAS_MEDIO        = new Set(['MN', 'IN', 'OH', 'PA', 'AR', 'TN', 'GA', 'KY', 'MO', 'IA', 'KS', 'VA', 'WV']);
+const ZONAS_MEDIO_DIFICIL = new Set(['GA', 'TN', 'KY']);
+const ZONAS_TRAP         = new Set(['FL', 'TX', 'NM', 'AZ', 'NV', 'CA', 'OR', 'WA',
+    'ID', 'MT', 'WY', 'UT', 'CO', 'ND', 'SD', 'NE',
+    'NC', 'SC', 'MD', 'DE', 'NJ', 'NY', 'CT', 'MA', 'RI', 'NH', 'VT', 'ME',
+    'AL', 'MS', 'LA', 'OK']);
+
+function _clasificarZona(state) {
+    if (!state) return 'DESCONOCIDA';
+    if (ZONAS_PREMIUM.has(state))       return 'PREMIUM';
+    if (ZONAS_MEDIO_DIFICIL.has(state)) return 'MEDIO_DIFICIL';
+    if (ZONAS_MEDIO.has(state))         return 'MEDIO';
+    if (ZONAS_TRAP.has(state))          return 'TRAP';
+    return 'DESCONOCIDA';
+}
+
+function _getUmbrales(origenZona, destinoZona, millas) {
+    if (origenZona === 'PREMIUM' && destinoZona === 'TRAP') {
+        return { acepta: Infinity, evalua: Infinity, razon: 'TRAP zone — you will lose days repositioning' };
+    }
+    if (origenZona === 'PREMIUM') {
+        if (destinoZona === 'MEDIO_DIFICIL') return { acepta: 1.26, evalua: null, razon: 'Hard zone to exit, local loads pay $0.80-0.90' };
+        if (millas < 100)  return { acepta: 3.75, evalua: 2.50, pisoAbsoluto: 375, razon: 'Very short load — floor $375' };
+        if (millas < 200)  return { acepta: 2.00, evalua: 1.50, pisoAbsoluto: 400, razon: 'Short load — floor $400' };
+        if (millas < 400)  return { acepta: 1.30, evalua: 1.13, pisoAbsoluto: 450, razon: 'Medium load from Premium zone' };
+        if (millas < 600)  return { acepta: 1.10, evalua: 0.92, pisoAbsoluto: 550, razon: 'Long load from Premium zone' };
+        return { acepta: 1.00, evalua: 0.88, pisoAbsoluto: 700, razon: 'Very long load from Premium zone' };
+    }
+    if ((origenZona === 'MEDIO' || origenZona === 'MEDIO_DIFICIL') && destinoZona === 'PREMIUM') {
+        if (millas < 300) return { acepta: 1.43, evalua: 1.09, pisoAbsoluto: 250, razon: 'Short load toward Premium zone' };
+        return { acepta: 1.07, evalua: 0.90, razon: 'Repositions you in Premium zone' };
+    }
+    if (origenZona === 'MEDIO' || origenZona === 'MEDIO_DIFICIL') {
+        if (destinoZona === 'TRAP') return { acepta: 1.25, evalua: 1.00, razon: 'TRAP destination — charge premium' };
+        if (millas < 300) return { acepta: 1.43, evalua: 1.09, pisoAbsoluto: 250, razon: 'Short load from Medium zone' };
+        return { acepta: 1.00, evalua: 0.85, razon: 'Load from Medium zone' };
+    }
+    if (origenZona === 'TRAP') {
+        if (destinoZona === 'PREMIUM' || destinoZona === 'MEDIO')
+            return { acepta: 0.87, evalua: 0.69, razon: 'Exiting TRAP — accept to reposition' };
+        return { acepta: 0.90, evalua: 0.80, razon: 'Within TRAP zone' };
+    }
+    return { acepta: 1.00, evalua: 0.80, razon: 'General threshold' };
+}
+
+exports.evaluateLoad = onCall(
+    { region: 'us-central1' },
+    async (request) => {
+        // Verificar autenticación
+        if (!request.auth) {
+            throw new HttpsError('unauthenticated', 'Authentication required');
+        }
+
+        const uid  = request.auth.uid;
+        const data = request.data || {};
+
+        // Extraer y validar parámetros
+        const rpm    = Number(data.rpm)    || 0;
+        const millas = Number(data.millas) || 0;
+        const origenState  = (data.origenState  || '').toUpperCase().trim();
+        const destinoState = (data.destinoState || '').toUpperCase().trim();
+
+        if (rpm <= 0 || millas <= 0) {
+            throw new HttpsError('invalid-argument', 'rpm and millas must be positive numbers');
+        }
+
+        // Leer perfil de Lex y configuración del usuario desde Firestore
+        let cpm = 0.534;         // default
+        let avgRPM = 0;
+        let targetProfitPct = 0.20;
+        let stateStats = {};
+
+        try {
+            const [userSnap, lexSnap] = await Promise.all([
+                db.collection('users').doc(uid).get(),
+                db.collection('lexProfiles').doc(uid).get()
+            ]);
+
+            if (userSnap.exists) {
+                const costs = userSnap.data().costs || {};
+                cpm = Number(costs.totalCPM || costs.total) || 0.534;
+                const tp = userSnap.data().targetProfit;
+                if (tp && tp > 0) targetProfitPct = tp / 100;
+            }
+
+            if (lexSnap.exists) {
+                avgRPM = lexSnap.data().avgRPM || 0;
+                stateStats = lexSnap.data().stateStats || {};
+            }
+        } catch (e) {
+            logger.warn('[evaluateLoad] Error leyendo perfil:', e.message);
+        }
+
+        // ── Lógica de zonas ──────────────────────────────────────────────
+        const origenZona  = _clasificarZona(origenState);
+        const destinoZona = _clasificarZona(destinoState);
+        const umbrales    = _getUmbrales(origenZona, destinoZona, millas);
+
+        // ── Thresholds dinámicos ─────────────────────────────────────────
+        const targetRPM    = cpm / (1 - targetProfitPct);
+        const acceptThresh = avgRPM > 0 ? Math.max(targetRPM, avgRPM) : targetRPM;
+        const midThresh    = avgRPM > 0 ? Math.min(targetRPM, avgRPM) : targetRPM;
+
+        // ── Decisión — 4 zonas ───────────────────────────────────────────
+        let decision, level, icon, razon;
+
+        // Piso absoluto (cargas muy cortas)
+        const pisoAbsoluto = umbrales.pisoAbsoluto || 0;
+        const totalCharge  = rpm * millas;
+        if (pisoAbsoluto > 0 && totalCharge < pisoAbsoluto) {
+            decision = 'REJECT';
+            level    = 'reject';
+            icon     = '❌';
+            razon    = `Total $${totalCharge.toFixed(0)} below minimum floor $${pisoAbsoluto} for this distance`;
+        } else if (rpm < cpm) {
+            decision = 'REJECT';
+            level    = 'reject';
+            icon     = '❌';
+            const perdida = ((cpm - rpm) * 100).toFixed(1);
+            razon = `Losing $${perdida} per 100mi — RPM $${rpm.toFixed(3)} doesn't cover cost $${cpm.toFixed(3)}/mi`;
+        } else if (rpm >= acceptThresh && rpm >= umbrales.acepta) {
+            decision = 'ACCEPT';
+            level    = 'accept';
+            icon     = '✅';
+            const margen = (((rpm - cpm) / rpm) * 100).toFixed(1);
+            razon = `Margin ${margen}% — earning $${((rpm - cpm) * 100).toFixed(0)} per 100mi. ${umbrales.razon}`;
+        } else if (rpm >= midThresh && (!umbrales.evalua || rpm >= umbrales.evalua)) {
+            decision = 'ALMOST ACCEPT';
+            level    = 'warning-high';
+            icon     = '🟡';
+            const margen = (((rpm - cpm) / rpm) * 100).toFixed(1);
+            const falta  = ((acceptThresh - rpm) * 100).toFixed(1);
+            razon = `Margin ${margen}% — $${falta}¢/100mi short of target. ${umbrales.razon}`;
+        } else {
+            decision = 'EVALUATE';
+            level    = 'warning-low';
+            icon     = '🟠';
+            const margen = (((rpm - cpm) / rpm) * 100).toFixed(1);
+            razon = `Margin ${margen}% — covers costs but below threshold. ${umbrales.razon}`;
+        }
+
+        // Contexto histórico del estado destino
+        if (destinoState && stateStats[destinoState]?.loads >= 2) {
+            const stats = stateStats[destinoState];
+            const diff  = ((rpm - stats.avgRPM) / stats.avgRPM * 100).toFixed(1);
+            const signo = diff >= 0 ? '+' : '';
+            razon += ` | ${destinoState}: your avg $${stats.avgRPM.toFixed(3)}/mi (${signo}${diff}%)`;
+        }
+
+        logger.info(`[evaluateLoad] uid:${uid} rpm:${rpm} millas:${millas} → ${decision}`);
+
+        return {
+            decision,
+            level,
+            icon,
+            razon,
+            confianza: (level === 'accept' || level === 'reject') ? 'Alta' : 'Media',
+            thresholds: { cpm, midThresh, acceptThresh, avgRPM, targetProfitPct },
+            zonas: { origenZona, destinoZona }
+        };
+    }
+);
+
 // ─── Cancelar suscripción del usuario (callable) ──────────────────────────────
 exports.cancelUserSubscription = onCall(
     { secrets: ["STRIPE_SECRET_KEY"] },
