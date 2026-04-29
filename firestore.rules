@@ -36,7 +36,7 @@ service cloud.firestore {
     
     function hasRequiredFields() {
       return request.resource.data.keys().hasAll([
-        'userId', 'origin', 'destination', 'totalMiles', 'rpm'
+        'userId', 'origin', 'destination', 'totalMiles', 'rpm', 'totalCharge'
       ]);
     }
     
@@ -91,8 +91,8 @@ service cloud.firestore {
     // LEX AI - PROFILES
     // ========================================
     match /lexProfiles/{userId} {
-      allow read, write: if isOwner(userId);
-      allow create: if isOwner(userId);
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId);  // write = create + update + delete
     }
     
     // ========================================
@@ -253,14 +253,23 @@ service cloud.firestore {
     // EMAIL (trigger-email extension)
     // ========================================
     match /mail/{docId} {
-      allow create: if isAuthenticated();
+      // Solo el propio usuario puede crear emails dirigidos a su cuenta
+      allow create: if isAuthenticated() &&
+                       request.resource.data.keys().hasAll(['to']) &&
+                       request.resource.data.to == request.auth.token.email;
     }
 
     // ========================================
     // LEADS (captura landing page — sin auth)
     // ========================================
     match /leads/{leadId} {
-      allow create: if true;
+      // Landing page lead capture: solo crear, nunca leer/editar
+      // Validar campos mínimos para evitar spam masivo
+      allow create: if request.resource.data.keys().hasAll(['email', 'name']) &&
+                       request.resource.data.email is string &&
+                       request.resource.data.email.size() <= 200 &&
+                       request.resource.data.name is string &&
+                       request.resource.data.name.size() <= 100;
       allow read, update, delete: if false;
     }
 
