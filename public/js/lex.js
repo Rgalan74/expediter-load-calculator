@@ -1,3 +1,14 @@
+﻿/**
+ * @copyright 2026 SmartLoad Solution — Ricardo Galan. All rights reserved.
+ * Unauthorized copying, modification, distribution, or use of this software,
+ * via any medium, is strictly prohibited without prior written permission.
+ * Violators may be prosecuted under applicable copyright law.
+ *
+ * @product    Expediter Load Calculator (SmartLoad Solution)
+ * @author     Ricardo Galan <ricardogalan74@gmail.com>
+ * @license    Proprietary — All Rights Reserved
+ * @fingerprint SLS-2026-RG74-EXPEDITER
+ */
 // ==========================================================
 //  LEX.JS - Control visual del asistente Lex
 //  Adaptado exactamente a tus 9 imágenes en /img/lex/
