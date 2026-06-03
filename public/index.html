@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -39,6 +39,40 @@
   <title>SmartLoad Solution | Inteligencia de Carga para el Transportista Moderno</title>
   <!-- Canonical Link -->
   <link rel="canonical" href="https://smartloadsolution.com/">
+
+  <!-- JSON-LD Structured Data (Organization & SoftwareApplication) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://smartloadsolution.com/#organization",
+        "name": "SmartLoad Solution LLC",
+        "url": "https://smartloadsolution.com/",
+        "logo": "https://smartloadsolution.com/img/logo-app.png",
+        "sameAs": [
+          "https://www.facebook.com/galan.expediter",
+          "https://www.tiktok.com/@galan.expediter",
+          "https://www.instagram.com/galan.expediter/",
+          "https://www.youtube.com/@galan.expediter"
+        ]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://smartloadsolution.com/#software",
+        "name": "SmartLoad Solution",
+        "operatingSystem": "All",
+        "applicationCategory": "BusinessApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "14.99",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
 
 
   <!-- PWA Manifest -->
@@ -207,7 +241,9 @@
         firebase.initializeApp(firebaseConfig);
       }
       firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
+        // Skip auto-redirect if user explicitly navigated here from the app
+        var params = new URLSearchParams(window.location.search);
+        if (user && params.get('visit') !== '1') {
           window.location.replace('/app.html');
         }
       });
@@ -230,11 +266,11 @@
       s.parentNode.insertBefore(t, s)
     }(window, document, 'script',
       'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1227322958231625');
+    fbq('init', '2077223159668765');
     fbq('track', 'PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=1227322958231625&ev=PageView&noscript=1" /></noscript>
+      src="https://www.facebook.com/tr?id=2077223159668765&ev=PageView&noscript=1" /></noscript>
   <!-- End Meta Pixel Code -->
 
   <!-- Schema.org Structured Data -->
@@ -300,17 +336,18 @@
       <div class="flex items-center justify-between">
 
         <!-- Logo -->
-        <div class="flex items-center gap-3">
+        <a href="index.html" class="flex items-center gap-3" style="text-decoration:none;color:inherit;">
           <img src="img/logo-app.webp" alt="SmartLoad Solution Logo" class="h-10 md:h-12 w-auto"
             onerror="this.src='img/logo-app.png'" />
           <span class="text-xl md:text-2xl font-bold">Smart Load Solution</span>
-        </div>
+        </a>
 
         <nav class="hidden md:flex items-center gap-8 text-base font-semibold">
           <a href="#features" class="text-gray-200 hover:text-white transition" data-i18n="nav.features">Features</a>
           <a href="#pricing" class="text-gray-200 hover:text-white transition" data-i18n="nav.pricing">Pricing</a>
           <a href="about.html" class="text-gray-200 hover:text-white transition" data-i18n="nav.about">Acerca</a>
           <a href="resources.html" class="text-gray-200 hover:text-white transition" data-i18n="nav.resources">Recursos</a>
+          <a href="blog.html" class="text-gray-200 hover:text-white transition" data-i18n="about.nav_blog">Blog</a>
           <a href="plans.html" class="text-gray-200 hover:text-white transition" data-i18n="nav.plans">Planes</a>
         </nav>
 
@@ -340,6 +377,7 @@
         <a href="#pricing" class="block text-gray-200 hover:text-white transition px-2 py-1" data-i18n="nav.pricing">Pricing</a>
         <a href="about.html" class="block text-gray-200 hover:text-white transition px-2 py-1" data-i18n="nav.about">Acerca</a>
         <a href="resources.html" class="block text-gray-200 hover:text-white transition px-2 py-1" data-i18n="nav.resources">Recursos</a>
+        <a href="blog.html" class="block text-gray-200 hover:text-white transition px-2 py-1" data-i18n="about.nav_blog">Blog</a>
         <a href="plans.html" class="block text-gray-200 hover:text-white transition px-2 py-1" data-i18n="nav.plans">Planes</a>
         
         <div class="flex items-center gap-2 px-2 py-2 mt-2 border-t border-gray-700">
@@ -1122,7 +1160,7 @@
             </div>
             <div class="price-badge">
               <div class="price-free" data-i18n="landing.cta_price_free">GRATIS para empezar</div>
-              <div class="price-desc" data-i18n="landing.cta_price_desc">50 cargas sin tarjeta de crédito • Plan Pro desde $19/mes</div>
+              <div class="price-desc" data-i18n="landing.cta_price_desc">30 cargas sin tarjeta de crédito • Plan Pro desde $14.99/mes</div>
             </div>
           </section>
 
@@ -1611,8 +1649,8 @@
               <span data-i18n="landing.plan_starter_f6">Academia — Módulos 1-3 gratis</span>
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-gray-500 mt-0.5">✗</span>
-              <span class="text-gray-400" data-i18n="landing.plan_starter_f7">Lex AI</span>
+              <span class="mt-0.5" style="color:#facc15;">✓</span>
+              <span data-i18n-html="landing.plan_starter_f7">Lex AI — <strong class="text-yellow-300">14-day free trial</strong></span>
             </li>
             <li class="flex items-start gap-2">
               <span class="text-gray-500 mt-0.5">✗</span>
@@ -1671,8 +1709,8 @@
               <span data-i18n="landing.plan_pro_f7">Exportación Excel/CSV</span>
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-gray-500 mt-0.5">✗</span>
-              <span class="text-gray-400" data-i18n="landing.plan_pro_f8">Lex AI Assistant</span>
+              <span class="mt-0.5" style="color:#facc15;">✓</span>
+              <span style="color:#fef9c3;" data-i18n-html="landing.plan_pro_f8">Lex AI — <strong class="text-yellow-300">14-day free trial</strong></span>
             </li>
           </ul>
 
@@ -1960,22 +1998,27 @@
             <li><a href="refund.html" class="text-gray-400 hover:text-white transition" data-i18n="landing.footer_refund">Reembolsos</a></li>
           </ul>
 
-          <!-- Social Media Placeholders -->
-          <div class="flex gap-3">
-            <a href="#"
-              class="w-8 h-8 rounded-full bg-gray-800 hover:bg-gray-700 flex items-center justify-center text-gray-400 hover:text-white transition"
-              title="Facebook">
-              <span class="text-sm">f</span>
+          <!-- Social Media Links -->
+          <div class="flex gap-4 mt-4">
+            <a href="https://www.facebook.com/galan.expediter" aria-label="Facebook" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-blue-500 transition-all duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+              </svg>
             </a>
-            <a href="#"
-              class="w-8 h-8 rounded-full bg-gray-800 hover:bg-gray-700 flex items-center justify-center text-gray-400 hover:text-white transition"
-              title="Twitter">
-              <span class="text-sm">𝕏</span>
+            <a href="https://www.tiktok.com/@galan.expediter" aria-label="TikTok" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 transition-all duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12.525.02c1.31-.03 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.73-.22-.2-.43-.41-.62-.63-.19 1.79-.75 3.56-1.68 5.11-1.25 2.08-3.23 3.75-5.55 4.54-2.58.88-5.51.78-8.01-.47-2.73-1.37-4.63-4.14-4.9-7.19-.38-4.22 2.11-8.39 6.08-9.84 2.17-.79 4.62-.81 6.78-.05 0 2.18-.01 4.36-.02 6.54-1.25-.43-2.67-.32-3.81.39-.99.62-1.6 1.76-1.59 2.93.01 1.73 1.48 3.19 3.22 3.13 1.61-.05 2.94-1.35 3.01-2.95V.02z"/>
+              </svg>
             </a>
-            <a href="#"
-              class="w-8 h-8 rounded-full bg-gray-800 hover:bg-gray-700 flex items-center justify-center text-gray-400 hover:text-white transition"
-              title="LinkedIn">
-              <span class="text-sm">in</span>
+            <a href="https://www.instagram.com/galan.expediter/" aria-label="Instagram" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-pink-500 transition-all duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.008 3.885.058 1.357.062 2.367.274 3.111.562a5.82 5.82 0 012.08 1.354 5.83 5.83 0 011.353 2.08c.288.743.5 1.754.562 3.112.05 1.102.059 1.458.059 3.885s-.008 2.784-.059 3.886c-.062 1.357-.274 2.367-.562 3.111a5.82 5.82 0 01-1.353 2.08 5.82 5.82 0 01-2.08 1.353c-.744.288-1.754.5-3.112.563-1.102.049-1.458.058-3.885.058s-2.784-.008-3.886-.058c-1.356-.062-2.367-.274-3.11-.563a5.82 5.82 0 01-2.08-1.353 5.83 5.83 0 01-1.353-2.08c-.287-.743-.5-1.754-.562-3.112C2.008 14.784 2 14.428 2 12s.008-2.784.058-3.885c.062-1.358.274-2.367.562-3.112a5.83 5.83 0 011.353-2.08 5.82 5.82 0 012.08-1.353c.743-.288 1.754-.5 3.112-.562C9.528 2.008 9.884 2 12 2h.315zM12 5.802a6.197 6.197 0 100 12.396 6.197 6.197 0 000-12.396zm0 2.22a3.977 3.977 0 110 7.954 3.977 3.977 0 010-7.954zm6.474-.756a1.218 1.218 0 11-2.437 0 1.218 1.218 0 012.437 0z" clip-rule="evenodd" />
+              </svg>
+            </a>
+            <a href="https://www.youtube.com/@galan.expediter" aria-label="YouTube" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-red-500 transition-all duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd" d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C22 8.68 22 12 22 12s0 3.32-.42 4.814c-.23.861-.907 1.538-1.768 1.768C18.32 19 12 19 12 19s-6.32 0-7.812-.418c-.861-.23-1.538-.907-1.768-1.768C2 15.32 2 12 2 12s0-3.32.42-4.814c.23-.861.907-1.538 1.768-1.768C5.68 5 12 5 12 5s6.32 0 7.812.418zM9.75 15.02l5.75-3.02-5.75-3.02v6.04z" clip-rule="evenodd" />
+              </svg>
             </a>
           </div>
         </div>
@@ -2065,7 +2108,7 @@
         <button id="slsLangES" onclick="slsSetLang('es')">ES</button>
       </div>
       <div id="slsFormContent">
-        <div class="sls-badge" id="slsBadge">🆓 7-Day Free Trial</div>
+        <div class="sls-badge" id="slsBadge">🆓 Free Plan</div>
         <h2 id="slsModalTitle"></h2>
         <p id="slsSubtext"></p>
         <form class="sls-form" id="slsLeadForm" onsubmit="slsSubmitForm(event)">
@@ -2080,7 +2123,7 @@
         <div class="sls-check">✅</div>
         <h3 id="slsSuccessTitle"></h3>
         <p  id="slsSuccessText"></p>
-        <a href="/auth.html" class="sls-skip-link" id="slsSuccessLink"></a>
+        <a href="/auth.html?tab=register" class="sls-skip-link" id="slsSuccessLink"></a>
       </div>
     </div>
   </div>
@@ -2092,35 +2135,35 @@
   var SLS_CONFIG = {
     brevoApiKey: window.__BREVO_KEY__ || "",   // key gestionada fuera del repo
     brevoListId: 2,
-    redirectUrl:  "/auth.html"
+    redirectUrl:  "/auth.html?tab=register"
   };
 
   var SLS_TEXTS = {
     en: {
-      badge:            "🆓 7-Day Free Trial",
+      badge:            "🆓 Free Plan",
       headlineHtml:     'Stop guessing.<br><span class="gradient">Know your number.</span>',
-      subtext:          "Enter your email and get instant access + a free RPM guide every driver needs.",
+      subtext:          "Enter your email and create your free account. No credit card required.",
       namePlaceholder:  "Your first name",
       emailPlaceholder: "Your email address",
       submitBtn:        "Get Free Access →",
       privacy:          "No spam. Unsubscribe anytime. Your info is safe.",
       successTitle:     "You're in!",
-      successText:      "Check your inbox — your access link is on its way.",
-      successLink:      "Continue to app →",
+      successText:      "Taking you to create your account now...",
+      successLink:      "Continue to sign up →",
       errorMsg:         "Something went wrong. Please try again.",
       loading:          "Saving your spot..."
     },
     es: {
-      badge:            "🆓 7 Días Gratis",
+      badge:            "🆓 Plan Gratis",
       headlineHtml:     'Deja de adivinar.<br><span class="gradient">Conoce tu número.</span>',
-      subtext:          "Deja tu email y recibe acceso inmediato + la guía de RPM que todo driver necesita.",
+      subtext:          "Deja tu email y crea tu cuenta gratis. Sin tarjeta de crédito.",
       namePlaceholder:  "Tu nombre",
       emailPlaceholder: "Tu correo electrónico",
       submitBtn:        "Quiero Acceso Gratis →",
       privacy:          "Sin spam. Cancela cuando quieras.",
       successTitle:     "¡Ya estás dentro!",
-      successText:      "Revisa tu correo — tu link de acceso está en camino.",
-      successLink:      "Ir a la app →",
+      successText:      "Llevándote a crear tu cuenta ahora...",
+      successLink:      "Ir a registrarse →",
       errorMsg:         "Algo salió mal. Intenta de nuevo.",
       loading:          "Guardando tu lugar..."
     }
@@ -2194,13 +2237,34 @@
     if (e.key === "Escape") slsCloseModal();
   });
 
-  // Intercept all buttons linking to auth.html
+  // CTA buttons ("Empieza Gratis", "Empezar Ahora", etc.) go directly to auth.html?tab=register.
+  // "Log In" nav link goes to auth.html (login tab). No modal intercept on CTA clicks.
   document.addEventListener("DOMContentLoaded", function() {
     document.querySelectorAll('a[href*="auth.html"]').forEach(function(btn) {
-      btn.addEventListener("click", function(e) {
-        e.preventDefault();
-        slsOpenModal();
-      });
+      var isLoginLink = btn.classList.contains('btn-secondary') ||
+                        btn.getAttribute('data-i18n') === 'nav.login';
+
+      if (isLoginLink) {
+        // "Iniciar Sesión" → stays as auth.html (opens login tab)
+        // But if user is already logged in, redirect to app.html at click time
+        btn.addEventListener("click", function(e) {
+          if (firebase.auth().currentUser) {
+            e.preventDefault();
+            window.location.href = 'app.html';
+          }
+          // else: navigate normally to auth.html
+        });
+      } else {
+        // CTA buttons → go directly to auth.html?tab=register (no modal)
+        btn.setAttribute('href', 'auth.html?tab=register');
+        btn.addEventListener("click", function(e) {
+          if (firebase.auth().currentUser) {
+            e.preventDefault();
+            window.location.href = 'app.html';
+          }
+          // else: navigate normally to auth.html?tab=register
+        });
+      }
     });
   });
 

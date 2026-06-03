@@ -16,9 +16,6 @@
 // ======================================================
 // LEX: Construir stateNotes desde la colección "notes"
 // ======================================================
-// ======================================================
-// LEX: Construir stateNotes desde la colección "notes"
-// ======================================================
 
 // Extraer código de estado robusto ("Michigan" -> "MI", "Detroit, MI" -> "MI")
 function extractStateFromDestination(location) {
@@ -214,17 +211,47 @@ async function initializeLexProfile() {
     });
 
     const statesWithMinLoads = Object.entries(stateStats)
-      .filter(([state, stats]) => stats.loads >= 3);
+      .filter(([, stats]) => stats.loads >= 3);
 
     const preferredStates = statesWithMinLoads
-      .filter(([state, stats]) => stats.avgRPM >= avgRPM && stats.avgProfit >= avgProfit)
+      .filter(([, stats]) => stats.avgRPM >= avgRPM && stats.avgProfit >= avgProfit)
       .map(([state]) => state)
       .sort();
 
     const avoidStates = statesWithMinLoads
-      .filter(([state, stats]) => stats.avgRPM < avgRPM * 0.9 || stats.avgProfit < avgProfit * 0.8)
+      .filter(([, stats]) => stats.avgRPM < avgRPM * 0.9 || stats.avgProfit < avgProfit * 0.8)
       .map(([state]) => state)
       .sort();
+
+    // Lane stats (origin→destination pairs)
+    const laneStats = {};
+    loads.forEach(load => {
+      const orig = load.originState;
+      const dest = load.destinationState;
+      if (!orig || !dest) return;
+      const key = `${orig}→${dest}`;
+      if (!laneStats[key]) laneStats[key] = { loads: 0, totalMiles: 0, totalRevenue: 0, avgRPM: 0 };
+      laneStats[key].loads++;
+      laneStats[key].totalMiles += load.totalMiles;
+      laneStats[key].totalRevenue += load.totalCharge;
+    });
+    Object.values(laneStats).forEach(s => {
+      s.avgRPM = s.totalMiles > 0 ? s.totalRevenue / s.totalMiles : 0;
+    });
+
+    // Day-of-week stats (0=Sunday … 6=Saturday)
+    const dayOfWeekStats = {};
+    loads.forEach(load => {
+      if (!load.date) return;
+      const dow = new Date(load.date + 'T12:00:00').getDay();
+      if (!dayOfWeekStats[dow]) dayOfWeekStats[dow] = { loads: 0, totalMiles: 0, totalRevenue: 0, avgRPM: 0 };
+      dayOfWeekStats[dow].loads++;
+      dayOfWeekStats[dow].totalMiles += load.totalMiles;
+      dayOfWeekStats[dow].totalRevenue += load.totalCharge;
+    });
+    Object.values(dayOfWeekStats).forEach(s => {
+      s.avgRPM = s.totalMiles > 0 ? s.totalRevenue / s.totalMiles : 0;
+    });
 
     // 🔹 NUEVO: construir stateNotes desde la colección "notes"
     let stateNotes = {};
@@ -236,7 +263,7 @@ async function initializeLexProfile() {
     }
 
     const profile = {
-      version: '1.1',
+      version: '1.2',
       createdAt: new Date().toISOString(),
       lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
       totalLoads,
@@ -254,7 +281,6 @@ async function initializeLexProfile() {
       currentCosts: (window.TU_COSTO_REAL) ? {
         combustible:   window.TU_COSTO_REAL.combustible   || 0.195,
         mantenimiento: window.TU_COSTO_REAL.mantenimiento || 0.051,
-        comida:        0,  // eliminado del modelo de costos
         costosFijos:   window.TU_COSTO_REAL.costosFijos   || 0.288,
         total:         window.TU_COSTO_REAL.TOTAL          || 0.534
       } : {
@@ -264,7 +290,9 @@ async function initializeLexProfile() {
         costosFijos:   0.288,
         total:         0.534
       },
-      stateNotes // 🔹 NUEVO: notas por estado para Lex
+      stateNotes,
+      laneStats,
+      dayOfWeekStats
     };
 
     await firebase.firestore()
@@ -336,6 +364,8 @@ async function updateLexProfileWithLoad(loadData) {
     const deadheadMiles = Number(loadData.deadheadMiles || loadData.deadhead || 0);
     const operatingCost = Number(loadData.operatingCost || loadData.totalExpenses || 0);
     const destState = extractStateFromDestination(loadData.destinationState || loadData.destination) || '';
+    const origState = extractStateFromDestination(loadData.originState || loadData.origin) || '';
+    const loadDate = loadData.date || new Date().toISOString().split('T')[0];
 
     if (!rpm || !totalMiles || !destState) return;
 
@@ -391,16 +421,38 @@ async function updateLexProfileWithLoad(loadData) {
       }
     }
 
+    // Update lane stats
+    const laneStats = profile.laneStats || {};
+    if (origState && destState) {
+      const laneKey = `${origState}→${destState}`;
+      if (!laneStats[laneKey]) laneStats[laneKey] = { loads: 0, totalMiles: 0, totalRevenue: 0, avgRPM: 0 };
+      laneStats[laneKey].loads++;
+      laneStats[laneKey].totalMiles += totalMiles;
+      laneStats[laneKey].totalRevenue += totalCharge;
+      laneStats[laneKey].avgRPM = laneStats[laneKey].totalMiles > 0
+        ? laneStats[laneKey].totalRevenue / laneStats[laneKey].totalMiles : 0;
+    }
+
+    // Update day-of-week stats
+    const dayOfWeekStats = profile.dayOfWeekStats || {};
+    const dow = new Date(loadDate + 'T12:00:00').getDay();
+    if (!dayOfWeekStats[dow]) dayOfWeekStats[dow] = { loads: 0, totalMiles: 0, totalRevenue: 0, avgRPM: 0 };
+    dayOfWeekStats[dow].loads++;
+    dayOfWeekStats[dow].totalMiles += totalMiles;
+    dayOfWeekStats[dow].totalRevenue += totalCharge;
+    dayOfWeekStats[dow].avgRPM = dayOfWeekStats[dow].totalMiles > 0
+      ? dayOfWeekStats[dow].totalRevenue / dayOfWeekStats[dow].totalMiles : 0;
+
     const statesWithMinLoads = Object.entries(stateStats)
-      .filter(([state, stats]) => stats.loads >= 3);
+      .filter(([, stats]) => stats.loads >= 3);
 
     const preferredStates = statesWithMinLoads
-      .filter(([state, stats]) => stats.avgRPM >= newAvgRPM && stats.avgProfit >= newAvgProfit)
+      .filter(([, stats]) => stats.avgRPM >= newAvgRPM && stats.avgProfit >= newAvgProfit)
       .map(([state]) => state)
       .sort();
 
     const avoidStates = statesWithMinLoads
-      .filter(([state, stats]) => stats.avgRPM < newAvgRPM * 0.9 || stats.avgProfit < newAvgProfit * 0.8)
+      .filter(([, stats]) => stats.avgRPM < newAvgRPM * 0.9 || stats.avgProfit < newAvgProfit * 0.8)
       .map(([state]) => state)
       .sort();
 
@@ -418,6 +470,8 @@ async function updateLexProfileWithLoad(loadData) {
       stateStats: stateStats,
       preferredStates: preferredStates,
       avoidStates: avoidStates,
+      laneStats: laneStats,
+      dayOfWeekStats: dayOfWeekStats,
       lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
     };
 
@@ -456,8 +510,8 @@ async function getLexProfile() {
     }
 
     const profileData = profileDoc.data();
-    if (profileData.version !== '1.1') {
-      debugLog('[LEX] Versión antigua de perfil detectada. Actualizando a 1.1...');
+    if (profileData.version !== '1.2') {
+      debugLog('[LEX] Versión antigua de perfil detectada. Actualizando a 1.2...');
       return await initializeLexProfile();
     }
 
@@ -618,11 +672,28 @@ async function analyzeLoadWithLearning(loadData) {
   }
 }
 
+// ====================================================================
+// GOAL TRACKING — Guardar/leer meta mensual de ingresos
+// ====================================================================
+async function setMonthlyGoal(uid, amount) {
+  if (!uid || !amount || Number(amount) <= 0) return;
+  const ref = firebase.firestore().collection('lexProfiles').doc(uid);
+  await ref.set({
+    monthlyGoal: Number(amount),
+    lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+  }, { merge: true });
+  debugLog('[LEX] Meta mensual guardada:', amount);
+  if (typeof window.lexInvalidateProfileCache === 'function') {
+    window.lexInvalidateProfileCache();
+  }
+}
+
 // Exponer funciones globalmente
 window.initializeLexProfile = initializeLexProfile;
 window.updateLexProfileWithLoad = updateLexProfileWithLoad;
 window.getLexProfile = getLexProfile;
 window.analyzeLoadWithLearning = analyzeLoadWithLearning;
+window.setMonthlyGoal = setMonthlyGoal;
 
 // ====================================================================
 // ANALIZAR CARGA ACTUAL (Desde Calculadora)

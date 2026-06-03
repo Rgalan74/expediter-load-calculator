@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @copyright 2026 SmartLoad Solution — Ricardo Galan. All rights reserved.
  * Unauthorized copying, modification, distribution, or use of this software,
  * via any medium, is strictly prohibited without prior written permission.
@@ -505,9 +505,10 @@ function analizarTrapPenalty(origenState, destinoState, millas, rpm) {
 
 
 //  FUNCION: Calcular tiempo de viaje real
-function calcularTiempoReal(millas) {
-  const paradasCombustible = Math.floor(millas / 300); // Cada 300mi como haces t
-  const tiempoManejo = millas / 75; // 75 mph promedio autopista (95% de tu tiempo)
+function calcularTiempoReal(millas, speedMph) {
+  const speed = speedMph || (VEHICLE_PROFILES[window._userVehicleType] || VEHICLE_PROFILES['van']).speedAvg;
+  const paradasCombustible = Math.floor(millas / 300); // parada cada 300mi aprox.
+  const tiempoManejo = millas / speed;
   const tiempoParadas = paradasCombustible * 0.5; // 30 min por parada
   const tiempoTotal = tiempoManejo + tiempoParadas;
 
@@ -1027,10 +1028,11 @@ function updateMainResults(data) {
 }
 
 // Parámetros de decisión por tipo de vehículo
+// horasManejoPorDia = horas reales al volante por día (vans: sin logbook, realista 10h; hotshot/boxtruck: HOS 11h pero más breaks)
 const VEHICLE_PROFILES = {
-  'van':      { shortHopMin: 150, shortHopMinTrap: 250, logDayThreshold: 300, speedAvg: 75, minDailyProfit: 100 },
-  'hotshot':  { shortHopMin: 300, shortHopMinTrap: 450, logDayThreshold: 400, speedAvg: 65, minDailyProfit: 150 },
-  'boxtruck': { shortHopMin: 350, shortHopMinTrap: 500, logDayThreshold: 400, speedAvg: 60, minDailyProfit: 200 },
+  'van':      { shortHopMin: 150, shortHopMinTrap: 250, speedAvg: 52, horasManejoPorDia: 10, minDailyProfit: 100 },
+  'hotshot':  { shortHopMin: 300, shortHopMinTrap: 450, speedAvg: 62, horasManejoPorDia: 9,  minDailyProfit: 150 },
+  'boxtruck': { shortHopMin: 350, shortHopMinTrap: 500, speedAvg: 58, horasManejoPorDia: 9,  minDailyProfit: 200 },
 };
 const _DEFAULT_VEHICLE_PROFILE = VEHICLE_PROFILES['van'];
 
@@ -1078,10 +1080,9 @@ function showDecisionPanel(calculationData = {}) {
   // Vehicle profile — cargo van by default
   const _vp = VEHICLE_PROFILES[window._userVehicleType] || _DEFAULT_VEHICLE_PROFILE;
 
-  // Daily profit — no +1 logistical day for short trips (done in hours, not days)
-  const _diasInvertidos = totalMiles < _vp.logDayThreshold
-    ? Math.max(1, Math.ceil(totalMiles / 600))
-    : Math.max(1, Math.ceil(totalMiles / 600)) + 1;
+  // Daily profit — días reales: horas de viaje (vel+paradas) / horas al volante por día
+  const _horasViaje = calcularTiempoReal(totalMiles, _vp.speedAvg).horasTotal;
+  const _diasInvertidos = Math.max(1, Math.ceil(_horasViaje / _vp.horasManejoPorDia));
   const _gananciaDia = Math.max(0, netProfit) / _diasInvertidos;
   const _lowDailyProfit = _gananciaDia < _vp.minDailyProfit;
 
@@ -1253,13 +1254,12 @@ function showDecisionPanel(calculationData = {}) {
   // Tiempo y paradas - use real duration from Google Maps if available
   let estimatedTime;
   if (window.routeDuration && window.routeDuration.hours !== undefined) {
-    // Use real duration from Google Maps
     estimatedTime = `${window.routeDuration.hours}h ${window.routeDuration.minutes}m`;
   } else {
-    // Fallback to estimation if not available
-    estimatedTime = totalMiles > 0 ? `${Math.floor(totalMiles / 50)}h ${Math.round((totalMiles / 50 % 1) * 60)}m` : '0h';
+    const _estH = totalMiles / _vp.speedAvg;
+    estimatedTime = totalMiles > 0 ? `${Math.floor(_estH)}h ${Math.round((_estH % 1) * 60)}m` : '0h';
   }
-  const fuelStops = Math.ceil(totalMiles / 300);
+  const fuelStops = Math.floor(totalMiles / 300); // parada al llegar a 300mi, no antes
 
   if (document.getElementById('estimatedTimeShort')) {
     document.getElementById('estimatedTimeShort').textContent = `⏱️ ${estimatedTime}`;
@@ -1356,6 +1356,65 @@ function showDecisionPanel(calculationData = {}) {
       });
     }
   }, 200);
+
+  // ========== 💡 SUGERENCIA DE CONTRAOFERTA ==========
+  // Visible solo cuando el operador debería negociar (no ACCEPT)
+  const _coBlock = document.getElementById('counterOfferBlock');
+  if (_coBlock) {
+    if (decision === 'ACCEPT') {
+      // Carga ya es buena — ocultar panel de sugerencia
+      _coBlock.classList.add('hidden');
+    } else {
+      // Calcular las 3 tasas clave usando valores reales del usuario
+      const _breakevenRate  = Math.ceil(_cpm * totalMiles);                      // Piso: cubre costos exacto
+      const _targetRate     = Math.ceil(_acceptThreshold * totalMiles);          // Target: margen objetivo
+      const _idealRate      = Math.ceil(_acceptThreshold * totalMiles * 1.08);   // Contraoferta: +8% sobre target
+
+      // Actualizar los 3 valores en el panel
+      const _coBreakevenEl = document.getElementById('coBreakeven');
+      const _coTargetEl    = document.getElementById('coTarget');
+      const _coIdealEl     = document.getElementById('coIdeal');
+      const _coDetailEl    = document.getElementById('counterOfferDetail');
+      const _coTitleEl     = document.getElementById('counterOfferTitle');
+
+      if (_coBreakevenEl) _coBreakevenEl.textContent = `$${_breakevenRate.toLocaleString()}`;
+      if (_coTargetEl)    _coTargetEl.textContent    = `$${_targetRate.toLocaleString()}`;
+      if (_coIdealEl)     _coIdealEl.textContent     = `$${_idealRate.toLocaleString()}`;
+
+      // Detalle contextual según la decisión
+      const _lang = window.i18n?.currentLang || 'en';
+      const _gapAmount = _targetRate - Math.round(totalCharge);
+      const _targetPctLabel = Math.round(_targetProfitPct * 100);
+
+      if (_coDetailEl) {
+        if (decision === 'REJECT') {
+          _coDetailEl.textContent = _lang === 'es'
+            ? `Esta carga pierde dinero. Necesitas mínimo $${_breakevenRate.toLocaleString()} para cubrir costos. Contraoferta en $${_idealRate.toLocaleString()} o rechaza.`
+            : `This load loses money. You need at least $${_breakevenRate.toLocaleString()} to cover costs. Counter at $${_idealRate.toLocaleString()} or pass.`;
+        } else {
+          _coDetailEl.textContent = _lang === 'es'
+            ? `Para tu margen objetivo de ${_targetPctLabel}%, necesitas $${_targetRate.toLocaleString()} (faltan $${_gapAmount.toLocaleString()}). Sugiere $${_idealRate.toLocaleString()} y negocia.`
+            : `For your ${_targetPctLabel}% target margin, you need $${_targetRate.toLocaleString()} ($${_gapAmount.toLocaleString()} short). Counter at $${_idealRate.toLocaleString()} and negotiate.`;
+        }
+      }
+
+      // Cambiar color del bloque según severidad
+      const _coInner = document.getElementById('counterOfferInner');
+      if (_coInner) {
+        if (decision === 'REJECT') {
+          _coInner.style.borderColor = 'rgba(239,68,68,0.5)';
+          _coInner.style.background  = 'rgba(239,68,68,0.08)';
+          if (_coTitleEl) { _coTitleEl.style.color = '#f87171'; }
+        } else {
+          _coInner.style.borderColor = 'rgba(251,146,60,0.4)';
+          _coInner.style.background  = 'rgba(251,146,60,0.08)';
+          if (_coTitleEl) { _coTitleEl.style.color = '#fb923c'; }
+        }
+      }
+
+      _coBlock.classList.remove('hidden');
+    }
+  }
 
   debugLog(`✅ Panel mostrado: ${decision} - RPM $${actualRPM.toFixed(2)}/mi - Ganancia $${Math.round(netProfit)}`);
 
@@ -1687,6 +1746,8 @@ async function saveLoad(existingLoadId = null) {
   if (_isSaving) return;
   _isSaving = true;
 
+  let _planForWarning = null;
+
   // ✅ GATE: Verificar límite de cargas (solo en cargas nuevas, no en ediciones)
   if (!existingLoadId) {
     try {
@@ -1695,6 +1756,7 @@ async function saveLoad(existingLoadId = null) {
       const userPlan = uid && typeof window.getUserPlan === 'function'
         ? await window.getUserPlan(uid)
         : window.userPlan;
+      _planForWarning = userPlan;
 
       if (userPlan && typeof window.canCreateMoreLoads === 'function' && !window.canCreateMoreLoads(userPlan)) {
         _isSaving = false;
@@ -1950,6 +2012,18 @@ async function saveLoad(existingLoadId = null) {
     }
 
     window.showMessage?.('✅ Carga guardada', 'success');
+
+    // Warning anticipado: avisar cuando quedan pocas cargas (≤5)
+    if (!existingLoadId && _planForWarning && typeof window.getRemainingLoads === 'function') {
+      const remaining = window.getRemainingLoads(_planForWarning);
+      if (remaining !== null && remaining > 0 && remaining <= 5) {
+        const lang = window.i18n?.currentLanguage || 'en';
+        const msg = lang === 'es'
+          ? `⚠️ Te quedan ${remaining} carga${remaining === 1 ? '' : 's'} este mes. <a href="plans.html" style="color:#FF6D4A;font-weight:700;">Ver planes →</a>`
+          : `⚠️ ${remaining} load${remaining === 1 ? '' : 's'} left this month. <a href="plans.html" style="color:#FF6D4A;font-weight:700;">See plans →</a>`;
+        setTimeout(() => showToast(msg, 'warning', 7000), 1500);
+      }
+    }
 
     setTimeout(() => {
       document.dispatchEvent(new CustomEvent('loadSaved'));

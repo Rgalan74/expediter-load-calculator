@@ -1,4 +1,4 @@
-﻿// ==========================================================
+// ==========================================================
 //  LEX MODALS - Adaptador de agentes a modales visuales
 // ==========================================================
 
@@ -39,6 +39,14 @@ class LexModals {
     const { data, recommendation, confidence } = result;
 
     // Adaptar al formato del modal existente
+    const destState = data.loadData?.destinationState;
+    const stateStats = (context.profile?.stateStats && destState) 
+      ? context.profile.stateStats[destState] 
+      : (window._userStateStats?.[destState] || null);
+    const stateAvgRPMVal = stateStats && stateStats.avgRPM 
+      ? `$${stateStats.avgRPM.toFixed(2)}` 
+      : 'N/A';
+
     const analysis = {
       recommendation: recommendation.action, // ACEPTA, RECHAZA, EVALUA
       confidence: Math.round(confidence * 100),
@@ -49,7 +57,7 @@ class LexModals {
         profit: data.metrics.profit.toFixed(0),
         dailyProfit: (data.metrics.hourlyRate * 10).toFixed(0), // estimado
         vsAverage: ((data.metrics.rpm - (context.profile?.avgRPM || 0.95)) / (context.profile?.avgRPM || 0.95) * 100).toFixed(1),
-        stateAvgRPM: 'N/A', // TODO: agregar desde perfil
+        stateAvgRPM: stateAvgRPMVal,
         deadheadPercent: data.metrics.deadheadPercent.toFixed(1)
       },
       reasons: recommendation.reasons,
@@ -126,7 +134,7 @@ class LexModals {
         <!-- Header -->
         <div class="text-white p-4 rounded-t-2xl flex-shrink-0" style="background: linear-gradient(to right, #059669, #2563eb) !important;">
           <div class="flex items-center gap-3">
-            <img src="img/lex/lex-thinking.png" class="w-10 h-10 rounded-full bg-white/10 p-1">
+            <img src="img/lex/lex-thinking.png" alt="Lex AI" class="w-10 h-10 rounded-full bg-white/10 p-1">
             <div>
               <h3 class="text-lg font-bold">${isEs ? 'Análisis de Zonas' : 'Zone Analysis'}</h3>
               <p class="text-xs text-emerald-100">${isEs ? 'Tu rendimiento geográfico' : 'Your geographic performance'}</p>

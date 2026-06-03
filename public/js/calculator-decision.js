@@ -63,8 +63,8 @@ function analizarTrapPenalty(origenState, destinoState, millas, rpm) {
         };
         const millasRegreso = millasEscapePorTrampa[destinoState] || 600; 
         const rpmSalida = 0.65; // RPM de rescate asumido para un reposicionamiento ligero
-        // Usar costo real del usuario si está disponible, o fallback al default
-        const costoPorMilla = (window.TU_COSTO_REAL && window.TU_COSTO_REAL.TOTAL) ? window.TU_COSTO_REAL.TOTAL : 0.576;
+        // CPM real del CPMEngine (si ya fue calculado y cacheado) > config del usuario > default
+        const costoPorMilla = window._userCPM || window.TU_COSTO_REAL?.TOTAL || 0.576;
 
         const revenueIda = rpm * millas;
         const revenueSalida = rpmSalida * millasRegreso;
@@ -146,9 +146,11 @@ function analizarTrapPenalty(origenState, destinoState, millas, rpm) {
 /**
  * Calculate real travel time
  */
-function calcularTiempoReal(millas) {
+function calcularTiempoReal(millas, speedMph) {
+    const _profiles = window.VEHICLE_PROFILES || { van: { speedAvg: 52 } };
+    const speed = speedMph || (_profiles[window._userVehicleType] || _profiles['van']).speedAvg || 52;
     const paradasCombustible = Math.floor(millas / 300);
-    const tiempoManejo = millas / 75;
+    const tiempoManejo = millas / speed;
     const tiempoParadas = paradasCombustible * 0.5;
     const tiempoTotal = tiempoManejo + tiempoParadas;
 
@@ -185,18 +187,28 @@ async function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
     } catch (err) {
         debugLog('[evaluateLoad] Servidor no disponible, fallback local:', err.message);
 
-        // Fallback local basico
+        // Fallback local — misma lógica de thresholds que el servidor
         const cpmResult = await window.CPMEngine.getCPM();
         const cpm = cpmResult.cpm;
+
+        // Leer avgRPM y targetProfit desde el caché global (ya cargados por config.js)
+        const avgRPM = window._userAvgRPM || 0;
+        const targetProfitPct = ((window.currentUser?.profileData?.targetProfit) || 20) / 100;
+        const targetRPM_margen = cpm / (1 - targetProfitPct);
+        const acceptThreshold = avgRPM > 0 ? Math.max(targetRPM_margen, avgRPM) : targetRPM_margen;
+        const midThreshold   = avgRPM > 0 ? Math.min(targetRPM_margen, avgRPM) : targetRPM_margen;
+
         const netProfit = Math.max(0, (rpm - cpm) * millas);
-        const diasInvertidos = Math.max(1, Math.ceil(millas / 600)) + 1;
+        const _vp = (window.VEHICLE_PROFILES?.[window._userVehicleType] || { speedAvg: 52, horasManejoPorDia: 10 });
+        const _horasViaje = calcularTiempoReal(millas, _vp.speedAvg).horasTotal;
+        const diasInvertidos = Math.max(1, Math.ceil(_horasViaje / (_vp.horasManejoPorDia || 10)));
         const gananciaDia = (netProfit / diasInvertidos).toFixed(0);
 
         let decision, level, icon, color, razon;
         if (rpm < cpm) {
             decision = 'RECHAZA'; level = 'reject'; icon = '❌'; color = 'decision-reject';
             razon = 'RPM $' + rpm.toFixed(3) + ' no cubre costos $' + cpm.toFixed(3) + '/mi';
-        } else if (rpm >= cpm * 1.20) {
+        } else if (rpm >= acceptThreshold) {
             decision = 'ACEPTA'; level = 'accept'; icon = '✅'; color = 'decision-accept';
             razon = 'Margen ' + (((rpm-cpm)/rpm)*100).toFixed(1) + '% — ~$' + gananciaDia + '/dia';
         } else {
@@ -204,17 +216,17 @@ async function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
             razon = 'Margen ' + (((rpm-cpm)/rpm)*100).toFixed(1) + '% — cubre costos, verifica rentabilidad';
         }
         return { decision, level, icon, color, razon, confianza: 'Media',
-            thresholds: { cpm, midThreshold: cpm, acceptThreshold: cpm*1.20, avgRPM: 0, targetProfitPct: 0.20 } };
+            thresholds: { cpm, midThreshold, acceptThreshold, avgRPM, targetProfitPct } };
     }
 }
 
 /**
  * Get detailed reasoning
  */
-function obtenerRazonDetallada(nivel, rpm, millas, factores, razonesEspeciales = []) {
-    const TU_COSTO_REAL = window.TU_COSTO_REAL || { TOTAL: 0.576 };
+function obtenerRazonDetallada(nivel, rpm, millas, _factores, razonesEspeciales = []) {
+    const costoPorMilla = window._userCPM || window.TU_COSTO_REAL?.TOTAL || 0.576;
     const categoria = millas <= 400 ? "corta" : millas <= 600 ? "media" : "larga";
-    const gananciaEstimada = rpm - TU_COSTO_REAL.TOTAL;
+    const gananciaEstimada = rpm - costoPorMilla;
     const gananciaTotal = gananciaEstimada * millas;
 
     let razon = `Carga ${categoria} (${millas}mi): `;
@@ -268,14 +280,6 @@ function detectarFactoresEspeciales(origin, destination, { diasSinCarga = 0 } = 
 // ========================================
 
 /**
- * Show decision panel
- */
-function showDecisionPanel(calculationData = {}) {
-    // Implementation would go here - simplified for lazy loading
-    debugLog('Decision panel:', calculationData);
-}
-
-/**
  * Hide decision panel
  */
 function hideDecisionPanel() {
@@ -295,7 +299,6 @@ window.CalculatorDecision = {
     getDecisionInteligente,
     obtenerRazonDetallada,
     detectarFactoresEspeciales,
-    showDecisionPanel,
     hideDecisionPanel
 };
 
@@ -307,7 +310,6 @@ window.calcularTiempoReal = calcularTiempoReal;
 window.getDecisionInteligente = getDecisionInteligente;
 window.obtenerRazonDetallada = obtenerRazonDetallada;
 window.detectarFactoresEspeciales = detectarFactoresEspeciales;
-window.showDecisionPanel = showDecisionPanel;
 window.hideDecisionPanel = hideDecisionPanel;
 
 debugLog('📦 Calculator Decision module loaded successfully');

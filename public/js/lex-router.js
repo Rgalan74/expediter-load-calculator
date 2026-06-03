@@ -224,7 +224,7 @@
     'ATLANTA': 'GA',
     'SAVANNAH': 'GA',
     'AUGUSTA': 'GA',
-    'COLUMBUS': 'GA',
+    'COLUMBUS GA': 'GA',   // Columbus, GA — evita colisión con Columbus OH
     'MACON': 'GA',
     'ATHENS': 'GA',
     'WARNER ROBINS': 'GA',
@@ -1135,8 +1135,14 @@
     let internal = internalByHeuristic || !!state || !!rpm;
 
     // 🛑 Si el intent dice que es EXTERNAL con alta confianza → forzar EXTERNO
+    // Excepción: si hay una carga activa, el clima es sobre el viaje actual (datos ya en contexto)
     if (intentResult && intentResult.intent === 'EXTERNAL' && intentResult.confidence >= 0.7) {
-      internal = false;
+      const hasActiveTripLoad = !!(window._lastDecisionData?.actualRPM);
+      if (!hasActiveTripLoad) {
+        internal = false;
+      } else {
+        internal = true; // pregunta de clima sobre el viaje activo — responder con datos del panel
+      }
     }
 
     const _isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
@@ -1169,28 +1175,47 @@
     const isFinances = intentResult && intentResult.intent === 'FINANCES';
 
     if (isFinances) {
-      if (typeof window.analyzeLexFinances === 'function') {
-        if (replyFn) replyFn(_isEs
-          ? '💰 Dame un segundo, estoy calculando el resumen de tus finanzas...'
-          : '💰 Give me a second, calculating your financial summary...'
-        );
-        window.analyzeLexFinances().then(result => {
-          if (!result && replyFn) {
-            replyFn(_isEs
-              ? 'No encontré suficientes datos financieros. Asegúrate de registrar gastos y cobros. 🔧'
-              : 'Not enough financial data found. Make sure to log your expenses and revenue. 🔧'
-            );
-          }
-        }).catch(err => {
-          debugLog('Error generando finanzas desde el chat:', err);
-          if (replyFn) replyFn(_isEs ? 'Tuve un pequeño problema leyendo los números. 🛠️' : 'Had a small problem reading the numbers. 🛠️');
-        });
-      } else {
-        if (replyFn) replyFn(_isEs
-          ? 'El módulo financiero está apagado en este momento. Inténtalo recargando la página. 📊'
-          : 'The financial module is off right now. Try reloading the page. 📊'
-        );
-      }
+      if (replyFn) replyFn(_isEs ? '📊 Un segundo...' : '📊 One moment...');
+      (async () => {
+        try {
+          const uid = window.currentUser?.uid;
+          if (!uid) { replyFn && replyFn(_isEs ? 'Necesitas estar logueado. 🔒' : 'You need to be logged in. 🔒'); return; }
+          const now = new Date();
+          const firstCur  = new Date(now.getFullYear(), now.getMonth(), 1);
+          const firstPrev = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+          const lastPrev  = new Date(now.getFullYear(), now.getMonth(), 1);
+          const curLabel  = now.toLocaleString(_isEs ? 'es' : 'en-US', { month: 'long', year: 'numeric' });
+          const prevLabel = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+            .toLocaleString(_isEs ? 'es' : 'en-US', { month: 'long', year: 'numeric' });
+          const [curSnap, prevSnap] = await Promise.all([
+            firebase.firestore().collection('loads').where('userId','==',uid)
+              .where('date','>=',firstCur.toISOString().split('T')[0]).get(),
+            firebase.firestore().collection('loads').where('userId','==',uid)
+              .where('date','>=',firstPrev.toISOString().split('T')[0])
+              .where('date','<', lastPrev.toISOString().split('T')[0]).get()
+          ]);
+          let curRev=0,curMi=0,prevRev=0,prevMi=0;
+          curSnap.forEach(d=>{curRev+=d.data().totalCharge||0;curMi+=d.data().totalMiles||0;});
+          prevSnap.forEach(d=>{prevRev+=d.data().totalCharge||0;prevMi+=d.data().totalMiles||0;});
+          const curRPM  = curMi  > 0 ? (curRev  / curMi ).toFixed(3) : null;
+          const prevRPM = prevMi > 0 ? (prevRev / prevMi).toFixed(3) : null;
+          const trend = curRPM && prevRPM
+            ? (((parseFloat(curRPM) - parseFloat(prevRPM)) / parseFloat(prevRPM)) * 100).toFixed(1)
+            : null;
+          const trendLine = trend
+            ? (parseFloat(trend) >= 0
+              ? (_isEs ? `📈 RPM +${trend}% vs mes anterior` : `📈 RPM +${trend}% vs last month`)
+              : (_isEs ? `📉 RPM ${trend}% vs mes anterior` : `📉 RPM ${trend}% vs last month`))
+            : '';
+          if (replyFn) replyFn(_isEs
+            ? `**${curLabel.toUpperCase()}**\n• Cargas: ${curSnap.size} | Ingresos: $${curRev.toFixed(0)}${curRPM ? ` | RPM: $${curRPM}/mi` : ''}\n\n**${prevLabel.toUpperCase()} (anterior)**\n• Cargas: ${prevSnap.size} | Ingresos: $${prevRev.toFixed(0)}${prevRPM ? ` | RPM: $${prevRPM}/mi` : ''}${trendLine ? '\n\n' + trendLine : ''}`
+            : `**${curLabel.toUpperCase()}**\n• Loads: ${curSnap.size} | Revenue: $${curRev.toFixed(0)}${curRPM ? ` | RPM: $${curRPM}/mi` : ''}\n\n**${prevLabel.toUpperCase()} (previous)**\n• Loads: ${prevSnap.size} | Revenue: $${prevRev.toFixed(0)}${prevRPM ? ` | RPM: $${prevRPM}/mi` : ''}${trendLine ? '\n\n' + trendLine : ''}`
+          );
+        } catch(e) {
+          debugLog('[LEX-ROUTER] Error cargando finanzas:', e);
+          replyFn && replyFn(_isEs ? 'No pude leer los datos. Intenta de nuevo. 🛠️' : 'Couldn\'t read the data. Try again. 🛠️');
+        }
+      })();
       return;
     }
 
@@ -1253,7 +1278,75 @@
       return;
     }
 
-    // 🧠 3.6 Multi-Intent Processing - Combine primary + secondary intents
+    // 🎯 3.6 GOAL TRACKING — "mi meta es $X" / "cómo voy con mi meta"
+    const _goalSetRx   = /(?:mi\s+)?(?:meta|objetivo)\s+(?:es|de|mensual|para\s+este\s+mes)[\s:]*\$?|(?:quiero\s+ganar|quiero\s+llegar\s+a|my\s+goal\s+is|goal\s+is|set.*my.*goal|want\s+to\s+make)\s+\$?/i;
+    const _goalCheckRx = /c[oó]mo\s+voy(?:\s+con\s+mi\s+meta)?|voy\s+a\s+llegar|cu[aá]nto\s+me\s+falta|cu[aá]l\s+es\s+mi\s+meta|how\s+am\s+i\s+doing|will\s+i\s+hit\s+my\s+goal|on\s+track/i;
+    const _amountMatch = originalText.match(/\$?\s*(\d[\d,]*(?:\.\d+)?)/);
+    const _goalAmount  = _amountMatch ? parseFloat(_amountMatch[1].replace(/,/g, '')) : null;
+    const _isSetGoal   = _goalSetRx.test(originalText) && _goalAmount && _goalAmount > 100;
+    const _isCheckGoal = _goalCheckRx.test(originalText);
+
+    if (_isSetGoal || _isCheckGoal) {
+      (async () => {
+        const uid = window.currentUser?.uid;
+        if (!uid) { replyFn && replyFn(_isEs ? 'Necesitas estar logueado.' : 'You need to be logged in.'); return; }
+
+        if (_isSetGoal) {
+          if (typeof window.setMonthlyGoal !== 'function') {
+            replyFn && replyFn(_isEs ? 'Módulo de aprendizaje no cargado aún. Intenta en un momento.' : 'Learning module not ready yet. Try in a moment.');
+            return;
+          }
+          await window.setMonthlyGoal(uid, _goalAmount);
+          replyFn && replyFn(_isEs
+            ? `🎯 **Meta mensual guardada: $${_goalAmount.toLocaleString()}**\n\nTe voy a hacer seguimiento en la pestaña "Mi Negocio". ¿Tienes una carga que evaluar?`
+            : `🎯 **Monthly goal saved: $${_goalAmount.toLocaleString()}**\n\nI'll track your progress in the "Mi Negocio" tab. Got a load to evaluate?`
+          );
+          window.dispatchEvent(new Event('lexGoalUpdated'));
+          return;
+        }
+
+        // Show goal status
+        const profileG = await getProfileSafe();
+        const goalAmt  = profileG?.monthlyGoal;
+        if (!goalAmt) {
+          replyFn && replyFn(_isEs
+            ? '🎯 Todavía no tienes una meta mensual. Dime por ejemplo: "mi meta es $8,000" y empiezo a hacerle seguimiento.'
+            : '🎯 You don\'t have a monthly goal yet. Tell me e.g.: "my goal is $8,000" and I\'ll start tracking it.'
+          );
+          return;
+        }
+
+        const _now       = new Date();
+        const _firstDay  = new Date(_now.getFullYear(), _now.getMonth(), 1).toISOString().split('T')[0];
+        const _daysInMo  = new Date(_now.getFullYear(), _now.getMonth() + 1, 0).getDate();
+        const _daysPassed= _now.getDate();
+        const _daysLeft  = _daysInMo - _daysPassed;
+
+        const _gSnap = await firebase.firestore().collection('loads')
+          .where('userId', '==', uid).where('date', '>=', _firstDay).get();
+        let _curRev = 0;
+        _gSnap.forEach(d => { _curRev += d.data().totalCharge || 0; });
+
+        const _pace      = _daysPassed > 0 ? _curRev / _daysPassed : 0;
+        const _proj      = Math.round(_pace * _daysInMo);
+        const _pct       = Math.round(_curRev / goalAmt * 100);
+        const _onTrack   = _proj >= goalAmt;
+        const _remaining = Math.max(0, goalAmt - _curRev);
+        const _needed    = _daysLeft > 0 ? Math.ceil(_remaining / _daysLeft) : 0;
+
+        let _msg = _isEs
+          ? `🎯 **Meta: $${goalAmt.toLocaleString()}**\n\n• Ingresos este mes: **$${Math.round(_curRev).toLocaleString()}** (${_pct}%)\n• Proyección al ritmo actual: **$${_proj.toLocaleString()}**\n• ${_daysLeft} días restantes\n\n`
+          : `🎯 **Goal: $${goalAmt.toLocaleString()}**\n\n• Revenue this month: **$${Math.round(_curRev).toLocaleString()}** (${_pct}%)\n• Projection at current pace: **$${_proj.toLocaleString()}**\n• ${_daysLeft} days remaining\n\n`;
+        _msg += _onTrack
+          ? (_isEs ? '✅ **Vas bien** — al ritmo actual llegas a tu meta.' : '✅ **On track** — you\'ll hit your goal at this pace.')
+          : (_isEs ? `⚠️ **Necesitas $${_needed.toLocaleString()}/día** para llegar. Te faltan $${Math.round(_remaining).toLocaleString()}.`
+                   : `⚠️ **Need $${_needed.toLocaleString()}/day** to reach it. $${Math.round(_remaining).toLocaleString()} remaining.`);
+        replyFn && replyFn(_msg);
+      })();
+      return;
+    }
+
+    // 🧠 3.7 Multi-Intent Processing - Combine primary + secondary intents
     const hasSecondaryIntents = intentResult && intentResult.secondary && intentResult.secondary.length > 0;
 
     if (intentResult && window.ResponseBuilders) {
@@ -1262,7 +1355,12 @@
       }
 
       // Load profile for multi-intent processing
-      const profile = await getLexProfile();
+      let profile;
+      try {
+        profile = await getLexProfile();
+      } catch (e) {
+        debugLog('[LEX-ROUTER] Error loading profile for multi-intent:', e);
+      }
       const profileForMultiIntent = profile || await getProfileSafe();
 
       // 🧠 Pattern Learning - Analyze user's decision history
@@ -1319,6 +1417,24 @@
                 profileForMultiIntent, state, rpm, { isSecondary: intentInfo.isSecondary, sentiment }
               );
               break;
+
+            case 'STATE_SUMMARY':
+            case 'PRICING_GENERIC':
+            case 'STATE_MARKET': {
+              const _isEsSt = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+              const st = state && profileForMultiIntent?.stateStats?.[state];
+              if (st && st.loads >= 1) {
+                snippet = {
+                  type: 'STATE_STATS',
+                  title: _isEsSt ? `📊 Tu historial en ${state}` : `📊 Your ${state} history`,
+                  content: _isEsSt
+                    ? `• ${st.loads} carga${st.loads !== 1 ? 's' : ''} registrada${st.loads !== 1 ? 's' : ''}\n• RPM promedio: $${(st.avgRPM || 0).toFixed(3)}/mi\n• Ingresos total: $${(st.totalRevenue || 0).toFixed(0)}`
+                    : `• ${st.loads} load${st.loads !== 1 ? 's' : ''} recorded\n• Avg RPM: $${(st.avgRPM || 0).toFixed(3)}/mi\n• Total revenue: $${(st.totalRevenue || 0).toFixed(0)}`,
+                  priority: 1
+                };
+              }
+              break;
+            }
           }
 
           if (snippet) {
@@ -1345,8 +1461,9 @@
 
         debugLog('[LEX-ROUTER] Total responses collected:', responses.length);
 
-        // Check for trap zones
-        if (state) {
+        // Check for trap zones — only for load-acceptance intents, not general queries
+        const _loadAcceptanceIntents = new Set(['PRICING', 'PRICING_SIMPLE', 'PRICING_WITH_DEADHEAD', 'NEGOTIATION', 'DECISION_HELP', 'COMPARE_HISTORY']);
+        if (state && intentResult && _loadAcceptanceIntents.has(intentResult.intent)) {
           const stateWarning = window.ResponseBuilders.buildStateWarningSnippet(state, { sentiment });
           if (stateWarning) {
             responses.push(stateWarning);
@@ -1435,64 +1552,4 @@
 
 
 
-  // ======================================================
-  // Respuesta interna para el chat de Lex
-  // Usa el perfil guardado (lexProfiles) y las funciones de resumen
-  // ======================================================
-  async function handleInternalChatMessage(originalText, ctx = {}) {
-    const { state, rpm } = ctx;
-
-    // 1. Obtener perfil de Lex (ya lo tienes en lex-learning.js)
-    let profile;
-    try {
-      if (typeof getLexProfile === 'function') {
-        profile = await getLexProfile();
-      } else {
-        debugLog('[LEX-CHAT] getLexProfile no está definido');
-        const _isEsIC = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-        return _isEsIC
-          ? 'Todavía no tengo listo mi perfil de aprendizaje. Pronto podré usar tus datos reales. 😉'
-          : 'My learning profile isn\'t ready yet. Soon I\'ll be able to use your real data. 😉';
-      }
-    } catch (e) {
-      debugLog('[LEX-CHAT] Error cargando perfil:', e);
-      const _isEsIC2 = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-      return _isEsIC2
-        ? 'Hubo un problema leyendo tus datos. Intenta de nuevo en un momento. 🛠️'
-        : 'There was a problem reading your data. Try again in a moment. 🛠️';
-    }
-
-    // 2. Si tengo estado y RPM → comparación de oferta
-    if (state && typeof buildRPMStateComparison === 'function' && rpm) {
-      return buildRPMStateComparison(profile, state, rpm);
-    }
-
-    // 3. Si solo tengo estado → resumen de estado
-    if (state && typeof buildStateSummary === 'function') {
-      return buildStateSummary(profile, state);
-    }
-
-    // 4. Fallback: no pude sacar estado ni rpm útiles
-    const _isEsIC3 = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    return _isEsIC3
-      ? ('Puedo ayudarte mejor si me das al menos un estado o ciudad y opcionalmente el RPM.\n' +
-        'Ejemplos:\n' +
-        '• "Es bueno 1.10 para TX?"\n' +
-        '• "Cómo está GA para mí últimamente?"\n' +
-        '• "Qué precio aceptar en Miami?"')
-      : ('I can help better if you give me at least a state or city and optionally the RPM.\n' +
-        'Examples:\n' +
-        '• "Is 1.10 good for TX?"\n' +
-        '• "How has GA been performing for me lately?"\n' +
-        '• "What rate should I accept in Miami?"'
-    );
-  }
-
-  // Opcional: respuesta para preguntas externas (futuro API)
-  async function handleExternalChatMessage(originalText) {
-    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    return isEs
-      ? 'Esta pregunta parece necesitar info de fuera de la app (noticias, clima, etc.). Más adelante conectaré una API para ayudarte también con eso. 🌐'
-      : 'This question seems to need info from outside the app (news, weather, etc.). I\'ll connect an API for that soon. 🌐';
-  }
 })();

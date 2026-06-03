@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @copyright 2026 SmartLoad Solution — Ricardo Galan. All rights reserved.
  * Unauthorized copying, modification, distribution, or use of this software,
  * via any medium, is strictly prohibited without prior written permission.
@@ -112,9 +112,14 @@
         const d = window._lastDecisionData;
         if (!d || !d.actualRPM || !d.totalMiles) return null;
 
-        const tarifa = parseFloat(document.getElementById('rate')?.value || 0);
+        // Rate: prefer UI field value; fallback to _lastDecisionData when user entered RPM instead
+        let tarifa = parseFloat(document.getElementById('rate')?.value || 0);
+        if (!tarifa && d.actualRPM && d.totalMiles) tarifa = parseFloat((d.actualRPM * d.totalMiles).toFixed(2));
         const origen = document.getElementById('origin')?.value || '';
-        const destino = document.getElementById('destination')?.value || '';
+        // Destination: try visible dynamic input first, fallback to hidden #destination
+        const destino =
+            document.getElementById('destinationInput_0')?.value ||
+            document.getElementById('destination')?.value || '';
 
         if (!tarifa || !origen) return null;
 
@@ -316,6 +321,7 @@ ${prevMonthName.toUpperCase()} (previous month):
 ${langInstruction}
 Si el usuario hace una pregunta que NO está relacionada con cargas, finanzas o expediting, respóndela directamente de forma amigable y útil — sin mencionar el perfil del conductor ni los umbrales de decisión.
 Cuando analices una carga, muestra los cálculos clave (RPM, costo, ganancia).
+IMPORTANTE: Tienes datos financieros REALES del conductor en la sección CONTEXTO FINANCIERO abajo. SIEMPRE úsalos para responder preguntas sobre su mes o rendimiento — nunca digas "no tengo información" cuando esos datos existen. Si el mes actual tiene 0 cargas, dilo claramente y compara con el mes anterior usando los datos reales.
 
 PERFIL REAL DEL CONDUCTOR:
 - CPM real (costo por milla): $${cpm.toFixed(3)}/mi
@@ -359,6 +365,7 @@ FORMATO DE RESPUESTA:
 ${langInstruction}
 If the user asks a question NOT related to loads, finances or expediting, answer it directly in a friendly and helpful way — without referencing the driver profile or decision thresholds.
 When analyzing a load, show the key calculations (RPM, cost, profit).
+IMPORTANT: You have the driver's REAL financial data in the FINANCIAL CONTEXT section below. ALWAYS use it to answer questions about their month or performance — never say "I don't have information" when that data exists. If the current month has 0 loads, say so clearly and compare to last month using the real figures.
 
 DRIVER REAL PROFILE:
 - Real CPM (cost per mile): $${cpm.toFixed(3)}/mi
@@ -431,6 +438,39 @@ RESPONSE FORMAT:
         if (now - _lastCallTs < RATE_LIMIT_MS) return true;
         _lastCallTs = now;
         return false;
+    }
+
+    // ============================================================
+    //  DAILY MESSAGE CAP — trial: 25/día, premium: ilimitado
+    // ============================================================
+    const TRIAL_DAILY_LIMIT = 25;
+
+    function _dailyKey() {
+        const uid = window.currentUser?.uid || 'anon';
+        const today = new Date().toISOString().split('T')[0];
+        return `lex_daily_${uid}_${today}`;
+    }
+
+    function getDailyCount() {
+        const n = parseInt(localStorage.getItem(_dailyKey()) || '0', 10);
+        return isNaN(n) ? 0 : n;
+    }
+
+    function incrementDailyCount() {
+        const key = _dailyKey();
+        localStorage.setItem(key, String(getDailyCount() + 1));
+        // Limpiar claves de días anteriores para no llenar localStorage
+        try {
+            for (let i = localStorage.length - 1; i >= 0; i--) {
+                const k = localStorage.key(i);
+                if (k && k.startsWith('lex_daily_') && k !== key) localStorage.removeItem(k);
+            }
+        } catch (_) {}
+    }
+
+    function isDailyLimitReached() {
+        if (window.userPlan?.limits?.hasLex === true) return false; // premium: ilimitado
+        return getDailyCount() >= TRIAL_DAILY_LIMIT;
     }
 
     async function callOpenRouter(userMessage, conversationHistory = []) {
@@ -830,34 +870,30 @@ RESPONSE FORMAT:
             return;
         }
 
-        // Verificar plan del usuario — solo premium y admin tienen Lex AI
+        // Verificar plan del usuario — AI de OpenRouter es premium/trial
+        // Sin acceso: caer al router local (responde con datos del perfil sin gastar tokens)
         const hasLexAccess = typeof window.canAccessFeature === 'function'
             ? window.canAccessFeature(window.userPlan, 'Lex')
             : false;
 
         if (!hasLexAccess) {
+            debugLog('[LEX-AI] Sin acceso → router local. Plan:', window.userPlan?.plan,
+                '| lexTrialEndsAt:', window.userPlan?.lexTrialEndsAt || 'no trial');
+            if (typeof originalHandler === 'function') {
+                return originalHandler(messageText);
+            }
+            // Fallback si ni el router está disponible
             const replyFnPlan = typeof window.appendLexMessageFromRouter === 'function'
                 ? window.appendLexMessageFromRouter : null;
             if (replyFnPlan) {
                 const isEs = (window.i18n?.currentLang || 'en') === 'es';
                 replyFnPlan(
                     isEs
-                        ? '🔒 Lex AI está disponible en el plan Premium.\n\n' +
-                          'Con Lex AI puedes:\n' +
-                          '• Analizar cualquier carga con lenguaje natural\n' +
-                          '• Detectar cargas trampa automáticamente\n' +
-                          '• Negociar con datos reales de tu historial\n\n' +
-                          '<a href="/plans.html" style="display:inline-block;margin-top:8px;padding:8px 18px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-radius:8px;font-weight:600;text-decoration:none;font-size:13px;">👑 Ver Plan Premium →</a>'
-                        : '🔒 Lex AI is available on the Premium plan.\n\n' +
-                          'With Lex AI you can:\n' +
-                          '• Analyze any load in natural language\n' +
-                          '• Automatically detect trap loads\n' +
-                          '• Negotiate using real data from your history\n\n' +
-                          '<a href="/plans.html" style="display:inline-block;margin-top:8px;padding:8px 18px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-radius:8px;font-weight:600;text-decoration:none;font-size:13px;">👑 View Premium Plan →</a>'
+                        ? '💡 El análisis con IA avanzada requiere Premium. Mientras tanto puedo ayudarte con tus estadísticas básicas.\n\n' +
+                          '<a href="plans.html" style="display:inline-block;margin-top:6px;padding:6px 14px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-radius:6px;font-weight:600;text-decoration:none;font-size:12px;">👑 Ver Premium →</a>'
+                        : '💡 Advanced AI analysis requires Premium. Meanwhile I can help with your basic stats.\n\n' +
+                          '<a href="plans.html" style="display:inline-block;margin-top:6px;padding:6px 14px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-radius:6px;font-weight:600;text-decoration:none;font-size:12px;">👑 View Premium →</a>'
                 );
-            }
-            if (typeof window.setLexState === 'function') {
-                window.setLexState('warning', { duration: 4000 });
             }
             return;
         }
@@ -875,6 +911,18 @@ RESPONSE FORMAT:
                 : '⏳ One moment... still processing your previous message.');
             return;
         }
+
+        // Daily cap — trial: 25 mensajes/día
+        if (isDailyLimitReached()) {
+            debugLog('[LEX-AI] Daily limit reached:', getDailyCount());
+            const isEs = (window.i18n?.currentLang || 'en') === 'es';
+            if (replyFn) replyFn(isEs
+                ? `⚡ Alcanzaste el límite de ${TRIAL_DAILY_LIMIT} mensajes diarios del trial. Vuelve mañana o mejora tu plan.\n\n<a href="plans.html" style="display:inline-block;margin-top:6px;padding:6px 14px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-radius:6px;font-weight:600;text-decoration:none;font-size:12px;">👑 Ver Premium →</a>`
+                : `⚡ You've reached the ${TRIAL_DAILY_LIMIT} daily message limit for your trial. Come back tomorrow or upgrade.\n\n<a href="plans.html" style="display:inline-block;margin-top:6px;padding:6px 14px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-radius:6px;font-weight:600;text-decoration:none;font-size:12px;">👑 Upgrade to Premium →</a>`
+            );
+            return;
+        }
+        incrementDailyCount();
 
         // Estado visual: pensando + typing indicator
         if (typeof window.setLexState === 'function') {
@@ -1032,6 +1080,38 @@ RESPONSE FORMAT:
             }
         } catch (e) {
             debugLog('[LEX-AI] Error en briefing semanal:', e.message);
+        }
+    };
+
+    // ============================================================
+    //  AUTO-ANÁLISIS PARA PESTAÑA ANÁLISIS
+    //  Llama a DeepSeek directamente sin pasar por el chat UI
+    //  Usado por renderAIAnalysis() en lex.js
+    // ============================================================
+    let _tabAnalysisTs = 0;
+
+    window.lexAnalyzeForTab = async function (query) {
+        if (!isConfigured()) return null;
+
+        const hasAccess = typeof window.canAccessFeature === 'function'
+            ? window.canAccessFeature(window.userPlan, 'Lex') : false;
+        if (!hasAccess) return null;
+
+        // Cooldown de 5s — evita doble llamada si el modal se abre/cierra rápido
+        const now = Date.now();
+        if (now - _tabAnalysisTs < 5000) return null;
+        _tabAnalysisTs = now;
+
+        try {
+            const text = query || (
+                (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es'
+                    ? 'Analiza la carga actual'
+                    : 'Analyze the current load'
+            );
+            return await callOpenRouter(text, []);
+        } catch (e) {
+            debugLog('[LEX-AI] lexAnalyzeForTab error:', e.message);
+            return null;
         }
     };
 

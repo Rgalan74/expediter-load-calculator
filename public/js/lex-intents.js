@@ -78,7 +78,11 @@
     'rate ta good', 'rate esta low', 'rate esta high', 'good rate', 'bad rate',
     // english
     'should i take', 'should i accept', 'is it worth', 'good load', 'bad load',
-    'worth it', 'take it', 'too low', 'too high', 'should i pass'
+    'worth it', 'take it', 'too low', 'too high', 'should i pass',
+    // análisis directo de carga activa (ES/EN) — quick action buttons
+    'analiza la carga', 'analizar la carga', 'analiza esta carga', 'carga actual',
+    'analyze the load', 'analyze current', 'analyze this load', 'analyze load',
+    'revisar la carga', 'check the load'
   ];
 
   // C. Comparación con histórico

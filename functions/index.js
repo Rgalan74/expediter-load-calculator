@@ -14,6 +14,7 @@
  */
 
 const { onRequest, onCall, HttpsError } = require("firebase-functions/v2/https");
+const { onSchedule } = require("firebase-functions/v2/scheduler");
 const { setGlobalOptions } = require("firebase-functions/v2");
 const logger = require("firebase-functions/logger");
 const crypto = require("crypto");
@@ -437,6 +438,102 @@ exports.evaluateLoad = onCall(
             thresholds: { cpm, midThresh, acceptThresh, avgRPM, targetProfitPct },
             zonas: { origenZona, destinoZona }
         };
+    }
+);
+
+// ============================================================
+// lexDailyAlerts — Alertas proactivas de Lex (Phase 5)
+// Corre diariamente. Escribe en alerts/{uid} si detecta:
+//   1. 2+ días sin registrar una carga (usuario activo con historial)
+//   2. RPM semanal bajó ≥15% vs la semana anterior (mín. 2 cargas c/u)
+// El cliente lee alerts/{uid} al abrir el chat y muestra los mensajes.
+// ============================================================
+exports.lexDailyAlerts = onSchedule(
+    { schedule: "every 24 hours", timeZone: "America/Chicago", maxInstances: 1 },
+    async () => {
+        const now       = new Date();
+        const todayKey  = now.toISOString().split('T')[0];
+        const ms        = (d) => d * 86400000;
+        const dateStr   = (d) => d.toISOString().split('T')[0];
+        const cutoff2   = dateStr(new Date(now - ms(2)));
+        const cutoff7   = dateStr(new Date(now - ms(7)));
+        const cutoff14  = dateStr(new Date(now - ms(14)));
+        const cutoff30  = dateStr(new Date(now - ms(30)));
+        // Usuarios activos = lexProfile actualizado en los últimos 30 días
+        const cutoff30Ts = admin.firestore.Timestamp.fromDate(new Date(now - ms(30)));
+        const profilesSnap = await db.collection('lexProfiles')
+            .where('lastUpdated', '>=', cutoff30Ts)
+            .get();
+
+        if (profilesSnap.empty) {
+            logger.info('[lexDailyAlerts] No active users.');
+            return;
+        }
+
+        let alertsCreated = 0;
+
+        for (const profileDoc of profilesSnap.docs) {
+            const uid = profileDoc.id;
+            try {
+                // Leer alertas existentes y limpiar las leídas > 7 días
+                const alertRef  = db.collection('alerts').doc(uid);
+                const alertSnap = await alertRef.get();
+                const existing  = alertSnap.exists ? (alertSnap.data().items || []) : [];
+                const cleaned   = existing.filter(a =>
+                    !(a.read && a.createdAt < cutoff7)
+                );
+                const seenIds   = new Set(cleaned.map(a => a.id));
+                const newAlerts = [];
+
+                // ── Alerta 1: 2+ días sin carga ───────────────────────────
+                const noLoadId = `no_load_${todayKey}`;
+                if (!seenIds.has(noLoadId)) {
+                    const [recent, history] = await Promise.all([
+                        db.collection('loads').where('userId','==',uid).where('date','>=',cutoff2).limit(1).get(),
+                        db.collection('loads').where('userId','==',uid).where('date','>=',cutoff30).limit(1).get(),
+                    ]);
+                    if (recent.empty && !history.empty) {
+                        newAlerts.push({ id: noLoadId, type: 'no_loads', createdAt: todayKey, read: false });
+                    }
+                }
+
+                // ── Alerta 2: RPM semanal bajó ≥15% ──────────────────────
+                const rpmDropId = `rpm_drop_${todayKey}`;
+                if (!seenIds.has(rpmDropId)) {
+                    const [thisWeek, lastWeek] = await Promise.all([
+                        db.collection('loads').where('userId','==',uid).where('date','>=',cutoff7).get(),
+                        db.collection('loads').where('userId','==',uid).where('date','>=',cutoff14).where('date','<',cutoff7).get(),
+                    ]);
+                    if (thisWeek.size >= 2 && lastWeek.size >= 2) {
+                        const avg = (snap) => snap.docs.reduce((s,d) => s + (Number(d.data().rpm)||0), 0) / snap.size;
+                        const avgThis = avg(thisWeek);
+                        const avgLast = avg(lastWeek);
+                        if (avgLast > 0 && avgThis > 0 && (avgLast - avgThis) / avgLast >= 0.15) {
+                            newAlerts.push({
+                                id: rpmDropId, type: 'rpm_drop',
+                                dropPct: Math.round((avgLast - avgThis) / avgLast * 100),
+                                avgThisWeek: Math.round(avgThis * 1000) / 1000,
+                                avgLastWeek: Math.round(avgLast * 1000) / 1000,
+                                createdAt: todayKey, read: false,
+                            });
+                        }
+                    }
+                }
+
+                if (newAlerts.length > 0 || cleaned.length !== existing.length) {
+                    await alertRef.set({
+                        items: [...cleaned, ...newAlerts],
+                        updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+                    });
+                    alertsCreated += newAlerts.length;
+                }
+
+            } catch (e) {
+                logger.error(`[lexDailyAlerts] uid ${uid}:`, e.message);
+            }
+        }
+
+        logger.info(`[lexDailyAlerts] Done — ${alertsCreated} alerts / ${profilesSnap.size} users.`);
     }
 );
 

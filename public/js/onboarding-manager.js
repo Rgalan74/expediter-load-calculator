@@ -64,14 +64,18 @@ class OnboardingManager {
     /**
      * Obtiene el perfil del usuario desde Firestore
      */
-    async getUserProfile() {
+    async getUserProfile(_depth = 0) {
+        if (_depth > 2) {
+            debugLog('⚠️ getUserProfile: demasiados reintentos, abortando recursión');
+            return null;
+        }
         try {
             const doc = await this.db.collection('users').doc(this.currentUser.uid).get();
 
             if (!doc.exists) {
                 debugLog('📝 Usuario no existe en Firestore, creando...');
                 await this.createDefaultProfile();
-                return await this.getUserProfile(); // Recursivo para obtener el perfil creado
+                return await this.getUserProfile(_depth + 1);
             }
 
             const profile = doc.data();
@@ -80,7 +84,7 @@ class OnboardingManager {
             if (this.needsMigration(profile)) {
                 debugLog('🔄 Perfil antiguo detectado, migrando a nueva estructura...');
                 await this.migrateOldProfile(profile);
-                return await this.getUserProfile(); // Recursivo para obtener perfil migrado
+                return await this.getUserProfile(_depth + 1);
             }
 
             return profile;
@@ -152,7 +156,7 @@ class OnboardingManager {
         }
 
         // Agregar/actualizar onboarding completo
-        if (!oldProfile.onboarding || !oldProfile.onboarding.completed === undefined) {
+        if (!oldProfile.onboarding || oldProfile.onboarding.completed === undefined) {
             updates.onboarding = {
                 ...oldProfile.onboarding,
                 completed: false,
@@ -304,10 +308,11 @@ class OnboardingManager {
         }
 
         // Necesita onboarding si:
-        // - No ha completado onboarding
+        // - No ha completado onboarding NI ha hecho skip antes
         // - Está usando defaults
         // - Tiene menos de 3 cálculos (usuario muy nuevo)
         return !this.userProfile.onboarding.completed &&
+            !this.userProfile.onboarding.skipped &&
             this.userProfile.vehicle?.isDefault &&
             this.userProfile.costs?.isDefault &&
             (this.userProfile.analytics?.totalCalculations || 0) < 3;

@@ -1414,7 +1414,7 @@ window.showLexZonesModal = function (analysis) {
       <!-- Header -->
       <div class="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 rounded-t-2xl flex-shrink-0">
         <div class="flex items-center gap-3">
-          <img src="img/lex/lex-thinking.png" class="w-10 h-10 rounded-full bg-white/10 p-1">
+          <img src="img/lex/lex-thinking.png" alt="Lex AI" class="w-10 h-10 rounded-full bg-white/10 p-1">
           <div>
             <h3 class="text-lg font-bold">${t('Zone Analysis', 'Análisis de Zonas')}</h3>
             <p class="text-xs text-purple-100">

@@ -195,7 +195,8 @@ async function getUserPlan(userId) {
             subscriptionStatus: userData.subscriptionStatus || 'active',
             subscriptionEndDate: userData.subscriptionEndDate || null,
             loadsThisMonth: userData.loadsThisMonth || 0,
-            monthStartDate: userData.monthStartDate || new Date().toISOString()
+            monthStartDate: userData.monthStartDate || new Date().toISOString(),
+            lexTrialEndsAt: userData.lexTrialEndsAt || null
         };
 
     } catch (error) {
@@ -206,6 +207,7 @@ async function getUserPlan(userId) {
 
 async function initializeUserPlan(userId, email) {
     try {
+        const trialEnd = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString();
         await firebase.firestore()
             .collection('users')
             .doc(userId)
@@ -215,6 +217,7 @@ async function initializeUserPlan(userId, email) {
                 subscriptionStatus: 'active',
                 loadsThisMonth: 0,
                 monthStartDate: new Date().toISOString(),
+                lexTrialEndsAt: trialEnd,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 updatedAt: firebase.firestore.FieldValue.serverTimestamp()
             }, { merge: true });
@@ -264,7 +267,24 @@ function canAccessFeature(userPlan, featureName) {
     }
 
     const featureKey = `has${featureName.charAt(0).toUpperCase() + featureName.slice(1)}`;
-    return userPlan.limits[featureKey] === true;
+
+    if (userPlan.limits[featureKey] === true) return true;
+
+    // Trial activo: dar acceso a Lex aunque el plan no lo incluya
+    if (featureKey === 'hasLex') {
+        const trialEnd = userPlan.lexTrialEndsAt;
+        if (trialEnd && new Date(trialEnd) > new Date()) return true;
+    }
+
+    return false;
+}
+
+// Devuelve días enteros restantes del trial de Lex, null si no hay trial,
+// o un número negativo si ya venció (útil para mostrar "venció hace X días")
+function getLexTrialDaysRemaining(userPlan) {
+    if (!userPlan?.lexTrialEndsAt) return null;
+    const diff = new Date(userPlan.lexTrialEndsAt) - new Date();
+    return Math.ceil(diff / (1000 * 60 * 60 * 24));
 }
 
 function canCreateMoreLoads(userPlan) {
@@ -279,6 +299,14 @@ function canCreateMoreLoads(userPlan) {
     if (maxLoads === -1) return true;
 
     return userPlan.loadsThisMonth < maxLoads;
+}
+
+function getRemainingLoads(userPlan) {
+    if (!userPlan) return null;
+    if (isAdmin(userPlan)) return null;
+    const maxLoads = userPlan.limits?.maxLoadsPerMonth;
+    if (!maxLoads || maxLoads === -1) return null;
+    return Math.max(0, maxLoads - userPlan.loadsThisMonth);
 }
 
 async function incrementMonthlyLoads(userId) {
@@ -428,7 +456,9 @@ window.PLANS = PLANS;
 window.getUserPlan = getUserPlan;
 window.initializeUserPlan = initializeUserPlan;
 window.canAccessFeature = canAccessFeature;
+window.getLexTrialDaysRemaining = getLexTrialDaysRemaining;
 window.canCreateMoreLoads = canCreateMoreLoads;
+window.getRemainingLoads = getRemainingLoads;
 window.incrementMonthlyLoads = incrementMonthlyLoads;
 window.showUpgradeModal = showUpgradeModal;
 window.closeUpgradeModal = closeUpgradeModal;

@@ -553,6 +553,13 @@ function renderHistoryTable() {
     table.innerHTML = rows.join('');
 
     debugLog(` History table rendered successfully with ${filteredData.length} rows`);
+
+    // On mobile, scroll the table card into view so users see the filtered results
+    if (window.innerWidth <= 768 && window._historyScrollToTable) {
+      const card = table.closest('.card-section');
+      if (card) setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 150);
+    }
+    window._historyScrollToTable = false;
   } catch (error) {
     debugLog(" Error rendering history table:", error);
     table.innerHTML = `<tr><td colspan="9" class="p-4 text-center text-red-500">${window.i18n?.t('history.error_render') || 'Error displaying data.'}</td></tr>`;
@@ -964,11 +971,13 @@ document.addEventListener("DOMContentLoaded", () => {
         let timeoutId;
         const handler = () => {
           clearTimeout(timeoutId);
+          window._historyScrollToTable = true;
           timeoutId = setTimeout(renderFilteredImmediate, 300);
         };
 
         input.addEventListener('change', handler);
         input.addEventListener('keyup', handler);
+        input.addEventListener('input', handler); // mobile keyboards fire input, not always keyup
         debugLog(` Filter event listener added to ${id}`);
       }
     });
@@ -980,6 +989,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const monthSelect = document.getElementById('historyMonthSelect');
         if (monthSelect) monthSelect.value = ''; // limpiar mes al cambiar año
         populateHistoryMonthSelector(); // repoblar solo meses del año elegido
+        window._historyScrollToTable = true;
         renderFilteredImmediate();
       });
       debugLog(' Filter event listener added to historyYearSelect (with month repopulate)');
@@ -997,6 +1007,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Botón Filtrar
     document.getElementById("filterBtn")?.addEventListener("click", () => {
       debugLog(" Botón Filtrar clicado");
+      window._historyScrollToTable = true;
       if (typeof renderFiltered === "function") {
         renderFiltered();
       } else {
@@ -1182,6 +1193,7 @@ function selectMonth(month) {
   closeMonthPicker();
 
   // Aplicar filtro automáticamente
+  window._historyScrollToTable = true;
   if (typeof applyFilters === 'function') {
     applyFilters();
   } else if (typeof renderFiltered === 'function') {

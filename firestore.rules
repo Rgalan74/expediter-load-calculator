@@ -274,6 +274,25 @@ service cloud.firestore {
     }
 
     // ========================================
+    // LEX AI - ALERTAS PROACTIVAS (Phase 5)
+    // Cloud Function escribe vía Admin SDK (bypass rules)
+    // Cliente solo lee y actualiza (marcar como leídas)
+    // ========================================
+    match /alerts/{uid} {
+      allow read: if isOwner(uid);
+      allow update: if isOwner(uid);
+    }
+
+    // ========================================
+    // APP CONFIG (Lex AI key, modelos, etc.)
+    // Solo lectura para usuarios autenticados — nunca escritura desde cliente
+    // ========================================
+    match /appConfig/{configId} {
+      allow read: if isAuthenticated();
+      allow write: if false;
+    }
+
+    // ========================================
     // DENY ALL ELSE
     // ========================================
     match /{document=**} {

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -61,10 +61,10 @@
   <!-- Meta Pixel Code -->
   <script>
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1227322958231625');
+    fbq('init', '2077223159668765');
     fbq('track', 'PageView');
   </script>
-  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1227322958231625&ev=PageView&noscript=1" /></noscript>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2077223159668765&ev=PageView&noscript=1" /></noscript>
   <!-- End Meta Pixel Code -->
 
 </head>
@@ -174,6 +174,10 @@
                 class="form-checkbox h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500" required>
               <span data-i18n-html="auth.terms_agree">I accept the <a href="terms.html" class="text-blue-600 hover:text-blue-800 hover:underline" target="_blank">Terms of Use</a> and the <a href="privacy.html" class="text-blue-600 hover:text-blue-800 hover:underline" target="_blank">Privacy Policy</a></span>
             </label>
+          </div>
+          <div style="background:linear-gradient(135deg,rgba(124,58,237,0.08),rgba(168,85,247,0.08));border:1px solid rgba(168,85,247,0.3);border-radius:0.75rem;padding:0.65rem 1rem;display:flex;align-items:center;gap:0.625rem;">
+            <span style="font-size:1.25rem;flex-shrink:0;">🎁</span>
+            <p class="text-sm font-semibold" style="color:#6d28d9;" data-i18n="auth.lex_trial">Sign up and get 14 days of Lex AI free</p>
           </div>
           <button type="submit"
             class="bg-green-600 text-white px-4 py-3 w-full rounded-lg hover:bg-green-700 font-semibold transition duration-300">
@@ -288,6 +292,7 @@
             setTimeout(() => { redirectAfterAuth(); }, 500);
           } else {
             showMessage(t('auth.msg_session_user', { email: user.email }), "success");
+            setTimeout(() => { redirectAfterAuth(); }, 1500);
           }
         }
       });
@@ -472,6 +477,12 @@
           debugLog("✅ User profile saved");
           showMessage(t('auth.register_success'), "success");
 
+          // ✅ Google Analytics — registro exitoso
+          if (typeof gtag === "function") {
+            gtag("event", "sign_up", { method: "email" });
+          }
+
+          // ✅ Meta Pixel — registro exitoso
           trackMeta("CompleteRegistration", { method: "email", value: 1.00, currency: "USD" });
 
           setTimeout(() => { redirectAfterAuth(); }, 2500);

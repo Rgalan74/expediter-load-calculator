@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" id="htmlRoot">
 
 <head>
@@ -341,11 +341,11 @@
       s.parentNode.insertBefore(t, s)
     }(window, document, 'script',
       'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1227322958231625');
+    fbq('init', '2077223159668765');
     fbq('track', 'PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=1227322958231625&ev=PageView&noscript=1" /></noscript>
+      src="https://www.facebook.com/tr?id=2077223159668765&ev=PageView&noscript=1" /></noscript>
   <!-- End Meta Pixel Code -->
 
 </head>
@@ -454,6 +454,9 @@
           <button class="tab-link n8n-nav-link tab-pill-inactive" data-tab="settings" data-i18n="nav.settings">Settings</button>
           <a href="academy.html" class="tab-link n8n-nav-link tab-pill-inactive"
             style="text-decoration:none" data-i18n="nav.academy">Academy</a>
+          <a href="https://smartloadsolution.com?visit=1" target="_blank" rel="noopener noreferrer"
+            class="tab-link n8n-nav-link tab-pill-inactive"
+            style="text-decoration:none" data-i18n="nav.website">Website</a>
         </nav>
 
         <!-- Right: Actions -->
@@ -521,6 +524,8 @@
         <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="zones" data-i18n="nav.zones">🗺️ Zones</button>
         <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="settings" data-i18n="nav.settings">⚙️ Settings</button>
         <a href="academy.html" class="text-left w-full hover:text-[#FF6D4A] py-1 block" style="text-decoration:none" data-i18n="nav.academy">📚 Academy</a>
+        <a href="https://smartloadsolution.com?visit=1" target="_blank" rel="noopener noreferrer"
+          class="text-left w-full hover:text-[#FF6D4A] py-1 block" style="text-decoration:none" data-i18n="nav.website">🌍 Website</a>
 
         <!-- Separador -->
         <div class="border-t border-gray-200 my-2"></div>
@@ -747,6 +752,44 @@
                   </div>
                 </div>
 
+                <!-- 💡 Sugerencia de Contraoferta (visible solo cuando no es ACCEPT) -->
+                <div id="counterOfferBlock" class="hidden mt-3">
+                  <div id="counterOfferInner"
+                    style="border-radius:0.875rem;padding:0.75rem;border:1px solid rgba(251,146,60,0.4);background:rgba(251,146,60,0.08);">
+                    <div class="flex items-center gap-2 mb-2">
+                      <span style="font-size:1rem;">💡</span>
+                      <span id="counterOfferTitle"
+                        style="font-size:0.8rem;font-weight:700;letter-spacing:0.03em;color:#fb923c;"
+                        data-i18n="calculator.counter_offer_title">SUGGESTED ACTION</span>
+                    </div>
+                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.375rem;">
+                      <!-- Piso Breakeven -->
+                      <div style="background:rgba(0,0,0,0.3);border-radius:0.5rem;padding:0.4rem 0.25rem;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:52px;">
+                        <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-bottom:3px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;"
+                          data-i18n="calculator.co_breakeven">Breakeven</div>
+                        <div id="coBreakeven"
+                          style="font-size:1rem;font-weight:700;color:#f87171;line-height:1;">$0</div>
+                      </div>
+                      <!-- Target (config margen) -->
+                      <div style="background:rgba(0,0,0,0.3);border-radius:0.5rem;padding:0.4rem 0.25rem;text-align:center;border:1px solid rgba(251,146,60,0.5);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:52px;">
+                        <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-bottom:3px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;"
+                          data-i18n="calculator.co_target">Your Target</div>
+                        <div id="coTarget"
+                          style="font-size:1rem;font-weight:700;color:#fb923c;line-height:1;">$0</div>
+                      </div>
+                      <!-- Contraoferta ideal -->
+                      <div style="background:rgba(34,197,94,0.12);border-radius:0.5rem;padding:0.4rem 0.25rem;text-align:center;border:1px solid rgba(34,197,94,0.4);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:52px;">
+                        <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-bottom:3px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;"
+                          data-i18n="calculator.co_ideal">Counter-Offer</div>
+                        <div id="coIdeal"
+                          style="font-size:1rem;font-weight:700;color:#4ade80;line-height:1;">$0</div>
+                      </div>
+                    </div>
+                    <div id="counterOfferDetail"
+                      style="margin-top:0.5rem;font-size:0.75rem;color:rgba(255,255,255,0.6);line-height:1.4;"></div>
+                  </div>
+                </div>
+
                 <!-- Info extra: umbrales, notas, historial -->
                 <div id="decisionExtraInfo" class="hidden mt-3 space-y-2"></div>
 
@@ -840,7 +883,7 @@
             <div class="mt-3 text-sm text-gray-600 bg-blue-50 p-3 rounded">
               <p class="flex items-center gap-2">
                 <span>🗺️</span>
-                <span data-i18n="calculator.map_hint"><strong>Interactive map:</strong> The calculated route is displayed automatically</span>
+                <span data-i18n-html="calculator.map_hint"><strong>Interactive map:</strong> The calculated route is displayed automatically</span>
               </p>
             </div>
           </div>

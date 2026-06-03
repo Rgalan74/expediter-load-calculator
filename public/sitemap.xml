@@ -4,7 +4,7 @@
   <!-- 🏠 Landing Page -->
   <url>
     <loc>https://smartloadsolution.com/</loc>
-    <lastmod>2025-03-09</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -12,28 +12,28 @@
   <!-- 📄 Páginas principales -->
   <url>
     <loc>https://smartloadsolution.com/about.html</loc>
-    <lastmod>2025-03-09</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://smartloadsolution.com/plans.html</loc>
-    <lastmod>2025-03-09</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://smartloadsolution.com/contact.html</loc>
-    <lastmod>2025-03-09</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://smartloadsolution.com/resources.html</loc>
-    <lastmod>2025-03-09</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -41,21 +41,56 @@
   <!-- 📝 Blog, FAQ, Soporte -->
   <url>
     <loc>https://smartloadsolution.com/blog.html</loc>
-    <lastmod>2026-03-13</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
+    <loc>https://smartloadsolution.com/blog/calculate-real-rpm.html</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/blog/hidden-operating-costs.html</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/blog/profitable-zones.html</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/blog/decide-load-30-seconds.html</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/blog/llc-vs-sole-proprietor.html</loc>
+    <lastmod>2026-05-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
     <loc>https://smartloadsolution.com/faq.html</loc>
-    <lastmod>2026-03-13</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
     <loc>https://smartloadsolution.com/support.html</loc>
-    <lastmod>2026-03-13</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -63,7 +98,7 @@
   <!-- 🎓 Academy (índice público) -->
   <url>
     <loc>https://smartloadsolution.com/academy.html</loc>
-    <lastmod>2025-03-09</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -71,21 +106,21 @@
   <!-- ⚖️ Páginas legales -->
   <url>
     <loc>https://smartloadsolution.com/privacy.html</loc>
-    <lastmod>2025-03-09</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
     <loc>https://smartloadsolution.com/terms.html</loc>
-    <lastmod>2025-03-09</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
     <loc>https://smartloadsolution.com/refund.html</loc>
-    <lastmod>2025-03-09</lastmod>
+    <lastmod>2026-05-23</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

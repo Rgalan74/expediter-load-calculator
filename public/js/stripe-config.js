@@ -13,13 +13,27 @@
 // ========================================
 
 // Mapeo de plan IDs a Stripe Price IDs
-// ⚠️ ACTUALIZAR estos IDs cuando cambien los precios en Stripe Dashboard
-// ⚠️ Para cambiar entre TEST y LIVE, cambia IS_TEST_MODE
-const STRIPE_PRICE_MAP = {
+// Fuente de verdad: Firestore appConfig/stripe { priceMap: { professional, premium } }
+// Estos valores son el fallback si Firestore no responde.
+// Para actualizar precios: edita appConfig/stripe en Firebase Console — sin code deploy.
+let STRIPE_PRICE_MAP = {
     free: null,
-    professional: 'price_1T4CmZPrcqI2pVW0wjZkexA8', // $14.99/mes — LIVE
-    premium: 'price_1T4CpaPrcqI2pVW0EgoJJq6Q'        // $29.99/mes — LIVE
+    professional: 'price_1T4CmZPrcqI2pVW0wjZkexA8', // $14.99/mes — LIVE (fallback)
+    premium: 'price_1T4CpaPrcqI2pVW0EgoJJq6Q'        // $29.99/mes — LIVE (fallback)
 };
+
+async function _loadStripePriceMap() {
+    try {
+        const snap = await firebase.firestore().collection('appConfig').doc('stripe').get();
+        if (snap.exists && snap.data().priceMap) {
+            STRIPE_PRICE_MAP = { ...STRIPE_PRICE_MAP, ...snap.data().priceMap };
+            debugLog('[STRIPE] Price map loaded from Firestore');
+        }
+    } catch (e) {
+        debugLog('[STRIPE] Using fallback price map');
+    }
+}
+firebase.auth().onAuthStateChanged(u => { if (u) _loadStripePriceMap(); });
 
 // ========================================
 // FUNCIONES DE VERIFICACIÓN
@@ -109,6 +123,12 @@ async function upgradeSubscription(targetPlan) {
     const priceId = STRIPE_PRICE_MAP[targetPlan];
     if (!priceId) { debugLog('[STRIPE] Invalid plan:', targetPlan); return; }
 
+    // ✅ Google Analytics — intención de pago (upgrade)
+    if (typeof gtag === 'function') {
+        gtag('event', 'begin_checkout', { plan: targetPlan });
+    }
+
+    // ✅ Meta Pixel — intención de pago (upgrade)
     if (typeof window.trackMeta === 'function') {
         const planData = window.PLANS && window.PLANS[targetPlan];
         window.trackMeta('InitiateCheckout', { value: planData ? planData.price : 0, currency: 'USD', plan: targetPlan });
@@ -150,7 +170,13 @@ async function upgradeSubscription(targetPlan) {
             }
         });
 
-        setTimeout(() => { unsubscribe(); }, 15000);
+        setTimeout(() => {
+            unsubscribe();
+            if (typeof showToast === 'function') showToast(
+                window.i18n?.t('stripe.timeout') || 'No se recibió respuesta de Stripe. Intenta de nuevo.',
+                'error'
+            );
+        }, 15000);
     } catch (error) {
         debugLog('Error creating upgrade checkout:', error);
         if (typeof showToast === 'function') showToast(window.i18n?.t('stripe.error_upgrade') || 'Error al iniciar upgrade', 'error');
@@ -190,7 +216,12 @@ async function createCheckoutSession(planId) {
         debugLog('[STRIPE] No se pudo detectar sub existente:', e.message);
     }
 
-    // ✅ META PIXEL: Intención de pago confirmada
+    // ✅ Google Analytics — intención de pago
+    if (typeof gtag === 'function') {
+        gtag('event', 'begin_checkout', { plan: planId });
+    }
+
+    // ✅ Meta Pixel — intención de pago
     if (typeof window.trackMeta === 'function') {
         const planData = window.PLANS && window.PLANS[planId];
         window.trackMeta('InitiateCheckout', {
@@ -413,7 +444,7 @@ window.StripeIntegration = {
     upgradeSubscription,
     cancelSubscription,
     openBillingPortal,
-    STRIPE_PRICE_MAP
+    get STRIPE_PRICE_MAP() { return STRIPE_PRICE_MAP; }
 };
 
 debugLog('[STRIPE] Stripe Integration loaded');

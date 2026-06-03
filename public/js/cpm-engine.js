@@ -90,9 +90,10 @@ const CPMEngine = {
       .filter(c => c.isOperational === true)
       .map(c => c.id);
 
-    // Cargar gastos del usuario (todos, filtramos por fecha en cliente)
+    // Cargar gastos de los últimos 6 meses directamente en Firestore
     const expensesSnap = await db.collection('expenses')
       .where('userId', '==', uid)
+      .where('date', '>=', cutoffDate)
       .get();
 
     // Sumar solo gastos operacionales de los últimos 6 meses
@@ -121,9 +122,10 @@ const CPMEngine = {
       }
     });
 
-    // Cargar millas de los últimos 6 meses
+    // Cargar millas de los últimos 6 meses directamente en Firestore
     const loadsSnap = await db.collection('loads')
       .where('userId', '==', uid)
+      .where('date', '>=', cutoffDate)
       .get();
 
     let totalMiles = 0;

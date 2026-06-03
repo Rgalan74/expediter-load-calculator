@@ -35,6 +35,7 @@ Disallow: /firebase.json
 Disallow: /firestore.rules
 Disallow: /js/firebase-config.js
 Disallow: /js/stripe-config.js
+Disallow: /setup-admin.html
 
 # 🗺️ Sitemap
 Sitemap: https://smartloadsolution.com/sitemap.xml
