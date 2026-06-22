@@ -231,6 +231,8 @@
     window.trackMeta = trackMeta;
   </script>
 
+  <!-- GA4 tracking for registration events on this page -->
+  <script src="js/analytics-manager.js?v=1.0.1"></script>
   <script src="js/userPlans.js"></script>
   <script src="js/stripe-config.js?v=3.5.1"></script>
 
@@ -477,8 +479,11 @@
           debugLog("✅ User profile saved");
           showMessage(t('auth.register_success'), "success");
 
-          // ✅ Google Analytics — registro exitoso
-          if (typeof gtag === "function") {
+          // GA4/Firebase Analytics must be initialized on auth.html before sending sign_up.
+          if (window.analyticsManager) {
+            await window.analyticsManager.init();
+            window.analyticsManager.trackEvent("sign_up", { method: "email" });
+          } else if (typeof gtag === "function") {
             gtag("event", "sign_up", { method: "email" });
           }
 
