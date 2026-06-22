@@ -135,6 +135,7 @@ async function upgradeSubscription(targetPlan) {
     }
 
     try {
+        sessionStorage.setItem('pendingCheckoutPlan', targetPlan);
         if (typeof showToast === 'function') showToast(window.i18n?.t('stripe.upgrade_starting') || 'Iniciando upgrade de plan...', 'info');
 
         const checkoutSessionRef = await firebase.firestore()
@@ -232,6 +233,7 @@ async function createCheckoutSession(planId) {
     }
 
     try {
+        sessionStorage.setItem('pendingCheckoutPlan', planId);
         if (typeof showToast === 'function') showToast(window.i18n?.t('stripe.checkout_starting') || 'Iniciando sesión de pago...', 'info');
 
         // Crear checkout session usando Firebase Extension
@@ -339,12 +341,30 @@ async function handleCheckoutResult() {
         // ✅ Bug #3 fix: toast DENTRO del callback, después de confirmar auth
         if (typeof showToast === 'function') showToast(window.i18n?.t('stripe.subscribed_ok') || '¡Suscripción activada exitosamente! 🎉', 'success');
 
-        // META PIXEL
-        if (typeof window.trackMeta === 'function') {
-            window.trackMeta('Purchase', { currency: 'USD', value: 0 });
-        } else if (typeof window.fbq === 'function') {
-            window.fbq('track', 'Purchase', { currency: 'USD', value: 0 }, { eventID: sessionId });
+        const purchasedPlanId = sessionStorage.getItem('pendingCheckoutPlan');
+        const purchasedPlan = window.PLANS && window.PLANS[purchasedPlanId];
+        const purchaseValue = Number(purchasedPlan?.price || 0);
+        const purchaseParams = {
+            transaction_id: sessionId,
+            currency: 'USD',
+            value: purchaseValue,
+            items: purchasedPlan ? [{ item_id: purchasedPlanId, item_name: purchasedPlan.name, price: purchaseValue, quantity: 1 }] : []
+        };
+
+        // GA4/Firebase Analytics — confirmed checkout return.
+        if (window.analyticsManager) {
+            window.analyticsManager.trackEvent('purchase', purchaseParams);
+        } else if (typeof gtag === 'function') {
+            gtag('event', 'purchase', purchaseParams);
         }
+
+        // Meta Pixel
+        if (typeof window.trackMeta === 'function') {
+            window.trackMeta('Purchase', { currency: 'USD', value: purchaseValue });
+        } else if (typeof window.fbq === 'function') {
+            window.fbq('track', 'Purchase', { currency: 'USD', value: purchaseValue }, { eventID: sessionId });
+        }
+        sessionStorage.removeItem('pendingCheckoutPlan');
 
         // Email de activación: el backend (functions/index.js) ya lo envía vía invoice.payment_succeeded
         // No duplicar aquí para evitar doble email al usuario.
