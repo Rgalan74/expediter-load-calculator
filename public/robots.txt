@@ -2,6 +2,8 @@ User-agent: *
 
 # ✅ Permitir páginas públicas
 Allow: /
+Allow: /en/
+Allow: /es/
 Allow: /about.html
 Allow: /plans.html
 Allow: /contact.html

@@ -1,128 +1,349 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <!-- 🏠 Landing Page -->
   <url>
     <loc>https://smartloadsolution.com/</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/" />
   </url>
 
   <!-- 📄 Páginas principales -->
   <url>
     <loc>https://smartloadsolution.com/about.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/about.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/about.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/about.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/about.html</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/about.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/about.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/about.html" />
   </url>
 
   <url>
     <loc>https://smartloadsolution.com/plans.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/plans.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/plans.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/plans.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/plans.html</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/plans.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/plans.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/plans.html" />
   </url>
 
   <url>
     <loc>https://smartloadsolution.com/contact.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/contact.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/contact.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/contact.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/contact.html</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/contact.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/contact.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/contact.html" />
   </url>
 
   <url>
     <loc>https://smartloadsolution.com/resources.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/resources.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/resources.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/resources.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/resources.html</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/resources.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/resources.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/resources.html" />
   </url>
 
   <!-- 📝 Blog, FAQ, Soporte -->
   <url>
     <loc>https://smartloadsolution.com/blog.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/blog.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/blog.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/blog.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/blog.html</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/blog.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/blog.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/blog.html" />
   </url>
 
   <url>
     <loc>https://smartloadsolution.com/blog/calculate-real-rpm.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/blog/calculate-real-rpm.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/es/blog/como-calcular-rpm-real.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/blog/calculate-real-rpm.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/es/blog/como-calcular-rpm-real.html</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/blog/calculate-real-rpm.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/es/blog/como-calcular-rpm-real.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/blog/calculate-real-rpm.html" />
   </url>
 
   <url>
     <loc>https://smartloadsolution.com/blog/hidden-operating-costs.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/blog/hidden-operating-costs.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/es/blog/costos-ocultos-operacion.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/blog/hidden-operating-costs.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/es/blog/costos-ocultos-operacion.html</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/blog/hidden-operating-costs.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/es/blog/costos-ocultos-operacion.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/blog/hidden-operating-costs.html" />
   </url>
 
   <url>
     <loc>https://smartloadsolution.com/blog/profitable-zones.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/blog/profitable-zones.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/es/blog/zonas-rentables-expediters.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/blog/profitable-zones.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/es/blog/zonas-rentables-expediters.html</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/blog/profitable-zones.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/es/blog/zonas-rentables-expediters.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/blog/profitable-zones.html" />
   </url>
 
   <url>
     <loc>https://smartloadsolution.com/blog/decide-load-30-seconds.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/blog/decide-load-30-seconds.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/es/blog/decidir-carga-en-30-segundos.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/blog/decide-load-30-seconds.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/es/blog/decidir-carga-en-30-segundos.html</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/blog/decide-load-30-seconds.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/es/blog/decidir-carga-en-30-segundos.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/blog/decide-load-30-seconds.html" />
   </url>
 
   <url>
     <loc>https://smartloadsolution.com/blog/llc-vs-sole-proprietor.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/blog/llc-vs-sole-proprietor.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/es/blog/llc-vs-propietario-unico.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/blog/llc-vs-sole-proprietor.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/es/blog/llc-vs-propietario-unico.html</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/blog/llc-vs-sole-proprietor.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/es/blog/llc-vs-propietario-unico.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/blog/llc-vs-sole-proprietor.html" />
   </url>
 
   <url>
     <loc>https://smartloadsolution.com/faq.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/faq.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/faq.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/faq.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/faq.html</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/faq.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/faq.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/faq.html" />
   </url>
 
   <url>
     <loc>https://smartloadsolution.com/support.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/support.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/support.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/support.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/support.html</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/support.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/support.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/support.html" />
   </url>
 
   <!-- 🎓 Academy (índice público) -->
   <url>
     <loc>https://smartloadsolution.com/academy.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy.html</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy.html" />
   </url>
 
   <!-- ⚖️ Páginas legales -->
   <url>
     <loc>https://smartloadsolution.com/privacy.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/privacy.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/privacy.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/privacy.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/privacy.html</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/privacy.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/privacy.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/privacy.html" />
   </url>
 
   <url>
     <loc>https://smartloadsolution.com/terms.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/terms.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/terms.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/terms.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/terms.html</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/terms.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/terms.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/terms.html" />
   </url>
 
   <url>
     <loc>https://smartloadsolution.com/refund.html</loc>
-    <lastmod>2026-05-23</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/refund.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/refund.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/refund.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/refund.html</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/refund.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/refund.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/refund.html" />
   </url>
 
 </urlset>

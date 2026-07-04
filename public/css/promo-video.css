@@ -1865,3 +1865,47 @@ body {
     flex: 0 0 calc(50% - 0.5rem);
   }
 }
+
+/* ══════════════════════════════════════
+   VIDEO PLAYER — portrait (9:16)
+   ══════════════════════════════════════ */
+
+/* El wrap centra el frame portrait dentro del ancho full */
+.lp-video-wrap:has(.sls-video-frame) {
+  display: flex;
+  justify-content: center;
+  padding: 0 24px;
+}
+
+.sls-video-frame {
+  height: auto !important;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 9 / 16;
+  background: #000;
+  border-radius: 24px !important;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(255, 109, 74, .15),
+    0 40px 80px rgba(0, 0, 0, .7),
+    0 0 60px rgba(0, 217, 255, .06);
+}
+
+.sls-video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  background: #000;
+}
+
+@media (max-width: 768px) {
+  .lp-video-wrap:has(.sls-video-frame) {
+    padding: 0 16px;
+  }
+
+  .sls-video-frame {
+    max-width: 100%;
+    border-radius: 16px !important;
+  }
+}

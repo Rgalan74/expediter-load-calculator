@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @copyright 2026 SmartLoad Solution — Ricardo Galan. All rights reserved.
  * Unauthorized copying, modification, distribution, or use of this software,
  * via any medium, is strictly prohibited without prior written permission.
@@ -304,12 +304,22 @@ async function setupAuthListener() {
       window.userPlan = null; // ✅ Limpiar plan
       showLoginScreen();
 
-      // Solo redirigir después de un delay si no estamos en auth.html
-      if (!window.location.pathname.includes('auth.html')) {
+      // Páginas públicas — no redirigir aunque no haya sesión
+      const PUBLIC_PAGES = [
+        'auth.html', 'academy.html', 'plans.html', 'index.html',
+        'blog', 'about.html', 'faq.html', 'resources.html',
+        'contact.html', 'terms.html', 'privacy.html',
+        'refund.html', 'support.html'
+      ];
+      const path = window.location.pathname;
+      const isPublicPage = PUBLIC_PAGES.some(p => path.includes(p)) || path === '/' || path.endsWith('/');
+      if (!isPublicPage) {
         setTimeout(() => {
           debugLog("🔄 Redirigiendo a auth.html...");
           window.location.href = 'auth.html';
         }, 3000);
+      } else {
+        debugLog('[CONFIG] Página pública — no se redirige sin sesión:', path);
       }
     }
   });

@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <!-- Google Analytics 4 -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-EK7NM7PJE2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-EK7NM7PJE2');
+  </script>
+
+  <!-- Ahrefs Analytics -->
+  <script>
+    var ahrefs_analytics_script = document.createElement('script');
+    ahrefs_analytics_script.async = true;
+    ahrefs_analytics_script.src = 'https://analytics.ahrefs.com/analytics.js';
+    ahrefs_analytics_script.setAttribute('data-key', 'TbnAxRLdEBFq9iz/8TTHxQ');
+    document.getElementsByTagName('head')[0].appendChild(ahrefs_analytics_script);
+  </script>
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Smart Load Solution">
+  <meta property="og:title" content="Cargo Van Load Calculator — Expedited Freight RPM Tool | Smart Load Solution">
+  <meta property="og:description"
+    content="Stop guessing which loads to take. Calculate your real RPM — deadhead included — and decide: accept, reject, or negotiate. Built for cargo vans, sprinters &amp; box trucks. Try it free.">
+  <meta property="og:url" content="https://smartloadsolution.com/en/">
+  <meta property="og:image" content="https://smartloadsolution.com/img/og-image-en.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter / X Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cargo Van Load Calculator — Expedited Freight RPM Tool | Smart Load Solution">
+  <meta name="twitter:description"
+    content="Stop guessing which loads to take. Calculate your real RPM — deadhead included — and decide: accept, reject, or negotiate. Built for cargo vans, sprinters &amp; box trucks. Try it free.">
+  <meta name="twitter:image" content="https://smartloadsolution.com/img/og-image-en.png">
+  <meta name="twitter:site" content="@galan.expediter">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Stop guessing which loads to take. Calculate your real RPM — deadhead included — and decide: accept, reject, or negotiate. Built for cargo vans, sprinters &amp; box trucks. Try it free.">
+
+  <!-- Canonical + hreflang -->
+
+
+
+
+
+  <!-- JSON-LD Structured Data (Organization & SoftwareApplication) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://smartloadsolution.com/#organization",
+        "name": "SmartLoad Solution LLC",
+        "url": "https://smartloadsolution.com/",
+        "logo": "https://smartloadsolution.com/img/logo-app.png",
+        "sameAs": [
+          "https://www.facebook.com/galan.expediter",
+          "https://www.tiktok.com/@galan.expediter",
+          "https://www.instagram.com/galan.expediter/",
+          "https://www.youtube.com/@galan.expediter"
+        ]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://smartloadsolution.com/#software",
+        "name": "SmartLoad Solution",
+        "operatingSystem": "All",
+        "applicationCategory": "BusinessApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "14.99",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+  </script>
+
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- PWA Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SmartLoad">
+  <meta name="theme-color" content="#3b82f6">
+
+  <link rel="icon" type="image/png" href="../img/logo-app.png">
+  <link rel="apple-touch-icon" href="/img/icons/ios/180.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/icons/ios/152.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="/img/icons/ios/167.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/icons/ios/180.png">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+    rel="stylesheet">
+  <link rel="preload" as="image" href="../img/hero-bg.png">
+
+  <link rel="stylesheet" href="../css/landing-page.css?v=2">
+  <link rel="stylesheet" href="../css/promo-video.css?v=5">
+
+  <!-- Auth redirect: send logged-in users straight to the app -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <!-- SLS Lead Modal CSS -->
+  <style>
+    #slsLeadModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    #slsLeadModal.active {
+      display: flex;
+    }
+
+    .sls-modal-card {
+      background: #0f0f1a;
+      border: 1px solid rgba(0, 217, 255, 0.25);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      max-width: 440px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 0 60px rgba(0, 217, 255, 0.12);
+      animation: slsFadeIn 0.25s ease;
+    }
+
+    @keyframes slsFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .sls-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.25rem;
+      background: none;
+      border: none;
+      color: #b0b0b0;
+      font-size: 1.4rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .sls-close:hover {
+      color: #fff;
+    }
+
+    .sls-badge {
+      display: inline-block;
+      background: rgba(0, 217, 255, 0.1);
+      border: 1px solid rgba(0, 217, 255, 0.3);
+      color: #00D9FF;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-bottom: 1rem;
+    }
+
+    .sls-modal-card h2 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: #ffffff;
+      margin: 0 0 0.5rem;
+      line-height: 1.2;
+    }
+
+    .sls-modal-card h2 .gradient {
+      background: linear-gradient(90deg, #00D9FF, #FF6B35);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .sls-modal-card p {
+      color: #b0b0b0;
+      font-size: 0.9rem;
+      margin: 0 0 1.5rem;
+      line-height: 1.5;
+    }
+
+    .sls-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .sls-form input {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.95rem;
+      padding: 0.75rem 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      font-family: 'Inter', sans-serif;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .sls-form input::placeholder {
+      color: #666;
+    }
+
+    .sls-form input:focus {
+      border-color: rgba(0, 217, 255, 0.5);
+    }
+
+    .sls-submit {
+      background: linear-gradient(90deg, #00D9FF, #FF6B35);
+      border: none;
+      border-radius: 8px;
+      color: #0a0a0f;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      padding: 0.85rem 1rem;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      width: 100%;
+      margin-top: 0.25rem;
+    }
+
+    .sls-submit:hover {
+      opacity: 0.9;
+    }
+
+    .sls-submit:active {
+      transform: scale(0.98);
+    }
+
+    .sls-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .sls-privacy {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #555;
+      margin-top: 0.75rem;
+    }
+
+    .sls-success {
+      display: none;
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    .sls-success .sls-check {
+      font-size: 3rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .sls-success h3 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: #fff;
+      margin: 0 0 0.5rem;
+    }
+
+    .sls-success p {
+      color: #b0b0b0;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+
+    .sls-skip-link {
+      display: inline-block;
+      margin-top: 1.25rem;
+      color: #00D9FF;
+      font-size: 0.85rem;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .sls-error {
+      color: #ff6b6b;
+      font-size: 0.82rem;
+      display: none;
+      margin-top: 0.25rem;
+    }
+
+    .sls-lang-toggle {
+      text-align: right;
+      margin-bottom: 1rem;
+    }
+
+    .sls-lang-toggle button {
+      background: none;
+      border: none;
+      color: #666;
+      font-size: 0.78rem;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: color 0.2s;
+    }
+
+    .sls-lang-toggle button.active {
+      color: #00D9FF;
+      font-weight: 700;
+    }
+
+    .sls-lang-toggle button:hover {
+      color: #aaa;
+    }
+  </style>
+  <script>
+    (function () {
+      var firebaseConfig = {
+        apiKey: "AIzaSyAkEYDbxkjXJx5wNh_7wMdIqmklOMCIyHY",
+        authDomain: "expediter-dev.firebaseapp.com",
+        projectId: "expediter-dev",
+        storageBucket: "expediter-dev.appspot.com",
+        messagingSenderId: "447653997176",
+        appId: "1:447653997176:web:4e356867bb64b488ab5b8d"
+      };
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
+      firebase.auth().onAuthStateChanged(function (user) {
+        // Skip auto-redirect if user explicitly navigated here from the app
+        var params = new URLSearchParams(window.location.search);
+        if (user && params.get('visit') !== '1') {
+          window.location.replace('/app.html');
+        }
+      });
+    })();
+  </script>
+
+  <!-- Internationalization omitted: page content is static Spanish -->
+
+  <!-- Meta Pixel Code -->
+  <script>
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+      n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2077223159668765');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=2077223159668765&ev=PageView&noscript=1" /></noscript>
+  <!-- End Meta Pixel Code -->
+
+  <!-- Metricool Tracker -->
+  <script>function loadScript(a) { var b = document.getElementsByTagName("head")[0], c = document.createElement("script"); c.type = "text/javascript", c.src = "https://tracker.metricool.com/resources/be.js", c.onreadystatechange = a, c.onload = a, b.appendChild(c) } loadScript(function () { beTracker.t({ hash: "7da74d6dfb9767939b3eb010fa322db6" }) });</script>
+  <!-- End Metricool Tracker -->
+
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "SmartLoad Solution",
+  "description": "Herramienta profesional para cargo van expediters. Calcula RPM real, identifica zonas rentables y maximiza tu profit.",
+  "url": "https://smartloadsolution.com",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web, iOS, Android",
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Starter",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "url": "https://smartloadsolution.com/plans.html",
+      "description": "Plan gratuito con módulos 1-3"
+    },
+    {
+      "@type": "Offer",
+      "name": "Professional",
+      "price": "14.99",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "url": "https://smartloadsolution.com/plans.html",
+      "description": "Módulos 1-6, análisis avanzado"
+    },
+    {
+      "@type": "Offer",
+      "name": "Premium",
+      "price": "29.99",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "url": "https://smartloadsolution.com/plans.html",
+      "description": "Todos los módulos 1-8 + Lex AI"
+    }
+  ],
+  "publisher": {
+    "@type": "Organization",
+    "name": "SmartLoad Solution",
+    "url": "https://smartloadsolution.com",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "galan.expediter@gmail.com"
+    }
+  }
+}
+</script>
+
+
+
+
+
+  <link rel="canonical" href="https://smartloadsolution.com/en/">
+  <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/">
+  <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/">
+  <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/">
+  <title>Cargo Van Load Calculator — Expedited Freight RPM Tool | Smart Load Solution</title>
+</head>
+
+<body class="bg-animated">
+
+  <!-- 🔝 HEADER -->
+  <header class="glass"
+    style="position: relative; background-image: url('img/header-background.PNG'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+
+    <div class="container" style="position: relative; z-index: 1;">
+      <div class="flex items-center justify-between">
+
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-3" style="text-decoration:none;color:inherit;">
+          <img src="../img/logo-app.webp" alt="SmartLoad Solution Logo" class="h-10 md:h-12 w-auto"
+            onerror="this.src='../img/logo-app.png'">
+          <span class="text-xl md:text-2xl font-bold">Smart Load Solution</span>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-8 text-base font-semibold">
+          <a href="#features" class="text-gray-200 hover:text-white transition" data-i18n="nav.features">Features</a>
+          <a href="#pricing" class="text-gray-200 hover:text-white transition" data-i18n="nav.pricing">Pricing</a>
+          <a href="about.html" class="text-gray-200 hover:text-white transition" data-i18n="nav.about">About</a>
+          <a href="resources.html" class="text-gray-200 hover:text-white transition"
+            data-i18n="nav.resources">Resources</a>
+          <a href="blog.html" class="text-gray-200 hover:text-white transition" data-i18n="about.nav_blog">Blog</a>
+          <a href="plans.html" class="text-gray-200 hover:text-white transition" data-i18n="nav.plans">Plans</a>
+        </nav>
+
+        <!-- Language Toggle + Login (desktop) -->
+        <div class="hidden md:flex items-center gap-4">
+          <!-- Language Toggle: ES activo, EN navega a /en/ -->
+          <div style="display:flex;align-items:center;gap:0.25rem;font-size:0.8rem;font-weight:600;">
+            <button id="btn-en"
+              style="background:none;border:none;cursor:default;padding:0.2rem 0.4rem;border-radius:4px;color:#00D9FF;font-weight:700;"
+              aria-current="true">EN</button>
+            <span style="color:#4b5563;">|</span>
+            <a id="btn-es" href="index.html" onclick="localStorage.setItem('app_language','es')"
+              style="text-decoration:none;cursor:pointer;padding:0.2rem 0.4rem;border-radius:4px;color:#9ca3af;transition:color 0.2s;">ES</a>
+          </div>
+          <a href="/auth.html" class="btn-secondary" style="padding: 0.75rem 1.5rem; font-size: 0.875rem;"
+            data-i18n="nav.login">Log In →</a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobileMenuBtn" class="md:hidden text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 space-y-4 text-lg font-medium">
+        <a href="#features" class="block text-gray-200 hover:text-white transition px-2 py-1"
+          data-i18n="nav.features">Features</a>
+        <a href="#pricing" class="block text-gray-200 hover:text-white transition px-2 py-1"
+          data-i18n="nav.pricing">Pricing</a>
+        <a href="about.html" class="block text-gray-200 hover:text-white transition px-2 py-1"
+          data-i18n="nav.about">About</a>
+        <a href="resources.html" class="block text-gray-200 hover:text-white transition px-2 py-1"
+          data-i18n="nav.resources">Resources</a>
+        <a href="blog.html" class="block text-gray-200 hover:text-white transition px-2 py-1"
+          data-i18n="about.nav_blog">Blog</a>
+        <a href="plans.html" class="block text-gray-200 hover:text-white transition px-2 py-1"
+          data-i18n="nav.plans">Plans</a>
+
+        <div class="flex items-center gap-2 px-2 py-2 mt-2 border-t border-gray-700">
+          <button id="btn-en-mobile"
+            style="background:none;border:none;cursor:default;padding:0.2rem 0.5rem;border-radius:4px;color:#00D9FF;font-weight:700;font-size:0.875rem;"
+            aria-current="true">EN</button>
+          <span style="color:#4b5563;">|</span>
+          <a id="btn-es-mobile" href="index.html" onclick="localStorage.setItem('app_language','es')"
+            style="text-decoration:none;cursor:pointer;padding:0.2rem 0.5rem;border-radius:4px;color:#9ca3af;font-weight:600;font-size:0.875rem;">ES</a>
+        </div>
+
+        <a href="/auth.html" class="btn-secondary block text-center mt-4" data-i18n="nav.login">Log In →</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 🌟 HERO SECTION — Fondo degradado + Texto centrado + Carrusel abajo -->
+  <section class="relative border-b border-light" id="hero-section"
+    style="min-height: calc(100vh - 64px); display: flex; flex-direction: column; justify-content: center; gap: 1.5rem; overflow: hidden; background: var(--bg-darker);">
+
+    <!-- ░░ FONDO: imagen + gradiente oscuro ░░ -->
+    <div style="position:absolute;inset:0;z-index:0;">
+      <img src="../img/hero-bg2.png" alt=""
+        style="width:100%;height:100%;object-fit:cover;object-position:70% center;opacity:0.55;" loading="eager">
+      <!-- Gradiente: muy oscuro arriba-centro, se aclara un poco abajo para el carrusel -->
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg,
+        rgba(5,5,8,0.75) 0%,
+        rgba(5,5,8,0.60) 45%,
+        rgba(5,5,8,0.55) 100%);"></div>
+      <!-- Glow cyan arriba izquierda -->
+      <div
+        style="position:absolute;top:-60px;left:-80px;width:700px;height:500px;background:radial-gradient(ellipse at 30% 30%, rgba(0,217,255,0.09) 0%, transparent 65%);pointer-events:none;">
+      </div>
+      <!-- Glow naranja abajo derecha -->
+      <div
+        style="position:absolute;bottom:-40px;right:-60px;width:600px;height:400px;background:radial-gradient(ellipse at 70% 70%, rgba(255,107,53,0.08) 0%, transparent 65%);pointer-events:none;">
+      </div>
+    </div>
+
+    <!-- ░░ TEXTO CENTRADO ░░ -->
+    <div
+      style="position:relative;z-index:1;text-align:center;padding:0.5rem 1.5rem 0.25rem;max-width:860px;margin:0 auto;width:100%;">
+
+      <!-- H1 visible (SEO) -->
+      <h1 style="font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:900;line-height:1.2;color:#fff;margin-bottom:0.6rem;">
+        <span style="color:#fff;">Know Exactly</span><br>
+        <span
+          style="background:linear-gradient(90deg,#00D9FF 0%,#FF6B35 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Which
+          Loads to Take</span>
+      </h1>
+
+      <!-- Descripción -->
+      <p data-i18n="landing.hero_desc"
+        style="font-size:1rem;color:#9ca3af;line-height:1.6;margin-bottom:1rem;max-width:540px;margin-left:auto;margin-right:auto;">
+        Calculate your RPM after fuel, deadhead, and expenses — in 30 seconds.</p>
+
+      <!-- CTAs -->
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem;">
+        <a href="/auth.html" data-i18n="landing.hero_cta_primary"
+          style="display:inline-block;background:#FF6B35;color:#fff;font-weight:700;font-size:1rem;padding:0.85rem 2rem;border-radius:10px;text-decoration:none;transition:opacity 0.2s,transform 0.15s;box-shadow:0 4px 24px rgba(255,107,53,0.45);">Calculate
+          your first load free →</a>
+        <a href="plans.html" data-i18n="landing.hero_cta_secondary"
+          style="display:inline-block;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);color:#fff;font-weight:600;font-size:1rem;padding:0.85rem 2rem;border-radius:10px;text-decoration:none;transition:background 0.2s;backdrop-filter:blur(8px);">View
+          Plans</a>
+      </div>
+
+    </div>
+
+    <!-- ░░ COVERFLOW 3D — 3 tarjetas phone ░░ -->
+    <div style="position:relative;z-index:1;padding:0 1rem 1.5rem;width:100%;">
+
+      <div id="cfw-track"
+        style="position:relative;height:440px;perspective:1000px;display:flex;align-items:center;justify-content:center;">
+
+        <!-- Card 0 -->
+        <div class="cfw-card" data-idx="0" data-color="0,217,255"
+          style="position:absolute;width:220px;height:390px;border-radius:20px;overflow:hidden;cursor:pointer;
+                 box-shadow:0 24px 60px rgba(0,0,0,0.7);transition:transform 0.9s cubic-bezier(.4,0,.2,1),opacity 0.9s,box-shadow 0.9s;">
+          <img src="../img/hero-carrusel-1.webp" alt="App screenshot 1"
+            style="width:100%;height:100%;object-fit:cover;object-position:top;pointer-events:none;">
+          <!-- Gradiente inferior -->
+          <div
+            style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,rgba(0,0,0,0.85) 100%);">
+          </div>
+          <!-- Phone frame overlay -->
+          <div
+            style="position:absolute;inset:0;border-radius:20px;border:1.5px solid rgba(255,255,255,0.18);pointer-events:none;box-shadow:inset 0 1px 0 rgba(255,255,255,0.25);">
+          </div>
+          <!-- Notch -->
+          <div
+            style="position:absolute;top:8px;left:50%;transform:translateX(-50%);width:40px;height:5px;background:rgba(0,0,0,0.6);border-radius:3px;pointer-events:none;">
+          </div>
+          <!-- Label -->
+          <div style="position:absolute;bottom:0.75rem;left:0;right:0;text-align:center;">
+            <span
+              style="font-size:0.6rem;font-weight:700;color:#00D9FF;text-transform:uppercase;letter-spacing:0.08em;">📦
+              Cargas Rentables</span>
+          </div>
+        </div>
+
+        <!-- Card 1 -->
+        <div class="cfw-card" data-idx="1" data-color="255,107,53"
+          style="position:absolute;width:220px;height:390px;border-radius:20px;overflow:hidden;cursor:pointer;
+                 box-shadow:0 24px 60px rgba(0,0,0,0.7);transition:transform 0.9s cubic-bezier(.4,0,.2,1),opacity 0.9s,box-shadow 0.9s;">
+          <img src="../img/hero-carrusel-2.webp" alt="App screenshot 2"
+            style="width:100%;height:100%;object-fit:cover;object-position:top;pointer-events:none;">
+          <div
+            style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,rgba(0,0,0,0.85) 100%);">
+          </div>
+          <div
+            style="position:absolute;inset:0;border-radius:20px;border:1.5px solid rgba(255,255,255,0.18);pointer-events:none;box-shadow:inset 0 1px 0 rgba(255,255,255,0.25);">
+          </div>
+          <div
+            style="position:absolute;top:8px;left:50%;transform:translateX(-50%);width:40px;height:5px;background:rgba(0,0,0,0.6);border-radius:3px;pointer-events:none;">
+          </div>
+          <div style="position:absolute;bottom:0.75rem;left:0;right:0;text-align:center;">
+            <span
+              style="font-size:0.6rem;font-weight:700;color:#FF6B35;text-transform:uppercase;letter-spacing:0.08em;">📊
+              Ganancia en Tiempo Real</span>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="cfw-card" data-idx="2" data-color="74,222,128"
+          style="position:absolute;width:220px;height:390px;border-radius:20px;overflow:hidden;cursor:pointer;
+                 box-shadow:0 24px 60px rgba(0,0,0,0.7);transition:transform 0.9s cubic-bezier(.4,0,.2,1),opacity 0.9s,box-shadow 0.9s;">
+          <img src="../img/hero-carrusel-3.webp" alt="App screenshot 3"
+            style="width:100%;height:100%;object-fit:cover;object-position:top;pointer-events:none;">
+          <div
+            style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,rgba(0,0,0,0.85) 100%);">
+          </div>
+          <div
+            style="position:absolute;inset:0;border-radius:20px;border:1.5px solid rgba(255,255,255,0.18);pointer-events:none;box-shadow:inset 0 1px 0 rgba(255,255,255,0.25);">
+          </div>
+          <div
+            style="position:absolute;top:8px;left:50%;transform:translateX(-50%);width:40px;height:5px;background:rgba(0,0,0,0.6);border-radius:3px;pointer-events:none;">
+          </div>
+          <div style="position:absolute;bottom:0.75rem;left:0;right:0;text-align:center;">
+            <span
+              style="font-size:0.6rem;font-weight:700;color:#4ade80;text-transform:uppercase;letter-spacing:0.08em;">🛣️
+              Maximiza Cada Milla</span>
+          </div>
+        </div>
+
+        <!-- Glow dinámico (detrás de la card central) -->
+        <div id="cfw-glow"
+          style="position:absolute;width:200px;height:200px;border-radius:50%;filter:blur(40px);pointer-events:none;z-index:0;transition:background 0.6s,opacity 0.6s;opacity:0.5;">
+        </div>
+
+        <!-- Reflejo -->
+        <div id="cfw-reflection"
+          style="position:absolute;bottom:-60px;left:50%;transform:translateX(-50%);width:180px;height:60px;pointer-events:none;overflow:hidden;opacity:0.18;border-radius:0 0 20px 20px;">
+        </div>
+
+        <!-- Flechas -->
+        <button id="cfw-prev" aria-label="Previous"
+          style="position:absolute;left:0.5rem;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.15);color:#fff;width:38px;height:38px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);font-size:1.1rem;z-index:10;transition:background 0.2s;">‹</button>
+        <button id="cfw-next" aria-label="Next"
+          style="position:absolute;right:0.5rem;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.15);color:#fff;width:38px;height:38px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);font-size:1.1rem;z-index:10;transition:background 0.2s;">›</button>
+      </div>
+
+      <!-- Dots -->
+      <div style="display:flex;justify-content:center;gap:6px;margin-top:0.5rem;">
+        <button class="cfw-dot" data-i="0"
+          style="width:22px;height:3px;border-radius:2px;border:none;cursor:pointer;background:#00D9FF;transition:all 0.3s;padding:0;"></button>
+        <button class="cfw-dot" data-i="1"
+          style="width:6px;height:3px;border-radius:2px;border:none;cursor:pointer;background:rgba(255,255,255,0.3);transition:all 0.3s;padding:0;"></button>
+        <button class="cfw-dot" data-i="2"
+          style="width:6px;height:3px;border-radius:2px;border:none;cursor:pointer;background:rgba(255,255,255,0.3);transition:all 0.3s;padding:0;"></button>
+      </div>
+    </div>
+
+    <style>
+      #cfw-prev:hover,
+      #cfw-next:hover {
+        background: rgba(255, 255, 255, 0.12) !important;
+      }
+
+      @media (max-width: 480px) {
+        .cfw-card {
+          width: 175px !important;
+          height: 310px !important;
+        }
+
+        #cfw-track {
+          height: 360px !important;
+        }
+      }
+    </style>
+
+    <script>
+      (function () {
+        var cards = document.querySelectorAll('.cfw-card');
+        var dots = document.querySelectorAll('.cfw-dot');
+        var n = cards.length; // 3
+        var cur = 0;
+        var timer;
+
+        // Posiciones: laterales casi ocultas, centro dominante
+        var POSITIONS = [
+          { x: -270, z: -160, ry: 40, scale: 0.65, opacity: 0.22, zIndex: 1 }, // izquierda
+          { x: 0, z: 0, ry: 0, scale: 1.00, opacity: 1.00, zIndex: 3 }, // centro
+          { x: 270, z: -160, ry: -40, scale: 0.65, opacity: 0.22, zIndex: 1 }, // derecha
+        ];
+
+        function applyPos(cardEl, pos) {
+          // Restaurar transición completa (puede haber sido reducida durante el float)
+          cardEl.style.transition = 'transform 0.9s cubic-bezier(.4,0,.2,1), opacity 0.9s, box-shadow 0.9s';
+          cardEl.style.transform =
+            'translateX(' + pos.x + 'px) translateZ(' + pos.z + 'px) rotateY(' + pos.ry + 'deg) scale(' + pos.scale + ')';
+          cardEl.style.opacity = pos.opacity;
+          cardEl.style.zIndex = pos.zIndex;
+        }
+
+        function render() {
+          // Determina qué slot ocupa cada card según cur
+          // prev = (cur+n-1)%n → slot 0 (izquierda)
+          // cur              → slot 1 (centro)
+          // next = (cur+1)%n → slot 2 (derecha)
+          var order = [(cur + n - 1) % n, cur, (cur + 1) % n];
+          order.forEach(function (cardIdx, slotIdx) {
+            applyPos(cards[cardIdx], POSITIONS[slotIdx]);
+          });
+          // Dots
+          dots.forEach(function (d, i) {
+            if (i === cur) {
+              d.style.width = '22px';
+              d.style.background = '#00D9FF';
+            } else {
+              d.style.width = '6px';
+              d.style.background = 'rgba(255,255,255,0.3)';
+            }
+          });
+        }
+
+        function go(newCur) {
+          cur = (newCur + n) % n;
+          render();
+          updateGlow();
+        }
+
+        function startAuto() { timer = setInterval(function () { go(cur + 1); }, 2500); }
+        function resetAuto() { clearInterval(timer); startAuto(); }
+
+        document.getElementById('cfw-prev').addEventListener('click', function () { go(cur - 1); resetAuto(); });
+        document.getElementById('cfw-next').addEventListener('click', function () { go(cur + 1); resetAuto(); });
+        cards.forEach(function (c, i) {
+          c.addEventListener('click', function () { go(i); resetAuto(); });
+        });
+        dots.forEach(function (d, i) {
+          d.addEventListener('click', function () { go(i); resetAuto(); });
+        });
+
+        // Touch / swipe
+        var txStart = 0;
+        var track = document.getElementById('cfw-track');
+        track.addEventListener('touchstart', function (e) { txStart = e.touches[0].clientX; }, { passive: true });
+        track.addEventListener('touchend', function (e) {
+          var dx = e.changedTouches[0].clientX - txStart;
+          if (Math.abs(dx) > 40) { go(dx < 0 ? cur + 1 : cur - 1); resetAuto(); }
+        }, { passive: true });
+
+        // Glow dinámico + float JS
+        var glow = document.getElementById('cfw-glow');
+        var COLORS = ['0,217,255', '255,107,53', '74,222,128'];
+        var floatY = 0, floatDir = 1, floatRaf;
+
+        function floatTick() {
+          floatY += 0.04 * floatDir;
+          if (floatY > 7) { floatDir = -1; }
+          if (floatY < 0) { floatDir = 1; }
+          var p = POSITIONS[1]; // centro siempre slot 1
+          var centerCard = cards[cur];
+          centerCard.style.transform =
+            'translateX(' + p.x + 'px) translateZ(' + p.z + 'px) rotateY(' + p.ry + 'deg) scale(' + p.scale + ') translateY(' + (-floatY) + 'px)';
+          floatRaf = requestAnimationFrame(floatTick);
+        }
+
+        function updateGlow() {
+          var c = COLORS[cur];
+          glow.style.background = 'radial-gradient(circle, rgba(' + c + ',0.7) 0%, transparent 70%)';
+          // Shadow de color en card central
+          cards.forEach(function (card, i) {
+            card.style.boxShadow = i === cur
+              ? '0 24px 60px rgba(' + c + ',0.45), 0 0 0 1px rgba(' + c + ',0.2)'
+              : '0 24px 60px rgba(0,0,0,0.7)';
+          });
+          // Esperar que termine la transición CSS (900ms) antes de iniciar float
+          cancelAnimationFrame(floatRaf);
+          floatY = 0; floatDir = 1;
+          var floatCard = cur; // capturar cur en este momento
+          setTimeout(function () {
+            if (floatCard !== cur) return; // si ya rotó de nuevo, cancelar
+            // Quitar transition CSS en la card central para que el float sea fluido
+            cards[cur].style.transition = 'opacity 0.9s, box-shadow 0.9s';
+            floatTick();
+          }, 920);
+        }
+
+        // Métricas animadas (preservado)
+        function animateValue(el, start, end, dur, fmt) {
+          var t0 = null;
+          function step(ts) {
+            if (!t0) t0 = ts;
+            var p = Math.min((ts - t0) / dur, 1);
+            var e = 1 - Math.pow(1 - p, 3);
+            el.textContent = fmt(start + (end - start) * e);
+            if (p < 1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        }
+
+        window.addEventListener('DOMContentLoaded', function () {
+          var rpm = document.getElementById('metric-rpm');
+          var time = document.getElementById('metric-time');
+          var loads = document.getElementById('metric-loads');
+          if (rpm) animateValue(rpm, 0, 1.18, 1800, function (v) { return '$' + v.toFixed(2); });
+          if (time) animateValue(time, 0, 30, 1400, function (v) { return Math.round(v) + 's'; });
+          if (loads) animateValue(loads, 0, 30, 1200, function (v) { return Math.round(v); });
+
+          render();
+          updateGlow();
+          startAuto();
+        });
+      })();
+    </script>
+  </section>
+
+  <!-- 🎁 FEATURES SECTION - Will be added next -->
+  <section id="features" class="section" style="background: var(--bg-darker); position: relative; overflow: hidden;">
+    <!-- Glow orb -->
+    <div class="glow-orb" style="background: var(--primary-orange); top: -100px; left: -200px;"></div>
+
+    <div class="container text-center">
+
+      <h2 style="font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:900;line-height:1.2;color:#fff;margin-bottom:0.6rem;">
+        <span style="color:#fff;">Know Exactly</span><br>
+        <span
+          style="background:linear-gradient(90deg,#00D9FF 0%,#FF6B35 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Which
+          Loads to Take</span>
+      </h2>
+
+      <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-12" data-i18n="landing.features_sub">Professional tools
+        designed specifically for independent carriers</p>
+
+      <!-- Bento Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
+
+        <!-- Card 1: RPM Calculator (Large - Spans 2 columns on lg) -->
+        <div
+          class="lg:col-span-2 glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/20">
+          <div class="text-4xl mb-4">
+            <span class="inline-block bg-gradient-to-br from-cyan-400 to-blue-500 p-3 rounded-xl">📊</span>
+          </div>
+          <h3 class="text-2xl md:text-3xl font-bold mb-3" data-i18n="landing.fc1_title">Real-Time RPM Calculator</h3>
+          <p class="text-gray-300 text-base md:text-lg leading-relaxed mb-4" data-i18n="landing.fc1_desc">Enter load
+            details and get your real Revenue Per Mile in under 30 seconds. Accounts for total miles, deadhead, fuel,
+            and operating costs.</p>
+          <ul class="space-y-2 text-sm md:text-base text-gray-200">
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span
+                data-i18n="landing.fc1_b1">Automatic net profit calculation</span>
+            </li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span
+                data-i18n="landing.fc1_b2">Includes variable costs per mile</span>
+            </li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span
+                data-i18n="landing.fc1_b3">Instant recommendation: Accept/Reject</span></li>
+          </ul>
+        </div>
+
+        <!-- Card 2: AI Recommendations -->
+        <div
+          class="glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-purple-500/20">
+          <div class="text-4xl mb-4">
+            <span class="inline-block bg-gradient-to-br from-purple-400 to-pink-500 p-3 rounded-xl">🤖</span>
+          </div>
+          <h3 class="text-2xl font-bold mb-3" data-i18n="landing.fc2_title">AI Smart Assistant</h3>
+          <p class="text-gray-300 text-base leading-relaxed mb-4" data-i18n="landing.fc2_desc">Lex AI learns from your
+            previous loads and recommends better routes and profitable zones.</p>
+          <ul class="space-y-2 text-sm text-gray-300">
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span
+                data-i18n="landing.fc2_b1">Pattern analysis</span></li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span
+                data-i18n="landing.fc2_b2">Profitability prediction</span></li>
+          </ul>
+        </div>
+
+        <!-- Card 3: Profitable Zones Map -->
+        <div
+          class="glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-500/20">
+          <div class="text-4xl mb-4">
+            <span class="inline-block bg-gradient-to-br from-orange-400 to-red-500 p-3 rounded-xl">🗺️</span>
+          </div>
+          <h3 class="text-2xl font-bold mb-3" data-i18n="landing.fc3_title">Profitable Zones Map</h3>
+          <p class="text-gray-300 text-base leading-relaxed mb-4" data-i18n="landing.fc3_desc">Visualize on an
+            interactive map which states and routes have been most profitable for you.</p>
+          <ul class="space-y-2 text-sm text-gray-300">
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span
+                data-i18n="landing.fc3_b1">Profitability heat map</span></li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span
+                data-i18n="landing.fc3_b2">Date filters</span></li>
+          </ul>
+        </div>
+
+        <!-- Card 4: Financial Dashboard (Large - Spans 2 columns on lg) -->
+        <div
+          class="lg:col-span-2 glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20">
+          <div class="text-4xl mb-4">
+            <span class="inline-block bg-gradient-to-br from-blue-400 to-cyan-500 p-3 rounded-xl">💰</span>
+          </div>
+          <h3 class="text-2xl md:text-3xl font-bold mb-3" data-i18n="landing.fc4_title">Monthly Financial Panel</h3>
+          <p class="text-gray-300 text-base md:text-lg leading-relaxed mb-4" data-i18n="landing.fc4_desc">Complete
+            dashboard with key metrics: total revenue, expenses, net profit, average RPM, and monthly trends. Export
+            reports to Excel for your accounting.</p>
+          <ul class="space-y-2 text-sm md:text-base text-gray-300">
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span
+                data-i18n="landing.fc4_b1">Trend charts</span></li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span
+                data-i18n="landing.fc4_b2">Month-to-month comparison</span></li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span
+                data-i18n="landing.fc4_b3">Excel/CSV export</span></li>
+          </ul>
+        </div>
+
+        <!-- Card 5: Load History -->
+        <div
+          class="glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-green-500/20">
+          <div class="text-4xl mb-4">
+            <span class="inline-block bg-gradient-to-br from-green-400 to-emerald-500 p-3 rounded-xl">📚</span>
+          </div>
+          <h3 class="text-2xl font-bold mb-3" data-i18n="landing.fc5_title">Complete History</h3>
+          <p class="text-gray-300 text-base leading-relaxed mb-4" data-i18n="landing.fc5_desc">All your loads saved,
+            editable, and exportable. Never lose track of your work.</p>
+          <ul class="space-y-2 text-sm text-gray-300">
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span
+                data-i18n="landing.fc5_b1">Advanced search</span></li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> <span
+                data-i18n="landing.fc5_b2">Real-time editing</span></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 💎 PRICING SECTION -->
+  <section id="pricing" class="section">
+    <div class="container text-center">
+
+      <!-- Section Header -->
+      <h2 class="text-3xl md:text-4xl font-black mb-4" data-i18n-html="landing.pricing_heading">Plans That <span
+          class="gradient-text">Pay for Themselves</span></h2>
+      <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-12" data-i18n="landing.pricing_sub">Start free. Upgrade
+        whenever you want more power.</p>
+
+      <!-- Pricing Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto text-left">
+
+        <!-- PLAN STARTER (Free) -->
+        <div class="glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+          <div class="mb-6">
+            <h3 class="text-2xl font-bold mb-2">Starter</h3>
+            <div class="flex items-baseline gap-2">
+              <span class="text-4xl md:text-5xl font-black">$0</span>
+              <span class="text-gray-300">/mo</span>
+            </div>
+            <p class="text-sm text-gray-400 mt-2" data-i18n="landing.plan_starter_tagline">Perfect for getting to know
+              the platform</p>
+          </div>
+
+          <ul class="space-y-3 mb-8 text-gray-200">
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n-html="landing.plan_starter_f1"><strong>30 loads</strong> per month</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n="landing.plan_starter_f2">Basic RPM calculator</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n="landing.plan_starter_f3">Basic history (30 days)</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n="landing.plan_starter_f4">Basic financial panel</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n="landing.plan_starter_f5">Basic zones map</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n="landing.plan_starter_f6">Academy — Modules 1-3 free</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-0.5" style="color:#facc15;">✓</span>
+              <span data-i18n-html="landing.plan_starter_f7">Lex AI — <strong class="text-yellow-300">14-day free
+                  trial</strong></span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-gray-500 mt-0.5">✗</span>
+              <span class="text-gray-400" data-i18n="landing.plan_starter_f8">Excel export</span>
+            </li>
+          </ul>
+
+          <a href="/auth.html" class="btn-secondary block text-center" data-i18n="landing.plan_starter_btn">Start
+            Free</a>
+        </div>
+
+        <!-- PLAN PROFESSIONAL ($14.99) -->
+        <div
+          class="glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/20"
+          style="border: 1px solid rgba(59, 130, 246, 0.3);">
+
+          <div class="mb-6">
+            <h3 class="text-2xl font-bold mb-2">Professional</h3>
+            <div class="flex items-baseline gap-2">
+              <span class="text-4xl md:text-5xl font-black" style="color: #60a5fa;">$14.99</span>
+              <span class="text-gray-300">/mo</span>
+            </div>
+            <p class="text-sm text-green-400 mt-2 font-semibold" data-i18n="landing.plan_pro_tagline">💰 Ideal for
+              active carriers</p>
+          </div>
+
+          <ul class="space-y-3 mb-8 text-gray-300">
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n-html="landing.plan_pro_f1"><strong class="text-white">Unlimited loads</strong></span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n-html="landing.plan_pro_f2"><strong class="text-white">Complete financial
+                  system</strong></span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n-html="landing.plan_pro_f3"><strong class="text-white">Advanced zones map</strong></span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n-html="landing.plan_pro_f4"><strong class="text-white">Academy — Modules 1-6</strong>
+                (Pro)</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n="landing.plan_pro_f5">90-day history</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n="landing.plan_pro_f6">Financial reports in PDF</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n="landing.plan_pro_f7">Excel/CSV export</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="mt-0.5" style="color:#facc15;">✓</span>
+              <span style="color:#fef9c3;" data-i18n-html="landing.plan_pro_f8">Lex AI — <strong
+                  class="text-yellow-300">14-day free trial</strong></span>
+            </li>
+          </ul>
+
+          <a href="/auth.html" class="btn-primary block text-center" style="justify-content: center;">
+            <span data-i18n="landing.plan_pro_btn">Choose Professional</span>
+            <span class="text-xl">→</span>
+          </a>
+        </div>
+
+        <!-- PLAN PREMIUM + AI ($29.99) - MÁS POPULAR -->
+        <div
+          class="relative glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-orange-500/30"
+          style="border: 2px solid var(--accent-orange);">
+
+          <!-- Most Popular Badge -->
+          <div class="absolute -top-4 left-1/2 -translate-x-1/2">
+            <span
+              class="bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2 rounded-full text-sm font-bold text-white shadow-lg whitespace-nowrap"
+              data-i18n="landing.plan_premium_badge">⭐ MOST POPULAR</span>
+          </div>
+
+          <div class="mb-6 mt-4">
+            <h3 class="text-2xl font-bold mb-2">Premium + AI</h3>
+            <div class="flex items-baseline gap-2">
+              <span class="text-4xl md:text-5xl font-black gradient-text">$29.99</span>
+              <span class="text-gray-300">/mo</span>
+            </div>
+            <p class="text-sm text-green-400 mt-2 font-semibold" data-i18n="landing.plan_premium_tagline">🚀 Pays for
+              itself with 2-3 better optimized loads</p>
+          </div>
+
+          <ul class="space-y-3 mb-8 text-gray-300">
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n-html="landing.plan_premium_f1"><strong class="text-white">Everything in
+                  Professional</strong></span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n-html="landing.plan_premium_f2"><strong class="text-white">Lex AI Assistant</strong> —
+                smart recommendations</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n-html="landing.plan_premium_f3"><strong class="text-white">Unlimited
+                  history</strong></span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n-html="landing.plan_premium_f4"><strong class="text-white">Predictive AI
+                  analysis</strong></span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n="landing.plan_premium_f5">Tax reports</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n-html="landing.plan_premium_f6"><strong class="text-white">Priority support</strong></span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-green-400 mt-0.5">✓</span>
+              <span data-i18n-html="landing.plan_premium_f7"><strong class="text-white">Full Academy</strong> — Modules
+                1-8</span>
+            </li>
+          </ul>
+
+          <a href="/auth.html" class="btn-primary block text-center" style="justify-content: center;">
+            <span data-i18n="landing.plan_premium_btn">Start Now</span>
+            <span class="text-2xl">→</span>
+          </a>
+
+          <p class="text-center text-sm text-gray-400 mt-4" data-i18n="landing.plan_premium_guarantee">✓ Cancel anytime
+            • ✓ 30-day guarantee</p>
+        </div>
+
+      </div>
+
+      <!-- ROI Statement -->
+      <div class="mt-12 glass rounded-xl p-6 max-w-3xl mx-auto">
+        <p class="text-lg text-gray-200" data-i18n-html="landing.pricing_roi"><strong class="text-white">Is it worth
+            it?</strong> If you optimize just <strong class="gradient-text">2-3 loads per month</strong> and avoid
+          accepting bad loads that cost you money, the Pro Plan pays for itself. Most of our users report <strong
+            class="text-green-400">+$300-500/mo</strong> in additional profit.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ⭐ TESTIMONIALS SECTION -->
+  <section id="testimonials" class="section" style="background: var(--bg-darker);">
+    <div class="container text-center">
+
+      <!-- Section Header -->
+      <h2 class="text-3xl md:text-4xl font-black mb-4" data-i18n-html="landing.testimonials_heading">What Our <span
+          class="gradient-text">Users</span> Say</h2>
+      <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-12" data-i18n="landing.testimonials_sub">Carriers earning
+        more with data-driven decisions</p>
+
+      <!-- Testimonials Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+
+        <!-- Testimonial 1 -->
+        <div class="glass rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1">
+          <div class="flex items-center gap-3 mb-4">
+            <div
+              class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-2xl font-bold">
+              M
+            </div>
+            <div>
+              <p class="font-bold text-white">Miguel R.</p>
+              <p class="text-sm text-gray-400" data-i18n="landing.t1_location">Expediter, TX</p>
+            </div>
+          </div>
+          <div class="flex gap-1 mb-3 text-yellow-400">
+            ⭐⭐⭐⭐⭐
+          </div>
+          <p class="text-gray-300 leading-relaxed" data-i18n-html="landing.t1_quote">"Before I accepted loads that
+            seemed good but ended up losing money. With SmartLoad I now know <strong class="text-white">in
+              seconds</strong> if it's worth it. My profit increased almost <strong class="text-green-400">30%</strong>
+            in 2 months."</p>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="glass rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1">
+          <div class="flex items-center gap-3 mb-4">
+            <div
+              class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center text-2xl font-bold">
+              J
+            </div>
+            <div>
+              <p class="font-bold text-white">José L.</p>
+              <p class="text-sm text-gray-400" data-i18n="landing.t2_location">Independent Operator, FL</p>
+            </div>
+          </div>
+          <div class="flex gap-1 mb-3 text-yellow-400">
+            ⭐⭐⭐⭐⭐
+          </div>
+          <p class="text-gray-300 leading-relaxed" data-i18n-html="landing.t2_quote">"The zones map changed my game. Now
+            I can clearly see which states give me the most profit and avoid wasting time on bad routes. <strong
+              class="text-white">The $14.99 pays for itself</strong> every month."</p>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="glass rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1">
+          <div class="flex items-center gap-3 mb-4">
+            <div
+              class="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-2xl font-bold">
+              C
+            </div>
+            <div>
+              <p class="font-bold text-white">Carlos M.</p>
+              <p class="text-sm text-gray-400" data-i18n="landing.t3_location">Van Driver, IL</p>
+            </div>
+          </div>
+          <div class="flex gap-1 mb-3 text-yellow-400">
+            ⭐⭐⭐⭐⭐
+          </div>
+          <p class="text-gray-300 leading-relaxed" data-i18n-html="landing.t3_quote">"Simple, fast, and effective. I no
+            longer waste time calculating by hand. Lex AI recommends the best routes based on my history. <strong
+              class="text-white">Indispensable tool</strong>."</p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 🚀 FINAL CTA SECTION -->
+  <section class="section" style="background: var(--bg-dark); position: relative; overflow: hidden;">
+    <!-- Glow orb -->
+    <div class="glow-orb" style="background: var(--primary-cyan); top: -100px; right: -200px;"></div>
+
+    <div class="container">
+      <div class="glass rounded-3xl p-8 md:p-12" style="position: relative; overflow: hidden;">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+          <!-- Left: Content -->
+          <div class="text-left">
+            <h2 class="text-4xl md:text-5xl font-black mb-6" data-i18n-html="landing.final_cta_heading">Ready to
+              Increase Your <span class="gradient-text">Earnings?</span></h2>
+
+            <!-- Highlights -->
+            <div class="space-y-4 mb-8">
+              <div class="flex items-center gap-4">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center"
+                  style="background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan);">
+                  ✓
+                </div>
+                <span class="text-lg font-medium" data-i18n="landing.final_cta_b1">Setup in less than 5 minutes</span>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center"
+                  style="background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan);">
+                  ✓
+                </div>
+                <span class="text-lg font-medium" data-i18n="landing.final_cta_b2">No credit card required</span>
+              </div>
+              <div class="flex items-center gap-4">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center"
+                  style="background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan);">
+                  ✓
+                </div>
+                <span class="text-lg font-medium" data-i18n="landing.final_cta_b3">Immediate access to all
+                  features</span>
+              </div>
+            </div>
+
+            <!-- CTA Button -->
+            <a href="/auth.html" class="btn-primary" style="font-size: 1.25rem; padding: 1.25rem 3rem;">
+              <span data-i18n="landing.final_cta_btn">Start Now</span>
+              <span class="text-3xl">→</span>
+            </a>
+          </div>
+
+          <!-- Right: App Mockup -->
+          <div class="relative" style="height: 500px;">
+            <img src="../img/logo-app.webp" alt="SmartLoad Solution"
+              class="absolute right-0 top-0 h-full w-auto object-contain"
+              style="filter: drop-shadow(0 20px 40px rgba(0, 217, 255, 0.3)); transform: rotate(-5deg);"
+              onerror="this.src='../img/logo-app.png'">
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 👣 FOOTER -->
+  <footer class="section"
+    style="padding: 4rem 1.5rem 2rem; background: var(--bg-dark); border-top: 1px solid rgba(255,255,255,0.1);">
+    <div class="container">
+
+      <!-- Footer Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+
+        <!-- Column 1: Brand -->
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <img src="../img/logo-app.webp" alt="SmartLoad Solution" class="h-8 w-auto"
+              onerror="this.src='../img/logo-app.png'">
+            <span class="font-bold text-lg">SmartLoad</span>
+          </div>
+          <p class="text-gray-400 text-sm leading-relaxed" data-i18n="landing.footer_tagline">The intelligent platform
+            for carriers who want to maximize their earnings with data-driven decisions.</p>
+        </div>
+
+        <!-- Column 2: Empresa -->
+        <div>
+          <h4 class="font-bold text-white mb-4" data-i18n="landing.footer_col_company">Company</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="about.html" class="text-gray-400 hover:text-white transition"
+                data-i18n="landing.footer_about">About Us</a></li>
+            <li><a href="plans.html" class="text-gray-400 hover:text-white transition"
+                data-i18n="landing.footer_plans">Plans &amp; Pricing</a></li>
+            <li><a href="#testimonials" class="text-gray-400 hover:text-white transition"
+                data-i18n="landing.footer_testimonials">Testimonials</a></li>
+            <li><a href="contact.html" class="text-gray-400 hover:text-white transition"
+                data-i18n="landing.footer_contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Recursos -->
+        <div>
+          <h4 class="font-bold text-white mb-4" data-i18n="landing.footer_col_resources">Resources</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="resources.html" class="text-gray-400 hover:text-white transition"
+                data-i18n="landing.footer_resources">Resource Center</a></li>
+            <li><a href="blog.html" class="text-gray-400 hover:text-white transition"
+                data-i18n="landing.footer_blog">Blog</a></li>
+            <li><a href="faq.html" class="text-gray-400 hover:text-white transition"
+                data-i18n="landing.footer_faq">FAQ</a></li>
+            <li><a href="support.html" class="text-gray-400 hover:text-white transition"
+                data-i18n="landing.footer_support">Support</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Legal & Social -->
+        <div>
+          <h4 class="font-bold text-white mb-4" data-i18n="landing.footer_col_legal">Legal</h4>
+          <ul class="space-y-2 text-sm mb-6">
+            <li><a href="privacy.html" class="text-gray-400 hover:text-white transition"
+                data-i18n="landing.footer_privacy">Privacy</a></li>
+            <li><a href="terms.html" class="text-gray-400 hover:text-white transition"
+                data-i18n="landing.footer_terms">Terms of Use</a></li>
+            <li><a href="refund.html" class="text-gray-400 hover:text-white transition"
+                data-i18n="landing.footer_refund">Refunds</a></li>
+          </ul>
+
+          <!-- Social Media Links -->
+          <div class="flex gap-4 mt-4">
+            <a href="https://www.facebook.com/galan.expediter" aria-label="Facebook" target="_blank"
+              rel="noopener noreferrer"
+              class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-blue-500 transition-all duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd"
+                  d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </a>
+            <a href="https://www.tiktok.com/@galan.expediter" aria-label="TikTok" target="_blank"
+              rel="noopener noreferrer"
+              class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 transition-all duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M12.525.02c1.31-.03 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.73-.22-.2-.43-.41-.62-.63-.19 1.79-.75 3.56-1.68 5.11-1.25 2.08-3.23 3.75-5.55 4.54-2.58.88-5.51.78-8.01-.47-2.73-1.37-4.63-4.14-4.9-7.19-.38-4.22 2.11-8.39 6.08-9.84 2.17-.79 4.62-.81 6.78-.05 0 2.18-.01 4.36-.02 6.54-1.25-.43-2.67-.32-3.81.39-.99.62-1.6 1.76-1.59 2.93.01 1.73 1.48 3.19 3.22 3.13 1.61-.05 2.94-1.35 3.01-2.95V.02z">
+                </path>
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/galan.expediter/" aria-label="Instagram" target="_blank"
+              rel="noopener noreferrer"
+              class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-pink-500 transition-all duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd"
+                  d="M12.315 2c2.43 0 2.784.008 3.885.058 1.357.062 2.367.274 3.111.562a5.82 5.82 0 012.08 1.354 5.83 5.83 0 011.353 2.08c.288.743.5 1.754.562 3.112.05 1.102.059 1.458.059 3.885s-.008 2.784-.059 3.886c-.062 1.357-.274 2.367-.562 3.111a5.82 5.82 0 01-1.353 2.08 5.82 5.82 0 01-2.08 1.353c-.744.288-1.754.5-3.112.563-1.102.049-1.458.058-3.885.058s-2.784-.008-3.886-.058c-1.356-.062-2.367-.274-3.11-.563a5.82 5.82 0 01-2.08-1.353 5.83 5.83 0 01-1.353-2.08c-.287-.743-.5-1.754-.562-3.112C2.008 14.784 2 14.428 2 12s.008-2.784.058-3.885c.062-1.358.274-2.367.562-3.112a5.83 5.83 0 011.353-2.08 5.82 5.82 0 012.08-1.353c.743-.288 1.754-.5 3.112-.562C9.528 2.008 9.884 2 12 2h.315zM12 5.802a6.197 6.197 0 100 12.396 6.197 6.197 0 000-12.396zm0 2.22a3.977 3.977 0 110 7.954 3.977 3.977 0 010-7.954zm6.474-.756a1.218 1.218 0 11-2.437 0 1.218 1.218 0 012.437 0z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </a>
+            <a href="https://www.youtube.com/@galan.expediter" aria-label="YouTube" target="_blank"
+              rel="noopener noreferrer"
+              class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-red-500 transition-all duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd"
+                  d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C22 8.68 22 12 22 12s0 3.32-.42 4.814c-.23.861-.907 1.538-1.768 1.768C18.32 19 12 19 12 19s-6.32 0-7.812-.418c-.861-.23-1.538-.907-1.768-1.768C2 15.32 2 12 2 12s0-3.32.42-4.814c.23-.861.907-1.538 1.768-1.768C5.68 5 12 5 12 5s6.32 0 7.812.418zM9.75 15.02l5.75-3.02-5.75-3.02v6.04z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Copyright -->
+      <div class="text-center pt-8 border-t border-gray-800">
+        <p class="text-gray-400 text-sm">
+          © 2026 SmartLoad Solution. All rights reserved.
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+          // Close mobile menu if open
+          mobileMenu.classList.add('hidden');
+        }
+      });
+    });
+
+    // 📱 PWA Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(registration => {
+            debugLog('✅ Service Worker registered successfully:', registration.scope);
+          })
+          .catch(error => {
+            debugLog('❌ Service Worker registration failed:', error);
+          });
+      });
+    }
+  </script>
+
+  <!-- 🍪 Cookie Consent Banner -->
+  <script src="../js/cookie-consent.js?v=1.0.0"></script>
+
+  <!-- i18n init omitted: page is static Spanish, toggle navigates to /en/ -->
+
+  <!-- 🔐 Secrets (no subir al repo — ver .gitignore) -->
+  <script src="../js/secrets.js"></script>
+
+  <!-- ================================================
+       SLS LEAD CAPTURE MODAL
+       ================================================ -->
+  <div id="slsLeadModal" role="dialog" aria-modal="true" aria-labelledby="slsModalTitle">
+    <div class="sls-modal-card">
+      <button class="sls-close" id="slsCloseBtn" aria-label="Close">×</button>
+      <div class="sls-lang-toggle">
+        <button id="slsLangEN" class="active" onclick="slsSetLang('en')">EN</button>
+        &nbsp;|&nbsp;
+        <button id="slsLangES" onclick="slsSetLang('es')">ES</button>
+      </div>
+      <div id="slsFormContent">
+        <div class="sls-badge" id="slsBadge">🆓 Free Plan</div>
+        <h2 id="slsModalTitle"></h2>
+        <p id="slsSubtext"></p>
+        <form class="sls-form" id="slsLeadForm" onsubmit="slsSubmitForm(event)">
+          <input type="text" id="slsName" autocomplete="given-name" required="" maxlength="50">
+          <input type="email" id="slsEmail" autocomplete="email" required="">
+          <div class="sls-error" id="slsErrorMsg"></div>
+          <button type="submit" class="sls-submit" id="slsSubmitBtn"></button>
+        </form>
+        <p class="sls-privacy" id="slsPrivacy"></p>
+      </div>
+      <div class="sls-success" id="slsSuccess">
+        <div class="sls-check">✅</div>
+        <h3 id="slsSuccessTitle"></h3>
+        <p id="slsSuccessText"></p>
+        <a href="/auth.html?tab=register" class="sls-skip-link" id="slsSuccessLink"></a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ================================================================
+    //  SLS Lead Capture Modal — Abril 2026
+    // ================================================================
+    var SLS_CONFIG = {
+      brevoApiKey: window.__BREVO_KEY__ || "",   // key gestionada fuera del repo
+      brevoListId: 2,
+      redirectUrl: "/auth.html?tab=register"
+    };
+
+    var SLS_TEXTS = {
+      en: {
+        badge: "🆓 Free Plan",
+        headlineHtml: 'Stop guessing.<br><span class="gradient">Know your number.</span>',
+        subtext: "Enter your email and create your free account. No credit card required.",
+        namePlaceholder: "Your first name",
+        emailPlaceholder: "Your email address",
+        submitBtn: "Get Free Access →",
+        privacy: "No spam. Unsubscribe anytime. Your info is safe.",
+        successTitle: "You're in!",
+        successText: "Taking you to create your account now...",
+        successLink: "Continue to sign up →",
+        errorMsg: "Something went wrong. Please try again.",
+        loading: "Saving your spot..."
+      },
+      es: {
+        badge: "🆓 Plan Gratis",
+        headlineHtml: 'Deja de adivinar.<br><span class="gradient">Conoce tu número.</span>',
+        subtext: "Deja tu email y crea tu cuenta gratis. Sin tarjeta de crédito.",
+        namePlaceholder: "Tu nombre",
+        emailPlaceholder: "Tu correo electrónico",
+        submitBtn: "Quiero Acceso Gratis →",
+        privacy: "Sin spam. Cancela cuando quieras.",
+        successTitle: "¡Ya estás dentro!",
+        successText: "Llevándote a crear tu cuenta ahora...",
+        successLink: "Ir a registrarse →",
+        errorMsg: "Algo salió mal. Intenta de nuevo.",
+        loading: "Guardando tu lugar..."
+      }
+    };
+
+    var slsLang = "en";
+
+    function slsSetLang(lang) {
+      slsLang = lang;
+      var t = SLS_TEXTS[lang];
+      document.getElementById("slsBadge").textContent = t.badge;
+      document.getElementById("slsModalTitle").innerHTML = t.headlineHtml;
+      document.getElementById("slsSubtext").textContent = t.subtext;
+      document.getElementById("slsName").placeholder = t.namePlaceholder;
+      document.getElementById("slsEmail").placeholder = t.emailPlaceholder;
+      document.getElementById("slsSubmitBtn").textContent = t.submitBtn;
+      document.getElementById("slsPrivacy").textContent = t.privacy;
+      document.getElementById("slsSuccessTitle").textContent = t.successTitle;
+      document.getElementById("slsSuccessText").textContent = t.successText;
+      document.getElementById("slsSuccessLink").textContent = t.successLink;
+      document.getElementById("slsLangEN").classList.toggle("active", lang === "en");
+      document.getElementById("slsLangES").classList.toggle("active", lang === "es");
+    }
+
+    // Siempre ingles en la pagina en ingles
+    (function () {
+      slsSetLang('en');
+    })();
+
+    // ── UTM Tracking ──────────────────────────────────────────────────
+    function slsGetUTMs() {
+      var p = new URLSearchParams(window.location.search);
+      return {
+        utm_source: p.get("utm_source") || "direct",
+        utm_medium: p.get("utm_medium") || "none",
+        utm_campaign: p.get("utm_campaign") || "none",
+        utm_content: p.get("utm_content") || "none",
+        landing_page: window.location.pathname,
+        referrer: document.referrer || "direct"
+      };
+    }
+    (function () {
+      var utms = slsGetUTMs();
+      if (utms.utm_source !== "direct") {
+        sessionStorage.setItem("sls_utms", JSON.stringify(utms));
+      }
+    })();
+    function slsStoredUTMs() {
+      try {
+        var s = sessionStorage.getItem("sls_utms");
+        return s ? JSON.parse(s) : slsGetUTMs();
+      } catch (e) { return slsGetUTMs(); }
+    }
+
+    // ── Modal open / close ────────────────────────────────────────────
+    function slsOpenModal() {
+      var pageLang = (window.i18n && window.i18n.currentLang) ? window.i18n.currentLang : slsLang;
+      slsSetLang("es");
+      document.getElementById("slsLeadModal").classList.add("active");
+      document.body.style.overflow = "hidden";
+      setTimeout(function () { document.getElementById("slsName").focus(); }, 100);
+    }
+    function slsCloseModal() {
+      document.getElementById("slsLeadModal").classList.remove("active");
+      document.body.style.overflow = "";
+    }
+    document.getElementById("slsLeadModal").addEventListener("click", function (e) {
+      if (e.target === this) slsCloseModal();
+    });
+    document.getElementById("slsCloseBtn").addEventListener("click", slsCloseModal);
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") slsCloseModal();
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      document.querySelectorAll('a[href*="auth.html"]').forEach(function (btn) {
+        var isLoginLink = btn.classList.contains('btn-secondary') ||
+          btn.getAttribute('data-i18n') === 'nav.login';
+        var isHeroCta = btn.getAttribute('data-i18n') === 'landing.hero_cta_primary';
+
+        if (isLoginLink) {
+          btn.addEventListener("click", function (e) {
+            if (firebase.auth().currentUser) {
+              e.preventDefault();
+              window.location.href = '/app.html';
+            }
+          });
+        } else if (isHeroCta) {
+          btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            if (firebase.auth().currentUser) {
+              window.location.href = '/app.html';
+            } else {
+              slsOpenModal();
+            }
+          });
+        } else {
+          btn.setAttribute('href', '/auth.html?tab=register');
+          btn.addEventListener("click", function (e) {
+            if (firebase.auth().currentUser) {
+              e.preventDefault();
+              window.location.href = '/app.html';
+            }
+          });
+        }
+      });
+    });
+
+    // ── Save to Firestore ─────────────────────────────────────────────
+    async function slsSaveFirestore(lead) {
+      try {
+        var db = firebase.firestore();
+        await db.collection("leads").add(Object.assign({}, lead, {
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          trial_start: new Date().toISOString(),
+          status: "lead",
+          plan_type: "none",
+          converted: false,
+          loads_calculated: 0,
+          engagement_score: 0,
+          engagement_tag: "cold"
+        }));
+        return true;
+      } catch (err) {
+        console.error("[SLS] Firestore error:", err);
+        return false;
+      }
+    }
+
+    // ── Save to Brevo ─────────────────────────────────────────────────
+    async function slsSaveBrevo(name, email, utms) {
+      try {
+        var res = await fetch("https://api.brevo.com/v3/contacts", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "api-key": SLS_CONFIG.brevoApiKey
+          },
+          body: JSON.stringify({
+            email: email,
+            attributes: {
+              FIRSTNAME: name,
+              UTM_SOURCE: utms.utm_source,
+              UTM_MEDIUM: utms.utm_medium,
+              UTM_CAMPAIGN: utms.utm_campaign,
+              LANDING_PAGE: utms.landing_page
+            },
+            listIds: [SLS_CONFIG.brevoListId],
+            updateEnabled: true
+          })
+        });
+        return (res.status === 201 || res.status === 204);
+      } catch (err) {
+        console.error("[SLS] Brevo error:", err);
+        return false;
+      }
+    }
+
+    // ── Submit ────────────────────────────────────────────────────────
+    async function slsSubmitForm(e) {
+      e.preventDefault();
+      var name = document.getElementById("slsName").value.trim();
+      var email = document.getElementById("slsEmail").value.trim().toLowerCase();
+      var btn = document.getElementById("slsSubmitBtn");
+      var errDiv = document.getElementById("slsErrorMsg");
+      var t = SLS_TEXTS[slsLang];
+      if (!name || !email) return;
+      btn.disabled = true;
+      btn.textContent = t.loading;
+      errDiv.style.display = "none";
+      var utms = slsStoredUTMs();
+      var lead = {
+        name: name,
+        email: email,
+        language: slsLang,
+        utm_source: utms.utm_source,
+        utm_medium: utms.utm_medium,
+        utm_campaign: utms.utm_campaign,
+        utm_content: utms.utm_content,
+        landing_page: utms.landing_page,
+        referrer: utms.referrer,
+        device: /Mobi|Android/i.test(navigator.userAgent) ? "mobile" : "desktop"
+      };
+      var results = await Promise.all([slsSaveFirestore(lead), slsSaveBrevo(name, email, utms)]);
+      if (results[0] || results[1]) {
+        document.getElementById("slsFormContent").style.display = "none";
+        document.getElementById("slsSuccess").style.display = "block";
+        setTimeout(function () { window.location.href = SLS_CONFIG.redirectUrl; }, 3000);
+      } else {
+        errDiv.textContent = t.errorMsg;
+        errDiv.style.display = "block";
+        btn.disabled = false;
+        btn.textContent = t.submitBtn;
+      }
+    }
+  </script>
+
+
+
+</body>
+
+</html>
