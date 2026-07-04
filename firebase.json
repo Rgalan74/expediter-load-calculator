@@ -9,6 +9,18 @@
   },
   "hosting": {
     "public": "public",
+    "redirects": [
+      { "source": "/blog/calculate-real-rpm.html", "destination": "/en/blog/calculate-real-rpm.html", "type": 301 },
+      { "source": "/blog/decide-load-30-seconds.html", "destination": "/en/blog/decide-load-30-seconds.html", "type": 301 },
+      { "source": "/blog/hidden-operating-costs.html", "destination": "/en/blog/hidden-operating-costs.html", "type": 301 },
+      { "source": "/blog/llc-vs-sole-proprietor.html", "destination": "/en/blog/llc-vs-sole-proprietor.html", "type": 301 },
+      { "source": "/blog/profitable-zones.html", "destination": "/en/blog/profitable-zones.html", "type": 301 },
+      { "source": "/es/blog/como-calcular-rpm-real.html", "destination": "/blog/como-calcular-rpm-real.html", "type": 301 },
+      { "source": "/es/blog/costos-ocultos-operacion.html", "destination": "/blog/costos-ocultos-operacion.html", "type": 301 },
+      { "source": "/es/blog/decidir-carga-en-30-segundos.html", "destination": "/blog/decidir-carga-en-30-segundos.html", "type": 301 },
+      { "source": "/es/blog/llc-vs-propietario-unico.html", "destination": "/blog/llc-vs-propietario-unico.html", "type": 301 },
+      { "source": "/es/blog/zonas-rentables-expediters.html", "destination": "/blog/zonas-rentables-expediters.html", "type": 301 }
+    ],
     "ignore": [
       "firebase.json",
       "**/.*",
