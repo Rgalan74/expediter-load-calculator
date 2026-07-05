@@ -1,35 +1,24 @@
-<html lang="es"><head>  
-  
-  
-  
-  
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EK7NM7PJE2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-EK7NM7PJE2');
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cómo decidir en 30 segundos si una carga vale la pena | SLS Blog</title>
   <link rel="canonical" href="https://smartloadsolution.com/blog/decidir-carga-en-30-segundos.html">
   <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/blog/decidir-carga-en-30-segundos.html">
   <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/blog/decide-load-30-seconds.html">
   <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/en/blog/decide-load-30-seconds.html">
-</head><body>﻿
 
-
-
-  <meta charset="UTF-8">
-
-  <!-- Google Analytics 4 -->
-  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-EK7NM7PJE2"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-EK7NM7PJE2');
-  </script>
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
   <!-- SEO Meta Tags -->
   <meta name="description" content="Fórmula práctica para dueños-operadores de cargo van: calcula tu ganancia neta y decide si aceptar o rechazar cargas de brokers en 30 segundos.">
-  
-  
-
   <!-- OpenGraph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://smartloadsolution.com/blog/decidir-carga-en-30-segundos.html">
@@ -38,21 +27,18 @@
   <meta property="og:image" content="https://smartloadsolution.com/img/og-image-es.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://smartloadsolution.com/blog/decidir-carga-en-30-segundos.html">
   <meta name="twitter:title" content="Cómo Decidir en 30 Segundos si una Carga Vale la Pena">
   <meta name="twitter:description" content="Deja de perder días esperando en zonas muertas. Usa el checklist de decisión pro para filtrar ofertas de carga.">
   <meta name="twitter:image" content="https://smartloadsolution.com/img/og-image-es.png">
-
   <!-- Styles -->
-  <link rel="icon" type="image/webp" href="../img/logo-app.webp">
+  <link rel="icon" type="image/webp" href="/img/logo-app.webp">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
-  
   <style>
     :root {
       --bg-dark: #0a0a0f;
@@ -61,12 +47,12 @@
       --primary-orange: #FF6B35;
       --border-glass: rgba(255, 255, 255, 0.08);
     }
-    body { 
-      font-family: 'Inter', sans-serif; 
-      background: var(--bg-dark); 
-      color: #e2e8f0; 
-      line-height: 1.8; 
-      overflow-x: hidden; 
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: #e2e8f0;
+      line-height: 1.8;
+      overflow-x: hidden;
     }
     .gradient-text {
       background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
@@ -116,17 +102,17 @@
       font-weight: 700;
     }
     .btn-secondary {
-      background: rgba(255,255,255,0.05);
+      background: rgba(255, 255, 255, 0.05);
       color: white;
       padding: 0.75rem 1.5rem;
       border-radius: 0.75rem;
       font-weight: 600;
       text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       transition: all 0.3s;
     }
     .btn-secondary:hover {
-      background: rgba(0,217,255,0.05);
+      background: rgba(0, 217, 255, 0.05);
       border-color: var(--primary-cyan);
       color: var(--primary-cyan);
     }
@@ -143,53 +129,136 @@
       color: var(--primary-cyan);
     }
   </style>
-  
   <!-- Meta Pixel Code -->
   <script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '2077223159668765');
-  fbq('track', 'PageView');
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () {
+        n.callMethod ?
+        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+      n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2077223159668765');
+    fbq('track', 'PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=2077223159668765&ev=PageView&noscript=1"
-  /></noscript>
+      src="https://www.facebook.com/tr?id=2077223159668765&ev=PageView&noscript=1" /></noscript>
   <!-- End Meta Pixel Code -->
-    <!-- Metricool Tracker -->
-  <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
+  <!-- Metricool Tracker -->
+  <script>function loadScript(a) { var b = document.getElementsByTagName("head")[0], c = document.createElement("script"); c.type = "text/javascript", c.src = "https://tracker.metricool.com/resources/be.js", c.onreadystatechange = a, c.onload = a, b.appendChild(c) } loadScript(function () { beTracker.t({ hash: "7da74d6dfb9767939b3eb010fa322db6" }) });</script>
   <!-- End Metricool Tracker -->
-
-
-
-
+  <!-- Article Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Cómo Decidir en 30 Segundos si una Carga Vale la Pena",
+    "description": "Fórmula práctica para dueños-operadores de cargo van: calcula tu ganancia neta y decide si aceptar o rechazar cargas de brokers en 30 segundos.",
+    "image": "https://smartloadsolution.com/img/og-image-es.png",
+    "author": {
+      "@type": "Person",
+      "name": "Ricardo Galán"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Smart Load Solution",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://smartloadsolution.com/img/logo-app.webp"
+      }
+    },
+    "datePublished": "2026-07-05",
+    "dateModified": "2026-07-05",
+    "mainEntityOfPage": "https://smartloadsolution.com/blog/decidir-carga-en-30-segundos.html"
+  }
+  </script>
+  
+  <!-- FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      
+      {
+        "@type": "Question",
+        "name": "¿Qué es la 'mentalidad de operador' al evaluar una carga?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Es evaluar una carga por la posición estratégica donde te deja después de entregar, no solo por el pago inicial. Una carga de $1,100 hacia un centro fuerte como Atlanta puede ser mucho más rentable que una de $1,600 hacia una zona muerta como El Paso, porque el reload de salida y el tiempo de espera cambian toda la ecuación."
+        }
+      },
+      
+      {
+        "@type": "Question",
+        "name": "¿Qué son las zonas trampa y por qué importan en la decisión de 30 segundos?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Son destinos donde entra carga bien pagada, pero de donde es difícil salir cargado (ejemplos comunes: Florida, Colorado, Utah). Si aceptas una carga alta hacia una zona trampa sin sumar el costo de salida, puedes terminar ganando menos por hora que con una carga que pagaba menos pero te dejó en un mercado caliente."
+        }
+      },
+      
+      {
+        "@type": "Question",
+        "name": "¿Debo aceptar siempre la carga que paga más en dólares totales?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. En el caso práctico del artículo, la carga de $1,600 generó $550 de ganancia neta en 6 días ($11.46/hora), mientras que la de $1,100 generó $800 de ganancia neta en solo 3 días ($33.33/hora). El pago total no dice nada si no lo divides entre el tiempo real que te toma completar el ciclo."
+        }
+      },
+      
+      {
+        "@type": "Question",
+        "name": "¿Cómo afecta el horario de entrega a mi decisión?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Entregar un viernes por la tarde puede dejarte varado el fin de semana sin poder buscar otra carga, perdiendo días productivos completos. Por eso el checklist de 3 pasos incluye siempre preguntar cuándo entrega, no solo cuánto paga."
+        }
+      },
+      
+      {
+        "@type": "Question",
+        "name": "¿Cómo ayuda una app a decidir más rápido que a mano?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "El motor de decisión de Smart Load Solution evalúa el destino, considera millas de reposicionamiento y te da una señal clara en menos de 10 segundos — el mismo cálculo que te tomaría varios minutos hacer mentalmente mientras un broker te presiona por teléfono."
+        }
+      }
+      
+    ]
+  }
+  </script>
+  
+</head>
+<body>
   <!-- HEADER -->
   <header style="position: sticky; top: 0; z-index: 100; background: rgba(10,10,15,0.95); border-bottom: 1px solid var(--border-glass);">
     <div style="max-width: 1200px; margin: 0 auto; padding: 1rem 1.5rem;">
       <div class="flex items-center justify-between">
-        <a href="../index.html" class="flex items-center gap-3">
-          <img src="../img/logo-app.webp" alt="SmartLoad Solution Logo" class="h-10 w-auto" onerror="this.src='../img/logo-app.png'">
+        <a href="/index.html" class="flex items-center gap-3">
+          <img src="/img/logo-app.webp" alt="SmartLoad Solution Logo" class="h-10 w-auto" onerror="this.src='/img/logo-app.png'">
           <span class="text-xl font-bold text-white">Smart Load Solution</span>
         </a>
         <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
-          <a href="../index.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_home">Inicio</a>
-          <a href="../about.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_about">Acerca</a>
-          <a href="../blog.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_blog">Blog</a>
-          <a href="../resources.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_resources">Recursos</a>
-          <a href="../plans.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_plans">Planes</a>
+          <a href="/index.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_home">Inicio</a>
+          <a href="/about.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_about">Acerca</a>
+          <a href="/blog.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_blog">Blog</a>
+          <a href="/resources.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_resources">Recursos</a>
+          <a href="/plans.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_plans">Planes</a>
         </nav>
         <div class="flex items-center gap-4">
           <div class="lang-toggle hidden md:flex items-center gap-1 font-semibold text-xs">
-      <a id="btn-en" href="../en/blog/decide-load-30-seconds.html" onclick="localStorage.setItem('app_language','en')" style="text-decoration:none;cursor:pointer;padding:0.2rem 0.4rem;border-radius:4px;color:#9ca3af;transition:color 0.2s;">EN</a>
-      <span style="color:#4b5563;">|</span>
-      <button id="btn-es" style="background:none;border:none;cursor:default;padding:0.2rem 0.4rem;border-radius:4px;color:#00D9FF;font-weight:700;" aria-current="true">ES</button>
-    </div>
-          <a href="../auth.html" class="hidden md:inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition" data-i18n="about.nav_login">Iniciar Sesión →</a>
+            
+            <a id="btn-en" href="https://smartloadsolution.com/en/blog/decide-load-30-seconds.html" onclick="localStorage.setItem('app_language','en')" style="text-decoration:none;cursor:pointer;padding:0.2rem 0.4rem;border-radius:4px;color:#9ca3af;transition:color 0.2s;">EN</a>
+            <span style="color:#4b5563;">|</span>
+            <button id="btn-es" style="background:none;border:none;cursor:default;padding:0.2rem 0.4rem;border-radius:4px;color:#00D9FF;font-weight:700;" aria-current="true">ES</button>
+            
+          </div>
+          <a href="/auth.html" class="hidden md:inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition" data-i18n="about.nav_login">Iniciar Sesión →</a>
         </div>
       </div>
     </div>
@@ -197,159 +266,200 @@
 
   <!-- MAIN CONTENT -->
   <main class="max-w-4xl mx-auto px-6 py-12">
-    
-    <!-- Breadcrumb -->
     <div class="text-xs text-gray-500 mb-6">
-      <a href="../blog.html" class="text-cyan-400 hover:underline">Blog</a> 
-      <span class="mx-2">/</span> 
-      
-      <span>Decide a Load in 30 Seconds</span>
+      <a href="/blog.html" class="text-cyan-400 hover:underline">Blog</a>
+      <span class="mx-2">/</span>
+      <span>Cómo Decidir en 30 Segundos si una Carga Vale la Pena</span>
     </div>
 
-    <!-- SPANISH ARTICLE -->
-    
-
-    <!-- ENGLISH ARTICLE -->
     <article>
+      
+      <img src="/img/blog/ricardo-gasolinera-hero.webp" alt="Ricardo Galán en la gasolinera evaluando si una carga vale la pena" class="w-full h-auto rounded-2xl mb-8" loading="eager" width="1600" height="840">
+      
       <header class="mb-10">
-        <span class="inline-block bg-cyan-900/40 text-cyan-400 text-xs font-semibold px-3 py-1 rounded-full mb-4">Productivity</span>
+        <span class="inline-block bg-cyan-900/40 text-cyan-400 text-xs font-semibold px-3 py-1 rounded-full mb-4">Productividad</span>
         <h1 class="text-3xl md:text-5xl font-black text-white leading-tight mb-4">Cómo Decidir en 30 Segundos si una Carga Vale la Pena</h1>
-        <div class="flex items-center gap-4 text-sm text-gray-500">
-          <span>By: <strong>SmartLoad Team</strong></span>
+        <div class="flex items-center gap-3 text-sm text-gray-500">
+          
+          <img src="/img/blog/ricardo-headshot.webp" alt="Ricardo Galán" class="w-10 h-10 rounded-full object-cover border border-white/10">
+          
+          <span>Por: <strong>Ricardo Galán</strong></span>
           <span>•</span>
-          <span>Read: 8 min</span>
+          <span>Lectura: 8 min</span>
         </div>
       </header>
 
       <div class="prose prose-invert max-w-none text-gray-300 text-base md:text-lg">
         <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">
-          In the competitive world of cargo van and Sprinter expediting, the best loads on the board last less than a minute. If you waste time making calculations on paper or debating whether to accept, another driver will book it. Learn the exact flow to decide with confidence in seconds.
-        </p>
+  En el mundo competitivo del transporte expedite con cargo van y Sprinter, las mejores cargas en el tablero pueden
+  durar menos de un minuto. Si pierdes tiempo haciendo cálculos en papel o dudando si aceptar, otro conductor se la
+  lleva primero. Aquí aprenderás un flujo simple para decidir con confianza en segundos.
+</p>
+<h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">🧠 El Cambio Mental: de Conductor a Operador</h2>
+<p>El error número uno es preguntar de inmediato: <strong>¿cuánto paga esta carga?</strong> Un dueño-operador
+  profesional no evalúa una carga solo por el pago individual, sino por la <strong>posición estratégica donde
+    termina después de entregar</strong>.</p>
+<div class="grid md:grid-cols-2 gap-4 my-6">
+  <div class="glass-card p-5 border-red-500/20 border">
+    <h3 class="font-bold text-red-400 mb-2">❌ Mentalidad de Conductor</h3>
+    <p class="text-sm text-gray-400">"Esta carga paga $1,600 para El Paso. Es bastante dinero, la agarro."
+      Sin analizar cómo vas a salir de esa zona después.</p>
+  </div>
+  <div class="glass-card p-5 border-green-500/30 border">
+    <h3 class="font-bold text-green-400 mb-2">✅ Mentalidad de Operador</h3>
+    <p class="text-sm text-gray-400">"Esta paga $1,100 para Atlanta. El pago es menor, pero Atlanta es un centro
+      fuerte, con más oportunidades de recarga y mejores cargas de salida."</p>
+  </div>
+</div>
+<h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">📊 Caso Práctico: el Costo del Tiempo Muerto</h2>
+<p>Mira lo que puede pasar cuando comparamos a Roberto, que tomó la carga hacia El Paso, contra Carlos, que tomó
+  la carga hacia Atlanta:</p>
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>MÉTRICA SEMANAL</th>
+        <th>ROBERTO (opción El Paso)</th>
+        <th>CARLOS (opción Atlanta)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Pago inicial de la carga</td>
+        <td class="text-green-400 font-bold">$1,600</td>
+        <td>$1,100</td>
+      </tr>
+      <tr>
+        <td>Tiempo de espera en destino</td>
+        <td class="text-red-400">72 horas (zona muerta)</td>
+        <td class="text-green-400">10 horas (centro fuerte)</td>
+      </tr>
+      <tr>
+        <td>Carga de salida / regreso</td>
+        <td>Débil ($0.95/milla)</td>
+        <td class="text-green-400 font-bold">Fuerte ($1.55/milla)</td>
+      </tr>
+      <tr class="bg-cyan-900/20 font-bold text-white">
+        <td>DÍAS TOTALES</td>
+        <td>6 días</td>
+        <td class="text-green-400">3 días</td>
+      </tr>
+      <tr class="bg-cyan-900/20 font-bold text-white">
+        <td>GANANCIA NETA TOTAL</td>
+        <td>$550</td>
+        <td class="text-green-400">$800</td>
+      </tr>
+      <tr class="bg-emerald-900/40 text-emerald-400 font-bold">
+        <td>GANANCIA POR HORA EN RUTA</td>
+        <td>$11.46 / hora</td>
+        <td>$33.33 / hora (triple)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="callout warning">
+  <strong>⚠️ La Lección Dura</strong>
+  <p>La carga que "pagaba más" ($1,600) terminó siendo peor financieramente que la carga que "pagaba menos"
+    ($1,100). Carlos no solo ganó <strong>$250 más de ganancia limpia</strong>, también lo hizo en
+    <strong>la mitad del tiempo</strong>, reduciendo desgaste del vehículo y liberando días para buscar otra
+    carga rentable.
+  </p>
+</div>
+<h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">🗺️ Matriz Rápida de Decisión en 30 Segundos</h2>
+<p>Para tomar decisiones más rápido, usa esta matriz basada en <strong>pago de la carga vs. zona de
+    destino</strong>:</p>
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>COMBINACIÓN</th>
+        <th>DECISIÓN INMEDIATA</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="bg-emerald-900/20 text-emerald-400">
+        <td>💰 Pago alto + 🟢 zona caliente (Midwest, Atlanta, Chicago)</td>
+        <td><strong>ACEPTAR DE INMEDIATO ✅</strong></td>
+      </tr>
+      <tr class="bg-yellow-900/20 text-yellow-400">
+        <td>💰 Pago alto + 🔴 zona muerta (Florida, Colorado, Utah)</td>
+        <td><strong>ANALIZAR CON CUIDADO ⚠️ (sumar costos de salida)</strong></td>
+      </tr>
+      <tr class="bg-cyan-900/20 text-cyan-400">
+        <td>💸 Pago medio + 🟢 zona caliente</td>
+        <td><strong>CONSIDERAR COMO REPOSICIONAMIENTO 🤔</strong></td>
+      </tr>
+      <tr class="bg-red-900/20 text-red-400">
+        <td>💸 Pago bajo + 🔴 zona muerta</td>
+        <td><strong>RECHAZAR DE INMEDIATO ❌</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">📋 Lista de 3 Pasos para Decidir en 30 Segundos
+</h2>
+<p>Antes de decirle que sí a un broker, hazte estas tres preguntas rápidas:</p>
+<ul class="list-decimal pl-6 space-y-2 my-4">
+  <li><strong>¿A dónde me lleva esta carga?</strong> ¿Es un mercado caliente con recargas rápidas o tendré que
+    salir vacío para encontrar otra carga?</li>
+  <li><strong>¿Cuándo entrega?</strong> Entregar un viernes por la tarde puede dejarte atrapado el fin de
+    semana, perdiendo días valiosos de trabajo.</li>
+  <li><strong>¿El ciclo completo cierra en positivo?</strong> ¿La ganancia del viaje inicial más una salida
+    realista supera tu punto de equilibrio semanal?</li>
+</ul>
+<div class="callout tip">
+  <strong>💡 Cómo la tecnología simplifica esta decisión</strong>
+  <p>Hacer matemática mental mientras un broker te presiona por teléfono no es fácil. El motor de decisión de
+    <strong>Smart Load Solution</strong> evalúa el destino, considera millas de salida, revisa datos relevantes
+    del viaje y te da una señal clara en menos de 10 segundos.
+  </p>
+</div>
 
-        <h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">🧠 The Shift from Driver to Operator</h2>
-        <p>The number one conceptual mistake is asking immediately: *How much does this load pay?*. A professional owner-operator does not evaluate a load based on individual payout, but rather on their **strategic positioning upon delivery**.</p>
+      </div>
 
-        <div class="grid md:grid-cols-2 gap-4 my-6">
-          <div class="glass-card p-5 border-red-500/20 border">
-            <h3 class="font-bold text-red-400 mb-2">❌ Driver Mindset</h3>
-            <p class="text-sm text-gray-400">"This trip pays $1,600 to El Paso. That's a lot of cash, I'll take it!" (Without considering how to get out of there).</p>
+      
+      <div class="mt-12 pt-8 border-t border-white/10">
+        <h2 class="text-xl md:text-2xl font-bold text-white mb-6">Preguntas Frecuentes</h2>
+        <div class="space-y-4">
+          
+          <div class="glass-card p-5">
+            <h3 class="text-base md:text-lg font-semibold text-white mb-2">¿Qué es la &#39;mentalidad de operador&#39; al evaluar una carga?</h3>
+            <p class="text-gray-300 text-sm md:text-base">Es evaluar una carga por la posición estratégica donde te deja después de entregar, no solo por el pago inicial. Una carga de $1,100 hacia un centro fuerte como Atlanta puede ser mucho más rentable que una de $1,600 hacia una zona muerta como El Paso, porque el reload de salida y el tiempo de espera cambian toda la ecuación.</p>
           </div>
-          <div class="glass-card p-5 border-green-500/30 border">
-            <h3 class="font-bold text-green-400 mb-2">✅ Operator Mindset</h3>
-            <p class="text-sm text-gray-400">"It pays $1,100 to Atlanta. Payout is lower, but Atlanta is a premium freight hub with constant reloads and great outbound rates."</p>
+          
+          <div class="glass-card p-5">
+            <h3 class="text-base md:text-lg font-semibold text-white mb-2">¿Qué son las zonas trampa y por qué importan en la decisión de 30 segundos?</h3>
+            <p class="text-gray-300 text-sm md:text-base">Son destinos donde entra carga bien pagada, pero de donde es difícil salir cargado (ejemplos comunes: Florida, Colorado, Utah). Si aceptas una carga alta hacia una zona trampa sin sumar el costo de salida, puedes terminar ganando menos por hora que con una carga que pagaba menos pero te dejó en un mercado caliente.</p>
           </div>
-        </div>
-
-        <h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">📊 Case Study: The Cost of Dead Time</h2>
-        <p>Let's look at what actually happens in route when we compare Roberto (who booked El Paso) vs. Carlos (who booked Atlanta):</p>
-
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>WEEKLY METRIC</th>
-                <th>ROBERTO (El Paso Option)</th>
-                <th>CARLOS (Atlanta Option)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Initial Load Payout</td>
-                <td class="text-green-400 font-bold">$1,600</td>
-                <td>$1,100</td>
-              </tr>
-              <tr>
-                <td>Destination Wait Time</td>
-                <td class="text-red-400">72 hours (Dead Zone)</td>
-                <td class="text-green-400">10 hours (Premium Hub)</td>
-              </tr>
-              <tr>
-                <td>Outbound Backhaul</td>
-                <td>Poor ($0.95/mile)</td>
-                <td class="text-green-400 font-bold">Premium ($1.55/mile)</td>
-              </tr>
-              <tr class="bg-cyan-900/20 font-bold text-white">
-                <td>TOTAL DAYS</td>
-                <td>6 days</td>
-                <td class="text-green-400">3 days</td>
-              </tr>
-              <tr class="bg-cyan-900/20 font-bold text-white">
-                <td>TOTAL NET PROFIT</td>
-                <td>$550</td>
-                <td class="text-green-400">$800</td>
-              </tr>
-              <tr class="bg-emerald-900/40 text-emerald-400 font-bold">
-                <td>HOURLY RATE IN ROUTE</td>
-                <td>$11.46 / hour</td>
-                <td>$33.33 / hour (Triple)</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="callout warning">
-          <strong>⚠️ The Brutal Lesson</strong>
-          <p>The load that "paid more" ($1,600) was financially much worse than the load that "paid less" ($1,100). Carlos not only earned **$250 more in clean profit**, but he did it in **half the time**, reducing vehicle wear and securing 3 extra days to book another profitable load.</p>
-        </div>
-
-        <h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">🗺️ The 30-Second Quick Decision Matrix</h2>
-        <p>To automate this process, use this matrix based on **Payout vs. Destination Zone**:</p>
-
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>COMBINATION</th>
-                <th>IMMEDIATE DECISION</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="bg-emerald-900/20 text-emerald-400">
-                <td>💰 High Pay + 🟢 Hot Zone (Midwest, Atlanta, Chicago)</td>
-                <td><strong>ACCEPT IMMEDIATELY ✅</strong></td>
-              </tr>
-              <tr class="bg-yellow-900/20 text-yellow-400">
-                <td>💰 High Pay + 🔴 Dead Zone (Florida, Colorado, Utah)</td>
-                <td><strong>ANALYZE CAREFULLY ⚠️ (Add escape costs)</strong></td>
-              </tr>
-              <tr class="bg-cyan-900/20 text-cyan-400">
-                <td>💸 Medium Pay + 🟢 Hot Zone</td>
-                <td><strong>CONSIDER FOR REPOSITIONING 🤔</strong></td>
-              </tr>
-              <tr class="bg-red-900/20 text-red-400">
-                <td>💸 Low Pay + 🔴 Dead Zone</td>
-                <td><strong>REJECT INSTANTLY ❌</strong></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">📋 The 3-Step 30-Second Checklist</h2>
-        <p>Before you say yes to a broker, ask yourself these three rapid questions:</p>
-        <ul class="list-decimal pl-6 space-y-2 my-4">
-          <li><strong>Where does this load take me?</strong> Is it a hot market with rapid reloads, or will I have to drive empty (deadhead out) to find cargo?</li>
-          <li><strong>When does it deliver?</strong> Delivering on a Friday afternoon often means you're stuck over the weekend, losing valuable driving days.</li>
-          <li><strong>Does the full cycle close in positive?</strong> Does the combined profit of the initial trip plus a realistic backhaul clear your weekly Break-Even target?</li>
-        </ul>
-
-        <div class="callout tip">
-          <strong>💡 How technology simplifies this</strong>
-          <p>Doing mental math while a broker is pressuring you on the phone is tough. The decision engine in **Smart Load Solution** instantly evaluates the destination, factors in escape miles, checks weather telemetry, and gives you a clear green or red light in less than 10 seconds.</p>
+          
+          <div class="glass-card p-5">
+            <h3 class="text-base md:text-lg font-semibold text-white mb-2">¿Debo aceptar siempre la carga que paga más en dólares totales?</h3>
+            <p class="text-gray-300 text-sm md:text-base">No. En el caso práctico del artículo, la carga de $1,600 generó $550 de ganancia neta en 6 días ($11.46/hora), mientras que la de $1,100 generó $800 de ganancia neta en solo 3 días ($33.33/hora). El pago total no dice nada si no lo divides entre el tiempo real que te toma completar el ciclo.</p>
+          </div>
+          
+          <div class="glass-card p-5">
+            <h3 class="text-base md:text-lg font-semibold text-white mb-2">¿Cómo afecta el horario de entrega a mi decisión?</h3>
+            <p class="text-gray-300 text-sm md:text-base">Entregar un viernes por la tarde puede dejarte varado el fin de semana sin poder buscar otra carga, perdiendo días productivos completos. Por eso el checklist de 3 pasos incluye siempre preguntar cuándo entrega, no solo cuánto paga.</p>
+          </div>
+          
+          <div class="glass-card p-5">
+            <h3 class="text-base md:text-lg font-semibold text-white mb-2">¿Cómo ayuda una app a decidir más rápido que a mano?</h3>
+            <p class="text-gray-300 text-sm md:text-base">El motor de decisión de Smart Load Solution evalúa el destino, considera millas de reposicionamiento y te da una señal clara en menos de 10 segundos — el mismo cálculo que te tomaría varios minutos hacer mentalmente mientras un broker te presiona por teléfono.</p>
+          </div>
+          
         </div>
       </div>
+      
 
       <!-- Lead Magnet CTA -->
       <div class="glass-card p-8 text-center my-12 border-cyan-500/20 border">
-        <h3 class="text-2xl font-bold text-white mb-3">Make Decisions Based on Data, Not Emotions</h3>
-        <p class="text-gray-400 mb-6 max-w-lg mx-auto text-sm md:text-base">
-          Avoid trap zones and deadhaul trips. Let Lex AI and the mathematical engine of Smart Load Solution evaluate every load for you in seconds.
-        </p>
-        <a href="../auth.html" class="inline-block bg-gradient-to-r from-cyan-400 to-orange-500 hover:from-cyan-500 hover:to-orange-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:-translate-y-0.5 transition duration-300">
-          Activate Smart Load Calculator Free →
+        <h3 class="text-2xl font-bold text-white mb-3">Toma Decisiones con Datos, No con Emociones</h3>
+        <p class="text-gray-400 mb-6 max-w-lg mx-auto text-sm md:text-base">Evita zonas trampa y viajes con salida vacía. Deja que Lex AI y el motor matemático de Smart Load Solution evalúen cada carga por ti en segundos.</p>
+        <a href="/auth.html" class="inline-block bg-gradient-to-r from-cyan-400 to-orange-500 hover:from-cyan-500 hover:to-orange-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:-translate-y-0.5 transition duration-300">
+          Activar la Calculadora Smart Load Gratis →
         </a>
       </div>
     </article>
-
   </main>
 
   <!-- FOOTER -->
@@ -358,7 +468,7 @@
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
         <div>
           <div class="flex items-center gap-2 mb-4">
-            <img src="../img/logo-app.webp" alt="SmartLoad Solution" class="h-8 w-auto" onerror="this.src='../img/logo-app.png'">
+            <img src="/img/logo-app.webp" alt="SmartLoad Solution" class="h-8 w-auto" onerror="this.src='/img/logo-app.png'">
             <span class="font-bold text-lg text-white">SmartLoad</span>
           </div>
           <p class="text-gray-400 text-sm leading-relaxed" data-i18n="about.footer_tagline">Inteligencia de carga para el transportista moderno.</p>
@@ -366,26 +476,26 @@
         <div>
           <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_company">Empresa</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="../about.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_about">Acerca de Nosotros</a></li>
-            <li><a href="../plans.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_plans">Planes y Precios</a></li>
-            <li><a href="../contact.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_contact">Contacto</a></li>
+            <li><a href="/about.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_about">Acerca de Nosotros</a></li>
+            <li><a href="/plans.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_plans">Planes y Precios</a></li>
+            <li><a href="/contact.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_contact">Contacto</a></li>
           </ul>
         </div>
         <div>
           <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_resources">Recursos</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="../resources.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_resources">Centro de Recursos</a></li>
-            <li><a href="../blog.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_blog">Blog</a></li>
-            <li><a href="../faq.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_faq">FAQ</a></li>
-            <li><a href="../support.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_support">Soporte</a></li>
+            <li><a href="/resources.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_resources">Centro de Recursos</a></li>
+            <li><a href="/blog.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_blog">Blog</a></li>
+            <li><a href="/faq.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_faq">FAQ</a></li>
+            <li><a href="/support.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_support">Soporte</a></li>
           </ul>
         </div>
         <div>
           <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_legal">Legal</h4>
           <ul class="space-y-2 text-sm mb-4">
-            <li><a href="../privacy.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_privacy">Privacidad</a></li>
-            <li><a href="../terms.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_terms">Términos de Uso</a></li>
-            <li><a href="../refund.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_refund">Reembolsos</a></li>
+            <li><a href="/privacy.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_privacy">Privacidad</a></li>
+            <li><a href="/terms.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_terms">Términos de Uso</a></li>
+            <li><a href="/refund.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_refund">Reembolsos</a></li>
           </ul>
           <!-- Social Media Links -->
           <div class="flex gap-4 mt-4">
@@ -396,7 +506,7 @@
             </a>
             <a href="https://www.tiktok.com/@galan.expediter" aria-label="TikTok" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 transition-all duration-300">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12.525.02c1.31-.03 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.73-.22-.2-.43-.41-.62-.63-.19 1.79-.75 3.56-1.68 5.11-1.25 2.08-3.23 3.75-5.55 4.54-2.58.88-5.51.78-8.01-.47-2.73-1.37-4.63-4.14-4.9-7.19-.38-4.22 2.11-8.39 6.08-9.84 2.17-.79 4.62-.81 6.78-.05 0 2.18-.01 4.36-.02 6.54-1.25-.43-2.67-.32-3.81.39-.99.62-1.6 1.76-1.59 2.93.01 1.73 1.48 3.19 3.22 3.13 1.61-.05 2.94-1.35 3.01-2.95V.02z"></path>
+                <path d="M12.525.02c1.31-.03 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.73-.22-.2-.43-.41-.62-.63-.19 1.79-.75 3.56-1.68 5.11-1.25 2.08-3.23 3.75-5.55 4.54-2.58.88-5.51.78-8.01-.47-2.73-1.37-4.63-4.14-4.9-7.19-.38-4.22 2.11-8.39 6.08-9.84 2.17-.79 4.62-.81 6.78-.05 0 2.18-.01 4.36-.02 6.54-1.25-.43-2.67-.32-3.81.39-.99.62-1.76-1.59 2.93.01 1.73 1.48 3.19 3.22 3.13 1.61-.05 2.94-1.35 3.01-2.95V.02z"></path>
               </svg>
             </a>
             <a href="https://www.instagram.com/galan.expediter/" aria-label="Instagram" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-pink-500 transition-all duration-300">
@@ -418,8 +528,5 @@
     </div>
   </footer>
 
-  
-
-
-
-</body></html>
+</body>
+</html>
