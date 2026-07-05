@@ -266,12 +266,41 @@ const AcademyAccess = {
 
                 console.log(`[ACADEMY] planId: ${planId} | pro: ${isPro} | premium: ${isPremium}`);
 
+                this.unlockModuleCards(isPro, isPremium);
                 if (isPro || isPremium) this.unlockPage();
 
             } catch (e) {
                 console.warn('[ACADEMY] Error checking access:', e);
             }
         });
+    },
+
+    unlockModuleCards(isPro, isPremium) {
+        const isEnglish = window.location.pathname.includes('/en/');
+        const basePath = isEnglish ? '/en/academy/' : '/academy/';
+
+        document.querySelectorAll('.module-card[data-tier]').forEach(card => {
+            const tier = card.dataset.tier;
+            const moduleNum = card.dataset.module;
+            const hasAccess = (tier === 'pro' && (isPro || isPremium)) ||
+                               (tier === 'premium' && isPremium);
+            if (!hasAccess) return;
+
+            card.classList.remove('locked');
+            card.querySelectorAll('.module-badge').forEach(b => {
+                b.classList.remove('locked', 'premium');
+            });
+            const overlay = card.querySelector('.locked-overlay');
+            if (overlay) overlay.style.display = 'none';
+
+            const cta = card.querySelector('a.btn-module');
+            if (cta && moduleNum) {
+                cta.classList.remove('locked');
+                cta.href = `${basePath}module-${moduleNum}/`;
+                cta.textContent = isEnglish ? 'Start →' : 'Empezar →';
+            }
+        });
+        console.log('[ACADEMY] Module cards actualizadas segun plan ✅');
     },
 
     unlockPage() {
