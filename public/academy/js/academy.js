@@ -288,7 +288,7 @@ const AcademyAccess = {
 
             card.classList.remove('locked');
             card.querySelectorAll('.module-badge').forEach(b => {
-                b.classList.remove('locked', 'premium');
+                b.style.display = 'none';
             });
             const overlay = card.querySelector('.locked-overlay');
             if (overlay) overlay.style.display = 'none';
