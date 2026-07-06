@@ -325,6 +325,17 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy.html" />
   </url>
 
+  <!-- 🧮 Herramientas / Tools -->
+  <url>
+    <loc>https://smartloadsolution.com/herramientas/calculadora-rpm.html</loc>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/herramientas/calculadora-rpm.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/tools/rpm-calculator.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/en/tools/rpm-calculator.html" />
+  </url>
+
   <!-- ⚖️ Páginas legales -->
   <url>
     <loc>https://smartloadsolution.com/privacy.html</loc>
