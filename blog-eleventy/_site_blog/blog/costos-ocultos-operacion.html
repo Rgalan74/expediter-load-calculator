@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EK7NM7PJE2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-EK7NM7PJE2');
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gastos Invisibles de un Expediter en Cargo Van | Smart Load Solution Blog</title>
+  <link rel="canonical" href="https://smartloadsolution.com/blog/costos-ocultos-operacion.html">
+  <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/blog/costos-ocultos-operacion.html">
+  <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/blog/hidden-operating-costs.html">
+  <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/en/blog/hidden-operating-costs.html">
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Descubre los costos ocultos que dañan la rentabilidad de tu cargo van o sprinter. Aprende a calcular depreciación y mantenimiento real.">
+  <!-- OpenGraph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://smartloadsolution.com/blog/costos-ocultos-operacion.html">
+  <meta property="og:title" content="Gastos que Todo Expediter Olvida Calcular (Costos Ocultos)">
+  <meta property="og:description" content="De la depreciación del vehículo al seguro: la lista completa de gastos fijos y variables que afectan tu ganancia real.">
+  <meta property="og:image" content="https://smartloadsolution.com/img/og-image-es.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://smartloadsolution.com/blog/costos-ocultos-operacion.html">
+  <meta name="twitter:title" content="Gastos que Todo Expediter Olvida Calcular (Costos Ocultos)">
+  <meta name="twitter:description" content="Deja de perder dinero en silencio. Aprende a calcular tus costos de operación reales, fijos y variables.">
+  <meta name="twitter:image" content="https://smartloadsolution.com/img/og-image-es.png">
+  <!-- Styles -->
+  <link rel="icon" type="image/webp" href="/img/logo-app.webp">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0a0f;
+      --bg-glass: rgba(15, 15, 25, 0.7);
+      --primary-cyan: #00D9FF;
+      --primary-orange: #FF6B35;
+      --border-glass: rgba(255, 255, 255, 0.08);
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: #e2e8f0;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+    .gradient-text {
+      background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .glass-card {
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-glass);
+      border-radius: 16px;
+    }
+    .callout {
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin: 2rem 0;
+      border-left: 4px solid;
+    }
+    .callout.tip {
+      background: rgba(0, 217, 255, 0.06);
+      border-color: var(--primary-cyan);
+    }
+    .callout.warning {
+      background: rgba(255, 107, 53, 0.06);
+      border-color: var(--primary-orange);
+    }
+    .table-container {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-glass);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 1.5rem 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    th {
+      background: rgba(0, 217, 255, 0.08);
+      color: var(--primary-cyan);
+      font-weight: 700;
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s;
+    }
+    .btn-secondary:hover {
+      background: rgba(0, 217, 255, 0.05);
+      border-color: var(--primary-cyan);
+      color: var(--primary-cyan);
+    }
+    .lang-toggle button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      color: #9ca3af;
+      transition: color 0.2s;
+    }
+    .lang-toggle button.active {
+      color: var(--primary-cyan);
+    }
+  </style>
+  <!-- Meta Pixel Code -->
+  <script>
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () {
+        n.callMethod ?
+        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+      n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2077223159668765');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=2077223159668765&ev=PageView&noscript=1" /></noscript>
+  <!-- End Meta Pixel Code -->
+  <!-- Metricool Tracker -->
+  <script>function loadScript(a) { var b = document.getElementsByTagName("head")[0], c = document.createElement("script"); c.type = "text/javascript", c.src = "https://tracker.metricool.com/resources/be.js", c.onreadystatechange = a, c.onload = a, b.appendChild(c) } loadScript(function () { beTracker.t({ hash: "7da74d6dfb9767939b3eb010fa322db6" }) });</script>
+  <!-- End Metricool Tracker -->
+  <!-- Article Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Gastos Invisibles: Los Costos que todo Expediter Olvida Calcular",
+    "description": "Descubre los costos ocultos que dañan la rentabilidad de tu cargo van o sprinter. Aprende a calcular depreciación y mantenimiento real.",
+    "image": "https://smartloadsolution.com/img/og-image-es.png",
+    "author": {
+      "@type": "Person",
+      "name": "Ricardo Galán"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Smart Load Solution",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://smartloadsolution.com/img/logo-app.webp"
+      }
+    },
+    "datePublished": "2026-07-03",
+    "dateModified": "2026-07-03",
+    "mainEntityOfPage": "https://smartloadsolution.com/blog/costos-ocultos-operacion.html"
+  }
+  </script>
+  
+  <!-- FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      
+      {
+        "@type": "Question",
+        "name": "¿Cuáles son los costos ocultos más comunes para un cargo van o Sprinter?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Los tres más agresivos son la depreciación del vehículo ($0.05-$0.08 por milla), el seguro comercial (que sigue corriendo aunque no manejes), y el pago mensual de la van diluido por milla. Ninguno se siente como un gasto diario, pero juntos pueden representar $0.30-$0.49 por milla en costos fijos."
+        }
+      },
+      
+      {
+        "@type": "Question",
+        "name": "¿Cómo se calcula la depreciación real de mi van?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Resta el valor de reventa estimado del precio de compra, y divide esa pérdida entre las millas que planeas correr durante ese periodo. Por ejemplo: una van de $80,000 que en 5 años y 400,000 millas vale $30,000, perdió $50,000 en valor — eso equivale a $0.125 por milla solo en depreciación."
+        }
+      },
+      
+      {
+        "@type": "Question",
+        "name": "¿El seguro comercial es un costo fijo o variable?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Es un costo fijo. Lo pagas manejes o no — si tu van está parqueada una semana, el seguro sigue corriendo igual. Por eso hay que calcularlo como costo diario, no solo como gasto mensual."
+        }
+      },
+      
+      {
+        "@type": "Question",
+        "name": "¿Cuánto debería cobrar por milla para cubrir mis costos reales?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Como mínimo, tu tarifa debe cubrir el costo total de operación (variable + fijo), que ronda entre $0.88 y $1.25 por milla en una Sprinter o cargo van típica de 100,000 millas al año. Cualquier tarifa por debajo de ese rango significa que estás pagando por trabajar."
+        }
+      },
+      
+      {
+        "@type": "Question",
+        "name": "¿Cómo llevo el control de todos estos gastos sin hacerlo a mano?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "En la pestaña de Finanzas de Smart Load Solution puedes registrar tus costos fijos mensuales y tus variables reales (MPG, precio del combustible, peajes). La app calcula tu costo real por milla automáticamente y lo aplica a la calculadora de cargas."
+        }
+      }
+      
+    ]
+  }
+  </script>
+  
+</head>
+<body>
+  <!-- HEADER -->
+  <header style="position: sticky; top: 0; z-index: 100; background: rgba(10,10,15,0.95); border-bottom: 1px solid var(--border-glass);">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 1rem 1.5rem;">
+      <div class="flex items-center justify-between">
+        <a href="/index.html" class="flex items-center gap-3">
+          <img src="/img/logo-app.webp" alt="SmartLoad Solution Logo" class="h-10 w-auto" onerror="this.src='/img/logo-app.png'">
+          <span class="text-xl font-bold text-white">Smart Load Solution</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
+          <a href="/index.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_home">Inicio</a>
+          <a href="/about.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_about">Acerca</a>
+          <a href="/blog.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_blog">Blog</a>
+          <a href="/resources.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_resources">Recursos</a>
+          <a href="/plans.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_plans">Planes</a>
+        </nav>
+        <div class="flex items-center gap-4">
+          <div class="lang-toggle hidden md:flex items-center gap-1 font-semibold text-xs">
+            
+            <a id="btn-en" href="https://smartloadsolution.com/en/blog/hidden-operating-costs.html" onclick="localStorage.setItem('app_language','en')" style="text-decoration:none;cursor:pointer;padding:0.2rem 0.4rem;border-radius:4px;color:#9ca3af;transition:color 0.2s;">EN</a>
+            <span style="color:#4b5563;">|</span>
+            <button id="btn-es" style="background:none;border:none;cursor:default;padding:0.2rem 0.4rem;border-radius:4px;color:#00D9FF;font-weight:700;" aria-current="true">ES</button>
+            
+          </div>
+          <a href="/auth.html" class="hidden md:inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition" data-i18n="about.nav_login">Iniciar Sesión →</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="max-w-4xl mx-auto px-6 py-12">
+    <div class="text-xs text-gray-500 mb-6">
+      <a href="/blog.html" class="text-cyan-400 hover:underline">Blog</a>
+      <span class="mx-2">/</span>
+      <span>Gastos Invisibles: Los Costos que todo Expediter Olvida Calcular</span>
+    </div>
+
+    <article>
+      
+      <img src="/img/blog/ricardo-van-hero.webp" alt="Ricardo Galán junto a su cargo van ProMaster 1500" class="w-full h-auto rounded-2xl mb-8" loading="eager" width="1600" height="840">
+      
+      <header class="mb-10">
+        <span class="inline-block bg-cyan-900/40 text-cyan-400 text-xs font-semibold px-3 py-1 rounded-full mb-4">Finanzas</span>
+        <h1 class="text-3xl md:text-5xl font-black text-white leading-tight mb-4">Gastos Invisibles: Los Costos que todo Expediter Olvida Calcular</h1>
+        <div class="flex items-center gap-3 text-sm text-gray-500">
+          
+          <img src="/img/blog/ricardo-headshot.webp" alt="Ricardo Galán" class="w-10 h-10 rounded-full object-cover border border-white/10">
+          
+          <span>Por: <strong>Ricardo Galán</strong></span>
+          <span>•</span>
+          <span>Lectura: 7 min</span>
+        </div>
+      </header>
+
+      <div class="prose prose-invert max-w-none text-gray-300 text-base md:text-lg">
+        <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">
+  Muchos owner-operators de cargo van y Sprinter se hacen la misma pregunta al final del mes: <strong>"Si mi van
+    estuvo corriendo todo el tiempo y agarré cargas decentes, ¿por qué mi cuenta bancaria está vacía?"</strong>
+  La respuesta casi siempre está en los gastos invisibles que se comen tu ganancia en silencio.
+</p>
+<h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">🔍 La Ilusión de los Costos Visibles</h2>
+<p>El error clásico de muchos owner-operators que están empezando es pensar que <strong>el combustible</strong>
+  y <strong>los peajes</strong> son sus únicos costos de operación. Pero en la práctica, esos gastos visibles
+  normalmente representan solo una parte del costo real de mantener una cargo van trabajando todos los días.</p>
+<div class="callout warning">
+  <strong class="text-orange-400 font-bold">❌ El Peligro de Ignorar los Costos Ocultos</strong>
+  <p>Cuando no calculas tus costos fijos mensuales por milla o no tomas en cuenta el desgaste real del vehículo,
+    puedes terminar aceptando cargas que parecen buenas, pero en realidad te hacen perder dinero. En pocas
+    palabras: cambias el valor futuro de tu van por flujo de caja inmediato.</p>
+</div>
+<h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">📊 Estructura Real de Costos Promedio por Milla
+</h2>
+<p>Este es un ejemplo de cómo se pueden dividir los gastos reales de una Sprinter o cargo van que corre
+  aproximadamente 100,000 millas al año en Estados Unidos:</p>
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>GASTO VARIABLE (por milla)</th>
+        <th>RANGO PROMEDIO</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Combustible (diésel/gasolina)</td>
+        <td>$0.42 - $0.50</td>
+      </tr>
+      <tr>
+        <td>Líquido de escape diésel (DEF)</td>
+        <td>$0.03 - $0.05</td>
+      </tr>
+      <tr>
+        <td>Mantenimiento programado (aceite, filtros, frenos)</td>
+        <td>$0.08 - $0.12</td>
+      </tr>
+      <tr>
+        <td>Desgaste y reemplazo de llantas</td>
+        <td>$0.03 - $0.04</td>
+      </tr>
+      <tr>
+        <td>Peajes y parqueos (promedio)</td>
+        <td>$0.02 - $0.05</td>
+      </tr>
+      <tr class="bg-cyan-900/20 font-bold text-white">
+        <td>SUBTOTAL VARIABLE</td>
+        <td>$0.58 - $0.76 por milla</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="table-container mt-6">
+  <table>
+    <thead>
+      <tr>
+        <th>GASTO FIJO (por milla)</th>
+        <th>RANGO PROMEDIO</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Pago mensual de la van (lease/financiamiento)</td>
+        <td>$0.15 - $0.25</td>
+      </tr>
+      <tr>
+        <td>Seguro comercial (liability + cargo)</td>
+        <td>$0.08 - $0.12</td>
+      </tr>
+      <tr>
+        <td>Depreciación del vehículo</td>
+        <td>$0.05 - $0.08</td>
+      </tr>
+      <tr>
+        <td>Licencias, permisos y aplicaciones</td>
+        <td>$0.02 - $0.04</td>
+      </tr>
+      <tr class="bg-cyan-900/20 font-bold text-white">
+        <td>SUBTOTAL FIJO</td>
+        <td>$0.30 - $0.49 por milla</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="bg-gradient-to-r from-orange-500/20 to-cyan-500/20 border border-white/10 rounded-xl p-6 text-center font-bold text-xl my-8">
+  📈 COSTO TOTAL DE OPERACIÓN: <span class="gradient-text">$0.88 - $1.25 por milla</span>
+</div>
+<h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">👻 Los Tres Costos Silenciosos Más Agresivos</h2>
+<h3 class="text-lg md:text-xl font-semibold text-white mt-6 mb-2">1. Depreciación del Vehículo ($0.05 -
+  $0.08/mi)</h3>
+<p>Este es uno de los gastos más invisibles porque no sale de tu bolsillo todos los días. Mira este ejemplo:</p>
+<ul class="list-disc pl-6 space-y-1 my-3 text-sm md:text-base">
+  <li>Compras una van nueva por <strong>$80,000</strong>.</li>
+  <li>En 5 años, después de correr 400,000 millas, su valor de reventa baja a <strong>$30,000</strong>.</li>
+  <li>Perdiste <strong>$50,000</strong> en valor del activo, lo que equivale a <strong>$0.125 por milla</strong>
+    solo en depreciación.</li>
+</ul>
+<p>No ves esa pérdida cada vez que llenas el tanque, pero cuando llega el momento de reemplazar la van, el golpe
+  financiero aparece de una sola vez.</p>
+<h3 class="text-lg md:text-xl font-semibold text-white mt-6 mb-2">2. El Pago de la Van como Costo por Milla</h3>
+<p>El pago de tu van es un costo fijo mensual. Por ejemplo, si pagas <strong>$1,800 al mes</strong>, el peso
+  real de ese pago por milla depende de cuántas millas productivas corras:</p>
+<ul class="list-disc pl-6 space-y-1 my-3 text-sm md:text-base">
+  <li>Si corres <strong>6,000 millas</strong> al mes: el pago equivale a <strong>$0.30 por milla</strong>
+    ($1,800 ÷ 6,000).</li>
+  <li>Si corres <strong>10,000 millas</strong> al mes: el costo baja a <strong>$0.18 por milla</strong> ($1,800
+    ÷ 10,000).</li>
+</ul>
+<p>Correr más millas rentables ayuda a diluir tus costos fijos y hace que tu operación sea mucho más
+  competitiva.</p>
+<h3 class="text-lg md:text-xl font-semibold text-white mt-6 mb-2">3. Costo del Seguro Comercial</h3>
+<p>Un seguro comercial de liability y cargo puede costar alrededor de <strong>$10,500 al año</strong> ($875 al
+  mes). <strong>Lo pagas manejes o no manejes.</strong> Si tu van está parqueada una semana, el seguro sigue
+  corriendo y tu punto de equilibrio diario sube.</p>
+<div class="callout tip">
+  <strong class="text-cyan-400">💡 La Regla de Oro del Expediter Inteligente</strong>
+  <p>Cuando tu van está en la carretera, consume costos variables: combustible, desgaste, mantenimiento. Cuando
+    está parqueada, sigue consumiendo costos fijos: seguro, pago, permisos y aplicaciones. <strong>No existen
+      días sin gastos.</strong> Conocer tu costo fijo diario es el primer paso para proteger tu rentabilidad.
+  </p>
+</div>
+<h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">🛠️ Cómo Automatizar el Control de tus Gastos
+</h2>
+<p>Calcular todo esto a mano, en una libreta y desde un área de descanso, no es práctico. Por eso, en la pestaña
+  de <strong>Finanzas</strong> de <strong>Smart Load Solution</strong>, puedes registrar tus costos fijos
+  mensuales y tus variables reales, como MPG, precio del combustible y peajes promedio. La app integra esos
+  datos y calcula tu costo real por milla, aplicándolo directamente a la calculadora de cargas para que sepas al
+  instante si una carga deja ganancia neta real.</p>
+
+      </div>
+
+      
+      <div class="mt-12 pt-8 border-t border-white/10">
+        <h2 class="text-xl md:text-2xl font-bold text-white mb-6">Preguntas Frecuentes</h2>
+        <div class="space-y-4">
+          
+          <div class="glass-card p-5">
+            <h3 class="text-base md:text-lg font-semibold text-white mb-2">¿Cuáles son los costos ocultos más comunes para un cargo van o Sprinter?</h3>
+            <p class="text-gray-300 text-sm md:text-base">Los tres más agresivos son la depreciación del vehículo ($0.05-$0.08 por milla), el seguro comercial (que sigue corriendo aunque no manejes), y el pago mensual de la van diluido por milla. Ninguno se siente como un gasto diario, pero juntos pueden representar $0.30-$0.49 por milla en costos fijos.</p>
+          </div>
+          
+          <div class="glass-card p-5">
+            <h3 class="text-base md:text-lg font-semibold text-white mb-2">¿Cómo se calcula la depreciación real de mi van?</h3>
+            <p class="text-gray-300 text-sm md:text-base">Resta el valor de reventa estimado del precio de compra, y divide esa pérdida entre las millas que planeas correr durante ese periodo. Por ejemplo: una van de $80,000 que en 5 años y 400,000 millas vale $30,000, perdió $50,000 en valor — eso equivale a $0.125 por milla solo en depreciación.</p>
+          </div>
+          
+          <div class="glass-card p-5">
+            <h3 class="text-base md:text-lg font-semibold text-white mb-2">¿El seguro comercial es un costo fijo o variable?</h3>
+            <p class="text-gray-300 text-sm md:text-base">Es un costo fijo. Lo pagas manejes o no — si tu van está parqueada una semana, el seguro sigue corriendo igual. Por eso hay que calcularlo como costo diario, no solo como gasto mensual.</p>
+          </div>
+          
+          <div class="glass-card p-5">
+            <h3 class="text-base md:text-lg font-semibold text-white mb-2">¿Cuánto debería cobrar por milla para cubrir mis costos reales?</h3>
+            <p class="text-gray-300 text-sm md:text-base">Como mínimo, tu tarifa debe cubrir el costo total de operación (variable + fijo), que ronda entre $0.88 y $1.25 por milla en una Sprinter o cargo van típica de 100,000 millas al año. Cualquier tarifa por debajo de ese rango significa que estás pagando por trabajar.</p>
+          </div>
+          
+          <div class="glass-card p-5">
+            <h3 class="text-base md:text-lg font-semibold text-white mb-2">¿Cómo llevo el control de todos estos gastos sin hacerlo a mano?</h3>
+            <p class="text-gray-300 text-sm md:text-base">En la pestaña de Finanzas de Smart Load Solution puedes registrar tus costos fijos mensuales y tus variables reales (MPG, precio del combustible, peajes). La app calcula tu costo real por milla automáticamente y lo aplica a la calculadora de cargas.</p>
+          </div>
+          
+        </div>
+      </div>
+      
+
+      <!-- Lead Magnet CTA -->
+      <div class="glass-card p-8 text-center my-12 border-cyan-500/20 border">
+        <h3 class="text-2xl font-bold text-white mb-3">Deja de Calcular tus Finanzas a Ciegas</h3>
+        <p class="text-gray-400 mb-6 max-w-lg mx-auto text-sm md:text-base">Registra tus costos fijos y variables en Smart Load Solution para ver tu ganancia neta real antes de aceptar cualquier carga.</p>
+        <a href="/auth.html" class="inline-block bg-gradient-to-r from-cyan-400 to-orange-500 hover:from-cyan-500 hover:to-orange-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:-translate-y-0.5 transition duration-300">
+          Calcular Mis Costos Reales Gratis →
+        </a>
+      </div>
+    </article>
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="padding: 4rem 1.5rem 2rem; background: var(--bg-dark); border-top: 1px solid rgba(255,255,255,0.1);">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <img src="/img/logo-app.webp" alt="SmartLoad Solution" class="h-8 w-auto" onerror="this.src='/img/logo-app.png'">
+            <span class="font-bold text-lg text-white">SmartLoad</span>
+          </div>
+          <p class="text-gray-400 text-sm leading-relaxed" data-i18n="about.footer_tagline">Inteligencia de carga para el transportista moderno.</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_company">Empresa</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/about.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_about">Acerca de Nosotros</a></li>
+            <li><a href="/plans.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_plans">Planes y Precios</a></li>
+            <li><a href="/contact.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_contact">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_resources">Recursos</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/resources.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_resources">Centro de Recursos</a></li>
+            <li><a href="/blog.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_blog">Blog</a></li>
+            <li><a href="/faq.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_faq">FAQ</a></li>
+            <li><a href="/support.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_support">Soporte</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_legal">Legal</h4>
+          <ul class="space-y-2 text-sm mb-4">
+            <li><a href="/privacy.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_privacy">Privacidad</a></li>
+            <li><a href="/terms.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_terms">Términos de Uso</a></li>
+            <li><a href="/refund.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_refund">Reembolsos</a></li>
+          </ul>
+          <!-- Social Media Links -->
+          <div class="flex gap-4 mt-4">
+            <a href="https://www.facebook.com/galan.expediter" aria-label="Facebook" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-blue-500 transition-all duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path>
+              </svg>
+            </a>
+            <a href="https://www.tiktok.com/@galan.expediter" aria-label="TikTok" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 transition-all duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12.525.02c1.31-.03 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.73-.22-.2-.43-.41-.62-.63-.19 1.79-.75 3.56-1.68 5.11-1.25 2.08-3.23 3.75-5.55 4.54-2.58.88-5.51.78-8.01-.47-2.73-1.37-4.63-4.14-4.9-7.19-.38-4.22 2.11-8.39 6.08-9.84 2.17-.79 4.62-.81 6.78-.05 0 2.18-.01 4.36-.02 6.54-1.25-.43-2.67-.32-3.81.39-.99.62-1.76-1.59 2.93.01 1.73 1.48 3.19 3.22 3.13 1.61-.05 2.94-1.35 3.01-2.95V.02z"></path>
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/galan.expediter/" aria-label="Instagram" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-pink-500 transition-all duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.008 3.885.058 1.357.062 2.367.274 3.111.562a5.82 5.82 0 012.08 1.354 5.83 5.83 0 011.353 2.08c.288.743.5 1.754.562 3.112.05 1.102.059 1.458.059 3.885s-.008 2.784-.059 3.886c-.062 1.357-.274 2.367-.562 3.111a5.82 5.82 0 01-1.353 2.08 5.82 5.82 0 01-2.08 1.353c-.744.288-1.754.5-3.112.563-1.102.049-1.458.058-3.885.058s-2.784-.008-3.886-.058c-1.356-.062-2.367-.274-3.11-.563a5.82 5.82 0 01-2.08-1.353 5.83 5.83 0 01-1.353-2.08c-.287-.743-.5-1.754-.562-3.112C2.008 14.784 2 14.428 2 12s.008-2.784.058-3.885c.062-1.358.274-2.367.562-3.112a5.83 5.83 0 011.353-2.08 5.82 5.82 0 012.08-1.353c.743-.288 1.754-.5 3.112-.562C9.528 2.008 9.884 2 12 2h.315zM12 5.802a6.197 6.197 0 100 12.396 6.197 6.197 0 000-12.396zm0 2.22a3.977 3.977 0 110 7.954 3.977 3.977 0 010-7.954zm6.474-.756a1.218 1.218 0 11-2.437 0 1.218 1.218 0 012.437 0z" clip-rule="evenodd"></path>
+              </svg>
+            </a>
+            <a href="https://www.youtube.com/@galan.expediter" aria-label="YouTube" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-red-500 transition-all duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd" d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C22 8.68 22 12 22 12s0 3.32-.42 4.814c-.23.861-.907 1.538-1.768 1.768C18.32 19 12 19 12 19s-6.32 0-7.812-.418c-.861-.23-1.538-.907-1.768-1.768C2 15.32 2 12 2 12s0-3.32.42-4.814c.23-.861.907-1.538 1.768-1.768C5.68 5 12 5 12 5s6.32 0 7.812.418zM9.75 15.02l5.75-3.02-5.75-3.02v6.04z" clip-rule="evenodd"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="text-center pt-8 border-t border-gray-800">
+        <p class="text-gray-400 text-sm" data-i18n="about.footer_copyright">© 2026 Smart Load Solution. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

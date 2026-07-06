@@ -1,0 +1,13 @@
+{
+  "name": "smartload-blog-eleventy",
+  "version": "1.0.0",
+  "description": "Build estático del blog de Smart Load Solution con Eleventy. Output final se copia a public/blog y public/en/blog (Firebase Hosting).",
+  "scripts": {
+    "build": "eleventy",
+    "serve": "eleventy --serve",
+    "debug": "DEBUG=Eleventy* eleventy"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  }
+}

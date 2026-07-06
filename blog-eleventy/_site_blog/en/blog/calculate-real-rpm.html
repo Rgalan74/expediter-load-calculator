@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EK7NM7PJE2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-EK7NM7PJE2');
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Calculate Your Real RPM | Smart Load Solution Blog</title>
+  <link rel="canonical" href="https://smartloadsolution.com/en/blog/calculate-real-rpm.html">
+  <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/blog/como-calcular-rpm-real.html">
+  <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/blog/calculate-real-rpm.html">
+  <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/en/blog/calculate-real-rpm.html">
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Learn how to calculate your true Rate Per Mile (RPM) as a cargo van owner-operator. Understand why deadhead and repositioning miles matter.">
+  <!-- OpenGraph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://smartloadsolution.com/en/blog/calculate-real-rpm.html">
+  <meta property="og:title" content="How to Calculate Your Real RPM (And Why Brokers&#39; Numbers Are Wrong)">
+  <meta property="og:description" content="Calculate your true Rate Per Mile including deadhead and repositioning. Avoid costly routing errors.">
+  <meta property="og:image" content="https://smartloadsolution.com/img/og-image-en.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://smartloadsolution.com/en/blog/calculate-real-rpm.html">
+  <meta name="twitter:title" content="How to Calculate Your Real RPM (And Why Brokers&#39; Numbers Are Wrong)">
+  <meta name="twitter:description" content="Stop working at a loss. Learn the exact formula to calculate real profit on every cargo van load.">
+  <meta name="twitter:image" content="https://smartloadsolution.com/img/og-image-en.png">
+  <!-- Styles -->
+  <link rel="icon" type="image/webp" href="/img/logo-app.webp">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0a0f;
+      --bg-glass: rgba(15, 15, 25, 0.7);
+      --primary-cyan: #00D9FF;
+      --primary-orange: #FF6B35;
+      --border-glass: rgba(255, 255, 255, 0.08);
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: #e2e8f0;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+    .gradient-text {
+      background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .glass-card {
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-glass);
+      border-radius: 16px;
+    }
+    .callout {
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin: 2rem 0;
+      border-left: 4px solid;
+    }
+    .callout.tip {
+      background: rgba(0, 217, 255, 0.06);
+      border-color: var(--primary-cyan);
+    }
+    .callout.warning {
+      background: rgba(255, 107, 53, 0.06);
+      border-color: var(--primary-orange);
+    }
+    .table-container {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-glass);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 1.5rem 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    th {
+      background: rgba(0, 217, 255, 0.08);
+      color: var(--primary-cyan);
+      font-weight: 700;
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s;
+    }
+    .btn-secondary:hover {
+      background: rgba(0, 217, 255, 0.05);
+      border-color: var(--primary-cyan);
+      color: var(--primary-cyan);
+    }
+    .lang-toggle button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      color: #9ca3af;
+      transition: color 0.2s;
+    }
+    .lang-toggle button.active {
+      color: var(--primary-cyan);
+    }
+  </style>
+  <!-- Meta Pixel Code -->
+  <script>
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () {
+        n.callMethod ?
+        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+      n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2077223159668765');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=2077223159668765&ev=PageView&noscript=1" /></noscript>
+  <!-- End Meta Pixel Code -->
+  <!-- Metricool Tracker -->
+  <script>function loadScript(a) { var b = document.getElementsByTagName("head")[0], c = document.createElement("script"); c.type = "text/javascript", c.src = "https://tracker.metricool.com/resources/be.js", c.onreadystatechange = a, c.onload = a, b.appendChild(c) } loadScript(function () { beTracker.t({ hash: "7da74d6dfb9767939b3eb010fa322db6" }) });</script>
+  <!-- End Metricool Tracker -->
+  <!-- Article Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How to Calculate Your Real RPM (And Why Brokers&#39; Numbers Are Wrong)",
+    "description": "Learn how to calculate your true Rate Per Mile (RPM) as a cargo van owner-operator. Understand why deadhead and repositioning miles matter.",
+    "image": "https://smartloadsolution.com/img/og-image-en.png",
+    "author": {
+      "@type": "Person",
+      "name": "Ricardo Galán"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Smart Load Solution",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://smartloadsolution.com/img/logo-app.webp"
+      }
+    },
+    "datePublished": "2026-07-03",
+    "dateModified": "2026-07-03",
+    "mainEntityOfPage": "https://smartloadsolution.com/en/blog/calculate-real-rpm.html"
+  }
+  </script>
+  
+  <!-- FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      
+      {
+        "@type": "Question",
+        "name": "What is real RPM in cargo van or expediting?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It's your total pay divided by ALL the miles your van drives — not just the miles the broker pays for (loaded), but also the deadhead to the pickup and any repositioning miles needed to escape a dead zone. It's the only number that reflects your true profit."
+        }
+      },
+      
+      {
+        "@type": "Question",
+        "name": "What are deadhead miles?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "They are the empty miles you drive from your current location to the load's pickup point. Nobody pays you for them, but they still consume fuel, wear, and time — which is why they must be subtracted from your real profit."
+        }
+      },
+      
+      {
+        "@type": "Question",
+        "name": "What are repositioning (escape) miles?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "These are the miles you have to drive after delivering, when you end up in a state with little freight demand (a 'trap' state), to reach a zone with better opportunities. Ignoring them is one of the most costly mistakes when accepting a load."
+        }
+      },
+      
+      {
+        "@type": "Question",
+        "name": "What is a 'trap' state?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It's a destination where loads pay well going in, but it's nearly impossible to leave loaded due to low demand — common examples are Florida, Colorado, Oregon, or deep South Texas. Delivering there almost always means extra repositioning miles that must be added to the calculation before you accept."
+        }
+      },
+      
+      {
+        "@type": "Question",
+        "name": "How do I calculate all of this without doing it by hand for every load?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Smart Load Solution evaluates in real time whether the destination state requires escape miles and automatically adds the repositioning cost to your real RPM calculation, giving you a green or red light before you accept the load."
+        }
+      }
+      
+    ]
+  }
+  </script>
+  
+</head>
+<body>
+  <!-- HEADER -->
+  <header style="position: sticky; top: 0; z-index: 100; background: rgba(10,10,15,0.95); border-bottom: 1px solid var(--border-glass);">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 1rem 1.5rem;">
+      <div class="flex items-center justify-between">
+        <a href="/en/index.html" class="flex items-center gap-3">
+          <img src="/img/logo-app.webp" alt="SmartLoad Solution Logo" class="h-10 w-auto" onerror="this.src='/img/logo-app.png'">
+          <span class="text-xl font-bold text-white">Smart Load Solution</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
+          <a href="/en/index.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_home">Home</a>
+          <a href="/en/about.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_about">About</a>
+          <a href="/en/blog.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_blog">Blog</a>
+          <a href="/en/resources.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_resources">Resources</a>
+          <a href="/en/plans.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_plans">Plans</a>
+        </nav>
+        <div class="flex items-center gap-4">
+          <div class="lang-toggle hidden md:flex items-center gap-1 font-semibold text-xs">
+            
+            <button id="btn-en" style="background:none;border:none;cursor:default;padding:0.2rem 0.4rem;border-radius:4px;color:#00D9FF;font-weight:700;" aria-current="true">EN</button>
+            <span style="color:#4b5563;">|</span>
+            <a id="btn-es" href="https://smartloadsolution.com/blog/como-calcular-rpm-real.html" onclick="localStorage.setItem('app_language','es')" style="text-decoration:none;cursor:pointer;padding:0.2rem 0.4rem;border-radius:4px;color:#9ca3af;transition:color 0.2s;">ES</a>
+            
+          </div>
+          <a href="/en/auth.html" class="hidden md:inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition" data-i18n="about.nav_login">Log In →</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="max-w-4xl mx-auto px-6 py-12">
+    <div class="text-xs text-gray-500 mb-6">
+      <a href="/en/blog.html" class="text-cyan-400 hover:underline">Blog</a>
+      <span class="mx-2">/</span>
+      <span>How to Calculate Your Real RPM (And Why Brokers&#39; Numbers Are Wrong)</span>
+    </div>
+
+    <article>
+      
+      <img src="/img/blog/ricardo-cab-hero.webp" alt="Ricardo Galán driving his cargo van, calculating his real RPM on the road" class="w-full h-auto rounded-2xl mb-8" loading="eager" width="1600" height="840">
+      
+      <header class="mb-10">
+        <span class="inline-block bg-cyan-900/40 text-cyan-400 text-xs font-semibold px-3 py-1 rounded-full mb-4">B2B Guide</span>
+        <h1 class="text-3xl md:text-5xl font-black text-white leading-tight mb-4">How to Calculate Your Real RPM (And Why Brokers&#39; Numbers Are Wrong)</h1>
+        <div class="flex items-center gap-3 text-sm text-gray-500">
+          
+          <img src="/img/blog/ricardo-headshot.webp" alt="Ricardo Galán" class="w-10 h-10 rounded-full object-cover border border-white/10">
+          
+          <span>By: <strong>Ricardo Galán</strong></span>
+          <span>•</span>
+          <span>Read: 6 min</span>
+        </div>
+      </header>
+
+      <div class="prose prose-invert max-w-none text-gray-300 text-base md:text-lg">
+        <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">
+  Did you know that many independent carriers lose thousands of dollars a year by accepting seemingly
+  well-paying loads? The problem lies in incomplete mathematics that brokers and dispatchers exploit to their
+  advantage.
+</p>
+<h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">📌 The Most Common Calculation Mistake</h2>
+<p>Most owner-operators and independent expediters calculate their Rate Per Mile using the simple formula
+  provided on the broker's rate confirmation:</p>
+<div class="bg-white/5 border border-white/10 rounded-xl p-4 font-mono text-cyan-400 my-4 text-center">
+  Offered Pay ÷ Loaded Miles = Apparent RPM
+</div>
+<div class="callout warning">
+  <strong class="text-orange-400 font-bold">⚠️ Why is this a serious error?</strong>
+  <p>Because it completely ignores the miles you don't get paid for but that <strong>still cost you</strong>
+    fuel, vehicle wear, and time. Your truck doesn't magically teleport to the shipper, nor does it fly back home
+    after delivery.</p>
+</div>
+<h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">✅ The Correct Real RPM Formula</h2>
+<p>To understand the true financial health of your trucking business and know if a load actually delivers a net
+  profit, you must include all miles in the equation:</p>
+<div class="bg-white/5 border border-white/10 rounded-xl p-4 font-mono text-green-400 my-4 text-center">
+  REAL RPM = Total Pay ÷ (Deadhead + Loaded + Repositioning)
+</div>
+<p class="mt-4"><strong>Where:</strong></p>
+<ul class="list-disc pl-6 space-y-2 my-4">
+  <li><strong>Deadhead:</strong> The empty miles you must drive from your current location to the load pickup
+    point.</li>
+  <li><strong>Loaded:</strong> The loaded miles for which the broker is paying you to go from point A to point
+    B.</li>
+  <li><strong>Repositioning (Escape Miles):</strong> The empty miles you must drive from the delivery point back
+    to the nearest active freight hub if you deliver to a dead state.</li>
+</ul>
+<h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">📊 Case Study: The Hidden Cost of a Texas Trip</h2>
+<p>Let's look at a real load board offer example:</p>
+<div class="table-container">
+  <ul class="space-y-2">
+    <li>📍 <strong>Your Location:</strong> Toledo, OH</li>
+    <li>📦 <strong>Pickup:</strong> Detroit, MI (65 miles deadhead)</li>
+    <li>🏁 <strong>Delivery:</strong> Laredo, TX (1,000 loaded miles)</li>
+    <li>💰 <strong>Offered Pay:</strong> $1,500</li>
+  </ul>
+</div>
+<div class="grid md:grid-cols-2 gap-4 my-6">
+  <div class="glass-card p-5 border-red-500/20 border">
+    <h3 class="font-bold text-red-400 mb-2">❌ Incorrect Calculation (Broker)</h3>
+    <p class="text-sm text-gray-400 mb-3">Only counts loaded miles:</p>
+    <div class="font-mono text-lg text-white mb-2">$1,500 ÷ 1,000 mi = <strong class="text-red-400">$1.50/mi</strong></div>
+    <p class="text-xs text-red-500">"Great rate of $1.50 per mile!" (Big mistake).</p>
+  </div>
+  <div class="glass-card p-5 border-green-500/30 border">
+    <h3 class="font-bold text-green-400 mb-2">✅ Correct Calculation (SmartLoad)</h3>
+    <p class="text-sm text-gray-400 mb-3">All miles included:</p>
+    <div class="font-mono text-lg text-white mb-2">$1,500 ÷ 1,345 mi = <strong class="text-green-400">$1.12/mi</strong></div>
+    <p class="text-xs text-green-400">Includes 65 deadhead mi and 280 escape mi back to San Antonio.</p>
+  </div>
+</div>
+<div class="callout tip">
+  <strong class="text-cyan-400">💡 Financial Impact Analysis</strong>
+  <p>If your cargo van's true operational cost (Break-Even) is <strong>$1.10 per mile</strong>, the first
+    calculation falsely leads you to believe you're earning a healthy <strong>$0.40/mile</strong> profit. In
+    reality, you're only making <strong>$0.02/mile</strong>. This 34% calculation error represents
+    <strong>$511 in hidden losses</strong> on a single trip!</p>
+</div>
+<h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">🏆 How to Avoid State "Traps"</h2>
+<p>A trap zone is a destination state (such as Florida, Colorado, Oregon, or deep South Texas) where loads pay
+  well to enter, but virtually no freight pays to leave. When delivering to these regions, you must add the
+  operational cost of driving empty to a hot hub to get out.</p>
+<p><strong>Smart Load Solution</strong> automates this by evaluating in real time if a destination state requires
+  escape miles, seamlessly factoring repositioning costs into the decision engine to display an instant green or
+  red alert before you book.</p>
+
+      </div>
+
+      
+      <div class="mt-12 pt-8 border-t border-white/10">
+        <h2 class="text-xl md:text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          
+          <div class="glass-card p-5">
+            <h3 class="text-base md:text-lg font-semibold text-white mb-2">What is real RPM in cargo van or expediting?</h3>
+            <p class="text-gray-300 text-sm md:text-base">It&#39;s your total pay divided by ALL the miles your van drives — not just the miles the broker pays for (loaded), but also the deadhead to the pickup and any repositioning miles needed to escape a dead zone. It&#39;s the only number that reflects your true profit.</p>
+          </div>
+          
+          <div class="glass-card p-5">
+            <h3 class="text-base md:text-lg font-semibold text-white mb-2">What are deadhead miles?</h3>
+            <p class="text-gray-300 text-sm md:text-base">They are the empty miles you drive from your current location to the load&#39;s pickup point. Nobody pays you for them, but they still consume fuel, wear, and time — which is why they must be subtracted from your real profit.</p>
+          </div>
+          
+          <div class="glass-card p-5">
+            <h3 class="text-base md:text-lg font-semibold text-white mb-2">What are repositioning (escape) miles?</h3>
+            <p class="text-gray-300 text-sm md:text-base">These are the miles you have to drive after delivering, when you end up in a state with little freight demand (a &#39;trap&#39; state), to reach a zone with better opportunities. Ignoring them is one of the most costly mistakes when accepting a load.</p>
+          </div>
+          
+          <div class="glass-card p-5">
+            <h3 class="text-base md:text-lg font-semibold text-white mb-2">What is a &#39;trap&#39; state?</h3>
+            <p class="text-gray-300 text-sm md:text-base">It&#39;s a destination where loads pay well going in, but it&#39;s nearly impossible to leave loaded due to low demand — common examples are Florida, Colorado, Oregon, or deep South Texas. Delivering there almost always means extra repositioning miles that must be added to the calculation before you accept.</p>
+          </div>
+          
+          <div class="glass-card p-5">
+            <h3 class="text-base md:text-lg font-semibold text-white mb-2">How do I calculate all of this without doing it by hand for every load?</h3>
+            <p class="text-gray-300 text-sm md:text-base">Smart Load Solution evaluates in real time whether the destination state requires escape miles and automatically adds the repositioning cost to your real RPM calculation, giving you a green or red light before you accept the load.</p>
+          </div>
+          
+        </div>
+      </div>
+      
+
+      <!-- Lead Magnet CTA -->
+      <div class="glass-card p-8 text-center my-12 border-cyan-500/20 border">
+        <h3 class="text-2xl font-bold text-white mb-3">Tired of Calculating Profitability Blindly?</h3>
+        <p class="text-gray-400 mb-6 max-w-lg mx-auto text-sm md:text-base">Join hundreds of expediters using our smart PWA calculator with decision alerts and weather telemetry to secure higher profit margins.</p>
+        <a href="/en/auth.html" class="inline-block bg-gradient-to-r from-cyan-400 to-orange-500 hover:from-cyan-500 hover:to-orange-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:-translate-y-0.5 transition duration-300">
+          Try Smart Load Free Today →
+        </a>
+      </div>
+    </article>
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="padding: 4rem 1.5rem 2rem; background: var(--bg-dark); border-top: 1px solid rgba(255,255,255,0.1);">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <img src="/img/logo-app.webp" alt="SmartLoad Solution" class="h-8 w-auto" onerror="this.src='/img/logo-app.png'">
+            <span class="font-bold text-lg text-white">SmartLoad</span>
+          </div>
+          <p class="text-gray-400 text-sm leading-relaxed" data-i18n="about.footer_tagline">Smart load intelligence for the modern carrier.</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_company">Company</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/en/about.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_about">About Us</a></li>
+            <li><a href="/en/plans.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_plans">Plans &amp; Pricing</a></li>
+            <li><a href="/en/contact.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_resources">Resources</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/en/resources.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_resources">Resource Center</a></li>
+            <li><a href="/en/blog.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_blog">Blog</a></li>
+            <li><a href="/en/faq.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_faq">FAQ</a></li>
+            <li><a href="/en/support.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_support">Support</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_legal">Legal</h4>
+          <ul class="space-y-2 text-sm mb-4">
+            <li><a href="/en/privacy.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_privacy">Privacy</a></li>
+            <li><a href="/en/terms.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_terms">Terms of Use</a></li>
+            <li><a href="/en/refund.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_refund">Refunds</a></li>
+          </ul>
+          <!-- Social Media Links -->
+          <div class="flex gap-4 mt-4">
+            <a href="https://www.facebook.com/galan.expediter" aria-label="Facebook" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-blue-500 transition-all duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path>
+              </svg>
+            </a>
+            <a href="https://www.tiktok.com/@galan.expediter" aria-label="TikTok" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 transition-all duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12.525.02c1.31-.03 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.73-.22-.2-.43-.41-.62-.63-.19 1.79-.75 3.56-1.68 5.11-1.25 2.08-3.23 3.75-5.55 4.54-2.58.88-5.51.78-8.01-.47-2.73-1.37-4.63-4.14-4.9-7.19-.38-4.22 2.11-8.39 6.08-9.84 2.17-.79 4.62-.81 6.78-.05 0 2.18-.01 4.36-.02 6.54-1.25-.43-2.67-.32-3.81.39-.99.62-1.76-1.59 2.93.01 1.73 1.48 3.19 3.22 3.13 1.61-.05 2.94-1.35 3.01-2.95V.02z"></path>
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/galan.expediter/" aria-label="Instagram" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-pink-500 transition-all duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.008 3.885.058 1.357.062 2.367.274 3.111.562a5.82 5.82 0 012.08 1.354 5.83 5.83 0 011.353 2.08c.288.743.5 1.754.562 3.112.05 1.102.059 1.458.059 3.885s-.008 2.784-.059 3.886c-.062 1.357-.274 2.367-.562 3.111a5.82 5.82 0 01-1.353 2.08 5.82 5.82 0 01-2.08 1.353c-.744.288-1.754.5-3.112.563-1.102.049-1.458.058-3.885.058s-2.784-.008-3.886-.058c-1.356-.062-2.367-.274-3.11-.563a5.82 5.82 0 01-2.08-1.353 5.83 5.83 0 01-1.353-2.08c-.287-.743-.5-1.754-.562-3.112C2.008 14.784 2 14.428 2 12s.008-2.784.058-3.885c.062-1.358.274-2.367.562-3.112a5.83 5.83 0 011.353-2.08 5.82 5.82 0 012.08-1.353c.743-.288 1.754-.5 3.112-.562C9.528 2.008 9.884 2 12 2h.315zM12 5.802a6.197 6.197 0 100 12.396 6.197 6.197 0 000-12.396zm0 2.22a3.977 3.977 0 110 7.954 3.977 3.977 0 010-7.954zm6.474-.756a1.218 1.218 0 11-2.437 0 1.218 1.218 0 012.437 0z" clip-rule="evenodd"></path>
+              </svg>
+            </a>
+            <a href="https://www.youtube.com/@galan.expediter" aria-label="YouTube" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-red-500 transition-all duration-300">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd" d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C22 8.68 22 12 22 12s0 3.32-.42 4.814c-.23.861-.907 1.538-1.768 1.768C18.32 19 12 19 12 19s-6.32 0-7.812-.418c-.861-.23-1.538-.907-1.768-1.768C2 15.32 2 12 2 12s0-3.32.42-4.814c.23-.861.907-1.538 1.768-1.768C5.68 5 12 5 12 5s6.32 0 7.812.418zM9.75 15.02l5.75-3.02-5.75-3.02v6.04z" clip-rule="evenodd"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="text-center pt-8 border-t border-gray-800">
+        <p class="text-gray-400 text-sm" data-i18n="about.footer_copyright">© 2026 Smart Load Solution. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
