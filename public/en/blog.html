@@ -1,281 +1,316 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
   <meta charset="UTF-8">
-
   <!-- Google Analytics 4 -->
-  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-EK7NM7PJE2"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EK7NM7PJE2"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-EK7NM7PJE2');
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Expert advice for expedited owner-operators. Learn how to calculate real RPM, optimize operating costs, and find high-paying freight zones.">
-  
-  
+  <title>Smart Load Solution Blog — Strategies for Expediters</title>
+  <link rel="canonical" href="https://smartloadsolution.com/en/blog.html">
+  <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/blog.html">
+  <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/blog.html">
+  <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/en/blog.html">
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-  <link rel="icon" type="image/png" href="../img/logo-app.png">
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Real strategies, analysis, and tips for cargo van and sprinter drivers who want to earn more per mile.">
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://smartloadsolution.com/en/blog.html">
+  <meta property="og:title" content="Smart Load Solution Blog">
+  <meta property="og:description" content="Real strategies, analysis, and tips for cargo van and sprinter drivers who want to earn more per mile.">
+  <meta property="og:image" content="https://smartloadsolution.com/img/og-image-en.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://smartloadsolution.com/en/blog.html">
+  <meta name="twitter:title" content="Smart Load Solution Blog">
+  <meta name="twitter:description" content="Real strategies, analysis, and tips for cargo van and sprinter drivers who want to earn more per mile.">
+  <meta name="twitter:image" content="https://smartloadsolution.com/img/og-image-en.png">
+  <!-- Styles -->
+  <link rel="icon" type="image/webp" href="/img/logo-app.webp">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/landing-page.css?v=2">
-  
-
   <style>
     :root {
       --bg-dark: #0a0a0f;
+      --bg-glass: rgba(15, 15, 25, 0.7);
       --primary-cyan: #00D9FF;
       --primary-orange: #FF6B35;
+      --border-glass: rgba(255, 255, 255, 0.08);
     }
-    body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: white; overflow-x: hidden; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: #e2e8f0;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
     .gradient-text {
       background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .blog-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
+    .glass-card {
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-glass);
       border-radius: 16px;
-      overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s;
     }
-    .blog-card:hover {
-      border-color: rgba(0,217,255,0.3);
-      transform: translateY(-2px);
+    .lang-toggle button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      color: #9ca3af;
+      transition: color 0.2s;
     }
-    .tag {
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 0.2rem 0.6rem;
-      border-radius: 999px;
-      background: rgba(0,217,255,0.1);
+    .lang-toggle button.active {
       color: var(--primary-cyan);
     }
-    .lang-toggle { display: flex; align-items: center; gap: 0.25rem; font-size: 0.8rem; font-weight: 600; }
-    .lang-toggle button { background: none; border: none; cursor: pointer; padding: 0.2rem 0.4rem; border-radius: 4px; color: #9ca3af; transition: color 0.2s; }
-    .lang-toggle button.active { color: var(--primary-cyan); }
-    .lang-toggle .sep { color: #4b5563; }
+    /* Divisor tipo línea de carretera */
+    .road-divider {
+      height: 2px;
+      background-image: repeating-linear-gradient(90deg, var(--primary-cyan) 0, var(--primary-cyan) 24px, transparent 24px, transparent 44px);
+      opacity: 0.5;
+      margin: 3rem 0;
+    }
+    .category-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #9ca3af;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .category-pill:hover {
+      border-color: var(--primary-cyan);
+      color: var(--primary-cyan);
+    }
+    .category-pill.active {
+      background: rgba(0, 217, 255, 0.1);
+      border-color: var(--primary-cyan);
+      color: var(--primary-cyan);
+    }
+    .post-card {
+      transition: transform 0.25s, border-color 0.25s;
+    }
+    .post-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 217, 255, 0.3);
+    }
+    .post-card.hidden-by-filter {
+      display: none;
+    }
+    .author-mini-photo {
+      width: 24px;
+      height: 24px;
+      border-radius: 9999px;
+      object-fit: cover;
+    }
   </style>
-  <!-- Meta Pixel Code -->
-  <script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '2077223159668765');
-  fbq('track', 'PageView');
-  </script>
-  <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=2077223159668765&ev=PageView&noscript=1"
-  /></noscript>
-  <!-- End Meta Pixel Code -->
-    <!-- Metricool Tracker -->
-  <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
-  <!-- End Metricool Tracker -->
-  
-  
-  
-  
-  
-  <title>Smart Load Solution Blog — Cargo Van Freight Insights &amp; Tips</title>
-  
-  <!-- Open Graph / Facebook / WhatsApp -->
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Smart Load Solution">
-  <meta property="og:title" content="Smart Load Solution Blog — Cargo Van Freight Insights &amp; Tips">
-  <meta property="og:description" content="Expert advice for expedited owner-operators. Learn how to calculate real RPM, optimize operating costs, and find high-paying freight zones.">
-  <meta property="og:url" content="https://smartloadsolution.com/en/blog.html">
-  <meta property="og:image" content="https://smartloadsolution.com/img/og-image-en.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:locale" content="en_US">
-  <!-- Twitter / X Cards -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Smart Load Solution Blog — Cargo Van Freight Insights &amp; Tips">
-  <meta name="twitter:description" content="Expert advice for expedited owner-operators. Learn how to calculate real RPM, optimize operating costs, and find high-paying freight zones.">
-  <meta name="twitter:image" content="https://smartloadsolution.com/img/og-image-en.png">
-  <meta name="twitter:site" content="@galan.expediter">
-<link rel="canonical" href="https://smartloadsolution.com/en/blog.html">
-  <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/blog.html">
-  <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/blog.html">
-  <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/blog.html">
 </head>
-
 <body>
-
   <!-- HEADER -->
-  <header style="position: sticky; top: 0; z-index: 100; background: rgba(10,10,15,0.95); border-bottom: 1px solid rgba(255,255,255,0.08);">
+  <header style="position: sticky; top: 0; z-index: 100; background: rgba(10,10,15,0.95); border-bottom: 1px solid var(--border-glass);">
     <div style="max-width: 1200px; margin: 0 auto; padding: 1rem 1.5rem;">
       <div class="flex items-center justify-between">
-        <a href="index.html" class="flex items-center gap-3">
-          <img src="../img/logo-app.webp" alt="SmartLoad Solution Logo" class="h-10 w-auto" onerror="this.src='../img/logo-app.png'">
-          <span class="text-xl font-bold">Smart Load Solution</span>
+        <a href="/en/index.html" class="flex items-center gap-3">
+          <img src="/img/logo-app.webp" alt="SmartLoad Solution Logo" class="h-10 w-auto" onerror="this.src='/img/logo-app.png'">
+          <span class="text-xl font-bold text-white">Smart Load Solution</span>
         </a>
         <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
-          <a href="index.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_home">Home</a>
-          <a href="about.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_about">About</a>
-          <a href="blog.html" class="text-white" data-i18n="about.nav_blog">Blog</a>
-          <a href="resources.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_resources">Resources</a>
-          <a href="plans.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_plans">Plans</a>
+          <a href="/en/index.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_home">Home</a>
+          <a href="/en/about.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_about">About</a>
+          <a href="/en/blog.html" class="text-cyan-400 transition" data-i18n="about.nav_blog">Blog</a>
+          <a href="/en/resources.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_resources">Resources</a>
+          <a href="/en/plans.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_plans">Plans</a>
         </nav>
         <div class="flex items-center gap-4">
-          <div class="lang-toggle hidden md:flex">
-        <button id="btn-en" style="background:none;border:none;cursor:default;padding:0.2rem 0.4rem;border-radius:4px;color:#00D9FF;font-weight:700;" aria-current="true">EN</button>
-        <span style="color:#4b5563;">|</span>
-        <a id="btn-es" href="../blog.html" onclick="localStorage.setItem('app_language','es')" style="text-decoration:none;cursor:pointer;padding:0.2rem 0.4rem;border-radius:4px;color:#9ca3af;transition:color 0.2s;">ES</a>
-      </div>
-          <a href="/auth.html" class="hidden md:inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition" data-i18n="about.nav_login">Log In →</a>
+          <div class="lang-toggle hidden md:flex items-center gap-1 font-semibold text-xs">
+            
+            <button id="btn-en" style="background:none;border:none;cursor:default;padding:0.2rem 0.4rem;border-radius:4px;color:#00D9FF;font-weight:700;" aria-current="true">EN</button>
+            <span style="color:#4b5563;">|</span>
+            <a id="btn-es" href="https://smartloadsolution.com/blog.html" onclick="localStorage.setItem('app_language','es')" style="text-decoration:none;cursor:pointer;padding:0.2rem 0.4rem;border-radius:4px;color:#9ca3af;transition:color 0.2s;">ES</a>
+            
+          </div>
+          <a href="/en/auth.html" class="hidden md:inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition" data-i18n="about.nav_login">Sign In →</a>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section style="padding: 5rem 1.5rem 3rem; text-align: center;">
-    <div style="max-width: 700px; margin: 0 auto;">
-      <p class="text-sm font-semibold mb-3" style="color: var(--primary-cyan); text-transform: uppercase; letter-spacing: 0.1em;" data-i18n="blog.hero_eyebrow">Learn &amp; Grow</p>
-      <h1 class="text-4xl md:text-5xl font-black mb-4">
-        <span data-i18n="blog.hero_heading">Smart Load Solution Blog</span>
-      </h1>
-      <p class="text-gray-400 text-lg" data-i18n="blog.hero_sub">Strategies, analysis, and tips for expediters who want to earn more.</p>
+  <!-- MAIN CONTENT -->
+  <main class="max-w-6xl mx-auto px-6 py-12">
+
+    <!-- Page header -->
+    <div class="text-center mb-12">
+      <span class="text-cyan-400 font-bold text-sm tracking-wide uppercase">LEARN &amp; GROW</span>
+      <h1 class="text-3xl md:text-5xl font-black text-white leading-tight mt-3 mb-4">Smart Load Solution Blog</h1>
+      <p class="text-gray-400 text-base md:text-lg max-w-2xl mx-auto">Strategies, analysis, and tips for drivers who want to earn more.</p>
     </div>
-  </section>
 
-  <!-- ARTICLES -->
-  <section style="padding: 0 1.5rem 5rem;">
-    <div style="max-width: 1000px; margin: 0 auto;">
+    
 
-      <!-- Featured -->
-      <div class="blog-card mb-8 md:flex">
-        <div class="md:w-2/5" style="background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%); min-height: 240px; display: flex; align-items: center; justify-content: center; padding: 2rem;">
-          <span style="font-size: 4rem;">📊</span>
-        </div>
-        <div class="md:w-3/5 p-6 md:p-8 flex flex-col justify-center">
-          <span class="tag mb-3" data-i18n="blog.feat_tag">Guide</span>
-          <h2 class="text-2xl font-bold text-white mb-3">
-            <a href="blog/calculate-real-rpm.html" class="hover:text-cyan-400 transition" data-i18n="blog.feat_title">How to Calculate Your Real RPM (And Why Brokers' Numbers Are Wrong)</a>
-          </h2>
-          <p class="text-gray-400 text-sm leading-relaxed mb-4" data-i18n="blog.feat_desc">The RPM brokers give you doesn't include deadhead, wait time, or your real vehicle costs. Here's how to calculate your true cost per mile and why it makes a difference on every load.</p>
-          <div class="flex items-center justify-between mt-2">
-            <div class="flex items-center gap-3 text-xs text-gray-500">
-              <span data-i18n="blog.feat_author">SmartLoad Team</span>
-              <span>·</span>
-              <span data-i18n="blog.feat_read">5 min read</span>
-            </div>
-            <a href="blog/calculate-real-rpm.html" class="text-xs font-semibold text-cyan-400 hover:underline" data-i18n="blog.read_article">Read Article →</a>
+    <!-- Featured post -->
+    
+      
+    
+      
+    
+      
+    
+      
+      <a href="/en/blog/calculate-real-rpm.html" class="post-card glass-card grid md:grid-cols-2 gap-0 overflow-hidden mb-6 block">
+        <img src="/img/blog/ricardo-cab-hero.webp" alt="Ricardo Galán driving his cargo van, calculating his real RPM on the road" class="w-full h-64 md:h-full object-cover">
+        <div class="p-8 flex flex-col justify-center">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="inline-block bg-cyan-900/40 text-cyan-400 text-xs font-semibold px-3 py-1 rounded-full">B2B Guide</span>
+            <span class="text-orange-400 text-xs font-bold uppercase tracking-wide">★ Featured</span>
+          </div>
+          <h2 class="text-2xl md:text-3xl font-black text-white leading-tight mb-3">How to Calculate Your Real RPM (And Why Brokers&#39; Numbers Are Wrong)</h2>
+          <p class="text-gray-400 text-sm md:text-base mb-5">Learn how to calculate your true Rate Per Mile (RPM) as a cargo van owner-operator. Understand why deadhead and repositioning miles matter.</p>
+          <div class="flex items-center gap-3 text-sm text-gray-500">
+            <img src="/img/blog/ricardo-headshot.webp" alt="Ricardo Galán" class="author-mini-photo border border-white/10">
+            <span>Ricardo Galán</span>
+            <span>•</span>
+            <span>6 min read</span>
           </div>
         </div>
-      </div>
+      </a>
+      
+    
+      
+    
 
-      <!-- Article grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Divisor tipo carretera -->
+    <div class="road-divider"></div>
 
-        <div class="blog-card flex flex-col justify-between">
-          <div>
-            <div style="background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0f 100%); height: 160px; display: flex; align-items: center; justify-content: center;">
-              <span style="font-size: 3rem;">🗺️</span>
-            </div>
-            <div class="p-6">
-              <span class="tag mb-3" style="background: rgba(255,107,53,0.1); color: var(--primary-orange);" data-i18n="blog.a1_tag">Strategy</span>
-              <h3 class="font-bold text-white mt-2 mb-2">
-                <a href="blog/profitable-zones.html" class="hover:text-cyan-400 transition" data-i18n="blog.a1_title">The 5 Most Profitable Zones for Expediters in 2024</a>
-              </h3>
-              <p class="text-gray-400 text-sm leading-relaxed mb-4" data-i18n="blog.a1_desc">Real RPM data analysis by region and which zones give the best return in high-demand months.</p>
-            </div>
-          </div>
-          <div class="px-6 pb-6 pt-0 flex items-center justify-between">
-            <div class="text-xs text-gray-500" data-i18n="blog.a1_read">4 min read</div>
-            <a href="blog/profitable-zones.html" class="text-xs font-semibold text-cyan-400 hover:underline" data-i18n="blog.read_article">Read Article →</a>
-          </div>
-        </div>
-
-        <div class="blog-card flex flex-col justify-between">
-          <div>
-            <div style="background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0f 100%); height: 160px; display: flex; align-items: center; justify-content: center;">
-              <span style="font-size: 3rem;">💰</span>
-            </div>
-            <div class="p-6">
-              <span class="tag mb-3" data-i18n="blog.a2_tag">Finances</span>
-              <h3 class="font-bold text-white mt-2 mb-2">
-                <a href="blog/hidden-operating-costs.html" class="hover:text-cyan-400 transition" data-i18n="blog.a2_title">Expenses Every Expediter Forgets to Calculate</a>
-              </h3>
-              <p class="text-gray-400 text-sm leading-relaxed mb-4" data-i18n="blog.a2_desc">From preventive maintenance to self-employment taxes: the complete list of expenses that affect your bottom line.</p>
-            </div>
-          </div>
-          <div class="px-6 pb-6 pt-0 flex items-center justify-between">
-            <div class="text-xs text-gray-500" data-i18n="blog.a2_read">6 min read</div>
-            <a href="blog/hidden-operating-costs.html" class="text-xs font-semibold text-cyan-400 hover:underline" data-i18n="blog.read_article">Read Article →</a>
-          </div>
-        </div>
-
-        <div class="blog-card flex flex-col justify-between">
-          <div>
-            <div style="background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0f 100%); height: 160px; display: flex; align-items: center; justify-content: center;">
-              <span style="font-size: 3rem;">⚡</span>
-            </div>
-            <div class="p-6">
-              <span class="tag mb-3" style="background: rgba(255,107,53,0.1); color: var(--primary-orange);" data-i18n="blog.a3_tag">Productivity</span>
-              <h3 class="font-bold text-white mt-2 mb-2">
-                <a href="blog/decide-load-30-seconds.html" class="hover:text-cyan-400 transition" data-i18n="blog.a3_title">How to Decide in 30 Seconds If a Load Is Worth It</a>
-              </h3>
-              <p class="text-gray-400 text-sm leading-relaxed mb-4" data-i18n="blog.a3_desc">The quick decision flow used by the most successful expediters to accept or reject loads without hesitation.</p>
-            </div>
-          </div>
-          <div class="px-6 pb-6 pt-0 flex items-center justify-between">
-            <div class="text-xs text-gray-500" data-i18n="blog.a3_read">3 min read</div>
-            <a href="blog/decide-load-30-seconds.html" class="text-xs font-semibold text-cyan-400 hover:underline" data-i18n="blog.read_article">Read Article →</a>
-          </div>
-        </div>
-
-        <div class="blog-card flex flex-col justify-between">
-          <div>
-            <div style="background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0f 100%); height: 160px; display: flex; align-items: center; justify-content: center;">
-              <span style="font-size: 3rem;">🛡️</span>
-            </div>
-            <div class="p-6">
-              <span class="tag mb-3" data-i18n="blog.a4_tag">Legal</span>
-              <h3 class="font-bold text-white mt-2 mb-2">
-                <a href="blog/llc-vs-sole-proprietor.html" class="hover:text-cyan-400 transition" data-i18n="blog.a4_title">LLC vs Sole Proprietor for Expediters: What's Right for You</a>
-              </h3>
-              <p class="text-gray-400 text-sm leading-relaxed mb-4" data-i18n="blog.a4_desc">Tax advantages, asset protection, and insurance requirements based on your legal structure as an independent carrier.</p>
-            </div>
-          </div>
-          <div class="px-6 pb-6 pt-0 flex items-center justify-between">
-            <div class="text-xs text-gray-500" data-i18n="blog.a4_read">7 min read</div>
-            <a href="blog/llc-vs-sole-proprietor.html" class="text-xs font-semibold text-cyan-400 hover:underline" data-i18n="blog.read_article">Read Article →</a>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Newsletter CTA -->
-      <div class="mt-12 text-center p-8 rounded-2xl" style="background: rgba(0,217,255,0.05); border: 1px solid rgba(0,217,255,0.15);">
-        <h3 class="text-xl font-bold mb-2" data-i18n="blog.newsletter_heading">More Articles Coming Soon</h3>
-        <p class="text-gray-400 mb-5" data-i18n="blog.newsletter_sub">We're working on new content every week. Create your account to get notified.</p>
-        <a href="/auth.html" class="inline-block font-bold py-3 px-8 rounded-lg transition" style="background: var(--primary-cyan); color: #0a0a0f;" data-i18n="blog.newsletter_btn">Create Free Account →</a>
-      </div>
-
+    <!-- Filtro de categorías -->
+    <div class="flex flex-wrap gap-3 justify-center mb-10" id="category-filters">
+      <button class="category-pill active px-4 py-2 rounded-full text-sm font-semibold" data-category="all">All</button>
+      
+      
+        
+          
+          <button class="category-pill px-4 py-2 rounded-full text-sm font-semibold" data-category="Productivity">Productivity</button>
+        
+      
+        
+          
+          <button class="category-pill px-4 py-2 rounded-full text-sm font-semibold" data-category="Legal Structure">Legal Structure</button>
+        
+      
+        
+          
+          <button class="category-pill px-4 py-2 rounded-full text-sm font-semibold" data-category="Strategy">Strategy</button>
+        
+      
+        
+          
+          <button class="category-pill px-4 py-2 rounded-full text-sm font-semibold" data-category="B2B Guide">B2B Guide</button>
+        
+      
+        
+          
+          <button class="category-pill px-4 py-2 rounded-full text-sm font-semibold" data-category="Finances">Finances</button>
+        
+      
     </div>
-  </section>
+
+    <!-- Grid de posts -->
+    <div class="grid md:grid-cols-3 gap-6" id="posts-grid">
+      
+        
+        <a href="/en/blog/decide-load-30-seconds.html" class="post-card glass-card overflow-hidden block" data-category="Productivity">
+          <img src="/img/blog/ricardo-gasolinera-hero.webp" alt="Ricardo Galán at the gas station evaluating whether a load is worth it" class="w-full h-40 object-cover">
+          <div class="p-5">
+            <span class="inline-block bg-cyan-900/40 text-cyan-400 text-xs font-semibold px-3 py-1 rounded-full mb-3">Productivity</span>
+            <h3 class="text-lg font-bold text-white leading-snug mb-2">How to Decide in 30 Seconds If a Load Is Worth It</h3>
+            <p class="text-gray-400 text-sm mb-4 line-clamp-2">A quick decision framework for cargo van expediters to calculate RPM, deadhead, and profit in 30 seconds before accepting a broker load.</p>
+            <div class="flex items-center gap-2 text-xs text-gray-500">
+              <img src="/img/blog/ricardo-headshot.webp" alt="Ricardo Galán" class="author-mini-photo border border-white/10">
+              <span>Ricardo Galán</span>
+              <span>•</span>
+              <span>8 min read</span>
+            </div>
+          </div>
+        </a>
+        
+      
+        
+        <a href="/en/blog/llc-vs-sole-proprietor.html" class="post-card glass-card overflow-hidden block" data-category="Legal Structure">
+          <img src="/img/blog/ricardo-carga-interior-hero.webp" alt="Real freight secured inside the cargo van" class="w-full h-40 object-cover">
+          <div class="p-5">
+            <span class="inline-block bg-cyan-900/40 text-cyan-400 text-xs font-semibold px-3 py-1 rounded-full mb-3">Legal Structure</span>
+            <h3 class="text-lg font-bold text-white leading-snug mb-2">LLC vs Sole Proprietor for Expediters: What&#39;s Right for You?</h3>
+            <p class="text-gray-400 text-sm mb-4 line-clamp-2">Compare LLC and Sole Proprietor tax benefits, liability protection, and registration costs for independent owner-operators.</p>
+            <div class="flex items-center gap-2 text-xs text-gray-500">
+              <img src="/img/blog/ricardo-headshot.webp" alt="Ricardo Galán" class="author-mini-photo border border-white/10">
+              <span>Ricardo Galán</span>
+              <span>•</span>
+              <span>7 min read</span>
+            </div>
+          </div>
+        </a>
+        
+      
+        
+        <a href="/en/blog/profitable-zones.html" class="post-card glass-card overflow-hidden block" data-category="Strategy">
+          <img src="/img/blog/ricardo-westvirginia-hero.webp" alt="Welcome to West Virginia road sign on route" class="w-full h-40 object-cover">
+          <div class="p-5">
+            <span class="inline-block bg-cyan-900/40 text-cyan-400 text-xs font-semibold px-3 py-1 rounded-full mb-3">Strategy</span>
+            <h3 class="text-lg font-bold text-white leading-snug mb-2">The 5 Most Profitable Cargo Zones for Expediters in the US</h3>
+            <p class="text-gray-400 text-sm mb-4 line-clamp-2">Discover the highest-paying cargo van regions. Optimize your load planning by targeting high-volume freight lanes and reducing deadhead miles.</p>
+            <div class="flex items-center gap-2 text-xs text-gray-500">
+              <img src="/img/blog/ricardo-headshot.webp" alt="Ricardo Galán" class="author-mini-photo border border-white/10">
+              <span>Ricardo Galán</span>
+              <span>•</span>
+              <span>8 min read</span>
+            </div>
+          </div>
+        </a>
+        
+      
+        
+      
+        
+        <a href="/en/blog/hidden-operating-costs.html" class="post-card glass-card overflow-hidden block" data-category="Finances">
+          <img src="/img/blog/ricardo-van-hero.webp" alt="Ricardo Galán next to his ProMaster 1500 cargo van" class="w-full h-40 object-cover">
+          <div class="p-5">
+            <span class="inline-block bg-cyan-900/40 text-cyan-400 text-xs font-semibold px-3 py-1 rounded-full mb-3">Finances</span>
+            <h3 class="text-lg font-bold text-white leading-snug mb-2">The Hidden Operating Costs of Cargo Van Expediting</h3>
+            <p class="text-gray-400 text-sm mb-4 line-clamp-2">Learn what costs are hidden in your trucking operations. Prevent depreciation, fixed costs, and variable expense losses on your Sprinter van.</p>
+            <div class="flex items-center gap-2 text-xs text-gray-500">
+              <img src="/img/blog/ricardo-headshot.webp" alt="Ricardo Galán" class="author-mini-photo border border-white/10">
+              <span>Ricardo Galán</span>
+              <span>•</span>
+              <span>7 min read</span>
+            </div>
+          </div>
+        </a>
+        
+      
+    </div>
+
+    <!-- CTA box -->
+    <div class="glass-card p-8 text-center mt-12">
+      <h3 class="text-xl md:text-2xl font-bold text-white mb-3">More Articles Coming Soon</h3>
+      <p class="text-gray-400 mb-6 max-w-lg mx-auto text-sm md:text-base">We&#39;re working on new content every week. Create your account to get notified.</p>
+      <a href="/en/auth.html" class="inline-block bg-gradient-to-r from-cyan-400 to-orange-500 hover:from-cyan-500 hover:to-orange-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:-translate-y-0.5 transition duration-300">
+        Create Free Account →
+      </a>
+    </div>
+  </main>
 
   <!-- FOOTER -->
   <footer style="padding: 4rem 1.5rem 2rem; background: var(--bg-dark); border-top: 1px solid rgba(255,255,255,0.1);">
@@ -283,67 +318,77 @@
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
         <div>
           <div class="flex items-center gap-2 mb-4">
-            <img src="../img/logo-app.webp" alt="SmartLoad Solution" class="h-8 w-auto" onerror="this.src='../img/logo-app.png'">
-            <span class="font-bold text-lg">SmartLoad</span>
+            <img src="/img/logo-app.webp" alt="SmartLoad Solution" class="h-8 w-auto" onerror="this.src='/img/logo-app.png'">
+            <span class="font-bold text-lg text-white">SmartLoad</span>
           </div>
-          <p class="text-gray-400 text-sm leading-relaxed" data-i18n="about.footer_tagline">Smart load intelligence for the modern carrier.</p>
+          <p class="text-gray-400 text-sm leading-relaxed" data-i18n="about.footer_tagline">Load intelligence for the modern trucker.</p>
         </div>
         <div>
           <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_company">Company</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="about.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_about">About Us</a></li>
-            <li><a href="plans.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_plans">Plans &amp; Pricing</a></li>
-            <li><a href="contact.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_contact">Contact</a></li>
+            <li><a href="/en/about.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_about">About Us</a></li>
+            <li><a href="/en/plans.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_plans">Plans &amp; Pricing</a></li>
+            <li><a href="/en/contact.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_contact">Contact</a></li>
           </ul>
         </div>
         <div>
           <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_resources">Resources</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="resources.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_resources">Resource Center</a></li>
-            <li><a href="blog.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_blog">Blog</a></li>
-            <li><a href="faq.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_faq">FAQ</a></li>
-            <li><a href="support.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_support">Support</a></li>
+            <li><a href="/en/resources.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_resources">Resource Center</a></li>
+            <li><a href="/en/blog.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_blog">Blog</a></li>
+            <li><a href="/en/faq.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_faq">FAQ</a></li>
+            <li><a href="/en/support.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_support">Support</a></li>
           </ul>
         </div>
         <div>
           <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_legal">Legal</h4>
           <ul class="space-y-2 text-sm mb-4">
-            <li><a href="privacy.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_privacy">Privacy</a></li>
-            <li><a href="terms.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_terms">Terms of Use</a></li>
-            <li><a href="refund.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_refund">Refunds</a></li>
+            <li><a href="/en/privacy.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_privacy">Privacy</a></li>
+            <li><a href="/en/terms.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_terms">Terms of Use</a></li>
+            <li><a href="/en/refund.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_refund">Refunds</a></li>
           </ul>
-          <!-- Social Media Links -->
           <div class="flex gap-4 mt-4">
             <a href="https://www.facebook.com/galan.expediter" aria-label="Facebook" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-blue-500 transition-all duration-300">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path>
-              </svg>
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path></svg>
             </a>
             <a href="https://www.tiktok.com/@galan.expediter" aria-label="TikTok" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-cyan-400 transition-all duration-300">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12.525.02c1.31-.03 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.73-.22-.2-.43-.41-.62-.63-.19 1.79-.75 3.56-1.68 5.11-1.25 2.08-3.23 3.75-5.55 4.54-2.58.88-5.51.78-8.01-.47-2.73-1.37-4.63-4.14-4.9-7.19-.38-4.22 2.11-8.39 6.08-9.84 2.17-.79 4.62-.81 6.78-.05 0 2.18-.01 4.36-.02 6.54-1.25-.43-2.67-.32-3.81.39-.99.62-1.6 1.76-1.59 2.93.01 1.73 1.48 3.19 3.22 3.13 1.61-.05 2.94-1.35 3.01-2.95V.02z"></path>
-              </svg>
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.525.02c1.31-.03 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.73-.22-.2-.43-.41-.62-.63-.19 1.79-.75 3.56-1.68 5.11-1.25 2.08-3.23 3.75-5.55 4.54-2.58.88-5.51.78-8.01-.47-2.73-1.37-4.63-4.14-4.9-7.19-.38-4.22 2.11-8.39 6.08-9.84 2.17-.79 4.62-.81 6.78-.05 0 2.18-.01 4.36-.02 6.54-1.25-.43-2.67-.32-3.81.39-.99.62-1.76-1.59 2.93.01 1.73 1.48 3.19 3.22 3.13 1.61-.05 2.94-1.35 3.01-2.95V.02z"></path></svg>
             </a>
             <a href="https://www.instagram.com/galan.expediter/" aria-label="Instagram" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-pink-500 transition-all duration-300">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.008 3.885.058 1.357.062 2.367.274 3.111.562a5.82 5.82 0 012.08 1.354 5.83 5.83 0 011.353 2.08c.288.743.5 1.754.562 3.112.05 1.102.059 1.458.059 3.885s-.008 2.784-.059 3.886c-.062 1.357-.274 2.367-.562 3.111a5.82 5.82 0 01-1.353 2.08 5.82 5.82 0 01-2.08 1.353c-.744.288-1.754.5-3.112.563-1.102.049-1.458.058-3.885.058s-2.784-.008-3.886-.058c-1.356-.062-2.367-.274-3.11-.563a5.82 5.82 0 01-2.08-1.353 5.83 5.83 0 01-1.353-2.08c-.287-.743-.5-1.754-.562-3.112C2.008 14.784 2 14.428 2 12s.008-2.784.058-3.885c.062-1.358.274-2.367.562-3.112a5.83 5.83 0 011.353-2.08 5.82 5.82 0 012.08-1.353c.743-.288 1.754-.5 3.112-.562C9.528 2.008 9.884 2 12 2h.315zM12 5.802a6.197 6.197 0 100 12.396 6.197 6.197 0 000-12.396zm0 2.22a3.977 3.977 0 110 7.954 3.977 3.977 0 010-7.954zm6.474-.756a1.218 1.218 0 11-2.437 0 1.218 1.218 0 012.437 0z" clip-rule="evenodd"></path>
-              </svg>
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.008 3.885.058 1.357.062 2.367.274 3.111.562a5.82 5.82 0 012.08 1.354 5.83 5.83 0 011.353 2.08c.288.743.5 1.754.562 3.112.05 1.102.059 1.458.059 3.885s-.008 2.784-.059 3.886c-.062 1.357-.274 2.367-.562 3.111a5.82 5.82 0 01-1.353 2.08 5.82 5.82 0 01-2.08 1.353c-.744.288-1.754.5-3.112.563-1.102.049-1.458.058-3.885.058s-2.784-.008-3.886-.058c-1.356-.062-2.367-.274-3.11-.563a5.82 5.82 0 01-2.08-1.353 5.83 5.83 0 01-1.353-2.08c-.287-.743-.5-1.754-.562-3.112C2.008 14.784 2 14.428 2 12s.008-2.784.058-3.885c.062-1.358.274-2.367.562-3.112a5.83 5.83 0 011.353-2.08 5.82 5.82 0 012.08-1.353c.743-.288 1.754-.5 3.112-.562C9.528 2.008 9.884 2 12 2h.315zM12 5.802a6.197 6.197 0 100 12.396 6.197 6.197 0 000-12.396zm0 2.22a3.977 3.977 0 110 7.954 3.977 3.977 0 010-7.954zm6.474-.756a1.218 1.218 0 11-2.437 0 1.218 1.218 0 012.437 0z" clip-rule="evenodd"></path></svg>
             </a>
             <a href="https://www.youtube.com/@galan.expediter" aria-label="YouTube" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-red-500 transition-all duration-300">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path fill-rule="evenodd" d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C22 8.68 22 12 22 12s0 3.32-.42 4.814c-.23.861-.907 1.538-1.768 1.768C18.32 19 12 19 12 19s-6.32 0-7.812-.418c-.861-.23-1.538-.907-1.768-1.768C2 15.32 2 12 2 12s0-3.32.42-4.814c.23-.861.907-1.538 1.768-1.768C5.68 5 12 5 12 5s6.32 0 7.812.418zM9.75 15.02l5.75-3.02-5.75-3.02v6.04z" clip-rule="evenodd"></path>
-              </svg>
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C22 8.68 22 12 22 12s0 3.32-.42 4.814c-.23.861-.907 1.538-1.768 1.768C18.32 19 12 19 12 19s-6.32 0-7.812-.418c-.861-.23-1.538-.907-1.768-1.768C2 15.32 2 12 2 12s0-3.32.42-4.814c.23-.861.907-1.538 1.768-1.768C5.68 5 12 5 12 5s6.32 0 7.812.418zM9.75 15.02l5.75-3.02-5.75-3.02v6.04z" clip-rule="evenodd"></path></svg>
             </a>
           </div>
+        </div>
       </div>
       <div class="text-center pt-8 border-t border-gray-800">
         <p class="text-gray-400 text-sm" data-i18n="about.footer_copyright">© 2026 Smart Load Solution. All rights reserved.</p>
       </div>
     </div>
-  </div></footer>
+  </footer>
 
-  <script>// i18n init omitted: page is static Spanish</script>
-
-
-
-</body></html>
+  <script>
+    // Filtro de categorías, cliente-side
+    document.addEventListener('DOMContentLoaded', function () {
+      var pills = document.querySelectorAll('.category-pill');
+      var cards = document.querySelectorAll('#posts-grid .post-card');
+      pills.forEach(function (pill) {
+        pill.addEventListener('click', function () {
+          pills.forEach(function (p) { p.classList.remove('active'); });
+          pill.classList.add('active');
+          var selected = pill.getAttribute('data-category');
+          cards.forEach(function (card) {
+            if (selected === 'all' || card.getAttribute('data-category') === selected) {
+              card.classList.remove('hidden-by-filter');
+            } else {
+              card.classList.add('hidden-by-filter');
+            }
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
