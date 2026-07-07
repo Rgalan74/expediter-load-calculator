@@ -2,6 +2,11 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <!-- Firebase SDKs (para captura de lead a Firestore) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <!-- 🔐 Brevo key (fuera del repo, ver .gitignore) -->
+  <script src="/js/secrets.js"></script>
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-EK7NM7PJE2"></script>
   <script>
@@ -356,6 +361,32 @@
       </div>
     </div>
 
+    <!-- CAPTURA DE EMAIL (lead) -->
+    <div id="lead-capture" class="glass-card p-8 my-12" style="border: 1px solid rgba(0,217,255,0.2);">
+      <div class="text-center mb-6">
+        <span class="sls-badge-inline inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3" style="background: rgba(0,217,255,0.1); color: var(--primary-cyan);">🆓 Plan Gratis</span>
+        <h3 class="text-2xl md:text-3xl font-black text-white leading-tight mb-2">Deja de adivinar. <span class="gradient-text">Conoce tu número.</span></h3>
+        <p class="text-gray-400 text-sm md:text-base max-w-lg mx-auto">Deja tu email y crea tu cuenta gratis para evaluar cargas con el cálculo completo. Sin tarjeta de crédito.</p>
+      </div>
+      <div id="leadFormContent" class="max-w-md mx-auto">
+        <div class="flex flex-col gap-3">
+          <input type="text" id="leadName" class="calc-input" placeholder="Tu nombre" autocomplete="given-name" maxlength="50">
+          <input type="email" id="leadEmail" class="calc-input" placeholder="Tu correo electrónico" autocomplete="email">
+          <div id="leadError" class="text-sm text-center hidden" style="color: var(--rojo);"></div>
+          <button id="leadSubmit" class="w-full bg-gradient-to-r from-cyan-400 to-orange-500 hover:from-cyan-500 hover:to-orange-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg border border-white/10 transform hover:-translate-y-0.5 transition duration-300 text-lg">
+            Quiero Acceso Gratis →
+          </button>
+        </div>
+        <p class="text-xs text-gray-600 text-center mt-3">Sin spam. Cancela cuando quieras.</p>
+      </div>
+      <div id="leadSuccess" class="hidden text-center">
+        <div class="text-4xl mb-3">✅</div>
+        <h4 class="text-xl font-bold text-white mb-1">¡Ya estás dentro!</h4>
+        <p class="text-gray-400 text-sm mb-4">Llevándote a crear tu cuenta ahora...</p>
+        <a href="/auth.html?tab=register" class="text-cyan-400 hover:underline font-semibold">Ir a registrarse →</a>
+      </div>
+    </div>
+
     <!-- CTA -->
     <div class="glass-card p-8 text-center my-12 border-cyan-500/20 border">
       <h3 class="text-2xl font-bold text-white mb-3">Deja de decidir con la mitad de los números</h3>
@@ -515,6 +546,157 @@
         input.addEventListener('keydown', function (e) {
           if (e.key === 'Enter') calcular();
         });
+      });
+    })();
+
+    // ── CAPTURA DE LEAD (Firebase + Brevo) ────────────────────────────
+    (function () {
+      // Inicializar Firebase (sin auto-redirect — esta es una landing pública)
+      var firebaseConfig = {
+        apiKey: "AIzaSyAkEYDbxkjXJx5wNh_7wMdIqmklOMCIyHY",
+        authDomain: "expediter-dev.firebaseapp.com",
+        projectId: "expediter-dev",
+        storageBucket: "expediter-dev.appspot.com",
+        messagingSenderId: "447653997176",
+        appId: "1:447653997176:web:4e356867bb64b488ab5b8d"
+      };
+      if (typeof firebase !== 'undefined' && !firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
+
+      var LEAD_CONFIG = {
+        brevoApiKey: window.__BREVO_KEY__ || "",
+        brevoListId: 2,
+        redirectUrl: "/auth.html?tab=register"
+      };
+
+      // ── UTM Tracking ──
+      function getUTMs() {
+        var p = new URLSearchParams(window.location.search);
+        return {
+          utm_source: p.get("utm_source") || "direct",
+          utm_medium: p.get("utm_medium") || "none",
+          utm_campaign: p.get("utm_campaign") || "none",
+          utm_content: p.get("utm_content") || "none",
+          landing_page: window.location.pathname,
+          referrer: document.referrer || "direct"
+        };
+      }
+      (function () {
+        var utms = getUTMs();
+        if (utms.utm_source !== "direct") {
+          sessionStorage.setItem("sls_utms", JSON.stringify(utms));
+        }
+      })();
+      function storedUTMs() {
+        try {
+          var s = sessionStorage.getItem("sls_utms");
+          return s ? JSON.parse(s) : getUTMs();
+        } catch (e) { return getUTMs(); }
+      }
+
+      // ── Guardar en Firestore ──
+      async function saveFirestore(lead) {
+        try {
+          var db = firebase.firestore();
+          await db.collection("leads").add(Object.assign({}, lead, {
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            trial_start: new Date().toISOString(),
+            status: "lead",
+            plan_type: "none",
+            converted: false,
+            loads_calculated: 0,
+            engagement_score: 0,
+            engagement_tag: "cold"
+          }));
+          return true;
+        } catch (err) {
+          console.error("[Lead] Firestore error:", err);
+          return false;
+        }
+      }
+
+      // ── Guardar en Brevo ──
+      async function saveBrevo(name, email, utms) {
+        try {
+          var res = await fetch("https://api.brevo.com/v3/contacts", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "api-key": LEAD_CONFIG.brevoApiKey
+            },
+            body: JSON.stringify({
+              email: email,
+              attributes: {
+                FIRSTNAME: name,
+                UTM_SOURCE: utms.utm_source,
+                UTM_MEDIUM: utms.utm_medium,
+                UTM_CAMPAIGN: utms.utm_campaign,
+                LANDING_PAGE: utms.landing_page
+              },
+              listIds: [LEAD_CONFIG.brevoListId],
+              updateEnabled: true
+            })
+          });
+          return (res.status === 201 || res.status === 204);
+        } catch (err) {
+          console.error("[Lead] Brevo error:", err);
+          return false;
+        }
+      }
+
+      // ── Submit ──
+      async function submitLead() {
+        var name = document.getElementById("leadName").value.trim();
+        var email = document.getElementById("leadEmail").value.trim().toLowerCase();
+        var btn = document.getElementById("leadSubmit");
+        var errDiv = document.getElementById("leadError");
+
+        if (!name || !email) {
+          errDiv.textContent = "Escribe tu nombre y tu correo.";
+          errDiv.classList.remove("hidden");
+          return;
+        }
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+          errDiv.textContent = "Ese correo no se ve válido. Revísalo.";
+          errDiv.classList.remove("hidden");
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = "Guardando tu lugar...";
+        errDiv.classList.add("hidden");
+
+        var utms = storedUTMs();
+        var lead = {
+          name: name,
+          email: email,
+          language: "es",
+          utm_source: utms.utm_source,
+          utm_medium: utms.utm_medium,
+          utm_campaign: utms.utm_campaign,
+          utm_content: utms.utm_content,
+          landing_page: utms.landing_page,
+          referrer: utms.referrer,
+          device: /Mobi|Android/i.test(navigator.userAgent) ? "mobile" : "desktop"
+        };
+
+        var results = await Promise.all([saveFirestore(lead), saveBrevo(name, email, utms)]);
+        if (results[0] || results[1]) {
+          document.getElementById("leadFormContent").style.display = "none";
+          document.getElementById("leadSuccess").classList.remove("hidden");
+          setTimeout(function () { window.location.href = LEAD_CONFIG.redirectUrl; }, 3000);
+        } else {
+          errDiv.textContent = "Algo salió mal. Intenta de nuevo.";
+          errDiv.classList.remove("hidden");
+          btn.disabled = false;
+          btn.textContent = "Quiero Acceso Gratis →";
+        }
+      }
+
+      document.getElementById("leadSubmit").addEventListener("click", submitLead);
+      document.getElementById("leadEmail").addEventListener("keydown", function (e) {
+        if (e.key === "Enter") submitLead();
       });
     })();
   </script>
