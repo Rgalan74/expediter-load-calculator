@@ -1,64 +1,38 @@
 ---
 layout: layouts/post.njk
 lang: en
-title: "How to Calculate Your Real RPM (And Why Brokers' Numbers Are Wrong)"
-metaTitle: "How to Calculate Your Real RPM | Smart Load Solution Blog"
-metaDescription: "Learn how to calculate your true Rate Per Mile (RPM) as a cargo van owner-operator. Understand why deadhead and repositioning miles matter."
-ogTitle: "How to Calculate Your Real RPM (And Why Brokers' Numbers Are Wrong)"
-ogDescription: "Calculate your true Rate Per Mile including deadhead and repositioning. Avoid costly routing errors."
-ogImage: "https://smartloadsolution.com/img/og-image-en.png"
-twitterTitle: "How to Calculate Your Real RPM (And Why Brokers' Numbers Are Wrong)"
-twitterDescription: "Stop working at a loss. Learn the exact formula to calculate real profit on every cargo van load."
-category: "B2B Guide"
-author: "Ricardo Galán"
-authorPhoto: "ricardo-headshot.webp"
-heroImage: "ricardo-cab-hero.webp"
-heroImageAlt: "Ricardo Galán driving his cargo van, calculating his real RPM on the road"
+title: How to Calculate Your Real RPM (And Why Brokers' Numbers Are Wrong)
+metaTitle: How to Calculate Your Real RPM | Smart Load Solution Blog
+metaDescription: Learn how to calculate your true Rate Per Mile (RPM) as a cargo van owner-operator. Understand why deadhead and repositioning miles matter.
+ogTitle: How to Calculate Your Real RPM (And Why Brokers' Numbers Are Wrong)
+ogDescription: Calculate your true Rate Per Mile including deadhead and repositioning. Avoid costly routing errors.
+ogImage: https://smartloadsolution.com/img/og-image-en.png
+twitterTitle: How to Calculate Your Real RPM (And Why Brokers' Numbers Are Wrong)
+twitterDescription: Stop working at a loss. Learn the exact formula to calculate real profit on every cargo van load.
+category: B2B Guide
+author: Ricardo Galán
+authorPhoto: ricardo-headshot.webp
+heroImage: ricardo-cab-hero.webp
+heroImageAlt: Ricardo Galán driving his cargo van, calculating his real RPM on the road
 readTime: 6
 featured: true
 date: 2026-07-03
-esPath: "blog/como-calcular-rpm-real.html"
-enPath: "en/blog/calculate-real-rpm.html"
-canonicalPath: "en/blog/calculate-real-rpm.html"
-rootPrefix: "/en/"
-navHome: "Home"
-navAbout: "About"
-navBlog: "Blog"
-navResources: "Resources"
-navPlans: "Plans"
-navLogin: "Log In →"
-byLabel: "By"
-readTimeLabel: "Read"
-ctaTitle: "Tired of Calculating Profitability Blindly?"
-ctaBody: "Join hundreds of expediters using our smart PWA calculator with decision alerts and weather telemetry to secure higher profit margins."
-ctaButton: "Try Smart Load Free Today →"
-footerTagline: "Smart load intelligence for the modern carrier."
-footerColCompany: "Company"
-footerAbout: "About Us"
-footerPlans: "Plans & Pricing"
-footerContact: "Contact"
-footerColResources: "Resources"
-footerResources: "Resource Center"
-footerFaq: "FAQ"
-footerSupport: "Support"
-footerColLegal: "Legal"
-footerPrivacy: "Privacy"
-footerTerms: "Terms of Use"
-footerRefund: "Refunds"
-footerCopyright: "© 2026 Smart Load Solution. All rights reserved."
-faqSectionTitle: "Frequently Asked Questions"
+esPath: blog/como-calcular-rpm-real.html
+enPath: en/blog/calculate-real-rpm.html
+canonicalPath: en/blog/calculate-real-rpm.html
+rootPrefix: /en/
 faqs:
-  - question: "What is real RPM in cargo van or expediting?"
-    answer: "It's your total pay divided by ALL the miles your van drives — not just the miles the broker pays for (loaded), but also the deadhead to the pickup and any repositioning miles needed to escape a dead zone. It's the only number that reflects your true profit."
-  - question: "What are deadhead miles?"
-    answer: "They are the empty miles you drive from your current location to the load's pickup point. Nobody pays you for them, but they still consume fuel, wear, and time — which is why they must be subtracted from your real profit."
-  - question: "What are repositioning (escape) miles?"
-    answer: "These are the miles you have to drive after delivering, when you end up in a state with little freight demand (a 'trap' state), to reach a zone with better opportunities. Ignoring them is one of the most costly mistakes when accepting a load."
-  - question: "What is a 'trap' state?"
-    answer: "It's a destination where loads pay well going in, but it's nearly impossible to leave loaded due to low demand — common examples are Florida, Colorado, Oregon, or deep South Texas. Delivering there almost always means extra repositioning miles that must be added to the calculation before you accept."
-  - question: "How do I calculate all of this without doing it by hand for every load?"
-    answer: "Smart Load Solution evaluates in real time whether the destination state requires escape miles and automatically adds the repositioning cost to your real RPM calculation, giving you a green or red light before you accept the load."
-permalink: "en/blog/calculate-real-rpm.html"
+- question: What is real RPM in cargo van or expediting?
+  answer: It's your total pay divided by ALL the miles your van drives — not just the miles the broker pays for (loaded), but also the deadhead to the pickup and any repositioning miles needed to escape a dead zone. It's the only number that reflects your true profit.
+- question: What are deadhead miles?
+  answer: They are the empty miles you drive from your current location to the load's pickup point. Nobody pays you for them, but they still consume fuel, wear, and time — which is why they must be subtracted from your real profit.
+- question: What are repositioning (escape) miles?
+  answer: These are the miles you have to drive after delivering, when you end up in a state with little freight demand (a 'trap' state), to reach a zone with better opportunities. Ignoring them is one of the most costly mistakes when accepting a load.
+- question: What is a 'trap' state?
+  answer: It's a destination where loads pay well going in, but it's nearly impossible to leave loaded due to low demand — common examples are Florida, Colorado, Oregon, or deep South Texas. Delivering there almost always means extra repositioning miles that must be added to the calculation before you accept.
+- question: How do I calculate all of this without doing it by hand for every load?
+  answer: Smart Load Solution evaluates in real time whether the destination state requires escape miles and automatically adds the repositioning cost to your real RPM calculation, giving you a green or red light before you accept the load.
+permalink: en/blog/calculate-real-rpm.html
 ---
 
 <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">

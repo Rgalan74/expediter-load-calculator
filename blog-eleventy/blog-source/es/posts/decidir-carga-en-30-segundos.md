@@ -1,63 +1,37 @@
 ---
 layout: layouts/post.njk
 lang: es
-title: "Cómo Decidir en 30 Segundos si una Carga Vale la Pena"
-metaTitle: "Cómo decidir en 30 segundos si una carga vale la pena | SLS Blog"
-metaDescription: "Fórmula práctica para dueños-operadores de cargo van: calcula tu ganancia neta y decide si aceptar o rechazar cargas de brokers en 30 segundos."
-ogTitle: "Cómo Decidir en 30 Segundos si una Carga Vale la Pena"
-ogDescription: "Estrategia sobre pago individual: la matriz de decisión que usan los mejores dueños-operadores de cargo van."
-ogImage: "https://smartloadsolution.com/img/og-image-es.png"
-twitterTitle: "Cómo Decidir en 30 Segundos si una Carga Vale la Pena"
-twitterDescription: "Deja de perder días esperando en zonas muertas. Usa el checklist de decisión pro para filtrar ofertas de carga."
-category: "Productividad"
-author: "Ricardo Galán"
-authorPhoto: "ricardo-headshot.webp"
-heroImage: "ricardo-gasolinera-hero.webp"
-heroImageAlt: "Ricardo Galán en la gasolinera evaluando si una carga vale la pena"
+title: Cómo Decidir en 30 Segundos si una Carga Vale la Pena
+metaTitle: Cómo decidir en 30 segundos si una carga vale la pena | SLS Blog
+metaDescription: 'Fórmula práctica para dueños-operadores de cargo van: calcula tu ganancia neta y decide si aceptar o rechazar cargas de brokers en 30 segundos.'
+ogTitle: Cómo Decidir en 30 Segundos si una Carga Vale la Pena
+ogDescription: 'Estrategia sobre pago individual: la matriz de decisión que usan los mejores dueños-operadores de cargo van.'
+ogImage: https://smartloadsolution.com/img/og-image-es.png
+twitterTitle: Cómo Decidir en 30 Segundos si una Carga Vale la Pena
+twitterDescription: Deja de perder días esperando en zonas muertas. Usa el checklist de decisión pro para filtrar ofertas de carga.
+category: Productividad
+author: Ricardo Galán
+authorPhoto: ricardo-headshot.webp
+heroImage: ricardo-gasolinera-hero.webp
+heroImageAlt: Ricardo Galán en la gasolinera evaluando si una carga vale la pena
 readTime: 8
 date: 2026-07-05
-esPath: "blog/decidir-carga-en-30-segundos.html"
-enPath: "en/blog/decide-load-30-seconds.html"
-canonicalPath: "blog/decidir-carga-en-30-segundos.html"
-rootPrefix: "/"
-navHome: "Inicio"
-navAbout: "Acerca"
-navBlog: "Blog"
-navResources: "Recursos"
-navPlans: "Planes"
-navLogin: "Iniciar Sesión →"
-byLabel: "Por"
-readTimeLabel: "Lectura"
-ctaTitle: "Toma Decisiones con Datos, No con Emociones"
-ctaBody: "Evita zonas trampa y viajes con salida vacía. Deja que Lex AI y el motor matemático de Smart Load Solution evalúen cada carga por ti en segundos."
-ctaButton: "Activar la Calculadora Smart Load Gratis →"
-footerTagline: "Inteligencia de carga para el transportista moderno."
-footerColCompany: "Empresa"
-footerAbout: "Acerca de Nosotros"
-footerPlans: "Planes y Precios"
-footerContact: "Contacto"
-footerColResources: "Recursos"
-footerResources: "Centro de Recursos"
-footerFaq: "FAQ"
-footerSupport: "Soporte"
-footerColLegal: "Legal"
-footerPrivacy: "Privacidad"
-footerTerms: "Términos de Uso"
-footerRefund: "Reembolsos"
-footerCopyright: "© 2026 Smart Load Solution. Todos los derechos reservados."
-faqSectionTitle: "Preguntas Frecuentes"
+esPath: blog/decidir-carga-en-30-segundos.html
+enPath: en/blog/decide-load-30-seconds.html
+canonicalPath: blog/decidir-carga-en-30-segundos.html
+rootPrefix: /
 faqs:
-  - question: "¿Qué es la 'mentalidad de operador' al evaluar una carga?"
-    answer: "Es evaluar una carga por la posición estratégica donde te deja después de entregar, no solo por el pago inicial. Una carga de $1,100 hacia un centro fuerte como Atlanta puede ser mucho más rentable que una de $1,600 hacia una zona muerta como El Paso, porque el reload de salida y el tiempo de espera cambian toda la ecuación."
-  - question: "¿Qué son las zonas trampa y por qué importan en la decisión de 30 segundos?"
-    answer: "Son destinos donde entra carga bien pagada, pero de donde es difícil salir cargado (ejemplos comunes: Florida, Colorado, Utah). Si aceptas una carga alta hacia una zona trampa sin sumar el costo de salida, puedes terminar ganando menos por hora que con una carga que pagaba menos pero te dejó en un mercado caliente."
-  - question: "¿Debo aceptar siempre la carga que paga más en dólares totales?"
-    answer: "No. En el caso práctico del artículo, la carga de $1,600 generó $550 de ganancia neta en 6 días ($11.46/hora), mientras que la de $1,100 generó $800 de ganancia neta en solo 3 días ($33.33/hora). El pago total no dice nada si no lo divides entre el tiempo real que te toma completar el ciclo."
-  - question: "¿Cómo afecta el horario de entrega a mi decisión?"
-    answer: "Entregar un viernes por la tarde puede dejarte varado el fin de semana sin poder buscar otra carga, perdiendo días productivos completos. Por eso el checklist de 3 pasos incluye siempre preguntar cuándo entrega, no solo cuánto paga."
-  - question: "¿Cómo ayuda una app a decidir más rápido que a mano?"
-    answer: "El motor de decisión de Smart Load Solution evalúa el destino, considera millas de reposicionamiento y te da una señal clara en menos de 10 segundos — el mismo cálculo que te tomaría varios minutos hacer mentalmente mientras un broker te presiona por teléfono."
-permalink: "blog/decidir-carga-en-30-segundos.html"
+- question: ¿Qué es la 'mentalidad de operador' al evaluar una carga?
+  answer: Es evaluar una carga por la posición estratégica donde te deja después de entregar, no solo por el pago inicial. Una carga de $1,100 hacia un centro fuerte como Atlanta puede ser mucho más rentable que una de $1,600 hacia una zona muerta como El Paso, porque el reload de salida y el tiempo de espera cambian toda la ecuación.
+- question: ¿Qué son las zonas trampa y por qué importan en la decisión de 30 segundos?
+  answer: 'Son destinos donde entra carga bien pagada, pero de donde es difícil salir cargado (ejemplos comunes: Florida, Colorado, Utah). Si aceptas una carga alta hacia una zona trampa sin sumar el costo de salida, puedes terminar ganando menos por hora que con una carga que pagaba menos pero te dejó en un mercado caliente.'
+- question: ¿Debo aceptar siempre la carga que paga más en dólares totales?
+  answer: No. En el caso práctico del artículo, la carga de $1,600 generó $550 de ganancia neta en 6 días ($11.46/hora), mientras que la de $1,100 generó $800 de ganancia neta en solo 3 días ($33.33/hora). El pago total no dice nada si no lo divides entre el tiempo real que te toma completar el ciclo.
+- question: ¿Cómo afecta el horario de entrega a mi decisión?
+  answer: Entregar un viernes por la tarde puede dejarte varado el fin de semana sin poder buscar otra carga, perdiendo días productivos completos. Por eso el checklist de 3 pasos incluye siempre preguntar cuándo entrega, no solo cuánto paga.
+- question: ¿Cómo ayuda una app a decidir más rápido que a mano?
+  answer: El motor de decisión de Smart Load Solution evalúa el destino, considera millas de reposicionamiento y te da una señal clara en menos de 10 segundos — el mismo cálculo que te tomaría varios minutos hacer mentalmente mientras un broker te presiona por teléfono.
+permalink: blog/decidir-carga-en-30-segundos.html
 ---
 
 <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">

@@ -1,61 +1,35 @@
 ---
 layout: layouts/post.njk
 lang: en
-title: "Deadhead Miles: The Silent Thief Stealing Your Profits"
-metaTitle: "Deadhead Miles: What They Are and Why They Cost You Money | Smart Load"
-metaDescription: "Deadhead miles are the hidden expense that costs cargo van drivers the most money. Learn exactly what they are and how to calculate them before accepting a load."
-ogTitle: "Deadhead Miles: The Silent Thief Stealing Your Profits"
-ogDescription: "Deadhead miles are the hidden expense that costs cargo van drivers the most money. Learn exactly what they are and how to calculate them before accepting a load."
-ogImage: "https://smartloadsolution.com/img/og-image-en.png"
-twitterTitle: "Deadhead Miles: The Silent Thief Stealing Your Profits"
-twitterDescription: "Deadhead miles are the hidden expense that costs cargo van drivers the most money. Learn exactly what they are and how to calculate them before accepting a load."
-category: "B2B Guide"
-author: "Ricardo Galán"
-authorPhoto: "ricardo-headshot.webp"
-heroImage: "ricardo-canon-hero.webp"
-heroImageAlt: "Empty highway in the desert, miles without a load"
+title: 'Deadhead Miles: The Silent Thief Stealing Your Profits'
+metaTitle: 'Deadhead Miles: What They Are and Why They Cost You Money | Smart Load'
+metaDescription: Deadhead miles are the hidden expense that costs cargo van drivers the most money. Learn exactly what they are and how to calculate them before accepting a load.
+ogTitle: 'Deadhead Miles: The Silent Thief Stealing Your Profits'
+ogDescription: Deadhead miles are the hidden expense that costs cargo van drivers the most money. Learn exactly what they are and how to calculate them before accepting a load.
+ogImage: https://smartloadsolution.com/img/og-image-en.png
+twitterTitle: 'Deadhead Miles: The Silent Thief Stealing Your Profits'
+twitterDescription: Deadhead miles are the hidden expense that costs cargo van drivers the most money. Learn exactly what they are and how to calculate them before accepting a load.
+category: B2B Guide
+author: Ricardo Galán
+authorPhoto: ricardo-headshot.webp
+heroImage: ricardo-canon-hero.webp
+heroImageAlt: Empty highway in the desert, miles without a load
 readTime: 7
 date: 2026-07-05
-esPath: "blog/millas-muertas-deadhead-que-son.html"
-enPath: "en/blog/deadhead-miles-what-are-they.html"
-canonicalPath: "en/blog/deadhead-miles-what-are-they.html"
-rootPrefix: "/en/"
-navHome: "Home"
-navAbout: "About"
-navBlog: "Blog"
-navResources: "Resources"
-navPlans: "Plans"
-navLogin: "Log In →"
-byLabel: "By"
-readTimeLabel: "Read"
-ctaTitle: "Tired of Calculating Profitability Blindly?"
-ctaBody: "Join hundreds of expediters using our smart PWA calculator with decision alerts and weather telemetry to secure higher profit margins."
-ctaButton: "Try Smart Load Free Today →"
-footerTagline: "Smart load intelligence for the modern carrier."
-footerColCompany: "Company"
-footerAbout: "About Us"
-footerPlans: "Plans & Pricing"
-footerContact: "Contact"
-footerColResources: "Resources"
-footerResources: "Resource Center"
-footerFaq: "FAQ"
-footerSupport: "Support"
-footerColLegal: "Legal"
-footerPrivacy: "Privacy"
-footerTerms: "Terms of Use"
-footerRefund: "Refunds"
-footerCopyright: "© 2026 Smart Load Solution. All rights reserved."
-faqSectionTitle: "Frequently Asked Questions"
+esPath: blog/millas-muertas-deadhead-que-son.html
+enPath: en/blog/deadhead-miles-what-are-they.html
+canonicalPath: en/blog/deadhead-miles-what-are-they.html
+rootPrefix: /en/
 faqs:
-  - question: "What does deadhead mean in trucking?"
-    answer: "Deadhead miles are the miles you drive without a paying load — either to reach a pickup or to reposition after a delivery toward a zone with more available freight."
-  - question: "Do you get paid for deadhead miles?"
-    answer: "Generally no, unless you negotiate it directly with the broker or dispatcher. Most loads pay only for the loaded miles, with no deadhead compensation included."
-  - question: "How does deadhead affect my real RPM?"
-    answer: "It lowers your real RPM because the same pay gets divided by more total miles. The more deadhead you run, the bigger the gap between your real RPM and the gross RPM you see on the load board."
-  - question: "How much deadhead is normal for cargo van?"
-    answer: "It varies by region, but as a rule of thumb: if your combined deadhead plus repositioning exceeds 25–30% of the loaded miles, it's worth questioning whether the load is actually profitable — regardless of how the gross rate looks."
-permalink: "en/blog/deadhead-miles-what-are-they.html"
+- question: What does deadhead mean in trucking?
+  answer: Deadhead miles are the miles you drive without a paying load — either to reach a pickup or to reposition after a delivery toward a zone with more available freight.
+- question: Do you get paid for deadhead miles?
+  answer: Generally no, unless you negotiate it directly with the broker or dispatcher. Most loads pay only for the loaded miles, with no deadhead compensation included.
+- question: How does deadhead affect my real RPM?
+  answer: It lowers your real RPM because the same pay gets divided by more total miles. The more deadhead you run, the bigger the gap between your real RPM and the gross RPM you see on the load board.
+- question: How much deadhead is normal for cargo van?
+  answer: 'It varies by region, but as a rule of thumb: if your combined deadhead plus repositioning exceeds 25–30% of the loaded miles, it''s worth questioning whether the load is actually profitable — regardless of how the gross rate looks.'
+permalink: en/blog/deadhead-miles-what-are-they.html
 ---
 
 <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">

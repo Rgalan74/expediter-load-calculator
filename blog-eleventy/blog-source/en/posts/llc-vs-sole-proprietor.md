@@ -1,63 +1,37 @@
 ---
 layout: layouts/post.njk
 lang: en
-title: "LLC vs Sole Proprietor for Expediters: What's Right for You?"
-metaTitle: "LLC vs Sole Proprietorship for Cargo Van Expediters | SLS"
-metaDescription: "Compare LLC and Sole Proprietor tax benefits, liability protection, and registration costs for independent owner-operators."
-ogTitle: "LLC vs Sole Proprietor for Expediters: What's Right for You"
-ogDescription: "Protect your personal assets and optimize your taxes. Discover whether a Sole Proprietorship or LLC is best for your expediting business."
-ogImage: "https://smartloadsolution.com/img/og-image-en.png"
-twitterTitle: "LLC vs Sole Proprietor for Expediters: What's Right for You"
-twitterDescription: "Don't risk your personal savings. Learn the differences between LLC and Sole Proprietor for cargo van owner-operators."
-category: "Legal Structure"
-author: "Ricardo Galán"
-authorPhoto: "ricardo-headshot.webp"
-heroImage: "ricardo-carga-interior-hero.webp"
-heroImageAlt: "Real freight secured inside the cargo van"
+title: 'LLC vs Sole Proprietor for Expediters: What''s Right for You?'
+metaTitle: LLC vs Sole Proprietorship for Cargo Van Expediters | SLS
+metaDescription: Compare LLC and Sole Proprietor tax benefits, liability protection, and registration costs for independent owner-operators.
+ogTitle: 'LLC vs Sole Proprietor for Expediters: What''s Right for You'
+ogDescription: Protect your personal assets and optimize your taxes. Discover whether a Sole Proprietorship or LLC is best for your expediting business.
+ogImage: https://smartloadsolution.com/img/og-image-en.png
+twitterTitle: 'LLC vs Sole Proprietor for Expediters: What''s Right for You'
+twitterDescription: Don't risk your personal savings. Learn the differences between LLC and Sole Proprietor for cargo van owner-operators.
+category: Legal Structure
+author: Ricardo Galán
+authorPhoto: ricardo-headshot.webp
+heroImage: ricardo-carga-interior-hero.webp
+heroImageAlt: Real freight secured inside the cargo van
 readTime: 7
 date: 2026-07-05
-esPath: "blog/llc-vs-propietario-unico.html"
-enPath: "en/blog/llc-vs-sole-proprietor.html"
-canonicalPath: "en/blog/llc-vs-sole-proprietor.html"
-rootPrefix: "/en/"
-navHome: "Home"
-navAbout: "About"
-navBlog: "Blog"
-navResources: "Resources"
-navPlans: "Plans"
-navLogin: "Log In →"
-byLabel: "By"
-readTimeLabel: "Read"
-ctaTitle: "Keep Your LLC Finances Flawless"
-ctaBody: "Track operating costs, log trips, and audit tax deductions in real-time with the Smart Load Solution companion web app."
-ctaButton: "Register My Business Free Today →"
-footerTagline: "Smart load intelligence for the modern carrier."
-footerColCompany: "Company"
-footerAbout: "About Us"
-footerPlans: "Plans & Pricing"
-footerContact: "Contact"
-footerColResources: "Resources"
-footerResources: "Resource Center"
-footerFaq: "FAQ"
-footerSupport: "Support"
-footerColLegal: "Legal"
-footerPrivacy: "Privacy"
-footerTerms: "Terms of Use"
-footerRefund: "Refunds"
-footerCopyright: "© 2026 Smart Load Solution. All rights reserved."
-faqSectionTitle: "Frequently Asked Questions"
+esPath: blog/llc-vs-propietario-unico.html
+enPath: en/blog/llc-vs-sole-proprietor.html
+canonicalPath: en/blog/llc-vs-sole-proprietor.html
+rootPrefix: /en/
 faqs:
-  - question: "What's the main difference between a sole proprietorship and an LLC?"
-    answer: "As a sole proprietor there's no legal separation between you and your business, so your personal assets are exposed if you're sued. An LLC creates a separate entity that typically limits that risk to the assets owned by the business, like the cargo van and business bank accounts."
-  - question: "How much does it cost to register an LLC?"
-    answer: "Initial setup cost is low, typically $50 to $300 depending on your state's filing fees for the Articles of Organization. Compared to the unlimited liability risk of a sole proprietorship, it's a small investment."
-  - question: "Does forming an LLC change how I pay taxes?"
-    answer: "By default, a single-member LLC is taxed as a disregarded entity, similar to a sole proprietorship. Once your net annual profits surpass roughly $40,000-$50,000, you can elect S-Corp tax status to save on self-employment taxes."
-  - question: "Do brokers prefer working with an LLC?"
-    answer: "Yes. Top-tier brokers and logistics companies often view an established LLC or corporation as more credible than an operator running under just a personal name or a DBA, and some even require it before completing carrier setup."
-  - question: "What happens if I mix personal and business money in my LLC?"
-    answer: "Mixing personal and business funds can weaken the liability shield the LLC provides — this is often called 'piercing the corporate veil' — leaving your personal assets exposed just as if you were a sole proprietor. That's why a dedicated business checking account is mandatory, not optional."
-permalink: "en/blog/llc-vs-sole-proprietor.html"
+- question: What's the main difference between a sole proprietorship and an LLC?
+  answer: As a sole proprietor there's no legal separation between you and your business, so your personal assets are exposed if you're sued. An LLC creates a separate entity that typically limits that risk to the assets owned by the business, like the cargo van and business bank accounts.
+- question: How much does it cost to register an LLC?
+  answer: Initial setup cost is low, typically $50 to $300 depending on your state's filing fees for the Articles of Organization. Compared to the unlimited liability risk of a sole proprietorship, it's a small investment.
+- question: Does forming an LLC change how I pay taxes?
+  answer: By default, a single-member LLC is taxed as a disregarded entity, similar to a sole proprietorship. Once your net annual profits surpass roughly $40,000-$50,000, you can elect S-Corp tax status to save on self-employment taxes.
+- question: Do brokers prefer working with an LLC?
+  answer: Yes. Top-tier brokers and logistics companies often view an established LLC or corporation as more credible than an operator running under just a personal name or a DBA, and some even require it before completing carrier setup.
+- question: What happens if I mix personal and business money in my LLC?
+  answer: Mixing personal and business funds can weaken the liability shield the LLC provides — this is often called 'piercing the corporate veil' — leaving your personal assets exposed just as if you were a sole proprietor. That's why a dedicated business checking account is mandatory, not optional.
+permalink: en/blog/llc-vs-sole-proprietor.html
 ---
 
 <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">

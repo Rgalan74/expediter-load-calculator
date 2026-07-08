@@ -1,63 +1,37 @@
 ---
 layout: layouts/post.njk
 lang: es
-title: "Gastos Invisibles: Los Costos que todo Expediter Olvida Calcular"
-metaTitle: "Gastos Invisibles de un Expediter en Cargo Van | Smart Load Solution Blog"
-metaDescription: "Descubre los costos ocultos que dañan la rentabilidad de tu cargo van o sprinter. Aprende a calcular depreciación y mantenimiento real."
-ogTitle: "Gastos que Todo Expediter Olvida Calcular (Costos Ocultos)"
-ogDescription: "De la depreciación del vehículo al seguro: la lista completa de gastos fijos y variables que afectan tu ganancia real."
-ogImage: "https://smartloadsolution.com/img/og-image-es.png"
-twitterTitle: "Gastos que Todo Expediter Olvida Calcular (Costos Ocultos)"
-twitterDescription: "Deja de perder dinero en silencio. Aprende a calcular tus costos de operación reales, fijos y variables."
-category: "Finanzas"
-author: "Ricardo Galán"
-authorPhoto: "ricardo-headshot.webp"
-heroImage: "ricardo-van-hero.webp"
-heroImageAlt: "Ricardo Galán junto a su cargo van ProMaster 1500"
+title: 'Gastos Invisibles: Los Costos que todo Expediter Olvida Calcular'
+metaTitle: Gastos Invisibles de un Expediter en Cargo Van | Smart Load Solution Blog
+metaDescription: Descubre los costos ocultos que dañan la rentabilidad de tu cargo van o sprinter. Aprende a calcular depreciación y mantenimiento real.
+ogTitle: Gastos que Todo Expediter Olvida Calcular (Costos Ocultos)
+ogDescription: 'De la depreciación del vehículo al seguro: la lista completa de gastos fijos y variables que afectan tu ganancia real.'
+ogImage: https://smartloadsolution.com/img/og-image-es.png
+twitterTitle: Gastos que Todo Expediter Olvida Calcular (Costos Ocultos)
+twitterDescription: Deja de perder dinero en silencio. Aprende a calcular tus costos de operación reales, fijos y variables.
+category: Finanzas
+author: Ricardo Galán
+authorPhoto: ricardo-headshot.webp
+heroImage: ricardo-van-hero.webp
+heroImageAlt: Ricardo Galán junto a su cargo van ProMaster 1500
 readTime: 7
 date: 2026-07-03
-esPath: "blog/costos-ocultos-operacion.html"
-enPath: "en/blog/hidden-operating-costs.html"
-canonicalPath: "blog/costos-ocultos-operacion.html"
-rootPrefix: "/"
-navHome: "Inicio"
-navAbout: "Acerca"
-navBlog: "Blog"
-navResources: "Recursos"
-navPlans: "Planes"
-navLogin: "Iniciar Sesión →"
-byLabel: "Por"
-readTimeLabel: "Lectura"
-ctaTitle: "Deja de Calcular tus Finanzas a Ciegas"
-ctaBody: "Registra tus costos fijos y variables en Smart Load Solution para ver tu ganancia neta real antes de aceptar cualquier carga."
-ctaButton: "Calcular Mis Costos Reales Gratis →"
-footerTagline: "Inteligencia de carga para el transportista moderno."
-footerColCompany: "Empresa"
-footerAbout: "Acerca de Nosotros"
-footerPlans: "Planes y Precios"
-footerContact: "Contacto"
-footerColResources: "Recursos"
-footerResources: "Centro de Recursos"
-footerFaq: "FAQ"
-footerSupport: "Soporte"
-footerColLegal: "Legal"
-footerPrivacy: "Privacidad"
-footerTerms: "Términos de Uso"
-footerRefund: "Reembolsos"
-footerCopyright: "© 2026 Smart Load Solution. Todos los derechos reservados."
-faqSectionTitle: "Preguntas Frecuentes"
+esPath: blog/costos-ocultos-operacion.html
+enPath: en/blog/hidden-operating-costs.html
+canonicalPath: blog/costos-ocultos-operacion.html
+rootPrefix: /
 faqs:
-  - question: "¿Cuáles son los costos ocultos más comunes para un cargo van o Sprinter?"
-    answer: "Los tres más agresivos son la depreciación del vehículo ($0.05-$0.08 por milla), el seguro comercial (que sigue corriendo aunque no manejes), y el pago mensual de la van diluido por milla. Ninguno se siente como un gasto diario, pero juntos pueden representar $0.30-$0.49 por milla en costos fijos."
-  - question: "¿Cómo se calcula la depreciación real de mi van?"
-    answer: "Resta el valor de reventa estimado del precio de compra, y divide esa pérdida entre las millas que planeas correr durante ese periodo. Por ejemplo: una van de $80,000 que en 5 años y 400,000 millas vale $30,000, perdió $50,000 en valor — eso equivale a $0.125 por milla solo en depreciación."
-  - question: "¿El seguro comercial es un costo fijo o variable?"
-    answer: "Es un costo fijo. Lo pagas manejes o no — si tu van está parqueada una semana, el seguro sigue corriendo igual. Por eso hay que calcularlo como costo diario, no solo como gasto mensual."
-  - question: "¿Cuánto debería cobrar por milla para cubrir mis costos reales?"
-    answer: "Como mínimo, tu tarifa debe cubrir el costo total de operación (variable + fijo), que ronda entre $0.88 y $1.25 por milla en una Sprinter o cargo van típica de 100,000 millas al año. Cualquier tarifa por debajo de ese rango significa que estás pagando por trabajar."
-  - question: "¿Cómo llevo el control de todos estos gastos sin hacerlo a mano?"
-    answer: "En la pestaña de Finanzas de Smart Load Solution puedes registrar tus costos fijos mensuales y tus variables reales (MPG, precio del combustible, peajes). La app calcula tu costo real por milla automáticamente y lo aplica a la calculadora de cargas."
-permalink: "blog/costos-ocultos-operacion.html"
+- question: ¿Cuáles son los costos ocultos más comunes para un cargo van o Sprinter?
+  answer: Los tres más agresivos son la depreciación del vehículo ($0.05-$0.08 por milla), el seguro comercial (que sigue corriendo aunque no manejes), y el pago mensual de la van diluido por milla. Ninguno se siente como un gasto diario, pero juntos pueden representar $0.30-$0.49 por milla en costos fijos.
+- question: ¿Cómo se calcula la depreciación real de mi van?
+  answer: 'Resta el valor de reventa estimado del precio de compra, y divide esa pérdida entre las millas que planeas correr durante ese periodo. Por ejemplo: una van de $80,000 que en 5 años y 400,000 millas vale $30,000, perdió $50,000 en valor — eso equivale a $0.125 por milla solo en depreciación.'
+- question: ¿El seguro comercial es un costo fijo o variable?
+  answer: Es un costo fijo. Lo pagas manejes o no — si tu van está parqueada una semana, el seguro sigue corriendo igual. Por eso hay que calcularlo como costo diario, no solo como gasto mensual.
+- question: ¿Cuánto debería cobrar por milla para cubrir mis costos reales?
+  answer: Como mínimo, tu tarifa debe cubrir el costo total de operación (variable + fijo), que ronda entre $0.88 y $1.25 por milla en una Sprinter o cargo van típica de 100,000 millas al año. Cualquier tarifa por debajo de ese rango significa que estás pagando por trabajar.
+- question: ¿Cómo llevo el control de todos estos gastos sin hacerlo a mano?
+  answer: En la pestaña de Finanzas de Smart Load Solution puedes registrar tus costos fijos mensuales y tus variables reales (MPG, precio del combustible, peajes). La app calcula tu costo real por milla automáticamente y lo aplica a la calculadora de cargas.
+permalink: blog/costos-ocultos-operacion.html
 ---
 
 <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">

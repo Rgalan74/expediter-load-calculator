@@ -1,63 +1,37 @@
 ---
 layout: layouts/post.njk
 lang: en
-title: "How to Decide in 30 Seconds If a Load Is Worth It"
-metaTitle: "How to Decide in 30 Seconds if a Cargo Van Load is Worth It"
-metaDescription: "A quick decision framework for cargo van expediters to calculate RPM, deadhead, and profit in 30 seconds before accepting a broker load."
-ogTitle: "How to Decide in 30 Seconds If a Load Is Worth It"
-ogDescription: "Strategy over individual pay: learn the complete decision matrix that top cargo van owner-operators use."
-ogImage: "https://smartloadsolution.com/img/og-image-en.png"
-twitterTitle: "How to Decide in 30 Seconds If a Load Is Worth It"
-twitterDescription: "Stop losing days waiting in dead zones. Use our pro decision checklist to filter load offers instantly."
-category: "Productivity"
-author: "Ricardo Galán"
-authorPhoto: "ricardo-headshot.webp"
-heroImage: "ricardo-gasolinera-hero.webp"
-heroImageAlt: "Ricardo Galán at the gas station evaluating whether a load is worth it"
+title: How to Decide in 30 Seconds If a Load Is Worth It
+metaTitle: How to Decide in 30 Seconds if a Cargo Van Load is Worth It
+metaDescription: A quick decision framework for cargo van expediters to calculate RPM, deadhead, and profit in 30 seconds before accepting a broker load.
+ogTitle: How to Decide in 30 Seconds If a Load Is Worth It
+ogDescription: 'Strategy over individual pay: learn the complete decision matrix that top cargo van owner-operators use.'
+ogImage: https://smartloadsolution.com/img/og-image-en.png
+twitterTitle: How to Decide in 30 Seconds If a Load Is Worth It
+twitterDescription: Stop losing days waiting in dead zones. Use our pro decision checklist to filter load offers instantly.
+category: Productivity
+author: Ricardo Galán
+authorPhoto: ricardo-headshot.webp
+heroImage: ricardo-gasolinera-hero.webp
+heroImageAlt: Ricardo Galán at the gas station evaluating whether a load is worth it
 readTime: 8
 date: 2026-07-05
-esPath: "blog/decidir-carga-en-30-segundos.html"
-enPath: "en/blog/decide-load-30-seconds.html"
-canonicalPath: "en/blog/decide-load-30-seconds.html"
-rootPrefix: "/en/"
-navHome: "Home"
-navAbout: "About"
-navBlog: "Blog"
-navResources: "Resources"
-navPlans: "Plans"
-navLogin: "Log In →"
-byLabel: "By"
-readTimeLabel: "Read"
-ctaTitle: "Make Decisions Based on Data, Not Emotions"
-ctaBody: "Avoid trap zones and deadhaul trips. Let Lex AI and the mathematical engine of Smart Load Solution evaluate every load for you in seconds."
-ctaButton: "Activate Smart Load Calculator Free →"
-footerTagline: "Smart load intelligence for the modern carrier."
-footerColCompany: "Company"
-footerAbout: "About Us"
-footerPlans: "Plans & Pricing"
-footerContact: "Contact"
-footerColResources: "Resources"
-footerResources: "Resource Center"
-footerFaq: "FAQ"
-footerSupport: "Support"
-footerColLegal: "Legal"
-footerPrivacy: "Privacy"
-footerTerms: "Terms of Use"
-footerRefund: "Refunds"
-footerCopyright: "© 2026 Smart Load Solution. All rights reserved."
-faqSectionTitle: "Frequently Asked Questions"
+esPath: blog/decidir-carga-en-30-segundos.html
+enPath: en/blog/decide-load-30-seconds.html
+canonicalPath: en/blog/decide-load-30-seconds.html
+rootPrefix: /en/
 faqs:
-  - question: "What is the 'operator mindset' when evaluating a load?"
-    answer: "It means evaluating a load by the strategic position it leaves you in after delivery, not just the upfront payout. A $1,100 load to a strong hub like Atlanta can be far more profitable than a $1,600 load to a dead zone like El Paso, because the outbound reload and wait time change the entire equation."
-  - question: "What are trap zones and why do they matter for the 30-second decision?"
-    answer: "They are destinations where freight pays well inbound but is hard to find outbound (common examples: Florida, Colorado, Utah). Accepting a high-paying load into a trap zone without factoring in the escape cost can leave you earning less per hour than a load that paid less but dropped you in a hot market."
-  - question: "Should I always accept the load that pays the most in total dollars?"
-    answer: "No. In the case study, the $1,600 load generated $550 net profit over 6 days ($11.46/hour), while the $1,100 load generated $800 net profit in just 3 days ($33.33/hour). Total pay tells you nothing until you divide it by the actual time the full cycle takes."
-  - question: "How does delivery timing affect my decision?"
-    answer: "Delivering on a Friday afternoon can leave you stranded over the weekend with no way to book another load, losing entire productive days. That's why the 3-step checklist always asks when it delivers, not just how much it pays."
-  - question: "How does an app help me decide faster than doing it by hand?"
-    answer: "Smart Load Solution's decision engine evaluates the destination, factors in repositioning miles, and gives you a clear signal in under 10 seconds — the same calculation that would take you several minutes to do mentally while a broker is pressuring you on the phone."
-permalink: "en/blog/decide-load-30-seconds.html"
+- question: What is the 'operator mindset' when evaluating a load?
+  answer: It means evaluating a load by the strategic position it leaves you in after delivery, not just the upfront payout. A $1,100 load to a strong hub like Atlanta can be far more profitable than a $1,600 load to a dead zone like El Paso, because the outbound reload and wait time change the entire equation.
+- question: What are trap zones and why do they matter for the 30-second decision?
+  answer: 'They are destinations where freight pays well inbound but is hard to find outbound (common examples: Florida, Colorado, Utah). Accepting a high-paying load into a trap zone without factoring in the escape cost can leave you earning less per hour than a load that paid less but dropped you in a hot market.'
+- question: Should I always accept the load that pays the most in total dollars?
+  answer: No. In the case study, the $1,600 load generated $550 net profit over 6 days ($11.46/hour), while the $1,100 load generated $800 net profit in just 3 days ($33.33/hour). Total pay tells you nothing until you divide it by the actual time the full cycle takes.
+- question: How does delivery timing affect my decision?
+  answer: Delivering on a Friday afternoon can leave you stranded over the weekend with no way to book another load, losing entire productive days. That's why the 3-step checklist always asks when it delivers, not just how much it pays.
+- question: How does an app help me decide faster than doing it by hand?
+  answer: Smart Load Solution's decision engine evaluates the destination, factors in repositioning miles, and gives you a clear signal in under 10 seconds — the same calculation that would take you several minutes to do mentally while a broker is pressuring you on the phone.
+permalink: en/blog/decide-load-30-seconds.html
 ---
 
 <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">

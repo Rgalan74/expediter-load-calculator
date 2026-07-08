@@ -1,63 +1,37 @@
 ---
 layout: layouts/post.njk
 lang: en
-title: "The Hidden Operating Costs of Cargo Van Expediting"
-metaTitle: "Hidden Operating Costs of Cargo Van Expediting | Smart Load Solution"
-metaDescription: "Learn what costs are hidden in your trucking operations. Prevent depreciation, fixed costs, and variable expense losses on your Sprinter van."
-ogTitle: "Expenses Every Expediter Forgets to Calculate (Hidden Costs)"
-ogDescription: "From vehicle depreciation to insurance: the complete fixed and variable expenses list affecting your bottom line."
-ogImage: "https://smartloadsolution.com/img/og-image-en.png"
-twitterTitle: "Expenses Every Expediter Forgets to Calculate (Hidden Costs)"
-twitterDescription: "Stop losing money in silence. Learn to calculate your real fixed and variable operating costs."
-category: "Finances"
-author: "Ricardo Galán"
-authorPhoto: "ricardo-headshot.webp"
-heroImage: "ricardo-van-hero.webp"
-heroImageAlt: "Ricardo Galán next to his ProMaster 1500 cargo van"
+title: The Hidden Operating Costs of Cargo Van Expediting
+metaTitle: Hidden Operating Costs of Cargo Van Expediting | Smart Load Solution
+metaDescription: Learn what costs are hidden in your trucking operations. Prevent depreciation, fixed costs, and variable expense losses on your Sprinter van.
+ogTitle: Expenses Every Expediter Forgets to Calculate (Hidden Costs)
+ogDescription: 'From vehicle depreciation to insurance: the complete fixed and variable expenses list affecting your bottom line.'
+ogImage: https://smartloadsolution.com/img/og-image-en.png
+twitterTitle: Expenses Every Expediter Forgets to Calculate (Hidden Costs)
+twitterDescription: Stop losing money in silence. Learn to calculate your real fixed and variable operating costs.
+category: Finances
+author: Ricardo Galán
+authorPhoto: ricardo-headshot.webp
+heroImage: ricardo-van-hero.webp
+heroImageAlt: Ricardo Galán next to his ProMaster 1500 cargo van
 readTime: 7
 date: 2026-07-03
-esPath: "blog/costos-ocultos-operacion.html"
-enPath: "en/blog/hidden-operating-costs.html"
-canonicalPath: "en/blog/hidden-operating-costs.html"
-rootPrefix: "/en/"
-navHome: "Home"
-navAbout: "About"
-navBlog: "Blog"
-navResources: "Resources"
-navPlans: "Plans"
-navLogin: "Log In →"
-byLabel: "By"
-readTimeLabel: "Read"
-ctaTitle: "Stop Calculating Your Finances Blindly"
-ctaBody: "Enter your fixed and variable costs in Smart Load Solution to see your true net profits in real time before accepting any load."
-ctaButton: "Calculate My Real Operating Costs Free →"
-footerTagline: "Smart load intelligence for the modern carrier."
-footerColCompany: "Company"
-footerAbout: "About Us"
-footerPlans: "Plans & Pricing"
-footerContact: "Contact"
-footerColResources: "Resources"
-footerResources: "Resource Center"
-footerFaq: "FAQ"
-footerSupport: "Support"
-footerColLegal: "Legal"
-footerPrivacy: "Privacy"
-footerTerms: "Terms of Use"
-footerRefund: "Refunds"
-footerCopyright: "© 2026 Smart Load Solution. All rights reserved."
-faqSectionTitle: "Frequently Asked Questions"
+esPath: blog/costos-ocultos-operacion.html
+enPath: en/blog/hidden-operating-costs.html
+canonicalPath: en/blog/hidden-operating-costs.html
+rootPrefix: /en/
 faqs:
-  - question: "What are the most common hidden costs for a cargo van or Sprinter?"
-    answer: "The three most aggressive are vehicle depreciation ($0.05-$0.08 per mile), commercial insurance (which keeps running even when you don't drive), and the monthly van payment diluted per mile. None of them feel like a daily expense, but together they can represent $0.30-$0.49 per mile in fixed costs."
-  - question: "How do I calculate my van's real depreciation?"
-    answer: "Subtract the estimated resale value from the purchase price, then divide that loss by the miles you plan to run over that period. For example: an $80,000 van that's worth $30,000 after 5 years and 400,000 miles lost $50,000 in value — that equals $0.125 per mile in depreciation alone."
-  - question: "Is commercial insurance a fixed or variable cost?"
-    answer: "It's a fixed cost. You pay it whether you drive or not — if your van is parked for a week, insurance keeps accruing just the same. That's why it should be calculated as a daily cost, not just a monthly expense."
-  - question: "How much should I charge per mile to cover my real costs?"
-    answer: "At minimum, your rate must cover your total operating cost (variable + fixed), which runs between $0.88 and $1.25 per mile for a typical Sprinter or cargo van running 100,000 miles a year. Any rate below that range means you're paying to work."
-  - question: "How do I track all these expenses without doing it by hand?"
-    answer: "In the Finances tab of Smart Load Solution you can log your monthly fixed costs and your real variable costs (MPG, fuel price, tolls). The app automatically calculates your real cost per mile and applies it directly to the load calculator."
-permalink: "en/blog/hidden-operating-costs.html"
+- question: What are the most common hidden costs for a cargo van or Sprinter?
+  answer: The three most aggressive are vehicle depreciation ($0.05-$0.08 per mile), commercial insurance (which keeps running even when you don't drive), and the monthly van payment diluted per mile. None of them feel like a daily expense, but together they can represent $0.30-$0.49 per mile in fixed costs.
+- question: How do I calculate my van's real depreciation?
+  answer: 'Subtract the estimated resale value from the purchase price, then divide that loss by the miles you plan to run over that period. For example: an $80,000 van that''s worth $30,000 after 5 years and 400,000 miles lost $50,000 in value — that equals $0.125 per mile in depreciation alone.'
+- question: Is commercial insurance a fixed or variable cost?
+  answer: It's a fixed cost. You pay it whether you drive or not — if your van is parked for a week, insurance keeps accruing just the same. That's why it should be calculated as a daily cost, not just a monthly expense.
+- question: How much should I charge per mile to cover my real costs?
+  answer: At minimum, your rate must cover your total operating cost (variable + fixed), which runs between $0.88 and $1.25 per mile for a typical Sprinter or cargo van running 100,000 miles a year. Any rate below that range means you're paying to work.
+- question: How do I track all these expenses without doing it by hand?
+  answer: In the Finances tab of Smart Load Solution you can log your monthly fixed costs and your real variable costs (MPG, fuel price, tolls). The app automatically calculates your real cost per mile and applies it directly to the load calculator.
+permalink: en/blog/hidden-operating-costs.html
 ---
 
 <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">

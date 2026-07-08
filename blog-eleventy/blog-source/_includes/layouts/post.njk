@@ -208,11 +208,11 @@
           <span class="text-xl font-bold text-white">Smart Load Solution</span>
         </a>
         <nav class="hidden md:flex items-center gap-8 text-sm font-semibold">
-          <a href="{{ rootPrefix }}index.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_home">{{ navHome }}</a>
-          <a href="{{ rootPrefix }}about.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_about">{{ navAbout }}</a>
-          <a href="{{ rootPrefix }}blog.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_blog">{{ navBlog }}</a>
-          <a href="{{ rootPrefix }}resources.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_resources">{{ navResources }}</a>
-          <a href="{{ rootPrefix }}plans.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_plans">{{ navPlans }}</a>
+          <a href="{{ rootPrefix }}index.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_home">{{ blogStrings[lang].navHome }}</a>
+          <a href="{{ rootPrefix }}about.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_about">{{ blogStrings[lang].navAbout }}</a>
+          <a href="{{ rootPrefix }}blog.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_blog">{{ blogStrings[lang].navBlog }}</a>
+          <a href="{{ rootPrefix }}resources.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_resources">{{ blogStrings[lang].navResources }}</a>
+          <a href="{{ rootPrefix }}plans.html" class="text-gray-300 hover:text-white transition" data-i18n="about.nav_plans">{{ blogStrings[lang].navPlans }}</a>
         </nav>
         <div class="flex items-center gap-4">
           <div class="lang-toggle hidden md:flex items-center gap-1 font-semibold text-xs">
@@ -226,7 +226,7 @@
             <a id="btn-es" href="https://smartloadsolution.com/{{ esPath }}" onclick="localStorage.setItem('app_language','es')" style="text-decoration:none;cursor:pointer;padding:0.2rem 0.4rem;border-radius:4px;color:#9ca3af;transition:color 0.2s;">ES</a>
             {% endif %}
           </div>
-          <a href="{{ rootPrefix }}auth.html" class="hidden md:inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition" data-i18n="about.nav_login">{{ navLogin }}</a>
+          <a href="{{ rootPrefix }}auth.html" class="hidden md:inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition" data-i18n="about.nav_login">{{ blogStrings[lang].navLogin }}</a>
         </div>
       </div>
     </div>
@@ -235,7 +235,7 @@
   <!-- MAIN CONTENT -->
   <main class="max-w-4xl mx-auto px-6 py-12">
     <div class="text-xs text-gray-500 mb-6">
-      <a href="{{ rootPrefix }}blog.html" class="text-cyan-400 hover:underline">{{ navBlog }}</a>
+      <a href="{{ rootPrefix }}blog.html" class="text-cyan-400 hover:underline">{{ blogStrings[lang].navBlog }}</a>
       <span class="mx-2">/</span>
       <span>{{ title }}</span>
     </div>
@@ -251,9 +251,9 @@
           {% if authorPhoto %}
           <img src="/img/blog/{{ authorPhoto }}" alt="{{ author }}" class="w-10 h-10 rounded-full object-cover border border-white/10">
           {% endif %}
-          <span>{{ byLabel }}: <strong>{{ author }}</strong></span>
+          <span>{{ blogStrings[lang].byLabel }}: <strong>{{ author }}</strong></span>
           <span>•</span>
-          <span>{{ readTimeLabel }}: {{ readTime }} min</span>
+          <span>{{ blogStrings[lang].readTimeLabel }}: {{ readTime }} min</span>
         </div>
       </header>
 
@@ -263,7 +263,7 @@
 
       {% if faqs %}
       <div class="mt-12 pt-8 border-t border-white/10">
-        <h2 class="text-xl md:text-2xl font-bold text-white mb-6">{{ faqSectionTitle or "Preguntas Frecuentes" }}</h2>
+        <h2 class="text-xl md:text-2xl font-bold text-white mb-6">{{ blogStrings[lang].faqSectionTitle }}</h2>
         <div class="space-y-4">
           {% for faq in faqs %}
           <div class="glass-card p-5">
@@ -277,10 +277,10 @@
 
       <!-- Lead Magnet CTA -->
       <div class="glass-card p-8 text-center my-12 border-cyan-500/20 border">
-        <h3 class="text-2xl font-bold text-white mb-3">{{ ctaTitle }}</h3>
-        <p class="text-gray-400 mb-6 max-w-lg mx-auto text-sm md:text-base">{{ ctaBody }}</p>
+        <h3 class="text-2xl font-bold text-white mb-3">{{ blogStrings[lang].ctaTitle }}</h3>
+        <p class="text-gray-400 mb-6 max-w-lg mx-auto text-sm md:text-base">{{ blogStrings[lang].ctaBody }}</p>
         <a href="{{ rootPrefix }}auth.html" class="inline-block bg-gradient-to-r from-cyan-400 to-orange-500 hover:from-cyan-500 hover:to-orange-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:-translate-y-0.5 transition duration-300">
-          {{ ctaButton }}
+          {{ blogStrings[lang].ctaButton }}
         </a>
       </div>
     </article>
@@ -295,31 +295,31 @@
             <img src="/img/logo-app.webp" alt="SmartLoad Solution" class="h-8 w-auto" onerror="this.src='/img/logo-app.png'">
             <span class="font-bold text-lg text-white">SmartLoad</span>
           </div>
-          <p class="text-gray-400 text-sm leading-relaxed" data-i18n="about.footer_tagline">{{ footerTagline }}</p>
+          <p class="text-gray-400 text-sm leading-relaxed" data-i18n="about.footer_tagline">{{ blogStrings[lang].footerTagline }}</p>
         </div>
         <div>
-          <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_company">{{ footerColCompany }}</h4>
+          <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_company">{{ blogStrings[lang].footerColCompany }}</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="{{ rootPrefix }}about.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_about">{{ footerAbout }}</a></li>
-            <li><a href="{{ rootPrefix }}plans.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_plans">{{ footerPlans }}</a></li>
-            <li><a href="{{ rootPrefix }}contact.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_contact">{{ footerContact }}</a></li>
+            <li><a href="{{ rootPrefix }}about.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_about">{{ blogStrings[lang].footerAbout }}</a></li>
+            <li><a href="{{ rootPrefix }}plans.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_plans">{{ blogStrings[lang].footerPlans }}</a></li>
+            <li><a href="{{ rootPrefix }}contact.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_contact">{{ blogStrings[lang].footerContact }}</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_resources">{{ footerColResources }}</h4>
+          <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_resources">{{ blogStrings[lang].footerColResources }}</h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="{{ rootPrefix }}resources.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_resources">{{ footerResources }}</a></li>
-            <li><a href="{{ rootPrefix }}blog.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_blog">{{ navBlog }}</a></li>
-            <li><a href="{{ rootPrefix }}faq.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_faq">{{ footerFaq }}</a></li>
-            <li><a href="{{ rootPrefix }}support.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_support">{{ footerSupport }}</a></li>
+            <li><a href="{{ rootPrefix }}resources.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_resources">{{ blogStrings[lang].footerResources }}</a></li>
+            <li><a href="{{ rootPrefix }}blog.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_blog">{{ blogStrings[lang].navBlog }}</a></li>
+            <li><a href="{{ rootPrefix }}faq.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_faq">{{ blogStrings[lang].footerFaq }}</a></li>
+            <li><a href="{{ rootPrefix }}support.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_support">{{ blogStrings[lang].footerSupport }}</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_legal">{{ footerColLegal }}</h4>
+          <h4 class="font-bold text-white mb-4" data-i18n="about.footer_col_legal">{{ blogStrings[lang].footerColLegal }}</h4>
           <ul class="space-y-2 text-sm mb-4">
-            <li><a href="{{ rootPrefix }}privacy.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_privacy">{{ footerPrivacy }}</a></li>
-            <li><a href="{{ rootPrefix }}terms.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_terms">{{ footerTerms }}</a></li>
-            <li><a href="{{ rootPrefix }}refund.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_refund">{{ footerRefund }}</a></li>
+            <li><a href="{{ rootPrefix }}privacy.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_privacy">{{ blogStrings[lang].footerPrivacy }}</a></li>
+            <li><a href="{{ rootPrefix }}terms.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_terms">{{ blogStrings[lang].footerTerms }}</a></li>
+            <li><a href="{{ rootPrefix }}refund.html" class="text-gray-400 hover:text-white transition" data-i18n="about.footer_refund">{{ blogStrings[lang].footerRefund }}</a></li>
           </ul>
           <!-- Social Media Links -->
           <div class="flex gap-4 mt-4">
@@ -347,7 +347,7 @@
         </div>
       </div>
       <div class="text-center pt-8 border-t border-gray-800">
-        <p class="text-gray-400 text-sm" data-i18n="about.footer_copyright">{{ footerCopyright }}</p>
+        <p class="text-gray-400 text-sm" data-i18n="about.footer_copyright">{{ blogStrings[lang].footerCopyright }}</p>
       </div>
     </div>
   </footer>
