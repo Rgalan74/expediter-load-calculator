@@ -1,6 +1,7 @@
 ---
 layout: layouts/post.njk
 lang: en
+translationSlug: decidir-carga-en-30-segundos
 title: How to Decide in 30 Seconds If a Load Is Worth It
 metaTitle: How to Decide in 30 Seconds if a Cargo Van Load is Worth It
 metaDescription: A quick decision framework for cargo van expediters to calculate RPM, deadhead, and profit in 30 seconds before accepting a broker load.
@@ -16,10 +17,6 @@ heroImage: ricardo-gasolinera-hero.webp
 heroImageAlt: Ricardo Galán at the gas station evaluating whether a load is worth it
 readTime: 8
 date: 2026-07-05
-esPath: blog/decidir-carga-en-30-segundos.html
-enPath: en/blog/decide-load-30-seconds.html
-canonicalPath: en/blog/decide-load-30-seconds.html
-rootPrefix: /en/
 faqs:
 - question: What is the 'operator mindset' when evaluating a load?
   answer: It means evaluating a load by the strategic position it leaves you in after delivery, not just the upfront payout. A $1,100 load to a strong hub like Atlanta can be far more profitable than a $1,600 load to a dead zone like El Paso, because the outbound reload and wait time change the entire equation.
@@ -31,7 +28,6 @@ faqs:
   answer: Delivering on a Friday afternoon can leave you stranded over the weekend with no way to book another load, losing entire productive days. That's why the 3-step checklist always asks when it delivers, not just how much it pays.
 - question: How does an app help me decide faster than doing it by hand?
   answer: Smart Load Solution's decision engine evaluates the destination, factors in repositioning miles, and gives you a clear signal in under 10 seconds — the same calculation that would take you several minutes to do mentally while a broker is pressuring you on the phone.
-permalink: en/blog/decide-load-30-seconds.html
 ---
 
 <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">

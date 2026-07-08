@@ -1,6 +1,7 @@
 ---
 layout: layouts/post.njk
 lang: es
+translationSlug: deadhead-miles-what-are-they
 title: 'Millas Muertas (Deadhead): El Ladrón Silencioso de tus Ganancias'
 metaTitle: 'Millas Muertas (Deadhead): Qué Son y Cómo te Cuestan Dinero | Smart Load'
 metaDescription: Las millas muertas (deadhead) son el gasto oculto que más dinero le cuesta a los conductores de cargo van. Aprende qué son y cómo calcularlas antes de aceptar una carga.
@@ -16,10 +17,6 @@ heroImage: ricardo-canon-hero.webp
 heroImageAlt: Carretera vacía en el desierto, millas sin carga
 readTime: 7
 date: 2026-07-05
-esPath: blog/millas-muertas-deadhead-que-son.html
-enPath: en/blog/deadhead-miles-what-are-they.html
-canonicalPath: blog/millas-muertas-deadhead-que-son.html
-rootPrefix: /
 faqs:
 - question: ¿Qué significa deadhead en transporte?
   answer: Deadhead son las millas que manejas sin carga pagada — ya sea para llegar a un pickup o para reposicionarte después de una entrega hacia una zona con más freight disponible.
@@ -29,7 +26,6 @@ faqs:
   answer: Reduce tu RPM real porque divide el mismo pago entre más millas totales. Entre más deadhead tengas, más bajo será tu RPM real comparado con el RPM bruto que ves en el load board.
 - question: ¿Cuánto deadhead es normal para cargo van?
   answer: Varía según la zona, pero como regla general, si el deadhead combinado con el repositioning supera el 25-30% de las millas de la carga, vale la pena reconsiderar si la carga es realmente rentable.
-permalink: blog/millas-muertas-deadhead-que-son.html
 ---
 
 <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">

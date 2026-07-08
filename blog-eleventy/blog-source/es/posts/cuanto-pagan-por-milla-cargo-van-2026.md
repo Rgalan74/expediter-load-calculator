@@ -1,6 +1,7 @@
 ---
 layout: layouts/post.njk
 lang: es
+translationSlug: how-much-per-mile-cargo-van-2026
 title: ¿Cuánto Pagan por Milla en Cargo Van en 2026? Números Reales
 metaTitle: ¿Cuánto Pagan por Milla en Cargo Van en 2026? | Smart Load
 metaDescription: 'Números reales de pago por milla para cargo van en 2026: cuánto es bueno, cuánto es una trampa, y cómo saber la diferencia antes de aceptar.'
@@ -16,10 +17,6 @@ heroImage: ricardo-carretera-hero.webp
 heroImageAlt: Vista desde el volante de la cargo van en la carretera
 readTime: 8
 date: 2026-07-05
-esPath: blog/cuanto-pagan-por-milla-cargo-van-2026.html
-enPath: en/blog/how-much-per-mile-cargo-van-2026.html
-canonicalPath: blog/cuanto-pagan-por-milla-cargo-van-2026.html
-rootPrefix: /
 faqs:
 - question: ¿Cuál es un buen RPM para cargo van en 2026?
   answer: Entre $1.20 y $1.50 por milla se considera un buen rango para la mayoría de operadores de cargo van, aunque depende de tu costo por milla real y la zona donde operas.
@@ -29,7 +26,6 @@ faqs:
   answer: Calcula tu RPM real (pago total ÷ millas totales incluyendo deadhead y repositioning) y compáralo con tu costo por milla + margen mínimo de ganancia. Si el RPM real está por debajo de eso, la carga no vale la pena, sin importar cómo se vea el número en el load board.
 - question: ¿Cambia el pago por milla según la zona?
   answer: Sí, significativamente. Algunas zonas tienen mucho más freight de salida que otras, lo que afecta tanto el RPM que puedes negociar como el deadhead que necesitas para tu próxima carga.
-permalink: blog/cuanto-pagan-por-milla-cargo-van-2026.html
 ---
 
 <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">

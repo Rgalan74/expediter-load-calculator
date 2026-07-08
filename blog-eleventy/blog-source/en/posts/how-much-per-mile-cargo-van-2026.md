@@ -1,6 +1,7 @@
 ---
 layout: layouts/post.njk
 lang: en
+translationSlug: cuanto-pagan-por-milla-cargo-van-2026
 title: How Much Do Cargo Vans Get Paid Per Mile in 2026? Real Numbers
 metaTitle: How Much Per Mile for Cargo Van in 2026? | Smart Load Solution Blog
 metaDescription: 'Real per-mile pay ranges for cargo van in 2026: what''s good, what''s a trap, and how to know the difference before you accept a load.'
@@ -16,10 +17,6 @@ heroImage: ricardo-carretera-hero.webp
 heroImageAlt: View from the cargo van driver's seat on the open road
 readTime: 8
 date: 2026-07-05
-esPath: blog/cuanto-pagan-por-milla-cargo-van-2026.html
-enPath: en/blog/how-much-per-mile-cargo-van-2026.html
-canonicalPath: en/blog/how-much-per-mile-cargo-van-2026.html
-rootPrefix: /en/
 faqs:
 - question: What is a good RPM for cargo van in 2026?
   answer: Between $1.20 and $1.50 per mile is considered a solid range for most cargo van operators, though it depends on your actual cost per mile and the region you operate in.
@@ -29,7 +26,6 @@ faqs:
   answer: Calculate your real RPM (total pay ÷ total miles including deadhead and repositioning) and compare it against your cost per mile plus your minimum profit margin. If real RPM falls below that threshold, the load is not worth it — regardless of how the number looks on the load board.
 - question: Does per-mile pay change by region?
   answer: Yes, significantly. Some areas have far more outbound freight than others, which affects both the RPM you can negotiate and the deadhead you'll need to reach your next load.
-permalink: en/blog/how-much-per-mile-cargo-van-2026.html
 ---
 
 <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">

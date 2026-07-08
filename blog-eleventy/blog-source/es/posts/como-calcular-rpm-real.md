@@ -1,6 +1,7 @@
 ---
 layout: layouts/post.njk
 lang: es
+translationSlug: calculate-real-rpm
 title: Cómo Calcular tu RPM Real (Y Por Qué los Números del Broker Engañan)
 metaTitle: Cómo calcular RPM en Cargo Van — Conoce tu Ganancia Real | Smart Load Solution Blog
 metaDescription: Deja de aceptar cargas a ciegas. Aprende cómo calcular el RPM real de tu cargo van incluyendo el deadhead. Evita pérdidas y maximiza tus ganancias.
@@ -17,10 +18,6 @@ heroImageAlt: Ricardo Galán manejando su cargo van, calculando su RPM real en r
 readTime: 6
 featured: true
 date: 2026-07-03
-esPath: blog/como-calcular-rpm-real.html
-enPath: en/blog/calculate-real-rpm.html
-canonicalPath: blog/como-calcular-rpm-real.html
-rootPrefix: /
 faqs:
 - question: ¿Qué es el RPM real en cargo van o expediting?
   answer: Es tu pago total dividido entre TODAS las millas que maneja tu van — no solo las que el broker te paga (loaded), sino también el deadhead hasta el pickup y las millas de reposicionamiento para salir de zonas sin carga. Es la única cifra que refleja tu ganancia verdadera.
@@ -32,7 +29,6 @@ faqs:
   answer: Es un destino donde las cargas entran pagando bien, pero de donde es casi imposible salir cargado por falta de demanda — ejemplos comunes son Florida, Colorado, Oregon o el sur de Texas. Entregar ahí casi siempre significa millas de reposicionamiento adicionales que hay que sumar al cálculo antes de aceptar.
 - question: ¿Cómo calculo todo esto sin hacerlo a mano en cada carga?
   answer: Smart Load Solution evalúa en tiempo real si el estado de destino requiere millas de escape y suma automáticamente el costo de reposicionamiento a tu cálculo de RPM real, dándote un semáforo verde o rojo antes de que aceptes la carga.
-permalink: blog/como-calcular-rpm-real.html
 ---
 
 <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">

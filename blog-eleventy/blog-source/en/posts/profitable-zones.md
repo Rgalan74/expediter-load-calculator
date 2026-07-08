@@ -1,6 +1,7 @@
 ---
 layout: layouts/post.njk
 lang: en
+translationSlug: zonas-rentables-expediters
 title: The 5 Most Profitable Cargo Zones for Expediters in the US
 metaTitle: The 5 Most Profitable Cargo Zones for Expediters in the US
 metaDescription: Discover the highest-paying cargo van regions. Optimize your load planning by targeting high-volume freight lanes and reducing deadhead miles.
@@ -16,10 +17,6 @@ heroImage: ricardo-westvirginia-hero.webp
 heroImageAlt: Welcome to West Virginia road sign on route
 readTime: 8
 date: 2026-07-05
-esPath: blog/zonas-rentables-expediters.html
-enPath: en/blog/profitable-zones.html
-canonicalPath: en/blog/profitable-zones.html
-rootPrefix: /en/
 faqs:
 - question: What's the most profitable zone for a cargo van in the US?
   answer: The Industrial Midwest Belt (Michigan, Ohio, Indiana, and Illinois) is the absolute epicenter of expediting thanks to the automotive and manufacturing industry, with reloads booking in minutes and consistently high outbound rates.
@@ -31,7 +28,6 @@ faqs:
   answer: It can be highly profitable during peak season thanks to US-Mexico border trade, but it requires established brokers — without them, Laredo can become a trap. Staying within the Dallas-San Antonio-Houston triangle reduces that risk.
 - question: How do I know in real time which zones are hot?
   answer: Smart Load Solution's Market Zones Map colors states based on historical freight volume and active market notes, letting you instantly see which regions have the most demand and negotiate stronger rates if a broker tries to send you into a cold market.
-permalink: en/blog/profitable-zones.html
 ---
 
 <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">

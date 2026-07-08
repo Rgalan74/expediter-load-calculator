@@ -1,3 +1,8 @@
+{% set esPath = "blog/" ~ (page.fileSlug if lang == "es" else translationSlug) ~ ".html" %}
+{% set enPath = "en/blog/" ~ (page.fileSlug if lang == "en" else translationSlug) ~ ".html" %}
+{% set canonicalPath = esPath if lang == "es" else enPath %}
+{% set rootPrefix = "/" if lang == "es" else "/en/" %}
+
 <!DOCTYPE html>
 <html lang="{{ lang }}">
 <head>

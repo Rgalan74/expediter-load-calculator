@@ -1,6 +1,7 @@
 ---
 layout: layouts/post.njk
 lang: en
+translationSlug: llc-vs-propietario-unico
 title: 'LLC vs Sole Proprietor for Expediters: What''s Right for You?'
 metaTitle: LLC vs Sole Proprietorship for Cargo Van Expediters | SLS
 metaDescription: Compare LLC and Sole Proprietor tax benefits, liability protection, and registration costs for independent owner-operators.
@@ -16,10 +17,6 @@ heroImage: ricardo-carga-interior-hero.webp
 heroImageAlt: Real freight secured inside the cargo van
 readTime: 7
 date: 2026-07-05
-esPath: blog/llc-vs-propietario-unico.html
-enPath: en/blog/llc-vs-sole-proprietor.html
-canonicalPath: en/blog/llc-vs-sole-proprietor.html
-rootPrefix: /en/
 faqs:
 - question: What's the main difference between a sole proprietorship and an LLC?
   answer: As a sole proprietor there's no legal separation between you and your business, so your personal assets are exposed if you're sued. An LLC creates a separate entity that typically limits that risk to the assets owned by the business, like the cargo van and business bank accounts.
@@ -31,7 +28,6 @@ faqs:
   answer: Yes. Top-tier brokers and logistics companies often view an established LLC or corporation as more credible than an operator running under just a personal name or a DBA, and some even require it before completing carrier setup.
 - question: What happens if I mix personal and business money in my LLC?
   answer: Mixing personal and business funds can weaken the liability shield the LLC provides — this is often called 'piercing the corporate veil' — leaving your personal assets exposed just as if you were a sole proprietor. That's why a dedicated business checking account is mandatory, not optional.
-permalink: en/blog/llc-vs-sole-proprietor.html
 ---
 
 <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">

@@ -1,3 +1,6 @@
 {
-  "tags": ["postEn"]
+  "tags": [
+    "postEn"
+  ],
+  "permalink": "en/blog/{{ page.fileSlug }}.html"
 }

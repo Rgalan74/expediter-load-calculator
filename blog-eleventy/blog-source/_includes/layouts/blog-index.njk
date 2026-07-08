@@ -168,7 +168,7 @@
     <!-- Featured post -->
     {% for post in allPosts %}
       {% if post.data.featured %}
-      <a href="/{{ post.data.canonicalPath }}" class="post-card glass-card grid md:grid-cols-2 gap-0 overflow-hidden mb-6 block">
+      <a href="{{ post.url }}" class="post-card glass-card grid md:grid-cols-2 gap-0 overflow-hidden mb-6 block">
         <img src="/img/blog/{{ post.data.heroImage }}" alt="{{ post.data.heroImageAlt or post.data.title }}" class="w-full h-64 md:h-full object-cover">
         <div class="p-8 flex flex-col justify-center">
           <div class="flex items-center gap-3 mb-3">
@@ -207,7 +207,7 @@
     <div class="grid md:grid-cols-3 gap-6" id="posts-grid">
       {% for post in allPosts %}
         {% if not post.data.featured %}
-        <a href="/{{ post.data.canonicalPath }}" class="post-card glass-card overflow-hidden block" data-category="{{ post.data.category }}">
+        <a href="{{ post.url }}" class="post-card glass-card overflow-hidden block" data-category="{{ post.data.category }}">
           <img src="/img/blog/{{ post.data.heroImage }}" alt="{{ post.data.heroImageAlt or post.data.title }}" class="w-full h-40 object-cover">
           <div class="p-5">
             <span class="inline-block bg-cyan-900/40 text-cyan-400 text-xs font-semibold px-3 py-1 rounded-full mb-3">{{ post.data.category }}</span>

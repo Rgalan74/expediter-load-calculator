@@ -1,6 +1,7 @@
 ---
 layout: layouts/post.njk
 lang: es
+translationSlug: profitable-zones
 title: Las 5 Zonas de Carga Más Rentables para Expediters en EE. UU.
 metaTitle: Las 5 Zonas de Carga Más Rentables para Expediters en EE. UU.
 metaDescription: Aprende a posicionar tu cargo van o sprinter en los estados con mayor volumen de cargas rápidas y mejores tarifas por milla en EE. UU.
@@ -16,10 +17,6 @@ heroImage: ricardo-westvirginia-hero.webp
 heroImageAlt: Letrero de bienvenida a West Virginia en ruta
 readTime: 8
 date: 2026-07-05
-esPath: blog/zonas-rentables-expediters.html
-enPath: en/blog/profitable-zones.html
-canonicalPath: blog/zonas-rentables-expediters.html
-rootPrefix: /
 faqs:
 - question: ¿Cuál es la zona más rentable para un cargo van en EE. UU.?
   answer: El Cinturón Industrial del Medio Oeste (Michigan, Ohio, Indiana e Illinois) es el epicentro absoluto del expediting gracias a la industria automotriz y de manufactura, con reloads que se agarran en minutos y tarifas de salida consistentemente altas.
@@ -31,7 +28,6 @@ faqs:
   answer: Puede ser muy rentable en temporada alta gracias al comercio fronterizo entre USA y México, pero requiere brokers establecidos — sin ellos, Laredo puede convertirse en una trampa. Moverse dentro del triángulo Dallas-San Antonio-Houston reduce ese riesgo.
 - question: ¿Cómo sé en tiempo real qué zonas están calientes?
   answer: El Mapa de Zonas de Mercado de Smart Load Solution colorea los estados según el volumen histórico de cargas y notas de mercado activas, permitiéndote ver al instante qué regiones tienen más demanda y negociar mejores tarifas si un broker intenta enviarte a un mercado frío.
-permalink: blog/zonas-rentables-expediters.html
 ---
 
 <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">

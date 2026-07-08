@@ -1,3 +1,6 @@
 {
-  "tags": ["postEs"]
+  "tags": [
+    "postEs"
+  ],
+  "permalink": "blog/{{ page.fileSlug }}.html"
 }

@@ -1,6 +1,7 @@
 ---
 layout: layouts/post.njk
 lang: es
+translationSlug: decide-load-30-seconds
 title: Cómo Decidir en 30 Segundos si una Carga Vale la Pena
 metaTitle: Cómo decidir en 30 segundos si una carga vale la pena | SLS Blog
 metaDescription: 'Fórmula práctica para dueños-operadores de cargo van: calcula tu ganancia neta y decide si aceptar o rechazar cargas de brokers en 30 segundos.'
@@ -16,10 +17,6 @@ heroImage: ricardo-gasolinera-hero.webp
 heroImageAlt: Ricardo Galán en la gasolinera evaluando si una carga vale la pena
 readTime: 8
 date: 2026-07-05
-esPath: blog/decidir-carga-en-30-segundos.html
-enPath: en/blog/decide-load-30-seconds.html
-canonicalPath: blog/decidir-carga-en-30-segundos.html
-rootPrefix: /
 faqs:
 - question: ¿Qué es la 'mentalidad de operador' al evaluar una carga?
   answer: Es evaluar una carga por la posición estratégica donde te deja después de entregar, no solo por el pago inicial. Una carga de $1,100 hacia un centro fuerte como Atlanta puede ser mucho más rentable que una de $1,600 hacia una zona muerta como El Paso, porque el reload de salida y el tiempo de espera cambian toda la ecuación.
@@ -31,7 +28,6 @@ faqs:
   answer: Entregar un viernes por la tarde puede dejarte varado el fin de semana sin poder buscar otra carga, perdiendo días productivos completos. Por eso el checklist de 3 pasos incluye siempre preguntar cuándo entrega, no solo cuánto paga.
 - question: ¿Cómo ayuda una app a decidir más rápido que a mano?
   answer: El motor de decisión de Smart Load Solution evalúa el destino, considera millas de reposicionamiento y te da una señal clara en menos de 10 segundos — el mismo cálculo que te tomaría varios minutos hacer mentalmente mientras un broker te presiona por teléfono.
-permalink: blog/decidir-carga-en-30-segundos.html
 ---
 
 <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">

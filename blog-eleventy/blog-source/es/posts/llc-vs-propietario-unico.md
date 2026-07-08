@@ -1,6 +1,7 @@
 ---
 layout: layouts/post.njk
 lang: es
+translationSlug: llc-vs-sole-proprietor
 title: 'LLC vs Propietario Único para Expediters: ¿Cuál es la mejor opción?'
 metaTitle: 'LLC vs Propietario Único para Expediters: ¿Cuál elegir? | SLS Blog'
 metaDescription: Analizamos las diferencias en impuestos, responsabilidad legal y costos de registro entre una LLC y una empresa de propietario único en USA.
@@ -16,10 +17,6 @@ heroImage: ricardo-carga-interior-hero.webp
 heroImageAlt: Carga real asegurada dentro de la cargo van
 readTime: 7
 date: 2026-07-05
-esPath: blog/llc-vs-propietario-unico.html
-enPath: en/blog/llc-vs-sole-proprietor.html
-canonicalPath: blog/llc-vs-propietario-unico.html
-rootPrefix: /
 faqs:
 - question: ¿Cuál es la diferencia principal entre propietario único y LLC?
   answer: Como propietario único no existe separación legal entre tú y tu negocio, así que tus bienes personales quedan expuestos ante una demanda. Una LLC crea una entidad separada que limita ese riesgo normalmente a los activos de la empresa, como la van y las cuentas comerciales.
@@ -31,7 +28,6 @@ faqs:
   answer: Sí, en general una LLC o corporación establecida transmite más credibilidad profesional ante brokers y compañías logísticas que operar bajo tu nombre personal o un DBA.
 - question: ¿Qué pasa si mezclo dinero personal con dinero del negocio en mi LLC?
   answer: Mezclar fondos personales y del negocio puede debilitar la protección legal que ofrece la LLC, dejando tus bienes personales vulnerables igual que si fueras propietario único. Por eso es crítico abrir y usar siempre una cuenta bancaria comercial separada.
-permalink: blog/llc-vs-propietario-unico.html
 ---
 
 <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">

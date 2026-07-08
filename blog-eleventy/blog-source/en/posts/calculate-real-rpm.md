@@ -1,6 +1,7 @@
 ---
 layout: layouts/post.njk
 lang: en
+translationSlug: como-calcular-rpm-real
 title: How to Calculate Your Real RPM (And Why Brokers' Numbers Are Wrong)
 metaTitle: How to Calculate Your Real RPM | Smart Load Solution Blog
 metaDescription: Learn how to calculate your true Rate Per Mile (RPM) as a cargo van owner-operator. Understand why deadhead and repositioning miles matter.
@@ -17,10 +18,6 @@ heroImageAlt: Ricardo Galán driving his cargo van, calculating his real RPM on 
 readTime: 6
 featured: true
 date: 2026-07-03
-esPath: blog/como-calcular-rpm-real.html
-enPath: en/blog/calculate-real-rpm.html
-canonicalPath: en/blog/calculate-real-rpm.html
-rootPrefix: /en/
 faqs:
 - question: What is real RPM in cargo van or expediting?
   answer: It's your total pay divided by ALL the miles your van drives — not just the miles the broker pays for (loaded), but also the deadhead to the pickup and any repositioning miles needed to escape a dead zone. It's the only number that reflects your true profit.
@@ -32,7 +29,6 @@ faqs:
   answer: It's a destination where loads pay well going in, but it's nearly impossible to leave loaded due to low demand — common examples are Florida, Colorado, Oregon, or deep South Texas. Delivering there almost always means extra repositioning miles that must be added to the calculation before you accept.
 - question: How do I calculate all of this without doing it by hand for every load?
   answer: Smart Load Solution evaluates in real time whether the destination state requires escape miles and automatically adds the repositioning cost to your real RPM calculation, giving you a green or red light before you accept the load.
-permalink: en/blog/calculate-real-rpm.html
 ---
 
 <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">

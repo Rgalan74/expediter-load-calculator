@@ -1,6 +1,7 @@
 ---
 layout: layouts/post.njk
 lang: es
+translationSlug: hidden-operating-costs
 title: 'Gastos Invisibles: Los Costos que todo Expediter Olvida Calcular'
 metaTitle: Gastos Invisibles de un Expediter en Cargo Van | Smart Load Solution Blog
 metaDescription: Descubre los costos ocultos que dañan la rentabilidad de tu cargo van o sprinter. Aprende a calcular depreciación y mantenimiento real.
@@ -16,10 +17,6 @@ heroImage: ricardo-van-hero.webp
 heroImageAlt: Ricardo Galán junto a su cargo van ProMaster 1500
 readTime: 7
 date: 2026-07-03
-esPath: blog/costos-ocultos-operacion.html
-enPath: en/blog/hidden-operating-costs.html
-canonicalPath: blog/costos-ocultos-operacion.html
-rootPrefix: /
 faqs:
 - question: ¿Cuáles son los costos ocultos más comunes para un cargo van o Sprinter?
   answer: Los tres más agresivos son la depreciación del vehículo ($0.05-$0.08 por milla), el seguro comercial (que sigue corriendo aunque no manejes), y el pago mensual de la van diluido por milla. Ninguno se siente como un gasto diario, pero juntos pueden representar $0.30-$0.49 por milla en costos fijos.
@@ -31,7 +28,6 @@ faqs:
   answer: Como mínimo, tu tarifa debe cubrir el costo total de operación (variable + fijo), que ronda entre $0.88 y $1.25 por milla en una Sprinter o cargo van típica de 100,000 millas al año. Cualquier tarifa por debajo de ese rango significa que estás pagando por trabajar.
 - question: ¿Cómo llevo el control de todos estos gastos sin hacerlo a mano?
   answer: En la pestaña de Finanzas de Smart Load Solution puedes registrar tus costos fijos mensuales y tus variables reales (MPG, precio del combustible, peajes). La app calcula tu costo real por milla automáticamente y lo aplica a la calculadora de cargas.
-permalink: blog/costos-ocultos-operacion.html
 ---
 
 <p class="text-lg md:text-xl text-gray-200 font-medium mb-6">
