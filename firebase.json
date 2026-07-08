@@ -1,6 +1,6 @@
 {
   "functions": {
-    "source": "C:\\expediter-deploy",
+    "source": "functions",
     "runtime": "nodejs22"
   },
   "firestore": {

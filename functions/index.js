@@ -32,6 +32,7 @@ const META_PIXEL_ID = "1227322958231625";
 const META_ACCESS_TOKEN = process.env.META_ACCESS_TOKEN;
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
+const BREVO_API_KEY = process.env.BREVO_API_KEY;
 const IS_TEST_MODE = false; // LIVE MODE
 
 // Mapeo inverso: Stripe Price ID â†’ plan ID interno
@@ -943,3 +944,67 @@ function buildPlanChangedEmail(planName, planPrice, isDowngrade, lang = 'es') {
 </body></html>`;
 }
 
+
+// ============================================================
+// subscribeLead — Alta de lead en Brevo desde el backend (OCULTO)
+// Recibe nombre + email + UTMs desde el frontend (calculadora RPM, home, etc.)
+// y llama a la API de Brevo desde el servidor, donde la IP si esta autorizada.
+// (c) 2026 SmartLoad Solution - Ricardo Galan.
+// ============================================================
+exports.subscribeLead = onCall(
+    { region: 'us-central1', secrets: ["BREVO_API_KEY"] },
+    async (request) => {
+        const data = request.data || {};
+
+        const name  = String(data.name  || '').trim();
+        const email = String(data.email || '').trim().toLowerCase();
+        const utmSource   = String(data.utm_source   || 'direct').trim();
+        const utmMedium   = String(data.utm_medium   || 'none').trim();
+        const utmCampaign = String(data.utm_campaign || 'none').trim();
+        const landingPage = String(data.landing_page || '').trim();
+        const listId = Number(data.listId) || 2;
+
+        if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+            throw new HttpsError('invalid-argument', 'Valid email is required');
+        }
+        if (!BREVO_API_KEY) {
+            logger.warn('[subscribeLead] BREVO_API_KEY no configurado - lead no enviado a Brevo');
+            throw new HttpsError('internal', 'Brevo no configurado');
+        }
+
+        try {
+            const res = await fetch("https://api.brevo.com/v3/contacts", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "api-key": BREVO_API_KEY
+                },
+                body: JSON.stringify({
+                    email: email,
+                    attributes: {
+                        FIRSTNAME: name,
+                        UTM_SOURCE: utmSource,
+                        UTM_MEDIUM: utmMedium,
+                        UTM_CAMPAIGN: utmCampaign,
+                        LANDING_PAGE: landingPage
+                    },
+                    listIds: [listId],
+                    updateEnabled: true
+                })
+            });
+
+            if (res.status === 201 || res.status === 204) {
+                logger.info(`[subscribeLead] Lead agregado a Brevo: ${email}`);
+                return { success: true };
+            }
+
+            const errBody = await res.text();
+            logger.warn(`[subscribeLead] Brevo respondio ${res.status}: ${errBody}`);
+            throw new HttpsError('internal', 'Brevo rejected the request');
+        } catch (e) {
+            if (e instanceof HttpsError) throw e;
+            logger.error('[subscribeLead] Error llamando a Brevo:', e.message);
+            throw new HttpsError('internal', 'Error contacting Brevo');
+        }
+    }
+);

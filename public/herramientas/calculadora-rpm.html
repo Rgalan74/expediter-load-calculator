@@ -5,8 +5,7 @@
   <!-- Firebase SDKs (para captura de lead a Firestore) -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-  <!-- 🔐 Brevo key (fuera del repo, ver .gitignore) -->
-  <script src="/js/secrets.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-functions-compat.js"></script>
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-EK7NM7PJE2"></script>
   <script>
@@ -565,7 +564,6 @@
       }
 
       var LEAD_CONFIG = {
-        brevoApiKey: window.__BREVO_KEY__ || "",
         brevoListId: 2,
         redirectUrl: "/auth.html?tab=register"
       };
@@ -616,29 +614,21 @@
         }
       }
 
-      // ── Guardar en Brevo ──
+      // ── Guardar en Brevo (via Cloud Function segura) ──
       async function saveBrevo(name, email, utms) {
         try {
-          var res = await fetch("https://api.brevo.com/v3/contacts", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "api-key": LEAD_CONFIG.brevoApiKey
-            },
-            body: JSON.stringify({
-              email: email,
-              attributes: {
-                FIRSTNAME: name,
-                UTM_SOURCE: utms.utm_source,
-                UTM_MEDIUM: utms.utm_medium,
-                UTM_CAMPAIGN: utms.utm_campaign,
-                LANDING_PAGE: utms.landing_page
-              },
-              listIds: [LEAD_CONFIG.brevoListId],
-              updateEnabled: true
-            })
+          var functions = firebase.app().functions('us-central1');
+          var subscribeLead = functions.httpsCallable('subscribeLead');
+          var result = await subscribeLead({
+            name: name,
+            email: email,
+            utm_source: utms.utm_source,
+            utm_medium: utms.utm_medium,
+            utm_campaign: utms.utm_campaign,
+            landing_page: utms.landing_page,
+            listId: LEAD_CONFIG.brevoListId
           });
-          return (res.status === 201 || res.status === 204);
+          return !!(result && result.data && result.data.success);
         } catch (err) {
           console.error("[Lead] Brevo error:", err);
           return false;
