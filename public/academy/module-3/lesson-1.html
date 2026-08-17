@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -461,8 +462,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como
                 completada</button>
             <nav class="lesson-nav">
                 <a href="index.html" class="btn btn-secondary">← Volver al módulo</a>
@@ -478,8 +481,38 @@
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 3, LESSON_NUM = 1;
+
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'Según el sistema de clasificación, ¿qué tier corresponde a zonas como Detroit, Chicago, Atlanta con rates $1.60-2.00/mi y backhaul 90%+?',
+                options: ['A-Tier', 'S-Tier', 'B-Tier', 'C-Tier'],
+                correctIndex: 1
+            },
+            {
+                question: 'Según el "Test de 4 Preguntas", si obtienes 4 respuestas verdes, ¿cómo se clasifica esa zona para ti?',
+                options: ['A-Tier', 'B-Tier', 'S-Tier para TI', 'Evitar'],
+                correctIndex: 2
+            },
+            {
+                question: '¿Cuál es el concepto de "Home Circuit"?',
+                options: [
+                    'Manejar aleatoriamente por todo USA para maximizar variedad',
+                    'Construir un circuito de 4-6 zonas premium que conoces bien',
+                    'Quedarte siempre en tu ciudad de origen',
+                    'Cambiar de zona cada semana sin patrón'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: 'Según los patrones estacionales, Phoenix (Tourism) tiene su PEAK en Q2 pero está "🔴 Dead" en...',
+                options: ['Q1', 'Q3', 'Q4', 'Nunca está dead'],
+                correctIndex: 1
+            }
+        ];
+
         function markLessonComplete() {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
             if (window.AcademyProgress) {
@@ -487,19 +520,31 @@
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
                 alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
             }
         }
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
             }
         });
     </script>

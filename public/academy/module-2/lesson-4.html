@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -314,8 +315,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como
                 completada</button>
             <nav class="lesson-nav">
                 <a href="lesson-3.html" class="btn btn-secondary">← Lección anterior</a>
@@ -328,32 +331,83 @@
             </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
-        const MODULE_NUM = 2, LESSON_NUM = 4; 
+        const MODULE_NUM = 2, LESSON_NUM = 4;
 
-function markLessonComplete() { 
-    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress) { 
-        window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); 
-        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
-            btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; 
-            btn.disabled = true; 
-        });
-        alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
-    } 
-} 
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'En el Error #1 (ignorar repositioning) del load a Laredo (280 mi a San Antonio), ¿cuál fue la diferencia entre el RPM mostrado y el RPM real?',
+                options: [
+                    '$0.35/mi de error = $448 de ganancia fantasma',
+                    '$0.10/mi, prácticamente sin impacto',
+                    '$1.60/mi de error',
+                    'No hubo diferencia, solo cambió el tiempo'
+                ],
+                correctIndex: 0
+            },
+            {
+                question: 'Según el Error #5, cuando un broker dice "800 millas", ¿a qué se refiere normalmente?',
+                options: [
+                    'Al total de millas incluyendo deadhead',
+                    'Solo a las loaded miles — el deadhead es responsabilidad del conductor',
+                    'Solo al repositioning',
+                    'A las millas de ida y vuelta'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: '¿Por qué es un error NO guardar los loads que rechazaste (Error #6)?',
+                options: [
+                    'Porque pierdes puntos de fidelidad con el broker',
+                    'Porque Lex AI no aprende tus preferencias sin ese historial',
+                    'Porque la app requiere un mínimo de loads guardados por semana',
+                    'No es realmente un error, es opcional'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: 'Según la lección, ¿con qué frecuencia se recomienda revisar y actualizar tu CPM (Error #7)?',
+                options: ['Una vez al año', 'Mensualmente', 'Solo cuando compras una van nueva', 'Nunca, se actualiza automáticamente'],
+                correctIndex: 1
+            }
+        ];
 
-document.addEventListener('DOMContentLoaded', () => { 
-    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { 
-        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
-            btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; 
-            btn.disabled = true;
+        function markLessonComplete() {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress) {
+                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
+                    btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
+                });
+                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
+                    btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
+                });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+            }
         });
-    } 
-});
     </script>
 
   

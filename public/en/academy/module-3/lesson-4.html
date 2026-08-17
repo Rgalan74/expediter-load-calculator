@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -504,8 +505,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as
                 Complete</button>
             <nav class="lesson-nav">
                 <a href="lesson-3.html" class="btn btn-secondary">← Previous Lesson</a>
@@ -515,32 +518,78 @@
             </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
-        const MODULE_NUM = 3, LESSON_NUM = 4; 
+        const MODULE_NUM = 3, LESSON_NUM = 4;
 
-function markLessonComplete() { 
-    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress) { 
-        window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); 
-        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
-            btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; 
-            btn.disabled = true; 
-        });
-        alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
-    } 
-} 
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'What is the formula for Deadhead ROI?',
+                options: [
+                    '(Expected Profit Increase - Deadhead Cost) ÷ Deadhead Cost × 100',
+                    'Deadhead Cost ÷ Expected Profit Increase',
+                    'Expected Profit Increase ÷ Total Miles',
+                    'Deadhead Cost - Expected Profit Increase'
+                ],
+                correctIndex: 0
+            },
+            {
+                question: 'In the Laredo → San Antonio case (280 mi, $294 cost, $450 profit difference), what was the calculated ROI?',
+                options: ['170%', '53%', '100%', '15%'],
+                correctIndex: 1
+            },
+            {
+                question: 'Per the lesson\'s ROI interpretation, what does a 15% ROI mean (Montana → Denver case)?',
+                options: [
+                    'HIGH ROI, do it without hesitation',
+                    'MEDIUM ROI, consider it in slow season',
+                    'LOW ROI, only if desperate',
+                    'It\'s an excellent ROI'
+                ],
+                correctIndex: 2
+            },
+            {
+                question: 'In the "Time Factor" full calculation (300 mi deadhead, $515 total cost including opportunity cost, $1,620 total benefit), what was the final ROI?',
+                options: ['53%', '100%', '215%', '170%'],
+                correctIndex: 2
+            }
+        ];
 
-document.addEventListener('DOMContentLoaded', () => { 
-    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { 
-        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
-            btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; 
-            btn.disabled = true;
+        function markLessonComplete() {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress) {
+                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
+                    btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
+                });
+                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
+                    btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
+                });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+            }
         });
-    } 
-});
     </script>
 
   

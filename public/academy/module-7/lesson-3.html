@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -499,8 +500,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como
                 completada</button>
             <nav class="lesson-nav">
                 <a href="lesson-2.html" class="btn btn-secondary">← Lección anterior</a>
@@ -508,14 +511,48 @@
             </nav>
         </footer>
 
-        
 
-        
+
+
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 7, LESSON_NUM = 3;
+
+const QUIZ_QUESTIONS = [
+    {
+        question: 'Según el ejemplo "VAN SIN MARCA" vs "VAN CON MARCA", ¿cuál es la diferencia clave para el broker?',
+        options: [
+            'La van con marca es más barata',
+            'Sin marca compites solo en PRECIO; con marca compites en VALOR',
+            'No hay diferencia real, solo estética',
+            'La van sin marca siempre gana la carga'
+        ],
+        correctIndex: 1
+    },
+    {
+        question: 'Según la tabla de "Inversión y ROI", ¿cuánto cuesta el van lettering profesional?',
+        options: ['$50-100', '$100-300', '$500-1,500', '$2,000-5,000'],
+        correctIndex: 2
+    },
+    {
+        question: 'Según el Pilar #3 (Presencia Digital), ¿cuáles son las páginas mínimas del website?',
+        options: [
+            'Home, Blog, Shop, FAQ',
+            'Home, Services, About, Contact',
+            'Home, Gallery, Pricing, Reviews',
+            'Solo una landing page es suficiente'
+        ],
+        correctIndex: 1
+    },
+    {
+        question: 'Según el Pilar #5 (Comportamiento Consistente), ¿cuál es el estándar de tiempo de respuesta a comunicación?',
+        options: ['<15 min siempre', '<1 hora en horario laboral', '<24 horas', 'Sin estándar definido'],
+        correctIndex: 0
+    }
+];
 
 function markLessonComplete() {
     const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
@@ -524,26 +561,33 @@ function markLessonComplete() {
         document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
             btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
             btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)';
+            btn.classList.remove('quiz-locked');
+            btn.removeAttribute('title');
             btn.disabled = true;
+            btn.dataset.lessonDone = 'true';
         });
         alert(isEs
-            ? '¡Lección PRO completada! 🎨
-5 pilares de marca personal dominados.
-Marca = Reputación × Visibilidad.'
-            : 'PRO Lesson completed! 🎨
-5 personal brand pillars mastered.
-Brand = Reputation × Visibility.');
+            ? '¡Lección PRO completada! 🎨\n5 pilares de marca personal dominados.\nMarca = Reputación × Visibilidad.'
+            : 'PRO Lesson completed! 🎨\n5 personal brand pillars mastered.\nBrand = Reputation × Visibility.');
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+    const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+    if (alreadyDone) {
         document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
             btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
             btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)';
+            btn.classList.remove('quiz-locked');
+            btn.removeAttribute('title');
             btn.disabled = true;
+            btn.dataset.lessonDone = 'true';
         });
+        const quizEl = document.getElementById('lessonQuiz');
+        if (quizEl) quizEl.style.display = 'none';
+    } else if (window.AcademyQuiz) {
+        await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
     }
 });
     </script>

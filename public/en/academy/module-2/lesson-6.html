@@ -1,0 +1,445 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lex AI: Your Decision Copilot | Smart Load Academy</title>
+    <link rel="icon" type="image/png" href="/img/logo-app.png">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.7
+        }
+
+        .lesson-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem
+        }
+
+        .breadcrumb {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: .875rem
+        }
+
+        .breadcrumb a {
+            color: #00D9FF;
+            text-decoration: none
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem
+        }
+
+        .lesson-content h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff
+        }
+
+        .lesson-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: .75rem
+        }
+
+        .lesson-content p {
+            margin-bottom: 1.5rem;
+            color: #d0d0d0
+        }
+
+        .lesson-content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem
+        }
+
+        .callout {
+            padding: 1.5rem;
+            border-radius: .75rem;
+            margin: 2rem 0;
+            border-left: 4px solid
+        }
+
+        .callout.tip {
+            background: rgba(0, 217, 255, .1);
+            border-color: #00D9FF
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: rgba(20, 20, 20, .8);
+            border-radius: .75rem;
+            overflow: hidden
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        th {
+            background: rgba(0, 217, 255, .1);
+            color: #00D9FF;
+            font-weight: 700
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: .75rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all .3s ease
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+            color: #fff
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, .2)
+        }
+
+        .lesson-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, .1)
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 2rem
+        }
+    </style>
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '2077223159668765');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=2077223159668765&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+    <!-- Metricool Tracker -->
+  <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
+  <!-- End Metricool Tracker -->
+<link rel="canonical" href="https://smartloadsolution.com/en/academy/module-2/lesson-6.html">
+<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-6.html">
+<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-6.html">
+<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-6.html">
+</head>
+
+<body>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academy</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">← Back to App</a></nav>
+    <article class="lesson-container">
+        <nav class="breadcrumb">
+            <a href="/en/academy.html">← Academy</a> → <a href="index.html">Module 2</a> → Lesson 6
+        </nav>
+
+        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
+            <h1>Lex AI: Your Decision Copilot</h1>
+            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
+                <span>📖 8 min read</span>
+                <span>🎓 Module 2 - Lesson 6</span>
+                <span>🧠 New</span>
+            </div>
+        </header>
+
+        <div class="lesson-content">
+
+            <section>
+                <h2>🤖 WHAT IS LEX AI?</h2>
+                <p>Lex is the AI assistant built into Smart Load Solution. You'll find it as a chat icon inside the
+                    app. The difference from a generic chatbot: Lex doesn't improvise generic answers — it uses
+                    <strong>your real data</strong>: your calculated CPM, your historical average RPM, your target
+                    margin, your registered loads by state, and even the weather at your destination.</p>
+                <p>That means when you ask "should I take this load?", you don't get a generic industry opinion. You
+                    get an answer calculated against <strong>your</strong> cost structure and <strong>your</strong>
+                    history.</p>
+            </section>
+
+            <section>
+                <h2>💬 WHAT TO ASK IT</h2>
+
+                <h3>1. About the load on your screen</h3>
+                <p>If you already entered the data in the Calculator, you don't need to repeat it to Lex. Just ask:</p>
+                <ul>
+                    <li>"should I take it?"</li>
+                    <li>"what do you think of this load?"</li>
+                    <li>"analyze it"</li>
+                </ul>
+                <p>Lex already knows the route, miles, rate, and RPM you have on the panel — it answers about
+                    <strong>that</strong> load automatically.</p>
+
+                <h3>2. Pasting raw load board text</h3>
+                <p>Copy the text exactly as it appears on the load board or in the broker's message (with price,
+                    miles, and cities) and paste it into the chat. Lex parses it and can fill the Calculator for you
+                    — no manual transcribing.</p>
+
+                <h3>3. About a state or lane</h3>
+                <ul>
+                    <li>"how has Ohio worked out for me?"</li>
+                    <li>"is Chicago worth it for me?"</li>
+                </ul>
+                <p>It answers using data from <strong>your</strong> past loads in that zone, not generic industry
+                    averages.</p>
+
+                <h3>4. About your finances this month</h3>
+                <ul>
+                    <li>"how am I doing this month?"</li>
+                    <li>"compare me to last month"</li>
+                </ul>
+
+                <h3>5. To save operational experience</h3>
+                <p>You can tell it something like:</p>
+                <ul>
+                    <li>"save a note for Ohio: brokers pay late, negotiate before accepting"</li>
+                </ul>
+                <p>That note gets attached to that state, and Lex will automatically bring it up next time you
+                    analyze a load heading there.</p>
+            </section>
+
+            <section>
+                <h2>🧠 HOW TO READ ITS ANSWERS</h2>
+                <p>When Lex analyzes a load, it ends its answer with one of four verdicts:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Verdict</th>
+                            <th>What it means</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>ACCEPT</strong></td>
+                            <td>RPM at or above your acceptance threshold (CPM + target margin)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ALMOST ACCEPT</strong></td>
+                            <td>Close to your threshold — worth trying to negotiate a bit more</td>
+                        </tr>
+                        <tr>
+                            <td><strong>EVALUATE CAREFULLY</strong></td>
+                            <td>Above your cost but with a thin margin — depends on your context (pending deadhead,
+                                urgency, etc.)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>REJECT</strong></td>
+                            <td>RPM below your real CPM — you'd be losing money</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Before giving you the verdict, Lex shows the numbers it used (RPM, cost, profit) so you can verify
+                    the calculation yourself — it's not a black box.</p>
+                <div class="callout tip">
+                    <p style="margin:0"><strong>TIP:</strong> if the load is heading into snow, ice, or a
+                        thunderstorm, Lex will flag it directly in its answer — it factors destination weather into
+                        the analysis.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 3 REAL CASES</h2>
+
+                <h3>Case 1: "Lex, should I take this load?"</h3>
+                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>Situation:</strong> You have a Detroit → Nashville load loaded in the Calculator:
+                        $900, 550 miles.</p>
+                    <p><strong>You:</strong> "should I take it?"</p>
+                    <p><strong>Lex:</strong> "RPM: $1.59/mi. Your real CPM is $1.10/mi, so your profit is $296 (33%
+                        margin). That's above your acceptance threshold of $1.35/mi. <strong>ACCEPT</strong>."</p>
+                </div>
+
+                <h3>Case 2: Load pasted from the board</h3>
+                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>Situation:</strong> The broker texts you: "Nashville, TN to Laredo, TX – $1,400 –
+                        1240 miles".</p>
+                    <p><strong>You:</strong> paste that exact text into Lex's chat.</p>
+                    <p><strong>Lex:</strong> detects route, rate, and miles, fills the Calculator automatically, and
+                        gives you the analysis: "RPM: $1.13/mi. With your CPM of $1.10/mi the margin is only 7% ($98
+                        profit). <strong>EVALUATE CAREFULLY</strong> — I'd suggest countering at $1,550."</p>
+                </div>
+
+                <h3>Case 3: Decision with saved notes</h3>
+                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem">
+                    <p><strong>Situation:</strong> Weeks ago you saved: "save a note for Ohio: brokers pay late,
+                        negotiate before accepting". Now you're offered a load heading to Ohio.</p>
+                    <p><strong>You:</strong> "what do you think of this load to Ohio?"</p>
+                    <p><strong>Lex:</strong> analyzes the RPM as usual, but also reminds you: "Note: in your past
+                        experience in Ohio, brokers have paid late — negotiate payment terms before accepting."</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>⚠️ LIMITS TO KEEP IN MIND</h2>
+                <ul>
+                    <li>Lex has a daily message limit — use it for decisions that actually need it, not for
+                        purposeless chat.</li>
+                    <li>Its financial answers depend on you having loads and expenses logged in the app — if you
+                        don't enter data, it has nothing real to pull your context from.</li>
+                    <li>Lex helps you decide faster, it doesn't replace your judgment. The final call is always
+                        yours.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>💡 MODULE 2 WRAP-UP</h2>
+                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;">
+                    <p style="font-size:1.25rem;font-weight:700;text-align:center;margin-bottom:1.5rem">🎓 You have
+                        successfully completed Module 2!</p>
+
+                    <p><strong>What you just mastered:</strong></p>
+                    <ul>
+                        <li>✅ Basic and Advanced load calculations</li>
+                        <li>✅ Repositioning vs Loaded miles (thinking in total round-trips)</li>
+                        <li>✅ The Accept/Negotiate/Decline decision framework</li>
+                        <li>✅ Dodging the most common, costly data entry errors</li>
+                        <li>✅ Learning from Carlos's real-world breakthrough</li>
+                        <li>✅ Lex AI as your decision copilot</li>
+                    </ul>
+
+                    <p style="margin-top:1.5rem"><strong>Your New Superpowers:</strong></p>
+                    <ul>
+                        <li>✅ Evaluating complex loads in under 30 seconds</li>
+                        <li>✅ Operating with 99% financial accuracy</li>
+                        <li>✅ Spotting phantom profits BEFORE you sign a rate con</li>
+                        <li>✅ Negotiating like an absolute pro, backed by real math</li>
+                        <li>✅ Protecting $200-$500 per load from stupid mistakes</li>
+                        <li>✅ Asking Lex before deciding on borderline loads</li>
+                    </ul>
+
+                    <div style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
+                        <p style="margin:0;font-weight:700">Progress: 40% of the entire course complete</p>
+                        <div style="background:rgba(255,255,255,.1);height:12px;border-radius:1rem;margin-top:.5rem;overflow:hidden">
+                            <div style="background:linear-gradient(90deg,#00D9FF,#FF6B35);height:100%;width:40%"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
+        <footer class="lesson-footer">
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Complete Module 2</button>
+            <nav class="lesson-nav">
+                <a href="lesson-5.html" class="btn btn-secondary">← Previous Lesson</a>
+                <a href="../../academy.html" class="btn btn-primary">Back to Academy Hub →</a>
+            </nav>
+        </footer>
+            </article>
+
+    <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
+    <script>
+        const MODULE_NUM = 2, LESSON_NUM = 6;
+
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'Per the lesson, what makes Lex AI different from a generic chatbot?',
+                options: [
+                    'It only responds in English',
+                    'It uses your real data: CPM, historical RPM, target margin, state history',
+                    'It only works if you pay for the Premium plan',
+                    'It can\'t analyze loads, only answer general questions'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: 'If you already have a load loaded in the Calculator, what do you need to do for Lex to analyze it?',
+                options: [
+                    'Manually copy and paste all the data into the chat',
+                    'Nothing special — just ask "should I take it?" and Lex already knows that load\'s data',
+                    'Close the Calculator first',
+                    'Turn on a special mode in Settings'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: 'Per Lex\'s verdict table, what does "EVALUATE CAREFULLY" mean?',
+                options: [
+                    'RPM below your real CPM, you\'re losing money',
+                    'Above your cost but with a thin margin — depends on your context',
+                    'RPM at or above your acceptance threshold',
+                    'Close to the threshold, worth negotiating'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: 'What happens if you tell Lex "save a note for Ohio: brokers pay late"?',
+                options: [
+                    'Nothing, Lex can\'t save information',
+                    'That note gets attached to Ohio and Lex will automatically bring it up in future analyses heading there',
+                    'A report gets sent to Smart Load Solution support',
+                    'It only works if you write it in Spanish'
+                ],
+                correctIndex: 1
+            }
+        ];
+
+        function markLessonComplete() {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress) {
+                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Módulo 2 Completado' : '✓ Module 2 Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
+                    btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
+                });
+                alert(isEs ? '¡Módulo 2 completado! 🎉\nHas dominado el Calculator y a Lex AI.\n¿Listo para el Módulo 3?' : 'Module 2 completed! 🎉\nYou have mastered the Calculator and Lex AI.\nReady for Module 3?');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Módulo 2 Completado' : '✓ Module 2 Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
+                    btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
+                });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+            }
+        });
+    </script>
+
+</body></html>

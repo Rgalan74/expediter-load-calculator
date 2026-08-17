@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -414,8 +415,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as Complete</button>
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as Complete</button>
             <nav class="lesson-nav">
                 <a href="lesson-3.html" class="btn btn-secondary">← Previous Lesson</a>
                 <a href="index.html" class="btn btn-primary">Back to Module →</a>
@@ -426,8 +429,33 @@
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 6, LESSON_NUM = 4;
+
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'In "Area #1: Financial Tracking", how many hours per month are saved automating (Smart Load) vs manual?',
+                options: ['3 hrs/month', '12 hrs/month', '15 hrs/month', '0, no difference'],
+                correctIndex: 1
+            },
+            {
+                question: 'Per "Area #2: Broker Communication", using templates instead of writing manually, how many hours per month are saved?',
+                options: ['2 hrs/month', '6 hrs/month', '8 hrs/month', '20 hrs/month'],
+                correctIndex: 1
+            },
+            {
+                question: 'Per the total savings summary (8 areas), what is the realistic goal automating 50-70%?',
+                options: ['48-52 hrs/month (total potential)', '25-35 hrs/month saved', '12-15 hrs/month', '3-4 hours (setup only)'],
+                correctIndex: 1
+            },
+            {
+                question: 'Per the conclusion, what is the difference in admin hours between an average operator and an automated one?',
+                options: ['5-7 hours/month', '18-22 hours/month', '12-15 hours/month saved', 'No real difference'],
+                correctIndex: 2
+            }
+        ];
+
         function markLessonComplete() {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
             if (window.AcademyProgress) {
@@ -435,19 +463,31 @@
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
                 alert(isEs ? '¡Lección PRO completada! ⏰\n8 áreas de automatización.\nAhorro realista: 12-15 hrs/mes.\nValor: $300-375/mes.\nPrioridad: Templates comunicación + Scanner digital + Tarjeta negocio.\nSetup: 3-4 horas una vez.\nROI: Masivo.' : 'PRO Lesson complete! ⏰\n8 areas of automation.\nRealistic savings: 12-15 hrs/month.\nValue: $300-375/month.\nPriority: Communication templates + Digital scanner + Business card.\nSetup: 3-4 hours one time.\nROI: Massive.');
             }
         }
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
             }
         });
     </script>

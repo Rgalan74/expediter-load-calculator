@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -537,8 +538,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como
                 completada</button>
             <nav class="lesson-nav">
                 <a href="lesson-4.html" class="btn btn-secondary">← Lección anterior</a>
@@ -553,8 +556,53 @@
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 1, LESSON_NUM = 5;
+
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'En el caso de Roberto, la Opción A (El Paso) pagaba más inicialmente ($1,600) que la Opción B (Atlanta, $1,100). ¿Cuál terminó siendo mejor en resultado total?',
+                options: [
+                    'Opción A, porque pagó más por adelantado',
+                    'Opción B, porque generó $250 más en la mitad del tiempo',
+                    'Fueron exactamente iguales en resultado',
+                    'Opción A, porque tuvo mejor RPM aparente'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: '¿Cuál fue la ganancia por hora final (promedio del ciclo completo) de cada opción?',
+                options: [
+                    'A: $33.33/hr, B: $11.46/hr',
+                    'A: $11.46/hr, B: $33.33/hr',
+                    'Ambas terminaron en $20/hr',
+                    'A: $26.92/hr, B: $20/hr'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: 'Según la lección, ¿cuál es la pregunta CORRECTA que debe hacerse un operador antes de aceptar un load (en vez de "¿cuánto paga?")?',
+                options: [
+                    '"¿Cuántas millas tiene?"',
+                    '"¿A dónde me lleva este load estratégicamente?"',
+                    '"¿Es un broker conocido?"',
+                    '"¿Cuánto tiempo toma cargar?"'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: '¿Por qué El Paso resultó ser una mala elección estratégica a pesar del buen pago inicial?',
+                options: [
+                    'Porque el camino tenía mal clima',
+                    'Porque es zona muerta: wait time de 48-72 horas y outbound rates bajos ($0.90-$1.10/milla)',
+                    'Porque el broker no pagó a tiempo',
+                    'Porque las millas cargadas eran muy pocas'
+                ],
+                correctIndex: 1
+            }
+        ];
+
         function markLessonComplete() {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
             if (window.AcademyProgress) {
@@ -562,19 +610,31 @@
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
                 alert(isEs ? '¡Módulo 1 completado! 🎉 Estás listo para el Módulo 2.' : 'Module 1 complete! 🎉 You\'re ready for Module 2.');
             }
         }
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
             }
         });
     </script>

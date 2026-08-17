@@ -6,6 +6,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/academy.css">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -403,8 +404,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">
                 ✓ Mark as Complete
             </button>
 
@@ -417,9 +420,53 @@
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 1;
         const LESSON_NUM = 1;
+
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'What is the correct formula for real RPM?',
+                options: [
+                    'Total Pay ÷ Loaded Miles',
+                    'Total Pay ÷ (Deadhead + Loaded + Repositioning)',
+                    'Loaded Miles ÷ Total Pay',
+                    'Total Pay ÷ Round-trip miles'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: 'In the lesson\'s example (Toledo → Detroit: 65 mi deadhead, Detroit → Laredo: 1,000 mi loaded, Laredo → San Antonio: 280 mi repositioning, pay $1,500), what is the real RPM?',
+                options: [
+                    '$1.50/mile',
+                    '$1.41/mile',
+                    '$1.12/mile',
+                    '$0.98/mile'
+                ],
+                correctIndex: 2
+            },
+            {
+                question: 'What are "repositioning miles"?',
+                options: [
+                    'The miles from your current position to pickup',
+                    'The miles the broker pays you directly for',
+                    'The miles from delivery to your next good-freight zone',
+                    'Miles lost to traffic or detours'
+                ],
+                correctIndex: 2
+            },
+            {
+                question: 'Load A (Detroit → El Paso, 1,600 total miles, $1,400) vs Load B (Detroit → Atlanta, 750 total miles, $1,400). Why is Load B better if they pay the same?',
+                options: [
+                    'Because El Paso has better market rates',
+                    'Because Load B has fewer real total miles, giving a higher real RPM ($1.87 vs $0.875)',
+                    'Because Load A has more deadhead than loaded miles',
+                    'There is no real difference between the two loads'
+                ],
+                correctIndex: 1
+            }
+        ];
 
         function markLessonComplete() {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
@@ -428,20 +475,32 @@
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
                 alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
             }
         });
     </script>

@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -291,8 +292,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como
                 completada</button>
             <nav class="lesson-nav">
                 <a href="lesson-3.html" class="btn btn-secondary">← Lección anterior</a>
@@ -302,16 +305,38 @@
 
         </div>
 
-        
 
-        
 
-        
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 8, LESSON_NUM = 4;
+
+const QUIZ_QUESTIONS = [
+    {
+        question: 'Según el Box Breathing de la Estrategia #2 (Mindfulness), ¿cuál es el patrón correcto?',
+        options: ['Inhala 4, exhala 4 (sin hold)', 'Inhala 4, hold 4, exhala 4, hold 4', 'Inhala 10, exhala 10', 'Respirar lo más rápido posible'],
+        correctIndex: 1
+    },
+    {
+        question: 'Según la Estrategia #4 (Gratitud y Perspectiva), ¿en cuánto reduce la depresión la práctica diaria de gratitud?',
+        options: ['5-10%', '25-35%', '50-60%', 'No tiene efecto comprobado'],
+        correctIndex: 1
+    },
+    {
+        question: 'Según la Estrategia #5 (Ayuda Profesional), ¿cuál es el recurso para pensamientos suicidas o crisis urgente?',
+        options: ['Esperar a la próxima cita con terapeuta', '988 Suicide & Crisis Lifeline', 'Publicar en Facebook groups', 'No hay recurso específico mencionado'],
+        correctIndex: 1
+    },
+    {
+        question: 'Según la lección, ¿qué porcentaje de adultos tiene un problema de salud mental en algún momento de su vida?',
+        options: ['5-10%', '15-20%', '30-40%', '70-80%'],
+        correctIndex: 2
+    }
+];
+
 function markLessonComplete() {
     const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
     if (window.AcademyProgress) {
@@ -319,25 +344,32 @@ function markLessonComplete() {
         document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
             btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
             btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)';
+            btn.classList.remove('quiz-locked');
+            btn.removeAttribute('title');
             btn.disabled = true;
+            btn.dataset.lessonDone = 'true';
         });
         alert(isEs
-            ? '¡Lección PRO completada! 🧠
-6 estrategias de salud mental dominadas.
-Mente fuerte = Carrera sostenible.'
-            : 'PRO Lesson completed! 🧠
-6 mental health strategies mastered.
-Strong mind = Sustainable career.');
+            ? '¡Lección PRO completada! 🧠\n6 estrategias de salud mental dominadas.\nMente fuerte = Carrera sostenible.'
+            : 'PRO Lesson completed! 🧠\n6 mental health strategies mastered.\nStrong mind = Sustainable career.');
     }
 }
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+    const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+    if (alreadyDone) {
         document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
             btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
             btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)';
+            btn.classList.remove('quiz-locked');
+            btn.removeAttribute('title');
             btn.disabled = true;
+            btn.dataset.lessonDone = 'true';
         });
+        const quizEl = document.getElementById('lessonQuiz');
+        if (quizEl) quizEl.style.display = 'none';
+    } else if (window.AcademyQuiz) {
+        await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
     }
 });
     </script>

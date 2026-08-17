@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -436,8 +437,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as
                 Complete</button>
             <nav class="lesson-nav">
                 <a href="lesson-2.html" class="btn btn-secondary">← Previous Lesson</a>
@@ -447,32 +450,78 @@
             </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
-        const MODULE_NUM = 3, LESSON_NUM = 3; 
+        const MODULE_NUM = 3, LESSON_NUM = 3;
 
-function markLessonComplete() { 
-    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress) { 
-        window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); 
-        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
-            btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; 
-            btn.disabled = true; 
-        });
-        alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
-    } 
-} 
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'What weights does the Heat Map\'s "Combined Score" use?',
+                options: [
+                    '40% profit/mile, 30% wait time, 20% load availability, 10% success rate',
+                    '100% profit per mile only',
+                    '50% wait time, 50% profit',
+                    'Equal weight (25%) for all 4 metrics'
+                ],
+                correctIndex: 0
+            },
+            {
+                question: 'Per the Combined Score scoring guide, what score range is recommended for building your circuit around?',
+                options: ['60-79', 'Below 60', '80+', 'Any score works'],
+                correctIndex: 2
+            },
+            {
+                question: 'In the El Paso Zone Alert example (history: 2 loads, avg RPM $1.05/mi, avg wait 54 hrs, score 22/100), how much does the app suggest countering at?',
+                options: ['$1.30/mi (the original offer)', '$1.50/mi', '$2.10/mi', 'It doesn\'t suggest any counter'],
+                correctIndex: 2
+            },
+            {
+                question: 'Per the "Pro Tricks", what is recommended every Sunday?',
+                options: [
+                    'Not using the app that day',
+                    '15 minutes of weekly planning to identify 3 target zones',
+                    'Only checking the weather',
+                    'Completely changing your circuit'
+                ],
+                correctIndex: 1
+            }
+        ];
 
-document.addEventListener('DOMContentLoaded', () => { 
-    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { 
-        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
-            btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; 
-            btn.disabled = true;
+        function markLessonComplete() {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress) {
+                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
+                    btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
+                });
+                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
+                    btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
+                });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+            }
         });
-    } 
-});
     </script>
 
   

@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -369,8 +370,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as Complete</button>
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as Complete</button>
             <nav class="lesson-nav">
                 <a href="index.html" class="btn btn-secondary">← Back to Module</a>
                 <a href="lesson-3.html" class="btn btn-primary">Next: Decisions →</a>
@@ -381,8 +384,48 @@
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 2, LESSON_NUM = 2;
+
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'What is the formula for Deadhead Ratio?',
+                options: [
+                    'Loaded Miles ÷ Total Miles × 100',
+                    'Deadhead Miles ÷ Total Miles × 100',
+                    'Payment ÷ Total Miles',
+                    'Deadhead Miles ÷ Loaded Miles'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: 'In the comparison case (Load A: $1,500, 1,050 total mi, 23.8% deadhead ratio vs Load B: $1,200, 800 total mi, 6.25% deadhead ratio), which is objectively better?',
+                options: [
+                    'Load A, because it pays more',
+                    'Load B, because it generates more real RPM ($1.50 vs $1.43) with fewer total miles',
+                    'They are equal',
+                    'Load A, because it has more loaded miles'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: 'Per the "quick compensation rule", if your normal deadhead is 50 miles and a load requires 150 miles (100 extra), how much more must it pay per loaded mile?',
+                options: [
+                    '$0.15/mile extra',
+                    '$0.30/mile extra',
+                    '$0.05/mile extra',
+                    'No compensation needed'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: 'Per the lesson\'s deadhead ratio targets, which range is considered "Excellent"?',
+                options: ['8-12%', '12-18%', '0-8%', '18-25%'],
+                correctIndex: 2
+            }
+        ];
+
         function markLessonComplete() {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
             if (window.AcademyProgress) {
@@ -390,19 +433,31 @@
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
                 alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
             }
         }
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
             }
         });
     </script>

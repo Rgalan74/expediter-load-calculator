@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;808;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -464,78 +465,103 @@
             </section>
 
             <section>
-                <h2>💡 MODULE 2 WRAP-UP</h2>
+                <h2>🧠 ONE MORE TOOL: LEX AI</h2>
                 <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;">
-                    <p style="font-size:1.25rem;font-weight:700;text-align:center;margin-bottom:1.5rem">🎓 You have successfully completed Module 2!</p>
-
-                    <p><strong>What you just mastered:</strong></p>
-                    <ul>
-                        <li>✅ Basic and Advanced load calculations</li>
-                        <li>✅ Repositioning vs Loaded miles (thinking in total round-trips)</li>
-                        <li>✅ The Accept/Negotiate/Decline decision framework</li>
-                        <li>✅ Dodging the most common, costly data entry errors</li>
-                        <li>✅ Learning from Carlos's real-world breakthrough</li>
-                    </ul>
-
-                    <p style="margin-top:1.5rem"><strong>Your New Superpowers:</strong></p>
-                    <ul>
-                        <li>✅ Evaluating complex loads in under 30 seconds</li>
-                        <li>✅ Operating with 99% financial accuracy</li>
-                        <li>✅ Spotting phantom profits BEFORE you sign a rate con</li>
-                        <li>✅ Negotiating like an absolute pro, backed by real math</li>
-                        <li>✅ Protecting $200-$500 per load from stupid mistakes</li>
-                    </ul>
-
-                    <div style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
-                        <p style="margin:0;font-weight:700">Progress: 40% of the entire course complete</p>
-                        <div style="background:rgba(255,255,255,.1);height:12px;border-radius:1rem;margin-top:.5rem;overflow:hidden">
-                            <div style="background:linear-gradient(90deg,#00D9FF,#FF6B35);height:100%;width:40%"></div>
-                        </div>
-                    </div>
+                    <p>The Calculator gives you the numbers. But when a decision isn't obvious — an ambiguous load, a
+                        tough negotiation, a zone you don't know — you have one more copilot: <strong>Lex AI</strong>,
+                        the smart assistant built into the app.</p>
+                    <p style="margin-top:1rem">In the last lesson of this module you'll learn exactly what to ask it
+                        and how to use its answers to decide faster.</p>
                 </div>
             </section>
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Complete Module 2</button>
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as Completed</button>
             <nav class="lesson-nav">
                 <a href="lesson-4.html" class="btn btn-secondary">← Previous Lesson</a>
-                <a href="../../academy.html" class="btn btn-primary">Back to Academy Hub →</a>
+                <a href="lesson-6.html" class="btn btn-primary">Next: Lex AI: Your Decision Copilot →</a>
             </nav>
         </footer>
             </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
-        const MODULE_NUM = 2, LESSON_NUM = 5; 
+        const MODULE_NUM = 2, LESSON_NUM = 5;
 
-function markLessonComplete() { 
-    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress) { 
-        window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); 
-        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-            btn.textContent = isEs ? '✓ Módulo 2 Completado' : '✓ Module 2 Completed'; 
-            btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; 
-            btn.disabled = true; 
-        });
-        alert(isEs ? '¡Módulo 2 completado! 🎉\nHas dominado el Calculator.\n¿Listo para el Módulo 3?' : 'Module 2 completed! 🎉\nYou have mastered the Calculator.\nReady for Module 3?');
-    } 
-} 
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'In Week 1 with the app, Carlos accepted fewer loads (3 vs 5) but his weekly profit rose from $800 to...',
+                options: ['$1,000', '$1,250', '$950', '$1,500'],
+                correctIndex: 1
+            },
+            {
+                question: 'On Tuesday (Nashville → Laredo), the app alerted that the real profit was only $98 (7% margin) on a $1,400 load. After negotiating, what was the result?',
+                options: [
+                    'Carlos declined the load entirely',
+                    'He negotiated $150 extra, raising profit from $98 to $248 (+155%)',
+                    'He accepted the original load unchanged',
+                    'The broker canceled the load'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: 'Per the 3-month summary, what was the change in Carlos\'s monthly profit?',
+                options: [
+                    'From $2,800 to $5,100/month (+82%)',
+                    'From $5,100 to $2,800/month (-45%)',
+                    'It stayed the same at $2,800/month',
+                    'From $2,800 to $3,500/month (+25%)'
+                ],
+                correctIndex: 0
+            },
+            {
+                question: 'In the Month 1 summary (24 loads calculated, 15 accepted, 9 declined), what was the resulting avg hourly rate?',
+                options: ['$16/hr', '$31/hr', '$42/hr', '$58/hr'],
+                correctIndex: 2
+            }
+        ];
 
-document.addEventListener('DOMContentLoaded', () => { 
-    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { 
-        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-            btn.textContent = isEs ? '✓ Módulo 2 Completado' : '✓ Module 2 Completed'; 
-            btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)'; 
-            btn.disabled = true;
+        function markLessonComplete() {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress) {
+                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
+                    btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
+                    btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
+                });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+            }
         });
-    } 
-});
     </script>
 
-  
 
 
 

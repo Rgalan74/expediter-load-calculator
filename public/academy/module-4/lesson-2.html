@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -552,8 +553,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como
                 completada</button>
             <nav class="lesson-nav">
                 <a href="lesson-1.html" class="btn btn-secondary">← Lección anterior</a>
@@ -567,32 +570,73 @@
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
-        const MODULE_NUM = 4, LESSON_NUM = 2; 
+        const MODULE_NUM = 4, LESSON_NUM = 2;
 
-function markLessonComplete() { 
-    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress) { 
-        window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); 
-        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
-            btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; 
-            btn.disabled = true; 
-        });
-        alert(isEs ? '¡Lección PRO completada! 🎉\n+$2,000-3,500/mes extra aplicando estos scripts.' : 'PRO Lesson completed! 🎉\n+$2,000-3,500/month extra by applying these scripts.');
-    } 
-} 
+        const QUIZ_QUESTIONS = [
+            {
+                question: '¿Cuál es la estructura del Script #1 "The Value Sandwich"?',
+                options: ['Ask, Value, Acknowledge', 'Acknowledge, Value, Ask', 'Value, Ask, Decline', 'Decline, Counter, Accept'],
+                correctIndex: 1
+            },
+            {
+                question: 'En el ejemplo del "Value Sandwich" (broker ofrece $1,200), ¿en cuánto terminó cerrándose el load?',
+                options: ['$1,200 (sin cambios)', '$1,280', '$1,320 (+10%)', '$1,400'],
+                correctIndex: 2
+            },
+            {
+                question: 'Según las "Reglas de Counter-Offers", ¿cuántas veces como máximo deberías contraofertar?',
+                options: ['Ilimitadas veces hasta llegar a un acuerdo', '2 veces, luego decides (accept o decline)', 'Solo 1 vez', '5 veces mínimo'],
+                correctIndex: 1
+            },
+            {
+                question: '¿Por qué funciona el "Power Pause" (silencio estratégico)?',
+                options: [
+                    'Porque hace perder tiempo al broker a propósito',
+                    'El silencio es incómodo y el broker tiende a llenar ese silencio con una concesión',
+                    'Es una táctica de intimidación agresiva',
+                    'No tiene ningún efecto real, es solo cortesía'
+                ],
+                correctIndex: 1
+            }
+        ];
 
-document.addEventListener('DOMContentLoaded', () => { 
-    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { 
-        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
-            btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; 
-            btn.disabled = true;
+        function markLessonComplete() {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress) {
+                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
+                    btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
+                });
+                alert(isEs ? '¡Lección PRO completada! 🎉\n+$2,000-3,500/mes extra aplicando estos scripts.' : 'PRO Lesson completed! 🎉\n+$2,000-3,500/month extra by applying these scripts.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
+                    btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
+                });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+            }
         });
-    } 
-});
     </script>
 
   

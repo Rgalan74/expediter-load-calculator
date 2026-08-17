@@ -6,6 +6,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/academy.css">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -394,8 +395,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">
                 ✓ Mark as Complete
             </button>
 
@@ -408,9 +411,53 @@
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 1;
         const LESSON_NUM = 2;
+
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'According to the lesson\'s table, what is the total operating cost range per mile (variable + fixed)?',
+                options: [
+                    '$0.42 - $0.50/mile',
+                    '$0.58 - $0.76/mile',
+                    '$0.88 - $1.25/mile',
+                    '$1.30 - $1.50/mile'
+                ],
+                correctIndex: 2
+            },
+            {
+                question: 'If your van payment is $1,800/month, what happens to your fixed cost per mile when you go from 6,000 to 10,000 miles/month?',
+                options: [
+                    'It rises from $0.18 to $0.30/mile',
+                    'It stays the same at $0.25/mile',
+                    'It drops from $0.30 to $0.18/mile',
+                    'It rises to $0.35/mile from extra wear'
+                ],
+                correctIndex: 2
+            },
+            {
+                question: 'In the depreciation example (van bought for $80,000, worth $30,000 in 5 years, over 100,000 miles/year), what is the cost per mile?',
+                options: [
+                    '$0.10/mile',
+                    '$0.06/mile',
+                    '$0.16/mile',
+                    'There is no real cost, it\'s only on paper'
+                ],
+                correctIndex: 0
+            },
+            {
+                question: 'Per the lesson\'s cost red flags, above what TOTAL cost per mile does it become hard to be profitable?',
+                options: [
+                    '>$0.55/mile',
+                    '>$0.88/mile',
+                    '>$1.15/mile',
+                    '>$1.30/mile'
+                ],
+                correctIndex: 3
+            }
+        ];
 
         function markLessonComplete() {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
@@ -419,20 +466,32 @@
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
                 alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
             }
         });
     </script>

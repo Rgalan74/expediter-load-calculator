@@ -455,7 +455,7 @@
           <button class="tab-link n8n-nav-link tab-pill-inactive" data-tab="finances" data-i18n="nav.finances">Finances</button>
           <button class="tab-link n8n-nav-link tab-pill-inactive" data-tab="zones" data-i18n="nav.zones">Zones</button>
           <button class="tab-link n8n-nav-link tab-pill-inactive" data-tab="settings" data-i18n="nav.settings">Settings</button>
-          <a href="academy.html" class="tab-link n8n-nav-link tab-pill-inactive"
+          <a id="academyNavLink" href="academy.html" class="tab-link n8n-nav-link tab-pill-inactive"
             style="text-decoration:none" data-i18n="nav.academy">Academy</a>
           <a href="https://smartloadsolution.com?visit=1" target="_blank" rel="noopener noreferrer"
             class="tab-link n8n-nav-link tab-pill-inactive"
@@ -526,7 +526,7 @@
         <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="finances" data-i18n="nav.finances">💰 Finances</button>
         <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="zones" data-i18n="nav.zones">🗺️ Zones</button>
         <button class="tab-link text-left w-full hover:text-[#FF6D4A]" data-tab="settings" data-i18n="nav.settings">⚙️ Settings</button>
-        <a href="academy.html" class="text-left w-full hover:text-[#FF6D4A] py-1 block" style="text-decoration:none" data-i18n="nav.academy">📚 Academy</a>
+        <a id="academyNavLinkMobile" href="academy.html" class="text-left w-full hover:text-[#FF6D4A] py-1 block" style="text-decoration:none" data-i18n="nav.academy">📚 Academy</a>
         <a href="https://smartloadsolution.com?visit=1" target="_blank" rel="noopener noreferrer"
           class="text-left w-full hover:text-[#FF6D4A] py-1 block" style="text-decoration:none" data-i18n="nav.website">🌍 Website</a>
 
@@ -2892,6 +2892,22 @@
     document.addEventListener('DOMContentLoaded', () => {
       const lang = localStorage.getItem('app_language') || 'en';
       syncLangButtons(lang);
+    });
+
+    // 🌐 Academy nav link — apunta a la version del idioma activo (desktop + mobile)
+    function syncAcademyLink(lang) {
+      const href = lang === 'en' ? '/en/academy.html' : 'academy.html';
+      const link = document.getElementById('academyNavLink');
+      if (link) link.href = href;
+      const mobileLink = document.getElementById('academyNavLinkMobile');
+      if (mobileLink) mobileLink.href = href;
+    }
+    document.addEventListener('languageChanged', (e) => {
+      syncAcademyLink(e.detail.lang);
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+      const lang = localStorage.getItem('app_language') || 'en';
+      syncAcademyLink(lang);
     });
   </script>
 </body>

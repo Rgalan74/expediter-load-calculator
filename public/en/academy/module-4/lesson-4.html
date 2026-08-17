@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -565,8 +566,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as
                 Complete</button>
             <nav class="lesson-nav">
                 <a href="lesson-3.html" class="btn btn-secondary">← Previous Lesson</a>
@@ -577,32 +580,83 @@
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
-        const MODULE_NUM = 4, LESSON_NUM = 4; 
+        const MODULE_NUM = 4, LESSON_NUM = 4;
 
-function markLessonComplete() { 
-    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress) { 
-        window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); 
-        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
-            btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; 
-            btn.disabled = true; 
-        });
-        alert(isEs ? '¡Lección PRO completada! 🎉\nTu "no" protege tu negocio. Úsalo con confianza.' : 'PRO Lesson completed! 🎉\nYour "no" protects your business. Use it with confidence.');
-    } 
-} 
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'If a broker asks you for a "setup fee" or "insurance deposit" before assigning the load, what is this per the lesson?',
+                options: [
+                    'A normal industry practice',
+                    '100% a scam — legitimate brokers NEVER charge carriers',
+                    'Only suspicious if it\'s over $500',
+                    'Depends on the broker, sometimes it\'s legitimate'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: 'Per the industry standard for payment terms, at how many days is it considered the "danger zone"?',
+                options: ['15-30 days', '30-45 days', '45+ days', '60+ days'],
+                correctIndex: 3
+            },
+            {
+                question: 'If a broker refuses to send a written rate confirmation and says "verbal is fine", what is the recommended action?',
+                options: [
+                    'Accept anyway if you trust the broker',
+                    'No rate confirmation = No load, no exceptions',
+                    'Ask for half payment upfront',
+                    'Accept only if it\'s your first load with that broker'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: 'When a broker pressures for an immediate decision ("answer NOW or I move to the next one"), what does the lesson recommend?',
+                options: [
+                    'Accept immediately so you don\'t lose the load',
+                    'Ask for 15 minutes to run the numbers — if the urgency is real, they\'ll wait',
+                    'Automatically decline any urgent load',
+                    'Never negotiate with brokers in a hurry'
+                ],
+                correctIndex: 1
+            }
+        ];
 
-document.addEventListener('DOMContentLoaded', () => { 
-    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { 
-        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
-            btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; 
-            btn.disabled = true;
+        function markLessonComplete() {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            if (window.AcademyProgress) {
+                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
+                    btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
+                });
+                alert(isEs ? '¡Lección PRO completada! 🎉\nTu "no" protege tu negocio. Úsalo con confianza.' : 'PRO Lesson completed! 🎉\nYour "no" protects your business. Use it with confidence.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
+                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+                    btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
+                    btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
+                });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+            }
         });
-    } 
-});
     </script>
 
   

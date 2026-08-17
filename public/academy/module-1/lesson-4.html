@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -426,8 +427,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como
                 completada</button>
             <nav class="lesson-nav">
                 <a href="lesson-3.html" class="btn btn-secondary">← Lección anterior</a>
@@ -442,8 +445,53 @@
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 1, LESSON_NUM = 4;
+
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'Según la lección, ¿cuáles son las "tres capas de ganancia"?',
+                options: [
+                    'Bruta, Neta, Fiscal',
+                    'Bruta, Real, Por Hora',
+                    'Ingresos, Costos, Millas',
+                    'Deadhead, Loaded, Repositioning'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: 'En el caso del load Dallas → Chicago ($1,200, ganancia real $213, 22.5 horas invertidas), ¿cuál es la ganancia por hora?',
+                options: [
+                    '$24.91/hora',
+                    '$53.33/hora',
+                    '$9.47/hora',
+                    '$13.33/hora'
+                ],
+                correctIndex: 2
+            },
+            {
+                question: 'Comparando Load A (Chicago: $213 en 22.5 hrs) vs hacer Load B (Houston) DOS veces (11 hrs, $274 total), ¿qué opción es mejor y por qué?',
+                options: [
+                    'Load A, porque paga más en total',
+                    'Load B x2, porque genera $61 más en la mitad del tiempo',
+                    'Son exactamente iguales',
+                    'Load A, porque tiene menos millas de deadhead'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: 'Según la tabla de "Targets de Ganancia por Hora", ¿qué rango corresponde al nivel "Profesional"?',
+                options: [
+                    '$20-30/hora',
+                    '$35-45/hora',
+                    '$50-65/hora',
+                    '$70+/hora'
+                ],
+                correctIndex: 2
+            }
+        ];
+
         function markLessonComplete() {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
             if (window.AcademyProgress) {
@@ -451,19 +499,31 @@
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
                 alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
             }
         }
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
             }
         });
     </script>

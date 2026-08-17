@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -408,8 +409,10 @@
 
     </div>
 
+    <section class="lesson-quiz" id="lessonQuiz"></section>
+
     <footer class="lesson-footer">
-        <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como completada</button>
+        <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
         <nav class="lesson-nav">
             <a href="lesson-1.html" class="btn btn-secondary">← Lección anterior</a>
             <a href="index.html" class="btn btn-primary">Volver al módulo →</a>
@@ -422,8 +425,33 @@
 
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 5, LESSON_NUM = 2;
+
+        const QUIZ_QUESTIONS = [
+            {
+                question: '¿Cuál es la fórmula del KPI "Margen de Ganancia"?',
+                options: ['Total Gastos ÷ Total Millas', '(Ganancia Neta ÷ Ingresos Brutos) × 100', 'Total Ingresos ÷ Total Millas', '(Millas Deadhead ÷ Total Millas) × 100'],
+                correctIndex: 1
+            },
+            {
+                question: 'En el ejemplo del KPI "Utilización de Van" (5,400 mi loaded ÷ (22 días × 500 mi/día)), ¿cuál fue el resultado?',
+                options: ['60%', '49%', '40%', '100%'],
+                correctIndex: 1
+            },
+            {
+                question: 'Según el "Tablero de Alertas Tempranas", ¿qué combinación se considera "Crisis, intervención Ya"?',
+                options: ['3+ alertas amarillas', '2+ alertas rojas', '1 alerta amarilla', 'Todo verde'],
+                correctIndex: 1
+            },
+            {
+                question: 'Según la "Tasa de Aceptación de Cargas", ¿qué rango se considera el "sweet spot" (excelente)?',
+                options: ['70-85%', 'menos de 40%', '50-70%', 'más de 85%'],
+                correctIndex: 2
+            }
+        ];
+
         function markLessonComplete() {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
             if (window.AcademyProgress) {
@@ -431,19 +459,31 @@
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
                 alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
             }
         }
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
             }
         });
     </script>

@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -451,8 +452,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como completada</button>
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
             <nav class="lesson-nav">
                 <a href="index.html" class="btn btn-secondary">← Volver al módulo</a>
                 <a href="lesson-2.html" class="btn btn-primary">Siguiente: KPIs →</a>
@@ -465,8 +468,32 @@
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 5, LESSON_NUM = 1;
+
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'Comparando Chofer A ($12,000 ingresos, $3,900 ganancia, 32.5% margen) vs Chofer B ($9,000 ingresos, $4,200 ganancia, 46.7% margen), ¿quién se lleva más dinero a casa?',
+                options: ['Chofer A, porque ingresó más', 'Chofer B, aunque ganó menos ingresos brutos', 'Ambos ganan lo mismo', 'No se puede saber sin más datos'],
+                correctIndex: 1
+            },
+            {
+                question: '¿Cuáles son las "3 Capas de Números" según la lección?',
+                options: ['Ingresos, Millas, Gastos', 'Ingresos Brutos, Gastos Operativos, Ganancia Neta', 'Fijo, Variable, Total', 'Diario, Semanal, Mensual'],
+                correctIndex: 1
+            },
+            {
+                question: 'En el ejemplo del "Número Mínimo" (gastos fijos $2,200/mes, margen objetivo 40%), ¿cuáles son los ingresos mínimos necesarios?',
+                options: ['$2,200/mes', '$3,700/mes', '$5,500/mes', '$6,800/mes'],
+                correctIndex: 2
+            },
+            {
+                question: 'Según el "Sistema de Tracking Simple", ¿cuánto tiempo al día se recomienda dedicar al registro diario?',
+                options: ['3-5 minutos', '30 minutos', '1 hora', 'No es necesario hacerlo diario'],
+                correctIndex: 0
+            }
+        ];
 
         function markLessonComplete() {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
@@ -475,20 +502,32 @@
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
                 alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
             }
         });
     </script>

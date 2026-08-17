@@ -138,6 +138,15 @@ service cloud.firestore {
     }
     
     // ========================================
+    // SMART LOAD ACADEMY - PROGRESS TRACKING
+    // Document ID = userId (ver academy.js _docRef())
+    // ========================================
+    match /academyProgress/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId);  // write = create + update + delete
+    }
+
+    // ========================================
     // DESTINATION NOTES
     // ========================================
     match /destinationNotes/{noteId} {

@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -385,8 +386,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as Complete</button>
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as Complete</button>
             <nav class="lesson-nav">
                 <a href="index.html" class="btn btn-secondary">← Back to Module</a>
                 <a href="lesson-2.html" class="btn btn-primary">Next: Maintenance →</a>
@@ -397,8 +400,32 @@
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 6, LESSON_NUM = 1;
+
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'Per the lesson, what is the "sweet spot" speed for fuel efficiency?',
+                options: ['55 mph', '65-68 mph', '75 mph', '80 mph'],
+                correctIndex: 1
+            },
+            {
+                question: 'In the fuel calculation example (7,500 mi/month ÷ 18.5 MPG × $3.50/gal), how much is spent per month?',
+                options: ['$1,000/month', '$1,418/month', '$2,000/month', '$800/month'],
+                correctIndex: 1
+            },
+            {
+                question: 'Per the "Simple Rule" for reducing idle time, when should you turn off the engine?',
+                options: ['Never, always leave it running', 'If you\'ll be stopped more than 3 minutes', 'Only in summer', 'Only if required by law'],
+                correctIndex: 1
+            },
+            {
+                question: 'Per the total savings summary, what is the realistic goal applying 6-7 tactics?',
+                options: ['$80-120/month', '$450-670/month (total potential)', '$300-500/month', '$3,600-6,000/month'],
+                correctIndex: 2
+            }
+        ];
 
         function markLessonComplete() {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
@@ -407,20 +434,32 @@
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
                 alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
             }
         });
     </script>

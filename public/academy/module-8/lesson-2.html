@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -276,22 +277,50 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como completada</button>
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
             <nav class="lesson-nav">
                 <a href="lesson-1.html" class="btn btn-secondary">← Lección anterior</a>
                 <a href="lesson-3.html" class="btn btn-primary">Siguiente: Salud Física para Long-Haul Success →</a>
             </nav>
         </footer>
 
-
-
-
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 8, LESSON_NUM = 2;
+
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'Según el ejemplo de la "Semana típica", ¿cuál es el promedio semanal de trabajo vs vida?',
+                options: ['50% trabajo, 50% vida', '60% trabajo, 40% vida', '70% trabajo, 30% vida', '80% trabajo, 20% vida'],
+                correctIndex: 1
+            },
+            {
+                question: 'Según la Periodización del Área #1 (Tiempo y Energía), ¿cuál es el ciclo recomendado?',
+                options: ['5 semanas ON, 1 semana LIGHT', '3 semanas ON, 1 semana LIGHT', 'Trabajar todas las semanas igual', '1 semana ON, 3 semanas LIGHT'],
+                correctIndex: 1
+            },
+            {
+                question: 'Según el Área #3 (Desarrollo Personal), ¿cuál es el mínimo de actividad física recomendado por día?',
+                options: ['10 min', '30 min', '60 min', '90 min'],
+                correctIndex: 1
+            },
+            {
+                question: 'Según los 3 Niveles de Propósito, ¿cuál es el Nivel 3 (el más profundo y sostenible)?',
+                options: [
+                    '"Necesito pagar bills"',
+                    '"Quiero dar buena vida a familia"',
+                    '"Construyo independencia financiera. Modelo trabajo duro para hijos. Construyo algo de valor."',
+                    'No tener un "por qué" claro'
+                ],
+                correctIndex: 2
+            }
+        ];
 
         function markLessonComplete() {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
@@ -300,20 +329,32 @@
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
                 alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
             }
         });
     </script>

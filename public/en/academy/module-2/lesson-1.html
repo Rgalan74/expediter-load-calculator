@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -405,8 +406,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as Complete</button>
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as Complete</button>
             <nav class="lesson-nav">
                 <a href="index.html" class="btn btn-secondary">← Back to Module</a>
                 <a href="lesson-2.html" class="btn btn-primary">Next: Deadhead vs Loaded →</a>
@@ -417,8 +420,38 @@
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 2, LESSON_NUM = 1;
+
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'How many ESSENTIAL fields does the Calculator have, per the lesson\'s conclusion?',
+                options: ['7', '4', '3', '5'],
+                correctIndex: 1
+            },
+            {
+                question: 'In the step-by-step example (Toledo → Detroit → Atlanta, pay $1,200, CPM $1.05/mile), what is the resulting REAL RPM?',
+                options: ['$1.63/mile', '$1.50/mile', '$0.45/mile', '$1.05/mile'],
+                correctIndex: 1
+            },
+            {
+                question: 'If there\'s a separate FSC from the base rate ($1,000 base + $200 FSC), what should you enter in Load Payment?',
+                options: ['Just $1,000 (the base rate)', 'Just $200 (the FSC)', '$1,200 (the combined total)', 'The average of both'],
+                correctIndex: 2
+            },
+            {
+                question: 'Per the app\'s color code, what does YELLOW indicate?',
+                options: [
+                    'Profit margin >25%, accept with confidence',
+                    'Profit margin 15-25%, negotiate or analyze',
+                    'Profit margin <15%, decline',
+                    'Error in entered data'
+                ],
+                correctIndex: 1
+            }
+        ];
+
         function markLessonComplete() {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
             if (window.AcademyProgress) {
@@ -426,19 +459,31 @@
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
                 alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
             }
         }
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
             }
         });
     </script>

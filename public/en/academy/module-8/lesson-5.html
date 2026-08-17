@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -310,19 +311,47 @@
                 </div>
             </section>
         </div>
+
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as Complete</button>
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as Complete</button>
             <nav class="lesson-nav">
                 <a href="lesson-4.html" class="btn btn-secondary">← Previous Lesson</a>
                 <a href="index.html" class="btn btn-primary">🎉 Course Complete! →</a>
             </nav>
         </footer>
-        
+
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 8, LESSON_NUM = 5;
+
+const QUIZ_QUESTIONS = [
+    {
+        question: 'Per the 5 Dimensions of Lasting Legacy, which dimension includes "An impeccable reputation, Mentorship, Innovation, A transferable business"?',
+        options: ['Financial Legacy', 'Professional Legacy', 'Family Legacy', 'Personal Legacy'],
+        correctIndex: 1
+    },
+    {
+        question: 'Per "The Power of Compounding" example in Financial Legacy, how much accumulates with $500/month × 30 years @ 7%?',
+        options: ['$180,000', '$300,000', '$611,729', '$1,223,459'],
+        correctIndex: 2
+    },
+    {
+        question: 'Per the "Final Message", what percentage of those who start expediting genuinely thrive sustainably?',
+        options: ['40%', '30%', '20%', '10%'],
+        correctIndex: 3
+    },
+    {
+        question: 'Per the Financial Legacy components, how many months of expenses should the emergency fund cover?',
+        options: ['1-2 months', '3-4 months', '6-12 months', 'No emergency fund is needed'],
+        correctIndex: 2
+    }
+];
+
 function markLessonComplete() {
     const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
     if (window.AcademyProgress) {
@@ -330,29 +359,32 @@ function markLessonComplete() {
         document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
             btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
             btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)';
+            btn.classList.remove('quiz-locked');
+            btn.removeAttribute('title');
             btn.disabled = true;
+            btn.dataset.lessonDone = 'true';
         });
         alert(isEs
-            ? '🎉 ¡FELICITACIONES! 🎉
-¡Has completado TODA la Smart Load Academia!
-8 módulos y 314+ minutos PRO.
-5 dimensiones de legado dominadas.
-¡Ahora toca ACTUAR! 🚀'
-            : '🎉 CONGRATULATIONS! 🎉
-You have completed the entire Smart Load Academy!
-8 modules and 314+ minutes of PRO content.
-5 legacy dimensions mastered.
-Now it is time to ACT! 🚀');
+            ? '🎉 ¡FELICITACIONES! 🎉\n¡Has completado TODA la Smart Load Academia!\n8 módulos y 314+ minutos PRO.\n5 dimensiones de legado dominadas.\n¡Ahora toca ACTUAR! 🚀'
+            : '🎉 CONGRATULATIONS! 🎉\nYou have completed the entire Smart Load Academy!\n8 modules and 314+ minutes of PRO content.\n5 legacy dimensions mastered.\nNow it is time to ACT! 🚀');
     }
 }
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+    const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+    if (alreadyDone) {
         document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
             btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
             btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)';
+            btn.classList.remove('quiz-locked');
+            btn.removeAttribute('title');
             btn.disabled = true;
+            btn.dataset.lessonDone = 'true';
         });
+        const quizEl = document.getElementById('lessonQuiz');
+        if (quizEl) quizEl.style.display = 'none';
+    } else if (window.AcademyQuiz) {
+        await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
     }
 });
     </script>

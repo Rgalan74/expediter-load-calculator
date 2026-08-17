@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -405,8 +406,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como completada</button>
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
             <nav class="lesson-nav">
                 <a href="lesson-1.html" class="btn btn-secondary">← Lección anterior</a>
                 <a href="index.html" class="btn btn-primary">Volver al módulo →</a>
@@ -420,8 +423,33 @@
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 6, LESSON_NUM = 2;
+
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'Según la ecuación de mantenimiento, ¿cuánto cuesta el enfoque REACTIVO vs PREVENTIVO al mes?',
+                options: ['Reactivo $300-500, Preventivo $600-900', 'Reactivo $600-900, Preventivo $300-500', 'Ambos cuestan igual', 'Reactivo es siempre más barato'],
+                correctIndex: 1
+            },
+            {
+                question: 'Según el "Calendario Sagrado", ¿cada cuántas millas se recomienda el cambio de aceite y rotación de llantas?',
+                options: ['15,000 millas', '5,000 millas', '30,000 millas', '60,000 millas'],
+                correctIndex: 1
+            },
+            {
+                question: 'Si ves la luz de "OIL PRESSURE" (roja) en el dashboard, ¿qué debes hacer?',
+                options: ['Seguir manejando hasta el próximo taller', 'PARA INMEDIATAMENTE — puede destruir el motor en minutos', 'Solo revisar en la próxima parada programada', 'Ignorarlo si el motor suena normal'],
+                correctIndex: 1
+            },
+            {
+                question: 'Según el resumen anual (90K millas/año), ¿cuál es el ahorro total al año usando mantenimiento preventivo vs reactivo?',
+                options: ['$840-1,560/año', '$2,815-4,785/año (costo total preventivo)', '$4,385-6,015/año', '$7,200-10,800/año (costo reactivo)'],
+                correctIndex: 2
+            }
+        ];
+
         function markLessonComplete() {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
             if (window.AcademyProgress) {
@@ -429,19 +457,31 @@
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
                 alert(isEs ? '¡Lección PRO completada! 🔧\nPreventivo ahorra $200-400/mes vs reactivo.\nCalendario: 5K/15K/30K/60K millas.\nDIY ahorra 40-60% en trabajos simples.\nNunca ignores luces rojas de dashboard.' : 'PRO Lesson complete! 🔧\nPreventive saves $200-400/month vs reactive.\nSchedule: 5K/15K/30K/60K miles.\nDIY saves 40-60% on simple jobs.\nNever ignore red dashboard lights.');
             }
         }
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
             }
         });
     </script>

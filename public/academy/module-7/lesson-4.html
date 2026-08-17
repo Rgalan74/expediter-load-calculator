@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -433,8 +434,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como
                 completada</button>
             <nav class="lesson-nav">
                 <a href="lesson-3.html" class="btn btn-secondary">← Lección anterior</a>
@@ -442,14 +445,39 @@
             </nav>
         </footer>
 
-        
 
-        
+
+
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 7, LESSON_NUM = 4;
+
+const QUIZ_QUESTIONS = [
+    {
+        question: 'Comparando al Transportista A ($4,200/mes, load boards, 65 hrs) vs Transportista B ($6,800/mes, brokers lo llaman directo, 50 hrs), ¿cuál es la diferencia clave?',
+        options: ['El Transportista B tiene una van más nueva', 'NETWORK', 'El Transportista B trabaja más horas', 'El Transportista A cobra tarifas más altas'],
+        correctIndex: 1
+    },
+    {
+        question: '¿Cuántas personas conforman el "Inner Circle" (Círculo 1) según los 5 Círculos de Network?',
+        options: ['1-2 personas', '5-10 personas', '50-100 personas', '100-500 personas'],
+        correctIndex: 1
+    },
+    {
+        question: '¿Cuál evento es específico de la industria de expediting (a diferencia de MATS, que es trucking general)?',
+        options: ['Mid-America Trucking Show (MATS)', 'Chamber of Commerce local', 'Expedite Expo (Wilmington OH)', 'CES'],
+        correctIndex: 2
+    },
+    {
+        question: 'Según el ejemplo de Referidos Sistemáticos (10 clientes satisfechos × 2 referidos/año × $3,000/año cada uno), ¿cuál es el total anual generado?',
+        options: ['$6,000/año', '$30,000/año', '$60,000/año', '$100,000/año'],
+        correctIndex: 2
+    }
+];
+
 function markLessonComplete() {
     const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
     if (window.AcademyProgress) {
@@ -457,25 +485,32 @@ function markLessonComplete() {
         document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
             btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
             btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)';
+            btn.classList.remove('quiz-locked');
+            btn.removeAttribute('title');
             btn.disabled = true;
+            btn.dataset.lessonDone = 'true';
         });
         alert(isEs
-            ? '¡Lección PRO completada! 🤝
-5 círculos de network dominados.
-Tu net worth = Tu network.'
-            : 'PRO Lesson completed! 🤝
-5 network circles mastered.
-Your net worth = Your network.');
+            ? '¡Lección PRO completada! 🤝\n5 círculos de network dominados.\nTu net worth = Tu network.'
+            : 'PRO Lesson completed! 🤝\n5 network circles mastered.\nYour net worth = Your network.');
     }
 }
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+    const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+    if (alreadyDone) {
         document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
             btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
             btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)';
+            btn.classList.remove('quiz-locked');
+            btn.removeAttribute('title');
             btn.disabled = true;
+            btn.dataset.lessonDone = 'true';
         });
+        const quizEl = document.getElementById('lessonQuiz');
+        if (quizEl) quizEl.style.display = 'none';
+    } else if (window.AcademyQuiz) {
+        await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
     }
 });
     </script>

@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -397,8 +398,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as Complete</button>
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as Complete</button>
             <nav class="lesson-nav">
                 <a href="lesson-2.html" class="btn btn-secondary">← Previous Lesson</a>
                 <a href="lesson-4.html" class="btn btn-primary">Next: Forecasting →</a>
@@ -408,35 +411,71 @@
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
-        const MODULE_NUM = 5, LESSON_NUM = 3; 
+        const MODULE_NUM = 5, LESSON_NUM = 3;
 
-function markLessonComplete() { 
-    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress) { 
-        window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM); 
-        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
-            btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; 
-            btn.disabled = true; 
-        });
-        alert(isEs ? '¡Lección PRO completada! ✅
-Ahora sabes clasificar rutas por tier.
-Ganancia/hora es la métrica #1.' : 'PRO Lesson completed! ✅
-You now classify routes by tier.
-Profit/hour is your #1 metric.');
-    } 
-} 
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'Comparing Route A (Detroit→Chicago, $245 profit, 5 hrs, $49/hr) vs Route B (Detroit→Laredo, $280 profit, 26 hrs, $10.77/hr), which is better and why?',
+                options: [
+                    'Route B, because it generates more total profit',
+                    'Route A, because it generates much more per hour ($49 vs $10.77)',
+                    'They are equally profitable',
+                    'Route B, because it has better RPM'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: 'Per the route classification system, what characterizes "S-Tier"?',
+                options: ['RPM >$1.70/mi, margin >40%, profit/hr >$45', 'RPM <$1.10/mi, always decline', 'RPM $1.30-1.50/mi, accept if it fits', 'No backhaul available'],
+                correctIndex: 0
+            },
+            {
+                question: 'In the optimal weekly circuit example (only Tier S and A routes), what was the monthly difference vs a random circuit?',
+                options: ['+$1,240/month', '+$2,780/month (+66%)', 'No significant difference', '-$500/month (worse result)'],
+                correctIndex: 1
+            },
+            {
+                question: 'Per the lesson\'s conclusion, what percentage of routes generate 60% of the profit?',
+                options: ['50%', '30%', '20%', '100%'],
+                correctIndex: 2
+            }
+        ];
 
-document.addEventListener('DOMContentLoaded', () => { 
+function markLessonComplete() {
     const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) { 
+    if (window.AcademyProgress) {
+        window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
         document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-            btn.textContent = isEs ? '✓ Completada' : '✓ Completed'; 
-            btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)'; 
+            btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+            btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)';
+            btn.classList.remove('quiz-locked');
+            btn.removeAttribute('title');
             btn.disabled = true;
+            btn.dataset.lessonDone = 'true';
         });
-    } 
+        alert(isEs ? '¡Lección PRO completada! ✅\nAhora sabes clasificar rutas por tier.\nGanancia/hora es la métrica #1.' : 'PRO Lesson completed! ✅\nYou now classify routes by tier.\nProfit/hour is your #1 metric.');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+    if (alreadyDone) {
+        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
+            btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
+            btn.style.background = 'linear-gradient(135deg, #FFD700, #FF6B35)';
+            btn.classList.remove('quiz-locked');
+            btn.removeAttribute('title');
+            btn.disabled = true;
+            btn.dataset.lessonDone = 'true';
+        });
+        const quizEl = document.getElementById('lessonQuiz');
+        if (quizEl) quizEl.style.display = 'none';
+    } else if (window.AcademyQuiz) {
+        await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+    }
 });
     </script>
 

@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -457,8 +458,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as Complete</button>
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as Complete</button>
             <nav class="lesson-nav">
                 <a href="lesson-4.html" class="btn btn-secondary">← Previous Lesson</a>
                 <a href="index.html" class="btn btn-primary">🎉 Module Complete →</a>
@@ -469,8 +472,38 @@
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 5, LESSON_NUM = 5;
+
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'Per the lesson, what percentage of operators who expand to 2 vans go back to 1 van within the first year?',
+                options: ['30%', '50%', '70%', '10%'],
+                correctIndex: 2
+            },
+            {
+                question: 'Per the "10 Signs", if you have 7-9 out of 10 positive signs, what is recommended?',
+                options: [
+                    'Go ahead confidently without hesitation',
+                    'Probably ready, plan carefully',
+                    'You are NOT ready, focus on Phase 1',
+                    'Wait, build more first'
+                ],
+                correctIndex: 1
+            },
+            {
+                question: 'Per the second-van math, what revenue is required to be profitable at a 30% margin?',
+                options: ['$6,500-7,000/month (break-even only)', '$9,300-10,000/month', '$4,175-5,175/month', '$1,675/month'],
+                correctIndex: 1
+            },
+            {
+                question: 'Per the recommended "Driver Pay Structure", what is the MAXIMUM percentage of profit you should pay a driver?',
+                options: ['50% or more', '35% (never exceed it)', '10%', 'There is no recommended limit'],
+                correctIndex: 1
+            }
+        ];
+
         function markLessonComplete() {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
             if (window.AcademyProgress) {
@@ -478,19 +511,31 @@
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
                 alert(isEs ? '🎉 ¡MÓDULO 5 COMPLETADO! 🎉\nHas dominado Análisis Financiero & KPIs.\nAhora sabes:\n✅ Tracking financiero real\n✅ Los 10 KPIs esenciales\n✅ Rentabilidad por ruta\n✅ Forecasting preciso\n✅ Cuándo y cómo expandir\nYa no adivinas. SABES tus números.\n¿Listo para Módulo 6 (Optimización Operativa)?' : '🎉 MODULE 5 COMPLETE! 🎉\nYou have mastered Financial Analysis & KPIs.\nNow you know:\n✅ Real financial tracking\n✅ The 10 essential KPIs\n✅ Profitability by lane\n✅ Accurate forecasting\n✅ When and how to expand\nNo more guessing. You KNOW your numbers.\nReady for Module 6 (Operational Optimization)?');
             }
         }
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
             }
         });
     </script>

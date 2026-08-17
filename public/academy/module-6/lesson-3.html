@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -481,8 +482,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Marcar como completada</button>
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
             <nav class="lesson-nav">
                 <a href="lesson-2.html" class="btn btn-secondary">← Lección anterior</a>
                 <a href="lesson-4.html" class="btn btn-primary">Siguiente: Automatización →</a>
@@ -496,8 +499,33 @@
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 6, LESSON_NUM = 3;
+
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'En el ejemplo del script de negociación de seguro, el operador tenía cotizaciones de $760 y $695 vs su tarifa actual de $880/mes. ¿Cuál fue su meta al negociar?',
+                options: ['Pagar más para mantener lealtad', 'Igualar o acercarse a $695/mes', 'Cancelar el seguro completamente', 'Aceptar cualquier oferta sin negociar'],
+                correctIndex: 1
+            },
+            {
+                question: 'En el "Audit de Suscripciones" (load boards, ELD, GPS, teléfono, etc.), ¿cuánto fue el ahorro mensual total identificado?',
+                options: ['$255/mes (el costo actual total)', '$85/mes (lo necesario)', '$170/mes', '$45/mes'],
+                correctIndex: 2
+            },
+            {
+                question: 'En el ejemplo de "Compra Tus Propias Partes" para frenos, ¿cuánto se ahorró comprando las partes uno mismo?',
+                options: ['$400 (costo total con shop)', '$110, un 27.5%', '$290 (costo con partes propias)', 'No hay diferencia de costo'],
+                correctIndex: 1
+            },
+            {
+                question: 'Según la "Táctica #1" de negociación con mecánicos (relación a largo plazo por volumen), ¿qué descuento se puede lograr?',
+                options: ['50% en todo', '10-15% en labor + 5-10% en partes', 'Solo descuento en emergencias', 'Ningún descuento es posible con mecánicos'],
+                correctIndex: 1
+            }
+        ];
+
         function markLessonComplete() {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
             if (window.AcademyProgress) {
@@ -505,19 +533,31 @@
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
                 alert(isEs ? '¡Lección PRO completada! 💼\nCada gasto fijo es NEGOCIABLE.\nSeguro: $150-300/mes ahorro (shopping anual)\nTecnología: $100-170/mes (cancelar redundante)\nMantenimiento: $50-100/mes (negociar)\nTotal: $300-570/mes = $3,600-6,840/año' : 'PRO Lesson complete! 💼\nEvery fixed expense is NEGOTIABLE.\nInsurance: $150-300/month savings (annual shopping)\nTechnology: $100-170/month (cancel redundant)\nMaintenance: $50-100/month (negotiate)\nTotal: $300-570/month = $3,600-6,840/year');
             }
         }
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
             }
         });
     </script>

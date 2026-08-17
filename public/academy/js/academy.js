@@ -11,13 +11,13 @@ const AcademyProgress = {
     MODULES: {
         0: { lessons: 1, name: 'START HERE', time: '5 min', difficulty: 'Muy fácil' },
         1: { lessons: 5, name: 'Mentalidad & Fundamentos', time: '35 min', difficulty: 'Fácil' },
-        2: { lessons: 5, name: 'Dominando los Números', time: '45 min', difficulty: 'Fácil' },
+        2: { lessons: 6, name: 'Dominando los Números', time: '53 min', difficulty: 'Fácil' },
         3: { lessons: 5, name: 'Estrategia de Rutas', time: '40 min', difficulty: 'Intermedio' },
         4: { lessons: 5, name: 'Negociación & Rates', time: '50 min', difficulty: 'Intermedio', locked: true },
         5: { lessons: 5, name: 'Análisis Financiero', time: '45 min', difficulty: 'Intermedio', locked: true },
-        6: { lessons: 5, name: 'Inteligencia con Lex AI', time: '30 min', difficulty: 'Intermedio', locked: true },
-        7: { lessons: 5, name: 'Optimización Operativa', time: '35 min', difficulty: 'Fácil', locked: true },
-        8: { lessons: 5, name: 'Nivel Pro', time: '60 min', difficulty: 'Avanzado', locked: true }
+        6: { lessons: 5, name: 'Optimización Operativa', time: '58 min', difficulty: 'Avanzado', locked: true },
+        7: { lessons: 5, name: 'Diversificación de Ingresos', time: '90 min', difficulty: 'Avanzado', locked: true },
+        8: { lessons: 5, name: 'Sostenibilidad y Legado', time: '45 min', difficulty: 'Avanzado', locked: true }
     },
 
     /**
@@ -44,7 +44,7 @@ const AcademyProgress = {
     _defaultProgress() {
         const modules = {};
         for (let i = 0; i <= 8; i++) {
-            modules[i] = { completed: [], current: null };
+            modules[i] = { completed: [], current: null, quizzes: {} };
         }
         return { modules, badges: [], lastUpdate: new Date().toISOString() };
     },
@@ -147,6 +147,30 @@ const AcademyProgress = {
     async isLessonComplete(moduleNum, lessonNum) {
         const progress = await this.getProgress();
         return progress.modules[moduleNum].completed.includes(lessonNum);
+    },
+
+    // Quiz gate: puede fallar como máximo 1 pregunta para aprobar
+    QUIZ_MAX_MISSES: 1,
+
+    /**
+     * Guarda el resultado del intento más reciente del quiz de una lección.
+     * Reintentos ilimitados: cada llamada sobreescribe el intento anterior.
+     */
+    async recordQuizResult(moduleNum, lessonNum, score, total) {
+        const progress = await this.getProgress();
+        const mod = progress.modules[moduleNum];
+        if (!mod.quizzes) mod.quizzes = {};
+
+        const passed = (total - score) <= this.QUIZ_MAX_MISSES;
+        mod.quizzes[lessonNum] = { passed, score, total, lastAttempt: new Date().toISOString() };
+
+        await this.saveProgress(progress);
+        return passed;
+    },
+
+    async isQuizPassed(moduleNum, lessonNum) {
+        const progress = await this.getProgress();
+        return !!progress.modules[moduleNum]?.quizzes?.[lessonNum]?.passed;
     },
 
     async getModuleProgress(moduleNum) {
@@ -254,6 +278,9 @@ const AcademyAccess = {
         }
 
         firebase.auth().onAuthStateChanged(async (user) => {
+            if (window.AcademyProgress) {
+                window.AcademyProgress.setUser(user ? user.uid : null);
+            }
             if (!user) return;
             try {
                 const doc = await firebase.firestore()

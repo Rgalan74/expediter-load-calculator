@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -421,8 +422,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as Complete</button>
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as Complete</button>
             <nav class="lesson-nav">
                 <a href="lesson-4.html" class="btn btn-secondary">← Previous Lesson</a>
                 <a href="index.html" class="btn btn-primary">🎉 Module Complete →</a>
@@ -433,8 +436,33 @@
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 6, LESSON_NUM = 5;
+
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'Per the Kaizen math, improving 1% every week, what capacity percentage do you reach at week 52?',
+                options: ['112.7%', '152%', '167.7%', '200%'],
+                correctIndex: 2
+            },
+            {
+                question: 'What does each letter of the PDCA cycle stand for?',
+                options: ['Plan, Do, Check, Act', 'Plan, Design, Create, Adjust', 'Prepare, Deliver, Confirm, Adapt', 'Practice, Do, Compare, Advance'],
+                correctIndex: 0
+            },
+            {
+                question: 'Per the "Weekly Review" (15 min every Sunday), how many improvements are identified each time?',
+                options: ['5 improvements', '10 improvements', 'ONE improvement', 'None, only numbers are reviewed'],
+                correctIndex: 2
+            },
+            {
+                question: 'Per the "Progress Metrics" table at 12 months, what was the change in admin time (baseline 24 hrs)?',
+                options: ['Rose to 30 hrs', 'Stayed the same', 'Dropped to 5 hrs', 'Dropped to 15 hrs'],
+                correctIndex: 2
+            }
+        ];
+
         function markLessonComplete() {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
             if (window.AcademyProgress) {
@@ -442,19 +470,31 @@
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
                 alert(isEs ? '🎉 ¡MÓDULO 6 COMPLETADO! 🎉\nHas dominado Optimización Operativa Avanzada.\nKaizen: 1% semanal = 67.7% anual\nCalendario: Semanal/Mensual/Trimestral/Anual\nSistema: PDCA (Plan-Do-Check-Act)\n52 mejoras = Transformación total\nAhorro total: $1,100-1,845/mes\n+ 12-15 hrs/semana ahorradas' : '🎉 MODULE 6 COMPLETE! 🎉\nYou have mastered Advanced Operational Optimization.\nKaizen: 1% weekly = 67.7% annual\nCalendar: Weekly/Monthly/Quarterly/Annual\nSystem: PDCA (Plan-Do-Check-Act)\n52 improvements = Total transformation\nTotal savings: $1,100-1,845/month\n+ 12-15 hrs/week saved');
             }
         }
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
             }
         });
     </script>

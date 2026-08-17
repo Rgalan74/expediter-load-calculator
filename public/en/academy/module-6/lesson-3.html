@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -476,8 +477,10 @@
 
         </div>
 
+        <section class="lesson-quiz" id="lessonQuiz"></section>
+
         <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary" onclick="markLessonComplete()">✓ Mark as Complete</button>
+            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as Complete</button>
             <nav class="lesson-nav">
                 <a href="lesson-2.html" class="btn btn-secondary">← Previous Lesson</a>
                 <a href="lesson-4.html" class="btn btn-primary">Next: Automation →</a>
@@ -488,8 +491,33 @@
     </article>
 
     <script src="/academy/js/academy.js"></script>
+    <script src="/academy/js/academy-quiz.js"></script>
     <script>
         const MODULE_NUM = 6, LESSON_NUM = 3;
+
+        const QUIZ_QUESTIONS = [
+            {
+                question: 'In the insurance negotiation script example, the operator had quotes of $760 and $695 vs their current rate of $880/month. What was their negotiation goal?',
+                options: ['Pay more to maintain loyalty', 'Match or get close to $695/month', 'Cancel insurance entirely', 'Accept any offer without negotiating'],
+                correctIndex: 1
+            },
+            {
+                question: 'In the "Subscription Audit" (load boards, ELD, GPS, phone, etc.), what was the total identified monthly savings?',
+                options: ['$255/month (the current total cost)', '$85/month (what\'s necessary)', '$170/month', '$45/month'],
+                correctIndex: 2
+            },
+            {
+                question: 'In the "Buy Your Own Parts" brake example, how much was saved by sourcing the parts yourself?',
+                options: ['$400 (total shop cost)', '$110, a 27.5% savings', '$290 (cost with own parts)', 'There is no cost difference'],
+                correctIndex: 1
+            },
+            {
+                question: 'Per "Tactic #1" for negotiating with mechanics (long-term volume relationship), what discount can be achieved?',
+                options: ['50% off everything', '10-15% off labor + 5-10% off parts', 'Only a discount on emergencies', 'No discount is possible with mechanics'],
+                correctIndex: 1
+            }
+        ];
+
         function markLessonComplete() {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
             if (window.AcademyProgress) {
@@ -497,19 +525,31 @@
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
                 alert(isEs ? '¡Lección PRO completada! 💼\nCada gasto fijo es NEGOCIABLE.\nSeguro: $150-300/mes ahorro (shopping anual)\nTecnología: $100-170/mes (cancelar redundante)\nMantenimiento: $50-100/mes (negociar)\nTotal: $300-570/mes = $3,600-6,840/año' : 'PRO Lesson complete! 💼\nEvery fixed expense is NEGOTIABLE.\nInsurance: $150-300/month savings (annual shopping)\nTechnology: $100-170/month (cancel redundant)\nMaintenance: $50-100/month (negotiate)\nTotal: $300-570/month = $3,600-6,840/year');
             }
         }
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM)) {
+            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+
+            if (alreadyDone) {
                 document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
                     btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
                     btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
+                    btn.classList.remove('quiz-locked');
+                    btn.removeAttribute('title');
                     btn.disabled = true;
+                    btn.dataset.lessonDone = 'true';
                 });
+                const quizEl = document.getElementById('lessonQuiz');
+                if (quizEl) quizEl.style.display = 'none';
+            } else if (window.AcademyQuiz) {
+                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
             }
         });
     </script>
