@@ -806,6 +806,14 @@
       color: var(--primary-cyan);
     }
 
+    /* ---- Featured cards (App Tour / Quick Win) ---- */
+    .featured-card-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
     @media (max-width: 640px) {
       .academy-hero-photo {
         min-height: 400px;
@@ -815,6 +823,16 @@
         flex-direction: column;
         text-align: center;
         margin-top: -2rem;
+      }
+
+      .featured-card-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .featured-card-grid .module-meta {
+        justify-content: center;
       }
     }
   </style>
@@ -994,7 +1012,66 @@
     </div>
   </section>
 
-  <!-- 6. CURRÍCULO COMPLETO -->
+  <!-- 6. READY TO START (Tour + Quick Win) -->
+  <section class="modules-section">
+    <div class="container">
+      <h2 class="section-heading">Found yourself above? Start now</h2>
+      <p class="section-sub">Two quick entry points — before you dive into the full curriculum.</p>
+      <div class="modules-grid">
+
+        <!-- APP TOUR - Featured -->
+        <div class="module-card free"
+          style="grid-column: 1 / -1; background: linear-gradient(135deg, rgba(0,217,255,0.1), rgba(0,150,200,0.1)); border: 2px solid rgba(0,217,255,0.3);">
+          <span class="module-badge" style="background: linear-gradient(90deg, #00D9FF, #0096C8); color: #000;">🗺️
+            BEFORE MODULE 1</span>
+          <div class="featured-card-grid">
+            <div style="text-align: center;">
+              <div style="width: 3.5rem; height: 3.5rem; margin: 0 auto 1rem; color: #00D9FF;" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M12 18h.01"/></svg></div>
+              <div style="font-size: 0.875rem; color: #888; text-transform: uppercase; letter-spacing: 1px;">Guided
+                Tour</div>
+            </div>
+            <div>
+              <h3 style="font-size: 1.75rem; font-weight: 900; margin-bottom: 0.75rem; color: #00D9FF;">App Tour</h3>
+              <p style="color: #d0d0d0; margin-bottom: 1rem; font-size: 1.1rem;">📱 Get to know every screen in
+                10-15 minutes, before you start</p>
+              <div class="module-meta" style="margin-bottom: 1.5rem;">
+                <span>⏱️ 10-15 minutes</span>
+                <span>🟢 Very Easy</span>
+                <span>📖 6 screens</span>
+              </div>
+              <a href="/en/academy/tour/" class="btn-module"
+                style="background: linear-gradient(90deg, #00D9FF, #0096C8); color: #000; max-width: 300px;">Start
+                Tour →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- START HERE - QUICK WIN (Featured) -->
+        <div class="module-card free start-here-card" style="grid-column: 1 / -1; border-color: rgba(255,107,53,0.3); box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 24px 48px -28px rgba(0,0,0,0.65), 0 0 60px rgba(255,107,53,0.1);">
+          <span class="module-badge" style="border-color: rgba(255,107,53,0.35); color: #ffb491;" data-i18n="academy.start_badge">💥 START HERE</span>
+          <div class="featured-card-grid">
+            <div style="text-align: center;">
+              <div style="width: 3.5rem; height: 3.5rem; margin: 0 auto 1rem; color: #00D9FF;" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="2"/></svg></div>
+              <div style="font-size: 0.875rem; color: #888; text-transform: uppercase; letter-spacing: 1px;" data-i18n="academy.start_label">Quick Win</div>
+            </div>
+            <div>
+              <h3 style="font-size: 1.75rem; font-weight: 900; margin-bottom: 0.75rem; color: var(--primary-orange);" data-i18n="academy.start_title">The #1 mistake expediters make</h3>
+              <p style="color: #d0d0d0; margin-bottom: 1rem; font-size: 1.1rem;" data-i18n="academy.start_desc">💰 5 minutes that could save you $500 this week</p>
+              <div class="module-meta" style="margin-bottom: 1.5rem;">
+                <span data-i18n="academy.start_time">⏱️ 5 minutes</span>
+                <span data-i18n="academy.start_diff">🟢 Very easy</span>
+                <span data-i18n="academy.start_lessons">📖 1 lesson</span>
+              </div>
+              <a href="/en/academy/start-here/" class="btn-module" style="background: rgba(255,107,53,0.14); border: 1px solid rgba(255,107,53,0.55); color: #ffb491; max-width: 300px;" data-i18n="academy.start_btn">Start Now →</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. CURRÍCULO COMPLETO -->
   <section class="curriculum-section">
     <div class="container">
       <h2 class="section-heading">Full curriculum</h2>
@@ -1140,7 +1217,7 @@
     </div>
   </section>
 
-  <!-- 7. QUÉ INCLUYE CADA PLAN -->
+  <!-- 8. QUÉ INCLUYE CADA PLAN -->
   <section class="plans-compare-section">
     <div class="container">
       <h2 class="section-heading">What's included in each plan</h2>
@@ -1181,7 +1258,7 @@
     </div>
   </section>
 
-  <!-- 8. PREGUNTAS FRECUENTES -->
+  <!-- 9. PREGUNTAS FRECUENTES -->
   <section class="academy-faq-section">
     <div class="container">
       <h2 class="section-heading">Frequently asked questions</h2>
@@ -1218,58 +1295,12 @@
     </div>
   </section>
 
-  <!-- MODULES GRID -->
+  <!-- 10. MODULES GRID (full catalog) -->
   <section class="modules-section">
     <div class="container">
+      <h2 class="section-heading">Browse the full catalog</h2>
+      <p class="section-sub">Already know what you're looking for? Jump straight into any module.</p>
       <div class="modules-grid">
-
-        <!-- APP TOUR - Featured -->
-        <div class="module-card free"
-          style="grid-column: 1 / -1; background: linear-gradient(135deg, rgba(0,217,255,0.1), rgba(0,150,200,0.1)); border: 2px solid rgba(0,217,255,0.3);">
-          <span class="module-badge" style="background: linear-gradient(90deg, #00D9FF, #0096C8); color: #000;">🗺️
-            BEFORE MODULE 1</span>
-          <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: center;">
-            <div style="text-align: center;">
-              <div style="width: 3.5rem; height: 3.5rem; margin: 0 auto 1rem; color: #00D9FF;" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M12 18h.01"/></svg></div>
-              <div style="font-size: 0.875rem; color: #888; text-transform: uppercase; letter-spacing: 1px;">Guided
-                Tour</div>
-            </div>
-            <div>
-              <h3 style="font-size: 1.75rem; font-weight: 900; margin-bottom: 0.75rem; color: #00D9FF;">App Tour</h3>
-              <p style="color: #d0d0d0; margin-bottom: 1rem; font-size: 1.1rem;">📱 Get to know every screen in
-                10-15 minutes, before you start</p>
-              <div class="module-meta" style="margin-bottom: 1.5rem;">
-                <span>⏱️ 10-15 minutes</span>
-                <span>🟢 Very Easy</span>
-                <span>📖 6 screens</span>
-              </div>
-              <a href="/en/academy/tour/" class="btn-module"
-                style="background: linear-gradient(90deg, #00D9FF, #0096C8); color: #000; max-width: 300px;">Start
-                Tour →</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- START HERE - QUICK WIN (Featured) -->
-        <div class="module-card free start-here-card" style="grid-column: 1 / -1; border-color: rgba(255,107,53,0.3); box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 24px 48px -28px rgba(0,0,0,0.65), 0 0 60px rgba(255,107,53,0.1);">
-          <span class="module-badge" style="border-color: rgba(255,107,53,0.35); color: #ffb491;" data-i18n="academy.start_badge">💥 START HERE</span>
-          <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: center;">
-            <div style="text-align: center;">
-              <div style="width: 3.5rem; height: 3.5rem; margin: 0 auto 1rem; color: #00D9FF;" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="2"/></svg></div>
-              <div style="font-size: 0.875rem; color: #888; text-transform: uppercase; letter-spacing: 1px;" data-i18n="academy.start_label">Quick Win</div>
-            </div>
-            <div>
-              <h3 style="font-size: 1.75rem; font-weight: 900; margin-bottom: 0.75rem; color: var(--primary-orange);" data-i18n="academy.start_title">The #1 mistake expediters make</h3>
-              <p style="color: #d0d0d0; margin-bottom: 1rem; font-size: 1.1rem;" data-i18n="academy.start_desc">💰 5 minutes that could save you $500 this week</p>
-              <div class="module-meta" style="margin-bottom: 1.5rem;">
-                <span data-i18n="academy.start_time">⏱️ 5 minutes</span>
-                <span data-i18n="academy.start_diff">🟢 Very easy</span>
-                <span data-i18n="academy.start_lessons">📖 1 lesson</span>
-              </div>
-              <a href="/en/academy/start-here/" class="btn-module" style="background: rgba(255,107,53,0.14); border: 1px solid rgba(255,107,53,0.55); color: #ffb491; max-width: 300px;" data-i18n="academy.start_btn">Start Now →</a>
-            </div>
-          </div>
-        </div>
 
         <!-- MODULE 1 - FREE -->
         <div class="module-card free" data-module="1">
