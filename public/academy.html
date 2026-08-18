@@ -420,6 +420,26 @@
       line-height: 1.55;
     }
 
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      padding: 0.85rem 1.75rem;
+      border-radius: 0.65rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      background: linear-gradient(90deg, #00D9FF, #0096C8);
+      color: #000;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .hero-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 217, 255, 0.3);
+    }
+
     /* ---- Bloque de credibilidad ---- */
     .credibility-card {
       display: flex;
@@ -628,6 +648,16 @@
       color: #b0b0b0;
       padding: 0.5rem 0;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .curriculum-lesson:hover {
+      color: var(--primary-cyan);
+    }
+
+    .curriculum-lesson:hover .curriculum-lesson-time {
+      color: inherit;
     }
 
     .curriculum-lesson:first-child {
@@ -921,6 +951,7 @@
       <div class="hero-eyebrow">Academia<span class="dot">·</span>8 módulos<span class="dot">·</span>41 lecciones</div>
       <h1 class="hero-title">Aprende a pensar como <span class="accent">operador rentable</span>, no como un chofer más</h1>
       <p class="hero-subtitle">8 módulos, 41 lecciones construidas con números reales de carga — no teoría genérica de otro rubro.</p>
+      <a href="academy/start-here/" class="hero-cta">Empezar ahora →</a>
     </div>
   </section>
 
@@ -1031,11 +1062,11 @@
               <svg class="curriculum-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M6 9l6 6 6-6"/></svg>
             </summary>
             <div class="curriculum-lessons">
-                <div class="curriculum-lesson"><span>Qué es el RPM Real (y por qué el 90% lo calcula mal)</span><span class="curriculum-lesson-time">6 min</span></div>
-                <div class="curriculum-lesson"><span>Costos Visibles vs Costos Invisibles</span><span class="curriculum-lesson-time">7 min</span></div>
-                <div class="curriculum-lesson"><span>Break-Even: Tu Número de Supervivencia</span><span class="curriculum-lesson-time">8 min</span></div>
-                <div class="curriculum-lesson"><span>Ganancia Bruta vs Ganancia Real (Y el Factor Tiempo)</span><span class="curriculum-lesson-time">7 min</span></div>
-                <div class="curriculum-lesson"><span>Por Qué "Carga Pagada" NO Significa "Carga Rentable"</span><span class="curriculum-lesson-time">8 min</span></div>
+                <a class="curriculum-lesson" href="academy/module-1/lesson-1.html"><span>Qué es el RPM Real (y por qué el 90% lo calcula mal)</span><span class="curriculum-lesson-time">6 min</span></a>
+                <a class="curriculum-lesson" href="academy/module-1/lesson-2.html"><span>Costos Visibles vs Costos Invisibles</span><span class="curriculum-lesson-time">7 min</span></a>
+                <a class="curriculum-lesson" href="academy/module-1/lesson-3.html"><span>Break-Even: Tu Número de Supervivencia</span><span class="curriculum-lesson-time">8 min</span></a>
+                <a class="curriculum-lesson" href="academy/module-1/lesson-4.html"><span>Ganancia Bruta vs Ganancia Real (Y el Factor Tiempo)</span><span class="curriculum-lesson-time">7 min</span></a>
+                <a class="curriculum-lesson" href="academy/module-1/lesson-5.html"><span>Por Qué "Carga Pagada" NO Significa "Carga Rentable"</span><span class="curriculum-lesson-time">8 min</span></a>
             </div>
           </details>
 
@@ -1048,12 +1079,12 @@
               <svg class="curriculum-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M6 9l6 6 6-6"/></svg>
             </summary>
             <div class="curriculum-lessons">
-                <div class="curriculum-lesson"><span>Cómo Usar la Calculadora Correctamente</span><span class="curriculum-lesson-time">10 min</span></div>
-                <div class="curriculum-lesson"><span>Loaded Miles vs Deadhead Miles: Cómo Pensar Ambos Juntos</span><span class="curriculum-lesson-time">9 min</span></div>
-                <div class="curriculum-lesson"><span>Interpretar el Resultado: Aceptar, Negociar o Rechazar</span><span class="curriculum-lesson-time">8 min</span></div>
-                <div class="curriculum-lesson"><span>Errores Comunes al Introducir Datos (Y Cómo Evitarlos)</span><span class="curriculum-lesson-time">8 min</span></div>
-                <div class="curriculum-lesson"><span>Caso Real: La Transformación de Carlos</span><span class="curriculum-lesson-time">10 min</span></div>
-                <div class="curriculum-lesson"><span>Lex AI: Tu Copiloto de Decisiones</span><span class="curriculum-lesson-time">8 min</span></div>
+                <a class="curriculum-lesson" href="academy/module-2/lesson-1.html"><span>Cómo Usar la Calculadora Correctamente</span><span class="curriculum-lesson-time">10 min</span></a>
+                <a class="curriculum-lesson" href="academy/module-2/lesson-2.html"><span>Loaded Miles vs Deadhead Miles: Cómo Pensar Ambos Juntos</span><span class="curriculum-lesson-time">9 min</span></a>
+                <a class="curriculum-lesson" href="academy/module-2/lesson-3.html"><span>Interpretar el Resultado: Aceptar, Negociar o Rechazar</span><span class="curriculum-lesson-time">8 min</span></a>
+                <a class="curriculum-lesson" href="academy/module-2/lesson-4.html"><span>Errores Comunes al Introducir Datos (Y Cómo Evitarlos)</span><span class="curriculum-lesson-time">8 min</span></a>
+                <a class="curriculum-lesson" href="academy/module-2/lesson-5.html"><span>Caso Real: La Transformación de Carlos</span><span class="curriculum-lesson-time">10 min</span></a>
+                <a class="curriculum-lesson" href="academy/module-2/lesson-6.html"><span>Lex AI: Tu Copiloto de Decisiones</span><span class="curriculum-lesson-time">8 min</span></a>
             </div>
           </details>
 
@@ -1066,11 +1097,11 @@
               <svg class="curriculum-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M6 9l6 6 6-6"/></svg>
             </summary>
             <div class="curriculum-lessons">
-                <div class="curriculum-lesson"><span>Qué Son las Zonas Rentables (Y Cómo Identificar las Tuyas)</span><span class="curriculum-lesson-time">12 min</span></div>
-                <div class="curriculum-lesson"><span>Estados Buenos Para Entrar vs Estados Buenos Para Salir</span><span class="curriculum-lesson-time">11 min</span></div>
-                <div class="curriculum-lesson"><span>Usando el Zone Heat Map (Guía Visual)</span><span class="curriculum-lesson-time">9 min</span></div>
-                <div class="curriculum-lesson"><span>Deadhead Estratégico: Cuándo Vale la Pena "Pagar" por Posicionarte</span><span class="curriculum-lesson-time">9 min</span></div>
-                <div class="curriculum-lesson"><span>Posicionamiento Inteligente: Pensar 2-3 Loads Adelante</span><span class="curriculum-lesson-time">10 min</span></div>
+                <a class="curriculum-lesson" href="academy/module-3/lesson-1.html"><span>Qué Son las Zonas Rentables (Y Cómo Identificar las Tuyas)</span><span class="curriculum-lesson-time">12 min</span></a>
+                <a class="curriculum-lesson" href="academy/module-3/lesson-2.html"><span>Estados Buenos Para Entrar vs Estados Buenos Para Salir</span><span class="curriculum-lesson-time">11 min</span></a>
+                <a class="curriculum-lesson" href="academy/module-3/lesson-3.html"><span>Usando el Zone Heat Map (Guía Visual)</span><span class="curriculum-lesson-time">9 min</span></a>
+                <a class="curriculum-lesson" href="academy/module-3/lesson-4.html"><span>Deadhead Estratégico: Cuándo Vale la Pena "Pagar" por Posicionarte</span><span class="curriculum-lesson-time">9 min</span></a>
+                <a class="curriculum-lesson" href="academy/module-3/lesson-5.html"><span>Posicionamiento Inteligente: Pensar 2-3 Loads Adelante</span><span class="curriculum-lesson-time">10 min</span></a>
             </div>
           </details>
 
@@ -1083,11 +1114,11 @@
               <svg class="curriculum-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M6 9l6 6 6-6"/></svg>
             </summary>
             <div class="curriculum-lessons">
-                <div class="curriculum-lesson"><span>Fundamentos de Negociación Efectiva en Expediting</span><span class="curriculum-lesson-time">10 min</span></div>
-                <div class="curriculum-lesson"><span>Scripts de Negociación (Palabra por Palabra)</span><span class="curriculum-lesson-time">9 min</span></div>
-                <div class="curriculum-lesson"><span>Construyendo Relaciones: Brokers que Te Llaman Primero</span><span class="curriculum-lesson-time">12 min</span></div>
-                <div class="curriculum-lesson"><span>Señales de Alerta y Cuándo Decir No</span><span class="curriculum-lesson-time">11 min</span></div>
-                <div class="curriculum-lesson"><span>Manteniendo Relaciones: Año 1 al Año 5+</span><span class="curriculum-lesson-time">13 min</span></div>
+                <a class="curriculum-lesson" href="plans.html"><span>Fundamentos de Negociación Efectiva en Expediting</span><span class="curriculum-lesson-time">10 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>Scripts de Negociación (Palabra por Palabra)</span><span class="curriculum-lesson-time">9 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>Construyendo Relaciones: Brokers que Te Llaman Primero</span><span class="curriculum-lesson-time">12 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>Señales de Alerta y Cuándo Decir No</span><span class="curriculum-lesson-time">11 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>Manteniendo Relaciones: Año 1 al Año 5+</span><span class="curriculum-lesson-time">13 min</span></a>
             </div>
           </details>
 
@@ -1100,11 +1131,11 @@
               <svg class="curriculum-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M6 9l6 6 6-6"/></svg>
             </summary>
             <div class="curriculum-lessons">
-                <div class="curriculum-lesson"><span>Más Allá de "Cuánto Gané": Tracking Financiero Real</span><span class="curriculum-lesson-time">12 min</span></div>
-                <div class="curriculum-lesson"><span>KPIs que Predicen Éxito o Fracaso</span><span class="curriculum-lesson-time">15 min</span></div>
-                <div class="curriculum-lesson"><span>Análisis de Rentabilidad por Ruta</span><span class="curriculum-lesson-time">14 min</span></div>
-                <div class="curriculum-lesson"><span>Forecasting y Planificación: Predecir Ingresos Futuros</span><span class="curriculum-lesson-time">13 min</span></div>
-                <div class="curriculum-lesson"><span>Cuándo Expandir: Segunda Van y Escalamiento</span><span class="curriculum-lesson-time">16 min</span></div>
+                <a class="curriculum-lesson" href="plans.html"><span>Más Allá de "Cuánto Gané": Tracking Financiero Real</span><span class="curriculum-lesson-time">12 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>KPIs que Predicen Éxito o Fracaso</span><span class="curriculum-lesson-time">15 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>Análisis de Rentabilidad por Ruta</span><span class="curriculum-lesson-time">14 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>Forecasting y Planificación: Predecir Ingresos Futuros</span><span class="curriculum-lesson-time">13 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>Cuándo Expandir: Segunda Van y Escalamiento</span><span class="curriculum-lesson-time">16 min</span></a>
             </div>
           </details>
 
@@ -1117,11 +1148,11 @@
               <svg class="curriculum-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M6 9l6 6 6-6"/></svg>
             </summary>
             <div class="curriculum-lessons">
-                <div class="curriculum-lesson"><span>Maestría en Eficiencia de Combustible</span><span class="curriculum-lesson-time">10 min</span></div>
-                <div class="curriculum-lesson"><span>Mantenimiento Preventivo vs Reactivo</span><span class="curriculum-lesson-time">9 min</span></div>
-                <div class="curriculum-lesson"><span>Negociación con Proveedores y Reducción de Gastos Fijos</span><span class="curriculum-lesson-time">13 min</span></div>
-                <div class="curriculum-lesson"><span>Sistemas y Automatización</span><span class="curriculum-lesson-time">13 min</span></div>
-                <div class="curriculum-lesson"><span>Optimización Continua: El Sistema de Mejora 1%</span><span class="curriculum-lesson-time">15 min</span></div>
+                <a class="curriculum-lesson" href="plans.html"><span>Maestría en Eficiencia de Combustible</span><span class="curriculum-lesson-time">10 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>Mantenimiento Preventivo vs Reactivo</span><span class="curriculum-lesson-time">9 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>Negociación con Proveedores y Reducción de Gastos Fijos</span><span class="curriculum-lesson-time">13 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>Sistemas y Automatización</span><span class="curriculum-lesson-time">13 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>Optimización Continua: El Sistema de Mejora 1%</span><span class="curriculum-lesson-time">15 min</span></a>
             </div>
           </details>
 
@@ -1134,11 +1165,11 @@
               <svg class="curriculum-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M6 9l6 6 6-6"/></svg>
             </summary>
             <div class="curriculum-lessons">
-                <div class="curriculum-lesson"><span>Diversificación de Ingresos: Más Allá de Solo Manejar</span><span class="curriculum-lesson-time">18 min</span></div>
-                <div class="curriculum-lesson"><span>Nichos Premium en Expediting: Cobra $2.00-3.50/Mi</span><span class="curriculum-lesson-time">20 min</span></div>
-                <div class="curriculum-lesson"><span>Construcción de Marca Personal: Destácate en Mercado Saturado</span><span class="curriculum-lesson-time">17 min</span></div>
-                <div class="curriculum-lesson"><span>Networking Efectivo en la Industria: Construye Relaciones que Abren Puertas</span><span class="curriculum-lesson-time">16 min</span></div>
-                <div class="curriculum-lesson"><span>Preparación para Venta o Escalamiento: Construye Activo Valioso</span><span class="curriculum-lesson-time">19 min</span></div>
+                <a class="curriculum-lesson" href="plans.html"><span>Diversificación de Ingresos: Más Allá de Solo Manejar</span><span class="curriculum-lesson-time">18 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>Nichos Premium en Expediting: Cobra $2.00-3.50/Mi</span><span class="curriculum-lesson-time">20 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>Construcción de Marca Personal: Destácate en Mercado Saturado</span><span class="curriculum-lesson-time">17 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>Networking Efectivo en la Industria: Construye Relaciones que Abren Puertas</span><span class="curriculum-lesson-time">16 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>Preparación para Venta o Escalamiento: Construye Activo Valioso</span><span class="curriculum-lesson-time">19 min</span></a>
             </div>
           </details>
 
@@ -1151,11 +1182,11 @@
               <svg class="curriculum-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M6 9l6 6 6-6"/></svg>
             </summary>
             <div class="curriculum-lessons">
-                <div class="curriculum-lesson"><span>Reconociendo y Previniendo Burnout: Las Señales de Alerta</span><span class="curriculum-lesson-time">9 min</span></div>
-                <div class="curriculum-lesson"><span>Balance Trabajo-Vida Real: No Fantasía, Estrategias Prácticas</span><span class="curriculum-lesson-time">9 min</span></div>
-                <div class="curriculum-lesson"><span>Salud Física para Long-Haul Success: Cuida Tu Máquina</span><span class="curriculum-lesson-time">9 min</span></div>
-                <div class="curriculum-lesson"><span>Salud Mental y Resiliencia: La Fortaleza Invisible</span><span class="curriculum-lesson-time">9 min</span></div>
-                <div class="curriculum-lesson"><span>Legado y Visión a Largo Plazo: Más Allá del Próximo Pago</span><span class="curriculum-lesson-time">10 min</span></div>
+                <a class="curriculum-lesson" href="plans.html"><span>Reconociendo y Previniendo Burnout: Las Señales de Alerta</span><span class="curriculum-lesson-time">9 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>Balance Trabajo-Vida Real: No Fantasía, Estrategias Prácticas</span><span class="curriculum-lesson-time">9 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>Salud Física para Long-Haul Success: Cuida Tu Máquina</span><span class="curriculum-lesson-time">9 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>Salud Mental y Resiliencia: La Fortaleza Invisible</span><span class="curriculum-lesson-time">9 min</span></a>
+                <a class="curriculum-lesson" href="plans.html"><span>Legado y Visión a Largo Plazo: Más Allá del Próximo Pago</span><span class="curriculum-lesson-time">10 min</span></a>
             </div>
           </details>
       </div>
@@ -1371,7 +1402,7 @@
           <span class="module-badge locked" data-i18n="academy.badge_pro">🔒 Pro</span>
           <div class="module-number" data-i18n="academy.m4_num">Módulo 4</div>
           <div class="module-icon-line" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10"/><path d="M9.5 9.5c0-1.1 1.1-1.9 2.5-1.9s2.5.8 2.5 1.9-1 1.4-2.5 1.9-2.5 1-2.5 2.1 1.1 1.9 2.5 1.9 2.5-.8 2.5-1.9"/></svg></div>
-          <h3 class="module-title" data-i18n="academy.m4_title">Negociación &amp; Rates</h3>
+          <h3 class="module-title" data-i18n="academy.m4_title">Negociación &amp; Relaciones con Brokers</h3>
           <p class="module-desc" data-i18n="academy.m4_desc">No es suerte, es estrategia</p>
           <div class="module-meta">
             <span data-i18n="academy.m4_lessons">📖 5 lecciones</span>
@@ -1389,7 +1420,7 @@
           <span class="module-badge locked" data-i18n="academy.badge_pro">🔒 Pro</span>
           <div class="module-number" data-i18n="academy.m5_num">Módulo 5</div>
           <div class="module-icon-line" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
-          <h3 class="module-title" data-i18n="academy.m5_title">Análisis Financiero</h3>
+          <h3 class="module-title" data-i18n="academy.m5_title">Análisis Financiero &amp; KPIs</h3>
           <p class="module-desc" data-i18n="academy.m5_desc">Dominio del Panel e Historial</p>
           <div class="module-meta">
             <span data-i18n="academy.m5_lessons">📖 5 lecciones</span>
@@ -1407,7 +1438,7 @@
           <span class="module-badge premium" data-i18n="academy.badge_premium">🔒 Premium</span>
           <div class="module-number" data-i18n="academy.m6_num">Módulo 6</div>
           <div class="module-icon-line" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4a3.5 3.5 0 0 0-4.9 4.6L4 14.2 5.8 16l5.6-5.6a3.5 3.5 0 0 0 4.6-4.9z"/></svg></div>
-          <h3 class="module-title" data-i18n="academy.m6_title">Optimización Operativa</h3>
+          <h3 class="module-title" data-i18n="academy.m6_title">Optimización Operativa Avanzada</h3>
           <p class="module-desc" data-i18n="academy.m6_desc">Reduce tu CPM sin sacrificar calidad</p>
           <div class="module-meta">
             <span data-i18n="academy.m6_time">⏱️ 58 min</span>
@@ -1426,7 +1457,7 @@
           <span class="module-badge premium" data-i18n="academy.badge_premium">🔒 Premium</span>
           <div class="module-number" data-i18n="academy.m7_num">Módulo 7</div>
           <div class="module-icon-line" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.25"/><path d="M6 6v.01"/><path d="M18 18v.01"/></svg></div>
-          <h3 class="module-title" data-i18n="academy.m7_title">Diversificación de Ingresos</h3>
+          <h3 class="module-title" data-i18n="academy.m7_title">Estrategias de Crecimiento Sostenible</h3>
           <p class="module-desc" data-i18n="academy.m7_desc">De operador a empresario</p>
           <div class="module-meta">
             <span data-i18n="academy.m7_lessons">📖 5 lecciones</span>
@@ -1445,7 +1476,7 @@
           <span class="module-badge premium" data-i18n="academy.badge_premium">🔒 Premium</span>
           <div class="module-number" data-i18n="academy.m8_num">Módulo 8</div>
           <div class="module-icon-line" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 4 13c0-6 8-11 15-11 0 8-3 15-11 15z"/><path d="M4 13c3.5 0 7 1.5 9 4"/></svg></div>
-          <h3 class="module-title" data-i18n="academy.m8_title">Sostenibilidad y Legado</h3>
+          <h3 class="module-title" data-i18n="academy.m8_title">Sustentabilidad y Balance Vida-Trabajo</h3>
           <p class="module-desc" data-i18n="academy.m8_desc">Construye carrera para 10, 20, 30+ años</p>
           <div class="module-meta">
             <span data-i18n="academy.m8_lessons">📖 5 lecciones</span>
