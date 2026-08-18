@@ -6,6 +6,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
+    <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -169,7 +170,20 @@
 
 <!-- ==================== SPANISH ==================== -->
 
-<article class="lesson-container">
+<aside class="lesson-sidebar" id="lessonSidebar">
+    <div class="lesson-sidebar-header">
+        <div>
+            <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
+            <div class="lesson-sidebar-title" id="lessonSidebarModuleTitle"></div>
+        </div>
+        <button class="lesson-sidebar-close" id="lessonSidebarClose" aria-label="Cerrar">✕</button>
+    </div>
+    <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
+</aside>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">📚</button>
+<div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
+
+    <article class="lesson-container">
     <nav class="breadcrumb">
         <a href="/academy.html">← Academia</a> → <a href="index.html">Módulo 5 [PRO]</a> → Lección 2
     </nav>
@@ -426,8 +440,17 @@
 
     <script src="/academy/js/academy.js"></script>
     <script src="/academy/js/academy-quiz.js"></script>
+    <script src="/academy/js/academy-sidebar.js"></script>
     <script>
         const MODULE_NUM = 5, LESSON_NUM = 2;
+
+        const LESSON_LIST = [
+            { num: 1, title: 'Más Allá de "Cuánto Gané": Tracking Financiero Real', time: '12 min' },
+            { num: 2, title: 'KPIs que Predicen Éxito o Fracaso', time: '15 min' },
+            { num: 3, title: 'Análisis de Rentabilidad por Ruta', time: '14 min' },
+            { num: 4, title: 'Forecasting y Planificación: Predecir Ingresos Futuros', time: '13 min' },
+            { num: 5, title: 'Cuándo Expandir: Segunda Van y Escalamiento', time: '16 min' }
+        ];
 
         const QUIZ_QUESTIONS = [
             {
@@ -469,6 +492,11 @@
         }
         document.addEventListener('DOMContentLoaded', async () => {
             const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+
+            if (window.AcademySidebar) {
+                await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Análisis Financiero & KPIs', LESSON_LIST);
+            }
+
             const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
 
             if (alreadyDone) {

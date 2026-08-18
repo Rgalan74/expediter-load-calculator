@@ -62,7 +62,239 @@
     .gradient-text { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
     .glass { background: rgba(20,20,20,0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
-    header { top: 0; z-index: 1000; padding: 1.25rem 0; }
+    header { top: 0; z-index: 1000; padding: 1.25rem 0; position: relative; }
+
+    /* Atenuar el patrón de circuito del header — queda como textura de fondo, no protagonista */
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 10, 15, 0.82);
+      z-index: 0;
+    }
+
+    /* =====================================================
+       PREMIUM VISUAL SYSTEM — módulos (en/academy.html)
+       Un solo acento visible por elemento: cyan = interactivo/neutral,
+       naranja = reservado para lo que debe saltar a la vista primero.
+       ===================================================== */
+
+    /* Un solo acento (cyan) en vez del texto con gradiente cyan→naranja */
+    .stat-value {
+      background: none;
+      -webkit-text-fill-color: unset;
+      color: var(--primary-cyan);
+    }
+
+    /* Ring de "Overall Progress" — reemplaza el número plano en caja */
+    .stat-ring-wrap {
+      position: relative;
+      width: 96px;
+      height: 96px;
+      margin: 0 auto 0.75rem;
+    }
+
+    .stat-ring {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .stat-ring-track {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.08);
+      stroke-width: 8;
+    }
+
+    .stat-ring-fill {
+      fill: none;
+      stroke: var(--primary-cyan);
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-dasharray: 263.9;
+      stroke-dashoffset: 263.9;
+      transition: stroke-dashoffset 0.8s ease;
+    }
+
+    .stat-ring-value {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    /* Glass card: capas + blur + sombra, en vez de rgba plano */
+    .module-card {
+      background:
+        linear-gradient(165deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0) 45%),
+        linear-gradient(180deg, rgba(24, 24, 28, 0.86), rgba(16, 16, 19, 0.86));
+      backdrop-filter: blur(24px) saturate(140%);
+      -webkit-backdrop-filter: blur(24px) saturate(140%);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 24px 48px -28px rgba(0, 0, 0, 0.65);
+    }
+
+    .module-card.free:hover {
+      border-color: rgba(0, 217, 255, 0.28);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 24px 48px -24px rgba(0, 0, 0, 0.7),
+        0 0 40px rgba(0, 217, 255, 0.1);
+    }
+
+    /* Ícono de línea (reemplaza emoji) */
+    .module-icon-line {
+      width: 2.5rem;
+      height: 2.5rem;
+      margin-bottom: 1rem;
+      color: rgba(255, 255, 255, 0.42);
+      transition: color 0.3s ease;
+    }
+
+    .module-icon-line svg {
+      width: 100%;
+      height: 100%;
+      stroke: currentColor;
+    }
+
+    .module-card.is-next .module-icon-line {
+      color: var(--primary-cyan);
+    }
+
+    /* Badge de plan unificado: mismo tratamiento base, diferenciado por texto/candado */
+    .module-badge {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(8px);
+      color: #d6d6db;
+    }
+
+    .module-badge.free,
+    .module-badge.locked,
+    .module-badge.premium {
+      background: rgba(255, 255, 255, 0.06);
+      color: #d6d6db;
+    }
+
+    /* CTA: un solo acento — cyan sólido para lo neutral/interactivo */
+    .module-card.free .btn-module {
+      background: rgba(0, 217, 255, 0.12);
+      border: 1px solid rgba(0, 217, 255, 0.4);
+      color: #7fe9ff;
+    }
+
+    .module-card.free .btn-module:hover {
+      background: rgba(0, 217, 255, 0.2);
+      border-color: rgba(0, 217, 255, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 217, 255, 0.18);
+    }
+
+    /* Progress ring (reemplaza la barra horizontal) */
+    .module-progress-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .module-progress-ring {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      transform: rotate(-90deg);
+    }
+
+    .module-progress-ring .ring-track {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.08);
+      stroke-width: 4;
+    }
+
+    .module-progress-ring .ring-fill {
+      fill: none;
+      stroke: var(--primary-cyan);
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-dasharray: 113.1;
+      stroke-dashoffset: 113.1;
+      transition: stroke-dashoffset 0.6s ease;
+    }
+
+    .module-progress-label {
+      font-size: 0.8rem;
+      color: #8a8f98;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Estado: completado — atenuada + check translúcido, sigue clickeable */
+    .module-card.is-completed {
+      opacity: 0.72;
+    }
+
+    .module-card.is-completed:hover {
+      opacity: 0.94;
+    }
+
+    .module-card.is-completed::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      right: 1.25rem;
+      transform: translateY(-50%);
+      font-size: 5rem;
+      font-weight: 900;
+      line-height: 1;
+      color: rgba(100, 200, 100, 0.14);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Estado: siguiente — halo suave y difuso, sin borde duro */
+    .module-card.is-next {
+      border-color: rgba(0, 217, 255, 0.22);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 24px 48px -28px rgba(0, 0, 0, 0.65),
+        0 0 70px 6px rgba(0, 217, 255, 0.16),
+        0 0 140px 24px rgba(0, 217, 255, 0.07);
+    }
+
+    .module-card.is-next:hover {
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 24px 48px -24px rgba(0, 0, 0, 0.7),
+        0 0 80px 8px rgba(0, 217, 255, 0.2),
+        0 0 150px 26px rgba(0, 217, 255, 0.09);
+    }
+
+    /* El CTA del módulo "siguiente" es el único naranja de la página —
+       lo único que debe saltar a la vista primero */
+    .module-card.is-next .btn-module {
+      background: rgba(255, 107, 53, 0.14);
+      border: 1px solid rgba(255, 107, 53, 0.55);
+      color: #ffb491;
+    }
+
+    .module-card.is-next .btn-module:hover {
+      background: rgba(255, 107, 53, 0.24);
+      border-color: rgba(255, 107, 53, 0.75);
+      box-shadow: 0 8px 24px rgba(255, 107, 53, 0.25);
+    }
+
+    /* Card "Start Here": mismo tratamiento naranja, sin el hover cyan heredado de .free */
+    .modules-section .start-here-card .btn-module:hover {
+      background: rgba(255, 107, 53, 0.24);
+      border-color: rgba(255, 107, 53, 0.75);
+      box-shadow: 0 8px 24px rgba(255, 107, 53, 0.25);
+      transform: translateY(-2px);
+    }
   </style>
   <!-- Meta Pixel Code -->
   <script>
@@ -89,7 +321,7 @@
 
 
   <!-- HEADER -->
-  <header class="glass" style="position: relative; background-image: url('img/header-background.PNG'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+  <header class="glass" style="position: relative; background-image: url('../img/header-background.PNG'); background-size: cover; background-position: center; background-repeat: no-repeat;">
     <div class="container" style="position: relative; z-index: 1;">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
@@ -152,7 +384,13 @@
             <div class="stat-label" data-i18n="academy.stat_modules">Modules Completed</div>
           </div>
           <div class="stat-card">
-            <div class="stat-value" id="overallProgress">0%</div>
+            <div class="stat-ring-wrap">
+              <svg class="stat-ring" viewBox="0 0 100 100">
+                <circle class="stat-ring-track" cx="50" cy="50" r="42"></circle>
+                <circle class="stat-ring-fill" id="overallProgressRing" cx="50" cy="50" r="42"></circle>
+              </svg>
+              <span class="stat-ring-value" id="overallProgress">0%</span>
+            </div>
             <div class="stat-label" data-i18n="academy.stat_progress">Overall Progress</div>
           </div>
           <div class="stat-card">
@@ -176,7 +414,7 @@
             BEFORE MODULE 1</span>
           <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: center;">
             <div style="text-align: center;">
-              <div style="font-size: 4rem; margin-bottom: 1rem;">📱</div>
+              <div style="width: 3.5rem; height: 3.5rem; margin: 0 auto 1rem; color: #00D9FF;" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M12 18h.01"/></svg></div>
               <div style="font-size: 0.875rem; color: #888; text-transform: uppercase; letter-spacing: 1px;">Guided
                 Tour</div>
             </div>
@@ -197,31 +435,31 @@
         </div>
 
         <!-- START HERE - QUICK WIN (Featured) -->
-        <div class="module-card free" style="grid-column: 1 / -1; background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,165,0,0.1)); border: 2px solid rgba(255,215,0,0.3);">
-          <span class="module-badge" style="background: linear-gradient(90deg, #FFD700, #FFA500); color: #000;" data-i18n="academy.start_badge">💥 START HERE</span>
+        <div class="module-card free start-here-card" style="grid-column: 1 / -1; border-color: rgba(255,107,53,0.3); box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 24px 48px -28px rgba(0,0,0,0.65), 0 0 60px rgba(255,107,53,0.1);">
+          <span class="module-badge" style="border-color: rgba(255,107,53,0.35); color: #ffb491;" data-i18n="academy.start_badge">💥 START HERE</span>
           <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: center;">
             <div style="text-align: center;">
-              <div style="font-size: 4rem; margin-bottom: 1rem;">🎯</div>
+              <div style="width: 3.5rem; height: 3.5rem; margin: 0 auto 1rem; color: #00D9FF;" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="2"/></svg></div>
               <div style="font-size: 0.875rem; color: #888; text-transform: uppercase; letter-spacing: 1px;" data-i18n="academy.start_label">Quick Win</div>
             </div>
             <div>
-              <h3 style="font-size: 1.75rem; font-weight: 900; margin-bottom: 0.75rem; color: #FFD700;" data-i18n="academy.start_title">The #1 mistake expediters make</h3>
+              <h3 style="font-size: 1.75rem; font-weight: 900; margin-bottom: 0.75rem; color: var(--primary-orange);" data-i18n="academy.start_title">The #1 mistake expediters make</h3>
               <p style="color: #d0d0d0; margin-bottom: 1rem; font-size: 1.1rem;" data-i18n="academy.start_desc">💰 5 minutes that could save you $500 this week</p>
               <div class="module-meta" style="margin-bottom: 1.5rem;">
                 <span data-i18n="academy.start_time">⏱️ 5 minutes</span>
                 <span data-i18n="academy.start_diff">🟢 Very easy</span>
                 <span data-i18n="academy.start_lessons">📖 1 lesson</span>
               </div>
-              <a href="/en/academy/start-here/" class="btn-module" style="background: linear-gradient(90deg, #FFD700, #FFA500); color: #000; max-width: 300px;" data-i18n="academy.start_btn">Start Now →</a>
+              <a href="/en/academy/start-here/" class="btn-module" style="background: rgba(255,107,53,0.14); border: 1px solid rgba(255,107,53,0.55); color: #ffb491; max-width: 300px;" data-i18n="academy.start_btn">Start Now →</a>
             </div>
           </div>
         </div>
 
         <!-- MODULE 1 - FREE -->
-        <div class="module-card free">
+        <div class="module-card free" data-module="1">
           <span class="module-badge free" data-i18n="academy.badge_free">Free</span>
           <div class="module-number" data-i18n="academy.m1_num">Module 1</div>
-          <div class="module-icon">🎓</div>
+          <div class="module-icon-line" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6"/><path d="M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
           <h3 class="module-title" data-i18n="academy.m1_title">Mindset &amp; Fundamentals</h3>
           <p class="module-desc" data-i18n="academy.m1_desc">Before using the app, learn to think with real numbers</p>
           <div class="module-meta">
@@ -229,40 +467,55 @@
             <span data-i18n="academy.m1_diff">🟢 Easy</span>
             <span data-i18n="academy.m1_lessons">📖 5 lessons</span>
           </div>
-          <div class="progress-bar"><div class="progress-fill" data-module="1" style="width: 0%"></div></div>
-          <div class="progress-text" data-module="1">0/5</div>
+          <div class="module-progress-row">
+            <svg class="module-progress-ring" viewBox="0 0 44 44">
+              <circle class="ring-track" cx="22" cy="22" r="18"></circle>
+              <circle class="ring-fill" data-ring="1" cx="22" cy="22" r="18"></circle>
+            </svg>
+            <span class="module-progress-label" data-module="1">0/5</span>
+          </div>
           <a href="/en/academy/module-1/" class="btn-module" data-i18n="academy.btn_start">Start →</a>
         </div>
 
         <!-- MODULE 2 - FREE -->
-        <div class="module-card free">
+        <div class="module-card free" data-module="2">
           <span class="module-badge free" data-i18n="academy.badge_free">Free</span>
           <div class="module-number" data-i18n="academy.m2_num">Module 2</div>
-          <div class="module-icon">📊</div>
+          <div class="module-icon-line" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></div>
           <h3 class="module-title" data-i18n="academy.m2_title">Mastering the Numbers</h3>
           <p class="module-desc" data-i18n="academy.m2_desc">Connect the theory with your app (Calculator)</p>
           <div class="module-meta">
             <span data-i18n="academy.m2_lessons">📖 6 lessons</span>
             <span data-i18n="academy.m2_time">⏱️ 53 min</span>
           </div>
-          <div class="progress-bar"><div class="progress-fill" data-module="2" style="width: 0%"></div></div>
-          <div class="progress-text" data-module="2">0/5</div>
+          <div class="module-progress-row">
+            <svg class="module-progress-ring" viewBox="0 0 44 44">
+              <circle class="ring-track" cx="22" cy="22" r="18"></circle>
+              <circle class="ring-fill" data-ring="2" cx="22" cy="22" r="18"></circle>
+            </svg>
+            <span class="module-progress-label" data-module="2">0/5</span>
+          </div>
           <a href="/en/academy/module-2/" class="btn-module" data-i18n="academy.btn_start">Start →</a>
         </div>
 
         <!-- MODULE 3 - FREE -->
-        <div class="module-card free">
+        <div class="module-card free" data-module="3">
           <span class="module-badge free" data-i18n="academy.badge_free">Free</span>
           <div class="module-number" data-i18n="academy.m3_num">Module 3</div>
-          <div class="module-icon">🗺️</div>
+          <div class="module-icon-line" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15"/><path d="M15 6v15"/></svg></div>
           <h3 class="module-title" data-i18n="academy.m3_title">Route &amp; Zone Strategy</h3>
           <p class="module-desc" data-i18n="academy.m3_desc">Stop riding blind</p>
           <div class="module-meta">
             <span data-i18n="academy.m3_lessons">📖 5 lessons</span>
             <span data-i18n="academy.m3_time">⏱️ 40 min</span>
           </div>
-          <div class="progress-bar"><div class="progress-fill" data-module="3" style="width: 0%"></div></div>
-          <div class="progress-text" data-module="3">0/5</div>
+          <div class="module-progress-row">
+            <svg class="module-progress-ring" viewBox="0 0 44 44">
+              <circle class="ring-track" cx="22" cy="22" r="18"></circle>
+              <circle class="ring-fill" data-ring="3" cx="22" cy="22" r="18"></circle>
+            </svg>
+            <span class="module-progress-label" data-module="3">0/5</span>
+          </div>
           <a href="/en/academy/module-3/" class="btn-module" data-i18n="academy.btn_start">Start →</a>
         </div>
 
@@ -270,7 +523,7 @@
         <div class="module-card locked" data-tier="pro" data-module="4">
           <span class="module-badge locked" data-i18n="academy.badge_pro">🔒 Pro</span>
           <div class="module-number" data-i18n="academy.m4_num">Module 4</div>
-          <div class="module-icon">💰</div>
+          <div class="module-icon-line" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10"/><path d="M9.5 9.5c0-1.1 1.1-1.9 2.5-1.9s2.5.8 2.5 1.9-1 1.4-2.5 1.9-2.5 1-2.5 2.1 1.1 1.9 2.5 1.9 2.5-.8 2.5-1.9"/></svg></div>
           <h3 class="module-title" data-i18n="academy.m4_title">Negotiation &amp; Rates</h3>
           <p class="module-desc" data-i18n="academy.m4_desc">It's not luck, it's strategy</p>
           <div class="module-meta">
@@ -288,7 +541,7 @@
         <div class="module-card locked" data-tier="pro" data-module="5">
           <span class="module-badge locked" data-i18n="academy.badge_pro">🔒 Pro</span>
           <div class="module-number" data-i18n="academy.m5_num">Module 5</div>
-          <div class="module-icon">📈</div>
+          <div class="module-icon-line" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
           <h3 class="module-title" data-i18n="academy.m5_title">Financial Analysis</h3>
           <p class="module-desc" data-i18n="academy.m5_desc">Dashboard &amp; History mastery</p>
           <div class="module-meta">
@@ -306,7 +559,7 @@
         <div class="module-card locked" data-tier="premium" data-module="6">
           <span class="module-badge premium" data-i18n="academy.badge_premium">🔒 Premium</span>
           <div class="module-number" data-i18n="academy.m6_num">Module 6</div>
-          <div class="module-icon">🔧</div>
+          <div class="module-icon-line" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4a3.5 3.5 0 0 0-4.9 4.6L4 14.2 5.8 16l5.6-5.6a3.5 3.5 0 0 0 4.6-4.9z"/></svg></div>
           <h3 class="module-title" data-i18n="academy.m6_title">Operational Optimization</h3>
           <p class="module-desc" data-i18n="academy.m6_desc">Cut your CPM without sacrificing quality</p>
           <div class="module-meta">
@@ -325,7 +578,7 @@
         <div class="module-card locked" data-tier="premium" data-module="7">
           <span class="module-badge premium" data-i18n="academy.badge_premium">🔒 Premium</span>
           <div class="module-number" data-i18n="academy.m7_num">Module 7</div>
-          <div class="module-icon">💵</div>
+          <div class="module-icon-line" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.25"/><path d="M6 6v.01"/><path d="M18 18v.01"/></svg></div>
           <h3 class="module-title" data-i18n="academy.m7_title">Income Diversification</h3>
           <p class="module-desc" data-i18n="academy.m7_desc">From operator to business owner</p>
           <div class="module-meta">
@@ -344,7 +597,7 @@
         <div class="module-card locked" data-tier="premium" data-module="8">
           <span class="module-badge premium" data-i18n="academy.badge_premium">🔒 Premium</span>
           <div class="module-number" data-i18n="academy.m8_num">Module 8</div>
-          <div class="module-icon">🌿</div>
+          <div class="module-icon-line" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 4 13c0-6 8-11 15-11 0 8-3 15-11 15z"/><path d="M4 13c3.5 0 7 1.5 9 4"/></svg></div>
           <h3 class="module-title" data-i18n="academy.m8_title">Sustainability & Legacy</h3>
           <p class="module-desc" data-i18n="academy.m8_desc">Build a career for 10, 20, 30+ years</p>
           <div class="module-meta">
@@ -373,6 +626,112 @@
 
   <script>// i18n init omitted: page is static Spanish</script>
 
+  <!-- Module card visual states: completed / next-up. Solo lee/clasifica — no toca el sidebar, quizzes ni module-X/. -->
+  <script>
+    (function () {
+      const MODULE_COUNT = 8;
+
+      function applyStates(getCardAccess, progress) {
+        let nextAssigned = false;
+        for (let i = 1; i <= MODULE_COUNT; i++) {
+          const card = document.querySelector(`.module-card[data-module="${i}"]`);
+          if (!card) continue;
+
+          if (!getCardAccess(card, i)) continue; // bloqueada: no tocar (estado 3)
+
+          const total = window.AcademyProgress?.MODULES?.[i]?.lessons || 0;
+          const completedCount = progress.modules[i]?.completed?.length || 0;
+          const isCompleted = total > 0 && completedCount === total;
+
+          // Progress ring (reemplaza la barra horizontal)
+          const ringFill = document.querySelector(`.ring-fill[data-ring="${i}"]`);
+          const ringLabel = document.querySelector(`.module-progress-label[data-module="${i}"]`);
+          if (ringFill && total > 0) {
+            const RING_CIRCUMFERENCE = 113.1; // 2 * PI * r(18)
+            const pct = Math.min(1, completedCount / total);
+            ringFill.style.strokeDashoffset = String(RING_CIRCUMFERENCE * (1 - pct));
+          }
+          if (ringLabel) ringLabel.textContent = `${completedCount}/${total}`;
+
+          card.classList.remove('is-completed', 'is-next');
+          if (isCompleted) {
+            card.classList.add('is-completed');
+          } else if (!nextAssigned) {
+            card.classList.add('is-next');
+            nextAssigned = true;
+          }
+        }
+      }
+
+      // Stats del hero (Modules Completed / Overall Progress en ring / Badges) —
+      // usa el mismo objeto `progress` que ya alimenta las cards, para que demo y real
+      // muestren siempre datos consistentes entre sí.
+      function applyHeroStats(progress) {
+        let completedModulesCount = 0;
+        let totalCompleted = 0;
+        let totalLessons = 0;
+        for (let i = 0; i <= MODULE_COUNT; i++) {
+          const total = window.AcademyProgress?.MODULES?.[i]?.lessons || 0;
+          const completed = progress.modules[i]?.completed?.length || 0;
+          if (total > 0 && completed === total) completedModulesCount++;
+          if (i <= 3) { // mismo criterio que AcademyProgress.getOverallProgress() (Start Here + M1-3)
+            totalCompleted += completed;
+            totalLessons += total;
+          }
+        }
+        const overallPct = totalLessons > 0 ? Math.round((totalCompleted / totalLessons) * 100) : 0;
+        const badgesCount = progress.badges?.length || 0;
+
+        const completedEl = document.getElementById('completedModules');
+        if (completedEl) completedEl.textContent = `${completedModulesCount}/8`;
+
+        const RING_CIRCUMFERENCE = 263.9; // 2 * PI * r(42)
+        const ringFill = document.getElementById('overallProgressRing');
+        if (ringFill) ringFill.style.strokeDashoffset = String(RING_CIRCUMFERENCE * (1 - overallPct / 100));
+
+        const ringLabel = document.getElementById('overallProgress');
+        if (ringLabel) ringLabel.textContent = `${overallPct}%`;
+
+        const badgesEl = document.getElementById('badgesEarned');
+        if (badgesEl) badgesEl.textContent = String(badgesCount);
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        if (typeof firebase === 'undefined' || !window.AcademyProgress) return;
+
+        firebase.auth().onAuthStateChanged(async (user) => {
+          try {
+            window.AcademyProgress.setUser(user ? user.uid : null);
+            const progress = await window.AcademyProgress.getProgress();
+
+            let isPro = false;
+            let isPremium = false;
+            if (user) {
+              try {
+                const doc = await firebase.firestore().collection('users').doc(user.uid).get();
+                const data = doc.data() || {};
+                const planId = (data.role === 'admin') ? 'admin' : (data.plan || 'free');
+                isPro = ['professional', 'premium', 'admin'].includes(planId);
+                isPremium = ['premium', 'admin'].includes(planId);
+              } catch (e) {
+                console.warn('[ACADEMY UI] No se pudo leer el plan del usuario:', e);
+              }
+            }
+
+            applyStates((card, i) => {
+              const tier = card.dataset.tier; // 'pro' | 'premium' | undefined (gratis)
+              const isLocked = (tier === 'pro' && !(isPro || isPremium)) ||
+                                (tier === 'premium' && !isPremium);
+              return !isLocked;
+            }, progress);
+            applyHeroStats(progress);
+          } catch (e) {
+            console.warn('[ACADEMY UI] Error computando estados de módulo:', e);
+          }
+        });
+      });
+    })();
+  </script>
 
 
 

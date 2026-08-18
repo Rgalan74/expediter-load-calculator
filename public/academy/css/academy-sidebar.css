@@ -1,0 +1,179 @@
+/* =============================================
+   SMART LOAD ACADEMY - LESSON SIDEBAR
+   ============================================= */
+
+.lesson-sidebar {
+  position: fixed;
+  top: 52px;
+  left: 0;
+  width: 280px;
+  height: calc(100vh - 52px);
+  background: rgba(15, 15, 20, 0.97);
+  backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  overflow-y: auto;
+  z-index: 300;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.lesson-sidebar.open {
+  transform: translateX(0);
+}
+
+.lesson-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1.25rem 1.25rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lesson-sidebar-module {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #888;
+  margin-bottom: 0.25rem;
+}
+
+.lesson-sidebar-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.lesson-sidebar-close {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.lesson-sidebar-list {
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lesson-sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.875rem;
+  border-radius: 0.625rem;
+  border: 1px solid transparent;
+  text-decoration: none;
+  color: #d0d0d0;
+  transition: all 0.2s ease;
+}
+
+.lesson-sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.lesson-sidebar-item.active {
+  background: rgba(0, 217, 255, 0.1);
+  border-color: rgba(0, 217, 255, 0.4);
+  color: #ffffff;
+}
+
+.lesson-sidebar-marker {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #888;
+}
+
+.lesson-sidebar-item.active .lesson-sidebar-marker {
+  border-color: #00D9FF;
+  color: #00D9FF;
+}
+
+.lesson-sidebar-item.completed .lesson-sidebar-marker {
+  border-color: #64C864;
+  background: rgba(100, 200, 100, 0.15);
+  color: #64C864;
+}
+
+.lesson-sidebar-item-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.lesson-sidebar-item-time {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 0.125rem;
+}
+
+.lesson-sidebar-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00D9FF, #FF6B35);
+  color: #000;
+  border: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  font-size: 1.4rem;
+  cursor: pointer;
+  z-index: 250;
+}
+
+.lesson-sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 280;
+}
+
+.lesson-sidebar-overlay.open {
+  display: block;
+}
+
+/* ==== DESKTOP: sidebar always visible, pushes content over ==== */
+@media (min-width: 1280px) {
+  .lesson-sidebar {
+    transform: none;
+    z-index: 150;
+  }
+
+  body .lesson-container {
+    margin-left: 300px;
+    margin-right: auto;
+  }
+
+  .lesson-sidebar-close,
+  .lesson-sidebar-toggle,
+  .lesson-sidebar-overlay {
+    display: none;
+  }
+}

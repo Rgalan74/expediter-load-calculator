@@ -37,7 +37,7 @@ const AcademyQuiz = {
     },
 
     _isEs() {
-        return (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+        return document.documentElement.lang === 'es';
     },
 
     _t(es, en) {
