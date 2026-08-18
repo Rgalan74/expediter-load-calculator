@@ -1,0 +1,320 @@
+/* =============================================
+   SMART LOAD ACADEMY — Lesson content system
+   Editorial minimalist redesign of .lesson-content:
+   typography-first, thin lines instead of color boxes,
+   cyan/orange used sparingly (1-2 accents per lesson).
+   Does not touch header, sidebar, or quiz styles.
+   ============================================= */
+
+.lesson-content {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* ---- Block 1: Text / paragraph ---- */
+.lesson-content h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  margin-top: 3.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.lesson-content section:first-of-type h2 {
+  margin-top: 0;
+}
+
+.lesson-content p {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: #b8bac0;
+  margin-bottom: 1.5rem;
+}
+
+.lesson-content strong,
+.lesson-content b {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.lesson-content ul {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding-left: 0;
+}
+
+.lesson-content ul li {
+  position: relative;
+  padding-left: 1.1rem;
+  margin-bottom: 0.65rem;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: #b8bac0;
+}
+
+.lesson-content ul li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: #55575e;
+}
+
+/* ---- Block 2: Formula ---- */
+.formula {
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  color: #00D9FF;
+  border-left: 2px solid #00D9FF;
+  padding: 0.2rem 0 0.2rem 1.25rem;
+  margin: 1.75rem 0;
+  line-height: 1.6;
+}
+
+/* ---- Block 3: Pull number ---- */
+.pull-number {
+  text-align: center;
+  margin: 3rem auto;
+  padding: 1.75rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.pull-number .value {
+  font-size: clamp(2.75rem, 6vw, 3.5rem);
+  font-weight: 900;
+  color: #FF6B35;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.pull-number .context {
+  margin: 0.75rem auto 0;
+  max-width: 460px;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #8a8f98;
+}
+
+/* ---- Block 4: Comparison ---- */
+.compare-table {
+  margin: 1.75rem 0;
+}
+
+.compare-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8a8f98;
+  margin-bottom: 0.75rem;
+}
+
+.compare-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.compare-row:last-child {
+  border-bottom: none;
+}
+
+.compare-row .label {
+  color: #8a8f98;
+  font-size: 0.95rem;
+}
+
+.compare-row .value {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.compare-row .value.accent {
+  color: #00D9FF;
+}
+
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  margin: 1.75rem 0;
+}
+
+/* ---- Block 5: Note / warning ---- */
+.note {
+  border-left: 2px solid #8a8f98;
+  padding: 0.1rem 0 0.1rem 1.25rem;
+  margin: 1.75rem 0;
+}
+
+.note.warning {
+  border-left-color: #FF6B35;
+}
+
+.note.tip {
+  border-left-color: #00D9FF;
+}
+
+.note-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8a8f98;
+  margin-bottom: 0.6rem;
+}
+
+.note.warning .note-label {
+  color: #FF6B35;
+}
+
+.note.tip .note-label {
+  color: #00D9FF;
+}
+
+.note p:last-child,
+.note ul:last-child {
+  margin-bottom: 0;
+}
+
+/* ---- Block 6: Worksheet / practical exercise ---- */
+.worksheet {
+  margin: 1.75rem 0;
+}
+
+.worksheet-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.85rem 0;
+}
+
+.worksheet-row .label {
+  color: #8a8f98;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.worksheet-row .line {
+  flex: 1;
+  min-width: 4rem;
+  height: 1px;
+  align-self: end;
+  margin-bottom: 0.3rem;
+  border-bottom: 1px dotted rgba(255, 255, 255, 0.35);
+}
+
+.worksheet-row.highlight {
+  margin-top: 0.5rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.worksheet-row.highlight .line {
+  border-bottom: 1px solid #00D9FF;
+}
+
+.worksheet-row.highlight .label {
+  color: #00D9FF;
+  font-weight: 700;
+}
+
+/* ---- Block 7: Checklist ---- */
+.checklist {
+  margin: 1.75rem 0;
+}
+
+.checklist-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8a8f98;
+  margin-bottom: 1rem;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.55rem 0;
+}
+
+.checklist-item .box {
+  flex-shrink: 0;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-top: 0.2rem;
+  border: 1.5px solid #55575e;
+  border-radius: 0.25rem;
+}
+
+.checklist-item .text {
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: #b8bac0;
+}
+
+/* ---- Block 8: Conclusion ---- */
+.conclusion {
+  text-align: center;
+  margin: 3.5rem 0 2rem;
+  padding: 2.25rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.conclusion .lead {
+  font-size: clamp(1.35rem, 3vw, 1.5rem);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.4;
+  max-width: 520px;
+  margin: 0 auto 0.75rem;
+}
+
+.conclusion .sub {
+  font-size: 0.95rem;
+  color: #8a8f98;
+  line-height: 1.6;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.conclusion .accent {
+  color: #00D9FF;
+}
+
+@media (max-width: 640px) {
+  .compare-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .compare-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .compare-row .value {
+    text-align: left;
+  }
+
+  .worksheet-row {
+    flex-wrap: wrap;
+  }
+
+  .worksheet-row .label {
+    white-space: normal;
+  }
+}

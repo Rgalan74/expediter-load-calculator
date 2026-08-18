@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../css/academy.css">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -51,83 +52,6 @@
             gap: 1.5rem;
             font-size: 0.875rem;
             color: #888;
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #ffffff;
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0;
-        }
-
-        .lesson-content ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem;
-        }
-
-        .lesson-content li {
-            margin-bottom: 0.5rem;
-        }
-
-        .callout {
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            margin: 2rem 0;
-            border-left: 4px solid;
-        }
-
-        .callout.tip {
-            background: rgba(0, 217, 255, 0.1);
-            border-color: #00D9FF;
-        }
-
-        .callout.warning {
-            background: rgba(255, 107, 53, 0.1);
-            border-color: #FF6B35;
-        }
-
-        .callout.example {
-            background: rgba(100, 200, 100, 0.1);
-            border-color: #64C864;
-        }
-
-        .callout strong {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        pre {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            margin: 2rem 0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            overflow-x: auto;
-        }
-
-        code {
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            color: #00D9FF;
-        }
-
-        .comparison-table {
-            background: rgba(20, 20, 20, 0.8);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .comparison-table h3 {
-            margin-bottom: 1rem;
-            color: #00D9FF;
         }
 
         .lesson-footer {
@@ -245,20 +169,20 @@
         <div class="lesson-content">
 
             <section>
-                <h2>📌 EL ERROR MÁS COMÚN</h2>
+                <h2>El error más común</h2>
                 <p>La mayoría de los expediters calcula RPM así:</p>
 
-                <pre><code>Pago total ÷ Millas cargadas = RPM</code></pre>
+                <div class="formula">Pago total ÷ Millas cargadas = RPM</div>
 
-                <div class="callout warning">
-                    <strong>❌ ESTO ESTÁ MAL</strong>
+                <div class="note warning">
+                    <span class="note-label">Esto está mal</span>
                     <p>¿Por qué? Porque ignoras las millas que no te pagan pero SÍ te cuestan.</p>
                 </div>
             </section>
 
             <section>
-                <h2>✅ LA FÓRMULA CORRECTA</h2>
-                <pre><code>RPM REAL = Pago Total ÷ (Deadhead + Loaded + Repositioning)</code></pre>
+                <h2>La fórmula correcta</h2>
+                <div class="formula">RPM REAL = Pago Total ÷ (Deadhead + Loaded + Repositioning)</div>
 
                 <p><strong>Donde:</strong></p>
                 <ul>
@@ -269,67 +193,72 @@
             </section>
 
             <section>
-                <h2>📊 EJEMPLO COMPLETO</h2>
+                <h2>Ejemplo completo</h2>
 
-                <div class="callout example">
-                    <strong>Situación:</strong>
-                    <ul>
-                        <li>Tu posición: Toledo, OH</li>
-                        <li>Pickup: Detroit, MI (65 millas deadhead)</li>
-                        <li>Delivery: Laredo, TX (1,000 millas cargadas)</li>
-                        <li>Pago ofrecido: $1,500</li>
-                    </ul>
+                <p><strong>Situación:</strong></p>
+                <ul>
+                    <li>Tu posición: Toledo, OH</li>
+                    <li>Pickup: Detroit, MI (65 millas deadhead)</li>
+                    <li>Delivery: Laredo, TX (1,000 millas cargadas)</li>
+                    <li>Pago ofrecido: $1,500</li>
+                </ul>
+
+                <div class="compare-table">
+                    <div class="compare-row">
+                        <span class="label">Cálculo incorrecto #1 (así lo hace el 70%)</span>
+                        <span class="value">$1.50/milla</span>
+                    </div>
+                    <div class="compare-row">
+                        <span class="label">Cálculo incorrecto #2 (así lo hace el 25%)</span>
+                        <span class="value">$1.41/milla</span>
+                    </div>
+                    <div class="compare-row">
+                        <span class="label">Cálculo correcto (solo el 5% lo domina)</span>
+                        <span class="value accent">$1.12/milla</span>
+                    </div>
                 </div>
 
-                <div class="comparison-table">
-                    <h3>❌ Cálculo Incorrecto #1 (como lo hace el 70%)</h3>
-                    <pre><code>$1,500 ÷ 1,000 millas = $1.50/milla
-"¡$1.50/milla! ¡Excelente rate!"</code></pre>
-                </div>
+                <p><strong>El desglose real:</strong></p>
+                <ul>
+                    <li>Deadhead (Toledo → Detroit): 65 millas</li>
+                    <li>Loaded miles (Detroit → Laredo): 1,000 millas</li>
+                    <li>Repositioning (Laredo → San Antonio): 280 millas</li>
+                    <li><strong>Total millas reales: 1,345 millas</strong></li>
+                </ul>
 
-                <div class="comparison-table">
-                    <h3>⚠️ Cálculo Incorrecto #2 (como lo hace el 25%)</h3>
-                    <pre><code>$1,500 ÷ (65 + 1,000) = $1.41/milla
-"Bueno, $1.41/milla sigue siendo decente..."</code></pre>
-                </div>
-
-                <div class="comparison-table" style="border: 2px solid #00D9FF;">
-                    <h3>✅ Cálculo CORRECTO (como lo hace el 5% que domina)</h3>
-                    <p><strong>Análisis completo:</strong></p>
-                    <ul>
-                        <li>Deadhead (Toledo → Detroit): 65 millas</li>
-                        <li>Loaded miles (Detroit → Laredo): 1,000 millas</li>
-                        <li>Repositioning (Laredo → San Antonio): 280 millas</li>
-                        <li><strong>Total millas REALES: 1,345 millas</strong></li>
-                    </ul>
-                    <pre><code>RPM REAL: $1,500 ÷ 1,345 = $1.12/milla</code></pre>
-                </div>
+                <div class="formula">RPM REAL: $1,500 ÷ 1,345 = $1.12/milla</div>
             </section>
 
             <section>
-                <h2>💡 ANÁLISIS DEL IMPACTO</h2>
+                <h2>Análisis del impacto</h2>
 
-                <div style="background: rgba(255, 107, 53, 0.1); padding: 1.5rem; border-radius: 0.75rem; margin: 2rem 0;">
-                    <p><strong>Cálculo erróneo:</strong> $1.50/milla<br>
-                        <strong>Cálculo correcto:</strong> $1.12/milla<br>
-                        <strong style="color: #FF6B35;">DIFERENCIA: $0.38/milla (34% de error)</strong>
-                    </p>
-
-                    <p style="margin-top: 1rem;"><strong>En 1,345 millas = $511 de diferencia imaginaria</strong></p>
-
-                    <p>Si tu break-even es $1.10/milla, piensas que estás ganando $0.40/milla cuando en REALIDAD solo
-                        estás ganando $0.02/milla.</p>
+                <div class="compare-table">
+                    <div class="compare-row">
+                        <span class="label">Cálculo erróneo</span>
+                        <span class="value">$1.50/milla</span>
+                    </div>
+                    <div class="compare-row">
+                        <span class="label">Cálculo correcto</span>
+                        <span class="value accent">$1.12/milla</span>
+                    </div>
                 </div>
+
+                <div class="pull-number">
+                    <div class="value">$511</div>
+                    <p class="context">de diferencia imaginaria en 1,345 millas — un error de $0.38/milla (34%) en tu cálculo de RPM.</p>
+                </div>
+
+                <p>Si tu break-even es $1.10/milla, piensas que estás ganando $0.40/milla cuando en realidad solo estás ganando $0.02/milla.</p>
             </section>
 
             <section>
-                <h2>🗺️ ¿Cómo Determinar Repositioning Miles?</h2>
+                <h2>¿Cómo determinar repositioning miles?</h2>
 
                 <p><strong>Pregunta clave:</strong> "¿Dónde necesito estar para mi próximo load?"</p>
 
-                <div class="callout tip">
-                    <strong>💡 Smart Load Solution te ayuda</strong>
-                    <p>La app muestra un mapa de "zonas calientes" basado en TU historial:</p>
+                <div class="note tip">
+                    <span class="note-label">Smart Load Solution te ayuda</span>
+                    <p>La app muestra un mapa de "zonas calientes" basado en tu historial:</p>
                     <ul>
                         <li>¿Cuántas millas a la zona más cercana con buen freight?</li>
                         <li>¿Cuál es tu wait time promedio en esa zona?</li>
@@ -339,80 +268,68 @@
             </section>
 
             <section>
-                <h2>📊 Comparación de Zonas</h2>
-                <p><strong>Ejemplo: Dos loads, mismo pago</strong></p>
+                <h2>Comparación de zonas</h2>
+                <p><strong>Ejemplo: dos loads, mismo pago.</strong></p>
 
-                <div class="comparison-table">
-                    <h3>LOAD A: Detroit → El Paso, TX</h3>
-                    <ul>
-                        <li>Pago: $1,400</li>
-                        <li>Loaded: 1,200 millas</li>
-                        <li>Deadhead: 50 millas</li>
-                        <li>Repositioning: 350 millas (El Paso está muerto)</li>
-                        <li><strong>Total: 1,600 millas</strong></li>
-                        <li style="color: #FF6B35;"><strong>RPM Real: $0.875/milla ❌</strong></li>
-                    </ul>
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Load A: Detroit → El Paso, TX</div>
+                        <div class="compare-row"><span class="label">Pago</span><span class="value">$1,400</span></div>
+                        <div class="compare-row"><span class="label">Loaded</span><span class="value">1,200 mi</span></div>
+                        <div class="compare-row"><span class="label">Deadhead</span><span class="value">50 mi</span></div>
+                        <div class="compare-row"><span class="label">Repositioning</span><span class="value">350 mi</span></div>
+                        <div class="compare-row"><span class="label">Total millas</span><span class="value">1,600 mi</span></div>
+                        <div class="compare-row"><span class="label">RPM Real</span><span class="value">$0.875/mi</span></div>
+                    </div>
+                    <div class="compare-table">
+                        <div class="compare-title">Load B: Detroit → Atlanta, GA</div>
+                        <div class="compare-row"><span class="label">Pago</span><span class="value">$1,400</span></div>
+                        <div class="compare-row"><span class="label">Loaded</span><span class="value">700 mi</span></div>
+                        <div class="compare-row"><span class="label">Deadhead</span><span class="value">50 mi</span></div>
+                        <div class="compare-row"><span class="label">Repositioning</span><span class="value">0 mi</span></div>
+                        <div class="compare-row"><span class="label">Total millas</span><span class="value">750 mi</span></div>
+                        <div class="compare-row"><span class="label">RPM Real</span><span class="value accent">$1.87/mi</span></div>
+                    </div>
                 </div>
 
-                <div class="comparison-table" style="border: 2px solid #64C864;">
-                    <h3>LOAD B: Detroit → Atlanta, GA</h3>
-                    <ul>
-                        <li>Pago: $1,400</li>
-                        <li>Loaded: 700 millas</li>
-                        <li>Deadhead: 50 millas</li>
-                        <li>Repositioning: 0 millas (Atlanta es zona premium)</li>
-                        <li><strong>Total: 750 millas</strong></li>
-                        <li style="color: #64C864;"><strong>RPM Real: $1.87/milla ✅</strong></li>
-                    </ul>
-                    <p style="margin-top: 1rem; color: #64C864;"><strong>DIFERENCIA: $0.995/milla (114% mejor)</strong>
-                    </p>
+                <div class="pull-number">
+                    <div class="value">114%</div>
+                    <p class="context">mejor RPM en Load B ($0.995/milla de diferencia) — mismo pago, resultados totalmente distintos.</p>
                 </div>
-
-                <p><strong>El mismo pago, resultados totalmente diferentes.</strong></p>
             </section>
 
             <section>
-                <h2>✏️ EJERCICIO PRÁCTICO</h2>
+                <h2>Ejercicio práctico</h2>
                 <p>Recalcula tu última carga:</p>
 
-                <div style="background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 0.75rem;">
-                    <p>Mi última carga:</p>
-                    <ul>
-                        <li>Pago recibido: $_________</li>
-                        <li>Millas cargadas: _________</li>
-                        <li>Mi cálculo anterior: $_________/milla</li>
-                        <li style="margin-top: 1rem;">Deadhead real: _________ millas</li>
-                        <li>Repositioning real: _________ millas</li>
-                        <li>Total millas REAL: _________</li>
-                        <li style="margin-top: 1rem; color: #00D9FF;"><strong>RPM REAL correcto:
-                                $_________/milla</strong></li>
-                    </ul>
-                    <p style="margin-top: 1rem;"><strong>Diferencia:</strong> $_________/milla</p>
+                <div class="worksheet">
+                    <div class="worksheet-row"><span class="label">Pago recibido</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Millas cargadas</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Mi cálculo anterior ($/milla)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Deadhead real</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Repositioning real</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Total millas real</span><span class="line"></span></div>
+                    <div class="worksheet-row highlight"><span class="label">RPM REAL correcto</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Diferencia</span><span class="line"></span></div>
                 </div>
             </section>
 
             <section>
-                <h2>🎯 ACCIÓN INMEDIATA (2 minutos)</h2>
+                <h2>Acción inmediata</h2>
 
-                <div class="callout tip">
-                    <strong>Antes de continuar a la siguiente lección:</strong>
-                    <ul>
-                        <li>✅ Abre Smart Load Solution</li>
-                        <li>✅ Ve a tu última carga registrada</li>
-                        <li>✅ Recalcula el RPM incluyendo TODAS las millas</li>
-                        <li>✅ ¿Cambió el número? Anótalo</li>
-                    </ul>
+                <div class="checklist">
+                    <span class="checklist-label">Antes de continuar — 2 minutos</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Abre Smart Load Solution</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Ve a tu última carga registrada</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Recalcula el RPM incluyendo todas las millas</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">¿Cambió el número? Anótalo</span></div>
                 </div>
             </section>
 
             <section>
-                <h2>💡 CONCLUSIÓN CLAVE</h2>
-
-                <div style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(255, 107, 53, 0.1)); padding: 2rem; border-radius: 0.75rem; text-align: center; margin: 2rem 0;">
-                    <p style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">Si no cuentas TODAS las
-                        millas,<br>estás tomando decisiones a ciegas.</p>
-                    <p style="font-size: 1.1rem;">El RPM real es lo único que importa.<br>El RPM "aparente" solo te
-                        engaña.</p>
+                <div class="conclusion">
+                    <p class="lead">Si no cuentas <span class="accent">todas las millas</span>, estás tomando decisiones a ciegas.</p>
+                    <p class="sub">El RPM real es lo único que importa — el RPM "aparente" solo te engaña.</p>
                 </div>
             </section>
 
