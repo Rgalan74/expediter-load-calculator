@@ -1057,6 +1057,21 @@ function _loadDateMs(l) {
     return 0;
 }
 
+// Lecciones por modulo — debe coincidir con AcademyProgress.MODULES en
+// public/academy/js/academy.js (modulo 0 = "Empieza Aqui", no cuenta para el
+// total de "8 modulos" que se le muestra al usuario).
+const ACADEMY_MODULE_LESSONS = { 1: 5, 2: 6, 3: 5, 4: 5, 5: 5, 6: 5, 7: 5, 8: 5 };
+
+function _academyModulesCompleted(academyData) {
+    if (!academyData || !academyData.modules) return 0;
+    let count = 0;
+    for (const [modNum, lessonCount] of Object.entries(ACADEMY_MODULE_LESSONS)) {
+        const mod = academyData.modules[modNum];
+        if (mod && Array.isArray(mod.completed) && mod.completed.length === lessonCount) count++;
+    }
+    return count;
+}
+
 // Lee datos de facturación de un usuario desde Firestore (Stripe extension)
 async function _getUserBilling(uid) {
     const out = { stripeCustomerId: null, subscriptions: [], payments: [] };
@@ -1178,6 +1193,8 @@ exports.adminGetUserDetail = onCall(
                 loadsTotal,
                 loadsAvgRpm,
                 recentLoads,
+                academyModulesCompleted: _academyModulesCompleted(academySnap.exists ? academySnap.data() : null),
+                academyModulesTotal: 8,
             },
         };
     }
