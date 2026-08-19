@@ -262,7 +262,7 @@
             document.getElementById('whoami').textContent = 'admin@smartload.com (MOCK)';
             document.getElementById('gate').classList.add('hidden');
             document.getElementById('app').classList.remove('hidden');
-            refreshUsers();
+            initRouting();
         } else {
             waitForFirebaseReady(() => {
                 auth = window.auth;
@@ -288,12 +288,52 @@
                         document.getElementById('whoami').textContent = user.email;
                         gate.classList.add('hidden');
                         document.getElementById('app').classList.remove('hidden');
-                        await refreshUsers();
+                        initRouting();
                     } catch (e) {
                         gate.textContent = 'Error verificando permisos: ' + e.message;
                     }
                 });
             });
+        }
+
+        function initRouting() {
+            window.addEventListener('popstate', renderFromUrl);
+            renderFromUrl();
+        }
+
+        function renderFromUrl() {
+            const uid = new URLSearchParams(location.search).get('uid');
+            if (uid) {
+                showDetailView(uid);
+            } else {
+                showListView();
+            }
+        }
+
+        function showListView() {
+            document.getElementById('detailView').classList.add('hidden');
+            document.getElementById('app').classList.remove('hidden');
+            refreshUsers();
+        }
+
+        function showDetailView(uid) {
+            document.getElementById('app').classList.add('hidden');
+            const dv = document.getElementById('detailView');
+            dv.classList.remove('hidden');
+            dv.innerHTML = '<div class="empty">Cargando…</div>';
+            loadUserDetail(uid);
+        }
+
+        function goToUser(uid) {
+            const qs = MOCK_MODE ? ('?uid=' + uid + '&mock=1') : ('?uid=' + uid);
+            history.pushState({}, '', qs);
+            showDetailView(uid);
+        }
+
+        function backToList() {
+            const qs = MOCK_MODE ? '?mock=1' : '';
+            history.pushState({}, '', location.pathname + qs);
+            showListView();
         }
 
         function cf(name) {
@@ -377,7 +417,7 @@
                 return;
             }
             tb.innerHTML = rows.map(u => `
-                <tr onclick="openUser('${u.uid}')">
+                <tr onclick="goToUser('${u.uid}')">
                     <td>
                         <div style="font-weight:600">${u.email || '(sin email)'}</div>
                         <div class="mono">${(u.uid||'').substring(0,16)}…</div>
