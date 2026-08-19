@@ -591,8 +591,7 @@
             try {
                 await cf('adminUpdateUser')({ targetUid: uid, operation: 'setPlan', plan, reason });
                 showToast('✅ Plan actualizado a ' + plan, 'ok');
-                await refreshUsers();
-                openUser(uid);
+                await loadUserDetail(uid);
             } catch (e) { showToast('❌ ' + (e.message||e), 'err'); }
         }
 
@@ -602,8 +601,7 @@
             try {
                 await cf('adminUpdateUser')({ targetUid: uid, operation: 'setAccountStatus', status });
                 showToast('✅ Cuenta ' + status, 'ok');
-                await refreshUsers();
-                openUser(uid);
+                await loadUserDetail(uid);
             } catch (e) { showToast('❌ ' + (e.message||e), 'err'); }
         }
 
@@ -612,8 +610,7 @@
             try {
                 await cf('adminUpdateUser')({ targetUid: uid, operation: 'cancelSubscription', atPeriodEnd: true });
                 showToast('✅ Suscripción cancelada (fin de periodo)', 'ok');
-                await refreshUsers();
-                openUser(uid);
+                await loadUserDetail(uid);
             } catch (e) { showToast('❌ ' + (e.message||e), 'err'); }
         }
 
