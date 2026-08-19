@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../css/academy.css">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -44,69 +45,6 @@
             font-weight: 900;
             margin-bottom: 1rem;
             line-height: 1.2;
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #ffffff;
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0;
-        }
-
-        .lesson-content ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem;
-        }
-
-        .callout {
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            margin: 2rem 0;
-            border-left: 4px solid;
-        }
-
-        .callout.tip {
-            background: rgba(0, 217, 255, 0.1);
-            border-color: #00D9FF;
-        }
-
-        .callout.warning {
-            background: rgba(255, 107, 53, 0.1);
-            border-color: #FF6B35;
-        }
-
-        .callout strong {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, 0.8);
-            border-radius: 0.75rem;
-            overflow: hidden;
-        }
-
-        th,
-        td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        th {
-            background: rgba(0, 217, 255, 0.1);
-            color: #00D9FF;
-            font-weight: 700;
         }
 
         .btn {
@@ -205,106 +143,55 @@
         <div class="lesson-content">
 
             <section>
-                <h2>🔍 THE PROBLEM</h2>
+                <h2>The problem</h2>
                 <p>Most operators only think about:</p>
                 <ul>
-                    <li>✅ Fuel</li>
-                    <li>✅ Tolls (when applicable)</li>
+                    <li>Fuel</li>
+                    <li>Tolls (when applicable)</li>
                 </ul>
 
-                <div class="callout warning">
-                    <strong>❌ SERIOUS MISTAKE</strong>
+                <div class="note warning">
+                    <span class="note-label">Serious mistake</span>
                     <p>There are hidden costs silently eating your profits. Visible costs represent only 60-70% of your
                         total operating costs.</p>
                 </div>
             </section>
 
             <section>
-                <h2>📊 REAL COST TABLE</h2>
+                <h2>Real cost table</h2>
                 <p><strong>Straight Truck / Sprinter Van (per mile)</strong></p>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>VARIABLE COSTS</th>
-                            <th>Range</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Fuel</td>
-                            <td>$0.42 - $0.50</td>
-                        </tr>
-                        <tr>
-                            <td>DEF (Diesel Exhaust Fluid)</td>
-                            <td>$0.03 - $0.05</td>
-                        </tr>
-                        <tr>
-                            <td>Scheduled maintenance</td>
-                            <td>$0.08 - $0.12</td>
-                        </tr>
-                        <tr>
-                            <td>Tire wear</td>
-                            <td>$0.03 - $0.04</td>
-                        </tr>
-                        <tr>
-                            <td>Tolls/Parking (average)</td>
-                            <td>$0.02 - $0.05</td>
-                        </tr>
-                        <tr style="background: rgba(0, 217, 255, 0.05);">
-                            <td><strong>VARIABLE SUBTOTAL</strong></td>
-                            <td><strong>$0.58 - $0.76</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>FIXED COSTS</th>
-                            <th>Range</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Van payment/lease</td>
-                            <td>$0.15 - $0.25</td>
-                        </tr>
-                        <tr>
-                            <td>Insurance (liability + cargo)</td>
-                            <td>$0.08 - $0.12</td>
-                        </tr>
-                        <tr>
-                            <td>Annual licenses/permits</td>
-                            <td>$0.01 - $0.02</td>
-                        </tr>
-                        <tr>
-                            <td>Vehicle depreciation</td>
-                            <td>$0.05 - $0.08</td>
-                        </tr>
-                        <tr>
-                            <td>Phone/apps/technology</td>
-                            <td>$0.01 - $0.02</td>
-                        </tr>
-                        <tr style="background: rgba(0, 217, 255, 0.05);">
-                            <td><strong>FIXED SUBTOTAL</strong></td>
-                            <td><strong>$0.30 - $0.49</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div style="background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(255, 215, 0, 0.2)); padding: 1.5rem; border-radius: 0.75rem; text-align: center; font-size: 1.25rem; font-weight: 800;">
-                    TOTAL OPERATING COST: $0.88 - $1.25 /mile
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Variable costs</div>
+                        <div class="compare-row"><span class="label">Fuel</span><span class="value">$0.42 – $0.50</span></div>
+                        <div class="compare-row"><span class="label">DEF (Diesel Exhaust Fluid)</span><span class="value">$0.03 – $0.05</span></div>
+                        <div class="compare-row"><span class="label">Scheduled maintenance</span><span class="value">$0.08 – $0.12</span></div>
+                        <div class="compare-row"><span class="label">Tire wear</span><span class="value">$0.03 – $0.04</span></div>
+                        <div class="compare-row"><span class="label">Tolls/Parking (average)</span><span class="value">$0.02 – $0.05</span></div>
+                        <div class="compare-row"><span class="label">Variable subtotal</span><span class="value accent">$0.58 – $0.76</span></div>
+                    </div>
+                    <div class="compare-table">
+                        <div class="compare-title">Fixed costs</div>
+                        <div class="compare-row"><span class="label">Van payment/lease</span><span class="value">$0.15 – $0.25</span></div>
+                        <div class="compare-row"><span class="label">Insurance (liability + cargo)</span><span class="value">$0.08 – $0.12</span></div>
+                        <div class="compare-row"><span class="label">Annual licenses/permits</span><span class="value">$0.01 – $0.02</span></div>
+                        <div class="compare-row"><span class="label">Vehicle depreciation</span><span class="value">$0.05 – $0.08</span></div>
+                        <div class="compare-row"><span class="label">Phone/apps/technology</span><span class="value">$0.01 – $0.02</span></div>
+                        <div class="compare-row"><span class="label">Fixed subtotal</span><span class="value accent">$0.30 – $0.49</span></div>
+                    </div>
                 </div>
-                <p style="text-align: center; color: #888; margin-top: 0.5rem;"><em>* Based on 100,000 miles per
-                        year</em></p>
+
+                <div class="pull-number">
+                    <div class="value">$0.88–$1.25</div>
+                    <p class="context">total operating cost per mile — based on 100,000 miles per year.</p>
+                </div>
             </section>
 
             <section>
-                <h2>👻 THE MOST IMPORTANT HIDDEN COSTS</h2>
+                <h2>The most important hidden costs</h2>
 
-                <h3>1. DEPRECIATION ($0.05-$0.08/mile)</h3>
-                <p>The most "invisible" — but very real:</p>
+                <p><strong>1. Depreciation ($0.05-$0.08/mile)</strong> — the most "invisible" but very real:</p>
                 <ul>
                     <li>Van purchase: $80,000</li>
                     <li>Value in 5 years: $30,000</li>
@@ -313,9 +200,10 @@
                 </ul>
                 <p>You don't see this money leave daily, but when you sell your van, you'll feel the impact.</p>
 
-                <h3>2. VAN PAYMENT ($0.15-$0.25/mile)</h3>
-                <div class="callout warning">
-                    <strong>⚠️ HEADS UP: If you run FEWER miles, this cost PER MILE goes up:</strong>
+                <p><strong>2. Van payment ($0.15-$0.25/mile)</strong></p>
+                <div class="note warning">
+                    <span class="note-label">Heads up</span>
+                    <p>If you run FEWER miles, this cost PER MILE goes up:</p>
                     <ul>
                         <li>6,000 miles/month: $1,800 ÷ 6,000 = <strong>$0.30/mile</strong></li>
                         <li>10,000 miles/month: $1,800 ÷ 10,000 = <strong>$0.18/mile</strong></li>
@@ -323,87 +211,84 @@
                     <p>Your fixed cost per mile improves by running MORE miles (as long as you stay profitable).</p>
                 </div>
 
-                <h3>3. INSURANCE ($0.08-$0.12/mile)</h3>
-                <p>Typical annual insurance:</p>
+                <p><strong>3. Insurance ($0.08-$0.12/mile)</strong> — typical annual insurance:</p>
                 <ul>
                     <li>Liability: $6,000</li>
                     <li>Physical damage: $3,000</li>
                     <li>Cargo: $1,500</li>
-                    <li><strong>TOTAL: $10,500/year = $0.105/mile</strong></li>
+                    <li><strong>Total: $10,500/year = $0.105/mile</strong></li>
                 </ul>
                 <p><strong>You pay this EVEN WHEN YOU'RE NOT MOVING.</strong> That's why you need to maximize profitable miles.</p>
             </section>
 
             <section>
-                <h2>🚨 THE HIDDEN COST RULE</h2>
+                <h2>The hidden cost rule</h2>
 
-                <div style="background: rgba(255, 107, 53, 0.1); padding: 2rem; border-radius: 0.75rem; text-align: center; margin: 2rem 0;">
-                    <p style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">When your van is MOVING, it's generating costs.<br>When your van is PARKED, some costs keep running.</p>
-                    <p>There is NO "day off" for: Insurance, Van payment, Depreciation, Licenses</p>
+                <div class="note warning">
+                    <span class="note-label">No days off</span>
+                    <p>When your van is MOVING, it's generating costs. When your van is PARKED, some costs keep running.</p>
+                    <p>There is NO "day off" for: Insurance, Van payment, Depreciation, Licenses.</p>
                 </div>
             </section>
 
             <section>
-                <h2>✏️ CALCULATE YOUR REAL COSTS</h2>
+                <h2>Calculate your real costs</h2>
 
-                <div style="background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 0.75rem;">
-                    <p><strong>STEP 1: Monthly Fixed Costs</strong></p>
+                <p><strong>Step 1: Monthly fixed costs</strong></p>
+                <div class="worksheet">
+                    <div class="worksheet-row"><span class="label">Van payment/lease</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Insurance (÷ 12 if annual)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Licenses/permits (÷ 12)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Phone/apps</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Total monthly fixed (A)</span><span class="line"></span></div>
+                </div>
+
+                <p><strong>Step 2: Average monthly miles</strong></p>
+                <div class="worksheet">
+                    <div class="worksheet-row"><span class="label">Miles you run per month (B)</span><span class="line"></span></div>
+                </div>
+
+                <p><strong>Step 3: Fixed cost per mile</strong></p>
+                <div class="worksheet">
+                    <div class="worksheet-row"><span class="label">(A) ÷ (B) = Fixed cost/mile (C)</span><span class="line"></span></div>
+                </div>
+
+                <p><strong>Step 4: Variable costs</strong></p>
+                <div class="worksheet">
+                    <div class="worksheet-row"><span class="label">Fuel (your real MPG)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">DEF</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Maintenance</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Tires</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Tolls/parking average</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Total variable (D)</span><span class="line"></span></div>
+                </div>
+
+                <p><strong>Step 5: Your total cost per mile</strong></p>
+                <div class="worksheet">
+                    <div class="worksheet-row highlight"><span class="label">(C) + (D) = Total cost/mile</span><span class="line"></span></div>
+                </div>
+
+                <p>Save this number. You'll need it in the next lesson.</p>
+            </section>
+
+            <section>
+                <h2>Cost red flags</h2>
+
+                <div class="note warning">
+                    <span class="note-label">Warning signs</span>
                     <ul>
-                        <li>Van payment/lease: $_________</li>
-                        <li>Insurance (÷ 12 if annual): $_________</li>
-                        <li>Licenses/permits (÷ 12): $_________</li>
-                        <li>Phone/apps: $_________</li>
-                        <li><strong>TOTAL MONTHLY FIXED: $_________ (A)</strong></li>
+                        <li>Fuel &gt;$0.55/mile → Review your driving style</li>
+                        <li>Maintenance &gt;$0.15/mile → Your van needs attention NOW</li>
+                        <li>Fixed costs &gt;$0.50/mile → You need more miles or lower payments</li>
+                        <li>Total cost &gt;$1.30/mile → Hard to be profitable — review your operation</li>
                     </ul>
-
-                    <p style="margin-top: 1.5rem;"><strong>STEP 2: Average Monthly Miles</strong></p>
-                    <p>Miles you run per month: _________ (B)</p>
-
-                    <p style="margin-top: 1.5rem;"><strong>STEP 3: Fixed Cost Per Mile</strong></p>
-                    <p>(A) ÷ (B) = <strong style="color: #00D9FF;">$_________/mile (C)</strong></p>
-
-                    <p style="margin-top: 1.5rem;"><strong>STEP 4: Variable Costs</strong></p>
-                    <ul>
-                        <li>Fuel (your real MPG): $_________/mile</li>
-                        <li>DEF: $_________/mile</li>
-                        <li>Maintenance: $_________/mile</li>
-                        <li>Tires: $_________/mile</li>
-                        <li>Tolls/parking average: $_________/mile</li>
-                        <li><strong>TOTAL VARIABLE: $_________ (D)</strong></li>
-                    </ul>
-
-                    <div style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.2), rgba(255, 107, 53, 0.2)); padding: 1rem; border-radius: 0.5rem; margin-top: 1.5rem; text-align: center;">
-                        <p style="font-size: 1.1rem;"><strong>STEP 5: YOUR TOTAL COST PER MILE</strong></p>
-                        <p style="font-size: 1.5rem; font-weight: 900; color: #00D9FF; margin-top: 0.5rem;">(C) + (D) =
-                            $_________/mile</p>
-                    </div>
-
-                    <p style="margin-top: 1rem; text-align: center;"><strong>Save this number. You'll need it in the
-                            next lesson.</strong></p>
                 </div>
             </section>
 
             <section>
-                <h2>🚨 COST RED FLAGS</h2>
-
-                <div class="callout warning">
-                    <strong>Signs your costs are out of control:</strong>
-                    <ul>
-                        <li>⚠️ Fuel &gt;$0.55/mile → Review your driving style</li>
-                        <li>⚠️ Maintenance &gt;$0.15/mile → Your van needs attention NOW</li>
-                        <li>⚠️ Fixed costs &gt;$0.50/mile → You need more miles or lower payments</li>
-                        <li>⚠️ Total cost &gt;$1.30/mile → Hard to be profitable — review your operation</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section>
-                <h2>💡 KEY TAKEAWAY</h2>
-
-                <div style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(255, 107, 53, 0.1)); padding: 2rem; border-radius: 0.75rem; text-align: center;">
-                    <p style="font-size: 1.25rem; font-weight: 700;">Hidden costs are REAL.</p>
-                    <p style="margin-top: 1rem;">Just because you don't see them every day doesn't mean they don't exist.</p>
-                    <p style="margin-top: 1rem;">Your van ALWAYS costs money.<br>The question is: are you earning MORE than it costs?</p>
+                <div class="conclusion">
+                    <p class="lead">Hidden costs are <span class="accent">REAL</span>.</p>
+                    <p class="sub">Just because you don't see them every day doesn't mean they don't exist. Your van ALWAYS costs money — the question is whether you're earning MORE than it costs.</p>
                 </div>
             </section>
 

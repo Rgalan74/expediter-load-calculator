@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,49 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
-        }
-
-        .tier-box {
-            padding: 1rem;
-            border-radius: .5rem;
-            margin: .5rem 0;
-            border-left: 4px solid
         }
 
         .btn {
@@ -178,253 +136,194 @@
         <div class="lesson-content">
 
             <section>
-                <h2>🗺️ LA VERDAD INCÓMODA</h2>
+                <h2>La verdad incómoda</h2>
 
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
-                    <p style="font-style:italic">"Pensé que todas mis cargas eran rentables.<br>
-                        Después de analizar por ruta, descubrí:</p>
-                    <ul>
-                        <li>20% de mis rutas generan 60% de mi ganancia</li>
-                        <li>30% de mis rutas apenas son rentables</li>
-                        <li>15% de mis rutas PIERDEN dinero</li>
-                    </ul>
-                    <p style="margin:0">Estaba trabajando duro en rutas MALAS<br>mientras ignoraba las BUENAS."</p>
-                    <p style="margin-top:1rem;text-align:right;font-weight:700">- Ricardo, después de 3 meses de
-                        tracking</p>
-                </div>
+                <p>"Pensé que todas mis cargas eran rentables. Después de analizar por ruta, descubrí:</p>
+                <ul>
+                    <li>20% de mis rutas generan 60% de mi ganancia</li>
+                    <li>30% de mis rutas apenas son rentables</li>
+                    <li>15% de mis rutas PIERDEN dinero</li>
+                </ul>
+                <p>Estaba trabajando duro en rutas MALAS mientras ignoraba las BUENAS."</p>
+                <p>— Ricardo, después de 3 meses de tracking</p>
             </section>
 
             <section>
-                <h2>💡 EL CONCEPTO: NO TODAS LAS MILLAS VALEN LO MISMO</h2>
+                <h2>El concepto: no todas las millas valen lo mismo</h2>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
-                    <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem;border-left:4px solid #64C864">
-                        <p><strong>RUTA A: Detroit → Chicago</strong></p>
-                        <ul style="font-size:.9rem;margin:0">
-                            <li>Distancia: 280 millas</li>
-                            <li>Pago promedio: $520</li>
-                            <li>RPM: $1.86/mi</li>
-                            <li>Deadhead promedio: 15 mi</li>
-                            <li>Tiempo: 5 horas</li>
-                            <li>Ganancia promedio: $245</li>
-                            <li><strong style="color:#64C864">Ganancia/hora: $49/hr ✅</strong></li>
-                        </ul>
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Ruta A: Detroit → Chicago</div>
+                        <div class="compare-row"><span class="label">Distancia</span><span class="value">280 millas</span></div>
+                        <div class="compare-row"><span class="label">Pago promedio</span><span class="value">$520</span></div>
+                        <div class="compare-row"><span class="label">RPM</span><span class="value">$1.86/mi</span></div>
+                        <div class="compare-row"><span class="label">Deadhead promedio</span><span class="value">15 mi</span></div>
+                        <div class="compare-row"><span class="label">Tiempo</span><span class="value">5 horas</span></div>
+                        <div class="compare-row"><span class="label">Ganancia promedio</span><span class="value">$245</span></div>
+                        <div class="compare-row"><span class="label">Ganancia/hora</span><span class="value accent">$49/hr ✅</span></div>
                     </div>
-
-                    <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FF6B35">
-                        <p><strong>RUTA B: Detroit → Laredo</strong></p>
-                        <ul style="font-size:.9rem;margin:0">
-                            <li>Distancia: 1,600 millas</li>
-                            <li>Pago promedio: $1,800</li>
-                            <li>RPM: $1.12/mi</li>
-                            <li>Deadhead promedio: 280 mi</li>
-                            <li>Tiempo: 26 horas</li>
-                            <li>Ganancia promedio: $280</li>
-                            <li><strong style="color:#FF6B35">Ganancia/hora: $10.77/hr ❌</strong></li>
-                        </ul>
+                    <div class="compare-table">
+                        <div class="compare-title">Ruta B: Detroit → Laredo</div>
+                        <div class="compare-row"><span class="label">Distancia</span><span class="value">1,600 millas</span></div>
+                        <div class="compare-row"><span class="label">Pago promedio</span><span class="value">$1,800</span></div>
+                        <div class="compare-row"><span class="label">RPM</span><span class="value">$1.12/mi</span></div>
+                        <div class="compare-row"><span class="label">Deadhead promedio</span><span class="value">280 mi</span></div>
+                        <div class="compare-row"><span class="label">Tiempo</span><span class="value">26 horas</span></div>
+                        <div class="compare-row"><span class="label">Ganancia promedio</span><span class="value">$280</span></div>
+                        <div class="compare-row"><span class="label">Ganancia/hora</span><span class="value">$10.77/hr ❌</span></div>
                     </div>
                 </div>
 
-                <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    Ruta B paga MÁS en total ($1,800 vs $520)<br>
-                    Pero Ruta A genera MÁS ganancia por hora.<br><br>
-                    ¿Cuál preferirías hacer 2 veces por semana?
-                </p>
+                <p>Ruta B paga MÁS en total ($1,800 vs $520). Pero Ruta A genera MÁS ganancia por hora. ¿Cuál preferirías hacer 2 veces por semana?</p>
             </section>
 
             <section>
-                <h2>🎯 SISTEMA DE CLASIFICACIÓN DE RUTAS</h2>
+                <h2>Sistema de clasificación de rutas</h2>
 
-                <div class="tier-box" style="background:rgba(100,200,100,.15);border-color:#64C864">
-                    <p><strong>S-TIER 🟢🟢</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>RPM &gt;$1.70/mi</li>
-                        <li>Margen &gt;40%</li>
-                        <li>Ganancia/hr &gt;$45</li>
-                        <li>Backhaul fácil</li>
-                        <li>Alta frecuencia disponible</li>
-                        <li><strong>ACCIÓN: MAXIMIZAR - Busca activamente</strong></li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">S-Tier 🟢🟢</div>
+                    <div class="compare-row"><span class="label">RPM</span><span class="value accent">&gt;$1.70/mi</span></div>
+                    <div class="compare-row"><span class="label">Margen</span><span class="value">&gt;40%</span></div>
+                    <div class="compare-row"><span class="label">Ganancia/hr</span><span class="value">&gt;$45</span></div>
+                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">Fácil</span></div>
+                    <div class="compare-row"><span class="label">Frecuencia</span><span class="value">Alta disponibilidad</span></div>
+                    <div class="compare-row"><span class="label">Acción</span><span class="value accent">Maximizar — busca activamente</span></div>
                 </div>
 
-                <div class="tier-box" style="background:rgba(100,200,100,.1);border-color:#64C864">
-                    <p><strong>A-TIER 🟢</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>RPM $1.50-1.70/mi</li>
-                        <li>Margen 35-40%</li>
-                        <li>Ganancia/hr $35-45</li>
-                        <li>Backhaul moderado</li>
-                        <li><strong>ACCIÓN: PRIORIZAR - Acepta siempre</strong></li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">A-Tier 🟢</div>
+                    <div class="compare-row"><span class="label">RPM</span><span class="value">$1.50-1.70/mi</span></div>
+                    <div class="compare-row"><span class="label">Margen</span><span class="value">35-40%</span></div>
+                    <div class="compare-row"><span class="label">Ganancia/hr</span><span class="value">$35-45</span></div>
+                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">Moderado</span></div>
+                    <div class="compare-row"><span class="label">Acción</span><span class="value">Priorizar — acepta siempre</span></div>
                 </div>
 
-                <div class="tier-box" style="background:rgba(255,215,0,.1);border-color:#FFD700">
-                    <p><strong>B-TIER 🟡</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>RPM $1.30-1.50/mi</li>
-                        <li>Margen 25-35%</li>
-                        <li>Ganancia/hr $25-35</li>
-                        <li>Backhaul variable</li>
-                        <li><strong>ACCIÓN: ACEPTAR - Si encaja en circuit</strong></li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">B-Tier 🟡</div>
+                    <div class="compare-row"><span class="label">RPM</span><span class="value">$1.30-1.50/mi</span></div>
+                    <div class="compare-row"><span class="label">Margen</span><span class="value">25-35%</span></div>
+                    <div class="compare-row"><span class="label">Ganancia/hr</span><span class="value">$25-35</span></div>
+                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">Variable</span></div>
+                    <div class="compare-row"><span class="label">Acción</span><span class="value">Aceptar — si encaja en circuit</span></div>
                 </div>
 
-                <div class="tier-box" style="background:rgba(255,165,0,.1);border-color:#FFA500">
-                    <p><strong>C-TIER 🟠</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>RPM $1.10-1.30/mi</li>
-                        <li>Margen 15-25%</li>
-                        <li>Ganancia/hr $15-25</li>
-                        <li>Backhaul difícil</li>
-                        <li><strong>ACCIÓN: EVITAR - Solo si desesperado</strong></li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">C-Tier 🟠</div>
+                    <div class="compare-row"><span class="label">RPM</span><span class="value">$1.10-1.30/mi</span></div>
+                    <div class="compare-row"><span class="label">Margen</span><span class="value">15-25%</span></div>
+                    <div class="compare-row"><span class="label">Ganancia/hr</span><span class="value">$15-25</span></div>
+                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">Difícil</span></div>
+                    <div class="compare-row"><span class="label">Acción</span><span class="value">Evitar — solo si desesperado</span></div>
                 </div>
 
-                <div class="tier-box" style="background:rgba(255,107,53,.15);border-color:#FF6B35">
-                    <p><strong>D-TIER 🔴</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>RPM &lt;$1.10 /mi</li>
-                        <li>Margen &lt;15%&lt; /li&gt;
-                        </li><li>Ganancia/hr &lt;$15&lt; /li&gt;
-                        </li><li>Backhaul inexistente</li>
-                        <li><strong>ACCIÓN: RECHAZAR - Nunca aceptar</strong></li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">D-Tier 🔴</div>
+                    <div class="compare-row"><span class="label">RPM</span><span class="value">&lt;$1.10/mi</span></div>
+                    <div class="compare-row"><span class="label">Margen</span><span class="value">&lt;15%</span></div>
+                    <div class="compare-row"><span class="label">Ganancia/hr</span><span class="value">&lt;$15</span></div>
+                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">Inexistente</span></div>
+                    <div class="compare-row"><span class="label">Acción</span><span class="value">Rechazar — nunca aceptar</span></div>
                 </div>
             </section>
 
             <section>
-                <h2>📱 ANÁLISIS DE RUTAS EN SMART LOAD</h2>
+                <h2>Análisis de rutas en Smart Load</h2>
 
-                <div class="mockup">
-                    🗺️ ANÁLISIS DE RUTAS - TUS TOP 10<br>
-                    <br>
-                    Basado en 6 meses de historial<br>
-                    <br>
-                    🥇 #1: DETROIT → CHICAGO<br>
-                    ├─ Cargas: 18<br>
-                    ├─ RPM promedio: $1.86/mi<br>
-                    ├─ Margen promedio: 44.2%<br>
-                    ├─ Ganancia/hr: $49<br>
-                    ├─ Tier: S 🟢🟢<br>
-                    └─ RECOMENDACIÓN: Busca más<br>
-                    <br>
-                    🥈 #2: CHICAGO → INDIANAPOLIS<br>
-                    ├─ Cargas: 12<br>
-                    ├─ RPM promedio: $1.72/mi<br>
-                    ├─ Margen promedio: 41.8%<br>
-                    ├─ Ganancia/hr: $46<br>
-                    ├─ Tier: S 🟢🟢<br>
-                    └─ RECOMENDACIÓN: Mantén frecuencia<br>
-                    <br>
-                    🥉 #3: INDIANAPOLIS → NASHVILLE<br>
-                    ├─ Cargas: 10<br>
-                    ├─ RPM promedio: $1.65/mi<br>
-                    ├─ Margen promedio: 38.5%<br>
-                    ├─ Ganancia/hr: $42<br>
-                    ├─ Tier: A 🟢<br>
-                    └─ RECOMENDACIÓN: Prioriza<br>
-                    <br>
-                    🔴 PEORES 3 RUTAS:<br>
-                    ├─ Detroit → Laredo: $10.77/hr<br>
-                    ├─ Toledo → El Paso: $9.25/hr<br>
-                    └─ Chicago → Phoenix: $12.80/hr<br>
-                    <br>
-                    💡 OPORTUNIDAD DE OPTIMIZACIÓN:<br>
-                    Si eliminas peores 3 rutas y<br>
-                    aumentas top 3 rutas en 20%:<br>
-                    Ganancia mensual: +$1,240 🚀
+                <div class="formula">ANÁLISIS DE RUTAS - TUS TOP 10<br>
+<br>
+Basado en 6 meses de historial<br>
+<br>
+#1: DETROIT → CHICAGO<br>
+├─ Cargas: 18<br>
+├─ RPM promedio: $1.86/mi<br>
+├─ Margen promedio: 44.2%<br>
+├─ Ganancia/hr: $49<br>
+├─ Tier: S 🟢🟢<br>
+└─ RECOMENDACIÓN: Busca más<br>
+<br>
+#2: CHICAGO → INDIANAPOLIS<br>
+├─ Cargas: 12<br>
+├─ RPM promedio: $1.72/mi<br>
+├─ Margen promedio: 41.8%<br>
+├─ Ganancia/hr: $46<br>
+├─ Tier: S 🟢🟢<br>
+└─ RECOMENDACIÓN: Mantén frecuencia<br>
+<br>
+#3: INDIANAPOLIS → NASHVILLE<br>
+├─ Cargas: 10<br>
+├─ RPM promedio: $1.65/mi<br>
+├─ Margen promedio: 38.5%<br>
+├─ Ganancia/hr: $42<br>
+├─ Tier: A 🟢<br>
+└─ RECOMENDACIÓN: Prioriza<br>
+<br>
+PEORES 3 RUTAS:<br>
+├─ Detroit → Laredo: $10.77/hr<br>
+├─ Toledo → El Paso: $9.25/hr<br>
+└─ Chicago → Phoenix: $12.80/hr<br>
+<br>
+OPORTUNIDAD DE OPTIMIZACIÓN:<br>
+Si eliminas peores 3 rutas y<br>
+aumentas top 3 rutas en 20%:<br>
+Ganancia mensual: +$1,240 🚀</div>
+            </section>
+
+            <section>
+                <h2>Construcción de circuit óptimo</h2>
+
+                <div class="compare-table">
+                    <div class="compare-title">Circuit semanal óptimo — ejemplo</div>
+                    <div class="compare-row"><span class="label">Lunes: Detroit → Chicago (Tier S)</span><span class="value">+$245, 5 hrs</span></div>
+                    <div class="compare-row"><span class="label">Martes: Chicago → Indianapolis (Tier S)</span><span class="value">+$220, 4 hrs</span></div>
+                    <div class="compare-row"><span class="label">Miércoles: Indianapolis → Nashville (Tier A)</span><span class="value">+$280, 5 hrs</span></div>
+                    <div class="compare-row"><span class="label">Jueves: Nashville → Atlanta (Tier A)</span><span class="value">+$320, 4 hrs</span></div>
+                    <div class="compare-row"><span class="label">Viernes: Atlanta → Detroit (Tier S)</span><span class="value">+$680, 11 hrs</span></div>
+                </div>
+
+                <div class="compare-table">
+                    <div class="compare-title">Totales semanales</div>
+                    <div class="compare-row"><span class="label">Millas</span><span class="value">~1,950</span></div>
+                    <div class="compare-row"><span class="label">Tiempo</span><span class="value">29 hrs driving</span></div>
+                    <div class="compare-row"><span class="label">Ganancia</span><span class="value accent">$1,745</span></div>
+                    <div class="compare-row"><span class="label">Ganancia/hr</span><span class="value accent">$60.17 ✅</span></div>
+                    <div class="compare-row"><span class="label">Rutas</span><span class="value">Solo Tier S &amp; A</span></div>
+                </div>
+
+                <div class="pull-number">
+                    <div class="value">+66%</div>
+                    <p class="context">mensual: $6,980 (circuit optimizado) vs $4,200 (circuit aleatorio) = +$2,780/mes.</p>
                 </div>
             </section>
 
             <section>
-                <h2>🎯 CONSTRUCCIÓN DE CIRCUIT ÓPTIMO</h2>
+                <h2>Conclusión clave</h2>
 
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>CIRCUIT SEMANAL ÓPTIMO - EJEMPLO:</strong></p>
-                    <table style="width:100%;border-collapse:collapse;margin:1rem 0">
-                        <tbody><tr style="background:rgba(100,200,100,.05)">
-                            <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.1)">
-                                <strong>LUNES:</strong> Detroit → Chicago (Tier S)</td>
-                            <td style="padding:.5rem;text-align:right">+$245, 5 hrs</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.05)">
-                            <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.1)">
-                                <strong>MARTES:</strong> Chicago → Indianapolis (Tier S)</td>
-                            <td style="padding:.5rem;text-align:right">+$220, 4 hrs</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.03)">
-                            <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.1)">
-                                <strong>MIÉRCOLES:</strong> Indianapolis → Nashville (Tier A)</td>
-                            <td style="padding:.5rem;text-align:right">+$280, 5 hrs</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.03)">
-                            <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.1)">
-                                <strong>JUEVES:</strong> Nashville → Atlanta (Tier A)</td>
-                            <td style="padding:.5rem;text-align:right">+$320, 4 hrs</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.05)">
-                            <td style="padding:.5rem"><strong>VIERNES:</strong> Atlanta → Detroit (Tier S)</td>
-                            <td style="padding:.5rem;text-align:right">+$680, 11 hrs</td>
-                        </tr>
-                    </tbody></table>
+                <p><strong>Análisis de rutas revela:</strong></p>
+                <ul>
+                    <li>20% de rutas generan 60% de ganancia (Tier S/A)</li>
+                    <li>50% de rutas son "ok" (Tier B)</li>
+                    <li>30% de rutas destruyen rentabilidad (Tier C/D)</li>
+                </ul>
 
-                    <div style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1rem">
-                        <p style="margin:0"><strong>TOTALES SEMANALES:</strong></p>
-                        <ul style="margin:.5rem 0 0 0">
-                            <li>Millas: ~1,950</li>
-                            <li>Tiempo: 29 hrs driving</li>
-                            <li>Ganancia: $1,745</li>
-                            <li>Ganancia/hr: $60.17 ✅</li>
-                            <li>Solo rutas Tier S &amp; A</li>
-                        </ul>
-                        <p style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.1)">
-                            <strong>MENSUAL (4 semanas):</strong> $6,980<br>
-                            <strong>vs CIRCUIT ALEATORIO:</strong> $4,200<br>
-                            <strong style="color:#FFD700">DIFERENCIA: +$2,780/mes (+66%) 🚀</strong>
-                        </p>
-                    </div>
+                <p><strong>Métricas que importan por ruta:</strong></p>
+                <ol>
+                    <li><strong>Ganancia/hora</strong> (métrica #1)</li>
+                    <li>Margen (sostenibilidad)</li>
+                    <li>RPM (eficiencia de tarifa)</li>
+                    <li>Backhaul rate (continuidad)</li>
+                    <li>Frecuencia (consistencia)</li>
+                </ol>
+
+                <div class="note tip">
+                    <span class="note-label">Proceso de optimización</span>
+                    <p>Semanas 1-2: identifica rutas malas. Semanas 3-6: prueba rutas nuevas. Semanas 7-10: reemplaza gradualmente. Semanas 11-12: evalúa resultados.</p>
+                    <p>Resultado típico: +30-50% ganancia mensual.</p>
                 </div>
-            </section>
 
-            <section>
-                <h2>💡 CONCLUSIÓN CLAVE</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">No todas las rutas son
-                        iguales.<br>El secreto no es trabajar MÁS.<br>Es trabajar en las rutas CORRECTAS.</p>
-
-                    <div style="text-align:left;max-width:500px;margin:0 auto">
-                        <p><strong>Análisis de rutas revela:</strong></p>
-                        <ul>
-                            <li>20% de rutas generan 60% de ganancia (Tier S/A)</li>
-                            <li>50% de rutas son "ok" (Tier B)</li>
-                            <li>30% de rutas destruyen rentabilidad (Tier C/D)</li>
-                        </ul>
-
-                        <p><strong>Métricas que importan por ruta:</strong></p>
-                        <ol>
-                            <li><strong>Ganancia/hora</strong> (métrica #1)</li>
-                            <li>Margen (sostenibilidad)</li>
-                            <li>RPM (eficiencia de tarifa)</li>
-                            <li>Backhaul rate (continuidad)</li>
-                            <li>Frecuencia (consistencia)</li>
-                        </ol>
-
-                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
-                            <strong>Proceso de optimización:</strong><br>
-                            SEMANAS 1-2: Identifica rutas malas<br>
-                            SEMANAS 3-6: Prueba rutas nuevas<br>
-                            SEMANAS 7-10: Reemplaza gradualmente<br>
-                            SEMANAS 11-12: Evalúa resultados<br><br>
-                            <strong style="color:#FFD700">Resultado típico:<br>
-                                +30-50% ganancia mensual</strong>
-                        </p>
-
-                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">
-                            Elimina 2-3 rutas malas.<br>
-                            Maximiza 2-3 rutas buenas.<br>
-                            = Transforma tu negocio en 90 días.
-                        </p>
-                    </div>
+                <div class="conclusion">
+                    <p class="lead">No todas las rutas son iguales. El secreto no es trabajar más — es trabajar en las <span class="accent">rutas correctas</span>.</p>
+                    <p class="sub">Elimina 2-3 rutas malas. Maximiza 2-3 rutas buenas. = Transforma tu negocio en 90 días.</p>
                 </div>
             </section>
 

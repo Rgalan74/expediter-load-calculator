@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,65 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: .75rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1);
-            font-size: .9rem
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
         }
 
         .btn {
@@ -195,144 +137,107 @@
         <div class="lesson-content">
 
             <section>
-                <h2>🔧 LA ECUACIÓN DEL MANTENIMIENTO</h2>
+                <h2>La ecuación del mantenimiento</h2>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
-                    <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FF6B35">
-                        <p><strong>REACTIVO (Operador promedio):</strong></p>
-                        <p style="font-style:italic">"Lo arreglo cuando se rompe"</p>
-                        <ul style="margin:0;font-size:.9rem">
-                            <li>Espera hasta que hay problema</li>
-                            <li>Reparaciones de emergencia</li>
-                            <li>Paga precios premium</li>
-                            <li>Pierde ingresos (van parada)</li>
-                            <li><strong style="color:#FF6B35">COSTO: $600-900/mes</strong></li>
-                        </ul>
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Reactivo — operador promedio</div>
+                        <div class="compare-row"><span class="label">Filosofía</span><span class="value">"Lo arreglo cuando se rompe"</span></div>
+                        <div class="compare-row"><span class="label">Enfoque</span><span class="value">Espera hasta que hay problema</span></div>
+                        <div class="compare-row"><span class="label">Reparaciones</span><span class="value">De emergencia, precio premium</span></div>
+                        <div class="compare-row"><span class="label">Ingresos</span><span class="value">Pierde (van parada)</span></div>
+                        <div class="compare-row"><span class="label">Costo</span><span class="value">$600-900/mes</span></div>
                     </div>
-
-                    <div style="background:rgba(100,200,100,.15);padding:1.5rem;border-radius:.75rem;border-left:4px solid #64C864">
-                        <p><strong>PREVENTIVO (Operador elite):</strong></p>
-                        <p style="font-style:italic">"Mantengo antes de que se rompa"</p>
-                        <ul style="margin:0;font-size:.9rem">
-                            <li>Sigue calendario estricto</li>
-                            <li>Mantenimiento programado</li>
-                            <li>Paga precios normales</li>
-                            <li>Cero downtime inesperado</li>
-                            <li><strong style="color:#64C864">COSTO: $300-500/mes</strong></li>
-                        </ul>
+                    <div class="compare-table">
+                        <div class="compare-title">Preventivo — operador elite</div>
+                        <div class="compare-row"><span class="label">Filosofía</span><span class="value">"Mantengo antes de que se rompa"</span></div>
+                        <div class="compare-row"><span class="label">Enfoque</span><span class="value">Sigue calendario estricto</span></div>
+                        <div class="compare-row"><span class="label">Mantenimiento</span><span class="value">Programado, precio normal</span></div>
+                        <div class="compare-row"><span class="label">Downtime</span><span class="value">Cero inesperado</span></div>
+                        <div class="compare-row"><span class="label">Costo</span><span class="value accent">$300-500/mes</span></div>
                     </div>
                 </div>
 
-                <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    DIFERENCIA: $200-400/mes ahorro<br>
-                    + Tranquilidad + Van confiable + Menos estrés
-                </p>
+                <div class="pull-number">
+                    <div class="value">$200-400/mes</div>
+                    <p class="context">de ahorro con mantenimiento preventivo — más tranquilidad, van confiable y menos estrés.</p>
+                </div>
             </section>
 
             <section>
-                <h2>📅 EL CALENDARIO SAGRADO</h2>
+                <h2>El calendario sagrado</h2>
 
-                <h3>CADA 5,000 MILLAS (Mensual típico)</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                <div class="note tip">
+                    <span class="note-label">Cada 5,000 millas — mensual típico</span>
                     <ul>
-                        <li><strong>Cambio aceite y filtro</strong> (DIY: $45, Shop: $75-90) - Usa sintético</li>
-                        <li><strong>Rotación de llantas</strong> (DIY: $0, Shop: $25-40) - Extiende vida 25%</li>
-                        <li><strong>Inspección fluidos</strong> (Coolant, brake, power steering, DEF)</li>
-                        <li><strong>Inspección visual</strong> (Llantas, luces, wipers, fugas)</li>
+                        <li><strong>Cambio aceite y filtro</strong> (DIY: $45, Shop: $75-90) — usa sintético</li>
+                        <li><strong>Rotación de llantas</strong> (DIY: $0, Shop: $25-40) — extiende vida 25%</li>
+                        <li><strong>Inspección fluidos</strong> (coolant, brake, power steering, DEF)</li>
+                        <li><strong>Inspección visual</strong> (llantas, luces, wipers, fugas)</li>
                     </ul>
-                    <p style="margin:0"><strong>COSTO: $70-130/mes</strong> (shop) o <strong>$45-60/mes</strong> (DIY)
-                    </p>
+                    <p><strong>Costo: $70-130/mes</strong> (shop) o <strong>$45-60/mes</strong> (DIY)</p>
                 </div>
 
-                <h3>CADA 15,000 MILLAS (Trimestral)</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                <div class="note tip">
+                    <span class="note-label">Cada 15,000 millas — trimestral</span>
                     <ul>
-                        <li><strong>Cambio filtro aire</strong> ($25-65) - Afecta MPG directamente</li>
-                        <li><strong>Cambio filtro cabina</strong> ($15-50) - Calidad aire/A/C</li>
+                        <li><strong>Cambio filtro aire</strong> ($25-65) — afecta MPG directamente</li>
+                        <li><strong>Cambio filtro cabina</strong> ($15-50) — calidad aire/A/C</li>
                         <li><strong>Inspección frenos</strong> (grosor pads, rotors)</li>
                         <li><strong>Test batería</strong> (voltage, limpia terminales)</li>
                     </ul>
-                    <p style="margin:0"><strong>COSTO ADICIONAL: $40-90</strong></p>
+                    <p><strong>Costo adicional: $40-90</strong></p>
                 </div>
 
-                <h3>CADA 30,000 MILLAS (Semestral)</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                <div class="note tip">
+                    <span class="note-label">Cada 30,000 millas — semestral</span>
                     <ul>
-                        <li><strong>Transmisión:</strong> Cambio fluido ($150-250) - Extiende vida 100K+ mi</li>
-                        <li><strong>Diferencial:</strong> Cambio fluido ($80-120)</li>
-                        <li><strong>Coolant flush:</strong> Reemplazar completamente ($100-150)</li>
-                        <li><strong>Alineación ruedas:</strong> 4 ruedas ($100-150) - Mejora MPG</li>
-                        <li><strong>Inspección suspensión:</strong> Shocks, control arms</li>
+                        <li><strong>Transmisión:</strong> cambio fluido ($150-250) — extiende vida 100K+ mi</li>
+                        <li><strong>Diferencial:</strong> cambio fluido ($80-120)</li>
+                        <li><strong>Coolant flush:</strong> reemplazar completamente ($100-150)</li>
+                        <li><strong>Alineación ruedas:</strong> 4 ruedas ($100-150) — mejora MPG</li>
+                        <li><strong>Inspección suspensión:</strong> shocks, control arms</li>
                     </ul>
-                    <p style="margin:0"><strong>COSTO: $430-670 cada 30K</strong></p>
+                    <p><strong>Costo: $430-670 cada 30K</strong></p>
                 </div>
 
-                <h3>CADA 60,000 MILLAS (Anual típico)</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <ul style="margin:0">
-                        <li><strong>Spark plugs</strong> (si gasolina): $120-200 - Mejora MPG</li>
-                        <li><strong>Serpentine belt:</strong> $80-150 - Previene avería</li>
+                <div class="note tip">
+                    <span class="note-label">Cada 60,000 millas — anual típico</span>
+                    <ul>
+                        <li><strong>Spark plugs</strong> (si gasolina): $120-200 — mejora MPG</li>
+                        <li><strong>Serpentine belt:</strong> $80-150 — previene avería</li>
                         <li><strong>Brake fluid flush:</strong> $70-100</li>
-                        <li><strong>Power steering flush:</strong> $80-120 - Previene falla bomba</li>
+                        <li><strong>Power steering flush:</strong> $80-120 — previene falla bomba</li>
                     </ul>
-                    <p style="margin-top:1rem;margin-bottom:0"><strong>COSTO: $350-570 cada 60K</strong></p>
+                    <p><strong>Costo: $350-570 cada 60K</strong></p>
                 </div>
             </section>
 
             <section>
-                <h2>📊 RESUMEN ANUAL (90K millas/año)</h2>
+                <h2>Resumen anual (90K millas/año)</h2>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>FRECUENCIA</th>
-                            <th>SERVICIO</th>
-                            <th>COSTO ANUAL</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Mensual (12×)</td>
-                            <td>Aceite/inspección</td>
-                            <td>$840-1,560</td>
-                        </tr>
-                        <tr>
-                            <td>Trimestral (4×)</td>
-                            <td>Filtros/frenos</td>
-                            <td>$160-360</td>
-                        </tr>
-                        <tr>
-                            <td>Semestral (3×)</td>
-                            <td>Mayor servicio</td>
-                            <td>$1,290-2,010</td>
-                        </tr>
-                        <tr>
-                            <td>Anual (1.5×)</td>
-                            <td>Gran servicio</td>
-                            <td>$525-855</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.15)">
-                            <td colspan="2"><strong>TOTAL PREVENTIVO</strong></td>
-                            <td><strong>$2,815-4,785/año</strong><br>= $235-399/mes</td>
-                        </tr>
-                        <tr style="background:rgba(255,107,53,.15)">
-                            <td colspan="2"><strong>REACTIVO típico</strong></td>
-                            <td><strong>$7,200-10,800/año</strong><br>= $600-900/mes</td>
-                        </tr>
-                        <tr style="background:rgba(255,215,0,.15)">
-                            <td colspan="2"><strong>AHORRO</strong></td>
-                            <td><strong>$4,385-6,015/año</strong><br>= $365-501/mes 🚀</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Mensual (12×) — aceite/inspección</span><span class="value">$840-1,560</span></div>
+                    <div class="compare-row"><span class="label">Trimestral (4×) — filtros/frenos</span><span class="value">$160-360</span></div>
+                    <div class="compare-row"><span class="label">Semestral (3×) — mayor servicio</span><span class="value">$1,290-2,010</span></div>
+                    <div class="compare-row"><span class="label">Anual (1.5×) — gran servicio</span><span class="value">$525-855</span></div>
+                    <div class="compare-row"><span class="label">Total preventivo</span><span class="value">$2,815-4,785/año ($235-399/mes)</span></div>
+                    <div class="compare-row"><span class="label">Reactivo típico</span><span class="value">$7,200-10,800/año ($600-900/mes)</span></div>
+                    <div class="compare-row"><span class="label">Ahorro</span><span class="value accent">$4,385-6,015/año ($365-501/mes)</span></div>
+                </div>
+
+                <div class="pull-number">
+                    <div class="value">$4,385-6,015</div>
+                    <p class="context">de ahorro anual con mantenimiento preventivo frente al enfoque reactivo.</p>
+                </div>
             </section>
 
             <section>
-                <h2>🛠️ DIY vs SHOP: CUÁNDO HACER QUÉ</h2>
+                <h2>DIY vs shop: cuándo hacer qué</h2>
 
-                <h3>HAZLO TÚ MISMO (Ahorra 40-60%)</h3>
-                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>FÁCIL (Cualquiera puede):</strong></p>
+                <div class="note tip">
+                    <span class="note-label">Hazlo tú mismo — ahorra 40-60%</span>
+                    <p><strong>Fácil (cualquiera puede):</strong></p>
                     <ul>
                         <li>✅ Cambio aceite (ahorro: $30-45)</li>
                         <li>✅ Rotación llantas (ahorro: $25-40)</li>
@@ -340,14 +245,13 @@
                         <li>✅ Cambio wipers (ahorro: $15-25)</li>
                         <li>✅ Luces/bombillas (ahorro: $10-30)</li>
                     </ul>
-                    <p><strong>EQUIPO NECESARIO:</strong> Jack, jack stands, wrench set, drain pan $170-265<br>
-                        ROI: 3-4 cambios aceite</p>
-                    <p style="margin:0"><strong>AHORRO ANUAL DIY: $600-900</strong></p>
+                    <p><strong>Equipo necesario:</strong> jack, jack stands, wrench set, drain pan ($170-265) — ROI: 3-4 cambios aceite</p>
+                    <p><strong>Ahorro anual DIY: $600-900</strong></p>
                 </div>
 
-                <h3>LLÉVALO AL SHOP (Vale la pena)</h3>
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
-                    <ul style="margin:0">
+                <div class="note warning">
+                    <span class="note-label">Llévalo al shop — vale la pena</span>
+                    <ul>
                         <li>❌ Diagnóstico (ruidos, check engine, vibraciones)</li>
                         <li>❌ Trabajos complejos (transmisión, diferencial, alineación, A/C)</li>
                         <li>❌ Seguridad crítica (frenos sin experiencia, dirección, suspensión)</li>
@@ -357,64 +261,50 @@
             </section>
 
             <section>
-                <h2>🚨 SEÑALES DE ALERTA - NO IGNORES</h2>
+                <h2>Señales de alerta — no ignores</h2>
 
-                <div style="background:rgba(255,107,53,.2);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>SONIDOS QUE NUNCA IGNORES:</strong></p>
+                <div class="note warning">
+                    <span class="note-label">Sonidos que nunca ignores</span>
                     <ul>
-                        <li><strong>🔴 Chirrido al frenar:</strong> Brake pads desgastados (Ahora: $250-400, Si ignoras:
-                            $800-1,200)</li>
-                        <li><strong>🔴 Golpeteo motor:</strong> Problema aceite/detonación (Ahora: $200-800, Si ignoras:
-                            $3,000-8,000)</li>
-                        <li><strong>🔴 Grinding transmisión:</strong> Transmisión fallando (Ahora: $150-600, Si ignoras:
-                            $2,500-5,000)</li>
-                        <li><strong>🔴 Clic-clic al girar:</strong> CV joint failing (Ahora: $200-400, Si ignoras:
-                            $500-800)</li>
+                        <li>🔴 <strong>Chirrido al frenar:</strong> brake pads desgastados (ahora: $250-400, si ignoras: $800-1,200)</li>
+                        <li>🔴 <strong>Golpeteo motor:</strong> problema aceite/detonación (ahora: $200-800, si ignoras: $3,000-8,000)</li>
+                        <li>🔴 <strong>Grinding transmisión:</strong> transmisión fallando (ahora: $150-600, si ignoras: $2,500-5,000)</li>
+                        <li>🔴 <strong>Clic-clic al girar:</strong> CV joint failing (ahora: $200-400, si ignoras: $500-800)</li>
                     </ul>
                 </div>
 
-                <div style="background:rgba(255,107,53,.2);padding:1.5rem;border-radius:.75rem;margin-top:1rem">
-                    <p><strong>LUCES DE DASHBOARD CRÍTICAS:</strong></p>
-                    <ul style="margin:0">
-                        <li><strong>🔴 OIL PRESSURE (Roja):</strong> PARA INMEDIATAMENTE - Puede destruir motor en
-                            minutos</li>
-                        <li><strong>🔴 BRAKE WARNING (Roja):</strong> Verifica fluid, no manejes si persiste</li>
-                        <li><strong>🔴 BATTERY (Roja):</strong> Alternador fallando - Arregla mismo día</li>
-                        <li><strong>🟡 CHECK ENGINE:</strong> Lee código, algunos OK esperar, otros urgentes</li>
+                <div class="note warning">
+                    <span class="note-label">Luces de dashboard críticas</span>
+                    <ul>
+                        <li>🔴 <strong>OIL PRESSURE (roja):</strong> para inmediatamente — puede destruir motor en minutos</li>
+                        <li>🔴 <strong>BRAKE WARNING (roja):</strong> verifica fluido, no manejes si persiste</li>
+                        <li>🔴 <strong>BATTERY (roja):</strong> alternador fallando — arregla mismo día</li>
+                        <li>🟡 <strong>CHECK ENGINE:</strong> lee código, algunos OK esperar, otros urgentes</li>
                     </ul>
                 </div>
             </section>
 
             <section>
-                <h2>💡 CONCLUSIÓN CLAVE</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Mantenimiento no es gasto.<br>Es
-                        INVERSIÓN en tu herramienta de trabajo.</p>
+                <p><strong>Dos filosofías:</strong></p>
+                <ul>
+                    <li><strong>Reactivo:</strong> "Arreglo cuando se rompe" — $600-900/mes + downtime + estrés</li>
+                    <li><strong>Preventivo:</strong> "Mantengo antes que se rompa" — $300-500/mes + cero downtime + tranquilidad</li>
+                </ul>
 
-                    <div style="text-align:left;max-width:500px;margin:0 auto">
-                        <p><strong>Dos filosofías:</strong></p>
-                        <p><strong>REACTIVO:</strong> "Arreglo cuando se rompe"<br>
-                            └─ $600-900/mes + downtime + estrés</p>
-                        <p><strong>PREVENTIVO:</strong> "Mantengo antes que se rompa"<br>
-                            └─ $300-500/mes + cero downtime + tranquilidad</p>
+                <div class="formula">Calendario sagrado<br>
+5K mi:  Aceite, rotación, inspección<br>
+15K mi: + Filtros, frenos check<br>
+30K mi: + Transmisión, alineación<br>
+60K mi: + Servicio mayor</div>
 
-                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
-                            <strong>El calendario sagrado:</strong><br>
-                            5K mi: Aceite, rotación, inspección<br>
-                            15K mi: + Filtros, frenos check<br>
-                            30K mi: + Transmisión, alineación<br>
-                            60K mi: + Servicio mayor<br><br>
-                            <strong style="color:#FFD700;font-size:1.25rem">Costo de ignorar:<br>3 años: $5,300 MÁS
-                                CARO</strong>
-                        </p>
+                <div class="pull-number">
+                    <div class="value">$5,300</div>
+                    <p class="context">más caro en 3 años si ignoras el calendario de mantenimiento preventivo.</p>
+                </div>
 
-                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">
-                            15 minutos semanales de inspección<br>
-                            = Puede prevenir $2,000+ reparación<br><br>
-                            Tu van ES tu negocio.<br>
-                            Trátala como tal.
-                        </p>
-                    </div>
+                <div class="conclusion">
+                    <p class="lead">El mantenimiento no es un gasto. Es una <span class="accent">inversión en tu herramienta de trabajo</span>.</p>
+                    <p class="sub">15 minutos semanales de inspección pueden prevenir $2,000+ en reparaciones. Tu van ES tu negocio — trátala como tal.</p>
                 </div>
             </section>
 

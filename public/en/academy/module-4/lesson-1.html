@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -38,63 +39,6 @@
             margin-bottom: 1rem
         }
 
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        th {
-            background: rgba(255, 215, 0, .1);
-            color: #FFD700;
-            font-weight: 700
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(255, 215, 0, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
-        }
-
         .btn {
             padding: 1rem 2rem;
             border-radius: .75rem;
@@ -105,8 +49,8 @@
         }
 
         .btn-primary {
-            background: linear-gradient(90deg, #FFD700 0%, #FF6B35 100%);
-            color: #000
+            background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+            color: #fff
         }
 
         .btn-secondary {
@@ -175,7 +119,7 @@
             <a href="/en/academy.html">← Academy</a> → <a href="index.html">Module 4 [PRO]</a> → Lesson 1
         </nav>
 
-        <div style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
+        <div style="display: inline-block; background: linear-gradient(90deg, #00D9FF, #FF6B35); color: #fff; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
             🔒 PRO CONTENT</div>
 
         <!-- SPANISH -->
@@ -195,259 +139,178 @@
         <div class="lesson-content">
 
             <section>
-                <h2>🎭 THE TRUTH ABOUT NEGOTIATION IN EXPEDITING</h2>
+                <h2>The truth about negotiation in expediting</h2>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
-                    <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>❌ MYTH:</strong></p>
-                        <p>"Negotiating is confrontational. I have to be aggressive or I'll lose."</p>
+                <div class="note warning">
+                    <span class="note-label">Myth</span>
+                    <p>"Negotiating is confrontational. I have to be aggressive or I'll lose."</p>
+                </div>
+
+                <div class="note tip">
+                    <span class="note-label">Reality</span>
+                    <p>Effective negotiation in expediting is:</p>
+                    <ul>
+                        <li>Collaborative (win-win)</li>
+                        <li>Based on <strong>speed and reliability</strong>, not just price</li>
+                        <li>Long-term relationship (repeat loads)</li>
+                        <li>Mutual trust (critical timing = high risk)</li>
+                    </ul>
+                </div>
+
+                <p>The best negotiator is NOT the one who "wins." It's the one who <strong>builds relationships</strong> that generate urgent loads at premium rates.</p>
+            </section>
+
+            <section>
+                <h2>The psychology of the expediting broker</h2>
+                <p>Understand their perspective.</p>
+
+                <p><strong>The expediting broker needs:</strong></p>
+                <ul>
+                    <li>Cover an urgent load (production line down)</li>
+                    <li>100% reliable carrier (no plan B)</li>
+                    <li>On-time delivery (automotive customer doesn't tolerate delays)</li>
+                    <li>Constant communication (hourly updates)</li>
+                    <li>Long-term relationship (same repeat lanes)</li>
+                </ul>
+
+                <p><strong>The broker does NOT want:</strong></p>
+                <ul>
+                    <li>To lose an urgent load (customer loses $50K/hour in downtime)</li>
+                    <li>A carrier who cancels (disaster in expediting)</li>
+                    <li>Constant re-negotiation (no time for that)</li>
+                    <li>Drama or lack of professionalism</li>
+                    <li>Finding a van every time (wants "their" driver)</li>
+                </ul>
+
+                <div class="note tip">
+                    <span class="note-label">Your advantage</span>
+                    <p>In expediting, speed + reliability &gt; price. If you prove you're fast and reliable, you have a lot of negotiating power.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>1. Timing power (urgency power)</h2>
+
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Your power is high when</div>
+                        <ul>
+                            <li>Load is HOT (line down, customer waiting)</li>
+                            <li>Broker called late (limited options)</li>
+                            <li>You're the only van available in the area</li>
+                            <li>Premium customer (automotive, medical, aerospace)</li>
+                            <li>Delivery window is critical (2-4 hours)</li>
+                            <li>Other vans already turned it down</li>
+                        </ul>
                     </div>
-
-                    <div style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>✅ REALITY:</strong></p>
-                        <p>Effective negotiation in expediting is:</p>
-                        <ul style="margin:0">
-                            <li>Collaborative (win-win)</li>
-                            <li>Based on SPEED and RELIABILITY, not just price</li>
-                            <li>Long-term relationship (repeat loads)</li>
-                            <li>Mutual trust (critical timing = high risk)</li>
+                    <div class="compare-table">
+                        <div class="compare-title">Your power is low when</div>
+                        <ul>
+                            <li>Load is "whenever you can" (not urgent)</li>
+                            <li>Broker has time to shop around</li>
+                            <li>Many vans available in the area</li>
+                            <li>Public load board (50+ vans watching)</li>
+                            <li>Slow season (plenty of capacity)</li>
                         </ul>
                     </div>
                 </div>
 
-                <p style="text-align:center;font-weight:700;font-size:1.1rem">The best negotiator is NOT the one who
-                    "wins."<br>It's the one who BUILDS relationships that generate<br>urgent loads at premium rates.</p>
+                <div class="note tip">
+                    <span class="note-label">Strategy</span>
+                    <p>High urgency power → ask for premium rate. Low urgency power → focus on building the relationship.</p>
+                </div>
             </section>
 
             <section>
-                <h2>💰 THE PSYCHOLOGY OF THE EXPEDITING BROKER</h2>
-                <p>Understand their perspective:</p>
+                <h2>2. Relationship power (history power)</h2>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
-                    <div style="background:rgba(100,200,100,.05);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>EXPEDITING BROKER needs:</strong></p>
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Your power is high when</div>
                         <ul>
-                            <li>Cover an URGENT load (production line down)</li>
-                            <li>100% reliable carrier (no plan B)</li>
-                            <li>On-time delivery (automotive customer doesn't tolerate delays)</li>
-                            <li>Constant communication (hourly updates)</li>
-                            <li>Long-term relationship (same repeat lanes)</li>
+                            <li>You've done 5+ successful loads with this broker</li>
+                            <li>Zero problems on record (no claims, no late deliveries)</li>
+                            <li>Broker knows you by name</li>
+                            <li>They call you directly (not a mass message)</li>
+                            <li>You've saved difficult loads for them before</li>
+                            <li>You have a track record of early deliveries</li>
                         </ul>
                     </div>
-
-                    <div style="background:rgba(255,107,53,.05);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>BROKER does NOT want:</strong></p>
+                    <div class="compare-table">
+                        <div class="compare-title">Your power is low when</div>
                         <ul>
-                            <li>To lose an urgent load (customer loses $50K/hour in downtime)</li>
-                            <li>A carrier who cancels (disaster in expediting)</li>
-                            <li>Constant re-negotiation (no time for that)</li>
-                            <li>Drama or lack of professionalism</li>
-                            <li>Finding a van every time (wants "their" driver)</li>
+                            <li>First time with this broker</li>
+                            <li>You had a past issue (claim, late delivery)</li>
+                            <li>Large impersonal broker</li>
+                            <li>They only know you by van number</li>
+                            <li>You've never gone the extra mile for them</li>
                         </ul>
                     </div>
                 </div>
 
-                <p style="background:rgba(255,215,0,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    YOUR ADVANTAGE:<br>In expediting, SPEED + RELIABILITY &gt; Price<br>If you prove you're fast
-                    and reliable,<br>you have A LOT of negotiating power.</p>
+                <div class="note tip">
+                    <span class="note-label">Strategy</span>
+                    <p>High relationship power → leverage your history. Low relationship power → build it with this load.</p>
+                </div>
             </section>
 
             <section>
-                <h2>🎯 THE 3 TYPES OF POWER IN EXPEDITING NEGOTIATION</h2>
+                <h2>3. Alternative power (options power)</h2>
 
-                <h3>1. TIMING POWER (Urgency power)</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Your power is HIGH when:</th>
-                            <th>Your power is LOW when:</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                • Load is HOT (line down, customer waiting)<br>
-                                • Broker called late (limited options)<br>
-                                • You're the only van available in the area<br>
-                                • Premium customer (automotive, medical, aerospace)<br>
-                                • Delivery window is CRITICAL (2-4 hours)<br>
-                                • Other vans already turned it down
-                            </td>
-                            <td>
-                                • Load is "whenever you can" (not urgent)<br>
-                                • Broker has time to shop around<br>
-                                • Many vans available in the area<br>
-                                • Public load board (50+ vans watching)<br>
-                                • Slow season (plenty of capacity)
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p><strong>STRATEGY:</strong><br>
-                    High urgency power → Ask for premium rate<br>
-                    Low urgency power → Focus on building the relationship</p>
-
-                <h3>2. RELATIONSHIP POWER (History power)</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Your power is HIGH when:</th>
-                            <th>Your power is LOW when:</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                • You've done 5+ successful loads with this broker<br>
-                                • Zero problems on record (no claims, no late deliveries)<br>
-                                • Broker knows you by name<br>
-                                • They call you directly (not a mass message)<br>
-                                • You've saved difficult loads for them before<br>
-                                • You have a track record of early deliveries
-                            </td>
-                            <td>
-                                • First time with this broker<br>
-                                • You had a past issue (claim, late delivery)<br>
-                                • Large impersonal broker<br>
-                                • They only know you by van number<br>
-                                • You've never gone the extra mile for them
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p><strong>STRATEGY:</strong><br>
-                    High relationship power → Leverage your history<br>
-                    Low relationship power → Build it with this load</p>
-
-                <h3>3. ALTERNATIVE POWER (Options power)</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Your power is HIGH when:</th>
-                            <th>Your power is LOW when:</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                • You have another load offer equal or better<br>
-                                • Area has multiple loads available<br>
-                                • You're not desperate (good week)<br>
-                                • You can wait for a better opportunity<br>
-                                • Your calendar is full for the next 3 days
-                            </td>
-                            <td>
-                                • You've been 48 hours without a load<br>
-                                • This is the only visible option<br>
-                                • You urgently need money<br>
-                                • Area is dead (no alternatives)<br>
-                                • End of month, need to cover expenses
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p><strong>STRATEGY:</strong><br>
-                    High alternative power → You can walk away<br>
-                    Low alternative power → Don't show desperation</p>
-            </section>
-
-            <section>
-                <h2>📊 NEGOTIATION POWER MATRIX (EXPEDITING)</h2>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Urgency</th>
-                            <th>Relationship</th>
-                            <th>Alternative</th>
-                            <th>Strategy</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background:rgba(100,200,100,.15)">
-                            <td>High</td>
-                            <td>High</td>
-                            <td>High</td>
-                            <td><strong>Ask +35%</strong></td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.1)">
-                            <td>High</td>
-                            <td>High</td>
-                            <td>Low</td>
-                            <td><strong>Ask +25%</strong></td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.1)">
-                            <td>High</td>
-                            <td>Low</td>
-                            <td>High</td>
-                            <td><strong>Ask +30%</strong></td>
-                        </tr>
-                        <tr style="background:rgba(255,215,0,.1)">
-                            <td>Low</td>
-                            <td>High</td>
-                            <td>High</td>
-                            <td><strong>Ask +15%</strong></td>
-                        </tr>
-                        <tr style="background:rgba(255,215,0,.1)">
-                            <td>High</td>
-                            <td>Low</td>
-                            <td>Low</td>
-                            <td><strong>Ask +20%</strong></td>
-                        </tr>
-                        <tr style="background:rgba(255,215,0,.08)">
-                            <td>Low</td>
-                            <td>High</td>
-                            <td>Low</td>
-                            <td>Standard</td>
-                        </tr>
-                        <tr style="background:rgba(255,107,53,.08)">
-                            <td>Low</td>
-                            <td>Low</td>
-                            <td>High</td>
-                            <td>Build relationship</td>
-                        </tr>
-                        <tr style="background:rgba(255,107,53,.1)">
-                            <td>Low</td>
-                            <td>Low</td>
-                            <td>Low</td>
-                            <td>Accept/Decline</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <section>
-                <h2>💡 KEY TAKEAWAY</h2>
-                <div style="background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">Negotiation in Expediting</p>
-
-                    <div style="text-align:left;max-width:500px;margin:0 auto">
-                        <p><strong>It is NOT:</strong></p>
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Your power is high when</div>
                         <ul>
-                            <li>Confrontation</li>
-                            <li>"Winning" at all costs</li>
-                            <li>Asking for more money just because</li>
+                            <li>You have another load offer equal or better</li>
+                            <li>Area has multiple loads available</li>
+                            <li>You're not desperate (good week)</li>
+                            <li>You can wait for a better opportunity</li>
+                            <li>Your calendar is full for the next 3 days</li>
                         </ul>
-
-                        <p><strong>It IS:</strong></p>
-                        <ul>
-                            <li>Understanding your power (urgency/relationship/alternatives)</li>
-                            <li>Establishing value BEFORE price</li>
-                            <li>Collaborative win-win</li>
-                            <li>Building long-term relationships</li>
-                        </ul>
-
-                        <p style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;text-align:center">
-                            <strong>Simple formula in expediting:</strong><br>
-                            CLEAR VALUE + HIGH POWER + PROFESSIONAL APPROACH<br>=<br>
-                            <span style="color:#FFD700;font-size:1.25rem;font-weight:700">BETTER RATES
-                                CONSISTENTLY</span>
-                        </p>
-
-                        <p style="text-align:center;margin-top:1rem"><strong>Remember in expediting:</strong><br>
-                            SPEED + RELIABILITY &gt; PRICE<br>
-                            Use that to your advantage.</p>
                     </div>
+                    <div class="compare-table">
+                        <div class="compare-title">Your power is low when</div>
+                        <ul>
+                            <li>You've been 48 hours without a load</li>
+                            <li>This is the only visible option</li>
+                            <li>You urgently need money</li>
+                            <li>Area is dead (no alternatives)</li>
+                            <li>End of month, need to cover expenses</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note tip">
+                    <span class="note-label">Strategy</span>
+                    <p>High alternative power → you can walk away. Low alternative power → don't show desperation.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>Negotiation power matrix</h2>
+                <p>Combine your three types of power to know how much to ask for:</p>
+
+                <ul>
+                    <li>High urgency + High relationship + High alternative → <strong>Ask +35%</strong></li>
+                    <li>High urgency + High relationship + Low alternative → <strong>Ask +25%</strong></li>
+                    <li>High urgency + Low relationship + High alternative → <strong>Ask +30%</strong></li>
+                    <li>Low urgency + High relationship + High alternative → <strong>Ask +15%</strong></li>
+                    <li>High urgency + Low relationship + Low alternative → <strong>Ask +20%</strong></li>
+                    <li>Low urgency + High relationship + Low alternative → Standard</li>
+                    <li>Low urgency + Low relationship + High alternative → Build relationship</li>
+                    <li>Low urgency + Low relationship + Low alternative → Accept/Decline</li>
+                </ul>
+
+                <div class="pull-number">
+                    <div class="value">+35%</div>
+                    <p class="context">is the maximum you can ask for when urgency, relationship, and alternative are all high at once.</p>
+                </div>
+            </section>
+
+            <section>
+                <div class="conclusion">
+                    <p class="lead">Negotiation isn't confrontation — it's understanding your <span class="accent">power</span> and building long-term relationships.</p>
+                    <p class="sub">Clear value + high power + professional approach = consistently better rates. Speed + reliability &gt; price: use it to your advantage.</p>
                 </div>
             </section>
 

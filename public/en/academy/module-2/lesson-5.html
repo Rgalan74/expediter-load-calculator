@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;808;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,65 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .callout {
-            padding: 1.5rem;
-            border-radius: .75rem;
-            margin: 2rem 0;
-            border-left: 4px solid
-        }
-
-        .callout.tip {
-            background: rgba(0, 217, 255, .1);
-            border-color: #00D9FF
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
         }
 
         .btn {
@@ -192,300 +134,208 @@
         <div class="lesson-content">
 
             <section>
-                <h2>👤 DRIVER PROFILE: CARLOS FROM DETROIT</h2>
-                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem">
-                    <ul style="list-style:none;padding:0">
-                        <li><strong>Name:</strong> Carlos M.</li>
-                        <li><strong>Base:</strong> Detroit, MI</li>
-                        <li><strong>Experience:</strong> 3 years as an expediter</li>
-                        <li><strong>Van:</strong> 2020 Mercedes Sprinter</li>
-                        <li><strong>The Problem:</strong> "I work myself to the bone, but I have no savings to show for it."</li>
-                    </ul>
+                <h2>Driver profile: Carlos from Detroit</h2>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Name</span><span class="value">Carlos M.</span></div>
+                    <div class="compare-row"><span class="label">Base</span><span class="value">Detroit, MI</span></div>
+                    <div class="compare-row"><span class="label">Experience</span><span class="value">3 years as an expediter</span></div>
+                    <div class="compare-row"><span class="label">Van</span><span class="value">2020 Mercedes Sprinter</span></div>
+                    <div class="compare-row"><span class="label">The problem</span><span class="value">"I work myself to the bone, but I have no savings to show for it."</span></div>
                 </div>
             </section>
 
             <section>
-                <h2>📉 BEFORE SMART LOAD SOLUTION</h2>
+                <h2>Before Smart Load Solution</h2>
 
-                <h3>A Typical Week (Before):</h3>
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>MONDAY - Load from Detroit → Miami:</strong></p>
-                    <ul>
-                        <li>Payment: $2,200</li>
-                        <li>Miles (according to broker): 1,200</li>
-                        <li>Mental math: $2,200 ÷ 1,200 = $1.83/mile</li>
-                        <li>Decision: "Wow, that's excellent! I accept."</li>
-                    </ul>
-                    <p style="margin-top:1rem"><strong>The Harsh Reality:</strong></p>
-                    <ul>
-                        <li>Deadhead to pickup: 45 miles</li>
-                        <li>Actual Loaded Route: 1,280 miles</li>
-                        <li>Waiting time in Miami to find a load out: 36 hours</li>
-                        <li>The cheap backhaul he finally got: $900 at $0.95/mile</li>
-                        <li style="color:#FF6B35;font-weight:700">Total days out: 5 | Actual Net Profit: $850</li>
-                    </ul>
-                    <p style="margin-top:1rem;font-style:italic">"I really thought I'd be making $1,400. I only made $850. Where did the rest of my money go?"</p>
-                </div>
-
-                <h3>His Manual Flawed Process:</h3>
+                <p><strong>A typical week (before) — Monday, load from Detroit → Miami:</strong></p>
                 <ul>
-                    <li>❌ Never calculated his deadhead to pickup</li>
-                    <li>❌ Completely ignored repositioning miles from dead zones</li>
-                    <li>❌ Didn't even know his True Cost Per Mile (CPM)</li>
-                    <li>❌ Had zero tracking of his decision patterns</li>
-                    <li>❌ Took loads mostly based on "gut feeling" and bad mental math</li>
+                    <li>Payment: $2,200</li>
+                    <li>Miles (according to broker): 1,200</li>
+                    <li>Mental math: $2,200 ÷ 1,200 = $1.83/mile</li>
+                    <li>Decision: "Wow, that's excellent! I accept."</li>
                 </ul>
-                <p style="background:rgba(255,107,53,.15);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    The Result: Working 60 hrs/week, but only taking home $2,800/month.
-                </p>
+                <p><strong>The harsh reality:</strong></p>
+                <ul>
+                    <li>Deadhead to pickup: 45 miles</li>
+                    <li>Actual loaded route: 1,280 miles</li>
+                    <li>Waiting time in Miami to find a load out: 36 hours</li>
+                    <li>The cheap backhaul he finally got: $900 at $0.95/mile</li>
+                    <li><strong>Total days out: 5 | Actual net profit: $850</strong></li>
+                </ul>
+                <p>"I really thought I'd be making $1,400. I only made $850. Where did the rest of my money go?"</p>
+
+                <p><strong>His manual, flawed process:</strong></p>
+                <ul>
+                    <li>Never calculated his deadhead to pickup</li>
+                    <li>Completely ignored repositioning miles from dead zones</li>
+                    <li>Didn't even know his true Cost Per Mile (CPM)</li>
+                    <li>Had zero tracking of his decision patterns</li>
+                    <li>Took loads mostly based on "gut feeling" and bad mental math</li>
+                </ul>
+
+                <div class="pull-number">
+                    <div class="value">$2,800</div>
+                    <p class="context">taken home per month, working 60 hrs/week.</p>
+                </div>
             </section>
 
             <section>
-                <h2>💡 THE TURNING POINT</h2>
+                <h2>The turning point</h2>
                 <p>Another driver friend showed Carlos the Smart Load Solution. Skeptical but desperate, Carlos decided to commit to trying it for just 2 weeks.</p>
             </section>
 
             <section>
-                <h2>📱 WEEK 1 WITH THE APP</h2>
+                <h2>Week 1 with the app</h2>
 
-                <h3>MONDAY - First Load (Detroit → Nashville)</h3>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0">
-                    <div style="background:rgba(255,107,53,.1);padding:1rem;border-radius:.5rem">
-                        <p><strong>❌ CARLOS (BEFORE):</strong></p>
-                        <p>$900 ÷ 550 = $1.63/mi<br>"I'd accept it instantly."</p>
+                <p><strong>Monday — first load (Detroit → Nashville)</strong></p>
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Carlos before</div>
+                        <div class="compare-row"><span class="label">Math</span><span class="value">$900 ÷ 550 = $1.63/mi</span></div>
+                        <div class="compare-row"><span class="label">Decision</span><span class="value">"I'd accept it"</span></div>
                     </div>
-                    <div style="background:rgba(100,200,100,.1);padding:1rem;border-radius:.5rem">
-                        <p><strong>✅ CARLOS WITH THE APP:</strong></p>
-                        <p>Real RPM: $1.59/mi<br>
-                            Profit: $296<br>
-                            Margin: 33%<br>
-                            Hourly rate: $29.60/hr<br>
-                            <strong>ACCEPTS with total confidence</strong>
-                        </p>
+                    <div class="compare-table">
+                        <div class="compare-title">Carlos with the app</div>
+                        <div class="compare-row"><span class="label">Real RPM</span><span class="value accent">$1.59/mi</span></div>
+                        <div class="compare-row"><span class="label">Profit</span><span class="value accent">$296</span></div>
+                        <div class="compare-row"><span class="label">Margin</span><span class="value accent">33%</span></div>
+                        <div class="compare-row"><span class="label">Hourly rate</span><span class="value accent">$29.60/hr</span></div>
+                    </div>
+                </div>
+                <p>Carlos <strong>accepts with total confidence</strong>.</p>
+
+                <p><strong>Tuesday — second load (Nashville → Laredo)</strong></p>
+                <div class="note warning">
+                    <span class="note-label">Smart app alert</span>
+                    <p>Offered payment: $1,400. Total miles (including Laredo repositioning): 1,240. Real RPM: $1.13/mi. <strong>Profit: only $98.</strong> Margin: 7%.</p>
+                    <p>Carlos: "HOLD ON... $98 profit? But the load pays $1,400!" Without this app, he would have accepted this trap and worked a 20-hour stint to make 98 bucks.</p>
+                </div>
+
+                <p><strong>The decision: he negotiates</strong></p>
+                <p>Carlos calls the broker back: "Listen, this load requires at least 280 miles of deadhead just to get out of Laredo. To make this work for my business, I'd need $1,750 instead of $1,400." Broker: "The best I can do is $1,550."</p>
+                <div class="formula">Carlos recalculates: $1,550 ÷ 1,240 total mi = $1.25/mi<br>Profit: $248 (16% margin)</div>
+                <p>He negotiated an extra $150. His profit jumped from $98 to $248 (a 155% increase!). First successful data-backed negotiation in his 3-year career.</p>
+            </section>
+
+            <section>
+                <h2>Week 1 results</h2>
+
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Before</div>
+                        <div class="compare-row"><span class="label">Loads accepted</span><span class="value">5</span></div>
+                        <div class="compare-row"><span class="label">Total miles driven</span><span class="value">3,200</span></div>
+                        <div class="compare-row"><span class="label">Gross revenue</span><span class="value">$4,200</span></div>
+                        <div class="compare-row"><span class="label">Net profit</span><span class="value">$800</span></div>
+                        <div class="compare-row"><span class="label">True hourly rate</span><span class="value">$16</span></div>
+                        <div class="compare-row"><span class="label">Loads declined</span><span class="value">0</span></div>
+                    </div>
+                    <div class="compare-table">
+                        <div class="compare-title">With smart app</div>
+                        <div class="compare-row"><span class="label">Loads accepted</span><span class="value">3</span></div>
+                        <div class="compare-row"><span class="label">Total miles driven</span><span class="value">2,100</span></div>
+                        <div class="compare-row"><span class="label">Gross revenue</span><span class="value">$3,500</span></div>
+                        <div class="compare-row"><span class="label">Net profit</span><span class="value accent">$1,250</span></div>
+                        <div class="compare-row"><span class="label">True hourly rate</span><span class="value accent">$31</span></div>
+                        <div class="compare-row"><span class="label">Loads declined</span><span class="value">2</span></div>
                     </div>
                 </div>
 
-                <h3>TUESDAY - Second Load (Nashville → Laredo)</h3>
-                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem;border:2px solid #FFD700">
-                    <p><strong>⚠️ SMART APP ALERT DETECTED:</strong></p>
-                    <ul>
-                        <li>Offered Payment: $1,400</li>
-                        <li>Total Miles (including Laredo repositioning): 1,240</li>
-                        <li>Real RPM: $1.13/mi</li>
-                        <li style="color:#FF6B35;font-weight:700">Profit: ONLY $98 🚨</li>
-                        <li>Margin: 7%</li>
-                    </ul>
-                    <p style="margin-top:1rem"><strong>Carlos:</strong> "HOLD ON... $98 profit? But the load pays $1,400!"</p>
-                    <p style="margin-top:1rem;font-style:italic">"Without this app, I would have accepted this trap and worked a 20-hour stint to make 98 bucks."</p>
-                </div>
-
-                <h3>THE DECISION: He Negotiates</h3>
-                <div style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>Carlos calls the broker back:</strong></p>
-                    <p style="font-style:italic">"Listen, this load requires at least 280 miles of deadhead just to get out of Laredo. To make this work for my business, I'd need $1,750 instead of $1,400."</p>
-                    <p style="margin-top:1rem"><strong>Broker:</strong> "The best I can do is $1,550."</p>
-                    <p style="margin-top:1rem"><strong>Carlos recalculates the new offer:</strong><br>
-                        $1,550 ÷ 1,240 total mi = $1.25/mi<br>
-                        Profit: $248 (16% margin)</p>
-                    <p style="margin-top:1rem;font-weight:700;color:#64C864">✅ He negotiated an extra $150<br>
-                        ✅ His profit jumped from $98 to $248 (a 155% increase!)<br>
-                        ✅ First successful data-backed negotiation in his 3-year career</p>
+                <div class="note tip">
+                    <span class="note-label">The massive insight</span>
+                    <p>He worked 35% less hours, but made 56% more profit. How? By simply rejecting 2 guaranteed-loss loads and smartly negotiating the ones he kept.</p>
                 </div>
             </section>
 
             <section>
-                <h2>📊 WEEK 1 RESULTS</h2>
+                <h2>Week 4 - the full transformation</h2>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>BEFORE</th>
-                            <th>WITH SMART APP</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Loads Accepted</td>
-                            <td>5</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>Total Miles Driven</td>
-                            <td>3,200</td>
-                            <td>2,100</td>
-                        </tr>
-                        <tr>
-                            <td>Gross Revenue</td>
-                            <td>$4,200</td>
-                            <td>$3,500</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.1)">
-                            <td><strong>Net Profit</strong></td>
-                            <td>$800</td>
-                            <td><strong>$1,250 ✅</strong></td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.1)">
-                            <td><strong>True Hourly Rate</strong></td>
-                            <td>$16</td>
-                            <td><strong>$31 ✅</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Loads Declined</td>
-                            <td>0</td>
-                            <td>2</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="compare-table">
+                    <div class="compare-title">Month 1 summary</div>
+                    <div class="compare-row"><span class="label">Loads calculated</span><span class="value">24</span></div>
+                    <div class="compare-row"><span class="label">Loads accepted</span><span class="value">15 (62.5%)</span></div>
+                    <div class="compare-row"><span class="label">Loads declined</span><span class="value">9 (37.5%)</span></div>
+                    <div class="compare-row"><span class="label">Total gross revenue</span><span class="value">$14,200</span></div>
+                    <div class="compare-row"><span class="label">Total costs</span><span class="value">$8,900</span></div>
+                    <div class="compare-row"><span class="label">Net profit</span><span class="value accent">$5,300</span></div>
+                    <div class="compare-row"><span class="label">Average margin</span><span class="value accent">37%</span></div>
+                    <div class="compare-row"><span class="label">Average true RPM</span><span class="value">$1.58/mi</span></div>
+                    <div class="compare-row"><span class="label">Average hourly rate</span><span class="value accent">$42/hr</span></div>
+                    <div class="compare-row"><span class="label">Deadhead ratio</span><span class="value">9%</span></div>
+                </div>
 
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:1.5rem;border-radius:.75rem;text-align:center;margin:2rem 0">
-                    <p style="font-size:1.25rem;font-weight:700">THE MASSIVE INSIGHT:</p>
-                    <p>He worked 35% LESS hours, but made 56% MORE profit.</p>
-                    <p style="margin-top:1rem">How? By simply rejecting 2 guaranteed-loss loads and smartly negotiating the ones he kept.</p>
+                <p><strong>What completely changed for him:</strong></p>
+                <div class="note tip">
+                    <span class="note-label">Carlos's testimonials</span>
+                    <p><strong>The calculator:</strong> "Now I know BEFORE I accept if a load is worth turning my engine on. Zero nasty surprises."</p>
+                    <p><strong>Negotiation:</strong> "The app tells me exactly what asking price is realistic. I successfully bumped up rates on 8 out of 15 loads."</p>
+                    <p><strong>Discipline:</strong> "I used to take everything out of panic. Now I proudly decline 40% of offers, and I'm earning substantially MORE while doing LESS."</p>
+                    <p><strong>Confidence:</strong> "It feels great to look a broker in the eye (over the phone) and gently pass. The math is right on my screen."</p>
+                    <p><strong>Peace of mind:</strong> "No more staring at my bank account at the end of the month wondering what went wrong. I know exactly what I earned."</p>
                 </div>
             </section>
 
             <section>
-                <h2>📈 WEEK 4 - THE FULL TRANSFORMATION</h2>
+                <h2>The financial impact (over 3 months)</h2>
 
-                <div style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem;border:2px solid #64C864">
-                    <p style="font-weight:700;text-align:center;margin-bottom:1rem">📊 MONTH 1 SUMMARY</p>
-                    <table style="margin:0">
-                        <tbody>
-                            <tr>
-                                <td>Loads Calculated</td>
-                                <td>24</td>
-                            </tr>
-                            <tr>
-                                <td>Loads Accepted</td>
-                                <td>15 (62.5%)</td>
-                            </tr>
-                            <tr>
-                                <td>Loads Declined</td>
-                                <td>9 (37.5%)</td>
-                            </tr>
-                            <tr style="background:rgba(0,217,255,.05)">
-                                <td><strong>Total Gross Revenue</strong></td>
-                                <td><strong>$14,200</strong></td>
-                            </tr>
-                            <tr>
-                                <td>Total Costs</td>
-                                <td>$8,900</td>
-                            </tr>
-                            <tr style="background:rgba(100,200,100,.15)">
-                                <td><strong>Net Profit</strong></td>
-                                <td><strong>$5,300 ✅</strong></td>
-                            </tr>
-                            <tr style="background:rgba(100,200,100,.15)">
-                                <td><strong>Average Margin</strong></td>
-                                <td><strong>37% ✅</strong></td>
-                            </tr>
-                            <tr>
-                                <td>Average True RPM</td>
-                                <td>$1.58/mi</td>
-                            </tr>
-                            <tr style="background:rgba(100,200,100,.15)">
-                                <td><strong>Average Hourly Rate</strong></td>
-                                <td><strong>$42/hr ✅</strong></td>
-                            </tr>
-                            <tr>
-                                <td>Deadhead Ratio</td>
-                                <td>9% ✅</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="compare-table">
+                    <div class="compare-title">Monthly profit</div>
+                    <div class="compare-row"><span class="label">Before</span><span class="value">$2,800</span></div>
+                    <div class="compare-row"><span class="label">After</span><span class="value accent">$5,100</span></div>
+                    <div class="compare-row"><span class="label">Impact</span><span class="value accent">+82%</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Hourly rate</div>
+                    <div class="compare-row"><span class="label">Before</span><span class="value">$16</span></div>
+                    <div class="compare-row"><span class="label">After</span><span class="value accent">$41</span></div>
+                    <div class="compare-row"><span class="label">Impact</span><span class="value accent">+156%</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Work hours</div>
+                    <div class="compare-row"><span class="label">Before</span><span class="value">175/mo</span></div>
+                    <div class="compare-row"><span class="label">After</span><span class="value accent">125/mo</span></div>
+                    <div class="compare-row"><span class="label">Impact</span><span class="value accent">-29%</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Stress level</div>
+                    <div class="compare-row"><span class="label">Before</span><span class="value">😰😰😰</span></div>
+                    <div class="compare-row"><span class="label">After</span><span class="value">😊✅</span></div>
                 </div>
 
-                <h3>What Completely Changed For Him:</h3>
-                <div class="callout tip">
-                    <p><strong>THE CALCULATOR:</strong> "Now I know BEFORE I accept if a load is worth turning my engine on. Zero nasty surprises."</p>
-                    <p><strong>NEGOTIATION:</strong> "The app tells me exactly what asking price is realistic. I successfully bumped up rates on 8 out of 15 loads."</p>
-                    <p><strong>DISCIPLINE:</strong> "I used to take everything out of panic. Now I proudly decline 40% of offers, and I'm earning substantially MORE while doing LESS."</p>
-                    <p><strong>CONFIDENCE:</strong> "It feels great to look a broker in the eye (over the phone) and gently pass. The math is right on my screen."</p>
-                    <p style="margin:0"><strong>PEACE OF MIND:</strong> "No more staring at my bank account at the end of the month wondering what went wrong. I know exactly what I earned."</p>
+                <div class="pull-number">
+                    <div class="value">$27,600</div>
+                    <p class="context">extra per year — plus 600 hours/year of family time recovered. "Smart Load Solution didn't make me work harder. It forced me to work smarter." — Carlos M.</p>
                 </div>
             </section>
 
             <section>
-                <h2>💰 THE FINANCIAL IMPACT (OVER 3 MONTHS)</h2>
+                <h2>Now it's your turn</h2>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Metric</th>
-                            <th>BEFORE</th>
-                            <th>AFTER</th>
-                            <th>Impact</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background:rgba(100,200,100,.05)">
-                            <td>Monthly Profit</td>
-                            <td>$2,800</td>
-                            <td><strong>$5,100</strong></td>
-                            <td style="color:#64C864"><strong>+82%</strong></td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.05)">
-                            <td>Hourly Rate</td>
-                            <td>$16</td>
-                            <td><strong>$41</strong></td>
-                            <td style="color:#64C864"><strong>+156%</strong></td>
-                        </tr>
-                        <tr style="background:rgba(0,217,255,.05)">
-                            <td>Work Hours</td>
-                            <td>175/mo</td>
-                            <td><strong>125/mo</strong></td>
-                            <td style="color:#00D9FF"><strong>-29%</strong></td>
-                        </tr>
-                        <tr>
-                            <td>Stress Level</td>
-                            <td>😰😰😰</td>
-                            <td>😊✅</td>
-                            <td>🎯</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <p><strong>If Carlos transformed his struggling business in just 4 weeks, what could YOU achieve?</strong></p>
 
-                <div style="background:linear-gradient(135deg,rgba(100,200,100,.2),rgba(0,217,255,.2));padding:2rem;border-radius:1rem;text-align:center;margin:2rem 0;border:2px solid #64C864">
-                    <p style="font-size:1.5rem;font-weight:900;margin-bottom:1rem">ANNUAL EXTRA CASH: +$27,600</p>
-                    <p style="font-size:1.25rem">TIME RECOVERED: 600 hours/year for his family</p>
-                    <p style="margin-top:1.5rem;font-style:italic">"Smart Load Solution didn't make me work harder.<br>It forced me to work SMARTER."</p>
-                    <p style="margin:0;font-weight:700">- Carlos M.</p>
+                <p><strong>Your 2-week challenge:</strong></p>
+                <div class="checklist">
+                    <span class="checklist-label">Week 1</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Run EVERY single offered load through the calculator</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Do not blindly accept any load on mental math alone</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Save and track all your decisions (even declines)</span></div>
                 </div>
+                <div class="checklist">
+                    <span class="checklist-label">Week 2</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Compare your results vs your last 2 weeks prior</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Are your profits up?</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Is your actual hourly rate improving?</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Do you feel more in control?</span></div>
+                </div>
+                <p>My prediction: you'll see a minimum 30-50% bump in your true profit margin.</p>
             </section>
 
             <section>
-                <h2>🎯 NOW IT'S YOUR TURN</h2>
-
-                <p style="font-size:1.1rem;font-weight:700">If Carlos transformed his struggling business in just 4 weeks, what could YOU achieve?</p>
-
-                <div style="background:rgba(0,217,255,.05);padding:1.5rem;border-radius:.75rem;border:2px solid rgba(0,217,255,.3)">
-                    <p style="font-weight:700;margin-bottom:1rem">Your 2-Week Challenge:</p>
-                    <p><strong>WEEK 1:</strong></p>
-                    <ul style="list-style:none;padding:0">
-                        <li>☐ Run EVERY single offered load through the calculator.</li>
-                        <li>☐ Do not blindly accept any load on mental math alone.</li>
-                        <li>☐ Save and track all your decisions (even declines).</li>
-                    </ul>
-                    <p style="margin-top:1rem"><strong>WEEK 2:</strong></p>
-                    <ul style="list-style:none;padding:0">
-                        <li>☐ Compare your results vs your last 2 weeks prior.</li>
-                        <li>☐ Are your profits up?</li>
-                        <li>☐ Is your actual hourly rate improving?</li>
-                        <li>☐ Do you feel more in control?</li>
-                    </ul>
-                    <p style="margin-top:1rem;text-align:center;font-weight:700">My prediction: You'll see a minimum 30-50% bump in your true profit margin.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>🧠 ONE MORE TOOL: LEX AI</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;">
-                    <p>The Calculator gives you the numbers. But when a decision isn't obvious — an ambiguous load, a
-                        tough negotiation, a zone you don't know — you have one more copilot: <strong>Lex AI</strong>,
-                        the smart assistant built into the app.</p>
-                    <p style="margin-top:1rem">In the last lesson of this module you'll learn exactly what to ask it
-                        and how to use its answers to decide faster.</p>
+                <h2>One more tool: Lex AI</h2>
+                <div class="note tip">
+                    <span class="note-label">What's next</span>
+                    <p>The Calculator gives you the numbers. But when a decision isn't obvious — an ambiguous load, a tough negotiation, a zone you don't know — you have one more copilot: <strong>Lex AI</strong>, the smart assistant built into the app.</p>
+                    <p>In the last lesson of this module you'll learn exactly what to ask it and how to use its answers to decide faster.</p>
                 </div>
             </section>
 

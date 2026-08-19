@@ -5,8 +5,10 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/academy.css">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,42 +38,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .callout {
-            padding: 1.5rem;
-            border-radius: .75rem;
-            margin: 2rem 0;
-            border-left: 4px solid
-        }
-
-        .callout.tip {
-            background: rgba(0, 217, 255, .1);
-            border-color: #00D9FF
-        }
-
-        .callout strong {
-            display: block;
-            margin-bottom: .5rem;
-            font-size: 1.1rem
         }
 
         .btn {
@@ -105,28 +71,6 @@
             justify-content: space-between;
             gap: 1rem;
             margin-top: 2rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
         }
     </style>
   
@@ -192,54 +136,51 @@
         <div class="lesson-content">
 
             <section>
-                <h2>📌 THE THREE LAYERS OF PROFIT</h2>
+                <h2>The three layers of profit</h2>
                 <p>Most operators only see the first one:</p>
                 <ol>
-                    <li><strong>💰 Gross Profit</strong> = What you see in the offer</li>
-                    <li><strong>💵 Real Profit</strong> = What remains after ALL costs</li>
-                    <li><strong>⏰ Profit per Hour</strong> = Real profit ÷ Time invested</li>
+                    <li><strong>Gross profit</strong> = What you see in the offer</li>
+                    <li><strong>Real profit</strong> = What remains after ALL costs</li>
+                    <li><strong>Profit per hour</strong> = Real profit ÷ Time invested</li>
                 </ol>
 
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;text-align:center;margin:2rem 0">
-                    <p style="font-size:1.25rem;font-weight:700">Only #3 tells you if it is actually worth it</p>
+                <div class="note tip">
+                    <span class="note-label">Only #3 tells you the truth</span>
+                    <p>Only profit per hour tells you if a load is actually worth it.</p>
                 </div>
             </section>
 
             <section>
-                <h2>📊 REAL CASE: The Load That "Paid Well"</h2>
+                <h2>Real case: the load that "paid well"</h2>
 
-                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem;margin:2rem 0">
-                    <p><strong>Load Offer:</strong></p>
-                    <ul>
-                        <li>Origin: Dallas, TX</li>
-                        <li>Destination: Chicago, IL</li>
-                        <li>Pay: $1,200</li>
-                        <li>Loaded miles: 900</li>
-                    </ul>
+                <p><strong>Load offer:</strong></p>
+                <ul>
+                    <li>Origin: Dallas, TX</li>
+                    <li>Destination: Chicago, IL</li>
+                    <li>Pay: $1,200</li>
+                    <li>Loaded miles: 900</li>
+                </ul>
 
-                    <p style="margin-top:1.5rem"><strong>❌ SURFACE-LEVEL ANALYSIS:</strong></p>
+                <div class="note warning">
+                    <span class="note-label">Surface-level analysis</span>
                     <p>$1,200 ÷ 900 miles = $1.33/mile</p>
-                    <p style="font-style:italic">"$1.33/mile! Good rate, I'll take it."</p>
+                    <p>"$1.33/mile! Good rate, I'll take it."</p>
                 </div>
 
-                <div style="background:rgba(0,217,255,.1);padding:1.5rem;border-radius:.75rem;margin:2rem 0">
-                    <p><strong>✅ LEVEL 1 ANALYSIS: Real Profit</strong></p>
-                    <p><strong>REVENUE:</strong> Pay: $1,200</p>
-                    <p style="margin-top:1rem"><strong>COSTS:</strong></p>
-                    <ul>
-                        <li>Deadhead (50 miles): 50 × $0.94 = $47</li>
-                        <li>Loaded (900 miles): 900 × $0.94 = $846</li>
-                        <li>Repositioning (100 miles): 100 × $0.94 = $94</li>
-                        <li><strong>Total costs: $987</strong></li>
-                    </ul>
-                    <p style="margin-top:1rem;font-size:1.1rem"><strong>REAL PROFIT: $1,200 - $987 = $213</strong></p>
-                    <p style="font-style:italic">"$213 profit, not bad..."</p>
+                <p><strong>Level 1 analysis: real profit</strong></p>
+                <p>Revenue: $1,200</p>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Deadhead (50 mi × $0.94)</span><span class="value">$47</span></div>
+                    <div class="compare-row"><span class="label">Loaded (900 mi × $0.94)</span><span class="value">$846</span></div>
+                    <div class="compare-row"><span class="label">Repositioning (100 mi × $0.94)</span><span class="value">$94</span></div>
+                    <div class="compare-row"><span class="label">Total costs</span><span class="value">$987</span></div>
                 </div>
+                <div class="formula">Real profit: $1,200 − $987 = $213</div>
+                <p>"$213 profit, not bad..."</p>
 
-                <div style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem;border:2px solid #64C864">
-                    <p style="font-weight:700;color:#64C864">✅✅ LEVEL 2 ANALYSIS: Profit per Hour (THE TRUTH)</p>
-
-                    <p style="margin-top:1rem"><strong>TIME INVESTED:</strong></p>
+                <div class="note tip">
+                    <span class="note-label">Level 2 analysis: profit per hour (the truth)</span>
+                    <p><strong>Time invested:</strong></p>
                     <ul>
                         <li>Deadhead drive: 1 hour</li>
                         <li>Loading time: 1.5 hours</li>
@@ -247,197 +188,150 @@
                         <li>Unloading time: 1 hour</li>
                         <li>Mandatory breaks (HOS): 2 hours</li>
                         <li>Repositioning drive: 2 hours</li>
-                        <li><strong>TOTAL TIME: 22.5 hours</strong></li>
+                        <li><strong>Total time: 22.5 hours</strong></li>
                     </ul>
+                </div>
 
-                    <div style="background:rgba(255,107,53,.2);padding:1rem;border-radius:.5rem;text-align:center;margin-top:1rem">
-                        <p style="font-size:1.5rem;font-weight:900;color:#FF6B35">$213 ÷ 22.5 hours = $9.47/hour</p>
-                    </div>
-
-                    <p style="margin-top:1rem;font-weight:700;color:#FF6B35">🚨 BRUTAL REALITY: $9.47/hour is BELOW
-                        minimum wage</p>
-                    <p style="margin-top:.5rem">You worked almost a full day for less than a job at McDonald's</p>
+                <div class="pull-number">
+                    <div class="value">$9.47</div>
+                    <p class="context">per hour ($213 ÷ 22.5 hours) — below minimum wage. You worked almost a full day for less than a job at McDonald's.</p>
                 </div>
             </section>
 
             <section>
-                <h2>💡 COMPARISON WITH ANOTHER LOAD</h2>
+                <h2>Comparison with another load</h2>
 
-                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>Alternative Load:</strong></p>
-                    <ul>
-                        <li>Origin: Dallas, TX</li>
-                        <li>Destination: Houston, TX</li>
-                        <li>Pay: $400</li>
-                        <li>Loaded miles: 250</li>
-                    </ul>
+                <p><strong>Alternative load:</strong></p>
+                <ul>
+                    <li>Origin: Dallas, TX</li>
+                    <li>Destination: Houston, TX</li>
+                    <li>Pay: $400</li>
+                    <li>Loaded miles: 250</li>
+                </ul>
 
-                    <p style="margin-top:1rem"><strong>Full analysis:</strong></p>
-                    <ul>
-                        <li>REVENUE: $400</li>
-                        <li>COSTS: $263 (30 DH + 250 loaded + 0 repos)</li>
-                        <li>REAL PROFIT: $137</li>
-                        <li>TIME: 5.5 hours</li>
-                        <li style="color:#64C864;font-weight:700">PROFIT/HOUR: $24.91/hour ✅</li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Revenue</span><span class="value">$400</span></div>
+                    <div class="compare-row"><span class="label">Costs (30 DH + 250 loaded + 0 repos)</span><span class="value">$263</span></div>
+                    <div class="compare-row"><span class="label">Real profit</span><span class="value">$137</span></div>
+                    <div class="compare-row"><span class="label">Time</span><span class="value">5.5 hours</span></div>
+                    <div class="compare-row"><span class="label">Profit/hour</span><span class="value accent">$24.91/hour</span></div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Final comparison</h2>
+
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Load A: Dallas → Chicago</div>
+                        <div class="compare-row"><span class="label">Total pay</span><span class="value">$1,200</span></div>
+                        <div class="compare-row"><span class="label">Real profit</span><span class="value">$213</span></div>
+                        <div class="compare-row"><span class="label">Time invested</span><span class="value">22.5 hrs</span></div>
+                        <div class="compare-row"><span class="label">Profit/hour</span><span class="value">$9.47/hr</span></div>
+                    </div>
+                    <div class="compare-table">
+                        <div class="compare-title">Load B: Dallas → Houston (x2)</div>
+                        <div class="compare-row"><span class="label">Total pay</span><span class="value">$400</span></div>
+                        <div class="compare-row"><span class="label">Real profit</span><span class="value">$137</span></div>
+                        <div class="compare-row"><span class="label">Time invested</span><span class="value">5.5 hrs</span></div>
+                        <div class="compare-row"><span class="label">Profit/hour</span><span class="value accent">$24.91/hr</span></div>
+                    </div>
                 </div>
 
-                <h2 style="margin-top:2rem">📊 FINAL COMPARISON</h2>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>LOAD A (Chicago)</th>
-                            <th>LOAD B (Houston)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Total pay</td>
-                            <td>$1,200 ✅</td>
-                            <td>$400 ❌</td>
-                        </tr>
-                        <tr>
-                            <td>Real profit</td>
-                            <td>$213</td>
-                            <td>$137</td>
-                        </tr>
-                        <tr>
-                            <td>Time invested</td>
-                            <td>22.5 hrs</td>
-                            <td>5.5 hrs</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.1)">
-                            <td><strong>Profit/hour</strong></td>
-                            <td style="color:#FF6B35">$9.47/hr ❌</td>
-                            <td style="color:#64C864">$24.91/hr ✅</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="callout tip">
-                    <strong>BEST STRATEGY: Run Load B TWICE (11 hours total)</strong>
+                <div class="note tip">
+                    <span class="note-label">Best strategy: run Load B twice (11 hours total)</span>
                     <ul>
                         <li>Profit: $137 × 2 = $274</li>
                         <li>Time: 11 hours</li>
                         <li>Rate: $24.91/hour</li>
                     </ul>
-                    <p style="margin-top:1rem"><strong>vs. Load A once (22.5 hours):</strong></p>
+                    <p><strong>vs. Load A once (22.5 hours):</strong></p>
                     <ul>
                         <li>Profit: $213</li>
                         <li>Time: 22.5 hours</li>
                         <li>Rate: $9.47/hour</li>
                     </ul>
-                    <p style="margin-top:1rem;font-weight:700;color:#64C864">DIFFERENCE: $61 MORE in HALF the time</p>
+                </div>
+
+                <div class="pull-number">
+                    <div class="value">+$61</div>
+                    <p class="context">more profit running Load B twice, in half the time of running Load A once.</p>
                 </div>
             </section>
 
             <section>
-                <h2>🎯 PROFIT-PER-HOUR TARGETS</h2>
+                <h2>Profit-per-hour targets</h2>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Level</th>
-                            <th>$/Hour</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Beginner/Survival</td>
-                            <td>$20-30</td>
-                            <td>You're learning — acceptable at first</td>
-                        </tr>
-                        <tr>
-                            <td>Competent</td>
-                            <td>$35-45</td>
-                            <td>You're running a decent business</td>
-                        </tr>
-                        <tr style="background:rgba(0,217,255,.05)">
-                            <td>Professional</td>
-                            <td><strong>$50-65</strong></td>
-                            <td>You've mastered the game</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.1)">
-                            <td>Elite</td>
-                            <td><strong>$70+</strong></td>
-                            <td>Top 5% of expediters</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="compare-table">
+                    <div class="compare-title">Beginner / Survival</div>
+                    <div class="compare-row"><span class="label">Range</span><span class="value">$20-30/hour</span></div>
+                    <div class="compare-row"><span class="label">Description</span><span class="value">You're learning — acceptable at first</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Competent</div>
+                    <div class="compare-row"><span class="label">Range</span><span class="value">$35-45/hour</span></div>
+                    <div class="compare-row"><span class="label">Description</span><span class="value">You're running a decent business</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Professional</div>
+                    <div class="compare-row"><span class="label">Range</span><span class="value accent">$50-65/hour</span></div>
+                    <div class="compare-row"><span class="label">Description</span><span class="value">You've mastered the game</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Elite (top 5%)</div>
+                    <div class="compare-row"><span class="label">Range</span><span class="value accent">$70+/hour</span></div>
+                    <div class="compare-row"><span class="label">Description</span><span class="value">Top 5% of expediters</span></div>
+                </div>
 
-                <p style="text-align:center;font-weight:700;margin-top:1rem">Where are YOU?</p>
+                <p><strong>Where are YOU?</strong></p>
             </section>
 
             <section>
-                <h2>✏️ ANALYZE YOUR LAST COMPLETE LOAD</h2>
+                <h2>Analyze your last complete load</h2>
 
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>STEP 1: Revenue</strong></p>
-                    <p>Total pay received: $_________</p>
-
-                    <p style="margin-top:1.5rem"><strong>STEP 2: Costs</strong></p>
-                    <ul>
-                        <li>Deadhead miles: _______ × $_____ = $_____</li>
-                        <li>Loaded miles: _______ × $_____ = $_____</li>
-                        <li>Repositioning miles: _______ × $_____ = $_____</li>
-                        <li><strong>TOTAL COSTS: $_________ (A)</strong></li>
-                    </ul>
-
-                    <p style="margin-top:1.5rem"><strong>STEP 3: Real Profit</strong></p>
-                    <p>Pay - Costs: <strong>$_________ (B)</strong></p>
-
-                    <p style="margin-top:1.5rem"><strong>STEP 4: Time Invested</strong></p>
-                    <ul>
-                        <li>Deadhead drive: _____ hrs</li>
-                        <li>Loading/wait time: _____ hrs</li>
-                        <li>Drive time: _____ hrs</li>
-                        <li>Unloading: _____ hrs</li>
-                        <li>Breaks/delays: _____ hrs</li>
-                        <li>Repositioning: _____ hrs</li>
-                        <li><strong>TOTAL HOURS: _____ (C)</strong></li>
-                    </ul>
-
-                    <div style="background:linear-gradient(135deg,rgba(0,217,255,.2),rgba(255,107,53,.2));padding:1.5rem;border-radius:.75rem;text-align:center;margin-top:1.5rem">
-                        <p style="font-size:1.1rem"><strong>STEP 5: Your Profit per Hour</strong></p>
-                        <p style="font-size:2rem;font-weight:900;color:#00D9FF">(B) ÷ (C) = $_____/hour</p>
-                    </div>
-
-                    <p style="margin-top:1rem">Does it beat your $40/hour target? _____ (Yes/No)</p>
+                <div class="worksheet">
+                    <div class="worksheet-row"><span class="label">Total pay received</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Deadhead miles × $/mi</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Loaded miles × $/mi</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Repositioning miles × $/mi</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Total costs (A)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Real profit: Pay − Costs (B)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Deadhead drive (hrs)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Loading/wait time (hrs)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Drive time (hrs)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Unloading (hrs)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Breaks/delays (hrs)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Repositioning (hrs)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Total hours (C)</span><span class="line"></span></div>
+                    <div class="worksheet-row highlight"><span class="label">Your profit per hour: (B) ÷ (C)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Does it beat your $40/hour target? (Yes/No)</span><span class="line"></span></div>
                 </div>
             </section>
 
             <section>
-                <h2>🚀 STRATEGIES TO MAXIMIZE $/HOUR</h2>
+                <h2>Strategies to maximize $/hour</h2>
 
-                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>1. Prioritize Turnaround Speed</strong></p>
-                    <p>Fast load (4-6 hrs) at $1.30/mile &gt; Long load (18-20 hrs) at $1.40/mile</p>
+                <p><strong>1. Prioritize turnaround speed</strong></p>
+                <p>Fast load (4-6 hrs) at $1.30/mile &gt; Long load (18-20 hrs) at $1.40/mile</p>
 
-                    <p style="margin-top:1.5rem"><strong>2. Avoid "Loading Hell"</strong></p>
-                    <p>Customers with 3+ hours of wait time — even if they pay $0.10-0.15 more — are NOT worth it</p>
+                <p><strong>2. Avoid "loading hell"</strong></p>
+                <p>Customers with 3+ hours of wait time — even if they pay $0.10-0.15 more — are NOT worth it</p>
 
-                    <p style="margin-top:1.5rem"><strong>3. Favor Zones with Quick Reload</strong></p>
-                    <p>Zone B: Load pays $1.35, reload in 8 hrs &gt; Zone A: Load pays $1.50, wait time 48 hrs</p>
+                <p><strong>3. Favor zones with quick reload</strong></p>
+                <p>Zone B: Load pays $1.35, reload in 8 hrs &gt; Zone A: Load pays $1.50, wait time 48 hrs</p>
 
-                    <p style="margin-top:1.5rem"><strong>4. Consider "Short Premium Loads"</strong></p>
-                    <p>300-mile load at $1.60/mile in 5 hours = $36/hour<br>
-                        vs. 1,000-mile load at $1.40/mile in 18 hours = $22/hour</p>
-                    <p style="font-weight:700;color:#64C864">The "small" load pays 64% better per hour</p>
+                <p><strong>4. Consider "short premium loads"</strong></p>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">300-mile load at $1.60/mi, 5 hrs</span><span class="value accent">$36/hour</span></div>
+                    <div class="compare-row"><span class="label">1,000-mile load at $1.40/mi, 18 hrs</span><span class="value">$22/hour</span></div>
                 </div>
+                <p>The "small" load pays 64% better per hour.</p>
             </section>
 
             <section>
-                <h2>💡 KEY TAKEAWAY</h2>
-
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">Total profit matters.<br>Real profit
-                        matters more.<br>Profit PER HOUR is what TRULY counts.</p>
-                    <p style="margin-top:1.5rem">Think in TIME, not just in MONEY.</p>
-                    <p style="margin-top:1rem">A load that pays "a lot" but takes "a long time"<br>can be WORSE than a
-                        small, fast load.</p>
+                <div class="conclusion">
+                    <p class="lead">Total profit matters. Real profit matters more. <span class="accent">Profit PER HOUR</span> is what truly counts.</p>
+                    <p class="sub">Think in time, not just in money. A load that pays "a lot" but takes "a long time" can be worse than a small, fast load.</p>
                 </div>
             </section>
 

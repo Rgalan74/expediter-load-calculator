@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,65 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: .75rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1);
-            font-size: .9rem
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
         }
 
         .btn {
@@ -194,21 +136,18 @@
         <div class="lesson-content">
 
             <section>
-                <h2>🤝 EL PODER DEL NETWORK</h2>
+                <h2>El poder del network</h2>
 
-                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem;text-align:center">
-                    <p style="font-weight:700;font-size:1.1rem;margin-bottom:1rem">VERDAD INCÓMODA:</p>
-                    <p style="margin:0">Los mejores trabajos NO están en load boards<br>
-                        Los mejores clientes NO buscan en internet<br>
-                        Las mejores oportunidades NO se publican<br><br>
-                        <strong style="color:#FFD700;font-size:1.25rem">Todo pasa por RELACIONES</strong>
-                    </p>
+                <div class="note tip">
+                    <span class="note-label">Verdad incómoda</span>
+                    <p>Los mejores trabajos NO están en load boards. Los mejores clientes NO buscan en internet. Las mejores oportunidades NO se publican.</p>
+                    <p><strong>Todo pasa por relaciones.</strong></p>
                 </div>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
-                    <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>Transportista A:</strong></p>
-                        <ul style="margin:0;font-size:.9rem">
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Transportista A</div>
+                        <ul>
                             <li>Busca en load boards</li>
                             <li>Compite con 200 vans</li>
                             <li>Acepta $1.45/mi</li>
@@ -216,10 +155,9 @@
                             <li><strong>Gana $4,200/mes</strong></li>
                         </ul>
                     </div>
-
-                    <div style="background:rgba(100,200,100,.15);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>Transportista B:</strong></p>
-                        <ul style="margin:0;font-size:.9rem">
+                    <div class="compare-table">
+                        <div class="compare-title">Transportista B</div>
+                        <ul>
                             <li>Brokers lo llaman directo</li>
                             <li>"¿Te interesa esto?"</li>
                             <li>Negocia $1.85/mi</li>
@@ -229,220 +167,176 @@
                     </div>
                 </div>
 
-                <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    Diferencia: NETWORK<br>
-                    No trabaja más. Trabaja más INTELIGENTE.
-                </p>
+                <p><strong>La diferencia: network.</strong> No trabaja más — trabaja más inteligente.</p>
             </section>
 
             <section>
-                <h2>🎯 LOS 5 CÍRCULOS DE NETWORK</h2>
+                <h2>Los 5 círculos de network</h2>
 
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>CÍRCULO 1: INNER CIRCLE (5-10 personas)</strong></p>
-                    <ul>
-                        <li>Tus brokers Tier 1</li>
-                        <li>Clientes directos principales</li>
-                        <li>2-3 transportistas socios</li>
-                    </ul>
+                <p><strong>Círculo 1: Inner circle (5-10 personas)</strong></p>
+                <ul>
+                    <li>Tus brokers Tier 1</li>
+                    <li>Clientes directos principales</li>
+                    <li>2-3 transportistas socios</li>
+                </ul>
 
-                    <p><strong>CÍRCULO 2: CONTACTOS ACTIVOS (20-30 personas)</strong></p>
-                    <ul>
-                        <li>Brokers Tier 2 regulares</li>
-                        <li>Proveedores (mecánico, seguro, etc)</li>
-                        <li>Otros transportistas en tu nicho</li>
-                    </ul>
+                <p><strong>Círculo 2: Contactos activos (20-30 personas)</strong></p>
+                <ul>
+                    <li>Brokers Tier 2 regulares</li>
+                    <li>Proveedores (mecánico, seguro, etc)</li>
+                    <li>Otros transportistas en tu nicho</li>
+                </ul>
 
-                    <p><strong>CÍRCULO 3: NETWORK EXTENDIDO (50-100 personas)</strong></p>
-                    <ul>
-                        <li>LinkedIn connections industria</li>
-                        <li>Asociaciones/membresías</li>
-                        <li>Conocidos de eventos</li>
-                    </ul>
+                <p><strong>Círculo 3: Network extendido (50-100 personas)</strong></p>
+                <ul>
+                    <li>LinkedIn connections industria</li>
+                    <li>Asociaciones/membresías</li>
+                    <li>Conocidos de eventos</li>
+                </ul>
 
-                    <p><strong>CÍRCULO 4: COMUNIDAD (100-500 personas)</strong></p>
-                    <ul>
-                        <li>Followers online</li>
-                        <li>Miembros de grupos industria</li>
-                    </ul>
+                <p><strong>Círculo 4: Comunidad (100-500 personas)</strong></p>
+                <ul>
+                    <li>Followers online</li>
+                    <li>Miembros de grupos industria</li>
+                </ul>
 
-                    <p style="margin:0"><strong>CÍRCULO 5: ALCANCE POTENCIAL (Ilimitado)</strong></p>
-                    <ul style="margin-top:.5rem;margin-bottom:0">
-                        <li>Network de network (6 degrees of separation)</li>
-                        <li>Poder de referidos</li>
-                    </ul>
+                <p><strong>Círculo 5: Alcance potencial (ilimitado)</strong></p>
+                <ul>
+                    <li>Network de network (6 degrees of separation)</li>
+                    <li>Poder de referidos</li>
+                </ul>
 
-                    <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;margin-top:1.5rem;margin-bottom:0;text-align:center;font-weight:700">
-                        OBJETIVO: Mover personas de afuera → adentro<br>
-                        Círculo 5 → 4 → 3 → 2 → 1
-                    </p>
+                <div class="note tip">
+                    <span class="note-label">Objetivo</span>
+                    <p>Mover personas de afuera hacia adentro: Círculo 5 → 4 → 3 → 2 → 1.</p>
                 </div>
             </section>
 
             <section>
-                <h2>🔧 LAS 5 ESTRATEGIAS DE NETWORKING</h2>
+                <h2>Las 5 estrategias de networking</h2>
 
-                <h3>ESTRATEGIA #1: Networking con Brokers</h3>
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>BROKERS = TU NETWORK MÁS IMPORTANTE</strong></p>
+                <p><strong>Estrategia #1: Networking con brokers</strong></p>
+                <p>Brokers = tu network más importante.</p>
 
-                    <p><strong>4 FASES DE RELACIÓN:</strong></p>
-                    <ol>
-                        <li><strong>Primera Impresión (Cargas 1-3):</strong> Entrega impecable, comunicación proactiva →
-                            "Este tipo es sólido"</li>
-                        <li><strong>Consistencia (Cargas 4-10):</strong> Mismo nivel SIEMPRE, nunca cancelas → "Puedo
-                            confiar en él"</li>
-                        <li><strong>Relación (Cargas 11+):</strong> Conocen preferencias mutuas, comunicación personal →
-                            "Es mi go-to guy"</li>
-                        <li><strong>Partnership (6+ meses):</strong> Te llaman PRIMERO, mejores cargas, parte del equipo
-                        </li>
-                    </ol>
+                <p><strong>4 fases de relación:</strong></p>
+                <ol>
+                    <li><strong>Primera impresión (Cargas 1-3):</strong> entrega impecable, comunicación proactiva → "Este tipo es sólido"</li>
+                    <li><strong>Consistencia (Cargas 4-10):</strong> mismo nivel siempre, nunca cancelas → "Puedo confiar en él"</li>
+                    <li><strong>Relación (Cargas 11+):</strong> conocen preferencias mutuas, comunicación personal → "Es mi go-to guy"</li>
+                    <li><strong>Partnership (6+ meses):</strong> te llaman primero, mejores cargas, parte del equipo</li>
+                </ol>
 
-                    <p><strong>TÁCTICAS ESPECÍFICAS:</strong></p>
-                    <ul style="margin:0">
-                        <li><strong>Recuerdos personales:</strong> Nota cumpleaños, pregunta por familia, recuerda
-                            preferencias</li>
-                        <li><strong>Ayuda sin esperar nada:</strong> Refiere transportistas, comparte info útil → Genera
-                            reciprocidad</li>
-                        <li><strong>Check-ins sin pedir carga:</strong> Mensaje ocasional "¿Cómo van las cosas?" → Top
-                            of mind</li>
-                    </ul>
-                </div>
+                <p><strong>Tácticas específicas:</strong></p>
+                <ul>
+                    <li><strong>Recuerdos personales:</strong> nota cumpleaños, pregunta por familia, recuerda preferencias</li>
+                    <li><strong>Ayuda sin esperar nada:</strong> refiere transportistas, comparte info útil → genera reciprocidad</li>
+                    <li><strong>Check-ins sin pedir carga:</strong> mensaje ocasional "¿Cómo van las cosas?" → top of mind</li>
+                </ul>
 
-                <h3>ESTRATEGIA #2: Networking con Otros Transportistas</h3>
-                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>COMPETENCIA + COLABORACIÓN</strong></p>
+                <p><strong>Estrategia #2: Networking con otros transportistas</strong></p>
+                <p>Competencia + colaboración.</p>
 
-                    <p><strong>BENEFICIOS:</strong></p>
-                    <ul>
-                        <li>Backup cuando tú no puedes</li>
-                        <li>Compartir info (brokers, rutas)</li>
-                        <li>Referidos mutuos</li>
-                        <li>Aprender mejores prácticas</li>
-                    </ul>
+                <p><strong>Beneficios:</strong></p>
+                <ul>
+                    <li>Backup cuando tú no puedes</li>
+                    <li>Compartir info (brokers, rutas)</li>
+                    <li>Referidos mutuos</li>
+                    <li>Aprender mejores prácticas</li>
+                </ul>
 
-                    <p><strong>TÁCTICAS DE COLABORACIÓN:</strong></p>
-                    <ul style="margin:0">
-                        <li><strong>Network de backup:</strong> 3-5 transportistas confiables, diferentes geografías, se
-                            cubren mutuamente</li>
-                        <li><strong>Sharing de información:</strong> Brokers buenos/malos, rutas rentables (nunca info
-                            confidencial)</li>
-                        <li><strong>Compras en grupo:</strong> Llantas, seguro, mantenimiento → Descuentos por volumen
-                        </li>
-                        <li><strong>Mastermind group:</strong> 4-6 transportistas, call mensual 1 hora, comparten
-                            números y estrategias</li>
-                    </ul>
-                </div>
+                <p><strong>Tácticas de colaboración:</strong></p>
+                <ul>
+                    <li><strong>Network de backup:</strong> 3-5 transportistas confiables, diferentes geografías, se cubren mutuamente</li>
+                    <li><strong>Sharing de información:</strong> brokers buenos/malos, rutas rentables (nunca info confidencial)</li>
+                    <li><strong>Compras en grupo:</strong> llantas, seguro, mantenimiento → descuentos por volumen</li>
+                    <li><strong>Mastermind group:</strong> 4-6 transportistas, call mensual 1 hora, comparten números y estrategias</li>
+                </ul>
 
-                <h3>ESTRATEGIA #3: Eventos y Asociaciones</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>NETWORKING PRESENCIAL = MÁS PODEROSO</strong></p>
+                <p><strong>Estrategia #3: Eventos y asociaciones</strong></p>
+                <p>Networking presencial = más poderoso.</p>
 
-                    <p><strong>EVENTOS CLAVE:</strong></p>
-                    <ul>
-                        <li><strong>Mid-America Trucking Show (MATS):</strong> Louisville KY, marzo anual, $25-50
-                            entrada, ROI: 1 contacto = $5,000+/año</li>
-                        <li><strong>Expedite Expo:</strong> Wilmington OH, julio, específico expediting</li>
-                        <li><strong>Chamber of Commerce local:</strong> $200-500/año, networking breakfasts, conexiones
-                            locales</li>
-                    </ul>
+                <p><strong>Eventos clave:</strong></p>
+                <ul>
+                    <li><strong>Mid-America Trucking Show (MATS):</strong> Louisville KY, marzo anual, $25-50 entrada, ROI: 1 contacto = $5,000+/año</li>
+                    <li><strong>Expedite Expo:</strong> Wilmington OH, julio, específico expediting</li>
+                    <li><strong>Chamber of Commerce local:</strong> $200-500/año, networking breakfasts, conexiones locales</li>
+                </ul>
 
-                    <p style="margin:0"><strong>EN EVENTO: Lleva 200 tarjetas, escucha 80% habla 20%, toma
-                            notas</strong><br>
-                        <strong>DESPUÉS: Email seguimiento 24-48 hrs, LinkedIn connection, programa siguiente
-                            paso</strong>
-                    </p>
-                </div>
+                <p><strong>En evento:</strong> lleva 200 tarjetas, escucha 80% habla 20%, toma notas. <strong>Después:</strong> email seguimiento 24-48 hrs, LinkedIn connection, programa siguiente paso.</p>
 
-                <h3>ESTRATEGIA #4: Networking Digital</h3>
-                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>ONLINE = ESCALA TU ALCANCE</strong></p>
+                <p><strong>Estrategia #4: Networking digital</strong></p>
+                <p>Online = escala tu alcance.</p>
 
-                    <p><strong>LINKEDIN (Más profesional):</strong></p>
-                    <ul>
-                        <li>Conecta con brokers después de primera carga</li>
-                        <li>Comparte contenido útil 1-2x/semana</li>
-                        <li>Comenta en posts relevantes</li>
-                        <li>→ Construyes autoridad, clientes te encuentran</li>
-                    </ul>
+                <p><strong>LinkedIn (más profesional):</strong></p>
+                <ul>
+                    <li>Conecta con brokers después de primera carga</li>
+                    <li>Comparte contenido útil 1-2x/semana</li>
+                    <li>Comenta en posts relevantes</li>
+                    <li>→ Construyes autoridad, clientes te encuentran</li>
+                </ul>
 
-                    <p><strong>FACEBOOK GROUPS:</strong></p>
-                    <ul style="margin:0">
-                        <li>"Expedite Truckers", "Cargo Van Owners"</li>
-                        <li>✅ Ayuda, comparte experiencia, haz preguntas inteligentes</li>
-                        <li>❌ No vendas agresivamente, no complainas constantemente</li>
-                    </ul>
-                </div>
+                <p><strong>Facebook groups:</strong></p>
+                <ul>
+                    <li>"Expedite Truckers", "Cargo Van Owners"</li>
+                    <li>✅ Ayuda, comparte experiencia, haz preguntas inteligentes</li>
+                    <li>❌ No vendas agresivamente, no te quejes constantemente</li>
+                </ul>
 
-                <h3>ESTRATEGIA #5: Referidos Sistemáticos</h3>
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>MEJOR NETWORK = EL QUE TRABAJA POR TI</strong></p>
+                <p><strong>Estrategia #5: Referidos sistemáticos</strong></p>
+                <p>El mejor network es el que trabaja por ti.</p>
 
-                    <ol style="margin:0">
-                        <li><strong>Identifica quién puede referir:</strong> Clientes satisfechos, transportistas,
-                            proveedores</li>
-                        <li><strong>Hazlo fácil:</strong> Tarjetas siempre, referral kit digital, script simple</li>
-                        <li><strong>Incentiva (opcional):</strong> $100-300 por referido, o reciprocidad</li>
-                        <li><strong>Agradece y reconoce:</strong> Gracias inmediato, update sobre resultado</li>
-                    </ol>
+                <ol>
+                    <li><strong>Identifica quién puede referir:</strong> clientes satisfechos, transportistas, proveedores</li>
+                    <li><strong>Hazlo fácil:</strong> tarjetas siempre, referral kit digital, script simple</li>
+                    <li><strong>Incentiva (opcional):</strong> $100-300 por referido, o reciprocidad</li>
+                    <li><strong>Agradece y reconoce:</strong> gracias inmediato, update sobre resultado</li>
+                </ol>
 
-                    <p style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1.5rem;margin-bottom:0;text-align:center">
-                        <strong>EJEMPLO:</strong> 1 cliente satisfecho refiere 2 brokers/año<br>
-                        Cada uno genera $3,000/año = $6,000/año adicional<br>
-                        10 clientes satisfechos = <strong style="color:#FFD700">$60,000/año de referidos</strong><br>
-                        Sin gastar $1 en marketing
-                    </p>
+                <div class="pull-number">
+                    <div class="value">$60,000/año</div>
+                    <p class="context">de referidos, sin gastar $1 en marketing — 10 clientes satisfechos × 2 referidos/año × $3,000/año cada uno.</p>
                 </div>
             </section>
 
             <section>
-                <h2>💡 CONCLUSIÓN CLAVE</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Tu network = Tu net worth.
-                        Literalmente.</p>
+                <p><strong>Los 5 círculos:</strong></p>
+                <ol>
+                    <li><strong>Inner (5-10):</strong> más importante, check-in cada 2-4 semanas</li>
+                    <li><strong>Activos (20-30):</strong> regular contacto, cada 1-2 meses</li>
+                    <li><strong>Extendido (50-100):</strong> occasional</li>
+                    <li><strong>Comunidad (100-500):</strong> awareness</li>
+                    <li><strong>Alcance:</strong> network de network</li>
+                </ol>
 
-                    <div style="text-align:left;max-width:600px;margin:0 auto">
-                        <p><strong>Los 5 círculos:</strong></p>
-                        <ol>
-                            <li><strong>INNER (5-10):</strong> Más importante, check-in cada 2-4 semanas</li>
-                            <li><strong>ACTIVOS (20-30):</strong> Regular contacto, cada 1-2 meses</li>
-                            <li><strong>EXTENDIDO (50-100):</strong> Occasional</li>
-                            <li><strong>COMUNIDAD (100-500):</strong> Awareness</li>
-                            <li><strong>ALCANCE:</strong> Network de network</li>
-                        </ol>
+                <div class="note warning">
+                    <span class="note-label">Networking no es</span>
+                    <ul>
+                        <li>❌ Vender agresivamente</li>
+                        <li>❌ Pedir sin dar</li>
+                        <li>❌ Solo cuando necesitas algo</li>
+                    </ul>
+                </div>
 
-                        <hr style="border-color:rgba(255,255,255,.2);margin:1.5rem 0">
+                <div class="note tip">
+                    <span class="note-label">Networking es</span>
+                    <ul>
+                        <li>✅ Construir relaciones genuinas</li>
+                        <li>✅ Dar primero, recibir después</li>
+                        <li>✅ Mantener contacto regular</li>
+                        <li>✅ Crear valor mutuo</li>
+                    </ul>
+                </div>
 
-                        <p><strong>Networking NO ES:</strong></p>
-                        <ul>
-                            <li>❌ Vender agresivamente</li>
-                            <li>❌ Pedir sin dar</li>
-                            <li>❌ Solo cuando necesitas algo</li>
-                        </ul>
+                <div class="compare-table">
+                    <div class="compare-title">Resultado típico</div>
+                    <div class="compare-row"><span class="label">Año 1</span><span class="value">30-40% trabajo de network</span></div>
+                    <div class="compare-row"><span class="label">Año 2</span><span class="value">50-60% trabajo de network</span></div>
+                    <div class="compare-row"><span class="label">Año 3</span><span class="value accent">70-80% trabajo de network</span></div>
+                </div>
 
-                        <p><strong>Networking ES:</strong></p>
-                        <ul style="margin:0">
-                            <li>✅ Construir relaciones genuinas</li>
-                            <li>✅ Dar primero, recibir después</li>
-                            <li>✅ Mantener contacto regular</li>
-                            <li>✅ Crear valor mutuo</li>
-                        </ul>
-
-                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center;font-weight:700">
-                            <strong>Resultado típico:</strong><br>
-                            Año 1: 30-40% trabajo de network<br>
-                            Año 2: 50-60% trabajo de network<br>
-                            Año 3: 70-80% trabajo de network<br><br>
-                            <span style="color:#FFD700">= Menos load boards, mejores tarifas</span>
-                        </p>
-
-                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">
-                            El mejor trabajo nunca se publica.<br>
-                            Se da a personas de confianza.<br><br>
-                            ¿Quieres ser esa persona?<br>
-                            Construye tu network.
-                        </p>
-                    </div>
+                <div class="conclusion">
+                    <p class="lead">El mejor trabajo nunca se publica — se da a <span class="accent">personas de confianza</span>.</p>
+                    <p class="sub">¿Quieres ser esa persona? Construye tu network.</p>
                 </div>
             </section>
 

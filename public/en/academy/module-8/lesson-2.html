@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,32 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
         }
 
         .btn {
@@ -163,115 +138,93 @@
         <div class="lesson-content">
 
             <section>
-                <h2>⚖️ THE TRUTH ABOUT "BALANCE"</h2>
+                <h2>The truth about "balance"</h2>
 
-                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem;margin-bottom:2rem">
-                    <p><strong>MYTH:</strong> "Balance means 50/50 work and personal life"</p>
-                    <p><strong>REALITY:</strong> Balance in expediting is DYNAMIC, not static.</p>
-                    <p style="margin:0"><strong>Typical week:</strong><br>
-                        Mon-Fri: 70% work, 30% life | Saturday: 40% work, 60% life | Sunday: 0% work, 100% life<br>
-                        <span style="color:#FFD700;font-weight:700">Weekly average: 60% work, 40% life</span>
-                    </p>
+                <p><strong>Myth:</strong> "Balance means 50/50 work and personal life."</p>
+                <p><strong>Reality:</strong> Balance in expediting is DYNAMIC, not static.</p>
+
+                <div class="compare-table">
+                    <div class="compare-title">Typical week</div>
+                    <div class="compare-row"><span class="label">Mon-Fri</span><span class="value">70% work / 30% life</span></div>
+                    <div class="compare-row"><span class="label">Saturday</span><span class="value">40% work / 60% life</span></div>
+                    <div class="compare-row"><span class="label">Sunday</span><span class="value">0% work / 100% life</span></div>
+                    <div class="compare-row"><span class="label">Weekly average</span><span class="value accent">60% work / 40% life</span></div>
                 </div>
 
-                <div style="background:rgba(0,217,255,.1);padding:1.5rem;border-radius:.75rem;text-align:center">
-                    <p style="font-weight:700;font-size:1.1rem;margin-bottom:1rem">BETTER DEFINITION OF BALANCE:</p>
-                    <p style="margin:0">"I can work hard when I need to, but I can also fully disconnect.<br>
-                        My family feels like a priority. My health is not sacrificed.<br>
-                        I enjoy what I do most of the time.<br>
-                        <strong style="color:#FFD700">And this is SUSTAINABLE for years.</strong>"
-                    </p>
+                <div class="note tip">
+                    <span class="note-label">Better definition of balance</span>
+                    <p>"I can work hard when I need to, but I can also fully disconnect. My family feels like a priority. My health is not sacrificed. I enjoy what I do most of the time. And this is SUSTAINABLE for years."</p>
                 </div>
             </section>
 
             <section>
-                <h2>🎯 THE 4 AREAS OF BALANCE</h2>
+                <h2>The 4 areas of balance</h2>
 
-                <h3>AREA #1: Time and Energy</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>PROBLEM:</strong> Expediting consumes time AND energy. You may have free time but be too exhausted to enjoy it.</p>
+                <p><strong>Area 1: Time and energy</strong></p>
+                <p><strong>Problem:</strong> Expediting consumes time AND energy. You may have free time but be too exhausted to enjoy it.</p>
 
-                    <p><strong>PERIODIZATION (Like athletes):</strong></p>
-                    <ul>
-                        <li><strong>HIGH intensity weeks (2-3):</strong> 60-65 hrs, maximize income, long routes OK</li>
-                        <li><strong>RECOVERY weeks (1):</strong> 45-50 hrs, short/easy routes only, recharge</li>
-                        <li><strong>Cycle:</strong> 3 weeks ON, 1 week LIGHT → Sustainable</li>
-                    </ul>
+                <p><strong>Periodization (like athletes):</strong></p>
+                <ul>
+                    <li><strong>HIGH intensity weeks (2-3):</strong> 60-65 hrs, maximize income, long routes OK</li>
+                    <li><strong>RECOVERY weeks (1):</strong> 45-50 hrs, short/easy routes only, recharge</li>
+                    <li><strong>Cycle:</strong> 3 weeks ON, 1 week LIGHT → sustainable</li>
+                </ul>
 
-                    <p><strong>MICRO-BREAKS:</strong> Every 2-3 hrs, stop 10-15 min, walk, stretch → You arrive with MORE energy</p>
+                <p><strong>Micro-breaks:</strong> every 2-3 hrs, stop 10-15 min, walk, stretch → you arrive with MORE energy.</p>
 
-                    <p style="margin:0"><strong>STRATEGIC "EASY" LOADS:</strong><br>
-                        Mix 60% normal, 30% low energy, 10% high energy. Not everything can be urgent/difficult.</p>
+                <p><strong>Strategic "easy" loads:</strong> mix 60% normal, 30% low energy, 10% high energy. Not everything can be urgent/difficult.</p>
+
+                <p><strong>Area 2: Family and relationships</strong></p>
+                <p><strong>Proactive communication:</strong> "Today I have a load Detroit-Nashville. I leave at 6am, deliver at 2pm, back at 8pm. We'll have dinner together." → Family can plan their day (vs "I don't know when I'll be back").</p>
+
+                <p><strong>Planned quality time:</strong></p>
+                <ul>
+                    <li><strong>Daily:</strong> 30 min family meal (no phone), 15 min before bed</li>
+                    <li><strong>Weekly:</strong> Date night, activity with kids, 2-3 hrs disconnected</li>
+                    <li><strong>Monthly:</strong> Family weekend, memorable experience together</li>
+                </ul>
+
+                <p><strong>Presence &gt; perfection:</strong> 30 min fully present &gt; 3 hrs distracted on your phone. When you're with family, you ARE with family. No work.</p>
+
+                <p><strong>Area 3: Personal development</strong></p>
+                <p>If you don't invest in YOU, you depreciate.</p>
+                <ul>
+                    <li><strong>Continuous education:</strong> 30-60 min/week (podcasts while driving), industry + business + personal</li>
+                    <li><strong>Fitness:</strong> 30 min activity/day minimum. Better: gym 3-4x/week</li>
+                    <li><strong>Hobbies:</strong> You need something that is NOT work. Reading, photography, music, DIY projects</li>
+                    <li><strong>Social network:</strong> Weekly call to a close friend, maintain friendships, don't let everything wither</li>
+                </ul>
+
+                <p><strong>Area 4: Purpose and meaning</strong></p>
+                <p><strong>Crucial question:</strong> "Why do I do this?"</p>
+
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Level 1</span><span class="value">"I need to pay bills" — weak motivation</span></div>
+                    <div class="compare-row"><span class="label">Level 2</span><span class="value">"I want to give my family a good life" — better, sustainable</span></div>
+                    <div class="compare-row"><span class="label">Level 3</span><span class="value accent">"I'm building financial independence. Modeling hard work for my kids. Building something of value." — deep, long-term sustainable</span></div>
                 </div>
 
-                <h3>AREA #2: Family and Relationships</h3>
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>PROACTIVE COMMUNICATION:</strong></p>
-                    <p>"Today I have a load Detroit-Nashville. I leave at 6am, deliver at 2pm, back at 8pm. We'll have dinner together."<br>
-                        → Family can plan their day (vs "I don't know when I'll be back")</p>
-
-                    <p><strong>PLANNED QUALITY TIME:</strong></p>
-                    <ul>
-                        <li><strong>DAILY:</strong> 30 min family meal (no phone), 15 min before bed</li>
-                        <li><strong>WEEKLY:</strong> Date night, activity with kids, 2-3 hrs disconnected</li>
-                        <li><strong>MONTHLY:</strong> Family weekend, memorable experience together</li>
-                    </ul>
-
-                    <p style="margin:0"><strong>PRESENCE &gt; PERFECTION:</strong><br>
-                        30 min fully present &gt; 3 hrs distracted on your phone<br>
-                        When you're with family, you ARE with family. No work.</p>
-                </div>
-
-                <h3>AREA #3: Personal Development</h3>
-                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>If you don't invest in YOU, you depreciate.</strong></p>
-
-                    <ul style="margin:0">
-                        <li><strong>CONTINUOUS EDUCATION:</strong> 30-60 min/week (podcasts while driving), industry + business + personal</li>
-                        <li><strong>FITNESS:</strong> 30 min activity/day minimum. Better: Gym 3-4x/week</li>
-                        <li><strong>HOBBIES:</strong> You need something that is NOT work. Reading, photography, music, DIY projects</li>
-                        <li><strong>SOCIAL NETWORK:</strong> Weekly call to a close friend, maintain friendships, don't let everything wither</li>
-                    </ul>
-                </div>
-
-                <h3>AREA #4: Purpose and Meaning</h3>
-                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>CRUCIAL QUESTION: "WHY do I do this?"</strong></p>
-
-                    <p><strong>LEVEL 1:</strong> "I need to pay bills" → Weak motivation<br>
-                        <strong>LEVEL 2:</strong> "I want to give my family a good life" → Better, sustainable<br>
-                        <strong>LEVEL 3:</strong> "I'm building financial independence. Modeling hard work for my kids. Contributing to the economy. Building something of value." → Deep, long-term sustainable
-                    </p>
-
-                    <p style="margin:0;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;text-align:center">
-                        <strong>IMPORTANT:</strong> If your work and values are completely misaligned = inevitable burnout.<br>
-                        Expediting may not be for everyone. And that's OK.
-                    </p>
+                <div class="note warning">
+                    <span class="note-label">Important</span>
+                    <p>If your work and values are completely misaligned = inevitable burnout. Expediting may not be for everyone. And that's OK.</p>
                 </div>
             </section>
 
             <section>
-                <h2>💡 KEY TAKEAWAY</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Balance is not 50/50. It's SUSTAINABLE long-term.</p>
+                <h2>Key takeaway</h2>
+                <p>Balance is not 50/50. It's SUSTAINABLE long-term.</p>
 
-                    <div style="text-align:left;max-width:600px;margin:0 auto">
-                        <p><strong>The 4 areas:</strong></p>
-                        <ol>
-                            <li><strong>TIME &amp; ENERGY:</strong> Periodization (3 ON, 1 LIGHT), micro-breaks, load mix</li>
-                            <li><strong>FAMILY:</strong> Proactive communication, planned quality time, presence &gt; perfection</li>
-                            <li><strong>DEVELOPMENT:</strong> Education, fitness, hobbies, social network</li>
-                            <li><strong>PURPOSE:</strong> Know your "Why", values alignment, long-term vision</li>
-                        </ol>
+                <p><strong>The 4 areas:</strong></p>
+                <ol>
+                    <li><strong>Time &amp; energy:</strong> Periodization (3 ON, 1 LIGHT), micro-breaks, load mix</li>
+                    <li><strong>Family:</strong> Proactive communication, planned quality time, presence &gt; perfection</li>
+                    <li><strong>Development:</strong> Education, fitness, hobbies, social network</li>
+                    <li><strong>Purpose:</strong> Know your "Why", values alignment, long-term vision</li>
+                </ol>
 
-                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center;font-weight:700">
-                            It's NOT perfection. It's sustainable progress.<br><br>
-                            Don't sacrifice family for money.<br>
-                            Don't sacrifice health for success.<br>
-                            Don't lose meaning for busyness.<br><br>
-                            <span style="color:#FFD700;font-size:1.2rem">Balance = being able to maintain this for 10, 20, 30 years without collapsing</span>
-                        </p>
-                    </div>
+                <div class="conclusion">
+                    <p class="lead">Don't sacrifice family for money. Don't sacrifice health for success. Don't lose <span class="accent">meaning</span> for busyness.</p>
+                    <p class="sub">Balance = being able to maintain this for 10, 20, 30 years without collapsing.</p>
                 </div>
             </section>
 

@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,64 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .callout {
-            padding: 1.5rem;
-            border-radius: .75rem;
-            margin: 2rem 0;
-            border-left: 4px solid
-        }
-
-        .callout.tip {
-            background: rgba(0, 217, 255, .1);
-            border-color: #00D9FF
-        }
-
-        .callout.warning {
-            background: rgba(255, 107, 53, .1);
-            border-color: #FF6B35
-        }
-
-        .callout strong {
-            display: block;
-            margin-bottom: .5rem;
-            font-size: 1.1rem
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
         }
 
         .btn {
@@ -189,169 +132,138 @@
         <div class="lesson-content">
 
             <section>
-                <h2>🎯 DE EXCEL/PAPEL A SMART LOAD SOLUTION</h2>
+                <h2>De Excel/papel a Smart Load Solution</h2>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
-                    <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>❌ Antes (método tradicional):</strong></p>
-                        <ol style="padding-left:1.2rem">
-                            <li>Abrir calculadora del teléfono</li>
-                            <li>Buscar distancia en Google Maps</li>
-                            <li>Sumar millas manualmente</li>
-                            <li>Dividir pago entre millas</li>
-                            <li>Comparar con notas de costos</li>
-                            <li>Decidir (esperando no haber cometido errores)</li>
-                        </ol>
-                        <p style="margin-top:1rem"><strong>⏱️ Tiempo:</strong> 8-12 minutos<br>
-                            <strong>❌ Margen de error:</strong> 20-30%
-                        </p>
+                <p><strong>Antes (método tradicional):</strong></p>
+                <ol>
+                    <li>Abrir calculadora del teléfono</li>
+                    <li>Buscar distancia en Google Maps</li>
+                    <li>Sumar millas manualmente</li>
+                    <li>Dividir pago entre millas</li>
+                    <li>Comparar con notas de costos</li>
+                    <li>Decidir (esperando no haber cometido errores)</li>
+                </ol>
+
+                <p><strong>Ahora (con Smart Load Solution):</strong></p>
+                <ol>
+                    <li>Abrir app</li>
+                    <li>Ingresar origen, pickup, delivery</li>
+                    <li>Ingresar pago</li>
+                    <li>Ver resultado instantáneo</li>
+                </ol>
+
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Antes</div>
+                        <div class="compare-row"><span class="label">Tiempo</span><span class="value">8-12 minutos</span></div>
+                        <div class="compare-row"><span class="label">Margen de error</span><span class="value">20-30%</span></div>
                     </div>
-
-                    <div style="background:rgba(0,217,255,.1);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>✅ Ahora (con Smart Load Solution):</strong></p>
-                        <ol style="padding-left:1.2rem">
-                            <li>Abrir app</li>
-                            <li>Ingresar origen, pickup, delivery</li>
-                            <li>Ingresar pago</li>
-                            <li>Ver resultado instantáneo</li>
-                        </ol>
-                        <p style="margin-top:1rem"><strong>⏱️ Tiempo:</strong> 30 segundos<br>
-                            <strong>✅ Margen de error:</strong> &lt;1%</p>
+                    <div class="compare-table">
+                        <div class="compare-title">Ahora</div>
+                        <div class="compare-row"><span class="label">Tiempo</span><span class="value accent">30 segundos</span></div>
+                        <div class="compare-row"><span class="label">Margen de error</span><span class="value accent">&lt;1%</span></div>
                     </div>
                 </div>
             </section>
 
             <section>
-                <h2>🔢 LOS 7 CAMPOS DEL CALCULATOR</h2>
-
-                <h3>1. CURRENT LOCATION (Tu posición actual)</h3>
-                <div class="mockup">
-                    📍 Current Location<br>
-                    ┌─────────────────────────┐<br>
-                    │ Toledo, OH │<br>
-                    └─────────────────────────┘
-                </div>
-                <p><strong>✅ Correcto:</strong> "Toledo, OH" o "43604" (ZIP code)<br>
-                    <strong>❌ Incorrecto:</strong> "toledo" (falta estado) o "Somewhere in Ohio"
+                <h2>1. Current Location (tu posición actual)</h2>
+                <div class="formula">📍 Current Location<br>┌─────────────────────────┐<br>│ Toledo, OH │<br>└─────────────────────────┘</div>
+                <p><strong>Correcto:</strong> "Toledo, OH" o "43604" (ZIP code)<br>
+                    <strong>Incorrecto:</strong> "toledo" (falta estado) o "Somewhere in Ohio"
                 </p>
 
-                <div class="callout tip">
-                    <strong>💡 TIP PRO:</strong>
+                <div class="note tip">
+                    <span class="note-label">Tip pro</span>
                     <p>La app usa tu GPS si das permiso. O ingresa manualmente. Sé específico: "Downtown Detroit" vs
                         "Detroit Metro Area" hace diferencia en millas.</p>
                 </div>
+            </section>
 
-                <h3>2. PICKUP LOCATION (Dónde recoges)</h3>
-                <p><strong>✅ Correcto:</strong> Dirección completa si la tienes<br>
-                    <strong>❌ Incorrecto:</strong> Dejar en blanco. Si pickup = current location, ingresa la MISMA
+            <section>
+                <h2>2. Pickup Location (dónde recoges)</h2>
+                <p><strong>Correcto:</strong> Dirección completa si la tienes<br>
+                    <strong>Incorrecto:</strong> Dejar en blanco. Si pickup = current location, ingresa la MISMA
                     dirección. La app calculará 0 millas deadhead automáticamente.
                 </p>
+            </section>
 
-                <h3>3. DELIVERY LOCATION (Destino final)</h3>
-                <p><strong>✅ Correcto:</strong> Ciudad y estado siempre<br>
-                    <strong>✅ Mejor:</strong> Dirección completa si la sabes
+            <section>
+                <h2>3. Delivery Location (destino final)</h2>
+                <p><strong>Correcto:</strong> Ciudad y estado siempre<br>
+                    <strong>Mejor:</strong> Dirección completa si la sabes
                 </p>
+            </section>
 
-                <h3>4. LOAD PAYMENT (Cuánto te pagan)</h3>
-                <div class="callout warning">
-                    <strong>🔍 CASOS ESPECIALES:</strong>
-                    <p><strong>Si hay FSC separado:</strong><br>
-                        Base rate: $1,000 + FSC: $200 = Ingresa: <strong>$1,200</strong> (total combinado)</p>
-                    <p><strong>Si hay detention pay:</strong><br>
-                        Load: $1,000 + Detention: $50 = Ingresa: <strong>$1,050</strong> (total que recibirás)</p>
+            <section>
+                <h2>4. Load Payment (cuánto te pagan)</h2>
+                <div class="note warning">
+                    <span class="note-label">Casos especiales</span>
+                    <p><strong>Si hay FSC separado:</strong> Base rate $1,000 + FSC $200 = ingresa <strong>$1,200</strong> (total combinado)</p>
+                    <p><strong>Si hay detention pay:</strong> Load $1,000 + Detention $50 = ingresa <strong>$1,050</strong> (total que recibirás)</p>
                 </div>
+            </section>
 
-                <h3>5. LOADED MILES (Opcional - La app lo calcula)</h3>
+            <section>
+                <h2>5. Loaded Miles (opcional — la app lo calcula)</h2>
                 <p><strong>¿Cuándo usarlo?</strong></p>
                 <ul>
-                    <li><strong>Dejar en blanco (RECOMENDADO):</strong> La app calcula ruta real via Google Maps con
+                    <li><strong>Dejar en blanco (recomendado):</strong> La app calcula ruta real via Google Maps con
                         truck routing</li>
                     <li><strong>Ingresar manualmente:</strong> Solo si el broker te dio millas exactas</li>
                 </ul>
-                <p><strong>💡 TIP:</strong> 99% del tiempo, déjalo en blanco y deja que la app calcule.</p>
+                <p><strong>Tip:</strong> 99% del tiempo, déjalo en blanco y deja que la app calcule.</p>
+            </section>
 
-                <h3>6. REPOSITIONING (Opcional pero CRÍTICO)</h3>
-                <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem;margin:2rem 0">
-                    <p style="font-weight:700;margin-bottom:1rem">ESTO ES CRÍTICO - NO LO IGNORES</p>
-                    <p><strong>Escenario 1:</strong> Delivery en zona premium (Atlanta)<br>
-                        → Repositioning: <em>[Dejar vacío]</em> - Hay freight, esperas ahí</p>
-                    <p><strong>Escenario 2:</strong> Delivery en zona muerta (Laredo)<br>
-                        → Repositioning: <em>San Antonio, TX</em> - Necesitas moverte 280 millas</p>
+            <section>
+                <h2>6. Repositioning (opcional pero crítico)</h2>
+                <div class="note warning">
+                    <span class="note-label">Esto es crítico — no lo ignores</span>
+                    <p><strong>Escenario 1:</strong> Delivery en zona premium (Atlanta) → Repositioning: dejar vacío — hay freight, esperas ahí.</p>
+                    <p><strong>Escenario 2:</strong> Delivery en zona muerta (Laredo) → Repositioning: San Antonio, TX — necesitas moverte 280 millas.</p>
                 </div>
+            </section>
 
-                <h3>7. YOUR COST PER MILE (Tu configuración personal)</h3>
+            <section>
+                <h2>7. Your Cost per Mile (tu configuración personal)</h2>
                 <p>Viene del Módulo 1, Lección 2. Lo configuras UNA VEZ en Settings y la app lo usa en todos los
                     cálculos.</p>
             </section>
 
             <section>
-                <h2>▶️ FLUJO COMPLETO DE CÁLCULO</h2>
-                <p><strong>EJEMPLO REAL PASO A PASO:</strong></p>
+                <h2>Flujo completo de cálculo</h2>
+                <p><strong>Ejemplo real paso a paso — situación:</strong></p>
+                <ul>
+                    <li>Estás en: Toledo, OH</li>
+                    <li>Load pickup: Detroit, MI</li>
+                    <li>Delivery: Atlanta, GA</li>
+                    <li>Pago: $1,200</li>
+                    <li>Tu CPM: $1.05/milla</li>
+                </ul>
 
-                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>Situación:</strong></p>
-                    <ul>
-                        <li>Estás en: Toledo, OH</li>
-                        <li>Load pickup: Detroit, MI</li>
-                        <li>Delivery: Atlanta, GA</li>
-                        <li>Pago: $1,200</li>
-                        <li>Tu CPM: $1.05/milla</li>
-                    </ul>
-                </div>
+                <ol>
+                    <li>Abrir Calculator → Home → Calculator</li>
+                    <li>Ingresar datos (todos los campos)</li>
+                    <li>Tap "CALCULATE" → la app procesa en &lt;1 segundo</li>
+                    <li>Ver resultados</li>
+                </ol>
 
-                <p style="margin-top:2rem"><strong>PASO 1:</strong> Abrir Calculator → 🏠 Home → 📊 Calculator</p>
-                <p><strong>PASO 2:</strong> Ingresar datos (todos los campos)</p>
-                <p><strong>PASO 3:</strong> Tap "CALCULATE" → La app procesa en &lt;1 segundo</p>
-
-                <p><strong>PASO 4:</strong> Ver resultados:</p>
-                <div class="mockup">
-                    ✅ CALCULATION RESULTS<br>
-                    <br>
-                    🛣️ MILEAGE BREAKDOWN<br>
-                    ├─ Deadhead: 65 mi<br>
-                    ├─ Loaded: 735 mi<br>
-                    ├─ Repositioning: 0 mi<br>
-                    └─ TOTAL: 800 mi<br>
-                    <br>
-                    💰 FINANCIAL ANALYSIS<br>
-                    ├─ Payment: $1,200.00<br>
-                    ├─ Total Cost: $840.00<br>
-                    ├─ Profit: $360.00<br>
-                    └─ Profit Margin: 30% ✅<br>
-                    <br>
-                    📊 RATES<br>
-                    ├─ RPM (apparent): $1.63/mi<br>
-                    ├─ RPM REAL: $1.50/mi ✅<br>
-                    └─ Profit/Mile: $0.45/mi<br>
-                    <br>
-                    🎯 RECOMMENDATION: ✅ ACCEPT
-                </div>
+                <div class="formula">MILLAS: Deadhead 65 + Loaded 735 + Repositioning 0 = TOTAL 800 mi<br>FINANZAS: Payment $1,200.00 − Total Cost $840.00 = Profit $360.00 (margen 30%)<br>RATES: RPM aparente $1.63/mi — RPM REAL $1.50/mi — Profit/Mile $0.45/mi<br>RECOMENDACIÓN: ACCEPT</div>
             </section>
 
             <section>
-                <h2>🎨 CÓDIGO DE COLORES</h2>
+                <h2>Código de colores</h2>
                 <p>La app usa colores para decisión rápida:</p>
 
-                <ul style="list-style:none;padding:0">
-                    <li style="background:rgba(100,200,100,.1);padding:1rem;border-radius:.5rem;margin-bottom:.5rem">
-                        <strong>✅ VERDE (Accept with confidence)</strong><br>
-                        Profit margin &gt;25%, RPM real &gt;$1.40/mi
-                    </li>
-                    <li style="background:rgba(255,215,0,.1);padding:1rem;border-radius:.5rem;margin-bottom:.5rem">
-                        <strong>⚠️ AMARILLO (Negotiate or analyze)</strong><br>
-                        Profit margin 15-25%, RPM cerca de break-even
-                    </li>
-                    <li style="background:rgba(255,107,53,.1);padding:1rem;border-radius:.5rem">
-                        <strong>❌ ROJO (Decline - losing money)</strong><br>
-                        Profit margin &lt;15%, RPM bajo break-even
-                    </li>
-                </ul>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Margen &gt;25%, RPM real &gt;$1.40/mi</span><span class="value accent">Aceptar con confianza</span></div>
+                    <div class="compare-row"><span class="label">Margen 15-25%, RPM cerca de break-even</span><span class="value">Negociar o analizar</span></div>
+                    <div class="compare-row"><span class="label">Margen &lt;15%, RPM bajo break-even</span><span class="value">Rechazar</span></div>
+                </div>
             </section>
 
             <section>
-                <h2>🚀 FEATURES AVANZADAS</h2>
-
-                <h3>1. SAVE TO HISTORY</h3>
+                <h2>Save to History</h2>
                 <p>Después de calcular, tap [SAVE TO HISTORY] para:</p>
                 <ul>
                     <li>Guardar todos los detalles del load</li>
@@ -359,59 +271,52 @@
                     <li>Build tu database personal</li>
                     <li>Lex AI aprende de tus patterns</li>
                 </ul>
+            </section>
 
-                <h3>2. COMPARE LOADS</h3>
+            <section>
+                <h2>Compare Loads</h2>
                 <p>¿Tienes 2 load offers simultáneas? Calculator → [Compare Mode]<br>
                     App muestra side-by-side con recomendación: "Load B es 23% mejor"</p>
+            </section>
 
-                <h3>3. QUICK RECALCULATE</h3>
+            <section>
+                <h2>Quick Recalculate</h2>
                 <p>¿Broker contraoferta? En resultados: [Edit Payment] → Nuevo número → Recalcula<br>
                     No necesitas re-ingresar todo.</p>
             </section>
 
             <section>
-                <h2>📋 CHECKLIST: Antes de Calcular</h2>
-                <div style="background:rgba(0,217,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <ul style="list-style:none;padding:0">
-                        <li>☐ Current location está correcto</li>
-                        <li>☐ Tengo dirección completa de pickup</li>
-                        <li>☐ Tengo dirección de delivery</li>
-                        <li>☐ Payment incluye TODO (base + FSC + tolls)</li>
-                        <li>☐ Sé si delivery zone necesita repositioning</li>
-                        <li>☐ Mi CPM está actualizado</li>
-                    </ul>
-                    <p style="margin-top:1rem;text-align:center;font-weight:700">Si todos ✅ → CALCULATE con confianza
-                    </p>
+                <h2>Checklist: antes de calcular</h2>
+                <div class="checklist">
+                    <span class="checklist-label">Antes de calcular</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Current location está correcto</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Tengo dirección completa de pickup</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Tengo dirección de delivery</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Payment incluye TODO (base + FSC + tolls)</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Sé si delivery zone necesita repositioning</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Mi CPM está actualizado</span></div>
                 </div>
+                <p><strong>Si todos ✓ → CALCULATE con confianza.</strong></p>
             </section>
 
             <section>
-                <h2>🎯 ACCIÓN INMEDIATA (3 minutos)</h2>
-                <ol>
-                    <li>✅ Abre Smart Load Solution</li>
-                    <li>✅ Ve a Calculator</li>
-                    <li>✅ Ingresa un load real que estés considerando</li>
-                    <li>✅ Tap Calculate</li>
-                    <li>✅ Observa el resultado</li>
-                    <li>✅ Save to History</li>
-                </ol>
+                <h2>Acción inmediata (3 minutos)</h2>
+                <div class="checklist">
+                    <span class="checklist-label">3 minutos</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Abre Smart Load Solution</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Ve a Calculator</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Ingresa un load real que estés considerando</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Tap Calculate</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Observa el resultado</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Save to History</span></div>
+                </div>
                 <p><strong>Meta:</strong> Familiarizarte con el flow básico.</p>
             </section>
 
             <section>
-                <h2>💡 CONCLUSIÓN CLAVE</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700">El Calculator NO es complicado.</p>
-                    <p style="margin-top:1rem">Son 4 campos esenciales:</p>
-                    <ol style="display:inline-block;text-align:left;margin-top:1rem">
-                        <li>Current location</li>
-                        <li>Pickup</li>
-                        <li>Delivery</li>
-                        <li>Payment</li>
-                    </ol>
-                    <p style="margin-top:1rem">El resto la app lo hace por ti en &lt;1 segundo.</p>
-                    <p style="font-weight:700;margin-top:1.5rem;color:#00D9FF">Dominar el Calculator =
-                        Decisiones en 30 segundos</p>
+                <div class="conclusion">
+                    <p class="lead">El Calculator no es complicado — son <span class="accent">4 campos esenciales</span>: current location, pickup, delivery, payment.</p>
+                    <p class="sub">El resto la app lo hace por ti en menos de 1 segundo. Dominar el Calculator = decisiones en 30 segundos.</p>
                 </div>
             </section>
 

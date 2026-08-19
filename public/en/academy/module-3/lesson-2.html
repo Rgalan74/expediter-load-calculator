@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,53 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
         }
 
         .btn {
@@ -179,7 +133,7 @@
         <div class="lesson-content">
 
             <section>
-                <h2>🔄 THE CONCEPT OF "FREIGHT DIRECTION"</h2>
+                <h2>The concept of "freight direction"</h2>
                 <p>Not all states are created equal. Some places are:</p>
                 <ul>
                     <li>✅ Amazing to drive INTO (High rates on the way there)</li>
@@ -189,37 +143,27 @@
             </section>
 
             <section>
-                <h2>📊 THE FREIGHT FLOW MATRIX</h2>
+                <h2>The freight flow matrix</h2>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Category</th>
-                            <th>Defining Traits</th>
-                            <th>Classic Examples</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background:rgba(100,200,100,.1)">
-                            <td><strong>BALANCED 🟢🟢</strong></td>
-                            <td>Strong freight IN &amp; OUT<br>The ultimate best case scenario.</td>
-                            <td>Illinois (Chicago), Georgia (Atlanta), Texas (Dallas/Houston), Michigan (Detroit), Ohio
-                            </td>
-                        </tr>
-                        <tr style="background:rgba(255,215,0,.1)">
-                            <td><strong>IMPORT-HEAVY 🟢🔴</strong></td>
-                            <td>Good freight paying well to go IN.<br>Very poor freight trying to leave.</td>
-                            <td>California (LA ports), Florida (consumer goods), Arizona (Phoenix distribution)</td>
-                        </tr>
-                        <tr style="background:rgba(255,107,53,.1)">
-                            <td><strong>DEAD ZONES 🔴🔴</strong></td>
-                            <td>Poor freight going IN &amp; OUT.<br>Avoid unless they pay a massive premium.</td>
-                            <td>Montana, Wyoming, West Texas (Laredo, El Paso), Rural Midwest</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="compare-table">
+                    <div class="compare-title">Balanced 🟢🟢</div>
+                    <p>Strong freight IN &amp; OUT — the ultimate best case scenario.</p>
+                    <p>Examples: Illinois (Chicago), Georgia (Atlanta), Texas (Dallas/Houston), Michigan (Detroit), Ohio</p>
+                </div>
 
-                <p><strong>YOUR PLAYBOOK STRATEGY:</strong></p>
+                <div class="compare-table">
+                    <div class="compare-title">Import-Heavy 🟢🔴</div>
+                    <p>Good freight paying well to go IN. Very poor freight trying to leave.</p>
+                    <p>Examples: California (LA ports), Florida (consumer goods), Arizona (Phoenix distribution)</p>
+                </div>
+
+                <div class="compare-table">
+                    <div class="compare-title">Dead Zones 🔴🔴</div>
+                    <p>Poor freight going IN &amp; OUT. Avoid unless they pay a massive premium.</p>
+                    <p>Examples: Montana, Wyoming, West Texas (Laredo, El Paso), Rural Midwest</p>
+                </div>
+
+                <p><strong>Your playbook strategy:</strong></p>
                 <ul>
                     <li><strong>Balanced:</strong> Build your primary driving circuits around these states.</li>
                     <li><strong>Import-heavy:</strong> Charge a massive premium to go IN, and have your backhaul plan ready before you accept.</li>
@@ -228,9 +172,9 @@
             </section>
 
             <section>
-                <h2>🗺️ MASTERING FREIGHT FLOW PATTERNS</h2>
+                <h2>Mastering freight flow patterns</h2>
 
-                <h3>WEST → EAST (The Import Dominance)</h3>
+                <p><strong>West → East (The Import Dominance)</strong></p>
                 <ul>
                     <li>LA/Long Beach ports moving goods → Midwest/East Coast</li>
                     <li>High rates heading westbound (brokers need vans to take empties back)</li>
@@ -238,7 +182,7 @@
                     <li><strong>Strategy:</strong> Position yourself to ride the eastbound wave when possible.</li>
                 </ul>
 
-                <h3>THE MAJOR HUBS (Balanced in all directions)</h3>
+                <p><strong>The Major Hubs (Balanced in all directions)</strong></p>
                 <ul>
                     <li>Chicago, Atlanta, Dallas</li>
                     <li>Consistent, reliable freight 360° around the compass.</li>
@@ -248,183 +192,101 @@
             </section>
 
             <section>
-                <h2>📍 STATE-BY-STATE BREAKDOWN</h2>
+                <h2>State-by-state breakdown</h2>
 
-                <h3>🟢🟢 TIER 1: THE BALANCED STATES</h3>
+                <p><strong>Tier 1: The Balanced States 🟢🟢</strong></p>
 
-                <div style="background:rgba(100,200,100,.05);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
-                    <p><strong>ILLINOIS (Chicago Area)</strong></p>
-                    <ul>
-                        <li>IN: 🟢🟢 Heavy manufacturing, agriculture, distribution centers.</li>
-                        <li>OUT: 🟢🟢 Huge consumer goods and auto parts heading out.</li>
-                        <li>Average rate IN: $1.55/mi</li>
-                        <li>Average rate OUT: $1.50/mi</li>
-                        <li>Note: Freight slows down considerably over the weekend.</li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">Illinois (Chicago Area)</div>
+                    <div class="compare-row"><span class="label">IN</span><span class="value">🟢🟢 Heavy manufacturing, agriculture, distribution</span></div>
+                    <div class="compare-row"><span class="label">OUT</span><span class="value">🟢🟢 Consumer goods and auto parts</span></div>
+                    <div class="compare-row"><span class="label">Average rate IN</span><span class="value">$1.55/mi</span></div>
+                    <div class="compare-row"><span class="label">Average rate OUT</span><span class="value">$1.50/mi</span></div>
+                    <p>Note: freight slows down considerably over the weekend.</p>
                 </div>
 
-                <div style="background:rgba(100,200,100,.05);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
-                    <p><strong>GEORGIA (Atlanta Area)</strong></p>
-                    <ul>
-                        <li>IN: 🟢🟢 Massive distribution hub, heavy imports coming via Savannah.</li>
-                        <li>OUT: 🟢🟢 Thriving manufacturing and distribution.</li>
-                        <li>Average rate IN: $1.60/mi</li>
-                        <li>Average rate OUT: $1.55/mi</li>
-                        <li>Note: Q4 (holidays) is absolutely insane for outbound freight.</li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">Georgia (Atlanta Area)</div>
+                    <div class="compare-row"><span class="label">IN</span><span class="value">🟢🟢 Distribution hub, imports via Savannah</span></div>
+                    <div class="compare-row"><span class="label">OUT</span><span class="value">🟢🟢 Manufacturing and distribution</span></div>
+                    <div class="compare-row"><span class="label">Average rate IN</span><span class="value">$1.60/mi</span></div>
+                    <div class="compare-row"><span class="label">Average rate OUT</span><span class="value">$1.55/mi</span></div>
+                    <p>Note: Q4 (holidays) is absolutely insane for outbound freight.</p>
                 </div>
 
-                <div style="background:rgba(100,200,100,.05);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
-                    <p><strong>MICHIGAN (Detroit Area)</strong></p>
-                    <ul>
-                        <li>IN: 🟢🟢 Auto parts demanding just-in-time delivery.</li>
-                        <li>OUT: 🟢🟢 Automotive assembly components and agriculture.</li>
-                        <li>Average rate IN: $1.65/mi</li>
-                        <li>Average rate OUT: $1.60/mi</li>
-                        <li>Note: Q1 factory retooling is the golden period here.</li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">Michigan (Detroit Area)</div>
+                    <div class="compare-row"><span class="label">IN</span><span class="value">🟢🟢 Auto parts, just-in-time delivery</span></div>
+                    <div class="compare-row"><span class="label">OUT</span><span class="value">🟢🟢 Automotive assembly, agriculture</span></div>
+                    <div class="compare-row"><span class="label">Average rate IN</span><span class="value">$1.65/mi</span></div>
+                    <div class="compare-row"><span class="label">Average rate OUT</span><span class="value">$1.60/mi</span></div>
+                    <p>Note: Q1 factory retooling is the golden period here.</p>
                 </div>
 
-                <h3>🟢🔴 TIER 2: IMPORT-HEAVY TRAPS</h3>
+                <p><strong>Tier 2: Import-Heavy Traps 🟢🔴</strong></p>
 
-                <div style="background:rgba(255,215,0,.05);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
-                    <p><strong>CALIFORNIA (LA/Oakland)</strong></p>
-                    <ul>
-                        <li>IN: 🟢🟢 Extremely high demand, ports are always bustling.</li>
-                        <li>OUT: 🔴 Very expensive, hyper-competitive to find a load out.</li>
-                        <li>Average rate IN: $1.70/mi</li>
-                        <li>Average rate OUT: $1.10/mi (ouch)</li>
-                        <li>Note: Always charge a heavy premium to go IN, unless you have a guaranteed backhaul to AZ/NV waiting.</li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">California (LA/Oakland)</div>
+                    <div class="compare-row"><span class="label">IN</span><span class="value">🟢🟢 Extremely high demand, ports bustling</span></div>
+                    <div class="compare-row"><span class="label">OUT</span><span class="value">🔴 Very expensive, hyper-competitive</span></div>
+                    <div class="compare-row"><span class="label">Average rate IN</span><span class="value">$1.70/mi</span></div>
+                    <div class="compare-row"><span class="label">Average rate OUT</span><span class="value">$1.10/mi (ouch)</span></div>
+                    <p>Note: always charge a heavy premium to go IN, unless you have a guaranteed backhaul to AZ/NV waiting.</p>
                 </div>
 
-                <div style="background:rgba(255,215,0,.05);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
-                    <p><strong>FLORIDA (Miami/Orlando/Tampa)</strong></p>
-                    <ul>
-                        <li>IN: 🟢 Lots of consumer goods, very seasonal.</li>
-                        <li>OUT: 🔴 Barely any outbound manufacturing to support trucks.</li>
-                        <li>Average rate IN: $1.50/mi (jumps to $1.80+ during winter).</li>
-                        <li>Average rate OUT: $1.05/mi</li>
-                        <li>Note: Snowbird season (Q1) brings fantastic inbound rates.</li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">Florida (Miami/Orlando/Tampa)</div>
+                    <div class="compare-row"><span class="label">IN</span><span class="value">🟢 Lots of consumer goods, very seasonal</span></div>
+                    <div class="compare-row"><span class="label">OUT</span><span class="value">🔴 Barely any outbound manufacturing</span></div>
+                    <div class="compare-row"><span class="label">Average rate IN</span><span class="value">$1.50/mi (jumps to $1.80+ in winter)</span></div>
+                    <div class="compare-row"><span class="label">Average rate OUT</span><span class="value">$1.05/mi</span></div>
+                    <p>Note: snowbird season (Q1) brings fantastic inbound rates.</p>
                 </div>
 
-                <h3>🔴🔴 TIER 3: THE DEAD ZONES</h3>
+                <p><strong>Tier 3: The Dead Zones 🔴🔴</strong></p>
 
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
-                    <p><strong>WEST TEXAS (Laredo, El Paso)</strong></p>
-                    <ul>
-                        <li>IN: 🔴 Border towns, surprisingly low inbound demand.</li>
-                        <li>OUT: 🔴🔴 The backhaul market is a nightmare.</li>
-                        <li>Average rate OUT: $0.85 - $1.10/mi</li>
-                        <li>Wait time: Easily 48-96 hours sitting idle.</li>
-                        <li><strong>Strategy:</strong> Demand $1.80+/mi just to go there, and financially plan for your long repositioning drive.</li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">West Texas (Laredo, El Paso)</div>
+                    <div class="compare-row"><span class="label">IN</span><span class="value">🔴 Border towns, low inbound demand</span></div>
+                    <div class="compare-row"><span class="label">OUT</span><span class="value">🔴🔴 Nightmare backhaul market</span></div>
+                    <div class="compare-row"><span class="label">Average rate OUT</span><span class="value">$0.85-$1.10/mi</span></div>
+                    <div class="compare-row"><span class="label">Wait time</span><span class="value">48-96 hours</span></div>
+                    <p><strong>Strategy:</strong> demand $1.80+/mi just to go there, and financially plan for your long repositioning drive.</p>
                 </div>
             </section>
 
             <section>
-                <h2>💰 SMART PRICING BASED ON DIRECTION</h2>
+                <h2>Smart pricing based on direction</h2>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>From → To</th>
-                            <th>Your Negotiation Strategy</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Balanced → Balanced</td>
-                            <td>Aim for standard profitable rates ($1.40 - $1.60/mi).</td>
-                        </tr>
-                        <tr style="background:rgba(255,215,0,.05)">
-                            <td>Balanced → Import-Heavy</td>
-                            <td>Demand a Premium +$0.20/mi (to compensate for the brutal backhaul ahead).</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.05)">
-                            <td>Import-Heavy → Balanced</td>
-                            <td>You can safely accept a slightly lower rate ($1.20 - $1.35) — you're paying to escape a dead zone.</td>
-                        </tr>
-                        <tr style="background:rgba(255,107,53,.05)">
-                            <td>Balanced → Dead Zone</td>
-                            <td>Demand a Massive Premium +$0.35-$0.50/mi (to cover your idle wait and repositioning costs).</td>
-                        </tr>
-                        <tr>
-                            <td>Dead Zone → Anywhere</td>
-                            <td>Break-even is totally acceptable (just get the hell out of there!).</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Balanced → Balanced</span><span class="value">Standard rates ($1.40-$1.60/mi)</span></div>
+                    <div class="compare-row"><span class="label">Balanced → Import-Heavy</span><span class="value">Premium +$0.20/mi</span></div>
+                    <div class="compare-row"><span class="label">Import-Heavy → Balanced</span><span class="value">Can accept lower ($1.20-$1.35)</span></div>
+                    <div class="compare-row"><span class="label">Balanced → Dead Zone</span><span class="value accent">Premium +$0.35-$0.50/mi</span></div>
+                    <div class="compare-row"><span class="label">Dead Zone → Anywhere</span><span class="value">Break-even acceptable</span></div>
+                </div>
+                <p>Import-Heavy → Balanced: you're paying to escape a dead zone. Balanced → Dead Zone: covers your idle wait and repositioning costs. Dead Zone → Anywhere: just get out of there.</p>
             </section>
 
             <section>
-                <h2>🎯 BUILDING YOUR LANE STRATEGY</h2>
-                <p>Stop thinking just in zones. Start thinking in balanced RUTAS (Lanes):</p>
+                <h2>Building your lane strategy</h2>
+                <p>Stop thinking just in zones. Start thinking in balanced lanes:</p>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>The Lane</th>
-                            <th>Good Both Ways?</th>
-                            <th>Average Rate</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background:rgba(100,200,100,.08)">
-                            <td>Detroit ↔ Chicago</td>
-                            <td>YES ✅</td>
-                            <td>$1.60/mi</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.08)">
-                            <td>Chicago ↔ Atlanta</td>
-                            <td>YES ✅</td>
-                            <td>$1.55/mi</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.08)">
-                            <td>Atlanta ↔ Charlotte</td>
-                            <td>YES ✅</td>
-                            <td>$1.50/mi</td>
-                        </tr>
-                        <tr style="background:rgba(255,215,0,.08)">
-                            <td>Detroit → LA</td>
-                            <td>ONE WAY 🔴</td>
-                            <td>$1.75/mi IN</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.08)">
-                            <td>LA → Detroit</td>
-                            <td>ONE WAY ✅</td>
-                            <td>$1.20/mi OUT</td>
-                        </tr>
-                        <tr style="background:rgba(255,107,53,.08)">
-                            <td>Anywhere → Laredo</td>
-                            <td>ONE WAY ⚠️</td>
-                            <td>$1.80/mi IN</td>
-                        </tr>
-                        <tr style="background:rgba(255,107,53,.1)">
-                            <td>Laredo → Anywhere</td>
-                            <td>ONE WAY 🔴</td>
-                            <td>$0.95/mi OUT</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Detroit ↔ Chicago</span><span class="value">Both ways ✅ — $1.60/mi</span></div>
+                    <div class="compare-row"><span class="label">Chicago ↔ Atlanta</span><span class="value">Both ways ✅ — $1.55/mi</span></div>
+                    <div class="compare-row"><span class="label">Atlanta ↔ Charlotte</span><span class="value">Both ways ✅ — $1.50/mi</span></div>
+                    <div class="compare-row"><span class="label">Detroit → LA</span><span class="value">One way 🔴 — $1.75/mi IN</span></div>
+                    <div class="compare-row"><span class="label">LA → Detroit</span><span class="value">One way ✅ — $1.20/mi OUT</span></div>
+                    <div class="compare-row"><span class="label">Anywhere → Laredo</span><span class="value">One way ⚠️ — $1.80/mi IN</span></div>
+                    <div class="compare-row"><span class="label">Laredo → Anywhere</span><span class="value">One way 🔴 — $0.95/mi OUT</span></div>
+                </div>
             </section>
 
             <section>
-                <h2>💡 THE KEY TAKEAWAY</h2>
-                <div style="background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">Not all states are created equal.</p>
-                    <p style="margin-bottom:1rem">Some are massive highways to wealth; others are complete financial dead-ends.</p>
-                    <div style="text-align:left;max-width:500px;margin:0 auto">
-                        <p><strong>THE GOLDEN RULE:</strong></p>
-                        <ul>
-                            <li>Build your driving circuits entirely around BALANCED states.</li>
-                            <li>Charge a heavy PREMIUM to drive into import-heavy states.</li>
-                            <li>ALWAYS have an EXIT PLAN locked in before entering a dead zone.</li>
-                            <li>Favor balanced LANES rather than chasing one-off destinations.</li>
-                        </ul>
-                    </div>
-                    <p style="margin-top:1.5rem;font-weight:700;color:#FFD700">Think in full CYCLES, not just one-way trips.</p>
+                <div class="conclusion">
+                    <p class="lead">Not all states are created equal. Some are <span class="accent">highways</span> to wealth; others are complete dead-ends.</p>
+                    <p class="sub">The golden rule: build your driving circuits around BALANCED states, charge a heavy premium to drive into import-heavy states, always have an exit plan before entering a dead zone, and favor balanced lanes over one-off destinations. Think in full cycles, not just one-way trips.</p>
                 </div>
             </section>
 

@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,63 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
         }
 
         .btn {
@@ -190,160 +134,129 @@
         <div class="lesson-content">
 
             <section>
-                <h2>♟️ PLAYING CHESS, NOT CHECKERS</h2>
+                <h2>Playing chess, not checkers</h2>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
-                    <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>The Novice Driver:</strong></p>
-                        <p>"I got a load offer, should I accept it?"</p>
-                        <p style="margin:0"><strong>Only thinks 1 move ahead.</strong></p>
-                    </div>
+                <div class="note warning">
+                    <span class="note-label">The Novice Driver</span>
+                    <p>"I got a load offer, should I accept it?"</p>
+                    <p><strong>Only thinks 1 move ahead.</strong></p>
+                </div>
 
-                    <div style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>The Pro Driver:</strong></p>
-                        <p>"This load leaves me at X, from X I can go to Y, from Y I can safely return to Z. Is the entire cycle profitable?"</p>
-                        <p style="margin:0"><strong>Always thinks 3 moves ahead.</strong></p>
-                    </div>
+                <div class="note tip">
+                    <span class="note-label">The Pro Driver</span>
+                    <p>"This load leaves me at X, from X I can go to Y, from Y I can safely return to Z. Is the entire cycle profitable?"</p>
+                    <p><strong>Always thinks 3 moves ahead.</strong></p>
                 </div>
             </section>
 
             <section>
-                <h2>🎯 THE CONCEPT OF "LOAD CHAINS"</h2>
+                <h2>The concept of "Load Chains"</h2>
                 <p>A single freight load does NOT exist in a vacuum.</p>
 
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>LOAD #1: Detroit → Atlanta</strong></p>
-                    <ul style="margin-bottom:1rem">
-                        <li>Payment: $1,200</li>
-                        <li>RPM: $1.60</li>
-                        <li>Delivery: Atlanta (Zone score 91)</li>
-                        <li><strong style="color:#64C864">Opens up great opportunities ✅</strong></li>
-                    </ul>
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Load #1: Detroit → Atlanta</div>
+                        <div class="compare-row"><span class="label">Payment</span><span class="value">$1,200</span></div>
+                        <div class="compare-row"><span class="label">RPM</span><span class="value">$1.60</span></div>
+                        <div class="compare-row"><span class="label">Delivery</span><span class="value">Atlanta (Zone score 91)</span></div>
+                        <div class="compare-row"><span class="label">Result</span><span class="value accent">Opens up great opportunities ✅</span></div>
+                    </div>
+                    <div class="compare-table">
+                        <div class="compare-title">Load #2: Detroit → Laredo</div>
+                        <div class="compare-row"><span class="label">Payment</span><span class="value">$1,600 (more raw cash upfront)</span></div>
+                        <div class="compare-row"><span class="label">RPM</span><span class="value">$1.55</span></div>
+                        <div class="compare-row"><span class="label">Delivery</span><span class="value">Laredo (Zone score 18)</span></div>
+                        <div class="compare-row"><span class="label">Result</span><span class="value">Closes doors and creates traps ❌</span></div>
+                    </div>
+                </div>
 
-                    <p><strong>LOAD #2: Detroit → Laredo</strong></p>
-                    <ul>
-                        <li>Payment: $1,600 (more raw cash upfront)</li>
-                        <li>RPM: $1.55</li>
-                        <li>Delivery: Laredo (Zone score 18)</li>
-                        <li><strong style="color:#FF6B35">Closes doors and creates traps ❌</strong></li>
-                    </ul>
+                <p>From the same origin, Load #2 pays MORE upfront... But Load #1 is VASTLY superior strategically. Why?</p>
+            </section>
 
-                    <p style="margin-top:1rem;text-align:center;font-weight:700">From the same origin, Load #2 pays MORE upfront...<br>
-                        But Load #1 is VASTLY superior strategically.<br>
-                        Why?</p>
+            <section>
+                <h2>The 3-load chain analysis</h2>
+
+                <p><strong>Chain A: Detroit → Atlanta → Charlotte → Detroit</strong></p>
+
+                <div class="compare-table">
+                    <div class="compare-title">Load 1: Detroit → Atlanta</div>
+                    <div class="compare-row"><span class="label">Payment</span><span class="value">$1,200</span></div>
+                    <div class="compare-row"><span class="label">Profit</span><span class="value">$360</span></div>
+                    <div class="compare-row"><span class="label">Time</span><span class="value">13 hrs drive + 11 hrs wait</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Load 2: Atlanta → Charlotte</div>
+                    <div class="compare-row"><span class="label">Payment</span><span class="value">$650</span></div>
+                    <div class="compare-row"><span class="label">Profit</span><span class="value">$245</span></div>
+                    <div class="compare-row"><span class="label">Time</span><span class="value">7 hrs drive + 14 hrs wait</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Load 3: Charlotte → Detroit</div>
+                    <div class="compare-row"><span class="label">Payment</span><span class="value">$1,100</span></div>
+                    <div class="compare-row"><span class="label">Profit</span><span class="value">$318</span></div>
+                    <div class="compare-row"><span class="label">Time</span><span class="value">11 hrs drive</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Totals Chain A</div>
+                    <div class="compare-row"><span class="label">Payment</span><span class="value">$2,950</span></div>
+                    <div class="compare-row"><span class="label">Profit</span><span class="value accent">$923</span></div>
+                    <div class="compare-row"><span class="label">Time</span><span class="value">56 hrs (2.3 days)</span></div>
+                </div>
+                <div class="formula">$923 ÷ 31 active hrs = $29.77/hr ✅</div>
+
+                <p><strong>Chain B: Detroit → Laredo → San Antonio → Detroit</strong></p>
+
+                <div class="compare-table">
+                    <div class="compare-title">Load 1: Detroit → Laredo</div>
+                    <div class="compare-row"><span class="label">Payment</span><span class="value">$1,600</span></div>
+                    <div class="compare-row"><span class="label">Profit</span><span class="value">$235</span></div>
+                    <div class="compare-row"><span class="label">Time</span><span class="value">20 hrs drive + 68 hrs wait 🚨</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Load 2: Laredo → SA (reposition)</div>
+                    <div class="compare-row"><span class="label">Payment</span><span class="value">$350</span></div>
+                    <div class="compare-row"><span class="label">Profit</span><span class="value">$56</span></div>
+                    <div class="compare-row"><span class="label">Time</span><span class="value">5 hrs drive + 18 hrs wait</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Load 3: San Antonio → Detroit</div>
+                    <div class="compare-row"><span class="label">Payment</span><span class="value">$1,450</span></div>
+                    <div class="compare-row"><span class="label">Profit</span><span class="value">$190</span></div>
+                    <div class="compare-row"><span class="label">Time</span><span class="value">19 hrs drive</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Totals Chain B</div>
+                    <div class="compare-row"><span class="label">Payment</span><span class="value">$3,400</span></div>
+                    <div class="compare-row"><span class="label">Profit</span><span class="value">$481</span></div>
+                    <div class="compare-row"><span class="label">Time</span><span class="value">130 hrs (5.4 days)</span></div>
+                </div>
+                <div class="formula">$481 ÷ 44 active hrs = $10.93/hr ❌</div>
+
+                <div class="compare-table">
+                    <div class="compare-title">Chain A vs Chain B</div>
+                    <div class="compare-row"><span class="label">Chain A</span><span class="value accent">$923 net profit in 2.3 days = $401/day</span></div>
+                    <div class="compare-row"><span class="label">Chain B</span><span class="value">$481 net profit in 5.4 days = $89/day</span></div>
+                </div>
+
+                <div class="pull-number">
+                    <div class="value">4.5X</div>
+                    <p class="context">better per day is Chain A compared to Chain B.</p>
                 </div>
             </section>
 
             <section>
-                <h2>📊 THE 3-LOAD CHAIN ANALYSIS</h2>
-
-                <h3>CHAIN A: Detroit → Atlanta → Charlotte → Detroit</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Load</th>
-                            <th>Route</th>
-                            <th>Payment</th>
-                            <th>Profit</th>
-                            <th>Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background:rgba(100,200,100,.05)">
-                            <td>1</td>
-                            <td>Detroit → Atlanta</td>
-                            <td>$1,200</td>
-                            <td>$360</td>
-                            <td>13 hrs drive + 11 hrs wait</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.05)">
-                            <td>2</td>
-                            <td>Atlanta → Charlotte</td>
-                            <td>$650</td>
-                            <td>$245</td>
-                            <td>7 hrs drive + 14 hrs wait</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.05)">
-                            <td>3</td>
-                            <td>Charlotte → Detroit</td>
-                            <td>$1,100</td>
-                            <td>$318</td>
-                            <td>11 hrs drive</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.15)">
-                            <td colspan="2"><strong>TOTALS</strong></td>
-                            <td><strong>$2,950</strong></td>
-                            <td><strong>$923</strong></td>
-                            <td><strong>56 hrs (2.3 days)</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p style="text-align:center;font-weight:700;color:#64C864">$923 ÷ 31 active hrs = $29.77/hr ✅</p>
-
-                <h3 style="margin-top:2rem">CHAIN B: Detroit → Laredo → San Antonio → Detroit</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Load</th>
-                            <th>Route</th>
-                            <th>Payment</th>
-                            <th>Profit</th>
-                            <th>Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background:rgba(255,107,53,.05)">
-                            <td>1</td>
-                            <td>Detroit → Laredo</td>
-                            <td>$1,600</td>
-                            <td>$235</td>
-                            <td>20 hrs drive + 68 hrs wait 🚨</td>
-                        </tr>
-                        <tr style="background:rgba(255,107,53,.05)">
-                            <td>2</td>
-                            <td>Laredo → SA (reposition)</td>
-                            <td>$350</td>
-                            <td>$56</td>
-                            <td>5 hrs drive + 18 hrs wait</td>
-                        </tr>
-                        <tr style="background:rgba(255,107,53,.05)">
-                            <td>3</td>
-                            <td>San Antonio → Detroit</td>
-                            <td>$1,450</td>
-                            <td>$190</td>
-                            <td>19 hrs drive</td>
-                        </tr>
-                        <tr style="background:rgba(255,107,53,.15)">
-                            <td colspan="2"><strong>TOTALS</strong></td>
-                            <td><strong>$3,400</strong></td>
-                            <td><strong>$481</strong></td>
-                            <td><strong>130 hrs (5.4 days)</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p style="text-align:center;font-weight:700;color:#FF6B35">$481 ÷ 44 active hrs = $10.93/hr ❌</p>
-
-                <div style="background:linear-gradient(135deg,rgba(100,200,100,.15),rgba(255,107,53,.15));padding:1.5rem;border-radius:.75rem;text-align:center;margin:2rem 0">
-                    <p style="font-size:1.25rem;font-weight:700">CHAIN A vs CHAIN B:</p>
-                    <p>Chain A: $923 net profit in 2.3 days = <strong style="color:#64C864">$401/day</strong><br>
-                        Chain B: $481 net profit in 5.4 days = <strong style="color:#FF6B35">$89/day</strong></p>
-                    <p style="margin-top:1rem;font-size:1.5rem;font-weight:900">Chain A is 4.5X better per day!</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>🗺️ BUILDING PROFITABLE CIRCUITS</h2>
+                <h2>Building profitable circuits</h2>
                 <p><strong>The Golden Triangle Concept:</strong></p>
 
-                <div style="text-align:center;font-family:monospace;background:rgba(0,217,255,.05);padding:2rem;border-radius:.75rem;margin:2rem 0">
-                    <pre style="margin:0">        DETROIT
-         /            /             /          CHICAGO    NASHVILLE
+                <div class="formula" style="white-space: pre;">        DETROIT
+         /    \
+        /      \
+       /        \
+  CHICAGO    NASHVILLE
        \        /
         \      /
          \    /
-        ATLANTA
-                    </pre>
-                </div>
+        ATLANTA</div>
 
                 <p><strong>The 4-Zone Circuit:</strong></p>
                 <ul>
@@ -354,182 +267,158 @@
                     <li><strong>Net Profit: $1,800-$2,200 per circuit.</strong></li>
                 </ul>
 
-                <p style="text-align:center;font-weight:700;font-size:1.1rem;margin-top:1rem">Repeat this exactly weekly for: <strong style="color:#64C864">$7,200-$8,800/month consistently ✅✅</strong></p>
-            </section>
-
-            <section>
-                <h2>🔮 EXCLUSIVE FEATURE: THE LOAD CHAIN SIMULATOR</h2>
-
-                <div class="mockup">
-                    🔮 LOAD CHAIN SIMULATOR<br>
-                    Current Offer:<br>
-                    Detroit → Miami<br>
-                    Payment: $2,400<br>
-                    <br>
-                    [SIMULATE 3-LOAD CHAIN OPTIONS]<br>
-                    <br>
-                    SIMULATION RESULTS:<br>
-                    <br>
-                    BEST CASE (30% probability):<br>
-                    ├─ Load 1: Detroit→Miami $650<br>
-                    ├─ Load 2: Miami→Atlanta $420<br>
-                    ├─ Load 3: Atlanta→Detroit $580<br>
-                    └─ Total: $1,650 / 5 days<br>
-                    ($330/day) ✅<br>
-                    <br>
-                    LIKELY CASE (50% probability):<br>
-                    ├─ Load 1: Detroit→Miami $650<br>
-                    ├─ Wait 28 nervous hrs in Miami<br>
-                    ├─ Load 2: Miami→Atlanta $320<br>
-                    ├─ Load 3: Atlanta→Detroit $580<br>
-                    └─ Total: $1,550 / 6 days<br>
-                    ($258/day) ⚠️<br>
-                    <br>
-                    WORST CASE (20% probability):<br>
-                    ├─ Load 1: Detroit→Miami $650<br>
-                    ├─ Wait 48+ hrs, panic accept low rate<br>
-                    ├─ Load 2: Miami→anywhere $180<br>
-                    ├─ Reposition, take another low load<br>
-                    └─ Total: $1,100 / 7 miserable days<br>
-                    ($157/day) ❌<br>
-                    <br>
-                    EXPECTED VALUE (Averaged Out):<br>
-                    └─ $1,482 / 5.9 days = $251/day<br>
-                    <br>
-                    ALTERNATIVE SIMULATION WE FOUND:<br>
-                    Detroit → Atlanta → Charlotte<br>
-                    Expected Value: $1,550 / 4.2 days<br>
-                    = $369/day pure profit ✅✅<br>
-                    <br>
-                    💡 EXPERT VERDICT:<br>
-                    The Miami load has a 47% lower daily <br>
-                    profit rate versus the Atlanta alternative.<br>
-                    Recommend: Reject Miami, Wait for Atlanta.
+                <div class="note tip">
+                    <span class="note-label">Repeat this exactly weekly</span>
+                    <p>$7,200-$8,800/month consistently ✅✅</p>
                 </div>
             </section>
 
             <section>
-                <h2>🔮 CHAIN THINKING: THE 4 REQUIRED QUESTIONS</h2>
+                <h2>Exclusive feature: the Load Chain Simulator</h2>
+
+                <div class="formula">LOAD CHAIN SIMULATOR<br>
+Current Offer:<br>
+Detroit → Miami<br>
+Payment: $2,400<br>
+<br>
+[SIMULATE 3-LOAD CHAIN OPTIONS]<br>
+<br>
+SIMULATION RESULTS:<br>
+<br>
+BEST CASE (30% probability):<br>
+├─ Load 1: Detroit→Miami $650<br>
+├─ Load 2: Miami→Atlanta $420<br>
+├─ Load 3: Atlanta→Detroit $580<br>
+└─ Total: $1,650 / 5 days<br>
+($330/day) ✅<br>
+<br>
+LIKELY CASE (50% probability):<br>
+├─ Load 1: Detroit→Miami $650<br>
+├─ Wait 28 nervous hrs in Miami<br>
+├─ Load 2: Miami→Atlanta $320<br>
+├─ Load 3: Atlanta→Detroit $580<br>
+└─ Total: $1,550 / 6 days<br>
+($258/day) ⚠️<br>
+<br>
+WORST CASE (20% probability):<br>
+├─ Load 1: Detroit→Miami $650<br>
+├─ Wait 48+ hrs, panic accept low rate<br>
+├─ Load 2: Miami→anywhere $180<br>
+├─ Reposition, take another low load<br>
+└─ Total: $1,100 / 7 miserable days<br>
+($157/day) ❌<br>
+<br>
+EXPECTED VALUE (Averaged Out):<br>
+└─ $1,482 / 5.9 days = $251/day<br>
+<br>
+ALTERNATIVE SIMULATION WE FOUND:<br>
+Detroit → Atlanta → Charlotte<br>
+Expected Value: $1,550 / 4.2 days<br>
+= $369/day pure profit ✅✅<br>
+<br>
+EXPERT VERDICT:<br>
+The Miami load has a 47% lower daily<br>
+profit rate versus the Atlanta alternative.<br>
+Recommend: Reject Miami, Wait for Atlanta.</div>
+            </section>
+
+            <section>
+                <h2>Chain thinking: the 4 required questions</h2>
                 <p>Before you accept absolutely ANY load, ask yourself:</p>
 
-                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
-                    <ol>
-                        <li style="margin-bottom:1rem"><strong>Exactly where does this drop me off?</strong><br>
-                            What is the Zone Score? What is the expected wait time?</li>
+                <ol>
+                    <li><strong>Exactly where does this drop me off?</strong> What is the Zone Score? What is the expected wait time?</li>
+                    <li><strong>What are my realistic options from there?</strong> Are there multiple high-quality outbound lanes? Or am I effectively trapped?</li>
+                    <li><strong>Does this drive me TOWARDS my home circuit or PULL ME AWAY from it?</strong> Drawing me into profitability? Or pulling me toward a desert?</li>
+                    <li><strong>What is my honest 3-load chain projection?</strong> Total net profit? Daily average profit?</li>
+                </ol>
 
-                        <li style="margin-bottom:1rem"><strong>What are my realistic options from there?</strong><br>
-                            Are there multiple high-quality outbound lanes? Or am I effectively trapped?</li>
-
-                        <li style="margin-bottom:1rem"><strong>Does this drive me TOWARDS my home
-                                circuit or PULL ME AWAY from it?</strong><br>
-                            Drawing me into profitability? Or pulling me toward a desert?</li>
-
-                        <li><strong>What is my honest 3-load chain projection?</strong><br>
-                            Total net profit? Daily average profit?</li>
-                    </ol>
-
-                    <p style="margin-top:1.5rem;text-align:center;font-weight:700">
-                        If 4 answers are positive → Accept instantly.<br>
-                        If 3/4 are positive → Probably accept.<br>
-                        If 2/4 are positive → Negotiate fiercely or pause to analyze.<br>
-                        If ≤ 1 is positive → Automatically decline.
-                    </p>
+                <div class="compare-table">
+                    <div class="compare-title">How to decide</div>
+                    <div class="compare-row"><span class="label">4/4 positive</span><span class="value accent">Accept instantly</span></div>
+                    <div class="compare-row"><span class="label">3/4 positive</span><span class="value">Probably accept</span></div>
+                    <div class="compare-row"><span class="label">2/4 positive</span><span class="value">Negotiate fiercely or pause to analyze</span></div>
+                    <div class="compare-row"><span class="label">≤1 positive</span><span class="value">Automatically decline</span></div>
                 </div>
             </section>
 
             <section>
-                <h2>♟️ ADVANCED TACTICS: THE SACRIFICIAL PRAWN</h2>
+                <h2>Advanced tactics: the sacrificial prawn</h2>
                 <p>Sometimes you willingly take a "mediocre" load simply to SET UP an incredibly profitable chain.</p>
 
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>The Situation:</strong></p>
-                    <p>Current Location: Louisville (Zone score 68)</p>
-                    <p>Broker Offer: Louisville → Detroit</p>
-                    <ul>
-                        <li>Payment: $550</li>
-                        <li>Total Miles: 360</li>
-                        <li>Net Profit: $172</li>
-                        <li>Real RPM: $1.53</li>
-                        <li><strong>Mediocre if viewed as a standalone load ⚠️</strong></li>
-                    </ul>
+                <p><strong>The Situation:</strong></p>
+                <p>Current Location: Louisville (Zone score 68)<br>
+                    Broker Offer: Louisville → Detroit</p>
+                <ul>
+                    <li>Payment: $550</li>
+                    <li>Total Miles: 360</li>
+                    <li>Net Profit: $172</li>
+                    <li>Real RPM: $1.53</li>
+                    <li><strong>Mediocre if viewed as a standalone load ⚠️</strong></li>
+                </ul>
 
-                    <p style="margin-top:1rem"><strong>BUT WAIT:</strong></p>
-                    <ul>
-                        <li>Detroit has a Zone Score of 94 for you.</li>
-                        <li>Your expected next load out of Detroit: $1.70/mi</li>
-                        <li>Your average wait time there: only 9 hrs</li>
-                    </ul>
+                <p><strong>BUT WAIT:</strong></p>
+                <ul>
+                    <li>Detroit has a Zone Score of 94 for you.</li>
+                    <li>Your expected next load out of Detroit: $1.70/mi</li>
+                    <li>Your average wait time there: only 9 hrs</li>
+                </ul>
 
-                    <p style="margin-top:1rem;text-align:center;font-weight:700">
-                        <strong>YOUR STRATEGY:</strong><br>
-                        Accept the "mediocre" Louisville → Detroit run,<br>
-                        BECAUSE it specifically transports you into a premium profit zone.<br>
-                        <br>
-                        1-load view: "Meh" ⚠️<br>
-                        2-load chain: Extremely solid ✅<br>
-                        3-load chain: Flawless execution ✅✅
-                    </p>
+                <div class="note tip">
+                    <span class="note-label">Your strategy</span>
+                    <p>Accept the "mediocre" Louisville → Detroit run, BECAUSE it specifically transports you into a premium profit zone.</p>
+                    <ul>
+                        <li>1-load view: "Meh" ⚠️</li>
+                        <li>2-load chain: Extremely solid ✅</li>
+                        <li>3-load chain: Flawless execution ✅✅</li>
+                    </ul>
                 </div>
             </section>
 
             <section>
-                <h2>🚨 MAJOR RED FLAGS IN CHAIN PLANNING</h2>
+                <h2>Major red flags in chain planning</h2>
 
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>⚠️ IMMINENT WARNING SIGNS:</strong></p>
-                    <ul>
-                        <li>□ The entire chain drags you &gt;800 miles away from your established home circuit.</li>
-                        <li>□ ANY expected drop-off zone in the chain has a score &lt; 60.</li>
-                        <li>□ Multiple legs project wait times exceeding 24 hours.</li>
-                        <li>□ Your daily average net profit dips below $200.</li>
-                        <li>□ There is absolutely no clear "return path" to favorable zones.</li>
-                        <li>□ You realize you're blindly chasing "one massive payload" directly into a dead zone.</li>
-                        <li>□ The survival of your profit margin relies entirely on "hoping and praying" for a good backhaul.</li>
-                    </ul>
-                    <p style="margin-top:1rem;font-weight:700;text-align:center">If you hit 3+ red flags → Completely reconsider your plan immediately.
-                    </p>
+                <div class="checklist">
+                    <span class="checklist-label">Imminent warning signs — hit 3+ and completely reconsider your plan</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">The entire chain drags you &gt;800 miles away from your established home circuit</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">ANY expected drop-off zone in the chain has a score &lt; 60</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Multiple legs project wait times exceeding 24 hours</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Your daily average net profit dips below $200</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">There is absolutely no clear "return path" to favorable zones</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">You realize you're blindly chasing "one massive payload" directly into a dead zone</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">The survival of your profit margin relies entirely on "hoping and praying" for a good backhaul</span></div>
                 </div>
             </section>
 
             <section>
-                <h2>💡 WRAPPING UP MODULE 3</h2>
-                <div style="background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;">
-                    <p style="font-size:1.25rem;font-weight:700;text-align:center;margin-bottom:1.5rem">🎓 Congratulations, you have
-                        conquered Module 3</p>
+                <h2>Wrapping up Module 3</h2>
 
-                    <p><strong>What you have totally mastered:</strong></p>
-                    <ul>
-                        <li>✅ Identifying YOUR unique financial gold mines.</li>
-                        <li>✅ Understanding the macro flow of freight state-by-state.</li>
-                        <li>✅ Utilizing the Heat Map as your ultimate strategic GPS.</li>
-                        <li>✅ Recognizing exactly when deadhead is a lucrative investment.</li>
-                        <li>✅ Thinking heavily in chains, abandoning the "one load at a time" mindset.</li>
-                    </ul>
+                <p><strong>What you have totally mastered:</strong></p>
+                <ul>
+                    <li>✅ Identifying YOUR unique financial gold mines.</li>
+                    <li>✅ Understanding the macro flow of freight state-by-state.</li>
+                    <li>✅ Utilizing the Heat Map as your ultimate strategic GPS.</li>
+                    <li>✅ Recognizing exactly when deadhead is a lucrative investment.</li>
+                    <li>✅ Thinking heavily in chains, abandoning the "one load at a time" mindset.</li>
+                </ul>
 
-                    <p style="margin-top:1.5rem"><strong>THE BUSINESS TRANSFORMATION:</strong></p>
-                    <ul>
-                        <li>From: "I randomly accept whatever decent load pops up."<br>
-                            To: "I ruthlessly execute strategic circuits with clear 3-load vision."</li>
-                        <li>From: "Why is there no money left over?"<br>
-                            To: "My business generates a predictable profit of $1,500-$2,500/week."</li>
-                        <li>From: "Aimlessly wandering the USA hoping for luck."<br>
-                            To: "Operating within a locked home circuit of heavily optimized zones."</li>
-                    </ul>
+                <p><strong>The business transformation:</strong></p>
+                <ul>
+                    <li>From: "I randomly accept whatever decent load pops up." → To: "I ruthlessly execute strategic circuits with clear 3-load vision."</li>
+                    <li>From: "Why is there no money left over?" → To: "My business generates a predictable profit of $1,500-$2,500/week."</li>
+                    <li>From: "Aimlessly wandering the USA hoping for luck." → To: "Operating within a locked home circuit of heavily optimized zones."</li>
+                </ul>
 
-                    <p style="margin-top:1.5rem"><strong>YOUR EXPECTED RESULTS:</strong></p>
-                    <ul style="margin-bottom:0">
-                        <li>+30-40% direct net profit increase.</li>
-                        <li>-20% overall lifestyle stress.</li>
-                        <li>+50% consistency in your bank account month-to-month.</li>
-                    </ul>
+                <p><strong>Your expected results:</strong></p>
+                <ul>
+                    <li>+30-40% direct net profit increase.</li>
+                    <li>-20% overall lifestyle stress.</li>
+                    <li>+50% consistency in your bank account month-to-month.</li>
+                </ul>
 
-                    <div style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
-                        <p style="margin:0;font-weight:700">Course Progress: 60% of the entire FREE Academy complete</p>
-                        <div style="background:rgba(255,255,255,.1);height:12px;border-radius:1rem;margin-top:.5rem;overflow:hidden">
-                            <div style="background:linear-gradient(90deg,#00D9FF,#FFD700);height:100%;width:60%"></div>
-                        </div>
-                        <p style="margin-top:.5rem;font-size:.875rem">START HERE + Modules 1-3 fully completed</p>
-                    </div>
+                <div class="conclusion">
+                    <p class="lead">You have conquered Module 3 — now you think in <span class="accent">chains, not individual loads</span>.</p>
+                    <p class="sub">Course progress: 60% of the entire FREE Academy complete. START HERE + Modules 1-3 fully completed.</p>
                 </div>
             </section>
 

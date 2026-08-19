@@ -5,8 +5,10 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/academy.css">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,47 +38,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .callout {
-            padding: 1.5rem;
-            border-radius: .75rem;
-            margin: 2rem 0;
-            border-left: 4px solid
-        }
-
-        .callout.tip {
-            background: rgba(0, 217, 255, .1);
-            border-color: #00D9FF
-        }
-
-        .callout.warning {
-            background: rgba(255, 107, 53, .1);
-            border-color: #FF6B35
-        }
-
-        .callout strong {
-            display: block;
-            margin-bottom: .5rem;
-            font-size: 1.1rem
         }
 
         .btn {
@@ -110,28 +71,6 @@
             justify-content: space-between;
             gap: 1rem;
             margin-top: 2rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
         }
     </style>
   
@@ -197,54 +136,50 @@
         <div class="lesson-content">
 
             <section>
-                <h2>🧠 THE MOST IMPORTANT MINDSET SHIFT</h2>
+                <h2>The most important mindset shift</h2>
                 <p>This is the mental leap that separates:</p>
 
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
-                    <p><strong>❌ Drivers:</strong> "I got paid, I'm good"</p>
+                <div class="note warning">
+                    <span class="note-label">Drivers</span>
+                    <p>"I got paid, I'm good"</p>
                 </div>
 
-                <div style="background:rgba(0,217,255,.1);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
-                    <p><strong>✅ Operators:</strong> "Did this decision improve my strategic position?"</p>
+                <div class="note tip">
+                    <span class="note-label">Operators</span>
+                    <p>"Did this decision improve my strategic position?"</p>
                 </div>
             </section>
 
             <section>
-                <h2>📊 REAL CASE: Roberto in Detroit</h2>
+                <h2>Real case: Roberto in Detroit</h2>
                 <p>Roberto has to choose between two loads on Monday morning.</p>
 
-                <h3 style="margin-top:2rem">OPTION A: Detroit → El Paso, TX</h3>
-                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem">
-                    <ul>
-                        <li>Pay: $1,600</li>
-                        <li>Loaded miles: 1,100</li>
-                        <li>Deadhead: 50 miles</li>
-                        <li>Apparent RPM: $1.45/mile ✅</li>
-                    </ul>
-                    <p style="font-style:italic;margin-top:1rem">"Looks excellent"</p>
+                <p><strong>Option A: Detroit → El Paso, TX</strong></p>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Pay</span><span class="value">$1,600</span></div>
+                    <div class="compare-row"><span class="label">Loaded miles</span><span class="value">1,100 mi</span></div>
+                    <div class="compare-row"><span class="label">Deadhead</span><span class="value">50 mi</span></div>
+                    <div class="compare-row"><span class="label">Apparent RPM</span><span class="value">$1.45/mi</span></div>
                 </div>
+                <p>"Looks excellent" — but let's analyze the full strategy.</p>
 
-                <div class="callout warning">
-                    <strong>BUT let's analyze the FULL STRATEGY...</strong>
-
-                    <p><strong>INITIAL LOAD:</strong></p>
+                <div class="note warning">
+                    <span class="note-label">Initial load</span>
                     <ul>
                         <li>Total miles: 1,150</li>
                         <li>Real profit: $400</li>
                         <li>Time: 20 hours</li>
                         <li>Profit/hour: $20/hour ⚠️</li>
                     </ul>
-
-                    <p style="margin-top:1rem"><strong>POST-DELIVERY SITUATION (El Paso):</strong></p>
+                    <p><strong>Post-delivery situation (El Paso):</strong></p>
                     <ul>
-                        <li>Load availability: SCARCE (dead zone) 🚨</li>
+                        <li>Load availability: scarce (dead zone) 🚨</li>
                         <li>Typical wait time: 48-72 hours 🚨</li>
                         <li>Outbound rates: $0.90-$1.10/mile ❌</li>
                         <li>Must reposition to: Dallas/San Antonio (300 miles)</li>
                         <li>Time lost waiting: 3 days</li>
                     </ul>
-
-                    <p style="margin-top:1rem"><strong>REALISTIC BACKHAUL:</strong></p>
+                    <p><strong>Realistic backhaul:</strong></p>
                     <ul>
                         <li>Waits 3 days, takes load for $850 at $1.05/mile</li>
                         <li>El Paso → Dallas: 800 miles</li>
@@ -253,45 +188,33 @@
                     </ul>
                 </div>
 
-                <div style="background:rgba(255,107,53,.2);padding:1.5rem;border-radius:.75rem;text-align:center">
-                    <p><strong>TOTAL RESULT (6 DAYS):</strong></p>
-                    <p style="font-size:1.5rem;font-weight:900;margin-top:1rem;color:#FF6B35">Total profit: $550 in 6
-                        days</p>
-                    <p>Daily average: $91.67/day</p>
-                    <p>Average hourly rate: $11.46/hour ❌</p>
+                <div class="formula">Total result (6 days): profit $550 → $91.67/day, $11.46/hour average</div>
+
+                <p><strong>Option B: Detroit → Atlanta, GA</strong></p>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Pay</span><span class="value">$1,100</span></div>
+                    <div class="compare-row"><span class="label">Loaded miles</span><span class="value">700 mi</span></div>
+                    <div class="compare-row"><span class="label">Deadhead</span><span class="value">50 mi</span></div>
+                    <div class="compare-row"><span class="label">Apparent RPM</span><span class="value">$1.57/mi</span></div>
                 </div>
 
-                <h3 style="margin-top:3rem">OPTION B: Detroit → Atlanta, GA</h3>
-                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem">
-                    <ul>
-                        <li>Pay: $1,100</li>
-                        <li>Loaded miles: 700</li>
-                        <li>Deadhead: 50 miles</li>
-                        <li>Apparent RPM: $1.57/mile</li>
-                    </ul>
-                </div>
-
-                <div class="callout tip">
-                    <strong>Let's look at the STRATEGY...</strong>
-
-                    <p><strong>INITIAL LOAD:</strong></p>
+                <div class="note tip">
+                    <span class="note-label">Initial load</span>
                     <ul>
                         <li>Total miles: 750</li>
                         <li>Real profit: $350</li>
                         <li>Time: 13 hours</li>
                         <li>Profit/hour: $26.92/hour ✅</li>
                     </ul>
-
-                    <p style="margin-top:1rem"><strong>POST-DELIVERY SITUATION (Atlanta):</strong></p>
+                    <p><strong>Post-delivery situation (Atlanta):</strong></p>
                     <ul>
-                        <li>Load availability: EXCELLENT (major hub) ✅</li>
+                        <li>Load availability: excellent (major hub) ✅</li>
                         <li>Typical wait time: 8-12 hours ✅</li>
                         <li>Outbound rates: $1.40-$1.65/mile ✅</li>
                         <li>Repositioning: 0 miles (already in premium zone)</li>
                         <li>Time lost: &lt; 1 day</li>
                     </ul>
-
-                    <p style="margin-top:1rem"><strong>REALISTIC BACKHAUL:</strong></p>
+                    <p><strong>Realistic backhaul:</strong></p>
                     <ul>
                         <li>Waits 10 hours, finds premium load</li>
                         <li>Atlanta → Detroit: 750 miles at $1.55/mile</li>
@@ -301,255 +224,168 @@
                     </ul>
                 </div>
 
-                <div style="background:rgba(100,200,100,.2);padding:1.5rem;border-radius:.75rem;text-align:center;border:2px solid #64C864">
-                    <p><strong>TOTAL RESULT (3 DAYS):</strong></p>
-                    <p style="font-size:1.5rem;font-weight:900;margin-top:1rem;color:#64C864">Total profit: $800 in 3
-                        days</p>
-                    <p>Daily average: $266.67/day ✅✅</p>
-                    <p>Average hourly rate: $33.33/hour ✅</p>
+                <div class="formula">Total result (3 days): profit $800 → $266.67/day, $33.33/hour average</div>
+            </section>
+
+            <section>
+                <h2>Brutal comparison</h2>
+
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Option A: El Paso</div>
+                        <div class="compare-row"><span class="label">Initial load pay</span><span class="value">$1,600</span></div>
+                        <div class="compare-row"><span class="label">Initial RPM</span><span class="value">$1.45</span></div>
+                        <div class="compare-row"><span class="label">Wait time</span><span class="value">72 hrs</span></div>
+                        <div class="compare-row"><span class="label">Backhaul quality</span><span class="value">Poor</span></div>
+                        <div class="compare-row"><span class="label">Total days</span><span class="value">6 days</span></div>
+                        <div class="compare-row"><span class="label">Total profit</span><span class="value">$550</span></div>
+                        <div class="compare-row"><span class="label">Profit/day</span><span class="value">$91.67</span></div>
+                        <div class="compare-row"><span class="label">Hourly rate</span><span class="value">$11.46</span></div>
+                    </div>
+                    <div class="compare-table">
+                        <div class="compare-title">Option B: Atlanta</div>
+                        <div class="compare-row"><span class="label">Initial load pay</span><span class="value">$1,100</span></div>
+                        <div class="compare-row"><span class="label">Initial RPM</span><span class="value">$1.57</span></div>
+                        <div class="compare-row"><span class="label">Wait time</span><span class="value">10 hrs</span></div>
+                        <div class="compare-row"><span class="label">Backhaul quality</span><span class="value">Excellent</span></div>
+                        <div class="compare-row"><span class="label">Total days</span><span class="value">3 days</span></div>
+                        <div class="compare-row"><span class="label">Total profit</span><span class="value accent">$800</span></div>
+                        <div class="compare-row"><span class="label">Profit/day</span><span class="value accent">$266.67</span></div>
+                        <div class="compare-row"><span class="label">Hourly rate</span><span class="value accent">$33.33</span></div>
+                    </div>
+                </div>
+
+                <div class="pull-number">
+                    <div class="value">+$250</div>
+                    <p class="context">Roberto chose Option B and earned $250 more ($800 vs $550), in half the time (3 days vs 6), with triple the hourly rate ($33 vs $11).</p>
                 </div>
             </section>
 
             <section>
-                <h2>📊 BRUTAL COMPARISON</h2>
+                <h2>The lesson</h2>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>OPTION A (El Paso)</th>
-                            <th>OPTION B (Atlanta)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Initial load pay</td>
-                            <td>$1,600 ✅</td>
-                            <td>$1,100 ❌</td>
-                        </tr>
-                        <tr>
-                            <td>Initial RPM</td>
-                            <td>$1.45</td>
-                            <td>$1.57</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="background:rgba(255,255,255,.05)"></td>
-                        </tr>
-                        <tr>
-                            <td>Wait time</td>
-                            <td>72 hrs 🚨</td>
-                            <td>10 hrs ✅</td>
-                        </tr>
-                        <tr>
-                            <td>Backhaul quality</td>
-                            <td>Poor ❌</td>
-                            <td>Excellent ✅</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="background:rgba(255,255,255,.05)"></td>
-                        </tr>
-                        <tr style="background:rgba(0,217,255,.05)">
-                            <td><strong>TOTAL DAYS</strong></td>
-                            <td><strong>6 days</strong></td>
-                            <td><strong>3 days ✅</strong></td>
-                        </tr>
-                        <tr style="background:rgba(0,217,255,.05)">
-                            <td><strong>TOTAL PROFIT</strong></td>
-                            <td><strong>$550</strong></td>
-                            <td><strong>$800 ✅</strong></td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.1)">
-                            <td><strong>PROFIT/DAY</strong></td>
-                            <td>$91.67</td>
-                            <td><strong>$266.67 ✅✅</strong></td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.1)">
-                            <td><strong>HOURLY RATE</strong></td>
-                            <td>$11.46</td>
-                            <td><strong>$33.33 ✅✅</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <p>The load that "paid more" ($1,600 El Paso) was much worse than the load that "paid less" ($1,100 Atlanta).</p>
 
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center;margin:2rem 0">
-                    <p style="font-size:1.25rem;font-weight:700">VERDICT:</p>
-                    <p style="margin-top:1rem">Roberto chose Option B and earned:</p>
-                    <ul style="text-align:left;margin-top:1rem;list-style:none">
-                        <li>✅ $250 MORE ($800 vs $550)</li>
-                        <li>✅ In HALF the time (3 days vs 6)</li>
-                        <li>✅ With TRIPLE the hourly rate ($33 vs $11)</li>
+                <p><strong>Why?</strong></p>
+                <div class="formula">STRATEGY &gt; Individual pay</div>
+
+                <p>Roberto gave up $500 in immediate pay but ended up with $250 more in final earnings — and did it in half the time.</p>
+            </section>
+
+            <section>
+                <h2>The right questions to ask before accepting</h2>
+
+                <div class="note warning">
+                    <span class="note-label">Stop asking</span>
+                    <ul>
+                        <li>"How much does it pay?"</li>
+                        <li>"What is the RPM?"</li>
+                    </ul>
+                </div>
+
+                <div class="note tip">
+                    <span class="note-label">Start asking</span>
+                    <ul>
+                        <li>"Where does this load put me strategically?"</li>
                     </ul>
                 </div>
             </section>
 
             <section>
-                <h2>💡 THE LESSON</h2>
+                <h2>Strategic checklist</h2>
+                <p>Before accepting any load, answer these:</p>
 
-                <div style="background:rgba(20,20,20,.8);padding:2rem;border-radius:.75rem">
-                    <p style="font-size:1.1rem;font-weight:700;margin-bottom:1rem">The load that "paid more" ($1,600 El
-                        Paso) was MUCH WORSE than the load that "paid less" ($1,100 Atlanta)</p>
+                <div class="checklist">
+                    <span class="checklist-label">Destination analysis</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Does this zone have good freight availability?</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">What is my historical wait time here?</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Do outbound loads pay well?</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Or do I need to reposition afterward?</span></div>
+                </div>
 
-                    <p style="margin-top:1.5rem"><strong>Why?</strong></p>
-                    <p style="font-size:1.25rem;text-align:center;margin-top:1rem;color:#00D9FF">STRATEGY &gt; Individual
-                        pay</p>
+                <div class="checklist">
+                    <span class="checklist-label">Timing analysis</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Is delivery on a good day/time for reloading?</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Will I be stuck there over the weekend?</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Is this a good or slow season for this zone?</span></div>
+                </div>
 
-                    <p style="margin-top:1.5rem">Roberto gave up $500 in immediate pay but ended up with $250 more in
-                        final earnings — and did it in half the time.</p>
+                <div class="checklist">
+                    <span class="checklist-label">Full cycle analysis</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Current load + expected backhaul, better than 2 short loads?</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Does my projected profit/day exceed my target?</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Am I optimizing my week or just one load?</span></div>
                 </div>
             </section>
 
             <section>
-                <h2>🧠 THE RIGHT QUESTIONS TO ASK BEFORE ACCEPTING</h2>
+                <h2>Decision matrix</h2>
 
-                <div class="callout warning">
-                    <strong>Stop asking:</strong>
-                    <ul>
-                        <li>❌ "How much does it pay?"</li>
-                        <li>❌ "What is the RPM?"</li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">High Pay + Good Zone</span><span class="value accent">Accept immediately</span></div>
+                    <div class="compare-row"><span class="label">High Pay + Bad Zone</span><span class="value">Analyze carefully</span></div>
+                    <div class="compare-row"><span class="label">Low Pay + Good Zone</span><span class="value">Consider (positioning)</span></div>
+                    <div class="compare-row"><span class="label">Low Pay + Bad Zone</span><span class="value">Always decline</span></div>
                 </div>
 
-                <div class="callout tip">
-                    <strong>Start asking:</strong>
-                    <ul>
-                        <li>✅ "Where does this load put me strategically?"</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section>
-                <h2>📋 STRATEGIC CHECKLIST</h2>
-                <p>Before accepting ANY load, answer these:</p>
-
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>DESTINATION ANALYSIS:</strong></p>
-                    <ul>
-                        <li>☐ Does this zone have good freight availability?</li>
-                        <li>☐ What is my historical wait time here?</li>
-                        <li>☐ Do outbound loads pay well?</li>
-                        <li>☐ Or do I need to reposition afterward?</li>
-                    </ul>
-
-                    <p style="margin-top:1rem"><strong>TIMING ANALYSIS:</strong></p>
-                    <ul>
-                        <li>☐ Is delivery on a good day/time for reloading?</li>
-                        <li>☐ Will I be stuck there over the weekend?</li>
-                        <li>☐ Is this a good or slow season for this zone?</li>
-                    </ul>
-
-                    <p style="margin-top:1rem"><strong>FULL CYCLE ANALYSIS:</strong></p>
-                    <ul>
-                        <li>☐ Current load + expected backhaul &gt; 2 short loads?</li>
-                        <li>☐ Does my projected profit/day exceed my target?</li>
-                        <li>☐ Am I optimizing my week or just one load?</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section>
-                <h2>🗺️ DECISION MATRIX</h2>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Combination</th>
-                            <th>Decision</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background:rgba(100,200,100,.1)">
-                            <td>High Pay + Good Zone</td>
-                            <td><strong>ACCEPT IMMEDIATELY ✅✅</strong></td>
-                        </tr>
-                        <tr style="background:rgba(255,215,0,.1)">
-                            <td>High Pay + Bad Zone</td>
-                            <td><strong>ANALYZE CAREFULLY ⚠️</strong></td>
-                        </tr>
-                        <tr style="background:rgba(0,217,255,.05)">
-                            <td>Low Pay + Good Zone</td>
-                            <td><strong>CONSIDER (positioning) 🤔</strong></td>
-                        </tr>
-                        <tr style="background:rgba(255,107,53,.1)">
-                            <td>Low Pay + Bad Zone</td>
-                            <td><strong>ALWAYS DECLINE ❌❌</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <p style="margin-top:1rem"><strong>Examples:</strong></p>
+                <p><strong>Examples:</strong></p>
                 <ul>
-                    <li>$1,500 to Atlanta = TAKE IT (high pay + good zone)</li>
-                    <li>$1,500 to Laredo = ANALYZE (high pay + bad zone)</li>
-                    <li>$800 to Chicago = CONSIDER (low pay + good zone)</li>
-                    <li>$800 to Montana = DECLINE (low pay + bad zone)</li>
+                    <li>$1,500 to Atlanta = Take it (high pay + good zone)</li>
+                    <li>$1,500 to Laredo = Analyze (high pay + bad zone)</li>
+                    <li>$800 to Chicago = Consider (low pay + good zone)</li>
+                    <li>$800 to Montana = Decline (low pay + bad zone)</li>
                 </ul>
             </section>
 
             <section>
-                <h2>💰 THINK IN WEEKS, NOT IN LOADS</h2>
+                <h2>Think in weeks, not in loads</h2>
 
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
-                    <p><strong>Beginner Operator:</strong></p>
-                    <p style="font-style:italic">"I made $300 on this load today — good day."</p>
+                <div class="note warning">
+                    <span class="note-label">Beginner operator</span>
+                    <p>"I made $300 on this load today — good day."</p>
                 </div>
 
-                <div style="background:rgba(0,217,255,.1);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
-                    <p><strong>Professional Operator:</strong></p>
-                    <p>"This week I made $2,100 in 5 days = $420/day average. Last week I made $1,800 in 6 days =
-                        $300/day. I improved 40% by optimizing zones."</p>
+                <div class="note tip">
+                    <span class="note-label">Professional operator</span>
+                    <p>"This week I made $2,100 in 5 days = $420/day average. Last week I made $1,800 in 6 days = $300/day. I improved 40% by optimizing zones."</p>
                 </div>
 
-                <div class="callout tip">
-                    <strong>Track in Smart Load Solution:</strong>
+                <div class="note tip">
+                    <span class="note-label">Track in Smart Load Solution</span>
                     <ul>
                         <li>Average daily profit</li>
                         <li>Weekly earnings</li>
                         <li>Month-over-month trends</li>
                         <li>Best/worst performing weeks</li>
                     </ul>
-                    <p style="margin-top:1rem">This tells you whether you are IMPROVING or standing still.</p>
+                    <p>This tells you whether you are improving or standing still.</p>
                 </div>
             </section>
 
             <section>
-                <h2>💡 KEY TAKEAWAY</h2>
-
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center;margin:2rem 0">
-                    <p style="font-size:1.5rem;font-weight:900;margin-bottom:1rem">"Paid load" ≠ "Profitable load"</p>
-
-                    <p style="margin-top:1.5rem">Real profitability is measured by:</p>
-                    <ul style="text-align:left;margin-top:1rem">
-                        <li>• Where you end up (positioning)</li>
-                        <li>• How much time you lost</li>
-                        <li>• What opportunities you created or gave up</li>
-                        <li>• Your WEEKLY earnings, not individual loads</li>
-                    </ul>
-
-                    <p style="margin-top:2rem;font-size:1.25rem;font-weight:700;color:#00D9FF">Think like a strategist,
-                        not a driver</p>
+                <div class="conclusion">
+                    <p class="lead">"Paid load" <span class="accent">≠</span> "Profitable load"</p>
+                    <p class="sub">Real profitability is measured by where you end up (positioning), how much time you lost, what opportunities you created or gave up, and your weekly earnings — not individual loads. Think like a strategist, not a driver.</p>
                 </div>
             </section>
 
             <section>
-                <h2>🎓 CONGRATULATIONS! MODULE 1 COMPLETE</h2>
+                <h2>Congratulations! Module 1 complete</h2>
 
-                <div style="background:linear-gradient(135deg,rgba(100,200,100,.2),rgba(0,217,255,.2));padding:2rem;border-radius:.75rem;text-align:center;border:2px solid #64C864">
-                    <p style="font-size:1.5rem;font-weight:900;margin-bottom:1rem">✅ You've Completed Module 1</p>
+                <p>You've completed Module 1.</p>
 
-                    <p><strong>WHAT YOU LEARNED:</strong></p>
-                    <ul style="text-align:left;margin-top:1rem">
-                        <li>✅ Real RPM = ALL miles driven</li>
-                        <li>✅ Hidden costs always exist</li>
-                        <li>✅ Break-even is your survival line</li>
-                        <li>✅ Profit per HOUR &gt; total profit</li>
-                        <li>✅ Weekly strategy &gt; individual loads</li>
-                    </ul>
+                <p><strong>What you learned:</strong></p>
+                <ul>
+                    <li>Real RPM = all miles driven</li>
+                    <li>Hidden costs always exist</li>
+                    <li>Break-even is your survival line</li>
+                    <li>Profit per hour &gt; total profit</li>
+                    <li>Weekly strategy &gt; individual loads</li>
+                </ul>
 
-                    <p style="margin-top:2rem;font-weight:700">Course progress: 20% complete</p>
-
-                    <div style="background:rgba(0,0,0,.2);height:12px;border-radius:1rem;margin-top:1rem;overflow:hidden">
-                        <div style="background:linear-gradient(90deg,#00D9FF,#FF6B35);height:100%;width:20%"></div>
-                    </div>
+                <div class="pull-number">
+                    <div class="value">20%</div>
+                    <p class="context">Course progress complete.</p>
                 </div>
             </section>
 

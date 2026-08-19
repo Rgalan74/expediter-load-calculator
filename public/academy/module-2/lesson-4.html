@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,48 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .callout {
-            padding: 1.5rem;
-            border-radius: .75rem;
-            margin: 2rem 0;
-            border-left: 4px solid
-        }
-
-        .callout.warning {
-            background: rgba(255, 107, 53, .1);
-            border-color: #FF6B35
-        }
-
-        .callout.tip {
-            background: rgba(0, 217, 255, .1);
-            border-color: #00D9FF
         }
 
         .btn {
@@ -172,159 +131,117 @@
         <div class="lesson-content">
 
             <section>
-                <h2>🚨 LOS 7 ERRORES MÁS COSTOSOS</h2>
+                <h2>Los 7 errores más costosos</h2>
 
-                <h3>❌ ERROR #1: Ignorar Repositioning</h3>
-                <div class="callout warning">
-                    <p><strong>El Error:</strong> Dejar campo "Repositioning" vacío cuando delivery es en zona muerta.
-                    </p>
-                    <p><strong>La Realidad:</strong> Load en Laredo requiere 280 millas a San Antonio.<br>
-                        RPM mostrado: $1.60/mi → RPM REAL: $1.25/mi<br>
-                        <strong>Diferencia: $0.35/mi de error = $448 de "ganancia fantasma"</strong>
-                    </p>
-                    <p><strong>✅ La Solución:</strong> SIEMPRE pregúntate "¿Hay freight donde entrego?" Si NO → Ingresar
-                        repositioning.</p>
+                <p><strong>Error #1: Ignorar repositioning</strong></p>
+                <div class="note warning">
+                    <span class="note-label">El error</span>
+                    <p>Dejar el campo "Repositioning" vacío cuando delivery es en zona muerta.</p>
+                    <p><strong>La realidad:</strong> Load en Laredo requiere 280 millas a San Antonio. RPM mostrado: $1.60/mi → RPM REAL: $1.25/mi. <strong>Diferencia: $0.35/mi de error = $448 de "ganancia fantasma".</strong></p>
+                    <p><strong>La solución:</strong> Siempre pregúntate "¿Hay freight donde entrego?" Si NO → ingresar repositioning.</p>
                 </div>
 
-                <h3>❌ ERROR #2: Usar Direcciones Incompletas</h3>
-                <div class="callout warning">
-                    <p><strong>El Error:</strong> Ingresar solo "Chicago" (ciudad es enorme: 100+ millas)</p>
-                    <p><strong>La Realidad:</strong> "Chicago" puede ser Downtown, O'Hare (15mi), Joliet (40mi), Aurora
-                        (45mi).<br>
-                        <strong>Error potencial: 40-80 millas</strong>
-                    </p>
-                    <p><strong>✅ La Solución:</strong><br>
-                        ❌ Malo: "Chicago"<br>
-                        ✅ Mejor: "Chicago, IL"<br>
-                        ✅✅ BEST: "1234 Main St, Chicago, IL 60601"</p>
+                <p><strong>Error #2: Usar direcciones incompletas</strong></p>
+                <div class="note warning">
+                    <span class="note-label">El error</span>
+                    <p>Ingresar solo "Chicago" (ciudad es enorme: 100+ millas).</p>
+                    <p><strong>La realidad:</strong> "Chicago" puede ser Downtown, O'Hare (15mi), Joliet (40mi), Aurora (45mi). <strong>Error potencial: 40-80 millas.</strong></p>
+                    <p><strong>La solución:</strong> Malo: "Chicago" — Mejor: "Chicago, IL" — Best: "1234 Main St, Chicago, IL 60601".</p>
                 </div>
 
-                <h3>❌ ERROR #3: No Actualizar Current Location</h3>
-                <div class="callout warning">
-                    <p><strong>El Error:</strong> Lunes estabas en Detroit, martes viajaste a Atlanta, pero app sigue
-                        mostrando Detroit.</p>
-                    <p><strong>La Realidad:</strong> Deadhead calculation está COMPLETAMENTE wrong.</p>
-                    <p><strong>✅ La Solución:</strong> Cada vez que abres calculator, verify location. Enable GPS
-                        auto-update en Settings.</p>
+                <p><strong>Error #3: No actualizar Current Location</strong></p>
+                <div class="note warning">
+                    <span class="note-label">El error</span>
+                    <p>Lunes estabas en Detroit, martes viajaste a Atlanta, pero la app sigue mostrando Detroit.</p>
+                    <p><strong>La realidad:</strong> El cálculo de deadhead queda completamente equivocado.</p>
+                    <p><strong>La solución:</strong> Cada vez que abres el calculator, verifica tu ubicación. Activa GPS auto-update en Settings.</p>
                 </div>
 
-                <h3>❌ ERROR #4: Olvidar Tolls y Fees en Payment</h3>
-                <div class="callout warning">
-                    <p><strong>El Error:</strong> Broker: "$1,200 base + $60 tolls" → Usuario ingresa: $1,200 ❌</p>
-                    <p><strong>La Realidad:</strong> Si broker reembolsa tolls, eso es REVENUE adicional.</p>
-                    <p><strong>✅ La Solución:</strong> Suma TODO:<br>
-                        Base: $1,200 + FSC: $150 + Tolls: $60 + Detention: $50 = <strong>$1,460 total</strong></p>
+                <p><strong>Error #4: Olvidar tolls y fees en payment</strong></p>
+                <div class="note warning">
+                    <span class="note-label">El error</span>
+                    <p>Broker: "$1,200 base + $60 tolls" → usuario ingresa: $1,200.</p>
+                    <p><strong>La realidad:</strong> Si el broker reembolsa tolls, eso es revenue adicional.</p>
+                    <p><strong>La solución:</strong> Suma TODO: Base $1,200 + FSC $150 + Tolls $60 + Detention $50 = <strong>$1,460 total</strong>.</p>
                 </div>
 
-                <h3>❌ ERROR #5: Confundir "Loaded Miles" con "Total Miles"</h3>
-                <div class="callout warning">
-                    <p><strong>El Error:</strong> Broker dice "800 millas" → Usuario piensa "total" → Ingresa en campo
-                        incorrecto</p>
-                    <p><strong>La Realidad:</strong> Brokers casi SIEMPRE quotean LOADED miles only. Deadhead es tu
-                        responsabilidad.</p>
-                    <p><strong>✅ La Solución:</strong> 99% del tiempo, deja "Loaded Miles" en BLANCO. App calculará
-                        routing completo.</p>
+                <p><strong>Error #5: Confundir "Loaded Miles" con "Total Miles"</strong></p>
+                <div class="note warning">
+                    <span class="note-label">El error</span>
+                    <p>Broker dice "800 millas" → usuario piensa "total" → ingresa en campo incorrecto.</p>
+                    <p><strong>La realidad:</strong> Los brokers casi siempre quotean solo loaded miles. El deadhead es tu responsabilidad.</p>
+                    <p><strong>La solución:</strong> 99% del tiempo, deja "Loaded Miles" en blanco. La app calculará el routing completo.</p>
                 </div>
 
-                <h3>❌ ERROR #6: No Guardar Loads Rechazados</h3>
-                <div class="callout warning">
-                    <p><strong>El Error:</strong> Calculas load → Malo → Cierras app (no hay record)</p>
-                    <p><strong>La Realidad:</strong> Lex AI no aprende, no tienes reference para loads similares
-                        futuros.</p>
-                    <p><strong>✅ La Solución:</strong> SIEMPRE save en History, aunque sea DECLINE. Lex aprende tus
-                        preferencias.</p>
+                <p><strong>Error #6: No guardar loads rechazados</strong></p>
+                <div class="note warning">
+                    <span class="note-label">El error</span>
+                    <p>Calculas load → malo → cierras app (no hay record).</p>
+                    <p><strong>La realidad:</strong> Lex AI no aprende, no tienes reference para loads similares futuros.</p>
+                    <p><strong>La solución:</strong> Siempre guarda en History, aunque sea DECLINE. Lex aprende tus preferencias.</p>
                 </div>
 
-                <h3>❌ ERROR #7: Usar CPM Incorrecto o Desactualizado</h3>
-                <div class="callout warning">
-                    <p><strong>El Error:</strong> CPM configurado hace 6 meses: $0.95/mi. Fuel subió, seguro aumentó →
-                        CPM real: $1.15/mi</p>
-                    <p><strong>La Realidad:</strong> App muestra loads como "profitable" cuando NO lo son.</p>
-                    <p><strong>✅ La Solución:</strong> Revisa tu CPM MENSUALMENTE. Settings → Cost Per Mile → [Update]
-                    </p>
+                <p><strong>Error #7: Usar CPM incorrecto o desactualizado</strong></p>
+                <div class="note warning">
+                    <span class="note-label">El error</span>
+                    <p>CPM configurado hace 6 meses: $0.95/mi. Fuel subió, seguro aumentó → CPM real: $1.15/mi.</p>
+                    <p><strong>La realidad:</strong> La app muestra loads como "profitable" cuando NO lo son.</p>
+                    <p><strong>La solución:</strong> Revisa tu CPM mensualmente. Settings → Cost Per Mile → Update.</p>
                 </div>
             </section>
 
             <section>
-                <h2>📋 CHECKLIST: Antes de Calcular CUALQUIER Load</h2>
+                <h2>Checklist: antes de calcular cualquier load</h2>
 
-                <div style="background:rgba(0,217,255,.05);padding:2rem;border-radius:.75rem;border:2px solid rgba(0,217,255,.3)">
-                    <p style="font-weight:700;text-align:center;font-size:1.1rem;margin-bottom:1.5rem">✅ PRE-CALCULATION
-                        CHECKLIST</p>
-                    <ul style="list-style:none;padding:0">
-                        <li style="padding:.5rem 0">☐ Current location está correcto (o actualizado)</li>
-                        <li style="padding:.5rem 0">☐ Tengo dirección completa de pickup (no solo "Chicago")</li>
-                        <li style="padding:.5rem 0">☐ Tengo dirección de delivery</li>
-                        <li style="padding:.5rem 0">☐ Payment incluye TODO (base + FSC + tolls + fees)</li>
-                        <li style="padding:.5rem 0">☐ Sé si delivery zone necesita repositioning</li>
-                        <li style="padding:.5rem 0">☐ Mi CPM está actualizado (revisado este mes)</li>
-                        <li style="padding:.5rem 0">☐ Entendí si broker dio "loaded" o "total" millas</li>
-                    </ul>
-                    <p style="margin-top:1.5rem;text-align:center;font-weight:700">Si todos ✅ → CALCULATE con
-                        confianza<br>Si alguno falta → Consigue info primero</p>
+                <div class="checklist">
+                    <span class="checklist-label">Pre-calculation checklist</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Current location está correcto (o actualizado)</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Tengo dirección completa de pickup (no solo "Chicago")</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Tengo dirección de delivery</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Payment incluye TODO (base + FSC + tolls + fees)</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Sé si delivery zone necesita repositioning</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Mi CPM está actualizado (revisado este mes)</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Entendí si broker dio "loaded" o "total" millas</span></div>
                 </div>
+                <p>Si todos ✓ → CALCULATE con confianza. Si alguno falta → consigue info primero.</p>
             </section>
 
             <section>
-                <h2>🔧 FEATURE: ERROR DETECTION</h2>
+                <h2>Feature: error detection</h2>
                 <p>La app detecta errores comunes automáticamente:</p>
 
-                <div style="background:rgba(20,20,20,.9);border:2px solid rgba(255,215,0,.3);padding:1.5rem;border-radius:.75rem;font-family:'Courier New',monospace;font-size:.9rem">
-                    ⚠️ POSSIBLE ERROR DETECTED<br>
-                    <br>
-                    You entered:<br>
-                    Current: Dallas, TX<br>
-                    Pickup: Dallas, TX<br>
-                    Delivery: Laredo, TX<br>
-                    Repositioning: [BLANK]<br>
-                    <br>
-                    ⚠️ Warning:<br>
-                    Laredo is historically a low-freight zone.<br>
-                    <br>
-                    Typical repositioning needed:<br>
-                    • San Antonio: 280 mi<br>
-                    • Corpus Christi: 220 mi<br>
-                    • Austin: 320 mi<br>
-                    <br>
-                    Include repositioning?<br>
-                    [YES, add San Antonio] [NO, I have backhaul plan]
-                </div>
+                <div class="formula">⚠️ POSSIBLE ERROR DETECTED<br><br>You entered:<br>Current: Dallas, TX<br>Pickup: Dallas, TX<br>Delivery: Laredo, TX<br>Repositioning: [BLANK]<br><br>⚠️ Warning:<br>Laredo is historically a low-freight zone.<br><br>Typical repositioning needed:<br>• San Antonio: 280 mi<br>• Corpus Christi: 220 mi<br>• Austin: 320 mi<br><br>Include repositioning?<br>[YES, add San Antonio] [NO, I have backhaul plan]</div>
 
-                <p style="margin-top:1rem"><strong>La app te protege de olvidos.</strong></p>
+                <p><strong>La app te protege de olvidos.</strong></p>
             </section>
 
             <section>
-                <h2>🎯 ACCIÓN INMEDIATA (5 minutos)</h2>
+                <h2>Acción inmediata (5 minutos)</h2>
                 <ol>
-                    <li>✅ Abre Settings en la app</li>
-                    <li>✅ Verifica tu CPM actual</li>
-                    <li>✅ ¿Cuándo fue la última vez que lo actualizaste? ______</li>
-                    <li>✅ Si fue hace &gt;30 días, recalcula usando Módulo 1</li>
-                    <li>✅ Enable GPS auto-location si no está habilitado</li>
-                    <li>✅ Revisa tus últimos 3 loads guardados: ¿Alguno tiene estos errores?</li>
+                    <li>Abre Settings en la app</li>
+                    <li>Verifica tu CPM actual</li>
+                    <li>¿Cuándo fue la última vez que lo actualizaste? ______</li>
+                    <li>Si fue hace &gt;30 días, recalcula usando Módulo 1</li>
+                    <li>Enable GPS auto-location si no está habilitado</li>
+                    <li>Revisa tus últimos 3 loads guardados: ¿Alguno tiene estos errores?</li>
                 </ol>
             </section>
 
             <section>
-                <h2>💡 CONCLUSIÓN CLAVE</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">Garbage in = Garbage out</p>
-                    <p>La app es perfecta calculando...<br>...pero solo si le das data correcta.</p>
-                    <div style="margin-top:1.5rem;text-align:left;max-width:500px;margin-left:auto;margin-right:auto">
-                        <p><strong>Los 7 errores más comunes:</strong></p>
-                        <ol style="padding-left:1.2rem">
-                            <li>Ignorar repositioning</li>
-                            <li>Direcciones vagas</li>
-                            <li>Current location desactualizado</li>
-                            <li>Olvidar tolls/fees en payment</li>
-                            <li>Confundir loaded vs total miles</li>
-                            <li>No guardar loads rechazados</li>
-                            <li>CPM desactualizado</li>
-                        </ol>
-                    </div>
-                    <p style="margin-top:1.5rem;font-weight:700;color:#00D9FF">Evita estos → Tus números serán 99%
-                        precisos</p>
+                <div class="conclusion">
+                    <p class="lead">Garbage in = <span class="accent">Garbage out</span>.</p>
+                    <p class="sub">La app es perfecta calculando... pero solo si le das data correcta. Evita estos errores → tus números serán 99% precisos.</p>
                 </div>
+                <p><strong>Los 7 errores más comunes:</strong></p>
+                <ol>
+                    <li>Ignorar repositioning</li>
+                    <li>Direcciones vagas</li>
+                    <li>Current location desactualizado</li>
+                    <li>Olvidar tolls/fees en payment</li>
+                    <li>Confundir loaded vs total miles</li>
+                    <li>No guardar loads rechazados</li>
+                    <li>CPM desactualizado</li>
+                </ol>
             </section>
 
         </div>

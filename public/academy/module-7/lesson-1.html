@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -38,65 +39,6 @@
             margin-bottom: 1rem
         }
 
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: .75rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1);
-            font-size: .9rem
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
-        }
-
         .btn {
             padding: 1rem 2rem;
             border-radius: .75rem;
@@ -107,8 +49,8 @@
         }
 
         .btn-primary {
-            background: linear-gradient(90deg, #FFD700 0%, #FF6B35 100%);
-            color: #000
+            background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+            color: #fff
         }
 
         .btn-secondary {
@@ -177,7 +119,7 @@
             <a href="/academy.html">← Academia</a> → <a href="index.html">Module 7 [PRO]</a> → Lección 1
         </nav>
 
-        <div style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
+        <div style="display: inline-block; background: linear-gradient(90deg, #00D9FF, #FF6B35); color: #fff; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
             🔒 CONTENIDO PRO</div>
 
         <!-- ======== SPANISH ======== -->
@@ -194,22 +136,21 @@
         <div class="lesson-content">
 
             <section>
-                <h2>💡 LA TRAMPA DEL TIEMPO POR DINERO</h2>
+                <h2>La trampa del tiempo por dinero</h2>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
-                    <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FF6B35">
-                        <p><strong>PROBLEMA: Solo manejar = Ingresos lineales</strong></p>
-                        <ul style="margin:0;font-size:.9rem">
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Problema: solo manejar = ingresos lineales</div>
+                        <ul>
                             <li>Trabajas 1 hora → Ganas $X</li>
                             <li>Trabajas 2 horas → Ganas $2X</li>
                             <li>Techo físico: 60-70 hrs/semana</li>
                             <li><strong>Si dejas de manejar → $0</strong></li>
                         </ul>
                     </div>
-
-                    <div style="background:rgba(100,200,100,.15);padding:1.5rem;border-radius:.75rem;border-left:4px solid #64C864">
-                        <p><strong>SOLUCIÓN: Ingresos múltiples = Escalabilidad</strong></p>
-                        <ul style="margin:0;font-size:.9rem">
+                    <div class="compare-table">
+                        <div class="compare-title">Solución: ingresos múltiples = escalabilidad</div>
+                        <ul>
                             <li>Trabajo principal: Expediting</li>
                             <li>Ingreso 2: Servicios complementarios</li>
                             <li>Ingreso 3: Conocimiento/experiencia</li>
@@ -218,221 +159,162 @@
                     </div>
                 </div>
 
-                <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    OBJETIVO: No reemplazar expediting<br>
-                    COMPLEMENTAR con fuentes adicionales
-                </p>
+                <p><strong>Objetivo:</strong> no reemplazar expediting — complementar con fuentes adicionales.</p>
             </section>
 
             <section>
-                <h2>🎯 LAS 7 FUENTES DE INGRESO COMPLEMENTARIAS</h2>
+                <h2>Las 7 fuentes de ingreso complementarias</h2>
 
-                <h3>FUENTE #1: Subcontratación Estratégica</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>CONCEPTO:</strong> Tomas cargas que no puedes hacer tú y las asignas a otros
-                        transportistas confiables.</p>
-                    <p><strong>MODELO:</strong></p>
-                    <ul>
-                        <li>Broker te ofrece: $1,500</li>
-                        <li>Tú no puedes (ya tienes carga)</li>
-                        <li>Subcontratas a transportista por: $1,200</li>
-                        <li><strong>Tu ganancia: $300 (sin manejar)</strong></li>
-                    </ul>
-                    <p><strong>NÚMEROS REALISTAS:</strong><br>
-                        4-6 cargas/mes × $200-350 margen = <strong>$800-2,100/mes extra</strong><br>
-                        Tiempo: 5-8 hrs/mes</p>
-                    <p style="margin:0"><strong>REQUISITOS:</strong> Autoridad broker ($300 + fianza $75K), o dispatch
-                        service informal, 3-5 transportistas confiables en network</p>
+                <p><strong>Fuente #1: Subcontratación estratégica</strong></p>
+                <p><strong>Concepto:</strong> tomas cargas que no puedes hacer tú y las asignas a otros transportistas confiables.</p>
+                <p><strong>Modelo:</strong></p>
+                <ul>
+                    <li>Broker te ofrece: $1,500</li>
+                    <li>Tú no puedes (ya tienes carga)</li>
+                    <li>Subcontratas a transportista por: $1,200</li>
+                    <li><strong>Tu ganancia: $300 (sin manejar)</strong></li>
+                </ul>
+                <p><strong>Números realistas:</strong> 4-6 cargas/mes × $200-350 margen = <strong>$800-2,100/mes extra</strong>. Tiempo: 5-8 hrs/mes.</p>
+                <p><strong>Requisitos:</strong> autoridad broker ($300 + fianza $75K), o dispatch service informal, 3-5 transportistas confiables en network.</p>
+
+                <p><strong>Fuente #2: Servicios especializados premium</strong></p>
+                <p><strong>Concepto:</strong> ofrece servicios que 90% de transportistas NO ofrecen. Cobra premium.</p>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">White Glove Service (arte, equipos delicados, empaque)</span><span class="value">+$0.40-0.80/mi — $800-2,400/mes</span></div>
+                    <div class="compare-row"><span class="label">Same-Day Medical (muestras, equipos, medicamentos)</span><span class="value">+$0.50-1.00/mi — $1,080-1,350/mes</span></div>
+                    <div class="compare-row"><span class="label">Hot Shot Automotive (partes críticas, paro de línea)</span><span class="value accent">$2.00-3.50/mi — $5,000-8,000/mes</span></div>
+                    <div class="compare-row"><span class="label">Fotografía/Inspección (fotos detalladas, reportes)</span><span class="value">+$25-75/carga — $800/mes</span></div>
                 </div>
 
-                <h3>FUENTE #2: Servicios Especializados Premium</h3>
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>CONCEPTO:</strong> Ofrece servicios que 90% de transportistas NO ofrecen. Cobra premium.
-                    </p>
+                <p><strong>Fuente #3: Consultoría y entrenamiento</strong></p>
+                <p><strong>Concepto:</strong> tu experiencia tiene VALOR. Enseña a otros lo que sabes.</p>
+                <ul>
+                    <li><strong>Coaching 1-on-1:</strong> $100-150/hora, 2-4 clientes/mes = $400-800/mes</li>
+                    <li><strong>Curso Digital/eBook:</strong> $47-97, 5-10 ventas/mes = $235-970/mes (pasivo)</li>
+                    <li><strong>Servicio de Dispatch:</strong> 3-5 transportistas × $200/semana = $2,400-4,000/mes</li>
+                    <li><strong>YouTube/Blog:</strong> $0-500/mes año 1, $1K-5K/mes año 3+ (compounding)</li>
+                </ul>
 
-                    <table style="margin-top:1rem">
-                        <thead>
-                            <tr>
-                                <th>SERVICIO</th>
-                                <th>PREMIUM</th>
-                                <th>EXTRA/MES</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>White Glove Service</strong><br>Arte, equipos delicados, empaque</td>
-                                <td>+$0.40-0.80/mi</td>
-                                <td>$800-2,400</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Same-Day Medical</strong><br>Muestras, equipos, medicamentos</td>
-                                <td>+$0.50-1.00/mi</td>
-                                <td>$1,080-1,350</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Hot Shot Automotive</strong><br>Partes críticas, paro de línea</td>
-                                <td>$2.00-3.50/mi</td>
-                                <td>$5,000-8,000</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Fotografía/Inspección</strong><br>Fotos detalladas, reportes</td>
-                                <td>+$25-75/carga</td>
-                                <td>$800</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <p><strong>Fuente #4: Referidos y comisiones</strong></p>
+                <p><strong>Concepto:</strong> gana comisión por referir clientes/servicios.</p>
+                <ul>
+                    <li><strong>Referidos transportistas a brokers:</strong> $200-500 por referido = $300-600/mes</li>
+                    <li><strong>Afiliado Smart Load:</strong> 20% comisión recurrente, 10 referidos = $30/mes pasivo</li>
+                    <li><strong>Factoring Services:</strong> $500-1,000 one-time por cliente</li>
+                    <li><strong>Insurance/ELD/Tech:</strong> $50-300 por cliente</li>
+                </ul>
+                <p><strong>Total potencial: $500-2,000/mes</strong> (con network activo)</p>
 
-                <h3>FUENTE #3: Consultoría y Entrenamiento</h3>
-                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>CONCEPTO:</strong> Tu experiencia tiene VALOR. Enseña a otros lo que sabes.</p>
-                    <ul>
-                        <li><strong>Coaching 1-on-1:</strong> $100-150/hora, 2-4 clientes/mes = $400-800/mes</li>
-                        <li><strong>Curso Digital/eBook:</strong> $47-97, 5-10 ventas/mes = $235-970/mes (pasivo)</li>
-                        <li><strong>Servicio de Dispatch:</strong> 3-5 transportistas × $200/semana = $2,400-4,000/mes
-                        </li>
-                        <li><strong>YouTube/Blog:</strong> $0-500/mes año 1, $1K-5K/mes año 3+ (compounding)</li>
-                    </ul>
-                </div>
+                <p><strong>Fuente #5: Servicios de mantenimiento/detailing</strong></p>
+                <p><strong>Concepto:</strong> si tienes espacio/habilidad, ofrece servicios a otros transportistas.</p>
+                <ul>
+                    <li><strong>Cambios aceite móvil:</strong> $35-55 ganancia/cambio, 4-6/semana = $560-1,320/mes</li>
+                    <li><strong>Detailing vans:</strong> $140-210 ganancia/van, 2-3/semana = $1,120-2,520/mes</li>
+                </ul>
+                <p><strong>Mejor para:</strong> tienes espacio (garage), te gusta trabajo mecánico, network local.</p>
 
-                <h3>FUENTE #4: Referidos y Comisiones</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>CONCEPTO:</strong> Gana comisión por referir clientes/servicios.</p>
-                    <ul>
-                        <li><strong>Referidos transportistas a brokers:</strong> $200-500 por referido = $300-600/mes
-                        </li>
-                        <li><strong>Afiliado Smart Load:</strong> 20% comisión recurrente, 10 referidos = $30/mes pasivo
-                        </li>
-                        <li><strong>Factoring Services:</strong> $500-1,000 one-time por cliente</li>
-                        <li><strong>Insurance/ELD/Tech:</strong> $50-300 por cliente</li>
-                    </ul>
-                    <p style="margin:0"><strong>TOTAL POTENCIAL: $500-2,000/mes</strong> (con network activo)</p>
-                </div>
-
-                <h3>FUENTE #5: Servicios de Mantenimiento/Detailing</h3>
-                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>CONCEPTO:</strong> Si tienes espacio/habilidad, ofrece servicios a otros transportistas.
-                    </p>
-                    <ul>
-                        <li><strong>Cambios aceite móvil:</strong> $35-55 ganancia/cambio, 4-6/semana = $560-1,320/mes
-                        </li>
-                        <li><strong>Detailing vans:</strong> $140-210 ganancia/van, 2-3/semana = $1,120-2,520/mes</li>
-                    </ul>
-                    <p style="margin:0"><strong>MEJOR PARA:</strong> Tienes espacio (garage), te gusta trabajo mecánico,
-                        network local</p>
-                </div>
-
-                <h3>FUENTE #6: Alquiler de Van en Downtime</h3>
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>CONCEPTO:</strong> Van parada = desperdicio. Alquílala cuando no la uses.</p>
+                <div class="note warning">
+                    <span class="note-label">Fuente #6: Alquiler de van en downtime</span>
+                    <p><strong>Concepto:</strong> van parada = desperdicio. Alquílala cuando no la uses.</p>
                     <ul>
                         <li><strong>Turo Commercial:</strong> $60-90/día neto, 4-6 días/mes = $240-540/mes</li>
-                        <li><strong>Transportista backup:</strong> $150-200/día durante vacaciones, 2 veces/año =
-                            $1,500-2,000/año</li>
+                        <li><strong>Transportista backup:</strong> $150-200/día durante vacaciones, 2 veces/año = $1,500-2,000/año</li>
                     </ul>
-                    <p style="margin:0">⚠️ <strong>Consideraciones:</strong> Seguro adicional, desgaste, riesgo daños,
-                        verificar póliza</p>
+                    <p><strong>Consideraciones:</strong> seguro adicional, desgaste, riesgo daños, verificar póliza.</p>
                 </div>
 
-                <h3>FUENTE #7: Productos/Merchandise</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>CONCEPTO:</strong> Si construyes marca, puede monetizarse.</p>
-                    <ul style="margin:0">
-                        <li><strong>Merch comunidad:</strong> Camisetas, gorras, stickers (print-on-demand) =
-                            $100-300/mes</li>
-                        <li><strong>Productos útiles:</strong> Organizadores van, load locks custom = Nicho pero
-                            escalable</li>
-                    </ul>
-                    <p style="margin-top:1rem;margin-bottom:0"><strong>MEJOR PARA:</strong> Ya tienes presencia online,
-                        comunidad engaged</p>
+                <p><strong>Fuente #7: Productos/merchandise</strong></p>
+                <p><strong>Concepto:</strong> si construyes marca, puede monetizarse.</p>
+                <ul>
+                    <li><strong>Merch comunidad:</strong> Camisetas, gorras, stickers (print-on-demand) = $100-300/mes</li>
+                    <li><strong>Productos útiles:</strong> Organizadores van, load locks custom = Nicho pero escalable</li>
+                </ul>
+                <p><strong>Mejor para:</strong> ya tienes presencia online, comunidad engaged.</p>
+            </section>
+
+            <section>
+                <h2>Estrategia de diversificación</h2>
+                <p><strong>No hagas todo a la vez.</strong></p>
+
+                <p><strong>Fase 1 (Meses 1-6)</strong></p>
+                <ul>
+                    <li>Mantén expediting como 100% ingreso</li>
+                    <li>Selecciona UNA fuente complementaria</li>
+                    <li>Ejemplo: White glove service</li>
+                    <li><strong>Meta: +$500-1,000/mes adicional</strong></li>
+                </ul>
+
+                <p><strong>Fase 2 (Meses 7-12)</strong></p>
+                <ul>
+                    <li>Expediting: 80-85% ingreso</li>
+                    <li>Fuente 1 establecida: 10-15%</li>
+                    <li>Agrega Fuente 2 (Ejemplo: Referidos + consultoría)</li>
+                    <li><strong>Meta: +$1,000-1,500/mes total adicional</strong></li>
+                </ul>
+
+                <p><strong>Fase 3 (Año 2)</strong></p>
+                <ul>
+                    <li>Expediting: 70-75% ingreso</li>
+                    <li>Fuentes complementarias: 25-30%</li>
+                    <li>Optimiza las que funcionan, elimina las que no</li>
+                    <li><strong>Meta: +$1,500-2,500/mes adicional</strong></li>
+                </ul>
+
+                <div class="compare-table">
+                    <div class="compare-title">Resultado año 2</div>
+                    <div class="compare-row"><span class="label">Ingreso expediting</span><span class="value">$5,500/mes</span></div>
+                    <div class="compare-row"><span class="label">Ingresos adicionales</span><span class="value">$2,000/mes</span></div>
+                    <div class="compare-row"><span class="label">Total</span><span class="value accent">$7,500/mes</span></div>
+                </div>
+
+                <div class="pull-number">
+                    <div class="value">+36%</div>
+                    <p class="context">crecimiento de ingresos en el año 2 — y menos dependencia en solo manejar.</p>
                 </div>
             </section>
 
             <section>
-                <h2>📊 ESTRATEGIA DE DIVERSIFICACIÓN</h2>
+                <p><strong>Las 7 fuentes complementarias:</strong></p>
+                <ol>
+                    <li>Subcontratación: $800-2,100/mes</li>
+                    <li>Servicios premium: $800-8,000/mes</li>
+                    <li>Consultoría: $400-4,000/mes</li>
+                    <li>Referidos: $500-2,000/mes</li>
+                    <li>Mantenimiento: $560-2,520/mes</li>
+                    <li>Alquiler van: $240-2,000/año</li>
+                    <li>Productos: $100-300/mes</li>
+                </ol>
 
-                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
-                    <p style="font-weight:700;text-align:center;font-size:1.1rem;margin-bottom:1rem">NO HAGAS TODO A LA
-                        VEZ</p>
+                <p><strong>Estrategia de implementación:</strong></p>
+                <ul>
+                    <li><strong>Fase 1 (Meses 1-6):</strong> +$500-1,000/mes (una fuente)</li>
+                    <li><strong>Fase 2 (Meses 7-12):</strong> +$1,000-1,500/mes (dos fuentes)</li>
+                    <li><strong>Fase 3 (Año 2):</strong> +$1,500-2,500/mes (optimizado)</li>
+                </ul>
 
-                    <p><strong>FASE 1 (Meses 1-6):</strong></p>
-                    <ul>
-                        <li>Mantén expediting como 100% ingreso</li>
-                        <li>Selecciona UNA fuente complementaria</li>
-                        <li>Ejemplo: White glove service</li>
-                        <li><strong>Meta: +$500-1,000/mes adicional</strong></li>
-                    </ul>
-
-                    <p><strong>FASE 2 (Meses 7-12):</strong></p>
-                    <ul>
-                        <li>Expediting: 80-85% ingreso</li>
-                        <li>Fuente 1 establecida: 10-15%</li>
-                        <li>Agrega Fuente 2 (Ejemplo: Referidos + consultoría)</li>
-                        <li><strong>Meta: +$1,000-1,500/mes total adicional</strong></li>
-                    </ul>
-
-                    <p><strong>FASE 3 (Año 2):</strong></p>
-                    <ul style="margin:0">
-                        <li>Expediting: 70-75% ingreso</li>
-                        <li>Fuentes complementarias: 25-30%</li>
-                        <li>Optimiza las que funcionan, elimina las que no</li>
-                        <li><strong>Meta: +$1,500-2,500/mes adicional</strong></li>
-                    </ul>
-
-                    <p style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1.5rem;margin-bottom:0;text-align:center;font-weight:700">
-                        <strong>RESULTADO AÑO 2:</strong><br>
-                        Ingreso expediting: $5,500/mes<br>
-                        Ingresos adicionales: $2,000/mes<br>
-                        <span style="color:#FFD700;font-size:1.25rem">TOTAL: $7,500/mes (+36%)</span><br>
-                        Menos dependencia en solo manejar
-                    </p>
-                </div>
-            </section>
-
-            <section>
-                <h2>💡 CONCLUSIÓN CLAVE</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Diversificación ≠ Distracción</p>
-
-                    <div style="text-align:left;max-width:600px;margin:0 auto">
-                        <p><strong>Las 7 fuentes complementarias:</strong></p>
-                        <ol>
-                            <li>Subcontratación: $800-2,100/mes</li>
-                            <li>Servicios premium: $800-8,000/mes</li>
-                            <li>Consultoría: $400-4,000/mes</li>
-                            <li>Referidos: $500-2,000/mes</li>
-                            <li>Mantenimiento: $560-2,520/mes</li>
-                            <li>Alquiler van: $240-2,000/año</li>
-                            <li>Productos: $100-300/mes</li>
-                        </ol>
-
-                        <hr style="border-color:rgba(255,255,255,.2);margin:1.5rem 0">
-
-                        <p><strong>Estrategia de implementación:</strong></p>
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">No es sobre</div>
                         <ul>
-                            <li><strong>Fase 1 (Meses 1-6):</strong> +$500-1,000/mes (una fuente)</li>
-                            <li><strong>Fase 2 (Meses 7-12):</strong> +$1,000-1,500/mes (dos fuentes)</li>
-                            <li><strong>Fase 3 (Año 2):</strong> +$1,500-2,500/mes (optimizado)</li>
+                            <li>Trabajar más horas</li>
+                            <li>Reemplazar expediting</li>
+                            <li>Hacer todo a la vez</li>
                         </ul>
-
-                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
-                            <strong>NO ES SOBRE:</strong><br>
-                            ❌ Trabajar más horas<br>
-                            ❌ Reemplazar expediting<br>
-                            ❌ Hacer todo a la vez<br><br>
-                            <strong style="color:#FFD700">ES SOBRE:</strong><br>
-                            ✅ Aprovechar lo que ya tienes<br>
-                            ✅ Múltiples caminos a ingreso<br>
-                            ✅ Construcción progresiva<br>
-                            ✅ Activos que escalan
-                        </p>
-
-                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">
-                            Tu expediting = Base sólida<br>
-                            Fuentes complementarias = Upside<br><br>
-                            <span style="color:#FFD700">Juntas = Negocio resiliente y escalable</span>
-                        </p>
                     </div>
+                    <div class="compare-table">
+                        <div class="compare-title">Es sobre</div>
+                        <ul>
+                            <li>Aprovechar lo que ya tienes</li>
+                            <li>Múltiples caminos a ingreso</li>
+                            <li>Construcción progresiva</li>
+                            <li>Activos que escalan</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="conclusion">
+                    <p class="lead">Diversificación ≠ distracción. Tu expediting es la base sólida; las fuentes complementarias son el <span class="accent">upside</span>.</p>
+                    <p class="sub">Juntas = negocio resiliente y escalable.</p>
                 </div>
             </section>
 

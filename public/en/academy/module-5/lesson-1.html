@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -38,64 +39,6 @@
             margin-bottom: 1rem
         }
 
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
-        }
-
         .btn {
             padding: 1rem 2rem;
             border-radius: .75rem;
@@ -106,8 +49,8 @@
         }
 
         .btn-primary {
-            background: linear-gradient(90deg, #FFD700 0%, #FF6B35 100%);
-            color: #000
+            background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+            color: #fff
         }
 
         .btn-secondary {
@@ -173,7 +116,7 @@
 
     <article class="lesson-container">
 
-        <div style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
+        <div style="display: inline-block; background: linear-gradient(90deg, #00D9FF, #FF6B35); color: #fff; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
             🔒 PRO</div>
 
         
@@ -195,103 +138,84 @@
         <div class="lesson-content">
 
             <section>
-                <h2>💰 THE INCOME ILLUSION</h2>
+                <h2>The income illusion</h2>
 
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;margin:2rem 0">
-                    <p><strong>COMMON SCENARIO:</strong></p>
-                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
-                        Driver A: "I made $12,000 this month!"<br>
-                        Driver B: "I only made $9,000"<br><br>
-                        Who is doing better?
-                    </p>
-                    <p style="text-align:center;font-weight:700;font-size:1.25rem;margin-top:1.5rem">ANSWER: It depends.
-                    </p>
-                </div>
+                <p><strong>Common scenario:</strong> Driver A says "I made $12,000 this month!" Driver B says "I only made $9,000." Who is doing better? <strong>Answer: it depends.</strong></p>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
-                    <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>Driver A:</strong></p>
-                        <ul style="margin:0;font-size:.9rem">
-                            <li>Revenue: $12,000</li>
-                            <li>Miles: 9,500</li>
-                            <li>Fuel: $4,200</li>
-                            <li>Maintenance: $1,100</li>
-                            <li>Other expenses: $2,800</li>
-                            <li><strong style="color:#FF6B35">Profit: $3,900</strong></li>
-                            <li>Margin: 32.5%</li>
-                        </ul>
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Driver A</div>
+                        <div class="compare-row"><span class="label">Revenue</span><span class="value">$12,000</span></div>
+                        <div class="compare-row"><span class="label">Miles</span><span class="value">9,500</span></div>
+                        <div class="compare-row"><span class="label">Fuel</span><span class="value">$4,200</span></div>
+                        <div class="compare-row"><span class="label">Maintenance</span><span class="value">$1,100</span></div>
+                        <div class="compare-row"><span class="label">Other expenses</span><span class="value">$2,800</span></div>
+                        <div class="compare-row"><span class="label">Profit</span><span class="value">$3,900</span></div>
+                        <div class="compare-row"><span class="label">Margin</span><span class="value">32.5%</span></div>
                     </div>
-
-                    <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>Driver B:</strong></p>
-                        <ul style="margin:0;font-size:.9rem">
-                            <li>Revenue: $9,000</li>
-                            <li>Miles: 6,200</li>
-                            <li>Fuel: $2,400</li>
-                            <li>Maintenance: $550</li>
-                            <li>Other expenses: $1,850</li>
-                            <li><strong style="color:#64C864">Profit: $4,200</strong></li>
-                            <li>Margin: 46.7%</li>
-                        </ul>
+                    <div class="compare-table">
+                        <div class="compare-title">Driver B</div>
+                        <div class="compare-row"><span class="label">Revenue</span><span class="value">$9,000</span></div>
+                        <div class="compare-row"><span class="label">Miles</span><span class="value">6,200</span></div>
+                        <div class="compare-row"><span class="label">Fuel</span><span class="value">$2,400</span></div>
+                        <div class="compare-row"><span class="label">Maintenance</span><span class="value">$550</span></div>
+                        <div class="compare-row"><span class="label">Other expenses</span><span class="value">$1,850</span></div>
+                        <div class="compare-row"><span class="label">Profit</span><span class="value accent">$4,200</span></div>
+                        <div class="compare-row"><span class="label">Margin</span><span class="value accent">46.7%</span></div>
                     </div>
                 </div>
 
-                <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    Driver B earns LESS but takes home MORE.<br>Why? EFFICIENCY.
-                </p>
+                <div class="note tip">
+                    <span class="note-label">The reason: efficiency</span>
+                    <p>Driver B earns LESS but takes home MORE.</p>
+                </div>
             </section>
 
             <section>
-                <h2>📊 THE 3 LAYERS OF NUMBERS</h2>
+                <h2>The 3 layers of numbers</h2>
 
-                <div style="background:rgba(0,217,255,.05);padding:1.5rem;border-radius:.75rem;margin:1.5rem 0;border-left:4px solid #00D9FF">
-                    <p><strong>LAYER 1: GROSS REVENUE (What you invoice)</strong></p>
-                    <ul style="margin:0">
-                        <li>Total load payments</li>
-                        <li>FSC (Fuel Surcharge)</li>
-                        <li>Detention pay</li>
-                        <li>Bonuses/incentives</li>
-                        <li><strong>EXAMPLE: $10,500/month</strong></li>
-                    </ul>
+                <p><strong>Layer 1: gross revenue (what you invoice)</strong></p>
+                <ul>
+                    <li>Total load payments</li>
+                    <li>FSC (Fuel Surcharge)</li>
+                    <li>Detention pay</li>
+                    <li>Bonuses/incentives</li>
+                </ul>
+                <div class="formula">Example: $10,500/month</div>
+
+                <p><strong>Layer 2: operating expenses (what you pay)</strong></p>
+                <p><strong>Variable:</strong></p>
+                <ul>
+                    <li>Fuel, DEF, Tolls</li>
+                    <li>Meals on the road</li>
+                    <li>Preventive maintenance</li>
+                </ul>
+                <p><strong>Fixed:</strong></p>
+                <ul>
+                    <li>Van payment, Insurance</li>
+                    <li>Licenses/plates</li>
+                    <li>Subscriptions, Phone</li>
+                </ul>
+                <div class="formula">Example: $6,800/month</div>
+
+                <p><strong>Layer 3: net profit (what you actually earn)</strong></p>
+                <div class="formula">Revenue - Expenses: $10,500 - $6,800</div>
+                <div class="pull-number">
+                    <div class="value">$3,700</div>
+                    <p class="context">net profit for the month — a 35.2% margin.</p>
                 </div>
 
-                <div style="background:rgba(255,215,0,.05);padding:1.5rem;border-radius:.75rem;margin:1.5rem 0;border-left:4px solid #FFD700">
-                    <p><strong>LAYER 2: OPERATING EXPENSES (What you pay)</strong></p>
-                    <p><strong>VARIABLE:</strong></p>
-                    <ul>
-                        <li>Fuel, DEF, Tolls</li>
-                        <li>Meals on the road</li>
-                        <li>Preventive maintenance</li>
-                    </ul>
-                    <p><strong>FIXED:</strong></p>
-                    <ul style="margin-bottom:0">
-                        <li>Van payment, Insurance</li>
-                        <li>Licenses/plates</li>
-                        <li>Subscriptions, Phone</li>
-                        <li><strong>EXAMPLE: $6,800/month</strong></li>
-                    </ul>
+                <div class="note warning">
+                    <span class="note-label">The common mistake</span>
+                    <p>MOST operators only look at Layer 1. YOU need to master all 3.</p>
                 </div>
-
-                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem;margin:1.5rem 0;border-left:4px solid #64C864">
-                    <p><strong>LAYER 3: NET PROFIT (What you actually earn)</strong></p>
-                    <p style="margin:0">Revenue - Expenses<br>
-                        <strong>EXAMPLE: $10,500 - $6,800 = $3,700</strong><br>
-                        <strong>MARGIN: 35.2%</strong>
-                    </p>
-                </div>
-
-                <p style="background:rgba(255,107,53,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    MOST operators only look at Layer 1.<br>YOU need to master all 3.
-                </p>
             </section>
 
             <section>
-                <h2>🔍 DETAILED EXPENSE BREAKDOWN</h2>
+                <h2>Detailed expense breakdown</h2>
 
-                <h3>VARIABLE EXPENSES (Per Mile)</h3>
-                <div class="mockup">
-                    💵 TYPICAL VARIABLE EXPENSES<br>
-                    <br>
+                <p><strong>Variable expenses (per mile)</strong></p>
+                <div class="formula">
                     FUEL:<br>
                     ├─ Average price: $3.50/gal<br>
                     ├─ Van consumption: 17-20 MPG<br>
@@ -321,10 +245,8 @@
                     TOTAL VARIABLE: $0.58-0.76/mi
                 </div>
 
-                <h3>FIXED EXPENSES (Per Month)</h3>
-                <div class="mockup">
-                    🏦 MONTHLY FIXED EXPENSES<br>
-                    <br>
+                <p><strong>Fixed expenses (per month)</strong></p>
+                <div class="formula">
                     VAN:<br>
                     ├─ Loan payment: $800-1,200<br>
                     │ (Or depreciation if owned outright)<br>
@@ -363,105 +285,76 @@
             </section>
 
             <section>
-                <h2>🎯 THE SIMPLE TRACKING SYSTEM</h2>
+                <h2>The simple tracking system</h2>
 
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>ABSOLUTE MINIMUM - Record daily:</strong></p>
+                <p><strong>Absolute minimum — record daily:</strong></p>
+                <ol>
+                    <li><strong>Revenue today:</strong> Load #1: $XXX, Load #2: $XXX, Total: $XXX</li>
+                    <li><strong>Miles today:</strong> Deadhead: XXX, Loaded: XXX, Total: XXX</li>
+                    <li><strong>Expenses today:</strong> Fuel: $XXX (XX gallons), Tolls: $XXX, Meals: $XXX</li>
+                    <li><strong>Notes:</strong> Anything unusual</li>
+                </ol>
 
-                    <ol>
-                        <li><strong>REVENUE TODAY:</strong> Load #1: $XXX, Load #2: $XXX, TOTAL: $XXX</li>
-                        <li><strong>MILES TODAY:</strong> Deadhead: XXX, Loaded: XXX, TOTAL: XXX</li>
-                        <li><strong>EXPENSES TODAY:</strong> Fuel: $XXX (XX gallons), Tolls: $XXX, Meals: $XXX</li>
-                        <li><strong>NOTES:</strong> Anything unusual</li>
-                    </ol>
-
-                    <p style="background:rgba(255,215,0,.15);padding:1rem;border-radius:.5rem;margin:0;text-align:center">
-                        <strong>TIME REQUIRED:</strong> 3-5 minutes/day<br>
-                        <strong>BENEFIT:</strong> Complete clarity on your business
-                    </p>
+                <div class="note tip">
+                    <span class="note-label">Time required: 3-5 minutes/day</span>
+                    <p>Benefit: complete clarity on your business.</p>
                 </div>
             </section>
 
             <section>
-                <h2>🎯 SETTING YOUR "MINIMUM NUMBER"</h2>
+                <h2>Setting your "minimum number"</h2>
 
-                <div style="background:rgba(255,215,0,.1);padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">MONTHLY BREAK-EVEN CALCULATION</p>
+                <div class="formula">Monthly fixed expenses ÷ Target margin (35-40%) = Minimum revenue required</div>
 
-                    <div style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;max-width:400px;margin:0 auto">
-                        <p style="margin:0;text-align:left">
-                            Monthly fixed expenses: $_________<br>
-                            ÷ Target margin (35-40%): 0.35-0.40<br>
-                            ═══════════════════════════<br>
-                            <strong style="color:#FFD700">= MINIMUM REVENUE REQUIRED</strong>
-                        </p>
-                    </div>
+                <p><strong>Example:</strong></p>
+                <div class="formula">Fixed expenses: $2,200/month ÷ 0.40 (40% target margin) = $5,500 minimum revenue</div>
 
-                    <div style="margin-top:2rem;text-align:left;max-width:500px;margin:2rem auto 0">
-                        <p><strong>EXAMPLE:</strong></p>
-                        <p>Fixed expenses: $2,200/month<br>
-                            ÷ 0.40 (40% target margin)<br>
-                            = $5,500 minimum revenue</p>
+                <p><strong>This means:</strong></p>
+                <ul>
+                    <li>You need to invoice at least $5,500/month</li>
+                    <li>To cover fixed costs and generate profit</li>
+                    <li>Below this = losing money</li>
+                    <li>Above this = building your business</li>
+                </ul>
 
-                        <p><strong>This means:</strong></p>
-                        <ul style="margin:0">
-                            <li>You need to invoice AT LEAST $5,500/month</li>
-                            <li>To cover fixed costs AND generate profit</li>
-                            <li>Below this = losing money</li>
-                            <li>Above this = building your business</li>
-                        </ul>
-                    </div>
-
-                    <p style="margin-top:2rem;font-weight:700;font-size:1.25rem">YOUR MINIMUM NUMBER: $_________/month</p>
-                    <p style="margin:0">MEMORIZE IT. If you see you're tracking below it mid-month,<br>you KNOW you need more loads NOW.
-                    </p>
+                <div class="worksheet">
+                    <div class="worksheet-row highlight"><span class="label">Your minimum monthly number</span><span class="line"></span></div>
                 </div>
+
+                <p>Memorize it. If you see you're tracking below it mid-month, you know you need more loads now.</p>
             </section>
 
             <section>
-                <h2>💡 KEY TAKEAWAY</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">"How much did I make?" is the wrong question</p>
+                <h2>Key takeaway</h2>
 
-                    <div style="text-align:left;max-width:500px;margin:0 auto">
-                        <p><strong>❌ Wrong questions:</strong></p>
-                        <ul>
-                            <li>"How much did I make this month?"</li>
-                        </ul>
+                <p><strong>"How much did I make?" is the wrong question.</strong></p>
 
-                        <p><strong>✅ Right questions:</strong></p>
-                        <ul>
-                            <li>How much did I INVOICE? (gross revenue)</li>
-                            <li>How much did I SPEND? (total expenses)</li>
-                            <li>How much did I KEEP? (net profit)</li>
-                            <li>What was my MARGIN? (%)</li>
-                            <li>How does it COMPARE to previous months? (trend)</li>
-                        </ul>
+                <div class="note warning">
+                    <span class="note-label">Wrong question</span>
+                    <p>"How much did I make this month?"</p>
+                </div>
 
-                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem">
-                            <strong>The 3 numbers you MUST always know:</strong><br><br>
-                            1. YOUR MONTHLY MINIMUM NUMBER<br>
-                            &nbsp;&nbsp;&nbsp;(Break-even with a healthy margin)<br><br>
-                            2. YOUR TARGET MARGIN<br>
-                            &nbsp;&nbsp;&nbsp;(35-45% is healthy in expediting)<br><br>
-                            3. YOUR TREND<br>
-                            &nbsp;&nbsp;&nbsp;(Improving or declining?)
-                        </p>
+                <div class="note tip">
+                    <span class="note-label">Right questions</span>
+                    <ul>
+                        <li>How much did I INVOICE? (gross revenue)</li>
+                        <li>How much did I SPEND? (total expenses)</li>
+                        <li>How much did I KEEP? (net profit)</li>
+                        <li>What was my MARGIN? (%)</li>
+                        <li>How does it COMPARE to previous months? (trend)</li>
+                    </ul>
+                </div>
 
-                        <p style="margin-top:1.5rem;text-align:center;font-weight:700">
-                            Financial tracking is NOT complicated.<br>
-                            It's 3-5 minutes of logging per day.<br><br>
-                            But the difference between doing it and not<br>
-                            is the difference between:<br>
-                            Guessing whether you made money<br>
-                            vs<br>
-                            KNOWING your exact profitability
-                        </p>
+                <p><strong>The 3 numbers you must always know:</strong></p>
+                <ol>
+                    <li>Your monthly minimum number (break-even with a healthy margin)</li>
+                    <li>Your target margin (35-45% is healthy in expediting)</li>
+                    <li>Your trend (improving or declining?)</li>
+                </ol>
 
-                        <p style="margin:0;background:rgba(255,107,53,.15);padding:1rem;border-radius:.5rem;text-align:center">
-                            <strong>One month without tracking =<br>one month flying blind</strong>
-                        </p>
-                    </div>
+                <div class="conclusion">
+                    <p class="lead">One month without <span class="accent">tracking</span> is one month flying blind.</p>
+                    <p class="sub">Financial tracking is not complicated — it's 3-5 minutes of logging per day. The difference between doing it and not is the difference between guessing whether you made money and KNOWING your exact profitability.</p>
                 </div>
             </section>
 

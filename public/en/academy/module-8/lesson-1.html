@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,55 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: .75rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1);
-            font-size: .9rem
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
         }
 
         .btn {
@@ -186,63 +138,53 @@
         <div class="lesson-content">
 
             <section>
-                <h2>⚠️ THE TRUTH ABOUT BURNOUT</h2>
+                <h2>The truth about burnout</h2>
 
-                <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FF6B35;margin-bottom:2rem">
-                    <p style="font-weight:700;margin-bottom:1rem">Burnout does NOT arrive suddenly. It is a gradual process you ignore until it is too late.</p>
-                    <p style="margin:0"><strong>60% of expediters leave the industry within the first 3 years.</strong><br>
-                        Reasons: Physical burnout, mental exhaustion, destroyed relationships, deteriorated health.<br>
-                        <span style="color:#FFD700">NOT because they can't make money. Because the COST is too high.</span>
-                    </p>
+                <p>Burnout does NOT arrive suddenly. It is a gradual process you ignore until it is too late.</p>
+
+                <div class="pull-number">
+                    <div class="value">60%</div>
+                    <p class="context">of expediters leave the industry within the first 3 years — not because they can't make money, but because physical burnout, mental exhaustion, and destroyed relationships make the cost too high.</p>
                 </div>
 
-                <h3>THE 5 STAGES OF BURNOUT:</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>STAGE</th>
-                            <th>PERIOD</th>
-                            <th>SIGNS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>1. Enthusiasm</strong></td>
-                            <td>Months 1-6</td>
-                            <td>"This is incredible!" 70+ hrs/week, high energy</td>
-                        </tr>
-                        <tr>
-                            <td><strong>2. Normalization</strong></td>
-                            <td>Months 7-18</td>
-                            <td>Routine, 60-70 hrs, fatigue, "it's normal" ⚠️</td>
-                        </tr>
-                        <tr>
-                            <td><strong>3. Frustration</strong></td>
-                            <td>Months 19-30</td>
-                            <td>Chronic exhaustion, irritability, strained relationships</td>
-                        </tr>
-                        <tr>
-                            <td><strong>4. Apathy</strong></td>
-                            <td>Months 31-42</td>
-                            <td>"I don't care anymore", cynicism, isolation</td>
-                        </tr>
-                        <tr>
-                            <td><strong>5. Crisis</strong></td>
-                            <td>Months 43+</td>
-                            <td>Physical/mental collapse, impossible to continue</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    GOAL: Never reach Stage 3<br>
-                    Recognize Stage 2 and act NOW
-                </p>
+                <p><strong>The 5 stages of burnout:</strong></p>
+
+                <div class="compare-table">
+                    <div class="compare-title">Stage 1 — Enthusiasm</div>
+                    <div class="compare-row"><span class="label">Period</span><span class="value">Months 1-6</span></div>
+                    <div class="compare-row"><span class="label">Signs</span><span class="value">"This is incredible!" 70+ hrs/week, high energy</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Stage 2 — Normalization</div>
+                    <div class="compare-row"><span class="label">Period</span><span class="value">Months 7-18</span></div>
+                    <div class="compare-row"><span class="label">Signs</span><span class="value">Routine, 60-70 hrs, fatigue, "it's normal"</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Stage 3 — Frustration</div>
+                    <div class="compare-row"><span class="label">Period</span><span class="value">Months 19-30</span></div>
+                    <div class="compare-row"><span class="label">Signs</span><span class="value">Chronic exhaustion, irritability, strained relationships</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Stage 4 — Apathy</div>
+                    <div class="compare-row"><span class="label">Period</span><span class="value">Months 31-42</span></div>
+                    <div class="compare-row"><span class="label">Signs</span><span class="value">"I don't care anymore", cynicism, isolation</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Stage 5 — Crisis</div>
+                    <div class="compare-row"><span class="label">Period</span><span class="value">Months 43+</span></div>
+                    <div class="compare-row"><span class="label">Signs</span><span class="value">Physical/mental collapse, impossible to continue</span></div>
+                </div>
+
+                <div class="note warning">
+                    <span class="note-label">Goal</span>
+                    <p>Never reach Stage 3. Recognize Stage 2 and act NOW.</p>
+                </div>
             </section>
 
             <section>
-                <h2>🚨 THE 15 EARLY WARNING SIGNS</h2>
+                <h2>The 15 early warning signs</h2>
 
-                <h3>PHYSICAL (1-5):</h3>
+                <p><strong>Physical (1-5):</strong></p>
                 <ul>
                     <li><strong>Chronic fatigue:</strong> Sleeping 7-8 hrs but waking up exhausted, needing multiple coffees to function</li>
                     <li><strong>Sleep problems:</strong> Difficulty sleeping, waking at 3am, constant work-related dreams</li>
@@ -251,7 +193,7 @@
                     <li><strong>Appetite/weight changes:</strong> Overeating or no appetite, unintentional weight gain/loss</li>
                 </ul>
 
-                <h3>MENTAL (6-10):</h3>
+                <p><strong>Mental (6-10):</strong></p>
                 <ul>
                     <li><strong>Difficulty concentrating:</strong> Mind wanders, new mistakes, forgetfulness</li>
                     <li><strong>Cynicism and negativity:</strong> Everything is annoying, constant complaints</li>
@@ -260,97 +202,85 @@
                     <li><strong>Depression:</strong> Sadness without reason, loss of interest in hobbies</li>
                 </ul>
 
-                <h3>RELATIONAL (11-13):</h3>
+                <p><strong>Relational (11-13):</strong></p>
                 <ul>
                     <li><strong>Irritability:</strong> Family absorbs your frustration, explosions over small things</li>
                     <li><strong>Social isolation:</strong> Canceling plans, "I have no energy"</li>
                     <li><strong>Increased conflicts:</strong> Fights with partner, tension with brokers</li>
                 </ul>
 
-                <h3>PROFESSIONAL (14-15):</h3>
-                <ul style="margin:0">
+                <p><strong>Professional (14-15):</strong></p>
+                <ul>
                     <li><strong>Declining performance:</strong> Late to pickups, administrative errors</li>
                     <li><strong>Exit thoughts:</strong> "Why do I keep doing this?"</li>
                 </ul>
 
-                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem;margin-top:2rem">
-                    <p style="font-weight:700;margin-bottom:1rem">BURNOUT SCORING:</p>
-                    <ul style="margin:0">
-                        <li><strong>0-3 signs:</strong> 🟢 Normal, manageable</li>
-                        <li><strong>4-7 signs:</strong> 🟡 Early warning, act NOW</li>
-                        <li><strong>8-11 signs:</strong> 🟠 Moderate burnout, intervention needed</li>
-                        <li><strong>12-15 signs:</strong> 🔴 Severe burnout, drastic changes urgently needed</li>
-                    </ul>
-                    <p style="margin-top:1rem;margin-bottom:0;text-align:center;font-weight:700">
-                        You don't need all the signs. 4-5 signs = it's already a problem.
-                    </p>
+                <div class="compare-table">
+                    <div class="compare-title">Burnout scoring</div>
+                    <div class="compare-row"><span class="label">🟢 0-3 signs</span><span class="value accent">Normal, manageable</span></div>
+                    <div class="compare-row"><span class="label">🟡 4-7 signs</span><span class="value">Early warning, act NOW</span></div>
+                    <div class="compare-row"><span class="label">🟠 8-11 signs</span><span class="value">Moderate burnout, intervention needed</span></div>
+                    <div class="compare-row"><span class="label">🔴 12-15 signs</span><span class="value">Severe burnout, drastic changes urgently needed</span></div>
+                </div>
+                <p>You don't need all the signs. 4-5 signs is already a problem.</p>
+            </section>
+
+            <section>
+                <h2>Prevention system (3 layers)</h2>
+
+                <p><strong>Layer 1: Boundaries</strong></p>
+                <p><strong>A) Time limits</strong></p>
+                <ul>
+                    <li>Maximum 60 hrs/week TOTAL</li>
+                    <li>Minimum 1 full day OFF/week</li>
+                    <li>No more than 12 consecutive days working</li>
+                    <li>2-3 weeks vacation/year — NON-NEGOTIABLE</li>
+                </ul>
+                <div class="note tip">
+                    <span class="note-label">Rule</span>
+                    <p>"If I need to work 70+ hrs to survive, my business model is broken. Fix the business, don't work more."</p>
+                </div>
+
+                <p><strong>Layer 2: Recovery routines</strong></p>
+                <ul>
+                    <li><strong>Daily:</strong> 7-8 hrs sleep, 3 real meals, 30 min physical activity, 15 min
+                        screen-free before bed</li>
+                    <li><strong>Weekly:</strong> 1 day completely OFF, no work email/text, family time</li>
+                    <li><strong>Monthly:</strong> 1 long weekend, no thinking about work, recharge</li>
+                    <li><strong>Quarterly:</strong> 4-5 days off, short trip, total disconnection</li>
+                    <li><strong>Annually:</strong> 2-3 weeks real vacation, complete reset</li>
+                </ul>
+
+                <p><strong>Layer 3: Monitoring &amp; adjustments</strong></p>
+                <div class="checklist">
+                    <span class="checklist-label">Weekly self-check — Sunday, 10 min</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">How many burnout signs do I have?</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Energy level (1-10)</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Sleep quality (1-10)</span></div>
+                </div>
+                <p>If average is below 6: adjustments needed NOW.</p>
+
+                <div class="note warning">
+                    <span class="note-label">Early intervention — if 4+ signs</span>
+                    <p><strong>Immediate:</strong> Take 2-3 days OFF, decline loads, sleep 8-9 hrs, talk to someone you trust.</p>
+                    <p>Short term: reduce hours to 50-55 max, reject problematic loads.</p>
                 </div>
             </section>
 
             <section>
-                <h2>🛡️ PREVENTION SYSTEM (3 LAYERS)</h2>
+                <h2>Key takeaway</h2>
+                <p>Burnout is a PROCESS, not an event. It builds gradually. You can prevent it.</p>
 
-                <h3>LAYER 1: Boundaries</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>A) TIME LIMITS</strong></p>
-                    <ul>
-                        <li>Maximum 60 hrs/week TOTAL</li>
-                        <li>Minimum 1 full day OFF/week</li>
-                        <li>No more than 12 consecutive days working</li>
-                        <li>2-3 weeks vacation/year — NON-NEGOTIABLE</li>
-                    </ul>
-                    <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;margin:0;font-size:.9rem">
-                        <strong>RULE:</strong> "If I need to work 70+ hrs to survive, my business model is broken. Fix the business, don't work more."
-                    </p>
-                </div>
+                <p><strong>Prevention system:</strong></p>
+                <ul>
+                    <li><strong>Layer 1:</strong> Clear boundaries (&lt;60 hrs/week, 1 day OFF/week minimum)</li>
+                    <li><strong>Layer 2:</strong> Recovery routines (daily, weekly, monthly, quarterly, annual)</li>
+                    <li><strong>Layer 3:</strong> Weekly monitoring, early intervention</li>
+                </ul>
 
-                <h3>LAYER 2: Recovery Routines</h3>
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
-                    <ul style="margin:0">
-                        <li><strong>DAILY:</strong> 7-8 hrs sleep, 3 real meals, 30 min physical activity, 15 min screen-free before bed</li>
-                        <li><strong>WEEKLY:</strong> 1 day completely OFF, no work email/text, family time</li>
-                        <li><strong>MONTHLY:</strong> 1 long weekend, no thinking about work, recharge</li>
-                        <li><strong>QUARTERLY:</strong> 4-5 days off, short trip, total disconnection</li>
-                        <li><strong>ANNUALLY:</strong> 2-3 weeks real vacation, complete reset</li>
-                    </ul>
-                </div>
-
-                <h3 style="margin-top:1.5rem">LAYER 3: Monitoring &amp; Adjustments</h3>
-                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>WEEKLY SELF-CHECK (Sunday, 10 min):</strong></p>
-                    <ul style="margin-bottom:1rem">
-                        <li>How many burnout signs do I have?</li>
-                        <li>Energy level 1-10</li>
-                        <li>Sleep quality 1-10</li>
-                        <li>If average &lt;6: Adjustments needed NOW</li>
-                    </ul>
-                    <p style="margin:0"><strong>EARLY INTERVENTION (If 4+ signs):</strong><br>
-                        IMMEDIATE: Take 2-3 days OFF, decline loads, sleep 8-9 hrs, talk to someone you trust<br>
-                        SHORT TERM: Reduce hrs to 50-55 max, reject problematic loads</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>💡 KEY TAKEAWAY</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Burnout is a PROCESS, not an event.<br>It builds gradually. You can prevent it.</p>
-
-                    <div style="text-align:left;max-width:600px;margin:0 auto">
-                        <p><strong>Prevention system:</strong></p>
-                        <ul>
-                            <li><strong>LAYER 1:</strong> Clear boundaries (&lt;60 hrs/week, 1 day OFF/week minimum)</li>
-                            <li><strong>LAYER 2:</strong> Recovery routines (daily, weekly, monthly, quarterly, annual)</li>
-                            <li><strong>LAYER 3:</strong> Weekly monitoring, early intervention</li>
-                        </ul>
-
-                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center;font-weight:700">
-                            REMEMBER:<br>
-                            You can't make money if you're in the hospital.<br>
-                            You can't enjoy success if you hate your life.<br>
-                            You can't sustain a business if you collapse.<br><br>
-                            <span style="color:#FFD700;font-size:1.25rem">Health &gt; Money. Always.</span>
-                        </p>
-                    </div>
+                <div class="conclusion">
+                    <p class="lead">You can't make money if you're in the hospital. You can't enjoy success if you hate your life. You can't sustain a business if you <span class="accent">collapse</span>.</p>
+                    <p class="sub">Health &gt; Money. Always.</p>
                 </div>
             </section>
 

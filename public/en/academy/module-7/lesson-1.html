@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -38,65 +39,6 @@
             margin-bottom: 1rem
         }
 
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: .75rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1);
-            font-size: .9rem
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
-        }
-
         .btn {
             padding: 1rem 2rem;
             border-radius: .75rem;
@@ -107,8 +49,8 @@
         }
 
         .btn-primary {
-            background: linear-gradient(90deg, #FFD700 0%, #FF6B35 100%);
-            color: #000
+            background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+            color: #fff
         }
 
         .btn-secondary {
@@ -177,7 +119,7 @@
             <a href="/en/academy.html">← Academy</a> → <a href="index.html">Module 7 [PRO]</a> → Lesson 1
         </nav>
 
-        <div style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
+        <div style="display: inline-block; background: linear-gradient(90deg, #00D9FF, #FF6B35); color: #fff; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
             🔒 PRO CONTENT</div>
 
         <!-- ======== SPANISH ======== -->
@@ -198,22 +140,21 @@
         <div class="lesson-content">
 
             <section>
-                <h2>💡 THE TIME-FOR-MONEY TRAP</h2>
+                <h2>The time-for-money trap</h2>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
-                    <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FF6B35">
-                        <p><strong>PROBLEM: Only driving = Linear income</strong></p>
-                        <ul style="margin:0;font-size:.9rem">
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Problem: only driving = linear income</div>
+                        <ul>
                             <li>Work 1 hour → Earn $X</li>
                             <li>Work 2 hours → Earn $2X</li>
                             <li>Physical ceiling: 60-70 hrs/week</li>
                             <li><strong>Stop driving → $0</strong></li>
                         </ul>
                     </div>
-
-                    <div style="background:rgba(100,200,100,.15);padding:1.5rem;border-radius:.75rem;border-left:4px solid #64C864">
-                        <p><strong>SOLUTION: Multiple streams = Scalability</strong></p>
-                        <ul style="margin:0;font-size:.9rem">
+                    <div class="compare-table">
+                        <div class="compare-title">Solution: multiple streams = scalability</div>
+                        <ul>
                             <li>Primary: Expediting</li>
                             <li>Stream 2: Complementary services</li>
                             <li>Stream 3: Knowledge/experience</li>
@@ -222,211 +163,162 @@
                     </div>
                 </div>
 
-                <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    GOAL: Not to replace expediting<br>
-                    COMPLEMENT it with additional sources
-                </p>
+                <p><strong>Goal:</strong> not to replace expediting — complement it with additional sources.</p>
             </section>
 
             <section>
-                <h2>🎯 THE 7 COMPLEMENTARY INCOME SOURCES</h2>
+                <h2>The 7 complementary income sources</h2>
 
-                <h3>SOURCE #1: Strategic Subcontracting</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>CONCEPT:</strong> Take loads you can't handle yourself and assign them to trusted carriers.</p>
-                    <p><strong>MODEL:</strong></p>
-                    <ul>
-                        <li>Broker offers: $1,500</li>
-                        <li>You can't take it (already have a load)</li>
-                        <li>Subcontract to another carrier for: $1,200</li>
-                        <li><strong>Your profit: $300 (without driving)</strong></li>
-                    </ul>
-                    <p><strong>REALISTIC NUMBERS:</strong><br>
-                        4-6 loads/month × $200-350 margin = <strong>$800-2,100/month extra</strong><br>
-                        Time: 5-8 hrs/month</p>
-                    <p style="margin:0"><strong>REQUIREMENTS:</strong> Broker authority ($300 + $75K bond), or informal dispatch service, 3-5 trusted carriers in your network</p>
+                <p><strong>Source #1: Strategic subcontracting</strong></p>
+                <p><strong>Concept:</strong> take loads you can't handle yourself and assign them to trusted carriers.</p>
+                <p><strong>Model:</strong></p>
+                <ul>
+                    <li>Broker offers: $1,500</li>
+                    <li>You can't take it (already have a load)</li>
+                    <li>Subcontract to another carrier for: $1,200</li>
+                    <li><strong>Your profit: $300 (without driving)</strong></li>
+                </ul>
+                <p><strong>Realistic numbers:</strong> 4-6 loads/month × $200-350 margin = <strong>$800-2,100/month extra</strong>. Time: 5-8 hrs/month.</p>
+                <p><strong>Requirements:</strong> broker authority ($300 + $75K bond), or informal dispatch service, 3-5 trusted carriers in your network.</p>
+
+                <p><strong>Source #2: Specialized premium services</strong></p>
+                <p><strong>Concept:</strong> offer services that 90% of carriers do NOT offer. Charge a premium.</p>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">White Glove Service (art, delicate equipment, packaging)</span><span class="value">+$0.40-0.80/mi — $800-2,400/mo</span></div>
+                    <div class="compare-row"><span class="label">Same-Day Medical (samples, equipment, medications)</span><span class="value">+$0.50-1.00/mi — $1,080-1,350/mo</span></div>
+                    <div class="compare-row"><span class="label">Hot Shot Automotive (critical parts, line-down)</span><span class="value accent">$2.00-3.50/mi — $5,000-8,000/mo</span></div>
+                    <div class="compare-row"><span class="label">Photography/Inspection (detailed photos, reports)</span><span class="value">+$25-75/load — $800/mo</span></div>
                 </div>
 
-                <h3>SOURCE #2: Specialized Premium Services</h3>
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>CONCEPT:</strong> Offer services that 90% of carriers do NOT offer. Charge a premium.
-                    </p>
+                <p><strong>Source #3: Consulting and training</strong></p>
+                <p><strong>Concept:</strong> your experience has VALUE. Teach others what you know.</p>
+                <ul>
+                    <li><strong>1-on-1 Coaching:</strong> $100-150/hr, 2-4 clients/month = $400-800/month</li>
+                    <li><strong>Digital Course/eBook:</strong> $47-97, 5-10 sales/month = $235-970/month (passive)</li>
+                    <li><strong>Dispatch Service:</strong> 3-5 carriers × $200/week = $2,400-4,000/month</li>
+                    <li><strong>YouTube/Blog:</strong> $0-500/month year 1, $1K-5K/month year 3+ (compounding)</li>
+                </ul>
 
-                    <table style="margin-top:1rem">
-                        <thead>
-                            <tr>
-                                <th>SERVICE</th>
-                                <th>PREMIUM</th>
-                                <th>EXTRA/MONTH</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>White Glove Service</strong><br>Art, delicate equipment, packaging</td>
-                                <td>+$0.40-0.80/mi</td>
-                                <td>$800-2,400</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Same-Day Medical</strong><br>Samples, equipment, medications</td>
-                                <td>+$0.50-1.00/mi</td>
-                                <td>$1,080-1,350</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Hot Shot Automotive</strong><br>Critical parts, line-down</td>
-                                <td>$2.00-3.50/mi</td>
-                                <td>$5,000-8,000</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Photography/Inspection</strong><br>Detailed photos, reports</td>
-                                <td>+$25-75/load</td>
-                                <td>$800</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <p><strong>Source #4: Referrals and commissions</strong></p>
+                <p><strong>Concept:</strong> earn commission by referring clients/services.</p>
+                <ul>
+                    <li><strong>Carrier referrals to brokers:</strong> $200-500 per referral = $300-600/month</li>
+                    <li><strong>Smart Load affiliate:</strong> 20% recurring commission, 10 referrals = $30/month passive</li>
+                    <li><strong>Factoring Services:</strong> $500-1,000 one-time per client</li>
+                    <li><strong>Insurance/ELD/Tech:</strong> $50-300 per client</li>
+                </ul>
+                <p><strong>Total potential: $500-2,000/month</strong> (with active network)</p>
 
-                <h3>SOURCE #3: Consulting and Training</h3>
-                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>CONCEPT:</strong> Your experience has VALUE. Teach others what you know.</p>
-                    <ul>
-                        <li><strong>1-on-1 Coaching:</strong> $100-150/hr, 2-4 clients/month = $400-800/month</li>
-                        <li><strong>Digital Course/eBook:</strong> $47-97, 5-10 sales/month = $235-970/month (passive)</li>
-                        <li><strong>Dispatch Service:</strong> 3-5 carriers × $200/week = $2,400-4,000/month</li>
-                        <li><strong>YouTube/Blog:</strong> $0-500/month year 1, $1K-5K/month year 3+ (compounding)</li>
-                    </ul>
-                </div>
+                <p><strong>Source #5: Maintenance/detailing services</strong></p>
+                <p><strong>Concept:</strong> if you have the space and skills, offer services to other carriers.</p>
+                <ul>
+                    <li><strong>Mobile oil changes:</strong> $35-55 profit/change, 4-6/week = $560-1,320/month</li>
+                    <li><strong>Van detailing:</strong> $140-210 profit/van, 2-3/week = $1,120-2,520/month</li>
+                </ul>
+                <p><strong>Best for:</strong> have a garage, enjoy mechanical work, local network.</p>
 
-                <h3>SOURCE #4: Referrals and Commissions</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>CONCEPT:</strong> Earn commission by referring clients/services.</p>
-                    <ul>
-                        <li><strong>Carrier referrals to brokers:</strong> $200-500 per referral = $300-600/month</li>
-                        <li><strong>Smart Load affiliate:</strong> 20% recurring commission, 10 referrals = $30/month passive</li>
-                        <li><strong>Factoring Services:</strong> $500-1,000 one-time per client</li>
-                        <li><strong>Insurance/ELD/Tech:</strong> $50-300 per client</li>
-                    </ul>
-                    <p style="margin:0"><strong>TOTAL POTENTIAL: $500-2,000/month</strong> (with active network)</p>
-                </div>
-
-                <h3>SOURCE #5: Maintenance/Detailing Services</h3>
-                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>CONCEPT:</strong> If you have the space and skills, offer services to other carriers.
-                    </p>
-                    <ul>
-                        <li><strong>Mobile oil changes:</strong> $35-55 profit/change, 4-6/week = $560-1,320/month</li>
-                        <li><strong>Van detailing:</strong> $140-210 profit/van, 2-3/week = $1,120-2,520/month</li>
-                    </ul>
-                    <p style="margin:0"><strong>BEST FOR:</strong> Have a garage, enjoy mechanical work, local network</p>
-                </div>
-
-                <h3>SOURCE #6: Van Rental During Downtime</h3>
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>CONCEPT:</strong> Idle van = wasted asset. Rent it out when you're not using it.</p>
+                <div class="note warning">
+                    <span class="note-label">Source #6: Van rental during downtime</span>
+                    <p><strong>Concept:</strong> idle van = wasted asset. Rent it out when you're not using it.</p>
                     <ul>
                         <li><strong>Turo Commercial:</strong> $60-90/day net, 4-6 days/month = $240-540/month</li>
-                        <li><strong>Backup carrier:</strong> $150-200/day during vacations, 2 times/year =
-                            $1,500-2,000/year</li>
+                        <li><strong>Backup carrier:</strong> $150-200/day during vacations, 2 times/year = $1,500-2,000/year</li>
                     </ul>
-                    <p style="margin:0">⚠️ <strong>Considerations:</strong> Additional insurance, wear and tear, damage risk, verify policy</p>
+                    <p><strong>Considerations:</strong> additional insurance, wear and tear, damage risk, verify policy.</p>
                 </div>
 
-                <h3>SOURCE #7: Products/Merchandise</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>CONCEPT:</strong> If you build a brand, it can be monetized.</p>
-                    <ul style="margin:0">
-                        <li><strong>Community merch:</strong> T-shirts, hats, stickers (print-on-demand) =
-                            $100-300/month</li>
-                        <li><strong>Useful products:</strong> Van organizers, custom load locks = Niche but scalable</li>
-                    </ul>
-                    <p style="margin-top:1rem;margin-bottom:0"><strong>BEST FOR:</strong> Already have an online presence, engaged community</p>
+                <p><strong>Source #7: Products/merchandise</strong></p>
+                <p><strong>Concept:</strong> if you build a brand, it can be monetized.</p>
+                <ul>
+                    <li><strong>Community merch:</strong> T-shirts, hats, stickers (print-on-demand) = $100-300/month</li>
+                    <li><strong>Useful products:</strong> Van organizers, custom load locks = Niche but scalable</li>
+                </ul>
+                <p><strong>Best for:</strong> already have an online presence, engaged community.</p>
+            </section>
+
+            <section>
+                <h2>Diversification strategy</h2>
+                <p><strong>Don't do everything at once.</strong></p>
+
+                <p><strong>Phase 1 (Months 1-6)</strong></p>
+                <ul>
+                    <li>Keep expediting as 100% of income</li>
+                    <li>Pick ONE complementary source</li>
+                    <li>Example: White glove service</li>
+                    <li><strong>Goal: +$500-1,000/month additional</strong></li>
+                </ul>
+
+                <p><strong>Phase 2 (Months 7-12)</strong></p>
+                <ul>
+                    <li>Expediting: 80-85% of income</li>
+                    <li>Source 1 established: 10-15%</li>
+                    <li>Add Source 2 (e.g., referrals + consulting)</li>
+                    <li><strong>Goal: +$1,000-1,500/month total additional</strong></li>
+                </ul>
+
+                <p><strong>Phase 3 (Year 2)</strong></p>
+                <ul>
+                    <li>Expediting: 70-75% of income</li>
+                    <li>Complementary sources: 25-30%</li>
+                    <li>Optimize what works, cut what doesn't</li>
+                    <li><strong>Goal: +$1,500-2,500/month additional</strong></li>
+                </ul>
+
+                <div class="compare-table">
+                    <div class="compare-title">Year 2 result</div>
+                    <div class="compare-row"><span class="label">Expediting income</span><span class="value">$5,500/month</span></div>
+                    <div class="compare-row"><span class="label">Additional income</span><span class="value">$2,000/month</span></div>
+                    <div class="compare-row"><span class="label">Total</span><span class="value accent">$7,500/month</span></div>
+                </div>
+
+                <div class="pull-number">
+                    <div class="value">+36%</div>
+                    <p class="context">income growth in year 2 — and less dependence on driving alone.</p>
                 </div>
             </section>
 
             <section>
-                <h2>📊 DIVERSIFICATION STRATEGY</h2>
+                <p><strong>The 7 complementary sources:</strong></p>
+                <ol>
+                    <li>Subcontracting: $800-2,100/month</li>
+                    <li>Premium services: $800-8,000/month</li>
+                    <li>Consulting: $400-4,000/month</li>
+                    <li>Referrals: $500-2,000/month</li>
+                    <li>Maintenance: $560-2,520/month</li>
+                    <li>Van rental: $240-2,000/year</li>
+                    <li>Products: $100-300/month</li>
+                </ol>
 
-                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
-                    <p style="font-weight:700;text-align:center;font-size:1.1rem;margin-bottom:1rem">DON'T DO
-                        EVERYTHING AT ONCE</p>
+                <p><strong>Implementation strategy:</strong></p>
+                <ul>
+                    <li><strong>Phase 1 (Months 1-6):</strong> +$500-1,000/month (one source)</li>
+                    <li><strong>Phase 2 (Months 7-12):</strong> +$1,000-1,500/month (two sources)</li>
+                    <li><strong>Phase 3 (Year 2):</strong> +$1,500-2,500/month (optimized)</li>
+                </ul>
 
-                    <p><strong>PHASE 1 (Months 1-6):</strong></p>
-                    <ul>
-                        <li>Keep expediting as 100% of income</li>
-                        <li>Pick ONE complementary source</li>
-                        <li>Example: White glove service</li>
-                        <li><strong>Goal: +$500-1,000/month additional</strong></li>
-                    </ul>
-
-                    <p><strong>PHASE 2 (Months 7-12):</strong></p>
-                    <ul>
-                        <li>Expediting: 80-85% of income</li>
-                        <li>Source 1 established: 10-15%</li>
-                        <li>Add Source 2 (e.g., referrals + consulting)</li>
-                        <li><strong>Goal: +$1,000-1,500/month total additional</strong></li>
-                    </ul>
-
-                    <p><strong>PHASE 3 (Year 2):</strong></p>
-                    <ul style="margin:0">
-                        <li>Expediting: 70-75% of income</li>
-                        <li>Complementary sources: 25-30%</li>
-                        <li>Optimize what works, cut what doesn't</li>
-                        <li><strong>Goal: +$1,500-2,500/month additional</strong></li>
-                    </ul>
-
-                    <p style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1.5rem;margin-bottom:0;text-align:center;font-weight:700">
-                        <strong>YEAR 2 RESULT:</strong><br>
-                        Expediting income: $5,500/month<br>
-                        Additional income: $2,000/month<br>
-                        <span style="color:#FFD700;font-size:1.25rem">TOTAL: $7,500/month (+36%)</span><br>
-                        Less dependence on driving alone
-                    </p>
-                </div>
-            </section>
-
-            <section>
-                <h2>💡 KEY TAKEAWAY</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Diversification ≠ Distraction</p>
-
-                    <div style="text-align:left;max-width:600px;margin:0 auto">
-                        <p><strong>The 7 complementary sources:</strong></p>
-                        <ol>
-                            <li>Subcontracting: $800-2,100/month</li>
-                            <li>Premium services: $800-8,000/month</li>
-                            <li>Consulting: $400-4,000/month</li>
-                            <li>Referrals: $500-2,000/month</li>
-                            <li>Maintenance: $560-2,520/month</li>
-                            <li>Van rental: $240-2,000/year</li>
-                            <li>Products: $100-300/month</li>
-                        </ol>
-
-                        <hr style="border-color:rgba(255,255,255,.2);margin:1.5rem 0">
-
-                        <p><strong>Implementation strategy:</strong></p>
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">It's not about</div>
                         <ul>
-                            <li><strong>Phase 1 (Months 1-6):</strong> +$500-1,000/month (one source)</li>
-                            <li><strong>Phase 2 (Months 7-12):</strong> +$1,000-1,500/month (two sources)</li>
-                            <li><strong>Phase 3 (Year 2):</strong> +$1,500-2,500/month (optimized)</li>
+                            <li>Working more hours</li>
+                            <li>Replacing expediting</li>
+                            <li>Doing everything at once</li>
                         </ul>
-
-                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
-                            <strong>IT'S NOT ABOUT:</strong><br>
-                            ❌ Working more hours<br>
-                            ❌ Replacing expediting<br>
-                            ❌ Doing everything at once<br><br>
-                            <strong style="color:#FFD700">IT'S ABOUT:</strong><br>
-                            ✅ Leveraging what you already have<br>
-                            ✅ Multiple paths to income<br>
-                            ✅ Progressive building<br>
-                            ✅ Assets that scale
-                        </p>
-
-                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">
-                            Your expediting = Solid foundation<br>
-                            Complementary sources = Upside<br><br>
-                            <span style="color:#FFD700">Together = Resilient, scalable business</span>
-                        </p>
                     </div>
+                    <div class="compare-table">
+                        <div class="compare-title">It's about</div>
+                        <ul>
+                            <li>Leveraging what you already have</li>
+                            <li>Multiple paths to income</li>
+                            <li>Progressive building</li>
+                            <li>Assets that scale</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="conclusion">
+                    <p class="lead">Diversification ≠ distraction. Your expediting is the solid foundation; complementary sources are the <span class="accent">upside</span>.</p>
+                    <p class="sub">Together = a resilient, scalable business.</p>
                 </div>
             </section>
 

@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,32 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
         }
 
         .btn {
@@ -161,134 +136,107 @@
         <div class="lesson-content">
 
             <section>
-                <h2>💪 TU CUERPO = TU HERRAMIENTA #1</h2>
+                <h2>Tu cuerpo = tu herramienta #1</h2>
 
-                <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FF6B35;margin-bottom:2rem">
-                    <p style="font-weight:700;margin-bottom:1rem">EXPEDITING ES TRABAJO FÍSICO</p>
-                    <p><strong>Estrés corporal:</strong> Sentado 8-12 hrs/día (espalda, cuello, caderas),
-                        Cargar/descargar (espalda, rodillas), Estrés mental (sistema cardiovascular, digestión, sueño),
-                        Nutrición pobre (energía, peso, inflamación)</p>
-                    <p style="margin:0;text-align:center;font-weight:700;color:#FFD700">
-                        A los 40-50 años:<br>
-                        Sin cuidado = dolor crónico, problemas serios<br>
-                        Con cuidado = funcionando perfectamente<br><br>
-                        Si se rompe, negocio se detiene.
-                    </p>
+                <div class="note warning">
+                    <span class="note-label">Expediting es trabajo físico</span>
+                    <p><strong>Estrés corporal:</strong> sentado 8-12 hrs/día (espalda, cuello, caderas),
+                        cargar/descargar (espalda, rodillas), estrés mental (sistema cardiovascular, digestión, sueño),
+                        nutrición pobre (energía, peso, inflamación).</p>
+                    <p>A los 40-50 años: sin cuidado = dolor crónico y problemas serios. Con cuidado = funcionando perfectamente. Si se rompe, el negocio se detiene.</p>
                 </div>
             </section>
 
             <section>
-                <h2>🏋️ LOS 5 PILARES DE SALUD FÍSICA</h2>
+                <h2>Los 5 pilares de salud física</h2>
 
-                <h3>PILAR #1: Movimiento y Ejercicio</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>PROGRAMA MÍNIMO VIABLE:</strong></p>
-                    <ul>
-                        <li><strong>DIARIO:</strong> 10 min estiramientos mañana + 5 min después manejar + 20-30 min
-                            caminar = 35-45 min/día</li>
-                        <li><strong>SEMANAL:</strong> 3x sesiones ejercicio real (30-45 min): Gym, correr, bodyweight =
-                            90-135 min/semana</li>
-                    </ul>
+                <p><strong>Pilar 1: Movimiento y ejercicio</strong></p>
+                <p><strong>Programa mínimo viable:</strong></p>
+                <ul>
+                    <li><strong>Diario:</strong> 10 min estiramientos mañana + 5 min después de manejar + 20-30 min
+                        caminar = 35-45 min/día</li>
+                    <li><strong>Semanal:</strong> 3x sesiones de ejercicio real (30-45 min): gym, correr, bodyweight =
+                        90-135 min/semana</li>
+                </ul>
 
-                    <p><strong>ESTIRAMIENTOS ESENCIALES (10 min):</strong></p>
-                    <ol style="margin:0">
-                        <li><strong>Cat-Cow (Espalda):</strong> 10 repeticiones, alivia tensión lumbar</li>
-                        <li><strong>Hip Flexor Stretch:</strong> 30 seg cada lado, crítico para sentados</li>
-                        <li><strong>Neck Rolls:</strong> 5 cada dirección</li>
-                        <li><strong>Shoulder Shrugs:</strong> 10 repeticiones</li>
-                        <li><strong>Hamstring Stretch:</strong> 30 seg, previene espalda baja</li>
-                        <li><strong>Spinal Twist:</strong> 30 seg cada lado</li>
-                    </ol>
+                <p><strong>Estiramientos esenciales (10 min):</strong></p>
+                <ol>
+                    <li><strong>Cat-Cow (espalda):</strong> 10 repeticiones, alivia tensión lumbar</li>
+                    <li><strong>Hip Flexor Stretch:</strong> 30 seg cada lado, crítico para quienes están sentados</li>
+                    <li><strong>Neck Rolls:</strong> 5 en cada dirección</li>
+                    <li><strong>Shoulder Shrugs:</strong> 10 repeticiones</li>
+                    <li><strong>Hamstring Stretch:</strong> 30 seg, previene dolor de espalda baja</li>
+                    <li><strong>Spinal Twist:</strong> 30 seg cada lado</li>
+                </ol>
+
+                <p><strong>Pilar 2: Nutrición en la carretera</strong></p>
+                <p><strong>Batch cooking (domingo):</strong> prepara 5-7 comidas, contenedores en el cooler → ahorro
+                    de $50-80/semana.</p>
+
+                <p><strong>Snacks saludables (llevar siempre):</strong></p>
+                <ul>
+                    <li>Nueces/almendras (proteína)</li>
+                    <li>Frutas (manzanas, bananas)</li>
+                    <li>Protein bars (&lt;10g azúcar)</li>
+                    <li>Jerky (proteína)</li>
+                    <li>Agua (1 galón/día mínimo)</li>
+                </ul>
+
+                <p><strong>Pilar 3: Sueño y recuperación</strong></p>
+                <p><strong>Target: 7-8 horas/noche mínimo.</strong></p>
+
+                <p><strong>Higiene de sueño:</strong></p>
+                <ul>
+                    <li>✅ Apaga pantallas 1-2 hrs antes</li>
+                    <li>✅ Temperatura fresca (65-68°F)</li>
+                    <li>✅ Cuarto oscuro, silencio o ruido blanco</li>
+                    <li>✅ Horario consistente ±30 min</li>
+                    <li>❌ No cafeína después de las 2pm</li>
+                    <li>❌ No comidas pesadas 2-3 hrs antes</li>
+                </ul>
+
+                <p><strong>Power nap:</strong> 20 min (1-3pm) para boost de energía | <strong>Nap largo:</strong> 90 min ciclo completo.</p>
+
+                <p><strong>Pilar 4: Manejo de lesiones</strong></p>
+                <p><strong>Lesiones comunes:</strong></p>
+                <ol>
+                    <li><strong>Dolor espalda baja:</strong> Estiramientos diarios, postura correcta, core strength
+                    </li>
+                    <li><strong>Túnel carpal:</strong> Wrist stretches, ergonomic grip, breaks frecuentes</li>
+                    <li><strong>Rodillas:</strong> Dobla rodillas no espalda, usa las piernas para levantar</li>
+                </ol>
+
+                <div class="note tip">
+                    <span class="note-label">Técnica correcta para levantar</span>
+                    <p>Acércate, pies a la altura de los hombros, DOBLA RODILLAS, espalda recta, LEVANTA CON PIERNAS, carga cerca del cuerpo, no tuerzas. Si son &gt;50 lbs o es incómodo: pide ayuda o usa un dolly.</p>
                 </div>
 
-                <h3>PILAR #2: Nutrición en la Carretera</h3>
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>BATCH COOKING (Domingo):</strong> Prepara 5-7 comidas, contenedores en cooler → Ahorro
-                        $50-80/semana</p>
-
-                    <p><strong>SNACKS SALUDABLES (Llevar siempre):</strong></p>
-                    <ul style="margin:0">
-                        <li>Nueces/almendras (proteína)</li>
-                        <li>Frutas (manzanas, bananas)</li>
-                        <li>Protein bars (&lt;10g azúcar)</li>
-                        <li>Jerky (proteína)</li>
-                        <li>Agua (1 galón/día mínimo)</li>
-                    </ul>
-                </div>
-
-                <h3>PILAR #3: Sueño y Recuperación</h3>
-                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>TARGET: 7-8 horas/noche MÍNIMO</strong></p>
-
-                    <p><strong>HIGIENE DE SUEÑO:</strong></p>
-                    <ul style="margin:0">
-                        <li>✅ Apaga pantallas 1-2 hrs antes</li>
-                        <li>✅ Temperatura fresca (65-68°F)</li>
-                        <li>✅ Cuarto oscuro, silencio/ruido blanco</li>
-                        <li>✅ Horario consistente ±30 min</li>
-                        <li>❌ No cafeína después 2pm</li>
-                        <li>❌ No comidas pesadas 2-3 hrs antes</li>
-                    </ul>
-
-                    <p style="margin-top:1rem;margin-bottom:0"><strong>POWER NAP:</strong> 20 min (1-3pm) boost energía
-                        | <strong>NAP LARGO:</strong> 90 min ciclo completo</p>
-                </div>
-
-                <h3>PILAR #4: Manejo de Lesiones</h3>
-                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>LESIONES COMUNES:</strong></p>
-                    <ol style="margin:0">
-                        <li><strong>Dolor espalda baja:</strong> Estiramientos diarios, postura correcta, core strength
-                        </li>
-                        <li><strong>Túnel carpal:</strong> Wrist stretches, ergonomic grip, breaks frecuentes</li>
-                        <li><strong>Rodillas:</strong> Dobla rodillas no espalda, usa piernas para levantar</li>
-                    </ol>
-
-                    <p style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1rem;margin-bottom:0;font-size:.9rem">
-                        <strong>TÉCNICA CORRECTA LEVANTAR:</strong> Acércate, pies shoulder-width, DOBLA RODILLAS,
-                        espalda recta, LEVANTA CON PIERNAS, carga cerca del cuerpo, no torcer. Si &gt;50 lbs o awkward:
-                        pide ayuda o usa dolly.
-                    </p>
-                </div>
-
-                <h3>PILAR #5: Chequeos Preventivos</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <ul style="margin:0">
-                        <li><strong>ANUAL:</strong> Physical completo, bloodwork, presión, visión, hearing</li>
-                        <li><strong>DENTAL:</strong> Limpieza cada 6 meses</li>
-                        <li><strong>TRACKING CASA:</strong> Peso semanal, cómo te sientes, nivel energía</li>
-                        <li><strong>VER DOCTOR SI:</strong> Dolor persistente &gt;2 semanas, síntomas nuevos, fatiga
-                            extrema, cambios visuales</li>
-                    </ul>
-                </div>
+                <p><strong>Pilar 5: Chequeos preventivos</strong></p>
+                <ul>
+                    <li><strong>Anual:</strong> Physical completo, bloodwork, presión, visión, hearing</li>
+                    <li><strong>Dental:</strong> Limpieza cada 6 meses</li>
+                    <li><strong>Tracking en casa:</strong> Peso semanal, cómo te sientes, nivel de energía</li>
+                    <li><strong>Ver a un doctor si:</strong> Dolor persistente &gt;2 semanas, síntomas nuevos, fatiga
+                        extrema, cambios visuales</li>
+                </ul>
             </section>
 
             <section>
-                <h2>💡 CONCLUSIÓN CLAVE</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Tu cuerpo = Tu herramienta
-                        #1<br>Si se rompe, todo se detiene</p>
+                <h2>Conclusión clave</h2>
+                <p>Tu cuerpo = tu herramienta #1. Si se rompe, todo se detiene.</p>
 
-                    <div style="text-align:left;max-width:600px;margin:0 auto">
-                        <p><strong>Los 5 pilares:</strong></p>
-                        <ol>
-                            <li><strong>MOVIMIENTO:</strong> 35-45 min/día mínimo, estiramientos diarios</li>
-                            <li><strong>NUTRICIÓN:</strong> Batch cooking, snacks saludables, 1 gal agua/día</li>
-                            <li><strong>SUEÑO:</strong> 7-8 hrs/noche, higiene de sueño, horario consistente</li>
-                            <li><strong>LESIONES:</strong> Prevención &gt; curación, técnica correcta</li>
-                            <li><strong>CHEQUEOS:</strong> Doctor anual, dental cada 6 meses</li>
-                        </ol>
+                <p><strong>Los 5 pilares:</strong></p>
+                <ol>
+                    <li><strong>Movimiento:</strong> 35-45 min/día mínimo, estiramientos diarios</li>
+                    <li><strong>Nutrición:</strong> Batch cooking, snacks saludables, 1 gal agua/día</li>
+                    <li><strong>Sueño:</strong> 7-8 hrs/noche, higiene de sueño, horario consistente</li>
+                    <li><strong>Lesiones:</strong> Prevención &gt; curación, técnica correcta</li>
+                    <li><strong>Chequeos:</strong> Doctor anual, dental cada 6 meses</li>
+                </ol>
 
-                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center;font-weight:700">
-                            Expediting es marathon, no sprint.<br>
-                            Cuida tu cuerpo o no llegas a meta.<br><br>
-                            <strong>A los 40-50 años:</strong><br>
-                            Sin cuidado = dolor, limitaciones, medicamentos<br>
-                            Con cuidado = funcionando perfectamente<br><br>
-                            <span style="color:#FFD700;font-size:1.2rem">Invierte en salud AHORA<br>O pagas en problemas
-                                DESPUÉS</span>
-                        </p>
-                    </div>
+                <div class="conclusion">
+                    <p class="lead">Expediting es un maratón, no un sprint. <span class="accent">Cuida tu cuerpo</span> o no llegas a la meta.</p>
+                    <p class="sub">A los 40-50 años: sin cuidado = dolor, limitaciones, medicamentos. Con cuidado = funcionando perfectamente. Invierte en salud AHORA o pagas en problemas DESPUÉS.</p>
                 </div>
             </section>
 

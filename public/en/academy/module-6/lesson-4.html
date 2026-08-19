@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,65 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: .75rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1);
-            font-size: .9rem
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
         }
 
         .btn {
@@ -198,61 +140,39 @@
         <div class="lesson-content">
 
             <section>
-                <h2>⏰ THE VALUE OF YOUR TIME</h2>
+                <h2>The value of your time</h2>
 
-                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>SIMPLE CALCULATION:</strong></p>
+                <div class="formula">Monthly profit: $4,500<br>
+÷ Hours worked: 180 hrs/month<br>
+= Value per hour: $25/hr</div>
+
+                <div class="note tip">
+                    <span class="note-label">But not all hours are equal</span>
                     <ul>
-                        <li>Monthly profit: $4,500</li>
-                        <li>Hours worked: 180 hrs/month</li>
-                        <li><strong>Value per hour: $25/hr</strong></li>
-                    </ul>
-                    <p style="margin:0"><strong>BUT...</strong> Not all hours are equal:</p>
-                    <ul style="margin-top:.5rem;margin-bottom:0">
                         <li>Productive hours (driving loaded): $40-60/hr</li>
                         <li>Administrative hours: $0/hr directly</li>
                     </ul>
                 </div>
 
-                <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    GOAL: Minimize admin hours<br>Maximize productive hours
-                </p>
+                <p><strong>Goal:</strong> minimize admin hours, maximize productive hours.</p>
             </section>
 
             <section>
-                <h2>🎯 THE 8 AREAS OF AUTOMATION</h2>
+                <h2>The 8 areas of automation</h2>
 
-                <h3>AREA #1: Financial Tracking</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>METHOD</th>
-                            <th>TIME</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background:rgba(255,107,53,.1)">
-                            <td>Manual: Paper notebook, Excel at month's end</td>
-                            <td>15 hrs/month</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.08)">
-                            <td>Automated: Smart Load auto-records, automatic reports</td>
-                            <td>3 hrs/month</td>
-                        </tr>
-                        <tr style="background:rgba(255,215,0,.15)">
-                            <td><strong>SAVINGS</strong></td>
-                            <td><strong>12 hrs/month × $25 = $300/month</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="compare-table">
+                    <div class="compare-title">Area 1 — financial tracking</div>
+                    <div class="compare-row"><span class="label">Manual: paper notebook, Excel at month's end</span><span class="value">15 hrs/month</span></div>
+                    <div class="compare-row"><span class="label">Automated: Smart Load auto-records, automatic reports</span><span class="value">3 hrs/month</span></div>
+                    <div class="compare-row"><span class="label">Savings</span><span class="value accent">12 hrs/month × $25 = $300/month</span></div>
+                </div>
 
-                <h3>AREA #2: Broker Communication</h3>
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>MANUAL METHOD:</strong> 20 min per load × 24 loads = 8 hrs/month</p>
-                    <p><strong>WITH TEMPLATES:</strong> 5 min per load × 24 loads = 2 hrs/month</p>
-
-                    <p><strong>6 ESSENTIAL TEMPLATES:</strong></p>
-                    <ol style="margin:0;font-size:.9rem">
+                <div class="note tip">
+                    <span class="note-label">Area 2 — broker communication</span>
+                    <p><strong>Manual method:</strong> 20 min per load × 24 loads = 8 hrs/month</p>
+                    <p><strong>With templates:</strong> 5 min per load × 24 loads = 2 hrs/month</p>
+                    <p><strong>6 essential templates:</strong></p>
+                    <ol>
                         <li>"Confirmed. Picking up at [TIME]. ETA delivery [TIME]."</li>
                         <li>"At pickup. Loading. Update in 30 min."</li>
                         <li>"Loaded. En route. ETA [TIME]."</li>
@@ -260,170 +180,126 @@
                         <li>"30 min from delivery."</li>
                         <li>"Delivered. BOL attached. Thank you."</li>
                     </ol>
-                    <p style="margin-top:1rem;margin-bottom:0"><strong>SAVINGS: 6 hrs/month</strong></p>
+                    <p><strong>Savings: 6 hrs/month</strong></p>
                 </div>
 
-                <h3>AREA #3: Digital Documentation</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>SETUP (1 hour, one time):</strong></p>
+                <div class="note tip">
+                    <span class="note-label">Area 3 — digital documentation</span>
+                    <p><strong>Setup (1 hour, one time):</strong></p>
                     <ol>
                         <li>Install free scanner app (Adobe Scan, Microsoft Lens)</li>
                         <li>Create Google Drive structure: /2024/01-January/BOLs/Receipts</li>
                         <li>Name files: "2024-12-15_BOL_Detroit-Chicago_ABC.pdf"</li>
                     </ol>
-                    <p><strong>DAILY PROCESS:</strong> Photo of BOL (3 min) → Auto-upload → Done</p>
-                    <p style="margin:0"><strong>SAVINGS: 4 hrs/month</strong> (vs. searching for lost documents)</p>
+                    <p><strong>Daily process:</strong> photo of BOL (3 min) → auto-upload → done</p>
+                    <p><strong>Savings: 4 hrs/month</strong> (vs. searching for lost documents)</p>
                 </div>
 
-                <h3>AREA #4: Route Planning</h3>
-                <ul>
-                    <li><strong>Optimized Waze:</strong> Set arrival time, proactively avoids traffic</li>
-                    <li>Savings: 30-45 min/day = 15 hrs/month</li>
-                    <li><strong>Value: 15 hrs × $25 = $375/month</strong></li>
-                </ul>
-
-                <h3>AREA #5: Maintenance Tracking</h3>
-                <ul>
-                    <li><strong>Smart Load:</strong> Auto-records miles, calculates next service, notifies 500 miles before</li>
-                    <li><strong>Free alternative:</strong> Car Minder App</li>
-                    <li><strong>Savings: 1-2 hrs/month + $100-200/month</strong> (avoiding late maintenance)</li>
-                </ul>
-
-                <h3>AREA #6: Expense Tracking</h3>
-                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>CRITICAL SETUP:</strong></p>
-                    <ol>
-                        <li><strong>Business-ONLY credit card</strong> (Chase Ink 5% gas, everything auto-categorized)</li>
-                        <li><strong>Expense app:</strong> QuickBooks Self-Employed ($15/month), Wave (FREE), or Smart Load</li>
-                        <li><strong>Simple rule:</strong> ALL business expenses on the business card. No exceptions.</li>
-                    </ol>
-                    <p style="margin:0"><strong>BENEFITS:</strong><br>
-                        • Zero lost receipts<br>
-                        • Automatic categorization<br>
-                        • Tax reports: 1 click<br>
-                        • <strong>SAVINGS: 8-10 hrs/month + $500-1,000/year in taxes</strong></p>
-                </div>
-
-                <h3>AREA #7: Emergency Communication</h3>
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>PREPARATION (30 min):</strong></p>
-                    <p>Create "EMERGENCY CONTACTS" in your phone:</p>
-                    <ul style="margin:0">
-                        <li>⚠️ EMERGENCY - MAIN BROKER</li>
-                        <li>⚠️ EMERGENCY - AAA</li>
-                        <li>⚠️ EMERGENCY - 24HR SHOP</li>
-                        <li>⚠️ EMERGENCY - INSURANCE CLAIM</li>
+                <div class="note tip">
+                    <span class="note-label">Area 4 — route planning</span>
+                    <ul>
+                        <li><strong>Optimized Waze:</strong> set arrival time, proactively avoids traffic</li>
+                        <li>Savings: 30-45 min/day = 15 hrs/month</li>
+                        <li><strong>Value: 15 hrs × $25 = $375/month</strong></li>
                     </ul>
-                    <p style="margin-top:1rem;margin-bottom:0"><strong>VALUE IN EMERGENCY: Priceless</strong></p>
                 </div>
 
-                <h3>AREA #8: Invoicing and Collections</h3>
-                <p><strong>Smart Load:</strong> Auto-records delivery, calculates expected payment date (30 days), alerts if not paid within 35 days</p>
-                <p><strong>SAVINGS: 2-3 hrs/month</strong> (not chasing lost payments)</p>
+                <div class="note tip">
+                    <span class="note-label">Area 5 — maintenance tracking</span>
+                    <ul>
+                        <li><strong>Smart Load:</strong> auto-records miles, calculates next service, notifies 500 miles before</li>
+                        <li><strong>Free alternative:</strong> Car Minder App</li>
+                        <li><strong>Savings: 1-2 hrs/month + $100-200/month</strong> (avoiding late maintenance)</li>
+                    </ul>
+                </div>
+
+                <div class="note tip">
+                    <span class="note-label">Area 6 — expense tracking</span>
+                    <p><strong>Critical setup:</strong></p>
+                    <ol>
+                        <li><strong>Business-only credit card</strong> (Chase Ink 5% gas, everything auto-categorized)</li>
+                        <li><strong>Expense app:</strong> QuickBooks Self-Employed ($15/month), Wave (free), or Smart Load</li>
+                        <li><strong>Simple rule:</strong> all business expenses on the business card. No exceptions.</li>
+                    </ol>
+                    <p><strong>Benefits:</strong></p>
+                    <ul>
+                        <li>Zero lost receipts</li>
+                        <li>Automatic categorization</li>
+                        <li>Tax reports: 1 click</li>
+                        <li><strong>Savings: 8-10 hrs/month + $500-1,000/year in taxes</strong></li>
+                    </ul>
+                </div>
+
+                <div class="note warning">
+                    <span class="note-label">Area 7 — emergency communication</span>
+                    <p><strong>Preparation (30 min):</strong> create "Emergency contacts" in your phone:</p>
+                    <ul>
+                        <li>⚠️ Emergency — main broker</li>
+                        <li>⚠️ Emergency — AAA</li>
+                        <li>⚠️ Emergency — 24hr shop</li>
+                        <li>⚠️ Emergency — insurance claim</li>
+                    </ul>
+                    <p><strong>Value in emergency:</strong> priceless</p>
+                </div>
+
+                <div class="note tip">
+                    <span class="note-label">Area 8 — invoicing and collections</span>
+                    <p><strong>Smart Load:</strong> auto-records delivery, calculates expected payment date (30 days), alerts if not paid within 35 days.</p>
+                    <p><strong>Savings: 2-3 hrs/month</strong> (not chasing lost payments)</p>
+                </div>
             </section>
 
             <section>
-                <h2>📊 TOTAL SAVINGS SUMMARY</h2>
+                <h2>Total savings summary</h2>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>AREA</th>
-                            <th>SAVINGS (Hours/month)</th>
-                            <th>VALUE</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Financial tracking</td>
-                            <td>12 hrs</td>
-                            <td>$300</td>
-                        </tr>
-                        <tr>
-                            <td>Communication (templates)</td>
-                            <td>6 hrs</td>
-                            <td>$150</td>
-                        </tr>
-                        <tr>
-                            <td>Digital documentation</td>
-                            <td>4 hrs</td>
-                            <td>$100</td>
-                        </tr>
-                        <tr>
-                            <td>Route planning</td>
-                            <td>15 hrs</td>
-                            <td>$375</td>
-                        </tr>
-                        <tr>
-                            <td>Maintenance tracking</td>
-                            <td>1-2 hrs</td>
-                            <td>$25-50</td>
-                        </tr>
-                        <tr>
-                            <td>Expense tracking</td>
-                            <td>8-10 hrs</td>
-                            <td>$200-250</td>
-                        </tr>
-                        <tr>
-                            <td>Invoicing</td>
-                            <td>2-3 hrs</td>
-                            <td>$50-75</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.15)">
-                            <td><strong>TOTAL</strong></td>
-                            <td><strong>48-52 hrs/month</strong></td>
-                            <td><strong>$1,200-1,300/month</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Financial tracking</span><span class="value">12 hrs — $300</span></div>
+                    <div class="compare-row"><span class="label">Communication (templates)</span><span class="value">6 hrs — $150</span></div>
+                    <div class="compare-row"><span class="label">Digital documentation</span><span class="value">4 hrs — $100</span></div>
+                    <div class="compare-row"><span class="label">Route planning</span><span class="value">15 hrs — $375</span></div>
+                    <div class="compare-row"><span class="label">Maintenance tracking</span><span class="value">1-2 hrs — $25-50</span></div>
+                    <div class="compare-row"><span class="label">Expense tracking</span><span class="value">8-10 hrs — $200-250</span></div>
+                    <div class="compare-row"><span class="label">Invoicing</span><span class="value">2-3 hrs — $50-75</span></div>
+                    <div class="compare-row"><span class="label">Total</span><span class="value accent">48-52 hrs/month — $1,200-1,300/month</span></div>
+                </div>
 
-                <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    REALISTIC GOAL: Automate 50-70% = 25-35 hrs/month saved<br>
-                    <strong style="color:#FFD700;font-size:1.25rem">Value: $625-875/month</strong><br>
-                    Initial setup: 3-4 hours one time<br>
-                    ROI: MASSIVE
-                </p>
+                <div class="pull-number">
+                    <div class="value">25-35 hrs/mo</div>
+                    <p class="context">saved by automating 50-70% — worth $625-875/month. Initial setup: 3-4 hours one time.</p>
+                </div>
             </section>
 
             <section>
-                <h2>💡 KEY CONCLUSION</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Time = Money. Literally.</p>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Average operator</span><span class="value">18-22 hrs/month on admin</span></div>
+                    <div class="compare-row"><span class="label">Automated operator</span><span class="value">5-7 hrs/month</span></div>
+                    <div class="compare-row"><span class="label">Difference</span><span class="value accent">12-15 hours/month saved</span></div>
+                </div>
 
-                    <div style="text-align:left;max-width:500px;margin:0 auto">
-                        <p><strong>Average operator:</strong> 18-22 hrs/month on admin</p>
-                        <p><strong>Automated operator:</strong> 5-7 hrs/month</p>
-                        <p><strong>Difference:</strong> 12-15 hours/month saved</p>
+                <p><strong>The 8 areas of automation:</strong></p>
+                <ol>
+                    <li>Financial tracking (Smart Load)</li>
+                    <li>Communication (templates)</li>
+                    <li>Documentation (digital/cloud)</li>
+                    <li>Route planning (optimized Waze)</li>
+                    <li>Maintenance tracking (auto-alerts)</li>
+                    <li>Expense tracking (apps/business card)</li>
+                    <li>Emergencies (pre-configured contacts)</li>
+                    <li>Invoicing (auto-payment tracking)</li>
+                </ol>
 
-                        <hr style="border-color:rgba(255,255,255,.2);margin:1.5rem 0">
+                <div class="note tip">
+                    <span class="note-label">Every hour on manual admin is an hour you are not</span>
+                    <ul>
+                        <li>Driving loaded ($40-60/hr)</li>
+                        <li>With family</li>
+                        <li>Resting</li>
+                    </ul>
+                </div>
 
-                        <p><strong>The 8 areas of automation:</strong></p>
-                        <ol style="font-size:.9rem;">
-                            <li>Financial tracking (Smart Load)</li>
-                            <li>Communication (Templates)</li>
-                            <li>Documentation (Digital/Cloud)</li>
-                            <li>Route planning (Optimized Waze)</li>
-                            <li>Maintenance tracking (Auto-alerts)</li>
-                            <li>Expense tracking (Apps/Business card)</li>
-                            <li>Emergencies (Pre-configured contacts)</li>
-                            <li>Invoicing (Auto-payment tracking)</li>
-                        </ol>
-
-                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
-                            <strong>Initial setup:</strong> 3-4 hours one time<br>
-                            <strong>Benefit:</strong> 12-15 hrs/month forever<br><br>
-                            <strong style="color:#FFD700;font-size:1.25rem">Every hour on manual admin<br>
-                                is an hour you are NOT:</strong><br>
-                            • Driving loaded ($40-60/hr)<br>
-                            • With family<br>
-                            • Resting
-                        </p>
-
-                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">
-                            Automate to LIVE.<br>
-                            Don't live to administrate.
-                        </p>
-                    </div>
+                <div class="conclusion">
+                    <p class="lead">Time = <span class="accent">money</span>. Literally.</p>
+                    <p class="sub">Automate to live. Don't live to administrate. Initial setup: 3-4 hours one time — benefit: 12-15 hrs/month forever.</p>
                 </div>
             </section>
 

@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,70 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .callout {
-            padding: 1.5rem;
-            border-radius: .75rem;
-            margin: 2rem 0;
-            border-left: 4px solid
-        }
-
-        .callout.tip {
-            background: rgba(0, 217, 255, .1);
-            border-color: #00D9FF
-        }
-
-        .callout.warning {
-            background: rgba(255, 107, 53, .1);
-            border-color: #FF6B35
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
         }
 
         .btn {
@@ -199,117 +136,96 @@
         <div class="lesson-content">
 
             <section>
-                <h2>🗺️ THE TRUTH ABOUT GEOGRAPHY</h2>
+                <h2>The truth about geography</h2>
                 <p><strong>Not all miles are worth the same.</strong><br>
                     1 mile in Detroit ≠ 1 mile in Montana</p>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
-                    <div style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>DETROIT 🟢</strong></p>
-                        <ul>
-                            <li>1,000+ shippers in 50-mile radius</li>
-                            <li>Load-to-truck ratio: 4:1</li>
-                            <li>Avg wait: 8-12 hours</li>
-                            <li>Rates: $1.50-1.80/mi</li>
-                            <li>Backhaul: Excellent</li>
-                        </ul>
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Detroit 🟢</div>
+                        <div class="compare-row"><span class="label">Shippers in 50-mi radius</span><span class="value">1,000+</span></div>
+                        <div class="compare-row"><span class="label">Load-to-truck ratio</span><span class="value">4:1</span></div>
+                        <div class="compare-row"><span class="label">Avg wait</span><span class="value">8-12 hours</span></div>
+                        <div class="compare-row"><span class="label">Rates</span><span class="value">$1.50-1.80/mi</span></div>
+                        <div class="compare-row"><span class="label">Backhaul</span><span class="value">Excellent</span></div>
                     </div>
-
-                    <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>MONTANA 🔴</strong></p>
-                        <ul>
-                            <li>&lt;50 shippers in 200-mile radius</li>
-                            <li>Load-to-truck ratio: 1:3</li>
-                            <li>Avg wait: 48-72 hours</li>
-                            <li>Rates: $1.10-1.30/mi</li>
-                            <li>Backhaul: Poor</li>
-                        </ul>
+                    <div class="compare-table">
+                        <div class="compare-title">Montana 🔴</div>
+                        <div class="compare-row"><span class="label">Shippers in 200-mi radius</span><span class="value">&lt;50</span></div>
+                        <div class="compare-row"><span class="label">Load-to-truck ratio</span><span class="value">1:3</span></div>
+                        <div class="compare-row"><span class="label">Avg wait</span><span class="value">48-72 hours</span></div>
+                        <div class="compare-row"><span class="label">Rates</span><span class="value">$1.10-1.30/mi</span></div>
+                        <div class="compare-row"><span class="label">Backhaul</span><span class="value">Poor</span></div>
                     </div>
                 </div>
             </section>
 
             <section>
-                <h2>💡 THE 5 CRITICAL FACTORS</h2>
+                <h2>The 5 critical factors</h2>
                 <p><strong>What makes a zone "profitable"?</strong></p>
 
                 <ol>
-                    <li><strong>FREIGHT DENSITY</strong> = Number of available loads per day</li>
-                    <li><strong>LOAD-TO-TRUCK RATIO</strong> = More loads than trucks = better for you</li>
-                    <li><strong>AVERAGE WAIT TIME</strong> = How long it takes to get your next load</li>
-                    <li><strong>RATE QUALITY</strong> = Typical RPM for loads in that zone</li>
-                    <li><strong>BACKHAUL AVAILABILITY</strong> = Probability of finding a return load</li>
+                    <li><strong>Freight density</strong> = Number of available loads per day</li>
+                    <li><strong>Load-to-truck ratio</strong> = More loads than trucks = better for you</li>
+                    <li><strong>Average wait time</strong> = How long it takes to get your next load</li>
+                    <li><strong>Rate quality</strong> = Typical RPM for loads in that zone</li>
+                    <li><strong>Backhaul availability</strong> = Probability of finding a return load</li>
                 </ol>
             </section>
 
             <section>
-                <h2>🎯 CLASSIFICATION SYSTEM</h2>
+                <h2>Classification system</h2>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Tier</th>
-                            <th>Characteristics</th>
-                            <th>Examples</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background:rgba(100,200,100,.15)">
-                            <td><strong>S-TIER 🟢</strong></td>
-                            <td>
-                                Freight: Very high<br>
-                                Wait: &lt;12 hrs<br>
-                                Rates: $1.60-2.00/mi<br>
-                                Backhaul: 90%+
-                            </td>
-                            <td>Detroit, Chicago, Atlanta, Dallas, Charlotte</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.08)">
-                            <td><strong>A-TIER 🟢</strong></td>
-                            <td>
-                                Freight: High<br>
-                                Wait: 12-24 hrs<br>
-                                Rates: $1.40-1.70/mi<br>
-                                Backhaul: 70-90%
-                            </td>
-                            <td>Indianapolis, Nashville, Memphis, Columbus</td>
-                        </tr>
-                        <tr style="background:rgba(255,215,0,.08)">
-                            <td><strong>B-TIER 🟡</strong></td>
-                            <td>
-                                Freight: Moderate<br>
-                                Wait: 24-48 hrs<br>
-                                Rates: $1.20-1.50/mi<br>
-                                Backhaul: 50-70%
-                            </td>
-                            <td>Louisville, Kansas City, Minneapolis, Phoenix</td>
-                        </tr>
-                        <tr style="background:rgba(255,107,53,.08)">
-                            <td><strong>C-TIER 🟠</strong></td>
-                            <td>
-                                Freight: Low<br>
-                                Wait: 48-72 hrs<br>
-                                Rates: $1.00-1.30/mi<br>
-                                Backhaul: 30-50%
-                            </td>
-                            <td>Albuquerque, Little Rock, Boise</td>
-                        </tr>
-                        <tr style="background:rgba(255,107,53,.15)">
-                            <td><strong>D-TIER 🔴</strong></td>
-                            <td>
-                                Freight: Very low<br>
-                                Wait: 72+ hrs<br>
-                                Rates: $0.90-1.20/mi<br>
-                                Backhaul: &lt;30%</td>
-                            <td>Laredo, El Paso, Montana, Wyoming</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="compare-table">
+                    <div class="compare-title">S-Tier 🟢</div>
+                    <div class="compare-row"><span class="label">Freight</span><span class="value">Very high</span></div>
+                    <div class="compare-row"><span class="label">Wait</span><span class="value">&lt;12 hrs</span></div>
+                    <div class="compare-row"><span class="label">Rates</span><span class="value accent">$1.60-2.00/mi</span></div>
+                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">90%+</span></div>
+                    <p>Examples: Detroit, Chicago, Atlanta, Dallas, Charlotte</p>
+                </div>
+
+                <div class="compare-table">
+                    <div class="compare-title">A-Tier 🟢</div>
+                    <div class="compare-row"><span class="label">Freight</span><span class="value">High</span></div>
+                    <div class="compare-row"><span class="label">Wait</span><span class="value">12-24 hrs</span></div>
+                    <div class="compare-row"><span class="label">Rates</span><span class="value">$1.40-1.70/mi</span></div>
+                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">70-90%</span></div>
+                    <p>Examples: Indianapolis, Nashville, Memphis, Columbus</p>
+                </div>
+
+                <div class="compare-table">
+                    <div class="compare-title">B-Tier 🟡</div>
+                    <div class="compare-row"><span class="label">Freight</span><span class="value">Moderate</span></div>
+                    <div class="compare-row"><span class="label">Wait</span><span class="value">24-48 hrs</span></div>
+                    <div class="compare-row"><span class="label">Rates</span><span class="value">$1.20-1.50/mi</span></div>
+                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">50-70%</span></div>
+                    <p>Examples: Louisville, Kansas City, Minneapolis, Phoenix</p>
+                </div>
+
+                <div class="compare-table">
+                    <div class="compare-title">C-Tier 🟠</div>
+                    <div class="compare-row"><span class="label">Freight</span><span class="value">Low</span></div>
+                    <div class="compare-row"><span class="label">Wait</span><span class="value">48-72 hrs</span></div>
+                    <div class="compare-row"><span class="label">Rates</span><span class="value">$1.00-1.30/mi</span></div>
+                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">30-50%</span></div>
+                    <p>Examples: Albuquerque, Little Rock, Boise</p>
+                </div>
+
+                <div class="compare-table">
+                    <div class="compare-title">D-Tier 🔴</div>
+                    <div class="compare-row"><span class="label">Freight</span><span class="value">Very low</span></div>
+                    <div class="compare-row"><span class="label">Wait</span><span class="value">72+ hrs</span></div>
+                    <div class="compare-row"><span class="label">Rates</span><span class="value">$0.90-1.20/mi</span></div>
+                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">&lt;30%</span></div>
+                    <p>Examples: Laredo, El Paso, Montana, Wyoming</p>
+                </div>
             </section>
 
             <section>
-                <h2>🔍 HOW TO IDENTIFY YOUR GOLD ZONES</h2>
+                <h2>How to identify your gold zones</h2>
 
-                <h3>Method 1: Analysis in Smart Load Solution</h3>
+                <p><strong>Method 1: Analysis in Smart Load Solution</strong></p>
                 <p>Dashboard → Zones → My Top Zones</p>
                 <p>The app analyzes your history and automatically shows:</p>
                 <ul>
@@ -320,9 +236,9 @@
                     <li>⚠️ Bottom 3 zones to avoid</li>
                 </ul>
 
-                <h3>Method 2: The 4-Question Test</h3>
+                <p><strong>Method 2: The 4-question test</strong></p>
                 <p>For any zone:</p>
-                <ol style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
+                <ol>
                     <li>How long did I wait for my last load here?<br>
                         &lt;12 hrs=🟢 | 12-24 hrs=🟡 | &gt;24 hrs = 🔴
                     </li>
@@ -337,142 +253,125 @@
                         Yes = 🟢 | Some = 🟡 | No = 🔴</li>
                 </ol>
 
-                <p><strong>SCORING:</strong><br>
-                    4 greens = S-Tier FOR YOU<br>
-                    3 greens = A-Tier<br>
-                    2 greens = B-Tier<br>
-                    ≤1 green = Avoid</p>
+                <div class="compare-table">
+                    <div class="compare-title">Scoring</div>
+                    <div class="compare-row"><span class="label">4 greens</span><span class="value accent">S-Tier for YOU</span></div>
+                    <div class="compare-row"><span class="label">3 greens</span><span class="value">A-Tier</span></div>
+                    <div class="compare-row"><span class="label">2 greens</span><span class="value">B-Tier</span></div>
+                    <div class="compare-row"><span class="label">≤1 green</span><span class="value">Avoid</span></div>
+                </div>
             </section>
 
             <section>
-                <h2>🗺️ THE "HOME CIRCUIT" CONCEPT</h2>
+                <h2>The "Home Circuit" concept</h2>
                 <p>Instead of roaming all over the US randomly, build a CIRCUIT of 4-6 premium zones.</p>
 
-                <div style="background:rgba(0,217,255,.05);padding:1.5rem;border-radius:.75rem;margin:2rem 0">
-                    <p><strong>Example of a successful circuit:</strong></p>
-                    <p style="text-align:center;font-family:monospace;font-size:.9rem">
-                        DETROIT (Home)<br>
-                        ↓↑<br>
-                        CHICAGO (2 hrs)<br>
-                        ↓↑<br>
-                        INDIANAPOLIS (3 hrs)<br>
-                        ↓↑<br>
-                        NASHVILLE (4 hrs)<br>
-                        ↓↑<br>
-                        ATLANTA (6 hrs)<br>
-                        ↓↑<br>
-                        CHARLOTTE (5 hrs)<br>
-                        ↑<br>
-                        [back to DETROIT]
-                    </p>
+                <p><strong>Example of a successful circuit:</strong></p>
+                <div class="formula">DETROIT (Home)<br>
+↓↑<br>
+CHICAGO (2 hrs)<br>
+↓↑<br>
+INDIANAPOLIS (3 hrs)<br>
+↓↑<br>
+NASHVILLE (4 hrs)<br>
+↓↑<br>
+ATLANTA (6 hrs)<br>
+↓↑<br>
+CHARLOTTE (5 hrs)<br>
+↑<br>
+[back to DETROIT]</div>
 
-                    <p><strong>BENEFITS:</strong></p>
-                    <ul>
-                        <li>You know each area perfectly</li>
-                        <li>You have contacts at every stop</li>
-                        <li>You know the best fuel stops and parking</li>
-                        <li>Familiarity = efficiency</li>
-                        <li>Predictable income patterns</li>
-                    </ul>
-                </div>
+                <p><strong>Benefits:</strong></p>
+                <ul>
+                    <li>You know each area perfectly</li>
+                    <li>You have contacts at every stop</li>
+                    <li>You know the best fuel stops and parking</li>
+                    <li>Familiarity = efficiency</li>
+                    <li>Predictable income patterns</li>
+                </ul>
             </section>
 
             <section>
-                <h2>📊 SEASONAL PATTERNS</h2>
+                <h2>Seasonal patterns</h2>
                 <p>Zones change in value by season:</p>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Zone</th>
-                            <th>Q1</th>
-                            <th>Q2</th>
-                            <th>Q3</th>
-                            <th>Q4</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Detroit (Auto)</td>
-                            <td style="background:rgba(100,200,100,.15)">🟢🟢 Peak</td>
-                            <td style="background:rgba(255,215,0,.1)">🟡 Slow</td>
-                            <td style="background:rgba(100,200,100,.1)">🟢 Good</td>
-                            <td style="background:rgba(100,200,100,.15)">🟢🟢 Peak</td>
-                        </tr>
-                        <tr>
-                            <td>Atlanta (Dist.)</td>
-                            <td style="background:rgba(100,200,100,.1)">🟢 Good</td>
-                            <td style="background:rgba(100,200,100,.1)">🟢 Good</td>
-                            <td style="background:rgba(100,200,100,.1)">🟢 Good</td>
-                            <td style="background:rgba(100,200,100,.15)">🟢🟢 PEAK</td>
-                        </tr>
-                        <tr>
-                            <td>Phoenix (Tourism)</td>
-                            <td style="background:rgba(255,215,0,.1)">🟡 Slow</td>
-                            <td style="background:rgba(100,200,100,.15)">🟢🟢 PEAK</td>
-                            <td style="background:rgba(255,107,53,.1)">🔴 Dead</td>
-                            <td style="background:rgba(255,215,0,.1)">🟡 Slow</td>
-                        </tr>
-                        <tr>
-                            <td>Florida (Snowbirds)</td>
-                            <td style="background:rgba(100,200,100,.15)">🟢🟢 PEAK</td>
-                            <td style="background:rgba(255,215,0,.1)">🟡 Slow</td>
-                            <td style="background:rgba(255,107,53,.1)">🔴 Dead</td>
-                            <td style="background:rgba(100,200,100,.1)">🟢 Good</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="compare-table">
+                    <div class="compare-title">Detroit (Auto)</div>
+                    <div class="compare-row"><span class="label">Q1</span><span class="value accent">Peak</span></div>
+                    <div class="compare-row"><span class="label">Q2</span><span class="value">Slow</span></div>
+                    <div class="compare-row"><span class="label">Q3</span><span class="value">Good</span></div>
+                    <div class="compare-row"><span class="label">Q4</span><span class="value accent">Peak</span></div>
+                </div>
 
-                <p style="font-size:.9rem;color:#888">Q1: Auto retooling | Q2: Construction | Q3: Vacation slow | Q4:
-                    Holiday retail</p>
+                <div class="compare-table">
+                    <div class="compare-title">Atlanta (Dist.)</div>
+                    <div class="compare-row"><span class="label">Q1</span><span class="value">Good</span></div>
+                    <div class="compare-row"><span class="label">Q2</span><span class="value">Good</span></div>
+                    <div class="compare-row"><span class="label">Q3</span><span class="value">Good</span></div>
+                    <div class="compare-row"><span class="label">Q4</span><span class="value accent">Peak</span></div>
+                </div>
+
+                <div class="compare-table">
+                    <div class="compare-title">Phoenix (Tourism)</div>
+                    <div class="compare-row"><span class="label">Q1</span><span class="value">Slow</span></div>
+                    <div class="compare-row"><span class="label">Q2</span><span class="value accent">Peak</span></div>
+                    <div class="compare-row"><span class="label">Q3</span><span class="value">Dead</span></div>
+                    <div class="compare-row"><span class="label">Q4</span><span class="value">Slow</span></div>
+                </div>
+
+                <div class="compare-table">
+                    <div class="compare-title">Florida (Snowbirds)</div>
+                    <div class="compare-row"><span class="label">Q1</span><span class="value accent">Peak</span></div>
+                    <div class="compare-row"><span class="label">Q2</span><span class="value">Slow</span></div>
+                    <div class="compare-row"><span class="label">Q3</span><span class="value">Dead</span></div>
+                    <div class="compare-row"><span class="label">Q4</span><span class="value">Good</span></div>
+                </div>
+
+                <p>Q1: Auto retooling | Q2: Construction | Q3: Vacation slow | Q4: Holiday retail</p>
             </section>
 
             <section>
-                <h2>🎯 90-DAY PLAN</h2>
+                <h2>90-day plan</h2>
 
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>WEEKS 1-4: DISCOVERY</strong></p>
-                    <ul>
-                        <li>Track ALL your zones in the app</li>
-                        <li>Note wait times, RPM, ease of reload</li>
-                        <li>Identify your top 3 best performers</li>
-                    </ul>
+                <p><strong>Weeks 1-4: Discovery</strong></p>
+                <ul>
+                    <li>Track ALL your zones in the app</li>
+                    <li>Note wait times, RPM, ease of reload</li>
+                    <li>Identify your top 3 best performers</li>
+                </ul>
 
-                    <p style="margin-top:1.5rem"><strong>WEEKS 5-8: FOCUS</strong></p>
-                    <ul>
-                        <li>Spend 60% of your time in your top 3 zones</li>
-                        <li>Develop contacts with local brokers</li>
-                        <li>Learn the area (parking, fuel, etc.)</li>
-                    </ul>
+                <p><strong>Weeks 5-8: Focus</strong></p>
+                <ul>
+                    <li>Spend 60% of your time in your top 3 zones</li>
+                    <li>Develop contacts with local brokers</li>
+                    <li>Learn the area (parking, fuel, etc.)</li>
+                </ul>
 
-                    <p style="margin-top:1.5rem"><strong>WEEKS 9-12: OPTIMIZATION</strong></p>
-                    <ul>
-                        <li>Refine your circuit (add 2-3 more zones)</li>
-                        <li>Establish "no-go zones"</li>
-                        <li>Compare profit month 1 vs month 3</li>
-                    </ul>
+                <p><strong>Weeks 9-12: Optimization</strong></p>
+                <ul>
+                    <li>Refine your circuit (add 2-3 more zones)</li>
+                    <li>Establish "no-go zones"</li>
+                    <li>Compare profit month 1 vs month 3</li>
+                </ul>
 
-                    <p style="margin-top:1.5rem;text-align:center;font-weight:700">
-                        GOAL: Month 1: $3,500 → Month 3: $4,500<br>
-                        +28.5% improvement
-                    </p>
+                <div class="pull-number">
+                    <div class="value">+28.5%</div>
+                    <p class="context">90-day improvement goal: Month 1 $3,500 → Month 3 $4,500.</p>
                 </div>
             </section>
 
             <section>
-                <h2>💡 KEY TAKEAWAY</h2>
-                <div style="background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">Profitable zones are NOT universal.
-                        They are PERSONAL.</p>
-                    <p>Your Detroit ≠ My Detroit<br>(Depends on contacts, timing, experience)</p>
-                    <ul style="text-align:left;max-width:500px;margin:1.5rem auto 0;list-style:none;padding:0">
-                        <li>✅ Analyze your history</li>
-                        <li>✅ Apply the 4-question test</li>
-                        <li>✅ Build a focused circuit</li>
-                        <li>✅ Avoid C/D-tier zones</li>
-                    </ul>
-                    <p style="margin-top:1.5rem;font-weight:700;color:#FFD700">In 90 days, your profit will increase
-                        20-30% from geographic optimization alone</p>
+                <div class="checklist">
+                    <span class="checklist-label">To apply this</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Analyze your history</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Apply the 4-question test</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Build a focused circuit</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Avoid C/D-tier zones</span></div>
+                </div>
+
+                <div class="conclusion">
+                    <p class="lead">Profitable zones are NOT universal. They are <span class="accent">personal</span>.</p>
+                    <p class="sub">Your Detroit ≠ My Detroit — it depends on your contacts, timing, and experience. In 90 days, your profit will increase 20-30% from geographic optimization alone.</p>
                 </div>
             </section>
 

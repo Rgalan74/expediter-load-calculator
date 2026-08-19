@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,65 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: .75rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1);
-            font-size: .9rem
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
         }
 
         .btn {
@@ -194,220 +136,228 @@
         <div class="lesson-content">
 
             <section>
-                <h2>💎 THE SPECIALIZATION STRATEGY</h2>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
-                    <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FF6B35">
-                        <p><strong>GENERALIST: Competing against 1,000+ vans</strong></p>
-                        <ul style="margin:0;font-size:.9rem">
-                            <li>"General freight" only</li>
-                            <li>Rates: $1.40-1.70/mi</li>
-                            <li>Relationship: Purely transactional</li>
-                            <li><strong>Easily and instantly replaceable</strong></li>
-                        </ul>
+                <h2>The Specialization Strategy</h2>
+
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Generalist — competing against 1,000+ vans</div>
+                        <div class="compare-row"><span class="label">Freight</span><span class="value">General</span></div>
+                        <div class="compare-row"><span class="label">Rate</span><span class="value">$1.40-1.70/mi</span></div>
+                        <div class="compare-row"><span class="label">Relationship</span><span class="value">Transactional</span></div>
+                        <div class="compare-row"><span class="label">Replaceability</span><span class="value">Easy</span></div>
                     </div>
-                    <div style="background:rgba(100,200,100,.15);padding:1.5rem;border-radius:.75rem;border-left:4px solid #64C864">
-                        <p><strong>SPECIALIST: Competing against 10-50 vans</strong></p>
-                        <ul style="margin:0;font-size:.9rem">
-                            <li>A specific, certified niche</li>
-                            <li>Rates: $2.00-3.50/mi consistently</li>
-                            <li>Relationship: True Partnership</li>
-                            <li><strong>Extremely difficult to replace</strong></li>
-                        </ul>
+                    <div class="compare-table">
+                        <div class="compare-title">Specialist — competing against 10-50 vans</div>
+                        <div class="compare-row"><span class="label">Freight</span><span class="value">Specific niche</span></div>
+                        <div class="compare-row"><span class="label">Rate</span><span class="value accent">$2.00-3.50/mi</span></div>
+                        <div class="compare-row"><span class="label">Relationship</span><span class="value">Partnership</span></div>
+                        <div class="compare-row"><span class="label">Replaceability</span><span class="value">Difficult</span></div>
                     </div>
                 </div>
-                <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    Specialization = Differentiation = Premium Pricing<br>
-                    +43% to +150% above general freight rates
-                </p>
-            </section>
 
-            <section>
-                <h2>🎯 THE 6 PREMIUM NICHES</h2>
-
-                <h3>NICHE #1: Medical / Pharmaceutical</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>WHAT IT IS:</strong> Medical specimens, urgent equipment, medications, implantable devices.</p>
-                    <p><strong>RATES:</strong> $2.00-3.50/mi (organs and blood: $5-10/mi)</p>
-                    <p><strong>REQUIREMENTS:</strong></p>
-                    <ul>
-                        <li>Certifications: HIPAA ($100), Bloodborne Pathogens ($50)</li>
-                        <li>Equipment: Medical-grade coolers, temp monitors ($500-800)</li>
-                        <li>Insurance: Cargo $500K-1M</li>
-                    </ul>
-                    <p><strong>THE NUMBERS:</strong> 8-12 loads/month × $320 average premium = <strong>$2,560-3,840/month extra</strong><br>
-                        ROI Timeline: Paid back in 2-3 loads</p>
-                </div>
-
-                <h3>NICHE #2: High-Value Electronics</h3>
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>WHAT IT IS:</strong> Servers, IT/broadcasting equipment, semiconductors, prototypes.</p>
-                    <p><strong>RATES:</strong> $2.20-5.00/mi (typical load value: $50K-500K+)</p>
-                    <p><strong>REQUIREMENTS:</strong></p>
-                    <ul>
-                        <li>Equipment: Reinforced flooring, anti-vibration straps, GPS tracking, camera ($1,000-1,500)</li>
-                        <li>Insurance: $250K-1M cargo coverage</li>
-                        <li>Immaculate van presentation + portfolio website</li>
-                    </ul>
-                    <p style="margin:0"><strong>THE NUMBERS:</strong> 4-6 loads/month × $650 average = <strong>$2,600-3,900/month extra</strong></p>
-                </div>
-
-                <h3>NICHE #3: Aerospace Parts (AOG - Aircraft On Ground)</h3>
-                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>WHAT IT IS:</strong> Urgent aircraft parts (a grounded aircraft = $10K-50K per hour in losses).</p>
-                    <p><strong>RATES:</strong> $2.50-6.00/mi + after-hours fees of $200-500</p>
-                    <p><strong>REQUIREMENTS:</strong></p>
-                    <ul>
-                        <li>SIDA badge (airport security clearance — 4-8 week process)</li>
-                        <li>24/7 on-call availability, response within &lt;1 hour</li>
-                        <li><strong>CRITICAL LOCATION:</strong> Must be &lt;30 min from a major airport</li>
-                    </ul>
-                    <p style="margin:0"><strong>THE NUMBERS:</strong> 2-4 loads/week × $1,000 average = <strong>$8,000-16,000/month</strong><br>
-                        ⚠️ Hardest niche to break into but by far the most lucrative</p>
-                </div>
-
-                <h3>NICHE #4: Automotive Hot Shot (JIT)</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>WHAT IT IS:</strong> Just-in-time parts, urgent line-down situations (a stopped line = $50K-100K/hour in losses).</p>
-                    <p><strong>RATES:</strong> $2.00-4.50/mi + after-hours premium of +50-100%</p>
-                    <p><strong>REQUIREMENTS:</strong></p>
-                    <ul>
-                        <li><strong>LOCATION:</strong> Automotive corridor (MI, OH, IN, TN, AL) — within 60 min of major plants</li>
-                        <li>Plant badge, facility-specific safety training</li>
-                        <li>24/7 on-call, response within &lt;30 min</li>
-                    </ul>
-                    <p style="margin:0"><strong>THE NUMBERS:</strong> 15-25 loads/month × $900 average = <strong>$13,500-22,500/month</strong><br>
-                        💡 Can fully replace general expediting (Detroit area is especially lucrative)</p>
-                </div>
-
-                <h3>NICHE #5: Fine Art &amp; Antiques (White Glove)</h3>
-                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>WHAT IT IS:</strong> Paintings, sculptures, high-value antiques (value: $10K-1M+ per piece).</p>
-                    <p><strong>RATES:</strong> $2.50-6.00/mi + packing/unpacking $100-300 + installation service $150-500</p>
-                    <p><strong>REQUIREMENTS:</strong></p>
-                    <ul>
-                        <li>Fine art handling training ($200-500)</li>
-                        <li>Equipment: Professional blankets, specialized straps ($500-1,000)</li>
-                        <li>Fine art insurance $500K-1M (+$150-300/month)</li>
-                    </ul>
-                    <p style="margin:0"><strong>THE NUMBERS:</strong> 3-5 loads/month × $1,100 average = <strong>$3,300-5,500/month extra</strong><br>
-                        📍 Best in cities with active art and museum scenes</p>
-                </div>
-
-                <h3>NICHE #6: Hazmat (Hazardous Materials)</h3>
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>WHAT IT IS:</strong> Chemicals, lithium batteries, flammables, corrosives.</p>
-                    <p><strong>RATES:</strong> $2.20-4.00/mi</p>
-                    <p><strong>REQUIREMENTS:</strong></p>
-                    <ul>
-                        <li>CDL with Hazmat endorsement OR certified Hazmat training ($200-400)</li>
-                        <li>TSA background check ($86.50), renewed every 2-4 years</li>
-                        <li>Equipment: Placards, spill kit, fire extinguisher ($300-600)</li>
-                        <li>Hazmat cargo insurance coverage (+$200-400/month)</li>
-                    </ul>
-                    <p style="margin:0"><strong>THE NUMBERS:</strong> 6-10 loads/month × $700 average = <strong>$4,200-7,000/month</strong><br>
-                        ⚠️ Strict regulation, not recommended for beginners</p>
+                <div class="note tip">
+                    <span class="note-label">Specialization = differentiation</span>
+                    <p>Premium pricing: +43% to +150% above general freight rates.</p>
                 </div>
             </section>
 
             <section>
-                <h2>📊 NICHE SELECTION MATRIX</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>NICHE</th>
-                            <th>RATE/MILE</th>
-                            <th>INVESTMENT</th>
-                            <th>DIFFICULTY</th>
-                            <th>ROI TIMELINE</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Medical</td><td>$2.0-3.5</td><td>$700</td><td>Medium</td><td>3-4 months</td></tr>
-                        <tr><td>Electronics</td><td>$2.2-4.0</td><td>$1,200</td><td>Medium</td><td>4-6 months</td></tr>
-                        <tr><td>Aerospace</td><td>$2.5-6.0</td><td>$500</td><td>High</td><td>2-3 months</td></tr>
-                        <tr><td>Automotive</td><td>$2.0-4.5</td><td>$300</td><td>Medium-High</td><td>1-2 months</td></tr>
-                        <tr><td>Fine Art</td><td>$2.5-6.0</td><td>$1,000</td><td>Medium</td><td>4-6 months</td></tr>
-                        <tr><td>Hazmat</td><td>$2.2-4.0</td><td>$600</td><td>High</td><td>3-4 months</td></tr>
-                    </tbody>
-                </table>
-                <p><strong>KEY DECISION FACTORS:</strong></p>
+                <h2>The 6 Premium Niches</h2>
+
+                <p><strong>Niche #1: Medical/Pharmaceutical</strong></p>
+                <p><strong>What it is:</strong> medical specimens, urgent equipment, medications, implantable devices.</p>
+                <p><strong>Rates:</strong> $2.00-3.50/mi (organs and blood: $5-10/mi)</p>
+                <p><strong>Requirements:</strong></p>
                 <ul>
-                    <li><strong>Location:</strong> Detroit/MI (Automotive ⭐⭐⭐), Major airports (Aerospace ⭐⭐⭐), Major cities (Medical, Electronics, Art)</li>
-                    <li><strong>Personality:</strong> Detail-oriented (Medical, Art), Tech-savvy (Electronics), High-pressure OK (Aerospace, Automotive)</li>
-                    <li><strong>Schedule:</strong> 24/7 on-call (Aerospace, Automotive), Business hours (Art, Medical), Flexible (Electronics, Hazmat)</li>
+                    <li>Certifications: HIPAA ($100), Bloodborne Pathogens ($50)</li>
+                    <li>Equipment: medical-grade coolers, temp monitors ($500-800)</li>
+                    <li>Insurance: cargo $500K-1M</li>
+                </ul>
+                <p><strong>The numbers:</strong> 8-12 loads/month × $320 average = <strong>$2,560-3,840/month extra</strong>. ROI: paid back in 2-3 loads.</p>
+
+                <p><strong>Niche #2: High-Value Electronics</strong></p>
+                <p><strong>What it is:</strong> servers, IT/broadcasting equipment, semiconductors, prototypes.</p>
+                <p><strong>Rates:</strong> $2.20-5.00/mi (typical load value: $50K-500K+)</p>
+                <p><strong>Requirements:</strong></p>
+                <ul>
+                    <li>Equipment: reinforced flooring, anti-vibration straps, GPS tracking, camera ($1,000-1,500)</li>
+                    <li>Insurance: $250K-1M cargo coverage</li>
+                    <li>Immaculate van presentation + portfolio website</li>
+                </ul>
+                <p><strong>The numbers:</strong> 4-6 loads/month × $650 average = <strong>$2,600-3,900/month extra</strong>.</p>
+
+                <p><strong>Niche #3: Aerospace Parts (AOG — Aircraft On Ground)</strong></p>
+                <p><strong>What it is:</strong> urgent aircraft parts (a grounded aircraft = $10K-50K per hour in losses).</p>
+                <p><strong>Rates:</strong> $2.50-6.00/mi + after-hours fees of $200-500</p>
+                <p><strong>Requirements:</strong></p>
+                <ul>
+                    <li>SIDA badge (airport security clearance — 4-8 week process)</li>
+                    <li>24/7 on-call availability, response &lt;1 hour</li>
+                    <li><strong>Critical location:</strong> must be &lt;30 min from a major airport</li>
+                </ul>
+                <p><strong>The numbers:</strong> 2-4 loads/week × $1,000 average = <strong>$8,000-16,000/month</strong>. ⚠️ Hardest niche to break into but by far the most lucrative.</p>
+
+                <p><strong>Niche #4: Automotive Hot Shot</strong></p>
+                <p><strong>What it is:</strong> just-in-time parts, urgent line-down situations (a stopped line = $50K-100K/hour in losses).</p>
+                <p><strong>Rates:</strong> $2.00-4.50/mi + after-hours premium of +50-100%</p>
+                <p><strong>Requirements:</strong></p>
+                <ul>
+                    <li><strong>Location:</strong> automotive corridor (MI, OH, IN, TN, AL) — within 60 min of major plants</li>
+                    <li>Plant badge, facility-specific safety training</li>
+                    <li>24/7 on-call, response &lt;30 min</li>
+                </ul>
+                <p><strong>The numbers:</strong> 15-25 loads/month × $900 average = <strong>$13,500-22,500/month</strong>. 💡 Can fully replace general expediting (Detroit area is especially lucrative).</p>
+
+                <p><strong>Niche #5: Fine Art &amp; Antiques (White Glove)</strong></p>
+                <p><strong>What it is:</strong> paintings, sculptures, high-value antiques (value: $10K-1M+ per piece).</p>
+                <p><strong>Rates:</strong> $2.50-6.00/mi + packing/unpacking $100-300 + installation service $150-500</p>
+                <p><strong>Requirements:</strong></p>
+                <ul>
+                    <li>Fine art handling training ($200-500)</li>
+                    <li>Equipment: professional blankets, specialized straps ($500-1,000)</li>
+                    <li>Fine art insurance $500K-1M (+$150-300/month)</li>
+                </ul>
+                <p><strong>The numbers:</strong> 3-5 loads/month × $1,100 average = <strong>$3,300-5,500/month extra</strong>. 📍 Best in cities with active art and museum scenes.</p>
+
+                <p><strong>Niche #6: Hazmat (Hazardous Materials)</strong></p>
+                <p><strong>What it is:</strong> chemicals, lithium batteries, flammables, corrosives.</p>
+                <p><strong>Rates:</strong> $2.20-4.00/mi</p>
+                <p><strong>Requirements:</strong></p>
+                <ul>
+                    <li>CDL with Hazmat endorsement OR certified Hazmat training ($200-400)</li>
+                    <li>TSA background check ($86.50), renewed every 2-4 years</li>
+                    <li>Equipment: placards, spill kit, fire extinguisher ($300-600)</li>
+                    <li>Hazmat cargo insurance coverage (+$200-400/month)</li>
+                </ul>
+                <p><strong>The numbers:</strong> 6-10 loads/month × $700 average = <strong>$4,200-7,000/month</strong>. ⚠️ Strict regulation, not recommended for beginners.</p>
+            </section>
+
+            <section>
+                <h2>Niche Selection Matrix</h2>
+
+                <div class="compare-table">
+                    <div class="compare-title">Medical</div>
+                    <div class="compare-row"><span class="label">Rate/mi</span><span class="value">$2.0-3.5</span></div>
+                    <div class="compare-row"><span class="label">Investment</span><span class="value">$700</span></div>
+                    <div class="compare-row"><span class="label">Difficulty</span><span class="value">Medium</span></div>
+                    <div class="compare-row"><span class="label">ROI</span><span class="value">3-4 months</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Electronics</div>
+                    <div class="compare-row"><span class="label">Rate/mi</span><span class="value">$2.2-4.0</span></div>
+                    <div class="compare-row"><span class="label">Investment</span><span class="value">$1,200</span></div>
+                    <div class="compare-row"><span class="label">Difficulty</span><span class="value">Medium</span></div>
+                    <div class="compare-row"><span class="label">ROI</span><span class="value">4-6 months</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Aerospace</div>
+                    <div class="compare-row"><span class="label">Rate/mi</span><span class="value">$2.5-6.0</span></div>
+                    <div class="compare-row"><span class="label">Investment</span><span class="value">$500</span></div>
+                    <div class="compare-row"><span class="label">Difficulty</span><span class="value">High</span></div>
+                    <div class="compare-row"><span class="label">ROI</span><span class="value">2-3 months</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Automotive</div>
+                    <div class="compare-row"><span class="label">Rate/mi</span><span class="value">$2.0-4.5</span></div>
+                    <div class="compare-row"><span class="label">Investment</span><span class="value">$300</span></div>
+                    <div class="compare-row"><span class="label">Difficulty</span><span class="value">Medium-High</span></div>
+                    <div class="compare-row"><span class="label">ROI</span><span class="value">1-2 months</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Fine Art</div>
+                    <div class="compare-row"><span class="label">Rate/mi</span><span class="value">$2.5-6.0</span></div>
+                    <div class="compare-row"><span class="label">Investment</span><span class="value">$1,000</span></div>
+                    <div class="compare-row"><span class="label">Difficulty</span><span class="value">Medium</span></div>
+                    <div class="compare-row"><span class="label">ROI</span><span class="value">4-6 months</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Hazmat</div>
+                    <div class="compare-row"><span class="label">Rate/mi</span><span class="value">$2.2-4.0</span></div>
+                    <div class="compare-row"><span class="label">Investment</span><span class="value">$600</span></div>
+                    <div class="compare-row"><span class="label">Difficulty</span><span class="value">High</span></div>
+                    <div class="compare-row"><span class="label">ROI</span><span class="value">3-4 months</span></div>
+                </div>
+
+                <p><strong>Key decision factors:</strong></p>
+                <ul>
+                    <li><strong>Location:</strong> Detroit/MI (Automotive ⭐⭐⭐), major airports (Aerospace ⭐⭐⭐), major cities (Medical, Electronics, Art)</li>
+                    <li><strong>Personality:</strong> detail-oriented (Medical, Art), tech-savvy (Electronics), high-pressure OK (Aerospace, Automotive)</li>
+                    <li><strong>Schedule:</strong> 24/7 on-call (Aerospace, Automotive hot shot), business hours (Art, Medical), flexible (Electronics, Hazmat)</li>
                 </ul>
             </section>
 
             <section>
-                <h2>🎯 THE TRANSITION STRATEGY</h2>
-                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
-                    <p style="font-weight:700;text-align:center;font-size:1.1rem;margin-bottom:1rem">DO NOT ABANDON GENERAL EXPEDITING OVERNIGHT</p>
+                <h2>The Transition Strategy</h2>
 
-                    <p><strong>PHASE 1 (Months 1-3): PREPARATION</strong></p>
-                    <ul>
-                        <li>100% general expediting (protect your income base)</li>
-                        <li>Obtain certifications and equipment for target niche</li>
-                        <li>Run 1-2 niche loads to test the market</li>
-                    </ul>
+                <p><strong>Do not abandon general expediting overnight.</strong></p>
 
-                    <p><strong>PHASE 2 (Months 4-6): BUILDING</strong></p>
-                    <ul>
-                        <li>80% general, 20% niche (4-6 niche loads/month)</li>
-                        <li>Build references, refine your process</li>
-                    </ul>
+                <p><strong>Phase 1 (Months 1-3): Preparation</strong></p>
+                <ul>
+                    <li>100% general expediting (protect your income base)</li>
+                    <li>Obtain certifications and equipment for target niche</li>
+                    <li>Run 1-2 niche loads to test the market</li>
+                </ul>
 
-                    <p><strong>PHASE 3 (Months 7-12): TRANSITION</strong></p>
-                    <ul>
-                        <li>60% general, 40% niche (8-12 niche loads/month)</li>
-                        <li>Establish direct relationships, increase rates</li>
-                    </ul>
+                <p><strong>Phase 2 (Months 4-6): Building</strong></p>
+                <ul>
+                    <li>80% general, 20% niche (4-6 niche loads/month)</li>
+                    <li>Build references, refine your process</li>
+                </ul>
 
-                    <p><strong>PHASE 4 (Year 2+): SPECIALIZATION</strong></p>
-                    <ul style="margin:0">
-                        <li>Option A: 40% general, 60% niche (diversified approach)</li>
-                        <li>Option B: 20% general, 80% niche (serious specialist)</li>
-                        <li>Option C: 100% niche (fully recognized market expert)</li>
-                    </ul>
+                <p><strong>Phase 3 (Months 7-12): Transition</strong></p>
+                <ul>
+                    <li>60% general, 40% niche (8-12 niche loads/month)</li>
+                    <li>Establish direct relationships, increase rates</li>
+                </ul>
 
-                    <p style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1.5rem;margin-bottom:0;text-align:center;font-weight:700">
-                        <strong>REAL EXAMPLE — Transition to Medical (Year 2):</strong><br>
-                        15 medical loads/month (60%): $5,700<br>
-                        10 general loads/month (40%): $4,200<br>
-                        <span style="color:#FFD700;font-size:1.25rem">TOTAL: $9,900/month (+98% vs before)</span><br>
-                        Less competition, more professional respect, better life quality
-                    </p>
+                <p><strong>Phase 4 (Year 2+): Specialization</strong></p>
+                <ul>
+                    <li>Option A: 40% general, 60% niche (diversified approach)</li>
+                    <li>Option B: 20% general, 80% niche (serious specialist)</li>
+                    <li>Option C: 100% niche (fully recognized market expert)</li>
+                </ul>
+
+                <p><strong>Real example — Transition to Medical (Year 2):</strong></p>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">15 medical loads/month (60%)</span><span class="value">$5,700</span></div>
+                    <div class="compare-row"><span class="label">10 general loads/month (40%)</span><span class="value">$4,200</span></div>
+                    <div class="compare-row"><span class="label">Total</span><span class="value accent">$9,900/month</span></div>
+                </div>
+
+                <div class="pull-number">
+                    <div class="value">+98%</div>
+                    <p class="context">vs. before — less competition, more professional respect, better quality of life.</p>
                 </div>
             </section>
 
             <section>
-                <h2>💡 THE CORE TAKEAWAY</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Specialization = Differentiation = Premium Pricing</p>
-                    <div style="text-align:left;max-width:600px;margin:0 auto">
-                        <p><strong>All 6 premium niches share these traits:</strong></p>
-                        <ul>
-                            <li>High barriers to entry (certifications, specialized equipment)</li>
-                            <li>Dramatically less competition at every level</li>
-                            <li>Clients who are willing and able to pay premium rates</li>
-                            <li>Deeper, more trust-based long-term relationships</li>
-                        </ul>
-                        <hr style="border-color:rgba(255,255,255,.2);margin:1.5rem 0">
-                        <p><strong>Your selection depends on:</strong></p>
-                        <ul>
-                            <li><strong>LOCATION</strong> (absolutely critical — this comes first)</li>
-                            <li>Available investment ($300-1,500)</li>
-                            <li>Your personality and work style</li>
-                            <li>Your preferred schedule and availability</li>
-                        </ul>
-                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
-                            <strong>The Smart Transition Path:</strong><br>
-                            Months 1-3: Preparation (100% general)<br>
-                            Months 4-6: Testing the niche (80/20)<br>
-                            Months 7-12: Active Building (60/40)<br>
-                            Year 2+: Data-driven decision on full specialization<br><br>
-                            <strong style="color:#FFD700">Typical Year 2 result:<br>+50-100% income vs general expediting only</strong>
-                        </p>
-                    </div>
+                <p><strong>All 6 premium niches share:</strong></p>
+                <ul>
+                    <li>Barriers to entry (certification, equipment)</li>
+                    <li>Less competition</li>
+                    <li>Clients willing to pay premium rates</li>
+                    <li>Deeper relationships</li>
+                </ul>
+
+                <p><strong>Your selection depends on:</strong></p>
+                <ul>
+                    <li><strong>Location</strong> (critical)</li>
+                    <li>Available investment ($300-1,500)</li>
+                    <li>Personality</li>
+                    <li>Schedule availability</li>
+                </ul>
+
+                <div class="compare-table">
+                    <div class="compare-title">The smart transition path</div>
+                    <div class="compare-row"><span class="label">Months 1-3</span><span class="value">Preparation (100% general)</span></div>
+                    <div class="compare-row"><span class="label">Months 4-6</span><span class="value">Testing (80/20)</span></div>
+                    <div class="compare-row"><span class="label">Months 7-12</span><span class="value">Building (60/40)</span></div>
+                    <div class="compare-row"><span class="label">Year 2+</span><span class="value">Data-driven decision</span></div>
+                </div>
+
+                <div class="conclusion">
+                    <p class="lead">Specialization = differentiation = <span class="accent">premium pricing</span>.</p>
+                    <p class="sub">Typical Year 2 result: +50-100% income vs. general expediting only.</p>
                 </div>
             </section>
 

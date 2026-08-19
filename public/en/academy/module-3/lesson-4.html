@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,63 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
         }
 
         .btn {
@@ -189,168 +133,102 @@
         <div class="lesson-content">
 
             <section>
-                <h2>🤔 THE CRITICAL QUESTION</h2>
+                <h2>The critical question</h2>
                 <p><strong>Should you EVER willingly pay (by burning fuel) to drive empty to a new zone without a load?</strong></p>
-                <p style="font-size:1.25rem;font-weight:700;color:#00D9FF">The Answer: Yes, absolutely.<br>
+                <p><strong>The Answer: Yes, absolutely.</strong><br>
                     Sometimes deadhead is an INVESTMENT, not an expense.</p>
             </section>
 
             <section>
-                <h2>💰 DEADHEAD AS AN INVESTMENT VS. AN EXPENSE</h2>
+                <h2>Deadhead as an investment vs. an expense</h2>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
-                    <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>❌ AN EXPENSE:</strong></p>
-                        <p>Deadhead that generates literally zero return.</p>
-                        <p><strong>Example:</strong></p>
-                        <ul style="margin:0">
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">❌ An expense</div>
+                        <p>Deadhead that generates literally zero return. Example:</p>
+                        <ul>
                             <li>You drop off in Columbus.</li>
                             <li>You deadhead 180 miles to Cleveland "just because."</li>
                             <li>Cleveland turns out to also be a mediocre freight zone.</li>
                             <li><strong>The Result: You just paid $189 for absolutely nothing.</strong></li>
                         </ul>
                     </div>
-
-                    <div style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>✅ AN INVESTMENT:</strong></p>
-                        <p>Deadhead that strategically positions you for a massive profit jump.</p>
-                        <p><strong>Example:</strong></p>
-                        <ul style="margin:0">
+                    <div class="compare-table">
+                        <div class="compare-title">✅ An investment</div>
+                        <p>Deadhead that strategically positions you for a massive profit jump. Example:</p>
+                        <ul>
                             <li>You drop off in Louisville (Score 68, avg wait 32 hrs).</li>
                             <li>You strategically deadhead 280 miles to Detroit (Score 94, avg wait 9 hrs).</li>
                             <li>Your cost to do this: 280 mi × $1.05 = $294</li>
                             <li>The Detroit load pays $1.70/mi in 9 hrs vs waiting 32 hrs in Louisville for $1.35/mi.</li>
-                            <li><strong>Result: That $294 investment creates +$500 in extra profit = ROI: 170%</strong></li>
+                            <li><strong>Result: That $294 investment creates +$500 in extra profit = ROI 170%</strong></li>
                         </ul>
                     </div>
                 </div>
             </section>
 
             <section>
-                <h2>📊 THE FORMULA: WHEN IS IT WORTH IT?</h2>
+                <h2>The formula: when is it worth it?</h2>
 
-                <div style="background:rgba(0,217,255,.05);padding:1.5rem;border-radius:.75rem;text-align:center;margin:2rem 0">
-                    <p style="font-size:1.1rem;margin-bottom:.5rem"><strong>THE DEADHEAD ROI CALCULATOR:</strong></p>
-                    <p style="font-size:1.5rem;font-weight:900;color:#00D9FF;margin:1rem 0">ROI = (Expected Profit
-                        Increase - Deadhead Cost) ÷ Deadhead Cost × 100</p>
+                <div class="formula">ROI = (Expected Profit Increase - Deadhead Cost) ÷ Deadhead Cost × 100</div>
 
-                    <div style="text-align:left;max-width:500px;margin:1.5rem auto 0">
-                        <p>If ROI is &gt; 50% → It's probably worth it.</p>
-                        <p>If ROI is &gt; 100% → Definitely do it right now.</p>
-                        <p>If ROI is &lt; 30% → Probably not worth the effort.</p>
-                        <p style="margin:0">If ROI is &lt; 0% → Terrible idea, stay put.</p>
-                    </div>
-                </div>
+                <ul>
+                    <li>If ROI is &gt;50% → It's probably worth it</li>
+                    <li>If ROI is &gt;100% → Definitely do it right now</li>
+                    <li>If ROI is &lt;30% → Probably not worth the effort</li>
+                    <li>If ROI is &lt;0% → Terrible idea, stay put</li>
+                </ul>
             </section>
 
             <section>
-                <h2>🎯 REAL WORLD SCENARIO: LAREDO vs SAN ANTONIO</h2>
+                <h2>Real world scenario: Laredo vs San Antonio</h2>
                 <p><strong>The Situation:</strong> You just finished a delivery in Laredo, TX.</p>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Metric</th>
-                            <th>Option A: Stay &amp; Wait</th>
-                            <th>Option B: Reposition to pure gold</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Zone</td>
-                            <td>Laredo</td>
-                            <td>San Antonio (280 mi away)</td>
-                        </tr>
-                        <tr>
-                            <td>Deadhead Cost</td>
-                            <td>$0</td>
-                            <td>$294</td>
-                        </tr>
-                        <tr>
-                            <td>Avg Wait Time</td>
-                            <td>68 hrs</td>
-                            <td>18 hrs</td>
-                        </tr>
-                        <tr>
-                            <td>Expected Next Load Rate</td>
-                            <td>$1.05/mi</td>
-                            <td>$1.45/mi</td>
-                        </tr>
-                        <tr>
-                            <td>Freight Availability</td>
-                            <td>Terrible</td>
-                            <td>Excellent</td>
-                        </tr>
-                        <tr style="background:rgba(0,217,255,.05)">
-                            <td><strong>Total Profit Over Next 4 Days</strong></td>
-                            <td><strong>$350</strong></td>
-                            <td><strong>$800</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Option A: Stay &amp; Wait (Laredo)</div>
+                        <div class="compare-row"><span class="label">Deadhead cost</span><span class="value">$0</span></div>
+                        <div class="compare-row"><span class="label">Avg wait time</span><span class="value">68 hrs</span></div>
+                        <div class="compare-row"><span class="label">Expected next load rate</span><span class="value">$1.05/mi</span></div>
+                        <div class="compare-row"><span class="label">Freight availability</span><span class="value">Terrible</span></div>
+                        <div class="compare-row"><span class="label">Profit over next 4 days</span><span class="value">$350</span></div>
+                    </div>
+                    <div class="compare-table">
+                        <div class="compare-title">Option B: Reposition (San Antonio, 280 mi)</div>
+                        <div class="compare-row"><span class="label">Deadhead cost</span><span class="value">$294</span></div>
+                        <div class="compare-row"><span class="label">Avg wait time</span><span class="value">18 hrs</span></div>
+                        <div class="compare-row"><span class="label">Expected next load rate</span><span class="value">$1.45/mi</span></div>
+                        <div class="compare-row"><span class="label">Freight availability</span><span class="value">Excellent</span></div>
+                        <div class="compare-row"><span class="label">Profit over next 4 days</span><span class="value accent">$800</span></div>
+                    </div>
+                </div>
 
-                <div style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem;text-align:center;margin:2rem 0">
-                    <p><strong>THE BREAKDOWN:</strong></p>
-                    <ul style="text-align:left;display:inline-block">
-                        <li>Cost to reposition yourself: $294</li>
-                        <li>Raw difference in profit: $800 - $350 = $450</li>
-                        <li>Net Benefit (Profit - Cost): $450 - $294 = $156</li>
-                        <li>ROI: ($156 ÷ $294) × 100 = 53%</li>
-                        <li>Time Saved over your life: 50 hrs (68 - 18)</li>
-                    </ul>
-                    <p style="margin-top:1rem;font-weight:700;font-size:1.25rem;color:#64C864">✅ IT IS ABSOLUTELY WORTH MOVING to
-                        San Antonio<br>
-                        You make $156 more AND you get 2 days of your life back.</p>
+                <div class="compare-table">
+                    <div class="compare-title">The breakdown</div>
+                    <div class="compare-row"><span class="label">Cost to reposition</span><span class="value">$294</span></div>
+                    <div class="compare-row"><span class="label">Raw difference in profit</span><span class="value">$800 - $350 = $450</span></div>
+                    <div class="compare-row"><span class="label">Net benefit</span><span class="value">$450 - $294 = $156</span></div>
+                    <div class="compare-row"><span class="label">Time saved</span><span class="value">50 hrs (68 - 18)</span></div>
+                </div>
+
+                <div class="pull-number">
+                    <div class="value">53%</div>
+                    <p class="context">ROI on moving to San Antonio — ✅ absolutely worth it: you make $156 more AND get 2 days back.</p>
                 </div>
             </section>
 
             <section>
-                <h2>🗺️ COMMON "ESCAPE" ZONES</h2>
+                <h2>Common "escape" zones</h2>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>From (Dead Zone)</th>
-                            <th>To (Good Zone)</th>
-                            <th>Empty Miles</th>
-                            <th>Expected ROI</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background:rgba(100,200,100,.08)">
-                            <td>Laredo, TX</td>
-                            <td>San Antonio, TX</td>
-                            <td>280</td>
-                            <td><strong>53% ✅</strong></td>
-                        </tr>
-                        <tr style="background:rgba(255,215,0,.08)">
-                            <td>El Paso, TX</td>
-                            <td>Dallas, TX</td>
-                            <td>640</td>
-                            <td>28% ⚠️</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.08)">
-                            <td>Phoenix, AZ</td>
-                            <td>Las Vegas, NV</td>
-                            <td>290</td>
-                            <td><strong>45% ✅</strong></td>
-                        </tr>
-                        <tr style="background:rgba(255,107,53,.08)">
-                            <td>Montana in General</td>
-                            <td>Denver, CO</td>
-                            <td>700+</td>
-                            <td>15% ❌</td>
-                        </tr>
-                        <tr style="background:rgba(255,215,0,.08)">
-                            <td>Albuquerque, NM</td>
-                            <td>Dallas or Phoenix</td>
-                            <td>450</td>
-                            <td>35% ⚠️</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Laredo, TX → San Antonio, TX</span><span class="value accent">280 mi — 53% ✅</span></div>
+                    <div class="compare-row"><span class="label">El Paso, TX → Dallas, TX</span><span class="value">640 mi — 28% ⚠️</span></div>
+                    <div class="compare-row"><span class="label">Phoenix, AZ → Las Vegas, NV</span><span class="value accent">290 mi — 45% ✅</span></div>
+                    <div class="compare-row"><span class="label">Montana in general → Denver, CO</span><span class="value">700+ mi — 15% ❌</span></div>
+                    <div class="compare-row"><span class="label">Albuquerque, NM → Dallas or Phoenix</span><span class="value">450 mi — 35% ⚠️</span></div>
+                </div>
 
-                <p><strong>HOW TO READ THIS:</strong></p>
+                <p><strong>How to read this:</strong></p>
                 <ul>
                     <li>HIGH ROI (&gt;50%): Don't think, just drive.</li>
                     <li>MEDIUM ROI (30-50%): Weigh your options; it might be worth it in a slow season.</li>
@@ -359,161 +237,142 @@
             </section>
 
             <section>
-                <h2>⏰ THE MASSIVE FACTOR OF TIME</h2>
+                <h2>The massive factor of time</h2>
                 <p>Deadhead doesn't just cost gas and wear-and-tear; it costs your precious TIME.</p>
+                <p><strong>A complete calculation — deadheading 300 miles to a far superior zone:</strong></p>
 
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>A COMPLETE CALCULATION:</strong></p>
-                    <p>Deadheading 300 miles to a far superior zone:</p>
-                    <ul>
-                        <li>Cost of miles: 300 × $1.05 = $315</li>
-                        <li>Drive time: roughly 5 hours</li>
-                        <li>Opportunity Cost (What your time is worth): 5 hrs × $40/hr = $200</li>
-                        <li><strong>TOTAL INVESTMENT COST: $515</strong></li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">Total investment cost</div>
+                    <div class="compare-row"><span class="label">Cost of miles</span><span class="value">300 × $1.05 = $315</span></div>
+                    <div class="compare-row"><span class="label">Drive time</span><span class="value">roughly 5 hours</span></div>
+                    <div class="compare-row"><span class="label">Opportunity cost</span><span class="value">5 hrs × $40/hr = $200</span></div>
+                    <div class="compare-row"><span class="label">Total cost</span><span class="value accent">$515</span></div>
+                </div>
 
-                    <p style="margin-top:1rem">The Benefits in the new zone:</p>
-                    <ul>
-                        <li>Reduced wait time: 48 hrs drops to 12 hrs = 36 hours saved.</li>
-                        <li>Value of that time recovered: 36 hrs × $40/hr = $1,440</li>
-                        <li>Better load rate: +$0.30/mi extra on a standard 600 mile outbound load = $180</li>
-                        <li><strong>TOTAL PROJECTED BENEFIT: $1,620</strong></li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">The benefits in the new zone</div>
+                    <div class="compare-row"><span class="label">Reduced wait time</span><span class="value">48 hrs → 12 hrs = 36 hrs saved</span></div>
+                    <div class="compare-row"><span class="label">Value of time recovered</span><span class="value">36 hrs × $40/hr = $1,440</span></div>
+                    <div class="compare-row"><span class="label">Better load rate</span><span class="value">+$0.30/mi × 600 mi avg = $180</span></div>
+                    <div class="compare-row"><span class="label">Total projected benefit</span><span class="value accent">$1,620</span></div>
+                </div>
 
-                    <p style="margin-top:1rem;text-align:center;font-size:1.25rem;font-weight:700;color:#64C864">
-                        YOUR NET GAIN: $1,620 - $515 = $1,105<br>
-                        ROI: 215% ✅✅<br>
-                        SLAM DUNK - Start the engine and go.
-                    </p>
+                <div class="pull-number">
+                    <div class="value">215%</div>
+                    <p class="context">ROI — net gain of $1,105 ($1,620 - $515). SLAM DUNK — start the engine and go.</p>
                 </div>
             </section>
 
             <section>
-                <h2>🎯 OUR REPOSITIONING ADVISOR</h2>
+                <h2>Our Repositioning Advisor</h2>
 
-                <div class="mockup">
-                    🔄 REPOSITIONING ADVISOR<br>
-                    Current location: Laredo, TX<br>
-                    Current Zone score: 18/100 🔴<br>
-                    <br>
-                    ⚠️ You're sitting in a historically awful zone.<br>
-                    <br>
-                    OUR RECOMMENDED REPOSITIONING ESCAPES:<br>
-                    <br>
-                    🥇 Option 1: San Antonio, TX<br>
-                    ├─ Distance: 280 mi<br>
-                    ├─ Expected Cost: $294<br>
-                    ├─ Drive time: 4.5 hrs<br>
-                    ├─ San Antonio Zone score: 76/100 🟢<br>
-                    ├─ Avg Wait There: 18 hrs<br>
-                    ├─ Expected ROI: 53%<br>
-                    └─ Net Benefit: $156 more cash + saving 50 hours<br>
-                    <br>
-                    🥈 Option 2: Corpus Christi, TX<br>
-                    ├─ Distance: 220 mi<br>
-                    ├─ Expected Cost: $231<br>
-                    ├─ Zone score: 65/100 🟡<br>
-                    ├─ Expected ROI: 38%<br>
-                    └─ A moderate but acceptable improvement.<br>
-                    <br>
-                    🥉 Option 3: Wait it out in Laredo<br>
-                    ├─ Cost: $0 upfront<br>
-                    ├─ Expected Wait: 68 punishing hours<br>
-                    ├─ Next Load Rate: ~$1.05/mi<br>
-                    └─ Total cost: $0 upfront, but 3 days of your life completely lost.<br>
-                    <br>
-                    💡 SUMMARY RECOMMENDATION:<br>
-                    Start driving to San Antonio immediately.<br>
-                    <br>
-                    Based on your personal history, drivers<br>
-                    who repositioned from here earned 47% more<br>
-                    per week than those who stubbornily waited.
-                </div>
+                <div class="formula">REPOSITIONING ADVISOR<br>
+Current location: Laredo, TX<br>
+Current Zone score: 18/100 🔴<br>
+<br>
+⚠️ You're sitting in a historically awful zone.<br>
+<br>
+OUR RECOMMENDED REPOSITIONING ESCAPES:<br>
+<br>
+Option 1: San Antonio, TX<br>
+├─ Distance: 280 mi<br>
+├─ Expected Cost: $294<br>
+├─ Drive time: 4.5 hrs<br>
+├─ San Antonio Zone score: 76/100 🟢<br>
+├─ Avg Wait There: 18 hrs<br>
+├─ Expected ROI: 53%<br>
+└─ Net Benefit: $156 more cash + saving 50 hours<br>
+<br>
+Option 2: Corpus Christi, TX<br>
+├─ Distance: 220 mi<br>
+├─ Expected Cost: $231<br>
+├─ Zone score: 65/100 🟡<br>
+├─ Expected ROI: 38%<br>
+└─ A moderate but acceptable improvement.<br>
+<br>
+Option 3: Wait it out in Laredo<br>
+├─ Cost: $0 upfront<br>
+├─ Expected Wait: 68 punishing hours<br>
+├─ Next Load Rate: ~$1.05/mi<br>
+└─ Total cost: $0 upfront, but 3 days of your life completely lost.<br>
+<br>
+SUMMARY RECOMMENDATION:<br>
+Start driving to San Antonio immediately.<br>
+<br>
+Based on your personal history, drivers<br>
+who repositioned from here earned 47% more<br>
+per week than those who stubbornly waited.</div>
             </section>
 
             <section>
-                <h2>💡 ADVANCED STRATEGY: THE "HOME BASE RADIUS"</h2>
+                <h2>Advanced strategy: the "Home Base Radius"</h2>
                 <p><strong>The Concept:</strong> Clearly define a highly profitable "home base" and a strict radius of action around it.</p>
 
-                <div style="background:rgba(0,217,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>An Example:</strong></p>
-                    <ul>
-                        <li>Your Home Base: Detroit</li>
-                        <li>Your Operating Radius: 500 miles</li>
-                        <li>Zones cleanly inside radius: Chicago, Indianapolis, Columbus, Cleveland, Nashville.</li>
-                        <li><strong>The Strategy:</strong> Your primary goal expands outward, but always arcs back toward the radius.</li>
-                    </ul>
+                <p><strong>An example:</strong></p>
+                <ul>
+                    <li>Your Home Base: Detroit</li>
+                    <li>Your Operating Radius: 500 miles</li>
+                    <li>Zones cleanly inside radius: Chicago, Indianapolis, Columbus, Cleveland, Nashville.</li>
+                    <li><strong>The Strategy:</strong> Your primary goal expands outward, but always arcs back toward the radius.</li>
+                </ul>
 
-                    <p style="margin-top:1rem"><strong>THE IRON-CLAD RULE:</strong></p>
-                    <p>If you drop off OUTSIDE your radius (&gt;500 mi away):<br>
-                        → Your next load MUST push you back toward the radius, OR pay an ungodly premium to keep you out there.</p>
+                <p><strong>The iron-clad rule:</strong></p>
+                <p>If you drop off OUTSIDE your radius (&gt;500 mi away):<br>
+                    → Your next load MUST push you back toward the radius, OR pay an ungodly premium to keep you out there.</p>
+                <p>If you drop off INSIDE your radius:<br>
+                    → You can afford to be highly flexible with your next load.</p>
 
-                    <p>If you drop off INSIDE your radius:<br>
-                        → You can afford to be highly flexible with your next load.</p>
+                <p><strong>The massive benefit:</strong></p>
+                <ul>
+                    <li>You never mathematically "get lost" taking cheap loads deeper into dead zones.</li>
+                    <li>You stick strictly to zones you physically know.</li>
+                    <li>It creates a highly predictable, lower-stress lifestyle.</li>
+                    <li>It mathematically maximizes your familiarity advantage.</li>
+                </ul>
+            </section>
 
-                    <p style="margin-top:1rem"><strong>THE MASSIVE BENEFIT:</strong></p>
-                    <ul style="margin:0">
-                        <li>You never mathematically "get lost" taking cheap loads deeper into dead zones.</li>
-                        <li>You stick strictly to zones you physically know.</li>
-                        <li>It creates a highly predictable, lower-stress lifestyle.</li>
-                        <li>It mathematically maximizes your familiarity advantage.</li>
-                    </ul>
+            <section>
+                <h2>A monthly deadhead "budget"</h2>
+                <p><strong>A pro-level concept:</strong> Budget exactly X miles per month solely for strategic repositioning leaps.</p>
+
+                <p><strong>The example:</strong></p>
+                <ul>
+                    <li>Your Monthly Budget: 800 miles explicitly for repositioning.</li>
+                    <li>Strategic usage: 280 mi Escape Laredo → San Antonio, 200 mi Push Louisville → Indianapolis, 320 mi Escape Phoenix → Las Vegas</li>
+                    <li><strong>Total: 800 miles of calculated "investment driving."</strong></li>
+                </ul>
+
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Cost</span><span class="value">800 × $1.05 = $840/month</span></div>
+                    <div class="compare-row"><span class="label">Expected benefit</span><span class="value">+$1,500-2,000/month</span></div>
+                    <div class="compare-row"><span class="label">Total ROI</span><span class="value accent">180-240%</span></div>
                 </div>
             </section>
 
             <section>
-                <h2>📊 A MONTHLY DEADHEAD "BUDGET"</h2>
-                <p><strong>A Pro-Level Concept:</strong> Budget exactly X miles per month solely for strategic repositioning leaps.</p>
-
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>The Example:</strong></p>
-                    <ul>
-                        <li>Your Monthly Budget: 800 miles explicitly for repositioning.</li>
-                        <li>Strategic Usage:
-                            <ul>
-                                <li>280 mi: Escape Laredo → San Antonio</li>
-                                <li>200 mi: Push Louisville → Indianapolis</li>
-                                <li>320 mi: Escape Phoenix → Las Vegas</li>
-                            </ul>
-                        </li>
-                        <li><strong>Total: 800 miles of calculated "investment driving."</strong></li>
-                    </ul>
-
-                    <p style="margin-top:1rem">
-                        The Cost: 800 × $1.05 = $840/month<br>
-                        The Expected Benefit: +$1,500 to $2,000/month increase in net profit.<br>
-                        <strong>Total ROI: 180-240%</strong>
-                    </p>
-                </div>
-            </section>
-
-            <section>
-                <h2>💡 THE KEY TAKEAWAY</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">Deadhead isn't a four-letter word.<br>Sometimes it
-                        is the absolute smartest financial decision you can make.</p>
-
-                    <div style="text-align:left;max-width:500px;margin:1.5rem auto">
-                        <p><strong>BAD deadhead is:</strong></p>
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Bad deadhead is</div>
                         <ul>
                             <li>Aimless and without purpose.</li>
                             <li>Fails to improve your overall positioning.</li>
-                            <li>Is a literal expense with zero return.</li>
+                            <li>A literal expense with zero return.</li>
                         </ul>
-
-                        <p style="margin-top:1rem"><strong>GOOD deadhead is:</strong></p>
+                    </div>
+                    <div class="compare-table">
+                        <div class="compare-title">Good deadhead is</div>
                         <ul>
                             <li>An escape hatch from a terrifying dead zone.</li>
                             <li>A strategic leap into high-paying freight.</li>
                             <li>Generates an ROI greater than 50%.</li>
-                            <li>Is a pure investment with incredibly clear returns.</li>
+                            <li>A pure investment with incredibly clear returns.</li>
                         </ul>
                     </div>
+                </div>
 
-                    <p style="margin-top:1.5rem;font-weight:700;color:#FFD700">Think like an investor with every mile: "Does this deadhead run 
-                        give me an ROI?"<br>
-                        If yes → Burn the fuel with confidence.<br>
-                        If no → Reject the idea and find another plan.</p>
+                <div class="conclusion">
+                    <p class="lead">Deadhead isn't a four-letter word. Sometimes it's the <span class="accent">smartest financial decision</span> you can make.</p>
+                    <p class="sub">Think like an investor with every mile: "Does this deadhead run give me an ROI?" If yes → burn the fuel with confidence. If no → reject the idea and find another plan.</p>
                 </div>
             </section>
 

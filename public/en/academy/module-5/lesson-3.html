@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,49 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
-        }
-
-        .tier-box {
-            padding: 1rem;
-            border-radius: .5rem;
-            margin: .5rem 0;
-            border-left: 4px solid
         }
 
         .btn {
@@ -178,235 +136,194 @@
         <div class="lesson-content">
 
             <section>
-                <h2>🗺 THE UNCOMFORTABLE TRUTH</h2>
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
-                    <p style="font-style:italic">"I thought all my loads were profitable.<br>
-                        After analyzing my routes one by one, I discovered:</p>
-                    <ul>
-                        <li>20% of my routes generated 60% of my total profit.</li>
-                        <li>30% of my routes were barely breaking even.</li>
-                        <li>15% of my routes were ACTIVELY LOSING money.</li>
-                    </ul>
-                    <p style="margin:0">I was grinding hard on BAD routes<br>while completely ignoring the GOOD ones."</p>
-                    <p style="margin-top:1rem;text-align:right;font-weight:700">- Ricardo, after 3 months of proper tracking</p>
-                </div>
+                <h2>The uncomfortable truth</h2>
+
+                <p>"I thought all my loads were profitable. After analyzing my routes one by one, I discovered:</p>
+                <ul>
+                    <li>20% of my routes generated 60% of my total profit.</li>
+                    <li>30% of my routes were barely breaking even.</li>
+                    <li>15% of my routes were ACTIVELY LOSING money.</li>
+                </ul>
+                <p>I was grinding hard on BAD routes while completely ignoring the GOOD ones."</p>
+                <p>— Ricardo, after 3 months of proper tracking</p>
             </section>
 
             <section>
-                <h2>💡 THE CONCEPT: NOT ALL MILES ARE EQUAL</h2>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
-                    <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem;border-left:4px solid #64C864">
-                        <p><strong>ROUTE A: Detroit → Chicago</strong></p>
-                        <ul style="font-size:.9rem;margin:0">
-                            <li>Distance: 280 miles</li>
-                            <li>Average payment: $520</li>
-                            <li>Real RPM: $1.86/mi</li>
-                            <li>Average deadhead: 15 mi</li>
-                            <li>Total time: 5 hours</li>
-                            <li>Average net profit: $245</li>
-                            <li><strong style="color:#64C864">Profit/hour: $49/hr ✅</strong></li>
-                        </ul>
+                <h2>The concept: not all miles are equal</h2>
+
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Route A: Detroit → Chicago</div>
+                        <div class="compare-row"><span class="label">Distance</span><span class="value">280 miles</span></div>
+                        <div class="compare-row"><span class="label">Average payment</span><span class="value">$520</span></div>
+                        <div class="compare-row"><span class="label">Real RPM</span><span class="value">$1.86/mi</span></div>
+                        <div class="compare-row"><span class="label">Average deadhead</span><span class="value">15 mi</span></div>
+                        <div class="compare-row"><span class="label">Total time</span><span class="value">5 hours</span></div>
+                        <div class="compare-row"><span class="label">Average net profit</span><span class="value">$245</span></div>
+                        <div class="compare-row"><span class="label">Profit/hour</span><span class="value accent">$49/hr ✅</span></div>
                     </div>
-                    <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FF6B35">
-                        <p><strong>ROUTE B: Detroit → Laredo</strong></p>
-                        <ul style="font-size:.9rem;margin:0">
-                            <li>Distance: 1,600 miles</li>
-                            <li>Average payment: $1,800</li>
-                            <li>Real RPM: $1.12/mi</li>
-                            <li>Average deadhead: 280 mi</li>
-                            <li>Total time: 26 hours</li>
-                            <li>Average net profit: $280</li>
-                            <li><strong style="color:#FF6B35">Profit/hour: $10.77/hr ❌</strong></li>
-                        </ul>
+                    <div class="compare-table">
+                        <div class="compare-title">Route B: Detroit → Laredo</div>
+                        <div class="compare-row"><span class="label">Distance</span><span class="value">1,600 miles</span></div>
+                        <div class="compare-row"><span class="label">Average payment</span><span class="value">$1,800</span></div>
+                        <div class="compare-row"><span class="label">Real RPM</span><span class="value">$1.12/mi</span></div>
+                        <div class="compare-row"><span class="label">Average deadhead</span><span class="value">280 mi</span></div>
+                        <div class="compare-row"><span class="label">Total time</span><span class="value">26 hours</span></div>
+                        <div class="compare-row"><span class="label">Average net profit</span><span class="value">$280</span></div>
+                        <div class="compare-row"><span class="label">Profit/hour</span><span class="value">$10.77/hr ❌</span></div>
                     </div>
                 </div>
-                <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    Route B pays MORE money upfront ($1,800 vs $520)<br>
-                    But Route A generates FAR MORE profit per hour.<br><br>
-                    Which one would you rather run twice a week?
-                </p>
+
+                <p>Route B pays MORE money upfront ($1,800 vs $520). But Route A generates FAR MORE profit per hour. Which one would you rather run twice a week?</p>
             </section>
 
             <section>
-                <h2>🎯 THE ROUTE CLASSIFICATION SYSTEM</h2>
+                <h2>The route classification system</h2>
 
-                <div class="tier-box" style="background:rgba(100,200,100,.15);border-color:#64C864">
-                    <p><strong>S-TIER 🟢🟢 (ELITE)</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>RPM &gt; $1.70/mi consistently</li>
-                        <li>Net margin &gt; 40%</li>
-                        <li>Profit/hour &gt; $45</li>
-                        <li>Easy, available backhaul</li>
-                        <li>High frequency of available loads</li>
-                        <li><strong>ACTION: MAXIMIZE — Actively pursue these aggressively.</strong></li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">S-Tier 🟢🟢 (Elite)</div>
+                    <div class="compare-row"><span class="label">RPM</span><span class="value accent">&gt; $1.70/mi consistently</span></div>
+                    <div class="compare-row"><span class="label">Net margin</span><span class="value">&gt; 40%</span></div>
+                    <div class="compare-row"><span class="label">Profit/hour</span><span class="value">&gt; $45</span></div>
+                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">Easy, available</span></div>
+                    <div class="compare-row"><span class="label">Frequency</span><span class="value">High availability</span></div>
+                    <div class="compare-row"><span class="label">Action</span><span class="value accent">Maximize — actively pursue aggressively</span></div>
                 </div>
 
-                <div class="tier-box" style="background:rgba(100,200,100,.1);border-color:#64C864">
-                    <p><strong>A-TIER 🟢 (PREFERRED)</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>RPM $1.50-1.70/mi</li>
-                        <li>Net margin 35-40%</li>
-                        <li>Profit/hour $35-45</li>
-                        <li>Moderate, reliable backhaul</li>
-                        <li><strong>ACTION: PRIORITIZE — Always accept these without hesitation.</strong></li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">A-Tier 🟢 (Preferred)</div>
+                    <div class="compare-row"><span class="label">RPM</span><span class="value">$1.50-1.70/mi</span></div>
+                    <div class="compare-row"><span class="label">Net margin</span><span class="value">35-40%</span></div>
+                    <div class="compare-row"><span class="label">Profit/hour</span><span class="value">$35-45</span></div>
+                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">Moderate, reliable</span></div>
+                    <div class="compare-row"><span class="label">Action</span><span class="value">Prioritize — always accept without hesitation</span></div>
                 </div>
 
-                <div class="tier-box" style="background:rgba(255,215,0,.1);border-color:#FFD700">
-                    <p><strong>B-TIER 🟡 (ACCEPTABLE)</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>RPM $1.30-1.50/mi</li>
-                        <li>Net margin 25-35%</li>
-                        <li>Profit/hour $25-35</li>
-                        <li>Variable, unreliable backhaul</li>
-                        <li><strong>ACTION: ACCEPT — Only if it fits into your circuit strategy.</strong></li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">B-Tier 🟡 (Acceptable)</div>
+                    <div class="compare-row"><span class="label">RPM</span><span class="value">$1.30-1.50/mi</span></div>
+                    <div class="compare-row"><span class="label">Net margin</span><span class="value">25-35%</span></div>
+                    <div class="compare-row"><span class="label">Profit/hour</span><span class="value">$25-35</span></div>
+                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">Variable, unreliable</span></div>
+                    <div class="compare-row"><span class="label">Action</span><span class="value">Accept — only if it fits your circuit strategy</span></div>
                 </div>
 
-                <div class="tier-box" style="background:rgba(255,165,0,.1);border-color:#FFA500">
-                    <p><strong>C-TIER 🟠 (AVOID)</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>RPM $1.10-1.30/mi</li>
-                        <li>Net margin 15-25%</li>
-                        <li>Profit/hour $15-25</li>
-                        <li>Difficult or non-existent backhaul</li>
-                        <li><strong>ACTION: AVOID — Only consider if financially desperate.</strong></li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">C-Tier 🟠 (Avoid)</div>
+                    <div class="compare-row"><span class="label">RPM</span><span class="value">$1.10-1.30/mi</span></div>
+                    <div class="compare-row"><span class="label">Net margin</span><span class="value">15-25%</span></div>
+                    <div class="compare-row"><span class="label">Profit/hour</span><span class="value">$15-25</span></div>
+                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">Difficult or non-existent</span></div>
+                    <div class="compare-row"><span class="label">Action</span><span class="value">Avoid — only if financially desperate</span></div>
                 </div>
 
-                <div class="tier-box" style="background:rgba(255,107,53,.15);border-color:#FF6B35">
-                    <p><strong>D-TIER 🔴 (REJECT)</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>RPM &lt; $1.10/mi</li>
-                        <li>Net margin &lt; 15%</li>
-                        <li>Profit/hour &lt; $15</li>
-                        <li>Virtually no backhaul options</li>
-                        <li><strong>ACTION: ALWAYS REJECT — Never accept these under any circumstances.</strong></li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">D-Tier 🔴 (Reject)</div>
+                    <div class="compare-row"><span class="label">RPM</span><span class="value">&lt; $1.10/mi</span></div>
+                    <div class="compare-row"><span class="label">Net margin</span><span class="value">&lt; 15%</span></div>
+                    <div class="compare-row"><span class="label">Profit/hour</span><span class="value">&lt; $15</span></div>
+                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">Virtually none</span></div>
+                    <div class="compare-row"><span class="label">Action</span><span class="value">Always reject — never accept under any circumstances</span></div>
                 </div>
             </section>
 
             <section>
-                <h2>📱 ROUTE ANALYSIS INSIDE SMART LOAD</h2>
-                <div class="mockup">
-                    🗺 ROUTE ANALYSIS - YOUR PERSONAL TOP 10<br>
-                    <br>
-                    Data based on 6 months of your loaded history<br>
-                    <br>
-                    🥇 #1: DETROIT → CHICAGO<br>
-                    ├─ Total Loads Run: 18<br>
-                    ├─ Average RPM: $1.86/mi<br>
-                    ├─ Average Net Margin: 44.2%<br>
-                    ├─ Profit Per Hour: $49<br>
-                    ├─ Tier Classification: S 🟢🟢<br>
-                    └─ AI RECOMMENDATION: Run this more often.<br>
-                    <br>
-                    🥈 #2: CHICAGO → INDIANAPOLIS<br>
-                    ├─ Total Loads Run: 12<br>
-                    ├─ Average RPM: $1.72/mi<br>
-                    ├─ Average Net Margin: 41.8%<br>
-                    ├─ Profit Per Hour: $46<br>
-                    ├─ Tier Classification: S 🟢🟢<br>
-                    └─ AI RECOMMENDATION: Maintain current frequency.<br>
-                    <br>
-                    🥉 #3: INDIANAPOLIS → NASHVILLE<br>
-                    ├─ Total Loads Run: 10<br>
-                    ├─ Average RPM: $1.65/mi<br>
-                    ├─ Average Net Margin: 38.5%<br>
-                    ├─ Profit Per Hour: $42<br>
-                    ├─ Tier Classification: A 🟢<br>
-                    └─ AI RECOMMENDATION: High priority lane.<br>
-                    <br>
-                    🔴 YOUR 3 WORST PERFORMING ROUTES:<br>
-                    ├─ Detroit → Laredo: Only $10.77/hr<br>
-                    ├─ Toledo → El Paso: Only $9.25/hr<br>
-                    └─ Chicago → Phoenix: Only $12.80/hr<br>
-                    <br>
-                    💡 YOUR OPTIMIZATION OPPORTUNITY:<br>
-                    If you eliminate your worst 3 routes and<br>
-                    increase your top 3 routes by just 20%:<br>
-                    Monthly profit increase: +$1,240 🚀
+                <h2>Route analysis inside Smart Load</h2>
+
+                <div class="formula">ROUTE ANALYSIS - YOUR PERSONAL TOP 10<br>
+<br>
+Data based on 6 months of your loaded history<br>
+<br>
+#1: DETROIT → CHICAGO<br>
+├─ Total Loads Run: 18<br>
+├─ Average RPM: $1.86/mi<br>
+├─ Average Net Margin: 44.2%<br>
+├─ Profit Per Hour: $49<br>
+├─ Tier Classification: S 🟢🟢<br>
+└─ AI RECOMMENDATION: Run this more often.<br>
+<br>
+#2: CHICAGO → INDIANAPOLIS<br>
+├─ Total Loads Run: 12<br>
+├─ Average RPM: $1.72/mi<br>
+├─ Average Net Margin: 41.8%<br>
+├─ Profit Per Hour: $46<br>
+├─ Tier Classification: S 🟢🟢<br>
+└─ AI RECOMMENDATION: Maintain current frequency.<br>
+<br>
+#3: INDIANAPOLIS → NASHVILLE<br>
+├─ Total Loads Run: 10<br>
+├─ Average RPM: $1.65/mi<br>
+├─ Average Net Margin: 38.5%<br>
+├─ Profit Per Hour: $42<br>
+├─ Tier Classification: A 🟢<br>
+└─ AI RECOMMENDATION: High priority lane.<br>
+<br>
+YOUR 3 WORST PERFORMING ROUTES:<br>
+├─ Detroit → Laredo: Only $10.77/hr<br>
+├─ Toledo → El Paso: Only $9.25/hr<br>
+└─ Chicago → Phoenix: Only $12.80/hr<br>
+<br>
+YOUR OPTIMIZATION OPPORTUNITY:<br>
+If you eliminate your worst 3 routes and<br>
+increase your top 3 routes by just 20%:<br>
+Monthly profit increase: +$1,240 🚀</div>
+            </section>
+
+            <section>
+                <h2>Building your optimal weekly circuit</h2>
+
+                <div class="compare-table">
+                    <div class="compare-title">Optimal weekly circuit — live example</div>
+                    <div class="compare-row"><span class="label">Monday: Detroit → Chicago (Tier S)</span><span class="value">+$245 profit, 5 hrs</span></div>
+                    <div class="compare-row"><span class="label">Tuesday: Chicago → Indianapolis (Tier S)</span><span class="value">+$220 profit, 4 hrs</span></div>
+                    <div class="compare-row"><span class="label">Wednesday: Indianapolis → Nashville (Tier A)</span><span class="value">+$280 profit, 5 hrs</span></div>
+                    <div class="compare-row"><span class="label">Thursday: Nashville → Atlanta (Tier A)</span><span class="value">+$320 profit, 4 hrs</span></div>
+                    <div class="compare-row"><span class="label">Friday: Atlanta → Detroit (Tier S)</span><span class="value">+$680 profit, 11 hrs</span></div>
+                </div>
+
+                <div class="compare-table">
+                    <div class="compare-title">Weekly totals</div>
+                    <div class="compare-row"><span class="label">Total miles</span><span class="value">~1,950</span></div>
+                    <div class="compare-row"><span class="label">Drive time</span><span class="value">29 hrs active driving</span></div>
+                    <div class="compare-row"><span class="label">Net profit</span><span class="value accent">$1,745</span></div>
+                    <div class="compare-row"><span class="label">Profit/hour</span><span class="value accent">$60.17 ✅</span></div>
+                    <div class="compare-row"><span class="label">Routes</span><span class="value">ONLY Tier S &amp; A</span></div>
+                </div>
+
+                <div class="pull-number">
+                    <div class="value">+66%</div>
+                    <p class="context">monthly: $6,980 (optimized circuit) vs $4,200 (random circuit) = +$2,780/month.</p>
                 </div>
             </section>
 
             <section>
-                <h2>🎯 BUILDING YOUR OPTIMAL WEEKLY CIRCUIT</h2>
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>OPTIMAL WEEKLY CIRCUIT — LIVE EXAMPLE:</strong></p>
-                    <table style="width:100%;border-collapse:collapse;margin:1rem 0">
-                        <tbody><tr style="background:rgba(100,200,100,.05)">
-                            <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.1)"><strong>MONDAY:</strong> Detroit → Chicago (Tier S)</td>
-                            <td style="padding:.5rem;text-align:right">+$245 profit, 5 hrs</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.05)">
-                            <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.1)"><strong>TUESDAY:</strong> Chicago → Indianapolis (Tier S)</td>
-                            <td style="padding:.5rem;text-align:right">+$220 profit, 4 hrs</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.03)">
-                            <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.1)"><strong>WEDNESDAY:</strong> Indianapolis → Nashville (Tier A)</td>
-                            <td style="padding:.5rem;text-align:right">+$280 profit, 5 hrs</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.03)">
-                            <td style="padding:.5rem;border-bottom:1px solid rgba(255,255,255,.1)"><strong>THURSDAY:</strong> Nashville → Atlanta (Tier A)</td>
-                            <td style="padding:.5rem;text-align:right">+$320 profit, 4 hrs</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.05)">
-                            <td style="padding:.5rem"><strong>FRIDAY:</strong> Atlanta → Detroit (Tier S)</td>
-                            <td style="padding:.5rem;text-align:right">+$680 profit, 11 hrs</td>
-                        </tr>
-                    </tbody></table>
-                    <div style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1rem">
-                        <p style="margin:0"><strong>WEEKLY TOTALS:</strong></p>
-                        <ul style="margin:.5rem 0 0 0">
-                            <li>Total Miles: ~1,950</li>
-                            <li>Drive Time: 29 hrs active driving</li>
-                            <li>Net Profit: $1,745</li>
-                            <li>Profit/Hour: $60.17 ✅</li>
-                            <li>ONLY Tier S &amp; A routes</li>
-                        </ul>
-                        <p style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.1)">
-                            <strong>MONTHLY (4 weeks):</strong> $6,980<br>
-                            <strong>vs RANDOM CIRCUIT:</strong> $4,200<br>
-                            <strong style="color:#FFD700">DIFFERENCE: +$2,780/month (+66%) 🚀</strong>
-                        </p>
-                    </div>
-                </div>
-            </section>
+                <h2>The core takeaway</h2>
 
-            <section>
-                <h2>💡 THE CORE TAKEAWAY</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Not all routes are created equal.<br>The secret is not working MORE hours.<br>It is working the RIGHT routes.</p>
-                    <div style="text-align:left;max-width:500px;margin:0 auto">
-                        <p><strong>Route analysis consistently reveals:</strong></p>
-                        <ul>
-                            <li>20% of your routes generate 60% of all profit (Tier S/A).</li>
-                            <li>50% of your routes are just "okay" (Tier B).</li>
-                            <li>30% of your routes are actively destroying profitability (Tier C/D).</li>
-                        </ul>
-                        <p><strong>The metrics that matter most, per route:</strong></p>
-                        <ol>
-                            <li><strong>Profit Per Hour</strong> (the #1 metric, always)</li>
-                            <li>Net Margin (measures business sustainability)</li>
-                            <li>RPM (measures rate efficiency)</li>
-                            <li>Backhaul Rate (measures load continuity)</li>
-                            <li>Load Frequency (measures operational consistency)</li>
-                        </ol>
-                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
-                            <strong>The Optimization Process:</strong><br>
-                            WEEKS 1-2: Identify your unprofitable bad routes.<br>
-                            WEEKS 3-6: Test replacement routes strategically.<br>
-                            WEEKS 7-10: Gradually replace the bad with the good.<br>
-                            WEEKS 11-12: Evaluate your total financial results.<br><br>
-                            <strong style="color:#FFD700">Typical real-world outcome:<br>+30-50% increase in monthly net profit</strong>
-                        </p>
-                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">
-                            Eliminate 2-3 of your worst routes.<br>
-                            Maximize 2-3 of your best routes.<br>
-                            = Transform your business completely in 90 days.
-                        </p>
-                    </div>
+                <p><strong>Route analysis consistently reveals:</strong></p>
+                <ul>
+                    <li>20% of your routes generate 60% of all profit (Tier S/A).</li>
+                    <li>50% of your routes are just "okay" (Tier B).</li>
+                    <li>30% of your routes are actively destroying profitability (Tier C/D).</li>
+                </ul>
+
+                <p><strong>The metrics that matter most, per route:</strong></p>
+                <ol>
+                    <li><strong>Profit Per Hour</strong> (the #1 metric, always)</li>
+                    <li>Net Margin (measures business sustainability)</li>
+                    <li>RPM (measures rate efficiency)</li>
+                    <li>Backhaul Rate (measures load continuity)</li>
+                    <li>Load Frequency (measures operational consistency)</li>
+                </ol>
+
+                <div class="note tip">
+                    <span class="note-label">The optimization process</span>
+                    <p>Weeks 1-2: identify your unprofitable bad routes. Weeks 3-6: test replacement routes strategically. Weeks 7-10: gradually replace the bad with the good. Weeks 11-12: evaluate your total financial results.</p>
+                    <p>Typical real-world outcome: +30-50% increase in monthly net profit.</p>
+                </div>
+
+                <div class="conclusion">
+                    <p class="lead">Not all routes are created equal. The secret is not working more hours — it is working the <span class="accent">right routes</span>.</p>
+                    <p class="sub">Eliminate 2-3 of your worst routes. Maximize 2-3 of your best routes. = Transform your business completely in 90 days.</p>
                 </div>
             </section>
 

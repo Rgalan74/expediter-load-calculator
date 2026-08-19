@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,73 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: .75rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1);
-            font-size: .9rem
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
-        }
-
-        .kpi-box {
-            background: rgba(255, 255, 255, .05);
-            padding: 1.5rem;
-            border-radius: .75rem;
-            margin: 1rem 0;
-            border-left: 4px solid #00D9FF
         }
 
         .btn {
@@ -206,147 +140,118 @@
     <div class="lesson-content">
 
         <section>
-            <h2>📈 WHAT IS A KPI?</h2>
+            <h2>What is a KPI?</h2>
 
-            <div style="background:rgba(0,217,255,.1);padding:1.5rem;border-radius:.75rem">
-                <p><strong>KPI = Key Performance Indicator</strong></p>
-
-                <p style="margin:0"><strong>In plain terms:</strong><br>
-                    Numbers that tell you whether you're winning or losing<br>
-                    BEFORE it's too late.</p>
+            <div class="note tip">
+                <span class="note-label">KPI = Key Performance Indicator</span>
+                <p>In plain terms: numbers that tell you whether you're winning or losing BEFORE it's too late.</p>
             </div>
 
-            <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem;margin-top:1.5rem">
-                <p><strong>ANALOGY:</strong></p>
-                <p>KPIs are like vital signs in a hospital.</p>
-                <ul style="margin:0">
-                    <li>Blood pressure</li>
-                    <li>Heart rate</li>
-                    <li>Temperature</li>
-                    <li>Blood oxygen</li>
-                </ul>
-                <p style="margin-top:1rem;margin-bottom:0">If one is off, you need intervention NOW.<br>
-                    <strong>Your business is no different.</strong>
-                </p>
-            </div>
+            <p><strong>Analogy:</strong> KPIs are like vital signs in a hospital.</p>
+            <ul>
+                <li>Blood pressure</li>
+                <li>Heart rate</li>
+                <li>Temperature</li>
+                <li>Blood oxygen</li>
+            </ul>
+            <p>If one is off, you need intervention NOW. <strong>Your business is no different.</strong></p>
         </section>
 
         <section>
-            <h2>🎯 THE 10 ESSENTIAL KPIs</h2>
+            <h2>The 10 essential KPIs</h2>
 
-            <div class="kpi-box">
-                <h3 style="color:#00D9FF;margin-top:0">KPI #1: REAL RPM (Revenue Per Mile)</h3>
-                <p><strong>FORMULA:</strong> Total Revenue ÷ Total Miles (including deadhead)</p>
-                <p><strong>EXAMPLE:</strong> $10,500 ÷ 7,200 mi = <strong>$1.46/mi</strong></p>
-                <p><strong>BENCHMARKS:</strong></p>
-                <ul style="margin:0">
-                    <li>🟢 $1.60+/mi = Excellent</li>
-                    <li>🟡 $1.40-1.60/mi = Good</li>
-                    <li>🟠 $1.20-1.40/mi = Average</li>
-                    <li>🔴 &lt;$1.20/mi = Problem</li>
-                </ul>
-                <p style="margin:0;margin-top:1rem"><strong>WHY IT MATTERS:</strong> Your #1 rate efficiency metric.</p>
-            </div>
+            <p><strong>KPI #1: Real RPM (Revenue Per Mile)</strong></p>
+            <div class="formula">Total Revenue ÷ Total Miles (including deadhead)
+$10,500 ÷ 7,200 mi = $1.46/mi</div>
+            <ul>
+                <li>🟢 $1.60+/mi = Excellent</li>
+                <li>🟡 $1.40-1.60/mi = Good</li>
+                <li>🟠 $1.20-1.40/mi = Average</li>
+                <li>🔴 &lt;$1.20/mi = Problem</li>
+            </ul>
+            <p>Why it matters: your #1 rate efficiency metric.</p>
 
-            <div class="kpi-box">
-                <h3 style="color:#00D9FF;margin-top:0">KPI #2: PROFIT MARGIN</h3>
-                <p><strong>FORMULA:</strong> (Net Profit ÷ Gross Revenue) × 100</p>
-                <p><strong>EXAMPLE:</strong> ($4,200 ÷ $10,500) × 100 = <strong>40%</strong></p>
-                <p><strong>BENCHMARKS:</strong></p>
-                <ul style="margin:0">
-                    <li>🟢 40%+ = Excellent</li>
-                    <li>🟡 30-40% = Good</li>
-                    <li>🟠 20-30% = Marginal</li>
-                    <li>🔴 &lt;20% = Danger</li>
-                </ul>
-                <p style="margin:0;margin-top:1rem"><strong>WHY IT MATTERS:</strong> What you ACTUALLY keep.</p>
-            </div>
+            <p><strong>KPI #2: Profit Margin</strong></p>
+            <div class="formula">(Net Profit ÷ Gross Revenue) × 100
+($4,200 ÷ $10,500) × 100 = 40%</div>
+            <ul>
+                <li>🟢 40%+ = Excellent</li>
+                <li>🟡 30-40% = Good</li>
+                <li>🟠 20-30% = Marginal</li>
+                <li>🔴 &lt;20% = Danger</li>
+            </ul>
+            <p>Why it matters: what you ACTUALLY keep.</p>
 
-            <div class="kpi-box">
-                <h3 style="color:#00D9FF;margin-top:0">KPI #3: COST PER MILE (CPM)</h3>
-                <p><strong>FORMULA:</strong> Total Expenses ÷ Total Miles</p>
-                <p><strong>EXAMPLE:</strong> $6,300 ÷ 7,200 = <strong>$0.875/mi</strong></p>
-                <p><strong>BENCHMARKS:</strong></p>
-                <ul style="margin:0">
-                    <li>🟢 &lt;$0.85/mi = Excellent efficiency</li>
-                    <li>🟡 $0.85-1.00/mi = Good</li>
-                    <li>🟠 $1.00-1.15/mi = High</li>
-                    <li>🔴 &gt;$1.15/mi = Serious problem</li>
-                </ul>
-                <p style="margin:0;margin-top:1rem"><strong>WHY IT MATTERS:</strong> If CPM rises, expenses are out of control.</p>
-            </div>
+            <p><strong>KPI #3: Cost Per Mile (CPM)</strong></p>
+            <div class="formula">Total Expenses ÷ Total Miles
+$6,300 ÷ 7,200 = $0.875/mi</div>
+            <ul>
+                <li>🟢 &lt;$0.85/mi = Excellent efficiency</li>
+                <li>🟡 $0.85-1.00/mi = Good</li>
+                <li>🟠 $1.00-1.15/mi = High</li>
+                <li>🔴 &gt;$1.15/mi = Serious problem</li>
+            </ul>
+            <p>Why it matters: if CPM rises, expenses are out of control.</p>
 
-            <div class="kpi-box">
-                <h3 style="color:#00D9FF;margin-top:0">KPI #4: DEADHEAD RATIO</h3>
-                <p><strong>FORMULA:</strong> (Deadhead Miles ÷ Total Miles) × 100</p>
-                <p><strong>EXAMPLE:</strong> (950 ÷ 7,200) × 100 = <strong>13.2%</strong></p>
-                <p><strong>BENCHMARKS:</strong></p>
-                <ul style="margin:0">
-                    <li>🟢 0-10% = Excellent</li>
-                    <li>🟡 10-15% = Acceptable</li>
-                    <li>🟠 15-20% = Improvable</li>
-                    <li>🔴 &gt;20% = Losing money</li>
-                </ul>
-                <p style="margin:0;margin-top:1rem"><strong>WHY IT MATTERS:</strong> Unpaid miles = waste.</p>
-            </div>
+            <p><strong>KPI #4: Deadhead Ratio</strong></p>
+            <div class="formula">(Deadhead Miles ÷ Total Miles) × 100
+(950 ÷ 7,200) × 100 = 13.2%</div>
+            <ul>
+                <li>🟢 0-10% = Excellent</li>
+                <li>🟡 10-15% = Acceptable</li>
+                <li>🟠 15-20% = Improvable</li>
+                <li>🔴 &gt;20% = Losing money</li>
+            </ul>
+            <p>Why it matters: unpaid miles = waste.</p>
 
-            <div class="kpi-box">
-                <h3 style="color:#00D9FF;margin-top:0">KPI #5: VAN UTILIZATION</h3>
-                <p><strong>FORMULA:</strong> (Loaded Miles ÷ Available Miles) × 100</p>
-                <p>Available Miles = Days worked × 500 mi/day</p>
-                <p><strong>EXAMPLE:</strong> 5,400 ÷ (22 × 500) = <strong>49%</strong></p>
-                <p><strong>BENCHMARKS:</strong></p>
-                <ul style="margin:0">
-                    <li>🟢 60%+ = Excellent</li>
-                    <li>🟡 50-60% = Good</li>
-                    <li>🟠 40-50% = Improvable</li>
-                    <li>🔴 &lt;40% = Too much downtime</li>
-                </ul>
-                <p style="margin:0;margin-top:1rem"><strong>WHY IT MATTERS:</strong> How much time your van is generating revenue.</p>
-            </div>
+            <p><strong>KPI #5: Van Utilization</strong></p>
+            <div class="formula">(Loaded Miles ÷ Available Miles) × 100<br>
+Available Miles = Days worked × 500 mi/day<br>
+5,400 ÷ (22 × 500) = 49%</div>
+            <ul>
+                <li>🟢 60%+ = Excellent</li>
+                <li>🟡 50-60% = Good</li>
+                <li>🟠 40-50% = Improvable</li>
+                <li>🔴 &lt;40% = Too much downtime</li>
+            </ul>
+            <p>Why it matters: how much time your van is generating revenue.</p>
 
-            <div class="kpi-box">
-                <h3 style="color:#00D9FF;margin-top:0">KPI #6: PROFIT PER DAY WORKED</h3>
-                <p><strong>FORMULA:</strong> Monthly Net Profit ÷ Days Worked</p>
-                <p><strong>EXAMPLE:</strong> $4,200 ÷ 22 = <strong>$191/day</strong></p>
-                <p><strong>BENCHMARKS:</strong></p>
-                <ul style="margin:0">
-                    <li>🟢 $200+/day = Excellent</li>
-                    <li>🟡 $150-200/day = Good</li>
-                    <li>🟠 $100-150/day = Surviving</li>
-                    <li>🔴 &lt;$100/day = Not sustainable</li>
-                </ul>
-                <p style="margin:0;margin-top:1rem"><strong>WHY IT MATTERS:</strong> Your return for each day of effort.</p>
-            </div>
+            <p><strong>KPI #6: Profit Per Day Worked</strong></p>
+            <div class="formula">Monthly Net Profit ÷ Days Worked
+$4,200 ÷ 22 = $191/day</div>
+            <ul>
+                <li>🟢 $200+/day = Excellent</li>
+                <li>🟡 $150-200/day = Good</li>
+                <li>🟠 $100-150/day = Surviving</li>
+                <li>🔴 &lt;$100/day = Not sustainable</li>
+            </ul>
+            <p>Why it matters: your return for each day of effort.</p>
 
-            <div class="kpi-box">
-                <h3 style="color:#00D9FF;margin-top:0">KPI #7: LOAD ACCEPTANCE RATE</h3>
-                <p><strong>FORMULA:</strong> (Loads Accepted ÷ Loads Offered) × 100</p>
-                <p><strong>EXAMPLE:</strong> (28 ÷ 45) × 100 = <strong>62%</strong></p>
-                <p><strong>BENCHMARKS:</strong></p>
-                <ul style="margin:0">
-                    <li>🟢 50-70% = Excellent (selective but accessible)</li>
-                    <li>🟡 40-50% = Good</li>
-                    <li>🟠 70-85% = Accepting too much</li>
-                    <li>🔴 &lt;40% or &gt;85% = Problem</li>
-                </ul>
-                <p style="margin:0;margin-top:1rem"><strong>WHY IT MATTERS:</strong> Sweet spot: not too high, not too low.</p>
-            </div>
+            <p><strong>KPI #7: Load Acceptance Rate</strong></p>
+            <div class="formula">(Loads Accepted ÷ Loads Offered) × 100
+(28 ÷ 45) × 100 = 62%</div>
+            <ul>
+                <li>🟢 50-70% = Excellent (selective but accessible)</li>
+                <li>🟡 40-50% = Good</li>
+                <li>🟠 70-85% = Accepting too much</li>
+                <li>🔴 &lt;40% or &gt;85% = Problem</li>
+            </ul>
+            <p>Why it matters: sweet spot, not too high, not too low.</p>
 
-            <div class="kpi-box">
-                <h3 style="color:#00D9FF;margin-top:0">KPI #8-10: OTHER INDICATORS</h3>
-                <p><strong>#8 - RPM BY ZONE:</strong> Identifies profitable zones vs ones to avoid</p>
-                <p><strong>#9 - TIME BETWEEN LOADS:</strong> Monitors positioning efficiency</p>
-                <p style="margin:0"><strong>#10 - ROI:</strong> Is this business worth it vs other investments?</p>
-            </div>
+            <p><strong>KPI #8-10: other indicators</strong></p>
+            <ul>
+                <li><strong>#8 - RPM by zone:</strong> identifies profitable zones vs ones to avoid</li>
+                <li><strong>#9 - Time between loads:</strong> monitors positioning efficiency</li>
+                <li><strong>#10 - ROI:</strong> is this business worth it vs other investments?</li>
+            </ul>
         </section>
 
         <section>
-            <h2>📊 EARLY WARNING DASHBOARD</h2>
+            <h2>Early warning dashboard</h2>
 
-            <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem;margin-bottom:1rem">
-                <p><strong>🔴 RED ALERT (Immediate action):</strong></p>
-                <ul style="margin:0">
+            <div class="note warning">
+                <span class="note-label">Red alert — immediate action</span>
+                <ul>
                     <li>Margin &lt;25% for 2+ months</li>
                     <li>CPM &gt;$1.10/mi</li>
                     <li>Deadhead &gt;20%</li>
@@ -355,19 +260,17 @@
                 </ul>
             </div>
 
-            <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem;margin-bottom:1rem">
-                <p><strong>🟡 YELLOW ALERT (Monitor):</strong></p>
-                <ul style="margin:0">
-                    <li>Margin 25-30%</li>
-                    <li>CPM $0.95-1.10/mi</li>
-                    <li>Deadhead 15-20%</li>
-                    <li>Utilization 40-50%</li>
-                </ul>
-            </div>
+            <p><strong>Yellow alert (monitor):</strong></p>
+            <ul>
+                <li>Margin 25-30%</li>
+                <li>CPM $0.95-1.10/mi</li>
+                <li>Deadhead 15-20%</li>
+                <li>Utilization 40-50%</li>
+            </ul>
 
-            <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
-                <p><strong>🟢 ALL GOOD:</strong></p>
-                <ul style="margin:0">
+            <div class="note tip">
+                <span class="note-label">All good</span>
+                <ul>
                     <li>Margin &gt;35%</li>
                     <li>CPM &lt;$0.90/mi</li>
                     <li>Deadhead &lt;12%</li>
@@ -376,50 +279,34 @@
                 </ul>
             </div>
 
-            <p style="background:rgba(255,255,255,.05);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700;margin-top:1.5rem">
-                RULE:<br>
-                2+ red alerts = Crisis, intervene now<br>
-                3+ yellow = Negative trend, adjust<br>
-                All green = Stay the course
-            </p>
+            <p><strong>Rule:</strong> 2+ red alerts = crisis, intervene now. 3+ yellow = negative trend, adjust. All green = stay the course.</p>
         </section>
 
         <section>
-            <h2>💡 KEY TAKEAWAY</h2>
-            <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">KPIs aren't about impressing anyone.<br>They're your early warning system.</p>
+            <h2>Key takeaway</h2>
 
-                <div style="text-align:left;max-width:500px;margin:0 auto">
-                    <p><strong>The 10 essential KPIs:</strong></p>
-                    <ol>
-                        <li>Real RPM (rate efficiency)</li>
-                        <li>Profit Margin (true profitability)</li>
-                        <li>CPM (expense control)</li>
-                        <li>Deadhead Ratio (route efficiency)</li>
-                        <li>Utilization (van productivity)</li>
-                        <li>Profit/Day (return on effort)</li>
-                        <li>Acceptance Rate (selectivity balance)</li>
-                        <li>RPM by Zone (where to earn more)</li>
-                        <li>Time Between Loads (operational efficiency)</li>
-                        <li>ROI (is the business worth it?)</li>
-                    </ol>
+            <p><strong>The 10 essential KPIs:</strong></p>
+            <ol>
+                <li>Real RPM (rate efficiency)</li>
+                <li>Profit Margin (true profitability)</li>
+                <li>CPM (expense control)</li>
+                <li>Deadhead Ratio (route efficiency)</li>
+                <li>Utilization (van productivity)</li>
+                <li>Profit/Day (return on effort)</li>
+                <li>Acceptance Rate (selectivity balance)</li>
+                <li>RPM by Zone (where to earn more)</li>
+                <li>Time Between Loads (operational efficiency)</li>
+                <li>ROI (is the business worth it?)</li>
+            </ol>
 
-                    <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
-                        <strong>GOLDEN RULE:</strong><br>
-                        Review KPIs weekly.<br>
-                        10-15 minutes every Sunday.<br><br>
-                        Problems caught early<br>
-                        are easy to fix.<br><br>
-                        Problems ignored for months<br>
-                        can sink your business.
-                    </p>
+            <div class="note tip">
+                <span class="note-label">Golden rule</span>
+                <p>Review KPIs weekly. 10-15 minutes every Sunday. Problems caught early are easy to fix. Problems ignored for months can sink your business.</p>
+            </div>
 
-                    <p style="margin-top:1.5rem;text-align:center;font-weight:700">
-                        Your business is only as healthy<br>
-                        as your KPIs say it is.<br><br>
-                        <span style="color:#FFD700;font-size:1.25rem">Don't guess. MEASURE.</span>
-                    </p>
-                </div>
+            <div class="conclusion">
+                <p class="lead">Your business is only as healthy as your KPIs say it is. <span class="accent">Don't guess. MEASURE.</span></p>
+                <p class="sub">KPIs aren't about impressing anyone. They're your early warning system.</p>
             </div>
         </section>
 

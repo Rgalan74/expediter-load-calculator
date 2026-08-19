@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -38,65 +39,6 @@
             margin-bottom: 1rem
         }
 
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: .75rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1);
-            font-size: .9rem
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
-        }
-
         .btn {
             padding: 1rem 2rem;
             border-radius: .75rem;
@@ -107,8 +49,8 @@
         }
 
         .btn-primary {
-            background: linear-gradient(90deg, #FFD700 0%, #FF6B35 100%);
-            color: #000
+            background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+            color: #fff
         }
 
         .btn-secondary {
@@ -177,7 +119,7 @@
             <a href="/academy.html">← Academia</a> → <a href="index.html">Module 6 [PRO]</a> → Lesson 1
         </nav>
 
-        <div style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
+        <div style="display: inline-block; background: linear-gradient(90deg, #00D9FF, #FF6B35); color: #fff; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
             🔒 PRO CONTENT</div>
 
         <!-- ===== SPANISH ===== -->
@@ -194,84 +136,44 @@
         <div class="lesson-content">
 
             <section>
-                <h2>⛽ LA VERDAD SOBRE COMBUSTIBLE</h2>
+                <h2>La verdad sobre combustible</h2>
 
-                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>REALIDAD:</strong> Combustible es tu gasto #1. Típicamente 28-32% de ingresos brutos.</p>
+                <p><strong>Realidad:</strong> Combustible es tu gasto #1. Típicamente 28-32% de ingresos brutos.</p>
 
-                    <div style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1rem">
-                        <p style="margin:0"><strong>En cargo van (17-20 MPG):</strong></p>
-                        <ul style="margin:.5rem 0 0 0">
-                            <li>7,500 millas/mes</li>
-                            <li>÷ 18.5 MPG promedio = 405 galones/mes</li>
-                            <li>× $3.50/gal = <strong>$1,418/mes en combustible</strong></li>
-                        </ul>
-                    </div>
-                </div>
+                <p><strong>En cargo van (17-20 MPG):</strong></p>
+                <div class="formula">7,500 millas/mes<br>
+÷ 18.5 MPG promedio = 405 galones/mes<br>
+× $3.50/gal = $1,418/mes en combustible</div>
 
-                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem;margin-top:1.5rem">
-                    <p><strong>PERO... Con optimización:</strong></p>
+                <div class="note tip">
+                    <span class="note-label">Pero... con optimización</span>
                     <ul>
                         <li>Mejora 2 MPG (18.5 → 20.5) = -30 gal/mes</li>
                         <li>Mejores precios ($3.50 → $3.35) = -$61/mes</li>
-                        <li><strong style="color:#FFD700">AHORRO TOTAL: $166/mes ($2,000/año)</strong></li>
+                        <li><strong>Ahorro total: $166/mes ($2,000/año)</strong></li>
                     </ul>
                 </div>
             </section>
 
             <section>
-                <h2>🎯 LAS 10 TÁCTICAS DE EFICIENCIA</h2>
+                <h2>Las 10 tácticas de eficiencia</h2>
 
-                <h3>TÁCTICA #1: Velocidad Óptima</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>VELOCIDAD</th>
-                            <th>MPG</th>
-                            <th>COSTO/100MI</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>55 mph</td>
-                            <td>21.2</td>
-                            <td>$16.51</td>
-                        </tr>
-                        <tr>
-                            <td>60 mph</td>
-                            <td>20.3</td>
-                            <td>$17.24</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.08)">
-                            <td>65 mph</td>
-                            <td>19.1</td>
-                            <td>$18.32 👈 OK</td>
-                        </tr>
-                        <tr>
-                            <td>70 mph</td>
-                            <td>17.8</td>
-                            <td>$19.66</td>
-                        </tr>
-                        <tr>
-                            <td>75 mph</td>
-                            <td>16.2</td>
-                            <td>$21.60</td>
-                        </tr>
-                        <tr style="background:rgba(255,107,53,.1)">
-                            <td>80 mph</td>
-                            <td>14.5</td>
-                            <td>$24.14 ❌</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <p><strong>Táctica #1: Velocidad óptima</strong></p>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">55 mph</span><span class="value">21.2 MPG — $16.51/100mi</span></div>
+                    <div class="compare-row"><span class="label">60 mph</span><span class="value">20.3 MPG — $17.24/100mi</span></div>
+                    <div class="compare-row"><span class="label">65 mph</span><span class="value accent">19.1 MPG — $18.32/100mi 👈 OK</span></div>
+                    <div class="compare-row"><span class="label">70 mph</span><span class="value">17.8 MPG — $19.66/100mi</span></div>
+                    <div class="compare-row"><span class="label">75 mph</span><span class="value">16.2 MPG — $21.60/100mi</span></div>
+                    <div class="compare-row"><span class="label">80 mph</span><span class="value">14.5 MPG — $24.14/100mi ❌</span></div>
+                </div>
 
-                <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    Sweet Spot: 65-68 mph = Balance perfecto<br>
-                    80 mph vs 65 mph = +$488/mes desperdiciado<br>
-                    <strong>AHORRO: $80-120/mes</strong>
-                </p>
+                <div class="pull-number">
+                    <div class="value">$80-120/mes</div>
+                    <p class="context">ahorro en el sweet spot 65-68 mph. 80 mph vs 65 mph desperdicia +$488/mes.</p>
+                </div>
 
-                <h3>TÁCTICA #2: Mantenimiento Enfocado en MPG</h3>
+                <p><strong>Táctica #2: Mantenimiento enfocado en MPG</strong></p>
                 <ul>
                     <li><strong>Filtro de aire limpio:</strong> Sucio = -10% MPG (Ahorro: $40/mes)</li>
                     <li><strong>Llantas infladas correctamente:</strong> -5 PSI = -3% MPG (Ahorro: $30-45/mes)</li>
@@ -279,121 +181,79 @@
                     <li><strong>Llantas low-rolling-resistance:</strong> +8.3% MPG (Ahorro: $110/mes)</li>
                     <li><strong>Aceite sintético:</strong> +1-2% MPG (Ahorro: $15-25/mes)</li>
                 </ul>
-                <p><strong>AHORRO COMBINADO: $100-150/mes</strong></p>
+                <p><strong>Ahorro combinado: $100-150/mes</strong></p>
 
-                <h3>TÁCTICA #3: Estrategia de Compra</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>4 CAPAS DE AHORRO:</strong></p>
-                    <ol>
-                        <li><strong>Membresías de cadenas</strong> (Pilot, Loves, Speedway): $0.08-0.12/gal = $36/mes
-                        </li>
-                        <li><strong>Apps de cash back</strong> (GetUpside, GasBuddy): 5-25¢/gal = $20-35/mes</li>
-                        <li><strong>Timing estratégico</strong> (Lunes-Miércoles, no fin de semana): $15-25/mes</li>
-                        <li><strong>Planificación de rutas</strong> (Llenar en estados baratos): $42/mes</li>
-                    </ol>
-                    <p style="margin:0"><strong>AHORRO TOTAL: $100-140/mes</strong></p>
-                </div>
+                <p><strong>Táctica #3: Estrategia de compra</strong></p>
+                <p><strong>4 capas de ahorro:</strong></p>
+                <ol>
+                    <li><strong>Membresías de cadenas</strong> (Pilot, Loves, Speedway): $0.08-0.12/gal = $36/mes</li>
+                    <li><strong>Apps de cash back</strong> (GetUpside, GasBuddy): 5-25¢/gal = $20-35/mes</li>
+                    <li><strong>Timing estratégico</strong> (Lunes-Miércoles, no fin de semana): $15-25/mes</li>
+                    <li><strong>Planificación de rutas</strong> (Llenar en estados baratos): $42/mes</li>
+                </ol>
+                <p><strong>Ahorro total: $100-140/mes</strong></p>
 
-                <h3>TÁCTICA #4: Reducción de Idle</h3>
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>IDLE quema 0.5-0.8 galones/hora = $1.75-2.80/hora desperdiciado</strong></p>
+                <div class="note warning">
+                    <span class="note-label">Táctica #4: Reducción de idle</span>
+                    <p><strong>Idle quema 0.5-0.8 galones/hora = $1.75-2.80/hora desperdiciado</strong></p>
                     <ul>
                         <li>Esperando en recogida/entrega: 45 min/día = $49/mes</li>
                         <li>Almuerzos con motor encendido: 30 min/día = $32/mes</li>
                         <li>Calentar/enfriar van: 15 min/día = $18/mes</li>
-                        <li><strong>TOTAL DESPERDICIO: $99/mes</strong></li>
+                        <li><strong>Total desperdicio: $99/mes</strong></li>
                     </ul>
-                    <p style="margin:0"><strong>REGLA SIMPLE:</strong> Si vas a estar parado &gt;3 minutos, APAGA<br>
-                        <strong>AHORRO: $60-80/mes</strong>
-                    </p>
+                    <p><strong>Regla simple:</strong> si vas a estar parado &gt;3 minutos, apaga. <strong>Ahorro: $60-80/mes</strong></p>
                 </div>
 
-                <h3>TÁCTICAS #5-10: Optimizaciones Adicionales</h3>
+                <p><strong>Tácticas #5-10: Optimizaciones adicionales</strong></p>
                 <ul>
                     <li><strong>#5 Peso y carga:</strong> Elimina 125 lbs innecesarios = $15-25/mes</li>
                     <li><strong>#6 Aerodinámica:</strong> Cierra ventanas, quita rack techo = $20-30/mes</li>
                     <li><strong>#7 Anticipación:</strong> Mantén momentum, frena menos = $25-40/mes</li>
-                    <li><strong>#8 A/C estratégico:</strong>
-                        &lt;45 mph ventanas, &gt;45 mph A/C = $30-50/mes
-                    </li>
+                    <li><strong>#8 A/C estratégico:</strong> &lt;45 mph ventanas, &gt;45 mph A/C = $30-50/mes</li>
                     <li><strong>#9 GPS inteligente:</strong> Evita tráfico/idle = $15-25/mes</li>
                     <li><strong>#10 Combustible matutino:</strong> Más denso en mañana = $5-10/mes</li>
                 </ul>
             </section>
 
             <section>
-                <h2>📊 RESUMEN DE AHORRO TOTAL</h2>
+                <h2>Resumen de ahorro total</h2>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>TÁCTICA</th>
-                            <th>AHORRO/MES</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Velocidad óptima (65-67 mph)</td>
-                            <td>$80-120</td>
-                        </tr>
-                        <tr>
-                            <td>Mantenimiento MPG</td>
-                            <td>$100-150</td>
-                        </tr>
-                        <tr>
-                            <td>Estrategia de compra</td>
-                            <td>$100-140</td>
-                        </tr>
-                        <tr>
-                            <td>Reducir idle</td>
-                            <td>$60-80</td>
-                        </tr>
-                        <tr>
-                            <td>Tácticas adicionales (5-10)</td>
-                            <td>$110-180</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.15)">
-                            <td><strong>TOTAL POTENCIAL</strong></td>
-                            <td><strong>$450-670/mes</strong></td>
-                        </tr>
-                        <tr style="background:rgba(255,215,0,.15)">
-                            <td><strong>META REALISTA (6-7 tácticas)</strong></td>
-                            <td><strong>$300-500/mes</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Velocidad óptima (65-67 mph)</span><span class="value">$80-120</span></div>
+                    <div class="compare-row"><span class="label">Mantenimiento MPG</span><span class="value">$100-150</span></div>
+                    <div class="compare-row"><span class="label">Estrategia de compra</span><span class="value">$100-140</span></div>
+                    <div class="compare-row"><span class="label">Reducir idle</span><span class="value">$60-80</span></div>
+                    <div class="compare-row"><span class="label">Tácticas adicionales (5-10)</span><span class="value">$110-180</span></div>
+                    <div class="compare-row"><span class="label">Total potencial</span><span class="value">$450-670/mes</span></div>
+                    <div class="compare-row"><span class="label">Meta realista (6-7 tácticas)</span><span class="value accent">$300-500/mes</span></div>
+                </div>
 
-                <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    AHORRO ANUAL: $3,600-6,000<br>
-                    ROI de aprender esto: INFINITO
-                </p>
+                <div class="pull-number">
+                    <div class="value">$3,600-6,000</div>
+                    <p class="context">ahorro anual — el ROI de aprender esto es infinito.</p>
+                </div>
             </section>
 
             <section>
-                <h2>💡 CONCLUSIÓN CLAVE</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Combustible no es "costo
-                        fijo".<br>Es tu mayor oportunidad de optimización.</p>
+                <p><strong>Prioridad TOP 3 (80% del ahorro):</strong></p>
+                <ol>
+                    <li><strong>Velocidad 65-67 mph</strong> (fácil, impacto grande)</li>
+                    <li><strong>Apps de descuento</strong> (5 min setup, ahorro permanente)</li>
+                    <li><strong>Presión llantas semanal</strong> (5 min/semana, ROI masivo)</li>
+                </ol>
 
-                    <div style="text-align:left;max-width:500px;margin:0 auto">
-                        <p><strong>Prioridad TOP 3 (80% del ahorro):</strong></p>
-                        <ol>
-                            <li><strong>Velocidad 65-67 mph</strong> (fácil, impacto grande)</li>
-                            <li><strong>Apps de descuento</strong> (5 min setup, ahorro permanente)</li>
-                            <li><strong>Presión llantas semanal</strong> (5 min/semana, ROI masivo)</li>
-                        </ol>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Operador promedio</span><span class="value">$1,470/mes combustible</span></div>
+                    <div class="compare-row"><span class="label">Operador optimizado</span><span class="value">$1,170/mes combustible</span></div>
+                    <div class="compare-row"><span class="label">Diferencia</span><span class="value accent">$300/mes = $3,600/año</span></div>
+                </div>
 
-                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
-                            <strong>Operador promedio:</strong> $1,470/mes combustible<br>
-                            <strong>Operador optimizado:</strong> $1,170/mes combustible<br>
-                            <strong style="color:#FFD700;font-size:1.25rem">Diferencia: $300/mes = $3,600/año</strong>
-                        </p>
+                <p>Inversión: 30 min aprender + 10 min/semana. Retorno: $300-500/mes por siempre.</p>
 
-                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">
-                            Inversión: 30 min aprender + 10 min/semana<br>
-                            Retorno: $300-500/mes por siempre
-                        </p>
-                    </div>
+                <div class="conclusion">
+                    <p class="lead">Combustible no es "costo fijo". Es tu <span class="accent">mayor oportunidad de optimización</span>.</p>
+                    <p class="sub">30 minutos de aprendizaje y 10 minutos por semana pueden generar $300-500/mes en ahorros permanentes.</p>
                 </div>
             </section>
 

@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,65 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: .75rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1);
-            font-size: .9rem
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
         }
 
         .btn {
@@ -195,302 +137,169 @@
         <div class="lesson-content">
 
             <section>
-                <h2>💼 LA MENTALIDAD DE NEGOCIACIÓN</h2>
+                <h2>La mentalidad de negociación</h2>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
-                    <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>OPERADOR PROMEDIO:</strong></p>
-                        <p style="font-style:italic;margin:0">"Mi seguro cuesta $850/mes"<br>
-                            "Así son las cosas"<br>
-                            "No hay nada que hacer"</p>
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Operador promedio</div>
+                        <div class="compare-row"><span class="label">Actitud</span><span class="value">"Así son las cosas"</span></div>
+                        <div class="compare-row"><span class="label">Seguro</span><span class="value">$850/mes — nunca cuestiona</span></div>
+                        <div class="compare-row"><span class="label">Acción</span><span class="value">"No hay nada que hacer"</span></div>
                     </div>
-
-                    <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>OPERADOR ELITE:</strong></p>
-                        <p style="font-style:italic;margin:0">"Mi seguro COSTABA $850/mes"<br>
-                            "Llamé a 5 compañías"<br>
-                            "Ahora pago $680/mes"<br>
-                            "<strong>Ahorro: $170/mes = $2,040/año</strong>"</p>
+                    <div class="compare-table">
+                        <div class="compare-title">Operador elite</div>
+                        <div class="compare-row"><span class="label">Acción</span><span class="value">Llamó a 5 compañías</span></div>
+                        <div class="compare-row"><span class="label">Seguro</span><span class="value">$680/mes — antes $850</span></div>
+                        <div class="compare-row"><span class="label">Ahorro</span><span class="value accent">$170/mes = $2,040/año</span></div>
                     </div>
                 </div>
 
-                <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    REALIDAD: Cada gasto fijo es NEGOCIABLE<br>
-                    La diferencia: 30 minutos de llamadas<br>
-                    ROI: INFINITO
-                </p>
+                <div class="note tip">
+                    <span class="note-label">Realidad</span>
+                    <p>Cada gasto fijo es negociable. La diferencia es 30 minutos de llamadas. El ROI es infinito.</p>
+                </div>
             </section>
 
             <section>
-                <h2>🛡️ SEGURO: TU GASTO FIJO MÁS GRANDE</h2>
+                <h2>Seguro: tu gasto fijo más grande</h2>
 
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>TÍPICO CARGO VAN EXPEDITING:</strong></p>
-                    <ul>
-                        <li>Responsabilidad: $300-500/mes</li>
-                        <li>Cargo: $200-300/mes</li>
-                        <li>Física damage: $150-250/mes</li>
-                        <li>Uninsured motorist: $50-80/mes</li>
-                        <li><strong>TOTAL: $700-1,130/mes (Promedio: $880/mes)</strong></li>
-                    </ul>
-                    <p style="margin:0;text-align:center;font-weight:700;color:#FFD700">PERO esto es altamente
-                        OPTIMIZABLE</p>
+                <div class="compare-table">
+                    <div class="compare-title">Típico cargo van expediting</div>
+                    <div class="compare-row"><span class="label">Responsabilidad</span><span class="value">$300-500/mes</span></div>
+                    <div class="compare-row"><span class="label">Cargo</span><span class="value">$200-300/mes</span></div>
+                    <div class="compare-row"><span class="label">Física damage</span><span class="value">$150-250/mes</span></div>
+                    <div class="compare-row"><span class="label">Uninsured motorist</span><span class="value">$50-80/mes</span></div>
+                    <div class="compare-row"><span class="label">Total</span><span class="value accent">$700-1,130/mes (promedio $880/mes)</span></div>
                 </div>
 
-                <h3>ESTRATEGIA: Shopping Agresivo (Cada 12 meses)</h3>
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>PASO 1: Cotizar con MÍNIMO 5 compañías</strong></p>
-                    <p><strong>Especializadas en Comercial:</strong></p>
-                    <ul>
-                        <li>Progressive Commercial, Hartford, Nationwide, State Farm, Travelers</li>
-                    </ul>
-                    <p><strong>Especializadas en Trucking:</strong></p>
-                    <ul>
-                        <li>CoverWallet, OOIDA, Commercial Insurance Solutions, NTIS</li>
-                    </ul>
-                    <p><strong>TIEMPO:</strong> 3-4 horas para 5 quotes<br>
-                        <strong>AHORRO POTENCIAL:</strong> $150-250/mes ($1,800-3,000/año)
-                    </p>
-                </div>
+                <p>Pero esto es altamente optimizable.</p>
 
-                <h3>PASO 2: Negociación con Proveedor Actual</h3>
-                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>SCRIPT:</strong></p>
-                    <p style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;font-family:monospace;font-size:.9rem">
-                        "He sido cliente por [X años]. He cotizado y recibí ofertas más bajas:<br>
-                        - Compañía B: $760/mes<br>
-                        - Compañía C: $695/mes<br><br>
-                        Mi actual es $880/mes. Me gusta trabajar con ustedes, pero no puedo justificar pagar $185/mes
-                        más.<br><br>
-                        ¿Pueden igualar o acercarse a $695/mes?"
-                    </p>
-                    <p style="margin:0"><strong>No tengas miedo de cambiar.</strong> Proceso toma 2-3 días. Vale cada
-                        minuto.</p>
-                </div>
+                <p><strong>Estrategia: shopping agresivo (cada 12 meses)</strong></p>
 
-                <h3>PASO 3: Optimización de Cobertura</h3>
+                <p><strong>Paso 1:</strong> cotiza con mínimo 5 compañías.</p>
+                <p><strong>Especializadas en comercial:</strong></p>
                 <ul>
-                    <li><strong>Physical damage en van vieja:</strong> Si vale &lt;$15,000, considera solo liability +
-                            cargo (Ahorro: $150-180/mes)</li>
-                    <li><strong>Deducible más alto:</strong> $500 → $2,500 = $55/mes ahorro</li>
-                    <li><strong>Verifica requisitos brokers</strong> antes de bajar cobertura</li>
+                    <li>Progressive Commercial, Hartford, Nationwide, State Farm, Travelers</li>
+                </ul>
+                <p><strong>Especializadas en trucking:</strong></p>
+                <ul>
+                    <li>CoverWallet, OOIDA, Commercial Insurance Solutions, NTIS</li>
                 </ul>
 
-                <h3>PASO 4: Descuentos Disponibles</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>DESCUENTO</th>
-                            <th>AHORRO</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Experiencia 5+ años</td>
-                            <td>5-10% ($40-80/mes)</td>
-                        </tr>
-                        <tr>
-                            <td>Curso safety</td>
-                            <td>5-10% ($40-70/mes)</td>
-                        </tr>
-                        <tr>
-                            <td>Multi-vehículo</td>
-                            <td>10-15% ($60-100/mes)</td>
-                        </tr>
-                        <tr>
-                            <td>Dash cam</td>
-                            <td>$20-40/mes</td>
-                        </tr>
-                        <tr>
-                            <td>Pago completo (6-12 meses)</td>
-                            <td>5-8% ($40-70/mes)</td>
-                        </tr>
-                        <tr>
-                            <td>Sin accidentes (acumulativo)</td>
-                            <td>2-5% por año (máx 30%)</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.15)">
-                            <td><strong>POTENCIAL COMBINADO</strong></td>
-                            <td><strong>20-35% ($150-280/mes)</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="formula">Tiempo: 3-4 horas para 5 quotes<br>
+Ahorro potencial: $150-250/mes ($1,800-3,000/año)</div>
+
+                <p><strong>Paso 2:</strong> negociación con el proveedor actual.</p>
+
+                <div class="formula">"He sido cliente por [X años]. He cotizado y recibí ofertas más bajas:<br>
+- Compañía B: $760/mes<br>
+- Compañía C: $695/mes<br>
+<br>
+Mi actual es $880/mes. Me gusta trabajar con ustedes, pero no puedo<br>
+justificar pagar $185/mes más.<br>
+<br>
+¿Pueden igualar o acercarse a $695/mes?"</div>
+
+                <p><strong>No tengas miedo de cambiar.</strong> El proceso toma 2-3 días. Vale cada minuto.</p>
+
+                <p><strong>Paso 3:</strong> optimización de cobertura.</p>
+                <ul>
+                    <li><strong>Physical damage en van vieja:</strong> si vale menos de $15,000, considera solo liability + cargo (ahorro: $150-180/mes)</li>
+                    <li><strong>Deducible más alto:</strong> $500 → $2,500 = $55/mes de ahorro</li>
+                    <li>Verifica requisitos de brokers antes de bajar cobertura</li>
+                </ul>
+
+                <p><strong>Paso 4:</strong> descuentos disponibles.</p>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Experiencia 5+ años</span><span class="value">5-10% ($40-80/mes)</span></div>
+                    <div class="compare-row"><span class="label">Curso safety</span><span class="value">5-10% ($40-70/mes)</span></div>
+                    <div class="compare-row"><span class="label">Multi-vehículo</span><span class="value">10-15% ($60-100/mes)</span></div>
+                    <div class="compare-row"><span class="label">Dash cam</span><span class="value">$20-40/mes</span></div>
+                    <div class="compare-row"><span class="label">Pago completo (6-12 meses)</span><span class="value">5-8% ($40-70/mes)</span></div>
+                    <div class="compare-row"><span class="label">Sin accidentes (acumulativo)</span><span class="value">2-5% por año (máx 30%)</span></div>
+                    <div class="compare-row"><span class="label">Potencial combinado</span><span class="value accent">20-35% ($150-280/mes)</span></div>
+                </div>
             </section>
 
             <section>
-                <h2>💻 TECNOLOGÍA: ELIMINA LO INNECESARIO</h2>
+                <h2>Tecnología: elimina lo innecesario</h2>
 
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>AUDIT DE SUSCRIPCIONES:</strong></p>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>SERVICIO</th>
-                                <th>ACTUAL</th>
-                                <th>NECESARIO</th>
-                                <th>AHORRO</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Load boards</td>
-                                <td>$45</td>
-                                <td>$0</td>
-                                <td>$45</td>
-                            </tr>
-                            <tr>
-                                <td>ELD Service</td>
-                                <td>$35</td>
-                                <td>$20</td>
-                                <td>$15</td>
-                            </tr>
-                            <tr>
-                                <td>GPS/Tracking</td>
-                                <td>$30</td>
-                                <td>$0</td>
-                                <td>$30</td>
-                            </tr>
-                            <tr>
-                                <td>Teléfono plan</td>
-                                <td>$80</td>
-                                <td>$50</td>
-                                <td>$30</td>
-                            </tr>
-                            <tr>
-                                <td>Accounting soft</td>
-                                <td>$40</td>
-                                <td>$15</td>
-                                <td>$25</td>
-                            </tr>
-                            <tr>
-                                <td>Load tracking</td>
-                                <td>$25</td>
-                                <td>$0</td>
-                                <td>$25</td>
-                            </tr>
-                            <tr style="background:rgba(255,215,0,.15)">
-                                <td><strong>TOTAL</strong></td>
-                                <td><strong>$255</strong></td>
-                                <td><strong>$85</strong></td>
-                                <td><strong>$170/mes</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <p style="margin:0;text-align:center;font-weight:700">Ahorro anual: $2,040 🚀</p>
+                <div class="compare-table">
+                    <div class="compare-title">Audit de suscripciones</div>
+                    <div class="compare-row"><span class="label">Load boards</span><span class="value">$45 → $0 (ahorro $45)</span></div>
+                    <div class="compare-row"><span class="label">ELD Service</span><span class="value">$35 → $20 (ahorro $15)</span></div>
+                    <div class="compare-row"><span class="label">GPS/Tracking</span><span class="value">$30 → $0 (ahorro $30)</span></div>
+                    <div class="compare-row"><span class="label">Teléfono plan</span><span class="value">$80 → $50 (ahorro $30)</span></div>
+                    <div class="compare-row"><span class="label">Accounting soft</span><span class="value">$40 → $15 (ahorro $25)</span></div>
+                    <div class="compare-row"><span class="label">Load tracking</span><span class="value">$25 → $0 (ahorro $25)</span></div>
+                    <div class="compare-row"><span class="label">Total</span><span class="value accent">$255 → $85 (ahorro $170/mes)</span></div>
                 </div>
 
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem;margin-top:1rem">
-                    <p><strong>PROCESO:</strong></p>
-                    <ol style="margin:0">
-                        <li>Lista TODAS tus suscripciones</li>
-                        <li>Pregunta: "¿Usé esto en últimos 30 días?"</li>
-                        <li>Si NO → Cancela inmediatamente</li>
-                        <li>Si SÍ → "¿Hay alternativa más barata?"</li>
+                <div class="pull-number">
+                    <div class="value">$2,040</div>
+                    <p class="context">de ahorro anual cancelando suscripciones redundantes.</p>
+                </div>
+
+                <div class="note tip">
+                    <span class="note-label">Proceso</span>
+                    <ol>
+                        <li>Lista todas tus suscripciones</li>
+                        <li>Pregunta: "¿Usé esto en los últimos 30 días?"</li>
+                        <li>Si no → cancela inmediatamente</li>
+                        <li>Si sí → "¿Hay una alternativa más barata?"</li>
                     </ol>
                 </div>
             </section>
 
             <section>
-                <h2>🔧 NEGOCIACIÓN CON MECÁNICOS</h2>
+                <h2>Negociación con mecánicos</h2>
 
-                <h3>Táctica #1: Relación a Largo Plazo</h3>
-                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>SCRIPT:</strong></p>
-                    <p style="font-style:italic">"Soy operador cargo van comercial. Manejo 90,000 millas/año. Busco
-                        taller para TODO mi mantenimiento. ¿Pueden ofrecer descuento por volumen?"</p>
-                    <p style="margin:0"><strong>RESULTADO:</strong> 10-15% descuento labor + 5-10% partes = $40-80/mes
-                        ahorro</p>
+                <p><strong>Táctica #1: relación a largo plazo</strong></p>
+                <div class="formula">"Soy operador cargo van comercial. Manejo 90,000 millas/año. Busco taller
+para todo mi mantenimiento. ¿Pueden ofrecer descuento por volumen?"</div>
+                <p><strong>Resultado:</strong> 10-15% de descuento en labor + 5-10% en partes = $40-80/mes de ahorro.</p>
+
+                <p><strong>Táctica #2: compra tus propias partes</strong></p>
+                <div class="compare-table">
+                    <div class="compare-title">Ejemplo — frenos</div>
+                    <div class="compare-row"><span class="label">Shop provee partes</span><span class="value">Labor $180 + partes $220 = $400</span></div>
+                    <div class="compare-row"><span class="label">Tú provees partes</span><span class="value">Labor $180 + partes $110 (online) = $290</span></div>
+                    <div class="compare-row"><span class="label">Ahorro</span><span class="value accent">$110 (27.5%)</span></div>
                 </div>
+                <p><strong>Compra en:</strong> RockAuto.com, Amazon, AutoZone, O'Reilly. No todos los shops aceptan — pregunta la política antes.</p>
 
-                <h3>Táctica #2: Compra Tus Propias Partes</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>EJEMPLO - FRENOS:</strong></p>
-                    <ul>
-                        <li>Shop provee partes: Labor $180 + Partes $220 (markup) = <strong>$400</strong></li>
-                        <li>Tú provees partes: Labor $180 + Partes $110 (online) = <strong>$290</strong></li>
-                        <li><strong>AHORRO: $110 (27.5%)</strong></li>
-                    </ul>
-                    <p><strong>Compra en:</strong> RockAuto.com, Amazon, AutoZone, O'Reilly</p>
-                    <p style="margin:0">NO todos los shops aceptan. Pregunta política ANTES.</p>
-                </div>
-
-                <h3>Táctica #3: Cotiza Múltiples Shops</h3>
-                <p>Para trabajo &gt;$500: Cotiza 3+ shops. Diferencia de precios: 20-40%<br>
-                    <strong>AHORRO ANUAL: $300-600</strong>
-                </p>
+                <p><strong>Táctica #3: cotiza múltiples shops</strong></p>
+                <p>Para trabajos de más de $500: cotiza 3+ shops. La diferencia de precios puede ser de 20-40%. <strong>Ahorro anual: $300-600</strong>.</p>
             </section>
 
             <section>
-                <h2>📊 MEMBRESÍAS QUE VALEN LA PENA</h2>
+                <h2>Membresías que valen la pena</h2>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>MEMBRESÍA</th>
-                            <th>COSTO/AÑO</th>
-                            <th>BENEFICIOS</th>
-                            <th>ROI</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background:rgba(100,200,100,.1)">
-                            <td><strong>OOIDA</strong></td>
-                            <td>$45</td>
-                            <td>Descuentos seguro $1,200-2,400/año</td>
-                            <td>2,667-5,333% ✅✅</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.08)">
-                            <td>AAA Commercial</td>
-                            <td>$150-200</td>
-                            <td>Remolque gratis, descuentos hoteles</td>
-                            <td>100-200% ✅</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.08)">
-                            <td>Costco Business</td>
-                            <td>$60</td>
-                            <td>Llantas, baterías, aceite bulk</td>
-                            <td>200-400% ✅</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.08)">
-                            <td>O'Reilly/AutoZone Pro</td>
-                            <td>GRATIS</td>
-                            <td>10-20% descuento partes</td>
-                            <td>INFINITO ✅</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">OOIDA</span><span class="value">$45/año — descuentos seguro $1,200-2,400/año — ROI 2,667-5,333% ✅✅</span></div>
+                    <div class="compare-row"><span class="label">AAA Commercial</span><span class="value">$150-200/año — remolque gratis, descuentos hoteles — ROI 100-200% ✅</span></div>
+                    <div class="compare-row"><span class="label">Costco Business</span><span class="value">$60/año — llantas, baterías, aceite bulk — ROI 200-400% ✅</span></div>
+                    <div class="compare-row"><span class="label">O'Reilly/AutoZone Pro</span><span class="value">Gratis — 10-20% descuento partes — ROI infinito ✅</span></div>
+                </div>
             </section>
 
             <section>
-                <h2>💡 CONCLUSIÓN CLAVE</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Cada gasto fijo es
-                        NEGOCIABLE<br>Pero tienes que PREGUNTAR</p>
+                <p><strong>4 áreas principales de optimización:</strong></p>
+                <ol>
+                    <li><strong>Seguro:</strong> $150-300/mes de ahorro (shopping anual obligatorio)</li>
+                    <li><strong>Tecnología:</strong> $100-170/mes de ahorro (cancelar redundante)</li>
+                    <li><strong>Mantenimiento:</strong> $50-100/mes de ahorro (negociar + DIY partes)</li>
+                    <li><strong>Membresías:</strong> gasto $150, ahorro $300+/mes</li>
+                </ol>
 
-                    <div style="text-align:left;max-width:500px;margin:0 auto">
-                        <p><strong>4 áreas principales de optimización:</strong></p>
-                        <ol>
-                            <li><strong>SEGURO:</strong> $150-300/mes ahorro (shopping anual obligatorio)</li>
-                            <li><strong>TECNOLOGÍA:</strong> $100-170/mes ahorro (cancelar redundante)</li>
-                            <li><strong>MANTENIMIENTO:</strong> $50-100/mes ahorro (negociar + DIY partes)</li>
-                            <li><strong>MEMBRESÍAS:</strong> Gasto $150, ahorro $300+/mes</li>
-                        </ol>
+                <div class="pull-number">
+                    <div class="value">$300-570/mes</div>
+                    <p class="context">de ahorro potencial total ($3,600-6,840/año) — inversión de 6-8 horas iniciales + 4-5 horas anuales. ROI: $600-1,400 por hora.</p>
+                </div>
 
-                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
-                            <strong style="color:#FFD700;font-size:1.25rem">TOTAL POTENCIAL:<br>$300-570/mes
-                                ahorro<br>$3,600-6,840/año</strong><br><br>
-                            Inversión de tiempo:<br>
-                            Shopping inicial: 6-8 horas<br>
-                            Mantenimiento anual: 4-5 horas<br>
-                            <strong>ROI: $600-1,400 por hora</strong>
-                        </p>
-
-                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">
-                            Operador promedio: Acepta precios<br>
-                            Operador elite: Negocia TODO<br><br>
-                            ¿Cuál eres tú?
-                        </p>
-                    </div>
+                <div class="conclusion">
+                    <p class="lead">Cada gasto fijo es <span class="accent">negociable</span>. Pero tienes que preguntar.</p>
+                    <p class="sub">El operador promedio acepta los precios. El operador elite negocia todo. ¿Cuál eres tú?</p>
                 </div>
             </section>
 

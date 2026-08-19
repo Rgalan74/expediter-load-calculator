@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,41 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(255, 215, 0, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
         }
 
         .btn {
@@ -168,243 +134,230 @@
         </header>
 
         <div class="lesson-content">
-
             <section>
-                <h2>🎯 EL OBJETIVO FINAL</h2>
+                <h2>El objetivo final</h2>
 
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem;margin:2rem 0">
-                    <p><strong>NIVEL 1: Load Boards (tú buscas)</strong></p>
+                <div class="compare-table">
+                    <div class="compare-title">Nivel 1: Load Boards (tú buscas)</div>
                     <ul>
                         <li>Compites con 50+ vans</li>
                         <li>Tarifas bajas (carrera al fondo)</li>
                         <li>Cada carga es una pelea</li>
                     </ul>
+                </div>
 
-                    <p><strong>NIVEL 2: Brokers te conocen (te llaman a veces)</strong></p>
+                <div class="compare-table">
+                    <div class="compare-title">Nivel 2: Brokers te conocen (te llaman a veces)</div>
                     <ul>
                         <li>Compites con 10-15 vans</li>
                         <li>Tarifas moderadas</li>
                         <li>Algo de preferencia</li>
                     </ul>
+                </div>
 
-                    <p><strong>NIVEL 3: TRANSPORTISTA PREFERIDO (te llaman primero) ✅</strong></p>
-                    <ul style="margin-bottom:0">
+                <div class="compare-table">
+                    <div class="compare-title">Nivel 3: Transportista preferido (te llaman primero)</div>
+                    <ul>
                         <li>Compites con 0-2 vans (o nadie)</li>
                         <li>Tarifas premium (+$0.20-0.35/mi)</li>
                         <li>Pipeline consistente de cargas</li>
                     </ul>
                 </div>
 
-                <p style="text-align:center;font-weight:700;font-size:1.25rem;background:rgba(255,215,0,.1);padding:1rem;border-radius:.5rem">
-                    OBJETIVO: Tener 5-10 brokers en Nivel 3</p>
-            </section>
-
-            <section>
-                <h2>💎 QUÉ HACE A UN TRANSPORTISTA "PREFERIDO"</h2>
-
-                <div style="display:grid;gap:1rem;margin:2rem 0">
-                    <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem;border-left:4px solid #64C864">
-                        <p><strong>✅ CONFIABILIDAD (10/10 importancia)</strong></p>
-                        <ul style="margin:0">
-                            <li>NUNCA cancela después de confirmar</li>
-                            <li>Siempre a tiempo (o avisa con anticipación)</li>
-                            <li>Cero daños/reclamos</li>
-                            <li>Responde llamadas/textos en minutos</li>
-                            <li>Disponible 24/7 para emergencias</li>
-                        </ul>
-                    </div>
-
-                    <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem;border-left:4px solid #64C864">
-                        <p><strong>✅ COMUNICACIÓN (10/10 importancia)</strong></p>
-                        <ul style="margin:0">
-                            <li>Updates proactivos cada 2-3 horas</li>
-                            <li>Fotos en recogida/entrega sin pedir</li>
-                            <li>Profesional en todo momento</li>
-                            <li>Hace lo que dice, dice lo que hace</li>
-                            <li>No desaparece durante tránsito</li>
-                        </ul>
-                    </div>
-
-                    <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FFD700">
-                        <p><strong>✅ VELOCIDAD (9/10 en expediting)</strong></p>
-                        <ul style="margin:0">
-                            <li>Recogida rápida (30-60 min de confirmación)</li>
-                            <li>Manejo directo sin paradas innecesarias</li>
-                            <li>Entregas tempranas cuando posible</li>
-                            <li>Actitud "puedo hacerlo" siempre</li>
-                        </ul>
-                    </div>
-
-                    <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem;border-left:4px solid #64C864">
-                        <p><strong>✅ CONSISTENCIA (10/10)</strong></p>
-                        <ul style="margin:0">
-                            <li>Disponible regularmente</li>
-                            <li>Cubre rutas específicas</li>
-                            <li>Desempeño predecible</li>
-                            <li>Compromiso a largo plazo</li>
-                        </ul>
-                    </div>
+                <div class="note tip">
+                    <span class="note-label">Objetivo</span>
+                    <p>Tener 5-10 brokers en Nivel 3.</p>
                 </div>
             </section>
 
             <section>
-                <h2>🏗️ SISTEMA DE CONSTRUCCIÓN DE RELACIONES</h2>
+                <h2>Qué hace a un transportista "preferido"</h2>
 
-                <h3>FASE 1: Primera Impresión (Carga 1)</h3>
-                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>OBJETIVO:</strong> Demostrar que eres DIFERENTE</p>
-                    <p><strong>Durante la carga:</strong></p>
+                <div class="note tip">
+                    <span class="note-label">Confiabilidad (10/10 importancia)</span>
                     <ul>
-                        <li>Confirma recogida 30 min antes: "Llego en 30 minutos"</li>
-                        <li>Foto al cargar: "Cargando ahora, ETA 6pm"</li>
-                        <li>Update mid-tránsito: "Voy a mitad, todo en orden"</li>
-                        <li>Foto en entrega: "Entregado, BOL adjunto"</li>
-                        <li>Agradecimiento: "Gracias por la oportunidad"</li>
+                        <li>Nunca cancela después de confirmar</li>
+                        <li>Siempre a tiempo (o avisa con anticipación)</li>
+                        <li>Cero daños/reclamos</li>
+                        <li>Responde llamadas/textos en minutos</li>
+                        <li>Disponible 24/7 para emergencias</li>
                     </ul>
-                    <p style="margin:0;text-align:center;font-weight:700">Broker piensa: "Wow, este chofer realmente se
-                        comunica.<br>La mayoría desaparece."</p>
                 </div>
 
-                <h3>FASE 2: Prueba de Consistencia (Cargas 2-5)</h3>
-                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>OBJETIVO:</strong> Demostrar que carga #1 NO fue suerte</p>
-                    <p><strong>Carga 2:</strong></p>
+                <div class="note tip">
+                    <span class="note-label">Comunicación (10/10 importancia)</span>
                     <ul>
-                        <li>Acepta dentro de 30 min de oferta</li>
-                        <li>Mismo protocolo de comunicación</li>
-                        <li>A tiempo o temprano</li>
+                        <li>Updates proactivos cada 2-3 horas</li>
+                        <li>Fotos en recogida/entrega sin pedir</li>
                         <li>Profesional en todo momento</li>
+                        <li>Hace lo que dice, dice lo que hace</li>
+                        <li>No desaparece durante tránsito</li>
                     </ul>
-                    <p><strong>Cargas 3-5:</strong></p>
+                </div>
+
+                <div class="note tip">
+                    <span class="note-label">Velocidad (9/10 en expediting)</span>
                     <ul>
-                        <li>Repite exactamente el mismo estándar</li>
-                        <li>Cero variabilidad en servicio</li>
-                        <li>Broker desarrolla CONFIANZA</li>
+                        <li>Recogida rápida (30-60 min de confirmación)</li>
+                        <li>Manejo directo sin paradas innecesarias</li>
+                        <li>Entregas tempranas cuando posible</li>
+                        <li>Actitud "puedo hacerlo" siempre</li>
                     </ul>
-                    <p style="margin:0;text-align:center;font-weight:700">Para carga 5, broker SABE qué esperar.</p>
                 </div>
 
-                <h3>FASE 3: Ir Más Allá (Cargas 6-10)</h3>
-                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>OBJETIVO:</strong> Separarte de OTROS transportistas confiables</p>
-                    <p><strong>Ocasionalmente (1 de cada 3-4 cargas):</strong></p>
+                <div class="note tip">
+                    <span class="note-label">Consistencia (10/10)</span>
                     <ul>
-                        <li>Acepta fecha límite ajustada: "Lo haré funcionar"</li>
-                        <li>Entrega 3-4 horas antes: "Cliente estará contento"</li>
-                        <li>Cubre cancelación de último minuto: "Te cubro"</li>
-                        <li>Flexible en detalles pequeños: "Sin problema"</li>
-                    </ul>
-                    <p style="background:rgba(255,107,53,.1);padding:.75rem;border-radius:.5rem">
-                        <strong>CRÍTICO:</strong> NO hagas esto SIEMPRE. Solo estratégicamente. O se vuelve esperado, no
-                        especial.</p>
-                    <p style="margin:0;text-align:center;font-weight:700">Broker piensa: "Este es mi opción principal
-                        para situaciones difíciles"</p>
-                </div>
-
-                <h3>FASE 4: Estatus Preferido (Cargas 10+)</h3>
-                <div style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>SEÑALES que alcanzaste estatus preferido:</strong></p>
-                    <ol>
-                        <li><strong>Broker te llama ANTES de publicar carga</strong><br>"Oye, tengo una para ti antes de
-                            publicarla"</li>
-                        <li><strong>Broker te ofrece rutas premium</strong><br>"Te doy primera opción en esta"</li>
-                        <li><strong>Broker trabaja contigo en tarifa</strong><br>"Déjame ver qué puedo hacer por ti"
-                        </li>
-                        <li><strong>Broker te avisa de problemas de cliente</strong><br>"Ojo, este cargador es lento"
-                        </li>
-                        <li><strong>Broker te refiere a otros brokers</strong><br>"Llama a mi colega, menciona mi
-                            nombre"</li>
-                    </ol>
-                </div>
-
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem;margin-top:1.5rem">
-                    <p><strong>CRONOLOGÍA:</strong></p>
-                    <ul style="margin:0">
-                        <li>Carga 1: Primera impresión</li>
-                        <li>Cargas 2-5: Construyendo confianza (4-6 semanas)</li>
-                        <li>Cargas 6-10: Fase extra mile (8-12 semanas)</li>
-                        <li>Carga 10+: Estatus preferido (3-4 meses)</li>
-                        <li><strong>MANTENER: Consistencia por siempre</strong></li>
+                        <li>Disponible regularmente</li>
+                        <li>Cubre rutas específicas</li>
+                        <li>Desempeño predecible</li>
+                        <li>Compromiso a largo plazo</li>
                     </ul>
                 </div>
             </section>
 
             <section>
-                <h2>📞 MEJORES PRÁCTICAS DE COMUNICACIÓN</h2>
+                <h2>Sistema de construcción de relaciones</h2>
 
-                <h3>1. TIEMPO DE RESPUESTA</h3>
-                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>ESTÁNDAR ORO:</strong></p>
-                    <ul>
-                        <li>Llamada/texto: Responde en 15 minutos</li>
-                        <li>Oferta de carga: Acepta/declina en 30 min</li>
-                        <li>Negociación de tarifa: Completa en 1 hora máximo</li>
-                        <li>Updates durante carga: Cada 2-3 horas</li>
-                    </ul>
+                <p><strong>Fase 1: Primera impresión (Carga 1)</strong></p>
+                <p><strong>Objetivo:</strong> Demostrar que eres diferente.</p>
+                <p><strong>Durante la carga:</strong></p>
+                <ul>
+                    <li>Confirma recogida 30 min antes: "Llego en 30 minutos"</li>
+                    <li>Foto al cargar: "Cargando ahora, ETA 6pm"</li>
+                    <li>Update mid-tránsito: "Voy a mitad, todo en orden"</li>
+                    <li>Foto en entrega: "Entregado, BOL adjunto"</li>
+                    <li>Agradecimiento: "Gracias por la oportunidad"</li>
+                </ul>
+                <p>Broker piensa: "Wow, este chofer realmente se comunica. La mayoría desaparece."</p>
 
-                    <p><strong>Incluso simple:</strong></p>
-                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">"Recibí
-                        tu mensaje, déjame revisar mi horario<br>y te respondo en 20 minutos"</p>
-                    <p style="margin:0"><strong>vs. [Silencio total por 3 horas]</strong></p>
-                    <p style="margin-top:1rem;text-align:center">Primera opción = profesional<br>Segunda =
-                        "Probablemente no está interesado"</p>
+                <p><strong>Fase 2: Prueba de consistencia (Cargas 2-5)</strong></p>
+                <p><strong>Objetivo:</strong> Demostrar que carga #1 no fue suerte.</p>
+                <p><strong>Carga 2:</strong></p>
+                <ul>
+                    <li>Acepta dentro de 30 min de oferta</li>
+                    <li>Mismo protocolo de comunicación</li>
+                    <li>A tiempo o temprano</li>
+                    <li>Profesional en todo momento</li>
+                </ul>
+                <p><strong>Cargas 3-5:</strong></p>
+                <ul>
+                    <li>Repite exactamente el mismo estándar</li>
+                    <li>Cero variabilidad en servicio</li>
+                    <li>Broker desarrolla confianza</li>
+                </ul>
+                <p>Para carga 5, broker sabe qué esperar.</p>
+
+                <p><strong>Fase 3: Ir más allá (Cargas 6-10)</strong></p>
+                <p><strong>Objetivo:</strong> Separarte de otros transportistas confiables.</p>
+                <p><strong>Ocasionalmente (1 de cada 3-4 cargas):</strong></p>
+                <ul>
+                    <li>Acepta fecha límite ajustada: "Lo haré funcionar"</li>
+                    <li>Entrega 3-4 horas antes: "Cliente estará contento"</li>
+                    <li>Cubre cancelación de último minuto: "Te cubro"</li>
+                    <li>Flexible en detalles pequeños: "Sin problema"</li>
+                </ul>
+
+                <div class="note warning">
+                    <span class="note-label">Crítico</span>
+                    <p>No hagas esto siempre. Solo estratégicamente. O se vuelve esperado, no especial.</p>
                 </div>
 
-                <h3>2. UPDATES PROACTIVOS</h3>
-                <div style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>NO esperes que broker pregunte. CRONOLOGÍA:</strong></p>
-                    <ul>
-                        <li>30 min antes de recogida: "Llego en 30"</li>
-                        <li>En muelle de carga: "Cargando ahora"</li>
-                        <li>Después de cargar: "Cargado, foto BOL adjunta"</li>
-                        <li>Punto medio: "A mitad de camino, todo bien"</li>
-                        <li>30 min a entrega: "Llego en 30"</li>
-                        <li>En entrega: "Entregado, BOL firmado adjunto"</li>
-                        <li>Después: "Todo listo, gracias"</li>
-                    </ul>
-                    <p style="margin-top:1.5rem;text-align:center;font-weight:700">PERSPECTIVA DEL BROKER:<br>"No tengo
-                        que vigilar a este transportista.<br>Me mantiene informado automáticamente."</p>
-                    <p style="margin:0;text-align:center;background:rgba(255,215,0,.15);padding:.75rem;border-radius:.5rem">
-                        <strong>VENTAJA COMPETITIVA:</strong><br>90% de transportistas no hacen esto. Tú te DESTACARÁS.
-                    </p>
+                <p>Broker piensa: "Este es mi opción principal para situaciones difíciles."</p>
+
+                <p><strong>Fase 4: Estatus preferido (Cargas 10+)</strong></p>
+                <p><strong>Señales que alcanzaste estatus preferido:</strong></p>
+                <ol>
+                    <li><strong>Broker te llama antes de publicar carga</strong> — "Oye, tengo una para ti antes de publicarla"</li>
+                    <li><strong>Broker te ofrece rutas premium</strong> — "Te doy primera opción en esta"</li>
+                    <li><strong>Broker trabaja contigo en tarifa</strong> — "Déjame ver qué puedo hacer por ti"</li>
+                    <li><strong>Broker te avisa de problemas de cliente</strong> — "Ojo, este cargador es lento"</li>
+                    <li><strong>Broker te refiere a otros brokers</strong> — "Llama a mi colega, menciona mi nombre"</li>
+                </ol>
+
+                <p><strong>Cronología:</strong></p>
+                <ul>
+                    <li>Carga 1: Primera impresión</li>
+                    <li>Cargas 2-5: Construyendo confianza (4-6 semanas)</li>
+                    <li>Cargas 6-10: Fase extra mile (8-12 semanas)</li>
+                    <li>Carga 10+: Estatus preferido (3-4 meses)</li>
+                    <li><strong>Mantener: Consistencia por siempre</strong></li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Mejores prácticas de comunicación</h2>
+
+                <p><strong>1. Tiempo de respuesta</strong></p>
+                <p><strong>Estándar oro:</strong></p>
+                <ul>
+                    <li>Llamada/texto: Responde en 15 minutos</li>
+                    <li>Oferta de carga: Acepta/declina en 30 min</li>
+                    <li>Negociación de tarifa: Completa en 1 hora máximo</li>
+                    <li>Updates durante carga: Cada 2-3 horas</li>
+                </ul>
+
+                <div class="formula">"Recibí tu mensaje, déjame revisar mi horario y te respondo en 20 minutos"</div>
+
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Respuesta en 20 minutos</span><span class="value accent">Profesional</span></div>
+                    <div class="compare-row"><span class="label">Silencio total por 3 horas</span><span class="value">"Probablemente no está interesado"</span></div>
                 </div>
 
-                <h3>3. FOTOS = ORO</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>Cuándo enviar fotos:</strong></p>
-                    <ul>
-                        <li>✅ En recogida (carga siendo cargada)</li>
-                        <li>✅ BOL en recogida (prueba de condición)</li>
-                        <li>✅ En entrega (carga siendo descargada)</li>
-                        <li>✅ BOL firmado (prueba de entrega)</li>
-                        <li>✅ Si hay daño/problema (documenta todo)</li>
-                    </ul>
-                    <p><strong>CRÉDITO EXTRA:</strong></p>
-                    <ul>
-                        <li>Timestamp visible</li>
-                        <li>Buena iluminación/calidad</li>
-                        <li>Muestra contexto completo</li>
-                        <li>Enviado por texto (no email)</li>
-                    </ul>
-                    <p style="margin:0;text-align:center">INVERSIÓN: 30 segundos por foto<br>VALOR: Elimina 95% de
-                        disputas potenciales</p>
+                <p><strong>2. Updates proactivos</strong></p>
+                <p>No esperes que broker pregunte. Cronología:</p>
+                <ul>
+                    <li>30 min antes de recogida: "Llego en 30"</li>
+                    <li>En muelle de carga: "Cargando ahora"</li>
+                    <li>Después de cargar: "Cargado, foto BOL adjunta"</li>
+                    <li>Punto medio: "A mitad de camino, todo bien"</li>
+                    <li>30 min a entrega: "Llego en 30"</li>
+                    <li>En entrega: "Entregado, BOL firmado adjunto"</li>
+                    <li>Después: "Todo listo, gracias"</li>
+                </ul>
+                <p>Perspectiva del broker: "No tengo que vigilar a este transportista. Me mantiene informado automáticamente."</p>
+
+                <div class="note tip">
+                    <span class="note-label">Ventaja competitiva</span>
+                    <p>90% de transportistas no hacen esto. Tú te destacarás.</p>
+                </div>
+
+                <p><strong>3. Fotos = oro</strong></p>
+
+                <div class="checklist">
+                    <span class="checklist-label">Cuándo enviar fotos</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">En recogida (carga siendo cargada)</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">BOL en recogida (prueba de condición)</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">En entrega (carga siendo descargada)</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">BOL firmado (prueba de entrega)</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Si hay daño/problema (documenta todo)</span></div>
+                </div>
+
+                <p><strong>Crédito extra:</strong></p>
+                <ul>
+                    <li>Timestamp visible</li>
+                    <li>Buena iluminación/calidad</li>
+                    <li>Muestra contexto completo</li>
+                    <li>Enviado por texto (no email)</li>
+                </ul>
+
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Inversión</span><span class="value">30 segundos por foto</span></div>
+                    <div class="compare-row"><span class="label">Valor</span><span class="value accent">Elimina 95% de disputas potenciales</span></div>
                 </div>
             </section>
 
             <section>
-                <h2>🎁 GESTOS PEQUEÑOS, GRAN IMPACTO</h2>
+                <h2>Gestos pequeños, gran impacto</h2>
 
-                <h3>La Estrategia "Recordar Detalles"</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>EJEMPLO:</strong></p>
-                    <p><strong>Carga 1:</strong> Broker menciona: "Soy de Ohio originalmente"</p>
-                    <p><strong>Carga 5 (2 meses después):</strong><br>
-                        Tú: "Oye Sara, vi que Ohio State ganó ayer. ¡Debes estar contenta!"</p>
-                    <p><strong>EFECTO:</strong> Conexión personal más allá de transacciones</p>
-                </div>
+                <p><strong>La estrategia "recordar detalles"</strong></p>
+                <p><strong>Ejemplo:</strong></p>
+                <p><strong>Carga 1:</strong> Broker menciona: "Soy de Ohio originalmente"</p>
+                <p><strong>Carga 5 (2 meses después):</strong> Tú: "Oye Sara, vi que Ohio State ganó ayer. ¡Debes estar contenta!"</p>
+                <p><strong>Efecto:</strong> Conexión personal más allá de transacciones.</p>
 
-                <div class="mockup" style="margin-top:1.5rem">
-                    📝 NOTAS DE BROKER<br>
+                <div class="formula">
+                    NOTAS DE BROKER<br>
                     <br>
                     Sara @ ABC Logistics<br>
                     ├─ De Ohio<br>
@@ -417,127 +370,100 @@
                     en conversación.
                 </div>
 
-                <h3>La Nota de "Gracias"</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem;margin-top:1.5rem">
-                    <p><strong>Después de carga 1, 5, 10, 25:</strong></p>
-                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">"Oye
-                        Juan, solo quería decir gracias por<br>confiar en mí con tus cargas. Sé que<br>tienes muchas
-                        opciones de transportistas.<br>Aprecio el negocio y siempre disfruto<br>trabajar contigo."</p>
-                    <p><strong>MOMENTO:</strong> Tarde después de entrega<br>
-                        <strong>FRECUENCIA:</strong> No cada carga (sería raro). Solo hitos.
-                    </p>
-                    <p style="margin:0"><strong>IMPACTO:</strong> Broker recuerda a este transportista "De verdad
-                        aprecia el trabajo"</p>
+                <p><strong>La nota de "gracias"</strong></p>
+                <p><strong>Después de carga 1, 5, 10, 25:</strong></p>
+
+                <div class="formula">"Oye Juan, solo quería decir gracias por confiar en mí con tus cargas. Sé que tienes muchas opciones de transportistas. Aprecio el negocio y siempre disfruto trabajar contigo."</div>
+
+                <p><strong>Momento:</strong> Tarde después de entrega. <strong>Frecuencia:</strong> No cada carga (sería raro). Solo hitos.</p>
+                <p><strong>Impacto:</strong> Broker recuerda a este transportista "De verdad aprecia el trabajo".</p>
+            </section>
+
+            <section>
+                <h2>Asesinos de relaciones</h2>
+
+                <div class="note warning">
+                    <span class="note-label">Errores fatales</span>
+                    <ol>
+                        <li><strong>Cancelar después de comprometerse</strong> — "Perdón, conseguí mejor carga" → Puente quemado, nunca volverá.</li>
+                        <li><strong>Desaparecer durante tránsito</strong> — Broker llama 5 veces, no contestas → "Debe haber abandonado la carga".</li>
+                        <li><strong>Mentir sobre ubicación/tiempo</strong> — "Estoy a 10 minutos" (en realidad 2 horas) → Confianza destruida permanentemente.</li>
+                        <li><strong>Culpar a broker por problemas de cliente</strong> — "TU cliente tardó 3 horas en cargar" → Adversarial, no colaborativo.</li>
+                        <li><strong>Servicio inconsistente</strong> — Carga 1: Increíble | Carga 2: Mediocre | Carga 3: Excelente | Carga 4: Terrible → No pueden confiar en ti.</li>
+                        <li><strong>Jugar brokers entre sí</strong> — "Broker A me ofreció más por misma ruta" → Se corre la voz, nadie confía en ti.</li>
+                        <li><strong>Siempre pedir favores</strong> — Cada carga: "¿Puedes hacer $50 más?" → Agotador trabajar contigo.</li>
+                    </ol>
                 </div>
             </section>
 
             <section>
-                <h2>🚫 ASESINOS DE RELACIONES</h2>
+                <h2>La estrategia "5x5"</h2>
 
-                <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>❌ ERROR FATAL #1: Cancelar después de comprometerse</strong><br>
-                        "Perdón, conseguí mejor carga"<br>
-                        → Puente QUEMADO, nunca volverá</p>
+                <p><strong>Meta:</strong> 5 brokers Tier 1 que te dan 5 cargas/mes cada uno.</p>
 
-                    <p><strong>❌ ERROR FATAL #2: Desaparecer durante tránsito</strong><br>
-                        Broker llama 5 veces, no contestas<br>
-                        → "Debe haber abandonado la carga"</p>
+                <div class="formula">5 brokers × 5 cargas/mes = 25 cargas/mes</div>
 
-                    <p><strong>❌ ERROR FATAL #3: Mentir sobre ubicación/tiempo</strong><br>
-                        "Estoy a 10 minutos" [en realidad 2 horas]<br>
-                        → Confianza destruida permanentemente</p>
-
-                    <p><strong>❌ ERROR FATAL #4: Culpar a broker por problemas de cliente</strong><br>
-                        "TU cliente tardó 3 horas en cargar"<br>
-                        → Adversarial, no colaborativo</p>
-
-                    <p><strong>❌ ERROR FATAL #5: Servicio inconsistente</strong><br>
-                        Carga 1: Increíble | Carga 2: Mediocre | Carga 3: Excelente | Carga 4: Terrible<br>
-                        → No pueden confiar en ti</p>
-
-                    <p><strong>❌ ERROR FATAL #6: Jugar brokers entre sí</strong><br>
-                        "Broker A me ofreció más por misma ruta"<br>
-                        → Se corre la voz, nadie confía en ti</p>
-
-                    <p style="margin:0"><strong>❌ ERROR FATAL #7: Siempre pedir favores</strong><br>
-                        Cada carga: "¿Puedes hacer $50 más?"<br>
-                        → Agotador trabajar contigo</p>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Estrategia 5x5 (25 cargas × $450 ganancia)</span><span class="value accent">$11,250/mes</span></div>
+                    <div class="compare-row"><span class="label">Load boards (25 cargas × $320 ganancia)</span><span class="value">$8,000/mes</span></div>
                 </div>
+
+                <div class="pull-number">
+                    <div class="value">+$3,250/mes</div>
+                    <p class="context">de diferencia (+40.6%) trabajando con brokers Tier 1 en vez de load boards.</p>
+                </div>
+
+                <p><strong>Más:</strong></p>
+                <ul>
+                    <li>Menos estrés (no cazando constantemente)</li>
+                    <li>Mejores tarifas (estatus preferido)</li>
+                    <li>Ingresos predecibles</li>
+                    <li>Poder de negociación más fuerte</li>
+                </ul>
             </section>
 
             <section>
-                <h2>🎯 LA ESTRATEGIA "5x5"</h2>
+                <h2>Conclusión clave</h2>
 
-                <div style="background:linear-gradient(135deg,rgba(255,215,0,.15),rgba(255,107,53,.15));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.5rem;font-weight:700;margin-bottom:1.5rem">Meta: 5 brokers Tier 1<br>que te
-                        dan 5 cargas/mes cada uno</p>
+                <p><strong>Relaciones &gt; Transacciones.</strong></p>
 
-                    <div style="text-align:left;max-width:600px;margin:0 auto">
-                        <p><strong>MATEMÁTICAS:</strong><br>
-                            5 brokers × 5 cargas/mes = 25 cargas/mes</p>
-
-                        <p>Si ganancia promedio por carga: $450<br>
-                            25 × $450 = <strong style="color:#64C864;font-size:1.25rem">$11,250/mes de ganancia</strong>
-                        </p>
-
-                        <p style="margin-top:2rem"><strong>VERSUS:</strong></p>
-                        <p>Load boards → 25 cargas/mes<br>
-                            Ganancia promedio (tarifas más bajas): $320<br>
-                            25 × $320 = $8,000/mes</p>
-
-                        <p style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;text-align:center;margin-top:1.5rem">
-                            <strong style="color:#FFD700;font-size:1.5rem">DIFERENCIA: +$3,250/mes (+40.6%)</strong>
-                        </p>
-
-                        <p><strong>MÁS:</strong></p>
-                        <ul style="margin-bottom:0">
-                            <li>Menos estrés (no cazando constantemente)</li>
-                            <li>Mejores tarifas (estatus preferido)</li>
-                            <li>Ingresos predecibles</li>
-                            <li>Poder de negociación más fuerte</li>
-                        </ul>
-                    </div>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">1 carga de load board</span><span class="value">$320 ganancia promedio</span></div>
+                    <div class="compare-row"><span class="label">1 carga de transportista preferido</span><span class="value accent">$480 ganancia</span></div>
                 </div>
-            </section>
 
-            <section>
-                <h2>💡 CONCLUSIÓN CLAVE</h2>
-                <div style="background:linear-gradient(135deg,rgba(255,215,0,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">Relaciones &gt; Transacciones</p>
+                <div class="pull-number">
+                    <div class="value">+$3,200/mes</div>
+                    <p class="context">de diferencia en 20 cargas/mes ($160 extra por carga) al alcanzar estatus de transportista preferido.</p>
+                </div>
 
-                    <div style="text-align:left;max-width:500px;margin:0 auto">
-                        <p><strong>1 carga de load board:</strong> $320 ganancia promedio<br>
-                            <strong>1 carga de transportista preferido:</strong> $480 ganancia<br>
-                            <strong>Diferencia:</strong> +$160 por carga
-                        </p>
+                <div class="note tip">
+                    <span class="note-label">Construir a estatus preferido</span>
+                    <ul>
+                        <li>Toma 3-4 meses de esfuerzo intencional</li>
+                        <li>Requiere consistencia sobre todo</li>
+                        <li>Comunicación es el diferenciador</li>
+                        <li>Mantenimiento es continuo</li>
+                    </ul>
+                </div>
 
-                        <p><strong>En 20 cargas/mes:</strong> +$3,200/mes</p>
+                <div class="formula">
+                    La estrategia 5x5:<br>
+                    5 brokers Tier 1 × 5 cargas/mes<br>
+                    = 25 cargas/mes<br>
+                    = $10-12K/mes ganancia predecible<br>
+                    = Estabilidad de negocio
+                </div>
 
-                        <p style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1.5rem">
-                            <strong>Construir a estatus preferido:</strong><br>
-                            • Toma 3-4 meses de esfuerzo intencional<br>
-                            • Requiere CONSISTENCIA sobre todo<br>
-                            • Comunicación es el diferenciador<br>
-                            • Mantenimiento es continuo
-                        </p>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Inversión</span><span class="value">30 min/semana mantenimiento</span></div>
+                    <div class="compare-row"><span class="label">Retorno</span><span class="value">+$3,000-4,000/mes</span></div>
+                    <div class="compare-row"><span class="label">ROI</span><span class="value accent">Masivo</span></div>
+                </div>
 
-                        <p style="background:rgba(255,215,0,.15);padding:1rem;border-radius:.5rem;margin-top:1.5rem">
-                            <strong>La Estrategia 5x5:</strong><br>
-                            5 brokers Tier 1 × 5 cargas/mes<br>
-                            = 25 cargas/mes<br>
-                            = $10-12K/mes ganancia predecible<br>
-                            = Estabilidad de negocio
-                        </p>
-
-                        <p style="margin-top:1.5rem"><strong>Inversión:</strong> 30min/semana mantenimiento<br>
-                            <strong>Retorno:</strong> +$3,000-4,000/mes<br>
-                            <strong style="color:#FFD700;font-size:1.25rem">ROI: MASIVO</strong>
-                        </p>
-
-                        <p style="margin:0;text-align:center;font-weight:700;margin-top:1.5rem">En expediting, la
-                            velocidad importa.<br>
-                            Pero las RELACIONES son lo que construye<br>negocio sostenible a largo plazo.</p>
-                    </div>
+                <div class="conclusion">
+                    <p class="lead">En expediting, la velocidad importa, pero las <span class="accent">relaciones</span> son lo que construye negocio sostenible a largo plazo.</p>
+                    <p class="sub">Relaciones &gt; Transacciones — construir estatus de transportista preferido toma 3-4 meses, pero el retorno es continuo.</p>
                 </div>
             </section>
 

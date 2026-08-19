@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,65 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: .75rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1);
-            font-size: .9rem
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
         }
 
         .btn {
@@ -198,239 +140,155 @@
         <div class="lesson-content">
 
             <section>
-                <h2>📈 THE KAIZEN PHILOSOPHY</h2>
+                <h2>The Kaizen philosophy</h2>
 
-                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
-                    <p style="font-size:1.25rem;font-weight:700;text-align:center;margin-bottom:1rem">KAIZEN (改善) = Continuous improvement</p>
-                    <p><strong>JAPANESE CONCEPT:</strong> Improve 1% every day/week = Massive improvement in one year</p>
+                <p><strong>Kaizen (改善) = continuous improvement.</strong></p>
+                <p><strong>Japanese concept:</strong> improving 1% every day/week equals massive improvement in one year.</p>
 
-                    <div style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1rem">
-                        <p><strong>THE MATH:</strong></p>
-                        <p><strong>1% weekly improvement:</strong><br>
-                            Week 1: 100% baseline<br>
-                            Week 52: <strong style="color:#FFD700">167.7%</strong> of original capacity</p>
+                <div class="formula">1% weekly improvement<br>
+Week 1:  100% baseline<br>
+Week 52: 167.7% of original capacity<br>
+<br>
+1% monthly improvement<br>
+Month 1:  100% baseline<br>
+Month 12: 112.7% of capacity</div>
 
-                        <p><strong>1% monthly improvement:</strong><br>
-                            Month 1: 100% baseline<br>
-                            Month 12: <strong style="color:#FFD700">112.7%</strong> of capacity</p>
-
-                        <p style="margin:0"><strong>LESSON:</strong> Small consistent improvements &gt; Large sporadic changes</p>
-                    </div>
+                <div class="note tip">
+                    <span class="note-label">Lesson</span>
+                    <p>Small consistent improvements beat large sporadic changes.</p>
                 </div>
             </section>
 
             <section>
-                <h2>🎯 THE PDCA CYCLE (Plan-Do-Check-Act)</h2>
+                <h2>The PDCA cycle (Plan-Do-Check-Act)</h2>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0">
-                    <div style="background:rgba(0,217,255,.08);padding:1rem;border-radius:.5rem;border-left:4px solid #00D9FF">
-                        <p style="margin:0"><strong>📋 PLAN</strong><br>
-                            • Identify area for improvement<br>
-                            • Define specific objective<br>
-                            • Create action plan</p>
-                    </div>
-                    <div style="background:rgba(255,215,0,.08);padding:1rem;border-radius:.5rem;border-left:4px solid #FFD700">
-                        <p style="margin:0"><strong>🔨 DO</strong><br>
-                            • Implement the change<br>
-                            • Record the process<br>
-                            • Document results</p>
-                    </div>
-                    <div style="background:rgba(100,200,100,.08);padding:1rem;border-radius:.5rem;border-left:4px solid #64C864">
-                        <p style="margin:0"><strong>✅ CHECK</strong><br>
-                            • Measure results<br>
-                            • Compare vs objective<br>
-                            • Analyze what worked</p>
-                    </div>
-                    <div style="background:rgba(255,107,53,.1);padding:1rem;border-radius:.5rem;border-left:4px solid #FF6B35">
-                        <p style="margin:0"><strong>🔄 ACT</strong><br>
-                            • If it worked: Standardize<br>
-                            • If not: Adjust and repeat<br>
-                            • Return to PLAN</p>
-                    </div>
-                </div>
+                <div class="formula">PLAN  → identify area for improvement, define specific objective, create action plan<br>
+DO    → implement the change, record the process, document results<br>
+CHECK → measure results, compare vs objective, analyze what worked<br>
+ACT   → if it worked: standardize. If not: adjust and repeat. Return to PLAN</div>
             </section>
 
             <section>
-                <h2>📅 THE OPTIMIZATION CALENDAR</h2>
+                <h2>The optimization calendar</h2>
 
-                <h3>WEEKLY REVIEW (15 minutes every Sunday)</h3>
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>SUNDAY 7PM - ROUTINE:</strong></p>
+                <div class="note tip">
+                    <span class="note-label">Weekly review — 15 minutes every Sunday</span>
+                    <p><strong>Sunday 7pm — routine:</strong></p>
                     <ol>
-                        <li><strong>Review numbers (5 min):</strong> Weekly profit, RPM, loads, problems</li>
-                        <li><strong>Identify ONE improvement (3 min):</strong> "What ONE thing could I improve 1% next week?"</li>
-                        <li><strong>Create plan (3 min):</strong> My improvement, how to measure it, specific goal</li>
-                        <li><strong>Review last week (4 min):</strong> Did I meet my goal? Continue or adjust?</li>
+                        <li><strong>Review numbers (5 min):</strong> weekly profit, RPM, loads, problems</li>
+                        <li><strong>Identify ONE improvement (3 min):</strong> "What one thing could I improve 1% next week?"</li>
+                        <li><strong>Create plan (3 min):</strong> my improvement, how to measure it, specific goal</li>
+                        <li><strong>Review last week (4 min):</strong> did I meet my goal? Continue or adjust?</li>
                     </ol>
-
-                    <p style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1rem;margin-bottom:0">
-                        <strong>EXAMPLES OF WEEKLY IMPROVEMENTS:</strong><br>
-                        • Reduce idle 10 min/day<br>
-                        • Use Waze on ALL routes<br>
-                        • Check tire pressure 2x this week<br>
-                        • Respond to brokers in &lt;15 min always<br>
-                        • Document ALL loads same day
-                    </p>
-                </div>
-
-                <h3>MONTHLY REVIEW (45 minutes)</h3>
-                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>LAST SUNDAY OF THE MONTH:</strong></p>
-                    <ol>
-                        <li><strong>Full financial analysis (15 min):</strong> Revenue, expenses, profit, margin, trend</li>
-                        <li><strong>KPI review (10 min):</strong> RPM, CPM, deadhead, utilization, margin, profit/day</li>
-                        <li><strong>Lane analysis (10 min):</strong> Top 3 most profitable, lanes to drop</li>
-                        <li><strong>Major projects (10 min):</strong> Next month, expected impact, time required</li>
-                    </ol>
-                </div>
-
-                <h3>QUARTERLY REVIEW (2 hours)</h3>
-                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>EVERY 3 MONTHS:</strong></p>
-                    <ol>
-                        <li><strong>Trend analysis (30 min):</strong> Last 3 months, causes of improvement/decline</li>
-                        <li><strong>Expense audit (30 min):</strong> Review EVERY category, savings opportunities</li>
-                        <li><strong>Relationship review (30 min):</strong> Tier 1 brokers, loads/month, trends</li>
-                        <li><strong>Set objectives (30 min):</strong> Next quarter, financial + operational goals</li>
-                    </ol>
-                </div>
-
-                <h3>ANNUAL REVIEW (4 hours)</h3>
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>YEAR END:</strong></p>
-                    <ol style="margin:0">
-                        <li><strong>Full year analysis (1 hr):</strong> Total profit, best/worst month, wins, challenges</li>
-                        <li><strong>Next year projection (1 hr):</strong> Financial, operational, expansion goals</li>
-                        <li><strong>Lessons learned (1 hr):</strong> What worked, what didn't, changes for next year</li>
-                        <li><strong>Strategic planning (1 hr):</strong> Quarterly roadmap for the full year</li>
-                    </ol>
-                </div>
-            </section>
-
-            <section>
-                <h2>🎯 THE 52 IMPROVEMENTS SYSTEM</h2>
-
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>CONCEPT:</strong> 52 weeks = 52 small improvements. Each one improves your operation 1%</p>
-
-                    <p><strong>SAMPLE ANNUAL STRUCTURE:</strong></p>
+                    <p><strong>Examples of weekly improvements:</strong></p>
                     <ul>
-                        <li><strong>Q1 (Weeks 1-13): FOUNDATIONS</strong><br>
-                            Smart Load setup, templates, digital docs, maintenance calendar, optimal speed, discount apps...</li>
-
-                        <li><strong>Q2 (Weeks 14-26): OPTIMIZATION</strong><br>
-                            Shop insurance, negotiate shop, low-resistance tires, dash cam, safety course, cancel subscriptions...</li>
-
-                        <li><strong>Q3 (Weeks 27-39): REFINEMENT</strong><br>
-                            Drop bad lanes, maximize top lanes, Tier 1 check-ins, forecasting, prepare for Q4...</li>
-
-                        <li><strong>Q4 (Weeks 40-52): CONSOLIDATION</strong><br>
-                            Evaluate expansion, negotiate annual contracts, prepare taxes, document processes, plan next year...</li>
+                        <li>Reduce idle 10 min/day</li>
+                        <li>Use Waze on all routes</li>
+                        <li>Check tire pressure 2x this week</li>
+                        <li>Respond to brokers in under 15 min always</li>
+                        <li>Document all loads the same day</li>
                     </ul>
+                </div>
 
-                    <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;margin:0;text-align:center;font-weight:700">
-                        RESULT: 52 improvements = Transformed operation<br>
-                        Profit +20-35% vs starting point<br>
-                        Solid foundation to scale
-                    </p>
+                <div class="note tip">
+                    <span class="note-label">Monthly review — 45 minutes</span>
+                    <p><strong>Last Sunday of the month:</strong></p>
+                    <ol>
+                        <li><strong>Full financial analysis (15 min):</strong> revenue, expenses, profit, margin, trend</li>
+                        <li><strong>KPI review (10 min):</strong> RPM, CPM, deadhead, utilization, margin, profit/day</li>
+                        <li><strong>Lane analysis (10 min):</strong> top 3 most profitable, lanes to drop</li>
+                        <li><strong>Major projects (10 min):</strong> next month, expected impact, time required</li>
+                    </ol>
+                </div>
+
+                <div class="note tip">
+                    <span class="note-label">Quarterly review — 2 hours</span>
+                    <p><strong>Every 3 months:</strong></p>
+                    <ol>
+                        <li><strong>Trend analysis (30 min):</strong> last 3 months, causes of improvement/decline</li>
+                        <li><strong>Expense audit (30 min):</strong> review every category, savings opportunities</li>
+                        <li><strong>Relationship review (30 min):</strong> Tier 1 brokers, loads/month, trends</li>
+                        <li><strong>Set objectives (30 min):</strong> next quarter, financial + operational goals</li>
+                    </ol>
+                </div>
+
+                <div class="note tip">
+                    <span class="note-label">Annual review — 4 hours</span>
+                    <p><strong>Year end:</strong></p>
+                    <ol>
+                        <li><strong>Full year analysis (1 hr):</strong> total profit, best/worst month, wins, challenges</li>
+                        <li><strong>Next year projection (1 hr):</strong> financial, operational, expansion goals</li>
+                        <li><strong>Lessons learned (1 hr):</strong> what worked, what didn't, changes for next year</li>
+                        <li><strong>Strategic planning (1 hr):</strong> quarterly roadmap for the full year</li>
+                    </ol>
                 </div>
             </section>
 
             <section>
-                <h2>📊 PROGRESS METRICS</h2>
+                <h2>The 52 improvements system</h2>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>METRIC</th>
-                            <th>BASELINE</th>
-                            <th>6 MONTHS</th>
-                            <th>12 MONTHS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Profit/month</td>
-                            <td>$3,850</td>
-                            <td>$4,680 (+21.6%)</td>
-                            <td>$5,400 (+40%)</td>
-                        </tr>
-                        <tr>
-                            <td>Margin</td>
-                            <td>34.2%</td>
-                            <td>41.2% (+7)</td>
-                            <td>44%</td>
-                        </tr>
-                        <tr>
-                            <td>RPM</td>
-                            <td>$1.45/mi</td>
-                            <td>$1.64 (+13.1%)</td>
-                            <td>$1.75/mi</td>
-                        </tr>
-                        <tr>
-                            <td>CPM</td>
-                            <td>$0.95/mi</td>
-                            <td>$0.81 (-14.7%)</td>
-                            <td>$0.75/mi</td>
-                        </tr>
-                        <tr>
-                            <td>Admin time</td>
-                            <td>24 hrs</td>
-                            <td>7 hrs (-71%)</td>
-                            <td>5 hrs</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.15)">
-                            <td><strong>Average improvement</strong></td>
-                            <td colspan="3"><strong>+3.5% per month (compounded)</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <p><strong>Concept:</strong> 52 weeks = 52 small improvements. Each one improves your operation 1%.</p>
+                <p><strong>Sample annual structure:</strong></p>
+
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Q1 (weeks 1-13) — foundations</span><span class="value">Smart Load setup, templates, digital docs, maintenance calendar, optimal speed, discount apps...</span></div>
+                    <div class="compare-row"><span class="label">Q2 (weeks 14-26) — optimization</span><span class="value">Shop insurance, negotiate shop, low-resistance tires, dash cam, safety course, cancel subscriptions...</span></div>
+                    <div class="compare-row"><span class="label">Q3 (weeks 27-39) — refinement</span><span class="value">Drop bad lanes, maximize top lanes, Tier 1 check-ins, forecasting, prepare for Q4...</span></div>
+                    <div class="compare-row"><span class="label">Q4 (weeks 40-52) — consolidation</span><span class="value">Evaluate expansion, negotiate annual contracts, prepare taxes, document processes, plan next year...</span></div>
+                </div>
+
+                <div class="pull-number">
+                    <div class="value">+20-35%</div>
+                    <p class="context">in profit versus the starting point after completing the 52 improvements — a solid foundation to scale.</p>
+                </div>
             </section>
 
             <section>
-                <h2>💡 FINAL CONCLUSION - MODULE 6 COMPLETE</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Small consistent improvements &gt; Large sporadic changes</p>
+                <h2>Progress metrics</h2>
 
-                    <div style="text-align:left;max-width:600px;margin:0 auto">
-                        <p><strong>You completed Module 6 and learned:</strong></p>
-                        <ol>
-                            <li><strong>Fuel:</strong> $300-500/month savings (10 tactics)</li>
-                            <li><strong>Maintenance:</strong> $200-400/month savings (preventive vs reactive)</li>
-                            <li><strong>Vendors:</strong> $300-570/month savings (negotiate EVERYTHING)</li>
-                            <li><strong>Automation:</strong> 5-8 hrs/week (8 areas)</li>
-                            <li><strong>Continuous Improvement:</strong> +67.7% annually (1% weekly)</li>
-                        </ol>
+                <div class="compare-table">
+                    <div class="compare-title">Baseline → 6 months → 12 months</div>
+                    <div class="compare-row"><span class="label">Profit/month</span><span class="value">$3,850 → $4,680 (+21.6%) → $5,400 (+40%)</span></div>
+                    <div class="compare-row"><span class="label">Margin</span><span class="value">34.2% → 41.2% (+7) → 44%</span></div>
+                    <div class="compare-row"><span class="label">RPM</span><span class="value">$1.45/mi → $1.64 (+13.1%) → $1.75/mi</span></div>
+                    <div class="compare-row"><span class="label">CPM</span><span class="value">$0.95/mi → $0.81 (-14.7%) → $0.75/mi</span></div>
+                    <div class="compare-row"><span class="label">Admin time</span><span class="value">24 hrs → 7 hrs (-71%) → 5 hrs</span></div>
+                    <div class="compare-row"><span class="label">Average improvement</span><span class="value accent">+3.5% per month (compounded)</span></div>
+                </div>
+            </section>
 
-                        <hr style="border-color:rgba(255,255,255,.2);margin:1.5rem 0">
+            <section>
+                <p><strong>You completed Module 6 and learned:</strong></p>
+                <ol>
+                    <li><strong>Fuel:</strong> $300-500/month savings (10 tactics)</li>
+                    <li><strong>Maintenance:</strong> $200-400/month savings (preventive vs reactive)</li>
+                    <li><strong>Vendors:</strong> $300-570/month savings (negotiate everything)</li>
+                    <li><strong>Automation:</strong> 5-8 hrs/week (8 areas)</li>
+                    <li><strong>Continuous improvement:</strong> +67.7% annually (1% weekly)</li>
+                </ol>
 
-                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;text-align:center">
-                            <strong>TOTAL TRANSFORMATION:</strong><br><br>
-                            BEFORE: CPM $0.95, Profit $3,800, Margin 34%, Admin 22 hrs<br>
-                            AFTER: CPM $0.78, Profit $5,200, Margin 43%, Admin 7 hrs<br><br>
-                            <strong style="color:#FFD700;font-size:1.25rem">IMPACT: +$1,400/month = +$16,800/year</strong>
-                        </p>
+                <div class="compare-table">
+                    <div class="compare-title">Total transformation</div>
+                    <div class="compare-row"><span class="label">Before</span><span class="value">CPM $0.95, profit $3,800, margin 34%, admin 22 hrs</span></div>
+                    <div class="compare-row"><span class="label">After</span><span class="value accent">CPM $0.78, profit $5,200, margin 43%, admin 7 hrs</span></div>
+                </div>
 
-                        <hr style="border-color:rgba(255,255,255,.2);margin:1.5rem 0">
+                <div class="pull-number">
+                    <div class="value">+$1,400/mo</div>
+                    <p class="context">in impact = +$16,800/year.</p>
+                </div>
 
-                        <p><strong>THE COMPLETE SYSTEM:</strong></p>
-                        <ul>
-                            <li><strong>Weekly (15 min):</strong> 1 small improvement</li>
-                            <li><strong>Monthly (45 min):</strong> Analysis + major projects</li>
-                            <li><strong>Quarterly (2 hrs):</strong> Trends + objectives</li>
-                            <li><strong>Annual (4 hrs):</strong> Reflection + strategy</li>
-                        </ul>
+                <p><strong>The complete system:</strong></p>
+                <ul>
+                    <li><strong>Weekly (15 min):</strong> 1 small improvement</li>
+                    <li><strong>Monthly (45 min):</strong> analysis + major projects</li>
+                    <li><strong>Quarterly (2 hrs):</strong> trends + objectives</li>
+                    <li><strong>Annual (4 hrs):</strong> reflection + strategy</li>
+                </ul>
 
-                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">
-                            IT'S NOT ABOUT working more hours ❌<br>
-                            IT'S ABOUT improving 1% every week ✅<br><br>
-                            In 1 year: Unrecognizable operation<br>
-                            In 3 years: Elite operator<br><br>
-                            <span style="color:#FFD700">The choice is yours.<br>
-                                The system is proven.<br>
-                                All you need to do: START.</span>
-                        </p>
-                    </div>
+                <div class="conclusion">
+                    <p class="lead">It's not about working more hours. It's about <span class="accent">improving 1% every week</span>.</p>
+                    <p class="sub">In 1 year: an unrecognizable operation. In 3 years: an elite operator. The choice is yours — the system is proven. All you need to do is start.</p>
                 </div>
             </section>
 

@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -38,64 +39,6 @@
             margin-bottom: 1rem
         }
 
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
-        }
-
         .btn {
             padding: 1rem 2rem;
             border-radius: .75rem;
@@ -106,8 +49,8 @@
         }
 
         .btn-primary {
-            background: linear-gradient(90deg, #FFD700 0%, #FF6B35 100%);
-            color: #000
+            background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+            color: #fff
         }
 
         .btn-secondary {
@@ -173,7 +116,7 @@
 
     <article class="lesson-container">
 
-        <div style="display: inline-block; background: linear-gradient(90deg, #FFD700, #FF6B35); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
+        <div style="display: inline-block; background: linear-gradient(90deg, #00D9FF, #FF6B35); color: #fff; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
             🔒 PRO</div>
 
         
@@ -193,103 +136,84 @@
         <div class="lesson-content">
 
             <section>
-                <h2>💰 LA ILUSIÓN DE INGRESOS</h2>
+                <h2>La ilusión de ingresos</h2>
 
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;margin:2rem 0">
-                    <p><strong>ESCENARIO COMÚN:</strong></p>
-                    <p style="font-family:monospace;background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem">
-                        Chofer A: "¡Gané $12,000 este mes!"<br>
-                        Chofer B: "Yo solo gané $9,000"<br><br>
-                        ¿Quién está mejor?
-                    </p>
-                    <p style="text-align:center;font-weight:700;font-size:1.25rem;margin-top:1.5rem">RESPUESTA: Depende.
-                    </p>
-                </div>
+                <p><strong>Escenario común:</strong> Chofer A dice "¡Gané $12,000 este mes!" Chofer B dice "Yo solo gané $9,000." ¿Quién está mejor? <strong>Respuesta: depende.</strong></p>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
-                    <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>Chofer A:</strong></p>
-                        <ul style="margin:0;font-size:.9rem">
-                            <li>Ingresos: $12,000</li>
-                            <li>Millas: 9,500</li>
-                            <li>Combustible: $4,200</li>
-                            <li>Mantenimiento: $1,100</li>
-                            <li>Otros gastos: $2,800</li>
-                            <li><strong style="color:#FF6B35">Ganancia: $3,900</strong></li>
-                            <li>Margen: 32.5%</li>
-                        </ul>
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Chofer A</div>
+                        <div class="compare-row"><span class="label">Ingresos</span><span class="value">$12,000</span></div>
+                        <div class="compare-row"><span class="label">Millas</span><span class="value">9,500</span></div>
+                        <div class="compare-row"><span class="label">Combustible</span><span class="value">$4,200</span></div>
+                        <div class="compare-row"><span class="label">Mantenimiento</span><span class="value">$1,100</span></div>
+                        <div class="compare-row"><span class="label">Otros gastos</span><span class="value">$2,800</span></div>
+                        <div class="compare-row"><span class="label">Ganancia</span><span class="value">$3,900</span></div>
+                        <div class="compare-row"><span class="label">Margen</span><span class="value">32.5%</span></div>
                     </div>
-
-                    <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>Chofer B:</strong></p>
-                        <ul style="margin:0;font-size:.9rem">
-                            <li>Ingresos: $9,000</li>
-                            <li>Millas: 6,200</li>
-                            <li>Combustible: $2,400</li>
-                            <li>Mantenimiento: $550</li>
-                            <li>Otros gastos: $1,850</li>
-                            <li><strong style="color:#64C864">Ganancia: $4,200</strong></li>
-                            <li>Margen: 46.7%</li>
-                        </ul>
+                    <div class="compare-table">
+                        <div class="compare-title">Chofer B</div>
+                        <div class="compare-row"><span class="label">Ingresos</span><span class="value">$9,000</span></div>
+                        <div class="compare-row"><span class="label">Millas</span><span class="value">6,200</span></div>
+                        <div class="compare-row"><span class="label">Combustible</span><span class="value">$2,400</span></div>
+                        <div class="compare-row"><span class="label">Mantenimiento</span><span class="value">$550</span></div>
+                        <div class="compare-row"><span class="label">Otros gastos</span><span class="value">$1,850</span></div>
+                        <div class="compare-row"><span class="label">Ganancia</span><span class="value accent">$4,200</span></div>
+                        <div class="compare-row"><span class="label">Margen</span><span class="value accent">46.7%</span></div>
                     </div>
                 </div>
 
-                <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    Chofer B gana MENOS pero se lleva MÁS a casa.<br>¿Por qué? EFICIENCIA.
-                </p>
+                <div class="note tip">
+                    <span class="note-label">La razón: eficiencia</span>
+                    <p>Chofer B gana MENOS pero se lleva MÁS a casa.</p>
+                </div>
             </section>
 
             <section>
-                <h2>📊 LAS 3 CAPAS DE NÚMEROS</h2>
+                <h2>Las 3 capas de números</h2>
 
-                <div style="background:rgba(0,217,255,.05);padding:1.5rem;border-radius:.75rem;margin:1.5rem 0;border-left:4px solid #00D9FF">
-                    <p><strong>CAPA 1: INGRESOS BRUTOS (Lo que cobras)</strong></p>
-                    <ul style="margin:0">
-                        <li>Total pagos de cargas</li>
-                        <li>FSC (Fuel Surcharge)</li>
-                        <li>Detention pay</li>
-                        <li>Bonos/incentivos</li>
-                        <li><strong>EJEMPLO: $10,500/mes</strong></li>
-                    </ul>
+                <p><strong>Capa 1: ingresos brutos (lo que cobras)</strong></p>
+                <ul>
+                    <li>Total pagos de cargas</li>
+                    <li>FSC (Fuel Surcharge)</li>
+                    <li>Detention pay</li>
+                    <li>Bonos/incentivos</li>
+                </ul>
+                <div class="formula">Ejemplo: $10,500/mes</div>
+
+                <p><strong>Capa 2: gastos operativos (lo que pagas)</strong></p>
+                <p><strong>Variables:</strong></p>
+                <ul>
+                    <li>Combustible, DEF, Peajes</li>
+                    <li>Comidas en ruta</li>
+                    <li>Mantenimiento preventivo</li>
+                </ul>
+                <p><strong>Fijos:</strong></p>
+                <ul>
+                    <li>Pago de van, Seguro</li>
+                    <li>Licencias/placas</li>
+                    <li>Suscripciones, Teléfono</li>
+                </ul>
+                <div class="formula">Ejemplo: $6,800/mes</div>
+
+                <p><strong>Capa 3: ganancia neta (lo que realmente ganas)</strong></p>
+                <div class="formula">Ingresos - Gastos: $10,500 - $6,800</div>
+                <div class="pull-number">
+                    <div class="value">$3,700</div>
+                    <p class="context">ganancia neta del mes — un margen del 35.2%.</p>
                 </div>
 
-                <div style="background:rgba(255,215,0,.05);padding:1.5rem;border-radius:.75rem;margin:1.5rem 0;border-left:4px solid #FFD700">
-                    <p><strong>CAPA 2: GASTOS OPERATIVOS (Lo que pagas)</strong></p>
-                    <p><strong>VARIABLES:</strong></p>
-                    <ul>
-                        <li>Combustible, DEF, Peajes</li>
-                        <li>Comidas en ruta</li>
-                        <li>Mantenimiento preventivo</li>
-                    </ul>
-                    <p><strong>FIJOS:</strong></p>
-                    <ul style="margin-bottom:0">
-                        <li>Pago de van, Seguro</li>
-                        <li>Licencias/placas</li>
-                        <li>Suscripciones, Teléfono</li>
-                        <li><strong>EJEMPLO: $6,800/mes</strong></li>
-                    </ul>
+                <div class="note warning">
+                    <span class="note-label">El error común</span>
+                    <p>La mayoría solo mira Capa 1. Tú necesitas dominar las 3.</p>
                 </div>
-
-                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem;margin:1.5rem 0;border-left:4px solid #64C864">
-                    <p><strong>CAPA 3: GANANCIA NETA (Lo que realmente ganas)</strong></p>
-                    <p style="margin:0">Ingresos - Gastos<br>
-                        <strong>EJEMPLO: $10,500 - $6,800 = $3,700</strong><br>
-                        <strong>MARGEN: 35.2%</strong>
-                    </p>
-                </div>
-
-                <p style="background:rgba(255,107,53,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    LA MAYORÍA solo mira Capa 1.<br>TÚ necesitas dominar las 3.
-                </p>
             </section>
 
             <section>
-                <h2>🔍 DESGLOSE DETALLADO DE GASTOS</h2>
+                <h2>Desglose detallado de gastos</h2>
 
-                <h3>GASTOS VARIABLES (Por Milla)</h3>
-                <div class="mockup">
-                    💵 GASTOS VARIABLES TÍPICOS<br>
-                    <br>
+                <p><strong>Gastos variables (por milla)</strong></p>
+                <div class="formula">
                     COMBUSTIBLE:<br>
                     ├─ Precio promedio: $3.50/gal<br>
                     ├─ Consumo van: 17-20 MPG<br>
@@ -319,10 +243,8 @@
                     TOTAL VARIABLE: $0.58-0.76/mi
                 </div>
 
-                <h3>GASTOS FIJOS (Por Mes)</h3>
-                <div class="mockup">
-                    🏦 GASTOS FIJOS MENSUALES<br>
-                    <br>
+                <p><strong>Gastos fijos (por mes)</strong></p>
+                <div class="formula">
                     VAN:<br>
                     ├─ Pago de préstamo: $800-1,200<br>
                     │ (O depreciación si es tuya)<br>
@@ -361,106 +283,76 @@
             </section>
 
             <section>
-                <h2>🎯 EL SISTEMA DE TRACKING SIMPLE</h2>
+                <h2>El sistema de tracking simple</h2>
 
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>MÍNIMO ABSOLUTO - Registra diario:</strong></p>
+                <p><strong>Mínimo absoluto — registra diario:</strong></p>
+                <ol>
+                    <li><strong>Ingresos hoy:</strong> Carga #1: $XXX, Carga #2: $XXX, Total: $XXX</li>
+                    <li><strong>Millas hoy:</strong> Deadhead: XXX, Loaded: XXX, Total: XXX</li>
+                    <li><strong>Gastos hoy:</strong> Combustible: $XXX (XX galones), Peajes: $XXX, Comida: $XXX</li>
+                    <li><strong>Notas:</strong> Cualquier cosa inusual</li>
+                </ol>
 
-                    <ol>
-                        <li><strong>INGRESOS HOY:</strong> Carga #1: $XXX, Carga #2: $XXX, TOTAL: $XXX</li>
-                        <li><strong>MILLAS HOY:</strong> Deadhead: XXX, Loaded: XXX, TOTAL: XXX</li>
-                        <li><strong>GASTOS HOY:</strong> Combustible: $XXX (XX galones), Peajes: $XXX, Comida: $XXX</li>
-                        <li><strong>NOTAS:</strong> Cualquier cosa inusual</li>
-                    </ol>
-
-                    <p style="background:rgba(255,215,0,.15);padding:1rem;border-radius:.5rem;margin:0;text-align:center">
-                        <strong>TIEMPO REQUERIDO:</strong> 3-5 minutos/día<br>
-                        <strong>BENEFICIO:</strong> Claridad total de tu negocio
-                    </p>
+                <div class="note tip">
+                    <span class="note-label">Tiempo requerido: 3-5 minutos/día</span>
+                    <p>Beneficio: claridad total de tu negocio.</p>
                 </div>
             </section>
 
             <section>
-                <h2>🎯 ESTABLECIENDO TU "NÚMERO MÍNIMO"</h2>
+                <h2>Estableciendo tu "número mínimo"</h2>
 
-                <div style="background:rgba(255,215,0,.1);padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">CÁLCULO DE BREAK-EVEN MENSUAL</p>
+                <div class="formula">Gastos fijos mensuales ÷ Margen objetivo (35-40%) = Ingresos mínimos necesarios</div>
 
-                    <div style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;max-width:400px;margin:0 auto">
-                        <p style="margin:0;text-align:left">
-                            Gastos fijos mensuales: $_________<br>
-                            ÷ Margen objetivo (35-40%): 0.35-0.40<br>
-                            ═══════════════════════════<br>
-                            <strong style="color:#FFD700">= INGRESOS MÍNIMOS NECESARIOS</strong>
-                        </p>
-                    </div>
+                <p><strong>Ejemplo:</strong></p>
+                <div class="formula">Gastos fijos: $2,200/mes ÷ 0.40 (40% margen objetivo) = $5,500 ingresos mínimos</div>
 
-                    <div style="margin-top:2rem;text-align:left;max-width:500px;margin:2rem auto 0">
-                        <p><strong>EJEMPLO:</strong></p>
-                        <p>Gastos fijos: $2,200/mes<br>
-                            ÷ 0.40 (40% margen objetivo)<br>
-                            = $5,500 ingresos mínimos</p>
+                <p><strong>Significa:</strong></p>
+                <ul>
+                    <li>Necesitas cobrar mínimo $5,500/mes</li>
+                    <li>Para cubrir fijos y tener profit</li>
+                    <li>Menos que esto = perdiendo dinero</li>
+                    <li>Más que esto = construyendo negocio</li>
+                </ul>
 
-                        <p><strong>Significa:</strong></p>
-                        <ul style="margin:0">
-                            <li>Necesitas cobrar MÍNIMO $5,500/mes</li>
-                            <li>Para cubrir fijos Y tener profit</li>
-                            <li>Menos que esto = perdiendo dinero</li>
-                            <li>Más que esto = construyendo negocio</li>
-                        </ul>
-                    </div>
-
-                    <p style="margin-top:2rem;font-weight:700;font-size:1.25rem">TU NÚMERO MÍNIMO: $_________/mes</p>
-                    <p style="margin:0">MEMORÍZALO. Si un mes ves que vas abajo,<br>SABES que necesitas más cargas YA.
-                    </p>
+                <div class="worksheet">
+                    <div class="worksheet-row highlight"><span class="label">Tu número mínimo mensual</span><span class="line"></span></div>
                 </div>
+
+                <p>Memorízalo. Si un mes ves que vas abajo, sabes que necesitas más cargas ya.</p>
             </section>
 
             <section>
-                <h2>💡 CONCLUSIÓN CLAVE</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">"Cuánto gané" es pregunta
-                        equivocada</p>
+                <h2>Conclusión clave</h2>
 
-                    <div style="text-align:left;max-width:500px;margin:0 auto">
-                        <p><strong>❌ Preguntas incorrectas:</strong></p>
-                        <ul>
-                            <li>"¿Cuánto gané este mes?"</li>
-                        </ul>
+                <p><strong>"Cuánto gané" es la pregunta equivocada.</strong></p>
 
-                        <p><strong>✅ Preguntas correctas:</strong></p>
-                        <ul>
-                            <li>¿Cuánto COBRÉ? (ingresos brutos)</li>
-                            <li>¿Cuánto GASTÉ? (gastos totales)</li>
-                            <li>¿Cuánto me QUEDÓ? (ganancia neta)</li>
-                            <li>¿Cuál fue mi MARGEN? (%)</li>
-                            <li>¿Cómo COMPARA con meses anteriores? (tendencia)</li>
-                        </ul>
+                <div class="note warning">
+                    <span class="note-label">Pregunta incorrecta</span>
+                    <p>"¿Cuánto gané este mes?"</p>
+                </div>
 
-                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem">
-                            <strong>Los 3 números que DEBES saber:</strong><br><br>
-                            1. TU NÚMERO MÍNIMO MENSUAL<br>
-                            &nbsp;&nbsp;&nbsp;(Break-even con margen saludable)<br><br>
-                            2. TU MARGEN OBJETIVO<br>
-                            &nbsp;&nbsp;&nbsp;(35-45% es saludable en expediting)<br><br>
-                            3. TU TENDENCIA<br>
-                            &nbsp;&nbsp;&nbsp;(¿Mejorando o empeorando?)
-                        </p>
+                <div class="note tip">
+                    <span class="note-label">Preguntas correctas</span>
+                    <ul>
+                        <li>¿Cuánto COBRÉ? (ingresos brutos)</li>
+                        <li>¿Cuánto GASTÉ? (gastos totales)</li>
+                        <li>¿Cuánto me QUEDÓ? (ganancia neta)</li>
+                        <li>¿Cuál fue mi MARGEN? (%)</li>
+                        <li>¿Cómo COMPARA con meses anteriores? (tendencia)</li>
+                    </ul>
+                </div>
 
-                        <p style="margin-top:1.5rem;text-align:center;font-weight:700">
-                            Tracking financiero NO es complicado.<br>
-                            Es registrar 3-5 minutos al día.<br><br>
-                            Pero la diferencia entre hacerlo y no hacerlo<br>
-                            es la diferencia entre:<br>
-                            Adivinar si ganaste dinero<br>
-                            vs<br>
-                            SABER exactamente tu rentabilidad
-                        </p>
+                <p><strong>Los 3 números que debes saber:</strong></p>
+                <ol>
+                    <li>Tu número mínimo mensual (break-even con margen saludable)</li>
+                    <li>Tu margen objetivo (35-45% es saludable en expediting)</li>
+                    <li>Tu tendencia (¿mejorando o empeorando?)</li>
+                </ol>
 
-                        <p style="margin:0;background:rgba(255,107,53,.15);padding:1rem;border-radius:.5rem;text-align:center">
-                            <strong>Un mes sin tracking =<br>un mes volando a ciegas</strong>
-                        </p>
-                    </div>
+                <div class="conclusion">
+                    <p class="lead">Un mes sin <span class="accent">tracking</span> es un mes volando a ciegas.</p>
+                    <p class="sub">Tracking financiero no es complicado — son 3-5 minutos al día. La diferencia entre hacerlo y no hacerlo es la diferencia entre adivinar si ganaste dinero y SABER exactamente tu rentabilidad.</p>
                 </div>
             </section>
 

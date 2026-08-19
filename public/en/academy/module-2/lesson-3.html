@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,70 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .callout {
-            padding: 1.5rem;
-            border-radius: .75rem;
-            margin: 2rem 0;
-            border-left: 4px solid
-        }
-
-        .callout.tip {
-            background: rgba(0, 217, 255, .1);
-            border-color: #00D9FF
-        }
-
-        .callout.warning {
-            background: rgba(255, 107, 53, .1);
-            border-color: #FF6B35
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
         }
 
         .btn {
@@ -196,172 +133,141 @@
         <div class="lesson-content">
 
             <section>
-                <h2>🎯 THE 3 POSSIBLE OUTCOMES</h2>
+                <h2>The 3 possible outcomes</h2>
                 <p>After running the numbers on a load, there are really only three paths you can take:</p>
 
-                <div style="display:grid;gap:1rem;margin:2rem 0">
-                    <div style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem;border-left:4px solid #64C864">
-                        <strong>✅ ACCEPT</strong> → The load meets or exceeds your targets. Lock it in!
-                    </div>
-                    <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FFD700">
-                        <strong>⚠️ NEGOTIATE</strong> → The load is close, but needs a little push to make it work.
-                    </div>
-                    <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;border-left:4px solid #FF6B35">
-                        <strong>❌ DECLINE</strong> → The load simply isn't profitable. Walk away.
-                    </div>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">✅ Accept</span><span class="value">The load meets or exceeds your targets</span></div>
+                    <div class="compare-row"><span class="label">⚠️ Negotiate</span><span class="value">The load is close, but needs a little push</span></div>
+                    <div class="compare-row"><span class="label">❌ Decline</span><span class="value">The load simply isn't profitable</span></div>
                 </div>
             </section>
 
             <section>
-                <h2>✅ WHEN TO ACCEPT IMMEDIATELY</h2>
+                <h2>When to accept immediately</h2>
 
-                <div style="background:rgba(100,200,100,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>The "Green Light" Criteria - AUTO-ACCEPT if ALL of these are true:</strong></p>
-                    <ul style="list-style:none;padding:0">
-                        <li>☐ Profit margin &gt; 25%</li>
-                        <li>☐ Real RPM &gt; $1.40/mile</li>
-                        <li>☐ Deadhead ratio &lt; 15%</li>
-                        <li>☐ Delivery is in a strong freight zone</li>
-                        <li>☐ Hourly rate &gt; $40/hr</li>
-                    </ul>
-                    <p style="margin:0;font-weight:700;text-align:center;margin-top:1rem">If it checks all 5 boxes, don't overthink it. ACCEPT.</p>
+                <p><strong>The "Green Light" criteria — auto-accept if ALL of these are true:</strong></p>
+                <div class="checklist">
+                    <span class="checklist-label">Green light</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Profit margin &gt; 25%</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Real RPM &gt; $1.40/mile</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Deadhead ratio &lt; 15%</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Delivery is in a strong freight zone</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Hourly rate &gt; $40/hr</span></div>
+                </div>
+                <p>If it checks all 5 boxes, don't overthink it. <strong>ACCEPT.</strong></p>
+            </section>
+
+            <section>
+                <h2>When to negotiate</h2>
+
+                <p><strong>The negotiation zone:</strong></p>
+                <ul>
+                    <li>Profit margin: 15-25% (borderline)</li>
+                    <li>Real RPM: $1.20 - $1.40/mile</li>
+                    <li>Or there's a specific negative factor that could easily be offset by a higher payout</li>
+                </ul>
+
+                <p><strong>Powerful negotiation scripts</strong></p>
+
+                <p><strong>Script #1: High deadhead</strong><br>"Hey, the load pays well, but I've got about 150 miles of deadhead to get to you. To make the numbers work on my end, I'd need to be closer to $1,250 instead of $1,100. Can we make that happen?"</p>
+
+                <p><strong>Script #2: Weak delivery zone</strong><br>"I see this delivers right into [Dead Zone]. It typically takes me 48 hours just to find a reload out of there. Is there any flexibility on the rate? I was thinking $1,350 rather than $1,200."</p>
+
+                <p><strong>Script #3: Multiple stops</strong><br>"I noticed this run has 3 stops. That easily adds 2-3 hours to my day. My base rate would be $1,300, but with the extra stops, I'd need $1,450. Can we work with that number?"</p>
+
+                <div class="note tip">
+                    <span class="note-label">The secret sauce</span>
+                    <p>Always justify your counter-offer with a specific, logical reason. Never just say "I want more money."</p>
                 </div>
             </section>
 
             <section>
-                <h2>⚠️ WHEN TO NEGOTIATE</h2>
+                <h2>When to walk away without negotiating</h2>
 
-                <div style="background:rgba(255,215,0,.1);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>The Negotiation Zone:</strong></p>
-                    <ul>
-                        <li>Profit margin: 15-25% (Borderline)</li>
-                        <li>Real RPM: $1.20 - $1.40/mile</li>
-                        <li>Or there's a specific negative factor that could easily be offset by a higher payout.</li>
-                    </ul>
+                <p><strong>Absolute red flags — instant decline if:</strong></p>
+                <div class="checklist">
+                    <span class="checklist-label">Instant decline</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Profit margin &lt; 10% or negative</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Real RPM &lt; $1.10/mile</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Deadhead ratio &gt; 25%</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Delivery in a dead zone with zero added compensation</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Load requires gear or equipment you don't carry</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Broker seems shady or untrustworthy</span></div>
                 </div>
+                <p>There is no point negotiating these. <strong>Politely DECLINE and move on.</strong></p>
+            </section>
 
-                <h3>💬 POWERFUL NEGOTIATION SCRIPTS</h3>
+            <section>
+                <h2>The complete decision matrix</h2>
 
-                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
-                    <p><strong>Script #1: High Deadhead</strong></p>
-                    <p style="font-style:italic">"Hey, the load pays well, but I've got about 150 miles of deadhead to get to you. To make the numbers work on my end, I'd need to be closer to $1,250 instead of $1,100. Can we make that happen?"</p>
+                <div class="compare-table">
+                    <div class="compare-title">✅ Accept instantly</div>
+                    <div class="compare-row"><span class="label">Profit margin</span><span class="value accent">&gt; 30%</span></div>
+                    <div class="compare-row"><span class="label">Real RPM</span><span class="value accent">&gt; $1.50</span></div>
                 </div>
-
-                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
-                    <p><strong>Script #2: Weak Delivery Zone</strong></p>
-                    <p style="font-style:italic">"I see this delivers right into [Dead Zone]. It typically takes me 48 hours just to find a reload out of there. Is there any flexibility on the rate? I was thinking $1,350 rather than $1,200."</p>
+                <div class="compare-table">
+                    <div class="compare-title">✅ Accept</div>
+                    <div class="compare-row"><span class="label">Profit margin</span><span class="value">25-30%</span></div>
+                    <div class="compare-row"><span class="label">Real RPM</span><span class="value">$1.40 - 1.50</span></div>
                 </div>
-
-                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem;margin:1rem 0">
-                    <p><strong>Script #3: Multiple Stops</strong></p>
-                    <p style="font-style:italic">"I noticed this run has 3 stops. That easily adds 2-3 hours to my day. My base rate would be $1,300, but with the extra stops, I'd need $1,450. Can we work with that number?"</p>
+                <div class="compare-table">
+                    <div class="compare-title">⚠️ Accept/negotiate</div>
+                    <div class="compare-row"><span class="label">Profit margin</span><span class="value">20-25%</span></div>
+                    <div class="compare-row"><span class="label">Real RPM</span><span class="value">$1.30 - 1.40</span></div>
                 </div>
-
-                <div class="callout tip">
-                    <strong>THE SECRET SAUCE:</strong>
-                    <p style="margin:0">Always justify your counter-offer with a specific, logical reason. Never just say "I want more money."</p>
+                <div class="compare-table">
+                    <div class="compare-title">⚠️ Negotiate hard</div>
+                    <div class="compare-row"><span class="label">Profit margin</span><span class="value">15-20%</span></div>
+                    <div class="compare-row"><span class="label">Real RPM</span><span class="value">$1.20 - 1.30</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">❌ Likely decline</div>
+                    <div class="compare-row"><span class="label">Profit margin</span><span class="value">10-15%</span></div>
+                    <div class="compare-row"><span class="label">Real RPM</span><span class="value">$1.10 - 1.20</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">❌ Instant decline</div>
+                    <div class="compare-row"><span class="label">Profit margin</span><span class="value">&lt; 10%</span></div>
+                    <div class="compare-row"><span class="label">Real RPM</span><span class="value">&lt; $1.10</span></div>
                 </div>
             </section>
 
             <section>
-                <h2>❌ WHEN TO WALK AWAY WITHOUT NEGOTIATING</h2>
+                <h2>Additional factors to consider</h2>
 
-                <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>Absolute Red Flags - INSTANT DECLINE if:</strong></p>
-                    <ul style="list-style:none;padding:0">
-                        <li>☐ Profit margin &lt; 10% or negative</li>
-                        <li>☐ Real RPM &lt; $1.10/mile</li>
-                        <li>☐ Deadhead ratio &gt; 25%</li>
-                        <li>☐ Delivery in a dead zone with zero added compensation</li>
-                        <li>☐ Load requires gear or equipment you don't carry</li>
-                        <li>☐ Broker seems shady or untrustworthy</li>
-                    </ul>
-                    <p style="margin-top:1rem;font-weight:700;text-align:center">There is no point negotiating these. Politely DECLINE and move on.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>📊 THE COMPLETE DECISION MATRIX</h2>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Profit Margin</th>
-                            <th>Real RPM</th>
-                            <th>Your Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background:rgba(100,200,100,.15)">
-                            <td>&gt; 30%</td>
-                            <td>&gt; $1.50</td>
-                            <td><strong>✅ ACCEPT INSTANTLY</strong></td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.1)">
-                            <td>25-30%</td>
-                            <td>$1.40 - 1.50</td>
-                            <td><strong>✅ ACCEPT</strong></td>
-                        </tr>
-                        <tr style="background:rgba(255,215,0,.1)">
-                            <td>20-25%</td>
-                            <td>$1.30 - 1.40</td>
-                            <td><strong>⚠️ ACCEPT/NEGOTIATE</strong></td>
-                        </tr>
-                        <tr style="background:rgba(255,215,0,.15)">
-                            <td>15-20%</td>
-                            <td>$1.20 - 1.30</td>
-                            <td><strong>⚠️ NEGOTIATE HARD</strong></td>
-                        </tr>
-                        <tr style="background:rgba(255,107,53,.1)">
-                            <td>10-15%</td>
-                            <td>$1.10 - 1.20</td>
-                            <td><strong>❌ LIKELY DECLINE</strong></td>
-                        </tr>
-                        <tr style="background:rgba(255,107,53,.15)">
-                            <td>&lt; 10%</td>
-                            <td>&lt; $1.10</td>
-                            <td><strong>❌ INSTANT DECLINE</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <section>
-                <h2>🧠 ADDITIONAL FACTORS TO CONSIDER</h2>
-
-                <h3>1. Context and Timing</h3>
+                <p><strong>1. Context and timing</strong></p>
                 <p><strong>The exact same load hits differently depending on the context:</strong></p>
                 <ul>
                     <li><strong>Monday 9 AM:</strong> A load giving a 20% margin → Wait for something better ⚠️</li>
                     <li><strong>Friday 5 PM:</strong> A load giving a 20% margin → Accept it! ✅ (The weekend is starting soon)</li>
                 </ul>
 
-                <h3>2. Your Financial Reality</h3>
+                <p><strong>2. Your financial reality</strong></p>
                 <ul>
-                    <li>Having a phenomenal week (already at $2,000 profit) → Be picky and selective.</li>
-                    <li>Having a miserable week (only $600 profit) → You might need to take borderline loads.</li>
-                    <li>End of the month (bills are due) → Be more flexible.</li>
+                    <li>Having a phenomenal week (already at $2,000 profit) → Be picky and selective</li>
+                    <li>Having a miserable week (only $600 profit) → You might need to take borderline loads</li>
+                    <li>End of the month (bills are due) → Be more flexible</li>
                 </ul>
-                <p><strong>HOWEVER:</strong> Never accept a load that activelyLOSES you money. EVER.</p>
+                <p><strong>HOWEVER:</strong> Never accept a load that actively loses you money. Ever.</p>
 
-                <h3>3. Market Conditions</h3>
+                <p><strong>3. Market conditions</strong></p>
                 <ul>
-                    <li><strong>Saturated Market (Too many vans):</strong> Margins get tighter. A 20-22% margin might actually be "great."</li>
-                    <li><strong>Tight Market (Lots of freight):</strong> You have the leverage. Demand premium rates (30-35% margins are reachable).</li>
+                    <li><strong>Saturated market (too many vans):</strong> Margins get tighter. A 20-22% margin might actually be "great."</li>
+                    <li><strong>Tight market (lots of freight):</strong> You have the leverage. Demand premium rates (30-35% margins are reachable).</li>
                 </ul>
             </section>
 
             <section>
-                <h2>💡 THE KEY TAKEAWAY</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">Not every load deserves the same energy or treatment:</p>
-                    <ul style="text-align:left;max-width:500px;margin:0 auto;list-style:none;padding:0">
-                        <li>✅ Truly great loads → Accept in under 30 seconds</li>
-                        <li>⚠️ Borderline loads → Negotiate with total confidence</li>
-                        <li>❌ Terrible loads → Decline without a single ounce of regret</li>
-                    </ul>
-                    <p style="margin-top:1.5rem;font-weight:700">Your time is your most precious asset. Don't waste it trying to negotiate the impossible.</p>
-                    <p style="margin:0;color:#00D9FF">Trust your numbers. If the app shows a RED alert, it almost always means RED.</p>
+                <div class="conclusion">
+                    <p class="lead">Not every load deserves the same <span class="accent">energy or treatment</span>.</p>
+                    <p class="sub">Your time is your most precious asset. Don't waste it trying to negotiate the impossible. Trust your numbers — if the app shows a RED alert, it almost always means RED.</p>
+                </div>
+                <div class="checklist">
+                    <span class="checklist-label">Quick rule</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Truly great loads → Accept in under 30 seconds</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Borderline loads → Negotiate with total confidence</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Terrible loads → Decline without a single ounce of regret</span></div>
                 </div>
             </section>
 

@@ -5,8 +5,10 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/academy.css">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -42,62 +44,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .callout {
-            padding: 1.5rem;
-            border-radius: .75rem;
-            margin: 2rem 0;
-            border-left: 4px solid
-        }
-
-        .callout.tip {
-            background: rgba(0, 217, 255, .1);
-            border-color: #00D9FF
-        }
-
-        .callout.warning {
-            background: rgba(255, 107, 53, .1);
-            border-color: #FF6B35
-        }
-
-        .callout strong {
-            display: block;
-            margin-bottom: .5rem;
-            font-size: 1.1rem
-        }
-
-        pre {
-            background: rgba(255, 255, 255, .05);
-            padding: 1.5rem;
-            border-radius: .75rem;
-            margin: 2rem 0;
-            border: 1px solid rgba(255, 255, 255, .1);
-            overflow-x: auto
-        }
-
-        code {
-            font-family: 'Courier New', monospace;
-            font-size: .9rem;
-            color: #00D9FF
         }
 
         .btn {
@@ -196,22 +142,19 @@
         <div class="lesson-content">
 
             <section>
-                <h2>🎯 WHAT IS BREAK-EVEN?</h2>
+                <h2>What is break-even?</h2>
 
-                <div style="background:rgba(20,20,20,.8);padding:2rem;border-radius:.75rem;text-align:center;margin:2rem 0">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">Break-even RPM = The absolute minimum
-                        you need to earn per mile to NOT LOSE money</p>
-                    <ul style="text-align:left;margin-top:1.5rem;list-style:none">
-                        <li>❌ Below break-even = <strong style="color:#FF6B35">You LOSE money</strong></li>
-                        <li>⚠️ At break-even = You don't gain or lose (you work for free)</li>
-                        <li>✅ Above break-even = <strong style="color:#64C864">You MAKE real money</strong></li>
-                    </ul>
-                </div>
+                <p><strong>Break-even RPM</strong> = the absolute minimum you need to earn per mile to NOT LOSE money.</p>
+                <ul>
+                    <li>❌ Below break-even = <strong>You LOSE money</strong></li>
+                    <li>⚠️ At break-even = You don't gain or lose (you work for free)</li>
+                    <li>✅ Above break-even = <strong>You MAKE real money</strong></li>
+                </ul>
             </section>
 
             <section>
-                <h2>📐 THE FORMULA</h2>
-                <pre><code>Break-Even RPM = Fixed Cost/Mile + Variable Cost/Mile</code></pre>
+                <h2>The formula</h2>
+                <div class="formula">Break-Even RPM = Fixed Cost/Mile + Variable Cost/Mile</div>
                 <p>These came from Lesson 2:</p>
                 <ul>
                     <li><strong>Fixed Cost/Mile</strong> → You calculated this in STEP 3</li>
@@ -220,173 +163,136 @@
             </section>
 
             <section>
-                <h2>📊 COMPLETE STEP-BY-STEP EXAMPLE</h2>
+                <h2>Complete step-by-step example</h2>
 
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>STEP 1: Calculate Monthly Fixed Costs</strong></p>
-                    <ul>
-                        <li>Van payment: $1,500</li>
-                        <li>Insurance: $900 ($10,800/year ÷ 12)</li>
-                        <li>Licenses/permits: $125 ($1,500/year ÷ 12)</li>
-                        <li>Cell phone + apps: $115</li>
-                        <li><strong>TOTAL FIXED COSTS: $2,740/month</strong></li>
-                    </ul>
+                <p><strong>Step 1: Calculate monthly fixed costs</strong></p>
+                <ul>
+                    <li>Van payment: $1,500</li>
+                    <li>Insurance: $900 ($10,800/year ÷ 12)</li>
+                    <li>Licenses/permits: $125 ($1,500/year ÷ 12)</li>
+                    <li>Cell phone + apps: $115</li>
+                    <li><strong>Total fixed costs: $2,740/month</strong></li>
+                </ul>
 
-                    <p style="margin-top:1.5rem"><strong>STEP 2: Estimate Your Monthly Miles</strong></p>
-                    <p>Realistic average: <strong>8,000 miles/month</strong></p>
+                <p><strong>Step 2: Estimate your monthly miles</strong></p>
+                <p>Realistic average: <strong>8,000 miles/month</strong></p>
 
-                    <p style="margin-top:1.5rem"><strong>STEP 3: Calculate Fixed Cost per Mile</strong></p>
-                    <pre><code>$2,740 ÷ 8,000 miles = $0.34/mile</code></pre>
+                <p><strong>Step 3: Calculate fixed cost per mile</strong></p>
+                <div class="formula">$2,740 ÷ 8,000 miles = $0.34/mile</div>
 
-                    <p style="margin-top:1.5rem"><strong>STEP 4: Add Variable Costs</strong></p>
-                    <ul>
-                        <li>Fuel: $0.39/mile</li>
-                        <li>DEF: $0.04/mile</li>
-                        <li>Maintenance: $0.10/mile</li>
-                        <li>Tires: $0.03/mile</li>
-                        <li>Tolls/parking: $0.04/mile</li>
-                        <li><strong>TOTAL VARIABLE: $0.60/mile</strong></li>
-                    </ul>
+                <p><strong>Step 4: Add variable costs</strong></p>
+                <ul>
+                    <li>Fuel: $0.39/mile</li>
+                    <li>DEF: $0.04/mile</li>
+                    <li>Maintenance: $0.10/mile</li>
+                    <li>Tires: $0.03/mile</li>
+                    <li>Tolls/parking: $0.04/mile</li>
+                    <li><strong>Total variable: $0.60/mile</strong></li>
+                </ul>
 
-                    <div style="background:linear-gradient(135deg,rgba(0,217,255,.2),rgba(255,107,53,.2));padding:1.5rem;border-radius:.75rem;text-align:center;margin-top:1.5rem">
-                        <p style="font-size:1.1rem"><strong>STEP 5: Break-Even RPM</strong></p>
-                        <p style="font-size:2rem;font-weight:900;color:#00D9FF;margin-top:.5rem">$0.34 + $0.60 =
-                            $0.94/mile</p>
-                    </div>
+                <div class="pull-number">
+                    <div class="value">$0.94</div>
+                    <p class="context">Break-Even RPM: $0.34 (fixed cost) + $0.60 (variable cost) = $0.94/mile.</p>
                 </div>
             </section>
 
             <section>
-                <h2>📌 WHAT DOES THIS NUMBER MEAN?</h2>
+                <h2>What does this number mean?</h2>
 
-                <div class="callout warning">
-                    <strong>Any load BELOW $0.94/mile literally makes you LOSE money</strong>
-
-                    <p style="margin-top:1rem"><strong>Examples:</strong></p>
+                <div class="note warning">
+                    <span class="note-label">Any load below $0.94/mile makes you lose money</span>
                     <ul>
                         <li>Load at $0.85/mile: You lose $0.09/mile → Over 500 miles = <strong>-$45 loss</strong></li>
                         <li>Load at $0.94/mile: $0 profit → You covered costs but worked FOR FREE</li>
-                        <li>Load at $1.20/mile: $0.26/mile profit → Over 500 miles = <strong>$130 real
-                                profit</strong></li>
+                        <li>Load at $1.20/mile: $0.26/mile profit → Over 500 miles = <strong>$130 real profit</strong></li>
                     </ul>
                 </div>
             </section>
 
             <section>
-                <h2>🚨 THE "SOMETHING IS BETTER THAN NOTHING" TRAP</h2>
+                <h2>The "something is better than nothing" trap</h2>
 
-                <div style="background:rgba(255,107,53,.15);padding:2rem;border-radius:.75rem">
-                    <p style="font-weight:700;margin-bottom:1rem">Common thinking:</p>
-                    <p style="font-style:italic">"I have nothing else, this load pays $0.80/mile, at least it's
-                        something..."</p>
+                <p><strong>Common thinking:</strong> "I have nothing else, this load pays $0.80/mile, at least it's something..."</p>
 
-                    <p style="margin-top:1.5rem;font-weight:700;color:#FF6B35">❌ WRONG</p>
-
-                    <p style="margin-top:1rem">If your break-even is $0.94/mile:</p>
+                <div class="note warning">
+                    <span class="note-label">Wrong</span>
+                    <p>If your break-even is $0.94/mile:</p>
                     <ul>
                         <li>Load at $0.80/mile</li>
                         <li>You lose $0.14/mile</li>
                         <li>Over 600 miles = <strong>-$84</strong></li>
                     </ul>
-
-                    <p style="margin-top:1rem;font-weight:700">You literally paid $84 out of pocket to "work" that
-                        day</p>
-
-                    <p style="margin-top:1.5rem"><strong>BETTER OPTION:</strong> Wait for a profitable load or
-                        reposition to a better zone</p>
+                    <p>You literally paid $84 out of pocket to "work" that day.</p>
                 </div>
+
+                <p><strong>Better option:</strong> wait for a profitable load or reposition to a better zone.</p>
             </section>
 
             <section>
-                <h2>💡 BUT WAIT... BREAK-EVEN IS NOT YOUR TARGET</h2>
+                <h2>But wait... break-even is not your target</h2>
 
-                <p>Break-even is your ABSOLUTE SURVIVAL MINIMUM. Your REAL target should be:</p>
+                <p>Break-even is your absolute survival minimum. Your real target should be:</p>
 
-                <pre><code>TARGET RPM = Break-Even × 1.30 to 1.40</code></pre>
+                <div class="formula">TARGET RPM = Break-Even × 1.30 to 1.40</div>
 
                 <p>If your break-even is $0.94:</p>
-                <ul>
-                    <li>Minimum target: $0.94 × 1.30 = <strong style="color:#00D9FF">$1.22/mile</strong></li>
-                    <li>Ideal target: $0.94 × 1.40 = <strong style="color:#64C864">$1.32/mile</strong></li>
-                </ul>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Minimum target ($0.94 × 1.30)</span><span class="value">$1.22/mile</span></div>
+                    <div class="compare-row"><span class="label">Ideal target ($0.94 × 1.40)</span><span class="value accent">$1.32/mile</span></div>
+                </div>
 
-                <div class="callout tip">
-                    <strong>Why this extra margin?</strong>
+                <div class="note tip">
+                    <span class="note-label">Why this extra margin?</span>
                     <p>The 30-40% above break-even gives you:</p>
                     <ul>
-                        <li>✅ REAL profit (not just covering costs)</li>
-                        <li>✅ Cushion for slow months</li>
-                        <li>✅ Emergency funds</li>
-                        <li>✅ Money to grow the business</li>
-                        <li>✅ Pay for YOU (not just the business)</li>
+                        <li>REAL profit (not just covering costs)</li>
+                        <li>Cushion for slow months</li>
+                        <li>Emergency funds</li>
+                        <li>Money to grow the business</li>
+                        <li>Pay for YOU (not just the business)</li>
                     </ul>
                 </div>
             </section>
 
             <section>
-                <h2>📊 IMPACT OF MONTHLY MILES ON BREAK-EVEN</h2>
+                <h2>Impact of monthly miles on break-even</h2>
 
                 <p>Fixed costs: $2,740/month | Variable costs: $0.60/mile</p>
 
-                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem;margin:2rem 0">
-                    <p><strong>If you drive 6,000 miles/month:</strong></p>
-                    <p>Fixed cost/mile: $2,740 ÷ 6,000 = $0.46</p>
-                    <p style="color:#FF6B35"><strong>Break-even: $0.46 + $0.60 = $1.06/mile ⚠️</strong></p>
-
-                    <p style="margin-top:1.5rem"><strong>If you drive 8,000 miles/month:</strong></p>
-                    <p>Fixed cost/mile: $2,740 ÷ 8,000 = $0.34</p>
-                    <p style="color:#00D9FF"><strong>Break-even: $0.34 + $0.60 = $0.94/mile ✅</strong></p>
-
-                    <p style="margin-top:1.5rem"><strong>If you drive 10,000 miles/month:</strong></p>
-                    <p>Fixed cost/mile: $2,740 ÷ 10,000 = $0.27</p>
-                    <p style="color:#64C864"><strong>Break-even: $0.27 + $0.60 = $0.87/mile ✅✅</strong></p>
+                <div class="compare-table">
+                    <div class="compare-title">Break-even by monthly miles</div>
+                    <div class="compare-row"><span class="label">6,000 miles/month ($0.46 fixed/mile)</span><span class="value">$1.06/mile</span></div>
+                    <div class="compare-row"><span class="label">8,000 miles/month ($0.34 fixed/mile)</span><span class="value">$0.94/mile</span></div>
+                    <div class="compare-row"><span class="label">10,000 miles/month ($0.27 fixed/mile)</span><span class="value accent">$0.87/mile</span></div>
                 </div>
 
-                <div class="callout tip">
-                    <strong>CONCLUSION:</strong>
+                <div class="note tip">
+                    <span class="note-label">Conclusion</span>
                     <p>More profitable miles = lower break-even per mile. This makes you more competitive on pricing.</p>
-                    <p style="margin-top:.5rem"><strong>BUT:</strong> Only if those extra miles are ABOVE your
-                        break-even. There is no point driving 10,000 miles at $0.80/mile.</p>
+                    <p><strong>But:</strong> only if those extra miles are above your break-even. There is no point driving 10,000 miles at $0.80/mile.</p>
                 </div>
             </section>
 
             <section>
-                <h2>✏️ CALCULATE YOUR PERSONAL BREAK-EVEN</h2>
+                <h2>Calculate your personal break-even</h2>
 
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>STEP 1: Monthly Fixed Costs</strong></p>
-                    <ul>
-                        <li>Van payment: $_________</li>
-                        <li>Insurance (monthly): $_________</li>
-                        <li>Licenses (÷12 if annual): $_________</li>
-                        <li>Technology/apps: $_________</li>
-                        <li>Other fixed costs: $_________</li>
-                        <li><strong>TOTAL: $_________ (A)</strong></li>
-                    </ul>
-
-                    <p style="margin-top:1.5rem"><strong>STEP 2: Realistic Monthly Miles</strong></p>
-                    <p>Monthly average: _________ (B)</p>
-
-                    <p style="margin-top:1.5rem"><strong>STEP 3: Fixed Cost per Mile</strong></p>
-                    <p>(A) ÷ (B) = <strong>$_________ (C)</strong></p>
-
-                    <p style="margin-top:1.5rem"><strong>STEP 4: Variable Cost (from Lesson 2)</strong></p>
-                    <p>Total variable: <strong>$_________ (D)</strong></p>
-
-                    <div style="background:linear-gradient(135deg,rgba(0,217,255,.2),rgba(255,107,53,.2));padding:1.5rem;border-radius:.75rem;text-align:center;margin-top:1.5rem">
-                        <p style="font-size:1.1rem"><strong>STEP 5: YOUR BREAK-EVEN RPM</strong></p>
-                        <p style="font-size:1.8rem;font-weight:900;color:#00D9FF">(C) + (D) = $_________/mile</p>
-                    </div>
-
-                    <p style="margin-top:1.5rem"><strong>STEP 6: YOUR MINIMUM TARGET (Break-even × 1.30)</strong></p>
-                    <p>Break-even × 1.30 = <strong style="color:#00D9FF">$_________/mile</strong></p>
-
-                    <p style="margin-top:1rem"><strong>STEP 7: YOUR IDEAL TARGET (Break-even × 1.40)</strong></p>
-                    <p>Break-even × 1.40 = <strong style="color:#64C864">$_________/mile</strong></p>
+                <div class="worksheet">
+                    <div class="worksheet-row"><span class="label">Van payment</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Insurance (monthly)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Licenses (÷12 if annual)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Technology/apps</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Other fixed costs</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Total fixed costs (A)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Realistic monthly miles (B)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Fixed cost per mile: (A) ÷ (B) (C)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Variable cost, from Lesson 2 (D)</span><span class="line"></span></div>
+                    <div class="worksheet-row highlight"><span class="label">Your Break-Even RPM: (C) + (D)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Your minimum target (Break-even × 1.30)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Your ideal target (Break-even × 1.40)</span><span class="line"></span></div>
                 </div>
 
-                <div class="callout warning">
-                    <strong>🚨 KEEP THESE NUMBERS SOMEWHERE VISIBLE</strong>
+                <div class="note warning">
+                    <span class="note-label">Keep these numbers somewhere visible</span>
                     <ul>
                         <li>On your phone</li>
                         <li>In Smart Load Solution (the app saves them automatically)</li>
@@ -396,7 +302,7 @@
             </section>
 
             <section>
-                <h2>📱 HOW SMART LOAD SOLUTION USES YOUR BREAK-EVEN</h2>
+                <h2>How Smart Load Solution uses your break-even</h2>
 
                 <ol>
                     <li><strong>Enter your break-even once in Settings</strong></li>
@@ -406,9 +312,9 @@
                             <li>Compares it to your break-even</li>
                             <li>Shows you:
                                 <ul>
-                                    <li>✅ GREEN: Above target (accept)</li>
-                                    <li>⚠️ YELLOW: Above break-even but below target (negotiate)</li>
-                                    <li>❌ RED: Below break-even (decline)</li>
+                                    <li>✅ Green: Above target (accept)</li>
+                                    <li>⚠️ Yellow: Above break-even but below target (negotiate)</li>
+                                    <li>❌ Red: Below break-even (decline)</li>
                                 </ul>
                             </li>
                         </ul>
@@ -424,18 +330,9 @@
             </section>
 
             <section>
-                <h2>💡 KEY TAKEAWAY</h2>
-
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">Your break-even is your "lifeline"
-                    </p>
-                    <ul style="text-align:left;margin-top:1rem;list-style:none">
-                        <li>❌ Below = you lose money (even though you got paid)</li>
-                        <li>⚠️ At break-even = you work for free</li>
-                        <li>✅ Above break-even = you finally make money</li>
-                    </ul>
-                    <p style="margin-top:1.5rem;font-size:1.1rem;font-weight:700;color:#00D9FF">TARGET: Break-even +
-                        30-40% minimum</p>
+                <div class="conclusion">
+                    <p class="lead">Your break-even is your <span class="accent">"lifeline"</span>.</p>
+                    <p class="sub">Below it, you lose money even though you got paid. At break-even, you work for free. Above break-even, you finally make money. Target: break-even + 30-40% minimum.</p>
                 </div>
             </section>
 

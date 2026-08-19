@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,49 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
-        }
-
-        .checklist {
-            background: rgba(255, 255, 255, .05);
-            padding: 1rem;
-            border-radius: .5rem;
-            margin: .5rem 0
         }
 
         .btn {
@@ -182,191 +140,157 @@
         <div class="lesson-content">
 
             <section>
-                <h2>🚀 THE MILLION-DOLLAR QUESTION</h2>
+                <h2>The million-dollar question</h2>
 
-                <div style="background:rgba(255,215,0,.1);padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.5rem;font-weight:800;margin-bottom:1rem">"Should I buy a second van<br>and hire a driver?"</p>
-                    <p>This is THE most important decision<br>you will make in your expediting business.</p>
-                    <div style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem">
-                        <p><strong>Done right</strong> = You double income, build a real business</p>
-                        <p style="margin:0"><strong>Done wrong</strong> = You're out of business in 6 months</p>
-                    </div>
+                <p><strong>"Should I buy a second van and hire a driver?"</strong></p>
+                <p>This is THE most important decision you will make in your expediting business.</p>
+
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Done right</span><span class="value accent">You double income, build a real business</span></div>
+                    <div class="compare-row"><span class="label">Done wrong</span><span class="value">You're out of business in 6 months</span></div>
                 </div>
 
-                <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem;margin-top:1.5rem">
-                    <p><strong>HARD REALITY:</strong></p>
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">70% of operators who expand to 2 vans<br>go back to 1 van within the first year.</p>
-                    <p style="margin:0"><strong>Why?</strong> They expanded at the wrong time or for the wrong reasons.</p>
+                <div class="pull-number">
+                    <div class="value">70%</div>
+                    <p class="context">of operators who expand to 2 vans go back to 1 van within the first year — they expanded at the wrong time or for the wrong reasons.</p>
                 </div>
             </section>
 
             <section>
-                <h2>🎯 THE 3 PHASES OF THE BUSINESS</h2>
+                <h2>The 3 phases of the business</h2>
 
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem;margin-bottom:1rem">
-                    <h3 style="margin-top:0">PHASE 1: OWNER-OPERATOR (You Alone)</h3>
-                    <ul style="margin:0">
-                        <li>1 van, you handle everything</li>
-                        <li>Profit: $3,500-6,000/month</li>
-                        <li>Duration: Years 1-3</li>
-                        <li><strong>GOAL:</strong> Master operations, build relationships</li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">Phase 1: Owner-Operator (You Alone)</div>
+                    <div class="compare-row"><span class="label">Setup</span><span class="value">1 van, you handle everything</span></div>
+                    <div class="compare-row"><span class="label">Profit</span><span class="value">$3,500-6,000/month</span></div>
+                    <div class="compare-row"><span class="label">Duration</span><span class="value">Years 1-3</span></div>
+                    <div class="compare-row"><span class="label">Goal</span><span class="value">Master operations, build relationships</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Phase 2: Micro-Fleet (2-3 Vans)</div>
+                    <div class="compare-row"><span class="label">Setup</span><span class="value">2-3 vans, 1-2 hired drivers</span></div>
+                    <div class="compare-row"><span class="label">Profit</span><span class="value">$6,000-12,000/month</span></div>
+                    <div class="compare-row"><span class="label">Duration</span><span class="value">Years 3-5</span></div>
+                    <div class="compare-row"><span class="label">Goal</span><span class="value">Test scalability, build systems</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Phase 3: Small Fleet (4+ Vans)</div>
+                    <div class="compare-row"><span class="label">Setup</span><span class="value">4+ vans, you manage only</span></div>
+                    <div class="compare-row"><span class="label">Profit</span><span class="value accent">$10,000-20,000+/month</span></div>
+                    <div class="compare-row"><span class="label">Duration</span><span class="value">Year 5+</span></div>
+                    <div class="compare-row"><span class="label">Goal</span><span class="value">Sustainable business</span></div>
                 </div>
 
-                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem;margin-bottom:1rem">
-                    <h3 style="margin-top:0">PHASE 2: MICRO-FLEET (2-3 Vans)</h3>
-                    <ul style="margin:0">
-                        <li>2-3 vans, 1-2 hired drivers</li>
-                        <li>Profit: $6,000-12,000/month</li>
-                        <li>Duration: Years 3-5</li>
-                        <li><strong>GOAL:</strong> Test scalability, build systems</li>
-                    </ul>
-                </div>
-
-                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
-                    <h3 style="margin-top:0">PHASE 3: SMALL FLEET (4+ Vans)</h3>
-                    <ul style="margin:0">
-                        <li>4+ vans, you manage only</li>
-                        <li>Profit: $10,000-20,000+/month</li>
-                        <li>Duration: Year 5+</li>
-                        <li><strong>GOAL:</strong> Sustainable business</li>
-                    </ul>
-                </div>
-
-                <p style="background:rgba(255,255,255,.05);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700;margin-top:1.5rem">
-                    Staying in Phase 1 is not failure.<br>It's a lifestyle choice.
-                </p>
+                <p>Staying in Phase 1 is not failure. It's a lifestyle choice.</p>
             </section>
 
             <section>
-                <h2>✅ THE 10 SIGNS YOU'RE READY TO EXPAND</h2>
+                <h2>The 10 signs you're ready to expand</h2>
 
                 <div class="checklist">
-                    <p><strong>□ SIGN #1: SOLID FINANCIALS</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>Consistent profit $5,000+/month for 12+ months</li>
-                        <li>Margin &gt;35% for 6+ months</li>
-                        <li>Emergency reserve $15,000-20,000</li>
-                    </ul>
+                    <span class="checklist-label">Sign #1: solid financials</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Consistent profit $5,000+/month for 12+ months</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Margin &gt;35% for 6+ months</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Emergency reserve $15,000-20,000</span></div>
                 </div>
 
                 <div class="checklist">
-                    <p><strong>□ SIGN #2: DEMAND EXCEEDS CAPACITY</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>Turning down 5-10 loads/week due to lack of time</li>
-                        <li>Tier 1 brokers asking for more loads</li>
-                        <li>You could fill a second van 60-70% immediately</li>
-                    </ul>
+                    <span class="checklist-label">Sign #2: demand exceeds capacity</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Turning down 5-10 loads/week due to lack of time</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Tier 1 brokers asking for more loads</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">You could fill a second van 60-70% immediately</span></div>
                 </div>
 
                 <div class="checklist">
-                    <p><strong>□ SIGN #3: ESTABLISHED RELATIONSHIPS</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>5-7 solid Tier 1 brokers</li>
-                        <li>They call you first regularly</li>
-                        <li>Relationships are 18+ months old</li>
-                    </ul>
+                    <span class="checklist-label">Sign #3: established relationships</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">5-7 solid Tier 1 brokers</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">They call you first regularly</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Relationships are 18+ months old</span></div>
                 </div>
 
                 <div class="checklist">
-                    <p><strong>□ SIGN #4: DOCUMENTED SYSTEMS</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>Written processes for everything</li>
-                        <li>Perfect financial tracking</li>
-                        <li>Not everything is "in your head"</li>
-                    </ul>
+                    <span class="checklist-label">Sign #4: documented systems</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Written processes for everything</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Perfect financial tracking</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Not everything is "in your head"</span></div>
                 </div>
 
                 <div class="checklist">
-                    <p><strong>□ SIGN #5: PROVEN PROFITABLE LANES</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>4-6 Tier S/A lanes identified</li>
-                        <li>Lanes consistently generate $1.50+/mi</li>
-                    </ul>
+                    <span class="checklist-label">Sign #5: proven profitable lanes</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">4-6 Tier S/A lanes identified</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Lanes consistently generate $1.50+/mi</span></div>
                 </div>
 
-                <p style="margin-top:1.5rem"><strong>SCORING:</strong></p>
-                <ul style="margin:0">
-                    <li>10/10 signs ✅ = Move forward with confidence</li>
-                    <li>7-9/10 ✅ = Probably ready, plan carefully</li>
-                    <li>4-6/10 ⚠️ = Wait, build more first</li>
-                    <li>&lt;4/10 ❌ = NOT ready, focus on Phase 1</li>
+                <p><strong>Scoring:</strong></p>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">10/10 signs ✅</span><span class="value accent">Move forward with confidence</span></div>
+                    <div class="compare-row"><span class="label">7-9/10 ✅</span><span class="value">Probably ready, plan carefully</span></div>
+                    <div class="compare-row"><span class="label">4-6/10 ⚠️</span><span class="value">Wait, build more first</span></div>
+                    <div class="compare-row"><span class="label">&lt;4/10 ❌</span><span class="value">NOT ready, focus on Phase 1</span></div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Second van math (realistic)</h2>
+
+                <p><strong>Initial investment</strong></p>
+                <p><strong>Van #2 (Used, 2018-2020):</strong></p>
+                <ul>
+                    <li>Cost: $35,000-45,000</li>
+                    <li>Down payment (20%): $7,000-9,000</li>
+                    <li>Monthly payment: $600-800/month (60 months)</li>
                 </ul>
-            </section>
+                <p><strong>Initial setup:</strong></p>
+                <ul>
+                    <li>Additional insurance: $800-1,000</li>
+                    <li>Equipment (ELD, GPS): $500-800</li>
+                    <li>Legal/permits: $200-400</li>
+                    <li><strong>Total one-time: $8,800-11,700</strong></li>
+                </ul>
 
-            <section>
-                <h2>💰 SECOND VAN MATH (REALISTIC)</h2>
+                <p><strong>Additional monthly expenses</strong></p>
+                <p><strong>Fixed for Van #2:</strong></p>
+                <ul>
+                    <li>Van payment: $700</li>
+                    <li>Insurance: $850</li>
+                    <li>Technology: $100</li>
+                    <li><strong>Subtotal: $1,675/month</strong></li>
+                </ul>
+                <p><strong>Driver:</strong></p>
+                <ul>
+                    <li>Salary: $1,200-1,500/week</li>
+                    <li>Or 25-30% of net profit</li>
+                    <li><strong>Estimate: $2,500-3,500/month</strong></li>
+                </ul>
 
-                <h3>INITIAL INVESTMENT</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>VAN #2 (Used, 2018-2020):</strong></p>
-                    <ul>
-                        <li>Cost: $35,000-45,000</li>
-                        <li>Down payment (20%): $7,000-9,000</li>
-                        <li>Monthly payment: $600-800/month (60 months)</li>
-                    </ul>
-                    <p><strong>INITIAL SETUP:</strong></p>
-                    <ul style="margin:0">
-                        <li>Additional insurance: $800-1,000</li>
-                        <li>Equipment (ELD, GPS): $500-800</li>
-                        <li>Legal/permits: $200-400</li>
-                        <li><strong>TOTAL ONE-TIME: $8,800-11,700</strong></li>
-                    </ul>
-                </div>
-
-                <h3>ADDITIONAL MONTHLY EXPENSES</h3>
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;margin-top:1rem">
-                    <p><strong>FIXED FOR VAN #2:</strong></p>
-                    <ul style="margin-bottom:1rem">
-                        <li>Van payment: $700</li>
-                        <li>Insurance: $850</li>
-                        <li>Technology: $100</li>
-                        <li><strong>SUBTOTAL: $1,675/month</strong></li>
-                    </ul>
-                    <p><strong>DRIVER:</strong></p>
-                    <ul style="margin:0">
-                        <li>Salary: $1,200-1,500/week</li>
-                        <li>Or 25-30% of net profit</li>
-                        <li><strong>ESTIMATE: $2,500-3,500/month</strong></li>
-                    </ul>
-                    <p style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1rem;margin-bottom:0">
-                        <strong>TOTAL ADDITIONAL EXPENSES: $4,175-5,175/month</strong><br><br>
-                        Revenue needed to break even: <strong>$6,500-7,000/month</strong><br>
-                        To be profitable (30% margin): <strong>$9,300-10,000/month</strong>
-                    </p>
+                <div class="compare-table">
+                    <div class="compare-title">Total additional expenses: $4,175-5,175/month</div>
+                    <div class="compare-row"><span class="label">Revenue needed to break even</span><span class="value">$6,500-7,000/month</span></div>
+                    <div class="compare-row"><span class="label">To be profitable (30% margin)</span><span class="value accent">$9,300-10,000/month</span></div>
                 </div>
             </section>
 
             <section>
-                <h2>📊 REALISTIC TIMELINE</h2>
+                <h2>Realistic timeline</h2>
 
-                <div style="display:grid;grid-template-columns:1fr;gap:1rem;margin:2rem 0">
-                    <div style="background:rgba(255,107,53,.15);padding:1rem;border-radius:.5rem;border-left:4px solid #FF6B35">
-                        <p style="margin:0"><strong>Months 1-3:</strong> Losing money (-$400-800/month)</p>
-                    </div>
-                    <div style="background:rgba(255,215,0,.1);padding:1rem;border-radius:.5rem;border-left:4px solid #FFD700">
-                        <p style="margin:0"><strong>Months 4-6:</strong> Break-even (+$0-300/month)</p>
-                    </div>
-                    <div style="background:rgba(100,200,100,.08);padding:1rem;border-radius:.5rem;border-left:4px solid #64C864">
-                        <p style="margin:0"><strong>Months 7-12:</strong> Small profit (+$300-600/month)</p>
-                    </div>
-                    <div style="background:rgba(100,200,100,.15);padding:1rem;border-radius:.5rem;border-left:4px solid #64C864">
-                        <p style="margin:0"><strong>Year 2+:</strong> Real profit (+$800-1,200/month per van)</p>
-                    </div>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Months 1-3</span><span class="value">Losing money (-$400-800/month)</span></div>
+                    <div class="compare-row"><span class="label">Months 4-6</span><span class="value">Break-even (+$0-300/month)</span></div>
+                    <div class="compare-row"><span class="label">Months 7-12</span><span class="value">Small profit (+$300-600/month)</span></div>
+                    <div class="compare-row"><span class="label">Year 2+</span><span class="value accent">Real profit (+$800-1,200/month per van)</span></div>
                 </div>
 
-                <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    Total investment first 12 months: ~$19,800<br>
-                    ROI in year 2: $8,000-14,000/year<br>
-                    Recover investment in 18-24 months
-                </p>
+                <div class="pull-number">
+                    <div class="value">18-24</div>
+                    <p class="context">months to recover the total investment (~$19,800 in the first 12 months). ROI in year 2: $8,000-14,000/year.</p>
+                </div>
             </section>
 
             <section>
-                <h2>🚨 FATAL EXPANSION MISTAKES</h2>
+                <h2>Fatal expansion mistakes</h2>
 
-                <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>The 10 mistakes that lead to failure:</strong></p>
+                <div class="note warning">
+                    <span class="note-label">The 10 mistakes that lead to failure</span>
                     <ol>
                         <li><strong>Expanding after ONE good month</strong> (wait for 12 consistent months)</li>
                         <li><strong>Assuming van #2 = 2X profit</strong> (first months you may earn LESS)</li>
@@ -383,90 +307,83 @@
             </section>
 
             <section>
-                <h2>🤝 DRIVER PAY STRUCTURE</h2>
+                <h2>Driver pay structure</h2>
 
-                <h3>RECOMMENDED OPTION: HYBRID</h3>
-                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>Low base + moderate percentage</strong></p>
-                    <p><strong>EXAMPLE:</strong></p>
+                <p><strong>Recommended option: hybrid</strong></p>
+                <p>Low base + moderate percentage.</p>
+                <p><strong>Example:</strong></p>
+                <ul>
+                    <li>Base: $600/week (guaranteed floor)</li>
+                    <li>+ 20% of profit after expenses</li>
+                    <li>Typical total: $1,000-1,500/week</li>
+                </ul>
+
+                <div class="note tip">
+                    <span class="note-label">Advantages</span>
                     <ul>
-                        <li>Base: $600/week (guaranteed floor)</li>
-                        <li>+ 20% of profit after expenses</li>
-                        <li>Typical total: $1,000-1,500/week</li>
+                        <li>Balance between security and incentive</li>
+                        <li>Driver has a floor but incentive to produce</li>
+                        <li>You have protection</li>
                     </ul>
-                    <p style="margin:0"><strong>ADVANTAGES:</strong><br>
-                        ✅ Balance between security and incentive<br>
-                        ✅ Driver has a floor but incentive to produce<br>
-                        ✅ You have protection</p>
                 </div>
 
-                <p style="background:rgba(255,215,0,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700;margin-top:1.5rem">
-                    Sweet spot: 25-30% of profit after expenses<br>
-                    NEVER: &gt;35% or % of gross revenue
-                </p>
+                <p><strong>Sweet spot:</strong> 25-30% of profit after expenses. NEVER: &gt;35% or % of gross revenue.</p>
             </section>
 
             <section>
-                <h2>🔄 ALTERNATIVES TO TRADITIONAL EXPANSION</h2>
+                <h2>Alternatives to traditional expansion</h2>
 
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>YOU DON'T HAVE TO expand to 2+ vans. There are other ways to grow:</strong></p>
+                <p><strong>You don't have to expand to 2+ vans. There are other ways to grow:</strong></p>
 
-                    <p><strong>ALTERNATIVE #1: OPTIMIZE YOUR CURRENT VAN</strong></p>
-                    <ul>
-                        <li>Raise rates +$0.15/mi</li>
-                        <li>Reduce expenses -5%</li>
-                        <li>Improve utilization +10%</li>
-                        <li><strong>RESULT: +$800-1,200/month without an additional van</strong></li>
-                    </ul>
+                <p><strong>Alternative #1: optimize your current van</strong></p>
+                <ul>
+                    <li>Raise rates +$0.15/mi</li>
+                    <li>Reduce expenses -5%</li>
+                    <li>Improve utilization +10%</li>
+                    <li><strong>Result: +$800-1,200/month without an additional van</strong></li>
+                </ul>
 
-                    <p><strong>ALTERNATIVE #2: PREMIUM SERVICES</strong></p>
-                    <ul>
-                        <li>Specialize (medical, aerospace)</li>
-                        <li>Additional certifications</li>
-                        <li><strong>RESULT: $1.80-2.50/mi in a niche</strong></li>
-                    </ul>
+                <p><strong>Alternative #2: premium services</strong></p>
+                <ul>
+                    <li>Specialize (medical, aerospace)</li>
+                    <li>Additional certifications</li>
+                    <li><strong>Result: $1.80-2.50/mi in a niche</strong></li>
+                </ul>
 
-                    <p style="margin-bottom:0"><strong>ALTERNATIVE #3: LIFESTYLE BUSINESS</strong></p>
-                    <ul style="margin:0">
-                        <li>$6-8K/month solo, 30-35 hrs/week</li>
-                        <li>Low stress, good profit</li>
-                        <li><strong>SUCCESS does not = mandatory expansion</strong></li>
-                    </ul>
-                </div>
+                <p><strong>Alternative #3: lifestyle business</strong></p>
+                <ul>
+                    <li>$6-8K/month solo, 30-35 hrs/week</li>
+                    <li>Low stress, good profit</li>
+                    <li><strong>Success does not = mandatory expansion</strong></li>
+                </ul>
             </section>
 
             <section>
-                <h2>💡 FINAL CONCLUSION - MODULE 5 COMPLETE</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem">
-                    <p style="font-size:1.25rem;font-weight:700;text-align:center;margin-bottom:1.5rem">You have completed your financial transformation</p>
+                <h2>Final conclusion — Module 5 complete</h2>
 
-                    <div style="text-align:left;max-width:600px;margin:0 auto">
-                        <p><strong>FROM:</strong> "I think I made money this month"</p>
-                        <p><strong>TO:</strong> "Net profit $4,465, margin 41.5%, trend +10.7%, next month projection $4,600-4,900"</p>
+                <p><strong>From:</strong> "I think I made money this month"<br>
+                    <strong>To:</strong> "Net profit $4,465, margin 41.5%, trend +10.7%, next month projection $4,600-4,900"</p>
 
-                        <hr style="border-color:rgba(255,255,255,.2);margin:1.5rem 0">
+                <p><strong>The 5 numbers you must always know:</strong></p>
+                <ol>
+                    <li><strong>Monthly Net Profit</strong> (not gross revenue)</li>
+                    <li><strong>Profit Margin</strong> (what % do you keep?)</li>
+                    <li><strong>Real RPM per Lane</strong> (which lanes are best?)</li>
+                    <li><strong>Next Month Projection</strong> (what to expect?)</li>
+                    <li><strong>Monthly Minimum Number</strong> (break-even)</li>
+                </ol>
 
-                        <p><strong>THE 5 NUMBERS YOU MUST ALWAYS KNOW:</strong></p>
-                        <ol>
-                            <li><strong>Monthly Net Profit</strong> (not gross revenue)</li>
-                            <li><strong>Profit Margin</strong> (what % do you keep?)</li>
-                            <li><strong>Real RPM per Lane</strong> (which lanes are best?)</li>
-                            <li><strong>Next Month Projection</strong> (what to expect?)</li>
-                            <li><strong>Monthly Minimum Number</strong> (break-even)</li>
-                        </ol>
+                <div class="checklist">
+                    <span class="checklist-label">The secret to success</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">MEASURE everything</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">ANALYZE data</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">OPTIMIZE based on numbers</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">DECIDE with data, not emotions</span></div>
+                </div>
 
-                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;text-align:center;margin-top:1.5rem;margin-bottom:0">
-                            <strong>The secret to success:</strong><br><br>
-                            MEASURE everything ✅<br>
-                            ANALYZE data ✅<br>
-                            OPTIMIZE based on numbers ✅<br>
-                            DECIDE with data, not emotions ✅<br><br>
-                            <span style="color:#FFD700;font-size:1.25rem">15 min/week reviewing numbers<br>
-                                = $500-1,000/month more in profit</span><br><br>
-                            ROI: INFINITE
-                        </p>
-                    </div>
+                <div class="conclusion">
+                    <p class="lead">15 min/week reviewing numbers = <span class="accent">$500-1,000/month more in profit</span>.</p>
+                    <p class="sub">You have completed your financial transformation. ROI: infinite.</p>
                 </div>
             </section>
 

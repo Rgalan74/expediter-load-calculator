@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,49 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
-        }
-
-        .checklist {
-            background: rgba(255, 255, 255, .05);
-            padding: 1rem;
-            border-radius: .5rem;
-            margin: .5rem 0
         }
 
         .btn {
@@ -179,194 +137,157 @@
         <div class="lesson-content">
 
             <section>
-                <h2>🚀 LA PREGUNTA DEL MILLÓN</h2>
+                <h2>La pregunta del millón</h2>
 
-                <div style="background:rgba(255,215,0,.1);padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.5rem;font-weight:800;margin-bottom:1rem">"¿Debería comprar segunda van<br>y
-                        contratar chofer?"</p>
-                    <p>Esta es LA decisión más importante<br>que tomarás en tu negocio de expediting.</p>
-                    <div style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem">
-                        <p><strong>Hacerlo bien</strong> = Duplicas ingresos, construyes negocio real</p>
-                        <p style="margin:0"><strong>Hacerlo mal</strong> = Quiebras en 6 meses</p>
-                    </div>
+                <p><strong>"¿Debería comprar segunda van y contratar chofer?"</strong></p>
+                <p>Esta es LA decisión más importante que tomarás en tu negocio de expediting.</p>
+
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Hacerlo bien</span><span class="value accent">Duplicas ingresos, construyes negocio real</span></div>
+                    <div class="compare-row"><span class="label">Hacerlo mal</span><span class="value">Quiebras en 6 meses</span></div>
                 </div>
 
-                <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem;margin-top:1.5rem">
-                    <p><strong>REALIDAD DURA:</strong></p>
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">70% de operadores que expanden a 2
-                        vans<br>regresan a 1 van en primer año.</p>
-                    <p style="margin:0"><strong>¿Por qué?</strong> Expandieron en momento equivocado o por razones
-                        equivocadas.</p>
+                <div class="pull-number">
+                    <div class="value">70%</div>
+                    <p class="context">de operadores que expanden a 2 vans regresan a 1 van en el primer año — expandieron en momento equivocado o por razones equivocadas.</p>
                 </div>
             </section>
 
             <section>
-                <h2>🎯 LAS 3 FASES DEL NEGOCIO</h2>
+                <h2>Las 3 fases del negocio</h2>
 
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem;margin-bottom:1rem">
-                    <h3 style="margin-top:0">FASE 1: OWNER-OPERATOR (Tú Solo)</h3>
-                    <ul style="margin:0">
-                        <li>1 van, Tú manejas todo</li>
-                        <li>Ganancia: $3,500-6,000/mes</li>
-                        <li>Duración: Años 1-3</li>
-                        <li><strong>OBJETIVO:</strong> Dominar operación, construir relaciones</li>
-                    </ul>
+                <div class="compare-table">
+                    <div class="compare-title">Fase 1: Owner-Operator (Tú Solo)</div>
+                    <div class="compare-row"><span class="label">Setup</span><span class="value">1 van, tú manejas todo</span></div>
+                    <div class="compare-row"><span class="label">Ganancia</span><span class="value">$3,500-6,000/mes</span></div>
+                    <div class="compare-row"><span class="label">Duración</span><span class="value">Años 1-3</span></div>
+                    <div class="compare-row"><span class="label">Objetivo</span><span class="value">Dominar operación, construir relaciones</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Fase 2: Micro-Flota (2-3 Vans)</div>
+                    <div class="compare-row"><span class="label">Setup</span><span class="value">2-3 vans, 1-2 choferes contratados</span></div>
+                    <div class="compare-row"><span class="label">Ganancia</span><span class="value">$6,000-12,000/mes</span></div>
+                    <div class="compare-row"><span class="label">Duración</span><span class="value">Años 3-5</span></div>
+                    <div class="compare-row"><span class="label">Objetivo</span><span class="value">Probar escalabilidad, sistemas</span></div>
+                </div>
+                <div class="compare-table">
+                    <div class="compare-title">Fase 3: Flota Pequeña (4+ Vans)</div>
+                    <div class="compare-row"><span class="label">Setup</span><span class="value">4+ vans, tú solo administras</span></div>
+                    <div class="compare-row"><span class="label">Ganancia</span><span class="value accent">$10,000-20,000+/mes</span></div>
+                    <div class="compare-row"><span class="label">Duración</span><span class="value">Año 5+</span></div>
+                    <div class="compare-row"><span class="label">Objetivo</span><span class="value">Negocio sostenible</span></div>
                 </div>
 
-                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem;margin-bottom:1rem">
-                    <h3 style="margin-top:0">FASE 2: MICRO-FLOTA (2-3 Vans)</h3>
-                    <ul style="margin:0">
-                        <li>2-3 vans, 1-2 choferes contratados</li>
-                        <li>Ganancia: $6,000-12,000/mes</li>
-                        <li>Duración: Años 3-5</li>
-                        <li><strong>OBJETIVO:</strong> Probar escalabilidad, sistemas</li>
-                    </ul>
-                </div>
-
-                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
-                    <h3 style="margin-top:0">FASE 3: FLOTA PEQUEÑA (4+ Vans)</h3>
-                    <ul style="margin:0">
-                        <li>4+ vans, Tú solo administras</li>
-                        <li>Ganancia: $10,000-20,000+/mes</li>
-                        <li>Duración: Año 5+</li>
-                        <li><strong>OBJETIVO:</strong> Negocio sostenible</li>
-                    </ul>
-                </div>
-
-                <p style="background:rgba(255,255,255,.05);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700;margin-top:1.5rem">
-                    No es falla quedarse en Fase 1.<br>Es decisión de estilo de vida.
-                </p>
+                <p>No es falla quedarse en Fase 1. Es decisión de estilo de vida.</p>
             </section>
 
             <section>
-                <h2>✅ LAS 10 SEÑALES QUE ESTÁS LISTO PARA EXPANDIR</h2>
+                <h2>Las señales de que estás listo para expandir</h2>
 
                 <div class="checklist">
-                    <p><strong>□ SEÑAL #1: FINANCIERA SÓLIDA</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>Ganancia consistente $5,000+/mes por 12+ meses</li>
-                        <li>Margen &gt;35% por 6+ meses</li>
-                        <li>Reserva de emergencia $15,000-20,000</li>
-                    </ul>
+                    <span class="checklist-label">Señal #1: financiera sólida</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Ganancia consistente $5,000+/mes por 12+ meses</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Margen &gt;35% por 6+ meses</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Reserva de emergencia $15,000-20,000</span></div>
                 </div>
 
                 <div class="checklist">
-                    <p><strong>□ SEÑAL #2: DEMANDA EXCEDE CAPACIDAD</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>Rechazas 5-10 cargas/semana por falta de tiempo</li>
-                        <li>Brokers Tier 1 piden más cargas</li>
-                        <li>Podrías llenar segunda van 60-70% inmediatamente</li>
-                    </ul>
+                    <span class="checklist-label">Señal #2: demanda excede capacidad</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Rechazas 5-10 cargas/semana por falta de tiempo</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Brokers Tier 1 piden más cargas</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Podrías llenar segunda van 60-70% inmediatamente</span></div>
                 </div>
 
                 <div class="checklist">
-                    <p><strong>□ SEÑAL #3: RELACIONES ESTABLECIDAS</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>5-7 brokers Tier 1 sólidos</li>
-                        <li>Te llaman primero regularmente</li>
-                        <li>Relaciones tienen 18+ meses antigüedad</li>
-                    </ul>
+                    <span class="checklist-label">Señal #3: relaciones establecidas</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">5-7 brokers Tier 1 sólidos</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Te llaman primero regularmente</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Relaciones tienen 18+ meses antigüedad</span></div>
                 </div>
 
                 <div class="checklist">
-                    <p><strong>□ SEÑAL #4: SISTEMAS DOCUMENTADOS</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>Procesos escritos para todo</li>
-                        <li>Tracking financiero perfecto</li>
-                        <li>No todo está "en tu cabeza"</li>
-                    </ul>
+                    <span class="checklist-label">Señal #4: sistemas documentados</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Procesos escritos para todo</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Tracking financiero perfecto</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">No todo está "en tu cabeza"</span></div>
                 </div>
 
                 <div class="checklist">
-                    <p><strong>□ SEÑAL #5: RUTAS PROBADAS Y RENTABLES</strong></p>
-                    <ul style="margin:0;font-size:.9rem">
-                        <li>4-6 rutas Tier S/A identificadas</li>
-                        <li>Rutas generan $1.50+/mi consistentemente</li>
-                    </ul>
+                    <span class="checklist-label">Señal #5: rutas probadas y rentables</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">4-6 rutas Tier S/A identificadas</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Rutas generan $1.50+/mi consistentemente</span></div>
                 </div>
 
-                <p style="margin-top:1.5rem"><strong>SCORING:</strong></p>
-                <ul style="margin:0">
-                    <li>10/10 señales ✅ = Adelante con confianza</li>
-                    <li>7-9/10 ✅ = Probablemente listo, planea cuidadosamente</li>
-                    <li>4-6/10 ⚠️ = Espera, construye más primero</li>
-                    <li>&lt;4/10 ❌ = NO estás listo, enfócate en Fase 1</li>
+                <p><strong>Scoring:</strong></p>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">10/10 señales ✅</span><span class="value accent">Adelante con confianza</span></div>
+                    <div class="compare-row"><span class="label">7-9/10 ✅</span><span class="value">Probablemente listo, planea cuidadosamente</span></div>
+                    <div class="compare-row"><span class="label">4-6/10 ⚠️</span><span class="value">Espera, construye más primero</span></div>
+                    <div class="compare-row"><span class="label">&lt;4/10 ❌</span><span class="value">NO estás listo, enfócate en Fase 1</span></div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Matemáticas de segunda van (realistas)</h2>
+
+                <p><strong>Inversión inicial</strong></p>
+                <p><strong>Van #2 (Usada, 2018-2020):</strong></p>
+                <ul>
+                    <li>Costo: $35,000-45,000</li>
+                    <li>Down payment (20%): $7,000-9,000</li>
+                    <li>Pago mensual: $600-800/mes (60 meses)</li>
                 </ul>
-            </section>
+                <p><strong>Setup inicial:</strong></p>
+                <ul>
+                    <li>Seguro adicional: $800-1,000</li>
+                    <li>Equipo (ELD, GPS): $500-800</li>
+                    <li>Legal/permisos: $200-400</li>
+                    <li><strong>Total one-time: $8,800-11,700</strong></li>
+                </ul>
 
-            <section>
-                <h2>💰 MATEMÁTICAS DE SEGUNDA VAN (REALISTAS)</h2>
+                <p><strong>Gastos mensuales adicionales</strong></p>
+                <p><strong>Fijos por Van #2:</strong></p>
+                <ul>
+                    <li>Pago van: $700</li>
+                    <li>Seguro: $850</li>
+                    <li>Tecnología: $100</li>
+                    <li><strong>Subtotal: $1,675/mes</strong></li>
+                </ul>
+                <p><strong>Chofer:</strong></p>
+                <ul>
+                    <li>Salario: $1,200-1,500/semana</li>
+                    <li>O 25-30% de ganancia</li>
+                    <li><strong>Estimado: $2,500-3,500/mes</strong></li>
+                </ul>
 
-                <h3>INVERSIÓN INICIAL</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>VAN #2 (Usada, 2018-2020):</strong></p>
-                    <ul>
-                        <li>Costo: $35,000-45,000</li>
-                        <li>Down payment (20%): $7,000-9,000</li>
-                        <li>Pago mensual: $600-800/mes (60 meses)</li>
-                    </ul>
-                    <p><strong>SETUP INICIAL:</strong></p>
-                    <ul style="margin:0">
-                        <li>Seguro adicional: $800-1,000</li>
-                        <li>Equipo (ELD, GPS): $500-800</li>
-                        <li>Legal/permisos: $200-400</li>
-                        <li><strong>TOTAL ONE-TIME: $8,800-11,700</strong></li>
-                    </ul>
-                </div>
-
-                <h3>GASTOS MENSUALES ADICIONALES</h3>
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;margin-top:1rem">
-                    <p><strong>FIJOS POR VAN #2:</strong></p>
-                    <ul style="margin-bottom:1rem">
-                        <li>Pago van: $700</li>
-                        <li>Seguro: $850</li>
-                        <li>Tecnología: $100</li>
-                        <li><strong>SUBTOTAL: $1,675/mes</strong></li>
-                    </ul>
-                    <p><strong>CHOFER:</strong></p>
-                    <ul style="margin:0">
-                        <li>Salario: $1,200-1,500/semana</li>
-                        <li>O 25-30% de ganancia</li>
-                        <li><strong>ESTIMADO: $2,500-3,500/mes</strong></li>
-                    </ul>
-                    <p style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1rem;margin-bottom:0">
-                        <strong>TOTAL GASTOS ADICIONALES: $4,175-5,175/mes</strong><br><br>
-                        Ingresos requeridos para break-even: <strong>$6,500-7,000/mes</strong><br>
-                        Para ser rentable (30% margen): <strong>$9,300-10,000/mes</strong>
-                    </p>
+                <div class="compare-table">
+                    <div class="compare-title">Total gastos adicionales: $4,175-5,175/mes</div>
+                    <div class="compare-row"><span class="label">Ingresos para break-even</span><span class="value">$6,500-7,000/mes</span></div>
+                    <div class="compare-row"><span class="label">Ingresos para ser rentable (30% margen)</span><span class="value accent">$9,300-10,000/mes</span></div>
                 </div>
             </section>
 
             <section>
-                <h2>📊 CRONOLOGÍA REALISTA</h2>
+                <h2>Cronología realista</h2>
 
-                <div style="display:grid;grid-template-columns:1fr;gap:1rem;margin:2rem 0">
-                    <div style="background:rgba(255,107,53,.15);padding:1rem;border-radius:.5rem;border-left:4px solid #FF6B35">
-                        <p style="margin:0"><strong>Meses 1-3:</strong> Pierdes dinero (-$400-800/mes)</p>
-                    </div>
-                    <div style="background:rgba(255,215,0,.1);padding:1rem;border-radius:.5rem;border-left:4px solid #FFD700">
-                        <p style="margin:0"><strong>Meses 4-6:</strong> Break-even (+$0-300/mes)</p>
-                    </div>
-                    <div style="background:rgba(100,200,100,.08);padding:1rem;border-radius:.5rem;border-left:4px solid #64C864">
-                        <p style="margin:0"><strong>Meses 7-12:</strong> Pequeña ganancia (+$300-600/mes)</p>
-                    </div>
-                    <div style="background:rgba(100,200,100,.15);padding:1rem;border-radius:.5rem;border-left:4px solid #64C864">
-                        <p style="margin:0"><strong>Año 2+:</strong> Ganancia real (+$800-1,200/mes por van)</p>
-                    </div>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Meses 1-3</span><span class="value">Pierdes dinero (-$400-800/mes)</span></div>
+                    <div class="compare-row"><span class="label">Meses 4-6</span><span class="value">Break-even (+$0-300/mes)</span></div>
+                    <div class="compare-row"><span class="label">Meses 7-12</span><span class="value">Pequeña ganancia (+$300-600/mes)</span></div>
+                    <div class="compare-row"><span class="label">Año 2+</span><span class="value accent">Ganancia real (+$800-1,200/mes por van)</span></div>
                 </div>
 
-                <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    Inversión total primeros 12 meses: ~$19,800<br>
-                    ROI en año 2: $8,000-14,000/año<br>
-                    Recuperas inversión en 18-24 meses
-                </p>
+                <div class="pull-number">
+                    <div class="value">18-24</div>
+                    <p class="context">meses para recuperar la inversión total (~$19,800 en los primeros 12 meses). ROI en año 2: $8,000-14,000/año.</p>
+                </div>
             </section>
 
             <section>
-                <h2>🚨 ERRORES FATALES DE EXPANSIÓN</h2>
+                <h2>Errores fatales de expansión</h2>
 
-                <div style="background:rgba(255,107,53,.15);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>Los 10 errores que llevan al fracaso:</strong></p>
+                <div class="note warning">
+                    <span class="note-label">Los 10 errores que llevan al fracaso</span>
                     <ol>
                         <li><strong>Expandir después de UN mes bueno</strong> (espera 12 meses consistentes)</li>
                         <li><strong>Asumir van #2 = 2X ganancia</strong> (primeros meses puedes ganar MENOS)</li>
@@ -383,92 +304,83 @@
             </section>
 
             <section>
-                <h2>🤝 ESTRUCTURA DE PAGO DE CHOFER</h2>
+                <h2>Estructura de pago de chofer</h2>
 
-                <h3>OPCIÓN RECOMENDADA: HÍBRIDO</h3>
-                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>Base bajo + porcentaje moderado</strong></p>
-                    <p><strong>EJEMPLO:</strong></p>
+                <p><strong>Opción recomendada: híbrido</strong></p>
+                <p>Base bajo + porcentaje moderado.</p>
+                <p><strong>Ejemplo:</strong></p>
+                <ul>
+                    <li>Base: $600/semana (piso garantizado)</li>
+                    <li>+ 20% de ganancia después de gastos</li>
+                    <li>Total típico: $1,000-1,500/semana</li>
+                </ul>
+
+                <div class="note tip">
+                    <span class="note-label">Ventajas</span>
                     <ul>
-                        <li>Base: $600/semana (piso garantizado)</li>
-                        <li>+ 20% de ganancia después de gastos</li>
-                        <li>Total típico: $1,000-1,500/semana</li>
+                        <li>Balance entre seguridad e incentivo</li>
+                        <li>Chofer tiene piso pero incentivo a producir</li>
+                        <li>Tú tienes protección</li>
                     </ul>
-                    <p style="margin:0"><strong>VENTAJAS:</strong><br>
-                        ✅ Balance entre seguridad y incentivo<br>
-                        ✅ Chofer tiene piso pero incentivo a producir<br>
-                        ✅ Tú tienes protección</p>
                 </div>
 
-                <p style="background:rgba(255,215,0,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700;margin-top:1.5rem">
-                    Sweet spot: 25-30% de ganancia después de gastos<br>
-                    NUNCA: &gt;35% o % de ingresos brutos
-                </p>
+                <p><strong>Sweet spot:</strong> 25-30% de ganancia después de gastos. NUNCA: &gt;35% o % de ingresos brutos.</p>
             </section>
 
             <section>
-                <h2>🔄 ALTERNATIVAS A EXPANSIÓN TRADICIONAL</h2>
+                <h2>Alternativas a expansión tradicional</h2>
 
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>NO TIENES QUE expandir a 2+ vans. Hay otras formas de crecer:</strong></p>
+                <p><strong>No tienes que expandir a 2+ vans. Hay otras formas de crecer:</strong></p>
 
-                    <p><strong>ALTERNATIVA #1: OPTIMIZAR VAN ACTUAL</strong></p>
-                    <ul>
-                        <li>Aumenta tarifas +$0.15/mi</li>
-                        <li>Reduce gastos -5%</li>
-                        <li>Mejora utilización +10%</li>
-                        <li><strong>RESULTADO: +$800-1,200/mes sin van adicional</strong></li>
-                    </ul>
+                <p><strong>Alternativa #1: optimizar van actual</strong></p>
+                <ul>
+                    <li>Aumenta tarifas +$0.15/mi</li>
+                    <li>Reduce gastos -5%</li>
+                    <li>Mejora utilización +10%</li>
+                    <li><strong>Resultado: +$800-1,200/mes sin van adicional</strong></li>
+                </ul>
 
-                    <p><strong>ALTERNATIVA #2: SERVICIOS PREMIUM</strong></p>
-                    <ul>
-                        <li>Especialízate (médico, aerospace)</li>
-                        <li>Certificaciones adicionales</li>
-                        <li><strong>RESULTADO: $1.80-2.50/mi en nicho</strong></li>
-                    </ul>
+                <p><strong>Alternativa #2: servicios premium</strong></p>
+                <ul>
+                    <li>Especialízate (médico, aerospace)</li>
+                    <li>Certificaciones adicionales</li>
+                    <li><strong>Resultado: $1.80-2.50/mi en nicho</strong></li>
+                </ul>
 
-                    <p style="margin-bottom:0"><strong>ALTERNATIVA #3: LIFESTYLE BUSINESS</strong></p>
-                    <ul style="margin:0">
-                        <li>$6-8K/mes solo, 30-35 hrs/semana</li>
-                        <li>Estrés bajo, ganancia buena</li>
-                        <li><strong>ÉXITO no = expansión obligatoria</strong></li>
-                    </ul>
-                </div>
+                <p><strong>Alternativa #3: lifestyle business</strong></p>
+                <ul>
+                    <li>$6-8K/mes solo, 30-35 hrs/semana</li>
+                    <li>Estrés bajo, ganancia buena</li>
+                    <li><strong>Éxito no = expansión obligatoria</strong></li>
+                </ul>
             </section>
 
             <section>
-                <h2>💡 CONCLUSIÓN FINAL - MÓDULO 5 COMPLETO</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem">
-                    <p style="font-size:1.25rem;font-weight:700;text-align:center;margin-bottom:1.5rem">Has completado
-                        tu transformación financiera</p>
+                <h2>Conclusión final — Módulo 5 completo</h2>
 
-                    <div style="text-align:left;max-width:600px;margin:0 auto">
-                        <p><strong>DE:</strong> "Creo que gané dinero este mes"</p>
-                        <p><strong>A:</strong> "Ganancia neta $4,465, margen 41.5%, tendencia +10.7%, proyección próximo
-                            mes $4,600-4,900"</p>
+                <p><strong>De:</strong> "Creo que gané dinero este mes"<br>
+                    <strong>A:</strong> "Ganancia neta $4,465, margen 41.5%, tendencia +10.7%, proyección próximo mes $4,600-4,900"</p>
 
-                        <hr style="border-color:rgba(255,255,255,.2);margin:1.5rem 0">
+                <p><strong>Los 5 números que debes saber siempre:</strong></p>
+                <ol>
+                    <li><strong>Ganancia Neta Mensual</strong> (no ingresos brutos)</li>
+                    <li><strong>Margen de Ganancia</strong> (¿qué % te quedas?)</li>
+                    <li><strong>RPM Real por Ruta</strong> (¿qué rutas son mejores?)</li>
+                    <li><strong>Proyección Próximo Mes</strong> (¿qué esperar?)</li>
+                    <li><strong>Número Mínimo Mensual</strong> (break-even)</li>
+                </ol>
 
-                        <p><strong>LOS 5 NÚMEROS QUE DEBES SABER SIEMPRE:</strong></p>
-                        <ol>
-                            <li><strong>Ganancia Neta Mensual</strong> (no ingresos brutos)</li>
-                            <li><strong>Margen de Ganancia</strong> (¿qué % te quedas?)</li>
-                            <li><strong>RPM Real por Ruta</strong> (¿qué rutas son mejores?)</li>
-                            <li><strong>Proyección Próximo Mes</strong> (¿qué esperar?)</li>
-                            <li><strong>Número Mínimo Mensual</strong> (break-even)</li>
-                        </ol>
+                <div class="checklist">
+                    <span class="checklist-label">El secreto del éxito</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">MEDIR todo</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">ANALIZAR datos</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">OPTIMIZAR basado en números</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">DECIDIR con datos, no emociones</span></div>
+                </div>
 
-                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;text-align:center;margin-top:1.5rem;margin-bottom:0">
-                            <strong>El secreto del éxito:</strong><br><br>
-                            MEDIR todo ✅<br>
-                            ANALIZAR datos ✅<br>
-                            OPTIMIZAR basado en números ✅<br>
-                            DECIDIR con datos, no emociones ✅<br><br>
-                            <span style="color:#FFD700;font-size:1.25rem">15 min/semana revisando números<br>
-                                = $500-1,000/mes más en ganancia</span><br><br>
-                            ROI: INFINITO
-                        </p>
-                    </div>
+                <div class="conclusion">
+                    <p class="lead">15 min/semana revisando números = <span class="accent">$500-1,000/mes más en ganancia</span>.</p>
+                    <p class="sub">Has completado tu transformación financiera. ROI: infinito.</p>
                 </div>
             </section>
 

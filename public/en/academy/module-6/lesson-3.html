@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,65 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul,
-        .lesson-content ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: .75rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1);
-            font-size: .9rem
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
         }
 
         .btn {
@@ -198,294 +140,170 @@
         <div class="lesson-content">
 
             <section>
-                <h2>💼 THE NEGOTIATION MINDSET</h2>
+                <h2>The negotiation mindset</h2>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:2rem 0">
-                    <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>AVERAGE OPERATOR:</strong></p>
-                        <p style="font-style:italic;margin:0">"My insurance costs $850/month"<br>
-                            "That's just how it is"<br>
-                            "There's nothing I can do"</p>
+                <div class="compare-grid">
+                    <div class="compare-table">
+                        <div class="compare-title">Average operator</div>
+                        <div class="compare-row"><span class="label">Attitude</span><span class="value">"That's just how it is"</span></div>
+                        <div class="compare-row"><span class="label">Insurance</span><span class="value">$850/month — never questions it</span></div>
+                        <div class="compare-row"><span class="label">Action</span><span class="value">"There's nothing I can do"</span></div>
                     </div>
-
-                    <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
-                        <p><strong>ELITE OPERATOR:</strong></p>
-                        <p style="font-style:italic;margin:0">"My insurance USED TO cost $850/month"<br>
-                            "I called 5 companies"<br>
-                            "Now I pay $680/month"<br>
-                            "<strong>Savings: $170/month = $2,040/year</strong>"</p>
+                    <div class="compare-table">
+                        <div class="compare-title">Elite operator</div>
+                        <div class="compare-row"><span class="label">Action</span><span class="value">Called 5 companies</span></div>
+                        <div class="compare-row"><span class="label">Insurance</span><span class="value">$680/month — used to be $850</span></div>
+                        <div class="compare-row"><span class="label">Savings</span><span class="value accent">$170/month = $2,040/year</span></div>
                     </div>
                 </div>
 
-                <p style="background:rgba(0,217,255,.1);padding:1rem;border-radius:.5rem;text-align:center;font-weight:700">
-                    REALITY: Every fixed expense is NEGOTIABLE<br>
-                    The difference: 30 minutes of calls<br>
-                    ROI: INFINITE
-                </p>
+                <div class="note tip">
+                    <span class="note-label">Reality</span>
+                    <p>Every fixed expense is negotiable. The difference is 30 minutes of calls. The ROI is infinite.</p>
+                </div>
             </section>
 
             <section>
-                <h2>🛡️ INSURANCE: YOUR BIGGEST FIXED EXPENSE</h2>
+                <h2>Insurance: your biggest fixed expense</h2>
 
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>TYPICAL CARGO VAN EXPEDITING:</strong></p>
-                    <ul>
-                        <li>Liability: $300-500/month</li>
-                        <li>Cargo: $200-300/month</li>
-                        <li>Physical damage: $150-250/month</li>
-                        <li>Uninsured motorist: $50-80/month</li>
-                        <li><strong>TOTAL: $700-1,130/month (Average: $880/month)</strong></li>
-                    </ul>
-                    <p style="margin:0;text-align:center;font-weight:700;color:#FFD700">BUT this is highly OPTIMIZABLE</p>
+                <div class="compare-table">
+                    <div class="compare-title">Typical cargo van expediting</div>
+                    <div class="compare-row"><span class="label">Liability</span><span class="value">$300-500/month</span></div>
+                    <div class="compare-row"><span class="label">Cargo</span><span class="value">$200-300/month</span></div>
+                    <div class="compare-row"><span class="label">Physical damage</span><span class="value">$150-250/month</span></div>
+                    <div class="compare-row"><span class="label">Uninsured motorist</span><span class="value">$50-80/month</span></div>
+                    <div class="compare-row"><span class="label">Total</span><span class="value accent">$700-1,130/month (average $880/month)</span></div>
                 </div>
 
-                <h3>STRATEGY: Aggressive Shopping (Every 12 months)</h3>
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>STEP 1: Get quotes from MINIMUM 5 companies</strong></p>
-                    <p><strong>Commercial specialists:</strong></p>
-                    <ul>
-                        <li>Progressive Commercial, Hartford, Nationwide, State Farm, Travelers</li>
-                    </ul>
-                    <p><strong>Trucking specialists:</strong></p>
-                    <ul>
-                        <li>CoverWallet, OOIDA, Commercial Insurance Solutions, NTIS</li>
-                    </ul>
-                    <p><strong>TIME:</strong> 3-4 hours for 5 quotes<br>
-                        <strong>POTENTIAL SAVINGS:</strong> $150-250/month ($1,800-3,000/year)
-                    </p>
-                </div>
+                <p>But this is highly optimizable.</p>
 
-                <h3>STEP 2: Negotiating with Your Current Provider</h3>
-                <div style="background:rgba(255,215,0,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>SCRIPT:</strong></p>
-                    <p style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;font-family:monospace;font-size:.9rem">
-                        "I've been a customer for [X years]. I've shopped around and received lower offers:<br>
-                        - Company B: $760/month<br>
-                        - Company C: $695/month<br><br>
-                        My current rate is $880/month. I like working with you, but I can't justify paying $185/month more.<br><br>
-                        Can you match or come close to $695/month?"
-                    </p>
-                    <p style="margin:0"><strong>Don't be afraid to switch.</strong> The process takes 2-3 days. It's worth every minute.</p>
-                </div>
+                <p><strong>Strategy: aggressive shopping (every 12 months)</strong></p>
 
-                <h3>STEP 3: Coverage Optimization</h3>
+                <p><strong>Step 1:</strong> get quotes from a minimum of 5 companies.</p>
+                <p><strong>Commercial specialists:</strong></p>
                 <ul>
-                    <li><strong>Physical damage on older van:</strong> If worth &lt;$15,000, consider liability + cargo only (Savings: $150-180/month)</li>
-                    <li><strong>Higher deductible:</strong> $500 → $2,500 = $55/month savings</li>
-                    <li><strong>Verify broker requirements</strong> before reducing coverage</li>
+                    <li>Progressive Commercial, Hartford, Nationwide, State Farm, Travelers</li>
+                </ul>
+                <p><strong>Trucking specialists:</strong></p>
+                <ul>
+                    <li>CoverWallet, OOIDA, Commercial Insurance Solutions, NTIS</li>
                 </ul>
 
-                <h3>STEP 4: Available Discounts</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>DISCOUNT</th>
-                            <th>SAVINGS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>5+ years experience</td>
-                            <td>5-10% ($40-80/month)</td>
-                        </tr>
-                        <tr>
-                            <td>Safety course</td>
-                            <td>5-10% ($40-70/month)</td>
-                        </tr>
-                        <tr>
-                            <td>Multi-vehicle</td>
-                            <td>10-15% ($60-100/month)</td>
-                        </tr>
-                        <tr>
-                            <td>Dash cam</td>
-                            <td>$20-40/month</td>
-                        </tr>
-                        <tr>
-                            <td>Pay in full (6-12 months)</td>
-                            <td>5-8% ($40-70/month)</td>
-                        </tr>
-                        <tr>
-                            <td>Accident-free (cumulative)</td>
-                            <td>2-5% per year (max 30%)</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.15)">
-                            <td><strong>COMBINED POTENTIAL</strong></td>
-                            <td><strong>20-35% ($150-280/month)</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="formula">Time: 3-4 hours for 5 quotes<br>
+Potential savings: $150-250/month ($1,800-3,000/year)</div>
+
+                <p><strong>Step 2:</strong> negotiate with your current provider.</p>
+
+                <div class="formula">"I've been a customer for [X years]. I've shopped around and received<br>
+lower offers:<br>
+- Company B: $760/month<br>
+- Company C: $695/month<br>
+<br>
+My current rate is $880/month. I like working with you, but I can't<br>
+justify paying $185/month more.<br>
+<br>
+Can you match or come close to $695/month?"</div>
+
+                <p><strong>Don't be afraid to switch.</strong> The process takes 2-3 days. It's worth every minute.</p>
+
+                <p><strong>Step 3:</strong> coverage optimization.</p>
+                <ul>
+                    <li><strong>Physical damage on an older van:</strong> if worth less than $15,000, consider liability + cargo only (savings: $150-180/month)</li>
+                    <li><strong>Higher deductible:</strong> $500 → $2,500 = $55/month savings</li>
+                    <li>Verify broker requirements before reducing coverage</li>
+                </ul>
+
+                <p><strong>Step 4:</strong> available discounts.</p>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">5+ years experience</span><span class="value">5-10% ($40-80/month)</span></div>
+                    <div class="compare-row"><span class="label">Safety course</span><span class="value">5-10% ($40-70/month)</span></div>
+                    <div class="compare-row"><span class="label">Multi-vehicle</span><span class="value">10-15% ($60-100/month)</span></div>
+                    <div class="compare-row"><span class="label">Dash cam</span><span class="value">$20-40/month</span></div>
+                    <div class="compare-row"><span class="label">Pay in full (6-12 months)</span><span class="value">5-8% ($40-70/month)</span></div>
+                    <div class="compare-row"><span class="label">Accident-free (cumulative)</span><span class="value">2-5% per year (max 30%)</span></div>
+                    <div class="compare-row"><span class="label">Combined potential</span><span class="value accent">20-35% ($150-280/month)</span></div>
+                </div>
             </section>
 
             <section>
-                <h2>💻 TECHNOLOGY: CUT THE UNNECESSARY</h2>
+                <h2>Technology: cut the unnecessary</h2>
 
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>SUBSCRIPTION AUDIT:</strong></p>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>SERVICE</th>
-                                <th>CURRENT</th>
-                                <th>NEEDED</th>
-                                <th>SAVINGS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Load boards</td>
-                                <td>$45</td>
-                                <td>$0</td>
-                                <td>$45</td>
-                            </tr>
-                            <tr>
-                                <td>ELD Service</td>
-                                <td>$35</td>
-                                <td>$20</td>
-                                <td>$15</td>
-                            </tr>
-                            <tr>
-                                <td>GPS/Tracking</td>
-                                <td>$30</td>
-                                <td>$0</td>
-                                <td>$30</td>
-                            </tr>
-                            <tr>
-                                <td>Phone plan</td>
-                                <td>$80</td>
-                                <td>$50</td>
-                                <td>$30</td>
-                            </tr>
-                            <tr>
-                                <td>Accounting software</td>
-                                <td>$40</td>
-                                <td>$15</td>
-                                <td>$25</td>
-                            </tr>
-                            <tr>
-                                <td>Load tracking</td>
-                                <td>$25</td>
-                                <td>$0</td>
-                                <td>$25</td>
-                            </tr>
-                            <tr style="background:rgba(255,215,0,.15)">
-                                <td><strong>TOTAL</strong></td>
-                                <td><strong>$255</strong></td>
-                                <td><strong>$85</strong></td>
-                                <td><strong>$170/month</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <p style="margin:0;text-align:center;font-weight:700">Annual savings: $2,040 🚀</p>
+                <div class="compare-table">
+                    <div class="compare-title">Subscription audit</div>
+                    <div class="compare-row"><span class="label">Load boards</span><span class="value">$45 → $0 (savings $45)</span></div>
+                    <div class="compare-row"><span class="label">ELD Service</span><span class="value">$35 → $20 (savings $15)</span></div>
+                    <div class="compare-row"><span class="label">GPS/Tracking</span><span class="value">$30 → $0 (savings $30)</span></div>
+                    <div class="compare-row"><span class="label">Phone plan</span><span class="value">$80 → $50 (savings $30)</span></div>
+                    <div class="compare-row"><span class="label">Accounting software</span><span class="value">$40 → $15 (savings $25)</span></div>
+                    <div class="compare-row"><span class="label">Load tracking</span><span class="value">$25 → $0 (savings $25)</span></div>
+                    <div class="compare-row"><span class="label">Total</span><span class="value accent">$255 → $85 (savings $170/month)</span></div>
                 </div>
 
-                <div style="background:rgba(0,217,255,.08);padding:1.5rem;border-radius:.75rem;margin-top:1rem">
-                    <p><strong>PROCESS:</strong></p>
-                    <ol style="margin:0">
-                        <li>List ALL your subscriptions</li>
+                <div class="pull-number">
+                    <div class="value">$2,040</div>
+                    <p class="context">in annual savings by canceling redundant subscriptions.</p>
+                </div>
+
+                <div class="note tip">
+                    <span class="note-label">Process</span>
+                    <ol>
+                        <li>List all your subscriptions</li>
                         <li>Ask: "Did I use this in the last 30 days?"</li>
-                        <li>If NO → Cancel immediately</li>
-                        <li>If YES → "Is there a cheaper alternative?"</li>
+                        <li>If no → cancel immediately</li>
+                        <li>If yes → "Is there a cheaper alternative?"</li>
                     </ol>
                 </div>
             </section>
 
             <section>
-                <h2>🔧 NEGOTIATING WITH MECHANICS</h2>
+                <h2>Negotiating with mechanics</h2>
 
-                <h3>Tactic #1: Long-Term Relationship</h3>
-                <div style="background:rgba(100,200,100,.08);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>SCRIPT:</strong></p>
-                    <p style="font-style:italic">"I'm a commercial cargo van operator. I drive 90,000 miles/year. I'm looking for a shop for ALL my maintenance. Can you offer a volume discount?"</p>
-                    <p style="margin:0"><strong>RESULT:</strong> 10-15% labor discount + 5-10% parts = $40-80/month savings</p>
+                <p><strong>Tactic #1: long-term relationship</strong></p>
+                <div class="formula">"I'm a commercial cargo van operator. I drive 90,000 miles/year. I'm
+looking for a shop for ALL my maintenance. Can you offer a volume discount?"</div>
+                <p><strong>Result:</strong> 10-15% labor discount + 5-10% parts discount = $40-80/month savings.</p>
+
+                <p><strong>Tactic #2: buy your own parts</strong></p>
+                <div class="compare-table">
+                    <div class="compare-title">Example — brakes</div>
+                    <div class="compare-row"><span class="label">Shop provides parts</span><span class="value">Labor $180 + parts $220 = $400</span></div>
+                    <div class="compare-row"><span class="label">You provide parts</span><span class="value">Labor $180 + parts $110 (online) = $290</span></div>
+                    <div class="compare-row"><span class="label">Savings</span><span class="value accent">$110 (27.5%)</span></div>
                 </div>
+                <p><strong>Buy from:</strong> RockAuto.com, Amazon, AutoZone, O'Reilly. Not all shops accept this — ask about their policy first.</p>
 
-                <h3>Tactic #2: Buy Your Own Parts</h3>
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>EXAMPLE - BRAKES:</strong></p>
-                    <ul>
-                        <li>Shop provides parts: Labor $180 + Parts $220 (markup) = <strong>$400</strong></li>
-                        <li>You provide parts: Labor $180 + Parts $110 (online) = <strong>$290</strong></li>
-                        <li><strong>SAVINGS: $110 (27.5%)</strong></li>
-                    </ul>
-                    <p><strong>Buy from:</strong> RockAuto.com, Amazon, AutoZone, O'Reilly</p>
-                    <p style="margin:0">NOT all shops accept this. Ask about their policy FIRST.</p>
-                </div>
-
-                <h3>Tactic #3: Get Multiple Shop Quotes</h3>
-                <p>For jobs &gt;$500: Get 3+ shop quotes. Price difference: 20-40%<br>
-                    <strong>ANNUAL SAVINGS: $300-600</strong>
-                </p>
+                <p><strong>Tactic #3: get multiple shop quotes</strong></p>
+                <p>For jobs over $500: get 3+ shop quotes. Price difference can run 20-40%. <strong>Annual savings: $300-600</strong>.</p>
             </section>
 
             <section>
-                <h2>📊 MEMBERSHIPS WORTH HAVING</h2>
+                <h2>Memberships worth having</h2>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>MEMBERSHIP</th>
-                            <th>COST/YEAR</th>
-                            <th>BENEFITS</th>
-                            <th>ROI</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="background:rgba(100,200,100,.1)">
-                            <td><strong>OOIDA</strong></td>
-                            <td>$45</td>
-                            <td>Insurance discounts $1,200-2,400/year</td>
-                            <td>2,667-5,333% ✅✅</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.08)">
-                            <td>AAA Commercial</td>
-                            <td>$150-200</td>
-                            <td>Free towing, hotel discounts</td>
-                            <td>100-200% ✅</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.08)">
-                            <td>Costco Business</td>
-                            <td>$60</td>
-                            <td>Tires, batteries, bulk oil</td>
-                            <td>200-400% ✅</td>
-                        </tr>
-                        <tr style="background:rgba(100,200,100,.08)">
-                            <td>O'Reilly/AutoZone Pro</td>
-                            <td>FREE</td>
-                            <td>10-20% parts discount</td>
-                            <td>INFINITE ✅</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">OOIDA</span><span class="value">$45/year — insurance discounts $1,200-2,400/year — ROI 2,667-5,333% ✅✅</span></div>
+                    <div class="compare-row"><span class="label">AAA Commercial</span><span class="value">$150-200/year — free towing, hotel discounts — ROI 100-200% ✅</span></div>
+                    <div class="compare-row"><span class="label">Costco Business</span><span class="value">$60/year — tires, batteries, bulk oil — ROI 200-400% ✅</span></div>
+                    <div class="compare-row"><span class="label">O'Reilly/AutoZone Pro</span><span class="value">Free — 10-20% parts discount — ROI infinite ✅</span></div>
+                </div>
             </section>
 
             <section>
-                <h2>💡 KEY CONCLUSION</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,215,0,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1.5rem">Every fixed expense is NEGOTIABLE<br>But you have to ASK</p>
+                <p><strong>4 main optimization areas:</strong></p>
+                <ol>
+                    <li><strong>Insurance:</strong> $150-300/month savings (mandatory annual shopping)</li>
+                    <li><strong>Technology:</strong> $100-170/month savings (cancel redundant subscriptions)</li>
+                    <li><strong>Maintenance:</strong> $50-100/month savings (negotiate + DIY parts)</li>
+                    <li><strong>Memberships:</strong> spend $150, save $300+/month</li>
+                </ol>
 
-                    <div style="text-align:left;max-width:500px;margin:0 auto">
-                        <p><strong>4 main optimization areas:</strong></p>
-                        <ol>
-                            <li><strong>INSURANCE:</strong> $150-300/month savings (mandatory annual shopping)</li>
-                            <li><strong>TECHNOLOGY:</strong> $100-170/month savings (cancel redundant subscriptions)</li>
-                            <li><strong>MAINTENANCE:</strong> $50-100/month savings (negotiate + DIY parts)</li>
-                            <li><strong>MEMBERSHIPS:</strong> Spend $150, save $300+/month</li>
-                        </ol>
+                <div class="pull-number">
+                    <div class="value">$300-570/mo</div>
+                    <p class="context">in total potential savings ($3,600-6,840/year) — 6-8 initial hours + 4-5 annual hours invested. ROI: $600-1,400 per hour.</p>
+                </div>
 
-                        <p style="background:rgba(0,0,0,.3);padding:1.5rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
-                            <strong style="color:#FFD700;font-size:1.25rem">TOTAL POTENTIAL:<br>$300-570/month savings<br>$3,600-6,840/year</strong><br><br>
-                            Time investment:<br>
-                            Initial shopping: 6-8 hours<br>
-                            Annual maintenance: 4-5 hours<br>
-                            <strong>ROI: $600-1,400 per hour</strong>
-                        </p>
-
-                        <p style="margin-top:1.5rem;font-weight:700;text-align:center">
-                            Average operator: Accepts prices<br>
-                            Elite operator: Negotiates EVERYTHING<br><br>
-                            Which one are you?
-                        </p>
-                    </div>
+                <div class="conclusion">
+                    <p class="lead">Every fixed expense is <span class="accent">negotiable</span>. But you have to ask.</p>
+                    <p class="sub">The average operator accepts prices. The elite operator negotiates everything. Which one are you?</p>
                 </div>
             </section>
 

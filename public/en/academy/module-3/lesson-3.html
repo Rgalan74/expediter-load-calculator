@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,53 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .callout {
-            padding: 1.5rem;
-            border-radius: .75rem;
-            margin: 2rem 0;
-            border-left: 4px solid
-        }
-
-        .callout.tip {
-            background: rgba(0, 217, 255, .1);
-            border-color: #00D9FF
-        }
-
-        .mockup {
-            background: rgba(20, 20, 20, .9);
-            border: 2px solid rgba(0, 217, 255, .3);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: .9rem
         }
 
         .btn {
@@ -179,7 +133,7 @@
         <div class="lesson-content">
 
             <section>
-                <h2>🗺️ WHAT IS THE ZONE HEAT MAP?</h2>
+                <h2>What is the Zone Heat Map?</h2>
                 <p><strong>It is your visual GPS for profitability.</strong></p>
                 <p>Instead of struggling to read massive tables and numbers, you INSTANTLY see:</p>
                 <ul>
@@ -192,190 +146,162 @@
             </section>
 
             <section>
-                <h2>📱 ACCESSING THE HEAT MAP</h2>
+                <h2>Accessing the Heat Map</h2>
 
-                <div class="mockup">
-                    Smart Load Solution<br>
-                    Home → Zones → Heat Map<br>
-                    <br>
-                    Display Options:<br>
-                    ○ Profit per Mile<br>
-                    ○ Average Wait Time<br>
-                    ○ Load Count<br>
-                    ○ Success Rate<br>
-                    ● Combined Score<br>
-                    <br>
-                    Time Period:<br>
-                    ○ Last 30 days<br>
-                    ○ Last 90 days<br>
-                    ● Last 6 months (highly recommended)<br>
-                    ○ All time
+                <div class="formula">Smart Load Solution<br>
+Home → Zones → Heat Map<br>
+<br>
+Display Options:<br>
+○ Profit per Mile<br>
+○ Average Wait Time<br>
+○ Load Count<br>
+○ Success Rate<br>
+● Combined Score<br>
+<br>
+Time Period:<br>
+○ Last 30 days<br>
+○ Last 90 days<br>
+● Last 6 months (highly recommended)<br>
+○ All time</div>
+            </section>
+
+            <section>
+                <h2>Interpreting the colors</h2>
+
+                <div class="compare-table">
+                    <div class="compare-title">View: Profit Per Mile</div>
+                    <div class="compare-row"><span class="label">🟢🟢 $1.60+/mi</span><span class="value">Your gold mines</span></div>
+                    <div class="compare-row"><span class="label">🟢 $1.40-1.60/mi</span><span class="value">Solid, reliable zones</span></div>
+                    <div class="compare-row"><span class="label">🟡 $1.20-1.40/mi</span><span class="value">Acceptable</span></div>
+                    <div class="compare-row"><span class="label">🟠 $1.00-1.20/mi</span><span class="value">Marginal at best</span></div>
+                    <div class="compare-row"><span class="label">🔴 &lt;$1.00/mi</span><span class="value">Avoid like the plague</span></div>
+                </div>
+
+                <div class="compare-table">
+                    <div class="compare-title">View: Average Wait Time</div>
+                    <div class="compare-row"><span class="label">🟢🟢 &lt;12 hrs</span><span class="value">Excellent velocity</span></div>
+                    <div class="compare-row"><span class="label">🟢 12-24 hrs</span><span class="value">Good velocity</span></div>
+                    <div class="compare-row"><span class="label">🟡 24-36 hrs</span><span class="value">Slow</span></div>
+                    <div class="compare-row"><span class="label">🟠 36-48 hrs</span><span class="value">Very slow</span></div>
+                    <div class="compare-row"><span class="label">🔴 &gt;48 hrs</span><span class="value">Straight up dead zone</span></div>
                 </div>
             </section>
 
             <section>
-                <h2>🎨 INTERPRETING THE COLORS</h2>
-
-                <h3>View: Profit Per Mile</h3>
-                <ul style="list-style:none;padding:0">
-                    <li style="background:rgba(100,200,100,.15);padding:.75rem;border-radius:.5rem;margin-bottom:.5rem">
-                        <strong>🟢🟢 Dark Green = $1.60+/mi</strong> (Your gold mines)
-                    </li>
-                    <li style="background:rgba(100,200,100,.1);padding:.75rem;border-radius:.5rem;margin-bottom:.5rem">
-                        <strong>🟢 Green = $1.40-1.60/mi</strong> (Solid, reliable zones)
-                    </li>
-                    <li style="background:rgba(255,215,0,.1);padding:.75rem;border-radius:.5rem;margin-bottom:.5rem">
-                        <strong>🟡 Yellow = $1.20-1.40/mi</strong> (Acceptable)
-                    </li>
-                    <li style="background:rgba(255,165,0,.1);padding:.75rem;border-radius:.5rem;margin-bottom:.5rem">
-                        <strong>🟠 Orange = $1.00-1.20/mi</strong> (Marginal at best)
-                    </li>
-                    <li style="background:rgba(255,107,53,.1);padding:.75rem;border-radius:.5rem">
-                        <strong>🔴 Red = &lt;$1.00 /mi</strong> (Avoid like the plague)
-                    </li>
-                </ul>
-
-                <h3 style="margin-top:2rem">View: Average Wait Time</h3>
-                <ul style="list-style:none;padding:0">
-                    <li style="background:rgba(100,200,100,.15);padding:.75rem;border-radius:.5rem;margin-bottom:.5rem">
-                        <strong>🟢🟢 &lt; 12 hrs</strong> - Excellent velocity
-                    </li>
-                    <li style="background:rgba(100,200,100,.1);padding:.75rem;border-radius:.5rem;margin-bottom:.5rem">
-                        <strong>🟢 12-24 hrs</strong> - Good velocity
-                    </li>
-                    <li style="background:rgba(255,215,0,.1);padding:.75rem;border-radius:.5rem;margin-bottom:.5rem">
-                        <strong>🟡 24-36 hrs</strong> - Slow
-                    </li>
-                    <li style="background:rgba(255,165,0,.1);padding:.75rem;border-radius:.5rem;margin-bottom:.5rem">
-                        <strong>🟠 36-48 hrs</strong> - Very slow
-                    </li>
-                    <li style="background:rgba(255,107,53,.1);padding:.75rem;border-radius:.5rem">
-                        <strong>🔴 &gt; 48 hrs</strong> - Straight up dead zone. Stay out.
-                    </li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>📊 THE COMBINED SCORE</h2>
+                <h2>The Combined Score</h2>
                 <p>This is where the real power lives: the "Combined Score" view.</p>
 
-                <div class="mockup">
-                    🗺️ ZONE HEAT MAP<br>
-                    View: Combined Score<br>
-                    ────────────────────────────────<br>
-                    The Combined Score factors in:<br>
-                    • Profit per mile (40% weight)<br>
-                    • Wait time (30% weight)<br>
-                    • Load availability (20% weight)<br>
-                    • Your success rate (10% weight)<br>
-                    <br>
-                    [INTERACTIVE MAP DISPLAY]<br>
-                    <br>
-                    Detroit Metro: ███████ 94/100 🟢<br>
-                    Chicago: ██████ 89/100 🟢<br>
-                    Atlanta: ██████ 91/100 🟢<br>
-                    Nashville: █████ 82/100 🟢<br>
-                    Indianapolis: █████ 80/100 🟡<br>
-                    Phoenix: ███ 58/100 🟡<br>
-                    El Paso: █ 22/100 🔴<br>
-                    Laredo: █ 18/100 🔴
-                </div>
+                <div class="formula">ZONE HEAT MAP<br>
+View: Combined Score<br>
+────────────────────────────────<br>
+The Combined Score factors in:<br>
+• Profit per mile (40% weight)<br>
+• Wait time (30% weight)<br>
+• Load availability (20% weight)<br>
+• Your success rate (10% weight)<br>
+<br>
+[INTERACTIVE MAP DISPLAY]<br>
+<br>
+Detroit Metro: ███████ 94/100 🟢<br>
+Chicago: ██████ 89/100 🟢<br>
+Atlanta: ██████ 91/100 🟢<br>
+Nashville: █████ 82/100 🟢<br>
+Indianapolis: █████ 80/100 🟡<br>
+Phoenix: ███ 58/100 🟡<br>
+El Paso: █ 22/100 🔴<br>
+Laredo: █ 18/100 🔴</div>
 
-                <p><strong>HOW TO USE THE SCORE:</strong></p>
+                <p><strong>How to use the score:</strong></p>
                 <ul>
                     <li>Score 80+: Build your core driving circuit around these.</li>
                     <li>Score 60-79: Perfectly fine for occasional visits.</li>
-                    <li>Score &lt; 60: Avoid utterly, unless there are extreme premium circumstances.</li>
+                    <li>Score &lt;60: Avoid utterly, unless there are extreme premium circumstances.</li>
                 </ul>
             </section>
 
             <section>
-                <h2>🔍 DRILLING DOWN: THE ZONE DETAILS</h2>
+                <h2>Drilling down: the zone details</h2>
                 <p>Just tap on any zone on the map to pull up the full breakdown:</p>
 
-                <div class="mockup">
-                    📍 DETROIT METRO DETAILED REPORT<br>
-                    Combined Score: 94/100 🟢🟢<br>
-                    <br>
-                    📊 YOUR PERFORMANCE HERE:<br>
-                    ├─ Loads completed: 24<br>
-                    ├─ Avg profit/mile: $1.72<br>
-                    ├─ Avg wait time: 9.2 hrs<br>
-                    ├─ Success rate: 96%<br>
-                    └─ Total net profit: $6,840<br>
-                    <br>
-                    ⏰ TIMING PATTERNS:<br>
-                    Best days: Mon-Wed (11 loads)<br>
-                    Slow days: Fri-Sun (3 loads)<br>
-                    Peak hours: 6am - 10am<br>
-                    <br>
-                    🎯 HOTTEST LANES OUT OF HERE:<br>
-                    1. Detroit → Chicago: $1.68/mi<br>
-                    2. Detroit → Atlanta: $1.65/mi<br>
-                    3. Detroit → Charlotte: $1.58/mi<br>
-                    <br>
-                    💡 YOUR BEST CONTACTS HERE:<br>
-                    • Broker: John @ XYZ (5 loads)<br>
-                    • Broker: Sarah @ ABC (4 loads)<br>
-                    <br>
-                    📅 NEXT RECOMMENDED VISIT:<br>
-                    Mon-Tue of next week<br>
-                    (Historical pattern: high volume of profitable loads)
-                </div>
+                <div class="formula">DETROIT METRO DETAILED REPORT<br>
+Combined Score: 94/100 🟢🟢<br>
+<br>
+YOUR PERFORMANCE HERE:<br>
+├─ Loads completed: 24<br>
+├─ Avg profit/mile: $1.72<br>
+├─ Avg wait time: 9.2 hrs<br>
+├─ Success rate: 96%<br>
+└─ Total net profit: $6,840<br>
+<br>
+TIMING PATTERNS:<br>
+Best days: Mon-Wed (11 loads)<br>
+Slow days: Fri-Sun (3 loads)<br>
+Peak hours: 6am - 10am<br>
+<br>
+HOTTEST LANES OUT OF HERE:<br>
+1. Detroit → Chicago: $1.68/mi<br>
+2. Detroit → Atlanta: $1.65/mi<br>
+3. Detroit → Charlotte: $1.58/mi<br>
+<br>
+YOUR BEST CONTACTS HERE:<br>
+• Broker: John @ XYZ (5 loads)<br>
+• Broker: Sarah @ ABC (4 loads)<br>
+<br>
+NEXT RECOMMENDED VISIT:<br>
+Mon-Tue of next week<br>
+(Historical pattern: high volume of profitable loads)</div>
 
                 <p><strong>This is PURE GOLD for planning your week.</strong></p>
             </section>
 
             <section>
-                <h2>🎯 BONUS FEATURE: THE ROUTE PLANNER</h2>
+                <h2>Bonus feature: the Route Planner</h2>
 
-                <div class="mockup">
-                    🛣️ SMART ROUTE PLANNER<br>
-                    Current location: Toledo, OH<br>
-                    <br>
-                    I want to:<br>
-                    ○ Find best zone within 200 mi<br>
-                    ● Plan profitable circuit<br>
-                    ○ Return home profitably<br>
-                    <br>
-                    [CALCULATE BEST ROUTE]<br>
-                    <br>
-                    📊 RECOMMENDED CIRCUIT:<br>
-                    <br>
-                    Toledo → Detroit (65 mi) 🟢🟢<br>
-                    ├─ Score: 94/100<br>
-                    ├─ Expected wait: 9 hrs<br>
-                    └─ Avg rate out: $1.65/mi<br>
-                    <br>
-                    Detroit → Chicago (280 mi) 🟢🟢<br>
-                    ├─ Score: 89/100<br>
-                    ├─ Expected wait: 12 hrs<br>
-                    └─ Avg rate out: $1.58/mi<br>
-                    <br>
-                    Chicago → Indianapolis (185 mi) 🟢<br>
-                    ├─ Score: 80/100<br>
-                    ├─ Expected wait: 18 hrs<br>
-                    └─ Avg rate out: $1.52/mi<br>
-                    <br>
-                    Indianapolis → Toledo (280 mi) 🟢<br>
-                    └─ Completing the circuit<br>
-                    <br>
-                    CIRCUIT SUMMARY:<br>
-                    ├─ Total miles: ~810 mi<br>
-                    ├─ Estimated days: 3-4 days<br>
-                    ├─ Projected net profit: $850-1,100<br>
-                    ├─ All zones score 80+<br>
-                    └─ High confidence route ✅
-                </div>
+                <div class="formula">SMART ROUTE PLANNER<br>
+Current location: Toledo, OH<br>
+<br>
+I want to:<br>
+○ Find best zone within 200 mi<br>
+● Plan profitable circuit<br>
+○ Return home profitably<br>
+<br>
+[CALCULATE BEST ROUTE]<br>
+<br>
+RECOMMENDED CIRCUIT:<br>
+<br>
+Toledo → Detroit (65 mi) 🟢🟢<br>
+├─ Score: 94/100<br>
+├─ Expected wait: 9 hrs<br>
+└─ Avg rate out: $1.65/mi<br>
+<br>
+Detroit → Chicago (280 mi) 🟢🟢<br>
+├─ Score: 89/100<br>
+├─ Expected wait: 12 hrs<br>
+└─ Avg rate out: $1.58/mi<br>
+<br>
+Chicago → Indianapolis (185 mi) 🟢<br>
+├─ Score: 80/100<br>
+├─ Expected wait: 18 hrs<br>
+└─ Avg rate out: $1.52/mi<br>
+<br>
+Indianapolis → Toledo (280 mi) 🟢<br>
+└─ Completing the circuit<br>
+<br>
+CIRCUIT SUMMARY:<br>
+├─ Total miles: ~810 mi<br>
+├─ Estimated days: 3-4 days<br>
+├─ Projected net profit: $850-1,100<br>
+├─ All zones score 80+<br>
+└─ High confidence route ✅</div>
             </section>
 
             <section>
-                <h2>🚨 THE ZONE ALERT PROTECTION</h2>
+                <h2>The Zone Alert protection</h2>
 
-                <div style="background:rgba(255,107,53,.1);padding:1.5rem;border-radius:.75rem;border:2px solid rgba(255,107,53,.3)">
-                    <p><strong>⚠️ ZONE ALERT NOTIFICATION</strong></p>
+                <div class="note warning">
+                    <span class="note-label">Zone alert</span>
                     <p>You're currently calculating a load to: <strong>El Paso, TX</strong></p>
-                    <p style="margin-top:1rem"><strong>🔴 WARNING: Historically low-performing zone</strong></p>
+                    <p><strong>WARNING: Historically low-performing zone 🔴</strong></p>
                     <p>Your personal history in El Paso:</p>
                     <ul>
                         <li>Loads taken: 2</li>
@@ -384,20 +310,18 @@
                         <li>Overall Zone score: 22/100</li>
                         <li>Last visit result: Lost $120</li>
                     </ul>
-                    <p style="margin-top:1rem"><strong>⚠️ OUR RECOMMENDATION:</strong><br>
-                        This load needs to pay you at least <strong>$2.00/mi</strong> just to compensate for the brutal wait time,
-                        expensive repositioning, and historically terrible backhaul rates.</p>
-                    <p>Broker offer right now: $1.30/mi ❌</p>
-                    <p><strong>Suggested counter-offer: Ask for $2.10/mi</strong></p>
+                    <p><strong>Our recommendation:</strong> This load needs to pay you at least <strong>$2.00/mi</strong> just to compensate for the brutal wait time, expensive repositioning, and historically terrible backhaul rates.</p>
+                    <p>Broker offer right now: $1.30/mi ❌<br>
+                        Suggested counter-offer: <strong>Ask for $2.10/mi</strong></p>
                 </div>
 
-                <p style="margin-top:1rem"><strong>The app acts like your personal dispatcher, refusing to let you repeat past mistakes.</strong></p>
+                <p><strong>The app acts like your personal dispatcher, refusing to let you repeat past mistakes.</strong></p>
             </section>
 
             <section>
-                <h2>🎯 PRO TRICKS TO MASTER THE HEAT MAP</h2>
+                <h2>Pro tricks to master the Heat Map</h2>
 
-                <h3>1. The 15-Minute Weekly Planning Session</h3>
+                <p><strong>1. The 15-minute weekly planning session</strong></p>
                 <p>Every Sunday, dedicate 15 minutes to planning. This small habit translates to roughly +$200-$400 more per week.</p>
                 <ul>
                     <li>Open up your Heat Map.</li>
@@ -407,7 +331,7 @@
                     <li>Track your performance against your plan.</li>
                 </ul>
 
-                <h3>2. The Seasonal Master Adjustment</h3>
+                <p><strong>2. The seasonal master adjustment</strong></p>
                 <p>Right before the start of every quarter (Q1, Q2, Q3, Q4):</p>
                 <ul>
                     <li>Change your view to "Last 3 months."</li>
@@ -415,37 +339,35 @@
                     <li>Adjust your driving circuit based on emerging patterns.</li>
                     <li>Update your primary target zones.</li>
                 </ul>
-                <p><strong>For Example:</strong><br>
+                <p><strong>For example:</strong><br>
                     Q4 → Add more Florida routes (the snowbirds are flocking south)<br>
                     Q2 → Heavily reduce Phoenix (summer is totally dead)</p>
 
-                <h3>3. The Broker Overlay Trick</h3>
+                <p><strong>3. The broker overlay trick</strong></p>
                 <p>Combine your Heat Map with your Broker Performance metrics:</p>
                 <p>"Show me zones where Broker John is highly active."</p>
                 <p><strong>Strategy:</strong> When you're sitting in Detroit or Chicago, you prioritize John's offers first.</p>
             </section>
 
             <section>
-                <h2>💡 THE KEY TAKEAWAY</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">The Heat Map is NOT just a pretty graph.<br>It is
-                        your #1 strategic weapon.</p>
-                    <p>What used to take you:</p>
-                    <ul style="text-align:left;max-width:400px;margin:1rem auto">
-                        <li>Complex, messy spreadsheets</li>
-                        <li>Trying to memorize dozens of past loads</li>
-                        <li>Blindly guessing at market patterns</li>
-                        <li>Weeks of financial analysis</li>
-                    </ul>
-                    <p style="margin-top:1rem">Now only takes you:</p>
-                    <ul style="text-align:left;max-width:400px;margin:1rem auto">
-                        <li>Exactly 30 seconds</li>
-                        <li>A visually obvious map</li>
-                        <li>Data updated in real-time</li>
-                        <li>Decisions based entirely on YOUR personal business data</li>
-                    </ul>
-                    <p style="margin-top:1.5rem;font-weight:700;color:#00D9FF">Use it WEEKLY. Your profits will naturally increase
-                        15-25% simply by positioning yourself better.</p>
+                <p><strong>What used to take you:</strong></p>
+                <ul>
+                    <li>Complex, messy spreadsheets</li>
+                    <li>Trying to memorize dozens of past loads</li>
+                    <li>Blindly guessing at market patterns</li>
+                    <li>Weeks of financial analysis</li>
+                </ul>
+                <p><strong>Now only takes you:</strong></p>
+                <ul>
+                    <li>Exactly 30 seconds</li>
+                    <li>A visually obvious map</li>
+                    <li>Data updated in real-time</li>
+                    <li>Decisions based entirely on YOUR personal business data</li>
+                </ul>
+
+                <div class="conclusion">
+                    <p class="lead">The Heat Map is NOT just a pretty graph. It is your <span class="accent">#1 strategic weapon</span>.</p>
+                    <p class="sub">Use it WEEKLY. Your profits will naturally increase 15-25% simply by positioning yourself better.</p>
                 </div>
             </section>
 

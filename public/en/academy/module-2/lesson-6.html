@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -36,65 +37,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: .75rem
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .callout {
-            padding: 1.5rem;
-            border-radius: .75rem;
-            margin: 2rem 0;
-            border-left: 4px solid
-        }
-
-        .callout.tip {
-            background: rgba(0, 217, 255, .1);
-            border-color: #00D9FF
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: rgba(20, 20, 20, .8);
-            border-radius: .75rem;
-            overflow: hidden
-        }
-
-        th,
-        td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        th {
-            background: rgba(0, 217, 255, .1);
-            color: #00D9FF;
-            font-weight: 700
         }
 
         .btn {
@@ -189,172 +131,131 @@
         <div class="lesson-content">
 
             <section>
-                <h2>🤖 WHAT IS LEX AI?</h2>
-                <p>Lex is the AI assistant built into Smart Load Solution. You'll find it as a chat icon inside the
-                    app. The difference from a generic chatbot: Lex doesn't improvise generic answers — it uses
-                    <strong>your real data</strong>: your calculated CPM, your historical average RPM, your target
-                    margin, your registered loads by state, and even the weather at your destination.</p>
-                <p>That means when you ask "should I take this load?", you don't get a generic industry opinion. You
-                    get an answer calculated against <strong>your</strong> cost structure and <strong>your</strong>
-                    history.</p>
+                <h2>What is Lex AI?</h2>
+                <p>Lex is the AI assistant built into Smart Load Solution. You'll find it as a chat icon inside the app. The difference from a generic chatbot: Lex doesn't improvise generic answers — it uses <strong>your real data</strong>: your calculated CPM, your historical average RPM, your target margin, your registered loads by state, and even the weather at your destination.</p>
+                <p>That means when you ask "should I take this load?", you don't get a generic industry opinion. You get an answer calculated against <strong>your</strong> cost structure and <strong>your</strong> history.</p>
             </section>
 
             <section>
-                <h2>💬 WHAT TO ASK IT</h2>
+                <h2>What to ask it</h2>
 
-                <h3>1. About the load on your screen</h3>
+                <p><strong>1. About the load on your screen</strong></p>
                 <p>If you already entered the data in the Calculator, you don't need to repeat it to Lex. Just ask:</p>
                 <ul>
                     <li>"should I take it?"</li>
                     <li>"what do you think of this load?"</li>
                     <li>"analyze it"</li>
                 </ul>
-                <p>Lex already knows the route, miles, rate, and RPM you have on the panel — it answers about
-                    <strong>that</strong> load automatically.</p>
+                <p>Lex already knows the route, miles, rate, and RPM you have on the panel — it answers about <strong>that</strong> load automatically.</p>
 
-                <h3>2. Pasting raw load board text</h3>
-                <p>Copy the text exactly as it appears on the load board or in the broker's message (with price,
-                    miles, and cities) and paste it into the chat. Lex parses it and can fill the Calculator for you
-                    — no manual transcribing.</p>
+                <p><strong>2. Pasting raw load board text</strong></p>
+                <p>Copy the text exactly as it appears on the load board or in the broker's message (with price, miles, and cities) and paste it into the chat. Lex parses it and can fill the Calculator for you — no manual transcribing.</p>
 
-                <h3>3. About a state or lane</h3>
+                <p><strong>3. About a state or lane</strong></p>
                 <ul>
                     <li>"how has Ohio worked out for me?"</li>
                     <li>"is Chicago worth it for me?"</li>
                 </ul>
-                <p>It answers using data from <strong>your</strong> past loads in that zone, not generic industry
-                    averages.</p>
+                <p>It answers using data from <strong>your</strong> past loads in that zone, not generic industry averages.</p>
 
-                <h3>4. About your finances this month</h3>
+                <p><strong>4. About your finances this month</strong></p>
                 <ul>
                     <li>"how am I doing this month?"</li>
                     <li>"compare me to last month"</li>
                 </ul>
 
-                <h3>5. To save operational experience</h3>
+                <p><strong>5. To save operational experience</strong></p>
                 <p>You can tell it something like:</p>
                 <ul>
                     <li>"save a note for Ohio: brokers pay late, negotiate before accepting"</li>
                 </ul>
-                <p>That note gets attached to that state, and Lex will automatically bring it up next time you
-                    analyze a load heading there.</p>
+                <p>That note gets attached to that state, and Lex will automatically bring it up next time you analyze a load heading there.</p>
             </section>
 
             <section>
-                <h2>🧠 HOW TO READ ITS ANSWERS</h2>
+                <h2>How to read its answers</h2>
                 <p>When Lex analyzes a load, it ends its answer with one of four verdicts:</p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Verdict</th>
-                            <th>What it means</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>ACCEPT</strong></td>
-                            <td>RPM at or above your acceptance threshold (CPM + target margin)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>ALMOST ACCEPT</strong></td>
-                            <td>Close to your threshold — worth trying to negotiate a bit more</td>
-                        </tr>
-                        <tr>
-                            <td><strong>EVALUATE CAREFULLY</strong></td>
-                            <td>Above your cost but with a thin margin — depends on your context (pending deadhead,
-                                urgency, etc.)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>REJECT</strong></td>
-                            <td>RPM below your real CPM — you'd be losing money</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p>Before giving you the verdict, Lex shows the numbers it used (RPM, cost, profit) so you can verify
-                    the calculation yourself — it's not a black box.</p>
-                <div class="callout tip">
-                    <p style="margin:0"><strong>TIP:</strong> if the load is heading into snow, ice, or a
-                        thunderstorm, Lex will flag it directly in its answer — it factors destination weather into
-                        the analysis.</p>
+
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Accept</span><span class="value accent">RPM at or above your acceptance threshold</span></div>
+                    <div class="compare-row"><span class="label">Almost accept</span><span class="value">Close to your threshold — worth negotiating a bit more</span></div>
+                    <div class="compare-row"><span class="label">Evaluate carefully</span><span class="value">Above your cost but with a thin margin</span></div>
+                    <div class="compare-row"><span class="label">Reject</span><span class="value">RPM below your real CPM — you'd be losing money</span></div>
+                </div>
+
+                <p>Before giving you the verdict, Lex shows the numbers it used (RPM, cost, profit) so you can verify the calculation yourself — it's not a black box.</p>
+
+                <div class="note tip">
+                    <span class="note-label">Tip</span>
+                    <p>If the load is heading into snow, ice, or a thunderstorm, Lex will flag it directly in its answer — it factors destination weather into the analysis.</p>
                 </div>
             </section>
 
             <section>
-                <h2>🎯 3 REAL CASES</h2>
+                <h2>3 real cases</h2>
 
-                <h3>Case 1: "Lex, should I take this load?"</h3>
-                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>Situation:</strong> You have a Detroit → Nashville load loaded in the Calculator:
-                        $900, 550 miles.</p>
+                <div class="note tip">
+                    <span class="note-label">Case 1: "Lex, should I take this load?"</span>
+                    <p><strong>Situation:</strong> You have a Detroit → Nashville load loaded in the Calculator: $900, 550 miles.</p>
                     <p><strong>You:</strong> "should I take it?"</p>
-                    <p><strong>Lex:</strong> "RPM: $1.59/mi. Your real CPM is $1.10/mi, so your profit is $296 (33%
-                        margin). That's above your acceptance threshold of $1.35/mi. <strong>ACCEPT</strong>."</p>
+                    <p><strong>Lex:</strong> "RPM: $1.59/mi. Your real CPM is $1.10/mi, so your profit is $296 (33% margin). That's above your acceptance threshold of $1.35/mi. <strong>ACCEPT</strong>."</p>
                 </div>
 
-                <h3>Case 2: Load pasted from the board</h3>
-                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>Situation:</strong> The broker texts you: "Nashville, TN to Laredo, TX – $1,400 –
-                        1240 miles".</p>
+                <div class="note tip">
+                    <span class="note-label">Case 2: load pasted from the board</span>
+                    <p><strong>Situation:</strong> The broker texts you: "Nashville, TN to Laredo, TX – $1,400 – 1240 miles".</p>
                     <p><strong>You:</strong> paste that exact text into Lex's chat.</p>
-                    <p><strong>Lex:</strong> detects route, rate, and miles, fills the Calculator automatically, and
-                        gives you the analysis: "RPM: $1.13/mi. With your CPM of $1.10/mi the margin is only 7% ($98
-                        profit). <strong>EVALUATE CAREFULLY</strong> — I'd suggest countering at $1,550."</p>
+                    <p><strong>Lex:</strong> detects route, rate, and miles, fills the Calculator automatically, and gives you the analysis: "RPM: $1.13/mi. With your CPM of $1.10/mi the margin is only 7% ($98 profit). <strong>EVALUATE CAREFULLY</strong> — I'd suggest countering at $1,550."</p>
                 </div>
 
-                <h3>Case 3: Decision with saved notes</h3>
-                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>Situation:</strong> Weeks ago you saved: "save a note for Ohio: brokers pay late,
-                        negotiate before accepting". Now you're offered a load heading to Ohio.</p>
+                <div class="note tip">
+                    <span class="note-label">Case 3: decision with saved notes</span>
+                    <p><strong>Situation:</strong> Weeks ago you saved: "save a note for Ohio: brokers pay late, negotiate before accepting". Now you're offered a load heading to Ohio.</p>
                     <p><strong>You:</strong> "what do you think of this load to Ohio?"</p>
-                    <p><strong>Lex:</strong> analyzes the RPM as usual, but also reminds you: "Note: in your past
-                        experience in Ohio, brokers have paid late — negotiate payment terms before accepting."</p>
+                    <p><strong>Lex:</strong> analyzes the RPM as usual, but also reminds you: "Note: in your past experience in Ohio, brokers have paid late — negotiate payment terms before accepting."</p>
                 </div>
             </section>
 
             <section>
-                <h2>⚠️ LIMITS TO KEEP IN MIND</h2>
+                <h2>Limits to keep in mind</h2>
                 <ul>
-                    <li>Lex has a daily message limit — use it for decisions that actually need it, not for
-                        purposeless chat.</li>
-                    <li>Its financial answers depend on you having loads and expenses logged in the app — if you
-                        don't enter data, it has nothing real to pull your context from.</li>
-                    <li>Lex helps you decide faster, it doesn't replace your judgment. The final call is always
-                        yours.</li>
+                    <li>Lex has a daily message limit — use it for decisions that actually need it, not for purposeless chat.</li>
+                    <li>Its financial answers depend on you having loads and expenses logged in the app — if you don't enter data, it has nothing real to pull your context from.</li>
+                    <li>Lex helps you decide faster, it doesn't replace your judgment. The final call is always yours.</li>
                 </ul>
             </section>
 
             <section>
-                <h2>💡 MODULE 2 WRAP-UP</h2>
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;">
-                    <p style="font-size:1.25rem;font-weight:700;text-align:center;margin-bottom:1.5rem">🎓 You have
-                        successfully completed Module 2!</p>
+                <div class="conclusion">
+                    <p class="lead">You have successfully completed <span class="accent">Module 2</span>.</p>
+                    <p class="sub">You now command the Calculator, deadhead thinking, the accept/negotiate/decline framework, and have Lex AI as your copilot.</p>
+                </div>
 
-                    <p><strong>What you just mastered:</strong></p>
-                    <ul>
-                        <li>✅ Basic and Advanced load calculations</li>
-                        <li>✅ Repositioning vs Loaded miles (thinking in total round-trips)</li>
-                        <li>✅ The Accept/Negotiate/Decline decision framework</li>
-                        <li>✅ Dodging the most common, costly data entry errors</li>
-                        <li>✅ Learning from Carlos's real-world breakthrough</li>
-                        <li>✅ Lex AI as your decision copilot</li>
-                    </ul>
+                <p><strong>What you just mastered:</strong></p>
+                <div class="checklist">
+                    <span class="checklist-label">Mastered</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Basic and advanced load calculations</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Repositioning vs loaded miles (thinking in total round-trips)</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">The Accept/Negotiate/Decline decision framework</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Dodging the most common, costly data entry errors</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Learning from Carlos's real-world breakthrough</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Lex AI as your decision copilot</span></div>
+                </div>
 
-                    <p style="margin-top:1.5rem"><strong>Your New Superpowers:</strong></p>
-                    <ul>
-                        <li>✅ Evaluating complex loads in under 30 seconds</li>
-                        <li>✅ Operating with 99% financial accuracy</li>
-                        <li>✅ Spotting phantom profits BEFORE you sign a rate con</li>
-                        <li>✅ Negotiating like an absolute pro, backed by real math</li>
-                        <li>✅ Protecting $200-$500 per load from stupid mistakes</li>
-                        <li>✅ Asking Lex before deciding on borderline loads</li>
-                    </ul>
+                <p><strong>Your new superpowers:</strong></p>
+                <div class="checklist">
+                    <span class="checklist-label">Superpowers</span>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Evaluating complex loads in under 30 seconds</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Operating with 99% financial accuracy</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Spotting phantom profits BEFORE you sign a rate con</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Negotiating like an absolute pro, backed by real math</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Protecting $200-$500 per load from stupid mistakes</span></div>
+                    <div class="checklist-item"><span class="box"></span><span class="text">Asking Lex before deciding on borderline loads</span></div>
+                </div>
 
-                    <div style="background:rgba(0,0,0,.3);padding:1rem;border-radius:.5rem;margin-top:1.5rem;text-align:center">
-                        <p style="margin:0;font-weight:700">Progress: 40% of the entire course complete</p>
-                        <div style="background:rgba(255,255,255,.1);height:12px;border-radius:1rem;margin-top:.5rem;overflow:hidden">
-                            <div style="background:linear-gradient(90deg,#00D9FF,#FF6B35);height:100%;width:40%"></div>
-                        </div>
-                    </div>
+                <div class="pull-number">
+                    <div class="value">40%</div>
+                    <p class="context">of the entire course complete.</p>
                 </div>
             </section>
 

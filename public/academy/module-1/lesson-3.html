@@ -5,8 +5,10 @@
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/academy.css">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -42,62 +44,6 @@
             font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem
-        }
-
-        .lesson-content h2 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: #fff
-        }
-
-        .lesson-content p {
-            margin-bottom: 1.5rem;
-            color: #d0d0d0
-        }
-
-        .lesson-content ul {
-            margin-bottom: 1.5rem;
-            padding-left: 1.5rem
-        }
-
-        .callout {
-            padding: 1.5rem;
-            border-radius: .75rem;
-            margin: 2rem 0;
-            border-left: 4px solid
-        }
-
-        .callout.tip {
-            background: rgba(0, 217, 255, .1);
-            border-color: #00D9FF
-        }
-
-        .callout.warning {
-            background: rgba(255, 107, 53, .1);
-            border-color: #FF6B35
-        }
-
-        .callout strong {
-            display: block;
-            margin-bottom: .5rem;
-            font-size: 1.1rem
-        }
-
-        pre {
-            background: rgba(255, 255, 255, .05);
-            padding: 1.5rem;
-            border-radius: .75rem;
-            margin: 2rem 0;
-            border: 1px solid rgba(255, 255, 255, .1);
-            overflow-x: auto
-        }
-
-        code {
-            font-family: 'Courier New', monospace;
-            font-size: .9rem;
-            color: #00D9FF
         }
 
         .btn {
@@ -193,22 +139,19 @@
         <div class="lesson-content">
 
             <section>
-                <h2>🎯 ¿QUÉ ES BREAK-EVEN?</h2>
+                <h2>¿Qué es break-even?</h2>
 
-                <div style="background:rgba(20,20,20,.8);padding:2rem;border-radius:.75rem;text-align:center;margin:2rem 0">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">Break-even RPM = El mínimo absoluto
-                        que necesitas ganar por milla para NO PERDER dinero</p>
-                    <ul style="text-align:left;margin-top:1.5rem;list-style:none">
-                        <li>❌ Por debajo de break-even = <strong style="color:#FF6B35">PIERDES dinero</strong></li>
-                        <li>⚠️ En break-even = No ganas, no pierdes (trabajas gratis)</li>
-                        <li>✅ Sobre break-even = <strong style="color:#64C864">GANAS dinero real</strong></li>
-                    </ul>
-                </div>
+                <p><strong>Break-even RPM</strong> = el mínimo absoluto que necesitas ganar por milla para NO PERDER dinero.</p>
+                <ul>
+                    <li>❌ Por debajo de break-even = <strong>PIERDES dinero</strong></li>
+                    <li>⚠️ En break-even = No ganas, no pierdes (trabajas gratis)</li>
+                    <li>✅ Sobre break-even = <strong>GANAS dinero real</strong></li>
+                </ul>
             </section>
 
             <section>
-                <h2>📐 LA FÓRMULA</h2>
-                <pre><code>Break-Even RPM = Costo Fijo/Milla + Costo Variable/Milla</code></pre>
+                <h2>La fórmula</h2>
+                <div class="formula">Break-Even RPM = Costo Fijo/Milla + Costo Variable/Milla</div>
                 <p>Esto te vino de la Lección 2:</p>
                 <ul>
                     <li><strong>Costo Fijo/Milla</strong> → Lo calculaste en PASO 3</li>
@@ -217,173 +160,136 @@
             </section>
 
             <section>
-                <h2>📊 EJEMPLO COMPLETO PASO A PASO</h2>
+                <h2>Ejemplo completo paso a paso</h2>
 
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>PASO 1: Calcula Costos Fijos Mensuales</strong></p>
-                    <ul>
-                        <li>Pago de van: $1,500</li>
-                        <li>Seguro: $900 ($10,800/año ÷ 12)</li>
-                        <li>Licencias/permisos: $125 ($1,500/año ÷ 12)</li>
-                        <li>Celular + apps: $115</li>
-                        <li><strong>TOTAL COSTOS FIJOS: $2,740/mes</strong></li>
-                    </ul>
+                <p><strong>Paso 1: Calcula costos fijos mensuales</strong></p>
+                <ul>
+                    <li>Pago de van: $1,500</li>
+                    <li>Seguro: $900 ($10,800/año ÷ 12)</li>
+                    <li>Licencias/permisos: $125 ($1,500/año ÷ 12)</li>
+                    <li>Celular + apps: $115</li>
+                    <li><strong>Total costos fijos: $2,740/mes</strong></li>
+                </ul>
 
-                    <p style="margin-top:1.5rem"><strong>PASO 2: Estima Tus Millas Mensuales</strong></p>
-                    <p>Promedio realista: <strong>8,000 millas/mes</strong></p>
+                <p><strong>Paso 2: Estima tus millas mensuales</strong></p>
+                <p>Promedio realista: <strong>8,000 millas/mes</strong></p>
 
-                    <p style="margin-top:1.5rem"><strong>PASO 3: Calcula Costo Fijo por Milla</strong></p>
-                    <pre><code>$2,740 ÷ 8,000 millas = $0.34/milla</code></pre>
+                <p><strong>Paso 3: Calcula costo fijo por milla</strong></p>
+                <div class="formula">$2,740 ÷ 8,000 millas = $0.34/milla</div>
 
-                    <p style="margin-top:1.5rem"><strong>PASO 4: Suma Costos Variables</strong></p>
-                    <ul>
-                        <li>Combustible: $0.39/milla</li>
-                        <li>DEF: $0.04/milla</li>
-                        <li>Mantenimiento: $0.10/milla</li>
-                        <li>Llantas: $0.03/milla</li>
-                        <li>Tolls/parking: $0.04/milla</li>
-                        <li><strong>TOTAL VARIABLE: $0.60/milla</strong></li>
-                    </ul>
+                <p><strong>Paso 4: Suma costos variables</strong></p>
+                <ul>
+                    <li>Combustible: $0.39/milla</li>
+                    <li>DEF: $0.04/milla</li>
+                    <li>Mantenimiento: $0.10/milla</li>
+                    <li>Llantas: $0.03/milla</li>
+                    <li>Tolls/parking: $0.04/milla</li>
+                    <li><strong>Total variable: $0.60/milla</strong></li>
+                </ul>
 
-                    <div style="background:linear-gradient(135deg,rgba(0,217,255,.2),rgba(255,107,53,.2));padding:1.5rem;border-radius:.75rem;text-align:center;margin-top:1.5rem">
-                        <p style="font-size:1.1rem"><strong>PASO 5: Break-Even RPM</strong></p>
-                        <p style="font-size:2rem;font-weight:900;color:#00D9FF;margin-top:.5rem">$0.34 + $0.60 =
-                            $0.94/milla</p>
-                    </div>
+                <div class="pull-number">
+                    <div class="value">$0.94</div>
+                    <p class="context">Break-Even RPM: $0.34 (costo fijo) + $0.60 (costo variable) = $0.94/milla.</p>
                 </div>
             </section>
 
             <section>
-                <h2>📌 ¿QUÉ SIGNIFICA ESTE NÚMERO?</h2>
+                <h2>¿Qué significa este número?</h2>
 
-                <div class="callout warning">
-                    <strong>Cualquier load por DEBAJO de $0.94/milla literalmente te hace PERDER dinero</strong>
-
-                    <p style="margin-top:1rem"><strong>Ejemplos:</strong></p>
+                <div class="note warning">
+                    <span class="note-label">Cualquier load por debajo de $0.94/milla te hace perder dinero</span>
                     <ul>
-                        <li>Load a $0.85/milla: Pierdes $0.09/milla → En 500 millas = <strong>-$45 de pérdida</strong>
-                        </li>
+                        <li>Load a $0.85/milla: Pierdes $0.09/milla → En 500 millas = <strong>-$45 de pérdida</strong></li>
                         <li>Load a $0.94/milla: Ganancia $0 → Cubriste costos pero trabajaste GRATIS</li>
-                        <li>Load a $1.20/milla: Ganancia $0.26/milla → En 500 millas = <strong>$130 de profit
-                                real</strong></li>
+                        <li>Load a $1.20/milla: Ganancia $0.26/milla → En 500 millas = <strong>$130 de profit real</strong></li>
                     </ul>
                 </div>
             </section>
 
             <section>
-                <h2>🚨 LA TRAMPA DEL "ALGO ES MEJOR QUE NADA"</h2>
+                <h2>La trampa del "algo es mejor que nada"</h2>
 
-                <div style="background:rgba(255,107,53,.15);padding:2rem;border-radius:.75rem">
-                    <p style="font-weight:700;margin-bottom:1rem">Pensamiento común:</p>
-                    <p style="font-style:italic">"No tengo nada, este load paga $0.80/milla, al menos es algo..."</p>
+                <p><strong>Pensamiento común:</strong> "No tengo nada, este load paga $0.80/milla, al menos es algo..."</p>
 
-                    <p style="margin-top:1.5rem;font-weight:700;color:#FF6B35">❌ ERROR</p>
-
-                    <p style="margin-top:1rem">Si tu break-even es $0.94/milla:</p>
+                <div class="note warning">
+                    <span class="note-label">Error</span>
+                    <p>Si tu break-even es $0.94/milla:</p>
                     <ul>
                         <li>Load de $0.80/milla</li>
                         <li>Pierdes $0.14/milla</li>
                         <li>En 600 millas = <strong>-$84</strong></li>
                     </ul>
-
-                    <p style="margin-top:1rem;font-weight:700">Literalmente pagaste $84 de tu bolsillo para "trabajar"
-                        ese día</p>
-
-                    <p style="margin-top:1.5rem"><strong>MEJOR OPCIÓN:</strong> Esperar un load rentable o
-                        reposicionarte a mejor zona</p>
+                    <p>Literalmente pagaste $84 de tu bolsillo para "trabajar" ese día.</p>
                 </div>
+
+                <p><strong>Mejor opción:</strong> esperar un load rentable o reposicionarte a mejor zona.</p>
             </section>
 
             <section>
-                <h2>💡 PERO ESPERA... BREAK-EVEN NO ES TU TARGET</h2>
+                <h2>Pero espera... break-even no es tu target</h2>
 
-                <p>Break-even es tu MÍNIMO ABSOLUTO de supervivencia. Tu target REAL debe ser:</p>
+                <p>Break-even es tu mínimo absoluto de supervivencia. Tu target real debe ser:</p>
 
-                <pre><code>TARGET RPM = Break-Even × 1.30 a 1.40</code></pre>
+                <div class="formula">TARGET RPM = Break-Even × 1.30 a 1.40</div>
 
                 <p>Si tu break-even es $0.94:</p>
-                <ul>
-                    <li>Target mínimo: $0.94 × 1.30 = <strong style="color:#00D9FF">$1.22/milla</strong></li>
-                    <li>Target ideal: $0.94 × 1.40 = <strong style="color:#64C864">$1.32/milla</strong></li>
-                </ul>
+                <div class="compare-table">
+                    <div class="compare-row"><span class="label">Target mínimo ($0.94 × 1.30)</span><span class="value">$1.22/milla</span></div>
+                    <div class="compare-row"><span class="label">Target ideal ($0.94 × 1.40)</span><span class="value accent">$1.32/milla</span></div>
+                </div>
 
-                <div class="callout tip">
-                    <strong>¿Por qué este margen extra?</strong>
+                <div class="note tip">
+                    <span class="note-label">¿Por qué este margen extra?</span>
                     <p>El 30-40% sobre break-even te da:</p>
                     <ul>
-                        <li>✅ Profit REAL (no solo cubrir costos)</li>
-                        <li>✅ Cushion para meses lentos</li>
-                        <li>✅ Fondos para emergencias</li>
-                        <li>✅ Dinero para crecer el negocio</li>
-                        <li>✅ Pago para TI (no solo para el negocio)</li>
+                        <li>Profit real (no solo cubrir costos)</li>
+                        <li>Cushion para meses lentos</li>
+                        <li>Fondos para emergencias</li>
+                        <li>Dinero para crecer el negocio</li>
+                        <li>Pago para ti (no solo para el negocio)</li>
                     </ul>
                 </div>
             </section>
 
             <section>
-                <h2>📊 IMPACTO DE MILLAS MENSUALES EN BREAK-EVEN</h2>
+                <h2>Impacto de millas mensuales en break-even</h2>
 
                 <p>Costos fijos: $2,740/mes | Costos variables: $0.60/milla</p>
 
-                <div style="background:rgba(20,20,20,.8);padding:1.5rem;border-radius:.75rem;margin:2rem 0">
-                    <p><strong>Si haces 6,000 millas/mes:</strong></p>
-                    <p>Costo fijo/milla: $2,740 ÷ 6,000 = $0.46</p>
-                    <p style="color:#FF6B35"><strong>Break-even: $0.46 + $0.60 = $1.06/milla ⚠️</strong></p>
-
-                    <p style="margin-top:1.5rem"><strong>Si haces 8,000 millas/mes:</strong></p>
-                    <p>Costo fijo/milla: $2,740 ÷ 8,000 = $0.34</p>
-                    <p style="color:#00D9FF"><strong>Break-even: $0.34 + $0.60 = $0.94/milla ✅</strong></p>
-
-                    <p style="margin-top:1.5rem"><strong>Si haces 10,000 millas/mes:</strong></p>
-                    <p>Costo fijo/milla: $2,740 ÷ 10,000 = $0.27</p>
-                    <p style="color:#64C864"><strong>Break-even: $0.27 + $0.60 = $0.87/milla ✅✅</strong></p>
+                <div class="compare-table">
+                    <div class="compare-title">Break-even según millas mensuales</div>
+                    <div class="compare-row"><span class="label">6,000 millas/mes ($0.46 fijo/milla)</span><span class="value">$1.06/milla</span></div>
+                    <div class="compare-row"><span class="label">8,000 millas/mes ($0.34 fijo/milla)</span><span class="value">$0.94/milla</span></div>
+                    <div class="compare-row"><span class="label">10,000 millas/mes ($0.27 fijo/milla)</span><span class="value accent">$0.87/milla</span></div>
                 </div>
 
-                <div class="callout tip">
-                    <strong>CONCLUSIÓN:</strong>
+                <div class="note tip">
+                    <span class="note-label">Conclusión</span>
                     <p>Más millas rentables = menor break-even por milla. Esto te hace más competitivo en pricing.</p>
-                    <p style="margin-top:.5rem"><strong>PERO:</strong> Solo si esas millas extras son SOBRE tu
-                        break-even. No tiene sentido hacer 10,000 millas a $0.80/milla.</p>
+                    <p><strong>Pero:</strong> solo si esas millas extras son sobre tu break-even. No tiene sentido hacer 10,000 millas a $0.80/milla.</p>
                 </div>
             </section>
 
             <section>
-                <h2>✏️ CALCULA TU BREAK-EVEN PERSONAL</h2>
+                <h2>Calcula tu break-even personal</h2>
 
-                <div style="background:rgba(255,255,255,.05);padding:1.5rem;border-radius:.75rem">
-                    <p><strong>PASO 1: Costos Fijos Mensuales</strong></p>
-                    <ul>
-                        <li>Pago de van: $_________</li>
-                        <li>Seguro (mensual): $_________</li>
-                        <li>Licencias (÷12 si anual): $_________</li>
-                        <li>Tecnología/apps: $_________</li>
-                        <li>Otros fijos: $_________</li>
-                        <li><strong>TOTAL: $_________ (A)</strong></li>
-                    </ul>
-
-                    <p style="margin-top:1.5rem"><strong>PASO 2: Millas Mensuales Realistas</strong></p>
-                    <p>Promedio mensual: _________ (B)</p>
-
-                    <p style="margin-top:1.5rem"><strong>PASO 3: Costo Fijo por Milla</strong></p>
-                    <p>(A) ÷ (B) = <strong>$_________ (C)</strong></p>
-
-                    <p style="margin-top:1.5rem"><strong>PASO 4: Costo Variable (de Lección 2)</strong></p>
-                    <p>Total variable: <strong>$_________ (D)</strong></p>
-
-                    <div style="background:linear-gradient(135deg,rgba(0,217,255,.2),rgba(255,107,53,.2));padding:1.5rem;border-radius:.75rem;text-align:center;margin-top:1.5rem">
-                        <p style="font-size:1.1rem"><strong>PASO 5: TU BREAK-EVEN RPM</strong></p>
-                        <p style="font-size:1.8rem;font-weight:900;color:#00D9FF">(C) + (D) = $_________/milla</p>
-                    </div>
-
-                    <p style="margin-top:1.5rem"><strong>PASO 6: TU TARGET MÍNIMO (Break-even × 1.30)</strong></p>
-                    <p>Break-even × 1.30 = <strong style="color:#00D9FF">$_________/milla</strong></p>
-
-                    <p style="margin-top:1rem"><strong>PASO 7: TU TARGET IDEAL (Break-even × 1.40)</strong></p>
-                    <p>Break-even × 1.40 = <strong style="color:#64C864">$_________/milla</strong></p>
+                <div class="worksheet">
+                    <div class="worksheet-row"><span class="label">Pago de van</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Seguro (mensual)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Licencias (÷12 si anual)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Tecnología/apps</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Otros fijos</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Total costos fijos (A)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Millas mensuales realistas (B)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Costo fijo por milla: (A) ÷ (B) (C)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Costo variable, de Lección 2 (D)</span><span class="line"></span></div>
+                    <div class="worksheet-row highlight"><span class="label">Tu Break-Even RPM: (C) + (D)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Tu target mínimo (Break-even × 1.30)</span><span class="line"></span></div>
+                    <div class="worksheet-row"><span class="label">Tu target ideal (Break-even × 1.40)</span><span class="line"></span></div>
                 </div>
 
-                <div class="callout warning">
-                    <strong>🚨 GUARDA ESTOS NÚMEROS EN UN LUGAR VISIBLE</strong>
+                <div class="note warning">
+                    <span class="note-label">Guarda estos números en un lugar visible</span>
                     <ul>
                         <li>En tu teléfono</li>
                         <li>En Smart Load Solution (la app los guarda automáticamente)</li>
@@ -393,7 +299,7 @@
             </section>
 
             <section>
-                <h2>📱 CÓMO USA SMART LOAD SOLUTION TU BREAK-EVEN</h2>
+                <h2>Cómo usa Smart Load Solution tu break-even</h2>
 
                 <ol>
                     <li><strong>Ingresas tu break-even una vez en Settings</strong></li>
@@ -403,9 +309,9 @@
                             <li>Compara vs tu break-even</li>
                             <li>Te muestra:
                                 <ul>
-                                    <li>✅ VERDE: Sobre target (acepta)</li>
-                                    <li>⚠️ AMARILLO: Sobre break-even pero bajo target (negocia)</li>
-                                    <li>❌ ROJO: Bajo break-even (rechaza)</li>
+                                    <li>✅ Verde: Sobre target (acepta)</li>
+                                    <li>⚠️ Amarillo: Sobre break-even pero bajo target (negocia)</li>
+                                    <li>❌ Rojo: Bajo break-even (rechaza)</li>
                                 </ul>
                             </li>
                         </ul>
@@ -421,18 +327,9 @@
             </section>
 
             <section>
-                <h2>💡 CONCLUSIÓN CLAVE</h2>
-
-                <div style="background:linear-gradient(135deg,rgba(0,217,255,.1),rgba(255,107,53,.1));padding:2rem;border-radius:.75rem;text-align:center">
-                    <p style="font-size:1.25rem;font-weight:700;margin-bottom:1rem">Tu break-even es tu "línea de vida"
-                    </p>
-                    <ul style="text-align:left;margin-top:1rem;list-style:none">
-                        <li>❌ Por debajo = pierdes dinero (aunque te paguen)</li>
-                        <li>⚠️ En break-even = trabajas gratis</li>
-                        <li>✅ Sobre break-even = finalmente ganas</li>
-                    </ul>
-                    <p style="margin-top:1.5rem;font-size:1.1rem;font-weight:700;color:#00D9FF">TARGET: Break-even +
-                        30-40% mínimo</p>
+                <div class="conclusion">
+                    <p class="lead">Tu break-even es tu <span class="accent">"línea de vida"</span>.</p>
+                    <p class="sub">Por debajo, pierdes dinero aunque te paguen. En break-even, trabajas gratis. Sobre break-even, finalmente ganas. Target: break-even + 30-40% mínimo.</p>
                 </div>
             </section>
 
