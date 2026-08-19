@@ -296,8 +296,12 @@
             });
         }
 
+        let routingInitialized = false;
         function initRouting() {
-            window.addEventListener('popstate', renderFromUrl);
+            if (!routingInitialized) {
+                routingInitialized = true;
+                window.addEventListener('popstate', renderFromUrl);
+            }
             renderFromUrl();
         }
 
