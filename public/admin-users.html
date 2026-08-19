@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Control — SmartLoad Solution</title>
+    <meta name="robots" content="noindex, nofollow" />
+
+    <!-- Tus estilos del design system -->
+    <link rel="stylesheet" href="./css/design-system.css">
+    <link rel="stylesheet" href="./css/theme-tokens.css">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0b1020;
+            --bg-2: #131a2e;
+            --glass: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --text: #e6ecff;
+            --muted: #93a0c0;
+            --purple: #8b5cf6;
+            --green: #22c55e;
+            --amber: #f59e0b;
+            --red: #ef4444;
+            --blue: #3b82f6;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+            background: radial-gradient(1200px 600px at 80% -10%, #1b2550 0%, var(--bg) 55%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .wrap { max-width: 1280px; margin: 0 auto; }
+
+        header.top {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 16px; margin-bottom: 20px; flex-wrap: wrap;
+        }
+        header.top h1 { font-size: 1.6rem; display: flex; align-items: center; gap: 10px; }
+        .sub { color: var(--muted); font-size: .9rem; }
+
+        .toolbar {
+            display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+            background: var(--glass); border: 1px solid var(--glass-border);
+            border-radius: 14px; padding: 14px 16px; margin-bottom: 18px;
+            backdrop-filter: blur(8px);
+        }
+        .toolbar input, .toolbar select {
+            background: rgba(0,0,0,.25); border: 1px solid var(--glass-border);
+            color: var(--text); padding: 10px 12px; border-radius: 10px; font-size: .9rem;
+            outline: none;
+        }
+        .toolbar input { flex: 1; min-width: 220px; }
+        .toolbar input:focus, .toolbar select:focus { border-color: var(--purple); }
+
+        .btn {
+            border: none; border-radius: 10px; padding: 10px 16px; font-weight: 600;
+            cursor: pointer; font-size: .9rem; transition: transform .12s, filter .12s;
+        }
+        .btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
+        .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+        .btn-primary { background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; }
+        .btn-ghost { background: var(--glass); border: 1px solid var(--glass-border); color: var(--text); }
+        .btn-green { background: var(--green); color: #04210f; }
+        .btn-red { background: var(--red); color: #fff; }
+        .btn-amber { background: var(--amber); color: #2a1a00; }
+
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 12px; margin-bottom: 18px; }
+        .stat {
+            background: var(--glass); border: 1px solid var(--glass-border);
+            border-radius: 14px; padding: 16px; backdrop-filter: blur(8px);
+        }
+        .stat .label { color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; }
+        .stat .value { font-size: 1.7rem; font-weight: 800; margin-top: 4px; }
+
+        .table-card {
+            background: var(--glass); border: 1px solid var(--glass-border);
+            border-radius: 16px; overflow: hidden; backdrop-filter: blur(8px);
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px 14px; text-align: left; font-size: .88rem; }
+        thead th {
+            color: var(--muted); font-size: .72rem; text-transform: uppercase;
+            letter-spacing: .05em; border-bottom: 1px solid var(--glass-border);
+            position: sticky; top: 0; background: var(--bg-2);
+        }
+        tbody tr { border-bottom: 1px solid rgba(255,255,255,.05); cursor: pointer; }
+        tbody tr:hover { background: rgba(139,92,246,.10); }
+        tbody tr:last-child { border-bottom: none; }
+        .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .8rem; color: var(--muted); }
+
+        .pill { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: .72rem; font-weight: 700; }
+        .pill-free { background: #334155; color: #cbd5e1; }
+        .pill-starter { background: #1e3a8a; color: #bfdbfe; }
+        .pill-professional { background: #155e75; color: #a5f3fc; }
+        .pill-premium { background: linear-gradient(135deg,#7c3aed,#db2777); color: #fff; }
+        .pill-status-active { background: rgba(34,197,94,.18); color: #4ade80; }
+        .pill-status-suspended { background: rgba(239,68,68,.18); color: #f87171; }
+        .pill-status-none { background: rgba(148,163,184,.18); color: #cbd5e1; }
+        .pill-status-canceled { background: rgba(245,158,11,.18); color: #fbbf24; }
+        .pill-status-canceled_scheduled { background: rgba(245,158,11,.18); color: #fbbf24; }
+
+        /* Drawer */
+        .drawer-backdrop {
+            position: fixed; inset: 0; background: rgba(0,0,0,.55);
+            display: none; align-items: stretch; justify-content: flex-end; z-index: 50;
+        }
+        .drawer-backdrop.open { display: flex; }
+        .drawer {
+            width: 560px; max-width: 96vw; background: var(--bg-2);
+            border-left: 1px solid var(--glass-border); height: 100%;
+            overflow-y: auto; padding: 24px; animation: slideIn .2s ease;
+        }
+        @keyframes slideIn { from { transform: translateX(40px); opacity: .4; } to { transform: none; opacity: 1; } }
+        .drawer h2 { font-size: 1.25rem; margin-bottom: 4px; }
+        .section { margin-top: 22px; }
+        .section h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-bottom: 10px; border-bottom: 1px solid var(--glass-border); padding-bottom: 6px; }
+        .kv { display: grid; grid-template-columns: 130px 1fr; gap: 6px 12px; font-size: .86rem; }
+        .kv .k { color: var(--muted); }
+        .row-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+        textarea, .drawer select, .drawer input {
+            width: 100%; background: rgba(0,0,0,.25); border: 1px solid var(--glass-border);
+            color: var(--text); border-radius: 10px; padding: 10px; font-size: .88rem; outline: none;
+        }
+        textarea { min-height: 80px; resize: vertical; }
+        .drawer select:focus, .drawer input:focus, textarea:focus { border-color: var(--purple); }
+        .pay { background: rgba(0,0,0,.2); border: 1px solid var(--glass-border); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; font-size: .82rem; }
+        .muted { color: var(--muted); }
+        .empty { text-align: center; color: var(--muted); padding: 40px; }
+        .toast {
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+            background: #111827; border: 1px solid var(--glass-border); color: #fff;
+            padding: 12px 18px; border-radius: 12px; font-size: .9rem; z-index: 100;
+            box-shadow: 0 10px 30px rgba(0,0,0,.4); opacity: 0; transition: opacity .2s;
+        }
+        .toast.show { opacity: 1; }
+        .toast.err { border-color: var(--red); }
+        .toast.ok { border-color: var(--green); }
+        .hidden { display: none !important; }
+        .small-note { font-size: .76rem; color: var(--muted); margin-top: 6px; }
+        a.stripe-link { color: var(--blue); text-decoration: underline; }
+    </style>
+
+    <script>
+        // helpers mínimos (no dependemos de helpers.js completo)
+        function debugLog(...a) { if (window.console) console.log('[admin-users]', ...a); }
+        let _toastEl;
+        function showToast(msg, type) {
+            if (!_toastEl) { _toastEl = document.getElementById('toast'); }
+            if (!_toastEl) return;
+            _toastEl.textContent = msg;
+            _toastEl.className = 'toast show ' + (type || '');
+            setTimeout(() => { _toastEl.className = 'toast ' + (type || ''); }, 3000);
+        }
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+        <header class="top">
+            <div>
+                <h1>👑 User Control</h1>
+                <div class="sub">Control total de usuarios, planes, suscripciones y pagos — SmartLoad Solution</div>
+            </div>
+            <div>
+                <span id="whoami" class="muted mono"></span>
+                <button class="btn btn-ghost" onclick="logout()" style="margin-left:10px">Salir</button>
+            </div>
+        </header>
+
+        <div id="gate" class="empty hidden">Verificando acceso…</div>
+
+        <div id="app" class="hidden">
+            <div class="toolbar">
+                <input type="text" id="search" placeholder="🔍 Buscar por email o UID…" oninput="renderTable()">
+                <select id="fPlan" onchange="renderTable()">
+                    <option value="all">Todos los planes</option>
+                    <option value="free">Free</option>
+                    <option value="starter">Starter</option>
+                    <option value="professional">Professional</option>
+                    <option value="premium">Premium</option>
+                </select>
+                <select id="fStatus" onchange="renderTable()">
+                    <option value="all">Todos los estados</option>
+                    <option value="active">Activo</option>
+                    <option value="suspended">Suspendido</option>
+                </select>
+                <button class="btn btn-primary" onclick="refreshUsers()">🔄 Recargar</button>
+            </div>
+
+            <div class="stats" id="stats"></div>
+
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Plan</th>
+                            <th>Suscripción</th>
+                            <th>Cuenta</th>
+                            <th>Registro</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Drawer de detalle -->
+    <div class="drawer-backdrop" id="drawerBackdrop" onclick="if(event.target===this)closeDrawer()">
+        <div class="drawer" id="drawer"></div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <!-- Firebase (mismos scripts que el resto de la app) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-functions-compat.js"></script>
+    <script src="./js/config.js"></script>
+    <script src="./js/core/roles-manager.js"></script>
+
+    <script>
+        // --- Modo mock: ?mock=1 sirve todo desde admin-mock-server.js, sin
+        // tocar Firebase/Stripe real (ni siquiera se inicializa el SDK).
+        const MOCK_MODE = new URLSearchParams(location.search).get('mock') === '1';
+
+        // --- Init Firebase (reutiliza config.js) ---
+        // config.js (cargado arriba) es quien llama a firebase.initializeApp() con la
+        // config real, dentro de su propio listener DOMContentLoaded — todavía no ha
+        // corrido cuando este <script> se ejecuta. NO reinicializar aquí: llamar
+        // firebase.initializeApp() por segunda vez con opciones vacías revienta con
+        // "Firebase: Need to provide options (app/no-options)" y aborta el resto de
+        // este script, dejando la página solo con el header estático. En vez de eso,
+        // esperamos a que config.js termine (mismo patrón que setup-admin.html).
+        var auth, db, functions;
+
+        let ALL_USERS = [];
+
+        function waitForFirebaseReady(cb) {
+            if (window.auth && window.db) { cb(); return; }
+            setTimeout(() => waitForFirebaseReady(cb), 200);
+        }
+
+        if (MOCK_MODE) {
+            document.getElementById('whoami').textContent = 'admin@smartload.com (MOCK)';
+            document.getElementById('gate').classList.add('hidden');
+            document.getElementById('app').classList.remove('hidden');
+            refreshUsers();
+        } else {
+            waitForFirebaseReady(() => {
+                auth = window.auth;
+                db = window.db;
+                functions = firebase.app().functions('us-central1');
+
+                auth.onAuthStateChanged(async (user) => {
+                    const gate = document.getElementById('gate');
+                    gate.classList.remove('hidden');
+                    if (!user) {
+                        gate.textContent = '🔒 Debes iniciar sesión como admin.';
+                        setTimeout(() => { window.location.href = './auth.html?redirect=admin-users.html'; }, 1500);
+                        return;
+                    }
+                    // Verificar rol admin
+                    try {
+                        const snap = await db.collection('users').doc(user.uid).get();
+                        const role = snap.exists ? (snap.data().role || 'user') : 'user';
+                        if (role !== 'admin') {
+                            gate.textContent = '🚫 No tienes permisos de administrador.';
+                            return;
+                        }
+                        document.getElementById('whoami').textContent = user.email;
+                        gate.classList.add('hidden');
+                        document.getElementById('app').classList.remove('hidden');
+                        await refreshUsers();
+                    } catch (e) {
+                        gate.textContent = 'Error verificando permisos: ' + e.message;
+                    }
+                });
+            });
+        }
+
+        function cf(name) {
+            if (MOCK_MODE) {
+                return async (payload) => {
+                    const res = await fetch('/__mock/' + name, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ data: payload || {} }),
+                    });
+                    const json = await res.json();
+                    if (json.error) {
+                        const err = new Error(json.error.message);
+                        err.code = json.error.code;
+                        throw err;
+                    }
+                    return { data: json.data };
+                };
+            }
+            return firebase.app().functions('us-central1').httpsCallable(name);
+        }
+
+        async function refreshUsers() {
+            try {
+                showToast('Cargando usuarios…');
+                const res = await cf('adminGetUsers')();
+                ALL_USERS = res.data.users || [];
+                renderStats();
+                renderTable();
+                showToast('✅ ' + ALL_USERS.length + ' usuarios', 'ok');
+            } catch (e) {
+                showToast('❌ ' + (e.message || e), 'err');
+            }
+        }
+
+        function renderStats() {
+            const total = ALL_USERS.length;
+            const byPlan = { free:0, starter:0, professional:0, premium:0 };
+            let active = 0, suspended = 0;
+            ALL_USERS.forEach(u => {
+                if (byPlan[u.plan] !== undefined) byPlan[u.plan]++;
+                if (u.accountStatus === 'suspended') suspended++; else active++;
+            });
+            const el = document.getElementById('stats');
+            el.innerHTML = `
+                <div class="stat"><div class="label">Total</div><div class="value">${total}</div></div>
+                <div class="stat"><div class="label">Free</div><div class="value">${byPlan.free}</div></div>
+                <div class="stat"><div class="label">Professional</div><div class="value">${byPlan.professional}</div></div>
+                <div class="stat"><div class="label">Premium</div><div class="value">${byPlan.premium}</div></div>
+                <div class="stat"><div class="label">Activos</div><div class="value">${active}</div></div>
+                <div class="stat"><div class="label">Suspendidos</div><div class="value">${suspended}</div></div>
+            `;
+        }
+
+        function planPill(p) {
+            const map = { free:'pill-free', starter:'pill-starter', professional:'pill-professional', premium:'pill-premium' };
+            return `<span class="pill ${map[p]||'pill-free'}">${(p||'free').toUpperCase()}</span>`;
+        }
+        function statusPill(s) {
+            const map = { active:'pill-status-active', suspended:'pill-status-suspended', none:'pill-status-none', canceled:'pill-status-canceled', canceled_scheduled:'pill-status-canceled_scheduled' };
+            return `<span class="pill ${map[s]||'pill-status-none'}">${(s||'none').toUpperCase()}</span>`;
+        }
+        function fmt(d) {
+            if (!d) return '—';
+            try { return new Date(d).toLocaleString(); } catch { return d; }
+        }
+
+        function renderTable() {
+            const q = document.getElementById('search').value.toLowerCase();
+            const fp = document.getElementById('fPlan').value;
+            const fs = document.getElementById('fStatus').value;
+            const rows = ALL_USERS.filter(u => {
+                const mq = !q || (u.email||'').toLowerCase().includes(q) || (u.uid||'').toLowerCase().includes(q);
+                const mp = fp === 'all' || u.plan === fp;
+                const ms = fs === 'all' || (fs === 'active' ? u.accountStatus !== 'suspended' : u.accountStatus === 'suspended');
+                return mq && mp && ms;
+            });
+            const tb = document.getElementById('tbody');
+            if (rows.length === 0) {
+                tb.innerHTML = `<tr><td colspan="5" class="empty">Sin resultados</td></tr>`;
+                return;
+            }
+            tb.innerHTML = rows.map(u => `
+                <tr onclick="openUser('${u.uid}')">
+                    <td>
+                        <div style="font-weight:600">${u.email || '(sin email)'}</div>
+                        <div class="mono">${(u.uid||'').substring(0,16)}…</div>
+                    </td>
+                    <td>${planPill(u.plan)}</td>
+                    <td>${statusPill(u.subscriptionStatus)}</td>
+                    <td>${statusPill(u.accountStatus === 'suspended' ? 'suspended' : 'active')}</td>
+                    <td class="muted" style="font-size:.8rem">${fmt(u.createdAt)}</td>
+                </tr>
+            `).join('');
+        }
+
+        async function openUser(uid) {
+            const drawer = document.getElementById('drawer');
+            drawer.innerHTML = `<div class="empty">Cargando…</div>`;
+            document.getElementById('drawerBackdrop').classList.add('open');
+            try {
+                const res = await cf('adminGetUserDetail')({ targetUid: uid });
+                const d = res.data;
+                renderDetail(d);
+            } catch (e) {
+                drawer.innerHTML = `<div class="empty">❌ ${e.message||e}</div>`;
+            }
+        }
+
+        function renderDetail(d) {
+            const p = d.profile;
+            const stripeBase = 'https://dashboard.stripe.com/';
+            const subs = (d.billing.subscriptions || []);
+            const pays = (d.billing.payments || []);
+
+            const subsHtml = subs.length ? subs.map(s => `
+                <div class="pay">
+                    <div><b>Sub:</b> <span class="mono">${s.id}</span></div>
+                    <div class="muted">Estado: ${s.status || '—'} · Plan: ${s.price?.id || s.items?.data?.[0]?.price?.id || '—'}</div>
+                    <div class="muted">Período fin: ${fmt(s.current_period_end ? new Date(s.current_period_end*1000).toISOString() : null)}</div>
+                </div>`).join('') : '<div class="muted">Sin suscripciones en Firestore.</div>';
+
+            const paysHtml = pays.length ? pays.map(py => `
+                <div class="pay">
+                    <div><b>${py.currency ? py.currency.toUpperCase() : ''} ${(py.amount/100).toFixed(2)}</b> · ${py.status || ''}</div>
+                    <div class="muted mono">${py.id}</div>
+                    <div class="muted">${fmt(py.created ? new Date(py.created*1000).toISOString() : (py.created?.toDate?.()?.toISOString?.()))}</div>
+                </div>`).join('') : '<div class="muted">Sin pagos registrados.</div>';
+
+            const drawer = document.getElementById('drawer');
+            drawer.innerHTML = `
+                <div style="display:flex;justify-content:space-between;align-items:flex-start">
+                    <div>
+                        <h2>${p.email || '(sin email)'}</h2>
+                        <div class="mono muted">${d.uid}</div>
+                    </div>
+                    <button class="btn btn-ghost" onclick="closeDrawer()">✕ Cerrar</button>
+                </div>
+
+                <div class="section">
+                    <h3>Perfil</h3>
+                    <div class="kv">
+                        <div class="k">Rol</div><div>${p.role}</div>
+                        <div class="k">Cuenta</div><div>${p.accountStatus}</div>
+                        <div class="k">Registro</div><div>${fmt(p.createdAt)}</div>
+                        <div class="k">Últ. actividad</div><div>${fmt(p.lastActiveAt)}</div>
+                        <div class="k">Display name</div><div>${p.displayName || '—'}</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Plan & Suscripción</h3>
+                    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                        ${planPill(p.plan)} ${statusPill(p.subscriptionStatus)}
+                    </div>
+                    <div class="kv" style="margin-top:10px">
+                        <div class="k">Subscription ID</div><div class="mono">${p.subscriptionId || '—'}</div>
+                        <div class="k">Stripe Customer</div><div class="mono">${d.billing.stripeCustomerId || p.stripeCustomerId || '—'}</div>
+                    </div>
+                    ${d.billing.stripeCustomerId ? `<a class="stripe-link small-note" target="_blank" href="${stripeBase}customers/${d.billing.stripeCustomerId}">Abrir en Stripe Dashboard →</a>` : ''}
+
+                    <div class="row-actions">
+                        <select id="planSelect">
+                            <option value="free">Free</option>
+                            <option value="starter">Starter</option>
+                            <option value="professional">Professional</option>
+                            <option value="premium">Premium</option>
+                        </select>
+                        <input id="planReason" placeholder="Motivo del cambio (opcional)" style="flex:1">
+                        <button class="btn btn-primary" onclick="doSetPlan('${d.uid}')">Cambiar plan</button>
+                    </div>
+
+                    <div class="row-actions">
+                        <button class="btn ${p.accountStatus==='suspended'?'btn-green':'btn-red'}" onclick="doToggleStatus('${d.uid}','${p.accountStatus}')">
+                            ${p.accountStatus==='suspended'?'✅ Reactivar cuenta':'⛔ Suspender cuenta'}
+                        </button>
+                        ${p.subscriptionId ? `<button class="btn btn-amber" onclick="doCancelSub('${d.uid}')">Cancelar suscripción (fin periodo)</button>` : ''}
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Suscripciones (Stripe)</h3>
+                    ${subsHtml}
+                </div>
+
+                <div class="section">
+                    <h3>Pagos recientes</h3>
+                    ${paysHtml}
+                </div>
+
+                <div class="section">
+                    <h3>Uso</h3>
+                    <div class="kv">
+                        <div class="k">Cargas totales</div><div>${d.stats?.loadsCount ?? '—'}</div>
+                        <div class="k">Academia</div><div>${d.academy ? 'Iniciada' : 'No iniciada'}</div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Notas de admin</h3>
+                    <textarea id="adminNotes">${p.adminNotes || ''}</textarea>
+                    <div class="row-actions">
+                        <button class="btn btn-ghost" onclick="doSaveNotes('${d.uid}')">Guardar notas</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('planSelect').value = p.plan;
+        }
+
+        function closeDrawer() { document.getElementById('drawerBackdrop').classList.remove('open'); }
+
+        async function doSetPlan(uid) {
+            const plan = document.getElementById('planSelect').value;
+            const reason = document.getElementById('planReason').value;
+            try {
+                await cf('adminUpdateUser')({ targetUid: uid, operation: 'setPlan', plan, reason });
+                showToast('✅ Plan actualizado a ' + plan, 'ok');
+                await refreshUsers();
+                openUser(uid);
+            } catch (e) { showToast('❌ ' + (e.message||e), 'err'); }
+        }
+
+        async function doToggleStatus(uid, current) {
+            const status = current === 'suspended' ? 'active' : 'suspended';
+            if (!confirm('¿' + (status==='suspended'?'Suspender':'Reactivar') + ' esta cuenta?')) return;
+            try {
+                await cf('adminUpdateUser')({ targetUid: uid, operation: 'setAccountStatus', status });
+                showToast('✅ Cuenta ' + status, 'ok');
+                await refreshUsers();
+                openUser(uid);
+            } catch (e) { showToast('❌ ' + (e.message||e), 'err'); }
+        }
+
+        async function doCancelSub(uid) {
+            if (!confirm('¿Cancelar la suscripción al final del periodo actual?')) return;
+            try {
+                await cf('adminUpdateUser')({ targetUid: uid, operation: 'cancelSubscription', atPeriodEnd: true });
+                showToast('✅ Suscripción cancelada (fin de periodo)', 'ok');
+                await refreshUsers();
+                openUser(uid);
+            } catch (e) { showToast('❌ ' + (e.message||e), 'err'); }
+        }
+
+        async function doSaveNotes(uid) {
+            const notes = document.getElementById('adminNotes').value;
+            try {
+                await cf('adminUpdateUser')({ targetUid: uid, operation: 'saveNotes', notes });
+                showToast('✅ Notas guardadas', 'ok');
+            } catch (e) { showToast('❌ ' + (e.message||e), 'err'); }
+        }
+
+        function logout() {
+            if (MOCK_MODE) { showToast('Modo mock: no hay sesión real que cerrar', 'err'); return; }
+            auth.signOut().then(() => { window.location.href = './auth.html'; });
+        }
+    </script>
+</body>
+
+</html>

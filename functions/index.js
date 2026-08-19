@@ -946,7 +946,7 @@ function buildPlanChangedEmail(planName, planPrice, isDowngrade, lang = 'es') {
 
 
 // ============================================================
-// subscribeLead � Alta de lead en Brevo desde el backend (OCULTO)
+// subscribeLead � Alta de lead en Brevo desde el backend (OCULTO)
 // Recibe nombre + email + UTMs desde el frontend (calculadora RPM, home, etc.)
 // y llama a la API de Brevo desde el servidor, donde la IP si esta autorizada.
 // (c) 2026 SmartLoad Solution - Ricardo Galan.
@@ -1005,6 +1005,209 @@ exports.subscribeLead = onCall(
             if (e instanceof HttpsError) throw e;
             logger.error('[subscribeLead] Error llamando a Brevo:', e.message);
             throw new HttpsError('internal', 'Error contacting Brevo');
+        }
+    }
+);
+
+// ============================================================
+// ADMIN PANEL — User management (Cloud Functions, Admin SDK)
+// © 2026 SmartLoad Solution — Ricardo Galan
+// Expone gestión total de usuarios solo para rol 'admin'.
+// Lee customers/{uid}/subscriptions y /payments vía Admin SDK
+// (las reglas de Firestore no permiten lectura admin de esas
+// subcolecciones, por eso se sirve desde backend).
+// ============================================================
+
+// Verifica que el llamador tenga rol admin en users/{uid}
+async function _requireAdmin(request) {
+    if (!request.auth) {
+        throw new HttpsError('unauthenticated', 'Authentication required');
+    }
+    const callerUid = request.auth.uid;
+    const userSnap = await db.collection('users').doc(callerUid).get();
+    const role = userSnap.exists ? (userSnap.data().role || 'user') : 'user';
+    if (role !== 'admin') {
+        throw new HttpsError('permission-denied', 'Admin access required');
+    }
+    return callerUid;
+}
+
+// Convierte Timestamps a ISO para el cliente
+function _iso(v) {
+    if (v && typeof v.toDate === 'function') return v.toDate().toISOString();
+    if (v && typeof v._seconds === 'number') return new Date(v._seconds * 1000).toISOString();
+    return v;
+}
+
+// Lee datos de facturación de un usuario desde Firestore (Stripe extension)
+async function _getUserBilling(uid) {
+    const out = { stripeCustomerId: null, subscriptions: [], payments: [] };
+    try {
+        const custSnap = await db.collection('customers').doc(uid).get();
+        if (custSnap.exists) out.stripeCustomerId = custSnap.data().stripeId || null;
+
+        const subsSnap = await db.collection('customers').doc(uid)
+            .collection('subscriptions').limit(20).get();
+        subsSnap.forEach(d => out.subscriptions.push({ id: d.id, ...d.data() }));
+
+        const paySnap = await db.collection('customers').doc(uid)
+            .collection('payments').orderBy('created', 'desc').limit(10).get();
+        paySnap.forEach(d => out.payments.push({ id: d.id, ...d.data() }));
+    } catch (e) {
+        logger.warn(`[_getUserBilling] uid ${uid}:`, e.message);
+    }
+    return out;
+}
+
+// ─── Listar todos los usuarios (solo admin) ───────────────────────────────────
+exports.adminGetUsers = onCall(
+    { region: 'us-central1' },
+    async (request) => {
+        await _requireAdmin(request);
+        const snapshot = await db.collection('users')
+            .orderBy('createdAt', 'desc').limit(1000).get();
+        const users = [];
+        snapshot.forEach(doc => {
+            const d = doc.data();
+            users.push({
+                uid: doc.id,
+                email: d.email || null,
+                displayName: d.displayName || null,
+                role: d.role || 'user',
+                plan: d.plan || 'free',
+                subscriptionStatus: d.subscriptionStatus || 'none',
+                accountStatus: d.accountStatus || 'active',
+                createdAt: _iso(d.createdAt),
+                lastActiveAt: _iso(d.lastActiveAt || d.lastLoginAt),
+                adminNotes: d.adminNotes || '',
+            });
+        });
+        return { count: users.length, users };
+    }
+);
+
+// ─── Detalle completo de un usuario (solo admin) ──────────────────────────────
+exports.adminGetUserDetail = onCall(
+    { region: 'us-central1' },
+    async (request) => {
+        await _requireAdmin(request);
+        const targetUid = String(request.data?.targetUid || '').trim();
+        if (!targetUid) throw new HttpsError('invalid-argument', 'targetUid required');
+
+        const userSnap = await db.collection('users').doc(targetUid).get();
+        if (!userSnap.exists) throw new HttpsError('not-found', 'User not found');
+        const d = userSnap.data();
+
+        const [billing, userPlansSnap, academySnap, loadsCount] = await Promise.all([
+            _getUserBilling(targetUid),
+            db.collection('userPlans').doc(targetUid).get(),
+            db.collection('academyProgress').doc(targetUid).get(),
+            db.collection('loads').where('userId', '==', targetUid).count().get()
+                .catch(() => ({ data: () => ({ count: 0 }) })),
+        ]);
+
+        return {
+            uid: targetUid,
+            profile: {
+                email: d.email || null,
+                displayName: d.displayName || null,
+                role: d.role || 'user',
+                plan: d.plan || 'free',
+                subscriptionStatus: d.subscriptionStatus || 'none',
+                subscriptionId: d.subscriptionId || null,
+                accountStatus: d.accountStatus || 'active',
+                createdAt: _iso(d.createdAt),
+                lastActiveAt: _iso(d.lastActiveAt || d.lastLoginAt),
+                adminNotes: d.adminNotes || '',
+                costs: d.costs || null,
+                preferences: d.preferences || null,
+                onboarding: d.onboarding || null,
+                stripeCustomerId: d.stripeCustomerId || null,
+            },
+            billing: {
+                stripeCustomerId: billing.stripeCustomerId || d.stripeCustomerId || null,
+                subscriptions: billing.subscriptions,
+                payments: billing.payments,
+            },
+            userPlans: userPlansSnap.exists ? userPlansSnap.data() : null,
+            academy: academySnap.exists ? academySnap.data() : null,
+            stats: {
+                loadsCount: loadsCount.data().count,
+            },
+        };
+    }
+);
+
+// ─── Actualizar usuario (solo admin) ──────────────────────────────────────────
+exports.adminUpdateUser = onCall(
+    { region: 'us-central1' },
+    async (request) => {
+        const callerUid = await _requireAdmin(request);
+        const data = request.data || {};
+        const targetUid = String(data.targetUid || '').trim();
+        const operation = String(data.operation || '').trim();
+        if (!targetUid) throw new HttpsError('invalid-argument', 'targetUid required');
+        if (!operation) throw new HttpsError('invalid-argument', 'operation required');
+
+        const callerSnap = await db.collection('users').doc(callerUid).get();
+        const callerEmail = callerSnap.exists ? (callerSnap.data().email || callerUid) : callerUid;
+
+        const userRef = db.collection('users').doc(targetUid);
+        const userSnap = await userRef.get();
+        if (!userSnap.exists) throw new HttpsError('not-found', 'User not found');
+        const current = userSnap.data();
+
+        switch (operation) {
+            case 'setPlan': {
+                const plan = String(data.plan || '').trim();
+                const valid = ['free', 'starter', 'professional', 'premium'];
+                if (!valid.includes(plan)) throw new HttpsError('invalid-argument', 'Invalid plan');
+                await userRef.update({
+                    plan,
+                    subscriptionStatus: plan === 'free' ? 'none' : (current.subscriptionStatus || 'active'),
+                    manualPlanOverride: true,
+                    planChangedByAdmin: callerEmail,
+                    planChangedAt: admin.firestore.FieldValue.serverTimestamp(),
+                    planChangeReason: String(data.reason || 'Cambio manual por admin').slice(0, 280),
+                });
+                logger.info(`[adminUpdateUser] setPlan ${targetUid} -> ${plan} by ${callerEmail}`);
+                return { success: true, plan };
+            }
+            case 'setAccountStatus': {
+                const status = String(data.status || '').trim();
+                if (!['active', 'suspended'].includes(status)) throw new HttpsError('invalid-argument', 'Invalid status');
+                await userRef.update({
+                    accountStatus: status,
+                    accountStatusChangedBy: callerEmail,
+                    accountStatusChangedAt: admin.firestore.FieldValue.serverTimestamp(),
+                });
+                logger.info(`[adminUpdateUser] setAccountStatus ${targetUid} -> ${status}`);
+                return { success: true, status };
+            }
+            case 'saveNotes': {
+                const notes = String(data.notes || '').slice(0, 2000);
+                await userRef.update({ adminNotes: notes });
+                return { success: true };
+            }
+            case 'cancelSubscription': {
+                const atPeriodEnd = data.atPeriodEnd !== false;
+                const subscriptionId = current.subscriptionId || (data.subscriptionId || null);
+                if (!subscriptionId) throw new HttpsError('not-found', 'No subscriptionId found for user');
+                if (!STRIPE_SECRET_KEY) throw new HttpsError('internal', 'Stripe not configured');
+                const stripe = new Stripe(STRIPE_SECRET_KEY);
+                const result = await stripe.subscriptions.update(subscriptionId, {
+                    cancel_at_period_end: atPeriodEnd,
+                });
+                await userRef.update({
+                    subscriptionStatus: atPeriodEnd ? 'canceled_scheduled' : 'canceled',
+                    subscriptionCanceledByAdmin: callerEmail,
+                    subscriptionCanceledAt: admin.firestore.FieldValue.serverTimestamp(),
+                });
+                logger.info(`[adminUpdateUser] cancelSubscription ${subscriptionId} atPeriodEnd=${atPeriodEnd}`);
+                return { success: true, stripeStatus: result.status };
+            }
+            default:
+                throw new HttpsError('invalid-argument', `Unknown operation: ${operation}`);
         }
     }
 );
