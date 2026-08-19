@@ -394,11 +394,11 @@
 
         function planPill(p) {
             const map = { free:'pill-free', starter:'pill-starter', professional:'pill-professional', premium:'pill-premium' };
-            return `<span class="pill ${map[p]||'pill-free'}">${(p||'free').toUpperCase()}</span>`;
+            return `<span class="pill ${map[p]||'pill-free'}">${escapeHtml((p||'free').toUpperCase())}</span>`;
         }
         function statusPill(s) {
             const map = { active:'pill-status-active', suspended:'pill-status-suspended', none:'pill-status-none', canceled:'pill-status-canceled', canceled_scheduled:'pill-status-canceled_scheduled' };
-            return `<span class="pill ${map[s]||'pill-status-none'}">${(s||'none').toUpperCase()}</span>`;
+            return `<span class="pill ${map[s]||'pill-status-none'}">${escapeHtml((s||'none').toUpperCase())}</span>`;
         }
         function fmt(d) {
             if (!d) return '—';
