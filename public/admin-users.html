@@ -552,12 +552,12 @@
                 <div class="detail-card">
                     <h3>Configuración de la cuenta</h3>
                     <div class="kv">
-                        <div class="k">Vehículo</div><div>${p.vehicle ? `${escapeHtml(p.vehicle.type || '—')} · ${p.vehicle.mpg || '—'} MPG · $${p.vehicle.fuelPrice ?? '—'}/gal` : '—'}</div>
-                        <div class="k">CPM total</div><div>${p.costs?.totalCPM != null ? '$' + p.costs.totalCPM : '—'}</div>
+                        <div class="k">Vehículo</div><div>${p.vehicle ? `${escapeHtml(p.vehicle.type || '—')} · ${escapeHtml(p.vehicle.mpg ?? '—')} MPG · $${escapeHtml(p.vehicle.fuelPrice ?? '—')}/gal` : '—'}</div>
+                        <div class="k">CPM total</div><div>${p.costs?.totalCPM != null ? '$' + escapeHtml(p.costs.totalCPM) : '—'}</div>
                         <div class="k">Costos fijos/mes</div><div>${p.costs?.totalFixedMonthly != null ? fmtMoney(p.costs.totalFixedMonthly) : '—'}</div>
-                        <div class="k">RPM mínimo</div><div>${p.preferences?.minRPM != null ? '$' + p.preferences.minRPM : '—'}</div>
-                        <div class="k">RPM objetivo</div><div>${p.preferences?.targetRPM != null ? '$' + p.preferences.targetRPM : '—'}</div>
-                        <div class="k">Deadhead máx.</div><div>${p.preferences?.maxDeadhead != null ? p.preferences.maxDeadhead + ' mi' : '—'}</div>
+                        <div class="k">RPM mínimo</div><div>${p.preferences?.minRPM != null ? '$' + escapeHtml(p.preferences.minRPM) : '—'}</div>
+                        <div class="k">RPM objetivo</div><div>${p.preferences?.targetRPM != null ? '$' + escapeHtml(p.preferences.targetRPM) : '—'}</div>
+                        <div class="k">Deadhead máx.</div><div>${p.preferences?.maxDeadhead != null ? escapeHtml(p.preferences.maxDeadhead) + ' mi' : '—'}</div>
                     </div>
                 </div>
 
