@@ -1067,7 +1067,7 @@ function _academyModulesCompleted(academyData) {
     let count = 0;
     for (const [modNum, lessonCount] of Object.entries(ACADEMY_MODULE_LESSONS)) {
         const mod = academyData.modules[modNum];
-        if (mod && Array.isArray(mod.completed) && mod.completed.length === lessonCount) count++;
+        if (mod && Array.isArray(mod.completed) && new Set(mod.completed).size === lessonCount) count++;
     }
     return count;
 }
@@ -1143,6 +1143,8 @@ exports.adminGetUserDetail = onCall(
                 .catch(() => ({ forEach: () => {} })),
         ]);
 
+        const academyData = academySnap.exists ? academySnap.data() : null;
+
         const loads = [];
         loadsSnap.forEach(doc => loads.push({ id: doc.id, ...doc.data() }));
         loads.sort((a, b) => _loadDateMs(b) - _loadDateMs(a));
@@ -1187,13 +1189,13 @@ exports.adminGetUserDetail = onCall(
                 payments: billing.payments,
             },
             userPlans: userPlansSnap.exists ? userPlansSnap.data() : null,
-            academy: academySnap.exists ? academySnap.data() : null,
+            academy: academyData,
             stats: {
                 loadsCount,
                 loadsTotal,
                 loadsAvgRpm,
                 recentLoads,
-                academyModulesCompleted: _academyModulesCompleted(academySnap.exists ? academySnap.data() : null),
+                academyModulesCompleted: _academyModulesCompleted(academyData),
                 academyModulesTotal: 8,
             },
         };

@@ -32,7 +32,7 @@ const STORE = {
         load3: { userId: 'u1', date: new Date('2025-07-20'), origin: 'Chicago, IL', destination: 'Detroit, MI', totalCost: 900, rpm: 1.3 },
     },
     academyProgress: {
-        u1: { modules: { 1: { completed: [1, 2, 3, 4, 5] }, 2: { completed: [1, 2, 3] }, 3: { completed: [] } } },
+        u1: { modules: { 1: { completed: [1, 2, 3, 4, 5] }, 2: { completed: [1, 2, 3] }, 3: { completed: [] }, 6: { completed: [1, 1, 2, 3, 4] } } },
     },
     'customers/u1/subscriptions': {
         sub_123: { id: 'sub_123', status: 'active', current_period_end: 1800000000 },
@@ -216,7 +216,7 @@ function section(t) { console.log('\n=== ' + t + ' ==='); }
     assert(Math.abs(d.stats.loadsAvgRpm - 1.4333333333333333) < 0.0001, 'loadsAvgRpm promedio correcto');
     assert(d.stats.recentLoads.length === 3, 'recentLoads trae las 3 cargas sembradas');
     assert(d.stats.recentLoads[0].origin === 'Atlanta, GA', 'recentLoads ordenado por fecha desc (load2 es la mas reciente)');
-    assert(d.stats.academyModulesCompleted === 1, 'academyModulesCompleted cuenta solo modulos 100% completos (modulo 1 con 5/5, no el 2 con 3/6)');
+    assert(d.stats.academyModulesCompleted === 1, 'academyModulesCompleted cuenta solo modulos 100% completos (modulo 1 con 5/5, no el 2 con 3/6, no el 6 con [1,1,2,3,4] que tiene length 5 pero solo 4 IDs unicos)');
     assert(d.stats.academyModulesTotal === 8, 'academyModulesTotal es 8');
     assert(d.billing.stripeCustomerId === 'cus_1', 'stripeCustomerId resuelto');
     assert(d.billing.subscriptions.length === 1, '1 suscripción en Firestore');
