@@ -515,7 +515,7 @@
                         </select>
                         <input id="planReason" placeholder="Motivo del cambio (opcional)" style="flex:1;min-width:180px">
                         <button class="btn btn-primary" onclick="doSetPlan('${d.uid}')">Cambiar plan</button>
-                        <button class="btn ${p.accountStatus==='suspended'?'btn-green':'btn-red'}" onclick="doToggleStatus('${d.uid}','${p.accountStatus}')">
+                        <button class="btn ${p.accountStatus==='suspended'?'btn-green':'btn-red'}" onclick="doToggleStatus('${d.uid}','${p.accountStatus==='suspended'?'suspended':'active'}')">
                             ${p.accountStatus==='suspended'?'✅ Reactivar cuenta':'⛔ Suspender cuenta'}
                         </button>
                         ${p.subscriptionId ? `<button class="btn btn-amber" onclick="doCancelSub('${d.uid}')">Cancelar suscripción</button>` : ''}
@@ -535,10 +535,10 @@
                 <div class="detail-card">
                     <h3>Facturación</h3>
                     <div class="kv">
-                        <div class="k">Subscription ID</div><div class="mono">${p.subscriptionId || '—'}</div>
-                        <div class="k">Stripe Customer</div><div class="mono">${d.billing.stripeCustomerId || p.stripeCustomerId || '—'}</div>
+                        <div class="k">Subscription ID</div><div class="mono">${escapeHtml(p.subscriptionId || '—')}</div>
+                        <div class="k">Stripe Customer</div><div class="mono">${escapeHtml(d.billing.stripeCustomerId || p.stripeCustomerId || '—')}</div>
                     </div>
-                    ${d.billing.stripeCustomerId ? `<a class="stripe-link small-note" target="_blank" href="${stripeBase}customers/${d.billing.stripeCustomerId}">Abrir en Stripe Dashboard →</a>` : ''}
+                    ${d.billing.stripeCustomerId ? `<a class="stripe-link small-note" target="_blank" href="${stripeBase}customers/${escapeHtml(d.billing.stripeCustomerId)}">Abrir en Stripe Dashboard →</a>` : ''}
                     <div class="section" style="margin-top:16px">
                         <h3>Suscripciones (Stripe)</h3>
                         ${subsHtml}
