@@ -61,9 +61,11 @@ Stacked blocks (not tabs) so an admin can scan everything in one scroll — this
 the "support troubleshooting" use case where you want the full picture fast, not
 clicking between tabs.
 
-1. **Header** — email, UID, plan/subscription/account-status pills, and the existing
-   quick actions (change plan, suspend/reactivate, cancel subscription) always visible
-   at the top, not buried below other sections.
+1. **Header** — full name, email, phone, UID, plan/subscription/account-status pills,
+   and the existing quick actions (change plan, suspend/reactivate, cancel subscription)
+   always visible at the top, not buried below other sections. `fullName` and `phone`
+   are collected at signup (`auth.html`) and already stored on `users/{uid}`, but
+   `adminGetUserDetail` doesn't return them today — add them.
 2. **Resumen de negocio** — customer-since date, last-active date, current plan value,
    and an alerts line for anything needing attention (e.g. "suscripción cancela el
    15/feb", "cuenta suspendida"). Computed client-side from fields already returned by
@@ -72,11 +74,12 @@ clicking between tabs.
    Dashboard link.
 4. **Configuración de la cuenta** *(new)* — vehicle (type, MPG, fuel price), configured
    costs (fuel/maintenance/insurance/depreciation/other CPM, monthly fixed costs), and
-   operating preferences (min/target RPM, max deadhead, days/miles per month). All
-   already present in the `users/{uid}` document and already returned by
+   operating preferences (min/target RPM, max deadhead, days/miles per month). Costs and
+   preferences are already present in the `users/{uid}` document and already returned by
    `adminGetUserDetail` (`profile.costs`, `profile.preferences`) — just not rendered
-   today. Read-only key/value display, same visual pattern as the existing "Perfil"
-   section.
+   today. **Vehicle is present in Firestore but not yet returned by the Cloud Function
+   either — add `profile.vehicle` alongside costs/preferences (see Backend changes).**
+   Read-only key/value display, same visual pattern as the existing "Perfil" section.
 5. **Actividad** *(new)* — total loads, total revenue, average RPM (aggregated), and a
    table of the last 10 loads (date, route, pay). Academy progress shown as "N/8 módulos
    completados" instead of today's binary "Iniciada/No iniciada".
@@ -86,6 +89,13 @@ clicking between tabs.
 
 `functions/index.js` → `adminGetUserDetail`:
 
+- Add `fullName`, `phone`, and `vehicle` to the `profile` object returned — these three
+  fields already exist on `users/{uid}` (set at signup in `auth.html` / with defaults
+  from `setup-admin.html`) but the function currently only returns `email`,
+  `displayName`, `role`, `plan`, `subscriptionStatus`, `subscriptionId`,
+  `accountStatus`, `createdAt`, `lastActiveAt`, `adminNotes`, `costs`, `preferences`,
+  `onboarding`, `stripeCustomerId` — no code changes needed on the client side beyond
+  rendering the new fields, since `profile` is already passed through as-is.
 - Replace the current `loads` count-only query with: aggregate totals (count, sum of
   pay, average RPM) plus the 10 most recent loads (`orderBy('date', 'desc').limit(10)`).
   The `loads` schema has inconsistent legacy field names (confirmed in
