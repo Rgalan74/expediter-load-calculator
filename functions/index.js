@@ -1039,6 +1039,24 @@ function _iso(v) {
     return v;
 }
 
+// Lee el pago/RPM/fecha de una carga tolerando los nombres de campo legacy que
+// ya maneja public/js/history.js (los datos viejos no se migraron de esquema).
+function _loadPay(l) {
+    const v = l.totalCharge ?? l.rate ?? l.totalCost;
+    return Number(v || 0);
+}
+function _loadRpm(l) {
+    return Number(l.rpm || 0);
+}
+function _loadDateMs(l) {
+    const d = l.date;
+    if (d instanceof Date) return d.getTime();
+    if (d && typeof d.toDate === 'function') return d.toDate().getTime();
+    if (d && typeof d._seconds === 'number') return d._seconds * 1000;
+    if (typeof d === 'string' || typeof d === 'number') return new Date(d).getTime();
+    return 0;
+}
+
 // Lee datos de facturación de un usuario desde Firestore (Stripe extension)
 async function _getUserBilling(uid) {
     const out = { stripeCustomerId: null, subscriptions: [], payments: [] };
@@ -1098,13 +1116,34 @@ exports.adminGetUserDetail = onCall(
         if (!userSnap.exists) throw new HttpsError('not-found', 'User not found');
         const d = userSnap.data();
 
-        const [billing, userPlansSnap, academySnap, loadsCount] = await Promise.all([
+        const [billing, userPlansSnap, academySnap, loadsSnap] = await Promise.all([
             _getUserBilling(targetUid),
             db.collection('userPlans').doc(targetUid).get(),
             db.collection('academyProgress').doc(targetUid).get(),
-            db.collection('loads').where('userId', '==', targetUid).count().get()
-                .catch(() => ({ data: () => ({ count: 0 }) })),
+            // Sin orderBy a propósito: un where('userId','==',...) + orderBy('date') en
+            // Firestore real necesita un índice compuesto que no existe hoy. Se ordena
+            // en memoria abajo. limit(2000) es un techo de seguridad, no paginación real
+            // (ver "Non-goals" en el spec).
+            db.collection('loads').where('userId', '==', targetUid).limit(2000).get()
+                .catch(() => ({ forEach: () => {} })),
         ]);
+
+        const loads = [];
+        loadsSnap.forEach(doc => loads.push({ id: doc.id, ...doc.data() }));
+        loads.sort((a, b) => _loadDateMs(b) - _loadDateMs(a));
+        const loadsCount = loads.length;
+        const loadsTotal = loads.reduce((sum, l) => sum + _loadPay(l), 0);
+        const loadsAvgRpm = loadsCount > 0
+            ? loads.reduce((sum, l) => sum + _loadRpm(l), 0) / loadsCount
+            : 0;
+        const recentLoads = loads.slice(0, 10).map(l => ({
+            id: l.id,
+            date: _iso(l.date),
+            origin: l.origin || '-',
+            destination: l.destination || '-',
+            pay: _loadPay(l),
+            rpm: _loadRpm(l),
+        }));
 
         return {
             uid: targetUid,
@@ -1135,7 +1174,10 @@ exports.adminGetUserDetail = onCall(
             userPlans: userPlansSnap.exists ? userPlansSnap.data() : null,
             academy: academySnap.exists ? academySnap.data() : null,
             stats: {
-                loadsCount: loadsCount.data().count,
+                loadsCount,
+                loadsTotal,
+                loadsAvgRpm,
+                recentLoads,
             },
         };
     }

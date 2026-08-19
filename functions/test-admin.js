@@ -26,6 +26,14 @@ const STORE = {
             accountStatus: 'active', createdAt: new Date('2025-07-01'),
         },
     },
+    loads: {
+        load1: { userId: 'u1', date: new Date('2025-08-01'), origin: 'Detroit, MI', destination: 'Atlanta, GA', totalCharge: 1500, rpm: 1.6 },
+        load2: { userId: 'u1', date: new Date('2025-08-05'), origin: 'Atlanta, GA', destination: 'Miami, FL', rate: 1200, rpm: 1.4 },
+        load3: { userId: 'u1', date: new Date('2025-07-20'), origin: 'Chicago, IL', destination: 'Detroit, MI', totalCost: 900, rpm: 1.3 },
+    },
+    academyProgress: {
+        u1: { modules: { 1: { completed: [1, 2, 3, 4, 5] }, 2: { completed: [1, 2, 3] }, 3: { completed: [] } } },
+    },
     'customers/u1/subscriptions': {
         sub_123: { id: 'sub_123', status: 'active', current_period_end: 1800000000 },
     },
@@ -203,6 +211,11 @@ function section(t) { console.log('\n=== ' + t + ' ==='); }
     assert(d.profile.fullName === 'Carlos Rodriguez', 'fullName presente');
     assert(d.profile.phone === '+1-813-555-0142', 'phone presente');
     assert(d.profile.vehicle?.type === 'Cargo Van', 'vehicle presente');
+    assert(d.stats.loadsCount === 3, 'loadsCount 3 (con cargas sembradas)');
+    assert(d.stats.loadsTotal === 3600, 'loadsTotal suma pay con fallback totalCharge/rate/totalCost (1500+1200+900)');
+    assert(Math.abs(d.stats.loadsAvgRpm - 1.4333333333333333) < 0.0001, 'loadsAvgRpm promedio correcto');
+    assert(d.stats.recentLoads.length === 3, 'recentLoads trae las 3 cargas sembradas');
+    assert(d.stats.recentLoads[0].origin === 'Atlanta, GA', 'recentLoads ordenado por fecha desc (load2 es la mas reciente)');
     assert(d.billing.stripeCustomerId === 'cus_1', 'stripeCustomerId resuelto');
     assert(d.billing.subscriptions.length === 1, '1 suscripción en Firestore');
     assert(d.billing.payments.length === 1, '1 pago en Firestore');
