@@ -252,6 +252,7 @@
         var auth, db, functions;
 
         let ALL_USERS = [];
+        let routingInitialized = false;
 
         function waitForFirebaseReady(cb) {
             if (window.auth && window.db) { cb(); return; }
@@ -296,7 +297,6 @@
             });
         }
 
-        let routingInitialized = false;
         function initRouting() {
             if (!routingInitialized) {
                 routingInitialized = true;
