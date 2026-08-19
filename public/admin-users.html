@@ -434,24 +434,30 @@
             `).join('');
         }
 
-        async function openUser(uid) {
-            const drawer = document.getElementById('drawer');
-            drawer.innerHTML = `<div class="empty">Cargando…</div>`;
-            document.getElementById('drawerBackdrop').classList.add('open');
+        async function loadUserDetail(uid) {
             try {
                 const res = await cf('adminGetUserDetail')({ targetUid: uid });
-                const d = res.data;
-                renderDetail(d);
+                renderDetailPage(res.data);
             } catch (e) {
-                drawer.innerHTML = `<div class="empty">❌ ${e.message||e}</div>`;
+                document.getElementById('detailView').innerHTML = `<div class="empty">❌ ${e.message || e}</div>`;
             }
         }
 
-        function renderDetail(d) {
+        function fmtMoney(n) {
+            return '$' + Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function renderDetailPage(d) {
             const p = d.profile;
             const stripeBase = 'https://dashboard.stripe.com/';
             const subs = (d.billing.subscriptions || []);
             const pays = (d.billing.payments || []);
+            const recentLoads = (d.stats.recentLoads || []);
+
+            const alerts = [];
+            if (p.accountStatus === 'suspended') alerts.push('⛔ Cuenta suspendida');
+            if (p.subscriptionStatus === 'canceled_scheduled') alerts.push('⏳ Suscripción cancela al fin del período actual');
+            if (p.subscriptionStatus === 'canceled') alerts.push('🚫 Suscripción cancelada');
 
             const subsHtml = subs.length ? subs.map(s => `
                 <div class="pay">
@@ -467,76 +473,102 @@
                     <div class="muted">${fmt(py.created ? new Date(py.created*1000).toISOString() : (py.created?.toDate?.()?.toISOString?.()))}</div>
                 </div>`).join('') : '<div class="muted">Sin pagos registrados.</div>';
 
-            const drawer = document.getElementById('drawer');
-            drawer.innerHTML = `
-                <div style="display:flex;justify-content:space-between;align-items:flex-start">
-                    <div>
-                        <h2>${p.email || '(sin email)'}</h2>
-                        <div class="mono muted">${d.uid}</div>
-                    </div>
-                    <button class="btn btn-ghost" onclick="closeDrawer()">✕ Cerrar</button>
-                </div>
+            const loadsRowsHtml = recentLoads.length ? recentLoads.map(l => `
+                <tr>
+                    <td>${fmt(l.date)}</td>
+                    <td>${l.origin} → ${l.destination}</td>
+                    <td>${fmtMoney(l.pay)}</td>
+                    <td>${l.rpm ? l.rpm.toFixed(2) : '—'}</td>
+                </tr>`).join('') : '<tr><td colspan="4" class="muted">Sin cargas registradas.</td></tr>';
 
-                <div class="section">
-                    <h3>Perfil</h3>
-                    <div class="kv">
-                        <div class="k">Rol</div><div>${p.role}</div>
-                        <div class="k">Cuenta</div><div>${p.accountStatus}</div>
-                        <div class="k">Registro</div><div>${fmt(p.createdAt)}</div>
-                        <div class="k">Últ. actividad</div><div>${fmt(p.lastActiveAt)}</div>
-                        <div class="k">Display name</div><div>${p.displayName || '—'}</div>
-                    </div>
-                </div>
+            const dv = document.getElementById('detailView');
+            dv.innerHTML = `
+                <a class="back-link" onclick="backToList()">← Volver a la lista</a>
 
-                <div class="section">
-                    <h3>Plan & Suscripción</h3>
-                    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-                        ${planPill(p.plan)} ${statusPill(p.subscriptionStatus)}
+                <div class="detail-card">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
+                        <div>
+                            <h2>${p.fullName || p.email || '(sin nombre)'}</h2>
+                            <div class="muted" style="margin-top:4px">${p.email || '—'}${p.phone ? ' · ' + p.phone : ''}</div>
+                            <div class="mono muted" style="margin-top:2px">${d.uid}</div>
+                        </div>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap">
+                            ${planPill(p.plan)} ${statusPill(p.subscriptionStatus)}
+                            ${statusPill(p.accountStatus === 'suspended' ? 'suspended' : 'active')}
+                        </div>
                     </div>
-                    <div class="kv" style="margin-top:10px">
-                        <div class="k">Subscription ID</div><div class="mono">${p.subscriptionId || '—'}</div>
-                        <div class="k">Stripe Customer</div><div class="mono">${d.billing.stripeCustomerId || p.stripeCustomerId || '—'}</div>
-                    </div>
-                    ${d.billing.stripeCustomerId ? `<a class="stripe-link small-note" target="_blank" href="${stripeBase}customers/${d.billing.stripeCustomerId}">Abrir en Stripe Dashboard →</a>` : ''}
 
-                    <div class="row-actions">
+                    ${alerts.length ? `<div class="alert-line">${alerts.join(' · ')}</div>` : ''}
+
+                    <div class="row-actions" style="margin-top:16px">
                         <select id="planSelect">
                             <option value="free">Free</option>
                             <option value="starter">Starter</option>
                             <option value="professional">Professional</option>
                             <option value="premium">Premium</option>
                         </select>
-                        <input id="planReason" placeholder="Motivo del cambio (opcional)" style="flex:1">
+                        <input id="planReason" placeholder="Motivo del cambio (opcional)" style="flex:1;min-width:180px">
                         <button class="btn btn-primary" onclick="doSetPlan('${d.uid}')">Cambiar plan</button>
-                    </div>
-
-                    <div class="row-actions">
                         <button class="btn ${p.accountStatus==='suspended'?'btn-green':'btn-red'}" onclick="doToggleStatus('${d.uid}','${p.accountStatus}')">
                             ${p.accountStatus==='suspended'?'✅ Reactivar cuenta':'⛔ Suspender cuenta'}
                         </button>
-                        ${p.subscriptionId ? `<button class="btn btn-amber" onclick="doCancelSub('${d.uid}')">Cancelar suscripción (fin periodo)</button>` : ''}
+                        ${p.subscriptionId ? `<button class="btn btn-amber" onclick="doCancelSub('${d.uid}')">Cancelar suscripción</button>` : ''}
                     </div>
                 </div>
 
-                <div class="section">
-                    <h3>Suscripciones (Stripe)</h3>
-                    ${subsHtml}
-                </div>
-
-                <div class="section">
-                    <h3>Pagos recientes</h3>
-                    ${paysHtml}
-                </div>
-
-                <div class="section">
-                    <h3>Uso</h3>
+                <div class="detail-card">
+                    <h3>Resumen de negocio</h3>
                     <div class="kv">
-                        <div class="k">Cargas totales</div><div>${d.stats?.loadsCount ?? '—'}</div>
-                        <div class="k">Academia</div><div>${d.academy ? 'Iniciada' : 'No iniciada'}</div>
+                        <div class="k">Cliente desde</div><div>${fmt(p.createdAt)}</div>
+                        <div class="k">Últ. actividad</div><div>${fmt(p.lastActiveAt)}</div>
+                        <div class="k">Rol</div><div>${p.role}</div>
+                        <div class="k">Ingresos totales (cargas)</div><div>${fmtMoney(d.stats.loadsTotal)}</div>
                     </div>
                 </div>
 
-                <div class="section">
+                <div class="detail-card">
+                    <h3>Facturación</h3>
+                    <div class="kv">
+                        <div class="k">Subscription ID</div><div class="mono">${p.subscriptionId || '—'}</div>
+                        <div class="k">Stripe Customer</div><div class="mono">${d.billing.stripeCustomerId || p.stripeCustomerId || '—'}</div>
+                    </div>
+                    ${d.billing.stripeCustomerId ? `<a class="stripe-link small-note" target="_blank" href="${stripeBase}customers/${d.billing.stripeCustomerId}">Abrir en Stripe Dashboard →</a>` : ''}
+                    <div class="section" style="margin-top:16px">
+                        <h3>Suscripciones (Stripe)</h3>
+                        ${subsHtml}
+                    </div>
+                    <div class="section">
+                        <h3>Pagos recientes</h3>
+                        ${paysHtml}
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Configuración de la cuenta</h3>
+                    <div class="kv">
+                        <div class="k">Vehículo</div><div>${p.vehicle ? `${p.vehicle.type || '—'} · ${p.vehicle.mpg || '—'} MPG · $${p.vehicle.fuelPrice ?? '—'}/gal` : '—'}</div>
+                        <div class="k">CPM total</div><div>${p.costs?.totalCPM != null ? '$' + p.costs.totalCPM : '—'}</div>
+                        <div class="k">Costos fijos/mes</div><div>${p.costs?.totalFixedMonthly != null ? fmtMoney(p.costs.totalFixedMonthly) : '—'}</div>
+                        <div class="k">RPM mínimo</div><div>${p.preferences?.minRPM != null ? '$' + p.preferences.minRPM : '—'}</div>
+                        <div class="k">RPM objetivo</div><div>${p.preferences?.targetRPM != null ? '$' + p.preferences.targetRPM : '—'}</div>
+                        <div class="k">Deadhead máx.</div><div>${p.preferences?.maxDeadhead != null ? p.preferences.maxDeadhead + ' mi' : '—'}</div>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Actividad</h3>
+                    <div class="kv">
+                        <div class="k">Cargas totales</div><div>${d.stats.loadsCount}</div>
+                        <div class="k">RPM promedio</div><div>${d.stats.loadsAvgRpm ? '$' + d.stats.loadsAvgRpm.toFixed(2) : '—'}</div>
+                        <div class="k">Academia</div><div>${d.stats.academyModulesCompleted}/${d.stats.academyModulesTotal} módulos completados</div>
+                    </div>
+                    <table class="loads-table">
+                        <thead><tr><th>Fecha</th><th>Ruta</th><th>Pago</th><th>RPM</th></tr></thead>
+                        <tbody>${loadsRowsHtml}</tbody>
+                    </table>
+                </div>
+
+                <div class="detail-card">
                     <h3>Notas de admin</h3>
                     <textarea id="adminNotes">${p.adminNotes || ''}</textarea>
                     <div class="row-actions">
@@ -546,8 +578,6 @@
             `;
             document.getElementById('planSelect').value = p.plan;
         }
-
-        function closeDrawer() { document.getElementById('drawerBackdrop').classList.remove('open'); }
 
         async function doSetPlan(uid) {
             const plan = document.getElementById('planSelect').value;
