@@ -447,6 +447,12 @@
             return '$' + Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
+        function escapeHtml(str) {
+            return String(str ?? '').replace(/[&<>"']/g, c => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+            }[c]));
+        }
+
         function renderDetailPage(d) {
             const p = d.profile;
             const stripeBase = 'https://dashboard.stripe.com/';
@@ -476,7 +482,7 @@
             const loadsRowsHtml = recentLoads.length ? recentLoads.map(l => `
                 <tr>
                     <td>${fmt(l.date)}</td>
-                    <td>${l.origin} → ${l.destination}</td>
+                    <td>${escapeHtml(l.origin)} → ${escapeHtml(l.destination)}</td>
                     <td>${fmtMoney(l.pay)}</td>
                     <td>${l.rpm ? l.rpm.toFixed(2) : '—'}</td>
                 </tr>`).join('') : '<tr><td colspan="4" class="muted">Sin cargas registradas.</td></tr>';
@@ -488,8 +494,8 @@
                 <div class="detail-card">
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
                         <div>
-                            <h2>${p.fullName || p.email || '(sin nombre)'}</h2>
-                            <div class="muted" style="margin-top:4px">${p.email || '—'}${p.phone ? ' · ' + p.phone : ''}</div>
+                            <h2>${escapeHtml(p.fullName || p.email || '(sin nombre)')}</h2>
+                            <div class="muted" style="margin-top:4px">${escapeHtml(p.email || '—')}${p.phone ? ' · ' + escapeHtml(p.phone) : ''}</div>
                             <div class="mono muted" style="margin-top:2px">${d.uid}</div>
                         </div>
                         <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -546,7 +552,7 @@
                 <div class="detail-card">
                     <h3>Configuración de la cuenta</h3>
                     <div class="kv">
-                        <div class="k">Vehículo</div><div>${p.vehicle ? `${p.vehicle.type || '—'} · ${p.vehicle.mpg || '—'} MPG · $${p.vehicle.fuelPrice ?? '—'}/gal` : '—'}</div>
+                        <div class="k">Vehículo</div><div>${p.vehicle ? `${escapeHtml(p.vehicle.type || '—')} · ${p.vehicle.mpg || '—'} MPG · $${p.vehicle.fuelPrice ?? '—'}/gal` : '—'}</div>
                         <div class="k">CPM total</div><div>${p.costs?.totalCPM != null ? '$' + p.costs.totalCPM : '—'}</div>
                         <div class="k">Costos fijos/mes</div><div>${p.costs?.totalFixedMonthly != null ? fmtMoney(p.costs.totalFixedMonthly) : '—'}</div>
                         <div class="k">RPM mínimo</div><div>${p.preferences?.minRPM != null ? '$' + p.preferences.minRPM : '—'}</div>
