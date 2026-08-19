@@ -30,7 +30,13 @@ const STORE = {
             subscriptionStatus: 'active', subscriptionId: 'sub_123',
             accountStatus: 'active', createdAt: new Date('2025-06-01'),
             stripeCustomerId: 'cus_1', lastActiveAt: new Date('2025-08-10'),
-            costs: { totalCPM: 0.55 }, preferences: { minRPM: 1.5 },
+            fullName: 'Carlos Rodriguez', phone: '+1-813-555-0142',
+            vehicle: { type: 'Cargo Van', mpg: 18, fuelPrice: 3.5 },
+            costs: {
+                totalCPM: 0.55, fuelCost: 0.19, maintenanceCost: 0.12, insuranceCost: 0.08,
+                depreciationCost: 0.10, otherCost: 0.06, totalFixedMonthly: 1380,
+            },
+            preferences: { minRPM: 1.5, targetRPM: 1.6, maxDeadhead: 100 },
         },
         u2: {
             email: 'driver2@test.com', role: 'user', plan: 'free',
@@ -43,6 +49,14 @@ const STORE = {
             accountStatus: 'suspended', createdAt: new Date('2025-03-01'),
             adminNotes: 'Cliente con disputa resuelta',
         },
+    },
+    loads: {
+        load1: { userId: 'u1', date: new Date('2025-08-01'), origin: 'Detroit, MI', destination: 'Atlanta, GA', totalCharge: 1500, rpm: 1.6 },
+        load2: { userId: 'u1', date: new Date('2025-08-05'), origin: 'Atlanta, GA', destination: 'Miami, FL', rate: 1200, rpm: 1.4 },
+        load3: { userId: 'u1', date: new Date('2025-07-20'), origin: 'Chicago, IL', destination: 'Detroit, MI', totalCost: 900, rpm: 1.3 },
+    },
+    academyProgress: {
+        u1: { modules: { 1: { completed: [1, 2, 3, 4, 5] }, 2: { completed: [1, 2, 3] }, 3: { completed: [] } } },
     },
     'customers/u1/subscriptions': {
         sub_123: { id: 'sub_123', status: 'active', current_period_end: 1800000000, price: { id: 'price_pro' } },
