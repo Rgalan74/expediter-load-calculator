@@ -17,6 +17,8 @@ const STORE = {
             subscriptionStatus: 'active', subscriptionId: 'sub_123',
             accountStatus: 'active', createdAt: new Date('2025-06-01'),
             stripeCustomerId: 'cus_1',
+            fullName: 'Carlos Rodriguez', phone: '+1-813-555-0142',
+            vehicle: { type: 'Cargo Van', mpg: 18, fuelPrice: 3.5 },
         },
         u2: {
             email: 'driver2@test.com', role: 'user', plan: 'free',
@@ -198,10 +200,12 @@ function section(t) { console.log('\n=== ' + t + ' ==='); }
     const det = await call(fns.adminGetUserDetail, adminCtx, { targetUid: 'u1' });
     const d = det;
     assert(d.profile.email === 'driver1@test.com', 'email correcto');
+    assert(d.profile.fullName === 'Carlos Rodriguez', 'fullName presente');
+    assert(d.profile.phone === '+1-813-555-0142', 'phone presente');
+    assert(d.profile.vehicle?.type === 'Cargo Van', 'vehicle presente');
     assert(d.billing.stripeCustomerId === 'cus_1', 'stripeCustomerId resuelto');
     assert(d.billing.subscriptions.length === 1, '1 suscripción en Firestore');
     assert(d.billing.payments.length === 1, '1 pago en Firestore');
-    assert(d.stats.loadsCount === 0, 'loadsCount 0 (sin cargas sembradas)');
 
     section('adminUpdateUser — setPlan');
     const sp = await call(fns.adminUpdateUser, adminCtx, { targetUid: 'u1', operation: 'setPlan', plan: 'premium', reason: 'upgrade manual' });

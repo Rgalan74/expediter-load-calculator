@@ -1111,6 +1111,8 @@ exports.adminGetUserDetail = onCall(
             profile: {
                 email: d.email || null,
                 displayName: d.displayName || null,
+                fullName: d.fullName || null,
+                phone: d.phone || null,
                 role: d.role || 'user',
                 plan: d.plan || 'free',
                 subscriptionStatus: d.subscriptionStatus || 'none',
@@ -1119,6 +1121,7 @@ exports.adminGetUserDetail = onCall(
                 createdAt: _iso(d.createdAt),
                 lastActiveAt: _iso(d.lastActiveAt || d.lastLoginAt),
                 adminNotes: d.adminNotes || '',
+                vehicle: d.vehicle || null,
                 costs: d.costs || null,
                 preferences: d.preferences || null,
                 onboarding: d.onboarding || null,
