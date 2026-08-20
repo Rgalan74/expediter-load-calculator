@@ -92,6 +92,8 @@
             letter-spacing: .05em; border-bottom: 1px solid var(--glass-border);
             position: sticky; top: 0; background: var(--bg-2);
         }
+        thead th.sortable { cursor: pointer; user-select: none; }
+        thead th.sortable:hover { color: var(--text); }
         tbody tr { border-bottom: 1px solid rgba(255,255,255,.05); cursor: pointer; }
         tbody tr:hover { background: rgba(139,92,246,.10); }
         tbody tr:last-child { border-bottom: none; }
@@ -273,11 +275,11 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Usuario</th>
-                            <th>Plan</th>
-                            <th>Suscripción</th>
-                            <th>Cuenta</th>
-                            <th>Registro</th>
+                            <th class="sortable" onclick="setSort('email')">Usuario<span id="sortInd_email"></span></th>
+                            <th class="sortable" onclick="setSort('plan')">Plan<span id="sortInd_plan"></span></th>
+                            <th class="sortable" onclick="setSort('subscriptionStatus')">Suscripción<span id="sortInd_subscriptionStatus"></span></th>
+                            <th class="sortable" onclick="setSort('accountStatus')">Cuenta<span id="sortInd_accountStatus"></span></th>
+                            <th class="sortable" onclick="setSort('createdAt')">Registro<span id="sortInd_createdAt"></span></th>
                         </tr>
                     </thead>
                     <tbody id="tbody"></tbody>
@@ -322,6 +324,9 @@
         let revenueChart = null;
         let planChart = null;
         let billingRequestId = 0;
+        let sortField = 'createdAt';
+        let sortDir = 'desc';
+        const SORT_FIELDS = ['email', 'plan', 'subscriptionStatus', 'accountStatus', 'createdAt'];
         // Inspirados en los colores de .pill-* (mismo orden de tonos: gris, azul,
         // cyan, magenta/purpura) pero mas saturados -- los fondos reales de las
         // pills son oscuros y quedan planos/dificiles de distinguir como
@@ -480,6 +485,24 @@
             try { return new Date(d).toLocaleString(); } catch { return d; }
         }
 
+        function setSort(field) {
+            if (sortField === field) {
+                sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortField = field;
+                sortDir = field === 'createdAt' ? 'desc' : 'asc';
+            }
+            renderTable();
+        }
+
+        function updateSortIndicators() {
+            SORT_FIELDS.forEach(f => {
+                const el = document.getElementById('sortInd_' + f);
+                if (!el) return;
+                el.textContent = f === sortField ? (sortDir === 'asc' ? ' ▲' : ' ▼') : '';
+            });
+        }
+
         function renderTable() {
             const q = document.getElementById('search').value.toLowerCase();
             const fp = document.getElementById('fPlan').value;
@@ -499,6 +522,20 @@
                 const mTo = !fTo || (created && created <= new Date(fTo + 'T23:59:59'));
                 return mq && mp && ms && mr && msub && mFrom && mTo;
             });
+            rows.sort((a, b) => {
+                let av = a[sortField], bv = b[sortField];
+                if (sortField === 'createdAt') {
+                    av = av ? new Date(av).getTime() : 0;
+                    bv = bv ? new Date(bv).getTime() : 0;
+                } else {
+                    av = (av || '').toString().toLowerCase();
+                    bv = (bv || '').toString().toLowerCase();
+                }
+                if (av < bv) return sortDir === 'asc' ? -1 : 1;
+                if (av > bv) return sortDir === 'asc' ? 1 : -1;
+                return 0;
+            });
+            updateSortIndicators();
             renderStats(rows);
             const tb = document.getElementById('tbody');
             if (rows.length === 0) {
