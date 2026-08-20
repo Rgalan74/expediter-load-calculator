@@ -305,11 +305,14 @@ async function setupAuthListener() {
       showLoginScreen();
 
       // Páginas públicas — no redirigir aunque no haya sesión
+      // admin-users.html ya maneja su propio gate/redirect (con chequeo de rol
+      // admin incluido) y su propio modo ?mock=1 para pruebas; el redirect
+      // genérico de aquí solo compite con esa lógica sin saber nada de mock.
       const PUBLIC_PAGES = [
         'auth.html', 'academy.html', 'plans.html', 'index.html',
         'blog', 'about.html', 'faq.html', 'resources.html',
         'contact.html', 'terms.html', 'privacy.html',
-        'refund.html', 'support.html'
+        'refund.html', 'support.html', 'admin-users.html'
       ];
       const path = window.location.pathname;
       const isPublicPage = PUBLIC_PAGES.some(p => path.includes(p)) || path === '/' || path.endsWith('/');
