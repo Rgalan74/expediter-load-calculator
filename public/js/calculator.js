@@ -1990,13 +1990,18 @@ async function saveLoad(existingLoadId = null) {
       await window.db.collection('loads').doc(existingLoadId).update(loadData);
       debugLog('✅ Carga actualizada con ID:', existingLoadId);
     } else {
-      const doc = await window.db.collection('loads').add(loadData);
-      debugLog('✅ Carga guardada con ID:', doc.id);
-      // Incrementar contador mensual solo en cargas nuevas
-      if (window.currentUser?.uid && typeof window.incrementMonthlyLoads === 'function') {
-        window.incrementMonthlyLoads(window.currentUser.uid).catch(e =>
-          debugLog('[saveLoad] Error incrementando contador:', e.message)
-        );
+      try {
+        const createLoadFn = firebase.app().functions('us-central1').httpsCallable('createLoad');
+        const res = await createLoadFn(loadData);
+        debugLog('✅ Carga guardada con ID:', res.data.id);
+      } catch (e) {
+        if (e.code === 'functions/resource-exhausted') {
+          if (typeof window.showUpgradeModal === 'function') {
+            window.showUpgradeModal('Cargas ilimitadas');
+          }
+          return;
+        }
+        throw e;
       }
     }
 
