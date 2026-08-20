@@ -304,6 +304,7 @@
         let billingPeriod = 'month';
         let revenueChart = null;
         let planChart = null;
+        let billingRequestId = 0;
         // Inspirados en los colores de .pill-* (mismo orden de tonos: gris, azul,
         // cyan, magenta/purpura) pero mas saturados -- los fondos reales de las
         // pills son oscuros y quedan planos/dificiles de distinguir como
@@ -504,8 +505,6 @@
         function fmtMoney(n) {
             return '$' + Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
-
-        let billingRequestId = 0;
 
         async function renderBillingOverview() {
             const requestId = ++billingRequestId;
