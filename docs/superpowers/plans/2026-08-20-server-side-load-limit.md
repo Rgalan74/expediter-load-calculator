@@ -4,11 +4,11 @@
 
 **Goal:** Make the free plan's 30-loads/month limit actually enforced by the server (a new Cloud Function `createLoad`), instead of only suggested by client-side JavaScript that anyone can bypass.
 
-**Architecture:** A new callable Cloud Function `createLoad` becomes the only legitimate way to create a `loads` document — it resolves the caller's real plan (replicating the client's existing Stripe-subscription-aware logic), atomically checks the monthly limit and writes the load + counter update in one Firestore transaction, and `firestore.rules` is tightened to reject any direct client write. The client (`calculator.js`) is updated to call the function instead of writing directly, keeping its existing fast client-side pre-check and upgrade-modal UX unchanged.
+**Architecture:** A new callable Cloud Function `createLoad` becomes the only legitimate way to create a `loads` document — it resolves the caller's real plan (replicating the client's existing Stripe-subscription-aware logic), atomically checks the monthly limit and writes the load + counter update in one Firestore transaction, and `firestore.rules` is tightened to reject any direct client write. The client (`calculator.js`) is updated to call the function instead of writing directly, keeping its existing fast client-side pre-check and upgrade-modal UX unchanged. A code review of the first draft found that `createLoad`'s security check reads `users/{uid}` fields (`plan`, `loadsThisMonth`, `monthStartDate`) that were still directly writable by the client — Tasks 3-4 close that gap by trimming two client-side writes down to only what's still needed and adding a matching `firestore.rules` lockdown, before Tasks 5-6 do the originally-planned `loads`-collection lockdown.
 
 **Tech Stack:** Firebase Cloud Functions v2 (`onCall`), Firestore Admin SDK transactions (`db.runTransaction`), vanilla JS callable-function invocation on the client — no new dependencies.
 
-**Reference spec:** `docs/superpowers/specs/2026-08-20-server-side-load-limit-design.md`
+**Reference specs:** `docs/superpowers/specs/2026-08-20-server-side-load-limit-design.md`, `docs/superpowers/specs/2026-08-20-lock-server-owned-user-fields-design.md`
 
 ---
 
@@ -493,7 +493,156 @@ git commit -m "feat(loads): implement createLoad Cloud Function with server-side
 
 ---
 
-## Task 3: Frontend — call createLoad instead of writing directly
+## Task 3: Fix client-side writes to server-owned plan/counter fields
+
+**Files:**
+- Modify: `public/js/userPlans.js`
+
+A code quality review of Task 2 found that `createLoad`'s security check reads `users/{uid}.plan`, `.loadsThisMonth`, and `.monthStartDate` — but nothing yet stops a client from writing those fields directly, which would fully defeat the limit check. This task removes the two places `public/js/userPlans.js` itself writes these fields from the client, so that Task 4's `firestore.rules` lockdown doesn't break anything. See `docs/superpowers/specs/2026-08-20-lock-server-owned-user-fields-design.md` for the full investigation of why these two writes are safe to remove.
+
+- [ ] **Step 1: Remove the redundant Stripe-plan-sync write in `getUserPlan()`**
+
+In `public/js/userPlans.js`, find:
+
+```js
+            // Sincronizar en users/{uid} para consistencia
+            await firebase.firestore().collection('users').doc(userId)
+                .set({
+                    plan: planId,
+                    subscriptionStatus: 'active',
+                    subscriptionId: stripeSubId,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+        } else {
+```
+
+Replace with (this write was always redundant — `activateUserPlan()` in `functions/index.js`, triggered by the existing `stripeWebhook`, already keeps these three fields in sync server-side via the Admin SDK every time a subscription changes. This client-side copy was just a same-page cache refresh, and after Task 4 lands it would fail with `permission-denied` on every login for every paying user — worse, that error would be silently swallowed by this function's own outer `catch` below, incorrectly falling back to a default free-tier plan object and making paying users appear as free-tier in the UI. Removing the write avoids that regression entirely; the function still computes and `return`s the correct resolved plan a few lines down, unchanged):
+
+```js
+            // Nota: ya NO se sincroniza aqui de vuelta a Firestore. activateUserPlan()
+            // en functions/index.js (via stripeWebhook) ya mantiene plan/subscriptionStatus/
+            // subscriptionId al dia server-side; escribir esto desde el cliente es
+            // redundante y firestore.rules ahora lo rechaza (ver Task 4).
+        } else {
+```
+
+- [ ] **Step 2: Stop seeding plan/counter fields at account initialization**
+
+In `public/js/userPlans.js`, find:
+
+```js
+            .set({
+                email: email,
+                plan: 'free',
+                subscriptionStatus: 'active',
+                loadsThisMonth: 0,
+                monthStartDate: new Date().toISOString(),
+                lexTrialEndsAt: trialEnd,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+```
+
+Replace with (a user whose `users/{uid}` doc has no `plan` field is already handled correctly everywhere it's read — `getUserPlan()`'s own fallback a few lines up is `userData.plan || 'free'`, and `createLoad`'s `_resolveUserPlan` has the equivalent `planId || userData.plan || 'free'`. A missing `loadsThisMonth`/`monthStartDate` is likewise already handled by `createLoad`'s transaction, which treats a missing/null `monthStartDate` as "month rolled over" and initializes both fields the first time this user ever saves a load. No code path needs these four fields to exist before that point, so it's safe to stop writing them from the client — this is also the write that would otherwise become an `update` rejected by Task 4's rules change, since by the time this function runs, `public/auth.html`'s signup flow has usually already created the `users/{uid}` document with other fields):
+
+```js
+            .set({
+                email: email,
+                lexTrialEndsAt: trialEnd,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+```
+
+- [ ] **Step 3: Verify by reading it back**
+
+Read `public/js/userPlans.js` around both edited regions and confirm: `getUserPlan()`'s `catch` block and its final `return` statement (a few lines after the removed write) are unchanged, `initializeUserPlan()`'s `trialEnd` variable and its own `catch`/`return` are unchanged, and neither edit touches any other function in the file (e.g. `canCreateMoreLoads`, `incrementMonthlyLoads`, `setUserAsAdmin` must all be byte-identical to before). There is no automated test harness for this browser file — this read-back is the verification step.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add public/js/userPlans.js
+git commit -m "fix(plans): stop writing plan/counter fields from the client, server already owns them"
+```
+
+---
+
+## Task 4: Firestore rules — lock down server-owned fields on users/{uid}
+
+**Files:**
+- Modify: `firestore.rules`
+
+- [ ] **Step 1: Add the two new helper functions**
+
+In `firestore.rules`, find:
+
+```
+    function isModifyingRoleFields() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'roleAssignedBy', 'roleAssignedAt', 'permissions']);
+    }
+    
+```
+
+Replace with:
+
+```
+    function isModifyingRoleFields() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'roleAssignedBy', 'roleAssignedAt', 'permissions']);
+    }
+
+    function isModifyingServerOwnedFields() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasAny(['plan', 'subscriptionStatus', 'subscriptionId', 'loadsThisMonth', 'monthStartDate']);
+    }
+
+    function hasNoServerOwnedFieldsAtCreate() {
+      return !request.resource.data.keys().hasAny(['plan', 'subscriptionStatus', 'subscriptionId', 'loadsThisMonth', 'monthStartDate']);
+    }
+    
+```
+
+- [ ] **Step 2: Update the `users/{userId}` create/update rules**
+
+In `firestore.rules`, find:
+
+```
+      // Creación: usuario puede crear su propio perfil
+      allow create: if isOwner(userId);
+      
+      // Actualización NORMAL (sin tocar roles):
+      // Usuario puede actualizar su perfil EXCEPTO campos de roles
+      allow update: if isOwner(userId) && !isModifyingRoleFields();
+```
+
+Replace with (only these two rules change — the admin-role `update` rule and `allow delete`, both a few lines below, are untouched; `activateUserPlan()`, `adminUpdateUser`'s `setPlan`, and `createLoad` all write via the Admin SDK, which bypasses security rules entirely, so none of them are affected by this change):
+
+```
+      // Creación: usuario puede crear su propio perfil, pero no puede sembrar
+      // campos server-owned (plan/suscripcion/contador de cargas) con valores
+      // propios -- esos siempre empiezan ausentes y el codigo ya trata su
+      // ausencia como el default seguro (free / 0 cargas).
+      allow create: if isOwner(userId) && hasNoServerOwnedFieldsAtCreate();
+      
+      // Actualización NORMAL (sin tocar roles ni campos server-owned):
+      // Usuario puede actualizar su perfil EXCEPTO campos de roles y los
+      // campos que solo debe tocar el Admin SDK (activateUserPlan, adminUpdateUser,
+      // createLoad)
+      allow update: if isOwner(userId) && !isModifyingRoleFields() && !isModifyingServerOwnedFields();
+```
+
+- [ ] **Step 3: Verify by reading the file back**
+
+Read `firestore.rules` and confirm: the `users/{userId}` block now has, in order, `allow read: ...` (unchanged), `allow create: if isOwner(userId) && hasNoServerOwnedFieldsAtCreate();`, `allow update: if isOwner(userId) && !isModifyingRoleFields() && !isModifyingServerOwnedFields();`, `allow update: if isAdminByRole() && isModifyingRoleFields();` (unchanged), `allow delete: if isOwner(userId);` (unchanged), and the two nested `match` blocks below it (`checkout_sessions`, `loads`) are untouched. Confirm the two new helper functions are present near `isModifyingRoleFields()` and are not duplicated anywhere else in the file.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add firestore.rules
+git commit -m "fix(users): block client writes to plan/subscription/loads-counter fields"
+```
+
+---
+
+## Task 5: Frontend — call createLoad instead of writing directly
 
 **Files:**
 - Modify: `public/js/calculator.js`
@@ -558,7 +707,7 @@ git commit -m "feat(loads): call createLoad Cloud Function instead of writing lo
 
 ---
 
-## Task 4: Firestore rules — block direct client creation of loads
+## Task 6: Firestore rules — block direct client creation of loads
 
 **Files:**
 - Modify: `firestore.rules`
@@ -595,7 +744,7 @@ git commit -m "fix(loads): deny direct client writes to loads collection, force 
 
 ---
 
-## Task 5: Final verification and commit check
+## Task 7: Final verification and commit check
 
 **Files:** none (verification only)
 
@@ -607,23 +756,26 @@ Expected: `RESULTADO: 18 pasaron, 0 fallaron`
 Run: `node functions/test-admin.js`
 Expected: `RESULTADO: 41 pasaron, 0 fallaron` (confirms this change didn't break the unrelated admin-panel tests — `createLoad` doesn't touch any admin function, but this is a cheap, valuable sanity check on a file both features share).
 
-- [ ] **Step 2: Confirm all commits from Tasks 1-4 are present**
+- [ ] **Step 2: Confirm all commits from Tasks 1-6 are present**
 
-Run: `git log --oneline -6`
-Expected: 4 commits from this plan (Tasks 1-4), most recent first, plus the plan/spec commits before them.
+Run: `git log --oneline -8`
+Expected: 6 commits from this plan (Tasks 1-6), most recent first, plus the plan/spec commits before them.
 
 Run: `git status --short`
 Expected: no pending changes from this feature.
 
 - [ ] **Step 3: Manual smoke-test plan for after deploy (do not perform yet)**
 
-This change touches the load-saving flow used by every real user, and firestore.rules changes are easy to get subtly wrong (a typo could lock out the `createLoad` function's own Admin SDK writes are actually unaffected by rules, but could accidentally lock out `update`/`delete` if the wrong block gets edited). Once deployed, verify on production with a real account before considering this done:
+This change touches the load-saving flow used by every real user, and both `firestore.rules` changes in this plan are easy to get subtly wrong (a typo could lock out something unrelated — `createLoad`'s own Admin SDK writes are unaffected by rules either way, but a misplaced condition could accidentally lock out `update`/`delete` on `loads`, or lock legitimate users out of their own profile). Once deployed, verify on production with a real account before considering this done:
 
 1. As a normal (non-admin) user on a paid plan, save a new load through the calculator UI. Confirm it saves successfully and appears in history — this proves the `createLoad` path works end-to-end for the common case.
 2. Edit an existing load. Confirm it still saves — this proves the untouched `update` path still works after the rules change.
 3. Using the admin panel (`admin-users.html`), temporarily set a test account's plan to `free` and, via the Firestore console, set that test account's `loadsThisMonth` to `30`. Log in as that test account and try to save a new load through the calculator UI. Confirm the upgrade modal appears and no new load is created (check the `loads` collection in the Firestore console directly, not just the UI, to be sure).
 4. Reset the test account's `loadsThisMonth` back down (or wait for month rollover) and confirm saving works again.
 5. Delete one of your own loads through the History UI. Confirm it still works — proves the untouched `delete` rule still works.
+6. Sign up a brand-new test account. Confirm it lands on the free plan with no console errors, and that the settings/account page doesn't show anything broken (e.g. "undefined" where a plan name should be) — proves Task 3's trimmed `initializeUserPlan()` write didn't break signup.
+7. Log in as an existing real paying test account (professional or premium). Confirm it still shows the correct paid plan and its features are unlocked — proves Task 3's removal of the redundant client-side plan-sync write didn't break paying users (the server-side `activateUserPlan`/webhook sync is what actually keeps this correct, but this step proves it end-to-end after the client-side write is gone).
+8. While logged in as any test account, open the browser console and run `firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).update({ plan: 'premium' })`. Confirm it's rejected with a `permission-denied` error — proves Task 4's rules lockdown actually blocks the exploit this whole plan exists to close. Then try `.update({ loadsThisMonth: 0 })` and confirm that's rejected too.
 
 - [ ] **Step 4: Stop here — do not deploy**
 
