@@ -8,6 +8,15 @@
 const Module = require('module');
 const path = require('path');
 
+// Fechas relativas a "ahora": revenueByMonth es una ventana movil de 12 meses,
+// asi que los fixtures de esa parte del test deben ser relativos al momento en
+// que se ejecuta el test, no epochs fijos (que eventualmente quedarian fuera
+// de la ventana y dejarian de probar nada).
+const _now = new Date();
+function _monthsAgoEpoch(n, day = 15) {
+    return Math.floor(new Date(_now.getFullYear(), _now.getMonth() - n, day).getTime() / 1000);
+}
+
 // ─── Mock Firestore store ────────────────────────────────────────────────────
 const STORE = {
     users: {
@@ -25,6 +34,12 @@ const STORE = {
             subscriptionStatus: 'none', subscriptionId: null,
             accountStatus: 'active', createdAt: new Date('2025-07-01'),
         },
+        u3: {
+            email: 'biller@test.com', role: 'user', plan: 'premium',
+            subscriptionStatus: 'active', subscriptionId: 'sub_999',
+            accountStatus: 'active', createdAt: new Date('2024-01-01'),
+            stripeCustomerId: 'cus_3',
+        },
     },
     loads: {
         load1: { userId: 'u1', date: new Date('2025-08-01'), origin: 'Detroit, MI', destination: 'Atlanta, GA', totalCharge: 1500, rpm: 1.6 },
@@ -35,12 +50,23 @@ const STORE = {
         u1: { modules: { 1: { completed: [1, 2, 3, 4, 5] }, 2: { completed: [1, 2, 3] }, 3: { completed: [] }, 6: { completed: [1, 1, 2, 3, 4] } } },
     },
     'customers/u1/subscriptions': {
-        sub_123: { id: 'sub_123', status: 'active', current_period_end: 1800000000 },
+        sub_123: { id: 'sub_123', status: 'active', current_period_end: 1800000000, price: { unit_amount: 1499 } },
     },
     'customers/u1/payments': {
         pay_1: { id: 'pay_1', amount: 1499, currency: 'usd', status: 'succeeded', created: 1700000000 },
         pay_2: { id: 'pay_2', amount: 2999, currency: 'usd', status: 'succeeded', created: 1701000000 },
         pay_3: { id: 'pay_3', amount: 1499, currency: 'usd', status: 'requires_payment_method', created: 1702000000 },
+    },
+    'customers/u3/subscriptions': {
+        sub_999: { id: 'sub_999', status: 'active', items: { data: [{ price: { unit_amount: 2999 } }] } },
+    },
+    'customers/u3/payments': {
+        pay_u3_1: { id: 'pay_u3_1', amount: 999, currency: 'usd', status: 'succeeded', created: _monthsAgoEpoch(0) },
+        pay_u3_2: { id: 'pay_u3_2', amount: 1999, currency: 'usd', status: 'succeeded', created: _monthsAgoEpoch(2) },
+        pay_u3_3: { id: 'pay_u3_3', amount: 999, currency: 'usd', status: 'succeeded', created: _monthsAgoEpoch(13) },
+    },
+    'customers/u2/payments': {
+        pay_u2_1: { id: 'pay_u2_1', amount: 500, currency: 'usd', status: 'succeeded', created: 1650000000 },
     },
 };
 
@@ -114,8 +140,29 @@ function makeCol(name, filter) {
     return query;
 }
 
+function collectionGroupSnapshot(name) {
+    const docs = [];
+    for (const key of Object.keys(STORE)) {
+        if (key === name || key.endsWith('/' + name)) {
+            for (const [id, data] of Object.entries(STORE[key])) {
+                docs.push({ id, data: () => data });
+            }
+        }
+    }
+    return { docs, size: docs.length, forEach(cb) { docs.forEach(cb); } };
+}
+function makeCollectionGroup(name) {
+    const query = {
+        limit() { return query; },
+        orderBy() { return query; },
+        get: async () => collectionGroupSnapshot(name),
+    };
+    return query;
+}
+
 const db = {
     collection(name) { return makeCol(name); },
+    collectionGroup(name) { return makeCollectionGroup(name); },
     // acceso raw usado por tests para sembrar
     _seed: STORE,
 };
@@ -201,7 +248,7 @@ function section(t) { console.log('\n=== ' + t + ' ==='); }
 
     section('adminGetUsers — listado (admin)');
     const listRes = await fns.adminGetUsers(adminCtx);
-    assert(listRes.count === 3, 'lista 3 usuarios (count=' + listRes.count + ')');
+    assert(listRes.count === 4, 'lista 4 usuarios (count=' + listRes.count + ')');
     const u1 = listRes.users.find(u => u.uid === 'u1');
     assert(u1 && u1.plan === 'professional', 'u1 tiene plan professional');
     assert(u1.subscriptionStatus === 'active', 'u1 subscriptionStatus active');
