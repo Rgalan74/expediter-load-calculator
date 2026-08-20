@@ -64,6 +64,7 @@ const STORE = {
     'customers/u1/payments': {
         pay_1: { id: 'pay_1', amount: 1499, currency: 'usd', status: 'succeeded', created: 1700000000 },
         pay_2: { id: 'pay_2', amount: 1499, currency: 'usd', status: 'succeeded', created: 1702500000 },
+        pay_3: { id: 'pay_3', amount: 1499, currency: 'usd', status: 'requires_payment_method', created: 1703000000 },
     },
 };
 

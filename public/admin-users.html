@@ -537,7 +537,9 @@
                     <div class="kv">
                         <div class="k">Subscription ID</div><div class="mono">${escapeHtml(p.subscriptionId || '—')}</div>
                         <div class="k">Stripe Customer</div><div class="mono">${escapeHtml(d.billing.stripeCustomerId || p.stripeCustomerId || '—')}</div>
+                        <div class="k">Total pagado (últ. ${d.billing.payments.length})</div><div>${fmtMoney(d.billing.totalPaid)}</div>
                     </div>
+                    ${d.billing.failedPaymentsCount > 0 ? `<div class="alert-line">⚠️ ${d.billing.failedPaymentsCount} pago(s) sin estado "succeeded" — revisar en Stripe.</div>` : ''}
                     ${d.billing.stripeCustomerId ? `<a class="stripe-link small-note" target="_blank" href="${stripeBase}customers/${escapeHtml(d.billing.stripeCustomerId)}">Abrir en Stripe Dashboard →</a>` : ''}
                     <div class="section" style="margin-top:16px">
                         <h3>Suscripciones (Stripe)</h3>
