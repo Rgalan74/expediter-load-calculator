@@ -309,6 +309,33 @@ function section(t) { console.log('\n=== ' + t + ' ==='); }
         assert(false, 'targetUid vacío debe rechazarse');
     } catch (e) { assert(e.code === 'invalid-argument', 'targetUid vacío → invalid-argument'); }
 
+    section('adminGetBillingOverview — agregados globales');
+    const bo = await call(fns.adminGetBillingOverview, adminCtx, {});
+    assert(Math.abs(bo.totalRevenue - 89.95) < 0.001, 'totalRevenue suma todos los pagos succeeded de los 3 usuarios contribuyentes (14.99+29.99+9.99+19.99+9.99+5.00)');
+    assert(bo.failedPaymentsCount === 1, 'failedPaymentsCount cuenta el unico pago no-succeeded (pay_3)');
+    assert(Math.abs(bo.mrr - 44.98) < 0.001, 'mrr suma unit_amount de las 2 suscripciones activas, via ambos formatos (price.unit_amount y items.data[0].price.unit_amount)');
+    assert(Math.abs(bo.thisMonthRevenue - 9.99) < 0.001, 'thisMonthRevenue solo cuenta el pago de este mes (pay_u3_1)');
+
+    assert(bo.revenueByMonth.length === 12, 'revenueByMonth tiene exactamente 12 meses');
+    const monthSum = bo.revenueByMonth.reduce((s, r) => s + r.total, 0);
+    assert(Math.abs(monthSum - 29.98) < 0.001, 'revenueByMonth suma 29.98 (9.99+19.99; los pagos de 2022/2023 y el de hace 13 meses quedan fuera de la ventana de 12 meses)');
+    assert(Math.abs(bo.revenueByMonth[11].total - 9.99) < 0.001, 'el ultimo mes de revenueByMonth (mes actual) tiene 9.99');
+
+    const expectedByYear = {};
+    expectedByYear['2023'] = 44.98;
+    expectedByYear['2022'] = 5.00;
+    const yThis = String(new Date(_monthsAgoEpoch(0) * 1000).getFullYear());
+    expectedByYear[yThis] = (expectedByYear[yThis] || 0) + 9.99;
+    const yTwo = String(new Date(_monthsAgoEpoch(2) * 1000).getFullYear());
+    expectedByYear[yTwo] = (expectedByYear[yTwo] || 0) + 19.99;
+    const yThirteen = String(new Date(_monthsAgoEpoch(13) * 1000).getFullYear());
+    expectedByYear[yThirteen] = (expectedByYear[yThirteen] || 0) + 9.99;
+    const yearSum = bo.revenueByYear.reduce((s, r) => s + r.total, 0);
+    assert(Math.abs(yearSum - 89.95) < 0.001, 'revenueByYear suma el total completo (incluye anios fuera de la ventana de 12 meses)');
+    const yearsMatch = bo.revenueByYear.length === Object.keys(expectedByYear).length &&
+        bo.revenueByYear.every(r => Math.abs(r.total - (expectedByYear[r.year] || 0)) < 0.001);
+    assert(yearsMatch, 'revenueByYear agrupa correctamente por anio calendario, 3 usuarios distintos (' + JSON.stringify(bo.revenueByYear) + ' vs ' + JSON.stringify(expectedByYear) + ')');
+
     console.log(`\n────────────────────────────\n RESULTADO: ${passed} pasaron, ${failed} fallaron\n`);
     process.exit(failed === 0 ? 0 : 1);
 })().catch(e => { console.error('FATAL:', e); process.exit(2); });
