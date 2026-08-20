@@ -1991,8 +1991,9 @@ async function saveLoad(existingLoadId = null) {
       debugLog('✅ Carga actualizada con ID:', existingLoadId);
     } else {
       try {
+        const { userId: _omitUserId, createdAt: _omitCreatedAt, ...payload } = loadData;
         const createLoadFn = firebase.app().functions('us-central1').httpsCallable('createLoad');
-        const res = await createLoadFn(loadData);
+        const res = await createLoadFn(payload);
         debugLog('✅ Carga guardada con ID:', res.data.id);
       } catch (e) {
         if (e.code === 'functions/resource-exhausted') {
