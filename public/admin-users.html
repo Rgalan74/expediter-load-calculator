@@ -440,7 +440,6 @@
                 showToast('Cargando usuarios…');
                 const res = await cf('adminGetUsers')();
                 ALL_USERS = res.data.users || [];
-                renderStats();
                 renderTable();
                 if (BILLING_DATA) renderPlanDistributionChart();
                 showToast('✅ ' + ALL_USERS.length + ' usuarios', 'ok');
@@ -449,11 +448,11 @@
             }
         }
 
-        function renderStats() {
-            const total = ALL_USERS.length;
+        function renderStats(list) {
+            const total = list.length;
             const byPlan = { free:0, starter:0, professional:0, premium:0 };
             let active = 0, suspended = 0;
-            ALL_USERS.forEach(u => {
+            list.forEach(u => {
                 if (byPlan[u.plan] !== undefined) byPlan[u.plan]++;
                 if (u.accountStatus === 'suspended') suspended++; else active++;
             });
@@ -500,6 +499,7 @@
                 const mTo = !fTo || (created && created <= new Date(fTo + 'T23:59:59'));
                 return mq && mp && ms && mr && msub && mFrom && mTo;
             });
+            renderStats(rows);
             const tb = document.getElementById('tbody');
             if (rows.length === 0) {
                 tb.innerHTML = `<tr><td colspan="5" class="empty">Sin resultados</td></tr>`;
