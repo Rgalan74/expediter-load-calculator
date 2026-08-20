@@ -1074,7 +1074,7 @@ function _academyModulesCompleted(academyData) {
 
 // Lee datos de facturación de un usuario desde Firestore (Stripe extension)
 async function _getUserBilling(uid) {
-    const out = { stripeCustomerId: null, subscriptions: [], payments: [] };
+    const out = { stripeCustomerId: null, subscriptions: [], payments: [], totalPaid: 0, failedPaymentsCount: 0 };
     try {
         const custSnap = await db.collection('customers').doc(uid).get();
         if (custSnap.exists) out.stripeCustomerId = custSnap.data().stripeId || null;
@@ -1086,6 +1086,13 @@ async function _getUserBilling(uid) {
         const paySnap = await db.collection('customers').doc(uid)
             .collection('payments').orderBy('created', 'desc').limit(10).get();
         paySnap.forEach(d => out.payments.push({ id: d.id, ...d.data() }));
+
+        // Totales sobre los ultimos 10 pagos (mismo set ya traido, sin lecturas
+        // extra) -- no es lifetime value real si hay mas de 10 pagos historicos.
+        for (const py of out.payments) {
+            if (py.status === 'succeeded') out.totalPaid += Number(py.amount || 0) / 100;
+            else out.failedPaymentsCount++;
+        }
     } catch (e) {
         logger.warn(`[_getUserBilling] uid ${uid}:`, e.message);
     }
@@ -1187,6 +1194,8 @@ exports.adminGetUserDetail = onCall(
                 stripeCustomerId: billing.stripeCustomerId || d.stripeCustomerId || null,
                 subscriptions: billing.subscriptions,
                 payments: billing.payments,
+                totalPaid: billing.totalPaid,
+                failedPaymentsCount: billing.failedPaymentsCount,
             },
             userPlans: userPlansSnap.exists ? userPlansSnap.data() : null,
             academy: academyData,

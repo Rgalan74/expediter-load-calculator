@@ -39,6 +39,8 @@ const STORE = {
     },
     'customers/u1/payments': {
         pay_1: { id: 'pay_1', amount: 1499, currency: 'usd', status: 'succeeded', created: 1700000000 },
+        pay_2: { id: 'pay_2', amount: 2999, currency: 'usd', status: 'succeeded', created: 1701000000 },
+        pay_3: { id: 'pay_3', amount: 1499, currency: 'usd', status: 'requires_payment_method', created: 1702000000 },
     },
 };
 
@@ -220,7 +222,9 @@ function section(t) { console.log('\n=== ' + t + ' ==='); }
     assert(d.stats.academyModulesTotal === 8, 'academyModulesTotal es 8');
     assert(d.billing.stripeCustomerId === 'cus_1', 'stripeCustomerId resuelto');
     assert(d.billing.subscriptions.length === 1, '1 suscripción en Firestore');
-    assert(d.billing.payments.length === 1, '1 pago en Firestore');
+    assert(d.billing.payments.length === 3, '3 pagos en Firestore');
+    assert(Math.abs(d.billing.totalPaid - 44.98) < 0.001, 'totalPaid suma solo pagos succeeded (14.99+29.99)');
+    assert(d.billing.failedPaymentsCount === 1, 'failedPaymentsCount cuenta el pago no-succeeded');
 
     section('adminUpdateUser — setPlan');
     const sp = await call(fns.adminUpdateUser, adminCtx, { targetUid: 'u1', operation: 'setPlan', plan: 'premium', reason: 'upgrade manual' });
