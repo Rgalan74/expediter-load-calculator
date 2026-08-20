@@ -319,7 +319,8 @@ function section(t) { console.log('\n=== ' + t + ' ==='); }
     assert(bo.revenueByMonth.length === 12, 'revenueByMonth tiene exactamente 12 meses');
     const monthSum = bo.revenueByMonth.reduce((s, r) => s + r.total, 0);
     assert(Math.abs(monthSum - 29.98) < 0.001, 'revenueByMonth suma 29.98 (9.99+19.99; los pagos de 2022/2023 y el de hace 13 meses quedan fuera de la ventana de 12 meses)');
-    assert(Math.abs(bo.revenueByMonth[11].total - 9.99) < 0.001, 'el ultimo mes de revenueByMonth (mes actual) tiene 9.99');
+    assert(Math.abs(bo.revenueByMonth[11].total - 9.99) < 0.001, 'el ultimo mes de revenueByMonth (mes actual, indice 11) tiene 9.99');
+    assert(Math.abs(bo.revenueByMonth[9].total - 19.99) < 0.001, 'el pago de hace 2 meses cae en el indice correcto (11-2=9), no desplazado por un off-by-one');
 
     const expectedByYear = {};
     expectedByYear['2023'] = 44.98;
