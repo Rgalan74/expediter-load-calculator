@@ -576,17 +576,19 @@ Replace with:
                 <div class="billing-charts">
                     <div class="card">
                         <h4>Ingresos por período</h4>
-                        <canvas id="revenueChart"></canvas>
+                        <div><canvas id="revenueChart"></canvas></div>
                     </div>
                     <div class="card">
                         <h4>Distribución por plan</h4>
-                        <canvas id="planChart"></canvas>
+                        <div><canvas id="planChart"></canvas></div>
                     </div>
                 </div>
             </div>
 
             <div class="table-card">
 ```
+
+(Each `<canvas>` is wrapped in a plain `<div>` rather than being a direct child of `.card` — Task 5's CSS gives `.billing-charts .card > div` `position: relative; flex: 1; min-height: 0`, which Chart.js needs on the canvas's *direct parent* to size it correctly under `responsive: true, maintainAspectRatio: false`, per a code-review fix already applied to Task 5.)
 
 - [ ] **Step 2: Add the Chart.js CDN script tag**
 
