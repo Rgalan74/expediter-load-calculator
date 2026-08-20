@@ -120,9 +120,10 @@
         .billing-charts .card {
             background: var(--glass); border: 1px solid var(--glass-border);
             border-radius: 14px; padding: 16px; backdrop-filter: blur(8px);
+            height: 260px; display: flex; flex-direction: column;
         }
         .billing-charts .card h4 { font-size: .72rem; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; letter-spacing: .05em; }
-        .billing-charts canvas { max-height: 220px; }
+        .billing-charts .card > div { position: relative; flex: 1; min-height: 0; }
         @media (max-width: 860px) { .billing-charts { grid-template-columns: 1fr; } }
 
         /* Detail page */
