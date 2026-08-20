@@ -21,6 +21,11 @@ const ROOT = path.resolve(__dirname, '..');
 const PUBLIC = path.join(ROOT, 'public');
 const PORT = 5050;
 
+function _monthsAgo(n, day = 15) {
+    const now = new Date();
+    return Math.floor(new Date(now.getFullYear(), now.getMonth() - n, day).getTime() / 1000);
+}
+
 // ─── Store en memoria (compartido entre requests) ────────────────────────────
 const STORE = {
     users: {
@@ -59,12 +64,22 @@ const STORE = {
         u1: { modules: { 1: { completed: [1, 2, 3, 4, 5] }, 2: { completed: [1, 2, 3] }, 3: { completed: [] } } },
     },
     'customers/u1/subscriptions': {
-        sub_123: { id: 'sub_123', status: 'active', current_period_end: 1800000000, price: { id: 'price_pro' } },
+        sub_123: { id: 'sub_123', status: 'active', current_period_end: 1800000000, price: { id: 'price_pro', unit_amount: 1499 } },
     },
     'customers/u1/payments': {
-        pay_1: { id: 'pay_1', amount: 1499, currency: 'usd', status: 'succeeded', created: 1700000000 },
-        pay_2: { id: 'pay_2', amount: 1499, currency: 'usd', status: 'succeeded', created: 1702500000 },
-        pay_3: { id: 'pay_3', amount: 1499, currency: 'usd', status: 'requires_payment_method', created: 1703000000 },
+        pay_1: { id: 'pay_1', amount: 1499, currency: 'usd', status: 'succeeded', created: _monthsAgo(0) },
+        pay_2: { id: 'pay_2', amount: 1499, currency: 'usd', status: 'succeeded', created: _monthsAgo(1) },
+        pay_3: { id: 'pay_3', amount: 1499, currency: 'usd', status: 'requires_payment_method', created: _monthsAgo(2) },
+        pay_4: { id: 'pay_4', amount: 1499, currency: 'usd', status: 'succeeded', created: _monthsAgo(3) },
+    },
+    'customers/u3/subscriptions': {
+        sub_999: { id: 'sub_999', status: 'active', cancel_at_period_end: true, items: { data: [{ price: { unit_amount: 2999 } }] } },
+    },
+    'customers/u3/payments': {
+        pay_u3_1: { id: 'pay_u3_1', amount: 2999, currency: 'usd', status: 'succeeded', created: _monthsAgo(0) },
+        pay_u3_2: { id: 'pay_u3_2', amount: 2999, currency: 'usd', status: 'succeeded', created: _monthsAgo(2) },
+        pay_u3_3: { id: 'pay_u3_3', amount: 2999, currency: 'usd', status: 'succeeded', created: _monthsAgo(5) },
+        pay_u3_4: { id: 'pay_u3_4', amount: 2999, currency: 'usd', status: 'succeeded', created: _monthsAgo(14) },
     },
 };
 
@@ -98,7 +113,22 @@ function makeCol(name, filter) {
     };
     return query;
 }
-const db = { collection(name) { return makeCol(name); } };
+function collectionGroupSnapshot(name) {
+    const docs = [];
+    for (const key of Object.keys(STORE)) {
+        if (key === name || key.endsWith('/' + name)) {
+            for (const [id, data] of Object.entries(STORE[key])) {
+                docs.push({ id, data: () => data });
+            }
+        }
+    }
+    return { docs, size: docs.length, forEach(cb) { docs.forEach(cb); } };
+}
+function makeCollectionGroup(name) {
+    const query = { limit() { return query; }, orderBy() { return query; }, get: async () => collectionGroupSnapshot(name) };
+    return query;
+}
+const db = { collection(name) { return makeCol(name); }, collectionGroup(name) { return makeCollectionGroup(name); } };
 
 // ─── Mock firebase-admin / functions / stripe / express ──────────────────────
 const firestoreInstance = Object.assign(() => db, {
