@@ -56,7 +56,9 @@
             color: var(--text); padding: 10px 12px; border-radius: 10px; font-size: .9rem;
             outline: none;
         }
-        .toolbar input { flex: 1; min-width: 220px; }
+        .toolbar input[type="text"] { flex: 1; min-width: 220px; }
+        .toolbar input[type="date"] { width: 150px; color-scheme: dark; }
+        .toolbar select { width: auto; min-width: 150px; }
         .toolbar input:focus, .toolbar select:focus { border-color: var(--purple); }
 
         .btn {
@@ -221,6 +223,21 @@
                     <option value="active">Activo</option>
                     <option value="suspended">Suspendido</option>
                 </select>
+                <select id="fRole" onchange="renderTable()">
+                    <option value="all">Todos los roles</option>
+                    <option value="admin">Admin</option>
+                    <option value="developer">Developer</option>
+                    <option value="user">User</option>
+                </select>
+                <select id="fSub" onchange="renderTable()">
+                    <option value="all">Toda suscripción</option>
+                    <option value="active">Activa</option>
+                    <option value="none">Sin suscripción</option>
+                    <option value="canceled">Cancelada</option>
+                    <option value="canceled_scheduled">Cancela pronto</option>
+                </select>
+                <input type="date" id="fDateFrom" onchange="renderTable()" title="Registrado desde">
+                <input type="date" id="fDateTo" onchange="renderTable()" title="Registrado hasta">
                 <button class="btn btn-primary" onclick="refreshUsers()">🔄 Recargar</button>
             </div>
 
@@ -468,11 +485,20 @@
             const q = document.getElementById('search').value.toLowerCase();
             const fp = document.getElementById('fPlan').value;
             const fs = document.getElementById('fStatus').value;
+            const fr = document.getElementById('fRole').value;
+            const fsub = document.getElementById('fSub').value;
+            const fFrom = document.getElementById('fDateFrom').value;
+            const fTo = document.getElementById('fDateTo').value;
             const rows = ALL_USERS.filter(u => {
                 const mq = !q || (u.email||'').toLowerCase().includes(q) || (u.uid||'').toLowerCase().includes(q);
                 const mp = fp === 'all' || u.plan === fp;
                 const ms = fs === 'all' || (fs === 'active' ? u.accountStatus !== 'suspended' : u.accountStatus === 'suspended');
-                return mq && mp && ms;
+                const mr = fr === 'all' || u.role === fr;
+                const msub = fsub === 'all' || u.subscriptionStatus === fsub;
+                const created = u.createdAt ? new Date(u.createdAt) : null;
+                const mFrom = !fFrom || (created && created >= new Date(fFrom));
+                const mTo = !fTo || (created && created <= new Date(fTo + 'T23:59:59'));
+                return mq && mp && ms && mr && msub && mFrom && mTo;
             });
             const tb = document.getElementById('tbody');
             if (rows.length === 0) {
