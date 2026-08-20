@@ -505,9 +505,13 @@
             return '$' + Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
+        let billingRequestId = 0;
+
         async function renderBillingOverview() {
+            const requestId = ++billingRequestId;
             try {
                 const res = await cf('adminGetBillingOverview')();
+                if (requestId !== billingRequestId) return;
                 BILLING_DATA = res.data;
                 document.getElementById('billingOverview').classList.remove('hidden');
                 document.getElementById('billTotalRevenue').textContent = fmtMoney(BILLING_DATA.totalRevenue);
@@ -517,6 +521,7 @@
                 renderRevenueChart();
                 renderPlanDistributionChart();
             } catch (e) {
+                if (requestId !== billingRequestId) return;
                 console.warn('[billing-overview]', e.message || e);
                 document.getElementById('billingOverview').classList.add('hidden');
             }
