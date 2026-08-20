@@ -44,14 +44,14 @@ were themselves tamper-proof — they weren't.
   it detects an active Stripe subscription — but this is a **redundant** cache-refresh
   on top of what `activateUserPlan()` already keeps in sync server-side. It is not
   the mechanism actually keeping plan data correct.
-- `public/js/userPlans.js`'s `initializeUserPlan()` (runs once, lazily, the first
-  time a signed-up user's `users/{uid}` doc is found to have no plan set yet) writes
+- `public/js/userPlans.js`'s `initializeUserPlan()` (called directly from
+  `public/auth.html`'s signup handler, before that handler writes its own
+  `fullName`/`phone`/`preferredLanguage` fields a few lines later) writes
   `plan: 'free'`, `subscriptionStatus: 'active'`, `loadsThisMonth: 0`, and
-  `monthStartDate: <now>`. Because `public/auth.html`'s signup flow already creates a
-  partial `users/{uid}` document (with `fullName`/`phone`/`role`, no plan fields)
-  *before* this function ever runs, `initializeUserPlan()`'s `.set(..., {merge:true})`
-  call is evaluated by Firestore as an **update**, not a create — meaning it would be
-  blocked by the same rule that blocks the exploit, if left unchanged.
+  `monthStartDate: <now>`. This is the *first* write to `users/{uid}`, so it's
+  evaluated by Firestore as a **create**, not an update — but the new `create` rule
+  (see Architecture) requires these same fields to be absent there too, so this
+  write would still be blocked if left unchanged.
 
 ## Goals
 
