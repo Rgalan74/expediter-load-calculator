@@ -106,6 +106,25 @@
         .pill-status-canceled { background: rgba(245,158,11,.18); color: #fbbf24; }
         .pill-status-canceled_scheduled { background: rgba(245,158,11,.18); color: #fbbf24; }
 
+        /* Billing overview (lista principal) */
+        .billing-section { margin-bottom: 18px; }
+        .billing-section .billing-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 12px; flex-wrap: wrap; gap: 10px;
+        }
+        .billing-section .billing-header h2 { font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+        .period-toggle { display: inline-flex; background: rgba(0,0,0,.3); border-radius: 8px; padding: 2px; font-size: .78rem; }
+        .period-toggle span { padding: 5px 14px; border-radius: 6px; color: var(--muted); cursor: pointer; user-select: none; }
+        .period-toggle span.active { background: var(--purple); color: #fff; }
+        .billing-charts { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; margin-top: 14px; }
+        .billing-charts .card {
+            background: var(--glass); border: 1px solid var(--glass-border);
+            border-radius: 14px; padding: 16px; backdrop-filter: blur(8px);
+        }
+        .billing-charts .card h4 { font-size: .72rem; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; letter-spacing: .05em; }
+        .billing-charts canvas { max-height: 220px; }
+        @media (max-width: 860px) { .billing-charts { grid-template-columns: 1fr; } }
+
         /* Detail page */
         .detail-card {
             background: var(--glass); border: 1px solid var(--glass-border);
