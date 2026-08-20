@@ -374,6 +374,7 @@
             document.getElementById('detailView').classList.add('hidden');
             document.getElementById('app').classList.remove('hidden');
             refreshUsers();
+            renderBillingOverview();
         }
 
         function showDetailView(uid) {
@@ -423,6 +424,7 @@
                 ALL_USERS = res.data.users || [];
                 renderStats();
                 renderTable();
+                if (BILLING_DATA) renderPlanDistributionChart();
                 showToast('✅ ' + ALL_USERS.length + ' usuarios', 'ok');
             } catch (e) {
                 showToast('❌ ' + (e.message || e), 'err');
