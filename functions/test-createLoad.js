@@ -255,6 +255,12 @@ function section(t) { console.log('\n=== ' + t + ' ==='); }
     assert(createdLoad1.userId === 'free_under', 'userId lo pone el servidor, ignora el del payload');
     assert(createdLoad1.createdAt && createdLoad1.createdAt.__serverTS === true, 'createdAt lo pone el servidor (serverTimestamp)');
 
+    section('createLoad — payload sin userId (asi lo mandan calculator.js y sync-manager.js)');
+    const { userId: _omitUserId, ...VALID_LOAD_NO_USERID } = VALID_LOAD;
+    const r1b = await call('free_under', VALID_LOAD_NO_USERID);
+    assert(typeof r1b.id === 'string' && r1b.id.length > 0, 'guarda sin problema aunque el payload no traiga userId');
+    assert(STORE.loads[r1b.id].userId === 'free_under', 'el servidor igual asigna userId aunque el payload no lo tenga');
+
     section('createLoad — usuario free en el limite exacto');
     const loadsCountBefore = Object.keys(STORE.loads).length;
     try {

@@ -93,25 +93,18 @@ class SyncManager {
 
         for (const calc of unsynced) {
             try {
-                const userId = firebase.auth().currentUser.uid;
-
                 // Remove internal IndexedDB fields before syncing
-                const { id: _idbId, synced: _synced, timestamp: _ts, ...cleanData } = calc;
+                const { id: _idbId, synced: _synced, timestamp: _ts, userId: _omitUserId, createdAt: _omitCreatedAt, ...cleanData } = calc;
 
-                // Save to top-level loads collection (matches app pattern)
-                const docRef = await firebase.firestore()
-                    .collection('loads')
-                    .add({
-                        ...cleanData,
-                        userId,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        syncedFromOffline: true
-                    });
+                // Server-side createLoad enforces the plan's monthly load limit
+                // and owns userId/createdAt — same path as calculator.js's saveLoad()
+                const createLoadFn = firebase.app().functions('us-central1').httpsCallable('createLoad');
+                const res = await createLoadFn({ ...cleanData, syncedFromOffline: true });
 
                 // Delete from IndexedDB after successful sync
                 await window.offlineStorage.deleteSynced('calculations', calc.id);
 
-                debugLog(`✅ Synced calculation #${calc.id} → ${docRef.id}`);
+                debugLog(`✅ Synced calculation #${calc.id} → ${res.data.id}`);
             } catch (error) {
                 debugLog(`❌ Failed to sync calculation #${calc.id}:`, error);
             }

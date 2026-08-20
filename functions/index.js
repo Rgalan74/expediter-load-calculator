@@ -450,7 +450,9 @@ exports.evaluateLoad = onCall(
 // numeros cambian alli, deben actualizarse aqui tambien.
 const PLAN_LOAD_LIMITS = { free: 30, professional: -1, premium: -1, admin: -1 };
 
-const LOAD_REQUIRED_FIELDS = ['userId', 'origin', 'destination', 'totalMiles', 'rpm', 'totalCharge'];
+// userId no esta aqui: siempre se sobreescribe con request.auth.uid (linea ~535),
+// nunca se confia en el valor del cliente, asi que tampoco se exige en el payload.
+const LOAD_REQUIRED_FIELDS = ['origin', 'destination', 'totalMiles', 'rpm', 'totalCharge'];
 
 function _validateLoadPayload(data) {
     for (const field of LOAD_REQUIRED_FIELDS) {
