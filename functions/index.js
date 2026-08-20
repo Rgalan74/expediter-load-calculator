@@ -1099,6 +1099,91 @@ async function _getUserBilling(uid) {
     return out;
 }
 
+// Lee la fecha de un pago de Stripe (el campo `created` del extension mirror es
+// tipicamente un numero en segundos Unix, pero tambien puede llegar como
+// Timestamp de Firestore segun como se haya escrito el documento).
+function _paymentDateMs(py) {
+    const c = py.created;
+    if (typeof c === 'number') return c * 1000;
+    if (c && typeof c.toDate === 'function') return c.toDate().getTime();
+    if (c && typeof c._seconds === 'number') return c._seconds * 1000;
+    return 0;
+}
+function _monthKey(ms) {
+    const d = new Date(ms);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+}
+function _yearKey(ms) {
+    return String(new Date(ms).getFullYear());
+}
+
+// ─── Facturacion agregada de todos los usuarios (solo admin) ─────────────────
+exports.adminGetBillingOverview = onCall(
+    { region: 'us-central1' },
+    async (request) => {
+        await _requireAdmin(request);
+
+        // Sin where/orderBy a proposito: un collectionGroup con filtros needs a
+        // composite index que no existe hoy. Se agrega todo en memoria abajo.
+        // limit() es un techo de seguridad, no paginacion real (mismo criterio
+        // que la agregacion de `loads` en adminGetUserDetail).
+        const [paySnap, subsSnap] = await Promise.all([
+            db.collectionGroup('payments').limit(5000).get()
+                .catch(() => ({ forEach: () => {} })),
+            db.collectionGroup('subscriptions').limit(2000).get()
+                .catch(() => ({ forEach: () => {} })),
+        ]);
+
+        const payments = [];
+        paySnap.forEach(doc => payments.push(doc.data()));
+        const subscriptions = [];
+        subsSnap.forEach(doc => subscriptions.push(doc.data()));
+
+        let totalRevenue = 0;
+        let thisMonthRevenue = 0;
+        let failedPaymentsCount = 0;
+        const byMonth = {};
+        const byYear = {};
+
+        const now = new Date();
+        const currentMonthKey = _monthKey(now.getTime());
+
+        for (const py of payments) {
+            const amount = Number(py.amount || 0) / 100;
+            if (py.status === 'succeeded') {
+                totalRevenue += amount;
+                const ms = _paymentDateMs(py);
+                const mKey = _monthKey(ms);
+                const yKey = _yearKey(ms);
+                byMonth[mKey] = (byMonth[mKey] || 0) + amount;
+                byYear[yKey] = (byYear[yKey] || 0) + amount;
+                if (mKey === currentMonthKey) thisMonthRevenue += amount;
+            } else {
+                failedPaymentsCount++;
+            }
+        }
+
+        // Ultimos 12 meses, mas antiguo primero, con 0 en los meses sin pagos.
+        const revenueByMonth = [];
+        for (let i = 11; i >= 0; i--) {
+            const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+            const key = _monthKey(d.getTime());
+            revenueByMonth.push({ month: key, total: byMonth[key] || 0 });
+        }
+
+        const revenueByYear = Object.keys(byYear).sort().map(year => ({ year, total: byYear[year] }));
+
+        let mrr = 0;
+        for (const sub of subscriptions) {
+            if (sub.status !== 'active') continue;
+            const unitAmount = sub.price?.unit_amount ?? sub.items?.data?.[0]?.price?.unit_amount ?? 0;
+            mrr += Number(unitAmount || 0) / 100;
+        }
+
+        return { totalRevenue, mrr, thisMonthRevenue, failedPaymentsCount, revenueByMonth, revenueByYear };
+    }
+);
+
 // ─── Listar todos los usuarios (solo admin) ───────────────────────────────────
 exports.adminGetUsers = onCall(
     { region: 'us-central1' },
