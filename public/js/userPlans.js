@@ -174,14 +174,10 @@ async function getUserPlan(userId) {
                 }
             }
 
-            // Sincronizar en users/{uid} para consistencia
-            await firebase.firestore().collection('users').doc(userId)
-                .set({
-                    plan: planId,
-                    subscriptionStatus: 'active',
-                    subscriptionId: stripeSubId,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
+            // Nota: ya NO se sincroniza aqui de vuelta a Firestore. activateUserPlan()
+            // en functions/index.js (via stripeWebhook) ya mantiene plan/subscriptionStatus/
+            // subscriptionId al dia server-side; escribir esto desde el cliente es
+            // redundante y firestore.rules ahora lo rechaza (ver Task 4).
         } else {
             planId = userData.plan || 'free';
         }
@@ -213,10 +209,6 @@ async function initializeUserPlan(userId, email) {
             .doc(userId)
             .set({
                 email: email,
-                plan: 'free',
-                subscriptionStatus: 'active',
-                loadsThisMonth: 0,
-                monthStartDate: new Date().toISOString(),
                 lexTrialEndsAt: trialEnd,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 updatedAt: firebase.firestore.FieldValue.serverTimestamp()
