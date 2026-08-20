@@ -33,7 +33,15 @@ service cloud.firestore {
     function isModifyingRoleFields() {
       return request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'roleAssignedBy', 'roleAssignedAt', 'permissions']);
     }
-    
+
+    function isModifyingServerOwnedFields() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasAny(['plan', 'subscriptionStatus', 'subscriptionId', 'loadsThisMonth', 'monthStartDate']);
+    }
+
+    function hasNoServerOwnedFieldsAtCreate() {
+      return !request.resource.data.keys().hasAny(['plan', 'subscriptionStatus', 'subscriptionId', 'loadsThisMonth', 'monthStartDate']);
+    }
+
     function hasRequiredFields() {
       return request.resource.data.keys().hasAll([
         'userId', 'origin', 'destination', 'totalMiles', 'rpm', 'totalCharge'
@@ -235,12 +243,17 @@ service cloud.firestore {
       // Lectura: usuario puede leer su propio perfil, admins pueden leer todos
       allow read: if isOwner(userId) || isAdminByRole();
       
-      // Creación: usuario puede crear su propio perfil
-      allow create: if isOwner(userId);
-      
-      // Actualización NORMAL (sin tocar roles):
-      // Usuario puede actualizar su perfil EXCEPTO campos de roles
-      allow update: if isOwner(userId) && !isModifyingRoleFields();
+      // Creación: usuario puede crear su propio perfil, pero no puede sembrar
+      // campos server-owned (plan/suscripcion/contador de cargas) con valores
+      // propios -- esos siempre empiezan ausentes y el codigo ya trata su
+      // ausencia como el default seguro (free / 0 cargas).
+      allow create: if isOwner(userId) && hasNoServerOwnedFieldsAtCreate();
+
+      // Actualización NORMAL (sin tocar roles ni campos server-owned):
+      // Usuario puede actualizar su perfil EXCEPTO campos de roles y los
+      // campos que solo debe tocar el Admin SDK (activateUserPlan, adminUpdateUser,
+      // createLoad)
+      allow update: if isOwner(userId) && !isModifyingRoleFields() && !isModifyingServerOwnedFields();
       
       // Actualización de ROLES:
       // Solo admins pueden modificar roles
