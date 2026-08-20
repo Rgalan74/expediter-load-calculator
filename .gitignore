@@ -78,3 +78,5 @@ public/js/secrets.js
 .firebase/
 .agents/
 Videos/
+
+.superpowers/
