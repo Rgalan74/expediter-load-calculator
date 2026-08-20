@@ -309,6 +309,14 @@ function section(t) { console.log('\n=== ' + t + ' ==='); }
         assert(false, 'targetUid vacío debe rechazarse');
     } catch (e) { assert(e.code === 'invalid-argument', 'targetUid vacío → invalid-argument'); }
 
+    section('adminGetBillingOverview — guard de rol');
+    try {
+        await call(fns.adminGetBillingOverview, userCtx, {});
+        assert(false, 'usuario no-admin debe ser rechazado');
+    } catch (e) {
+        assert(e.code === 'permission-denied', 'no-admin lanza permission-denied (' + e.code + ')');
+    }
+
     section('adminGetBillingOverview — agregados globales');
     const bo = await call(fns.adminGetBillingOverview, adminCtx, {});
     assert(Math.abs(bo.totalRevenue - 89.95) < 0.001, 'totalRevenue suma todos los pagos succeeded de los 3 usuarios contribuyentes (14.99+29.99+9.99+19.99+9.99+5.00)');

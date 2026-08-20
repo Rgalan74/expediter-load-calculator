@@ -1129,10 +1129,13 @@ exports.adminGetBillingOverview = onCall(
         // que la agregacion de `loads` en adminGetUserDetail).
         const [paySnap, subsSnap] = await Promise.all([
             db.collectionGroup('payments').limit(5000).get()
-                .catch(() => ({ forEach: () => {} })),
+                .catch(e => { logger.warn('[adminGetBillingOverview] payments query failed:', e.message); return { forEach: () => {}, size: 0 }; }),
             db.collectionGroup('subscriptions').limit(2000).get()
-                .catch(() => ({ forEach: () => {} })),
+                .catch(e => { logger.warn('[adminGetBillingOverview] subscriptions query failed:', e.message); return { forEach: () => {}, size: 0 }; }),
         ]);
+
+        if (paySnap.size >= 5000) logger.warn('[adminGetBillingOverview] payments hit the 5000 safety cap — totals may be incomplete');
+        if (subsSnap.size >= 2000) logger.warn('[adminGetBillingOverview] subscriptions hit the 2000 safety cap — MRR may be incomplete');
 
         const payments = [];
         paySnap.forEach(doc => payments.push(doc.data()));
