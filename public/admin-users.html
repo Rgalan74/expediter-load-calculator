@@ -226,6 +226,32 @@
 
             <div class="stats" id="stats"></div>
 
+            <div id="billingOverview" class="billing-section hidden">
+                <div class="billing-header">
+                    <h2>💳 Facturación</h2>
+                    <div class="period-toggle">
+                        <span id="periodMonthBtn" class="active" onclick="setBillingPeriod('month')">Mes</span>
+                        <span id="periodYearBtn" onclick="setBillingPeriod('year')">Año</span>
+                    </div>
+                </div>
+                <div class="stats">
+                    <div class="stat"><div class="label">Ingresos totales</div><div class="value" id="billTotalRevenue">—</div></div>
+                    <div class="stat"><div class="label">MRR actual</div><div class="value" id="billMrr">—</div></div>
+                    <div class="stat"><div class="label">Este mes</div><div class="value" id="billThisMonth">—</div></div>
+                    <div class="stat"><div class="label">Pagos con problema</div><div class="value" id="billFailed">—</div></div>
+                </div>
+                <div class="billing-charts">
+                    <div class="card">
+                        <h4>Ingresos por período</h4>
+                        <div><canvas id="revenueChart"></canvas></div>
+                    </div>
+                    <div class="card">
+                        <h4>Distribución por plan</h4>
+                        <div><canvas id="planChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
             <div class="table-card">
                 <table>
                     <thead>
@@ -253,6 +279,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-functions-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <script src="./js/config.js"></script>
     <script src="./js/core/roles-manager.js"></script>
 
