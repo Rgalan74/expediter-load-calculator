@@ -712,7 +712,25 @@ git commit -m "feat(loads): call createLoad Cloud Function instead of writing lo
 **Files:**
 - Modify: `firestore.rules`
 
-- [ ] **Step 1: Deny direct client creates**
+> **Status: done (commit `19f7248`).** Spec review ✅, code quality review found
+> a real gap the spec didn't anticipate: `public/js/sync-manager.js`'s
+> `syncCalculations()` (background offline-load sync, triggered on the
+> `online` event / 3s after page load) still wrote directly to `loads` via
+> the client SDK, which now fails `permission-denied` under `allow create:
+> if false` — a silent, permanent data-loss regression for any driver who
+> saves a load while offline. Fixed by routing it through `createLoad`
+> (mirroring Task 5's `calculator.js` change). That fix surfaced a second,
+> shared bug: `createLoad` validated `userId` as a required field before the
+> server assigns it from `request.auth.uid`, so any client correctly
+> omitting `userId` (both `calculator.js` and `sync-manager.js` do, since
+> it's server-owned) was rejected with `invalid-argument`. Fixed by removing
+> `userId` from `LOAD_REQUIRED_FIELDS` — the server always overwrites it
+> regardless of the client payload. Both fixes + a new regression test
+> (payload without `userId`) are in commit `fccacd6`.
+> `functions/test-createLoad.js` is now 20/20 (was 18/18 before the added
+> test case) — see Task 7 Step 1.
+
+- [x] **Step 1: Deny direct client creates**
 
 In `firestore.rules`, find:
 
@@ -731,11 +749,11 @@ Replace with:
 
 (This is the `loads` collection's create rule specifically — `allow read`, `allow update`, and `allow delete` on `loads`, a few lines below this block, are untouched. Only creation moves behind `createLoad`; editing and deleting your own existing loads works exactly as before.)
 
-- [ ] **Step 2: Verify by reading the file back**
+- [x] **Step 2: Verify by reading the file back**
 
 Read `firestore.rules` and confirm: the `loads` block now reads `allow read: ...`, `allow create: if false;`, `allow update: ...` (unchanged), `allow delete: ...` (unchanged) — in that order, and no other rule in the file was touched (e.g. the separate, unrelated `users/{userId}/loads/{loadId}` nested-collection rule elsewhere in the file must be untouched, since it's explicitly out of scope per the spec's non-goals).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add firestore.rules
