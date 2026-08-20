@@ -442,6 +442,121 @@ exports.evaluateLoad = onCall(
     }
 );
 
+// ─── Crear una carga nueva con limite de plan aplicado (callable) ────────────
+// Unico camino legitimo para crear un documento en `loads` -- firestore.rules
+// bloquea la escritura directa del cliente (ver Task 4 del plan). Duplica
+// deliberadamente los numeros de limite de public/js/userPlans.js (mismo
+// patron ya usado en este archivo para ACADEMY_MODULE_LESSONS): si esos
+// numeros cambian alli, deben actualizarse aqui tambien.
+const PLAN_LOAD_LIMITS = { free: 30, professional: -1, premium: -1, admin: -1 };
+
+const LOAD_REQUIRED_FIELDS = ['userId', 'origin', 'destination', 'totalMiles', 'rpm', 'totalCharge'];
+
+function _validateLoadPayload(data) {
+    for (const field of LOAD_REQUIRED_FIELDS) {
+        if (data[field] === undefined || data[field] === null || data[field] === '') {
+            throw new HttpsError('invalid-argument', `Missing required field: ${field}`);
+        }
+    }
+    const rpm = Number(data.rpm);
+    const totalMiles = Number(data.totalMiles);
+    const totalCharge = Number(data.totalCharge);
+    if (!(rpm >= 0 && rpm <= 50)) throw new HttpsError('invalid-argument', 'rpm out of bounds');
+    if (!(totalMiles >= 0 && totalMiles <= 10000)) throw new HttpsError('invalid-argument', 'totalMiles out of bounds');
+    if (!(totalCharge >= 0 && totalCharge <= 500000)) throw new HttpsError('invalid-argument', 'totalCharge out of bounds');
+}
+
+// Replica exactamente la logica de resolucion de plan de getUserPlan() en
+// public/js/userPlans.js: si el usuario es admin, plan=admin; si tiene una
+// suscripcion activa de Stripe, esa suscripcion manda (mapeada via
+// PRICE_TO_PLAN) sobre el campo `plan` del documento, que puede estar
+// desactualizado; si no, se usa el campo `plan` directamente.
+async function _resolveUserPlan(uid, userData) {
+    if (userData.role === 'admin') return 'admin';
+
+    const subsSnap = await db.collection('customers').doc(uid)
+        .collection('subscriptions').where('status', '==', 'active').get();
+
+    const PLAN_PRIORITY = { free: 0, professional: 1, premium: 2, admin: 3 };
+    let planId = null;
+    let bestPriority = -1;
+    subsSnap.forEach(doc => {
+        const priceId = doc.data().items?.[0]?.price?.id;
+        const docPlanId = PRICE_TO_PLAN[priceId] || 'free';
+        const priority = PLAN_PRIORITY[docPlanId] ?? 0;
+        if (priority > bestPriority) {
+            bestPriority = priority;
+            planId = docPlanId;
+        }
+    });
+
+    return planId || userData.plan || 'free';
+}
+
+exports.createLoad = onCall(
+    { region: 'us-central1' },
+    async (request) => {
+        if (!request.auth) {
+            throw new HttpsError('unauthenticated', 'Authentication required');
+        }
+        const uid = request.auth.uid;
+        const data = request.data || {};
+
+        _validateLoadPayload(data);
+
+        const userRef = db.collection('users').doc(uid);
+        const newLoadRef = db.collection('loads').doc();
+
+        // Resolver el plan (puede requerir leer suscripciones de Stripe) antes
+        // de la transaccion -- no necesita ser transaccionalmente consistente
+        // con el contador, solo la creacion de la carga + el contador si.
+        const preSnap = await userRef.get();
+        const preUserData = preSnap.exists ? preSnap.data() : {};
+        const planId = await _resolveUserPlan(uid, preUserData);
+        const maxLoads = PLAN_LOAD_LIMITS[planId] ?? PLAN_LOAD_LIMITS.free;
+
+        const result = await db.runTransaction(async (tx) => {
+            const userSnap = await tx.get(userRef);
+            const userData = userSnap.exists ? userSnap.data() : {};
+
+            const now = new Date();
+            const monthStart = userData.monthStartDate ? new Date(userData.monthStartDate) : null;
+            const sameMonth = !!monthStart &&
+                now.getMonth() === monthStart.getMonth() &&
+                now.getFullYear() === monthStart.getFullYear();
+            const currentCount = sameMonth ? Number(userData.loadsThisMonth || 0) : 0;
+
+            if (maxLoads !== -1 && currentCount >= maxLoads) {
+                throw new HttpsError('resource-exhausted', 'Límite de cargas del mes alcanzado');
+            }
+
+            const loadData = {
+                ...data,
+                userId: uid,
+                createdAt: admin.firestore.FieldValue.serverTimestamp(),
+            };
+            tx.set(newLoadRef, loadData);
+
+            if (sameMonth) {
+                tx.update(userRef, {
+                    loadsThisMonth: admin.firestore.FieldValue.increment(1),
+                    updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+                });
+            } else {
+                tx.set(userRef, {
+                    loadsThisMonth: 1,
+                    monthStartDate: now.toISOString(),
+                    updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+                }, { merge: true });
+            }
+
+            return { id: newLoadRef.id };
+        });
+
+        return result;
+    }
+);
+
 // ============================================================
 // lexDailyAlerts — Alertas proactivas de Lex (Phase 5)
 // Corre diariamente. Escribe en alerts/{uid} si detecta:
