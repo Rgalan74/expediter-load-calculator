@@ -300,6 +300,15 @@
 
         let ALL_USERS = [];
         let routingInitialized = false;
+        let BILLING_DATA = null;
+        let billingPeriod = 'month';
+        let revenueChart = null;
+        let planChart = null;
+        // Inspirados en los colores de .pill-* (mismo orden de tonos: gris, azul,
+        // cyan, magenta/purpura) pero mas saturados -- los fondos reales de las
+        // pills son oscuros y quedan planos/dificiles de distinguir como
+        // segmentos solidos de una dona sobre el mismo fondo oscuro de la pagina.
+        const PLAN_CHART_COLORS = { free: '#64748b', starter: '#3b82f6', professional: '#22d3ee', premium: '#db2777' };
 
         function waitForFirebaseReady(cb) {
             if (window.auth && window.db) { cb(); return; }
@@ -492,6 +501,88 @@
 
         function fmtMoney(n) {
             return '$' + Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        async function renderBillingOverview() {
+            try {
+                const res = await cf('adminGetBillingOverview')();
+                BILLING_DATA = res.data;
+                document.getElementById('billingOverview').classList.remove('hidden');
+                document.getElementById('billTotalRevenue').textContent = fmtMoney(BILLING_DATA.totalRevenue);
+                document.getElementById('billMrr').textContent = fmtMoney(BILLING_DATA.mrr);
+                document.getElementById('billThisMonth').textContent = fmtMoney(BILLING_DATA.thisMonthRevenue);
+                document.getElementById('billFailed').textContent = BILLING_DATA.failedPaymentsCount;
+                renderRevenueChart();
+                renderPlanDistributionChart();
+            } catch (e) {
+                console.warn('[billing-overview]', e.message || e);
+                document.getElementById('billingOverview').classList.add('hidden');
+            }
+        }
+
+        function setBillingPeriod(period) {
+            billingPeriod = period;
+            document.getElementById('periodMonthBtn').classList.toggle('active', period === 'month');
+            document.getElementById('periodYearBtn').classList.toggle('active', period === 'year');
+            renderRevenueChart();
+        }
+
+        function renderRevenueChart() {
+            if (!BILLING_DATA || typeof Chart === 'undefined') return;
+            const rows = billingPeriod === 'month' ? BILLING_DATA.revenueByMonth : BILLING_DATA.revenueByYear;
+            const labels = rows.map(r => r.month || r.year);
+            const values = rows.map(r => r.total);
+            const canvas = document.getElementById('revenueChart');
+            if (revenueChart) {
+                revenueChart.data.labels = labels;
+                revenueChart.data.datasets[0].data = values;
+                revenueChart.update();
+                return;
+            }
+            revenueChart = new Chart(canvas, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [{ label: 'Ingresos', data: values, borderColor: '#8b5cf6', backgroundColor: 'rgba(139,92,246,.2)', tension: 0.3, fill: true }],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { ticks: { color: '#93a0c0' }, grid: { color: 'rgba(255,255,255,.06)' } },
+                        y: { beginAtZero: true, ticks: { color: '#93a0c0', callback: v => '$' + v.toLocaleString() }, grid: { color: 'rgba(255,255,255,.06)' } },
+                    },
+                },
+            });
+        }
+
+        function renderPlanDistributionChart() {
+            if (typeof Chart === 'undefined') return;
+            const canvas = document.getElementById('planChart');
+            if (!canvas) return;
+            const byPlan = { free: 0, starter: 0, professional: 0, premium: 0 };
+            ALL_USERS.forEach(u => { if (byPlan[u.plan] !== undefined) byPlan[u.plan]++; });
+            const labels = Object.keys(byPlan);
+            const values = labels.map(k => byPlan[k]);
+            const colors = labels.map(k => PLAN_CHART_COLORS[k]);
+            if (planChart) {
+                planChart.data.datasets[0].data = values;
+                planChart.update();
+                return;
+            }
+            planChart = new Chart(canvas, {
+                type: 'doughnut',
+                data: {
+                    labels: labels.map(l => l.toUpperCase()),
+                    datasets: [{ data: values, backgroundColor: colors, borderWidth: 0 }],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { color: '#93a0c0', font: { size: 10 } } } },
+                },
+            });
         }
 
         function escapeHtml(str) {
