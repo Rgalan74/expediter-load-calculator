@@ -120,6 +120,11 @@ faqs:
 <div class="bg-gradient-to-r from-orange-500/20 to-cyan-500/20 border border-white/10 rounded-xl p-6 text-center font-bold text-xl my-8">
   📈 COSTO TOTAL DE OPERACIÓN: <span class="gradient-text">$0.88 - $1.25 por milla</span>
 </div>
+<div class="callout tip">
+  <strong class="text-cyan-400 font-bold">💡 {{ blogStrings[lang].midCtaTitle }}</strong>
+  <p>{{ blogStrings[lang].midCtaBody }} <a href="{{ '/en/auth.html' if lang == 'en' else '/auth.html' }}" class="text-cyan-400 font-semibold hover:underline">{{ blogStrings[lang].midCtaButton }}</a></p>
+</div>
+
 <h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">👻 Los Tres Costos Silenciosos Más Agresivos</h2>
 <h3 class="text-lg md:text-xl font-semibold text-white mt-6 mb-2">1. Depreciación del Vehículo ($0.05 -
   $0.08/mi)</h3>

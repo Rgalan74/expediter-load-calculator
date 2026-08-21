@@ -133,6 +133,13 @@
     .lang-toggle button.active {
       color: var(--primary-cyan);
     }
+    .post-card {
+      transition: transform 0.25s, border-color 0.25s;
+    }
+    .post-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 217, 255, 0.3);
+    }
   </style>
   <!-- Meta Pixel Code -->
   <script>
@@ -296,6 +303,10 @@
   <li><strong>Repositioning (reposicionamiento):</strong> las millas desde donde entregaste hasta la próxima zona donde hay freight disponible.</li>
 </ul>
 <p>Ninguna de las dos te la paga el broker. Pero ambas te cuestan exactamente lo mismo que las millas pagadas: gasolina, desgaste de la van, tiempo. La diferencia es que una te genera ingreso y la otra no — y sin embargo, la mayoría de transportistas solo calcula su RPM usando las millas de la carga, ignorando por completo el deadhead.</p>
+<div class="callout tip">
+  <strong class="text-cyan-400 font-bold">💡 ¿Quieres calcular esto automáticamente?</strong>
+  <p>Smart Load Solution hace este cálculo por ti en segundos, con cada carga que evalúas. <a href="/auth.html" class="text-cyan-400 font-semibold hover:underline">Probar Gratis →</a></p>
+</div>
 <h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">🕵️ Por Qué las Millas Muertas Son el "Ladrón Silencioso"</h2>
 <p>No es un gasto que veas de golpe, como una factura. Es un goteo constante, carga tras carga, que se acumula sin que lo notes. Un ejemplo real: si tu error de cálculo es de $0.40/milla por no contar el deadhead correctamente, y manejas 4,000 millas al mes, ese error te cuesta <strong class="text-orange-400">$1,600 al mes</strong> — casi $19,200 al año. Y lo peor: durante todo ese tiempo, crees que estás ganando más de lo que realmente ganas, porque tu número mental de RPM nunca incluyó el deadhead.</p>
 <h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">📐 Cómo Calcular el Impacto Real del Deadhead</h2>
@@ -348,6 +359,18 @@
       </div>
       
 
+      <!-- Author bio -->
+      <div class="glass-card p-6 flex items-center gap-4 my-10">
+        
+        <img src="/img/blog/ricardo-headshot.webp" alt="Ricardo Galán" class="w-16 h-16 rounded-full object-cover border border-white/10 flex-shrink-0">
+        
+        <div>
+          <div class="font-bold text-white">Ricardo Galán</div>
+          <div class="text-cyan-400 text-sm mb-1">@galan.expediter</div>
+          <p class="text-gray-400 text-sm">Owner-operator activo, creador de Smart Load Solution. Este contenido nace de sus propias cargas, no de teoría genérica.</p>
+        </div>
+      </div>
+
       <!-- Lead Magnet CTA -->
       <div class="glass-card p-8 text-center my-12 border-cyan-500/20 border">
         <h3 class="text-2xl font-bold text-white mb-3">Deja de Calcular tus Finanzas a Ciegas</h3>
@@ -356,6 +379,42 @@
           Calcular Mis Costos Reales Gratis →
         </a>
       </div>
+
+      <!-- Sigue leyendo -->
+      
+      
+      
+      <div class="mt-4">
+        <h3 class="text-xl md:text-2xl font-bold text-white mb-6">Sigue Leyendo</h3>
+        <div class="grid md:grid-cols-3 gap-6">
+          
+          <a href="/blog/como-calcular-rpm-real.html" class="post-card glass-card overflow-hidden block">
+            <img src="/img/blog/ricardo-cab-hero.webp" alt="Ricardo Galán manejando su cargo van, calculando su RPM real en ruta" class="w-full h-32 object-cover">
+            <div class="p-4">
+              <span class="inline-block bg-cyan-900/40 text-cyan-400 text-xs font-semibold px-3 py-1 rounded-full mb-2">Guía B2B</span>
+              <h4 class="text-sm font-bold text-white leading-snug">Cómo Calcular tu RPM Real (Y Por Qué los Números del Broker Engañan)</h4>
+            </div>
+          </a>
+          
+          <a href="/blog/cuanto-pagan-por-milla-cargo-van-2026.html" class="post-card glass-card overflow-hidden block">
+            <img src="/img/blog/ricardo-carretera-hero.webp" alt="Vista desde el volante de la cargo van en la carretera" class="w-full h-32 object-cover">
+            <div class="p-4">
+              <span class="inline-block bg-cyan-900/40 text-cyan-400 text-xs font-semibold px-3 py-1 rounded-full mb-2">Finanzas</span>
+              <h4 class="text-sm font-bold text-white leading-snug">¿Cuánto Pagan por Milla en Cargo Van en 2026? Números Reales</h4>
+            </div>
+          </a>
+          
+          <a href="/blog/decidir-carga-en-30-segundos.html" class="post-card glass-card overflow-hidden block">
+            <img src="/img/blog/ricardo-gasolinera-hero.webp" alt="Ricardo Galán en la gasolinera evaluando si una carga vale la pena" class="w-full h-32 object-cover">
+            <div class="p-4">
+              <span class="inline-block bg-cyan-900/40 text-cyan-400 text-xs font-semibold px-3 py-1 rounded-full mb-2">Productividad</span>
+              <h4 class="text-sm font-bold text-white leading-snug">Cómo Decidir en 30 Segundos si una Carga Vale la Pena</h4>
+            </div>
+          </a>
+          
+        </div>
+      </div>
+      
     </article>
   </main>
 

@@ -44,6 +44,11 @@ faqs:
   <strong class="text-orange-400 font-bold">⚠️ ¿Por qué esto es un grave error?</strong>
   <p>Porque ignora por completo las millas que no te pagan pero que <strong>SÍ te cuestan</strong> combustible, desgaste del vehículo y tiempo. Tu camión no se teletransporta mágicamente hacia el punto de carga, ni vuela de regreso a casa.</p>
 </div>
+<div class="callout tip">
+  <strong class="text-cyan-400 font-bold">💡 {{ blogStrings[lang].midCtaTitle }}</strong>
+  <p>{{ blogStrings[lang].midCtaBody }} <a href="{{ '/en/auth.html' if lang == 'en' else '/auth.html' }}" class="text-cyan-400 font-semibold hover:underline">{{ blogStrings[lang].midCtaButton }}</a></p>
+</div>
+
 <h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">✅ La Fórmula Correcta del RPM Real</h2>
 <p>Para conocer la verdadera salud financiera de tu negocio y saber si una carga realmente te dará ganancias netas, debes incluir todas las millas en la ecuación:</p>
 <div class="bg-white/5 border border-white/10 rounded-xl p-4 font-mono text-green-400 my-4 text-center">

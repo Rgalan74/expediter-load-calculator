@@ -40,6 +40,11 @@ faqs:
 </ul>
 <p>Neither is covered by the broker. But both cost you exactly the same as loaded miles: fuel, van wear, time. The difference is that one generates income and the other doesn't — yet most carriers only calculate RPM using their loaded miles, ignoring deadhead entirely.</p>
 
+<div class="callout tip">
+  <strong class="text-cyan-400 font-bold">💡 {{ blogStrings[lang].midCtaTitle }}</strong>
+  <p>{{ blogStrings[lang].midCtaBody }} <a href="{{ '/en/auth.html' if lang == 'en' else '/auth.html' }}" class="text-cyan-400 font-semibold hover:underline">{{ blogStrings[lang].midCtaButton }}</a></p>
+</div>
+
 <h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">🕵️ Why Deadhead Is the "Silent Thief"</h2>
 <p>It's not a lump-sum expense that hits you like a big invoice. It's a constant drip, load after load, accumulating without you noticing. A real example: if your calculation error from not counting deadhead correctly is $0.40/mile, and you drive 4,000 miles a month, that error costs you <strong class="text-orange-400">$1,600 per month</strong> — nearly $19,200 per year. And the worst part: the whole time, you believe you're earning more than you actually are, because your mental RPM never included the deadhead.</p>
 

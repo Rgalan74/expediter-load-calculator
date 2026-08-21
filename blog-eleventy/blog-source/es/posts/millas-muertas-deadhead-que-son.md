@@ -40,6 +40,11 @@ faqs:
 </ul>
 <p>Ninguna de las dos te la paga el broker. Pero ambas te cuestan exactamente lo mismo que las millas pagadas: gasolina, desgaste de la van, tiempo. La diferencia es que una te genera ingreso y la otra no — y sin embargo, la mayoría de transportistas solo calcula su RPM usando las millas de la carga, ignorando por completo el deadhead.</p>
 
+<div class="callout tip">
+  <strong class="text-cyan-400 font-bold">💡 {{ blogStrings[lang].midCtaTitle }}</strong>
+  <p>{{ blogStrings[lang].midCtaBody }} <a href="{{ '/en/auth.html' if lang == 'en' else '/auth.html' }}" class="text-cyan-400 font-semibold hover:underline">{{ blogStrings[lang].midCtaButton }}</a></p>
+</div>
+
 <h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">🕵️ Por Qué las Millas Muertas Son el "Ladrón Silencioso"</h2>
 <p>No es un gasto que veas de golpe, como una factura. Es un goteo constante, carga tras carga, que se acumula sin que lo notes. Un ejemplo real: si tu error de cálculo es de $0.40/milla por no contar el deadhead correctamente, y manejas 4,000 millas al mes, ese error te cuesta <strong class="text-orange-400">$1,600 al mes</strong> — casi $19,200 al año. Y lo peor: durante todo ese tiempo, crees que estás ganando más de lo que realmente ganas, porque tu número mental de RPM nunca incluyó el deadhead.</p>
 

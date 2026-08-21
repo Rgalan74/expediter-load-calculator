@@ -126,6 +126,11 @@ faqs:
   📈 TOTAL OPERATING COST: <span class="gradient-text">$0.88 - $1.25 per mile</span>
 </div>
 
+<div class="callout tip">
+  <strong class="text-cyan-400 font-bold">💡 {{ blogStrings[lang].midCtaTitle }}</strong>
+  <p>{{ blogStrings[lang].midCtaBody }} <a href="{{ '/en/auth.html' if lang == 'en' else '/auth.html' }}" class="text-cyan-400 font-semibold hover:underline">{{ blogStrings[lang].midCtaButton }}</a></p>
+</div>
+
 <h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">👻 The Three Most Aggressive Silent Costs</h2>
 
 <h3 class="text-lg md:text-xl font-semibold text-white mt-6 mb-2">1. Vehicle Depreciation ($0.05 - $0.08/mi)</h3>

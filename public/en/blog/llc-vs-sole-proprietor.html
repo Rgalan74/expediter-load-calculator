@@ -1,3 +1,8 @@
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -127,6 +132,13 @@
     }
     .lang-toggle button.active {
       color: var(--primary-cyan);
+    }
+    .post-card {
+      transition: transform 0.25s, border-color 0.25s;
+    }
+    .post-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 217, 255, 0.3);
     }
   </style>
   <!-- Meta Pixel Code -->
@@ -325,6 +337,10 @@
       vehicles)</strong> to settle business debts.
   </p>
 </div>
+<div class="callout tip">
+  <strong class="text-cyan-400 font-bold">💡 Want to calculate this automatically?</strong>
+  <p>Smart Load Solution runs this calculation for you in seconds, on every load you evaluate. <a href="/en/auth.html" class="text-cyan-400 font-semibold hover:underline">Try It Free →</a></p>
+</div>
 <h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">🛡️ 2. LLC (Limited Liability Company)</h2>
 <p>
   An <strong>LLC</strong> is a separate legal entity that isolates your business assets and liabilities from
@@ -449,14 +465,62 @@
       </div>
       
 
+      <!-- Author bio -->
+      <div class="glass-card p-6 flex items-center gap-4 my-10">
+        
+        <img src="/img/blog/ricardo-headshot.webp" alt="Ricardo Galán" class="w-16 h-16 rounded-full object-cover border border-white/10 flex-shrink-0">
+        
+        <div>
+          <div class="font-bold text-white">Ricardo Galán</div>
+          <div class="text-cyan-400 text-sm mb-1">@galan.expediter</div>
+          <p class="text-gray-400 text-sm">Active owner-operator, creator of Smart Load Solution. This content comes from his own loads, not generic theory.</p>
+        </div>
+      </div>
+
       <!-- Lead Magnet CTA -->
       <div class="glass-card p-8 text-center my-12 border-cyan-500/20 border">
-        <h3 class="text-2xl font-bold text-white mb-3">Keep Your LLC Finances Flawless</h3>
-        <p class="text-gray-400 mb-6 max-w-lg mx-auto text-sm md:text-base">Track operating costs, log trips, and audit tax deductions in real-time with the Smart Load Solution companion web app.</p>
+        <h3 class="text-2xl font-bold text-white mb-3">Tired of Calculating Profitability Blindly?</h3>
+        <p class="text-gray-400 mb-6 max-w-lg mx-auto text-sm md:text-base">Join hundreds of expediters using our smart PWA calculator with decision alerts and weather telemetry to secure higher profit margins.</p>
         <a href="/en/auth.html" class="inline-block bg-gradient-to-r from-cyan-400 to-orange-500 hover:from-cyan-500 hover:to-orange-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:-translate-y-0.5 transition duration-300">
-          Register My Business Free Today →
+          Try Smart Load Free Today →
         </a>
       </div>
+
+      <!-- Sigue leyendo -->
+      
+      
+      
+      <div class="mt-4">
+        <h3 class="text-xl md:text-2xl font-bold text-white mb-6">Keep Reading</h3>
+        <div class="grid md:grid-cols-3 gap-6">
+          
+          <a href="/en/blog/deadhead-miles-what-are-they.html" class="post-card glass-card overflow-hidden block">
+            <img src="/img/blog/ricardo-canon-hero.webp" alt="Empty highway in the desert, miles without a load" class="w-full h-32 object-cover">
+            <div class="p-4">
+              <span class="inline-block bg-cyan-900/40 text-cyan-400 text-xs font-semibold px-3 py-1 rounded-full mb-2">B2B Guide</span>
+              <h4 class="text-sm font-bold text-white leading-snug">Deadhead Miles: The Silent Thief Stealing Your Profits</h4>
+            </div>
+          </a>
+          
+          <a href="/en/blog/decide-load-30-seconds.html" class="post-card glass-card overflow-hidden block">
+            <img src="/img/blog/ricardo-gasolinera-hero.webp" alt="Ricardo Galán at the gas station evaluating whether a load is worth it" class="w-full h-32 object-cover">
+            <div class="p-4">
+              <span class="inline-block bg-cyan-900/40 text-cyan-400 text-xs font-semibold px-3 py-1 rounded-full mb-2">Productivity</span>
+              <h4 class="text-sm font-bold text-white leading-snug">How to Decide in 30 Seconds If a Load Is Worth It</h4>
+            </div>
+          </a>
+          
+          <a href="/en/blog/how-much-per-mile-cargo-van-2026.html" class="post-card glass-card overflow-hidden block">
+            <img src="/img/blog/ricardo-carretera-hero.webp" alt="View from the cargo van driver&#39;s seat on the open road" class="w-full h-32 object-cover">
+            <div class="p-4">
+              <span class="inline-block bg-cyan-900/40 text-cyan-400 text-xs font-semibold px-3 py-1 rounded-full mb-2">Finances</span>
+              <h4 class="text-sm font-bold text-white leading-snug">How Much Do Cargo Vans Get Paid Per Mile in 2026? Real Numbers</h4>
+            </div>
+          </a>
+          
+        </div>
+      </div>
+      
     </article>
   </main>
 

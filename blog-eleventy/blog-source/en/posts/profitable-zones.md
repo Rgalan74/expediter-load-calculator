@@ -49,6 +49,11 @@ faqs:
     to run hundreds of empty repositioning miles (deadhead) to get out.</p>
 </div>
 
+<div class="callout tip">
+  <strong class="text-cyan-400 font-bold">💡 {{ blogStrings[lang].midCtaTitle }}</strong>
+  <p>{{ blogStrings[lang].midCtaBody }} <a href="{{ '/en/auth.html' if lang == 'en' else '/auth.html' }}" class="text-cyan-400 font-semibold hover:underline">{{ blogStrings[lang].midCtaButton }}</a></p>
+</div>
+
 <h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">🔥 The Top 5 Hot and Profitable Freight Zones</h2>
 
 <h3 class="text-lg md:text-xl font-semibold text-white mt-6 mb-2">1. The Industrial Midwest Belt (Midwest Core)</h3>

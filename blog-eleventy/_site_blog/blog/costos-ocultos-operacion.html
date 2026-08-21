@@ -133,6 +133,13 @@
     .lang-toggle button.active {
       color: var(--primary-cyan);
     }
+    .post-card {
+      transition: transform 0.25s, border-color 0.25s;
+    }
+    .post-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 217, 255, 0.3);
+    }
   </style>
   <!-- Meta Pixel Code -->
   <script>
@@ -385,6 +392,10 @@
 <div class="bg-gradient-to-r from-orange-500/20 to-cyan-500/20 border border-white/10 rounded-xl p-6 text-center font-bold text-xl my-8">
   📈 COSTO TOTAL DE OPERACIÓN: <span class="gradient-text">$0.88 - $1.25 por milla</span>
 </div>
+<div class="callout tip">
+  <strong class="text-cyan-400 font-bold">💡 ¿Quieres calcular esto automáticamente?</strong>
+  <p>Smart Load Solution hace este cálculo por ti en segundos, con cada carga que evalúas. <a href="/auth.html" class="text-cyan-400 font-semibold hover:underline">Probar Gratis →</a></p>
+</div>
 <h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">👻 Los Tres Costos Silenciosos Más Agresivos</h2>
 <h3 class="text-lg md:text-xl font-semibold text-white mt-6 mb-2">1. Depreciación del Vehículo ($0.05 -
   $0.08/mi)</h3>
@@ -463,6 +474,18 @@
       </div>
       
 
+      <!-- Author bio -->
+      <div class="glass-card p-6 flex items-center gap-4 my-10">
+        
+        <img src="/img/blog/ricardo-headshot.webp" alt="Ricardo Galán" class="w-16 h-16 rounded-full object-cover border border-white/10 flex-shrink-0">
+        
+        <div>
+          <div class="font-bold text-white">Ricardo Galán</div>
+          <div class="text-cyan-400 text-sm mb-1">@galan.expediter</div>
+          <p class="text-gray-400 text-sm">Owner-operator activo, creador de Smart Load Solution. Este contenido nace de sus propias cargas, no de teoría genérica.</p>
+        </div>
+      </div>
+
       <!-- Lead Magnet CTA -->
       <div class="glass-card p-8 text-center my-12 border-cyan-500/20 border">
         <h3 class="text-2xl font-bold text-white mb-3">Deja de Calcular tus Finanzas a Ciegas</h3>
@@ -471,6 +494,42 @@
           Calcular Mis Costos Reales Gratis →
         </a>
       </div>
+
+      <!-- Sigue leyendo -->
+      
+      
+      
+      <div class="mt-4">
+        <h3 class="text-xl md:text-2xl font-bold text-white mb-6">Sigue Leyendo</h3>
+        <div class="grid md:grid-cols-3 gap-6">
+          
+          <a href="/blog/cuanto-pagan-por-milla-cargo-van-2026.html" class="post-card glass-card overflow-hidden block">
+            <img src="/img/blog/ricardo-carretera-hero.webp" alt="Vista desde el volante de la cargo van en la carretera" class="w-full h-32 object-cover">
+            <div class="p-4">
+              <span class="inline-block bg-cyan-900/40 text-cyan-400 text-xs font-semibold px-3 py-1 rounded-full mb-2">Finanzas</span>
+              <h4 class="text-sm font-bold text-white leading-snug">¿Cuánto Pagan por Milla en Cargo Van en 2026? Números Reales</h4>
+            </div>
+          </a>
+          
+          <a href="/blog/decidir-carga-en-30-segundos.html" class="post-card glass-card overflow-hidden block">
+            <img src="/img/blog/ricardo-gasolinera-hero.webp" alt="Ricardo Galán en la gasolinera evaluando si una carga vale la pena" class="w-full h-32 object-cover">
+            <div class="p-4">
+              <span class="inline-block bg-cyan-900/40 text-cyan-400 text-xs font-semibold px-3 py-1 rounded-full mb-2">Productividad</span>
+              <h4 class="text-sm font-bold text-white leading-snug">Cómo Decidir en 30 Segundos si una Carga Vale la Pena</h4>
+            </div>
+          </a>
+          
+          <a href="/blog/llc-vs-propietario-unico.html" class="post-card glass-card overflow-hidden block">
+            <img src="/img/blog/ricardo-carga-interior-hero.webp" alt="Carga real asegurada dentro de la cargo van" class="w-full h-32 object-cover">
+            <div class="p-4">
+              <span class="inline-block bg-cyan-900/40 text-cyan-400 text-xs font-semibold px-3 py-1 rounded-full mb-2">Estructura Legal</span>
+              <h4 class="text-sm font-bold text-white leading-snug">LLC vs Propietario Único para Expediters: ¿Cuál es la mejor opción?</h4>
+            </div>
+          </a>
+          
+        </div>
+      </div>
+      
     </article>
   </main>
 

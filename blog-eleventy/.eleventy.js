@@ -32,6 +32,19 @@ module.exports = function (eleventyConfig) {
     return collectionApi.getFilteredByTag("postEn").sort((a, b) => b.date - a.date);
   });
 
+  // "Sigue leyendo": excluye el post actual, prioriza misma categoría,
+  // rellena con los más recientes. Usado en el pie de cada post individual.
+  eleventyConfig.addFilter("relatedPosts", (collection, currentUrl, currentCategory, limit) => {
+    const others = collection.filter((p) => p.url !== currentUrl);
+    others.sort((a, b) => {
+      const aMatch = a.data.category === currentCategory ? 0 : 1;
+      const bMatch = b.data.category === currentCategory ? 0 : 1;
+      if (aMatch !== bMatch) return aMatch - bMatch;
+      return b.date - a.date;
+    });
+    return others.slice(0, limit);
+  });
+
   return {
     dir: {
       input: "blog-source",

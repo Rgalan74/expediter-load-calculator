@@ -110,6 +110,11 @@ faqs:
   </p>
 </div>
 
+<div class="callout tip">
+  <strong class="text-cyan-400 font-bold">💡 {{ blogStrings[lang].midCtaTitle }}</strong>
+  <p>{{ blogStrings[lang].midCtaBody }} <a href="{{ '/en/auth.html' if lang == 'en' else '/auth.html' }}" class="text-cyan-400 font-semibold hover:underline">{{ blogStrings[lang].midCtaButton }}</a></p>
+</div>
+
 <h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">🗺️ The 30-Second Quick Decision Matrix</h2>
 <p>To make decisions faster, use this matrix based on <strong>load pay vs. destination zone</strong>:</p>
 

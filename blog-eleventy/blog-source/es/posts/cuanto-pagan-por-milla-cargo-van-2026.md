@@ -45,6 +45,11 @@ faqs:
 </ul>
 <p>Estos números varían por región, tipo de van (cargo van vs sprinter), y temporada — pero sirven como punto de partida para saber si una carga está en el rango correcto antes de hacer más cálculos.</p>
 
+<div class="callout tip">
+  <strong class="text-cyan-400 font-bold">💡 {{ blogStrings[lang].midCtaTitle }}</strong>
+  <p>{{ blogStrings[lang].midCtaBody }} <a href="{{ '/en/auth.html' if lang == 'en' else '/auth.html' }}" class="text-cyan-400 font-semibold hover:underline">{{ blogStrings[lang].midCtaButton }}</a></p>
+</div>
+
 <h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">⚠️ Por Qué el Pago que Ves en el Load Board No es tu Pago Real</h2>
 <p>El broker te muestra el pago dividido entre las millas de la carga. Eso es el RPM bruto. Tu RPM real necesita restar:</p>
 <ul class="list-disc pl-6 space-y-2 my-4">
