@@ -252,6 +252,9 @@ function section(t) { console.log('\n=== ' + t + ' ==='); }
     const u1 = listRes.users.find(u => u.uid === 'u1');
     assert(u1 && u1.plan === 'professional', 'u1 tiene plan professional');
     assert(u1.subscriptionStatus === 'active', 'u1 subscriptionStatus active');
+    assert(u1.loadsCount === 3, 'u1 loadsCount 3 (sembradas en STORE.loads)');
+    const u2 = listRes.users.find(u => u.uid === 'u2');
+    assert(u2.loadsCount === 0, 'u2 loadsCount 0 (sin cargas sembradas)');
 
     section('adminGetUserDetail — detalle completo');
     const det = await call(fns.adminGetUserDetail, adminCtx, { targetUid: 'u1' });

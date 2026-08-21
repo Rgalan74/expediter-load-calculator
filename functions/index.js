@@ -1327,6 +1327,16 @@ exports.adminGetUsers = onCall(
                 adminNotes: d.adminNotes || '',
             });
         });
+
+        // Conteo historico total de cargas por usuario (aggregate query: no
+        // transfiere los documentos, solo el numero) — una query por usuario,
+        // en paralelo via Promise.all (mismo patron que ya usa este archivo
+        // para operaciones N-por-usuario, ej. cancelStripeSubscription arriba).
+        await Promise.all(users.map(async (u) => {
+            const countSnap = await db.collection('loads').where('userId', '==', u.uid).count().get();
+            u.loadsCount = countSnap.data().count;
+        }));
+
         return { count: users.length, users };
     }
 );

@@ -279,6 +279,7 @@
                             <th class="sortable" onclick="setSort('plan')">Plan<span id="sortInd_plan"></span></th>
                             <th class="sortable" onclick="setSort('subscriptionStatus')">Suscripción<span id="sortInd_subscriptionStatus"></span></th>
                             <th class="sortable" onclick="setSort('accountStatus')">Cuenta<span id="sortInd_accountStatus"></span></th>
+                            <th class="sortable" onclick="setSort('loadsCount')">Cargas<span id="sortInd_loadsCount"></span></th>
                             <th class="sortable" onclick="setSort('createdAt')">Registro<span id="sortInd_createdAt"></span></th>
                         </tr>
                     </thead>
@@ -326,7 +327,7 @@
         let billingRequestId = 0;
         let sortField = 'createdAt';
         let sortDir = 'desc';
-        const SORT_FIELDS = ['email', 'plan', 'subscriptionStatus', 'accountStatus', 'createdAt'];
+        const SORT_FIELDS = ['email', 'plan', 'subscriptionStatus', 'accountStatus', 'loadsCount', 'createdAt'];
         // Inspirados en los colores de .pill-* (mismo orden de tonos: gris, azul,
         // cyan, magenta/purpura) pero mas saturados -- los fondos reales de las
         // pills son oscuros y quedan planos/dificiles de distinguir como
@@ -527,6 +528,9 @@
                 if (sortField === 'createdAt') {
                     av = av ? new Date(av).getTime() : 0;
                     bv = bv ? new Date(bv).getTime() : 0;
+                } else if (sortField === 'loadsCount') {
+                    av = Number(av || 0);
+                    bv = Number(bv || 0);
                 } else {
                     av = (av || '').toString().toLowerCase();
                     bv = (bv || '').toString().toLowerCase();
@@ -539,7 +543,7 @@
             renderStats(rows);
             const tb = document.getElementById('tbody');
             if (rows.length === 0) {
-                tb.innerHTML = `<tr><td colspan="5" class="empty">Sin resultados</td></tr>`;
+                tb.innerHTML = `<tr><td colspan="6" class="empty">Sin resultados</td></tr>`;
                 return;
             }
             tb.innerHTML = rows.map(u => `
@@ -551,6 +555,7 @@
                     <td>${planPill(u.plan)}</td>
                     <td>${statusPill(u.subscriptionStatus)}</td>
                     <td>${statusPill(u.accountStatus === 'suspended' ? 'suspended' : 'active')}</td>
+                    <td class="mono">${Number(u.loadsCount || 0)}</td>
                     <td class="muted" style="font-size:.8rem">${fmt(u.createdAt)}</td>
                 </tr>
             `).join('');
