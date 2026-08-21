@@ -1509,10 +1509,14 @@ function showDecisionPanel(calculationData = {}) {
       notesSnap.forEach(doc => {
         const d = doc.data();
         const k = (d.key || '').toLowerCase().trim();
-        if ((d.type === 'destino' || d.type === 'ambos') && destKey && matches(k, destKey, destKeyFull)) {
+        // Notas guardadas antes de que existiera #noteZoneType no tienen `type` --
+        // se comportaban como "destino" (unico lado que se comparaba antes de este
+        // fix), asi que sin type se tratan igual para no romper notas viejas.
+        const t = d.type || 'destino';
+        if ((t === 'destino' || t === 'ambos') && destKey && matches(k, destKey, destKeyFull)) {
           notasDestino.push(d);
         }
-        if ((d.type === 'origen' || d.type === 'ambos') && origKey && matches(k, origKey, origKeyFull)) {
+        if ((t === 'origen' || t === 'ambos') && origKey && matches(k, origKey, origKeyFull)) {
           notasOrigen.push(d);
         }
       });
