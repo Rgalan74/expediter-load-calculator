@@ -145,9 +145,9 @@
   <link rel="stylesheet" href="../css/promo-video.css?v=5">
 
   <!-- Auth redirect: send logged-in users straight to the app -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
   <!-- SLS Lead Modal CSS -->
   <style>
@@ -375,7 +375,7 @@
     }
   </style>
   <script>
-    (function () {
+    document.addEventListener("DOMContentLoaded", function () {
       var firebaseConfig = {
         apiKey: "AIzaSyAkEYDbxkjXJx5wNh_7wMdIqmklOMCIyHY",
         authDomain: "expediter-dev.firebaseapp.com",
@@ -394,7 +394,7 @@
           window.location.replace('/app.html');
         }
       });
-    })();
+    });
   </script>
 
   <!-- Internationalization omitted: page content is static Spanish -->
