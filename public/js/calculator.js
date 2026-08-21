@@ -1497,75 +1497,85 @@ function showDecisionPanel(calculationData = {}) {
       // 2) Notas de origen y destino — el usuario marca cada nota "Como Destino",
       // "Como Origen" o "Ambos" al guardarla (ver app.html #noteZoneType), asi que
       // hay que comparar cada lado por separado en vez de solo contra destination.
-      const destKey = destination.toLowerCase().replace(/,.*$/, '').trim();
-      const destKeyFull = destination.toLowerCase().trim();
-      const origKey = origin.toLowerCase().replace(/,.*$/, '').trim();
-      const origKeyFull = origin.toLowerCase().trim();
-      const notesSnap = await window.db.collection('notes')
-        .where('userId', '==', uid).get();
-      const matches = (k, key, keyFull) => k.includes(key) || key.includes(k) || k.includes(keyFull);
-      let notasDestino = [];
-      let notasOrigen = [];
-      notesSnap.forEach(doc => {
-        const d = doc.data();
-        const k = (d.key || '').toLowerCase().trim();
-        // Notas guardadas antes de que existiera #noteZoneType no tienen `type` --
-        // se comportaban como "destino" (unico lado que se comparaba antes de este
-        // fix), asi que sin type se tratan igual para no romper notas viejas.
-        const t = d.type || 'destino';
-        if ((t === 'destino' || t === 'ambos') && destKey && matches(k, destKey, destKeyFull)) {
-          notasDestino.push(d);
-        }
-        if ((t === 'origen' || t === 'ambos') && origKey && matches(k, origKey, origKeyFull)) {
-          notasOrigen.push(d);
-        }
-      });
-      const typeBadge = { destino: '🔵', origen: '🟢', ambos: '🟣' };
-      const renderNotas = (notas) => notas.map(n => {
-        const badge = typeBadge[n.type] || '🔵';
-        return `<div style="margin-bottom:6px">${badge} ${n.note}</div>`;
-      }).join('');
-      if (notasDestino.length > 0) {
-        html += `<div class="decision-info-block decision-info-nota">
+      // Try/catch propio: si esta consulta falla, no debe tumbar el historial ni
+      // la nota del dia que vienen despues (antes compartian un solo try/catch).
+      try {
+        const destKey = destination.toLowerCase().replace(/,.*$/, '').trim();
+        const destKeyFull = destination.toLowerCase().trim();
+        const origKey = origin.toLowerCase().replace(/,.*$/, '').trim();
+        const origKeyFull = origin.toLowerCase().trim();
+        const notesSnap = await window.db.collection('notes')
+          .where('userId', '==', uid).get();
+        const matches = (k, key, keyFull) => k.includes(key) || key.includes(k) || k.includes(keyFull);
+        let notasDestino = [];
+        let notasOrigen = [];
+        notesSnap.forEach(doc => {
+          const d = doc.data();
+          const k = (d.key || '').toLowerCase().trim();
+          // Notas guardadas antes de que existiera #noteZoneType no tienen `type` --
+          // se comportaban como "destino" (unico lado que se comparaba antes de este
+          // fix), asi que sin type se tratan igual para no romper notas viejas.
+          const t = d.type || 'destino';
+          if ((t === 'destino' || t === 'ambos') && destKey && matches(k, destKey, destKeyFull)) {
+            notasDestino.push(d);
+          }
+          if ((t === 'origen' || t === 'ambos') && origKey && matches(k, origKey, origKeyFull)) {
+            notasOrigen.push(d);
+          }
+        });
+        const typeBadge = { destino: '🔵', origen: '🟢', ambos: '🟣' };
+        const renderNotas = (notas) => notas.map(n => {
+          const badge = typeBadge[n.type] || '🔵';
+          return `<div style="margin-bottom:6px">${badge} ${n.note}</div>`;
+        }).join('');
+        if (notasDestino.length > 0) {
+          html += `<div class="decision-info-block decision-info-nota">
     <div class="decision-info-label">📍 ${_t('calculator.notes_for')} ${destinationState || destination.split(',')[0]} (${notasDestino.length})</div>
     <div class="decision-info-text">${renderNotas(notasDestino)}</div>
   </div>`;
-      }
-      if (notasOrigen.length > 0) {
-        html += `<div class="decision-info-block decision-info-nota">
+        }
+        if (notasOrigen.length > 0) {
+          html += `<div class="decision-info-block decision-info-nota">
     <div class="decision-info-label">📍 ${_t('calculator.notes_for')} ${originState || origin.split(',')[0]} (${notasOrigen.length})</div>
     <div class="decision-info-text">${renderNotas(notasOrigen)}</div>
   </div>`;
+        }
+      } catch (err) {
+        debugLog('Error cargando notas del panel de decision:', err);
       }
 
       // 3) Historial de la ruta
-      if (originState && destinationState) {
-        const histSnap = await window.db.collection('loads')
-          .where('userId', '==', uid)
-          .where('originState', '==', originState)
-          .where('destinationState', '==', destinationState)
-          .orderBy('createdAt', 'desc')
-          .limit(10).get();
-        if (!histSnap.empty) {
-          const cargas = [];
-          histSnap.forEach(doc => cargas.push(doc.data()));
-          const rpms = cargas.map(c => c.rpm || c.actualRPM || 0).filter(r => r > 0);
-          const avgRPM = rpms.reduce((a, b) => a + b, 0) / rpms.length;
-          const maxRPM = Math.max(...rpms);
-          const minRPM = Math.min(...rpms);
-          html += `<div class="decision-info-block decision-info-hist">
-            <div class="decision-info-label">📈 ${_t('calculator.hist_label')} ${originState} → ${destinationState} (${cargas.length} ${cargas.length === 1 ? _t('calculator.hist_load_singular') : _t('calculator.hist_loads')})</div>
-            <div class="decision-info-text">
-              ${_t('calculator.hist_avg')}: <strong>$${avgRPM.toFixed(2)}/mi</strong> · ${_t('calculator.hist_best')}: <strong>$${maxRPM.toFixed(2)}</strong> · ${_t('calculator.hist_min')}: $${minRPM.toFixed(2)}
-              ${actualRPM < avgRPM
-              ? `<br><span style="color:#fbbf24">⚠️ ${_t('calculator.hist_below_avg', { diff: (avgRPM - actualRPM).toFixed(2) })}</span>`
-              : `<br><span style="color:#4ade80">✓ ${_t('calculator.hist_within_range')}</span>`}
-            </div>
-          </div>`;
+      try {
+        if (originState && destinationState) {
+          const histSnap = await window.db.collection('loads')
+            .where('userId', '==', uid)
+            .where('originState', '==', originState)
+            .where('destinationState', '==', destinationState)
+            .orderBy('createdAt', 'desc')
+            .limit(10).get();
+          if (!histSnap.empty) {
+            const cargas = [];
+            histSnap.forEach(doc => cargas.push(doc.data()));
+            const rpms = cargas.map(c => c.rpm || c.actualRPM || 0).filter(r => r > 0);
+            const avgRPM = rpms.reduce((a, b) => a + b, 0) / rpms.length;
+            const maxRPM = Math.max(...rpms);
+            const minRPM = Math.min(...rpms);
+            html += `<div class="decision-info-block decision-info-hist">
+              <div class="decision-info-label">📈 ${_t('calculator.hist_label')} ${originState} → ${destinationState} (${cargas.length} ${cargas.length === 1 ? _t('calculator.hist_load_singular') : _t('calculator.hist_loads')})</div>
+              <div class="decision-info-text">
+                ${_t('calculator.hist_avg')}: <strong>$${avgRPM.toFixed(2)}/mi</strong> · ${_t('calculator.hist_best')}: <strong>$${maxRPM.toFixed(2)}</strong> · ${_t('calculator.hist_min')}: $${minRPM.toFixed(2)}
+                ${actualRPM < avgRPM
+                ? `<br><span style="color:#fbbf24">⚠️ ${_t('calculator.hist_below_avg', { diff: (avgRPM - actualRPM).toFixed(2) })}</span>`
+                : `<br><span style="color:#4ade80">✓ ${_t('calculator.hist_within_range')}</span>`}
+              </div>
+            </div>`;
+          }
         }
+      } catch (err) {
+        debugLog('Error cargando historial de ruta del panel de decision:', err);
       }
 
-      // 4) Día y hora
+      // 4) Día y hora (sin I/O, no necesita su propio try/catch)
       const now = new Date();
       const _dayKeys = ['day_sunday', 'day_monday', 'day_tuesday', 'day_wednesday', 'day_thursday', 'day_friday', 'day_saturday'];
       const hora = now.getHours();
