@@ -1010,7 +1010,7 @@ function generatePLReport() {
     <!-- Header profesional -->
     <div class="text-center mb-8 border-b pb-6">
       <h1 class="text-3xl font-bold text-gray-900 mb-2"> Estado de Resultados</h1>
-      <h2 class="text-xl text-blue-600 font-semibold mb-2">Expediter Load Calculator</h2>
+      <h2 class="text-xl text-blue-600 font-semibold mb-2">Smart Load Solution</h2>
       <p class="text-gray-600">Perodo: <span class="font-semibold">${periodLabel}</span></p>
       <p class="text-sm text-gray-500">Generado el ${currentDate}</p>
     </div>
@@ -4557,7 +4557,7 @@ function generateComprehensiveReport() {
     <!-- Professional Header -->
     <div class="text-center mb-6 pb-4 border-b-2 border-blue-200">
       <h1 class="text-2xl md:text-3xl font-bold text-white mb-2"> Reporte Financiero Completo</h1>
-      <h2 class="text-lg md:text-xl text-white/90 font-semibold mb-1">Expediter Load Calculator</h2>
+      <h2 class="text-lg md:text-xl text-white/90 font-semibold mb-1">Smart Load Solution</h2>
       <p class="text-sm text-white/80">Período: <span class="font-semibold">${periodLabel}</span></p>
       <p class="text-xs text-white/60">Generado el ${currentDate}</p>
     </div>

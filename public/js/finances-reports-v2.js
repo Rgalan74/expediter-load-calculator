@@ -174,7 +174,7 @@ function _renderPLReport(reportContent) {
       <!-- Header -->
       <div style="text-align: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #000;">
         <h1 style="font-size: 24px; font-weight: bold; color: #000; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;">${window.i18n?.t('finances.report_pl_header') || 'INCOME STATEMENT'}</h1>
-        <p style="font-size: 14px; color: #000; margin: 5px 0;">Expediter Load Calculator</p>
+        <p style="font-size: 14px; color: #000; margin: 5px 0;">Smart Load Solution</p>
         <p style="font-size: 12px; color: #000; margin: 5px 0;">${window.i18n?.t('finances.report_period') || 'Period:'} ${periodLabel}</p>
         <p style="font-size: 10px; color: #000; margin: 5px 0;">${window.i18n?.t('finances.report_generated_on') || 'Generated on'} ${currentDate}</p>
       </div>
@@ -451,7 +451,7 @@ function _renderCompanyReport(reportContent) {
       <!-- Header -->
       <div style="text-align: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #000;">
         <h1 style="font-size: 24px; font-weight: bold; color: #000; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;">${window.i18n?.t('finances.report_company_header') || 'COMPANY REVENUE REPORT'}</h1>
-        <p style="font-size: 14px; color: #000; margin: 5px 0;">Expediter Load Calculator</p>
+        <p style="font-size: 14px; color: #000; margin: 5px 0;">Smart Load Solution</p>
         <p style="font-size: 12px; color: #000; margin: 5px 0;">${window.i18n?.t('finances.report_period') || 'Period:'} ${periodLabel}</p>
         <p style="font-size: 10px; color: #000; margin: 5px 0;">${window.i18n?.t('finances.report_generated_on') || 'Generated on'} ${currentDate}</p>
       </div>
@@ -723,7 +723,7 @@ function _renderExpenseBreakdownReport(reportContent) {
       <!-- Header -->
       <div style="text-align: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #000;">
         <h1 style="font-size: 24px; font-weight: bold; color: #000; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;">${window.i18n?.t('finances.report_expense_breakdown_header') || 'EXPENSE BREAKDOWN'}</h1>
-        <p style="font-size: 14px; color: #000; margin: 5px 0;">Expediter Load Calculator</p>
+        <p style="font-size: 14px; color: #000; margin: 5px 0;">Smart Load Solution</p>
         <p style="font-size: 12px; color: #000; margin: 5px 0;">${window.i18n?.t('finances.report_period') || 'Period:'} ${periodLabel}</p>
         <p style="font-size: 10px; color: #000; margin: 5px 0;">${window.i18n?.t('finances.report_generated_on') || 'Generated on'} ${currentDate}</p>
       </div>
@@ -1014,7 +1014,7 @@ function _renderProfitabilityReport(reportContent) {
       <!-- Header -->
       <div style="text-align: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #000;">
         <h1 style="font-size: 24px; font-weight: bold; color: #000; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 2px;">${window.i18n?.t('finances.report_zone_title') || 'ZONE PROFITABILITY'}</h1>
-        <p style="font-size: 14px; color: #000; margin: 5px 0;">Expediter Load Calculator</p>
+        <p style="font-size: 14px; color: #000; margin: 5px 0;">Smart Load Solution</p>
         <p style="font-size: 12px; color: #000; margin: 5px 0;">${window.i18n?.t('finances.report_period') || 'Period:'} ${periodLabel}</p>
         <p style="font-size: 10px; color: #000; margin: 5px 0;">${window.i18n?.t('finances.report_generated_on') || 'Generated on'} ${currentDate}</p>
       </div>
