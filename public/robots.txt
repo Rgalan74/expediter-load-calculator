@@ -22,10 +22,10 @@ Disallow: /app.html
 # El noindex se maneja directamente en el <head> del HTML
 Allow: /auth.html
 
-# 🔒 Bloquear módulos de Academy (contenido de pago)
-Disallow: /academy/module-1/
-Disallow: /academy/module-2/
-Disallow: /academy/module-3/
+# ✅ Módulos 1-3 de Academy son plan gratis (ver plans.html) -- indexables,
+# igual que el blog, para atraer tráfico orgánico.
+
+# 🔒 Bloquear módulos de Academy realmente de pago (Pro/Premium)
 Disallow: /academy/module-4/
 Disallow: /academy/module-5/
 Disallow: /academy/module-6/

@@ -325,6 +325,427 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy.html" />
   </url>
 
+  <!-- 🎓 Academy modulos 1-3 (plan gratis) + start-here + tour -->
+  <url>
+    <loc>https://smartloadsolution.com/academy/module-1/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/module-1/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/module-1/lesson-1.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/lesson-1.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/lesson-1.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/lesson-1.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/module-1/lesson-1.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/lesson-1.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/lesson-1.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/lesson-1.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/module-1/lesson-2.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/lesson-2.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/lesson-2.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/lesson-2.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/module-1/lesson-2.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/lesson-2.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/lesson-2.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/lesson-2.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/module-1/lesson-3.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/lesson-3.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/lesson-3.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/lesson-3.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/module-1/lesson-3.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/lesson-3.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/lesson-3.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/lesson-3.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/module-1/lesson-4.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/lesson-4.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/lesson-4.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/lesson-4.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/module-1/lesson-4.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/lesson-4.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/lesson-4.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/lesson-4.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/module-1/lesson-5.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/lesson-5.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/lesson-5.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/lesson-5.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/module-1/lesson-5.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/lesson-5.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/lesson-5.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/lesson-5.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/module-2/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/module-2/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/module-2/lesson-1.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-1.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-1.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-1.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/module-2/lesson-1.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-1.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-1.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-1.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/module-2/lesson-2.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-2.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-2.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-2.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/module-2/lesson-2.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-2.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-2.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-2.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/module-2/lesson-3.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-3.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-3.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-3.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/module-2/lesson-3.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-3.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-3.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-3.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/module-2/lesson-4.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-4.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-4.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-4.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/module-2/lesson-4.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-4.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-4.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-4.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/module-2/lesson-5.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-5.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-5.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-5.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/module-2/lesson-5.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-5.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-5.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-5.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/module-2/lesson-6.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-6.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-6.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-6.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/module-2/lesson-6.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-6.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-6.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-6.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/module-3/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/module-3/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/module-3/lesson-1.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/lesson-1.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/lesson-1.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/lesson-1.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/module-3/lesson-1.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/lesson-1.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/lesson-1.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/lesson-1.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/module-3/lesson-2.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/lesson-2.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/lesson-2.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/lesson-2.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/module-3/lesson-2.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/lesson-2.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/lesson-2.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/lesson-2.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/module-3/lesson-3.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/lesson-3.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/lesson-3.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/lesson-3.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/module-3/lesson-3.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/lesson-3.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/lesson-3.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/lesson-3.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/module-3/lesson-4.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/lesson-4.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/lesson-4.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/lesson-4.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/module-3/lesson-4.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/lesson-4.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/lesson-4.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/lesson-4.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/module-3/lesson-5.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/lesson-5.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/lesson-5.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/lesson-5.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/module-3/lesson-5.html</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/lesson-5.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/lesson-5.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/lesson-5.html" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/start-here/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/start-here/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/start-here/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/start-here/" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/start-here/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/start-here/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/start-here/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/start-here/" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/academy/tour/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/tour/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/tour/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/tour/" />
+  </url>
+
+  <url>
+    <loc>https://smartloadsolution.com/en/academy/tour/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/tour/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/tour/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/tour/" />
+  </url>
+
   <!-- 🧮 Herramientas / Tools -->
   <url>
     <loc>https://smartloadsolution.com/herramientas/calculadora-rpm.html</loc>
