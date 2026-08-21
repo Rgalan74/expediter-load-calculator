@@ -47,7 +47,7 @@ faqs:
 
 <div class="callout tip">
   <strong class="text-cyan-400 font-bold">💡 {{ blogStrings[lang].midCtaTitle }}</strong>
-  <p>{{ blogStrings[lang].midCtaBody }} <a href="{{ '/en/auth.html' if lang == 'en' else '/auth.html' }}" class="text-cyan-400 font-semibold hover:underline">{{ blogStrings[lang].midCtaButton }}</a></p>
+  <p>{{ blogStrings[lang].midCtaBody }} <a href="/auth.html" class="text-cyan-400 font-semibold hover:underline">{{ blogStrings[lang].midCtaButton }}</a></p>
 </div>
 
 <h2 class="text-xl md:text-2xl font-bold text-white mt-8 mb-4">⚠️ Por Qué el Pago que Ves en el Load Board No es tu Pago Real</h2>
