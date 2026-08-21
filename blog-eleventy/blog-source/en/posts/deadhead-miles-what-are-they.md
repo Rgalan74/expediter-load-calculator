@@ -3,7 +3,7 @@ layout: layouts/post.njk
 lang: en
 translationSlug: millas-muertas-deadhead-que-son
 title: 'Deadhead Miles: The Silent Thief Stealing Your Profits'
-metaTitle: 'Deadhead Miles: What They Are and Why They Cost You Money | Smart Load'
+metaTitle: 'Deadhead Miles: What They Are and Why They Cost You | Smart Load'
 metaDescription: Deadhead miles are the hidden expense that costs cargo van drivers the most money. Learn exactly what they are and how to calculate them before accepting a load.
 ogTitle: 'Deadhead Miles: The Silent Thief Stealing Your Profits'
 ogDescription: Deadhead miles are the hidden expense that costs cargo van drivers the most money. Learn exactly what they are and how to calculate them before accepting a load.

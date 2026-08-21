@@ -3,7 +3,7 @@ layout: layouts/post.njk
 lang: es
 translationSlug: hidden-operating-costs
 title: 'Gastos Invisibles: Los Costos que todo Expediter Olvida Calcular'
-metaTitle: Gastos Invisibles de un Expediter en Cargo Van | Smart Load Solution Blog
+metaTitle: Gastos Invisibles de un Expediter en Cargo Van | Smart Load
 metaDescription: Descubre los costos ocultos que dañan la rentabilidad de tu cargo van o sprinter. Aprende a calcular depreciación y mantenimiento real.
 ogTitle: Gastos que Todo Expediter Olvida Calcular (Costos Ocultos)
 ogDescription: 'De la depreciación del vehículo al seguro: la lista completa de gastos fijos y variables que afectan tu ganancia real.'

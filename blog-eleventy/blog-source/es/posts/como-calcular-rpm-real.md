@@ -3,7 +3,7 @@ layout: layouts/post.njk
 lang: es
 translationSlug: calculate-real-rpm
 title: Cómo Calcular tu RPM Real (Y Por Qué los Números del Broker Engañan)
-metaTitle: Cómo calcular RPM en Cargo Van — Conoce tu Ganancia Real | Smart Load Solution Blog
+metaTitle: Cómo Calcular tu RPM Real en Cargo Van | Smart Load Solution
 metaDescription: Deja de aceptar cargas a ciegas. Aprende cómo calcular el RPM real de tu cargo van incluyendo el deadhead. Evita pérdidas y maximiza tus ganancias.
 ogTitle: Cómo Calcular tu RPM Real (Y Por Qué los Números del Broker Engañan)
 ogDescription: Calcula tu verdadero pago por milla incluyendo millas muertas y reposicionamiento. Evita errores de ruta costosos.

@@ -3,7 +3,7 @@ layout: layouts/post.njk
 lang: es
 translationSlug: deadhead-miles-what-are-they
 title: 'Millas Muertas (Deadhead): El Ladrón Silencioso de tus Ganancias'
-metaTitle: 'Millas Muertas (Deadhead): Qué Son y Cómo te Cuestan Dinero | Smart Load'
+metaTitle: 'Millas Muertas (Deadhead): Qué Son y Cómo te Cuestan | Smart Load'
 metaDescription: Las millas muertas (deadhead) son el gasto oculto que más dinero le cuesta a los conductores de cargo van. Aprende qué son y cómo calcularlas antes de aceptar una carga.
 ogTitle: 'Millas Muertas (Deadhead): El Ladrón Silencioso de tus Ganancias'
 ogDescription: Las millas muertas (deadhead) son el gasto oculto que más dinero le cuesta a los conductores de cargo van. Aprende qué son y cómo calcularlas antes de aceptar una carga.
