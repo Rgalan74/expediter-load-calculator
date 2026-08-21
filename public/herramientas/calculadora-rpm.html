@@ -118,6 +118,36 @@
       width: 100%;
       height: auto;
     }
+    /* Barra flotante de "Iniciar Sesion" -- solo movil, el header desktop
+       (sticky) ya tiene el boton visible via hidden md:inline-block. */
+    .mobile-sticky-cta {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 200;
+      padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+      background: rgba(10, 10, 15, 0.97);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-glass);
+    }
+    .mobile-sticky-cta a {
+      display: block;
+      text-align: center;
+      background: linear-gradient(90deg, var(--primary-cyan), var(--primary-orange));
+      color: #000;
+      font-weight: 700;
+      padding: 0.85rem 1.5rem;
+      border-radius: 10px;
+      text-decoration: none;
+    }
+    @media (min-width: 768px) {
+      .mobile-sticky-cta { display: none; }
+    }
+    @media (max-width: 767px) {
+      /* Espacio para que la barra flotante no tape el final del contenido */
+      body { padding-bottom: 4.5rem; }
+    }
   </style>
   <!-- Meta Pixel Code -->
   <script>
@@ -690,5 +720,13 @@
       });
     })();
   </script>
+
+  <!-- Barra flotante movil: el header desktop ya tiene "Iniciar Sesion"
+       siempre visible (sticky), pero esa version esta oculta en movil
+       (hidden md:inline-block) -- esto le da a movil su propio boton
+       siempre a la vista mientras se hace scroll. -->
+  <div class="mobile-sticky-cta">
+    <a href="/auth.html">Iniciar Sesión →</a>
+  </div>
 </body>
 </html>
