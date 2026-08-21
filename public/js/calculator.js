@@ -1494,29 +1494,43 @@ function showDecisionPanel(calculationData = {}) {
         </div>`;
       }
 
-      // 2) Nota del destino
+      // 2) Notas de origen y destino — el usuario marca cada nota "Como Destino",
+      // "Como Origen" o "Ambos" al guardarla (ver app.html #noteZoneType), asi que
+      // hay que comparar cada lado por separado en vez de solo contra destination.
       const destKey = destination.toLowerCase().replace(/,.*$/, '').trim();
       const destKeyFull = destination.toLowerCase().trim();
+      const origKey = origin.toLowerCase().replace(/,.*$/, '').trim();
+      const origKeyFull = origin.toLowerCase().trim();
       const notesSnap = await window.db.collection('notes')
         .where('userId', '==', uid).get();
-      let notas = [];
+      const matches = (k, key, keyFull) => k.includes(key) || key.includes(k) || k.includes(keyFull);
+      let notasDestino = [];
+      let notasOrigen = [];
       notesSnap.forEach(doc => {
         const d = doc.data();
         const k = (d.key || '').toLowerCase().trim();
-        if (k.includes(destKey) || destKey.includes(k) || k.includes(destKeyFull)) {
-          notas.push(d);
+        if ((d.type === 'destino' || d.type === 'ambos') && destKey && matches(k, destKey, destKeyFull)) {
+          notasDestino.push(d);
+        }
+        if ((d.type === 'origen' || d.type === 'ambos') && origKey && matches(k, origKey, origKeyFull)) {
+          notasOrigen.push(d);
         }
       });
-      if (notas.length > 0) {
-        const typeBadge = { destino: '🔵', origen: '🟢', ambos: '🟣' };
-        const notasHtml = notas.map(n => {
-          const badge = typeBadge[n.type] || '🔵';
-          return `<div style="margin-bottom:6px">${badge} ${n.note}</div>`;
-        }).join('');
-
+      const typeBadge = { destino: '🔵', origen: '🟢', ambos: '🟣' };
+      const renderNotas = (notas) => notas.map(n => {
+        const badge = typeBadge[n.type] || '🔵';
+        return `<div style="margin-bottom:6px">${badge} ${n.note}</div>`;
+      }).join('');
+      if (notasDestino.length > 0) {
         html += `<div class="decision-info-block decision-info-nota">
-    <div class="decision-info-label">📍 ${_t('calculator.notes_for')} ${destinationState || destination.split(',')[0]} (${notas.length})</div>
-    <div class="decision-info-text">${notasHtml}</div>
+    <div class="decision-info-label">📍 ${_t('calculator.notes_for')} ${destinationState || destination.split(',')[0]} (${notasDestino.length})</div>
+    <div class="decision-info-text">${renderNotas(notasDestino)}</div>
+  </div>`;
+      }
+      if (notasOrigen.length > 0) {
+        html += `<div class="decision-info-block decision-info-nota">
+    <div class="decision-info-label">📍 ${_t('calculator.notes_for')} ${originState || origin.split(',')[0]} (${notasOrigen.length})</div>
+    <div class="decision-info-text">${renderNotas(notasOrigen)}</div>
   </div>`;
       }
 
