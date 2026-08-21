@@ -227,28 +227,6 @@ function isAdmin(userPlan) {
     return userPlan.id === 'admin' || userPlan.limits?.isAdmin === true;
 }
 
-async function setUserAsAdmin(userId) {
-    try {
-        await firebase.firestore()
-            .collection('users')
-            .doc(userId)
-            .set({
-                plan: 'admin',
-                role: 'admin',
-                subscriptionStatus: 'active',
-                loadsThisMonth: 0,
-                monthStartDate: new Date().toISOString(),
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            }, { merge: true });
-
-        debugLog('[PLANS] Usuario convertido a Admin');
-        return true;
-    } catch (error) {
-        debugLog(' Error asignando admin:', error);
-        return false;
-    }
-}
-
 function canAccessFeature(userPlan, featureName) {
     if (!userPlan || !userPlan.limits) {
         return false;
@@ -299,38 +277,6 @@ function getRemainingLoads(userPlan) {
     const maxLoads = userPlan.limits?.maxLoadsPerMonth;
     if (!maxLoads || maxLoads === -1) return null;
     return Math.max(0, maxLoads - userPlan.loadsThisMonth);
-}
-
-async function incrementMonthlyLoads(userId) {
-    try {
-        const userRef = firebase.firestore().collection('users').doc(userId);
-        const userDoc = await userRef.get();
-
-        if (!userDoc.exists) return false;
-
-        const userData = userDoc.data();
-        const monthStart = new Date(userData.monthStartDate || new Date());
-        const now = new Date();
-
-        if (now.getMonth() !== monthStart.getMonth() ||
-            now.getFullYear() !== monthStart.getFullYear()) {
-            await userRef.update({
-                loadsThisMonth: 1,
-                monthStartDate: now.toISOString(),
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-        } else {
-            await userRef.update({
-                loadsThisMonth: firebase.firestore.FieldValue.increment(1),
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-        }
-
-        return true;
-    } catch (error) {
-        debugLog('Error incrementando cargas:', error);
-        return false;
-    }
 }
 
 function showUpgradeModal(featureName, currentPlanId = 'free') {
@@ -451,11 +397,9 @@ window.canAccessFeature = canAccessFeature;
 window.getLexTrialDaysRemaining = getLexTrialDaysRemaining;
 window.canCreateMoreLoads = canCreateMoreLoads;
 window.getRemainingLoads = getRemainingLoads;
-window.incrementMonthlyLoads = incrementMonthlyLoads;
 window.showUpgradeModal = showUpgradeModal;
 window.closeUpgradeModal = closeUpgradeModal;
 window.goToPlans = goToPlans;
 window.isAdmin = isAdmin;
-window.setUserAsAdmin = setUserAsAdmin;
 
 debugLog('[PLANS] Sistema de planes de usuario cargado');

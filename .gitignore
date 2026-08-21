@@ -80,3 +80,6 @@ public/js/secrets.js
 Videos/
 
 .superpowers/
+
+# Config local de Claude Code (permisos de herramientas por maquina/sesion)
+.claude/settings.json
