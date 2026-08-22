@@ -4,7 +4,8 @@
   "description": "Aplicación web diseñada para transportistas **cargo van expediters**, que permite calcular costos, ingresos y ganancias por carga de manera rápida y precisa.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:css": "tailwindcss -i ./tailwind-input.css -o ./public/css/tailwind-built.css --minify"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   "homepage": "https://github.com/Rgalan74/expediter-load-calculator#readme",
   "devDependencies": {
     "cheerio": "^1.2.0",
-    "glob": "^13.0.6"
+    "glob": "^13.0.6",
+    "tailwindcss": "^2.2.19"
   }
 }
