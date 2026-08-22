@@ -1,0 +1,21 @@
+# SmartLoad Solution
+
+> RPM calculator and load-decision tool for expediters driving cargo vans, sprinters, and box trucks. Calculates real RPM including deadhead miles and expenses so drivers can decide whether to accept, reject, or negotiate a load.
+
+SmartLoad Solution is a web app (with a free Starter plan) built for owner-operators and expediters. Core features: real-time RPM calculator, an AI assistant (Lex) for load recommendations, a profitable-zones map by state, a monthly financial dashboard, and full load history.
+
+## Docs
+
+- [Homepage (Spanish)](https://smartloadsolution.com/): product overview, pricing, and calculator access
+- [Homepage (English)](https://smartloadsolution.com/en/): English version of the homepage
+- [Plans](https://smartloadsolution.com/plans.html): pricing tiers (Starter, Professional, Premium + AI)
+- [Academy](https://smartloadsolution.com/academy.html): free educational modules on expediting profitably
+- [Blog](https://smartloadsolution.com/blog.html): articles on RPM, deadhead miles, taxes, and profitable routes
+- [FAQ](https://smartloadsolution.com/faq.html): common questions about the app and plans
+- [About](https://smartloadsolution.com/about.html): company background
+
+## Optional
+
+- [Contact](https://smartloadsolution.com/contact.html)
+- [Privacy Policy](https://smartloadsolution.com/privacy.html)
+- [Terms](https://smartloadsolution.com/terms.html)

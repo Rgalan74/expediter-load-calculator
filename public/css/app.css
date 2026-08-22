@@ -4,7 +4,7 @@
   --bg-secondary: #1a1a2e;
   --bg-card: #1e293b;
   --bg-card-hover: #334155;
-  --bg-header: url('../img/header-background.PNG'); /* Dark header img */
+  --bg-header: url('../img/header-background.webp'); /* Dark header img */
   
   --text-main: #f1f5f9;
   --text-secondary: #cbd5e1;
@@ -118,7 +118,7 @@ body::before {
    ============================ */
 
 header {
-  background-image: url('../img/header-background.PNG') !important;
+  background-image: url('../img/header-background.webp') !important;
   background-size: cover !important;
   background-position: center !important;
   background-repeat: no-repeat !important;

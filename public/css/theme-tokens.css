@@ -451,7 +451,7 @@ h6 {
 html[data-theme="dark"] nav.border-t {
   background:
     linear-gradient(135deg, rgba(5, 5, 15, 0.75) 0%, rgba(10, 10, 30, 0.70) 100%),
-    url('https://smartloadsolution.com/img/header-background.PNG') center bottom/cover no-repeat !important;
+    url('https://smartloadsolution.com/img/header-background.webp') center bottom/cover no-repeat !important;
   background-size: cover, cover !important;
   border-top: 1px solid rgba(251, 146, 60, 0.12) !important;
   border-bottom: 1px solid rgba(251, 146, 60, 0.10) !important;
@@ -657,7 +657,7 @@ html[data-theme="dark"] .market-filter-pill:hover {
 html[data-theme="dark"] header {
   background:
     linear-gradient(135deg, rgba(5, 5, 15, 0.45) 0%, rgba(10, 10, 30, 0.40) 100%),
-    url('https://smartloadsolution.com/img/header-background.PNG') center/cover no-repeat !important;
+    url('https://smartloadsolution.com/img/header-background.webp') center/cover no-repeat !important;
   background-size: cover, cover !important;
   border-bottom: 1px solid rgba(0, 217, 255, 0.15) !important;
 }
@@ -665,7 +665,7 @@ html[data-theme="dark"] header {
 html[data-theme="light"] header {
   background:
     linear-gradient(rgba(10, 25, 50, 0.78), rgba(10, 25, 50, 0.72)),
-    url('https://smartloadsolution.com/img/header-background.PNG') center/cover no-repeat !important;
+    url('https://smartloadsolution.com/img/header-background.webp') center/cover no-repeat !important;
   background-size: cover, cover !important;
   border-bottom: none !important;
   box-shadow: none !important;
@@ -676,7 +676,7 @@ html[data-theme="light"] nav.border-t {
     linear-gradient(180deg,
       rgba(10, 25, 50, 0.72) 0%,
       rgba(10, 25, 50, 0.40) 100%),
-    url('https://smartloadsolution.com/img/header-background.PNG') center top/cover no-repeat !important;
+    url('https://smartloadsolution.com/img/header-background.webp') center top/cover no-repeat !important;
   background-size: cover, cover !important;
   border: none !important;
   border-image: none !important;
@@ -792,12 +792,12 @@ html[data-theme="light"] nav.border-t button.tab-pill-active {
   /* Header - Mobile specific */
   [data-theme="dark"] header {
     background: linear-gradient(135deg, rgba(5, 5, 15, 0.85) 0%, rgba(10, 10, 30, 0.80) 100%),
-      url('https://smartloadsolution.com/img/header-background.PNG') center/cover no-repeat !important;
+      url('https://smartloadsolution.com/img/header-background.webp') center/cover no-repeat !important;
   }
 
   [data-theme="light"] header {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 244, 248, 0.95) 100%),
-      url('https://smartloadsolution.com/img/header-background.PNG') center/cover no-repeat !important;
+      url('https://smartloadsolution.com/img/header-background.webp') center/cover no-repeat !important;
     border-bottom: 1px solid var(--theme-border) !important;
   }
 
