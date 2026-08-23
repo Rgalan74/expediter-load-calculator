@@ -185,26 +185,29 @@
     <script src="/academy/js/academy.js"></script>
     <script>
         // Update lesson cards with completion status
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const moduleNum = 1;
 
             // Update lesson cards
-            document.querySelectorAll('.lesson-card').forEach(card => {
+            for (const card of document.querySelectorAll('.lesson-card')) {
                 const lessonNum = parseInt(card.dataset.lesson);
-                if (window.AcademyProgress && window.AcademyProgress.isLessonComplete(moduleNum, lessonNum)) {
+                if (window.AcademyProgress && await window.AcademyProgress.isLessonComplete(moduleNum, lessonNum)) {
                     card.classList.add('completed');
                     card.querySelector('.lesson-number').textContent = '✓';
                 }
-            });
+            }
 
             // Update module progress
             if (window.AcademyProgress) {
-                const progress = window.AcademyProgress.getModuleProgress(moduleNum);
-                const completed = window.AcademyProgress.getProgress().modules[moduleNum].completed.length;
+                const progress = await window.AcademyProgress.getModuleProgress(moduleNum);
+                const progressData = await window.AcademyProgress.getProgress();
+                const completed = progressData.modules[moduleNum].completed.length;
                 const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
 
-                document.getElementById('moduleProgressBar').style.width = `${progress}%`;
-                document.getElementById('moduleProgressText').textContent = `${completed}/5 ${isEs ? 'lecciones' : 'lessons'}`;
+                const bar = document.getElementById('moduleProgressBar');
+                const text = document.getElementById('moduleProgressText');
+                if (bar) bar.style.width = `${progress}%`;
+                if (text) text.textContent = `${completed}/5 ${isEs ? 'lecciones' : 'lessons'}`;
 
                 const barEn = document.getElementById('moduleProgressBar-en');
                 const textEn = document.getElementById('moduleProgressText-en');
