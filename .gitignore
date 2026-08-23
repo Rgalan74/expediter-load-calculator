@@ -76,6 +76,8 @@ public/img-backups/
 
 # Claves privadas / secrets
 public/js/secrets.js
+extensions/*.env
+extensions/*.env.local
 .firebase/
 .agents/
 Videos/

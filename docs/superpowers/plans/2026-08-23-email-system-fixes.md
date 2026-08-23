@@ -1333,17 +1333,31 @@ git commit -m "docs(privacy): add EN translation for Brevo disclosure"
 
 ---
 
-## Task 12: Manual — confirm the transactional-email provider
+## Task 12: ~~Manual — confirm the transactional-email provider~~ — DONE (2026-08-23)
 
-**Files:** none (this is a research task for Ricardo, not code)
+Confirmed via `firebase ext:list` + `firebase ext:export`: the installed extension is
+`firebase/firestore-send-email@0.2.6` (instance ID `firestore-send-email`), ACTIVE
+since 2026-03-15, configured with `AUTH_TYPE=UsernamePassword` over an SMTP relay —
+**Brevo again** (`smtp-relay.brevo.com:587`, a separate SMTP credential from the
+`BREVO_API_KEY` used by `subscribeLead`/`sendContactMessage`). `DEFAULT_FROM` is
+`Smart Load Solution <noreply@smartloadsolution.com>`.
 
-- [ ] **Step 1: Check the Firebase Console**
+So the same third party (Brevo) handles both marketing-list signup *and*
+transactional email delivery, via two different credentials. The Brevo disclosure
+copy in Tasks 10-11 already covers this correctly — no separate "unknown provider"
+placeholder needed, and no additional privacy-policy edit beyond what Tasks 10-11
+already do.
 
-Firebase Console → project `expediter-dev` → Extensions tab → find the installed "Trigger Email from Firestore" extension (or equivalent) → open its configuration.
+**Note on `firebase ext:export`:** running it writes the live SMTP password to
+`extensions/firestore-send-email.env` in plaintext on disk. That directory was not
+previously in `.gitignore` — added `extensions/*.env` and `extensions/*.env.local`
+to `.gitignore` immediately (2026-08-23, before this task, not part of the numbered
+plan below) so this can never be accidentally committed. Don't run `ext:export`
+again without checking `.gitignore` still covers it first.
 
-- [ ] **Step 2: Report back**
-
-Note which SMTP/API provider it's configured to use (SendGrid, Mailgun, Brevo transactional, plain SMTP, etc.) and the sender email/domain it sends from. This name should be added to `privacy.html`/`en/privacy.html` alongside the Brevo disclosure from Tasks 10-11 — a follow-up one-line edit once known, not part of this plan's code tasks.
+**To verify actual delivery (not just configuration)**, check Brevo's dashboard →
+Transactional → Statistics/Logs for send history and bounces — that's outside this
+repo, Ricardo's own follow-up, not a code task.
 
 ---
 
