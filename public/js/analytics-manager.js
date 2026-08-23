@@ -226,9 +226,9 @@ function initializeAnalyticsWhenReady() {
             if (user) {
                 window.analyticsManager.init();
 
-                // Set user properties
+                // Set user properties (user_id only — GA4 ToS prohibit sending
+                // directly-identifying data like raw emails as a property)
                 window.analyticsManager.setUserProperty('user_id', user.uid);
-                window.analyticsManager.setUserProperty('user_email', user.email);
             }
         });
         debugLog('📊 Analytics Manager ready (waiting for user auth)');
