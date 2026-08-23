@@ -1243,6 +1243,10 @@
           <input type="text" id="slsName" autocomplete="given-name" required="" maxlength="50">
           <input type="email" id="slsEmail" autocomplete="email" required="">
           <div class="sls-error" id="slsErrorMsg"></div>
+          <label class="sls-consent-row" style="display:flex;align-items:flex-start;gap:0.5rem;margin-bottom:0.75rem;font-size:0.8rem;color:#9ca3af;cursor:pointer;">
+            <input type="checkbox" id="slsMarketingConsent" style="margin-top:2px;flex-shrink:0;">
+            <span id="slsConsentText"></span>
+          </label>
           <button type="submit" class="sls-submit" id="slsSubmitBtn"></button>
         </form>
         <p class="sls-privacy" id="slsPrivacy"></p>
@@ -1272,6 +1276,7 @@
         subtext: "Enter your email and create your free account. No credit card required.",
         namePlaceholder: "Your first name",
         emailPlaceholder: "Your email address",
+        consentLabel: "I'd like to receive tips and updates by email (optional)",
         submitBtn: "Get Free Access →",
         privacy: "No spam. Unsubscribe anytime. Your info is safe.",
         successTitle: "You're in!",
@@ -1286,6 +1291,7 @@
         subtext: "Deja tu email y crea tu cuenta gratis. Sin tarjeta de crédito.",
         namePlaceholder: "Tu nombre",
         emailPlaceholder: "Tu correo electrónico",
+        consentLabel: "Quiero recibir tips y actualizaciones por email (opcional)",
         submitBtn: "Quiero Acceso Gratis →",
         privacy: "Sin spam. Cancela cuando quieras.",
         successTitle: "¡Ya estás dentro!",
@@ -1306,6 +1312,7 @@
       document.getElementById("slsSubtext").textContent = t.subtext;
       document.getElementById("slsName").placeholder = t.namePlaceholder;
       document.getElementById("slsEmail").placeholder = t.emailPlaceholder;
+      document.getElementById("slsConsentText").textContent = t.consentLabel;
       document.getElementById("slsSubmitBtn").textContent = t.submitBtn;
       document.getElementById("slsPrivacy").textContent = t.privacy;
       document.getElementById("slsSuccessTitle").textContent = t.successTitle;
@@ -1446,6 +1453,7 @@
       e.preventDefault();
       var name = document.getElementById("slsName").value.trim();
       var email = document.getElementById("slsEmail").value.trim().toLowerCase();
+      var marketingConsent = document.getElementById("slsMarketingConsent").checked;
       var btn = document.getElementById("slsSubmitBtn");
       var errDiv = document.getElementById("slsErrorMsg");
       var t = SLS_TEXTS[slsLang];
@@ -1458,6 +1466,7 @@
         name: name,
         email: email,
         language: slsLang,
+        marketingConsent: marketingConsent,
         utm_source: utms.utm_source,
         utm_medium: utms.utm_medium,
         utm_campaign: utms.utm_campaign,
@@ -1466,7 +1475,9 @@
         referrer: utms.referrer,
         device: /Mobi|Android/i.test(navigator.userAgent) ? "mobile" : "desktop"
       };
-      var results = await Promise.all([slsSaveFirestore(lead), slsSaveBrevo(name, email, utms)]);
+      var tasks = [slsSaveFirestore(lead)];
+      if (marketingConsent) tasks.push(slsSaveBrevo(name, email, utms));
+      var results = await Promise.all(tasks);
       if (results[0] || results[1]) {
         document.getElementById("slsFormContent").style.display = "none";
         document.getElementById("slsSuccess").style.display = "block";
