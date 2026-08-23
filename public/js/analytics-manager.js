@@ -220,22 +220,32 @@ function initializeAnalyticsWhenReady() {
     }
 
     // Check if Firebase is initialized (app exists)
-    if (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length > 0) {
-        // Firebase is initialized, set up auth listener
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                window.analyticsManager.init();
-
-                // Set user properties (user_id only — GA4 ToS prohibit sending
-                // directly-identifying data like raw emails as a property)
-                window.analyticsManager.setUserProperty('user_id', user.uid);
-            }
-        });
-        debugLog('📊 Analytics Manager ready (waiting for user auth)');
-    } else {
+    if (typeof firebase === 'undefined' || !firebase.apps || firebase.apps.length === 0) {
         // Firebase not initialized yet, wait and try again
         setTimeout(initializeAnalyticsWhenReady, 200);
+        return;
     }
+
+    if (typeof firebase.auth !== 'function') {
+        // This page doesn't load firebase-auth-compat.js (marketing/blog/tool
+        // pages that have no login concept) -- init analytics directly, no
+        // user-auth gating and no user_id property to set.
+        window.analyticsManager.init();
+        debugLog('📊 Analytics Manager ready (no auth on this page)');
+        return;
+    }
+
+    // Firebase Auth is available (app.html/auth.html), set up auth listener
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            window.analyticsManager.init();
+
+            // Set user properties (user_id only — GA4 ToS prohibit sending
+            // directly-identifying data like raw emails as a property)
+            window.analyticsManager.setUserProperty('user_id', user.uid);
+        }
+    });
+    debugLog('📊 Analytics Manager ready (waiting for user auth)');
 }
 
 // Only auto-start if cookie consent was already given (from localStorage)
