@@ -1561,6 +1561,7 @@
     "sec3_li1": "<strong>Proveedores de Servicio:</strong> Firebase (Google) para autenticación y base de datos",
     "sec3_li2": "<strong>Cumplimiento Legal:</strong> Si es requerido por ley o para proteger nuestros derechos",
     "sec3_li3": "<strong>Con tu Consentimiento:</strong> En cualquier otra circunstancia con tu autorización explícita",
+    "sec3_li4": "<strong>Proveedor de Email Marketing:</strong> Si aceptas recibir novedades por email al registrarte, compartimos tu nombre y correo con Brevo para poder enviártelas. Puedes darte de baja en cualquier momento desde el enlace en cualquier email que recibas",
     "sec4_heading": "4. Seguridad de los Datos",
     "sec4_intro": "Implementamos medidas de seguridad para proteger tu información:",
     "sec4_enc_title": "Encriptación",
