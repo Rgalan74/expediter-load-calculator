@@ -1127,6 +1127,81 @@ exports.subscribeLead = onCall(
 );
 
 // ============================================================
+// sendContactMessage — formulario de Contacto (OCULTO)
+// Reemplaza la integracion EmailJS que nunca estuvo conectada.
+// Escribe a Firestore "mail" via Admin SDK (bypassa firestore.rules,
+// que solo permite a un usuario logueado mandarse mail a si mismo) con
+// "to" fijo en support@smartloadsolution.com -- el visitante nunca
+// controla el destinatario.
+// (c) 2026 SmartLoad Solution - Ricardo Galan.
+// ============================================================
+const CONTACT_SUBJECTS = {
+    general: { es: 'Consulta General', en: 'General Inquiry' },
+    support: { es: 'Soporte Técnico', en: 'Technical Support' },
+    billing: { es: 'Facturación / Plan', en: 'Billing / Plan' },
+    feature: { es: 'Solicitud de Funcionalidad', en: 'Feature Request' },
+    partnership: { es: 'Partnership / Negocios', en: 'Partnership / Business' },
+};
+
+exports.sendContactMessage = onCall(
+    { region: 'us-central1' },
+    async (request) => {
+        const data = request.data || {};
+
+        const name = String(data.name || '').trim().slice(0, 100);
+        const email = String(data.email || '').trim().toLowerCase();
+        const subjectKey = String(data.subject || '').trim();
+        const message = String(data.message || '').trim().slice(0, 5000);
+        const lang = data.lang === 'en' ? 'en' : 'es';
+
+        if (!name) {
+            throw new HttpsError('invalid-argument', 'Name is required');
+        }
+        if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+            throw new HttpsError('invalid-argument', 'Valid email is required');
+        }
+        if (!CONTACT_SUBJECTS[subjectKey]) {
+            throw new HttpsError('invalid-argument', 'Valid subject is required');
+        }
+        if (!message) {
+            throw new HttpsError('invalid-argument', 'Message is required');
+        }
+
+        const subjectLabel = CONTACT_SUBJECTS[subjectKey][lang];
+        const subjectLine = lang === 'en'
+            ? `New contact message: ${subjectLabel}`
+            : `Nuevo mensaje de contacto: ${subjectLabel}`;
+
+        const html = `
+      <div style="font-family:Arial,sans-serif;max-width:600px;">
+        <h2>${lang === 'en' ? 'New contact form message' : 'Nuevo mensaje del formulario de contacto'}</h2>
+        <p><strong>${lang === 'en' ? 'Name' : 'Nombre'}:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>${lang === 'en' ? 'Category' : 'Categoría'}:</strong> ${subjectLabel}</p>
+        <p><strong>${lang === 'en' ? 'Message' : 'Mensaje'}:</strong></p>
+        <p style="white-space:pre-wrap;border-left:3px solid #ccc;padding-left:12px;">${message}</p>
+      </div>
+    `;
+
+        try {
+            await db.collection('mail').add({
+                to: ['support@smartloadsolution.com'],
+                replyTo: email,
+                message: {
+                    subject: subjectLine,
+                    html,
+                },
+            });
+            logger.info(`[sendContactMessage] Mensaje de contacto recibido de: ${email}`);
+            return { success: true };
+        } catch (e) {
+            logger.error('[sendContactMessage] Error escribiendo a mail:', e.message);
+            throw new HttpsError('internal', 'Error sending message');
+        }
+    }
+);
+
+// ============================================================
 // ADMIN PANEL — User management (Cloud Functions, Admin SDK)
 // © 2026 SmartLoad Solution — Ricardo Galan
 // Expone gestión total de usuarios solo para rol 'admin'.
