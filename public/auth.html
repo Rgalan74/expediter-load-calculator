@@ -487,6 +487,9 @@
           // ✅ Meta Pixel — registro exitoso
           trackMeta("CompleteRegistration", { method: "email", value: 1.00, currency: "USD" });
 
+          // ✅ Meta Pixel — el registro siempre activa los 14 dias de prueba de Lex AI
+          trackMeta("StartTrial", { method: "email" });
+
           setTimeout(() => { redirectAfterAuth(); }, 2500);
           return;
         } catch (error) {

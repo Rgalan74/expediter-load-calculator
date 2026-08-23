@@ -197,6 +197,13 @@ async function setupAuthListener() {
           debugLog("🆕 Usuario nuevo, inicializando plan...");
           await initializeUserPlan(user.uid, user.email);
           window.userPlan = await getUserPlan(user.uid);
+
+          // Meta Pixel — el registro siempre activa los 14 dias de prueba de Lex AI.
+          // Ruta de respaldo (no pasa por auth.html): usa fbq directo, trackMeta
+          // no esta definido fuera de auth.html.
+          if (typeof window.fbq === 'function') {
+            window.fbq('track', 'StartTrial', { method: 'email' });
+          }
         }
 
         // Track login event
