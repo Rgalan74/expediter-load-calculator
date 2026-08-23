@@ -145,7 +145,7 @@ const VALID_MSG = {
     assert(mailDocs.length === 1, 'escribe exactamente un documento en mail');
     const doc = mailDocs[0];
     assert(JSON.stringify(doc.to) === JSON.stringify(['support@smartloadsolution.com']), 'to es siempre support@smartloadsolution.com, ignora cualquier input del visitante (' + JSON.stringify(doc.to) + ')');
-    assert(doc.message.subject.includes('support'), 'el subject del email incluye la categoria elegida');
+    assert(doc.message.subject === 'Nuevo mensaje de contacto: Soporte Técnico', 'el subject usa la etiqueta legible de la categoria, no la key tecnica (' + doc.message.subject + ')');
     assert(doc.message.html.includes('Ricardo Galan'), 'el html incluye el nombre del visitante');
     assert(doc.message.html.includes('ricardo@example.com'), 'el html incluye el email del visitante para poder responder');
     assert(doc.message.html.includes('Mi calculadora no guarda las cargas.'), 'el html incluye el mensaje del visitante');
