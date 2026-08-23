@@ -1535,6 +1535,7 @@
     "sec3_li1": "<strong>Service Providers:</strong> Firebase (Google) for authentication and database",
     "sec3_li2": "<strong>Legal Compliance:</strong> If required by law or to protect our rights",
     "sec3_li3": "<strong>With Your Consent:</strong> In any other circumstances with your explicit authorization",
+    "sec3_li4": "<strong>Email Marketing Provider:</strong> If you opt in to receive updates by email when you sign up, we share your name and email with Brevo so we can send them. You can unsubscribe at any time via the link in any email you receive",
     "sec4_heading": "4. Data Security",
     "sec4_intro": "We implement security measures to protect your information:",
     "sec4_enc_title": "Encryption",
