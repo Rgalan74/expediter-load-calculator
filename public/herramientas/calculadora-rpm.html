@@ -376,6 +376,10 @@
           <input type="text" id="leadName" class="calc-input" placeholder="Tu nombre" autocomplete="given-name" maxlength="50">
           <input type="email" id="leadEmail" class="calc-input" placeholder="Tu correo electrónico" autocomplete="email">
           <div id="leadError" class="text-sm text-center hidden" style="color: var(--rojo);"></div>
+          <label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.8rem;color:#9ca3af;cursor:pointer;">
+            <input type="checkbox" id="leadMarketingConsent" style="margin-top:2px;flex-shrink:0;">
+            <span>Quiero recibir tips y actualizaciones por email (opcional)</span>
+          </label>
           <button id="leadSubmit" class="w-full bg-gradient-to-r from-cyan-400 to-orange-500 hover:from-cyan-500 hover:to-orange-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg border border-white/10 transform hover:-translate-y-0.5 transition duration-300 text-lg">
             Quiero Acceso Gratis →
           </button>
@@ -643,6 +647,7 @@
       async function submitLead() {
         var name = document.getElementById("leadName").value.trim();
         var email = document.getElementById("leadEmail").value.trim().toLowerCase();
+        var marketingConsent = document.getElementById("leadMarketingConsent").checked;
         var btn = document.getElementById("leadSubmit");
         var errDiv = document.getElementById("leadError");
 
@@ -666,6 +671,7 @@
           name: name,
           email: email,
           language: "es",
+          marketingConsent: marketingConsent,
           utm_source: utms.utm_source,
           utm_medium: utms.utm_medium,
           utm_campaign: utms.utm_campaign,
@@ -675,7 +681,9 @@
           device: /Mobi|Android/i.test(navigator.userAgent) ? "mobile" : "desktop"
         };
 
-        var results = await Promise.all([saveFirestore(lead), saveBrevo(name, email, utms)]);
+        var tasks = [saveFirestore(lead)];
+        if (marketingConsent) tasks.push(saveBrevo(name, email, utms));
+        var results = await Promise.all(tasks);
         if (results[0] || results[1]) {
           document.getElementById("leadFormContent").style.display = "none";
           document.getElementById("leadSuccess").classList.remove("hidden");
