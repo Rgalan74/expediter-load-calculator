@@ -212,6 +212,9 @@
             if (typeof window.debugLog === 'function') {
                 window.debugLog('[COOKIES] ✅ Consent granted — loading analytics');
             }
+            if (typeof window.grantTrackingConsent === 'function') {
+                window.grantTrackingConsent();
+            }
             loadAnalytics();
         } else {
             if (typeof window.debugLog === 'function') {
@@ -232,7 +235,7 @@
 
         // Si no está cargado, cargar dinámicamente
         var script = document.createElement('script');
-        script.src = 'js/analytics-manager.js?v=1.0.0';
+        script.src = '/js/analytics-manager.js?v=1.0.0';
         script.onload = function () {
             if (window.analyticsManager) {
                 window.analyticsManager.init();

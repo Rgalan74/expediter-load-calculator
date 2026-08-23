@@ -28,16 +28,19 @@ class AnalyticsManager {
                 debugLog('✅ Firebase Analytics initialized');
             }
 
-            // Initialize Google Analytics 4
-            await this.loadGA4();
+            // Google Analytics 4 (consent-mode.js ya lo carga globalmente;
+            // solo lo cargamos aca como fallback si por alguna razon no esta)
+            if (typeof gtag === 'undefined') {
+                await this.loadGA4();
+            }
 
             this.initialized = true;
 
             // Process queued events
             this.processQueue();
 
-            // Track initial page view
-            this.trackPageView(window.location.pathname);
+            // No llamamos trackPageView aca: consent-mode.js ya manda el
+            // page_view automatico via gtag('config', ...)
 
         } catch (error) {
             debugLog('❌ Analytics initialization failed:', error);
