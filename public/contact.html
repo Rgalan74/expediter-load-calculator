@@ -197,6 +197,7 @@
               <span id="submitBtnText" data-i18n="contact.btn_send">Enviar Mensaje</span>
               <span>→</span>
             </button>
+            <p id="contactStatus" style="display:none;margin-top:0.5rem;font-size:0.875rem;"></p>
 
             <p class="text-center text-sm text-gray-500 mt-4" data-i18n="contact.respond_note">Respondemos todos los mensajes en menos de 48 horas.</p>
           </form>
@@ -282,12 +283,67 @@
     </div>
   </footer>
 
-  <!-- EmailJS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-functions-compat.js"></script>
   <script>// i18n init omitted: page is static Spanish</script>
 
 
 
   <!-- 🍪 Cookie Consent Banner -->
   <script src="/js/cookie-consent.js?v=1.0.0"></script>
+
+  <script>
+    (function () {
+      var firebaseConfig = {
+        apiKey: "AIzaSyAkEYDbxkjXJx5wNh_7wMdIqmklOMCIyHY",
+        authDomain: "expediter-dev.firebaseapp.com",
+        projectId: "expediter-dev",
+        storageBucket: "expediter-dev.appspot.com",
+        messagingSenderId: "447653997176",
+        appId: "1:447653997176:web:4e356867bb64b488ab5b8d"
+      };
+      document.addEventListener("DOMContentLoaded", function () {
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+
+        var form = document.getElementById("contactForm");
+        var btn = document.getElementById("submitBtn");
+        var btnText = document.getElementById("submitBtnText");
+        var status = document.getElementById("contactStatus");
+
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault();
+          var name = document.getElementById("name").value.trim();
+          var email = document.getElementById("email").value.trim().toLowerCase();
+          var subject = document.getElementById("subject").value;
+          var message = document.getElementById("message").value.trim();
+
+          btn.disabled = true;
+          var originalText = btnText.textContent;
+          btnText.textContent = "Enviando...";
+          status.style.display = "none";
+
+          try {
+            var fn = firebase.app().functions('us-central1').httpsCallable('sendContactMessage');
+            var result = await fn({ name: name, email: email, subject: subject, message: message, lang: 'es' });
+            if (result && result.data && result.data.success) {
+              status.textContent = "¡Mensaje enviado! Te responderemos pronto.";
+              status.style.color = "#4ade80";
+              status.style.display = "block";
+              form.reset();
+            } else {
+              throw new Error("no success flag");
+            }
+          } catch (err) {
+            console.error("[Contact] Error:", err);
+            status.textContent = "Algo salió mal. Intenta de nuevo o escríbenos a support@smartloadsolution.com.";
+            status.style.color = "#f87171";
+            status.style.display = "block";
+          } finally {
+            btn.disabled = false;
+            btnText.textContent = originalText;
+          }
+        });
+      });
+    })();
+  </script>
 </body></html>
