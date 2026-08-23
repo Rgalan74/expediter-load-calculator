@@ -1202,6 +1202,84 @@ exports.sendContactMessage = onCall(
 );
 
 // ============================================================
+// requestReviews — pide reviews de Google a usuarios reales y
+// activos (OCULTO). Corre 1x/dia, mismo patron que lexDailyAlerts.
+// (c) 2026 SmartLoad Solution - Ricardo Galan.
+// ============================================================
+// ⚠️ Placeholder hasta que exista el Google Business Profile real
+// (docs/superpowers/specs/2026-08-23-reviews-system-design.md, Fase 1).
+// NO desplegar esta funcion como schedule activo hasta reemplazar esto.
+const GOOGLE_REVIEW_LINK = 'https://g.page/r/PLACEHOLDER/review';
+
+const REVIEW_MIN_LOADS = 10;
+const REVIEW_MIN_ACCOUNT_AGE_DAYS = 7;
+
+exports.requestReviews = onSchedule(
+    { schedule: 'every 24 hours', timeZone: 'America/Chicago', maxInstances: 1 },
+    async () => {
+        const now = new Date();
+        const cutoffMs = now.getTime() - REVIEW_MIN_ACCOUNT_AGE_DAYS * 86400000;
+
+        const usersSnap = await db.collection('users').get();
+        if (usersSnap.empty) {
+            logger.info('[requestReviews] No users found.');
+            return;
+        }
+
+        let sent = 0;
+
+        for (const userDoc of usersSnap.docs) {
+            const uid = userDoc.id;
+            const data = userDoc.data();
+
+            if (data.reviewRequestSent === true) continue;
+            if (!data.email) continue;
+
+            const createdAtMs = data.createdAt && data.createdAt.toDate
+                ? data.createdAt.toDate().getTime()
+                : new Date(data.createdAt || 0).getTime();
+            if (!createdAtMs || createdAtMs > cutoffMs) continue;
+
+            try {
+                const loadsCountSnap = await db.collection('loads')
+                    .where('userId', '==', uid)
+                    .count()
+                    .get();
+                const totalLoads = loadsCountSnap.data().count;
+                if (totalLoads < REVIEW_MIN_LOADS) continue;
+
+                const lang = data.preferredLanguage === 'en' ? 'en' : 'es';
+                const subject = lang === 'en'
+                    ? 'Quick favor? (30 seconds)'
+                    : '¿Un favor rápido? (30 segundos)';
+                const html = lang === 'en'
+                    ? `<div style="font-family:Arial,sans-serif;max-width:600px;">
+                         <p>Hey! You've calculated ${totalLoads} loads with SmartLoad Solution — glad it's been useful.</p>
+                         <p>Would you mind leaving a quick Google review? It takes 30 seconds and really helps other independent carriers find us.</p>
+                         <p><a href="${GOOGLE_REVIEW_LINK}" style="background:#C2410C;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;display:inline-block;">Leave a review →</a></p>
+                       </div>`
+                    : `<div style="font-family:Arial,sans-serif;max-width:600px;">
+                         <p>¡Hola! Ya calculaste ${totalLoads} cargas con SmartLoad Solution — nos alegra que te esté sirviendo.</p>
+                         <p>¿Nos regalas una reseña rápida en Google? Toma 30 segundos y ayuda a que otros transportistas independientes nos encuentren.</p>
+                         <p><a href="${GOOGLE_REVIEW_LINK}" style="background:#C2410C;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;display:inline-block;">Dejar una reseña →</a></p>
+                       </div>`;
+
+                await db.collection('mail').add({
+                    to: [data.email],
+                    message: { subject, html },
+                });
+                await userDoc.ref.update({ reviewRequestSent: true });
+                sent++;
+            } catch (e) {
+                logger.error(`[requestReviews] Error procesando usuario ${uid}:`, e.message);
+            }
+        }
+
+        logger.info(`[requestReviews] Emails de review enviados: ${sent}`);
+    }
+);
+
+// ============================================================
 // ADMIN PANEL — User management (Cloud Functions, Admin SDK)
 // © 2026 SmartLoad Solution — Ricardo Galan
 // Expone gestión total de usuarios solo para rol 'admin'.
