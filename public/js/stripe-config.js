@@ -8,6 +8,11 @@
  * ⚠️ Si cambias precios en userPlans.js, actualiza también en Stripe Dashboard.
  */
 
+// Indireccion para poder testear handleCheckoutResult() sin recargar la
+// pagina de verdad -- un harness de test puede pre-definir esto ANTES de
+// que este script cargue. En produccion es exactamente location.reload().
+window.__reloadPage = window.__reloadPage || (() => window.location.reload());
+
 // ========================================
 // CONFIGURACIÓN DE STRIPE
 // ========================================
@@ -341,28 +346,63 @@ async function handleCheckoutResult() {
         // ✅ Bug #3 fix: toast DENTRO del callback, después de confirmar auth
         if (typeof showToast === 'function') showToast(window.i18n?.t('stripe.subscribed_ok') || '¡Suscripción activada exitosamente! 🎉', 'success');
 
-        const purchasedPlanId = sessionStorage.getItem('pendingCheckoutPlan');
-        const purchasedPlan = window.PLANS && window.PLANS[purchasedPlanId];
-        const purchaseValue = Number(purchasedPlan?.price || 0);
-        const purchaseParams = {
-            transaction_id: sessionId,
-            currency: 'USD',
-            value: purchaseValue,
-            items: purchasedPlan ? [{ item_id: purchasedPlanId, item_name: purchasedPlan.name, price: purchaseValue, quantity: 1 }] : []
-        };
+        const PAID_PLAN_IDS = ['professional', 'premium'];
+        const pendingPlanId = sessionStorage.getItem('pendingCheckoutPlan');
+        let purchaseParams = window.buildPurchaseParams(sessionId, pendingPlanId, window.PLANS);
 
-        // GA4/Firebase Analytics — confirmed checkout return.
-        if (window.analyticsManager) {
-            window.analyticsManager.trackEvent('purchase', purchaseParams);
-        } else if (typeof gtag === 'function') {
-            gtag('event', 'purchase', purchaseParams);
+        // Fallback: si sessionStorage se perdio (pestaña cerrada y reabierta,
+        // storage limpiado, etc.), confirmar el plan real desde Stripe en vez
+        // de mandar value: 0. OJO: justo al volver de Stripe el webhook puede
+        // no haber terminado de actualizar Firestore todavia -- si
+        // getUserPlan() no devuelve un plan pagado reconocido (ej. sigue en
+        // "free"), NO lo tratamos como resuelto. Mejor omitir el evento que
+        // mandar una "compra" de $0 con datos inventados.
+        if (!purchaseParams._planFound && typeof window.getUserPlan === 'function') {
+            try {
+                const confirmedPlan = await window.getUserPlan(user.uid);
+                if (confirmedPlan && PAID_PLAN_IDS.includes(confirmedPlan.id)) {
+                    purchaseParams = window.buildPurchaseParams(sessionId, confirmedPlan.id, window.PLANS);
+                } else {
+                    debugLog('[STRIPE] No se pudo confirmar un plan pagado para el evento purchase (sessionId=' + sessionId + ', plan devuelto=' + (confirmedPlan?.id || 'ninguno') + '). Evento GA4/Meta omitido, revisar manualmente.');
+                }
+            } catch (e) {
+                debugLog('[STRIPE] Error confirmando plan via getUserPlan para el evento purchase:', e.message);
+            }
         }
 
-        // Meta Pixel
-        if (typeof window.trackMeta === 'function') {
-            window.trackMeta('Purchase', { currency: 'USD', value: purchaseValue });
-        } else if (typeof window.fbq === 'function') {
-            window.fbq('track', 'Purchase', { currency: 'USD', value: purchaseValue }, { eventID: sessionId });
+        if (purchaseParams._planFound) {
+            // _planFound es metadata interna de control -- no forma parte
+            // del payload que le mandamos a GA4.
+            const { _planFound, ...ga4PurchaseParams } = purchaseParams;
+            const purchaseValue = ga4PurchaseParams.value;
+
+            // GA4 — directo a gtag, sin pasar por analyticsManager (su cola
+            // en memoria no sobrevive el reload de mas abajo). Llamar
+            // gtag() no prueba por si solo que el hit salio por la red --
+            // usamos su event_callback (mas event_timeout de respaldo, mas
+            // un setTimeout propio como ultima red de seguridad) para darle
+            // al hit una oportunidad real de salir ANTES de continuar hacia
+            // el reload. Nunca esperamos indefinidamente: si nada dispara
+            // en ~1.2s, seguimos igual.
+            if (typeof gtag === 'function') {
+                await new Promise((resolve) => {
+                    let done = false;
+                    const finish = () => { if (!done) { done = true; resolve(); } };
+                    gtag('event', 'purchase', {
+                        ...ga4PurchaseParams,
+                        event_callback: finish,
+                        event_timeout: 1000,
+                    });
+                    setTimeout(finish, 1200);
+                });
+            }
+
+            // Meta Pixel
+            if (typeof window.trackMeta === 'function') {
+                window.trackMeta('Purchase', { currency: 'USD', value: purchaseValue });
+            } else if (typeof window.fbq === 'function') {
+                window.fbq('track', 'Purchase', { currency: 'USD', value: purchaseValue }, { eventID: sessionId });
+            }
         }
         sessionStorage.removeItem('pendingCheckoutPlan');
 
@@ -386,7 +426,7 @@ async function handleCheckoutResult() {
         }
 
         // Recargar para reflejar el nuevo plan
-        window.location.reload();
+        window.__reloadPage();
     });
 }
 
