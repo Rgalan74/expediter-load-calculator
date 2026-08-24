@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Purchase flow test harness — not deployed</title></head>
+<body>
+<script>
+  // ── Stubs, definidos ANTES de cargar el codigo real ──────────────────────
+  window.__callLog = [];
+
+  window.debugLog = function (...args) { window.__callLog.push(['debugLog', args]); };
+  window.showToast = function () {};
+  // Simula un gtag.js real: registra la llamada y, salvo que la URL pida
+  // lo contrario (?skip_callback=1, para probar el respaldo por timeout),
+  // dispara event_callback de forma asincronica -- como haria gtag.js de
+  // verdad al confirmar (o fallar) el envio del hit.
+  var _skipCallback = new URLSearchParams(window.location.search).get('skip_callback') === '1';
+  window.gtag = function (...args) {
+    window.__callLog.push(['gtag', args]);
+    var params = args[2];
+    if (!_skipCallback && params && typeof params.event_callback === 'function') {
+      setTimeout(params.event_callback, 50);
+    }
+  };
+  window.PLANS = {
+    professional: { id: 'professional', name: 'Professional', price: 14.99 },
+  };
+  window.getUserPlan = async function (uid) {
+    window.__callLog.push(['getUserPlan', [uid]]);
+    return { id: 'professional', name: 'Professional', price: 14.99 };
+  };
+  // __reloadPage se define ANTES de que stripe-config.js cargue, por eso
+  // stripe-config.js usa "window.__reloadPage || (() => ...)" -- respeta
+  // este stub en vez de pisarlo.
+  // Se registra performance.now() aqui (no Date.now() del lado de Playwright
+  // antes del page.goto()) para que el test mida solo la duracion real del
+  // await gtag/timeout dentro de handleCheckoutResult(), sin incluir el
+  // tiempo de carga/navegacion de la pagina, que es ruido para este assert.
+  window.__reloadPage = function () {
+    window.__reloadTime = performance.now();
+    window.__callLog.push(['__reloadPage', []]);
+  };
+
+  // Firebase stub minimo -- solo lo que handleCheckoutResult() toca.
+  var _authUser = { uid: 'test-uid-123' };
+  window.firebase = {
+    auth: function () {
+      return {
+        currentUser: _authUser,
+        onAuthStateChanged: function (cb) {
+          setTimeout(function () { cb(_authUser); }, 0);
+          return function unsubscribe() {};
+        },
+      };
+    },
+  };
+
+  // Simular que ya paso por checkout y volvio de Stripe.
+  sessionStorage.setItem('pendingCheckoutPlan', 'professional');
+</script>
+<script src="/js/purchase-tracking.js"></script>
+<script src="/js/stripe-config.js"></script>
+<script>
+  // handleCheckoutResult() normalmente se dispara solo si el pathname
+  // incluye "app.html" (ver stripe-config.js, bloque de inicializacion).
+  // Este harness no es app.html, asi que lo llamamos directo -- probamos
+  // la funcion, no el gate del pathname (eso no es parte de este bug).
+  window.__startTime = performance.now();
+  window.__testDone = handleCheckoutResult();
+</script>
+</body>
+</html>
