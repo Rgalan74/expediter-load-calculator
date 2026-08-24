@@ -348,7 +348,15 @@ async function handleCheckoutResult() {
 
         const PAID_PLAN_IDS = ['professional', 'premium'];
         const pendingPlanId = sessionStorage.getItem('pendingCheckoutPlan');
-        let purchaseParams = window.buildPurchaseParams(sessionId, pendingPlanId, window.PLANS);
+        // _planFound por si solo no basta como señal de "compra valida": si
+        // pendingCheckoutPlan llegara a contener "free" (que SI existe en
+        // window.PLANS, con price: 0), buildPurchaseParams() lo marcaria
+        // _planFound: true y mandaria un purchase de $0. Solo tratamos el
+        // valor de sessionStorage como resuelto si es explicitamente uno de
+        // los planes pagados -- cualquier otro valor (incluido "free", un id
+        // desconocido, o null) cae al fallback de abajo.
+        const validPendingPlanId = PAID_PLAN_IDS.includes(pendingPlanId) ? pendingPlanId : null;
+        let purchaseParams = window.buildPurchaseParams(sessionId, validPendingPlanId, window.PLANS);
 
         // Fallback: si sessionStorage se perdio (pestaña cerrada y reabierta,
         // storage limpiado, etc.), confirmar el plan real desde Stripe en vez

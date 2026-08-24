@@ -8,11 +8,12 @@
 
   window.debugLog = function (...args) { window.__callLog.push(['debugLog', args]); };
   window.showToast = function () {};
+  var _urlParams = new URLSearchParams(window.location.search);
   // Simula un gtag.js real: registra la llamada y, salvo que la URL pida
   // lo contrario (?skip_callback=1, para probar el respaldo por timeout),
   // dispara event_callback de forma asincronica -- como haria gtag.js de
   // verdad al confirmar (o fallar) el envio del hit.
-  var _skipCallback = new URLSearchParams(window.location.search).get('skip_callback') === '1';
+  var _skipCallback = _urlParams.get('skip_callback') === '1';
   window.gtag = function (...args) {
     window.__callLog.push(['gtag', args]);
     var params = args[2];
@@ -21,11 +22,20 @@
     }
   };
   window.PLANS = {
+    free: { id: 'free', name: 'Starter', price: 0 },
     professional: { id: 'professional', name: 'Professional', price: 14.99 },
+    premium: { id: 'premium', name: 'Premium + AI', price: 29.99 },
   };
+  // getUserPlan() simulado: por defecto devuelve el plan pagado de siempre
+  // (professional), pero el harness permite forzar otra respuesta via
+  // ?user_plan=... para probar el guard del fallback -- ej. "free" simula
+  // que el webhook de Stripe todavia no actualizo Firestore.
+  var _userPlanOverride = _urlParams.get('user_plan');
   window.getUserPlan = async function (uid) {
     window.__callLog.push(['getUserPlan', [uid]]);
-    return { id: 'professional', name: 'Professional', price: 14.99 };
+    if (_userPlanOverride === 'none') return null;
+    var planId = _userPlanOverride || 'professional';
+    return window.PLANS[planId] || null;
   };
   // __reloadPage se define ANTES de que stripe-config.js cargue, por eso
   // stripe-config.js usa "window.__reloadPage || (() => ...)" -- respeta
@@ -53,8 +63,17 @@
     },
   };
 
-  // Simular que ya paso por checkout y volvio de Stripe.
-  sessionStorage.setItem('pendingCheckoutPlan', 'professional');
+  // Simular que ya paso por checkout y volvio de Stripe. El plan pendiente
+  // en sessionStorage es configurable via ?pending_plan=... -- por defecto
+  // "professional" (camino feliz normal, compatible con los tests previos).
+  // ?pending_plan=__none__ simula sessionStorage perdido (cae directo al
+  // fallback, igual que el Step 4 original de este harness).
+  var _pendingPlan = _urlParams.has('pending_plan') ? _urlParams.get('pending_plan') : 'professional';
+  if (_pendingPlan === '__none__') {
+    sessionStorage.removeItem('pendingCheckoutPlan');
+  } else {
+    sessionStorage.setItem('pendingCheckoutPlan', _pendingPlan);
+  }
 </script>
 <script src="/js/purchase-tracking.js"></script>
 <script src="/js/stripe-config.js"></script>
