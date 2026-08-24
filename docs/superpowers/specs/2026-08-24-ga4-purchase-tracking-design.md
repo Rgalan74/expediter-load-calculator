@@ -110,13 +110,32 @@ Replace the current block (lines ~344-359) with:
 1. Call `buildPurchaseParams(sessionId, sessionStorage.getItem('pendingCheckoutPlan'), window.PLANS)`.
 2. If `!result._planFound`, call `window.getUserPlan(user.uid)` (already
    imported/available on this page, already used a few lines below in
-   the existing portal-detection block) and rebuild
-   `buildPurchaseParams(sessionId, planFromServer.id, window.PLANS)`.
-3. Send directly: `if (typeof gtag === 'function') gtag('event', 'purchase', purchaseParams);` —
-   no `analyticsManager` in this path at all. `gtag.js`'s own
-   transport already uses `navigator.sendBeacon` for exactly this
-   "about to unload" scenario, so once the direct `gtag()` call
-   happens, delivery no longer depends on anything in this codebase.
+   the existing portal-detection block). **Right after returning from
+   Stripe, the webhook that activates the plan in Firestore may not have
+   finished yet** — `getUserPlan()` could still report `free`. Only treat
+   the fallback as resolved if the returned plan id is one of the actual
+   paid plans (`professional`/`premium`); if it's still `free` or
+   anything unrecognized, do **not** silently build a `$0` purchase —
+   skip sending the event for both GA4 and Meta this one time, and log
+   clearly (`debugLog`) with the `sessionId` so it's traceable. The real
+   purchase is never lost — Stripe's webhook still activates the plan and
+   sends the confirmation email independently of this client-side
+   analytics call; only the GA4/Meta *measurement* of that one purchase
+   would be missing, which is far better than recording it with invented
+   revenue.
+3. Send directly, only when a paid plan was actually resolved:
+   `gtag('event', 'purchase', ga4PurchaseParams)` — no `analyticsManager`
+   in this path at all. `ga4PurchaseParams` is `purchaseParams` **minus**
+   the internal `_planFound` flag (control metadata, not something to
+   ship to Google). Calling `gtag()` does not, by itself, prove the hit
+   left the browser — so this waits on GA4's own `event_callback`
+   (fired once the library has dispatched the hit, or attempted to) with
+   an `event_timeout: 1000` as GA4's documented backstop, **plus** one
+   more independent `setTimeout(..., 1200)` in our own code as a second
+   safety net, wrapped in a single `await new Promise(...)` so
+   `handleCheckoutResult()` genuinely pauses here — never indefinitely,
+   at most ~1.2s — before continuing to the Meta Pixel call and
+   eventually the reload.
 4. Testability seam: `handleCheckoutResult()`'s single
    `window.location.reload()` call at the very end (the one that runs
    right after purchase tracking, `stripe-config.js:389`) gets
@@ -143,9 +162,16 @@ Replace the current block (lines ~344-359) with:
   `window.__reloadPage` as a spy, then loads the real
   `purchase-tracking.js` + `stripe-config.js` and calls
   `handleCheckoutResult()` directly against a simulated
-  `?session_id=...` URL. A Playwright script drives this harness and
-  asserts the `gtag` spy was called with `event: 'purchase'`
-  **before** the `__reloadPage` spy was called.
+  `?session_id=...` URL. The `gtag` stub behaves like the real thing:
+  it fires the `event_callback` it was given (asynchronously, like a
+  real network round-trip would), unless the harness URL carries
+  `&skip_callback=1` — that variant proves the ~1.2s timeout backstop
+  works too, not just the happy path. A Playwright script drives both
+  scenarios and asserts, in each: `gtag` was called with `event_timeout`
+  present and `_planFound` absent from the payload, and that
+  `__reloadPage` is only observed **after** `gtag` — immediately in the
+  happy-path scenario, only after the ~1.2s timeout in the
+  callback-never-arrives scenario.
 - Both files live under `public/.test/` — the leading dot makes the
   folder match the existing `"**/.*"` entry in `firebase.json`'s
   hosting `ignore` list, so neither ever gets deployed. No
@@ -153,19 +179,28 @@ Replace the current block (lines ~344-359) with:
 
 ## Success criteria
 
-- `node public/.test/test-purchase-tracking.js` passes, covering: plan
-  found in `plansMap` → correct value/items; plan not found → `value: 0`
-  and `_planFound: false` (so the caller knows to fall back);
-  `transaction_id` always equals the `sessionId` passed in.
-- The Playwright harness test passes, proving the call-order
-  invariant: `gtag('event','purchase',...)` is observed **before**
-  `__reloadPage()` is observed, using the exact same code path as
-  production (`purchase-tracking.js` + `stripe-config.js`, not a
-  reimplementation).
-- Manual smoke test against a real Stripe **test-mode** checkout
-  (recommended before/alongside deploy, using Stripe's test card
-  `4242 4242 4242 4242`) confirms the event appears in GA4 DebugView
-  in real time.
+- `node public/.test/test-purchase-tracking.js` passes (17 assertions),
+  covering: plan found in `plansMap` → correct value/items; plan not
+  found → `value: 0` and `_planFound: false` (so the caller knows to
+  fall back); `transaction_id` always equals the `sessionId` passed in.
+- The Playwright harness test passes for **both** scenarios (happy path
+  and timeout-backstop path), proving: `gtag('event','purchase',...)`
+  is always observed **before** `__reloadPage()`; the payload sent to
+  `gtag()` never contains `_planFound`; the reload never happens
+  instantly when the callback hasn't fired yet, and never hangs
+  indefinitely when it never fires at all.
+- Manual smoke test against a real Stripe checkout confirms the event
+  appears in GA4 DebugView in real time. **Prerequisite to check before
+  this step, not after:** `functions/index.js:36` currently reads
+  `const IS_TEST_MODE = false; // LIVE MODE`, and the fallback price IDs
+  in `stripe-config.js` are commented `LIVE`. Stripe's test card
+  `4242 4242 4242 4242` **only works against Stripe test-mode** keys and
+  test-mode price IDs — confirm with Ricardo whether this environment
+  can be pointed at Stripe test mode for the smoke test (or whether the
+  verification needs to be a real, refundable live transaction instead)
+  *before* attempting Task 6, so a "no event in GA4" result during the
+  smoke test isn't misread as "the fix didn't work" when it might just
+  be "the test card was rejected by Stripe live mode."
 - `begin_checkout`, Meta Pixel/CAPI, and the Stripe backend are
   byte-for-byte unchanged — verified by `git diff` scope, not just by
   intent.
