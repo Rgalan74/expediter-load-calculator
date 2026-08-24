@@ -24,6 +24,7 @@
     "ignore": [
       "firebase.json",
       "**/.*",
+      ".test/**",
       "**/node_modules/**",
       "img-backups/**"
     ],
