@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Stripe firebase-init timing harness — not deployed</title></head>
+<body>
+<script>
+  // ── Stubs, definidos ANTES de cargar el codigo real ──────────────────────
+  window.__callLog = [];
+  window.debugLog = function (...args) { window.__callLog.push(['debugLog', args]); };
+
+  var _params = new URLSearchParams(window.location.search);
+  // 'ready'   -> firebase.apps ya tiene una app ANTES de cargar stripe-config.js
+  // 'delayed' -> firebase.apps empieza vacio, se llena ~250ms despues (simula
+  //              que app.html difiere firebase.initializeApp() a DOMContentLoaded)
+  var scenario = _params.get('scenario') || 'ready';
+
+  // Stub minimo de Firebase compat: firebase.auth() replica el throw real
+  // de Firebase cuando no hay app [DEFAULT] inicializada, para probar el
+  // guard de verdad, no una version simplificada.
+  window.firebase = {
+    apps: (scenario === 'ready') ? [{}] : [],
+    auth: function () {
+      if (window.firebase.apps.length === 0) {
+        throw new Error("Firebase: No Firebase App '[DEFAULT]' has been created - call firebase.initializeApp() (app/no-app).");
+      }
+      return {
+        onAuthStateChanged: function (cb) {
+          window.__callLog.push(['onAuthStateChanged-registered', []]);
+          return function unsubscribe() {};
+        }
+      };
+    },
+    firestore: function () {
+      return {
+        collection: function () {
+          return { doc: function () { return { get: function () { return Promise.reject(new Error('no firestore in test')); } }; } };
+        }
+      };
+    }
+  };
+
+  if (scenario === 'delayed') {
+    setTimeout(function () {
+      window.firebase.apps.push({});
+      window.__callLog.push(['firebase-initialized-late', []]);
+    }, 250);
+  }
+</script>
+<script src="/js/stripe-config.js"></script>
+</body>
+</html>

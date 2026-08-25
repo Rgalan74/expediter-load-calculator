@@ -1,7 +1,7 @@
 /**
  * stripe-config.js
  * Integración con Stripe para Expediter
- * Version: 3.5.1
+ * Version: 3.5.3
  *
  * IMPORTANTE: Los planes se definen en userPlans.js (window.PLANS)
  * Este archivo solo maneja la integración de pagos con Stripe.
@@ -38,7 +38,24 @@ async function _loadStripePriceMap() {
         debugLog('[STRIPE] Using fallback price map');
     }
 }
-firebase.auth().onAuthStateChanged(u => { if (u) _loadStripePriceMap(); });
+
+// Registra el listener de auth para _loadStripePriceMap solo cuando ya
+// exista una app Firebase [DEFAULT] -- en paginas donde firebase.initializeApp()
+// se difiere a DOMContentLoaded (app.html, via config.js), este script se
+// ejecuta ANTES de eso; llamar firebase.auth() aqui directo lanzaba "No
+// Firebase App '[DEFAULT]' has been created" y abortaba el resto del
+// archivo, incluyendo window.StripeIntegration mas abajo. En paginas donde
+// Firebase ya esta inicializado de forma sincrona antes de este script
+// (plans.html, account.html, auth.html), el chequeo pasa de inmediato --
+// mismo comportamiento que antes, sin retraso perceptible.
+function _registerStripePriceMapAuthListener() {
+    if (typeof firebase === 'undefined' || !firebase.apps || firebase.apps.length === 0) {
+        setTimeout(_registerStripePriceMapAuthListener, 100);
+        return;
+    }
+    firebase.auth().onAuthStateChanged(u => { if (u) _loadStripePriceMap(); });
+}
+_registerStripePriceMapAuthListener();
 
 // ========================================
 // FUNCIONES DE VERIFICACIÓN
