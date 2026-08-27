@@ -684,7 +684,7 @@
             const subsHtml = subs.length ? subs.map(s => `
                 <div class="pay">
                     <div><b>Sub:</b> <span class="mono">${s.id}</span></div>
-                    <div class="muted">Estado: ${s.status || '—'} · Plan: ${s.price?.id || s.items?.data?.[0]?.price?.id || '—'}</div>
+                    <div class="muted">Estado: ${s.status || '—'} · Plan: ${s.items?.[0]?.price?.id || '—'}</div>
                     <div class="muted">Período fin: ${fmt(s.current_period_end || null)}</div>
                 </div>`).join('') : '<div class="muted">Sin suscripciones en Firestore.</div>';
 
