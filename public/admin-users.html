@@ -685,14 +685,14 @@
                 <div class="pay">
                     <div><b>Sub:</b> <span class="mono">${s.id}</span></div>
                     <div class="muted">Estado: ${s.status || '—'} · Plan: ${s.price?.id || s.items?.data?.[0]?.price?.id || '—'}</div>
-                    <div class="muted">Período fin: ${fmt(s.current_period_end ? new Date(s.current_period_end*1000).toISOString() : null)}</div>
+                    <div class="muted">Período fin: ${fmt(s.current_period_end || null)}</div>
                 </div>`).join('') : '<div class="muted">Sin suscripciones en Firestore.</div>';
 
             const paysHtml = pays.length ? pays.map(py => `
                 <div class="pay">
                     <div><b>${py.currency ? py.currency.toUpperCase() : ''} ${(py.amount/100).toFixed(2)}</b> · ${py.status || ''}</div>
                     <div class="muted mono">${py.id}</div>
-                    <div class="muted">${fmt(py.created ? new Date(py.created*1000).toISOString() : (py.created?.toDate?.()?.toISOString?.()))}</div>
+                    <div class="muted">${fmt(py.created || null)}</div>
                 </div>`).join('') : '<div class="muted">Sin pagos registrados.</div>';
 
             const loadsRowsHtml = recentLoads.length ? recentLoads.map(l => `
