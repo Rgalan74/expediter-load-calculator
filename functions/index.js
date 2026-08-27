@@ -129,7 +129,17 @@ app.post("/", async (req, res) => {
                     logger.info("[stripeWebhook] priceId:", priceId, "→ planId:", planId, "firebaseId:", firebaseId);
 
                     if (planId && firebaseId) {
-                        await activateUserPlan(firebaseId, planId, invoice.subscription);
+                        // Nueva API Stripe (2025-03-31.basil+): invoice.subscription quedo
+                        // obsoleto, reemplazado por invoice.parent.subscription_details.subscription
+                        // (ver changelog de Stripe: "adds new parent field to invoicing objects").
+                        // Sin este fallback, subscriptionId llegaba null a activateUserPlan()
+                        // y el plan se activaba bien pero users/{uid}.subscriptionId nunca
+                        // se escribia -- rompiendo cancelUserSubscription() mas adelante.
+                        const subscriptionId =
+                            invoice.subscription ||
+                            invoice.parent?.subscription_details?.subscription ||
+                            null;
+                        await activateUserPlan(firebaseId, planId, subscriptionId);
 
                         // Enviar email HTML de confirmación de pago
                         const userEmail = invoice.customer_email;
