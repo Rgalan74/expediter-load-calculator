@@ -1309,6 +1309,27 @@ function _iso(v) {
     return v;
 }
 
+// Sanea recursivamente valores crudos del Admin SDK de Firestore (Timestamp,
+// DocumentReference) antes de devolverlos en la respuesta de una funcion
+// onCall. El encode() de firebase-functions no tiene proteccion para estos
+// tipos -- solo hace Object.entries() a mano, sin llamar toJSON() ni
+// detectar ciclos -- asi que un DocumentReference crudo camina hacia el
+// cliente completo de Firestore (su propiedad interna _firestore), que es
+// genuinamente ciclico, y revienta la pila con "Maximum call stack size
+// exceeded" (confirmado via logs de produccion: uid con suscripcion real,
+// campo subscriptions[0].product).
+function _sanitizeFirestoreValue(value) {
+    if (value === null || value === undefined || typeof value !== 'object') return value;
+    if (typeof value.toDate === 'function') return _iso(value); // Timestamp
+    if (typeof value.path === 'string' && typeof value.get === 'function') return value.path; // DocumentReference
+    if (Array.isArray(value)) return value.map(_sanitizeFirestoreValue);
+    const out = {};
+    for (const [k, v] of Object.entries(value)) {
+        out[k] = _sanitizeFirestoreValue(v);
+    }
+    return out;
+}
+
 // Lee el pago/RPM/fecha de una carga tolerando los nombres de campo legacy que
 // ya maneja public/js/history.js (los datos viejos no se migraron de esquema).
 function _loadPay(l) {
@@ -1537,7 +1558,7 @@ exports.adminGetUserDetail = onCall(
             rpm: _loadRpm(l),
         }));
 
-        return {
+        const _adminGetUserDetailResult = {
             uid: targetUid,
             profile: {
                 email: d.email || null,
@@ -1552,21 +1573,21 @@ exports.adminGetUserDetail = onCall(
                 createdAt: _iso(d.createdAt),
                 lastActiveAt: _iso(d.lastActiveAt || d.lastLoginAt),
                 adminNotes: d.adminNotes || '',
-                vehicle: d.vehicle || null,
-                costs: d.costs || null,
-                preferences: d.preferences || null,
-                onboarding: d.onboarding || null,
+                vehicle: _sanitizeFirestoreValue(d.vehicle) || null,
+                costs: _sanitizeFirestoreValue(d.costs) || null,
+                preferences: _sanitizeFirestoreValue(d.preferences) || null,
+                onboarding: _sanitizeFirestoreValue(d.onboarding) || null,
                 stripeCustomerId: d.stripeCustomerId || null,
             },
             billing: {
                 stripeCustomerId: billing.stripeCustomerId || d.stripeCustomerId || null,
-                subscriptions: billing.subscriptions,
-                payments: billing.payments,
+                subscriptions: _sanitizeFirestoreValue(billing.subscriptions),
+                payments: _sanitizeFirestoreValue(billing.payments),
                 totalPaid: billing.totalPaid,
                 failedPaymentsCount: billing.failedPaymentsCount,
             },
-            userPlans: userPlansSnap.exists ? userPlansSnap.data() : null,
-            academy: academyData,
+            userPlans: userPlansSnap.exists ? _sanitizeFirestoreValue(userPlansSnap.data()) : null,
+            academy: _sanitizeFirestoreValue(academyData),
             stats: {
                 loadsCount,
                 loadsTotal,
@@ -1576,6 +1597,8 @@ exports.adminGetUserDetail = onCall(
                 academyModulesTotal: 8,
             },
         };
+
+        return _adminGetUserDetailResult;
     }
 );
 
