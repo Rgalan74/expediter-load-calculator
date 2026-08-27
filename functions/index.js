@@ -1384,9 +1384,30 @@ async function _getUserBilling(uid) {
             .collection('subscriptions').limit(20).get();
         subsSnap.forEach(d => out.subscriptions.push({ id: d.id, ...d.data() }));
 
-        const paySnap = await db.collection('customers').doc(uid)
-            .collection('payments').orderBy('created', 'desc').limit(10).get();
-        paySnap.forEach(d => out.payments.push({ id: d.id, ...d.data() }));
+        // Los pagos se consultan directo a la API de Stripe, no a un mirror
+        // de Firestore: la extension firestore-stripe-payments no sincroniza
+        // facturas de suscripcion a customers/{uid}/payments (confirmado
+        // inspeccionando Firestore -- esa subcoleccion nunca existe para
+        // pagos recurrentes), asi que "Sin pagos registrados" salia siempre
+        // vacio aunque el pago real existiera en el Dashboard de Stripe.
+        if (out.stripeCustomerId && STRIPE_SECRET_KEY) {
+            try {
+                const stripe = new Stripe(STRIPE_SECRET_KEY);
+                const charges = await stripe.charges.list({ customer: out.stripeCustomerId, limit: 10 });
+                charges.data.forEach(c => {
+                    out.payments.push({
+                        id: c.id,
+                        amount: c.amount,
+                        currency: c.currency,
+                        status: c.status,
+                        description: c.description || null,
+                        created: new Date(c.created * 1000).toISOString(),
+                    });
+                });
+            } catch (stripeErr) {
+                logger.warn(`[_getUserBilling] stripe.charges.list fallo uid ${uid}:`, stripeErr.message);
+            }
+        }
 
         // Totales sobre los ultimos 10 pagos (mismo set ya traido, sin lecturas
         // extra) -- no es lifetime value real si hay mas de 10 pagos historicos.
@@ -1527,7 +1548,7 @@ exports.adminGetUsers = onCall(
 
 // ─── Detalle completo de un usuario (solo admin) ──────────────────────────────
 exports.adminGetUserDetail = onCall(
-    { region: 'us-central1' },
+    { region: 'us-central1', secrets: ["STRIPE_SECRET_KEY"] },
     async (request) => {
         await _requireAdmin(request);
         const targetUid = String(request.data?.targetUid || '').trim();
