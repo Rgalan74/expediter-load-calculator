@@ -4,12 +4,12 @@
  * Version: 1.0.0
  */
 
-const CACHE_NAME = 'smartload-v1.0.19'; // Bumped for SW fetch exclusions
+const CACHE_NAME = 'smartload-v1.0.20'; // fix: /app.css -> /css/app.css
 
 // Archivos esenciales para funcionar offline
 const CORE_ASSETS = [
   '/app.html',
-  '/app.css',
+  '/css/app.css',
   '/manifest.json',
   '/icon-192.png',
   '/icon-512.png',

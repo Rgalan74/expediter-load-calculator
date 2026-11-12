@@ -46,8 +46,20 @@ function addDestination() {
 
     debugLog(`[DESTINATIONS] Added destination ${destId}`);
 
-    // Initialize Google autocomplete after DOM update
-    setTimeout(() => initializeDestinationAutocomplete(destId), 100);
+    // Add input event listener so typing (not just autocomplete selection) syncs hidden field
+    setTimeout(() => {
+        const inputEl = document.getElementById(`${destId}-input`);
+        if (inputEl) {
+            inputEl.addEventListener('input', () => {
+                updateLastDestination();
+                // Trigger calculation if available
+                if (typeof window.triggerCalculate === 'function') window.triggerCalculate();
+                else if (typeof window.calculate === 'function') window.calculate();
+            });
+            debugLog(`[DESTINATIONS] Input listener added for ${destId}`);
+        }
+        initializeDestinationAutocomplete(destId);
+    }, 100);
 }
 
 /**
@@ -273,5 +285,14 @@ window.addDestination = addDestination;
 window.removeDestination = removeDestination;
 window.getAllDestinations = getAllDestinations;
 window.calculateRoute = calculateRoute;
+
+// Auto-initialize first destination so user has a visible field on load
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('destinationsContainer');
+    if (container && container.children.length === 0) {
+        debugLog('[DESTINATIONS] Auto-initializing first destination field');
+        addDestination();
+    }
+});
 
 debugLog('[DESTINATIONS] ✅ Sequential destinations system loaded');

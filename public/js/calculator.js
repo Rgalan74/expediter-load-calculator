@@ -2491,6 +2491,16 @@ function setupLegacyAutocomplete() {
       componentRestrictions: { country: ['us', 'ca'] }
     });
 
+    // Si #destination es hidden, el sistema sequential-destinations maneja sus propios inputs
+    if (destinationInput.type === 'hidden') {
+      debugLog('[AUTOCOMPLETE] Skipping destination autocomplete — sequential-destinations system in use');
+      originAutocomplete.addListener('place_changed', () => {
+        setTimeout(() => calculateDistanceAutomatically(), 500);
+      });
+      debugLog(' Autocomplete legacy configurado (solo origin)');
+      return;
+    }
+
     const destinationAutocomplete = new google.maps.places.Autocomplete(destinationInput, {
       types: ['geocode'],
       componentRestrictions: { country: ['us', 'ca'] }
