@@ -1,9 +1,18 @@
 # Motor financiero único — Especificación
 
-**Estado:** BORRADOR para revisión y aprobación de Ricardo. No implementar hasta aprobación.
+**Estado:** BORRADOR — revisión 2. Pendiente de aprobación final de Ricardo. No implementar hasta aprobación.
 **Fecha:** 13 de noviembre de 2026
 **Autores:** Claude (rama `fix/seguridad-costos-reportes`) y ChatGPT (prototipo `smartload-financial-prototype`), consolidado por Claude.
-**Base de código:** rama `fix/seguridad-costos-reportes`, commit `135ed82` (parte de `main` @ `2de295e`).
+**Base de código:** rama `fix/seguridad-costos-reportes` (parte de `main` @ `2de295e`). Revisión 1: commit `05c1908`.
+
+---
+
+## Historial de revisiones
+
+| Rev. | Fecha | Cambios |
+|---|---|---|
+| 1 | 13-11-2026 | Borrador inicial (commit `05c1908`) |
+| 2 | 13-11-2026 | Revisión cruzada Claude/ChatGPT: RPM total vs RPM de tarifa (§7.1), Extras confirmados (§2, §3), contraoferta (§7.4), objetivo = máximo entre sueldo y margen (§7.1), sueldo bruto (§7.2), cargas antiguas sin reconstrucción de CPM (§8), criterio de millas pasa a advertencia y control de combustible esperado (§4.2), gastos extraordinarios por materialidad y recurrencia (§6). Separación explícita entre decisiones aprobadas, pendientes y umbrales provisionales (§11) |
 
 ---
 
@@ -20,7 +29,7 @@ Nunca se mezclan: Finanzas no descuenta costos estimados, y la calculadora no re
 
 ## 1. Estado actual (punto de partida)
 
-| Ámbito | Producción | Vista previa (`135ed82`) |
+| Ámbito | Producción | Vista previa (rama) |
 |---|---|---|
 | Fórmula: cobro = tarifa + extras; gastos = CPM × millas + toll | Sí | Sí |
 | Lectura de costos sin el "costo fantasma" de $0.06/mi | Sí | Sí |
@@ -32,20 +41,31 @@ Nunca se mezclan: Finanzas no descuenta costos estimados, y la calculadora no re
 
 Lo de la vista previa **no se publicará** tal cual: se rehace sobre esta especificación.
 
+**Diferencias conocidas entre la rama y esta especificación** (pendientes de implementar, no son errores de la especificación):
+
+- `cpm-engine.js` todavía **incluye la categoría Peajes** en el CPM real (§5 la excluye).
+- El sueldo **sustituye** al margen (§7.1 usa el máximo de ambos).
+- No existe el control de combustible esperado (§4.2, criterio 3) ni la detección de gastos extraordinarios (§6).
+- El RPM mínimo de Configuración no se aplica en el semáforo (§7.1).
+- No existen Extras confirmados / no confirmados (§2).
+
 ## 2. Definiciones
 
 | Término | Definición | Tipo |
 |---|---|---|
 | **Tarifa (Rate)** | Pago base contratado por la carga | Ingreso |
-| **Extras** | Cargos adicionales que paga el cliente (descarga, espera…). En pantalla: "Cargos Extra al Cliente" | Ingreso |
+| **Extras confirmados** | Cargos adicionales que el cliente ya aceptó pagar (descarga, espera acordada…). En pantalla: "Cargos Extra al Cliente" | Ingreso |
+| **Extras no confirmados** | Cargos posibles pero no garantizados al aceptar la carga (p. ej. detención eventual) | **No** cuentan como ingreso en la decisión; se muestran aparte como "posible adicional" |
 | **Toll de la carga** | Estimación opcional de peajes de ese viaje | Gasto estimado. **No** se registra en Finanzas |
 | **Millas totales** | Millas cargadas + deadhead. Las paradas del sistema de destinos actual solo suman millas (no tienen ingreso propio) | — |
 | **CPM base** | Costo por milla de operar **sin peajes** | Gasto estimado |
-| **Sueldo del dueño** | Lo que el conductor necesita sacar al mes. Opcional | Objetivo, no gasto |
+| **Sueldo del dueño** | Sueldo **bruto, antes de impuestos**, que el conductor necesita sacar al mes. Opcional | Objetivo, no gasto |
 
 Notas:
+- **Todos los RPM de esta especificación se calculan sobre millas totales** (cargadas + deadhead). Decisión aprobada por Ricardo.
 - El sistema antiguo de paradas con ingreso propio (`stopsContainer`) ya no existe en la interfaz; si se reintroduce, sus ingresos entran en "Ingresos totales".
 - El reposicionamiento entre cargas no se registra. Por diseño, el CPM real reparte su costo entre las millas de las cargas guardadas (ver §4.3).
+- UI de Extras (a definir en implementación): el campo actual de "Cargos Extra al Cliente" pasa a representar Extras **confirmados**; los no confirmados requieren un campo o una casilla adicional.
 
 ## 3. Función financiera única
 
@@ -57,27 +77,29 @@ Una función pura, sin acceso a Firebase ni al DOM:
 calcularCarga(entradas, supuestos) -> resultado
 ```
 
-**Entradas** (de la carga): `tarifa`, `extras`, `tollCarga` (número, vacío o "0 confirmado"), `millasCargadas`, `millasDeadhead`, `estadoOrigen`, `estadoDestino`, `fecha`.
+**Entradas** (de la carga): `tarifa`, `extrasConfirmados`, `extrasNoConfirmados`, `tollCarga` (número, vacío o "0 confirmado"), `millasCargadas`, `millasDeadhead`, `estadoOrigen`, `estadoDestino`, `fecha`.
 
 **Supuestos** (resueltos antes, ver §4): `cpmBase`, `cpmFuente` (`industria` | `configuracion` | `real`), `combustiblePorMilla`, `peajePromedioPorMilla`, `sueldoPorDia`, `diasCarga`, `margenObjetivo`, `rpmMinimo`.
 
 **Resultado:**
 
 ```text
-ingresosTotales   = tarifa + extras
-millasTotales     = millasCargadas + millasDeadhead
-rpmTarifa         = tarifa / millasTotales
-rpmTotal          = ingresosTotales / millasTotales
-peajeAplicado     = tollCarga, si se indicó (incluido 0 confirmado)
-                    si no: peajePromedioPorMilla × millasTotales   (§5)
-costoOperativo    = cpmBase × millasTotales
-costoEstimado     = costoOperativo + peajeAplicado
-ganancia          = ingresosTotales − costoEstimado      (puede ser negativa)
-margen            = ganancia / ingresosTotales            (0 si no hay ingresos)
-sueldoCarga       = sueldoPorDia × diasCarga
-gananciaTrasSueldo= ganancia − sueldoCarga
-umbrales          = ver §7
-snapshot          = copia de entradas + supuestos + versión de la fórmula
+millasTotales      = millasCargadas + millasDeadhead
+ingresosTotales    = tarifa + extrasConfirmados
+rpmTarifa          = tarifa / millasTotales
+rpmTotal           = ingresosTotales / millasTotales
+posibleAdicional   = extrasNoConfirmados          (solo informativo)
+peajeAplicado      = tollCarga, si se indicó (incluido 0 confirmado)
+                     si no: peajePromedioPorMilla × millasTotales   (§5)
+costoOperativo     = cpmBase × millasTotales
+costoEstimado      = costoOperativo + peajeAplicado
+ganancia           = ingresosTotales − costoEstimado      (puede ser negativa)
+margen             = ganancia / ingresosTotales            (0 si no hay ingresos)
+sueldoCarga        = sueldoPorDia × diasCarga
+gananciaTrasSueldo = ganancia − sueldoCarga
+umbrales           = ver §7.1
+contraoferta       = ver §7.4
+snapshot           = copia de entradas + supuestos + versión de la fórmula
 ```
 
 ### 3.2. Quién la usa
@@ -112,15 +134,21 @@ snapshot          = copia de entradas + supuestos + versión de la fórmula
 
 Periodo: los últimos 12 meses **con actividad** (meses con ≥25 % de las millas de un mes típico del conductor, mínimo 300 mi). Se incluyen los gastos de meses de pausa **intermedios** (seguro y pago del vehículo se pagan igual); se excluyen los posteriores al último mes activo.
 
-El CPM real es **confiable** solo si se cumplen todos:
+**Criterios que bloquean** (si falla alguno, el CPM real se considera no confiable, se queda en etapa B y el desglose indica cuál falló):
 
 1. ≥ 3 meses con actividad y ≥ 20 cargas.
 2. Gastos registrados en ≥ 3 meses del periodo.
-3. Hay combustible registrado, y combustible ÷ millas está entre $0.10 y $0.50/mi (fuera de ese rango indica recibos faltantes o duplicados).
+3. **Combustible coherente con la Configuración.** Hay combustible registrado y el combustible real por milla está entre **0.5× y 1.5×** el esperado (`precio por galón / MPG` de Configuración):
+   - por encima de 1.5×: "posibles cargas sin registrar" (hay recibos pero faltan millas);
+   - por debajo de 0.5×: "posibles recibos de combustible sin registrar".
+   - Si la Configuración no tiene MPG o precio, se usa el rango absoluto $0.10–$0.50/mi.
 4. Cada uno de los meses con actividad tiene **algún** gasto fijo (seguro o pago del vehículo) si la Configuración indica que existen.
-5. Las millas mensuales promedio no son inferiores al 40 % de la meta de Configuración (si lo son, aviso de "posibles cargas sin registrar").
 
-Si falla alguno: se queda en etapa B y el desglose indica qué criterio falló.
+**Criterio que solo advierte** (no bloquea):
+
+5. Millas mensuales promedio inferiores al 40 % de la meta de Configuración → aviso: "Rodaste bastante menos de lo previsto en Configuración; revisa si hay cargas sin registrar o actualiza tu meta de millas". Motivo: rodar menos de lo previsto es real y es justamente cuando el CPM real es más útil (los costos fijos pesan más por milla); invalidarlo devolvería al conductor a un CPM de Configuración más bajo de lo real. La detección de cargas faltantes la cubre mejor el criterio 3.
+
+Los porcentajes de esta sección son **provisionales** (§11.3).
 
 ### 4.3. Cálculo
 
@@ -131,13 +159,13 @@ cpmBase real = (gastos del periodo sin peajes − combustible) / millas del peri
 
 Combustible reciente con dos protecciones (ya implementadas): si esos 3 meses tienen < 1,000 mi, o el resultado es menor que la mitad del promedio largo, se usa el periodo completo.
 
-### 4.4. Elección del conductor (decisión aprobada)
+### 4.4. Elección del conductor
 
 1. Al pasar los criterios por primera vez, la app muestra ambos CPM con su desglose, **recomienda** el más representativo y pide elegir.
 2. La elección se guarda (`users/{uid}.cpmPreference = { fuente, fecha, cpmConfig, cpmReal }`).
 3. **No cambia sola.** Se vuelve a preguntar solo si:
    - la diferencia entre ambos cambia más de 15 % respecto al momento de la elección, o
-   - el CPM real deja de cumplir §4.2, o
+   - el CPM real deja de cumplir los criterios que bloquean de §4.2, o
    - el conductor lo pide desde Configuración.
 4. Mientras no elija, se usa el de Configuración.
 
@@ -156,41 +184,80 @@ UI: añadir junto al campo de toll una casilla "Ruta sin peajes" (para distingui
 
 ## 6. Gastos extraordinarios
 
-- Se **identifican**, no se excluyen: un gasto es extraordinario si supera el 20 % del total de su categoría en el periodo, o 3 veces la mediana mensual de esa categoría.
+Se **identifican**, no se excluyen. Un gasto es extraordinario si cumple **las dos** condiciones:
+
+1. **Materialidad:** su importe es ≥ 5 % del total de gastos del periodo de §4.2, **o** su impacto es ≥ $0.02 por milla del periodo.
+2. **No recurrencia:** no existe otro gasto de la misma categoría, en otro mes del periodo, con importe dentro de ±10 %.
+
+Esto evita marcar categorías con un solo movimiento pequeño (permisos, una llanta) y pagos mensuales repetidos (seguro, pago del vehículo).
+
 - Aparecen marcados en el desglose ("Ver cómo se calcula").
-- El conductor puede marcarlo como "no recurrente" desde Finanzas; en ese caso se **reparte en 12 meses** dentro del CPM en lugar de pesar en un solo mes (decisión pendiente, ver §11).
+- El conductor puede marcarlo como "no recurrente" desde Finanzas; en ese caso se **reparte en 12 meses** dentro del CPM en lugar de pesar en un solo mes (decisión pendiente, §11.2 #2).
+- Los umbrales (5 %, $0.02/mi, ±10 %) son **provisionales** y deben validarse con datos reales (§11.3).
 
 ## 7. Decisión: umbrales, sueldo y Lex
 
-### 7.1. Umbral de aceptación
+### 7.1. Umbrales
+
+Todos los RPM sobre **millas totales**.
 
 ```text
-umbralCostos   = cpmBase + peajeAplicado / millas
-umbralObjetivo = si hay sueldo:  umbralCostos + sueldoCarga / millas
-                 si no:          umbralCostos / (1 − margenObjetivo)
-umbralAceptar  = máximo(umbralObjetivo, rpmMinimo)
+umbralCostos    = cpmBase + peajeAplicado / millasTotales
+
+objetivoSueldo  = umbralCostos + sueldoCarga / millasTotales     (solo si hay sueldo)
+objetivoMargen  = umbralCostos / (1 − margenObjetivo)
+umbralObjetivo  = máximo(objetivoSueldo, objetivoMargen)         (sin sueldo: objetivoMargen)
 ```
 
+Reglas de decisión:
+
+| Resultado | Condición |
+|---|---|
+| **Rechazar** | `rpmTotal < umbralCostos` (pierde dinero) |
+| **Evaluar / Casi aceptar** | Cubre costos pero no cumple alguna de las dos condiciones de "Aceptar" |
+| **Aceptar** | `rpmTotal ≥ umbralObjetivo` **y** `rpmTarifa ≥ rpmMinimo` |
+
+- **Rentabilidad contra RPM total:** los Extras confirmados son dinero real y ya están en la ganancia.
+- **RPM mínimo contra RPM de tarifa:** es un piso de negociación sobre lo que paga el broker, y no depende de Extras.
+- **Máximo, no suma:** el sueldo y el margen no se acumulan; se aplica el más exigente y la pantalla indica cuál fue ("objetivo por sueldo" u "objetivo por margen").
 - `rpmMinimo` es el campo de Configuración hoy etiquetado "RPM Mínimo" (guardado como `targetRPM`); hoy **no** lo usa el semáforo.
 - El promedio histórico de RPM del conductor sigue elevando el umbral de aceptar como hoy.
 - Las **excepciones estratégicas** (salir de una zona trampa, reposicionarse hacia una zona premium) no rebajan el umbral: se muestran como una recomendación aparte y explícita.
 
 ### 7.2. Sueldo por día
 
-`sueldoPorDia = sueldo mensual / días de trabajo al mes` (22 por defecto).
-`diasCarga = máximo(1, horas reales / horas de manejo por día)`, horas reales = duración de Google + 30 min por parada de combustible (si la velocidad resultante está entre 35 y 80 mph; si no, la estimación interna). La métrica "ganancia por día" usa **el mismo** `diasCarga` (hoy usa otro redondeo).
+- El sueldo configurado es **bruto, antes de impuestos** (decisión aprobada). El formulario debe indicarlo así.
+- `sueldoPorDia = sueldo mensual / días de trabajo al mes` (22 por defecto).
+- `diasCarga = máximo(1, horas reales / horas de manejo por día)`, horas reales = duración de Google + 30 min por parada de combustible (si la velocidad resultante está entre 35 y 80 mph; si no, la estimación interna).
+- La métrica "ganancia por día" usa **el mismo** `diasCarga` (hoy usa otro redondeo).
 
 ### 7.3. Lex AI
 
 Recibe el `resultado` y los `umbrales` de §3 y §7.1 y solo los explica. No calcula CPM ni umbrales propios. Hoy `response-builders.js` usa un `minRPM` fijo de $0.85 y `lex-ai-engine.js` reconstruye umbrales: ambos deben pasar a usar estos datos.
+
+### 7.4. Contraoferta
+
+La tarifa a pedir debe cumplir **ambos** requisitos de "Aceptar", descontando solo los Extras **confirmados**:
+
+```text
+tarifaPorObjetivo = umbralObjetivo × millasTotales − extrasConfirmados
+tarifaPorMinimo   = rpmMinimo × millasTotales
+tarifaObjetivo    = máximo(tarifaPorObjetivo, tarifaPorMinimo)
+tarifaEquilibrio  = máximo(umbralCostos × millasTotales − extrasConfirmados, 0)
+contraoferta      = tarifaObjetivo × 1.08       (margen de negociación, como hoy)
+```
+
+- Los Extras no confirmados **no** reducen la tarifa a pedir.
+- Todos los importes del bloque "Acción sugerida" son **tarifa** (lo que se negocia con el broker), y así se rotulan.
 
 ## 8. Cargas antiguas
 
 - Una carga guardada **conserva su ganancia y supuestos originales**. Cambiar el CPM o la Configuración no la modifica.
 - Al **editar**:
   - si solo cambian texto, compañía, notas o fecha: no se recalcula nada;
-  - si cambian tarifa, extras, toll o millas: se recalcula con los **supuestos guardados en la carga** (`snapshot`); si la carga no tiene snapshot, con el CPM implícito `(costo guardado − toll) / millas`;
-  - recalcular con supuestos actuales solo con una acción explícita ("Recalcular con mis costos de hoy"), y queda registrado (`recalculatedAt`, `formulaVersion`).
+  - si cambian tarifa, extras, toll o millas **y la carga tiene snapshot**: se recalcula con los **supuestos guardados en la carga**;
+  - si cambian tarifa, extras, toll o millas **y la carga no tiene snapshot**: **no se reconstruye ni se infiere el CPM original** (las fórmulas anteriores mezclaban tolls, "otros" y el costo fantasma, así que cualquier CPM deducido arrastraría esos errores). La app avisa: "Esta carga no guarda los costos con que se calculó. Se recalculará con tus costos actuales ($X/mi)". Requiere confirmación y se registra (`recalculatedAt`, `cpmFuente`, `formulaVersion`, y se crea el snapshot a partir de ese momento).
+- Recalcular una carga **con** snapshot usando supuestos actuales solo con una acción explícita ("Recalcular con mis costos de hoy"), también registrada.
 - Lectura tolerante de campos antiguos (`miles`, `loaded`, `deadhead`, `rate`, `totalCost`), sin reescribirlos.
 - **Ninguna migración masiva** que reescriba cargas.
 
@@ -200,6 +267,7 @@ Recibe el `resultado` y los `umbrales` de §3 y §7.1 y solo los explica. No cal
 - Configuraciones antiguas con valores < $1 en esos campos (probablemente por milla, de una versión anterior): **no convertir en silencio**. Mostrar un aviso en Configuración y en la calculadora: "¿Estos valores son por milla o por mes?" y guardar según la respuesta.
 - Un único valor de promedio de industria para usuario nuevo (§4.1).
 - El formulario no viene relleno con costos de ejemplo para usuarios nuevos (ya hecho en la vista previa).
+- El campo de sueldo indica "bruto, antes de impuestos" (§7.2).
 - `isEstablishedUser()` debe considerar "Configuración completa", no solo antigüedad de la cuenta.
 
 ## 10. Plan de pruebas
@@ -208,11 +276,16 @@ Recibe el `resultado` y los `umbrales` de §3 y §7.1 y solo los explica. No cal
 
 Reutilizar y ampliar el prototipo de ChatGPT (`financial-engine.test.mjs`, 11 pruebas) y las simulaciones de Claude (10 casos de CPM):
 
-- Extras, toll escrito, toll vacío con promedio, ruta sin peajes, pérdidas negativas.
+- Extras confirmados y no confirmados, toll escrito, toll vacío con promedio, ruta sin peajes, pérdidas negativas.
+- RPM total vs RPM de tarifa: carga que cumple el objetivo solo gracias a Extras confirmados pero no el RPM mínimo de tarifa → no "Aceptar".
+- Objetivo por sueldo vs por margen: cada uno ganando por separado; sin sueldo.
+- Contraoferta: con y sin Extras confirmados; cuando manda el RPM mínimo; Extras no confirmados no la reducen.
 - Valores 0 en Configuración respetados.
-- Etapas A, B, C y cada criterio de §4.2 fallando por separado.
+- Etapas A, B, C; cada criterio que bloquea de §4.2 fallando por separado; el criterio 5 solo produce aviso.
+- Combustible por encima de 1.5× y por debajo de 0.5× del esperado.
 - Pausa larga, carga suelta tras pausa, mes de pausa intermedio.
-- Gasto extraordinario identificado.
+- Gasto extraordinario: material y no recurrente (marcado); material pero recurrente (no marcado); no material (no marcado).
+- Edición de carga sin snapshot: no infiere CPM, pide confirmación.
 
 ### 10.2. Integración en navegador (Chrome sin ventana, como la prueba del PDF)
 
@@ -222,27 +295,53 @@ Con datos de prueba en un proyecto/emulador, **nunca** con datos reales:
 2. Guardar → la carga guardada tiene exactamente X y su snapshot.
 3. Editar solo notas → X no cambia.
 4. Editar millas → recalcula con los supuestos guardados.
-5. Historial, Zonas y reportes muestran X.
-6. Cambiar el CPM en Configuración → las cargas anteriores siguen en X.
-7. **Sin conexión**: guardar, recuperar conexión, sincronizar → la carga sincronizada tiene X.
-8. Lex recibe X y los mismos umbrales.
+5. Editar millas de una carga sin snapshot → aviso y confirmación.
+6. Historial, Zonas y reportes muestran X.
+7. Cambiar el CPM en Configuración → las cargas anteriores siguen en X.
+8. **Sin conexión**: guardar, recuperar conexión, sincronizar → la carga sincronizada tiene X.
+9. Lex recibe X y los mismos umbrales.
 
 ### 10.3. Datos reales (solo lectura)
 
-Las 112 cargas de Ricardo: el CPM real y los totales del periodo deben cuadrar con el reporte de Finanzas ($50,671.32 / 112 cargas / 68,736 mi).
+Las 112 cargas de Ricardo: el CPM real y los totales del periodo deben cuadrar con el reporte de Finanzas ($50,671.32 / 112 cargas / 68,736 mi). Además, contar cuántos gastos marca §6 con los umbrales provisionales para validarlos.
 
-## 11. Decisiones pendientes de Ricardo
+## 11. Decisiones
+
+### 11.1. Aprobadas por Ricardo
+
+| Decisión | Contenido |
+|---|---|
+| A | CPM real como referencia principal cuando es confiable, mostrando también el de Configuración, con elección del conductor recordada (§4.4) |
+| B | Exigir el RPM mínimo además del objetivo (§7.1) |
+| C | Confirmar unidades de mantenimiento sin conversión silenciosa (§9) |
+| D | Peajes separados del CPM base (§5) |
+| E | Conservar el resultado original de las cargas antiguas (§8) |
+| F | **RPM mínimo sobre millas totales** (cargadas + deadhead) |
+| G | **Sueldo bruto, antes de impuestos** |
+
+Ajustes de diseño acordados en la revisión cruzada (rev. 2): RPM total para rentabilidad y RPM de tarifa para el mínimo (§7.1); contraoferta con ambos requisitos y solo Extras confirmados (§7.4); objetivo = máximo entre sueldo y margen (§7.1); sin reconstrucción de CPM en cargas sin snapshot (§8); criterio de millas como advertencia y control de combustible esperado (§4.2); gastos extraordinarios por materialidad y recurrencia (§6).
+
+### 11.2. Pendientes de Ricardo (sin aprobar)
 
 | # | Decisión | Propuesta |
 |---|---|---|
-| 1 | ¿Aprobar §4.2 (criterios de confianza) con esos umbrales? | Sí |
+| 1 | ¿Aprobar los criterios de confianza de §4.2? | Sí |
 | 2 | Gastos "no recurrentes": ¿repartirlos en 12 meses? | Sí, solo si el conductor los marca |
 | 3 | ¿Casilla "Ruta sin peajes"? | Sí |
 | 4 | ¿Botón "Recalcular con mis costos de hoy" en Historial? | Sí, con confirmación |
 | 5 | Promedio de industria único: ¿$0.55? | $0.55 hasta revisar con datos de mercado |
 | 6 | Tus valores de mantenimiento (0.014 / 0.012 / 0.025): ¿por milla o por mes? | — |
 
-Decisiones ya aprobadas: A (CPM real cuando es confiable, con elección del conductor), B (máximo entre RPM mínimo y umbral), C (confirmar unidades sin conversión silenciosa), D (peajes separados), E (conservar cargas antiguas).
+### 11.3. Umbrales provisionales (a validar con datos)
+
+| Umbral | Valor provisional | Dónde |
+|---|---|---|
+| Mes con actividad | ≥ 25 % de un mes típico, mínimo 300 mi | §4.2 |
+| Combustible esperado | entre 0.5× y 1.5× de precio/MPG | §4.2 criterio 3 |
+| Advertencia de millas | < 40 % de la meta | §4.2 criterio 5 |
+| Re-preguntar elección de CPM | cambio > 15 % | §4.4 |
+| Gasto extraordinario | ≥ 5 % del total o ≥ $0.02/mi, sin otro ±10 % en la categoría | §6 |
+| Margen de contraoferta | +8 % sobre la tarifa objetivo | §7.4 |
 
 ## 12. Problemas conocidos fuera del motor (registrados)
 
@@ -258,7 +357,7 @@ Decisiones ya aprobadas: A (CPM real cuando es confiable, con elección del cond
 2. Calculadora, panel y guardado (online y sin conexión) usando la función.
 3. Historial (§8) y reportes estimados.
 4. Resolución del CPM (§4) con la elección del conductor.
-5. Peajes (§5) y gastos extraordinarios (§6).
+5. Peajes (§5), Extras confirmados (§2) y gastos extraordinarios (§6).
 6. Lex (§7.3).
 7. Pruebas de integración (§10.2) y verificación con datos reales (§10.3).
 8. Vista previa → revisión de Ricardo → producción.
