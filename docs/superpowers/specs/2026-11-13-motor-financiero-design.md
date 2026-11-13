@@ -1,9 +1,9 @@
 # Motor financiero único — Especificación
 
-**Estado:** BORRADOR — revisión 6. Decisiones de diseño de Ricardo aprobadas (A–G, 1–11). Pendiente de cierre: tratamiento de sobrepagos y método fiscal (§11.3) y umbrales técnicos provisionales (§11.4). No implementar hasta aprobación.
+**Estado:** BORRADOR — revisión 7. Decisiones de diseño de Ricardo aprobadas (A–G, 1–13). Pendiente de cierre: método fiscal (§11.3) y validación longitudinal de los umbrales del 15 % y 6 meses (§11.4). No implementar hasta aprobación.
 **Fecha:** 13 de noviembre de 2026
 **Autores:** Claude (rama `fix/seguridad-costos-reportes`) y ChatGPT (prototipo `smartload-financial-prototype`), consolidado por Claude.
-**Base de código:** rama `fix/seguridad-costos-reportes` (parte de `main` @ `2de295e`). Revisiones anteriores: 1 `05c1908`, 2 `5e3ce07`, 3 `a8c81bb`, 4 `85fea4c`, 5 `3135121`.
+**Base de código:** rama `fix/seguridad-costos-reportes` (parte de `main` @ `2de295e`). Revisiones anteriores: 1 `05c1908`, 2 `5e3ce07`, 3 `a8c81bb`, 4 `85fea4c`, 5 `3135121`, 6 `6f636d9`.
 
 ---
 
@@ -17,6 +17,7 @@
 | 4 | 13-11-2026 | Decisiones 1–7 de Ricardo incorporadas (§11.1). Contratado, facturado y cobrado con pagos parciales e incobrables (§3.4). Regla "el CPM nunca baja automáticamente" (§4.4, §4.5). Peajes solo si se escriben, sin promedio histórico (§5). Usuario nuevo: configuración mínima propia, sin promedio de industria; opción (a) pendiente de Ricardo (§4.1, §11.2 #8). Ganancia siempre "estimada". Pago del vehículo $0 válido (§9). Método fiscal pendiente de verificar con el contador (§3.4) |
 | 5 | 13-11-2026 | Decisión #8 aprobada por Ricardo: opción (a) para usuarios sin configuración mínima (§4.1, §11.1). Sobrepagos marcados como pendientes de precisar (§3.4, §11.2). Registrado que la exportación CSV de Finanzas no tiene botón (§12) |
 | 6 | 13-11-2026 | Validación con datos reales (112 cargas, 80 gastos). Decisiones #9 (meses incompletos), #10 (margen de negociación configurable) y #11 (seguro de $2,705 solo como candidato a revisión). Periodo del CPM real: mes en curso, meses finales incompletos y meses intermedios incompletos (§4.2). Cobertura de gastos fijos por número de pagos significativos o por importe (§4.2). Antigüedad del CPM real (§4.6). Gastos extraordinarios: sin combustible ni peajes, 5 % + doble de la mediana (§6). Tabla de decisiones separada en aprobadas, reglas técnicas cerradas, pendientes y umbrales provisionales (§11) |
+| 7 | 13-11-2026 | Decisión #12: el periodo del CPM real incluye millas y gastos de todos los meses interiores, aunque no alcancen el umbral de actividad (§4.2). Decisión #13: prioridad a facturación, pagos parciales, saldos pendientes, vencimientos y seguimiento de cobros (§3.5); sobrepagos como excepción sencilla, "Importe por aclarar", sin pantalla propia (§3.4). Pruebas nuevas (§10) |
 
 ---
 
@@ -57,6 +58,8 @@ Lo de la vista previa **no se publicará** tal cual: se rehace sobre esta especi
 - La ganancia se rotula "Ganancia Neta", no "estimada".
 - El periodo del CPM real no excluye el mes en curso ni los meses finales incompletos, ni bloquea por meses intermedios incompletos (§4.2), y no muestra la antigüedad de los datos (§4.6).
 - La cobertura de gastos fijos se comprueba mes a mes (§4.2 la cambia por cobertura global).
+- `cpm-engine.js` suma solo las millas de los meses con actividad, aunque sí incluye los gastos de todo el periodo; §4.2 (decisión #12) incluye también las millas de los meses interiores con poca actividad.
+- Cuentas y antigüedad de saldos usan el total facturado de las cargas no pagadas, no el saldo pendiente; no hay pagos parciales ni seguimiento de cobros (§3.4, §3.5).
 - El margen de la contraoferta está fijo en 8 % (§7.4 lo hace configurable).
 
 ## 2. Definiciones
@@ -171,8 +174,16 @@ pendiente = facturado − cobrado − ajusteIncobrable.importe
 
 - Un pago parcial **no** cambia la ganancia estimada ni la facturada.
 - Un Extra nunca crea un ingreso aparte: solo modifica `totalCharge`.
-- Si el cliente paga de menos, la diferencia queda en `pendiente` y se muestra en Cuentas; no se convierte en gasto.
-- **Sobrepagos (pendiente de precisar, §11.3):** hoy la especificación solo establece que un sobrepago deja `pendiente` negativo, visible en Cuentas, sin modificar la ganancia estimada ni la facturada. Falta definir si se registra como saldo a favor del cliente, como ingreso adicional (Extra cobrado) o como importe a devolver, y cómo aparece en el flujo de caja.
+- Si el cliente paga de menos (pago incompleto o faltante), la diferencia queda en `pendiente` y se sigue en Cuentas (§3.5); no se convierte en gasto.
+- **Sobrepagos (decisión #13): excepción sencilla.** Son muy raros con brokers; no tienen pantalla ni sistema propio.
+  - El exceso de un abono sobre lo facturado se registra como **"Importe por aclarar"** en la propia carga (`importePorAclarar`) y se muestra en Cuentas, separado del saldo pendiente. No entra en la antigüedad de cuentas por cobrar.
+  - El dinero recibido **sí** está en el flujo de caja: ya figura en `abonos`.
+  - **No** modifica automáticamente lo facturado ni la ganancia.
+  - **Aclaración posterior**, por acción expresa del conductor y registrada (`aclaradoEn`, `aclaracion`), con un selector en la misma carga:
+    - **Extra adicional:** sube lo facturado (`totalCharge`) en ese importe, con registro del cambio. No crea otro ingreso ni otro abono, porque el dinero ya está contado.
+    - **Devolución:** se registra como abono negativo en la misma carga, con fecha; en el flujo de caja aparece como salida. No es un gasto ni afecta al CPM.
+  - Si un importe lleva más de 30 días sin aclarar, aviso en Cuentas.
+  - Fuera de alcance: saldos a favor aplicables a otras cargas.
 - Una diferencia definitivamente incobrable requiere el **ajuste explícito**; aparece como línea propia ("Pérdida por incobrable") en el Estado de Resultados. No modifica `totalCharge`.
 
 **Qué usa cada reporte:**
@@ -184,7 +195,19 @@ pendiente = facturado − cobrado − ajusteIncobrable.importe
 | Flujo de caja / cobros | **Abonos** (hoy usa el total facturado de las pagadas) | **Fecha de cada abono** (hoy usa la fecha de la carga) |
 | Historial | "Evaluada / Facturada / Cobrada", solo las que difieran | — |
 
-**Pendiente de verificar con el contador de Ricardo (no es decisión técnica):** el reporte fiscal (Schedule C) hoy cuenta como ingresos el facturado según la **fecha de la carga** (base devengado). La mayoría de dueño-operadores declaran por **lo cobrado**: en ese caso una carga de diciembre cobrada en enero corresponde al año siguiente, y los incobrables no se deducen (nunca se declararon). El reporte se ajustará al método que confirme el contador.
+### 3.5. Seguimiento de cobros (prioridad, decisión #13)
+
+Los casos que importan en la operación real son **pagos incompletos, faltantes y retrasos**. Esta parte tiene prioridad sobre los sobrepagos y se construye sobre la pantalla de Cuentas existente, sin pantallas nuevas.
+
+- **Saldo pendiente por carga:** Cuentas muestra lo facturado, lo cobrado y el **pendiente** de cada carga, y su estado (Pendiente, Pago parcial, Vencida, Pagada).
+- **Vencimientos:** cada carga conserva su `expectedPaymentDate` (hoy: viernes de la semana siguiente a la carga). Una carga con `pendiente > 0` y fecha esperada pasada está **vencida**, con días de atraso visibles. Un pago parcial no reinicia el vencimiento del saldo restante.
+- **Antigüedad de saldos** (0–30, 31–60, 61–90, > 90 días) calculada sobre el **pendiente**, no sobre el total facturado.
+- **Totales por compañía:** pendiente y vencido por broker, para saber a quién reclamar.
+- **Registrar pago:** importe (por defecto el pendiente) y fecha; admite varios abonos hasta completar.
+- **Faltantes definitivos:** el conductor puede registrar el **ajuste por incobrable** (§3.4) con motivo; deja la carga sin pendiente y aparece como "Pérdida por incobrable".
+- **Avisos:** en Cuentas, cargas vencidas y saldos parciales antiguos.
+
+**Pendiente de verificar con el contador de Ricardo (no es decisión técnica):** el reporte fiscal (Schedule C) hoy cuenta como ingresos el facturado según la **fecha de la carga** (base devengado). La mayoría de dueño-operadores declaran por **lo cobrado**: en ese caso una carga de diciembre cobrada en enero corresponde al año siguiente, y los incobrables no se deducen (nunca se declararon). El reporte se ajustará al método que confirme el contador. Incluir en la consulta: si declarando por lo cobrado, un sobrepago recibido debe declararse en el año en que se recibe aunque después se devuelva.
 
 ## 4. Resolución del CPM base
 
@@ -222,7 +245,15 @@ Al completarla se **ofrecen** (no se exigen) mantenimiento, llantas, reparacione
 | **Meses finales históricos incompletos** (los últimos meses con actividad, consecutivos, que son incompletos) | Se excluyen **conjuntamente sus millas y sus gastos**, uno tras otro hasta llegar a un mes completo. Nota visible: "Último periodo confiable: hasta [mes]. [Meses] excluidos: sin gastos registrados" (decisión #9) |
 | **Mes intermedio incompleto** (incompleto, con meses completos antes y después) | **Bloquea** la confiabilidad: "Falta registrar gastos de [mes]". No se excluye ni se infiere nada |
 
-4. Tras las exclusiones, el periodo son los últimos 12 meses con actividad que quedan. Se incluyen los gastos de meses de pausa **intermedios** (seguro y pago del vehículo se pagan igual); se excluyen los posteriores al último mes del periodo.
+4. Tras las exclusiones, el periodo va **del primer al último mes con actividad** de los últimos 12 meses con actividad que quedan. **Dentro del periodo cuenta todo** (decisión #12): las millas **y** los gastos de todos los meses interiores, sean meses con actividad, de pausa (sin millas) o de **poca actividad** (con millas por debajo del umbral). El umbral de actividad solo sirve para fijar el inicio y el final del periodo y para el control de meses incompletos.
+
+| Mes con poca actividad, situado… | Millas | Gastos | ¿Puede bloquear como mes incompleto? |
+|---|---|---|---|
+| Entre el primer y el último mes con actividad | Se incluyen | Se incluyen | No (el control de mes incompleto solo se aplica a meses con actividad) |
+| Después del último mes con actividad | Se excluyen | Se excluyen | No |
+| Antes del primer mes con actividad | Se excluyen | Se excluyen | No |
+
+   Con los datos de Ricardo esta regla no cambia el resultado: sus 11 meses con millas superan el umbral (1,618 mi) y enero de 2026 no tiene millas.
 5. Si tras las exclusiones quedan **menos de 3 meses con actividad**, el CPM real no es confiable.
 
 **Validación con los datos de Ricardo:** 11 meses con actividad (umbral 1,618 mi). Abril de 2026 tiene 3 cargas y 2,269 mi sin ningún gasto (ni combustible): es mes final incompleto y se excluye. Periodo resultante: mayo 2025 – marzo 2026, 66,467 mi. CPM real (sin peajes, combustible reciente): **$0.764/mi** (con abril, $0.729/mi). Enero de 2026 (sin cargas, $2,237 de gastos) es pausa intermedia y sus gastos se incluyen.
@@ -432,13 +463,19 @@ Reutilizar y ampliar el prototipo de ChatGPT (`financial-engine.test.mjs`, 11 pr
   - mes intermedio incompleto → bloquea;
   - tras excluir quedan < 3 meses con actividad → no confiable;
   - los registros originales no se modifican.
+- **Meses con poca actividad (decisión 12):**
+  - mes interior con 800 mi y seguro pagado → cuentan sus millas y sus gastos;
+  - el mismo mes sin combustible → no bloquea;
+  - mes de poca actividad posterior al último mes con actividad → fuera, con sus gastos;
+  - mes de poca actividad anterior al primer mes con actividad → fuera, con sus gastos.
 - **Antigüedad (§4.6):** datos de hace ≤ 6 meses → "Basado en tus gastos hasta…"; > 6 meses → "Datos antiguos", pide revisión, no baja; usuario cuya actividad terminó hace meses.
 - **Cobertura de fijos:** cumple por número de pagos aunque falle por importe (póliza nueva más cara); cumple por importe con pagos acumulados; pagos muy pequeños no cuentan como pago significativo; pago del vehículo $0 no se exige; mes de pausa cuenta.
 - CPM real excluye la categoría Peajes.
 - **Regla de no bajar:** en ningún camino automático (sin elección, pérdida de confiabilidad, vencimiento) el CPM aplicado baja sin confirmación.
 - **Candidatos a extraordinario:** combustible y peajes nunca son candidatos; categoría con ≥ 3 movimientos y gasto ≥ 5 % y ≥ 2 × mediana → candidato; ≥ 5 % pero < 2 × mediana → no; categoría con < 3 movimientos → solo materialidad; pagos acumulados de vehículo → no; candidato sin marcar → cuenta entero, asiento intacto; marcado como no recurrente → repartido en 12 meses.
 - **Margen de negociación (decisión 10):** valor configurado distinto de 8 %; 0 %; no altera el veredicto ni el margen objetivo.
-- Pagos: pago total, pago parcial (estado y pendiente correctos, sin `actualPaymentDate`), varios abonos hasta completar, sobrepago, incobrable; ninguno cambia la ganancia estimada.
+- **Cobros (decisión 13, prioridad):** pago total; pago parcial (estado y pendiente correctos, sin `actualPaymentDate`); varios abonos hasta completar (entonces se escribe `actualPaymentDate`); carga vencida con y sin abonos; un abono no reinicia el vencimiento; antigüedad de saldos sobre el pendiente; totales por compañía; incobrable con motivo. Ninguno cambia la ganancia estimada.
+- **Sobrepago (excepción):** el exceso queda en "Importe por aclarar", está en el flujo de caja y no cambia facturado ni ganancia; aclarado como Extra adicional → sube facturado sin crear otro ingreso; aclarado como devolución → abono negativo y salida en flujo de caja; aviso a los 30 días sin aclarar.
 - Carga antigua con `actualPaymentDate` y sin abonos: se lee como un abono único.
 - Edición de carga sin snapshot: no infiere CPM, pide confirmación.
 
@@ -455,9 +492,10 @@ Con datos de prueba en un proyecto/emulador, **nunca** con datos reales:
 7. Botón "Recalcular" → confirmación y registro.
 8. Historial, Zonas y reportes muestran X.
 9. Cambiar el CPM en Configuración → las cargas anteriores siguen en X.
-10. Registrar pago parcial → Cuentas muestra el pendiente; flujo de caja usa el abono en su fecha; X no cambia.
-11. **Sin conexión**: guardar, recuperar conexión, sincronizar → la carga sincronizada tiene X.
-12. Lex recibe X y los mismos umbrales.
+10. Registrar pago parcial → Cuentas muestra el pendiente y el estado "Pago parcial"; antigüedad de saldos usa el pendiente; flujo de caja usa el abono en su fecha; X no cambia.
+11. Carga vencida → aparece en avisos y en el total vencido de su compañía.
+12. **Sin conexión**: guardar, recuperar conexión, sincronizar → la carga sincronizada tiene X.
+13. Lex recibe X y los mismos umbrales.
 
 ### 10.3. Datos reales (solo lectura)
 
@@ -516,6 +554,8 @@ No validables con esta exportación: re-preguntar con cambio > 15 % y vigencia d
 | 9 | **Meses incompletos:** se excluyen del CPM los meses finales incompletos (millas y gastos juntos), sin modificar registros; se distingue mes en curso, meses finales históricos incompletos y meses intermedios incompletos (que bloquean); se muestra el último periodo confiable y se advierte de datos antiguos; un CPM histórico antiguo no se presenta como costo actual confirmado (§4.2, §4.6) |
 | 10 | **Margen de negociación** de la contraoferta configurable por conductor, 8 % inicial, separado del margen de rentabilidad, del RPM mínimo y de los costos (§7.4) |
 | 11 | **Seguro de $2,705.03 del 11-09-2025:** solo candidato a revisión; no se clasifica como extraordinario, no se modifica el asiento ni se redistribuye sin acción expresa del conductor (§6) |
+| 12 | **Meses con poca actividad:** se incluyen las millas y los gastos de todos los meses interiores del periodo operativo, aunque no alcancen el umbral de actividad (§4.2) |
+| 13 | **Cobros:** prioridad a facturación, pagos parciales, saldos pendientes, vencimientos y seguimiento de cobros (§3.5). Sobrepagos como excepción sencilla: "Importe por aclarar", dinero en flujo de caja, sin cambio automático de ganancia, aclaración (Extra adicional) o devolución posterior con trazabilidad y sin duplicar ingresos; sin pantalla ni sistema propio (§3.4) |
 
 ### 11.2. Reglas técnicas cerradas (Claude y ChatGPT)
 
@@ -535,8 +575,8 @@ Reglas de diseño acordadas en la revisión cruzada que no expresan una preferen
 
 | Tema | Estado |
 |---|---|
-| **Sobrepagos:** ¿saldo a favor del cliente, ingreso adicional o importe a devolver? (§3.4) | Pendiente de precisar |
-| **Método fiscal** (devengado o lo cobrado) para el reporte Schedule C | Verificar con el contador de Ricardo (§3.4); no es decisión técnica |
+| **Método fiscal** (devengado o lo cobrado) para el reporte Schedule C, incluido el tratamiento de un sobrepago recibido | Verificar con el contador de Ricardo (§3.4); no es decisión técnica |
+| **Validación longitudinal** de los umbrales del 15 % y de 6 meses | Requiere historial a lo largo del tiempo (§11.4) |
 
 ### 11.4. Umbrales técnicos provisionales
 
@@ -554,6 +594,7 @@ No son decisiones aprobadas: son valores iniciales a confirmar con datos.
 | Candidato a extraordinario | ≥ 5 % del total; con ≥ 3 movimientos, ≥ 2 × mediana | §6 | Probado (1 candidato frente a 5 de la regla anterior) |
 | Re-preguntar elección de CPM | cambio > 15 % | §4.4 | Requiere historial en el tiempo |
 | Vigencia / antigüedad | 6 meses | §4.5, §4.6 | Requiere historial en el tiempo |
+| Aviso de importe por aclarar | 30 días | §3.4 | Valor inicial; caso raro |
 
 El margen de negociación del 8 % **ya no es un umbral técnico**: es el valor inicial configurable aprobado en la decisión #10.
 
@@ -572,7 +613,7 @@ El margen de negociación del 8 % **ya no es un umbral técnico**: es el valor i
 1. Función pura + pruebas unitarias (sin tocar pantallas).
 2. Configuración mínima y etapa A (§4.1, §9); calculadora, panel y guardado (online y sin conexión) usando la función.
 3. Historial (§8), botón "Recalcular", y reportes estimados.
-4. Contratado / facturado / cobrado con pagos parciales (§3.4) en Historial, Cuentas y flujo de caja.
+4. **Cobros (prioridad):** contratado / facturado / cobrado con pagos parciales, saldos pendientes, vencimientos, antigüedad sobre el pendiente, totales por compañía e incobrables (§3.4, §3.5) en Historial, Cuentas y flujo de caja. Sobrepagos solo como "Importe por aclarar" con el selector de aclaración, en esta misma fase y sin pantalla propia.
 5. Resolución del CPM (§4) con la elección del conductor, la regla de no bajar y la referencia temporal (§4.5).
 6. Peajes (§5), Extras confirmados (§2) y gastos extraordinarios (§6).
 7. Lex (§7.3).
