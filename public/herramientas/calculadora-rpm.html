@@ -687,6 +687,7 @@
         if (results[0] || results[1]) {
           document.getElementById("leadFormContent").style.display = "none";
           document.getElementById("leadSuccess").classList.remove("hidden");
+          try { sessionStorage.setItem('slsLeadPrefill', JSON.stringify({ name: name, email: email })); } catch (_) {}
           setTimeout(function () { window.location.href = LEAD_CONFIG.redirectUrl; }, 3000);
         } else {
           errDiv.textContent = "Algo salió mal. Intenta de nuevo.";

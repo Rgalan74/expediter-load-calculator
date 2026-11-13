@@ -449,8 +449,7 @@ function renderExpensesList(filteredExpenses = []) {
       }
 
       return asc ? String(valA).localeCompare(String(valB)) : String(valB).localeCompare(String(valA));
-    })
-    .slice(0, 10);
+    });
 
   const categoryIcons = {
     fuel: "", maintenance: "", food: "", lodging: "",
@@ -2880,8 +2879,15 @@ function exportReportToPDF() {
     image: { type: 'jpeg', quality: 0.98 },
     html2canvas: {
       scale: 2,
-      backgroundColor: '#1e293b'
+      // Fondo blanco: los reportes son texto oscuro sobre blanco.
+      backgroundColor: '#ffffff',
+      // Sin esto, si la pagina o el modal estan desplazados, la captura sale
+      // corrida y el PDF queda en blanco.
+      scrollX: 0,
+      scrollY: 0,
+      useCORS: true
     },
+    pagebreak: { mode: ['css', 'legacy'], avoid: ['tr', 'h1', 'h2', 'h3', 'h4'] },
     jsPDF: {
       unit: 'mm',
       format: 'a4',
@@ -2889,8 +2895,34 @@ function exportReportToPDF() {
     }
   };
 
+  // El contenedor del reporte es una caja con scroll y altura maxima: se
+  // quitan esos limites mientras se genera el PDF para capturar el reporte
+  // completo (no solo lo visible) y despues se restauran.
+  const prevStyle = {
+    maxHeight: reportContent.style.maxHeight,
+    overflow: reportContent.style.overflow,
+    overflowY: reportContent.style.overflowY,
+    scrollTop: reportContent.scrollTop
+  };
+  const restore = () => {
+    reportContent.style.maxHeight = prevStyle.maxHeight;
+    reportContent.style.overflow = prevStyle.overflow;
+    reportContent.style.overflowY = prevStyle.overflowY;
+    reportContent.scrollTop = prevStyle.scrollTop;
+  };
+  reportContent.scrollTop = 0;
+  reportContent.style.maxHeight = 'none';
+  reportContent.style.overflow = 'visible';
+  reportContent.style.overflowY = 'visible';
+
   // Generar PDF
-  html2pdf().set(opt).from(reportContent).save();
+  html2pdf().set(opt).from(reportContent).save()
+    .then(restore)
+    .catch((err) => {
+      restore();
+      debugLog('❌ Error generando PDF:', err);
+      alert('No se pudo generar el PDF. Usa el botón de imprimir como alternativa.');
+    });
 }
 
 // 🖨️ Imprimir Reporte (funciona mejor que PDF)

@@ -82,7 +82,7 @@
 
 .onboarding-modal .modal-header h2 {
     margin: 0;
-    color: #212529;
+    color: #1e293b !important;
     font-size: 1.5rem;
     font-weight: 800;
     line-height: 1.3;
@@ -94,7 +94,7 @@
 }
 
 .onboarding-modal .modal-body p {
-    color: #495057;
+    color: #374151 !important;
     margin-bottom: 1rem;
     font-size: 0.9375rem;
     line-height: 1.5;
@@ -185,7 +185,7 @@
 
 .onboarding-modal .btn-secondary {
     background: #ffffff;
-    color: #6b7280;
+    color: #1e40af !important;
     border: 2px solid #d1d5db;
 }
 
@@ -404,7 +404,7 @@
     }
 
     .onboarding-modal .modal-header h2 {
-        color: #f9fafb;
+        color: #f9fafb !important;
     }
 
     .onboarding-modal .modal-body {
@@ -412,7 +412,7 @@
     }
 
     .onboarding-modal .modal-body p {
-        color: #d1d5db;
+        color: #d1d5db !important;
     }
 
     .setup-benefits {
@@ -433,7 +433,7 @@
     }
 
     .info-box p {
-        color: #d1d5db;
+        color: #d1d5db !important;
     }
 
     .onboarding-modal .modal-footer {
@@ -443,7 +443,7 @@
 
     .onboarding-modal .btn-secondary {
         background: #374151;
-        color: #d1d5db;
+        color: #e5e7eb !important;
         border-color: #4b5563;
     }
 

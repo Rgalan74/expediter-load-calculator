@@ -96,6 +96,7 @@ Module._load = function (request, parent, isMain) {
 };
 
 process.env.STRIPE_SECRET_KEY = 'sk_test_mock';
+process.env.GOOGLE_REVIEW_LINK = 'https://g.page/r/TEST/review';
 const fns = require('./index.js');
 
 // ─── Utilidades de test ──────────────────────────────────────────────────────

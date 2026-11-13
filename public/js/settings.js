@@ -295,7 +295,9 @@ function saveUserConfiguration() {
             // Metas de negocio
             targetRPM: parseFloat(document.getElementById('targetRPM')?.value) || 1.25,
             monthlyMilesGoal: parseFloat(document.getElementById('monthlyMilesGoal')?.value) || 8000,
-            targetProfit: parseFloat(document.getElementById('targetProfit')?.value) || 30
+            targetProfit: parseFloat(document.getElementById('targetProfit')?.value) || 30,
+            // Sueldo mensual que el dueño necesita sacar (0 = no usar)
+            ownerPayMonthly: Math.max(0, parseFloat(document.getElementById('ownerPayMonthly')?.value) || 0)
         };
 
         debugLog(" Configuration to save:", config);
@@ -345,6 +347,13 @@ function saveUserConfiguration() {
         // ✅ ACTUALIZAR window.currentUser.costs INMEDIATAMENTE
         if (window.currentUser) {
             window.currentUser.costs = config.costs;
+            // Mantener al dia lo que leen la calculadora y el semaforo sin recargar
+            window.currentUser.profileData = {
+                ...(window.currentUser.profileData || {}),
+                targetProfit: config.targetProfit,
+                monthlyMilesGoal: config.monthlyMilesGoal,
+                ownerPayMonthly: config.ownerPayMonthly
+            };
             document.dispatchEvent(new Event('configSaved'));
         }
 
@@ -484,7 +493,8 @@ function applyConfigurationToForm(config) {
             ['repairsPerMile', config.repairsPerMile],
             ['targetRPM', config.targetRPM],
             ['monthlyMilesGoal', config.monthlyMilesGoal],
-            ['targetProfit', config.targetProfit]
+            ['targetProfit', config.targetProfit],
+            ['ownerPayMonthly', config.ownerPayMonthly || '']
         ];
 
         let fieldsLoaded = 0;

@@ -20,9 +20,9 @@ const DEFAULT_CATEGORIES = [
     { id: "carpayment",  get name() { return window.i18n?.t('finances.expense_car_payment')  || 'Car Payment'; }, icon: "🚗", isSystem: true, isOperational: true },
     { id: "tolls",       get name() { return window.i18n?.t('finances.expense_tolls')        || 'Tolls'; },       icon: "🛣️", isSystem: true, isOperational: true },
     { id: "permits",     get name() { return window.i18n?.t('finances.expense_permits')      || 'Permits'; },     icon: "📋", isSystem: true, isOperational: true },
-    { id: "food",        get name() { return window.i18n?.t('finances.expense_food')         || 'Food'; },        icon: "🍔", isSystem: true, isOperational: false },
-    { id: "lodging",     get name() { return window.i18n?.t('finances.expense_lodging')      || 'Lodging'; },     icon: "🏨", isSystem: true, isOperational: false },
-    { id: "other",       get name() { return window.i18n?.t('finances.expense_other')        || 'Other'; },       icon: "📦", isSystem: true, isOperational: false }
+    { id: "food",        get name() { return window.i18n?.t('finances.expense_food')         || 'Food'; },        icon: "🍔", isSystem: true, isOperational: true },
+    { id: "lodging",     get name() { return window.i18n?.t('finances.expense_lodging')      || 'Lodging'; },     icon: "🏨", isSystem: true, isOperational: true },
+    { id: "other",       get name() { return window.i18n?.t('finances.expense_other')        || 'Other'; },       icon: "📦", isSystem: true, isOperational: true }
 ];
 
 /**

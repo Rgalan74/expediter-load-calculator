@@ -291,7 +291,7 @@ function _renderPLReport(reportContent) {
         return `
                 <tr>
                   <td style="border: 1px solid #000; padding: 8px; text-align: left;">
-                    ${categoryLabels[cat] || cat}
+                    ${_reportCategoryLabel(cat, true)}
                   </td>
                   <td style="border: 1px solid #000; padding: 8px; text-align: right;">
                     ${formatCurrency(val)}
@@ -571,6 +571,41 @@ function _renderCompanyReport(reportContent) {
 // PDF EXPORT
 // ========================================
 
+// Nombre legible de una categoria de gasto para los reportes. Cubre TODAS las
+// categorias del sistema (antes faltaban llantas, reparaciones y pago de auto
+// en algunos reportes) y las personalizadas del usuario (antes salia el id
+// interno, tipo "custom-1769969497378").
+function _reportCategoryLabel(id, withIcon) {
+  const key = String(id || 'other').toLowerCase();
+  const t = (k, fallback) => window.i18n?.t(k) || fallback;
+  const esc = (s) => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const system = {
+    fuel: ['🚚', 'finances.expense_fuel', 'Fuel'],
+    maintenance: ['🔧', 'finances.expense_maintenance', 'Maintenance'],
+    tires: ['⚙️', 'finances.expense_tires', 'Tires'],
+    repairs: ['🛠️', 'finances.expense_repairs', 'Repairs'],
+    food: ['🍔', 'finances.expense_food', 'Food'],
+    lodging: ['🏨', 'finances.expense_lodging', 'Lodging'],
+    tolls: ['🛣️', 'finances.expense_tolls', 'Tolls'],
+    insurance: ['🛡️', 'finances.expense_insurance', 'Insurance'],
+    permits: ['📄', 'finances.expense_permits', 'Permits'],
+    carpayment: ['🚗', 'finances.expense_car_payment', 'Car Payment'],
+    other: ['📌', 'finances.expense_other', 'Other']
+  };
+  if (system[key]) {
+    const [icon, i18nKey, fallback] = system[key];
+    // Algunas traducciones ya traen su emoji: quitarlo para no duplicarlo
+    const name = String(t(i18nKey, fallback)).replace(/^[^\p{L}\p{N}]+/u, '').trim() || fallback;
+    return withIcon ? `${icon} ${esc(name)}` : esc(name);
+  }
+  const customList = window.currentUser?.profileData?.customExpenseCategories || [];
+  const custom = customList.find(c => String(c.id).toLowerCase() === key);
+  if (custom && custom.name) {
+    return withIcon ? `${esc(custom.icon || '📌')} ${esc(custom.name)}` : esc(custom.name);
+  }
+  return esc(id);
+}
+
 // 📄 Exportar Reporte a PDF
 function exportReportToPDF() {
   debugLog("📄 Exportando reporte a PDF...");
@@ -597,8 +632,15 @@ function exportReportToPDF() {
     image: { type: 'jpeg', quality: 0.98 },
     html2canvas: {
       scale: 2,
-      backgroundColor: '#1e293b'
+      // Fondo blanco: los reportes son texto oscuro sobre blanco.
+      backgroundColor: '#ffffff',
+      // Sin esto, si la pagina o el modal estan desplazados, la captura sale
+      // corrida y el PDF queda en blanco.
+      scrollX: 0,
+      scrollY: 0,
+      useCORS: true
     },
+    pagebreak: { mode: ['css', 'legacy'], avoid: ['tr', 'h1', 'h2', 'h3', 'h4'] },
     jsPDF: {
       unit: 'mm',
       format: 'a4',
@@ -606,8 +648,34 @@ function exportReportToPDF() {
     }
   };
 
+  // El contenedor del reporte es una caja con scroll y altura maxima: se
+  // quitan esos limites mientras se genera el PDF para capturar el reporte
+  // completo (no solo lo visible) y despues se restauran.
+  const prevStyle = {
+    maxHeight: reportContent.style.maxHeight,
+    overflow: reportContent.style.overflow,
+    overflowY: reportContent.style.overflowY,
+    scrollTop: reportContent.scrollTop
+  };
+  const restore = () => {
+    reportContent.style.maxHeight = prevStyle.maxHeight;
+    reportContent.style.overflow = prevStyle.overflow;
+    reportContent.style.overflowY = prevStyle.overflowY;
+    reportContent.scrollTop = prevStyle.scrollTop;
+  };
+  reportContent.scrollTop = 0;
+  reportContent.style.maxHeight = 'none';
+  reportContent.style.overflow = 'visible';
+  reportContent.style.overflowY = 'visible';
+
   // Generar PDF
-  html2pdf().set(opt).from(reportContent).save();
+  html2pdf().set(opt).from(reportContent).save()
+    .then(restore)
+    .catch((err) => {
+      restore();
+      debugLog('❌ Error generando PDF:', err);
+      alert('No se pudo generar el PDF. Usa el botón de imprimir como alternativa.');
+    });
 }
 
 // ========================================
@@ -797,7 +865,7 @@ function _renderExpenseBreakdownReport(reportContent) {
     const avgPerTransaction = data.count > 0 ? data.total / data.count : 0;
     return `
               <tr>
-                <td style="border: 1px solid #000; padding: 6px; text-align: left;">${categoryLabels[type] || type}</td>
+                <td style="border: 1px solid #000; padding: 6px; text-align: left;">${_reportCategoryLabel(type, false)}</td>
                 <td style="border: 1px solid #000; padding: 6px; text-align: right;">${formatCurrency(data.total)}</td>
                 <td style="border: 1px solid #000; padding: 6px; text-align: right;">${percentage.toFixed(1)}%</td>
                 <td style="border: 1px solid #000; padding: 6px; text-align: right;">${data.count}</td>

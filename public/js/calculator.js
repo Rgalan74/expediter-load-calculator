@@ -27,21 +27,221 @@ const DEFAULT_COSTS = {
   TOTAL: 0.534
 };
 
-// Getter dinámico para usar los costos actuales del usuario
+// Getter dinámico para usar los costos actuales del usuario.
+// users/{uid}.costs puede venir en DOS esquemas, y el documento puede tener
+// claves de ambos a la vez (settings.js guarda con merge sobre el perfil default):
+//   A) Configuración (settings.js): combustible / mantenimiento / comida / costosFijos / totalCPM
+//   B) Default del onboarding:      fuelCost / maintenanceCost / insuranceCost / depreciationCost / otherCost / totalCPM
+// Regla: si existe el esquema A se usa SOLO ese (un 0 es un valor valido, no se
+// rellena con claves viejas del esquema B). Los componentes siempre suman TOTAL,
+// que coincide con costs.totalCPM — el mismo numero que usan Historial,
+// CPMEngine y la Cloud Function evaluateLoad.
+function _costNum(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const n = Number(value);
+  return Number.isFinite(n) && n >= 0 ? n : null;
+}
+
+function getConfigCosts() {
+  const costs = window.currentUser && window.currentUser.costs;
+  if (!costs) return DEFAULT_COSTS;
+
+  let combustible, mantenimiento, comida, costosFijos;
+
+  const cfgFuel = _costNum(costs.combustible);
+  const defFuel = _costNum(costs.fuelCost);
+
+  if (cfgFuel !== null && cfgFuel > 0) {
+    // Esquema A — configurado por el usuario en Configuración
+    combustible = cfgFuel;
+    mantenimiento = _costNum(costs.mantenimiento) ?? 0;
+    comida = _costNum(costs.comida) ?? 0;
+    costosFijos = _costNum(costs.costosFijos) ?? 0;
+  } else if (defFuel !== null && defFuel > 0) {
+    // Esquema B — perfil default del onboarding (promedio de industria, $0.55/mi)
+    combustible = defFuel;
+    mantenimiento = _costNum(costs.maintenanceCost) ?? 0;
+    comida = 0;
+    costosFijos = (_costNum(costs.insuranceCost) ?? 0) +
+      (_costNum(costs.depreciationCost) ?? 0) +
+      (_costNum(costs.otherCost) ?? 0);
+  } else {
+    return DEFAULT_COSTS;
+  }
+
+  return {
+    combustible,
+    mantenimiento,
+    comida,
+    costosFijos,
+    TOTAL: combustible + mantenimiento + comida + costosFijos
+  };
+}
+window.getConfigCosts = getConfigCosts;
+
+// ------------------------------------------------------------------
+// COSTO POR MILLA ACTIVO — el mismo para calculadora, guardado, panel de
+// decision e Historial. Tres etapas (las decide CPMEngine):
+//   real    -> gastos reales de Finanzas (ultimos 6 meses) / millas de las cargas
+//   config  -> estimacion de Configuración
+//   default -> promedio de industria (perfil sin configurar)
+// En "real" solo se conoce el combustible aparte; el resto va agrupado.
+// ------------------------------------------------------------------
 function getUsersCosts() {
-  if (window.currentUser && window.currentUser.costs) {
-    const costs = window.currentUser.costs;
-    // Asegurar que los valores sean numéricos
+  const engine = window.CPMEngine && typeof window.CPMEngine.current === 'function'
+    ? window.CPMEngine.current()
+    : null;
+
+  if (engine && engine.source === 'real' && engine.cpm > 0) {
+    const fuel = Math.min(Number(engine.fuelCpm) || 0, engine.cpm);
     return {
-      combustible: Number(costs.combustible || costs.fuelCost) || DEFAULT_COSTS.combustible,
-      mantenimiento: Number(costs.mantenimiento || costs.maintenanceCost) || DEFAULT_COSTS.mantenimiento,
-      comida: Number(costs.comida || costs.otherCost) || DEFAULT_COSTS.comida,
-      costosFijos: Number(costs.costosFijos || costs.fixedCost) || DEFAULT_COSTS.costosFijos,
-      TOTAL: Number(costs.total || costs.totalCPM) || DEFAULT_COSTS.TOTAL
+      combustible: fuel,
+      mantenimiento: 0,
+      comida: 0,
+      costosFijos: engine.cpm - fuel,
+      TOTAL: engine.cpm
     };
   }
-  return DEFAULT_COSTS;
+  return getConfigCosts();
 }
+window.getUsersCosts = getUsersCosts;
+
+// De donde sale el costo por milla que se esta usando ahora mismo
+function getActiveCpmInfo() {
+  const engine = window.CPMEngine && typeof window.CPMEngine.current === 'function'
+    ? window.CPMEngine.current()
+    : null;
+  let source;
+  if (engine && engine.source === 'real' && engine.cpm > 0) source = 'real';
+  else source = window.currentUser?.costs?.isDefault === false ? 'config' : 'default';
+  return { cpm: getUsersCosts().TOTAL, source };
+}
+window.getActiveCpmInfo = getActiveCpmInfo;
+
+// Sueldo del dueño repartido por milla (0 si no esta configurado).
+// Millas por mes: las reales del historial si existen; si no, la meta de Configuración.
+function getOwnerPayPerMile() {
+  const pay = Number(window.currentUser?.profileData?.ownerPayMonthly) || 0;
+  if (!(pay > 0)) return 0;
+  const engine = window.CPMEngine && typeof window.CPMEngine.current === 'function'
+    ? window.CPMEngine.current()
+    : null;
+  const monthlyMiles = (engine && engine.source === 'real' && engine.avgMonthlyMiles > 0)
+    ? engine.avgMonthlyMiles
+    : (Number(window.currentUser?.profileData?.monthlyMilesGoal) || 8000);
+  return monthlyMiles > 0 ? pay / monthlyMiles : 0;
+}
+window.getOwnerPayPerMile = getOwnerPayPerMile;
+
+// Aviso unico (por dispositivo) cuando el costo por milla pasa de la
+// estimacion a los gastos reales, para que el cambio de numeros no sorprenda.
+function notifyRealCpmSwitchOnce() {
+  try {
+    const uid = window.currentUser?.uid;
+    if (!uid || getActiveCpmInfo().source !== 'real') return;
+    const key = 'cpmRealNotice_' + uid;
+    if (localStorage.getItem(key)) return;
+    localStorage.setItem(key, '1');
+
+    const from = getConfigCosts().TOTAL;
+    const to = getUsersCosts().TOTAL;
+    const template = window.i18n?.t('calculator.cpm_switch_notice') ||
+      'From now on we use your real expenses: your cost per mile went from ${{from}} to ${{to}}.';
+    const msg = template.replace('{{from}}', from.toFixed(3)).replace('{{to}}', to.toFixed(3));
+    if (typeof showToast === 'function') showToast(msg, 'info', 9000);
+  } catch (e) { /* el aviso es opcional */ }
+}
+
+// Desglose "como se calcula" del costo por milla real: que gastos y que millas
+// entran en el numero. Se construye con nodos de texto (los nombres de
+// categorias personalizadas los escribe el usuario).
+function renderCpmBreakdown() {
+  const box = document.getElementById('cpmBreakdown');
+  if (!box) return;
+  const engine = window.CPMEngine && typeof window.CPMEngine.current === 'function'
+    ? window.CPMEngine.current()
+    : null;
+  const b = engine && engine.source === 'real' ? engine.breakdown : null;
+  const body = document.getElementById('cpmBreakdownBody');
+  if (!b || !body) { box.style.display = 'none'; return; }
+
+  const isEs = (window.i18n?.currentLang || 'en') === 'es';
+  const money = (n) => '$' + Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const perMile = (n, miles) => miles > 0 ? '$' + (n / miles).toFixed(3) + '/mi' : '—';
+
+  body.textContent = '';
+  const addRow = (left, right, strong) => {
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;justify-content:space-between;gap:12px;padding:2px 0;' + (strong ? 'font-weight:700;' : '');
+    const l = document.createElement('span'); l.textContent = left;
+    const r = document.createElement('span'); r.textContent = right; r.style.whiteSpace = 'nowrap';
+    row.appendChild(l); row.appendChild(r);
+    body.appendChild(row);
+  };
+  const addNote = (text) => {
+    const p = document.createElement('div');
+    p.style.cssText = 'margin:6px 0 2px;opacity:0.8;';
+    p.textContent = text;
+    body.appendChild(p);
+  };
+
+  addNote(isEs
+    ? `Periodo: del ${b.cutoffLong} al ${b.lastLoadDate || b.upTo} (12 meses hasta tu última carga).`
+    : `Period: ${b.cutoffLong} to ${b.lastLoadDate || b.upTo} (12 months up to your last load).`);
+  addNote(isEs
+    ? `Cargas guardadas: ${b.loadsInWindow} cargas, ${b.milesLong.toLocaleString()} millas, en ${b.monthsWithLoads} meses distintos.`
+    : `Saved loads: ${b.loadsInWindow} loads, ${b.milesLong.toLocaleString()} miles, across ${b.monthsWithLoads} different months.`);
+  addNote(isEs
+    ? `Gastos registrados en ese periodo: ${b.countExpenses}, en ${b.monthsWithExpenses} meses distintos.`
+    : `Expenses recorded in that period: ${b.countExpenses}, across ${b.monthsWithExpenses} different months.`);
+
+  b.byCategory.forEach(c => {
+    if (c.id === 'fuel') return;
+    addRow(c.name, `${money(c.total)}  →  ${perMile(c.total, b.milesLong)}`);
+  });
+  addRow(isEs ? 'Resto de gastos (12 meses)' : 'Other expenses (12 months)',
+    `${money(b.nonFuelTotal)}  →  ${perMile(b.nonFuelTotal, b.milesLong)}`, true);
+
+  if (b.useRecentFuel) {
+    addRow(isEs ? `Gasolina (recibos desde ${b.cutoffFuel}, ${b.milesRecent.toLocaleString()} mi)` : `Fuel (receipts since ${b.cutoffFuel}, ${b.milesRecent.toLocaleString()} mi)`,
+      `${money(b.fuelRecent)}  →  ${perMile(b.fuelRecent, b.milesRecent)}`, true);
+  } else {
+    addRow(isEs ? 'Gasolina (12 meses)' : 'Fuel (12 months)',
+      `${money(b.fuelLong)}  →  ${perMile(b.fuelLong, b.milesLong)}`, true);
+  }
+  addRow(isEs ? 'Costo por milla' : 'Cost per mile', '$' + Number(engine.cpm).toFixed(3) + '/mi', true);
+
+  // Para cuadrar contra Finanzas
+  addNote(isEs ? 'Para comparar con Finanzas:' : 'To compare with Finances:');
+  addRow(isEs ? 'Gasolina de todo el periodo (12 meses)' : 'Fuel for the whole period (12 months)', money(b.fuelLong));
+  addRow(isEs ? `Total de gastos del periodo (${b.cutoffLong} a ${b.upTo})` : `Total expenses in the period (${b.cutoffLong} to ${b.upTo})`,
+    money(b.nonFuelTotal + b.fuelLong), true);
+  if (b.afterCount > 0) {
+    addRow(isEs ? `Gastos posteriores al ${b.upTo}, NO incluidos (${b.afterCount})` : `Expenses after ${b.upTo}, NOT included (${b.afterCount})`,
+      money(b.afterTotal));
+  }
+
+  const summary = document.getElementById('cpmBreakdownSummary');
+  if (summary) summary.textContent = isEs ? 'Ver cómo se calcula' : 'See how it is calculated';
+  box.style.display = '';
+}
+window.renderCpmBreakdown = renderCpmBreakdown;
+
+// Deja cargado (y cacheado 5 min por CPMEngine) el costo por milla activo
+async function refreshActiveCpm() {
+  try {
+    if (window.CPMEngine) {
+      const result = await window.CPMEngine.getCPM();
+      if (result && result.cpm > 0) {
+        window._userCPM = getUsersCosts().TOTAL;
+        notifyRealCpmSwitchOnce();
+      }
+    }
+  } catch (e) {
+    debugLog('[CPM] No se pudo refrescar el costo por milla, se usa el ultimo conocido:', e.message);
+  }
+}
+window.refreshActiveCpm = refreshActiveCpm;
 
 // Mantener compatibilidad con llamadas directas (usando Proxy si es soportado, o getter)
 // Para navegadores antiguos o simplicidad, definimos TU_COSTO_REAL como un objeto que se actualiza o una función
@@ -57,7 +257,7 @@ const TU_COSTO_REAL = new Proxy(DEFAULT_COSTS, {
 //  SHARED FUNCTION: Calculate Total Expenses
 // ========================================
 // Used by both Decision Panel and Lex for consistent calculations
-function calculateTotalExpenses(totalMiles, tolls = 0, others = 0) {
+function calculateTotalExpenses(totalMiles, tolls = 0) {
   const fuelCost = totalMiles * TU_COSTO_REAL.combustible;
   const maintenanceCost = totalMiles * TU_COSTO_REAL.mantenimiento;
   const foodCost = totalMiles * TU_COSTO_REAL.comida;
@@ -68,9 +268,10 @@ function calculateTotalExpenses(totalMiles, tolls = 0, others = 0) {
     maintenanceCost,
     foodCost,
     fixedCosts,
-    tolls,   // registrado para referencia, NO sumado al total (ya está en la tarifa cobrada al dispatcher)
-    others,
-    total: fuelCost + maintenanceCost + fixedCosts + others  // foodCost=0, tolls son pass-through
+    tolls,
+    // Mismo total que guarda saveLoad(): combustible + operativos (incl. comida) + tolls.
+    // "Otros" NO es gasto: es un cargo extra cobrado al cliente (ingreso).
+    total: fuelCost + maintenanceCost + foodCost + fixedCosts + tolls
   };
 }
 
@@ -693,6 +894,9 @@ async function calculate() {
   try {
     debugLog(" Calculando con costos reales confirmados...");
 
+    // Asegurar que el costo por milla activo (real / config / default) esta cargado
+    await refreshActiveCpm();
+
     // Obtener y sanitizar valores de los campos
     const origin = sanitizeText(document.getElementById('origin')?.value?.trim() || '', 100);
     const destination = sanitizeText(document.getElementById('destination')?.value?.trim() || '', 100);
@@ -793,18 +997,22 @@ async function calculate() {
     // Cálculo de ingresos (usar valores combinados si hay stops)
     debugLog('[DEBUG] Calculating totals...');
     const baseIncome = combinedRevenue;
-    const totalCharge = baseIncome; // ← tarifa completa cobrada al dispatcher (YA incluye toll si aplica)
+    // Cobro = tarifa + "otros" (cargos extra que se le cobran al cliente: descarga,
+    // esperas, etc. — son INGRESO). Los tolls son un GASTO de la carga, como el
+    // combustible. Misma formula que saveLoad() y que la edicion en Historial.
+    const totalCharge = baseIncome + others;
     debugLog('[DEBUG] totalCharge:', totalCharge);
 
     // Use shared expense calculation function — usar combinedMiles (todas las paradas del viaje)
-    const expenseBreakdown = calculateTotalExpenses(combinedMiles, tolls, others);
+    const expenseBreakdown = calculateTotalExpenses(combinedMiles, tolls);
     const { fuelCost, maintenanceCost, foodCost, fixedCosts } = expenseBreakdown;
     const totalExpenses = expenseBreakdown.total;
 
     const netProfit = totalCharge - totalExpenses;
     const margin = totalCharge > 0 ? (netProfit / totalCharge) * 100 : 0;
     const profitPerMile = combinedMiles > 0 ? netProfit / combinedMiles : 0;
-    const actualRPM = combinedMiles > 0 ? totalCharge / combinedMiles : 0;
+    // RPM sobre la tarifa base (sin tolls/otros), igual que el rpm que se guarda
+    const actualRPM = combinedMiles > 0 ? baseIncome / combinedMiles : 0;
 
     // Actualizar UI principal
     updateMainResults({
@@ -1068,10 +1276,15 @@ function showDecisionPanel(calculationData = {}) {
   let profitClass = 'profit-section-warning';
 
   // Thresholds reales del usuario (sincrono desde cache si está disponible)
-  const _cpm = window._userCPM || window.currentUser?.costs?.TOTAL || DEFAULT_COSTS.TOTAL;
+  const _cpm = window._userCPM || TU_COSTO_REAL.TOTAL;
   const _avgRPM = window._userAvgRPM || 0;
   const _targetProfitPct = ((window.currentUser?.profileData?.targetProfit) || 20) / 100;
-  const _targetRPM_margen = _cpm / (1 - _targetProfitPct);
+  // Si el usuario configuro su sueldo mensual, el objetivo es cubrir costo +
+  // sueldo por milla (reemplaza al margen objetivo). Sin sueldo, margen como antes.
+  const _payPerMile = getOwnerPayPerMile();
+  const _targetRPM_margen = _payPerMile > 0
+    ? _cpm + _payPerMile
+    : _cpm / (1 - _targetProfitPct);
   const _acceptThreshold = _avgRPM > 0 ? Math.max(_targetRPM_margen, _avgRPM) : _targetRPM_margen;
   const _midThreshold = _avgRPM > 0
     ? Math.max(_cpm, Math.min(_targetRPM_margen, _avgRPM))
@@ -1209,8 +1422,8 @@ function showDecisionPanel(calculationData = {}) {
     document.getElementById('fuelCost').textContent = `$${fuelCost.toFixed(2)}`;
   }
   if (document.getElementById('tollsAndOthers')) {
-    // Tolls ya están cobrados en la tarifa (pass-through) — no son un costo adicional
-    document.getElementById('tollsAndOthers').textContent = `$${others.toFixed(2)}`;
+    // Solo tolls: "otros" es un cargo extra al cliente (ingreso), no un gasto
+    document.getElementById('tollsAndOthers').textContent = `$${tolls.toFixed(2)}`;
   }
 
   const fixedCostsValue = totalMiles * (TU_COSTO_REAL.mantenimiento + TU_COSTO_REAL.comida + TU_COSTO_REAL.costosFijos);
@@ -1218,7 +1431,21 @@ function showDecisionPanel(calculationData = {}) {
     document.getElementById('fixedCosts').textContent = `$${fixedCostsValue.toFixed(2)}`;
   }
 
-  const totalExp = fuelCost + others + fixedCostsValue; // tolls NO se suman: ya están en la tarifa cobrada al dispatcher
+  const totalExp = fuelCost + tolls + fixedCostsValue; // misma formula que calculate() y saveLoad()
+
+  // Indicar de donde sale el costo por milla (real / configuracion / promedio)
+  const _cpmNoteEl = document.getElementById('cpmSourceNote');
+  if (_cpmNoteEl) {
+    const _info = getActiveCpmInfo();
+    const _fallbackText = {
+      real: 'Cost per mile: your real expenses',
+      config: 'Cost per mile: estimate from your Settings',
+      default: 'Cost per mile: industry average — set up your costs'
+    }[_info.source];
+    const _text = window.i18n?.t('calculator.cpm_source_' + _info.source) || _fallbackText;
+    _cpmNoteEl.textContent = `${_text} · $${_info.cpm.toFixed(3)}/mi`;
+  }
+  renderCpmBreakdown();
   if (document.getElementById('totalExpenses')) {
     document.getElementById('totalExpenses').textContent = `$${totalExp.toFixed(2)}`;
   }
@@ -1249,6 +1476,23 @@ function showDecisionPanel(calculationData = {}) {
     _detailsEl.setAttribute('data-margin', margin.toFixed(1));
     _detailsEl.setAttribute('data-ganancia-dia', Math.round(_gananciaDia));
     _detailsEl.textContent = `$${profitPerMile.toFixed(2)}/mi • ${margin.toFixed(1)}% ${_marginWord} • ~$${Math.round(_gananciaDia)}/day`;
+  }
+
+  // Linea aparte: lo que queda despues del sueldo del dueño (si lo configuro).
+  // No cambia la ganancia mostrada ni la que se guarda con la carga.
+  const _afterPayEl = document.getElementById('afterPayNote');
+  if (_afterPayEl) {
+    if (_payPerMile > 0) {
+      const _payShare = _payPerMile * totalMiles;
+      const _afterPay = netProfit - _payShare;
+      const _label = window.i18n?.t('calculator.after_pay_label') || 'After your pay';
+      const _amount = _afterPay >= 0 ? `$${_afterPay.toFixed(2)}` : `-$${Math.abs(_afterPay).toFixed(2)}`;
+      _afterPayEl.textContent = `${_label} ($${_payShare.toFixed(0)}): ${_amount}`;
+      _afterPayEl.style.display = '';
+    } else {
+      _afterPayEl.textContent = '';
+      _afterPayEl.style.display = 'none';
+    }
   }
 
   // Tiempo y paradas - use real duration from Google Maps if available
@@ -1964,8 +2208,14 @@ async function saveLoad(existingLoadId = null) {
     }
 
     const additionalCosts = Number(tolls) + Number(others);
-    const totalCharge = baseIncome + additionalCosts;
+    // Cobro = tarifa + otros (cargos extra al cliente). Tolls = gasto (ver calculate())
+    const totalCharge = baseIncome + Number(others);
 
+
+    // Mismo costo por milla que se mostro en pantalla; se guarda con la carga
+    // de que etapa salio para poder entender despues una ganancia antigua.
+    await refreshActiveCpm();
+    const _cpmInfo = getActiveCpmInfo();
 
     const fuelCost = totalMiles * TU_COSTO_REAL.combustible;
     const operatingCost = totalMiles * (
@@ -1973,8 +2223,8 @@ async function saveLoad(existingLoadId = null) {
       TU_COSTO_REAL.comida +
       TU_COSTO_REAL.costosFijos
     );
-    // Tolls son pass-through (ya están en la tarifa cobrada) — NO se suman como costo
-    const totalExpenses = fuelCost + operatingCost + Number(others);
+    // Tolls son gasto de la carga, igual que el combustible. "Otros" es ingreso.
+    const totalExpenses = fuelCost + operatingCost + Number(tolls);
     const netProfit = totalCharge - totalExpenses;
     const profitMargin = totalCharge > 0 ? (netProfit / totalCharge) * 100 : 0;
 
@@ -2009,7 +2259,9 @@ async function saveLoad(existingLoadId = null) {
       profitMargin,
       date: loadDate || getTodayDateString(), //  aseguramos siempre fecha
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      status: 'completed'
+      status: 'completed',
+      cpmUsed: Number(_cpmInfo.cpm.toFixed(4)),
+      cpmSource: _cpmInfo.source
 
     };
 
@@ -2194,6 +2446,11 @@ function clearForm() {
   // Limpiar panel de costos reales
   const realCostPanel = document.getElementById('realCostPanel');
   if (realCostPanel) realCostPanel.remove();
+
+  // Resetear destinos secuenciales si están activos
+  if (typeof window.resetDestinations === 'function') {
+    window.resetDestinations();
+  }
 
   debugLog('Formulario limpiado');
   hideDecisionPanel();
@@ -2631,6 +2888,11 @@ function clearForm() {
   updateElement('totalExpenses', '$0.00');
   updateElement('fuelCostDisp', '$0.00');
   updateElement('operatingCostDisp', '$0.00');
+
+  // Resetear destinos secuenciales si están activos
+  if (typeof window.resetDestinations === 'function') {
+    window.resetDestinations();
+  }
 
   // Resetear mapa si existe función
   if (typeof resetMap === 'function') {
