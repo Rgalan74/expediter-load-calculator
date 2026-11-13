@@ -110,7 +110,7 @@ peajeEstimado      = tollCarga si se escribió; si está vacío, 0
 costoOperativo     = cpmBase × millasTotales
 costoEstimado      = costoOperativo + peajeEstimado
 gananciaEstimada   = ingresosTotales − costoEstimado      (puede ser negativa)
-margenEstimado     = gananciaEstimada / ingresosTotales    (0 si no hay ingresos)
+margenEstimado     = gananciaEstimada / ingresosTotales    (null si no hay ingresos; la UI muestra "N/D" — decisión de Ricardo, fase 1)
 sueldoCarga        = sueldoPorDia × diasCarga
 gananciaTrasSueldo = gananciaEstimada − sueldoCarga
 umbrales           = ver §7.1
@@ -412,7 +412,9 @@ Recibe el `resultado` y los `umbrales` de §3 y §7.1 y solo los explica. No cal
 La tarifa a pedir debe cumplir **ambos** requisitos de "Aceptar", descontando solo los Extras **confirmados**:
 
 ```text
-tarifaPorObjetivo = umbralObjetivo × millasTotales − extrasConfirmados
+tarifaPorObjetivo = umbralAceptar × millasTotales − extrasConfirmados
+                    (umbralAceptar = máximo(umbralObjetivo, RPM promedio histórico);
+                     así la contraoferta cumple de verdad la condición de "Aceptar")
 tarifaPorMinimo   = rpmMinimo × millasTotales
 tarifaObjetivo    = máximo(tarifaPorObjetivo, tarifaPorMinimo)
 tarifaEquilibrio  = máximo(umbralCostos × millasTotales − extrasConfirmados, 0)
