@@ -318,7 +318,16 @@ Combustible reciente con dos protecciones (ya implementadas): si esos 3 meses ti
 
 ### 4.5. Pérdida de confiabilidad y vencimiento
 
-Si el conductor eligió el CPM real y su historial deja de cumplir los criterios que bloquean:
+Se aplica una **referencia temporal** cuando el historial deja de cumplir los criterios que bloquean y además:
+
+- el conductor **eligió el CPM real**, o
+- el conductor **todavía no eligió** fuente pero ya se estaba aplicando un CPM provisional basado en un CPM real confiable (auditoría fase 1: sin esto, el CPM bajaba solo al CPM de Configuración).
+
+Si el conductor eligió Configuración, se respeta su elección. Si nunca hubo un CPM real confiable, se usa Configuración: no hay referencia anterior y no se inventa ninguna.
+
+**Persistencia:** cada vez que el CPM real es confiable, el motor devuelve `guardar.ultimoCpmRealConfiable = { valor, periodoHasta }` para que la app lo guarde; ese valor (calculado, nunca inventado) es la referencia del momento siguiente. La preferencia del conductor no se crea ni se modifica.
+
+En esos casos:
 
 1. La app **lo advierte** de forma visible y explica qué criterio falló.
 2. Usa como **referencia temporal** `máximo(último CPM real confiable, CPM de Configuración)`, con el último CPM real **congelado con su fecha**, rotulado: "Referencia temporal: $X/mi (tu costo real al [fecha]). Tu historial actual no es confiable por: [motivo]".
@@ -362,6 +371,7 @@ Tratamiento:
 - Aparece en el desglose como "Candidato a revisión", con su fecha, importe y descripción.
 - **No se modifica el asiento original.**
 - **Solo si el conductor lo marca** expresamente como "no recurrente" desde Finanzas, se reparte en 12 meses dentro del CPM. Sin esa acción, cuenta entero en su mes.
+- **Prorrateo (para revisión cruzada):** un gasto marcado se reparte en 12 meses a partir de su mes; dentro del CPM cuenta solo la parte de esos 12 meses que cae dentro del periodo: `importe × mínimo(meses desde el gasto hasta el final del periodo, 12) / 12`. Ejemplo: una reparación de $6,000 en mayo, con periodo hasta diciembre, cuenta $4,000 (8/12). El asiento original no cambia.
 
 **Validación con los datos de Ricardo:** la regla de la revisión 5 marcaba 5 movimientos (dos pagos del vehículo atrasados o acumulados, dos totales mensuales de combustible y un seguro): 4 falsos positivos. La regla actual marca **1**: el seguro de **$2,705.03 del 11-09-2025** ("Pago seguro comercial + pago nuevo seguro"), ≥ $2,534 (5 %) y ≥ $2,520 (2 × mediana $1,260). Por la **decisión #11**, queda solo como candidato a revisión: no se reclasifica, no se modifica y no se redistribuye sin acción expresa de Ricardo.
 
@@ -387,7 +397,9 @@ umbralObjetivo  = máximo(objetivoSueldo, objetivoMargen)         (sin sueldo: o
 |---|---|
 | **Rechazar** | `rpmTotal < umbralCostos` (pierde dinero) |
 | **Evaluar / Casi aceptar** | Cubre costos pero no cumple alguna de las dos condiciones de "Aceptar" |
-| **Aceptar** | `rpmTotal ≥ umbralObjetivo` **y** `rpmTarifa ≥ rpmMinimo` |
+| **Aceptar** | `rpmTotal ≥ umbralAceptar` **y** `rpmTarifa ≥ rpmMinimo` **y** `ingresosTotales > 0` |
+
+- **Sin ingresos nunca hay "Aceptar"** (auditoría fase 1): aunque costos, margen y RPM mínimo sean 0, una carga con ingresos totales de $0 se marca con el motivo `sinIngresos` (Evaluar, o Rechazar si además no cubre costos).
 
 - **Rentabilidad contra RPM total:** los Extras confirmados son dinero real y ya están en la ganancia estimada.
 - **RPM mínimo contra RPM de tarifa:** es un piso de negociación sobre lo que paga el broker, y no depende de Extras.
@@ -414,7 +426,9 @@ La tarifa a pedir debe cumplir **ambos** requisitos de "Aceptar", descontando so
 ```text
 tarifaPorObjetivo = umbralAceptar × millasTotales − extrasConfirmados
                     (umbralAceptar = máximo(umbralObjetivo, RPM promedio histórico);
-                     así la contraoferta cumple de verdad la condición de "Aceptar")
+                     así la contraoferta cumple de verdad la condición de "Aceptar";
+                     punto señalado para revisión cruzada: si el RPM promedio histórico
+                     supera el objetivo, la tarifa sugerida sube hasta ese promedio)
 tarifaPorMinimo   = rpmMinimo × millasTotales
 tarifaObjetivo    = máximo(tarifaPorObjetivo, tarifaPorMinimo)
 tarifaEquilibrio  = máximo(umbralCostos × millasTotales − extrasConfirmados, 0)

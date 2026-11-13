@@ -373,3 +373,43 @@ test('regla general: ningún camino automático aplica un CPM menor que el de Co
 test('mesActual es obligatorio', () => {
   assert.throws(() => FE.resolverCpm({ ...maduro(), configuracion: CONFIG }), /mesActual/);
 });
+
+// ---------------------------------------------------------------- auditoría ChatGPT (fase 1)
+test('auditoría: transición provisional -> historial incompleto sin elección: el CPM no baja', () => {
+  // Momento 1: historial confiable, sin elección -> provisional 0.67 (> config 0.55)
+  const m1 = resolver(maduro());
+  assert.equal(m1.fuente, 'provisional');
+  cerca(m1.cpmAplicado, 0.67);
+  // El motor indica qué guardar para el momento siguiente (valor calculado, no inventado)
+  assert.deepEqual(m1.guardar.ultimoCpmRealConfiable, { valor: m1.real.cpm, periodoHasta: '2025-12' });
+
+  // Momento 2: el historial pasa a incompleto; el conductor sigue sin elegir
+  const m2 = resolver(maduro({ '2025-06': { fuel: 0 } }), { ultimoCpmRealConfiable: m1.guardar.ultimoCpmRealConfiable });
+  assert.equal(m2.real.confiable, false);
+  assert.ok(m2.cpmAplicado >= m1.cpmAplicado, `bajó de ${m1.cpmAplicado} a ${m2.cpmAplicado}`);
+  assert.equal(m2.fuente, 'referenciaTemporal');
+  assert.equal(m2.preferencia, null); // no se crea ni cambia ninguna preferencia
+});
+
+test('auditoría: la referencia anterior vence a los 6 meses, conserva el valor y pide revisión', () => {
+  const ultimo = { valor: 0.67, periodoHasta: '2025-12' };
+  const r = resolver(maduro({ '2025-06': { fuel: 0 } }), { mesActual: '2026-08', ultimoCpmRealConfiable: ultimo });
+  assert.equal(r.fuente, 'referenciaVencida');
+  cerca(r.cpmAplicado, 0.67);
+  assert.equal(r.requiereRevision, true);
+});
+
+test('auditoría: sin ninguna referencia anterior guardada, el historial no confiable usa Configuración', () => {
+  const r = resolver(maduro({ '2025-06': { fuel: 0 } }));
+  assert.equal(r.fuente, 'configuracion');
+  assert.equal(r.cpmAplicado, 0.55);
+});
+
+test('auditoría: si el conductor eligió Configuración, una referencia anterior no la sustituye', () => {
+  const r = resolver(maduro({ '2025-06': { fuel: 0 } }), {
+    preferencia: { fuente: 'configuracion', cpmReal: 0.67, cpmConfig: 0.55 },
+    ultimoCpmRealConfiable: { valor: 0.67, periodoHasta: '2025-12' }
+  });
+  assert.equal(r.fuente, 'configuracion');
+  assert.equal(r.cpmAplicado, 0.55);
+});

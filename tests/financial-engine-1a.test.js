@@ -262,3 +262,20 @@ test('§7.2: duración de ruta incoherente -> estimación interna; mínimo 1 dí
   cerca(d.horas, 679 / 52 + 1);
   assert.equal(FE.calcularDiasCarga({ millasTotales: 120 }).dias, 1);
 });
+
+// ---------------------------------------------------------------- auditoría ChatGPT (fase 1)
+test('auditoría: una carga sin ingresos nunca recibe ACEPTAR, aunque todo sea 0', () => {
+  const r = FE.evaluarCarga(
+    { tarifa: 0, extrasConfirmados: 0, millasCargadas: 500, millasDeadhead: 0 },
+    { configuracionCompleta: true, cpmBase: 0, combustiblePorMilla: 0, margenObjetivo: 0, rpmMinimo: 0 }
+  );
+  assert.equal(r.margenEstimado, null);
+  assert.notEqual(r.decision, 'ACEPTAR');
+  assert.ok(r.incumple.includes('sinIngresos'));
+});
+
+test('auditoría: sin ingresos y con costos -> RECHAZAR, también marca sinIngresos', () => {
+  const r = evaluar({ tarifa: 0 });
+  assert.equal(r.decision, 'RECHAZAR');
+  assert.ok(r.incumple.includes('sinIngresos'));
+});

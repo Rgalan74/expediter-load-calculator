@@ -244,6 +244,9 @@
     // ---- Veredicto (§7.1) ----
     var incumple = [];
     var decision;
+    // Una carga sin ingresos nunca puede recibir ACEPTAR, aunque todos los
+    // umbrales sean 0 (auditoría fase 1).
+    if (!(ingresosTotales > 0)) incumple.push('sinIngresos');
     if (rpmTotal < umbralCostos) {
       decision = 'RECHAZAR';
       incumple.push('costos');
@@ -460,17 +463,33 @@
 
     var pref = d.preferencia || null;
     var ultimo = d.ultimoCpmRealConfiable || null;
+    var ultimoValido = ultimo && esNumeroFinito(ultimo.valor) && ultimo.valor > 0 ? ultimo : null;
     var cpmReal = real.confiable ? real.cpm : null;
 
+    resultado.preferencia = pref;
     resultado.requiereEleccion = false;
     resultado.requiereRevision = false;
+    // Valor que la app debe guardar para el momento siguiente: el último CPM
+    // real confiable calculado (nunca un valor inventado).
+    resultado.guardar = real.confiable
+      ? { ultimoCpmRealConfiable: { valor: real.cpm, periodoHasta: real.periodo.hasta } }
+      : null;
 
-    if (!real.confiable && !(pref && pref.fuente === 'real')) {
+    if (!real.confiable) {
+      var eligioConfiguracion = pref && pref.fuente === 'configuracion';
+      var eligioReal = pref && pref.fuente === 'real';
+      // Referencia temporal (§4.5): si eligió el real, o si NO eligió nada pero
+      // ya se estaba aplicando un provisional basado en un CPM real confiable.
+      // Así el CPM no baja automáticamente (decisión #7). Si eligió
+      // Configuración, se respeta su elección.
+      if (eligioReal || (!eligioConfiguracion && ultimoValido)) {
+        return aplicarReferenciaTemporal(resultado, ultimoValido, cpmConfig, mesActual);
+      }
       // ---- Etapa B
       resultado.etapa = 'B';
       resultado.fuente = 'configuracion';
       resultado.cpmAplicado = cpmConfig;
-      resultado.etiqueta = 'Según tu Configuración';
+      resultado.etiqueta = eligioConfiguracion ? 'Según tu Configuración (elegido)' : 'Según tu Configuración';
       return resultado;
     }
 
@@ -487,27 +506,12 @@
       resultado.cpmAplicado = cpmConfig;
       resultado.etiqueta = 'Según tu Configuración (elegido)';
       if (cpmReal !== null && cambioMaterial(pref, cpmReal, cpmConfig)) resultado.requiereEleccion = true;
-    } else if (pref.fuente === 'real' && cpmReal !== null) {
+    } else {
       // Eligió el real: su valor sigue a los datos (sube o baja) (§4.4.4)
       resultado.fuente = 'real';
       resultado.cpmAplicado = cpmReal;
       resultado.etiqueta = 'Tus gastos reales (elegido)';
       if (cambioMaterial(pref, cpmReal, cpmConfig)) resultado.requiereEleccion = true;
-    } else {
-      // Eligió el real pero ya no es confiable → referencia temporal (§4.5)
-      var ultimoValor = ultimo && esNumeroFinito(ultimo.valor) ? ultimo.valor : null;
-      var referencia = ultimoValor !== null ? Math.max(ultimoValor, cpmConfig) : cpmConfig;
-      var vencida = ultimo && mesDe(ultimo.periodoHasta)
-        ? mesesEntre(mesDe(ultimo.periodoHasta), mesActual) > U.mesesVigencia
-        : false;
-      resultado.fuente = vencida ? 'referenciaVencida' : 'referenciaTemporal';
-      resultado.cpmAplicado = referencia;
-      resultado.requiereRevision = vencida;
-      resultado.ultimoCpmRealConfiable = ultimo;
-      resultado.etiqueta = vencida
-        ? 'Referencia vencida desde ' + mesDe(ultimo.periodoHasta) + ' — puede no reflejar tus costos actuales'
-        : 'Referencia temporal: tu historial actual no es confiable';
-      return resultado;
     }
 
     // Antigüedad de los datos (§4.6): nunca se presentan como costo actual confirmado
@@ -515,6 +519,27 @@
       resultado.requiereRevision = true;
       resultado.etiqueta += ' · Datos antiguos (hasta ' + real.periodo.hasta + ')';
     }
+    return resultado;
+  }
+
+  /**
+   * Referencia temporal (§4.5): máximo(último CPM real confiable, Configuración).
+   * Vencida a los 6 meses: conserva el valor y pide revisión; nunca baja sola.
+   * No modifica la preferencia del conductor.
+   */
+  function aplicarReferenciaTemporal(resultado, ultimo, cpmConfig, mesActual) {
+    var referencia = ultimo ? Math.max(ultimo.valor, cpmConfig) : cpmConfig;
+    var vencida = ultimo && mesDe(ultimo.periodoHasta)
+      ? mesesEntre(mesDe(ultimo.periodoHasta), mesActual) > UMBRALES_CPM.mesesVigencia
+      : false;
+    resultado.etapa = 'C';
+    resultado.fuente = vencida ? 'referenciaVencida' : 'referenciaTemporal';
+    resultado.cpmAplicado = referencia;
+    resultado.requiereRevision = vencida;
+    resultado.ultimoCpmRealConfiable = ultimo;
+    resultado.etiqueta = vencida
+      ? 'Referencia vencida desde ' + mesDe(ultimo.periodoHasta) + ' — puede no reflejar tus costos actuales'
+      : 'Referencia temporal: tu historial actual no es confiable';
     return resultado;
   }
 
