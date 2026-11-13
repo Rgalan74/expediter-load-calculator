@@ -25,8 +25,9 @@ const CPMEngine = {
   // "real" cercano a cero y todas las cargas parecerian rentables.
   MIN_EXPENSE_MONTHS: 3,
   // Ventanas de los datos reales
-  WINDOW_MONTHS: 12,          // gastos que no son combustible
-  FUEL_WINDOW_MONTHS: 3,      // combustible (recibos recientes)
+  WINDOW_MONTHS: 12,          // meses CON ACTIVIDAD que entran en el calculo
+  FUEL_WINDOW_MONTHS: 3,      // combustible: recibos de los ultimos 3 meses activos
+  MIN_ACTIVE_MONTH_MILES: 300, // minimo absoluto para contar un mes como activo
   MIN_RECENT_FUEL_MILES: 1000, // millas minimas para confiar en la ventana corta
 
   // 💾 Cache para no recalcular en cada carga
@@ -71,11 +72,11 @@ const CPMEngine = {
       if (!uid) return this._fromConfig();
 
       // Verificar si hay suficientes datos reales
-      const { months, loads, newest } = await this._getDataMaturity(uid);
+      const { months, loads } = await this._getDataMaturity(uid);
 
       if (months >= this.MIN_MONTHS && loads >= this.MIN_LOADS) {
         // CAPA 2 — CPM desde Finanzas reales
-        return await this._fromRealData(uid, months, loads, newest);
+        return await this._fromRealData(uid, months, loads);
       } else {
         // CAPA 1 — CPM desde Configuración
         return this._fromConfig(months, loads);
@@ -92,38 +93,72 @@ const CPMEngine = {
   // Solo suma gastos con isOperational: true
   // Ventana: 12 meses (combustible: recibos de los últimos 3)
   // ============================================================
-  async _fromRealData(uid, months, loads, newestLoadMs) {
+  async _fromRealData(uid, months, loads) {
     const db = firebase.firestore();
 
-    // Las ventanas se cuentan hacia atras desde la ULTIMA CARGA guardada, no
-    // desde hoy. Si alguien dejo de rodar hace meses, "los ultimos 12 meses
-    // desde hoy" solo veria parte de su periodo de trabajo y meteria meses
-    // sin actividad en la cuenta.
-    const anchor = newestLoadMs > 0 ? new Date(newestLoadMs) : new Date();
-    const toDateStr = (d) => d.toISOString().split('T')[0];
-    const monthsAgo = (n) => {
-      const d = new Date(anchor.getTime());
-      d.setMonth(d.getMonth() - n);
-      return toDateStr(d);
-    };
-    // Tope superior: fin del mes de la ultima carga. Los gastos posteriores
-    // (meses sin rodar) no forman parte del costo de operar.
-    const upTo = toDateStr(new Date(Date.UTC(anchor.getUTCFullYear(), anchor.getUTCMonth() + 1, 0)));
     const rowDate = (row) => {
       const v = row.date || row.createdAt || '';
       return typeof v === 'string'
         ? v.split('T')[0]
         : (v?.toDate?.()?.toISOString().split('T')[0] || '');
     };
+    // Mismo criterio que Historial: las cargas antiguas guardaban las millas
+    // con otros nombres de campo.
+    const loadMiles = (load) => Number(
+      load.totalMiles ||
+      load.miles ||
+      (Number(load.loadedMiles || load.loaded || 0) + Number(load.deadheadMiles || load.deadhead || 0))
+    ) || 0;
 
-    // Dos ventanas:
-    //  - WINDOW_MONTHS (12): todo lo que no es combustible. Reparte gastos
-    //    grandes y poco frecuentes (gomas, reparaciones) a lo largo del año.
-    //  - FUEL_WINDOW_MONTHS (3): combustible, con los recibos reales mas
-    //    recientes, para reflejar antes los cambios de precio.
-    const cutoffLong = monthsAgo(this.WINDOW_MONTHS);
-    const cutoffFuel = monthsAgo(this.FUEL_WINDOW_MONTHS);
+    // ── 1. Meses con actividad ────────────────────────────────────────
+    // El periodo NO son "12 meses de calendario": son los ultimos 12 meses en
+    // los que el usuario realmente trabajo. Asi una pausa (o una sola carga
+    // suelta despues de meses parado) no mete meses sin actividad en la cuenta.
+    const loadsSnap = await db.collection('loads').where('userId', '==', uid).get();
 
+    const milesByMonth = {};
+    const loadsByMonth = {};
+    loadsSnap.forEach(doc => {
+      const load = doc.data();
+      const dateStr = rowDate(load);
+      if (!dateStr) return;
+      const ym = dateStr.slice(0, 7);
+      milesByMonth[ym] = (milesByMonth[ym] || 0) + loadMiles(load);
+      loadsByMonth[ym] = (loadsByMonth[ym] || 0) + 1;
+    });
+
+    const monthsWithMiles = Object.keys(milesByMonth).filter(ym => milesByMonth[ym] > 0);
+    if (monthsWithMiles.length === 0) return this._fromConfig(months, loads);
+
+    // Un mes cuenta como "activo" si tiene al menos el 25% de las millas de un
+    // mes tipico del usuario (mediana), con un minimo absoluto.
+    const sortedMiles = monthsWithMiles.map(ym => milesByMonth[ym]).sort((a, b) => a - b);
+    const median = sortedMiles[Math.floor(sortedMiles.length / 2)];
+    const minActiveMiles = Math.max(this.MIN_ACTIVE_MONTH_MILES, median * 0.25);
+
+    const activeMonths = monthsWithMiles
+      .filter(ym => milesByMonth[ym] >= minActiveMiles)
+      .sort()               // 'YYYY-MM' ordena cronologicamente
+      .reverse()
+      .slice(0, this.WINDOW_MONTHS);   // los mas recientes primero
+    if (activeMonths.length === 0) return this._fromConfig(months, loads);
+
+    const activeSet = new Set(activeMonths);
+    const fuelSet = new Set(activeMonths.slice(0, this.FUEL_WINDOW_MONTHS));
+    const firstMonth = activeMonths[activeMonths.length - 1];
+    const lastMonth = activeMonths[0];
+
+    let milesLong = 0;
+    let milesRecent = 0;
+    let loadsInWindow = 0;
+    activeMonths.forEach(ym => {
+      milesLong += milesByMonth[ym];
+      loadsInWindow += loadsByMonth[ym];
+      if (fuelSet.has(ym)) milesRecent += milesByMonth[ym];
+    });
+    if (milesLong === 0) return this._fromConfig(months, loads);
+
+    // ── 2. Gastos de esos meses ───────────────────────────────────────
     // Cuentan TODOS los gastos registrados (combustible, comida, hospedaje,
     // peajes, seguro, pago del carro, "otro"...). Solo se excluyen las
     // categorias personalizadas que el usuario marco como NO operativas.
@@ -132,74 +167,46 @@ const CPMEngine = {
       .filter(c => c.isOperational === false)
       .map(c => c.id);
 
-    const [expensesSnap, loadsSnap] = await Promise.all([
-      db.collection('expenses').where('userId', '==', uid).where('date', '>=', cutoffLong).get(),
-      db.collection('loads').where('userId', '==', uid).where('date', '>=', cutoffLong).get()
-    ]);
+    const expensesSnap = await db.collection('expenses')
+      .where('userId', '==', uid)
+      .where('date', '>=', firstMonth + '-01')
+      .get();
 
     let nonFuelTotal = 0;
     let fuelLong = 0;
     let fuelRecent = 0;
     let countExpenses = 0;
     const monthsWithExpenses = new Set();
-    const byCategory = {}; // para el desglose "como se calcula" en pantalla
-    let afterCount = 0;    // gastos posteriores a la ultima carga (no cuentan)
-    let afterTotal = 0;
+    const byCategory = {};  // para el desglose "como se calcula" en pantalla
+    let outsideCount = 0;   // gastos en meses sin actividad (no cuentan)
+    let outsideTotal = 0;
 
     expensesSnap.forEach(doc => {
       const expense = doc.data();
       const cat = expense.category || expense.type || '';
       const dateStr = rowDate(expense);
+      const amount = Number(expense.amount || 0);
+      if (!(amount > 0)) return;
 
-      if (dateStr && dateStr < cutoffLong) return;
-      if (dateStr && dateStr > upTo) {
-        afterCount++;
-        afterTotal += Number(expense.amount || 0);
+      const ym = dateStr ? dateStr.slice(0, 7) : '';
+      if (!activeSet.has(ym)) {
+        outsideCount++;
+        outsideTotal += amount;
         return;
       }
       if (excludedIds.includes(cat)) return;
-      const amount = Number(expense.amount || 0);
-      if (!(amount > 0)) return;
 
       countExpenses++;
       const catKey = cat || 'other';
       byCategory[catKey] = (byCategory[catKey] || 0) + amount;
       if (cat === 'fuel') {
         fuelLong += amount;
-        if (dateStr >= cutoffFuel) fuelRecent += amount;
+        if (fuelSet.has(ym)) fuelRecent += amount;
       } else {
         nonFuelTotal += amount;
       }
-      if (dateStr) monthsWithExpenses.add(dateStr.slice(0, 7));
+      monthsWithExpenses.add(ym);
     });
-
-    let milesLong = 0;
-    let milesRecent = 0;
-    let loadsInWindow = 0;
-    let oldestLoadDate = '';
-    const monthsWithLoads = new Set();
-
-    loadsSnap.forEach(doc => {
-      const load = doc.data();
-      const dateStr = rowDate(load);
-      if (dateStr && dateStr < cutoffLong) return;
-
-      // Mismo criterio que Historial: las cargas antiguas guardaban las millas
-      // con otros nombres de campo. Sin esto contaban 0 millas y el costo por
-      // milla salia inflado.
-      const miles = Number(
-        load.totalMiles ||
-        load.miles ||
-        (Number(load.loadedMiles || load.loaded || 0) + Number(load.deadheadMiles || load.deadhead || 0))
-      ) || 0;
-      if (dateStr) monthsWithLoads.add(dateStr.slice(0, 7));
-      milesLong += miles;
-      if (dateStr >= cutoffFuel) milesRecent += miles;
-      loadsInWindow++;
-      if (dateStr && (!oldestLoadDate || dateStr < oldestLoadDate)) oldestLoadDate = dateStr;
-    });
-
-    if (milesLong === 0) return this._fromConfig(months, loads);
 
     // Gastos insuficientes para confiar en ellos: seguir con la estimacion
     if (monthsWithExpenses.size < this.MIN_EXPENSE_MONTHS || fuelLong <= 0) {
@@ -209,9 +216,10 @@ const CPMEngine = {
       return this._fromConfig(months, loads);
     }
 
-    // Combustible: recibos de los ultimos 3 meses. Si en ese periodo hay pocas
-    // millas, o el resultado es menos de la mitad del promedio largo (señal de
-    // que faltan recibos recientes por anotar), se usa la ventana completa.
+    // ── 3. Costo por milla ────────────────────────────────────────────
+    // Combustible: recibos de los ultimos 3 meses activos. Si en ese periodo
+    // hay pocas millas, o el resultado es menos de la mitad del promedio largo
+    // (señal de que faltan recibos por anotar), se usa el periodo completo.
     const fuelCpmLong = fuelLong / milesLong;
     const fuelCpmRecent = milesRecent >= this.MIN_RECENT_FUEL_MILES ? fuelRecent / milesRecent : 0;
     const useRecentFuel = fuelCpmRecent >= fuelCpmLong * 0.5 && fuelCpmRecent > 0;
@@ -219,16 +227,11 @@ const CPMEngine = {
 
     const nonFuelCpm = nonFuelTotal / milesLong;
     const realCPM = fuelCpm + nonFuelCpm;
-
-    // Millas promedio por mes (para repartir el sueldo del dueño por milla)
-    const spanDays = oldestLoadDate
-      ? Math.max(30, (anchor.getTime() - new Date(oldestLoadDate).getTime()) / 86400000)
-      : 30;
-    const spanMonths = Math.min(this.WINDOW_MONTHS, spanDays / 30.44);
-    const avgMonthlyMiles = milesLong / spanMonths;
+    const avgMonthlyMiles = milesLong / activeMonths.length;
 
     debugLog('📊 CPMEngine [REAL]:', {
-      ventana: `desde ${cutoffLong} (combustible desde ${cutoffFuel})`,
+      mesesActivos: activeMonths.length,
+      periodo: `${firstMonth} a ${lastMonth}`,
       nonFuelTotal: `$${nonFuelTotal.toFixed(2)}`,
       fuelLong: `$${fuelLong.toFixed(2)}`,
       fuelRecent: `$${fuelRecent.toFixed(2)}`,
@@ -238,7 +241,6 @@ const CPMEngine = {
       milesLong: milesLong.toFixed(0),
       milesRecent: milesRecent.toFixed(0),
       realCPM: realCPM.toFixed(4),
-      avgMonthlyMiles: avgMonthlyMiles.toFixed(0),
       months,
       loads
     });
@@ -250,31 +252,30 @@ const CPMEngine = {
       nonFuelCpm: parseFloat(nonFuelCpm.toFixed(4)),
       fuelWindow: useRecentFuel ? 'recent' : 'long',
       avgMonthlyMiles: Math.round(avgMonthlyMiles),
-      label: `Basado en ${loadsInWindow} cargas reales (últimos ${this.WINDOW_MONTHS} meses)`,
+      label: `Basado en ${loadsInWindow} cargas reales (${activeMonths.length} meses con actividad)`,
       confidence: months >= 6 ? 'high' : 'medium',
       months,
       loads,
       loadsInWindow,
       totalOperational: nonFuelTotal + fuelLong,
       totalMiles: milesLong,
-      cutoffDate: cutoffLong,
+      cutoffDate: firstMonth + '-01',
       // Datos crudos para mostrar al usuario de donde sale el numero
       breakdown: {
-        cutoffLong,
-        cutoffFuel,
-        upTo,
-        lastLoadDate: toDateStr(anchor),
+        firstMonth,
+        lastMonth,
+        activeMonths: activeMonths.length,
+        fuelMonths: activeMonths.slice(0, this.FUEL_WINDOW_MONTHS).slice().reverse(),
         milesLong: Math.round(milesLong),
         milesRecent: Math.round(milesRecent),
         loadsInWindow,
         countExpenses,
-        monthsWithLoads: monthsWithLoads.size,
         monthsWithExpenses: monthsWithExpenses.size,
         fuelLong,
         fuelRecent,
         nonFuelTotal,
-        afterCount,
-        afterTotal,
+        outsideCount,
+        outsideTotal,
         useRecentFuel,
         byCategory: Object.keys(byCategory)
           .map(id => {

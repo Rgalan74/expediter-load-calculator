@@ -118,20 +118,16 @@ function getActiveCpmInfo() {
 }
 window.getActiveCpmInfo = getActiveCpmInfo;
 
-// Sueldo del dueño repartido por milla (0 si no esta configurado).
-// Millas por mes: las reales del historial si existen; si no, la meta de Configuración.
-function getOwnerPayPerMile() {
+// Sueldo del dueño POR DIA de trabajo (0 si no esta configurado):
+// sueldo mensual / dias de trabajo al mes. Cada carga "cuesta" los dias que
+// ocupa. No depende de cuantas millas haya guardadas.
+function getOwnerPayPerDay() {
   const pay = Number(window.currentUser?.profileData?.ownerPayMonthly) || 0;
   if (!(pay > 0)) return 0;
-  const engine = window.CPMEngine && typeof window.CPMEngine.current === 'function'
-    ? window.CPMEngine.current()
-    : null;
-  const monthlyMiles = (engine && engine.source === 'real' && engine.avgMonthlyMiles > 0)
-    ? engine.avgMonthlyMiles
-    : (Number(window.currentUser?.profileData?.monthlyMilesGoal) || 8000);
-  return monthlyMiles > 0 ? pay / monthlyMiles : 0;
+  const days = Number(window.currentUser?.profileData?.workDaysPerMonth) || 22;
+  return pay / Math.min(31, Math.max(1, days));
 }
-window.getOwnerPayPerMile = getOwnerPayPerMile;
+window.getOwnerPayPerDay = getOwnerPayPerDay;
 
 // Aviso unico (por dispositivo) cuando el costo por milla pasa de la
 // estimacion a los gastos reales, para que el cambio de numeros no sorprenda.
@@ -186,11 +182,11 @@ function renderCpmBreakdown() {
   };
 
   addNote(isEs
-    ? `Periodo: del ${b.cutoffLong} al ${b.lastLoadDate || b.upTo} (12 meses hasta tu última carga).`
-    : `Period: ${b.cutoffLong} to ${b.lastLoadDate || b.upTo} (12 months up to your last load).`);
+    ? `Periodo: tus últimos ${b.activeMonths} meses con cargas (${b.firstMonth} a ${b.lastMonth}). Los meses sin actividad no cuentan.`
+    : `Period: your last ${b.activeMonths} months with loads (${b.firstMonth} to ${b.lastMonth}). Months without activity are not counted.`);
   addNote(isEs
-    ? `Cargas guardadas: ${b.loadsInWindow} cargas, ${b.milesLong.toLocaleString()} millas, en ${b.monthsWithLoads} meses distintos.`
-    : `Saved loads: ${b.loadsInWindow} loads, ${b.milesLong.toLocaleString()} miles, across ${b.monthsWithLoads} different months.`);
+    ? `Cargas guardadas: ${b.loadsInWindow} cargas, ${b.milesLong.toLocaleString()} millas.`
+    : `Saved loads: ${b.loadsInWindow} loads, ${b.milesLong.toLocaleString()} miles.`);
   addNote(isEs
     ? `Gastos registrados en ese periodo: ${b.countExpenses}, en ${b.monthsWithExpenses} meses distintos.`
     : `Expenses recorded in that period: ${b.countExpenses}, across ${b.monthsWithExpenses} different months.`);
@@ -199,26 +195,26 @@ function renderCpmBreakdown() {
     if (c.id === 'fuel') return;
     addRow(c.name, `${money(c.total)}  →  ${perMile(c.total, b.milesLong)}`);
   });
-  addRow(isEs ? 'Resto de gastos (12 meses)' : 'Other expenses (12 months)',
+  addRow(isEs ? 'Resto de gastos (todo el periodo)' : 'Other expenses (whole period)',
     `${money(b.nonFuelTotal)}  →  ${perMile(b.nonFuelTotal, b.milesLong)}`, true);
 
   if (b.useRecentFuel) {
-    addRow(isEs ? `Gasolina (recibos desde ${b.cutoffFuel}, ${b.milesRecent.toLocaleString()} mi)` : `Fuel (receipts since ${b.cutoffFuel}, ${b.milesRecent.toLocaleString()} mi)`,
+    addRow(isEs ? `Gasolina (recibos de ${(b.fuelMonths || []).join(', ')}; ${b.milesRecent.toLocaleString()} mi)` : `Fuel (receipts from ${(b.fuelMonths || []).join(', ')}; ${b.milesRecent.toLocaleString()} mi)`,
       `${money(b.fuelRecent)}  →  ${perMile(b.fuelRecent, b.milesRecent)}`, true);
   } else {
-    addRow(isEs ? 'Gasolina (12 meses)' : 'Fuel (12 months)',
+    addRow(isEs ? 'Gasolina (todo el periodo)' : 'Fuel (whole period)',
       `${money(b.fuelLong)}  →  ${perMile(b.fuelLong, b.milesLong)}`, true);
   }
   addRow(isEs ? 'Costo por milla' : 'Cost per mile', '$' + Number(engine.cpm).toFixed(3) + '/mi', true);
 
   // Para cuadrar contra Finanzas
   addNote(isEs ? 'Para comparar con Finanzas:' : 'To compare with Finances:');
-  addRow(isEs ? 'Gasolina de todo el periodo (12 meses)' : 'Fuel for the whole period (12 months)', money(b.fuelLong));
-  addRow(isEs ? `Total de gastos del periodo (${b.cutoffLong} a ${b.upTo})` : `Total expenses in the period (${b.cutoffLong} to ${b.upTo})`,
+  addRow(isEs ? 'Gasolina de todo el periodo' : 'Fuel for the whole period', money(b.fuelLong));
+  addRow(isEs ? `Total de gastos del periodo (${b.firstMonth} a ${b.lastMonth})` : `Total expenses in the period (${b.firstMonth} to ${b.lastMonth})`,
     money(b.nonFuelTotal + b.fuelLong), true);
-  if (b.afterCount > 0) {
-    addRow(isEs ? `Gastos posteriores al ${b.upTo}, NO incluidos (${b.afterCount})` : `Expenses after ${b.upTo}, NOT included (${b.afterCount})`,
-      money(b.afterTotal));
+  if (b.outsideCount > 0) {
+    addRow(isEs ? `Gastos en meses sin cargas, NO incluidos (${b.outsideCount})` : `Expenses in months without loads, NOT included (${b.outsideCount})`,
+      money(b.outsideTotal));
   }
 
   const summary = document.getElementById('cpmBreakdownSummary');
@@ -1279,16 +1275,6 @@ function showDecisionPanel(calculationData = {}) {
   const _cpm = window._userCPM || TU_COSTO_REAL.TOTAL;
   const _avgRPM = window._userAvgRPM || 0;
   const _targetProfitPct = ((window.currentUser?.profileData?.targetProfit) || 20) / 100;
-  // Si el usuario configuro su sueldo mensual, el objetivo es cubrir costo +
-  // sueldo por milla (reemplaza al margen objetivo). Sin sueldo, margen como antes.
-  const _payPerMile = getOwnerPayPerMile();
-  const _targetRPM_margen = _payPerMile > 0
-    ? _cpm + _payPerMile
-    : _cpm / (1 - _targetProfitPct);
-  const _acceptThreshold = _avgRPM > 0 ? Math.max(_targetRPM_margen, _avgRPM) : _targetRPM_margen;
-  const _midThreshold = _avgRPM > 0
-    ? Math.max(_cpm, Math.min(_targetRPM_margen, _avgRPM))
-    : _targetRPM_margen;
 
   // Vehicle profile — cargo van by default
   const _vp = VEHICLE_PROFILES[window._userVehicleType] || _DEFAULT_VEHICLE_PROFILE;
@@ -1296,6 +1282,19 @@ function showDecisionPanel(calculationData = {}) {
   // Daily profit — días reales: horas de viaje (vel+paradas) / horas al volante por día
   const _horasViaje = calcularTiempoReal(totalMiles, _vp.speedAvg).horasTotal;
   const _diasInvertidos = Math.max(1, Math.ceil(_horasViaje / _vp.horasManejoPorDia));
+
+  // Si el usuario configuro su sueldo mensual, el objetivo es cubrir costo +
+  // el sueldo de los dias que ocupa la carga (reemplaza al margen objetivo).
+  // Sin sueldo, margen objetivo como antes.
+  const _payShare = getOwnerPayPerDay() * _diasInvertidos;
+  const _payPerMile = (_payShare > 0 && totalMiles > 0) ? _payShare / totalMiles : 0;
+  const _targetRPM_margen = _payPerMile > 0
+    ? _cpm + _payPerMile
+    : _cpm / (1 - _targetProfitPct);
+  const _acceptThreshold = _avgRPM > 0 ? Math.max(_targetRPM_margen, _avgRPM) : _targetRPM_margen;
+  const _midThreshold = _avgRPM > 0
+    ? Math.max(_cpm, Math.min(_targetRPM_margen, _avgRPM))
+    : _targetRPM_margen;
   const _gananciaDia = Math.max(0, netProfit) / _diasInvertidos;
   const _lowDailyProfit = _gananciaDia < _vp.minDailyProfit;
 
@@ -1482,8 +1481,7 @@ function showDecisionPanel(calculationData = {}) {
   // No cambia la ganancia mostrada ni la que se guarda con la carga.
   const _afterPayEl = document.getElementById('afterPayNote');
   if (_afterPayEl) {
-    if (_payPerMile > 0) {
-      const _payShare = _payPerMile * totalMiles;
+    if (_payShare > 0) {
       const _afterPay = netProfit - _payShare;
       const _label = window.i18n?.t('calculator.after_pay_label') || 'After your pay';
       const _amount = _afterPay >= 0 ? `$${_afterPay.toFixed(2)}` : `-$${Math.abs(_afterPay).toFixed(2)}`;
@@ -1636,9 +1634,17 @@ function showDecisionPanel(calculationData = {}) {
             ? `Esta carga pierde dinero. Necesitas mínimo $${_breakevenRate.toLocaleString()} para cubrir costos. Contraoferta en $${_idealRate.toLocaleString()} o rechaza.`
             : `This load loses money. You need at least $${_breakevenRate.toLocaleString()} to cover costs. Counter at $${_idealRate.toLocaleString()} or pass.`;
         } else {
-          _coDetailEl.textContent = _lang === 'es'
-            ? `Para tu margen objetivo de ${_targetPctLabel}%, necesitas $${_targetRate.toLocaleString()} (faltan $${_gapAmount.toLocaleString()}). Sugiere $${_idealRate.toLocaleString()} y negocia.`
-            : `For your ${_targetPctLabel}% target margin, you need $${_targetRate.toLocaleString()} ($${_gapAmount.toLocaleString()} short). Counter at $${_idealRate.toLocaleString()} and negotiate.`;
+          // Misma regla que el semaforo: con sueldo configurado, el objetivo
+          // es costo + sueldo de los dias de la carga; sin sueldo, el margen.
+          if (_payShare > 0) {
+            _coDetailEl.textContent = _lang === 'es'
+              ? `Para cubrir tus costos y tu sueldo de ${_diasInvertidos} día(s) ($${Math.round(_payShare).toLocaleString()}), necesitas $${_targetRate.toLocaleString()} (faltan $${_gapAmount.toLocaleString()}). Sugiere $${_idealRate.toLocaleString()} y negocia.`
+              : `To cover your costs and your pay for ${_diasInvertidos} day(s) ($${Math.round(_payShare).toLocaleString()}), you need $${_targetRate.toLocaleString()} ($${_gapAmount.toLocaleString()} short). Counter at $${_idealRate.toLocaleString()} and negotiate.`;
+          } else {
+            _coDetailEl.textContent = _lang === 'es'
+              ? `Para tu margen objetivo de ${_targetPctLabel}%, necesitas $${_targetRate.toLocaleString()} (faltan $${_gapAmount.toLocaleString()}). Sugiere $${_idealRate.toLocaleString()} y negocia.`
+              : `For your ${_targetPctLabel}% target margin, you need $${_targetRate.toLocaleString()} ($${_gapAmount.toLocaleString()} short). Counter at $${_idealRate.toLocaleString()} and negotiate.`;
+          }
         }
       }
 

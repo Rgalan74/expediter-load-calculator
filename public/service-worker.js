@@ -4,7 +4,7 @@
  * Version: 1.0.0
  */
 
-const CACHE_NAME = 'smartload-v1.0.25'; // security fixes: lexChat proxy, monthly load counter, mail rules
+const CACHE_NAME = 'smartload-v1.0.26'; // security fixes: lexChat proxy, monthly load counter, mail rules
 
 // Archivos esenciales para funcionar offline
 const CORE_ASSETS = [
