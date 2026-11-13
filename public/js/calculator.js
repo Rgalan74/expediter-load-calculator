@@ -1286,7 +1286,21 @@ function showDecisionPanel(calculationData = {}) {
   // Si el usuario configuro su sueldo mensual, el objetivo es cubrir costo +
   // el sueldo de los dias que ocupa la carga (reemplaza al margen objetivo).
   // Sin sueldo, margen objetivo como antes.
-  const _payShare = getOwnerPayPerDay() * _diasInvertidos;
+  //
+  // Dias para el sueldo: proporcionales a las horas reales de la carga (minimo
+  // 1 dia), no redondeados hacia arriba. Se usa el tiempo de ruta de Google si
+  // esta disponible y es coherente con las millas (35-80 mph); si no, la
+  // estimacion interna. Una carga de 9-10 h es ~1 dia, no 2.
+  const _googleHours = (window.routeDuration && window.routeDuration.totalSeconds > 0)
+    ? window.routeDuration.totalSeconds / 3600
+    : 0;
+  const _googleSpeed = _googleHours > 0 ? totalMiles / _googleHours : 0;
+  const _horasSueldo = (_googleSpeed >= 35 && _googleSpeed <= 80)
+    ? _googleHours + calcularTiempoReal(totalMiles, _vp.speedAvg).paradas * 0.5
+    : _horasViaje;
+  const _diasSueldo = Math.max(1, _horasSueldo / _vp.horasManejoPorDia);
+  const _diasSueldoTxt = String(Math.round(_diasSueldo * 10) / 10);
+  const _payShare = getOwnerPayPerDay() * _diasSueldo;
   const _payPerMile = (_payShare > 0 && totalMiles > 0) ? _payShare / totalMiles : 0;
   const _targetRPM_margen = _payPerMile > 0
     ? _cpm + _payPerMile
@@ -1485,7 +1499,8 @@ function showDecisionPanel(calculationData = {}) {
       const _afterPay = netProfit - _payShare;
       const _label = window.i18n?.t('calculator.after_pay_label') || 'After your pay';
       const _amount = _afterPay >= 0 ? `$${_afterPay.toFixed(2)}` : `-$${Math.abs(_afterPay).toFixed(2)}`;
-      _afterPayEl.textContent = `${_label} ($${_payShare.toFixed(0)}): ${_amount}`;
+      const _daysWord = (window.i18n?.currentLang || 'en') === 'es' ? 'día(s)' : 'day(s)';
+      _afterPayEl.textContent = `${_label} (${_diasSueldoTxt} ${_daysWord}, $${_payShare.toFixed(0)}): ${_amount}`;
       _afterPayEl.style.display = '';
     } else {
       _afterPayEl.textContent = '';
@@ -1638,8 +1653,8 @@ function showDecisionPanel(calculationData = {}) {
           // es costo + sueldo de los dias de la carga; sin sueldo, el margen.
           if (_payShare > 0) {
             _coDetailEl.textContent = _lang === 'es'
-              ? `Para cubrir tus costos y tu sueldo de ${_diasInvertidos} día(s) ($${Math.round(_payShare).toLocaleString()}), necesitas $${_targetRate.toLocaleString()} (faltan $${_gapAmount.toLocaleString()}). Sugiere $${_idealRate.toLocaleString()} y negocia.`
-              : `To cover your costs and your pay for ${_diasInvertidos} day(s) ($${Math.round(_payShare).toLocaleString()}), you need $${_targetRate.toLocaleString()} ($${_gapAmount.toLocaleString()} short). Counter at $${_idealRate.toLocaleString()} and negotiate.`;
+              ? `Para cubrir tus costos y tu sueldo de ${_diasSueldoTxt} día(s) ($${Math.round(_payShare).toLocaleString()}), necesitas $${_targetRate.toLocaleString()} (faltan $${_gapAmount.toLocaleString()}). Sugiere $${_idealRate.toLocaleString()} y negocia.`
+              : `To cover your costs and your pay for ${_diasSueldoTxt} day(s) ($${Math.round(_payShare).toLocaleString()}), you need $${_targetRate.toLocaleString()} ($${_gapAmount.toLocaleString()} short). Counter at $${_idealRate.toLocaleString()} and negotiate.`;
           } else {
             _coDetailEl.textContent = _lang === 'es'
               ? `Para tu margen objetivo de ${_targetPctLabel}%, necesitas $${_targetRate.toLocaleString()} (faltan $${_gapAmount.toLocaleString()}). Sugiere $${_idealRate.toLocaleString()} y negocia.`
