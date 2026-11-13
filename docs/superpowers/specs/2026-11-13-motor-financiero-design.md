@@ -371,7 +371,11 @@ Tratamiento:
 - Aparece en el desglose como "Candidato a revisión", con su fecha, importe y descripción.
 - **No se modifica el asiento original.**
 - **Solo si el conductor lo marca** expresamente como "no recurrente" desde Finanzas, se reparte en 12 meses dentro del CPM. Sin esa acción, cuenta entero en su mes.
-- **Prorrateo (para revisión cruzada):** un gasto marcado se reparte en 12 meses a partir de su mes; dentro del CPM cuenta solo la parte de esos 12 meses que cae dentro del periodo: `importe × mínimo(meses desde el gasto hasta el final del periodo, 12) / 12`. Ejemplo: una reparación de $6,000 en mayo, con periodo hasta diciembre, cuenta $4,000 (8/12). El asiento original no cambia.
+- **Prorrateo: reparto lineal por solape (aprobado por Ricardo, auditoría fase 1).** Un gasto marcado se divide en **12 asignaciones mensuales consecutivas** desde su mes: cada una es la doceava parte en centavos y la última absorbe la diferencia, de modo que **las 12 suman exactamente el importe original**. Dentro del CPM de un periodo cuentan solo las asignaciones cuyos meses caen dentro del periodo, **incluidas las de gastos registrados antes del inicio del periodo**. Ejemplos con $6,000: en mayo con periodo hasta diciembre cuentan $4,000 (8/12); en febrero con periodo de mayo a abril cuentan $4,500 (mayo–enero, 9/12); en un periodo que contiene sus 12 meses cuenta el importe exacto. Cada asignación pertenece a un solo mes, por lo que el gasto nunca se cuenta dos veces dentro de un periodo.
+  - Los gastos **no marcados** no cambian: cuentan enteros en su mes.
+  - El gasto marcado anterior al periodo **no** cuenta para la cobertura de fijos, los meses con gastos ni los candidatos a extraordinario: esos criterios usan los registros reales del periodo.
+  - El asiento original no cambia.
+  - Integración: la app debe pasar al motor los gastos marcados de hasta 11 meses antes del inicio del periodo.
 
 **Validación con los datos de Ricardo:** la regla de la revisión 5 marcaba 5 movimientos (dos pagos del vehículo atrasados o acumulados, dos totales mensuales de combustible y un seguro): 4 falsos positivos. La regla actual marca **1**: el seguro de **$2,705.03 del 11-09-2025** ("Pago seguro comercial + pago nuevo seguro"), ≥ $2,534 (5 %) y ≥ $2,520 (2 × mediana $1,260). Por la **decisión #11**, queda solo como candidato a revisión: no se reclasifica, no se modifica y no se redistribuye sin acción expresa de Ricardo.
 
@@ -641,6 +645,8 @@ El margen de negociación del 8 % **ya no es un umbral técnico**: es el valor i
 3. Historial (§8), botón "Recalcular", y reportes estimados.
 4. **Cobros (prioridad):** contratado / facturado / cobrado con pagos parciales, saldos pendientes, vencimientos, antigüedad sobre el pendiente, totales por compañía e incobrables (§3.4, §3.5) en Historial, Cuentas y flujo de caja. Sobrepagos solo como "Importe por aclarar" con el selector de aclaración, en esta misma fase y sin pantalla propia.
 5. Resolución del CPM (§4) con la elección del conductor, la regla de no bajar y la referencia temporal (§4.5).
+   - **Requisito de integración:** la app debe **guardar** en el perfil del conductor el valor `guardar.ultimoCpmRealConfiable` cada vez que el motor lo devuelva, y **recuperarlo** y pasarlo a `resolverCpm` en cada sesión. Devolverlo desde el motor no basta: sin persistencia, la protección "el CPM nunca baja solo" se pierde entre sesiones. Prueba de integración obligatoria: CPM provisional en una sesión → historial incompleto en una sesión nueva → el CPM aplicado no baja.
+   - La app debe pasar al motor los gastos marcados como no recurrentes de hasta 11 meses antes del inicio del periodo (§6).
 6. Peajes (§5), Extras confirmados (§2) y gastos extraordinarios (§6).
 7. Lex (§7.3).
 8. Pruebas de integración (§10.2) y verificación con datos reales (§10.3).

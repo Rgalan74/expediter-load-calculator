@@ -413,3 +413,64 @@ test('auditoría: si el conductor eligió Configuración, una referencia anterio
   assert.equal(r.fuente, 'configuracion');
   assert.equal(r.cpmAplicado, 0.55);
 });
+
+// ---------------------------------------------------------------- prorrateo lineal por solape (decisión 2, auditoría fase 1)
+const MESES_2024_2026 = [];
+for (let y = 2024; y <= 2026; y++) for (let m = 1; m <= 12; m++) MESES_2024_2026.push(`${y}-${String(m).padStart(2, '0')}`);
+// 16 meses activos (2025-01 .. 2026-04) -> periodo = últimos 12 activos = 2025-05 .. 2026-04
+const largo = (extraGastos = []) => {
+  const h = historial(MESES_2024_2026.filter(m => m >= '2025-01' && m <= '2026-04').map(ym => mes(ym)));
+  h.gastos = h.gastos.concat(extraGastos);
+  return h;
+};
+const resolverLargo = (h, marcados) => FE.resolverCpm({ ...h, configuracion: CONFIG, mesActual: '2026-05', gastosNoRecurrentes: marcados }).real;
+
+test('prorrateo: las 12 asignaciones mensuales suman exactamente el gasto original (al centavo)', () => {
+  for (const importe of [6000, 2705.03, 1000.01, 0.05, 12345.67]) {
+    const a = FE.asignacionMensualNoRecurrente(importe, '2025-02');
+    assert.equal(a.length, 12);
+    assert.equal(a.reduce((s, x) => s + x.centavos, 0), Math.round(importe * 100), `importe ${importe}`);
+    assert.ok(Math.abs(a.reduce((s, x) => s + x.importe, 0) - importe) < 0.005);
+    assert.deepEqual(a.map(x => x.mes), MESES_2024_2026.slice(13, 25)); // 2025-02 .. 2026-01, consecutivos
+    assert.ok(a.slice(0, 11).every(x => x.centavos === a[0].centavos)); // el último absorbe la diferencia
+  }
+});
+
+test('prorrateo: gasto marcado ANTERIOR al periodo cuenta sus mensualidades que caen dentro (9/12)', () => {
+  const r = resolverLargo(largo([{ id: 'rep', fecha: '2025-02-10', categoria: 'repairs', importe: 6000 }]), ['rep']);
+  assert.equal(r.periodo.desde, '2025-05');
+  cerca(r.desglose.porCategoria.repairs, 4500); // mayo 2025 .. enero 2026 = 9 × $500
+});
+
+test('prorrateo: gasto marcado sin ningún mes dentro del periodo cuenta 0', () => {
+  const r = resolverLargo(largo([{ id: 'rep', fecha: '2024-03-10', categoria: 'repairs', importe: 6000 }]), ['rep']);
+  assert.equal(r.desglose.porCategoria.repairs, undefined);
+});
+
+test('prorrateo: gasto SIN marcar anterior al periodo no cuenta (sin cambios)', () => {
+  const r = resolverLargo(largo([{ id: 'rep', fecha: '2025-02-10', categoria: 'repairs', importe: 6000 }]), []);
+  assert.equal(r.desglose.porCategoria.repairs, undefined);
+});
+
+test('prorrateo: un periodo que contiene sus 12 meses cuenta exactamente el importe', () => {
+  const r = resolverLargo(largo([{ id: 'rep', fecha: '2025-05-10', categoria: 'repairs', importe: 2705.03 }]), ['rep']);
+  assert.ok(Math.abs(r.desglose.porCategoria.repairs - 2705.03) < 1e-9);
+});
+
+test('prorrateo: el aporte dentro de un periodo es la suma de SUS asignaciones en ese periodo (sin sumar periodos superpuestos)', () => {
+  const asignaciones = FE.asignacionMensualNoRecurrente(2705.03, '2025-02');
+  const esperado = asignaciones.filter(a => a.mes >= '2025-05' && a.mes <= '2026-04').reduce((s, a) => s + a.importe, 0);
+  const r = resolverLargo(largo([{ id: 'rep', fecha: '2025-02-10', categoria: 'repairs', importe: 2705.03 }]), ['rep']);
+  cerca(r.desglose.porCategoria.repairs, esperado);
+});
+
+test('prorrateo: el gasto marcado anterior no cuenta para cobertura, meses con gastos ni candidatos; el registro no cambia', () => {
+  const extra = { id: 'seg', fecha: '2025-02-10', categoria: 'insurance', importe: 9000 };
+  const h = largo([extra]);
+  const sinMarcar = resolverLargo(h, []);
+  const marcado = resolverLargo(h, ['seg']);
+  assert.deepEqual(marcado.cobertura.insurance, sinMarcar.cobertura.insurance);
+  assert.equal(marcado.candidatosExtraordinarios.length, 0);
+  assert.equal(h.gastos.find(g => g.id === 'seg').importe, 9000);
+  cerca(marcado.desglose.porCategoria.insurance - sinMarcar.desglose.porCategoria.insurance, 9000 * 9 / 12);
+});

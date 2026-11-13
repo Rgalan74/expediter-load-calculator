@@ -382,6 +382,28 @@
     return v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2;
   }
 
+  /**
+   * Reparto lineal de un gasto marcado como no recurrente (§6, decisión #2):
+   * 12 asignaciones mensuales consecutivas desde el mes del gasto. Cada mes
+   * recibe la doceava parte en centavos y el último absorbe la diferencia, de
+   * modo que las 12 asignaciones suman EXACTAMENTE el importe original.
+   * No modifica el asiento original.
+   */
+  function asignacionMensualNoRecurrente(importe, mesGasto) {
+    var total = noNegativo(importe, 'importe');
+    var ym = mesDe(mesGasto);
+    if (!ym) throw new RangeError('mesGasto debe ser YYYY-MM');
+    var totalCentavos = Math.round(total * 100);
+    var base = Math.floor(totalCentavos / 12);
+    var inicio = indiceMes(ym);
+    var asignaciones = [];
+    for (var i = 0; i < 12; i++) {
+      var centavos = i < 11 ? base : totalCentavos - base * 11;
+      asignaciones.push({ mes: mesDesdeIndice(inicio + i), centavos: centavos, importe: centavos / 100 });
+    }
+    return asignaciones;
+  }
+
   /** Millas de una carga con lectura tolerante de campos antiguos (§8), sin reescribirlos. */
   function millasDeCarga(carga) {
     if (!carga) return 0;
@@ -650,25 +672,36 @@
       if (m >= desdeReciente && m <= hasta) millasRecientes += millasMes[m];
     });
 
-    var gastosPeriodo = gastosValidos.filter(function (g) { return dentro(g.mes) && opciones.noOperativas.indexOf(g.categoria) === -1; });
+    var esOperativo = function (g) { return opciones.noOperativas.indexOf(g.categoria) === -1; };
+    var esNoRecurrente = function (g) { return g.id !== null && opciones.noRecurrentes.indexOf(g.id) !== -1; };
+
+    // Registros reales del periodo (importe original): cobertura de fijos,
+    // meses con gastos y candidatos a extraordinario.
+    var gastosPeriodo = gastosValidos.filter(function (g) { return dentro(g.mes) && esOperativo(g); });
+    var mesesConGastos = {};
+    gastosPeriodo.forEach(function (g) { mesesConGastos[g.mes] = true; });
+
+    // Aporte al CPM por asignaciones mensuales que caen dentro del periodo:
+    //   - sin marcar: una sola asignación, entera, en su mes;
+    //   - marcado no recurrente: 12 asignaciones desde su mes (reparto lineal
+    //     por solape). Incluye gastos ANTERIORES al periodo cuyas mensualidades
+    //     todavía caen dentro (auditoría fase 1). Nunca se cuenta dos veces.
     var totalPeriodo = 0, peajes = 0, combustible = 0, combustibleReciente = 0, resto = 0;
     var porCategoria = {};
-    var mesesConGastos = {};
-    gastosPeriodo.forEach(function (g) {
-      var importe = g.importe;
-      // Gasto marcado como no recurrente: se reparte en 12 meses (§6, decisión #2)
-      if (g.id !== null && opciones.noRecurrentes.indexOf(g.id) !== -1) {
-        var mesesRestantes = mesesEntre(g.mes, hasta) + 1;
-        importe = importe * Math.min(mesesRestantes, 12) / 12;
-      }
-      totalPeriodo += importe;
-      porCategoria[g.categoria] = (porCategoria[g.categoria] || 0) + importe;
-      mesesConGastos[g.mes] = true;
-      if (g.categoria === CATEGORIA_PEAJES) peajes += importe;
-      else if (g.categoria === CATEGORIA_COMBUSTIBLE) {
-        combustible += importe;
-        if (g.mes >= desdeReciente) combustibleReciente += importe;
-      } else resto += importe;
+    gastosValidos.filter(esOperativo).forEach(function (g) {
+      var asignaciones = esNoRecurrente(g)
+        ? asignacionMensualNoRecurrente(g.importe, g.mes)
+        : [{ mes: g.mes, importe: g.importe }];
+      asignaciones.forEach(function (a) {
+        if (!dentro(a.mes)) return;
+        totalPeriodo += a.importe;
+        porCategoria[g.categoria] = (porCategoria[g.categoria] || 0) + a.importe;
+        if (g.categoria === CATEGORIA_PEAJES) peajes += a.importe;
+        else if (g.categoria === CATEGORIA_COMBUSTIBLE) {
+          combustible += a.importe;
+          if (a.mes >= desdeReciente) combustibleReciente += a.importe;
+        } else resto += a.importe;
+      });
     });
 
     // ---- Criterios que bloquean (§4.2)
@@ -1028,6 +1061,7 @@
     calcularDiasCarga: calcularDiasCarga,
     sueldoPorDia: sueldoPorDia,
     resolverCpm: resolverCpm,
+    asignacionMensualNoRecurrente: asignacionMensualNoRecurrente,
     millasDeCarga: millasDeCarga,
     // utilidades expuestas para los bloques siguientes y las pruebas
     _util: { noNegativo: noNegativo, copiaProfunda: copiaProfunda }
