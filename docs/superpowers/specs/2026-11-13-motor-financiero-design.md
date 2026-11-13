@@ -1,6 +1,6 @@
 # Motor financiero único — Especificación
 
-**Estado:** BORRADOR — revisión 2. Pendiente de aprobación final de Ricardo. No implementar hasta aprobación.
+**Estado:** BORRADOR — revisión 3. Pendiente de aprobación final de Ricardo. No implementar hasta aprobación.
 **Fecha:** 13 de noviembre de 2026
 **Autores:** Claude (rama `fix/seguridad-costos-reportes`) y ChatGPT (prototipo `smartload-financial-prototype`), consolidado por Claude.
 **Base de código:** rama `fix/seguridad-costos-reportes` (parte de `main` @ `2de295e`). Revisión 1: commit `05c1908`.
@@ -13,6 +13,7 @@
 |---|---|---|
 | 1 | 13-11-2026 | Borrador inicial (commit `05c1908`) |
 | 2 | 13-11-2026 | Revisión cruzada Claude/ChatGPT: RPM total vs RPM de tarifa (§7.1), Extras confirmados (§2, §3), contraoferta (§7.4), objetivo = máximo entre sueldo y margen (§7.1), sueldo bruto (§7.2), cargas antiguas sin reconstrucción de CPM (§8), criterio de millas pasa a advertencia y control de combustible esperado (§4.2), gastos extraordinarios por materialidad y recurrencia (§6). Separación explícita entre decisiones aprobadas, pendientes y umbrales provisionales (§11) |
+| 3 | 13-11-2026 | Evaluación vs liquidación de la carga: Extras cobrados después sin alterar la evaluación original (§3.4). Control de combustible marcado como aproximado y banda justificada (§4.2). Pérdida de confiabilidad de un CPM real ya elegido (§4.5). Validación contable separada de la validación del CPM (§10.3). Nueva decisión pendiente #7 (§11.2) |
 
 ---
 
@@ -120,6 +121,24 @@ snapshot           = copia de entradas + supuestos + versión de la fórmula
 - Redondeo solo al mostrar, nunca al guardar.
 - Versión de fórmula (`formulaVersion`) en cada carga guardada.
 
+### 3.4. Evaluación y liquidación de una carga
+
+Una carga guardada tiene dos partes que **no se mezclan**:
+
+| Parte | Qué contiene | ¿Cambia después? | Quién la usa |
+|---|---|---|---|
+| **Evaluación** | `resultado` + `snapshot` del momento de aceptar (§3.1): ingresos esperados, Extras confirmados y no confirmados, costos estimados, umbrales, decisión | **No.** Es el registro de por qué se aceptó | Historial (comparación), auditoría, Lex (aprendizaje) |
+| **Liquidación** | Lo realmente cobrado: `tarifaCobrada`, `extrasCobrados` (lista con concepto, importe y fecha), `ingresoCobrado = tarifaCobrada + Σ extrasCobrados` | Sí, cuando el conductor registra el cobro | Finanzas (ingresos contables), estado de pago |
+
+Reglas:
+
+- Al guardar la carga, la liquidación se inicializa con la tarifa y los Extras **confirmados** de la evaluación.
+- **Extra no confirmado que termina cobrándose:** el conductor lo marca como cobrado desde Historial/Finanzas → se añade a `extrasCobrados` y sube `ingresoCobrado`. La evaluación no cambia.
+- **Extra confirmado que finalmente no se paga:** se marca como no cobrado → baja `ingresoCobrado`. La evaluación no cambia.
+- Historial muestra ambas cifras cuando difieren ("Evaluada: $X · Cobrada: $Y").
+- Finanzas usa **siempre** `ingresoCobrado`. Para cargas antiguas sin liquidación, `ingresoCobrado = totalCharge` guardado (lectura tolerante, sin reescribir).
+- Cada cambio en la liquidación queda registrado (`liquidacionActualizadaEn`).
+
 ## 4. Resolución del CPM base
 
 ### 4.1. Tres etapas
@@ -142,6 +161,8 @@ Periodo: los últimos 12 meses **con actividad** (meses con ≥25 % de las milla
    - por encima de 1.5×: "posibles cargas sin registrar" (hay recibos pero faltan millas);
    - por debajo de 0.5×: "posibles recibos de combustible sin registrar".
    - Si la Configuración no tiene MPG o precio, se usa el rango absoluto $0.10–$0.50/mi.
+   - **Es una comparación aproximada**, y así se indica en pantalla: el precio de Configuración es el actual y no el de cada mes del periodo, y el MPG configurado puede no ser exacto. La banda es deliberadamente ancha para absorber esas diferencias: detecta errores de registro groseros (faltan la mitad de los recibos o de las cargas), no variaciones de precio. Con una variación de precio de ±30 % el resultado sigue dentro de la banda.
+   - Mejora posterior (no incluida): usar como referencia el precio promedio nacional mensual del combustible del periodo (fuente pública, p. ej. EIA) en lugar del precio actual.
 4. Cada uno de los meses con actividad tiene **algún** gasto fijo (seguro o pago del vehículo) si la Configuración indica que existen.
 
 **Criterio que solo advierte** (no bloquea):
@@ -165,9 +186,27 @@ Combustible reciente con dos protecciones (ya implementadas): si esos 3 meses ti
 2. La elección se guarda (`users/{uid}.cpmPreference = { fuente, fecha, cpmConfig, cpmReal }`).
 3. **No cambia sola.** Se vuelve a preguntar solo si:
    - la diferencia entre ambos cambia más de 15 % respecto al momento de la elección, o
-   - el CPM real deja de cumplir los criterios que bloquean de §4.2, o
+   - el CPM real deja de cumplir los criterios que bloquean de §4.2 (ver §4.5), o
    - el conductor lo pide desde Configuración.
 4. Mientras no elija, se usa el de Configuración.
+5. La pantalla indica **siempre** qué fuente se está usando y desde cuándo.
+
+### 4.5. Pérdida de confiabilidad de un CPM real ya elegido
+
+Si el conductor eligió el CPM real y después su historial deja de cumplir los criterios que bloquean de §4.2 (p. ej. deja de registrar combustible):
+
+1. La app **lo advierte** de forma visible y explica qué criterio falló.
+2. Adopta **temporalmente una referencia segura** (definición pendiente, §11.2 #7) y lo indica: "Usando referencia temporal: [fuente y valor]. Tu historial no es confiable por: [motivo]".
+3. **No cambia la elección guardada** del conductor: cuando el historial vuelve a ser confiable, se retoma el CPM real y se avisa.
+4. Mientras dure, la decisión del semáforo muestra la etiqueta "referencia temporal".
+
+**Punto a decidir — qué es "segura":** volver sin más al CPM de Configuración **no es seguro** en todos los casos. En el de Ricardo, Configuración da ~$0.51/mi y el real ~$0.74/mi: volver a Configuración haría aceptar cargas que pierden dinero. Propuesta (pendiente, #7):
+
+```text
+referenciaSegura = máximo(último CPM real confiable, CPM de Configuración)
+```
+
+con el "último CPM real confiable" congelado con su fecha y válido durante un máximo de 6 meses (umbral provisional, §11.3); pasado ese plazo, CPM de Configuración con aviso de revisarla.
 
 ## 5. Peajes
 
@@ -303,7 +342,18 @@ Con datos de prueba en un proyecto/emulador, **nunca** con datos reales:
 
 ### 10.3. Datos reales (solo lectura)
 
-Las 112 cargas de Ricardo: el CPM real y los totales del periodo deben cuadrar con el reporte de Finanzas ($50,671.32 / 112 cargas / 68,736 mi). Además, contar cuántos gastos marca §6 con los umbrales provisionales para validarlos.
+Con las 112 cargas de Ricardo, **dos validaciones distintas** que no deben confundirse:
+
+**A. Validación contable** (¿el motor lee los mismos datos que Finanzas?)
+- Para el mismo rango de fechas, el total de gastos y el total por categoría del periodo de §4.2 coinciden con el reporte de Finanzas.
+- Número de cargas y millas totales coinciden.
+- Referencia actual: $50,671.32 / 112 cargas / 68,736 mi.
+
+**B. Validación del CPM** (¿el número de decisión sale bien de esos datos?)
+- El CPM base **no** tiene por qué reproducir `gastos totales ÷ millas`, porque excluye peajes y usa combustible reciente. Lo que se comprueba es que sea **reproducible desde el desglose**:
+  `(gastos del periodo − peajes − combustible) / millas del periodo + combustible reciente / millas recientes`.
+- Identidad de control: con combustible del periodo completo y peajes incluidos, el resultado sí debe igualar `gastos totales ÷ millas` (~$0.737 en los datos de Ricardo).
+- Contar cuántos gastos marca §6 con los umbrales provisionales y revisarlos uno a uno para validar esos umbrales.
 
 ## 11. Decisiones
 
@@ -332,6 +382,12 @@ Ajustes de diseño acordados en la revisión cruzada (rev. 2): RPM total para re
 | 5 | Promedio de industria único: ¿$0.55? | $0.55 hasta revisar con datos de mercado |
 | 6 | Tus valores de mantenimiento (0.014 / 0.012 / 0.025): ¿por milla o por mes? | — |
 
+Nueva en la revisión 3 (también sin aprobar):
+
+| # | Decisión | Propuesta |
+|---|---|---|
+| 7 | "Referencia segura" cuando un CPM real elegido deja de ser confiable (§4.5) | Máximo entre el último CPM real confiable (válido 6 meses) y el de Configuración |
+
 ### 11.3. Umbrales provisionales (a validar con datos)
 
 | Umbral | Valor provisional | Dónde |
@@ -340,6 +396,7 @@ Ajustes de diseño acordados en la revisión cruzada (rev. 2): RPM total para re
 | Combustible esperado | entre 0.5× y 1.5× de precio/MPG | §4.2 criterio 3 |
 | Advertencia de millas | < 40 % de la meta | §4.2 criterio 5 |
 | Re-preguntar elección de CPM | cambio > 15 % | §4.4 |
+| Vigencia del último CPM real confiable | 6 meses | §4.5 |
 | Gasto extraordinario | ≥ 5 % del total o ≥ $0.02/mi, sin otro ±10 % en la categoría | §6 |
 | Margen de contraoferta | +8 % sobre la tarifa objetivo | §7.4 |
 
@@ -355,8 +412,8 @@ Ajustes de diseño acordados en la revisión cruzada (rev. 2): RPM total para re
 
 1. Función pura + pruebas unitarias (sin tocar pantallas).
 2. Calculadora, panel y guardado (online y sin conexión) usando la función.
-3. Historial (§8) y reportes estimados.
-4. Resolución del CPM (§4) con la elección del conductor.
+3. Historial (§8), evaluación y liquidación (§3.4) y reportes estimados.
+4. Resolución del CPM (§4) con la elección del conductor y la referencia temporal (§4.5).
 5. Peajes (§5), Extras confirmados (§2) y gastos extraordinarios (§6).
 6. Lex (§7.3).
 7. Pruebas de integración (§10.2) y verificación con datos reales (§10.3).
