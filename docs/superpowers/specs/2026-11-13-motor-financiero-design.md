@@ -1,6 +1,6 @@
 # Motor financiero único — Especificación
 
-**Estado:** BORRADOR — revisión 4. Pendiente de cierre: una decisión de Ricardo (§11.2) y la validación de umbrales provisionales (§11.3). No implementar hasta aprobación.
+**Estado:** BORRADOR — revisión 5. Todas las decisiones de diseño de Ricardo aprobadas. Pendiente de cierre: validación de umbrales provisionales (§11.3), tratamiento de sobrepagos y método fiscal (§11.2). No implementar hasta aprobación.
 **Fecha:** 13 de noviembre de 2026
 **Autores:** Claude (rama `fix/seguridad-costos-reportes`) y ChatGPT (prototipo `smartload-financial-prototype`), consolidado por Claude.
 **Base de código:** rama `fix/seguridad-costos-reportes` (parte de `main` @ `2de295e`). Revisiones anteriores: 1 `05c1908`, 2 `5e3ce07`, 3 `a8c81bb`.
@@ -15,6 +15,7 @@
 | 2 | 13-11-2026 | Revisión cruzada Claude/ChatGPT: RPM total vs RPM de tarifa (§7.1), Extras confirmados (§2, §3), contraoferta (§7.4), objetivo = máximo entre sueldo y margen (§7.1), sueldo bruto (§7.2), cargas antiguas sin reconstrucción de CPM (§8), criterio de millas pasa a advertencia y control de combustible esperado (§4.2), gastos extraordinarios por materialidad y recurrencia (§6). Separación explícita entre decisiones aprobadas, pendientes y umbrales provisionales (§11) |
 | 3 | 13-11-2026 | Evaluación vs liquidación (§3.4). Control de combustible aproximado (§4.2). Pérdida de confiabilidad de un CPM real elegido (§4.5). Validación contable separada de la del CPM (§10.3). Decisión pendiente #7 |
 | 4 | 13-11-2026 | Decisiones 1–7 de Ricardo incorporadas (§11.1). Contratado, facturado y cobrado con pagos parciales e incobrables (§3.4). Regla "el CPM nunca baja automáticamente" (§4.4, §4.5). Peajes solo si se escriben, sin promedio histórico (§5). Usuario nuevo: configuración mínima propia, sin promedio de industria; opción (a) pendiente de Ricardo (§4.1, §11.2 #8). Ganancia siempre "estimada". Pago del vehículo $0 válido (§9). Método fiscal pendiente de verificar con el contador (§3.4) |
+| 5 | 13-11-2026 | Decisión #8 aprobada por Ricardo: opción (a) para usuarios sin configuración mínima (§4.1, §11.1). Sobrepagos marcados como pendientes de precisar (§3.4, §11.2). Registrado que la exportación CSV de Finanzas no tiene botón (§12) |
 
 ---
 
@@ -166,7 +167,8 @@ pendiente = facturado − cobrado − ajusteIncobrable.importe
 
 - Un pago parcial **no** cambia la ganancia estimada ni la facturada.
 - Un Extra nunca crea un ingreso aparte: solo modifica `totalCharge`.
-- Si el cliente paga de más o de menos, la diferencia queda en `pendiente` (positiva o negativa) y se muestra en Cuentas; no se convierte en gasto.
+- Si el cliente paga de menos, la diferencia queda en `pendiente` y se muestra en Cuentas; no se convierte en gasto.
+- **Sobrepagos (pendiente de precisar, §11.2):** hoy la especificación solo establece que un sobrepago deja `pendiente` negativo, visible en Cuentas, sin modificar la ganancia estimada ni la facturada. Falta definir si se registra como saldo a favor del cliente, como ingreso adicional (Extra cobrado) o como importe a devolver, y cómo aparece en el flujo de caja.
 - Una diferencia definitivamente incobrable requiere el **ajuste explícito**; aparece como línea propia ("Pérdida por incobrable") en el Estado de Resultados. No modifica `totalCharge`.
 
 **Qué usa cada reporte:**
@@ -188,7 +190,7 @@ El costo de decisión sale **siempre de los datos del propio conductor** (decisi
 
 | Etapa | Condición | CPM base | Qué muestra |
 |---|---|---|---|
-| **A. Sin configuración mínima** | Faltan datos de la configuración mínima | — | Tarifa, millas y RPM. **No** muestra ganancia, semáforo ni contraoferta: "Completa tu configuración para ver tu ganancia estimada", con acceso directo a esos campos. *(Opción (a), pendiente de aprobación de Ricardo, §11.2 #8)* |
+| **A. Sin configuración mínima** | Faltan datos de la configuración mínima | — | Tarifa, millas cargadas, deadhead y RPM. **No** muestra ganancia estimada, semáforo de decisión ni contraoferta: "Completa tu configuración para ver tu ganancia estimada", con acceso directo a los cinco datos mínimos. *(Opción (a), aprobada por Ricardo, decisión #8)* |
 | **B. Configurado** | Configuración mínima completa, sin historial confiable | Desde Configuración | "Según tu Configuración" |
 | **C. Con historial** | Historial que pasa §4.2 | §4.4 | Ambos valores visibles |
 
@@ -200,7 +202,7 @@ El costo de decisión sale **siempre de los datos del propio conductor** (decisi
 4. Precio de combustible por galón.
 5. Millas que rueda al mes.
 
-Al completarla se **ofrecen** (no se exigen) mantenimiento, llantas, reparaciones y otros fijos. El botón "Después" del onboarding se mantiene, pero sin configuración mínima no hay veredicto.
+Al completarla se **ofrecen** (no se exigen) mantenimiento, llantas, reparaciones y otros fijos. El botón "Después" del onboarding se mantiene, pero sin configuración mínima no hay veredicto. Las recomendaciones financieras (ganancia estimada, semáforo, contraoferta, veredicto de Lex) se habilitan **únicamente** al completar los cinco datos.
 
 ### 4.2. Criterios de confianza del CPM real (aprobados, decisión 1)
 
@@ -433,6 +435,7 @@ Con las 112 cargas de Ricardo (CSV) y la exportación de sus 80 gastos, **dos va
 | 5 | El costo para decidir sale siempre de la configuración del conductor; sin promedio de industria (§4.1) |
 | 6 | Los valores de mantenimiento de Ricardo son dólares por milla (§9) |
 | 7 | Referencia segura = máximo entre el último CPM real confiable y el de Configuración; el CPM nunca baja automáticamente (§4.4, §4.5) |
+| 8 | Usuario sin configuración mínima: opción (a). Se muestran tarifa, millas cargadas, deadhead y RPM; no se muestran ganancia estimada, semáforo ni contraoferta; se le invita a completar los cinco datos (pago del vehículo $0 válido); sin promedios de industria (§4.1) |
 
 Ajustes de diseño acordados en la revisión cruzada: RPM total para rentabilidad y RPM de tarifa para el mínimo (§7.1); contraoferta con ambos requisitos y solo Extras confirmados (§7.4); objetivo = máximo entre sueldo y margen (§7.1); sin reconstrucción de CPM en cargas sin snapshot (§8); criterio de millas como advertencia y control de combustible aproximado (§4.2); gastos extraordinarios por materialidad y recurrencia (§6); contratado / facturado / cobrado con pagos parciales (§3.4); ganancia rotulada siempre como estimada.
 
@@ -440,7 +443,7 @@ Ajustes de diseño acordados en la revisión cruzada: RPM total para rentabilida
 
 | # | Decisión | Propuesta |
 |---|---|---|
-| 8 | Usuario sin configuración mínima: ¿(a) ocultar ganancia, semáforo y contraoferta hasta completarla, o (b) mostrarlos con un estimado genérico y aviso? | **(a)**, recomendada por Claude y ChatGPT; pendiente de aprobación expresa de Ricardo |
+| — | Tratamiento de sobrepagos: ¿saldo a favor del cliente, ingreso adicional o importe a devolver? (§3.4) | Pendiente de precisar |
 | — | Método fiscal (devengado o lo cobrado) para el reporte Schedule C | Verificar con el contador de Ricardo (§3.4); no es decisión técnica |
 
 ### 11.3. Umbrales provisionales (a validar con datos, §10.3)
@@ -463,6 +466,7 @@ Ajustes de diseño acordados en la revisión cruzada: RPM total para rentabilida
 4. `evaluateLoad` (Cloud Function) no tiene llamadas: código muerto.
 5. Clave de OpenRouter pendiente de rotar (estuvo expuesta antes del 12-11-2026).
 6. Flujo de caja agrupa los cobros por fecha de carga y no por fecha de cobro (se corrige con §3.4).
+7. La exportación CSV de Finanzas (`exportFinancialData()` en `finances.js`, que incluye cargas y gastos) no tiene botón: el código espera un elemento `exportBtn` que no existe en `app.html`. Solo se puede ejecutar desde la consola del navegador.
 
 ## 13. Fases de implementación (tras aprobación)
 
