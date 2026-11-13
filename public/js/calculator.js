@@ -182,8 +182,8 @@ function renderCpmBreakdown() {
   };
 
   addNote(isEs
-    ? `Periodo: tus últimos ${b.activeMonths} meses con cargas (${b.firstMonth} a ${b.lastMonth}). Los meses sin actividad no cuentan.`
-    : `Period: your last ${b.activeMonths} months with loads (${b.firstMonth} to ${b.lastMonth}). Months without activity are not counted.`);
+    ? `Periodo: tus últimos ${b.activeMonths} meses con cargas (${b.firstMonth} a ${b.lastMonth}).`
+    : `Period: your last ${b.activeMonths} months with loads (${b.firstMonth} to ${b.lastMonth}).`);
   addNote(isEs
     ? `Cargas guardadas: ${b.loadsInWindow} cargas, ${b.milesLong.toLocaleString()} millas.`
     : `Saved loads: ${b.loadsInWindow} loads, ${b.milesLong.toLocaleString()} miles.`);
@@ -213,7 +213,7 @@ function renderCpmBreakdown() {
   addRow(isEs ? `Total de gastos del periodo (${b.firstMonth} a ${b.lastMonth})` : `Total expenses in the period (${b.firstMonth} to ${b.lastMonth})`,
     money(b.nonFuelTotal + b.fuelLong), true);
   if (b.outsideCount > 0) {
-    addRow(isEs ? `Gastos en meses sin cargas, NO incluidos (${b.outsideCount})` : `Expenses in months without loads, NOT included (${b.outsideCount})`,
+    addRow(isEs ? `Gastos posteriores a ${b.lastMonth}, NO incluidos (${b.outsideCount})` : `Expenses after ${b.lastMonth}, NOT included (${b.outsideCount})`,
       money(b.outsideTotal));
   }
 

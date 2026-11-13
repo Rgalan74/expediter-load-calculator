@@ -147,6 +147,8 @@ const CPMEngine = {
     const fuelSet = new Set(activeMonths.slice(0, this.FUEL_WINDOW_MONTHS));
     const firstMonth = activeMonths[activeMonths.length - 1];
     const lastMonth = activeMonths[0];
+    const fuelMonthsList = activeMonths.slice(0, this.FUEL_WINDOW_MONTHS);
+    const fuelFirstMonth = fuelMonthsList[fuelMonthsList.length - 1];
 
     let milesLong = 0;
     let milesRecent = 0;
@@ -188,8 +190,13 @@ const CPMEngine = {
       const amount = Number(expense.amount || 0);
       if (!(amount > 0)) return;
 
+      // Cuentan los gastos desde el primer hasta el ultimo mes activo,
+      // INCLUIDOS los de un mes de pausa intermedio: el seguro y el pago del
+      // carro se siguen pagando aunque ese mes no se ruede, y las cargas tienen
+      // que cubrirlos. Solo quedan fuera los posteriores al ultimo mes activo
+      // (cuando ya no se esta operando).
       const ym = dateStr ? dateStr.slice(0, 7) : '';
-      if (!activeSet.has(ym)) {
+      if (!ym || ym < firstMonth || ym > lastMonth) {
         outsideCount++;
         outsideTotal += amount;
         return;
@@ -201,7 +208,7 @@ const CPMEngine = {
       byCategory[catKey] = (byCategory[catKey] || 0) + amount;
       if (cat === 'fuel') {
         fuelLong += amount;
-        if (fuelSet.has(ym)) fuelRecent += amount;
+        if (ym >= fuelFirstMonth) fuelRecent += amount;
       } else {
         nonFuelTotal += amount;
       }
