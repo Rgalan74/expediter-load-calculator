@@ -16,6 +16,10 @@
  *        incompletos, criterios de confianza, cobertura de fijos, candidatos
  *        a extraordinario, antigüedad y regla "el CPM nunca baja solo"
  *        (§4.2 – §4.6, §6).
+ *   1c — Cobros: facturado, abonos, pendiente, importe por aclarar, estados
+ *        (vencida con pago parcial), incobrables, resumen de Cuentas y flujo
+ *        de caja (§3.4, §3.5). Las funciones que "registran" devuelven una
+ *        COPIA de la carga; nunca modifican el original.
  */
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) {
@@ -737,9 +741,264 @@
     return resultado;
   }
 
+  // ================================================================
+  // 1c — Cobros: contratado, facturado, cobrado (§3.4, §3.5)
+  // ================================================================
+
+  var DIAS_AVISO_POR_ACLARAR = 30;
+  var CENTAVO = 0.005; // tolerancia para comparar importes en dólares
+
+  function diaDe(fecha, nombre) {
+    var f = String(fecha || '');
+    if (!/^\d{4}-\d{2}-\d{2}/.test(f)) throw new RangeError(nombre + ' debe ser una fecha YYYY-MM-DD');
+    return Date.UTC(Number(f.slice(0, 4)), Number(f.slice(5, 7)) - 1, Number(f.slice(8, 10))) / 86400000;
+  }
+
+  function diasEntre(desde, hasta) {
+    return Math.round(diaDe(hasta, 'fecha') - diaDe(desde, 'fecha'));
+  }
+
+  function facturadoDe(carga) {
+    var v = carga.facturado !== undefined ? carga.facturado : carga.totalCharge;
+    return noNegativo(Number(v), 'facturado');
+  }
+
+  /**
+   * Abonos de una carga. Una carga antigua con actualPaymentDate y sin abonos
+   * se LEE como un único abono por el total facturado en esa fecha (§3.4),
+   * sin reescribirla.
+   */
+  function abonosDe(carga) {
+    if (Array.isArray(carga.abonos) && carga.abonos.length) {
+      return carga.abonos.map(function (a, i) {
+        var importe = Number(a.importe);
+        if (!esNumeroFinito(importe)) throw new RangeError('abonos[' + i + '].importe no es válido');
+        diaDe(a.fecha, 'abonos[' + i + '].fecha');
+        return { importe: importe, fecha: String(a.fecha).slice(0, 10), tipo: a.tipo || 'abono' };
+      });
+    }
+    if (carga.actualPaymentDate) {
+      return [{ importe: facturadoDe(carga), fecha: String(carga.actualPaymentDate).slice(0, 10), tipo: 'legado' }];
+    }
+    return [];
+  }
+
+  /**
+   * Estado de cobro de una carga en la fecha `hoy`.
+   * pendiente e importePorAclarar se DERIVAN del mismo saldo: nunca son
+   * negativos ni ambos > 0 a la vez.
+   */
+  function estadoCobro(carga, hoy) {
+    if (!carga || typeof carga !== 'object') throw new TypeError('Se requiere la carga');
+    diaDe(hoy, 'hoy');
+    var facturado = facturadoDe(carga);
+    var abonos = abonosDe(carga);
+    var incobrable = carga.ajusteIncobrable ? noNegativo(Number(carga.ajusteIncobrable.importe), 'ajusteIncobrable.importe') : 0;
+    var cobrado = abonos.reduce(function (s, a) { return s + a.importe; }, 0);
+    var saldo = facturado - incobrable - cobrado;
+    if (Math.abs(saldo) < CENTAVO) saldo = 0;
+    var pendiente = Math.max(saldo, 0);
+    var importePorAclarar = Math.max(-saldo, 0);
+
+    var fechaEsperada = carga.fechaEsperada || carga.expectedPaymentDate || null;
+    var vencida = pendiente > 0 && !!fechaEsperada && diasEntre(fechaEsperada, hoy) > 0;
+    var cobradoPositivo = abonos.filter(function (a) { return a.importe > 0; })
+      .reduce(function (s, a) { return s + a.importe; }, 0);
+    var pagoParcial = pendiente > 0 && cobradoPositivo > 0;
+
+    var estado;
+    if (pendiente === 0) estado = 'pagada';
+    else if (vencida) estado = 'vencida';
+    else if (pagoParcial) estado = 'pagoParcial';
+    else estado = 'pendiente';
+
+    // Fecha en que el acumulado de abonos completó lo debido (para actualPaymentDate)
+    var fechaPagoCompleto = null;
+    var fechaExceso = null;
+    if (pendiente === 0) {
+      var acumulado = 0;
+      var debido = facturado - incobrable;
+      var ordenados = abonos.slice().sort(function (a, b) { return a.fecha < b.fecha ? -1 : a.fecha > b.fecha ? 1 : 0; });
+      for (var i = 0; i < ordenados.length; i++) {
+        acumulado += ordenados[i].importe;
+        if (fechaPagoCompleto === null && acumulado >= debido - CENTAVO) fechaPagoCompleto = ordenados[i].fecha;
+        if (fechaExceso === null && acumulado > debido + CENTAVO) fechaExceso = ordenados[i].fecha;
+      }
+      // Con incobrable, la carga queda cerrada cuando se registra el ajuste, no antes
+      if (incobrable > 0 && carga.ajusteIncobrable.fecha) {
+        var fechaAjuste = String(carga.ajusteIncobrable.fecha).slice(0, 10);
+        if (fechaPagoCompleto === null || fechaAjuste > fechaPagoCompleto) fechaPagoCompleto = fechaAjuste;
+      }
+    }
+
+    return {
+      id: carga.id !== undefined ? carga.id : null,
+      compania: carga.companyName || carga.compania || '',
+      facturado: facturado,
+      cobrado: cobrado,
+      incobrable: incobrable,
+      saldo: saldo,
+      pendiente: pendiente,
+      importePorAclarar: importePorAclarar,
+      estado: estado,
+      pagoParcial: pagoParcial,
+      vencida: vencida,
+      diasAtraso: vencida ? diasEntre(fechaEsperada, hoy) : 0,
+      fechaEsperada: fechaEsperada,
+      fechaPagoCompleto: fechaPagoCompleto,
+      fechaExceso: importePorAclarar > 0 ? fechaExceso : null,
+      diasPorAclarar: importePorAclarar > 0 && fechaExceso ? diasEntre(fechaExceso, hoy) : 0,
+      abonos: abonos
+    };
+  }
+
+  /** Copia de la carga con los abonos leídos (convierte el abono "legado" en explícito). */
+  function copiaConAbonos(carga) {
+    var nueva = copiaProfunda(carga);
+    nueva.abonos = abonosDe(carga).map(function (a) { return { importe: a.importe, fecha: a.fecha, tipo: a.tipo }; });
+    return nueva;
+  }
+
+  /** Mantiene los campos actuales de la app coherentes: actualPaymentDate solo cuando no queda saldo. */
+  function sincronizarCamposExistentes(carga, hoy) {
+    var e = estadoCobro(carga, hoy);
+    if (e.pendiente === 0) {
+      carga.actualPaymentDate = e.fechaPagoCompleto;
+      carga.paymentStatus = 'paid';
+    } else {
+      carga.actualPaymentDate = null;
+      carga.paymentStatus = 'pending';
+    }
+    return carga;
+  }
+
+  /**
+   * Registra un abono (importe > 0). Devuelve una COPIA de la carga; no modifica la original.
+   * La ganancia estimada y lo facturado no cambian (§3.4).
+   */
+  function registrarAbono(carga, abono, hoy) {
+    var importe = noNegativo(abono && abono.importe, 'importe');
+    if (!(importe > 0)) throw new RangeError('importe debe ser mayor que 0');
+    diaDe(abono.fecha, 'fecha');
+    var nueva = copiaConAbonos(carga);
+    nueva.abonos.push({ importe: importe, fecha: String(abono.fecha).slice(0, 10), tipo: 'abono' });
+    return sincronizarCamposExistentes(nueva, hoy);
+  }
+
+  /**
+   * Aclara un importe recibido de más (decisión #13):
+   *   'extra'      → sube lo facturado; no crea otro ingreso ni otro abono.
+   *   'devolucion' → abono negativo; salida en el flujo de caja.
+   */
+  function aclararExceso(carga, tipo, fecha, hoy) {
+    var e = estadoCobro(carga, hoy);
+    if (!(e.importePorAclarar > 0)) throw new RangeError('La carga no tiene importe por aclarar');
+    diaDe(fecha, 'fecha');
+    var nueva = copiaConAbonos(carga);
+    nueva.aclaraciones = (nueva.aclaraciones || []).concat([{ tipo: tipo, importe: e.importePorAclarar, fecha: String(fecha).slice(0, 10) }]);
+    if (tipo === 'extra') {
+      var facturadoAnterior = facturadoDe(carga);
+      if (nueva.facturado !== undefined) nueva.facturado = facturadoAnterior + e.importePorAclarar;
+      else nueva.totalCharge = facturadoAnterior + e.importePorAclarar;
+      nueva.facturadoHistorial = (nueva.facturadoHistorial || []).concat([{
+        fecha: String(fecha).slice(0, 10), anterior: facturadoAnterior,
+        nuevo: facturadoAnterior + e.importePorAclarar, motivo: 'exceso aclarado como Extra adicional'
+      }]);
+    } else if (tipo === 'devolucion') {
+      nueva.abonos.push({ importe: -e.importePorAclarar, fecha: String(fecha).slice(0, 10), tipo: 'devolucion' });
+    } else {
+      throw new RangeError("tipo debe ser 'extra' o 'devolucion'");
+    }
+    return sincronizarCamposExistentes(nueva, hoy);
+  }
+
+  /** Ajuste explícito por incobrable (con motivo). No modifica lo facturado. */
+  function registrarIncobrable(carga, ajuste, hoy) {
+    var e = estadoCobro(carga, hoy);
+    var importe = noNegativo(ajuste && ajuste.importe, 'importe');
+    if (!(importe > 0)) throw new RangeError('importe debe ser mayor que 0');
+    if (importe > e.pendiente + CENTAVO) throw new RangeError('El incobrable no puede superar el pendiente');
+    if (!ajuste.motivo || !String(ajuste.motivo).trim()) throw new RangeError('El incobrable requiere un motivo');
+    diaDe(ajuste.fecha, 'fecha');
+    var nueva = copiaConAbonos(carga);
+    var previo = carga.ajusteIncobrable ? Number(carga.ajusteIncobrable.importe) : 0;
+    nueva.ajusteIncobrable = { importe: previo + importe, fecha: String(ajuste.fecha).slice(0, 10), motivo: String(ajuste.motivo) };
+    return sincronizarCamposExistentes(nueva, hoy);
+  }
+
+  /**
+   * Resumen de Cuentas (§3.5): totales, antigüedad sobre el PENDIENTE,
+   * totales por compañía, importes por aclarar (separados) y avisos.
+   */
+  function resumenCuentas(cargas, hoy) {
+    diaDe(hoy, 'hoy');
+    var tramos = { '0-30': { cargas: 0, importe: 0 }, '31-60': { cargas: 0, importe: 0 }, '61-90': { cargas: 0, importe: 0 }, '90+': { cargas: 0, importe: 0 } };
+    var totales = { facturado: 0, cobrado: 0, pendiente: 0, vencido: 0, porAclarar: 0, incobrable: 0 };
+    var porCompania = {};
+    var porAclarar = [];
+    var avisos = [];
+
+    (cargas || []).forEach(function (carga) {
+      var e = estadoCobro(carga, hoy);
+      totales.facturado += e.facturado;
+      totales.cobrado += e.cobrado;
+      totales.pendiente += e.pendiente;
+      totales.incobrable += e.incobrable;
+      totales.porAclarar += e.importePorAclarar;
+      if (e.vencida) totales.vencido += e.pendiente;
+
+      if (e.pendiente > 0) {
+        var referencia = e.fechaEsperada || carga.date || carga.fecha || hoy;
+        var dias = diasEntre(referencia, hoy);
+        var tramo = dias <= 30 ? '0-30' : dias <= 60 ? '31-60' : dias <= 90 ? '61-90' : '90+';
+        tramos[tramo].cargas++;
+        tramos[tramo].importe += e.pendiente;
+
+        var nombre = e.compania || '(sin compañía)';
+        var c = porCompania[nombre] || (porCompania[nombre] = { cargas: 0, pendiente: 0, vencido: 0 });
+        c.cargas++;
+        c.pendiente += e.pendiente;
+        if (e.vencida) c.vencido += e.pendiente;
+      }
+      if (e.vencida) avisos.push({ tipo: e.pagoParcial ? 'vencidaPagoParcial' : 'vencida', id: e.id, pendiente: e.pendiente, diasAtraso: e.diasAtraso });
+      if (e.importePorAclarar > 0) {
+        porAclarar.push({ id: e.id, compania: e.compania, importe: e.importePorAclarar, desde: e.fechaExceso, dias: e.diasPorAclarar });
+        if (e.diasPorAclarar > DIAS_AVISO_POR_ACLARAR) avisos.push({ tipo: 'porAclarar', id: e.id, importe: e.importePorAclarar, dias: e.diasPorAclarar });
+      }
+    });
+
+    return { totales: totales, antiguedad: tramos, porCompania: porCompania, porAclarar: porAclarar, avisos: avisos };
+  }
+
+  /**
+   * Flujo de caja (§3.4): SOLO los abonos (incluidas devoluciones negativas),
+   * por su fecha de cobro. Cada dólar recibido cuenta una sola vez.
+   */
+  function flujoCaja(cargas, desde, hasta) {
+    var d = diaDe(desde, 'desde');
+    var h = diaDe(hasta, 'hasta');
+    var movimientos = [];
+    (cargas || []).forEach(function (carga) {
+      abonosDe(carga).forEach(function (a) {
+        var dia = diaDe(a.fecha, 'fecha');
+        if (dia >= d && dia <= h) movimientos.push({ id: carga.id !== undefined ? carga.id : null, fecha: a.fecha, importe: a.importe, tipo: a.tipo });
+      });
+    });
+    movimientos.sort(function (a, b) { return a.fecha < b.fecha ? -1 : a.fecha > b.fecha ? 1 : 0; });
+    var entradas = movimientos.filter(function (m) { return m.importe > 0; }).reduce(function (s, m) { return s + m.importe; }, 0);
+    var salidas = movimientos.filter(function (m) { return m.importe < 0; }).reduce(function (s, m) { return s - m.importe; }, 0);
+    return { entradas: entradas, salidas: salidas, neto: entradas - salidas, movimientos: movimientos };
+  }
+
   return {
     FORMULA_VERSION: FORMULA_VERSION,
     UMBRALES_CPM: UMBRALES_CPM,
+    estadoCobro: estadoCobro,
+    registrarAbono: registrarAbono,
+    aclararExceso: aclararExceso,
+    registrarIncobrable: registrarIncobrable,
+    resumenCuentas: resumenCuentas,
+    flujoCaja: flujoCaja,
     evaluarCarga: evaluarCarga,
     calcularDiasCarga: calcularDiasCarga,
     sueldoPorDia: sueldoPorDia,
