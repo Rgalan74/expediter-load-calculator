@@ -12,6 +12,10 @@
  * Bloques:
  *   1a — Evaluación de una carga: ingresos, costos, ganancia estimada,
  *        umbrales, veredicto y contraoferta (§3.1, §7).
+ *   1b — Resolución del CPM: periodo de meses con actividad, meses
+ *        incompletos, criterios de confianza, cobertura de fijos, candidatos
+ *        a extraordinario, antigüedad y regla "el CPM nunca baja solo"
+ *        (§4.2 – §4.6, §6).
  */
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) {
@@ -312,11 +316,435 @@
     return base;
   }
 
+  // ================================================================
+  // 1b — Resolución del CPM (§4.2 – §4.6, §6)
+  // ================================================================
+
+  var UMBRALES_CPM = {
+    actividadPctMediana: 0.25,      // §4.2: mes con actividad
+    actividadMinMillas: 300,
+    mesIncompletoCombustible: 0.5,  // §4.2: combustible < 0.5× esperado
+    bandaCombustibleMin: 0.5,       // §4.2 criterio 3
+    bandaCombustibleMax: 1.5,
+    bandaAbsolutaMin: 0.10,         // sin MPG/precio en Configuración
+    bandaAbsolutaMax: 0.50,
+    mesesVentana: 12,
+    mesesCombustible: 3,
+    minMillasCombustibleReciente: 1000,
+    minMesesActivos: 3,
+    minCargas: 20,
+    minMesesConGastos: 3,
+    pagoSignificativo: 0.5,         // §4.2 criterio 4
+    coberturaImporte: 0.8,
+    avisoMillasMeta: 0.4,           // §4.2 criterio 5 (solo aviso)
+    extraordinarioPctTotal: 0.05,   // §6
+    extraordinarioMinMovimientos: 3,
+    extraordinarioVecesMediana: 2,
+    cambioRepregunta: 0.15,         // §4.4
+    mesesVigencia: 6                // §4.5, §4.6
+  };
+
+  var CATEGORIA_COMBUSTIBLE = 'fuel';
+  var CATEGORIA_PEAJES = 'tolls';
+  var CATEGORIA_SEGURO = 'insurance';
+  var CATEGORIA_VEHICULO = 'carpayment';
+
+  function mesDe(fecha) {
+    var f = String(fecha || '');
+    return /^\d{4}-\d{2}/.test(f) ? f.slice(0, 7) : null;
+  }
+
+  function indiceMes(ym) {
+    return Number(ym.slice(0, 4)) * 12 + (Number(ym.slice(5, 7)) - 1);
+  }
+
+  function mesDesdeIndice(i) {
+    var anio = Math.floor(i / 12);
+    var mes = (i % 12) + 1;
+    return anio + '-' + (mes < 10 ? '0' : '') + mes;
+  }
+
+  function mesesEntre(desde, hasta) {
+    return indiceMes(hasta) - indiceMes(desde);
+  }
+
+  function mediana(valores) {
+    if (!valores.length) return 0;
+    var v = valores.slice().sort(function (a, b) { return a - b; });
+    var m = Math.floor(v.length / 2);
+    return v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2;
+  }
+
+  /** Millas de una carga con lectura tolerante de campos antiguos (§8), sin reescribirlos. */
+  function millasDeCarga(carga) {
+    if (!carga) return 0;
+    var candidatos = [carga.millas, carga.totalMiles, carga.miles];
+    for (var i = 0; i < candidatos.length; i++) {
+      var v = Number(candidatos[i]);
+      if (isFinite(v) && v > 0) return v;
+    }
+    var cargadas = Number(carga.loadedMiles || carga.loaded || 0);
+    var vacias = Number(carga.deadheadMiles || carga.deadhead || 0);
+    var suma = (isFinite(cargadas) ? cargadas : 0) + (isFinite(vacias) ? vacias : 0);
+    return suma > 0 ? suma : 0;
+  }
+
+  function cpmDeConfiguracion(configuracion) {
+    var c = configuracion || {};
+    if (c.cpm === null || c.cpm === undefined) return null;
+    return noNegativo(c.cpm, 'configuracion.cpm');
+  }
+
+  /**
+   * Calcula el CPM real a partir de cargas y gastos y decide qué CPM aplicar.
+   *
+   * @param {object} datos
+   *   cargas  [{ fecha:'YYYY-MM-DD', millas | totalMiles | miles | loadedMiles+deadheadMiles }]
+   *   gastos  [{ id, fecha:'YYYY-MM-DD', categoria, importe }]
+   *   categoriasNoOperativas  [ids]  categorías personalizadas marcadas como no operativas
+   *   gastosNoRecurrentes     [ids]  gastos que el conductor marcó como no recurrentes (§6)
+   *   configuracion {
+   *     completa: boolean,               configuración mínima (§4.1)
+   *     cpm: number|null,                CPM de Configuración
+   *     combustibleEsperadoPorMilla: number|null   precio por galón / MPG
+   *     seguroMensual: number|null,
+   *     pagoVehiculoMensual: number|null (0 = vehículo propio, no se exige)
+   *     metaMillasMes: number|null
+   *   }
+   *   mesActual  'YYYY-MM' (obligatorio: el mes en curso nunca entra, §4.2)
+   *   preferencia { fuente:'real'|'configuracion', fecha, cpmReal, cpmConfig } | null  (§4.4)
+   *   ultimoCpmRealConfiable { valor, periodoHasta:'YYYY-MM' } | null  (§4.5)
+   */
+  function resolverCpm(datos) {
+    var d = datos || {};
+    if (!mesDe(d.mesActual)) throw new RangeError('mesActual (YYYY-MM) es obligatorio');
+    var mesActual = mesDe(d.mesActual);
+    var U = UMBRALES_CPM;
+    var configuracion = d.configuracion || {};
+    var cpmConfig = cpmDeConfiguracion(configuracion);
+    var combustibleEsperado = configuracion.combustibleEsperadoPorMilla === null || configuracion.combustibleEsperadoPorMilla === undefined
+      ? null : noNegativo(configuracion.combustibleEsperadoPorMilla, 'combustibleEsperadoPorMilla');
+    var noOperativas = d.categoriasNoOperativas || [];
+    var noRecurrentes = d.gastosNoRecurrentes || [];
+
+    var real = calcularCpmReal(d.cargas || [], d.gastos || [], {
+      mesActual: mesActual,
+      combustibleEsperado: combustibleEsperado,
+      noOperativas: noOperativas,
+      noRecurrentes: noRecurrentes,
+      seguroMensual: configuracion.seguroMensual,
+      pagoVehiculoMensual: configuracion.pagoVehiculoMensual,
+      metaMillasMes: configuracion.metaMillasMes
+    });
+
+    var resultado = {
+      real: real,
+      cpmConfiguracion: cpmConfig,
+      umbrales: U
+    };
+
+    // ---- Etapa A: sin configuración mínima → sin CPM para decidir (§4.1, decisión #8)
+    if (configuracion.completa !== true || cpmConfig === null) {
+      resultado.etapa = 'A';
+      resultado.fuente = 'sinConfiguracion';
+      resultado.cpmAplicado = null;
+      resultado.requiereEleccion = false;
+      resultado.requiereRevision = false;
+      resultado.etiqueta = 'Completa tu configuración para ver tu ganancia estimada';
+      return resultado;
+    }
+
+    var pref = d.preferencia || null;
+    var ultimo = d.ultimoCpmRealConfiable || null;
+    var cpmReal = real.confiable ? real.cpm : null;
+
+    resultado.requiereEleccion = false;
+    resultado.requiereRevision = false;
+
+    if (!real.confiable && !(pref && pref.fuente === 'real')) {
+      // ---- Etapa B
+      resultado.etapa = 'B';
+      resultado.fuente = 'configuracion';
+      resultado.cpmAplicado = cpmConfig;
+      resultado.etiqueta = 'Según tu Configuración';
+      return resultado;
+    }
+
+    resultado.etapa = 'C';
+
+    if (!pref) {
+      // Sin elección: provisional = el mayor de los dos; nunca baja solo (§4.4.2)
+      resultado.fuente = 'provisional';
+      resultado.cpmAplicado = Math.max(cpmReal, cpmConfig);
+      resultado.requiereEleccion = true;
+      resultado.etiqueta = 'Provisional — elige tu fuente';
+    } else if (pref.fuente === 'configuracion') {
+      resultado.fuente = 'configuracion';
+      resultado.cpmAplicado = cpmConfig;
+      resultado.etiqueta = 'Según tu Configuración (elegido)';
+      if (cpmReal !== null && cambioMaterial(pref, cpmReal, cpmConfig)) resultado.requiereEleccion = true;
+    } else if (pref.fuente === 'real' && cpmReal !== null) {
+      // Eligió el real: su valor sigue a los datos (sube o baja) (§4.4.4)
+      resultado.fuente = 'real';
+      resultado.cpmAplicado = cpmReal;
+      resultado.etiqueta = 'Tus gastos reales (elegido)';
+      if (cambioMaterial(pref, cpmReal, cpmConfig)) resultado.requiereEleccion = true;
+    } else {
+      // Eligió el real pero ya no es confiable → referencia temporal (§4.5)
+      var ultimoValor = ultimo && esNumeroFinito(ultimo.valor) ? ultimo.valor : null;
+      var referencia = ultimoValor !== null ? Math.max(ultimoValor, cpmConfig) : cpmConfig;
+      var vencida = ultimo && mesDe(ultimo.periodoHasta)
+        ? mesesEntre(mesDe(ultimo.periodoHasta), mesActual) > U.mesesVigencia
+        : false;
+      resultado.fuente = vencida ? 'referenciaVencida' : 'referenciaTemporal';
+      resultado.cpmAplicado = referencia;
+      resultado.requiereRevision = vencida;
+      resultado.ultimoCpmRealConfiable = ultimo;
+      resultado.etiqueta = vencida
+        ? 'Referencia vencida desde ' + mesDe(ultimo.periodoHasta) + ' — puede no reflejar tus costos actuales'
+        : 'Referencia temporal: tu historial actual no es confiable';
+      return resultado;
+    }
+
+    // Antigüedad de los datos (§4.6): nunca se presentan como costo actual confirmado
+    if (real.confiable && real.datosAntiguos) {
+      resultado.requiereRevision = true;
+      resultado.etiqueta += ' · Datos antiguos (hasta ' + real.periodo.hasta + ')';
+    }
+    return resultado;
+  }
+
+  /** ¿La diferencia real − configuración cambió más del 15 % desde la elección? (§4.4.3) */
+  function cambioMaterial(pref, cpmReal, cpmConfig) {
+    if (!pref || !esNumeroFinito(pref.cpmReal) || !esNumeroFinito(pref.cpmConfig) || pref.cpmConfig <= 0) return false;
+    var antes = pref.cpmReal - pref.cpmConfig;
+    var ahora = cpmReal - cpmConfig;
+    return Math.abs(ahora - antes) / pref.cpmConfig > UMBRALES_CPM.cambioRepregunta;
+  }
+
+  function calcularCpmReal(cargas, gastos, opciones) {
+    var U = UMBRALES_CPM;
+    var mesActual = opciones.mesActual;
+
+    // ---- Agregación mensual (antes del mes en curso)
+    var millasMes = {};
+    var cargasMes = {};
+    cargas.forEach(function (c) {
+      var ym = mesDe(c && (c.fecha || c.date));
+      if (!ym) return;
+      millasMes[ym] = (millasMes[ym] || 0) + millasDeCarga(c);
+      cargasMes[ym] = (cargasMes[ym] || 0) + 1;
+    });
+    var gastosValidos = gastos.map(function (g) {
+      var importe = Number(g && (g.importe !== undefined ? g.importe : g.amount));
+      return {
+        id: g && g.id !== undefined ? g.id : null,
+        fecha: g && (g.fecha || g.date),
+        mes: mesDe(g && (g.fecha || g.date)),
+        categoria: String((g && (g.categoria || g.category || g.type)) || 'other').toLowerCase(),
+        importe: isFinite(importe) ? importe : 0,
+        descripcion: g && (g.descripcion || g.description) ? String(g.descripcion || g.description) : ''
+      };
+    }).filter(function (g) { return g.mes && g.importe > 0; });
+
+    var combustibleMes = {};
+    gastosValidos.forEach(function (g) {
+      if (g.categoria === CATEGORIA_COMBUSTIBLE) combustibleMes[g.mes] = (combustibleMes[g.mes] || 0) + g.importe;
+    });
+
+    var mesesConMillas = Object.keys(millasMes).filter(function (m) { return millasMes[m] > 0 && m < mesActual; });
+    var resultado = {
+      confiable: false,
+      motivos: [],
+      avisos: [],
+      excluidos: [],
+      periodo: null,
+      cpm: null,
+      desglose: null,
+      cobertura: null,
+      candidatosExtraordinarios: [],
+      antiguedadMeses: null,
+      datosAntiguos: false,
+      millasMesPromedio: null,
+      metaMillasMes: opciones.metaMillasMes === undefined ? null : opciones.metaMillasMes
+    };
+    if (Object.keys(millasMes).some(function (m) { return m >= mesActual && millasMes[m] > 0; })) {
+      resultado.excluidos.push({ mes: mesActual, motivo: 'mesEnCurso' });
+    }
+    if (!mesesConMillas.length) {
+      resultado.motivos.push('sinCargas');
+      return resultado;
+    }
+
+    var medianaMillas = mediana(mesesConMillas.map(function (m) { return millasMes[m]; }));
+    var umbralActividad = Math.max(U.actividadMinMillas, U.actividadPctMediana * medianaMillas);
+    var activos = mesesConMillas.filter(function (m) { return millasMes[m] >= umbralActividad; }).sort();
+    resultado.umbralActividad = umbralActividad;
+
+    var incompleto = function (m) {
+      var comb = combustibleMes[m] || 0;
+      if (comb <= 0) return true;
+      return opciones.combustibleEsperado ? (comb / millasMes[m]) < U.mesIncompletoCombustible * opciones.combustibleEsperado : false;
+    };
+
+    // ---- Meses finales históricos incompletos: se excluyen (decisión #9)
+    while (activos.length && incompleto(activos[activos.length - 1])) {
+      resultado.excluidos.push({ mes: activos.pop(), motivo: 'mesFinalIncompleto' });
+    }
+    // ---- Ventana: últimos 12 meses con actividad
+    activos = activos.slice(-U.mesesVentana);
+    if (activos.length < U.minMesesActivos) {
+      resultado.motivos.push('pocosMesesActivos');
+      if (!activos.length) return resultado;
+    }
+    var desde = activos[0];
+    var hasta = activos[activos.length - 1];
+    var mesesPeriodo = mesesEntre(desde, hasta) + 1;
+
+    // ---- Meses intermedios incompletos: bloquean
+    activos.forEach(function (m) {
+      if (incompleto(m)) resultado.motivos.push('mesIntermedioIncompleto:' + m);
+    });
+
+    // ---- Dentro del periodo cuenta todo (decisión #12)
+    var dentro = function (m) { return m >= desde && m <= hasta; };
+    var millasPeriodo = 0;
+    var cargasPeriodo = 0;
+    Object.keys(millasMes).forEach(function (m) {
+      if (dentro(m)) { millasPeriodo += millasMes[m]; cargasPeriodo += cargasMes[m] || 0; }
+    });
+
+    var recientes = activos.slice(-U.mesesCombustible);
+    var desdeReciente = recientes[0];
+    var millasRecientes = 0;
+    Object.keys(millasMes).forEach(function (m) {
+      if (m >= desdeReciente && m <= hasta) millasRecientes += millasMes[m];
+    });
+
+    var gastosPeriodo = gastosValidos.filter(function (g) { return dentro(g.mes) && opciones.noOperativas.indexOf(g.categoria) === -1; });
+    var totalPeriodo = 0, peajes = 0, combustible = 0, combustibleReciente = 0, resto = 0;
+    var porCategoria = {};
+    var mesesConGastos = {};
+    gastosPeriodo.forEach(function (g) {
+      var importe = g.importe;
+      // Gasto marcado como no recurrente: se reparte en 12 meses (§6, decisión #2)
+      if (g.id !== null && opciones.noRecurrentes.indexOf(g.id) !== -1) {
+        var mesesRestantes = mesesEntre(g.mes, hasta) + 1;
+        importe = importe * Math.min(mesesRestantes, 12) / 12;
+      }
+      totalPeriodo += importe;
+      porCategoria[g.categoria] = (porCategoria[g.categoria] || 0) + importe;
+      mesesConGastos[g.mes] = true;
+      if (g.categoria === CATEGORIA_PEAJES) peajes += importe;
+      else if (g.categoria === CATEGORIA_COMBUSTIBLE) {
+        combustible += importe;
+        if (g.mes >= desdeReciente) combustibleReciente += importe;
+      } else resto += importe;
+    });
+
+    // ---- Criterios que bloquean (§4.2)
+    if (activos.length < U.minMesesActivos || cargasPeriodo < U.minCargas) resultado.motivos.push('historialInsuficiente');
+    if (Object.keys(mesesConGastos).length < U.minMesesConGastos) resultado.motivos.push('pocosMesesConGastos');
+
+    var combustiblePorMilla = millasPeriodo > 0 ? combustible / millasPeriodo : 0;
+    if (combustible <= 0) {
+      resultado.motivos.push('sinCombustible');
+    } else if (opciones.combustibleEsperado) {
+      var ratio = combustiblePorMilla / opciones.combustibleEsperado;
+      if (ratio > U.bandaCombustibleMax) resultado.motivos.push('combustibleAlto:posiblesCargasSinRegistrar');
+      if (ratio < U.bandaCombustibleMin) resultado.motivos.push('combustibleBajo:posiblesRecibosSinRegistrar');
+      resultado.combustibleVsEsperado = ratio;
+    } else if (combustiblePorMilla < U.bandaAbsolutaMin || combustiblePorMilla > U.bandaAbsolutaMax) {
+      resultado.motivos.push('combustibleFueraDeRango');
+    }
+
+    // Cobertura global de gastos fijos (criterio 4)
+    var cobertura = {};
+    [[CATEGORIA_SEGURO, opciones.seguroMensual], [CATEGORIA_VEHICULO, opciones.pagoVehiculoMensual]].forEach(function (par) {
+      var categoria = par[0];
+      var mensual = par[1] === null || par[1] === undefined ? null : Number(par[1]);
+      var pagos = gastosPeriodo.filter(function (g) { return g.categoria === categoria; }).map(function (g) { return g.importe; });
+      if (mensual === 0) return;                     // vehículo propio: no se exige
+      if (mensual === null && !pagos.length) return; // no declarado ni registrado
+      var referencia = mensual !== null ? mensual : mediana(pagos);
+      var significativos = pagos.filter(function (x) { return x >= U.pagoSignificativo * referencia; }).length;
+      var exigidos = Math.max(mesesPeriodo - 1, 0);
+      var total = pagos.reduce(function (a, b) { return a + b; }, 0);
+      var pctImporte = mensual !== null && mensual > 0 ? total / (mensual * mesesPeriodo) : null;
+      var cumple = significativos >= exigidos || (pctImporte !== null && pctImporte >= U.coberturaImporte);
+      cobertura[categoria] = { pagos: pagos.length, significativos: significativos, exigidos: exigidos, total: total, pctImporte: pctImporte, cumple: cumple };
+      if (!cumple) resultado.motivos.push('coberturaFijos:' + categoria);
+    });
+    resultado.cobertura = cobertura;
+
+    // Aviso de millas (criterio 5) e información de millas
+    var millasMesPromedio = millasPeriodo / activos.length;
+    resultado.millasMesPromedio = millasMesPromedio;
+    if (opciones.metaMillasMes > 0 && millasMesPromedio < U.avisoMillasMeta * opciones.metaMillasMes) {
+      resultado.avisos.push('millasMuyPorDebajoDeLaMeta');
+    }
+
+    // ---- CPM (§4.3)
+    var combustibleLargo = millasPeriodo > 0 ? combustible / millasPeriodo : 0;
+    var combustibleCorto = millasRecientes >= U.minMillasCombustibleReciente ? combustibleReciente / millasRecientes : 0;
+    var usaReciente = combustibleCorto > 0 && combustibleCorto >= 0.5 * combustibleLargo;
+    var combustibleAplicado = usaReciente ? combustibleCorto : combustibleLargo;
+    var restoPorMilla = millasPeriodo > 0 ? resto / millasPeriodo : 0;
+
+    resultado.periodo = {
+      desde: desde, hasta: hasta, meses: mesesPeriodo, mesesActivos: activos.length,
+      millas: millasPeriodo, cargas: cargasPeriodo,
+      mesesCombustible: recientes, millasCombustible: millasRecientes
+    };
+    resultado.cpm = restoPorMilla + combustibleAplicado;
+    resultado.desglose = {
+      totalGastos: totalPeriodo,
+      peajes: peajes,
+      combustible: combustible,
+      combustibleReciente: combustibleReciente,
+      resto: resto,
+      porCategoria: porCategoria,
+      combustiblePorMilla: combustibleAplicado,
+      combustibleFuente: usaReciente ? 'reciente' : 'periodo',
+      restoPorMilla: restoPorMilla,
+      peajesPorMilla: millasPeriodo > 0 ? peajes / millasPeriodo : 0,
+      cpmContable: millasPeriodo > 0 ? totalPeriodo / millasPeriodo : 0
+    };
+
+    // ---- Candidatos a extraordinario (§6)
+    var porCategoriaLista = {};
+    gastosPeriodo.forEach(function (g) {
+      (porCategoriaLista[g.categoria] = porCategoriaLista[g.categoria] || []).push(g.importe);
+    });
+    resultado.candidatosExtraordinarios = gastosPeriodo.filter(function (g) {
+      if (g.categoria === CATEGORIA_COMBUSTIBLE || g.categoria === CATEGORIA_PEAJES) return false;
+      if (g.importe < U.extraordinarioPctTotal * totalPeriodo) return false;
+      var lista = porCategoriaLista[g.categoria];
+      if (lista.length >= U.extraordinarioMinMovimientos) {
+        return g.importe >= U.extraordinarioVecesMediana * mediana(lista);
+      }
+      return true;
+    }).map(function (g) {
+      return { id: g.id, fecha: g.fecha, categoria: g.categoria, importe: g.importe, descripcion: g.descripcion,
+        marcadoNoRecurrente: g.id !== null && opciones.noRecurrentes.indexOf(g.id) !== -1 };
+    });
+
+    // ---- Antigüedad (§4.6)
+    resultado.antiguedadMeses = mesesEntre(hasta, mesActual);
+    resultado.datosAntiguos = resultado.antiguedadMeses > U.mesesVigencia;
+
+    resultado.confiable = resultado.motivos.length === 0;
+    return resultado;
+  }
+
   return {
     FORMULA_VERSION: FORMULA_VERSION,
+    UMBRALES_CPM: UMBRALES_CPM,
     evaluarCarga: evaluarCarga,
     calcularDiasCarga: calcularDiasCarga,
     sueldoPorDia: sueldoPorDia,
+    resolverCpm: resolverCpm,
+    millasDeCarga: millasDeCarga,
     // utilidades expuestas para los bloques siguientes y las pruebas
     _util: { noNegativo: noNegativo, copiaProfunda: copiaProfunda }
   };
