@@ -1,9 +1,9 @@
 # Motor financiero único — Especificación
 
-**Estado:** BORRADOR — revisión 5. Todas las decisiones de diseño de Ricardo aprobadas. Pendiente de cierre: validación de umbrales provisionales (§11.3), tratamiento de sobrepagos y método fiscal (§11.2). No implementar hasta aprobación.
+**Estado:** BORRADOR — revisión 6. Decisiones de diseño de Ricardo aprobadas (A–G, 1–11). Pendiente de cierre: tratamiento de sobrepagos y método fiscal (§11.3) y umbrales técnicos provisionales (§11.4). No implementar hasta aprobación.
 **Fecha:** 13 de noviembre de 2026
 **Autores:** Claude (rama `fix/seguridad-costos-reportes`) y ChatGPT (prototipo `smartload-financial-prototype`), consolidado por Claude.
-**Base de código:** rama `fix/seguridad-costos-reportes` (parte de `main` @ `2de295e`). Revisiones anteriores: 1 `05c1908`, 2 `5e3ce07`, 3 `a8c81bb`.
+**Base de código:** rama `fix/seguridad-costos-reportes` (parte de `main` @ `2de295e`). Revisiones anteriores: 1 `05c1908`, 2 `5e3ce07`, 3 `a8c81bb`, 4 `85fea4c`, 5 `3135121`.
 
 ---
 
@@ -16,6 +16,7 @@
 | 3 | 13-11-2026 | Evaluación vs liquidación (§3.4). Control de combustible aproximado (§4.2). Pérdida de confiabilidad de un CPM real elegido (§4.5). Validación contable separada de la del CPM (§10.3). Decisión pendiente #7 |
 | 4 | 13-11-2026 | Decisiones 1–7 de Ricardo incorporadas (§11.1). Contratado, facturado y cobrado con pagos parciales e incobrables (§3.4). Regla "el CPM nunca baja automáticamente" (§4.4, §4.5). Peajes solo si se escriben, sin promedio histórico (§5). Usuario nuevo: configuración mínima propia, sin promedio de industria; opción (a) pendiente de Ricardo (§4.1, §11.2 #8). Ganancia siempre "estimada". Pago del vehículo $0 válido (§9). Método fiscal pendiente de verificar con el contador (§3.4) |
 | 5 | 13-11-2026 | Decisión #8 aprobada por Ricardo: opción (a) para usuarios sin configuración mínima (§4.1, §11.1). Sobrepagos marcados como pendientes de precisar (§3.4, §11.2). Registrado que la exportación CSV de Finanzas no tiene botón (§12) |
+| 6 | 13-11-2026 | Validación con datos reales (112 cargas, 80 gastos). Decisiones #9 (meses incompletos), #10 (margen de negociación configurable) y #11 (seguro de $2,705 solo como candidato a revisión). Periodo del CPM real: mes en curso, meses finales incompletos y meses intermedios incompletos (§4.2). Cobertura de gastos fijos por número de pagos significativos o por importe (§4.2). Antigüedad del CPM real (§4.6). Gastos extraordinarios: sin combustible ni peajes, 5 % + doble de la mediana (§6). Tabla de decisiones separada en aprobadas, reglas técnicas cerradas, pendientes y umbrales provisionales (§11) |
 
 ---
 
@@ -54,6 +55,9 @@ Lo de la vista previa **no se publicará** tal cual: se rehace sobre esta especi
 - El usuario nuevo recibe un promedio de industria ($0.534 o $0.55) en lugar de pedir su configuración mínima (§4.1).
 - Mientras el conductor no elige fuente, se usa Configuración aunque sea menor que el CPM real confiable (§4.4).
 - La ganancia se rotula "Ganancia Neta", no "estimada".
+- El periodo del CPM real no excluye el mes en curso ni los meses finales incompletos, ni bloquea por meses intermedios incompletos (§4.2), y no muestra la antigüedad de los datos (§4.6).
+- La cobertura de gastos fijos se comprueba mes a mes (§4.2 la cambia por cobertura global).
+- El margen de la contraoferta está fijo en 8 % (§7.4 lo hace configurable).
 
 ## 2. Definiciones
 
@@ -86,7 +90,7 @@ calcularCarga(entradas, supuestos) -> resultado
 
 **Entradas** (de la carga): `tarifa`, `extrasConfirmados`, `extrasNoConfirmados`, `tollCarga` (número o vacío), `millasCargadas`, `millasDeadhead`, `estadoOrigen`, `estadoDestino`, `fecha`.
 
-**Supuestos** (resueltos antes, ver §4): `cpmBase`, `cpmFuente` (`configuracion` | `real` | `referenciaTemporal`), `combustiblePorMilla`, `sueldoPorDia`, `diasCarga`, `margenObjetivo`, `rpmMinimo`.
+**Supuestos** (resueltos antes, ver §4): `cpmBase`, `cpmFuente` (`configuracion` | `real` | `referenciaTemporal`), `cpmUltimoPeriodoConfiable` (fecha, solo si la fuente es real o temporal), `combustiblePorMilla`, `sueldoPorDia`, `diasCarga`, `margenObjetivo`, `rpmMinimo`, `margenNegociacion`.
 
 Si **no hay configuración mínima** (§4.1), la función devuelve solo ingresos, millas y RPM, con `estado = "sinConfiguracion"`, y **no** calcula costos, ganancia, umbrales ni contraoferta.
 
@@ -168,7 +172,7 @@ pendiente = facturado − cobrado − ajusteIncobrable.importe
 - Un pago parcial **no** cambia la ganancia estimada ni la facturada.
 - Un Extra nunca crea un ingreso aparte: solo modifica `totalCharge`.
 - Si el cliente paga de menos, la diferencia queda en `pendiente` y se muestra en Cuentas; no se convierte en gasto.
-- **Sobrepagos (pendiente de precisar, §11.2):** hoy la especificación solo establece que un sobrepago deja `pendiente` negativo, visible en Cuentas, sin modificar la ganancia estimada ni la facturada. Falta definir si se registra como saldo a favor del cliente, como ingreso adicional (Extra cobrado) o como importe a devolver, y cómo aparece en el flujo de caja.
+- **Sobrepagos (pendiente de precisar, §11.3):** hoy la especificación solo establece que un sobrepago deja `pendiente` negativo, visible en Cuentas, sin modificar la ganancia estimada ni la facturada. Falta definir si se registra como saldo a favor del cliente, como ingreso adicional (Extra cobrado) o como importe a devolver, y cómo aparece en el flujo de caja.
 - Una diferencia definitivamente incobrable requiere el **ajuste explícito**; aparece como línea propia ("Pérdida por incobrable") en el Estado de Resultados. No modifica `totalCharge`.
 
 **Qué usa cada reporte:**
@@ -204,11 +208,28 @@ El costo de decisión sale **siempre de los datos del propio conductor** (decisi
 
 Al completarla se **ofrecen** (no se exigen) mantenimiento, llantas, reparaciones y otros fijos. El botón "Después" del onboarding se mantiene, pero sin configuración mínima no hay veredicto. Las recomendaciones financieras (ganancia estimada, semáforo, contraoferta, veredicto de Lex) se habilitan **únicamente** al completar los cinco datos.
 
-### 4.2. Criterios de confianza del CPM real (aprobados, decisión 1)
+### 4.2. Periodo y criterios de confianza del CPM real (decisiones 1 y 9)
 
-Periodo: los últimos 12 meses **con actividad** (meses con ≥25 % de las millas de un mes típico del conductor, mínimo 300 mi). Se incluyen los gastos de meses de pausa **intermedios** (seguro y pago del vehículo se pagan igual); se excluyen los posteriores al último mes activo.
+#### Periodo
 
-**Criterios que bloquean** (si falla alguno, el CPM real se considera no confiable y el desglose indica cuál falló):
+1. **Mes con actividad:** mes con ≥ 25 % de las millas de un mes típico del conductor (mediana), mínimo 300 mi.
+2. **Mes incompleto:** mes con actividad que **no tiene combustible registrado**, o cuyo combustible por milla es **< 0.5×** el esperado (`precio / MPG` de Configuración). Todo mes con millas consume combustible: es el mejor indicador de registro incompleto.
+3. **Exclusiones** (sin modificar nunca los registros originales):
+
+| Caso | Tratamiento |
+|---|---|
+| **Mes en curso** (mes del calendario actual, sin cerrar) | Se excluye **siempre**, esté o no completo |
+| **Meses finales históricos incompletos** (los últimos meses con actividad, consecutivos, que son incompletos) | Se excluyen **conjuntamente sus millas y sus gastos**, uno tras otro hasta llegar a un mes completo. Nota visible: "Último periodo confiable: hasta [mes]. [Meses] excluidos: sin gastos registrados" (decisión #9) |
+| **Mes intermedio incompleto** (incompleto, con meses completos antes y después) | **Bloquea** la confiabilidad: "Falta registrar gastos de [mes]". No se excluye ni se infiere nada |
+
+4. Tras las exclusiones, el periodo son los últimos 12 meses con actividad que quedan. Se incluyen los gastos de meses de pausa **intermedios** (seguro y pago del vehículo se pagan igual); se excluyen los posteriores al último mes del periodo.
+5. Si tras las exclusiones quedan **menos de 3 meses con actividad**, el CPM real no es confiable.
+
+**Validación con los datos de Ricardo:** 11 meses con actividad (umbral 1,618 mi). Abril de 2026 tiene 3 cargas y 2,269 mi sin ningún gasto (ni combustible): es mes final incompleto y se excluye. Periodo resultante: mayo 2025 – marzo 2026, 66,467 mi. CPM real (sin peajes, combustible reciente): **$0.764/mi** (con abril, $0.729/mi). Enero de 2026 (sin cargas, $2,237 de gastos) es pausa intermedia y sus gastos se incluyen.
+
+#### Criterios que bloquean
+
+Si falla alguno, el CPM real se considera no confiable y el desglose indica cuál falló:
 
 1. ≥ 3 meses con actividad y ≥ 20 cargas.
 2. Gastos registrados en ≥ 3 meses del periodo.
@@ -217,13 +238,21 @@ Periodo: los últimos 12 meses **con actividad** (meses con ≥25 % de las milla
    - por debajo de 0.5×: "posibles recibos de combustible sin registrar".
    - **Es una comparación aproximada**, y así se indica en pantalla: el precio de Configuración es el actual y no el de cada mes del periodo, y el MPG configurado puede no ser exacto. La banda es deliberadamente ancha para absorber esas diferencias (±30 % de variación de precio sigue dentro): detecta errores de registro groseros, no variaciones de precio.
    - Mejora posterior (no incluida): usar el precio promedio nacional mensual del periodo (fuente pública, p. ej. EIA).
-4. Cada uno de los meses con actividad tiene **algún** gasto fijo (seguro o pago del vehículo) si la Configuración indica que existen (pago del vehículo $0 → solo se exige seguro).
+4. **Cobertura global de gastos fijos.** Para cada gasto fijo declarado en Configuración (seguro; pago del vehículo si es > $0), se cumple **al menos una** de estas condiciones en el periodo:
+   - **Por número de pagos significativos:** número de pagos ≥ meses del periodo − 1. Solo cuenta como pago significativo el que es ≥ 50 % del importe mensual configurado (o, si no hay importe configurado, ≥ 50 % de la mediana de esa categoría en el periodo). Así, un pago muy pequeño (p. ej. un recargo de $24.88) no cuenta como cobertura. Tolera cambios de póliza, porque no depende de que el importe coincida.
+   - **Por importe:** total pagado ≥ 80 % de `importe mensual configurado × meses del periodo`. Tolera pagos acumulados o atrasados.
+   - Los meses de pausa intermedios cuentan como meses del periodo; el primer mes cuenta aunque sea parcial; un pago del vehículo de $0 no se exige.
+   - No se exige un pago en cada mes: los calendarios de pago reales no son mensuales exactos.
+
+   *Validación con los datos de Ricardo (periodo mayo 2025 – marzo 2026, 11 meses):* seguro, 11 pagos significativos de 12 (el de $24.88 no cuenta), exigidos 10 → cumple; importe 115 %. Pago del vehículo, 10 pagos significativos de 10, exigidos 10 → cumple; importe 103 %.
 
 **Criterio que solo advierte** (no bloquea):
 
 5. Millas mensuales promedio inferiores al 40 % de la meta de Configuración → aviso: "Rodaste bastante menos de lo previsto; revisa si hay cargas sin registrar o actualiza tu meta de millas".
 
-Los porcentajes de esta sección siguen siendo **provisionales** (§11.3).
+**Información que se muestra siempre** (no es aviso): millas reales por mes frente a la meta de Configuración (Ricardo: 6,249 frente a 9,000, 69 %). Explica por qué el CPM de Configuración difiere del real.
+
+Los porcentajes de esta sección son **umbrales técnicos provisionales** (§11.4).
 
 ### 4.3. Cálculo
 
@@ -258,6 +287,15 @@ Si el conductor eligió el CPM real y su historial deja de cumplir los criterios
 4. **Vencimiento:** pasados 6 meses (umbral provisional), la referencia **mantiene su valor**, se rotula "Referencia vencida desde [fecha] — puede no reflejar tus costos actuales" y la app pide revisión en cada sesión, con tres opciones: actualizar la Configuración, mantener el valor, o pasar al CPM de Configuración. **Nunca baja sola.**
 5. Mientras dure, el semáforo muestra la etiqueta "referencia temporal" o "referencia vencida".
 
+### 4.6. Antigüedad del CPM real (decisión 9)
+
+Un CPM real calculado con datos antiguos **no se presenta como costo actual confirmado**.
+
+- **Antigüedad** = meses entre el último mes del periodo confiable (§4.2) y el mes en curso.
+- Siempre se muestra: "Basado en tus gastos hasta [mes] ([n] meses)".
+- Si la antigüedad supera **6 meses** (umbral provisional), se rotula "Datos antiguos — puede no reflejar tus costos actuales" y la app pide revisión, con las mismas tres opciones y la misma regla que la referencia vencida de §4.5: el valor se conserva y **nunca baja solo**.
+- Caso de Ricardo hoy: último periodo confiable marzo de 2026, antigüedad 8 meses → "Datos antiguos".
+
 ## 5. Peajes (decisión 3 de Ricardo)
 
 Los peajes dependen de la ruta: no se presuponen.
@@ -272,16 +310,23 @@ Los peajes dependen de la ruta: no se presuponen.
 - El CPM base **excluye siempre la categoría Peajes**: dependen de la ruta y no deben repartirse entre todas las cargas.
 - Consecuencia aceptada: en una ruta con peajes que no se escriban, la ganancia estimada será algo mayor que la real (con los datos de Ricardo, sus peajes promedian $0.011/mi, unos $7 en una carga de 680 mi).
 
-## 6. Gastos extraordinarios (decisión 2)
+## 6. Candidatos a gasto extraordinario (decisiones 2 y 11)
 
-Se **identifican**, no se excluyen. Un gasto es extraordinario si cumple **las dos** condiciones:
+Se **señalan para revisión**, no se clasifican ni se excluyen automáticamente. Un gasto es **candidato** si cumple todas las condiciones aplicables:
 
-1. **Materialidad:** su importe es ≥ 5 % del total de gastos del periodo de §4.2, **o** su impacto es ≥ $0.02 por milla del periodo.
-2. **No recurrencia:** no existe otro gasto de la misma categoría, en otro mes del periodo, con importe dentro de ±10 %.
+1. **Categoría elegible:** nunca son candidatos el **combustible** (se registra como total mensual y varía por naturaleza) ni los **peajes** (excluidos del CPM, §5).
+2. **Materialidad:** importe ≥ 5 % del total de gastos del periodo de §4.2.
+3. **Atípico en su categoría:** si la categoría tiene ≥ 3 movimientos en el periodo, importe ≥ 2 × la mediana de esa categoría. Con menos de 3 movimientos, solo se aplica la materialidad.
 
-- Aparecen marcados en el desglose ("Ver cómo se calcula").
-- **Solo si el conductor lo marca** como "no recurrente" desde Finanzas, se **reparte en 12 meses** dentro del CPM. Sin marcar, cuenta entero en su mes.
-- Los umbrales (5 %, $0.02/mi, ±10 %) son **provisionales** (§11.3).
+Tratamiento:
+
+- Aparece en el desglose como "Candidato a revisión", con su fecha, importe y descripción.
+- **No se modifica el asiento original.**
+- **Solo si el conductor lo marca** expresamente como "no recurrente" desde Finanzas, se reparte en 12 meses dentro del CPM. Sin esa acción, cuenta entero en su mes.
+
+**Validación con los datos de Ricardo:** la regla de la revisión 5 marcaba 5 movimientos (dos pagos del vehículo atrasados o acumulados, dos totales mensuales de combustible y un seguro): 4 falsos positivos. La regla actual marca **1**: el seguro de **$2,705.03 del 11-09-2025** ("Pago seguro comercial + pago nuevo seguro"), ≥ $2,534 (5 %) y ≥ $2,520 (2 × mediana $1,260). Por la **decisión #11**, queda solo como candidato a revisión: no se reclasifica, no se modifica y no se redistribuye sin acción expresa de Ricardo.
+
+Los umbrales (5 %, 3 movimientos, 2 × mediana) son **provisionales** (§11.4).
 
 ## 7. Decisión: umbrales, sueldo y Lex
 
@@ -332,8 +377,10 @@ tarifaPorObjetivo = umbralObjetivo × millasTotales − extrasConfirmados
 tarifaPorMinimo   = rpmMinimo × millasTotales
 tarifaObjetivo    = máximo(tarifaPorObjetivo, tarifaPorMinimo)
 tarifaEquilibrio  = máximo(umbralCostos × millasTotales − extrasConfirmados, 0)
-contraoferta      = tarifaObjetivo × 1.08       (margen de negociación, como hoy)
+contraoferta      = tarifaObjetivo × (1 + margenNegociacion)
 ```
+
+- `margenNegociacion` es **configurable por cada conductor**, con **8 %** inicial (decisión #10). Es una preferencia de negociación: está separado del margen de rentabilidad (`margenObjetivo`), del RPM mínimo y de los costos. No afecta al veredicto de aceptar o rechazar, solo a la cifra de contraoferta sugerida.
 
 - Los Extras no confirmados **no** reducen la tarifa a pedir.
 - Todos los importes del bloque "Acción sugerida" son **tarifa** (lo que se negocia con el broker), y así se rotulan.
@@ -358,6 +405,7 @@ contraoferta      = tarifaObjetivo × 1.08       (margen de negociación, como h
 - **Caso de Ricardo (decisión 6): sus valores 0.014 / 0.012 / 0.025 son dólares por milla** (≈ $0.051/mi en total). Equivalente mensual con su meta de 9,000 mi: $126 / $108 / $225. La corrección de su Configuración se aplica **con su confirmación** en la implementación, mediante el mismo aviso.
 - No hay promedio de industria para decidir (decisión 5). El formulario no viene relleno con costos de ejemplo.
 - El campo de sueldo indica "bruto, antes de impuestos" (§7.2).
+- Nuevo campo "Margen de negociación (%)" para la contraoferta, 8 % por defecto (§7.4, decisión #10).
 - `isEstablishedUser()` debe considerar "configuración mínima completa", no solo antigüedad de la cuenta.
 
 ## 10. Plan de pruebas
@@ -376,9 +424,20 @@ Reutilizar y ampliar el prototipo de ChatGPT (`financial-engine.test.mjs`, 11 pr
 - Etapas A, B, C; cada criterio que bloquea de §4.2 fallando por separado; el criterio 5 solo produce aviso.
 - Combustible por encima de 1.5× y por debajo de 0.5× del esperado.
 - Pausa larga, carga suelta tras pausa, mes de pausa intermedio.
+- **Meses incompletos (decisión 9):**
+  - mes en curso excluido aunque esté completo;
+  - un mes final incompleto excluido (millas y gastos), con nota de último periodo confiable;
+  - varios meses finales incompletos consecutivos excluidos;
+  - mes final con combustible pero < 0.5× el esperado → incompleto;
+  - mes intermedio incompleto → bloquea;
+  - tras excluir quedan < 3 meses con actividad → no confiable;
+  - los registros originales no se modifican.
+- **Antigüedad (§4.6):** datos de hace ≤ 6 meses → "Basado en tus gastos hasta…"; > 6 meses → "Datos antiguos", pide revisión, no baja; usuario cuya actividad terminó hace meses.
+- **Cobertura de fijos:** cumple por número de pagos aunque falle por importe (póliza nueva más cara); cumple por importe con pagos acumulados; pagos muy pequeños no cuentan como pago significativo; pago del vehículo $0 no se exige; mes de pausa cuenta.
 - CPM real excluye la categoría Peajes.
 - **Regla de no bajar:** en ningún camino automático (sin elección, pérdida de confiabilidad, vencimiento) el CPM aplicado baja sin confirmación.
-- Gasto extraordinario: material y no recurrente (marcado); material pero recurrente (no marcado); no material (no marcado); marcado como no recurrente → repartido en 12 meses.
+- **Candidatos a extraordinario:** combustible y peajes nunca son candidatos; categoría con ≥ 3 movimientos y gasto ≥ 5 % y ≥ 2 × mediana → candidato; ≥ 5 % pero < 2 × mediana → no; categoría con < 3 movimientos → solo materialidad; pagos acumulados de vehículo → no; candidato sin marcar → cuenta entero, asiento intacto; marcado como no recurrente → repartido en 12 meses.
+- **Margen de negociación (decisión 10):** valor configurado distinto de 8 %; 0 %; no altera el veredicto ni el margen objetivo.
 - Pagos: pago total, pago parcial (estado y pendiente correctos, sin `actualPaymentDate`), varios abonos hasta completar, sobrepago, incobrable; ninguno cambia la ganancia estimada.
 - Carga antigua con `actualPaymentDate` y sin abonos: se lee como un abono único.
 - Edición de carga sin snapshot: no infiere CPM, pide confirmación.
@@ -413,7 +472,25 @@ Con las 112 cargas de Ricardo (CSV) y la exportación de sus 80 gastos, **dos va
 - El CPM base **no** tiene por qué reproducir `gastos totales ÷ millas`, porque excluye peajes y usa combustible reciente. Se comprueba que sea **reproducible desde el desglose**:
   `(gastos del periodo − peajes − combustible) / millas del periodo + combustible reciente / millas recientes`.
 - Identidad de control: con combustible del periodo completo y peajes incluidos, el resultado debe igualar `gastos totales ÷ millas` (~$0.737 en los datos de Ricardo).
-- Aplicar los umbrales provisionales de §11.3 y revisar uno a uno los casos que marcan (meses activos, combustible esperado, gastos extraordinarios) para validarlos.
+- Aplicar los umbrales provisionales de §11.4 y revisar uno a uno los casos que marcan (meses activos, combustible esperado, gastos extraordinarios) para validarlos.
+
+**Resultados de la validación (13-11-2026)**, reproducidos de forma independiente por Claude y ChatGPT con la exportación de Finanzas:
+
+| Dato | Valor |
+|---|---|
+| Cargas / gastos | 112 / 80 |
+| Ingresos / gastos | $67,278.00 / $50,671.32 |
+| Millas | 68,736.15 |
+| CPM contable (todo) | $0.73719/mi |
+| Peajes | $776.55 |
+| CPM sin peajes, combustible del periodo completo (con abril) | $0.72589/mi |
+| CPM con combustible reciente (con abril) | $0.72930/mi |
+| CPM con combustible reciente **sin abril de 2026** (regla §4.2) | **$0.76412/mi** |
+| Combustible por milla vs esperado | $0.224 vs $0.1995 (1.12×, dentro de banda) |
+| Millas por mes activo vs meta | 6,248.74 vs 9,000 (69 %, sin aviso) |
+| Candidatos a extraordinario | 1 (seguro $2,705.03, 11-09-2025) |
+
+No validables con esta exportación: re-preguntar con cambio > 15 % y vigencia de 6 meses (requieren historial a lo largo del tiempo).
 
 ## 11. Decisiones
 
@@ -428,7 +505,7 @@ Con las 112 cargas de Ricardo (CSV) y la exportación de sus 80 gastos, **dos va
 | E | Conservar el resultado original de las cargas antiguas (§8) |
 | F | RPM mínimo sobre millas totales (cargadas + deadhead) |
 | G | Sueldo bruto, antes de impuestos |
-| 1 | Criterios de confianza de §4.2 aprobados (porcentajes provisionales) |
+| 1 | Criterios de confianza del CPM real (§4.2) |
 | 2 | Gastos no recurrentes: se reparten en 12 meses **solo si el conductor los marca** (§6) |
 | 3 | Peajes solo si se escriben en la calculadora; vacío = $0; el gasto real solo al subir el recibo en Finanzas; sin promedio histórico ni casilla (§5) |
 | 4 | Botón "Recalcular" en Historial (§8) |
@@ -436,27 +513,49 @@ Con las 112 cargas de Ricardo (CSV) y la exportación de sus 80 gastos, **dos va
 | 6 | Los valores de mantenimiento de Ricardo son dólares por milla (§9) |
 | 7 | Referencia segura = máximo entre el último CPM real confiable y el de Configuración; el CPM nunca baja automáticamente (§4.4, §4.5) |
 | 8 | Usuario sin configuración mínima: opción (a). Se muestran tarifa, millas cargadas, deadhead y RPM; no se muestran ganancia estimada, semáforo ni contraoferta; se le invita a completar los cinco datos (pago del vehículo $0 válido); sin promedios de industria (§4.1) |
+| 9 | **Meses incompletos:** se excluyen del CPM los meses finales incompletos (millas y gastos juntos), sin modificar registros; se distingue mes en curso, meses finales históricos incompletos y meses intermedios incompletos (que bloquean); se muestra el último periodo confiable y se advierte de datos antiguos; un CPM histórico antiguo no se presenta como costo actual confirmado (§4.2, §4.6) |
+| 10 | **Margen de negociación** de la contraoferta configurable por conductor, 8 % inicial, separado del margen de rentabilidad, del RPM mínimo y de los costos (§7.4) |
+| 11 | **Seguro de $2,705.03 del 11-09-2025:** solo candidato a revisión; no se clasifica como extraordinario, no se modifica el asiento ni se redistribuye sin acción expresa del conductor (§6) |
 
-Ajustes de diseño acordados en la revisión cruzada: RPM total para rentabilidad y RPM de tarifa para el mínimo (§7.1); contraoferta con ambos requisitos y solo Extras confirmados (§7.4); objetivo = máximo entre sueldo y margen (§7.1); sin reconstrucción de CPM en cargas sin snapshot (§8); criterio de millas como advertencia y control de combustible aproximado (§4.2); gastos extraordinarios por materialidad y recurrencia (§6); contratado / facturado / cobrado con pagos parciales (§3.4); ganancia rotulada siempre como estimada.
+### 11.2. Reglas técnicas cerradas (Claude y ChatGPT)
 
-### 11.2. Pendientes (sin aprobar)
+Reglas de diseño acordadas en la revisión cruzada que no expresan una preferencia del propietario:
 
-| # | Decisión | Propuesta |
-|---|---|---|
-| — | Tratamiento de sobrepagos: ¿saldo a favor del cliente, ingreso adicional o importe a devolver? (§3.4) | Pendiente de precisar |
-| — | Método fiscal (devengado o lo cobrado) para el reporte Schedule C | Verificar con el contador de Ricardo (§3.4); no es decisión técnica |
+1. RPM total para rentabilidad y RPM de tarifa para el mínimo (§7.1); contraoferta con ambos requisitos y solo Extras confirmados (§7.4); objetivo = máximo entre sueldo y margen (§7.1).
+2. Sin reconstrucción de CPM en cargas sin snapshot (§8).
+3. Criterio de millas como advertencia; control de combustible aproximado (§4.2).
+4. Contratado / facturado / cobrado con pagos parciales (§3.4); ganancia rotulada siempre como estimada.
+5. Mes en curso siempre excluido; mes intermedio incompleto bloquea (§4.2).
+6. Cobertura de fijos global, por número de pagos significativos **o** por importe (§4.2).
+7. Combustible y peajes nunca son candidatos a extraordinario (§6).
+8. Millas reales frente a la meta se muestran siempre como información (§4.2).
+9. La antigüedad del CPM real se trata con la misma regla que la referencia vencida (§4.6, §4.5).
 
-### 11.3. Umbrales provisionales (a validar con datos, §10.3)
+### 11.3. Pendientes (sin aprobar)
 
-| Umbral | Valor provisional | Dónde |
-|---|---|---|
-| Mes con actividad | ≥ 25 % de un mes típico, mínimo 300 mi | §4.2 |
-| Combustible esperado | entre 0.5× y 1.5× de precio/MPG | §4.2 criterio 3 |
-| Advertencia de millas | < 40 % de la meta | §4.2 criterio 5 |
-| Re-preguntar elección de CPM | cambio > 15 % | §4.4 |
-| Vigencia del último CPM real confiable | 6 meses (al vencer: aviso y revisión, sin bajar) | §4.5 |
-| Gasto extraordinario | ≥ 5 % del total o ≥ $0.02/mi, sin otro ±10 % en la categoría | §6 |
-| Margen de contraoferta | +8 % sobre la tarifa objetivo | §7.4 |
+| Tema | Estado |
+|---|---|
+| **Sobrepagos:** ¿saldo a favor del cliente, ingreso adicional o importe a devolver? (§3.4) | Pendiente de precisar |
+| **Método fiscal** (devengado o lo cobrado) para el reporte Schedule C | Verificar con el contador de Ricardo (§3.4); no es decisión técnica |
+
+### 11.4. Umbrales técnicos provisionales
+
+No son decisiones aprobadas: son valores iniciales a confirmar con datos.
+
+| Umbral | Valor provisional | Dónde | Validación |
+|---|---|---|---|
+| Mes con actividad | ≥ 25 % de la mediana mensual, mínimo 300 mi | §4.2 | Probado con datos de Ricardo (1,618 mi; 11 meses) |
+| Mes incompleto por combustible bajo | < 0.5× el esperado | §4.2 | Probado (ningún mes completo cae por debajo) |
+| Banda de combustible del periodo | 0.5× – 1.5× de precio/MPG | §4.2 criterio 3 | Probado (1.12×) |
+| Mínimo de meses tras exclusiones | 3 | §4.2 | Pendiente de casos límite |
+| Pago significativo de un gasto fijo | ≥ 50 % del importe mensual configurado (o de la mediana) | §4.2 criterio 4 | Probado (excluye el pago de $24.88) |
+| Cobertura de fijos por importe | ≥ 80 % de lo esperado | §4.2 criterio 4 | Probado (115 % / 103 %) |
+| Advertencia de millas | < 40 % de la meta | §4.2 criterio 5 | Probado (69 %, sin aviso) |
+| Candidato a extraordinario | ≥ 5 % del total; con ≥ 3 movimientos, ≥ 2 × mediana | §6 | Probado (1 candidato frente a 5 de la regla anterior) |
+| Re-preguntar elección de CPM | cambio > 15 % | §4.4 | Requiere historial en el tiempo |
+| Vigencia / antigüedad | 6 meses | §4.5, §4.6 | Requiere historial en el tiempo |
+
+El margen de negociación del 8 % **ya no es un umbral técnico**: es el valor inicial configurable aprobado en la decisión #10.
 
 ## 12. Problemas conocidos fuera del motor (registrados)
 
