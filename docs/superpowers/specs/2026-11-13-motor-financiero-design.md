@@ -1,9 +1,9 @@
 # Motor financiero único — Especificación
 
-**Estado:** BORRADOR — revisión 7. Decisiones de diseño de Ricardo aprobadas (A–G, 1–13). Pendiente de cierre: método fiscal (§11.3) y validación longitudinal de los umbrales del 15 % y 6 meses (§11.4). No implementar hasta aprobación.
+**Estado:** BORRADOR — revisión 7.1. Decisiones de diseño de Ricardo aprobadas (A–G, 1–13). Pendiente de cierre: método fiscal (§11.3) y validación longitudinal de los umbrales del 15 % y 6 meses (§11.4). No implementar hasta aprobación.
 **Fecha:** 13 de noviembre de 2026
 **Autores:** Claude (rama `fix/seguridad-costos-reportes`) y ChatGPT (prototipo `smartload-financial-prototype`), consolidado por Claude.
-**Base de código:** rama `fix/seguridad-costos-reportes` (parte de `main` @ `2de295e`). Revisiones anteriores: 1 `05c1908`, 2 `5e3ce07`, 3 `a8c81bb`, 4 `85fea4c`, 5 `3135121`, 6 `6f636d9`.
+**Base de código:** rama `fix/seguridad-costos-reportes` (parte de `main` @ `2de295e`). Revisiones anteriores: 1 `05c1908`, 2 `5e3ce07`, 3 `a8c81bb`, 4 `85fea4c`, 5 `3135121`, 6 `6f636d9`, 7 `7c67d8b`.
 
 ---
 
@@ -18,6 +18,7 @@
 | 5 | 13-11-2026 | Decisión #8 aprobada por Ricardo: opción (a) para usuarios sin configuración mínima (§4.1, §11.1). Sobrepagos marcados como pendientes de precisar (§3.4, §11.2). Registrado que la exportación CSV de Finanzas no tiene botón (§12) |
 | 6 | 13-11-2026 | Validación con datos reales (112 cargas, 80 gastos). Decisiones #9 (meses incompletos), #10 (margen de negociación configurable) y #11 (seguro de $2,705 solo como candidato a revisión). Periodo del CPM real: mes en curso, meses finales incompletos y meses intermedios incompletos (§4.2). Cobertura de gastos fijos por número de pagos significativos o por importe (§4.2). Antigüedad del CPM real (§4.6). Gastos extraordinarios: sin combustible ni peajes, 5 % + doble de la mediana (§6). Tabla de decisiones separada en aprobadas, reglas técnicas cerradas, pendientes y umbrales provisionales (§11) |
 | 7 | 13-11-2026 | Decisión #12: el periodo del CPM real incluye millas y gastos de todos los meses interiores, aunque no alcancen el umbral de actividad (§4.2). Decisión #13: prioridad a facturación, pagos parciales, saldos pendientes, vencimientos y seguimiento de cobros (§3.5); sobrepagos como excepción sencilla, "Importe por aclarar", sin pantalla propia (§3.4). Pruebas nuevas (§10) |
+| 7.1 | 13-11-2026 | Corrección de consistencia: una carga con saldo pendiente y fecha vencida es "Vencida" aunque tenga abonos (§3.4). Pendiente e importe por aclarar derivados del mismo saldo y nunca negativos; el sobrepago queda fuera de cuentas por cobrar y no se duplica en caja (§3.4). Pruebas (§10) |
 
 ---
 
@@ -148,21 +149,27 @@ Se **reutilizan los campos existentes** de la carga (`totalCharge`, `paymentStat
 | **Cobrado** | Lista opcional `abonos: [{ importe, fecha }]` | Sí, al registrar cada cobro |
 | **Incobrable** | Ajuste opcional `ajusteIncobrable: { importe, fecha, motivo }` | Solo por acción explícita del conductor |
 
-Derivados:
+Derivados (se calculan, no se guardan, para que no puedan contradecirse):
 
 ```text
-cobrado   = Σ abonos.importe
-pendiente = facturado − cobrado − ajusteIncobrable.importe
+cobrado           = Σ abonos.importe          (incluye abonos negativos de devolución)
+saldo             = facturado − ajusteIncobrable.importe − cobrado
+pendiente         = máximo(saldo, 0)          (lo que falta por cobrar; nunca negativo)
+importePorAclarar = máximo(−saldo, 0)         (exceso recibido sin aclarar; nunca negativo)
 ```
 
-**Estado de pago:**
+`pendiente` e `importePorAclarar` no pueden ser ambos mayores que cero a la vez.
 
-| Estado | Condición |
-|---|---|
-| Pagada | `pendiente ≤ 0` |
-| Pago parcial | `cobrado > 0` y `pendiente > 0` |
-| Vencida | `cobrado = 0`, `pendiente > 0` y pasó `expectedPaymentDate` |
-| Pendiente | resto |
+**Estado de pago** (se evalúa en este orden):
+
+| Estado | Condición | Indicador adicional |
+|---|---|---|
+| Pagada | `pendiente = 0` | "Importe por aclarar: $X" si `importePorAclarar > 0` |
+| Vencida | `pendiente > 0` y pasó `expectedPaymentDate` | "Pago parcial ($cobrado de $facturado)" si `cobrado > 0` |
+| Pago parcial | `pendiente > 0`, `cobrado > 0` y no vencida | — |
+| Pendiente | `pendiente > 0`, `cobrado = 0` y no vencida | — |
+
+Una carga con abonos **sigue siendo "Vencida"** mientras tenga saldo pendiente y su fecha esperada haya pasado: un pago parcial no reinicia el vencimiento (§3.5).
 
 **Compatibilidad con lo existente:**
 
@@ -176,12 +183,12 @@ pendiente = facturado − cobrado − ajusteIncobrable.importe
 - Un Extra nunca crea un ingreso aparte: solo modifica `totalCharge`.
 - Si el cliente paga de menos (pago incompleto o faltante), la diferencia queda en `pendiente` y se sigue en Cuentas (§3.5); no se convierte en gasto.
 - **Sobrepagos (decisión #13): excepción sencilla.** Son muy raros con brokers; no tienen pantalla ni sistema propio.
-  - El exceso de un abono sobre lo facturado se registra como **"Importe por aclarar"** en la propia carga (`importePorAclarar`) y se muestra en Cuentas, separado del saldo pendiente. No entra en la antigüedad de cuentas por cobrar.
-  - El dinero recibido **sí** está en el flujo de caja: ya figura en `abonos`.
+  - El exceso de lo cobrado sobre lo facturado es el **"Importe por aclarar"** (derivado, ver arriba). Se muestra en Cuentas en una línea propia, **separado de las cuentas por cobrar**: no suma ni resta en el pendiente, no aparece como saldo negativo en la antigüedad de cobros y la carga queda como "Pagada" con el indicador "Importe por aclarar".
+  - El dinero recibido **sí** está en el flujo de caja, **una sola vez**: el flujo de caja se calcula exclusivamente con `abonos`, y ni el importe por aclarar ni su aclaración crean movimientos de caja adicionales.
   - **No** modifica automáticamente lo facturado ni la ganancia.
   - **Aclaración posterior**, por acción expresa del conductor y registrada (`aclaradoEn`, `aclaracion`), con un selector en la misma carga:
-    - **Extra adicional:** sube lo facturado (`totalCharge`) en ese importe, con registro del cambio. No crea otro ingreso ni otro abono, porque el dinero ya está contado.
-    - **Devolución:** se registra como abono negativo en la misma carga, con fecha; en el flujo de caja aparece como salida. No es un gasto ni afecta al CPM.
+    - **Extra adicional:** sube lo facturado (`totalCharge`) en ese importe, con registro del cambio; el saldo vuelve a 0 y el importe por aclarar desaparece. No crea otro ingreso ni otro abono, porque el dinero ya está contado en caja.
+    - **Devolución:** se registra como abono negativo en la misma carga, con fecha; el saldo vuelve a 0 y en el flujo de caja aparece como salida. No es un gasto ni afecta al CPM.
   - Si un importe lleva más de 30 días sin aclarar, aviso en Cuentas.
   - Fuera de alcance: saldos a favor aplicables a otras cargas.
 - Una diferencia definitivamente incobrable requiere el **ajuste explícito**; aparece como línea propia ("Pérdida por incobrable") en el Estado de Resultados. No modifica `totalCharge`.
@@ -191,7 +198,8 @@ pendiente = facturado − cobrado − ajusteIncobrable.importe
 | Reporte | Importe | Fecha |
 |---|---|---|
 | Estado de Resultados, Desglose, Zonas, CPM real | Facturado (`totalCharge`) − incobrables | Fecha de la carga |
-| Cuentas por cobrar y antigüedad | **Pendiente** (hoy usa el total facturado) | Fecha de pago esperada |
+| Cuentas por cobrar y antigüedad | **Pendiente** (≥ 0; hoy usa el total facturado). El importe por aclarar nunca entra aquí | Fecha de pago esperada |
+| Importes por aclarar | `importePorAclarar` de cada carga, en línea propia | Fecha del abono que generó el exceso |
 | Flujo de caja / cobros | **Abonos** (hoy usa el total facturado de las pagadas) | **Fecha de cada abono** (hoy usa la fecha de la carga) |
 | Historial | "Evaluada / Facturada / Cobrada", solo las que difieran | — |
 
@@ -199,13 +207,13 @@ pendiente = facturado − cobrado − ajusteIncobrable.importe
 
 Los casos que importan en la operación real son **pagos incompletos, faltantes y retrasos**. Esta parte tiene prioridad sobre los sobrepagos y se construye sobre la pantalla de Cuentas existente, sin pantallas nuevas.
 
-- **Saldo pendiente por carga:** Cuentas muestra lo facturado, lo cobrado y el **pendiente** de cada carga, y su estado (Pendiente, Pago parcial, Vencida, Pagada).
-- **Vencimientos:** cada carga conserva su `expectedPaymentDate` (hoy: viernes de la semana siguiente a la carga). Una carga con `pendiente > 0` y fecha esperada pasada está **vencida**, con días de atraso visibles. Un pago parcial no reinicia el vencimiento del saldo restante.
+- **Saldo pendiente por carga:** Cuentas muestra lo facturado, lo cobrado y el **pendiente** de cada carga, y su estado (Pendiente, Pago parcial, Vencida, Pagada) según la tabla de §3.4.
+- **Vencimientos:** cada carga conserva su `expectedPaymentDate` (hoy: viernes de la semana siguiente a la carga). Una carga con `pendiente > 0` y fecha esperada pasada está **vencida**, con días de atraso visibles, **tenga o no abonos**; si tiene abonos se muestra "Vencida · pago parcial ($cobrado de $facturado)". Un pago parcial no reinicia el vencimiento del saldo restante.
 - **Antigüedad de saldos** (0–30, 31–60, 61–90, > 90 días) calculada sobre el **pendiente**, no sobre el total facturado.
 - **Totales por compañía:** pendiente y vencido por broker, para saber a quién reclamar.
 - **Registrar pago:** importe (por defecto el pendiente) y fecha; admite varios abonos hasta completar.
 - **Faltantes definitivos:** el conductor puede registrar el **ajuste por incobrable** (§3.4) con motivo; deja la carga sin pendiente y aparece como "Pérdida por incobrable".
-- **Avisos:** en Cuentas, cargas vencidas y saldos parciales antiguos.
+- **Avisos:** en Cuentas, cargas vencidas (incluidas las vencidas con pago parcial) e importes por aclarar con más de 30 días.
 
 **Pendiente de verificar con el contador de Ricardo (no es decisión técnica):** el reporte fiscal (Schedule C) hoy cuenta como ingresos el facturado según la **fecha de la carga** (base devengado). La mayoría de dueño-operadores declaran por **lo cobrado**: en ese caso una carga de diciembre cobrada en enero corresponde al año siguiente, y los incobrables no se deducen (nunca se declararon). El reporte se ajustará al método que confirme el contador. Incluir en la consulta: si declarando por lo cobrado, un sobrepago recibido debe declararse en el año en que se recibe aunque después se devuelva.
 
@@ -475,7 +483,8 @@ Reutilizar y ampliar el prototipo de ChatGPT (`financial-engine.test.mjs`, 11 pr
 - **Candidatos a extraordinario:** combustible y peajes nunca son candidatos; categoría con ≥ 3 movimientos y gasto ≥ 5 % y ≥ 2 × mediana → candidato; ≥ 5 % pero < 2 × mediana → no; categoría con < 3 movimientos → solo materialidad; pagos acumulados de vehículo → no; candidato sin marcar → cuenta entero, asiento intacto; marcado como no recurrente → repartido en 12 meses.
 - **Margen de negociación (decisión 10):** valor configurado distinto de 8 %; 0 %; no altera el veredicto ni el margen objetivo.
 - **Cobros (decisión 13, prioridad):** pago total; pago parcial (estado y pendiente correctos, sin `actualPaymentDate`); varios abonos hasta completar (entonces se escribe `actualPaymentDate`); carga vencida con y sin abonos; un abono no reinicia el vencimiento; antigüedad de saldos sobre el pendiente; totales por compañía; incobrable con motivo. Ninguno cambia la ganancia estimada.
-- **Sobrepago (excepción):** el exceso queda en "Importe por aclarar", está en el flujo de caja y no cambia facturado ni ganancia; aclarado como Extra adicional → sube facturado sin crear otro ingreso; aclarado como devolución → abono negativo y salida en flujo de caja; aviso a los 30 días sin aclarar.
+- **Pago parcial vencido:** carga con abonos, saldo pendiente y fecha esperada pasada → estado "Vencida" con indicador "pago parcial"; entra en la antigüedad por su **pendiente** (no por el total) y en el total vencido de su compañía; al completar el saldo pasa a "Pagada".
+- **Sobrepago (excepción):** el exceso queda en "Importe por aclarar", está en el flujo de caja y no cambia facturado ni ganancia; `pendiente` = 0 y nunca negativo; la carga no aparece en la antigüedad de cobros ni con saldo negativo; el total de cuentas por cobrar no disminuye por el exceso; el flujo de caja cuenta el dinero **una sola vez**; aclarado como Extra adicional → sube facturado, el importe por aclarar desaparece y la caja no cambia; aclarado como devolución → abono negativo, salida en caja una vez y el importe por aclarar desaparece; aviso a los 30 días sin aclarar; `pendiente` e `importePorAclarar` nunca son ambos > 0.
 - Carga antigua con `actualPaymentDate` y sin abonos: se lee como un abono único.
 - Edición de carga sin snapshot: no infiere CPM, pide confirmación.
 
@@ -493,7 +502,8 @@ Con datos de prueba en un proyecto/emulador, **nunca** con datos reales:
 8. Historial, Zonas y reportes muestran X.
 9. Cambiar el CPM en Configuración → las cargas anteriores siguen en X.
 10. Registrar pago parcial → Cuentas muestra el pendiente y el estado "Pago parcial"; antigüedad de saldos usa el pendiente; flujo de caja usa el abono en su fecha; X no cambia.
-11. Carga vencida → aparece en avisos y en el total vencido de su compañía.
+11. Carga vencida, con y sin pago parcial → aparece en avisos y en el total vencido de su compañía por su pendiente.
+11b. Sobrepago → la carga queda "Pagada" con "Importe por aclarar"; Cuentas por cobrar y antigüedad no cambian; el flujo de caja suma el abono una sola vez.
 12. **Sin conexión**: guardar, recuperar conexión, sincronizar → la carga sincronizada tiene X.
 13. Lex recibe X y los mismos umbrales.
 
