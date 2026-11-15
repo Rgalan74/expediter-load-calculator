@@ -1,4 +1,4 @@
-﻿// cpm-engine.js - Motor Central de CPM
+// cpm-engine.js - Motor Central de CPM
 // Fuente única de verdad para costos por milla
 // Version: 1.0.0
 
@@ -308,14 +308,14 @@ const CPMEngine = {
     // los componentes de Configuración o, sin configurar, el perfil default.
     const configCosts = typeof window.getConfigCosts === 'function' ? window.getConfigCosts() : null;
 
-    if (costs && costs.isDefault === false && (configCosts?.TOTAL || costs.totalCPM)) {
+    if (costs && costs.isDefault === false && (configCosts?.TOTAL ?? costs.totalCPM) !== undefined) {
       // Configuración personalizada guardada
-      cpm = configCosts?.TOTAL || costs.totalCPM;
+      cpm = configCosts?.TOTAL ?? costs.totalCPM;
       label = 'Basado en tu configuración';
       source = 'config';
     } else {
       // Sin configuración — usar promedio de industria
-      cpm = configCosts?.TOTAL || 0.55;
+      cpm = configCosts?.TOTAL ?? 0.55;
       label = 'Estimado de industria — configura tu perfil';
       source = 'default';
     }

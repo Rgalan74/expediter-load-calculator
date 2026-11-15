@@ -159,12 +159,12 @@ function calculateTotals() {
         // Costo fijo por milla
         const fixedCostPerMile = totalFixed / monthlyMiles;
 
-        // Costos variables mensuales → CPM
+        // Costos variables YA expresados en USD/milla; no dividir entre millas mensuales
         const maintenanceMonthly = parseFloat(document.getElementById('maintenancePerMile')?.value) || 0;
         const tiresMonthly       = parseFloat(document.getElementById('tiresPerMile')?.value) || 0;
         const repairsMonthly     = parseFloat(document.getElementById('repairsPerMile')?.value) || 0;
         const variableMonthly    = maintenanceMonthly + tiresMonthly + repairsMonthly;
-        const variableCPM        = monthlyMiles > 0 ? variableMonthly / monthlyMiles : 0;
+        const variableCPM        = variableMonthly;
 
         const fuelCPM = parseFloat(document.getElementById('fuelPricePerGallon')?.value || 3.70) /
                         parseFloat(document.getElementById('fuelMPG')?.value || 19);
@@ -284,9 +284,9 @@ function saveUserConfiguration() {
             // Costos variables por milla
             fuelMPG: parseFloat(document.getElementById('fuelMPG')?.value) || 18,
             fuelPricePerGallon: parseFloat(document.getElementById('fuelPricePerGallon')?.value) || 3.50,
-            maintenancePerMile: parseFloat(document.getElementById('maintenancePerMile')?.value) || 0.080,
-            tiresPerMile: parseFloat(document.getElementById('tiresPerMile')?.value) || 0.060,
-            repairsPerMile: parseFloat(document.getElementById('repairsPerMile')?.value) || 0.040,
+            maintenancePerMile: Number(document.getElementById('maintenancePerMile')?.value ?? 0.080),
+            tiresPerMile: Number(document.getElementById('tiresPerMile')?.value ?? 0.060),
+            repairsPerMile: Number(document.getElementById('repairsPerMile')?.value ?? 0.040),
 
             // Configuración de costos reales
             useRealCosts: document.getElementById('useRealCosts')?.checked || true,
@@ -305,17 +305,17 @@ function saveUserConfiguration() {
         debugLog(" Configuration to save:", config);
 
         // ✅ CALCULAR costs PARA EL CALCULADOR
-        // maintenancePerMile / tiresPerMile / repairsPerMile son presupuestos MENSUALES en $
+        // maintenancePerMile / tiresPerMile / repairsPerMile ya estan en USD/milla
         const fuelCostPerMile   = config.fuelPricePerGallon / config.fuelMPG;
         const variableMonthly   = config.maintenancePerMile + config.tiresPerMile + config.repairsPerMile;
-        const variableCPMExFuel = config.monthlyMilesGoal > 0 ? variableMonthly / config.monthlyMilesGoal : 0;
+        const variableCPMExFuel = variableMonthly;
         const totalFixedMonthly = config.vehiclePayment + config.insurance + config.licenses + config.otherFixed;
         const fixedCPM          = config.monthlyMilesGoal > 0 ? totalFixedMonthly / config.monthlyMilesGoal : 0;
         const totalCPM          = fuelCostPerMile + variableCPMExFuel + fixedCPM;
 
         config.costs = {
             combustible:   parseFloat(fuelCostPerMile.toFixed(4)),
-            mantenimiento: parseFloat(variableCPMExFuel.toFixed(4)), // (mant+tires+repairs) mensual ÷ millas
+            mantenimiento: parseFloat(variableCPMExFuel.toFixed(4)), // mant+tires+repairs en USD/milla
             comida:        0,
             costosFijos:   parseFloat(fixedCPM.toFixed(4)),
             TOTAL:         parseFloat(totalCPM.toFixed(4)),
