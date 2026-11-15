@@ -177,10 +177,11 @@ test('§7.1: sin sueldo, el objetivo es el margen y objetivoSueldo es null', () 
   assert.equal(r.umbrales.objetivoTipo, 'margen');
 });
 
-test('§7.1: el promedio histórico de RPM eleva el umbral de aceptar', () => {
+test('D5: el RPM histórico es referencia y no eleva el umbral financiero', () => {
   const r = evaluar({}, { rpmPromedioHistorico: 1.30 });
-  cerca(r.umbrales.aceptar, 1.30);
-  assert.equal(r.decision, 'EVALUAR');
+  cerca(r.umbrales.aceptar, 0.534 / 0.70);
+  assert.equal(r.decision, 'ACEPTAR');
+  assert.equal(r.preciosReferencia.referenciaPropia, null);
 });
 
 test('§7.2: la ganancia tras sueldo usa el sueldo de los días de la carga', () => {

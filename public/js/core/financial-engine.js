@@ -30,7 +30,7 @@
 })(typeof self !== 'undefined' ? self : this, function () {
   'use strict';
 
-  var FORMULA_VERSION = 1;
+  var FORMULA_VERSION = 2;
 
   // ================================================================
   // Utilidades de validación
@@ -152,7 +152,8 @@
    *   margenObjetivo         fracción 0 <= m < 1 (p. ej. 0.30)
    *   rpmMinimo              número >= 0 (por defecto 0 = sin mínimo)
    *   margenNegociacion      fracción >= 0 (por defecto 0.08, decisión #10)
-   *   rpmPromedioHistorico   número >= 0 (por defecto 0 = no aplica)
+   *   rpmPromedioHistorico   legado, solo referencia informativa (no altera decisión)
+   *   rpmReferenciaTarifa    número >= 0 o null: mediana comparable (tipo C); null = sin muestra
    */
   function evaluarCarga(entradas, supuestos) {
     if (!entradas || typeof entradas !== 'object' || Array.isArray(entradas)) {
@@ -222,6 +223,7 @@
     var rpmMinimo = noNegativoOpcional(supuestos.rpmMinimo, 'rpmMinimo', 0);
     var margenNegociacion = noNegativoOpcional(supuestos.margenNegociacion, 'margenNegociacion', 0.08);
     var rpmPromedioHistorico = noNegativoOpcional(supuestos.rpmPromedioHistorico, 'rpmPromedioHistorico', 0);
+    var rpmReferenciaTarifa = supuestos.rpmReferenciaTarifa == null ? null : noNegativo(supuestos.rpmReferenciaTarifa, 'rpmReferenciaTarifa');
 
     // ---- Costos y ganancia estimada (§3.1) ----
     var costoOperativo = cpmBase * millasTotales;
@@ -238,8 +240,8 @@
     var objetivoSueldo = sueldoCarga > 0 ? umbralCostos + sueldoCarga / millasTotales : null;
     var umbralObjetivo = objetivoSueldo !== null ? Math.max(objetivoSueldo, objetivoMargen) : objetivoMargen;
     var objetivoTipo = (objetivoSueldo !== null && objetivoSueldo >= objetivoMargen) ? 'sueldo' : 'margen';
-    // El promedio histórico de RPM sigue elevando el umbral de aceptar (§7.1).
-    var umbralAceptar = Math.max(umbralObjetivo, rpmPromedioHistorico);
+    // D5: el RPM histórico nunca eleva el umbral financiero.
+    var umbralAceptar = umbralObjetivo;
 
     // ---- Veredicto (§7.1) ----
     var incumple = [];
@@ -257,12 +259,14 @@
     }
 
     // ---- Contraoferta (§7.4): cifras de TARIFA ----
-    // Debe cumplir los dos requisitos de "Aceptar" (por eso usa umbralAceptar)
-    // y descuenta solo los Extras confirmados.
+    // Umbral financiero sin RPM histórico; solo los Extras confirmados descuentan.
+    // El mínimo RPM se aplica a la tarifa sin Extras.
     var tarifaPorObjetivo = umbralAceptar * millasTotales - extrasConfirmados;
     var tarifaPorMinimo = rpmMinimo * millasTotales;
     var tarifaObjetivo = Math.max(tarifaPorObjetivo, tarifaPorMinimo, 0);
     var tarifaEquilibrio = Math.max(umbralCostos * millasTotales - extrasConfirmados, 0);
+    var referenciaPropia = rpmReferenciaTarifa === null ? null : rpmReferenciaTarifa * millasTotales;
+    var sugerenciaNegociacion = Math.max(tarifaObjetivo, referenciaPropia === null ? 0 : referenciaPropia) * (1 + margenNegociacion);
 
     base.estado = 'completo';
     base.costos = {
@@ -296,13 +300,24 @@
     };
     base.decision = decision;
     base.incumple = incumple;
+    // D5: referencias siempre visibles, incluso si la carga cumple el objetivo.
+    base.preciosReferencia = {
+      tarifaEquilibrio: tarifaEquilibrio,
+      tarifaPorObjetivo: tarifaPorObjetivo,
+      tarifaPorMinimo: tarifaPorMinimo,
+      tarifaMinimaRentable: tarifaObjetivo,
+      referenciaPropia: referenciaPropia,
+      sugerenciaNegociacion: sugerenciaNegociacion,
+      rpmReferenciaTarifa: rpmReferenciaTarifa,
+      etiqueta: 'Referencia interna, no se envía al dispatcher'
+    };
     base.contraoferta = decision === 'ACEPTAR' ? null : {
       tarifaEquilibrio: tarifaEquilibrio,
       tarifaObjetivo: tarifaObjetivo,
       tarifaPorObjetivo: tarifaPorObjetivo,
       tarifaPorMinimo: tarifaPorMinimo,
       margenNegociacion: margenNegociacion,
-      tarifaContraoferta: tarifaObjetivo * (1 + margenNegociacion)
+      tarifaContraoferta: sugerenciaNegociacion
     };
     base.snapshot = congelarProfundo({
       entradas: entradasSnapshot,
@@ -317,10 +332,41 @@
         margenObjetivo: margenObjetivo,
         rpmMinimo: rpmMinimo,
         margenNegociacion: margenNegociacion,
-        rpmPromedioHistorico: rpmPromedioHistorico
+        rpmPromedioHistorico: rpmPromedioHistorico,
+        rpmReferenciaTarifa: rpmReferenciaTarifa
       }
     });
     return base;
+  }
+
+  // D14: clasificación PURA para simulaciones; no afecta resolverCpm ni evaluarCarga.
+  // Otros o categorías desconocidas permanecen SIN CLASIFICAR y dentro del CPM.
+  var CLASES_GASTOS_D14 = Object.freeze({
+    fuel: 'variablePorMilla', maintenance: 'variablePorMilla',
+    tires: 'variablePorMilla', repairs: 'variablePorMilla',
+    tolls: 'porCarga', food: 'porDiaFuera', lodging: 'porDiaFuera',
+    insurance: 'fijoTiempo', carpayment: 'fijoTiempo',
+    permits: 'fijoTiempo', phone: 'fijoTiempo', other: 'sinClasificar'
+  });
+
+  function clasificarGastosD14(registros, elecciones) {
+    if (!Array.isArray(registros)) throw new TypeError('registros debe ser una lista');
+    elecciones = elecciones || {};
+    if (typeof elecciones !== 'object' || Array.isArray(elecciones)) throw new TypeError('elecciones no validas');
+    var clasesValidas = ['variablePorMilla', 'porCarga', 'porDiaFuera', 'fijoTiempo', 'sinClasificar'];
+    var totales = { variablePorMilla: 0, porCarga: 0, porDiaFuera: 0, fijoTiempo: 0, sinClasificar: 0 };
+    var clasificados = registros.map(function (registro) {
+      if (!registro || typeof registro !== 'object') throw new TypeError('registro invalido');
+      var categoria = String(registro.category || registro.categoria || 'other').toLowerCase();
+      var importe = noNegativo(registro.amount !== undefined ? registro.amount : registro.importe, 'importe');
+      var clase = Object.prototype.hasOwnProperty.call(elecciones, categoria)
+        ? elecciones[categoria]
+        : (CLASES_GASTOS_D14[categoria] || 'sinClasificar');
+      if (clasesValidas.indexOf(clase) < 0) throw new RangeError('clase de gasto invalida: ' + clase);
+      totales[clase] += importe;
+      return { categoria: categoria, importe: importe, clase: clase };
+    });
+    return { totales: totales, registros: clasificados, nota: 'Solo desglose informativo; no cambia el CPM' };
   }
 
   // ================================================================
@@ -1058,6 +1104,8 @@
     resumenCuentas: resumenCuentas,
     flujoCaja: flujoCaja,
     evaluarCarga: evaluarCarga,
+    clasificarGastosD14: clasificarGastosD14,
+    CLASES_GASTOS_D14: CLASES_GASTOS_D14,
     calcularDiasCarga: calcularDiasCarga,
     sueldoPorDia: sueldoPorDia,
     resolverCpm: resolverCpm,
