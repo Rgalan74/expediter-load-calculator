@@ -225,6 +225,10 @@ window.renderCpmBreakdown = renderCpmBreakdown;
 
 // Deja cargado (y cacheado 5 min por CPMEngine) el costo por milla activo
 async function refreshActiveCpm() {
+  if (window.SLSF2Runtime?.active()) {
+    try { await window.SLSF2Runtime.refresh(); }
+    catch (e) { debugLog('[SmartLoad F2] refresco omitido:', e.message); }
+  }
   try {
     if (window.CPMEngine) {
       const result = await window.CPMEngine.getCPM();
@@ -1029,6 +1033,7 @@ async function calculate() {
     // Mostrar panel simplificado
 
     showDecisionPanel({
+      baseIncome, tolls, others, loadedMiles, deadheadMiles,
       totalCharge,
       netProfit,
       profitMargin: margin,
@@ -1355,6 +1360,38 @@ function showDecisionPanel(calculationData = {}) {
       diasInvertidos: _diasInvertidos
     }
   };
+
+  // F2: comparar solo en cuentas de prueba; apagado por defecto y sin UI/Firebase.
+  if (window.SLSF2Runtime?.active() && window.SLSF2Runtime.current() &&
+      window.SLSShadowF2?.isEnabled(window.currentUser, window.SLS_F2_TEST_ENABLED)) {
+    try {
+      if (Array.isArray(calculationData.stopsData) && calculationData.stopsData.length > 1) {
+        console.debug('[SmartLoad F2] multistop sin adaptador: no comparable');
+      } else {
+        const _shadowCosts = getUsersCosts();
+        const _shadowCpm = window.SLSF2Runtime.current();
+        window.SLSShadowF2.compare({
+          entradas: {
+            tarifa: calculationData.baseIncome, extrasConfirmados: calculationData.others,
+            tollCarga: calculationData.tolls,
+            millasCargadas: calculationData.loadedMiles, millasDeadhead: calculationData.deadheadMiles
+          },
+          supuestos: {
+            configuracionCompleta: _shadowCpm.etapa !== 'A',
+            cpmBase: _shadowCpm.cpmAplicado,
+            combustiblePorMilla: _shadowCosts.combustible,
+            cpmFuente: _shadowCpm.fuente,
+            sueldoPorDia: getOwnerPayPerDay(), diasCarga: _diasSueldo,
+            margenObjetivo: _targetProfitPct, rpmMinimo: Number(window.currentUser?.profileData?.targetRPM ?? 0),
+            rpmPromedioHistorico: _avgRPM
+          },
+          legacy: { decision, netProfit }
+        }, window.FinancialEngine, console.debug.bind(console));
+      }
+    } catch (_shadowError) {
+      console.debug('[SmartLoad F2] comparacion omitida:', String(_shadowError.message || _shadowError));
+    }
+  }
 
   const titleEl = document.getElementById('decisionTitle');
   const routeEl = document.getElementById('decisionRoute');

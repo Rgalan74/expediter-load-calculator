@@ -1,0 +1,882 @@
+{
+  "date": "2026-11-15",
+  "result": "APROBADO",
+  "scope": "Original application in real browser, demo Firebase Emulator, CSP local data connections only",
+  "off": {
+    "project": "demo-smartload-f2",
+    "flag": false,
+    "profit": "$650.00",
+    "shadow": []
+  },
+  "on": {
+    "project": "demo-smartload-f2",
+    "auth": {
+      "host": "127.0.0.1",
+      "port": 9099,
+      "protocol": "http",
+      "options": {
+        "disableWarnings": true
+      }
+    },
+    "firestore": "127.0.0.1:8180",
+    "flag": true,
+    "profit": "$650.00",
+    "cpm": {
+      "fuente": "real",
+      "valor": 0.30000000000000004,
+      "real": {
+        "confiable": true,
+        "motivos": [],
+        "avisos": [
+          "millasMuyPorDebajoDeLaMeta"
+        ],
+        "excluidos": [],
+        "periodo": {
+          "desde": "2026-07",
+          "hasta": "2026-09",
+          "meses": 3,
+          "mesesActivos": 3,
+          "millas": 3150,
+          "cargas": 21,
+          "mesesCombustible": [
+            "2026-07",
+            "2026-08",
+            "2026-09"
+          ],
+          "millasCombustible": 3150
+        },
+        "cpm": 0.30000000000000004,
+        "desglose": {
+          "totalGastos": 1039.5,
+          "peajes": 94.5,
+          "combustible": 630,
+          "combustibleReciente": 630,
+          "resto": 315,
+          "porCategoria": {
+            "fuel": 630,
+            "maintenance": 315,
+            "tolls": 94.5
+          },
+          "combustiblePorMilla": 0.2,
+          "combustibleFuente": "reciente",
+          "restoPorMilla": 0.1,
+          "peajesPorMilla": 0.03,
+          "cpmContable": 0.33
+        },
+        "cobertura": {},
+        "candidatosExtraordinarios": [],
+        "antiguedadMeses": 2,
+        "datosAntiguos": false,
+        "millasMesPromedio": 1050,
+        "metaMillasMes": 3000,
+        "umbralActividad": 300,
+        "combustibleVsEsperado": 1
+      }
+    },
+    "shadow": [
+      [
+        "[SmartLoad F2 LAB] resolucion CPM",
+        {
+          "fuente": "real",
+          "cpm": 0.30000000000000004,
+          "candidato": {
+            "valor": 0.30000000000000004,
+            "periodoHasta": "2026-09"
+          },
+          "persistencia": "GUARDADO"
+        }
+      ],
+      [
+        "[SmartLoad F2 modo sombra]",
+        {
+          "etapa": "F2",
+          "formulaVersion": 2,
+          "decisionActual": "ACCEPT",
+          "decisionNueva": "ACEPTAR",
+          "diferenciaDecision": false,
+          "gananciaActual": 750,
+          "gananciaNueva": 700,
+          "diferenciaGanancia": -50,
+          "precioEquilibrio": 300.00000000000006,
+          "precioMinimo": 375.00000000000006,
+          "precioSugerido": 405.0000000000001,
+          "fuenteCPM": "real",
+          "nota": "Solo diagnóstico local. F2 no cambia la decisión visible."
+        }
+      ],
+      [
+        "[SmartLoad F2 LAB] resolucion CPM",
+        {
+          "fuente": "real",
+          "cpm": 0.30000000000000004,
+          "candidato": {
+            "valor": 0.30000000000000004,
+            "periodoHasta": "2026-09"
+          },
+          "persistencia": "SIN_CAMBIOS"
+        }
+      ],
+      [
+        "[SmartLoad F2 modo sombra]",
+        {
+          "etapa": "F2",
+          "formulaVersion": 2,
+          "decisionActual": "ACCEPT",
+          "decisionNueva": "ACEPTAR",
+          "diferenciaDecision": false,
+          "gananciaActual": 650,
+          "gananciaNueva": 600,
+          "diferenciaGanancia": -50,
+          "precioEquilibrio": 400,
+          "precioMinimo": 500,
+          "precioSugerido": 540,
+          "fuenteCPM": "real",
+          "nota": "Solo diagnóstico local. F2 no cambia la decisión visible."
+        }
+      ],
+      [
+        "[SmartLoad F2 LAB] resolucion CPM",
+        {
+          "fuente": "real",
+          "cpm": 0.30000000000000004,
+          "candidato": {
+            "valor": 0.30000000000000004,
+            "periodoHasta": "2026-09"
+          },
+          "persistencia": "SIN_CAMBIOS"
+        }
+      ],
+      [
+        "[SmartLoad F2 modo sombra]",
+        {
+          "etapa": "F2",
+          "formulaVersion": 2,
+          "decisionActual": "ACCEPT",
+          "decisionNueva": "ACEPTAR",
+          "diferenciaDecision": false,
+          "gananciaActual": 650,
+          "gananciaNueva": 600,
+          "diferenciaGanancia": -50,
+          "precioEquilibrio": 400,
+          "precioMinimo": 500,
+          "precioSugerido": 540,
+          "fuenteCPM": "real",
+          "nota": "Solo diagnóstico local. F2 no cambia la decisión visible."
+        }
+      ]
+    ]
+  },
+  "network": {
+    "blocked": [
+      {
+        "directive": "script-src-elem",
+        "url": "https://www.googletagmanager.com/gtag/js"
+      },
+      {
+        "directive": "script-src-elem",
+        "url": "https://connect.facebook.net/en_US/fbevents.js"
+      },
+      {
+        "directive": "script-src-elem",
+        "url": "https://tracker.metricool.com/resources/be.js"
+      },
+      {
+        "directive": "script-src-elem",
+        "url": "https://maps.googleapis.com/maps/api/js"
+      },
+      {
+        "directive": "worker-src",
+        "url": "http://127.0.0.1:8876/service-worker.js"
+      },
+      {
+        "directive": "img-src",
+        "url": "https://smartloadsolution.com/img/header-background.webp"
+      },
+      {
+        "directive": "connect-src",
+        "url": "https://api.weatherapi.com/v1/current.json"
+      },
+      {
+        "directive": "connect-src",
+        "url": "https://api.weatherapi.com/v1/current.json"
+      },
+      {
+        "directive": "connect-src",
+        "url": "https://api.weatherapi.com/v1/current.json"
+      }
+    ],
+    "resources": [
+      {
+        "url": "http://127.0.0.1:8876/f2-browser-proof.js",
+        "bytes": 1760
+      },
+      {
+        "url": "http://127.0.0.1:8876/css/design-system.css",
+        "bytes": 9365
+      },
+      {
+        "url": "http://127.0.0.1:8876/css/tailwind-built.css",
+        "bytes": 43020
+      },
+      {
+        "url": "http://127.0.0.1:8876/css/mobile-styles.css",
+        "bytes": 11077
+      },
+      {
+        "url": "http://127.0.0.1:8876/css/mobile-typography.css",
+        "bytes": 20572
+      },
+      {
+        "url": "http://127.0.0.1:8876/css/app.css",
+        "bytes": 59029
+      },
+      {
+        "url": "https://fonts.googleapis.com/css2",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8876/css/calculator-decision.css",
+        "bytes": 12978
+      },
+      {
+        "url": "http://127.0.0.1:8876/css/ui-enhancements.css",
+        "bytes": 7460
+      },
+      {
+        "url": "http://127.0.0.1:8876/css/onboarding.css",
+        "bytes": 10877
+      },
+      {
+        "url": "http://127.0.0.1:8876/css/report-modal-styles.css",
+        "bytes": 1854
+      },
+      {
+        "url": "http://127.0.0.1:8876/css/mobile-calculator-fix.css",
+        "bytes": 32208
+      },
+      {
+        "url": "http://127.0.0.1:8876/css/theme-tokens.css",
+        "bytes": 43287
+      },
+      {
+        "url": "http://127.0.0.1:8876/css/mobile-theme-adapter.css",
+        "bytes": 13002
+      },
+      {
+        "url": "http://127.0.0.1:8876/css/ember-green.css",
+        "bytes": 13646
+      },
+      {
+        "url": "http://127.0.0.1:8876/css/ember-patch.css",
+        "bytes": 11931
+      },
+      {
+        "url": "http://127.0.0.1:8876/img/logo-app.png",
+        "bytes": 307846
+      },
+      {
+        "url": "http://127.0.0.1:8876/img/logo-app.webp",
+        "bytes": 42324
+      },
+      {
+        "url": "https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js",
+        "bytes": 0
+      },
+      {
+        "url": "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/consent-mode.js",
+        "bytes": 4141
+      },
+      {
+        "url": "http://127.0.0.1:8876/img/lex/lex-thinking.png",
+        "bytes": 1039871
+      },
+      {
+        "url": "https://maps.googleapis.com/maps/api/js",
+        "bytes": 0
+      },
+      {
+        "url": "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js",
+        "bytes": 0
+      },
+      {
+        "url": "https://www.gstatic.com/firebasejs/9.22.0/firebase-functions-compat.js",
+        "bytes": 0
+      },
+      {
+        "url": "https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js",
+        "bytes": 0
+      },
+      {
+        "url": "https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/google-maps-init.js",
+        "bytes": 1608
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/security.js",
+        "bytes": 2071
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/ui-feedback.js",
+        "bytes": 5702
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/helpers.js",
+        "bytes": 12370
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/core/f2-emulator-bootstrap.js",
+        "bytes": 2109
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/config.js",
+        "bytes": 15678
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/i18n/language-manager.js",
+        "bytes": 8397
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/cookie-consent.js",
+        "bytes": 9476
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/analytics-manager.js",
+        "bytes": 8467
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/core/load-shadow-f2.js",
+        "bytes": 2544
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/settings.js",
+        "bytes": 26622
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/core/financial-engine.js",
+        "bytes": 52614
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/core/f2-cpm-adapter.js",
+        "bytes": 4673
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/core/f2-runtime-bridge.js",
+        "bytes": 4984
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/custom-categories.js",
+        "bytes": 8941
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/cpm-engine.js",
+        "bytes": 15515
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/sequential-destinations.js",
+        "bytes": 13157
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/calculator-lazy-loader.js",
+        "bytes": 7449
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/calculator.js",
+        "bytes": 178722
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/image-optimizer.js",
+        "bytes": 8504
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/ui-enhancements.js",
+        "bytes": 12182
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/sw-register.js",
+        "bytes": 2337
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/offline-storage.js",
+        "bytes": 9502
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/sync-manager.js",
+        "bytes": 9008
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/purchase-tracking.js",
+        "bytes": 1277
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/stripe-config.js",
+        "bytes": 23351
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/upgrade-modal.js",
+        "bytes": 13676
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/userPlans.js",
+        "bytes": 15482
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/finances-core.js",
+        "bytes": 5862
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/history.js",
+        "bytes": 49905
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/finances-data.js",
+        "bytes": 9007
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/lazy-loader.js",
+        "bytes": 6740
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/finances-ui.js",
+        "bytes": 11394
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/finances.js",
+        "bytes": 227352
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/finances-lazy-override.js",
+        "bytes": 9222
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/zones.js",
+        "bytes": 75967
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/core/roles-manager.js",
+        "bytes": 10518
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/admin-panel.js",
+        "bytes": 21707
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/role-badge-display.js",
+        "bytes": 9681
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/onboarding-manager.js",
+        "bytes": 23829
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/main.js",
+        "bytes": 21491
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/core/agent-base.js",
+        "bytes": 2774
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/core/event-bus.js",
+        "bytes": 2779
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/core/conversation-memory.js",
+        "bytes": 6554
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/core/pronoun-resolver.js",
+        "bytes": 6318
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/core/response-builders.js",
+        "bytes": 19302
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/core/sentiment-analyzer.js",
+        "bytes": 5601
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/core/insights-analyzer.js",
+        "bytes": 6203
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/core/decisions-tracker.js",
+        "bytes": 2614
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/core/pattern-learner.js",
+        "bytes": 7544
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/core/lex-master.js",
+        "bytes": 8998
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/core/lex-modals.js",
+        "bytes": 10374
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/lex-analysis-ui.js",
+        "bytes": 18179
+      },
+      {
+        "url": "https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/lex-learning.js",
+        "bytes": 37177
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/lex.js",
+        "bytes": 77125
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/lex-intents.js",
+        "bytes": 20620
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/lex-router.js",
+        "bytes": 61984
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/agents/calculator-agent.js",
+        "bytes": 8758
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/lex-ai-engine.js",
+        "bytes": 54282
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/agents/history-agent.js",
+        "bytes": 8348
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/agents/zones-agent.js",
+        "bytes": 8716
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/agents/finances-agent.js",
+        "bytes": 7031
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/mobile.js",
+        "bytes": 12319
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/mobile-menu.js",
+        "bytes": 2849
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/zones-print.js",
+        "bytes": 13855
+      },
+      {
+        "url": "http://127.0.0.1:8876/img/lex/lex-neutral.png",
+        "bytes": 1035576
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/theme-manager.js",
+        "bytes": 3383
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/theme-fix-core.js",
+        "bytes": 4748
+      },
+      {
+        "url": "http://127.0.0.1:8876/css/zones-print.css",
+        "bytes": 4426
+      },
+      {
+        "url": "http://127.0.0.1:8876/css/print-styles.css",
+        "bytes": 4842
+      },
+      {
+        "url": "http://127.0.0.1:8876/f2-csp-report",
+        "bytes": 300
+      },
+      {
+        "url": "https://www.googletagmanager.com/gtag/js",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8876/f2-csp-report",
+        "bytes": 300
+      },
+      {
+        "url": "https://connect.facebook.net/en_US/fbevents.js",
+        "bytes": 0
+      },
+      {
+        "url": "https://tracker.metricool.com/resources/be.js",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8876/f2-csp-report",
+        "bytes": 300
+      },
+      {
+        "url": "https://maps.googleapis.com/maps/api/js",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8876/f2-csp-report",
+        "bytes": 300
+      },
+      {
+        "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw.woff2",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8876/js/i18n/en.json",
+        "bytes": 96636
+      },
+      {
+        "url": "http://127.0.0.1:8876/img/lex-neutral.webp",
+        "bytes": 97048
+      },
+      {
+        "url": "http://127.0.0.1:8876/f2-csp-report",
+        "bytes": 300
+      },
+      {
+        "url": "http://127.0.0.1:9099/identitytoolkit.googleapis.com/v1/accounts:lookup",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Write/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Write/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Write/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8876/f2-csp-report",
+        "bytes": 300
+      },
+      {
+        "url": "https://smartloadsolution.com/img/header-background.webp",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8876/img/lex-sleep.webp",
+        "bytes": 85578
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/v1/projects/demo-smartload-f2/databases/(default)/documents:batchGet",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8876/img/lex-surprise.webp",
+        "bytes": 130788
+      },
+      {
+        "url": "http://127.0.0.1:8180/v1/projects/demo-smartload-f2/databases/(default)/documents:commit",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8876/f2-csp-report",
+        "bytes": 300
+      },
+      {
+        "url": "http://127.0.0.1:8876/img/lex-thinking.webp",
+        "bytes": 97452
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/v1/projects/demo-smartload-f2/databases/(default)/documents:batchGet",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/v1/projects/demo-smartload-f2/databases/(default)/documents:commit",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8876/img/lex-alert.webp",
+        "bytes": 84072
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/v1/projects/demo-smartload-f2/databases/(default)/documents:batchGet",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/v1/projects/demo-smartload-f2/databases/(default)/documents:commit",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8876/img/lex-thinking.webp",
+        "bytes": 97452
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8876/img/lex-alert.webp",
+        "bytes": 84072
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Listen/channel",
+        "bytes": 0
+      },
+      {
+        "url": "http://127.0.0.1:8876/img/lex-neutral.webp",
+        "bytes": 97048
+      },
+      {
+        "url": "http://127.0.0.1:8180/google.firestore.v1.Firestore/Write/channel",
+        "bytes": 0
+      }
+    ]
+  },
+  "emulatorReadback": {
+    "loads": 21,
+    "expenses": 9,
+    "historicalTolls": 94.5,
+    "preference": "real",
+    "reference": {
+      "valor": 0.3,
+      "periodoHasta": "2026-09"
+    }
+  },
+  "limits": [
+    "Maps/weather/analytics intentionally blocked by lab CSP",
+    "No production/deployment verification",
+    "Historical CPM differs from configured legacy CPM; UI remains legacy in F2"
+  ]
+}
