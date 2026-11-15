@@ -3082,36 +3082,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // Exponer la funcin globalmente
 window.populateCompanyFilter = populateCompanyFilter;
 
-// OK 1. FUNCIN markAsPaid CORREGIDA
-async function markAsPaid(loadId) {
-  try {
-    const paymentDate = new Date().toISOString().split('T')[0];
-
-    // OK CORREGIDO: Guardar actualPaymentDate + paymentDate
-    await firebase.firestore().collection("loads").doc(loadId).update({
-      paymentStatus: "paid",
-      actualPaymentDate: paymentDate,  // OK CAMPO CORRECTO para filtro
-      paymentDate: paymentDate,        // OK Mantener por compatibilidad
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-
-    // OK CORREGIDO: Actualizar en memoria ambos campos
-    const load = window.allFinancesData.find(l => l.id === loadId);
-    if (load) {
-      load.paymentStatus = "paid";
-      load.actualPaymentDate = paymentDate;  // OK CAMPO CORRECTO
-      load.paymentDate = paymentDate;        // OK Compatibilidad
-    }
-
-    debugLog("OK Carga marcada como pagada:", loadId);
-    loadAccountsData();
-    showMessage("Carga marcada como pagada exitosamente", "success");
-  } catch (error) {
-    debugLog(" Error marcando como pagada:", error);
-    showMessage("Error al marcar como pagada", "error");
-  }
-}
-
 // 2. FUNCIÓN markAsUnpaid - Desmarcar como pagada
 async function markAsUnpaid(loadId) {
   try {
@@ -3188,7 +3158,7 @@ function renderPendingPayments(loads) {
   }
 
   const rows = loads.map(load => {
-    const isOverdue = load.paymentStatus === "overdue";
+    const isOverdue = updatePaymentStatus(load) === 'overdue';
     const statusClass = isOverdue ? "text-red-600" : "text-yellow-600";
     const bgClass = isOverdue ? "bg-red-50" : "bg-yellow-50";
 
@@ -3626,27 +3596,33 @@ function updateLoadDistributionChart() {
 // FUNCIONES COMPLEMENTARIAS DE CUENTAS
 // ===============================
 
+// Fechas de vencimiento: comparación por día calendario local, no por hora.
+// Acepta YYYY-MM-DD e ISO extendido válido, conservando su fecha calendario.
+function paymentCalendarDay(value) {
+  if (typeof value !== 'string') return null;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    const iso = value.match(/^(\d{4}-\d{2}-\d{2})T(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)?$/);
+    if (!iso || !Number.isFinite(Date.parse(value))) return null;
+    // El vencimiento es una fecha calendario; no desplazarla por zona horaria.
+    value = iso[1];
+  }
+  const [y, m, d] = value.split('-').map(Number);
+  const date = new Date(y, m - 1, d);
+  if (date.getFullYear() !== y || date.getMonth() !== m - 1 || date.getDate() !== d) return null;
+  return Date.UTC(y, m - 1, d) / 86400000;
+}
+
 function calculateOverdueDays(expectedDate) {
-  const today = new Date();
-  const expected = new Date(expectedDate);
-  const diffTime = today - expected;
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  return Math.max(0, diffDays);
+  const due = paymentCalendarDay(expectedDate);
+  if (due === null) return 0;
+  const now = new Date();
+  const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 86400000;
+  return Math.max(0, today - due);
 }
 
 function updatePaymentStatus(load) {
-  if (load.actualPaymentDate) {
-    return 'paid';
-  }
-
-  if (load.expectedPaymentDate) {
-    const overdueDays = calculateOverdueDays(load.expectedPaymentDate);
-    if (overdueDays > 0) {
-      return 'overdue';
-    }
-  }
-
-  return 'pending';
+  if (load.paymentStatus === 'paid' || load.actualPaymentDate) return 'paid';
+  return calculateOverdueDays(load.expectedPaymentDate) > 0 ? 'overdue' : 'pending';
 }
 
 // ===============================
@@ -3656,7 +3632,8 @@ function updatePaymentStatus(load) {
 // OK 1. FUNCIN markAsPaid CORREGIDA
 async function markAsPaid(loadId) {
   try {
-    const paymentDate = new Date().toISOString().split('T')[0];
+    const now = new Date();
+    const paymentDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
     // OK CORREGIDO: Guardar actualPaymentDate + paymentDate
     await firebase.firestore().collection("loads").doc(loadId).update({
@@ -3694,17 +3671,10 @@ function renderPendingLoads(loads) {
   const statusFilter = document.getElementById("accountsStatus")?.value || "";
 
   // Separar cargas por estado de pago
-  const allLoads = loads.filter(load => load.paymentStatus || load.actualPaymentDate);
-  const pendingLoads = allLoads.filter(load => !load.actualPaymentDate && load.paymentStatus !== 'paid');
-  const paidLoads = allLoads.filter(load => load.actualPaymentDate || load.paymentStatus === 'paid');
-
-  // Identificar cargas vencidas (pendientes que ya pasaron su fecha)
-  const today = new Date();
-  const overdueLoads = pendingLoads.filter(load => {
-    if (!load.expectedPaymentDate) return false;
-    const expectedDate = new Date(load.expectedPaymentDate);
-    return today > expectedDate;
-  });
+  const allLoads = loads;
+  const pendingLoads = allLoads.filter(load => updatePaymentStatus(load) === 'pending');
+  const paidLoads = allLoads.filter(load => updatePaymentStatus(load) === 'paid');
+  const overdueLoads = allLoads.filter(load => updatePaymentStatus(load) === 'overdue');
 
   debugLog(` Cargas organizadas: ${pendingLoads.length} pendientes, ${overdueLoads.length} vencidas, ${paidLoads.length} pagadas`);
 
@@ -3949,7 +3919,7 @@ function loadAccountsDataImproved() {
 
   // Si existe renderPaidLoads, tambin actualizarla
   if (typeof renderPaidLoads === 'function') {
-    const paidLoads = filteredLoads.filter(load => load.actualPaymentDate);
+    const paidLoads = filteredLoads.filter(load => updatePaymentStatus(load) === 'paid');
     renderPaidLoads(paidLoads);
   }
 }
@@ -3967,19 +3937,10 @@ function renderAccountsSummaryCards(loads) {
   debugLog(" Renderizando tarjetas de resumen...");
 
   // Separar cargas por estado
-  const paidLoads = loads.filter(load => load.actualPaymentDate);
-  const pendingLoads = loads.filter(load => !load.actualPaymentDate && load.paymentStatus !== 'paid');
-
-  // Identificar vencidas
-  const today = new Date();
-  const overdueLoads = pendingLoads.filter(load => {
-    if (!load.expectedPaymentDate) return false;
-    const expectedDate = new Date(load.expectedPaymentDate);
-    return today > expectedDate;
-  });
-
-  // Cargas pendientes activas (no vencidas)
-  const activePendingLoads = pendingLoads.filter(load => !overdueLoads.includes(load));
+  const paidLoads = loads.filter(load => updatePaymentStatus(load) === 'paid');
+  const pendingLoads = loads.filter(load => updatePaymentStatus(load) === 'pending');
+  const overdueLoads = loads.filter(load => updatePaymentStatus(load) === 'overdue');
+  const activePendingLoads = pendingLoads;
 
   // Calcular totales
   const paidTotal = paidLoads.reduce((sum, load) => sum + (load.totalCharge || 0), 0);
@@ -4322,8 +4283,8 @@ function calculateCashFlowAnalysis(loads, expenses) {
   const today = new Date();
 
   // Separate paid vs unpaid loads
-  const paidLoads = loads.filter(l => l.actualPaymentDate);
-  const unpaidLoads = loads.filter(l => !l.actualPaymentDate);
+  const paidLoads = loads.filter(l => updatePaymentStatus(l) === 'paid');
+  const unpaidLoads = loads.filter(l => updatePaymentStatus(l) !== 'paid');
 
   // Cash Inflows (paid loads)
   const cashInflows = paidLoads.reduce((sum, l) => sum + (Number(l.totalCharge) || 0), 0);
@@ -4343,8 +4304,7 @@ function calculateCashFlowAnalysis(loads, expenses) {
   };
 
   unpaidLoads.forEach(load => {
-    const expectedDate = load.expectedPaymentDate ? new Date(load.expectedPaymentDate) : new Date(load.date);
-    const daysOverdue = Math.floor((today - expectedDate) / (1000 * 60 * 60 * 24));
+    const daysOverdue = calculateOverdueDays(load.expectedPaymentDate || load.date);
     const amount = Number(load.totalCharge) || 0;
 
     if (daysOverdue <= 30) {
