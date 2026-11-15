@@ -64,6 +64,17 @@ function loadZonesData() {
         });
 }
 
+// H1: la calculadora guarda netProfit; algunos registros antiguos solo tienen profit.
+// Respeta el cero válido y devuelve cero cuando ninguno de los campos es numérico.
+function getZoneLoadProfit(load) {
+    for (const value of [load?.netProfit, load?.profit]) {
+        if (value === null || value === undefined || value === '') continue;
+        const amount = Number(value);
+        if (Number.isFinite(amount)) return amount;
+    }
+    return 0;
+}
+
 // Calcular estadísticas por estado
 function calcularEstadisticas(loads) {
     rpmPorEstado = {};
@@ -73,7 +84,7 @@ function calcularEstadisticas(loads) {
         const originCode = window.getStateCode(load.origin);
         const destCode = window.getStateCode(load.destination);
         let rpm = parseFloat(load.rpm);
-        const profit = parseFloat(load.profit || 0);
+        const profit = getZoneLoadProfit(load);
         const miles = parseFloat(load.totalMiles || 0);
         const revenue = parseFloat(load.totalCharge || 0);
 
@@ -846,7 +857,7 @@ function processCitiesData(loads) {
         }
 
         const rpm = parseFloat(load.rpm) || 0;
-        const profit = parseFloat(load.profit) || 0;
+        const profit = getZoneLoadProfit(load);
 
         cityDataByDestination[dest].loads.push(load);
         cityDataByDestination[dest].count++;
@@ -989,7 +1000,7 @@ function showCityLoadsModal(data) {
             <div class="grid grid-cols-3 gap-2 text-xs text-gray-600">
                 <div> ${load.loadedMiles || 0} mi</div>
                 <div> $${(load.totalCharge || 0).toFixed(2)}</div>
-                <div class="text-green-600 font-semibold">+$${(load.profit || 0).toFixed(2)}</div>
+                <div class="text-green-600 font-semibold">${getZoneLoadProfit(load) < 0 ? '-' : '+'}$${Math.abs(getZoneLoadProfit(load)).toFixed(2)}</div>
             </div>
         </div>
     `).join('');
