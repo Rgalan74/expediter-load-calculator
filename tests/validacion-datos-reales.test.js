@@ -1,23 +1,7 @@
-/**
- * Validación del motor con los datos reales de Ricardo (§10.3).
- *
- * El CSV es PRIVADO y nunca se guarda en el repositorio. Esta prueba solo se
- * ejecuta si se indica la ruta del archivo exportado desde Finanzas
- * (exportFinancialData):
- *
- *   PowerShell:  $env:SLS_FINANZAS_CSV="C:\Users\...\finanzas-expediter-2026-11-13.csv"; npm test
- *   Bash:        SLS_FINANZAS_CSV=/c/Users/.../finanzas-expediter-2026-11-13.csv npm test
- *
- * Sin esa variable, la prueba se marca como omitida.
- */
-const test = require('node:test');
-const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const FE = require('../public/js/core/financial-engine.js');
-
-const RUTA = process.env.SLS_FINANZAS_CSV;
-const omitir = !RUTA ? 'sin SLS_FINANZAS_CSV (datos privados, solo en local)' : false;
-
+/** Datos exclusivamente sintéticos. Nombre de archivo histórico; sin acceso a datos privados. */
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const FE=require('../public/js/core/financial-engine.js');
 /** Lector mínimo del CSV exportado por exportFinancialData() (campos entre comillas incluidos). */
 function leerCsv(texto) {
   const filas = [];
@@ -35,8 +19,8 @@ function leerCsv(texto) {
   return filas;
 }
 
-function cargarDatos(ruta) {
-  const filas = leerCsv(fs.readFileSync(ruta, 'utf8'));
+function cargarDatos(texto) {
+  const filas = leerCsv(texto);
   const iGastos = filas.findIndex(f => /GASTOS|EXPENSES/.test(f[0]));
   const iResumen = filas.findIndex(f => /RESUMEN|SUMMARY/.test(f[0]));
   const dinero = s => Number(String(s).replace(/[$,]/g, '')) || 0;
@@ -47,68 +31,43 @@ function cargarDatos(ruta) {
   return { cargas, gastos };
 }
 
-// Configuración de Ricardo (decisión 6: mantenimiento por milla, ≈ $0.051/mi)
-const CONFIG_RICARDO = {
-  completa: true,
-  cpm: 0.5068,
-  combustibleEsperadoPorMilla: 3.79 / 19,
-  seguroMensual: 1250,
-  pagoVehiculoMensual: 897,
-  metaMillasMes: 9000
-};
 
-test('§10.3 A — validación contable: mismas cargas, gastos y millas que Finanzas', { skip: omitir }, () => {
-  const { cargas, gastos } = cargarDatos(RUTA);
-  assert.equal(cargas.length, 112);
-  assert.equal(gastos.length, 80);
-  const millas = cargas.reduce((s, c) => s + c.millas, 0);
-  const total = gastos.reduce((s, g) => s + g.importe, 0);
-  assert.ok(Math.abs(millas - 68736.15) < 0.01, `millas ${millas}`);
-  assert.ok(Math.abs(total - 50671.32) < 0.005, `gastos ${total}`);
-  assert.ok(Math.abs(total / millas - 0.73719) < 5e-6, 'CPM contable');
+const CONFIG={completa:true,cpm:0.40,combustibleEsperadoPorMilla:0.20,seguroMensual:900,pagoVehiculoMensual:600,metaMillasMes:6000};
+function csvSintetico(){
+ const cargas=[],gastos=[];
+ for(let m=1;m<=12;m++){
+  const ym=`2032-${String(m).padStart(2,'0')}`;
+  if(m!==6){for(let j=1;j<=3;j++)cargas.push([`${ym}-${10+j}`,'Origen ficticio','Destino ficticio',2000,2,4000]);
+   gastos.push([`${ym}-15`,'fuel','Combustible ficticio',1200],[`${ym}-16`,'food','Comida ficticia',180],[`${ym}-17`,'tolls','Peaje ficticio',60]);}
+  gastos.push([`${ym}-18`,'insurance','Seguro ficticio',m===7?6000:900],[`${ym}-19`,'carpayment','Vehículo ficticio',600]);
+ }
+ gastos.push(['2032-08-20','insurance','Ajuste ficticio insignificante',5]);
+ cargas.push(['2033-01-12','Origen ficticio','Destino ficticio',6000,2,12000]);
+ const rows=[['=== REVENUE (LOADS) ==='],['Date','Origin','Destination','Miles','RPM','Revenue'],...cargas,['=== MANUAL EXPENSES ==='],['Date','Category','Description','Amount'],...gastos,['=== SUMMARY ===']];
+ return '\uFEFF'+rows.map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\n');
+}
+const cerca=(a,b)=>assert.ok(Math.abs(a-b)<1e-9);
+test('A — CSV sintético: contabilidad y lectura',()=>{
+ const {cargas,gastos}=cargarDatos(csvSintetico());
+ assert.equal(cargas.length,34);assert.equal(gastos.length,58);
+ assert.equal(cargas.reduce((s,c)=>s+c.millas,0),72000);
+ const total=13200+1980+660+15900+7200+5;
+ assert.equal(gastos.reduce((s,g)=>s+g.importe,0),total);
+ cerca(total/72000,(11*1200+11*180+11*60+11*900+6000+12*600+5)/72000);
 });
-
-test('§10.3 B — CPM real, abril de 2026 excluido, cobertura y candidato único', { skip: omitir }, () => {
-  const { cargas, gastos } = cargarDatos(RUTA);
-  const r = FE.resolverCpm({ cargas, gastos, configuracion: CONFIG_RICARDO, mesActual: '2026-11' });
-  const real = r.real;
-
-  // Periodo (decisiones 9 y 12)
-  assert.equal(real.periodo.desde, '2025-05');
-  assert.equal(real.periodo.hasta, '2026-03');
-  assert.deepEqual(real.excluidos, [{ mes: '2026-04', motivo: 'mesFinalIncompleto' }]);
-  assert.equal(real.periodo.mesesActivos, 10);
-  assert.ok(Math.abs(real.periodo.millas - 66467.15) < 0.01, `millas ${real.periodo.millas}`);
-
-  // CPM de decisión (validado por Claude y ChatGPT: $0.76412)
-  assert.ok(Math.abs(real.cpm - 0.76412) < 5e-6, `cpm ${real.cpm}`);
-  assert.ok(Math.abs(real.desglose.cpmContable - 0.76235) < 5e-6, `contable ${real.desglose.cpmContable}`);
-  assert.equal(real.desglose.combustibleFuente, 'reciente');
-
-  // Criterios
-  assert.equal(real.confiable, true, JSON.stringify(real.motivos));
-  assert.ok(real.combustibleVsEsperado > 0.5 && real.combustibleVsEsperado < 1.5);
-  assert.equal(real.cobertura.insurance.significativos, 11);   // el pago de $24.88 no cuenta
-  assert.equal(real.cobertura.insurance.cumple, true);
-  assert.equal(real.cobertura.carpayment.significativos, 10);
-  assert.equal(real.cobertura.carpayment.cumple, true);
-  assert.deepEqual(real.avisos, []);                           // 69 % de la meta: sin aviso
-
-  // Candidato único (decisión 11): seguro de $2,705.03 del 11-09-2025
-  assert.equal(real.candidatosExtraordinarios.length, 1);
-  const c = real.candidatosExtraordinarios[0];
-  assert.equal(c.categoria, 'insurance');
-  assert.equal(c.fecha, '2025-09-11');
-  assert.ok(Math.abs(c.importe - 2705.03) < 0.005);
-  assert.equal(c.marcadoNoRecurrente, false);
-
-  // Antigüedad (§4.6): último periodo confiable marzo 2026, hoy noviembre 2026
-  assert.equal(real.antiguedadMeses, 8);
-  assert.equal(real.datosAntiguos, true);
-
-  // Sin elección: provisional = el mayor; pide elegir y revisar
-  assert.equal(r.fuente, 'provisional');
-  assert.ok(Math.abs(r.cpmAplicado - 0.76412) < 5e-6);
-  assert.equal(r.requiereEleccion, true);
-  assert.equal(r.requiereRevision, true);
+test('B — CPM sintético: periodo, cobertura, peajes y elección',()=>{
+ const r=FE.resolverCpm({...cargarDatos(csvSintetico()),configuracion:CONFIG,mesActual:'2033-09'}),real=r.real;
+ assert.equal(real.periodo.desde,'2032-01');assert.equal(real.periodo.hasta,'2032-12');
+ assert.deepEqual(real.excluidos,[{mes:'2033-01',motivo:'mesFinalIncompleto'}]);
+ assert.equal(real.periodo.mesesActivos,11);assert.equal(real.periodo.millas,66000);
+ const esperado=(15900+7200+1980+5)/66000+0.20;
+ cerca(real.cpm,esperado);cerca(real.desglose.cpmContable,(13200+15900+7200+1980+660+5)/66000);
+ assert.equal(real.desglose.combustibleFuente,'reciente');assert.equal(real.confiable,true);
+ assert.equal(real.cobertura.insurance.significativos,12);assert.equal(real.cobertura.insurance.cumple,true);
+ assert.equal(real.cobertura.carpayment.significativos,12);assert.equal(real.cobertura.carpayment.cumple,true);
+ assert.ok(real.combustibleVsEsperado>0.99&&real.combustibleVsEsperado<1.01);assert.deepEqual(real.avisos,[]);
+ assert.equal(real.candidatosExtraordinarios.length,1);const c=real.candidatosExtraordinarios[0];
+ assert.equal(c.categoria,'insurance');assert.equal(c.fecha,'2032-07-18');assert.equal(c.importe,6000);assert.equal(c.marcadoNoRecurrente,false);
+ assert.equal(real.antiguedadMeses,9);assert.equal(real.datosAntiguos,true);
+ assert.equal(r.fuente,'provisional');cerca(r.cpmAplicado,esperado);assert.equal(r.requiereEleccion,true);assert.equal(r.requiereRevision,true);
 });
