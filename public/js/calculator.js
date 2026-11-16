@@ -756,8 +756,8 @@ async function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
 
   // Calcular thresholds dinamicos
   const targetRPM_margen = cpm / (1 - targetProfitPct);
-  const acceptThreshold = avgRPM > 0 ? Math.max(targetRPM_margen, avgRPM) : targetRPM_margen;
-  const midThreshold = avgRPM > 0 ? Math.min(targetRPM_margen, avgRPM) : targetRPM_margen;
+  const acceptThreshold = targetRPM_margen; // D5: RPM historico solo referencia, no cambia el umbral
+  const midThreshold = targetRPM_margen; // D5: RPM historico solo referencia, no cambia el umbral
 
   // Logica de decision — 4 zonas
   let decision, level, icon, color, razon;
@@ -1303,10 +1303,10 @@ function showDecisionPanel(calculationData = {}) {
   const _targetRPM_margen = _payPerMile > 0
     ? _cpm + _payPerMile
     : _cpm / (1 - _targetProfitPct);
-  const _acceptThreshold = _avgRPM > 0 ? Math.max(_targetRPM_margen, _avgRPM) : _targetRPM_margen;
-  const _midThreshold = _avgRPM > 0
-    ? Math.max(_cpm, Math.min(_targetRPM_margen, _avgRPM))
-    : _targetRPM_margen;
+  // D5 (aprobado 2026-11-14): el RPM histórico es solo referencia comercial;
+  // no sube ni baja los umbrales. La decisión depende del costo y del objetivo.
+  const _acceptThreshold = _targetRPM_margen;
+  const _midThreshold = _targetRPM_margen;
   const _gananciaDia = Math.max(0, netProfit) / _diasInvertidos;
   const _lowDailyProfit = _gananciaDia < _vp.minDailyProfit;
 

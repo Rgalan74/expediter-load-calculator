@@ -162,8 +162,10 @@ const CPMEngine = {
 
     // ── 2. Gastos de esos meses ───────────────────────────────────────
     // Cuentan TODOS los gastos registrados (combustible, comida, hospedaje,
-    // peajes, seguro, pago del carro, "otro"...). Solo se excluyen las
-    // categorias personalizadas que el usuario marco como NO operativas.
+    // seguro, pago del carro, "otro"...). Se excluyen las categorias
+    // personalizadas que el usuario marco como NO operativas y los PEAJES:
+    // el peaje es costo de cada carga y la calculadora ya lo suma por carga;
+    // dentro del CPM se contaria dos veces.
     const allCategories = await window.CustomCategories.getAllCategories();
     const excludedIds = allCategories
       .filter(c => c.isOperational === false)
@@ -202,6 +204,7 @@ const CPMEngine = {
         return;
       }
       if (excludedIds.includes(cat)) return;
+      if (String(cat).toLowerCase() === 'tolls') return;
 
       countExpenses++;
       const catKey = cat || 'other';

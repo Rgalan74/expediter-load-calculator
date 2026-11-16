@@ -405,8 +405,8 @@ exports.evaluateLoad = onCall(
 
         // ── Thresholds dinámicos ─────────────────────────────────────────
         const targetRPM    = cpm / (1 - targetProfitPct);
-        const acceptThresh = avgRPM > 0 ? Math.max(targetRPM, avgRPM) : targetRPM;
-        const midThresh    = avgRPM > 0 ? Math.min(targetRPM, avgRPM) : targetRPM;
+        const acceptThresh = targetRPM; // D5: RPM historico solo referencia, no cambia el umbral
+        const midThresh    = targetRPM; // D5: RPM historico solo referencia, no cambia el umbral
 
         // ── Decisión — 4 zonas ───────────────────────────────────────────
         let decision, level, icon, razon;

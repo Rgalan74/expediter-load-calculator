@@ -195,8 +195,8 @@ async function getDecisionInteligente(rpm, millas, factoresAdicionales = {}) {
         const avgRPM = window._userAvgRPM || 0;
         const targetProfitPct = ((window.currentUser?.profileData?.targetProfit) || 20) / 100;
         const targetRPM_margen = cpm / (1 - targetProfitPct);
-        const acceptThreshold = avgRPM > 0 ? Math.max(targetRPM_margen, avgRPM) : targetRPM_margen;
-        const midThreshold   = avgRPM > 0 ? Math.min(targetRPM_margen, avgRPM) : targetRPM_margen;
+        const acceptThreshold = targetRPM_margen; // D5: RPM historico solo referencia, no cambia el umbral
+        const midThreshold   = targetRPM_margen; // D5: RPM historico solo referencia, no cambia el umbral
 
         const netProfit = Math.max(0, (rpm - cpm) * millas);
         const _vp = (window.VEHICLE_PROFILES?.[window._userVehicleType] || { speedAvg: 52, horasManejoPorDia: 10 });

@@ -179,8 +179,8 @@ class CalculatorAgent extends AgentBase {
     const targetProfitPct = profile?.targetProfitPct || 0.20;
 
     const targetRPM_margen = cpm > 0 ? cpm / (1 - targetProfitPct) : cpm * 1.20;
-    const acceptThreshold = avgRPM > 0 ? Math.max(targetRPM_margen, avgRPM) : targetRPM_margen;
-    const midThreshold = avgRPM > 0 ? Math.min(targetRPM_margen, avgRPM) : targetRPM_margen;
+    const acceptThreshold = targetRPM_margen; // D5: RPM historico solo referencia, no cambia el umbral
+    const midThreshold = targetRPM_margen; // D5: RPM historico solo referencia, no cambia el umbral
 
     const rpm = metrics.rpm;
 

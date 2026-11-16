@@ -48,6 +48,7 @@ function fixture() {
   const ctx = vm.createContext(w);
   for (const name of ['settings.js', 'calculator.js'])
     vm.runInContext(fs.readFileSync(path.join(root, 'public/js', name), 'utf8'), ctx, { filename: name });
+  w.__realShowDecisionPanel = w.showDecisionPanel;
   w.showConfigMessage = (...args) => messages.push(args);
   w.updateMainResults = data => { w.visible = data; };
   w.showDecisionPanel = data => { w.decision = data; };
@@ -160,4 +161,50 @@ test('finances legacy loads without payment fields use the same +15 day term', (
   assert.equal(a.paymentStatus, 'pending');
   assert.equal(b.expectedPaymentDate, null, 'invalid date must not break Finances');
   assert.equal(c.expectedPaymentDate, '2032-05-14', 'existing records untouched');
+});
+
+// Real CPM from Finanzas must not include tolls: the calculator already adds
+// each load's tolls, so tolls inside the CPM would be counted twice.
+test('real CPM excludes registered tolls (no double count with load tolls)', async () => {
+  const months = ['2032-01', '2032-02', '2032-03', '2032-04'];
+  const loads = months.map(m => ({ date: `${m}-10`, totalMiles: 2000, userId: 'u' }));
+  const expenses = months.flatMap(m => [
+    { date: `${m}-12`, category: 'fuel', amount: 400 },
+    { date: `${m}-12`, category: 'insurance', amount: 600 },
+    { date: `${m}-15`, category: 'tolls', amount: 300 }
+  ]);
+  const snap = rows => ({ forEach: fn => rows.forEach(r => fn({ data: () => r })) });
+  const query = rows => { const q = { where: () => q, get: async () => snap(rows) }; return q; };
+  const w = {
+    console, debugLog() {}, document: { addEventListener() {} },
+    firebase: { firestore: () => ({ collection: n => query(n === 'loads' ? loads : expenses) }) },
+    CustomCategories: { getAllCategories: async () => [{ id: 'tolls', isOperational: true }] }
+  };
+  w.window = w;
+  vm.runInContext(fs.readFileSync(path.join(root, 'public/js/cpm-engine.js'), 'utf8'), vm.createContext(w), { filename: 'cpm-engine.js' });
+  const r = await w.CPMEngine._fromRealData('u', 4, 4);
+  assert.equal(r.source, 'real');
+  assert.equal(r.cpm, 0.5, '(fuel 1600 + insurance 2400) / 8000 mi; tolls 1200 excluded');
+});
+
+// D5 (approved 2026-11-14): historical average RPM is only a commercial
+// reference; it must not raise the ACCEPT threshold of the live panel.
+test('decision panel thresholds ignore historical average RPM (D5)', () => {
+  const f = fixture();
+  const w = f.w;
+  const panel = f.el('decisionPanel');
+  const orig = f.w.document.getElementById;
+  w.document.getElementById = id => orig(id) || f.el(id);
+  const run = avg => {
+    w._userAvgRPM = avg; w._userCPM = 0.5;
+    w.__realShowDecisionPanel({ totalCharge: 700, netProfit: 450, totalMiles: 500,
+      actualRPM: 1.4, profitMargin: 64, profitPerMile: 0.9, origin: 'Miami FL', destination: 'Austin TX',
+      originState: 'FL', destinationState: 'TX' });
+    return w._lastDecisionData;
+  };
+  const sinHistorial = run(0), conHistorialAlto = run(5);
+  assert.ok(panel);
+  assert.equal(conHistorialAlto.thresholds.acceptThreshold, sinHistorial.thresholds.acceptThreshold);
+  assert.equal(conHistorialAlto.thresholds.midThreshold, sinHistorial.thresholds.midThreshold);
+  assert.equal(conHistorialAlto.decision, sinHistorial.decision);
 });
