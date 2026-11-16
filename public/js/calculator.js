@@ -1009,7 +1009,7 @@ async function calculate() {
 
     // Actualizar UI principal
     updateMainResults({
-      origin, destination, totalMiles, baseIncome, totalCharge,
+      origin, destination, totalMiles: combinedMiles, baseIncome, totalCharge,
       fuelCost, maintenanceCost, foodCost, fixedCosts, tolls, others,
       totalExpenses, netProfit, margin, profitPerMile, actualRPM, rpm, rate
     });
@@ -2177,22 +2177,20 @@ async function saveLoad(existingLoadId = null) {
     const others = document.getElementById('otherCosts')?.value || '0';
     const loadNumber = document.getElementById('loadNumber')?.value?.trim() || '';
 
-    // Calcular fecha de pago esperada (viernes de la semana siguiente)
+    // Fecha de pago esperada: fecha de la carga + 15 días naturales
+    // (mismo plazo en finances-data.js ensurePaymentFields).
     function calculatePaymentDate(loadDate) {
-      const date = new Date(loadDate);
-      const dayOfWeek = date.getDay(); // 0=Domingo, 1=Lunes, ..., 6=Sbado
-
-      // Si es domingo, mover al lunes siguiente
-      if (dayOfWeek === 0) {
-        date.setDate(date.getDate() + 1);
+      const PAYMENT_TERM_DAYS = 15;
+      // A load date is a local calendar day, never a UTC instant.
+      const match = String(loadDate).match(/^(\d{4})-(\d{2})-(\d{2})(?:$|T)/);
+      if (!match) throw new Error('Invalid load date');
+      const [year, month, day] = match.slice(1).map(Number);
+      const date = new Date(year, month - 1, day, 12);
+      if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+        throw new Error('Invalid load date');
       }
-
-      // Calcular el viernes de la semana siguiente
-      const daysUntilNextFriday = (5 - date.getDay() + 7) % 7 + 7;
-      const paymentDate = new Date(date);
-      paymentDate.setDate(date.getDate() + daysUntilNextFriday);
-
-      return formatDateLocal(paymentDate); // Formato YYYY-MM-DD
+      date.setDate(date.getDate() + PAYMENT_TERM_DAYS);
+      return formatDateLocal(date);
     }
 
     //  Manejo de fechas
@@ -2242,21 +2240,14 @@ async function saveLoad(existingLoadId = null) {
 
 
 
-    // Calculos
-    const totalMiles = Number(loadedMiles) + Number(deadheadMiles);
-
-    let baseIncome;
-    let finalRpm;
-
-    //  Si hay rate, calculamos RPM
-    if (Number(rate) > 0 && totalMiles > 0) {
-      baseIncome = Number(rate);
-      finalRpm = baseIncome / totalMiles;
-    } else {
-      //  Si no hay rate, usamos RPM
-      finalRpm = Number(rpm);
-      baseIncome = finalRpm * totalMiles;
-    }
+    // Same main-leg rounding and additional stops as calculate().
+    const mainMiles = Number(loadedMiles) + Number(deadheadMiles);
+    const stops = getStops();
+    const stopMiles = stops.reduce((sum, stop) => sum + stop.miles, 0);
+    const totalMiles = mainMiles + stopMiles;
+    const mainIncome = Number(rate) > 0 ? Number(rate) : Math.round(Number(rpm) * mainMiles);
+    const baseIncome = mainIncome + stops.reduce((sum, stop) => sum + stop.revenue, 0);
+    const finalRpm = baseIncome / totalMiles;
 
     const additionalCosts = Number(tolls) + Number(others);
     // Cobro = tarifa + otros (cargos extra al cliente). Tolls = gasto (ver calculate())
@@ -2292,10 +2283,10 @@ async function saveLoad(existingLoadId = null) {
       destinationState: getStateFromLocation(destination),
       notes,
       userId: window.currentUser?.uid || null,
-      loadedMiles: Number(loadedMiles),
+      loadedMiles: Number(loadedMiles) + stopMiles,
       deadheadMiles: Number(deadheadMiles),
       totalMiles,
-      rate: Number(rate),
+      rate: stops.length ? baseIncome : Number(rate),
       rpm: finalRpm,
       baseIncome,
       tolls: Number(tolls),

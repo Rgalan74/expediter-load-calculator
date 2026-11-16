@@ -135,7 +135,25 @@ function calculateFuelCost() {
 }
 
 // 4. FUNCION PARA CALCULAR TOTALES
+// These fields are USD/mi. Large legacy values are ambiguous, not auto-converted.
+function validateVariableCosts(showWarning = false) {
+    const message = window.i18n?.t('settings.variable_cost_warning') ||
+        'Review maintenance, tires and repairs in USD/mi. Enter a value from 0 to less than 1 in each field. Historical monthly amounts are not converted automatically; confirm their units before saving.';
+    let valid = true;
+    for (const id of ['maintenancePerMile', 'tiresPerMile', 'repairsPerMile']) {
+        const field = document.getElementById(id);
+        const raw = field?.value;
+        const value = Number(raw);
+        const acceptable = raw !== undefined && String(raw).trim() !== '' && Number.isFinite(value) && value >= 0 && value < 1;
+        field?.setCustomValidity(acceptable ? '' : message);
+        if (!acceptable) valid = false;
+    }
+    if (!valid && showWarning) showConfigMessage(message, 'error');
+    return valid;
+}
+
 function calculateTotals() {
+    if (!validateVariableCosts()) return { totalFixed: 0, fixedCostPerMile: 0, totalCPM: null };
     debugLog(" Calculating totals...");
 
     try {
@@ -253,6 +271,8 @@ function saveUserConfiguration() {
         showConfigMessage("Debes estar logueado para guardar la configuración", "error");
         return;
     }
+
+    if (!validateVariableCosts(true)) return;
 
     // ✅ OBTENER BOTÓN DE GUARDAR
     const saveBtn = document.querySelector('button[onclick*="saveUserConfiguration"]');
@@ -511,6 +531,8 @@ function applyConfigurationToForm(config) {
                 debugLog(` Loaded ${fieldId} = ${value}`);
             }
         });
+
+        validateVariableCosts(true);
 
         // Aplicar checkboxes
         const useRealCostsEl = document.getElementById('useRealCosts');

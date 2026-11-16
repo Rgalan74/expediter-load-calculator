@@ -2304,29 +2304,29 @@
 
               <div>
                 <label for="maintenancePerMile" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings.label_maintenance">
-                  🔧 Maintenance — Monthly ($)
+                  🔧 Maintenance — USD/mi
                 </label>
-                <input type="number" id="maintenancePerMile" name="maintenancePerMile" step="1" value="110"
+                <input type="number" id="maintenancePerMile" name="maintenancePerMile" min="0" max="0.9999" step="0.0001" value=".014"
                   oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
-                <p class="text-xs text-gray-500 mt-1">Oil changes, filters, etc. per month</p>
+                <p class="text-xs text-gray-500 mt-1" data-i18n="settings.maintenance_help">Oil changes and filters per mile (USD/mi).</p>
               </div>
 
               <div>
-                <label for="tiresPerMile" class="block text-sm font-medium text-gray-700 mb-2">
-                  ⚙️ Tires — Monthly Reserve ($)
+                <label for="tiresPerMile" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings.label_tires">
+                  ⚙️ Tires — USD/mi
                 </label>
-                <input type="number" id="tiresPerMile" name="tiresPerMile" step="1" value="93"
+                <input type="number" id="tiresPerMile" name="tiresPerMile" min="0" max="0.9999" step="0.0001" value=".012"
                   oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
-                <p class="text-xs text-gray-500 mt-1">Monthly savings for tire replacement</p>
+                <p class="text-xs text-gray-500 mt-1" data-i18n="settings.tires_help">Tire replacement reserve per mile (USD/mi).</p>
               </div>
 
               <div>
-                <label for="repairsPerMile" class="block text-sm font-medium text-gray-700 mb-2">
-                  🛠️ Repairs — Monthly Reserve ($)
+                <label for="repairsPerMile" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings.label_repairs">
+                  🛠️ Repairs — USD/mi
                 </label>
-                <input type="number" id="repairsPerMile" name="repairsPerMile" step="1" value="200"
+                <input type="number" id="repairsPerMile" name="repairsPerMile" min="0" max="0.9999" step="0.0001" value=".025"
                   oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
-                <p class="text-xs text-gray-500 mt-1">Monthly emergency/breakdown reserve</p>
+                <p class="text-xs text-gray-500 mt-1" data-i18n="settings.repairs_help">Repair reserve per mile (USD/mi).</p>
               </div>
             </div>
 
