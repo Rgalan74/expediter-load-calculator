@@ -204,8 +204,9 @@ If the user asks "should I take it?", "what do you think?" or "analyze it" witho
 
         // Thresholds dinamicos — igual que getDecisionInteligente
         const targetRPM_margen = cpm / (1 - targetProfitPct);
-        const acceptThreshold = targetRPM_margen; // D5: RPM historico solo referencia, no cambia el umbral
-        const midThreshold = targetRPM_margen; // D5: RPM historico solo referencia, no cambia el umbral
+        // D5: RPM historico solo referencia. RPM minimo de Configuracion = piso.
+        const acceptThreshold = Math.max(targetRPM_margen, Number(userConfig.targetRPM) || 0);
+        const midThreshold = acceptThreshold;
 
         // Estados buenos/malos desde historial REAL — sin repetir
         const stateEntries = Object.entries(p.stateStats || {})

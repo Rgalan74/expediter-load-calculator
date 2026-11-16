@@ -1305,8 +1305,10 @@ function showDecisionPanel(calculationData = {}) {
     : _cpm / (1 - _targetProfitPct);
   // D5 (aprobado 2026-11-14): el RPM histórico es solo referencia comercial;
   // no sube ni baja los umbrales. La decisión depende del costo y del objetivo.
-  const _acceptThreshold = _targetRPM_margen;
-  const _midThreshold = _targetRPM_margen;
+  // RPM mínimo de Configuración (aprobado 2026-11-13): piso sobre millas totales.
+  const _minRPM = Number(window.currentUser?.profileData?.targetRPM) || 0;
+  const _acceptThreshold = Math.max(_targetRPM_margen, _minRPM);
+  const _midThreshold = _acceptThreshold;
   const _gananciaDia = Math.max(0, netProfit) / _diasInvertidos;
   const _lowDailyProfit = _gananciaDia < _vp.minDailyProfit;
 

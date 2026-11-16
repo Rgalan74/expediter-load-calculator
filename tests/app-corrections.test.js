@@ -208,3 +208,33 @@ test('decision panel thresholds ignore historical average RPM (D5)', () => {
   assert.equal(conHistorialAlto.thresholds.midThreshold, sinHistorial.thresholds.midThreshold);
   assert.equal(conHistorialAlto.decision, sinHistorial.decision);
 });
+
+// Minimum RPM from Configuración (approved 2026-11-13) is a floor for ACCEPT.
+test('decision panel uses configured minimum RPM as floor for ACCEPT', () => {
+  const f = fixture();
+  const w = f.w;
+  const orig = w.document.getElementById;
+  w.document.getElementById = id => orig(id) || f.el(id);
+  const run = minRPM => {
+    w._userAvgRPM = 0; w._userCPM = 0.5;
+    w.currentUser.profileData = { targetProfit: 20, targetRPM: minRPM };
+    w.__realShowDecisionPanel({ totalCharge: 700, netProfit: 450, totalMiles: 500,
+      actualRPM: 1.4, profitMargin: 64, profitPerMile: 0.9, origin: 'Miami FL', destination: 'Austin TX',
+      originState: 'FL', destinationState: 'TX' });
+    return w._lastDecisionData;
+  };
+  const bajo = run(0.85), alto = run(2);
+  assert.ok(bajo.thresholds.acceptThreshold < 1.4);
+  assert.equal(alto.thresholds.acceptThreshold, 2);
+  assert.notEqual(alto.decision, 'ACCEPT', 'RPM 1.40 below a 2.00 minimum cannot be ACCEPT');
+});
+
+test('settings cost info text is translated and no longer says Finances never applies', () => {
+  const html = fs.readFileSync(path.join(root, 'public/app.html'), 'utf8');
+  assert.doesNotMatch(html, /does <em>not<\/em> override these costs/);
+  for (const lang of ['en', 'es']) {
+    const s = JSON.parse(fs.readFileSync(path.join(root, `public/js/i18n/${lang}.json`), 'utf8')).settings;
+    for (const k of ['cost_info_title', 'cost_info_config', 'cost_info_real']) assert.ok(s[k], `${lang}.${k}`);
+    assert.match(html, new RegExp(`data-i18n="settings.${'cost_info_real'}"`));
+  }
+});
