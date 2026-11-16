@@ -188,5 +188,24 @@
       "density": "SPARSE_ALL"
     }
   ],
-  "fieldOverrides": []
+  "fieldOverrides": [
+  {
+    "collectionGroup": "weather_requests",
+    "fieldPath": "deleteAt",
+    "ttl": true,
+    "indexes": []
+  },
+  {
+    "collectionGroup": "weather_cache",
+    "fieldPath": "deleteAt",
+    "ttl": true,
+    "indexes": []
+  },
+  {
+    "collectionGroup": "weather_quota",
+    "fieldPath": "deleteAt",
+    "ttl": true,
+    "indexes": []
+  }
+]
 }

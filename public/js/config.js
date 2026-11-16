@@ -48,6 +48,10 @@ function initializeFirebaseAuth() {
       debugLog("✅ Firebase inicializado");
     }
 
+    // Weather verification must never prevent Auth or financial features from loading.
+    try { window.SLSWeatherAppCheck?.initialize(firebase.app()); }
+    catch (_) { console.warn('Weather verification unavailable'); }
+
     auth = firebase.auth();
     db = firebase.firestore();
 

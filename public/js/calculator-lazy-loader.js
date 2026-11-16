@@ -38,7 +38,7 @@ const CALCULATOR_MODULES = {
 /**
  * Load script dynamically
  */
-function loadScript(src, moduleName) {
+function loadScript(src, moduleName, version = '1.0.0') {
     return new Promise((resolve, reject) => {
         // Check if already loaded
         const existingScript = document.querySelector(`script[src*="${src}"]`);
@@ -49,7 +49,7 @@ function loadScript(src, moduleName) {
         }
 
         const script = document.createElement('script');
-        script.src = `${src}?v=1.0.0`;
+        script.src = `${src}?v=${version}`;
         script.async = true;
 
         script.onload = () => {
@@ -82,7 +82,7 @@ async function loadWeatherModule() {
     debugLog("📦 Loading Weather module...");
 
     try {
-        await loadScript(CALCULATOR_MODULES.weather.path, 'Weather');
+        await loadScript(CALCULATOR_MODULES.weather.path, 'Weather', 'weather1');
 
         if (!window.CalculatorWeather) {
             throw new Error('Weather module not exported correctly');

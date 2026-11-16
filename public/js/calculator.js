@@ -364,16 +364,9 @@ function getUmbrales(origenZona, destinoZona, millas) {
 //  FUNCIÓN: Obtener clima del destino
 // ========================================
 async function getWeatherForDestination(destination) {
-  const apiKey = '07e0e0128247442ebd200704250712';
-  const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${destination}&aqi=no`;
 
   try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error('Weather API error');
-    }
-
-    const data = await response.json();
+    const data = await window.SLSWeather.request('current',{query:destination});
     const temp = Math.round(data.current.temp_f);
     const condition = data.current.condition.text;
     const isSnow = condition.toLowerCase().includes('snow');
@@ -3750,25 +3743,14 @@ window.clasificarZonaReal = clasificarZonaReal;
 let weatherModalRouteLoaded = false;
 let weatherModalMap = null;
 let weatherModalDirections = null;
-let weatherModalLayers = {
-  temp: null,
-  precipitation: null,
-  clouds: null,
-  wind: null
-};
 
 // ========================================
 //  FUNCIÓN: Modal de clima MEJORADO - Mobile First
 // ========================================
 async function showWeatherModal(destination, origin = null) {
-  const apiKey = '07e0e0128247442ebd200704250712';
-  const url = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${destination}&days=3&aqi=no&alerts=yes`;
 
   try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error('Weather API error');
-
-    const data = await response.json();
+    const data = await window.SLSWeather.request('forecast',{query:destination});
     const current = data.current;
     const forecast = data.forecast.forecastday;
     const alerts = data.alerts?.alert || [];
@@ -3833,18 +3815,7 @@ async function showWeatherModal(destination, origin = null) {
       <!-- Tab: Clima Actual -->
       <div id="tabContentCurrent" style="flex: 1; overflow-y: auto; min-height: 0;">
         
-        <!-- Alertas meteorológicas -->
-        ${alerts.length > 0 ? `
-          <div class="bg-red-50 border-l-4 border-red-500 p-4 m-4 rounded-r-lg animate-pulse">
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-2xl">⚠️</span>
-              <h3 class="font-bold text-red-900">Weather Alert</h3>
-            </div>
-            <p class="text-sm text-red-800">${alerts[0].headline}</p>
-            ${alerts[0].desc ? `<p class="text-xs text-red-700 mt-2 line-clamp-3">${alerts[0].desc.substring(0, 200)}...</p>` : ''}
-          </div>
-        ` : ''}
-        
+        ${window.SLSWeather.summary(data)}
         <!-- Grid de métricas mejorado -->
         <div class="p-4 bg-gradient-to-b from-gray-50 to-white">
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -3878,7 +3849,7 @@ async function showWeatherModal(destination, origin = null) {
           </h3>
           <div class="space-y-2">
             ${forecast.map((day, i) => {
-      const date = new Date(day.date);
+      const date = new Date(day.date + 'T12:00:00');
       const dayName = i === 0 ? 'Today' : date.toLocaleDateString('en-US', { weekday: 'short' });
       return `
                 <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:0.75rem;padding:0.5rem 0.75rem;" class="flex items-center justify-between transition">
@@ -3924,31 +3895,6 @@ async function showWeatherModal(destination, origin = null) {
                 <div class="text-4xl mb-2 animate-bounce">🗺️</div>
                 <div class="text-sm">Loading map...</div>
               </div>
-            </div>
-          </div>
-          
-          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:0.75rem;padding:1rem;">
-            <div class="flex items-center justify-between mb-3">
-              <h3 class="font-bold flex items-center gap-2" style="color:#ffffff;">
-                <span>🌦️</span> Weather Layers
-              </h3>
-              <button onclick="clearAllWeatherLayers()" class="text-xs font-semibold px-3 py-1.5 rounded-lg transition" style="background:rgba(239,68,68,0.15);color:rgba(255,100,100,0.9);border:1px solid rgba(239,68,68,0.3);">
-                🗑️ Clear
-              </button>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-              <button onclick="toggleWeatherLayer('temp')" id="btnTemp" class="px-3 py-3 rounded-xl text-sm font-semibold transition flex items-center justify-center gap-2" style="background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.2);color:#ffffff;">
-                <span>🌡️</span> Temp
-              </button>
-              <button onclick="toggleWeatherLayer('precipitation')" id="btnPrecipitation" class="px-3 py-3 rounded-xl text-sm font-semibold transition flex items-center justify-center gap-2" style="background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.2);color:#ffffff;">
-                <span>🌧️</span> Rain
-              </button>
-              <button onclick="toggleWeatherLayer('clouds')" id="btnClouds" class="px-3 py-3 rounded-xl text-sm font-semibold transition flex items-center justify-center gap-2" style="background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.2);color:#ffffff;">
-                <span>☁️</span> Clouds
-              </button>
-              <button onclick="toggleWeatherLayer('wind')" id="btnWind" class="px-3 py-3 rounded-xl text-sm font-semibold transition flex items-center justify-center gap-2" style="background:rgba(255,255,255,0.08);border:2px solid rgba(255,255,255,0.2);color:#ffffff;">
-                <span>💨</span> Wind
-              </button>
             </div>
           </div>
           
@@ -4225,12 +4171,9 @@ async function loadRouteMapWithWeather() {
   weatherModalRouteLoaded = true;
 }
 async function getWeatherByCoords(lat, lng) {
-  const apiKey = '07e0e0128247442ebd200704250712';
-  const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${lat},${lng}&aqi=no`;
 
   try {
-    const response = await fetch(url);
-    const data = await response.json();
+    const data = await window.SLSWeather.request('current',{lat,lng});
 
     return {
       temp: Math.round(data.current.temp_f),
@@ -4251,74 +4194,6 @@ function getWeatherEmoji(condition) {
   if (cond.includes('cloud')) return '☁️';
   if (cond.includes('clear') || cond.includes('sunny')) return '☀️';
   return '🌤️';
-}
-
-function toggleWeatherLayer(layerType) {
-  if (!weatherModalMap) return;
-
-  const OWM_API_KEY = '5d26ae818c1dfb2cc24dec85ccf68338';
-  const button = document.getElementById('btn' + layerType.charAt(0).toUpperCase() + layerType.slice(1));
-
-  if (weatherModalLayers[layerType]) {
-    // REMOVER CAPA: Encontrar y quitar del array overlayMapTypes
-    const index = weatherModalMap.overlayMapTypes.getArray().indexOf(weatherModalLayers[layerType]);
-    if (index !== -1) {
-      weatherModalMap.overlayMapTypes.removeAt(index);
-    }
-    weatherModalLayers[layerType] = null;
-    button.className = button.className.replace(/border-\w+-500/g, 'border-gray-300').replace('bg-blue-50', '');
-    debugLog('✅ Capa', layerType, 'removida');
-  } else {
-    // AGREGAR CAPA
-    const layerMap = {
-      temp: 'temp_new',
-      precipitation: 'precipitation_new',
-      clouds: 'clouds_new',
-      wind: 'wind_new'
-    };
-
-    const colorMap = {
-      temp: 'orange',
-      precipitation: 'blue',
-      clouds: 'gray',
-      wind: 'green'
-    };
-
-    weatherModalLayers[layerType] = new google.maps.ImageMapType({
-      getTileUrl: function (coord, zoom) {
-        return `https://tile.openweathermap.org/map/${layerMap[layerType]}/${zoom}/${coord.x}/${coord.y}.png?appid=${OWM_API_KEY}`;
-      },
-      tileSize: new google.maps.Size(256, 256),
-      opacity: 0.75,
-      name: layerType
-    });
-
-    weatherModalMap.overlayMapTypes.push(weatherModalLayers[layerType]);
-    button.className = button.className.replace('border-gray-300', `border-${colorMap[layerType]}-500`) + ' bg-blue-50';
-    debugLog('✅ Capa', layerType, 'agregada');
-  }
-}
-
-function clearAllWeatherLayers() {
-  if (!weatherModalMap) return;
-
-  Object.keys(weatherModalLayers).forEach(layerType => {
-    if (weatherModalLayers[layerType]) {
-      // Remover del array overlayMapTypes
-      const index = weatherModalMap.overlayMapTypes.getArray().indexOf(weatherModalLayers[layerType]);
-      if (index !== -1) {
-        weatherModalMap.overlayMapTypes.removeAt(index);
-      }
-      weatherModalLayers[layerType] = null;
-
-      // Resetear botón
-      const button = document.getElementById('btn' + layerType.charAt(0).toUpperCase() + layerType.slice(1));
-      if (button) {
-        button.className = button.className.replace(/border-\w+-500/g, 'border-gray-300').replace('bg-blue-50', '');
-      }
-    }
-  });
-  debugLog('🗑️ Todas las capas removidas');
 }
 
 // ========================================
@@ -4493,8 +4368,6 @@ window.shareWeatherInfo = shareWeatherInfo;
 window.showWeatherModal = showWeatherModal;
 window.switchWeatherTab = switchWeatherTab;
 window.loadRouteMapWithWeather = loadRouteMapWithWeather;
-window.toggleWeatherLayer = toggleWeatherLayer;
-window.clearAllWeatherLayers = clearAllWeatherLayers;
 window.getWeatherByCoords = getWeatherByCoords;
 window.getWeatherEmoji = getWeatherEmoji;
 window.calculate = calculate;

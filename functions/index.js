@@ -499,11 +499,12 @@ function _validateLoadPayload(data) {
 // suscripcion activa de Stripe, esa suscripcion manda (mapeada via
 // PRICE_TO_PLAN) sobre el campo `plan` del documento, que puede estar
 // desactualizado; si no, se usa el campo `plan` directamente.
-async function _resolveUserPlan(uid, userData) {
+async function _resolveUserPlan(uid, userData, transaction = null) {
     if (userData.role === 'admin') return 'admin';
 
-    const subsSnap = await db.collection('customers').doc(uid)
-        .collection('subscriptions').where('status', '==', 'active').get();
+    const subscriptions = db.collection('customers').doc(uid)
+        .collection('subscriptions').where('status', '==', 'active');
+    const subsSnap = transaction ? await transaction.get(subscriptions) : await subscriptions.get();
 
     const PLAN_PRIORITY = { free: 0, professional: 1, premium: 2, admin: 3 };
     let planId = null;
@@ -1909,3 +1910,6 @@ exports.adminUpdateUser = onCall(
         }
     }
 );
+
+// Weather proxy: additive integration; reuse Admin and the existing server plan resolver.
+exports.getWeather = require('./get-weather').buildGetWeather({ admin, db, resolveUserPlan: _resolveUserPlan });

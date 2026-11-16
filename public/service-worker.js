@@ -71,7 +71,6 @@ self.addEventListener('fetch', event => {
     url.hostname.includes('openrouter') ||
     url.hostname.includes('weatherapi') ||
     url.hostname.includes('rainviewer') ||
-    url.hostname.includes('openweathermap') ||
     url.hostname.includes('googletagmanager') ||
     url.hostname.includes('google-analytics') ||
     url.hostname !== 'app.smartloadsolution.com' && url.hostname !== 'smartloadsolution.com' ||

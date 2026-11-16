@@ -94,3 +94,7 @@ Videos/
 tests/**/*.csv
 tests/*.csv
 Auditoria/*.json
+
+# Weather secrets and isolated validation artifacts
+**/.secret.local
+lab/
