@@ -238,3 +238,21 @@ test('settings cost info text is translated and no longer says Finances never ap
     assert.match(html, new RegExp(`data-i18n="settings.${'cost_info_real'}"`));
   }
 });
+
+// Finanzas: the "Margen" KPI card must show net profit / revenue. It used the
+// id 'efficiency', which other functions overwrote with % loaded miles.
+test('finances margin card has its own id written only with the profit margin', () => {
+  const html = fs.readFileSync(path.join(root, 'public/app.html'), 'utf8');
+  const card = html.match(/<div[^>]*id="marginKpiCard"[\s\S]*?<\/div>/)[0];
+  assert.match(card, /id="profitMarginKpi"/);
+  assert.doesNotMatch(html, /id="efficiency"/);
+  const writers = [];
+  for (const f of fs.readdirSync(path.join(root, 'public/js')).filter(n => n.endsWith('.js'))) {
+    const src = fs.readFileSync(path.join(root, 'public/js', f), 'utf8');
+    for (const m of src.matchAll(/updateElementSafe\('profitMarginKpi',\s*([^)]*\))/g)) writers.push(`${f}: ${m[1]}`);
+    if (/['"]profitMarginKpi['"]/.test(src) && !/updateElementSafe\('profitMarginKpi'/.test(src)) writers.push(`${f}: other`);
+  }
+  assert.deepEqual(writers, ["finances.js: margin.toFixed(1)"]);
+  const fin = fs.readFileSync(path.join(root, 'public/js/finances.js'), 'utf8');
+  assert.match(fin, /const margin = totalRevenue > 0 \? \(netProfit \/ totalRevenue\) \* 100 : 0;/);
+});

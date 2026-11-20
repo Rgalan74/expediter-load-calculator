@@ -2240,9 +2240,10 @@ function updateFinancialKPIs() {
   updateElementSafe('avgRpm', formatCurrency(avgRpm));
   updateElementSafe('costPerMile', formatCurrency(costPerMile));
 
-  // Calcular eficiencia
-  const efficiency = calculateEfficiency();
-  updateElementSafe('efficiency', efficiency + '%');
+  // Margen de ganancia = ganancia neta / ingresos. La tarjeta tiene su propio id:
+  // antes usaba 'efficiency', que otras funciones sobrescribian con el % de
+  // millas cargadas o el % de cargas con RPM >= 1.
+  updateElementSafe('profitMarginKpi', margin.toFixed(1) + '%');
 
   // Colores dinámicos: Ganancia y Margen
   const profitCard = document.getElementById('profitKpiCard');
