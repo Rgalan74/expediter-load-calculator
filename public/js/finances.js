@@ -2233,7 +2233,6 @@ function updateFinancialKPIs() {
   updateElementSafe('totalRevenue', formatCurrency(totalRevenue));
   updateElementSafe('totalExpensesSummary', formatCurrency(totalExpenses));
   updateElementSafe('netProfit', formatCurrency(netProfit));
-  // updateElementSafe('profitMarginPercent', margin.toFixed(1) + '%'); // Elemento no existe en HTML
 
   // Actualizar nuevos elementos
   updateElementSafe('totalMiles', totalMiles.toLocaleString());
@@ -2243,7 +2242,7 @@ function updateFinancialKPIs() {
   // Margen de ganancia = ganancia neta / ingresos. La tarjeta tiene su propio id:
   // antes usaba 'efficiency', que otras funciones sobrescribian con el % de
   // millas cargadas o el % de cargas con RPM >= 1.
-  updateElementSafe('profitMarginKpi', margin.toFixed(1) + '%');
+  updateElementSafe('profitMarginPercent', margin.toFixed(1) + '%');
 
   // Colores dinámicos: Ganancia y Margen
   const profitCard = document.getElementById('profitKpiCard');
