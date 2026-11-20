@@ -239,20 +239,43 @@ test('settings cost info text is translated and no longer says Finances never ap
   }
 });
 
-// Finanzas: the "Margen" KPI card must show net profit / revenue. It used the
-// id 'efficiency', which other functions overwrote with % loaded miles.
-test('finances margin card has its own id written only with the profit margin', () => {
+// Finanzas: the "Margen" KPI card must show net profit / revenue. Several
+// functions (duplicated in finances.js and finances-ui.js; the later script
+// wins) write the KPIs, so the card must use the id they write the margin to.
+// This runs the three real scripts in the page's load order.
+test('finances margin card shows profit margin with the real script load order', () => {
   const html = fs.readFileSync(path.join(root, 'public/app.html'), 'utf8');
   const card = html.match(/<div[^>]*id="marginKpiCard"[\s\S]*?<\/div>/)[0];
-  assert.match(card, /id="profitMarginKpi"/);
-  assert.doesNotMatch(html, /id="efficiency"/);
-  const writers = [];
-  for (const f of fs.readdirSync(path.join(root, 'public/js')).filter(n => n.endsWith('.js'))) {
-    const src = fs.readFileSync(path.join(root, 'public/js', f), 'utf8');
-    for (const m of src.matchAll(/updateElementSafe\('profitMarginKpi',\s*([^)]*\))/g)) writers.push(`${f}: ${m[1]}`);
-    if (/['"]profitMarginKpi['"]/.test(src) && !/updateElementSafe\('profitMarginKpi'/.test(src)) writers.push(`${f}: other`);
-  }
-  assert.deepEqual(writers, ["finances.js: margin.toFixed(1)"]);
-  const fin = fs.readFileSync(path.join(root, 'public/js/finances.js'), 'utf8');
-  assert.match(fin, /const margin = totalRevenue > 0 \? \(netProfit \/ totalRevenue\) \* 100 : 0;/);
+  const cardId = card.match(/class="fin-kpi-value" id="([^"]+)"/)[1];
+  const els = new Map();
+  const el = id => {
+    if (!els.has(id)) els.set(id, { id, textContent: '', style: {}, value: '',
+      classList: { add() {}, remove() {}, contains: () => false }, addEventListener() {},
+      querySelector: () => null, querySelectorAll: () => [], appendChild() {}, setAttribute() {} });
+    return els.get(id);
+  };
+  for (const m of html.matchAll(/id="([^"]+)"/g)) el(m[1]);
+  const byId = id => els.get(id) || null;
+  const w = {
+    console: { log() {}, warn() {}, error() {}, debug() {} }, debugLog() {}, debugFinances() {},
+    document: {
+      getElementById: byId, readyState: 'complete', addEventListener() {}, removeEventListener() {},
+      querySelector: sel => { const m = String(sel).match(/#([\w-]+)$|data-kpi="([\w-]+)"/); return m ? byId(m[1] || m[2]) : null; },
+      querySelectorAll: () => [], createElement: () => el('created-' + els.size), body: { appendChild() {} }
+    },
+    addEventListener() {}, setTimeout: () => 0, clearTimeout() {}, setInterval: () => 0, clearInterval() {},
+    localStorage: { getItem: () => null, setItem() {} }, sessionStorage: { getItem: () => null, setItem() {} },
+    navigator: {}, location: { hash: '' }, i18n: { t: () => '' },
+    formatCurrency: v => `$${Number(v).toFixed(2)}`, firebase: { firestore: () => ({}) }
+  };
+  w.window = w; w.self = w;
+  const ctx = vm.createContext(w);
+  const order = [...html.matchAll(/<script src="js\/(finances[\w-]*\.js)/g)].map(m => m[1])
+    .filter(f => ['finances-core.js', 'finances-data.js', 'finances.js', 'finances-ui.js'].includes(f));
+  assert.deepEqual(order, ['finances-core.js', 'finances-data.js', 'finances.js', 'finances-ui.js']);
+  for (const f of order) vm.runInContext(fs.readFileSync(path.join(root, 'public/js', f), 'utf8'), ctx, { filename: f });
+  vm.runInContext('financesData = [{ totalCharge: 1000, totalMiles: 1000, loadedMiles: 900 }]; expensesData = [{ amount: 750 }];', ctx);
+  w.updateFinancialKPIs();
+  if (typeof w.updateBusinessMetrics === 'function') w.updateBusinessMetrics();
+  assert.equal(byId(cardId).textContent, '25.0%', `card #${cardId} must show (1000-750)/1000`);
 });
