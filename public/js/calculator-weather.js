@@ -1,3 +1,4 @@
+(function(window){
 ﻿/**
  * calculator-weather.js
  * Weather and radar functionality for route planning
@@ -15,16 +16,9 @@
  * @returns {Object} Weather data with temp, condition, emoji, badge class
  */
 async function getWeatherForDestination(destination) {
-    const apiKey = '07e0e0128247442ebd200704250712';
-    const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${destination}&aqi=no`;
 
     try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error('Weather API error');
-        }
-
-        const data = await response.json();
+        const data = await window.SLSWeather.request('current',{query:destination});
         const temp = Math.round(data.current.temp_f);
         const condition = data.current.condition.text;
         const isSnow = condition.toLowerCase().includes('snow');
@@ -255,14 +249,9 @@ function getWeatherEmoji(condition) {
  * Get weather by coordinates
  */
 async function getWeatherByCoords(lat, lng) {
-    const apiKey = '07e0e0128247442ebd200704250712';
-    const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${lat},${lng}&aqi=no`;
 
     try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Weather API error');
-
-        const data = await response.json();
+        const data = await window.SLSWeather.request('current',{lat,lng});
         return {
             temp: Math.round(data.current.temp_f),
             condition: data.current.condition.text,
@@ -297,12 +286,14 @@ window.CalculatorWeather = {
 };
 
 // Individual exports for compatibility
-window.getWeatherForDestination = getWeatherForDestination;
-window.loadRouteMap = loadRouteMap;
-window.getWeatherMarkerIcon = getWeatherMarkerIcon;
-window.toggleRadarLayer = toggleRadarLayer;
-window.getWeatherEmoji = getWeatherEmoji;
-window.getWeatherByCoords = getWeatherByCoords;
-window.switchWeatherTab = switchWeatherTab;
+if (!window.getWeatherForDestination) window.getWeatherForDestination = getWeatherForDestination;
+if (!window.loadRouteMap) window.loadRouteMap = loadRouteMap;
+if (!window.getWeatherMarkerIcon) window.getWeatherMarkerIcon = getWeatherMarkerIcon;
+if (!window.toggleRadarLayer) window.toggleRadarLayer = toggleRadarLayer;
+if (!window.getWeatherEmoji) window.getWeatherEmoji = getWeatherEmoji;
+if (!window.getWeatherByCoords) window.getWeatherByCoords = getWeatherByCoords;
+if (!window.switchWeatherTab) window.switchWeatherTab = switchWeatherTab;
 
 debugLog('📦 Calculator Weather module loaded successfully');
+
+})(window);

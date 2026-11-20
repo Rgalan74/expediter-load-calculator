@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="js/i18n/language-manager.js"></script>
+  <script src="js/i18n/language-manager.js?v=20261112"></script>
 
   <style>
     :root {
@@ -230,7 +230,7 @@
 
   <!-- GA4 tracking for registration events on this page -->
   <script src="js/analytics-manager.js?v=1.0.1"></script>
-  <script src="js/userPlans.js"></script>
+  <script src="js/userPlans.js?v=1.2.0"></script>
   <script src="js/stripe-config.js?v=3.5.3"></script>
 
   <script>
@@ -352,7 +352,7 @@
 
           // Welcome email (non-blocking)
           firebase.firestore().collection("mail").add({
-            to: [email],
+            to: [userCred.user.email],
             message: {
               subject: selectedLang === 'en'
                 ? "Welcome to Smart Load Solution! 🚐"
@@ -565,6 +565,22 @@
 
       const tabFromUrl = new URLSearchParams(window.location.search).get("tab");
       setActiveAuthTab(tabFromUrl === "register" ? "register" : "login");
+
+      // Prellenar el registro con el nombre/email que el visitante ya dejo en
+      // el modal de lead de la landing (se guarda en sessionStorage, no en la URL).
+      try {
+        const rawPrefill = sessionStorage.getItem('slsLeadPrefill');
+        if (rawPrefill) {
+          sessionStorage.removeItem('slsLeadPrefill');
+          const prefill = JSON.parse(rawPrefill);
+          const regForm = document.getElementById('registerForm');
+          if (regForm && prefill) {
+            if (prefill.name && !regForm.fullName.value) regForm.fullName.value = String(prefill.name).slice(0, 100);
+            if (prefill.email && !regForm.email.value) regForm.email.value = String(prefill.email).slice(0, 200);
+            if (regForm.email.value) regForm.password.focus();
+          }
+        }
+      } catch (_) { /* prefill es opcional */ }
 
       debugLog("✅ Auth page setup complete");
     });

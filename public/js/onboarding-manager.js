@@ -387,11 +387,11 @@ class OnboardingManager {
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="icon">🚐</div>
-                        <h2 style="color: #1e293b !important;">¡Bienvenido a Smart Load Solution!</h2>
+                        <h2>¡Bienvenido a Smart Load Solution!</h2>
                     </div>
                     
                     <div class="modal-body">
-                        <p style="color: #374151 !important;">Antes de calcular tu primera carga, configuremos tu operación (2 minutos):</p>
+                        <p>Antes de calcular tu primera carga, configuremos tu operación (2 minutos):</p>
                         
                         <ul class="setup-benefits">
                             <li>✅ Tipo de vehículo y consumo</li>
@@ -401,12 +401,12 @@ class OnboardingManager {
                         
                         <div class="info-box">
                             <strong>📊 Cálculos precisos desde el inicio</strong>
-                            <p style="color: #374151 !important; margin: 0; font-size: 0.875rem; line-height: 1.5;">Esto asegura que TODOS los cálculos sean precisos para TU operación específica.</p>
+                            <p>Esto asegura que TODOS los cálculos sean precisos para TU operación específica.</p>
                         </div>
                     </div>
                     
                     <div class="modal-footer">
-                        <button class="btn-secondary" data-action="skip" style="color: #1e40af !important;">
+                        <button class="btn-secondary" data-action="skip">
                             Después (no recomendado)
                         </button>
                         <button class="btn-primary" data-action="setup">

@@ -18,22 +18,21 @@
 function ensurePaymentFields(loads) {
     return loads.map(load => {
         if (!load.paymentStatus) {
-            // Calculate payment date automatically
-            const date = new Date(load.date);
-            const dayOfWeek = date.getDay();
-
-            if (dayOfWeek === 0) {
-                date.setDate(date.getDate() + 1);
+            // Same term as calculator.js calculatePaymentDate: load date + 15 days.
+            // YYYY-MM-DD is a local calendar day, not a UTC instant.
+            const PAYMENT_TERM_DAYS = 15;
+            const m = String(load.date || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+            const paymentDate = m ? new Date(+m[1], +m[2] - 1, +m[3], 12) : new Date(load.date);
+            let expectedPaymentDate = null;
+            if (Number.isFinite(paymentDate.getTime())) {
+                paymentDate.setDate(paymentDate.getDate() + PAYMENT_TERM_DAYS);
+                expectedPaymentDate = formatDateLocal(paymentDate);
             }
-
-            const daysUntilNextFriday = (5 - date.getDay() + 7) % 7 + 7;
-            const paymentDate = new Date(date);
-            paymentDate.setDate(date.getDate() + daysUntilNextFriday);
 
             return {
                 ...load,
                 paymentStatus: 'pending',
-                expectedPaymentDate: paymentDate.toISOString().split('T')[0],
+                expectedPaymentDate,
                 actualPaymentDate: null,
             };
         }

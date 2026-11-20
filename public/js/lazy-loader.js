@@ -94,7 +94,7 @@ async function loadReportsModule() {
     debugLog("📄 Cargando Reports module...");
 
     try {
-        await loadScript('js/finances-reports-v2.js?v=1.1.0', 'FinancesReports');
+        await loadScript('js/finances-reports-v2.js?v=1.1.2', 'FinancesReports');
 
         // Verificar que se cargó correctamente
         if (!window.FinancesReports) {
@@ -126,7 +126,7 @@ async function loadExpensesModule() {
     debugLog("💰 Cargando Expenses module...");
 
     try {
-        await loadScript('js/finances-expenses.js?v=1.0.0', 'FinancesExpenses');
+        await loadScript('js/finances-expenses.js?v=1.0.1', 'FinancesExpenses');
 
         // Verificar que se cargó correctamente
         if (!window.FinancesExpenses) {

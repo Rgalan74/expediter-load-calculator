@@ -264,6 +264,13 @@
       color: #666;
     }
 
+    .sls-form input[type="checkbox"] {
+      width: 1rem;
+      height: 1rem;
+      padding: 0;
+      accent-color: #00d9ff;
+    }
+
     .sls-form input:focus {
       border-color: rgba(0, 217, 255, 0.5);
     }
@@ -1675,6 +1682,8 @@
       if (results[0] || results[1]) {
         document.getElementById("slsFormContent").style.display = "none";
         document.getElementById("slsSuccess").style.display = "block";
+        // Prellenar el registro con lo que ya escribio (auth.html lo lee y lo borra)
+        try { sessionStorage.setItem('slsLeadPrefill', JSON.stringify({ name: name, email: email })); } catch (_) {}
         setTimeout(function () { window.location.href = SLS_CONFIG.redirectUrl; }, 3000);
       } else {
         errDiv.textContent = t.errorMsg;

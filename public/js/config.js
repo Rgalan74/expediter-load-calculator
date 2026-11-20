@@ -48,6 +48,10 @@ function initializeFirebaseAuth() {
       debugLog("✅ Firebase inicializado");
     }
 
+    // Weather verification must never prevent Auth or financial features from loading.
+    try { window.SLSWeatherAppCheck?.initialize(firebase.app()); }
+    catch (_) { console.warn('Weather verification unavailable'); }
+
     auth = firebase.auth();
     db = firebase.firestore();
 
@@ -225,16 +229,8 @@ async function setupAuthListener() {
         };
       }
 
-      // ✅ Cargar configuración de Lex AI desde Firestore (key nunca en código fuente)
-      try {
-        const lexConfigSnap = await db.collection('appConfig').doc('openrouter').get();
-        if (lexConfigSnap.exists) {
-          window._lexConfig = lexConfigSnap.data();
-          debugLog('✅ [CONFIG] Lex AI config cargado desde Firestore');
-        }
-      } catch (e) {
-        debugLog('⚠️ [CONFIG] No se pudo cargar config de Lex AI:', e.message);
-      }
+      // La config de Lex AI (API key) ya no se descarga al cliente: vive en el
+      // servidor y solo la usa la Cloud Function lexChat.
 
       showAppContent();
 

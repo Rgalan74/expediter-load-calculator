@@ -1,4 +1,4 @@
-﻿// 🎯 SEQUENTIAL DESTINATIONS - Google Maps Style
+// 🎯 SEQUENTIAL DESTINATIONS - Google Maps Style
 // System for adding destinations sequentially (like stops in a route)
 
 debugLog('[DESTINATIONS] Loading sequential destinations system...');
@@ -50,12 +50,7 @@ function addDestination() {
     setTimeout(() => {
         const inputEl = document.getElementById(`${destId}-input`);
         if (inputEl) {
-            inputEl.addEventListener('input', () => {
-                updateLastDestination();
-                // Trigger calculation if available
-                if (typeof window.triggerCalculate === 'function') window.triggerCalculate();
-                else if (typeof window.calculate === 'function') window.calculate();
-            });
+            inputEl.addEventListener('input', handleDestInput);
             debugLog(`[DESTINATIONS] Input listener added for ${destId}`);
         }
         initializeDestinationAutocomplete(destId);
@@ -94,10 +89,27 @@ function initializeDestinationAutocomplete(destId) {
     debugLog(`[DESTINATIONS] Autocomplete initialized for ${destId}`);
 }
 
+// Helper to handle input changes on any destination field
+function handleDestInput() {
+    updateLastDestination();
+    if (typeof window.triggerCalculate === 'function') window.triggerCalculate();
+    else if (typeof window.calculate === 'function') window.calculate();
+}
+
 /**
  * Remove a destination field
  */
 function removeDestination(destId) {
+    // If it's the last remaining destination, just clear its text instead of removing the element
+    if (destinations.length <= 1) {
+        const input = document.getElementById(`${destId}-input`);
+        if (input) input.value = '';
+        debugLog(`[DESTINATIONS] Cleared single destination ${destId}`);
+        updateLastDestination();
+        calculateRoute();
+        return;
+    }
+
     const destDiv = document.getElementById(destId);
     if (destDiv) {
         destDiv.remove();
@@ -280,19 +292,64 @@ function renderMapRoute(directionsResult, retryCount = 0) {
     debugLog('[DESTINATIONS] ✅ Route rendered on map with proper bounds');
 }
 
-// Expose functions globally
-window.addDestination = addDestination;
-window.removeDestination = removeDestination;
-window.getAllDestinations = getAllDestinations;
-window.calculateRoute = calculateRoute;
+/**
+ * Reset destinations back to a clean initial state (one empty destination)
+ */
+function resetDestinations() {
+    debugLog('[DESTINATIONS] Resetting destinations...');
+    // Remove extra destinations (from index 1 upwards)
+    while (destinations.length > 1) {
+        const lastId = destinations[destinations.length - 1];
+        const destDiv = document.getElementById(lastId);
+        if (destDiv) destDiv.remove();
+        delete destinationAutocompletes[lastId];
+        destinations.pop();
+    }
+    // Clear first destination
+    if (destinations.length > 0) {
+        const firstInput = document.getElementById(`${destinations[0]}-input`);
+        if (firstInput) firstInput.value = '';
+    }
+    updateLastDestination();
+}
 
-// Auto-initialize first destination so user has a visible field on load
-document.addEventListener('DOMContentLoaded', () => {
+/**
+ * Initialize first destination (attaches to static DOM element or adds dynamically)
+ */
+function initFirstDestination() {
+    const existingInput = document.getElementById('dest-1-input');
+    if (existingInput) {
+        if (!destinations.includes('dest-1')) {
+            destinations = ['dest-1'];
+            destinationCounter = Math.max(destinationCounter, 1);
+        }
+        existingInput.removeEventListener('input', handleDestInput);
+        existingInput.addEventListener('input', handleDestInput);
+        setTimeout(() => initializeDestinationAutocomplete('dest-1'), 100);
+        debugLog('[DESTINATIONS] ✅ Attached to existing static dest-1 field');
+        return;
+    }
+
     const container = document.getElementById('destinationsContainer');
     if (container && container.children.length === 0) {
         debugLog('[DESTINATIONS] Auto-initializing first destination field');
         addDestination();
     }
-});
+}
+
+// Expose functions globally
+window.addDestination = addDestination;
+window.removeDestination = removeDestination;
+window.resetDestinations = resetDestinations;
+window.initFirstDestination = initFirstDestination;
+window.getAllDestinations = getAllDestinations;
+window.calculateRoute = calculateRoute;
+
+// Run initialization immediately or on DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFirstDestination);
+} else {
+    initFirstDestination();
+}
 
 debugLog('[DESTINATIONS] ✅ Sequential destinations system loaded');

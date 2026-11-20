@@ -847,8 +847,8 @@
   });
 </script>
 
-<script src="js/i18n/language-manager.js"></script>
-<script src="js/userPlans.js?v=3.1.0"></script>
+<script src="js/i18n/language-manager.js?v=20261112"></script>
+<script src="js/userPlans.js?v=3.2.0"></script>
 <script src="js/stripe-config.js?v=3.5.3"></script>
 
 <script>
@@ -1226,14 +1226,15 @@
     const user = auth.currentUser;
     if (!user) return;
     try {
-      // Borrar datos de Firestore
-      await db.collection('users').doc(user.uid).delete();
-      // Borrar cuenta de Auth
-      await user.delete();
+      // El servidor cancela la suscripción de Stripe, borra el perfil y la
+      // cuenta de Auth (firestore.rules ya no permite borrar users/{uid} desde el cliente).
+      const deleteFn = firebase.app().functions('us-central1').httpsCallable('deleteUserAccount');
+      await deleteFn({});
+      try { await auth.signOut(); } catch (_) { /* la cuenta ya no existe */ }
       window.location.href = 'auth.html';
     } catch(e) {
       const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-      if (e.code === 'auth/requires-recent-login') {
+      if (e.code === 'functions/failed-precondition' || e.code === 'auth/requires-recent-login') {
         toast(isEs ? 'Sesión expirada. Cierra sesión y vuelve a entrar para eliminar la cuenta' : 'Session expired. Log out and back in to delete your account', 'error');
       } else {
         toast('Error: ' + e.message, 'error');

@@ -135,7 +135,25 @@ function calculateFuelCost() {
 }
 
 // 4. FUNCION PARA CALCULAR TOTALES
+// These fields are USD/mi. Large legacy values are ambiguous, not auto-converted.
+function validateVariableCosts(showWarning = false) {
+    const message = window.i18n?.t('settings.variable_cost_warning') ||
+        'Review maintenance, tires and repairs in USD/mi. Enter a value from 0 to less than 1 in each field. Historical monthly amounts are not converted automatically; confirm their units before saving.';
+    let valid = true;
+    for (const id of ['maintenancePerMile', 'tiresPerMile', 'repairsPerMile']) {
+        const field = document.getElementById(id);
+        const raw = field?.value;
+        const value = Number(raw);
+        const acceptable = raw !== undefined && String(raw).trim() !== '' && Number.isFinite(value) && value >= 0 && value < 1;
+        field?.setCustomValidity(acceptable ? '' : message);
+        if (!acceptable) valid = false;
+    }
+    if (!valid && showWarning) showConfigMessage(message, 'error');
+    return valid;
+}
+
 function calculateTotals() {
+    if (!validateVariableCosts()) return { totalFixed: 0, fixedCostPerMile: 0, totalCPM: null };
     debugLog(" Calculating totals...");
 
     try {
@@ -159,12 +177,12 @@ function calculateTotals() {
         // Costo fijo por milla
         const fixedCostPerMile = totalFixed / monthlyMiles;
 
-        // Costos variables mensuales → CPM
+        // Costos variables YA expresados en USD/milla; no dividir entre millas mensuales
         const maintenanceMonthly = parseFloat(document.getElementById('maintenancePerMile')?.value) || 0;
         const tiresMonthly       = parseFloat(document.getElementById('tiresPerMile')?.value) || 0;
         const repairsMonthly     = parseFloat(document.getElementById('repairsPerMile')?.value) || 0;
         const variableMonthly    = maintenanceMonthly + tiresMonthly + repairsMonthly;
-        const variableCPM        = monthlyMiles > 0 ? variableMonthly / monthlyMiles : 0;
+        const variableCPM        = variableMonthly;
 
         const fuelCPM = parseFloat(document.getElementById('fuelPricePerGallon')?.value || 3.70) /
                         parseFloat(document.getElementById('fuelMPG')?.value || 19);
@@ -254,6 +272,8 @@ function saveUserConfiguration() {
         return;
     }
 
+    if (!validateVariableCosts(true)) return;
+
     // ✅ OBTENER BOTÓN DE GUARDAR
     const saveBtn = document.querySelector('button[onclick*="saveUserConfiguration"]');
 
@@ -284,9 +304,9 @@ function saveUserConfiguration() {
             // Costos variables por milla
             fuelMPG: parseFloat(document.getElementById('fuelMPG')?.value) || 18,
             fuelPricePerGallon: parseFloat(document.getElementById('fuelPricePerGallon')?.value) || 3.50,
-            maintenancePerMile: parseFloat(document.getElementById('maintenancePerMile')?.value) || 0.080,
-            tiresPerMile: parseFloat(document.getElementById('tiresPerMile')?.value) || 0.060,
-            repairsPerMile: parseFloat(document.getElementById('repairsPerMile')?.value) || 0.040,
+            maintenancePerMile: Number(document.getElementById('maintenancePerMile')?.value ?? 0.080),
+            tiresPerMile: Number(document.getElementById('tiresPerMile')?.value ?? 0.060),
+            repairsPerMile: Number(document.getElementById('repairsPerMile')?.value ?? 0.040),
 
             // Configuración de costos reales
             useRealCosts: document.getElementById('useRealCosts')?.checked || true,
@@ -295,23 +315,27 @@ function saveUserConfiguration() {
             // Metas de negocio
             targetRPM: parseFloat(document.getElementById('targetRPM')?.value) || 1.25,
             monthlyMilesGoal: parseFloat(document.getElementById('monthlyMilesGoal')?.value) || 8000,
-            targetProfit: parseFloat(document.getElementById('targetProfit')?.value) || 30
+            targetProfit: parseFloat(document.getElementById('targetProfit')?.value) || 30,
+            // Sueldo mensual que el dueño necesita sacar (0 = no usar)
+            ownerPayMonthly: Math.max(0, parseFloat(document.getElementById('ownerPayMonthly')?.value) || 0),
+            // Dias de trabajo al mes: el sueldo se reparte por dia (1-31, por defecto 22)
+            workDaysPerMonth: Math.min(31, Math.max(1, parseFloat(document.getElementById('workDaysPerMonth')?.value) || 22))
         };
 
         debugLog(" Configuration to save:", config);
 
         // ✅ CALCULAR costs PARA EL CALCULADOR
-        // maintenancePerMile / tiresPerMile / repairsPerMile son presupuestos MENSUALES en $
+        // maintenancePerMile / tiresPerMile / repairsPerMile ya estan en USD/milla
         const fuelCostPerMile   = config.fuelPricePerGallon / config.fuelMPG;
         const variableMonthly   = config.maintenancePerMile + config.tiresPerMile + config.repairsPerMile;
-        const variableCPMExFuel = config.monthlyMilesGoal > 0 ? variableMonthly / config.monthlyMilesGoal : 0;
+        const variableCPMExFuel = variableMonthly;
         const totalFixedMonthly = config.vehiclePayment + config.insurance + config.licenses + config.otherFixed;
         const fixedCPM          = config.monthlyMilesGoal > 0 ? totalFixedMonthly / config.monthlyMilesGoal : 0;
         const totalCPM          = fuelCostPerMile + variableCPMExFuel + fixedCPM;
 
         config.costs = {
             combustible:   parseFloat(fuelCostPerMile.toFixed(4)),
-            mantenimiento: parseFloat(variableCPMExFuel.toFixed(4)), // (mant+tires+repairs) mensual ÷ millas
+            mantenimiento: parseFloat(variableCPMExFuel.toFixed(4)), // mant+tires+repairs en USD/milla
             comida:        0,
             costosFijos:   parseFloat(fixedCPM.toFixed(4)),
             TOTAL:         parseFloat(totalCPM.toFixed(4)),
@@ -345,6 +369,14 @@ function saveUserConfiguration() {
         // ✅ ACTUALIZAR window.currentUser.costs INMEDIATAMENTE
         if (window.currentUser) {
             window.currentUser.costs = config.costs;
+            // Mantener al dia lo que leen la calculadora y el semaforo sin recargar
+            window.currentUser.profileData = {
+                ...(window.currentUser.profileData || {}),
+                targetProfit: config.targetProfit,
+                monthlyMilesGoal: config.monthlyMilesGoal,
+                ownerPayMonthly: config.ownerPayMonthly,
+                workDaysPerMonth: config.workDaysPerMonth
+            };
             document.dispatchEvent(new Event('configSaved'));
         }
 
@@ -484,7 +516,9 @@ function applyConfigurationToForm(config) {
             ['repairsPerMile', config.repairsPerMile],
             ['targetRPM', config.targetRPM],
             ['monthlyMilesGoal', config.monthlyMilesGoal],
-            ['targetProfit', config.targetProfit]
+            ['targetProfit', config.targetProfit],
+            ['ownerPayMonthly', config.ownerPayMonthly || ''],
+            ['workDaysPerMonth', config.workDaysPerMonth || 22]
         ];
 
         let fieldsLoaded = 0;
@@ -497,6 +531,8 @@ function applyConfigurationToForm(config) {
                 debugLog(` Loaded ${fieldId} = ${value}`);
             }
         });
+
+        validateVariableCosts(true);
 
         // Aplicar checkboxes
         const useRealCostsEl = document.getElementById('useRealCosts');

@@ -4,7 +4,7 @@
   "description": "Aplicación web diseñada para transportistas **cargo van expediters**, que permite calcular costos, ingresos y ganancias por carga de manera rápida y precisa.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test \"tests/*.test.js\"",
     "build:css": "tailwindcss -i ./tailwind-input.css -o ./public/css/tailwind-built.css --minify"
   },
   "repository": {

@@ -89,4 +89,12 @@ Videos/
 
 # Locales / reportes
 .claude/settings.local.json
+
+# Datos financieros reales usados en pruebas locales: nunca al repositorio
+tests/**/*.csv
+tests/*.csv
 Auditoria/*.json
+
+# Weather secrets and isolated validation artifacts
+**/.secret.local
+lab/

@@ -110,8 +110,9 @@ function getLoadHistory() {
 
         // CALCULAR CAMPOS FALTANTES BASADOS EN MILLAS
         const totalMiles = Number(data.totalMiles || data.miles || ((data.loaded || 0) + (data.deadhead || data.deadheadMiles || 0)));
-        const userCPM  = window.currentUser?.costs?.totalCPM || 0.534;
-        const userFuel = window.currentUser?.costs?.combustible || 0.195;
+        // Costo por milla activo (el mismo de la calculadora); fallback a Configuración
+        const userCPM  = window.TU_COSTO_REAL?.TOTAL || window.currentUser?.costs?.totalCPM || 0.534;
+        const userFuel = window.TU_COSTO_REAL?.combustible || window.currentUser?.costs?.combustible || window.currentUser?.costs?.fuelCost || 0.195;
         const operatingRate = data.operatingRate || (userCPM - userFuel);  // solo costos no-combustible
         const fuelRate = data.fuelRate || userFuel;
 
@@ -769,22 +770,24 @@ function updateEditCalculations() {
 
   // Usar el último campo editado para decidir
   if (lastEditedField === 'editRpm' && totalMiles > 0) {
-    totalCharge = (rpm * totalMiles) + tolls + otherCosts;
+    totalCharge = (rpm * totalMiles) + otherCosts;
     document.getElementById('editTotalCharge').value = totalCharge.toFixed(2);
   }
   else if (lastEditedField === 'editTotalCharge' && totalMiles > 0) {
-    rpm = (totalCharge - tolls - otherCosts) / totalMiles;
+    rpm = (totalCharge - otherCosts) / totalMiles;
     document.getElementById('editRpm').value = rpm.toFixed(2);
   }
 
   // Cálculos de costos — usar CPM real del usuario
   const costs = window.currentUser?.costs || {};
-  const cpm = Number(costs.totalCPM || costs.combustible || 0.195) + Number(costs.mantenimiento || 0.051) + Number(costs.costosFijos || 0.288);
-  const fuelCPM = Number(costs.combustible || 0.195);
+  // Misma formula que saveEditedLoad(): la vista previa debe mostrar lo que se guarda
+  // (antes sumaba totalCPM + mantenimiento + costos fijos, contando costos dos veces).
+  const cpm = Number(window.TU_COSTO_REAL?.TOTAL || costs.totalCPM || 0.534);
+  const fuelCPM = Number(window.TU_COSTO_REAL?.combustible || costs.combustible || costs.fuelCost || 0.195);
   const fuelCost = totalMiles * fuelCPM;
   const operatingCost = totalMiles * (cpm - fuelCPM);
-  // Tolls son pass-through (ya en la tarifa) — NO se suman como costo
-  const totalExpenses = fuelCost + operatingCost + otherCosts;
+  // Tolls son gasto de la carga; "otros" es ingreso (ya esta en totalCharge)
+  const totalExpenses = fuelCost + operatingCost + tolls;
   const netProfit = totalCharge - totalExpenses;
   const profitMargin = totalCharge > 0 ? (netProfit / totalCharge) * 100 : 0;
 
@@ -853,22 +856,24 @@ async function saveEditedLoad() {
     if (totalMiles <= 0) throw new Error(window.i18n?.t('history.total_miles_required') || 'Total miles must be greater than 0');
 
     // Recalcular flexible RPM Total
+    // Cobro = tarifa (rpm x millas) + otros (cargos extra al cliente, ingreso).
+    // Tolls = gasto. Misma formula que calculate() y saveLoad() en calculator.js.
     if (lastEditedField === 'editRpm' && totalMiles > 0) {
-      totalCharge = (rpm * totalMiles) + tolls + otherCosts;
+      totalCharge = (rpm * totalMiles) + otherCosts;
     } else if (lastEditedField === 'editTotalCharge' && totalMiles > 0) {
-      rpm = (totalCharge - tolls - otherCosts) / totalMiles;
+      rpm = (totalCharge - otherCosts) / totalMiles;
     } else if (rpm > 0 && totalMiles > 0) {
-      totalCharge = (rpm * totalMiles) + tolls + otherCosts;
+      totalCharge = (rpm * totalMiles) + otherCosts;
     }
 
     // Costos y ganancias — usar CPM real del usuario
     const costs = window.currentUser?.costs || {};
-    const cpm = Number(costs.totalCPM || 0.534);
-    const fuelCPM = Number(costs.combustible || 0.195);
+    const cpm = Number(window.TU_COSTO_REAL?.TOTAL || costs.totalCPM || 0.534);
+    const fuelCPM = Number(window.TU_COSTO_REAL?.combustible || costs.combustible || costs.fuelCost || 0.195);
     const fuelCost = totalMiles * fuelCPM;
     const operatingCost = totalMiles * (cpm - fuelCPM);
-    // Tolls son pass-through (ya en la tarifa) — NO se suman como costo
-    const totalExpenses = fuelCost + operatingCost + otherCosts;
+    // Tolls son gasto de la carga; "otros" es ingreso (ya esta en totalCharge)
+    const totalExpenses = fuelCost + operatingCost + tolls;
     const netProfit = totalCharge - totalExpenses;
     const profitMargin = totalCharge > 0 ? (netProfit / totalCharge) * 100 : 0;
 

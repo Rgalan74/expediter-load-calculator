@@ -12,20 +12,15 @@
 // ============================================================
 //  LEX-AI-ENGINE.JS v1.7
 //  Motor de AI real para Lex via OpenRouter + DeepSeek V3
-//  La API key se carga desde Firestore en config.js — nunca en código fuente
+//  La API key vive solo en el servidor (Cloud Function lexChat)
 // ============================================================
 
 (function () {
 
-    // Configuración base — la apiKey se inyecta en runtime desde window._lexConfig
-    // (cargado desde Firestore/config/lex_ai al hacer login)
+    // Configuración base. La API key y el modelo viven en el servidor
+    // (Cloud Function lexChat) — el cliente ya no los conoce.
     const OPENROUTER_CONFIG = {
-        get apiKey() { return window._lexConfig?.apiKey || ''; },
-        get model()  { return window._lexConfig?.model  || 'deepseek/deepseek-chat'; },
-        fallbackModel: 'openrouter/free',
-        maxTokens: 600,
-        referer: 'https://smartloadsolution.com',
-        appTitle: 'SmartLoad Lex AI'
+        maxTokens: 600
     };
 
     // ============================================================
@@ -209,8 +204,9 @@ If the user asks "should I take it?", "what do you think?" or "analyze it" witho
 
         // Thresholds dinamicos — igual que getDecisionInteligente
         const targetRPM_margen = cpm / (1 - targetProfitPct);
-        const acceptThreshold = avgRPM > 0 ? Math.max(targetRPM_margen, avgRPM) : targetRPM_margen;
-        const midThreshold = avgRPM > 0 ? Math.min(targetRPM_margen, avgRPM) : targetRPM_margen;
+        // D5: RPM historico solo referencia. RPM minimo de Configuracion = piso.
+        const acceptThreshold = Math.max(targetRPM_margen, Number(userConfig.targetRPM) || 0);
+        const midThreshold = acceptThreshold;
 
         // Estados buenos/malos desde historial REAL — sin repetir
         const stateEntries = Object.entries(p.stateStats || {})
@@ -539,62 +535,22 @@ RESPONSE FORMAT:
             debugLog('[LEX-AI] Prompt largo (' + estimatedInputTokens + ' tokens est.), maxTokens ajustado a:', maxTokens);
         }
 
-        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${OPENROUTER_CONFIG.apiKey}`,
-                'Content-Type': 'application/json',
-                'HTTP-Referer': OPENROUTER_CONFIG.referer,
-                'X-Title': OPENROUTER_CONFIG.appTitle
-            },
-            body: JSON.stringify({
-                model: OPENROUTER_CONFIG.model,
-                messages: messages,
-                max_tokens: maxTokens,
-                temperature: isCasual ? 0.7 : 0.4
-            })
+        // La llamada a OpenRouter se hace en el servidor (Cloud Function lexChat):
+        // la API key nunca llega al navegador y el acceso (plan/trial) se valida alli.
+        // El fallback de modelo tambien lo maneja el servidor.
+        const lexChatFn = firebase.app().functions('us-central1').httpsCallable('lexChat');
+        const res = await lexChatFn({
+            messages: messages,
+            maxTokens: maxTokens,
+            temperature: isCasual ? 0.7 : 0.4
         });
 
-        if (!response.ok) {
-            // Si falla DeepSeek, intentar con fallback
-            if (OPENROUTER_CONFIG.fallbackModel && OPENROUTER_CONFIG.model !== OPENROUTER_CONFIG.fallbackModel) {
-                debugLog('[LEX-AI] DeepSeek falló, intentando fallback...');
-                return callWithFallback(messages);
-            }
-            throw new Error(`HTTP ${response.status}`);
+        debugLog('[LEX-AI] Modelo:', res.data?.model);
+
+        if (!res.data || typeof res.data.content !== 'string') {
+            throw new Error('Respuesta vacía de Lex AI');
         }
-
-        const data = await response.json();
-
-        if (data.error) {
-            throw new Error(data.error.message || 'Error de API');
-        }
-
-        debugLog('[LEX-AI] Tokens usados:', data.usage?.total_tokens,
-            '| Modelo:', data.model);
-
-        return data.choices[0].message.content;
-    }
-
-    // Fallback al free router si DeepSeek falla
-    async function callWithFallback(messages) {
-        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${OPENROUTER_CONFIG.apiKey}`,
-                'Content-Type': 'application/json',
-                'HTTP-Referer': OPENROUTER_CONFIG.referer,
-                'X-Title': OPENROUTER_CONFIG.appTitle
-            },
-            body: JSON.stringify({
-                model: OPENROUTER_CONFIG.fallbackModel,
-                messages: messages,
-                max_tokens: OPENROUTER_CONFIG.maxTokens
-            })
-        });
-        const data = await response.json();
-        if (data.error) throw new Error(data.error.message);
-        return data.choices[0].message.content;
+        return res.data.content;
     }
 
     // ============================================================
@@ -691,9 +647,15 @@ RESPONSE FORMAT:
     //  VERIFICAR SI EL API KEY ESTÁ CONFIGURADO
     // ============================================================
     function isConfigured() {
-        return OPENROUTER_CONFIG.apiKey &&
-            OPENROUTER_CONFIG.apiKey !== 'sk-or-v1-PEGA_TU_KEY_AQUI' &&
-            OPENROUTER_CONFIG.apiKey.startsWith('sk-or-');
+        // "Configurado" = se puede llamar a la Cloud Function lexChat con un usuario logueado.
+        try {
+            return typeof firebase !== 'undefined' &&
+                firebase.apps && firebase.apps.length > 0 &&
+                typeof firebase.app().functions === 'function' &&
+                !!firebase.auth().currentUser;
+        } catch (e) {
+            return false;
+        }
     }
 
     // ============================================================
@@ -1004,14 +966,6 @@ RESPONSE FORMAT:
     //  EXPONER CONFIGURACIÓN PARA ADMIN (opcional)
     // ============================================================
     window.lexAIEngine = {
-        setApiKey: function (key) {
-            OPENROUTER_CONFIG.apiKey = key;
-            debugLog('[LEX-AI] API key actualizado');
-        },
-        setModel: function (model) {
-            OPENROUTER_CONFIG.model = model;
-            debugLog('[LEX-AI] Modelo actualizado:', model);
-        },
         isConfigured: isConfigured,
         clearHistory: function () {
             conversationHistory.length = 0;

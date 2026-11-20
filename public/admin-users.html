@@ -12,8 +12,8 @@
     <meta name="robots" content="noindex, nofollow" />
 
     <!-- Tus estilos del design system -->
-    <link rel="stylesheet" href="./css/design-system.css">
-    <link rel="stylesheet" href="./css/theme-tokens.css">
+    <link rel="stylesheet" href="./css/design-system.css?v=20261112">
+    <link rel="stylesheet" href="./css/theme-tokens.css?v=20261112">
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -304,8 +304,8 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-functions-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
-    <script src="./js/config.js"></script>
-    <script src="./js/core/roles-manager.js"></script>
+    <script src="./js/config.js?v=20261112"></script>
+    <script src="./js/core/roles-manager.js?v=20261112"></script>
 
     <script>
         // --- Modo mock: ?mock=1 sirve todo desde admin-mock-server.js, sin
@@ -319,7 +319,7 @@
         // firebase.initializeApp() por segunda vez con opciones vacías revienta con
         // "Firebase: Need to provide options (app/no-options)" y aborta el resto de
         // este script, dejando la página solo con el header estático. En vez de eso,
-        // esperamos a que config.js termine (mismo patrón que setup-admin.html).
+        // esperamos a que config.js termine.
         var auth, db, functions;
 
         let ALL_USERS = [];
@@ -551,10 +551,10 @@
                 return;
             }
             tb.innerHTML = rows.map(u => `
-                <tr onclick="goToUser('${u.uid}')">
+                <tr onclick="goToUser('${escapeHtml(u.uid)}')">
                     <td>
-                        <div style="font-weight:600">${u.email || '(sin email)'}</div>
-                        <div class="mono">${(u.uid||'').substring(0,16)}…</div>
+                        <div style="font-weight:600">${escapeHtml(u.email || '(sin email)')}</div>
+                        <div class="mono">${escapeHtml((u.uid||'').substring(0,16))}…</div>
                     </td>
                     <td>${planPill(u.plan)}</td>
                     <td>${statusPill(u.subscriptionStatus)}</td>
@@ -570,7 +570,7 @@
                 const res = await cf('adminGetUserDetail')({ targetUid: uid });
                 renderDetailPage(res.data);
             } catch (e) {
-                document.getElementById('detailView').innerHTML = `<div class="empty">❌ ${e.message || e}</div>`;
+                document.getElementById('detailView').innerHTML = `<div class="empty">❌ ${escapeHtml(e.message || e)}</div>`;
             }
         }
 
@@ -683,15 +683,15 @@
 
             const subsHtml = subs.length ? subs.map(s => `
                 <div class="pay">
-                    <div><b>Sub:</b> <span class="mono">${s.id}</span></div>
-                    <div class="muted">Estado: ${s.status || '—'} · Plan: ${s.items?.[0]?.price?.id || '—'}</div>
+                    <div><b>Sub:</b> <span class="mono">${escapeHtml(s.id)}</span></div>
+                    <div class="muted">Estado: ${escapeHtml(s.status || '—')} · Plan: ${escapeHtml(s.items?.[0]?.price?.id || '—')}</div>
                     <div class="muted">Período fin: ${fmt(s.current_period_end || null)}</div>
                 </div>`).join('') : '<div class="muted">Sin suscripciones en Firestore.</div>';
 
             const paysHtml = pays.length ? pays.map(py => `
                 <div class="pay">
                     <div><b>${py.currency ? py.currency.toUpperCase() : ''} ${(py.amount/100).toFixed(2)}</b> · ${py.status || ''}</div>
-                    <div class="muted mono">${py.id}</div>
+                    <div class="muted mono">${escapeHtml(py.id)}</div>
                     <div class="muted">${fmt(py.created || null)}</div>
                 </div>`).join('') : '<div class="muted">Sin pagos registrados.</div>';
 
@@ -743,7 +743,7 @@
                     <div class="kv">
                         <div class="k">Cliente desde</div><div>${fmt(p.createdAt)}</div>
                         <div class="k">Últ. actividad</div><div>${fmt(p.lastActiveAt)}</div>
-                        <div class="k">Rol</div><div>${p.role}</div>
+                        <div class="k">Rol</div><div>${escapeHtml(p.role)}</div>
                         <div class="k">Ingresos totales (cargas)</div><div>${fmtMoney(d.stats.loadsTotal)}</div>
                     </div>
                 </div>
@@ -794,7 +794,7 @@
 
                 <div class="detail-card">
                     <h3>Notas de admin</h3>
-                    <textarea id="adminNotes">${p.adminNotes || ''}</textarea>
+                    <textarea id="adminNotes">${escapeHtml(p.adminNotes || '')}</textarea>
                     <div class="row-actions">
                         <button class="btn btn-ghost" onclick="doSaveNotes('${d.uid}')">Guardar notas</button>
                     </div>

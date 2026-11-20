@@ -179,8 +179,9 @@ class CalculatorAgent extends AgentBase {
     const targetProfitPct = profile?.targetProfitPct || 0.20;
 
     const targetRPM_margen = cpm > 0 ? cpm / (1 - targetProfitPct) : cpm * 1.20;
-    const acceptThreshold = avgRPM > 0 ? Math.max(targetRPM_margen, avgRPM) : targetRPM_margen;
-    const midThreshold = avgRPM > 0 ? Math.min(targetRPM_margen, avgRPM) : targetRPM_margen;
+    // D5: RPM historico solo referencia. RPM minimo de Configuracion = piso.
+    const acceptThreshold = Math.max(targetRPM_margen, Number(window.currentUser?.profileData?.targetRPM) || 0);
+    const midThreshold = acceptThreshold;
 
     const rpm = metrics.rpm;
 

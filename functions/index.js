@@ -95,8 +95,17 @@ app.post("/", async (req, res) => {
                 // Si es un upgrade, cancelar la suscripción anterior inmediatamente
                 const oldSubId = session.metadata?.upgrading_from_subscription;
                 if (oldSubId) {
-                    logger.info("[stripeWebhook] Upgrade detectado — cancelando suscripción antigua:", oldSubId);
-                    await cancelStripeSubscription(oldSubId);
+                    // metadata la escribe el cliente: verificar en Stripe que esa
+                    // suscripcion es del MISMO customer que pago este checkout (y que
+                    // no es la recien creada) antes de cancelarla. Sin esto, cualquiera
+                    // podia cancelar la suscripcion de otro usuario pasando su ID.
+                    const ownsOldSub = await subscriptionBelongsToCustomer(oldSubId, session.customer);
+                    if (ownsOldSub && oldSubId !== session.subscription) {
+                        logger.info("[stripeWebhook] Upgrade detectado — cancelando suscripción antigua:", oldSubId);
+                        await cancelStripeSubscription(oldSubId);
+                    } else {
+                        logger.warn("[stripeWebhook] upgrading_from_subscription ignorado (no pertenece al customer del checkout):", oldSubId, "customer:", session.customer);
+                    }
                 }
 
                 await sendMetaPurchaseEvent(session);
@@ -147,7 +156,9 @@ app.post("/", async (req, res) => {
                             professional: { name: "Professional", price: "14.99" },
                             premium:      { name: "Premium + AI", price: "29.99" },
                         };
-                        if (userEmail && planMeta[planId]) {
+                        // Solo en el primer pago: en subscription_cycle (renovacion
+                        // mensual) este mismo email de "Bienvenido" se mandaba cada mes.
+                        if (invoice.billing_reason === "subscription_create" && userEmail && planMeta[planId]) {
                             const { name: planName, price: planPrice } = planMeta[planId];
                             const lang = await getUserLang(firebaseId);
                             await db.collection("mail").add({
@@ -266,8 +277,13 @@ app.post("/", async (req, res) => {
                 logger.info("[stripeWebhook] Evento no manejado:", event.type);
         }
     } catch (err) {
-        logger.error("[stripeWebhook] Error procesando evento:", err.message);
-        // Responder 200 igual para evitar reintentos de Stripe en errores internos
+        logger.error("[stripeWebhook] Error procesando evento:", event.type, err.message);
+        // Responder 500 para que Stripe REINTENTE: si activateUserPlan() o
+        // downgradeUserPlan() fallan por un error transitorio y contestamos
+        // 200, el evento se pierde y el cliente queda pagando sin su plan.
+        // Los handlers son idempotentes (set con merge), asi que reintentar es seguro.
+        res.status(500).json({ received: false });
+        return;
     }
 
     res.status(200).json({ received: true });
@@ -389,8 +405,8 @@ exports.evaluateLoad = onCall(
 
         // ── Thresholds dinámicos ─────────────────────────────────────────
         const targetRPM    = cpm / (1 - targetProfitPct);
-        const acceptThresh = avgRPM > 0 ? Math.max(targetRPM, avgRPM) : targetRPM;
-        const midThresh    = avgRPM > 0 ? Math.min(targetRPM, avgRPM) : targetRPM;
+        const acceptThresh = targetRPM; // D5: RPM historico solo referencia, no cambia el umbral
+        const midThresh    = targetRPM; // D5: RPM historico solo referencia, no cambia el umbral
 
         // ── Decisión — 4 zonas ───────────────────────────────────────────
         let decision, level, icon, razon;
@@ -483,11 +499,12 @@ function _validateLoadPayload(data) {
 // suscripcion activa de Stripe, esa suscripcion manda (mapeada via
 // PRICE_TO_PLAN) sobre el campo `plan` del documento, que puede estar
 // desactualizado; si no, se usa el campo `plan` directamente.
-async function _resolveUserPlan(uid, userData) {
+async function _resolveUserPlan(uid, userData, transaction = null) {
     if (userData.role === 'admin') return 'admin';
 
-    const subsSnap = await db.collection('customers').doc(uid)
-        .collection('subscriptions').where('status', '==', 'active').get();
+    const subscriptions = db.collection('customers').doc(uid)
+        .collection('subscriptions').where('status', '==', 'active');
+    const subsSnap = transaction ? await transaction.get(subscriptions) : await subscriptions.get();
 
     const PLAN_PRIORITY = { free: 0, professional: 1, premium: 2, admin: 3 };
     let planId = null;
@@ -693,6 +710,167 @@ exports.cancelUserSubscription = onCall(
     }
 );
 
+// ─── Eliminar la cuenta del usuario (callable) ────────────────────────────────
+// Unico camino para borrar users/{uid}: firestore.rules ya no permite el
+// delete desde el cliente (borrar y recrear el perfil reiniciaba el contador
+// de cargas y permitia sembrar campos protegidos). Ademas cancela las
+// suscripciones de Stripe ANTES de borrar nada, para no dejar a alguien
+// pagando por una cuenta que ya no existe.
+const DELETE_ACCOUNT_MAX_AUTH_AGE_SEC = 10 * 60;
+
+exports.deleteUserAccount = onCall(
+    { region: 'us-central1', secrets: ["STRIPE_SECRET_KEY"] },
+    async (request) => {
+        const uid = request.auth?.uid;
+        if (!uid) throw new HttpsError('unauthenticated', 'Authentication required');
+
+        // Misma proteccion que daba user.delete() en el cliente: exigir login reciente.
+        const authTime = Number(request.auth.token?.auth_time || 0);
+        if (!authTime || (Date.now() / 1000 - authTime) > DELETE_ACCOUNT_MAX_AUTH_AGE_SEC) {
+            throw new HttpsError('failed-precondition', 'requires-recent-login');
+        }
+
+        const custSnap = await db.collection('customers').doc(uid).get();
+        const stripeCustomerId = custSnap.exists ? (custSnap.data().stripeId || null) : null;
+
+        if (stripeCustomerId) {
+            if (!STRIPE_SECRET_KEY) throw new HttpsError('internal', 'Stripe not configured');
+            const stripe = new Stripe(STRIPE_SECRET_KEY);
+            try {
+                const subs = await stripe.subscriptions.list({ customer: stripeCustomerId, status: 'all', limit: 20 });
+                const live = subs.data.filter(s => !['canceled', 'incomplete_expired'].includes(s.status));
+                for (const s of live) {
+                    await stripe.subscriptions.cancel(s.id);
+                    logger.info(`[deleteUserAccount] Suscripcion cancelada: ${s.id} uid: ${uid}`);
+                }
+            } catch (e) {
+                // No borrar la cuenta si no se pudo cancelar el cobro.
+                logger.error(`[deleteUserAccount] No se pudo cancelar la suscripcion de ${uid}:`, e.message);
+                throw new HttpsError('internal', 'Could not cancel the active subscription. Account was not deleted.');
+            }
+        }
+
+        await db.collection('users').doc(uid).delete();
+        await admin.auth().deleteUser(uid);
+        logger.info(`[deleteUserAccount] ✅ Cuenta eliminada: ${uid}`);
+        return { success: true };
+    }
+);
+
+// ─── Lex AI: proxy a OpenRouter (callable) ────────────────────────────────────
+// La API key de OpenRouter vive en appConfig/openrouter y SOLO se lee aqui,
+// via Admin SDK. Antes el navegador la descargaba y llamaba a OpenRouter
+// directo, asi que cualquier usuario autenticado podia copiarla. El acceso
+// (plan premium/admin o trial) tambien se decide aqui, no en el cliente.
+const LEX_TRIAL_DAYS = 14;
+const LEX_MAX_MESSAGES = 12;
+const LEX_MAX_TOTAL_CHARS = 60000;
+const LEX_MAX_TOKENS = 600;
+const LEX_DEFAULT_MODEL = 'deepseek/deepseek-chat';
+const LEX_FALLBACK_MODEL = 'openrouter/free';
+const LEX_CONFIG_TTL_MS = 5 * 60 * 1000;
+let _lexConfigCache = { at: 0, data: null };
+
+async function _getLexConfig() {
+    if (_lexConfigCache.data && (Date.now() - _lexConfigCache.at) < LEX_CONFIG_TTL_MS) {
+        return _lexConfigCache.data;
+    }
+    const snap = await db.collection('appConfig').doc('openrouter').get();
+    const data = snap.exists ? snap.data() : {};
+    _lexConfigCache = { at: Date.now(), data };
+    return data;
+}
+
+// El trial se calcula desde la fecha de creacion de la cuenta en Firebase Auth
+// (no falsificable), no desde users/{uid}.lexTrialEndsAt, que escribe el cliente.
+async function _userHasLexAccess(uid) {
+    const userSnap = await db.collection('users').doc(uid).get();
+    const userData = userSnap.exists ? userSnap.data() : {};
+    const planId = await _resolveUserPlan(uid, userData);
+    if (planId === 'premium' || planId === 'admin') return true;
+
+    const authUser = await admin.auth().getUser(uid);
+    const createdMs = new Date(authUser.metadata.creationTime).getTime();
+    return !!createdMs && Date.now() < createdMs + LEX_TRIAL_DAYS * 86400000;
+}
+
+async function _callOpenRouter(apiKey, model, messages, maxTokens, temperature) {
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+            'HTTP-Referer': 'https://smartloadsolution.com',
+            'X-Title': 'SmartLoad Lex AI',
+        },
+        body: JSON.stringify({ model, messages, max_tokens: maxTokens, temperature }),
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    if (data.error) throw new Error(data.error.message || 'OpenRouter error');
+    const content = data.choices?.[0]?.message?.content;
+    if (typeof content !== 'string') throw new Error('Empty completion');
+    return { content, model: data.model || model, totalTokens: data.usage?.total_tokens || null };
+}
+
+exports.lexChat = onCall(
+    { region: 'us-central1', timeoutSeconds: 60 },
+    async (request) => {
+        const uid = request.auth?.uid;
+        if (!uid) throw new HttpsError('unauthenticated', 'Authentication required');
+
+        const data = request.data || {};
+        const rawMessages = Array.isArray(data.messages) ? data.messages : null;
+        if (!rawMessages || rawMessages.length === 0 || rawMessages.length > LEX_MAX_MESSAGES) {
+            throw new HttpsError('invalid-argument', 'Invalid messages');
+        }
+        let totalChars = 0;
+        const messages = rawMessages.map(m => {
+            const role = m && m.role;
+            const content = m && m.content;
+            if (!['system', 'user', 'assistant'].includes(role) || typeof content !== 'string') {
+                throw new HttpsError('invalid-argument', 'Invalid message');
+            }
+            totalChars += content.length;
+            return { role, content };
+        });
+        if (totalChars > LEX_MAX_TOTAL_CHARS) {
+            throw new HttpsError('invalid-argument', 'Messages too long');
+        }
+        const maxTokens = Math.min(LEX_MAX_TOKENS, Math.max(1, Math.floor(Number(data.maxTokens) || LEX_MAX_TOKENS)));
+        const tempNum = Number(data.temperature);
+        const temperature = Number.isFinite(tempNum) ? Math.min(1, Math.max(0, tempNum)) : 0.4;
+
+        if (!(await _userHasLexAccess(uid))) {
+            throw new HttpsError('permission-denied', 'Lex AI requires the Premium plan or an active trial');
+        }
+
+        const cfg = await _getLexConfig();
+        const apiKey = cfg.apiKey;
+        if (!apiKey) {
+            logger.error('[lexChat] appConfig/openrouter.apiKey no configurado');
+            throw new HttpsError('failed-precondition', 'Lex AI is not configured');
+        }
+        const model = cfg.model || LEX_DEFAULT_MODEL;
+
+        try {
+            let result;
+            try {
+                result = await _callOpenRouter(apiKey, model, messages, maxTokens, temperature);
+            } catch (primaryErr) {
+                if (model === LEX_FALLBACK_MODEL) throw primaryErr;
+                logger.warn(`[lexChat] ${model} fallo (${primaryErr.message}) — usando fallback`);
+                result = await _callOpenRouter(apiKey, LEX_FALLBACK_MODEL, messages, maxTokens, temperature);
+            }
+            logger.info(`[lexChat] uid:${uid} modelo:${result.model} tokens:${result.totalTokens}`);
+            return { content: result.content, model: result.model };
+        } catch (e) {
+            logger.error(`[lexChat] uid:${uid} error:`, e.message);
+            throw new HttpsError('unavailable', 'Lex AI is temporarily unavailable');
+        }
+    }
+);
+
 // ─── Activar plan en Firestore ─────────────────────────────────────────────────
 async function activateUserPlan(firebaseId, planId, subscriptionId) {
     logger.info("[activateUserPlan]", firebaseId, "→", planId);
@@ -707,10 +885,17 @@ async function activateUserPlan(firebaseId, planId, subscriptionId) {
 
 // ─── Bajar plan a free ─────────────────────────────────────────────────────────
 async function downgradeUserPlan(firebaseId, customerId, deletedSubId) {
+    const userDoc = await db.collection("users").doc(firebaseId).get();
+    // Cuenta eliminada (deleteUserAccount cancela la sub y borra el perfil):
+    // no recrear un users/{uid} huerfano con el set(merge) de mas abajo.
+    if (!userDoc.exists) {
+        logger.info(`[downgradeUserPlan] users/${firebaseId} no existe (cuenta eliminada) — ignorando`);
+        return;
+    }
+
     // Si la sub eliminada no coincide con la que está en Firestore, ignorar
     if (deletedSubId) {
-        const userDoc = await db.collection("users").doc(firebaseId).get();
-        const currentSubId = userDoc.exists ? userDoc.data().subscriptionId : null;
+        const currentSubId = userDoc.data().subscriptionId || null;
         if (currentSubId && currentSubId !== deletedSubId) {
             logger.info(`[downgradeUserPlan] Sub eliminada (${deletedSubId}) ≠ sub actual (${currentSubId}) — ignorando`);
             return;
@@ -765,6 +950,20 @@ async function getFirebaseIdFromCustomer(stripeCustomerId) {
     } catch (err) {
         logger.error("[getFirebaseIdFromCustomer] Error:", err.message);
         return null;
+    }
+}
+
+// ─── Verificar que una suscripcion pertenece a un customer de Stripe ─────────
+async function subscriptionBelongsToCustomer(subscriptionId, customerId) {
+    if (!subscriptionId || !customerId || !STRIPE_SECRET_KEY) return false;
+    try {
+        const stripe = new Stripe(STRIPE_SECRET_KEY);
+        const sub = await stripe.subscriptions.retrieve(subscriptionId);
+        const subCustomer = typeof sub.customer === 'string' ? sub.customer : sub.customer?.id;
+        return subCustomer === customerId;
+    } catch (err) {
+        logger.warn("[subscriptionBelongsToCustomer] No se pudo verificar:", subscriptionId, err.message);
+        return false;
     }
 }
 
@@ -1216,10 +1415,11 @@ exports.sendContactMessage = onCall(
 // activos (OCULTO). Corre 1x/dia, mismo patron que lexDailyAlerts.
 // (c) 2026 SmartLoad Solution - Ricardo Galan.
 // ============================================================
-// ⚠️ Placeholder hasta que exista el Google Business Profile real
+// El link real se configura en functions/.env como GOOGLE_REVIEW_LINK cuando
+// exista el Google Business Profile
 // (docs/superpowers/specs/2026-08-23-reviews-system-design.md, Fase 1).
-// NO desplegar esta funcion como schedule activo hasta reemplazar esto.
-const GOOGLE_REVIEW_LINK = 'https://g.page/r/PLACEHOLDER/review';
+// Mientras no este definido, la funcion no envia ningun email aunque se despliegue.
+const GOOGLE_REVIEW_LINK = (process.env.GOOGLE_REVIEW_LINK || '').trim();
 
 const REVIEW_MIN_LOADS = 10;
 const REVIEW_MIN_ACCOUNT_AGE_DAYS = 7;
@@ -1227,6 +1427,10 @@ const REVIEW_MIN_ACCOUNT_AGE_DAYS = 7;
 exports.requestReviews = onSchedule(
     { schedule: 'every 24 hours', timeZone: 'America/Chicago', maxInstances: 1 },
     async () => {
+        if (!/^https:\/\//.test(GOOGLE_REVIEW_LINK) || GOOGLE_REVIEW_LINK.includes('PLACEHOLDER')) {
+            logger.warn('[requestReviews] GOOGLE_REVIEW_LINK no configurado — no se envia nada.');
+            return;
+        }
         const now = new Date();
         const cutoffMs = now.getTime() - REVIEW_MIN_ACCOUNT_AGE_DAYS * 86400000;
 
@@ -1706,3 +1910,6 @@ exports.adminUpdateUser = onCall(
         }
     }
 );
+
+// Weather proxy: additive integration; reuse Admin and the existing server plan resolver.
+exports.getWeather = require('./get-weather').buildGetWeather({ admin, db, resolveUserPlan: _resolveUserPlan });

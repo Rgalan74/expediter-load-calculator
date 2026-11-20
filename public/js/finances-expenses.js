@@ -70,9 +70,16 @@ async function saveExpenseToFirebase() {
     const saveBtn = document.querySelector("#expenseModal button[type='submit']");
     if (saveBtn) saveBtn.disabled = true;
 
+    // Hay pantallas que leen "category" y otras "type": se guardan los dos iguales
+    // para que un cambio de categoria se vea en todas partes.
+    expense.category = type;
+
     try {
         if (editId) {
-            await firebase.firestore().collection("expenses").doc(editId).update(expense);
+            // Al editar se conserva la fecha de creacion original
+            const { createdAt: _keepOriginal, ...changes } = expense;
+            changes.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
+            await firebase.firestore().collection("expenses").doc(editId).update(changes);
             debugFinances(`✅ Gasto actualizado (${editId}):`, expense);
             showFinancesMessage(window.i18n?.t('finances.expense_updated_ok') || "✅ Expense updated successfully", "success");
             if (window.showToast) {
@@ -91,7 +98,7 @@ async function saveExpenseToFirebase() {
         if (window.CPMEngine) window.CPMEngine.clearCache();
         if (modal) modal.dataset.editId = ""; // reset
         closeExpenseModal();
-        loadFinancesData();
+        loadFinancesData('all', true); // forceReload: sin esto la lista seguia mostrando el gasto viejo
     } catch (error) {
         debugFinances("❌ Error guardando gasto:", error);
         showFinancesMessage(window.i18n?.t('finances.expense_save_error') || "❌ Could not save expense", "error");
@@ -174,6 +181,12 @@ async function openExpenseModal(expense = null) {
     // Mostrar modal
     modal.classList.remove('hidden');
 
+    // Cargar categorías (sistema + personalizadas) ANTES de asignar valores:
+    // repoblar el select después dejaba la categoría del gasto en blanco.
+    if (window.CustomCategories && window.CustomCategories.populateExpenseCategoriesSelect) {
+        await window.CustomCategories.populateExpenseCategoriesSelect();
+    }
+
     // Inputs del modal
     const dateEl = document.getElementById('expenseDate');
     const typeEl = document.getElementById('expenseType');
@@ -183,7 +196,7 @@ async function openExpenseModal(expense = null) {
     if (expense) {
         // 📝 Editar gasto existente
         dateEl.value = expense.date || new Date().toISOString().split('T')[0];
-        typeEl.value = expense.type || "";
+        typeEl.value = expense.category || expense.type || "";
         descEl.value = expense.description || "";
         amountEl.value = expense.amount || 0;
     } else {
@@ -192,11 +205,6 @@ async function openExpenseModal(expense = null) {
         typeEl.value = "";
         descEl.value = "";
         amountEl.value = "";
-    }
-
-    // Cargar categorías personalizadas en el dropdown
-    if (window.CustomCategories && window.CustomCategories.populateExpenseCategoriesSelect) {
-        await window.CustomCategories.populateExpenseCategoriesSelect();
     }
 }
 
@@ -266,8 +274,7 @@ async function renderExpensesList(filteredExpenses = []) {
 
             // Comparación de texto (type, description)
             return asc ? String(valA).localeCompare(String(valB)) : String(valB).localeCompare(String(valA));
-        })
-        .slice(0, 10);
+        });
 
     const categoryIcons = {
         fuel: "⛽", maintenance: "🔧", food: "🍔", lodging: "🏨",

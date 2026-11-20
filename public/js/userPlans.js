@@ -120,6 +120,23 @@ const PLANS = {
     }
 };
 
+// Cargas del mes en curso. El contador users/{uid}.loadsThisMonth solo lo
+// reinicia el servidor (createLoad) al guardar la primera carga del mes nuevo,
+// asi que si monthStartDate es de un mes anterior el valor guardado ya no
+// aplica: sin esto, un usuario Starter que llego al limite quedaba bloqueado
+// para siempre (el gate del cliente nunca dejaba llamar a createLoad).
+// Se compara en UTC, igual que la Cloud Function.
+function getEffectiveLoadsThisMonth(userData) {
+    const count = Number(userData?.loadsThisMonth || 0);
+    if (!userData?.monthStartDate) return count;
+    const start = new Date(userData.monthStartDate);
+    if (isNaN(start.getTime())) return count;
+    const now = new Date();
+    const sameMonth = now.getUTCMonth() === start.getUTCMonth() &&
+        now.getUTCFullYear() === start.getUTCFullYear();
+    return sameMonth ? count : 0;
+}
+
 async function getUserPlan(userId) {
     try {
         const userDoc = await firebase.firestore()
@@ -135,7 +152,7 @@ async function getUserPlan(userId) {
                 ...PLANS['admin'],
                 userId,
                 subscriptionStatus: 'active',
-                loadsThisMonth: userData.loadsThisMonth || 0,
+                loadsThisMonth: getEffectiveLoadsThisMonth(userData),
                 monthStartDate: userData.monthStartDate || new Date().toISOString()
             };
         }
@@ -190,7 +207,7 @@ async function getUserPlan(userId) {
             subscriptionId: stripeSubId,
             subscriptionStatus: userData.subscriptionStatus || 'active',
             subscriptionEndDate: userData.subscriptionEndDate || null,
-            loadsThisMonth: userData.loadsThisMonth || 0,
+            loadsThisMonth: getEffectiveLoadsThisMonth(userData),
             monthStartDate: userData.monthStartDate || new Date().toISOString(),
             lexTrialEndsAt: userData.lexTrialEndsAt || null
         };

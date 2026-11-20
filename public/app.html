@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" id="htmlRoot">
 
 <head>
@@ -80,17 +80,17 @@
     rel="stylesheet">
 
   <!-- 🎨 Estilos -->
-  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/design-system.css?v=20261112">
   <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
   <link rel="stylesheet" href="css/mobile-styles.css?v=2.8.0">
-  <link rel="stylesheet" href="css/mobile-typography.css">
+  <link rel="stylesheet" href="css/mobile-typography.css?v=20261112">
   <link rel="stylesheet" href="css/app.css?v=4.3.0">
-  <link rel="stylesheet" href="css/zones-print.css" media="print">
+  <link rel="stylesheet" href="css/zones-print.css?v=20261112" media="print">
   <link rel="stylesheet" href="css/calculator-decision.css?v=1.0.0">
   <link rel="stylesheet" href="css/ui-enhancements.css?v=1.0.0">
-  <link rel="stylesheet" href="css/onboarding.css?v=1.0.1">
-  <link rel="stylesheet" href="css/print-styles.css" media="print">
-  <link rel="stylesheet" href="css/report-modal-styles.css">
+  <link rel="stylesheet" href="css/onboarding.css?v=1.0.2">
+  <link rel="stylesheet" href="css/print-styles.css?v=20261112" media="print">
+  <link rel="stylesheet" href="css/report-modal-styles.css?v=20261112">
   <!-- MOBILE CALCULATOR FIX - Must load LAST to override all other styles -->
   <link rel="stylesheet" href="css/mobile-calculator-fix.css?v=3.3.0">
   <link rel="stylesheet" href="css/theme-tokens.css?v=2.0.7">
@@ -334,6 +334,7 @@
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
 
+  <meta name="sls-app-check-site-key" content="">
 </head>
 
 <body class="text-gray-900">
@@ -570,7 +571,15 @@
 
                   <!-- DESTINOS DINÁMICOS - Container -->
                   <div id="destinationsContainer" class="space-y-3">
-                    <!-- Los destinos se agregarán aquí dinámicamente -->
+                    <div id="dest-1" class="relative">
+                      <div class="flex items-center gap-2">
+                        <input type="text"
+                          id="dest-1-input"
+                          placeholder="Destination (e.g. Chicago, IL)"
+                          data-i18n="calculator.destination_placeholder"
+                          class="border p-3 w-full rounded-lg text-base placeholder:text-sm">
+                      </div>
+                    </div>
                   </div>
 
                   <!-- Botón Añadir Destino -->
@@ -648,7 +657,7 @@
                   <input type="number" id="tolls" placeholder="25" class="border p-3 w-full rounded-lg text-base">
                 </div>
                 <div>
-                  <label class="block text-base font-medium mb-2" data-i18n="calculator.other_costs_usd_label">Other Costs ($)</label>
+                  <label class="block text-base font-medium mb-2" data-i18n="calculator.other_costs_usd_label">Extra Charges to Customer ($)</label>
                   <input type="number" id="otherCosts" placeholder="0" class="border p-3 w-full rounded-lg text-base">
                 </div>
               </div>
@@ -719,6 +728,11 @@
                         <span class="text-gray-900" data-i18n="calculator.total_expenses_label">Total Expenses:</span>
                         <span id="totalExpenses" class="text-white text-lg">$0.00</span>
                       </div>
+                      <div id="cpmSourceNote" class="text-xs text-gray-500 mt-1"></div>
+                      <details id="cpmBreakdown" class="text-xs text-gray-400 mt-1" style="display:none;">
+                        <summary id="cpmBreakdownSummary" style="cursor:pointer;">See how it is calculated</summary>
+                        <div id="cpmBreakdownBody" style="margin-top:6px;"></div>
+                      </details>
                     </div>
                   </div>
 
@@ -729,6 +743,7 @@
                         <div class="text-xs mb-1" id="profitLabel">💰 Net Profit</div>
                         <div id="netProfit" class="text-2xl md:text-3xl font-bold">$0.00</div>
                         <div id="profitDetails" class="text-xs mt-1 font-semibold">$0.00/mi • 0% margin</div>
+                        <div id="afterPayNote" class="text-xs mt-1" style="display:none;"></div>
                       </div>
                       <div class="text-right text-xs flex-shrink-0">
                         <div id="estimatedTimeShort" class="text-white font-semibold">⏱️ 0h</div>
@@ -1244,8 +1259,8 @@
                 </div>
               </div>
 
-              <!-- Expense list -->
-              <div class="overflow-x-auto">
+              <!-- Expense list (todos los gastos del periodo, con scroll) -->
+              <div class="overflow-x-auto" style="max-height: 520px; overflow-y: auto;">
                 <table class="min-w-full text-sm border border-gray-300">
                   <thead class="bg-gray-100 select-none">
                     <tr>
@@ -2202,7 +2217,7 @@
                 <label for="vehiclePayment" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="finances.expense_car_payment">
                   🚗 Car Payment
                 </label>
-                <input type="number" id="vehiclePayment" name="vehiclePayment" step="1" value="897"
+                <input type="number" id="vehiclePayment" name="vehiclePayment" step="1" value="" placeholder="0"
                   oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
               </div>
 
@@ -2210,7 +2225,7 @@
                 <label for="insurance" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings.label_insurance">
                   Insurance per Mile ($)
                 </label>
-                <input type="number" id="insurance" name="insurance" step="1" value="1250" oninput="calculateTotals()"
+                <input type="number" id="insurance" name="insurance" step="1" value="" placeholder="0" oninput="calculateTotals()"
                   class="border p-3 w-full rounded-lg">
               </div>
 
@@ -2218,7 +2233,7 @@
                 <label for="licenses" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="finances.expense_permits">
                   Permits
                 </label>
-                <input type="number" id="licenses" name="licenses" step="1" value="10" oninput="calculateTotals()"
+                <input type="number" id="licenses" name="licenses" step="1" value="" placeholder="0" oninput="calculateTotals()"
                   class="border p-3 w-full rounded-lg">
               </div>
 
@@ -2226,7 +2241,7 @@
                 <label for="otherFixed" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings.label_other_costs">
                   Other Costs per Mile ($)
                 </label>
-                <input type="number" id="otherFixed" name="otherFixed" step="1" value="150" oninput="calculateTotals()"
+                <input type="number" id="otherFixed" name="otherFixed" step="1" value="" placeholder="0" oninput="calculateTotals()"
                   class="border p-3 w-full rounded-lg">
                 <p class="text-xs text-gray-500 mt-1">Phone, internet, etc.</p>
               </div>
@@ -2289,42 +2304,42 @@
 
               <div>
                 <label for="maintenancePerMile" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings.label_maintenance">
-                  🔧 Maintenance — Monthly ($)
+                  🔧 Maintenance — USD/mi
                 </label>
-                <input type="number" id="maintenancePerMile" name="maintenancePerMile" step="1" value="110"
+                <input type="number" id="maintenancePerMile" name="maintenancePerMile" min="0" max="0.9999" step="0.0001" value=".014"
                   oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
-                <p class="text-xs text-gray-500 mt-1">Oil changes, filters, etc. per month</p>
+                <p class="text-xs text-gray-500 mt-1" data-i18n="settings.maintenance_help">Oil changes and filters per mile (USD/mi).</p>
               </div>
 
               <div>
-                <label for="tiresPerMile" class="block text-sm font-medium text-gray-700 mb-2">
-                  ⚙️ Tires — Monthly Reserve ($)
+                <label for="tiresPerMile" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings.label_tires">
+                  ⚙️ Tires — USD/mi
                 </label>
-                <input type="number" id="tiresPerMile" name="tiresPerMile" step="1" value="93"
+                <input type="number" id="tiresPerMile" name="tiresPerMile" min="0" max="0.9999" step="0.0001" value=".012"
                   oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
-                <p class="text-xs text-gray-500 mt-1">Monthly savings for tire replacement</p>
+                <p class="text-xs text-gray-500 mt-1" data-i18n="settings.tires_help">Tire replacement reserve per mile (USD/mi).</p>
               </div>
 
               <div>
-                <label for="repairsPerMile" class="block text-sm font-medium text-gray-700 mb-2">
-                  🛠️ Repairs — Monthly Reserve ($)
+                <label for="repairsPerMile" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings.label_repairs">
+                  🛠️ Repairs — USD/mi
                 </label>
-                <input type="number" id="repairsPerMile" name="repairsPerMile" step="1" value="200"
+                <input type="number" id="repairsPerMile" name="repairsPerMile" min="0" max="0.9999" step="0.0001" value=".025"
                   oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
-                <p class="text-xs text-gray-500 mt-1">Monthly emergency/breakdown reserve</p>
+                <p class="text-xs text-gray-500 mt-1" data-i18n="settings.repairs_help">Repair reserve per mile (USD/mi).</p>
               </div>
             </div>
 
             <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h4 class="font-semibold text-blue-800 mb-3">ℹ️ Cost Configuration</h4>
+              <h4 class="font-semibold text-blue-800 mb-3" data-i18n="settings.cost_info_title">ℹ️ Cost Configuration</h4>
               <div class="space-y-3 text-sm text-blue-900">
                 <div class="flex items-start gap-2">
                   <span class="text-green-600 mt-0.5">✅</span>
-                  <span><strong>These settings are what the calculator uses</strong> to determine your costs per mile.</span>
+                  <span data-i18n="settings.cost_info_config">While you have little history, the calculator uses these settings for your cost per mile.</span>
                 </div>
                 <div class="flex items-start gap-2">
                   <span class="text-blue-600 mt-0.5">📊</span>
-                  <span>The <strong>Finances</strong> tab tracks expenses and generates reports — it does <em>not</em> override these costs.</span>
+                  <span data-i18n="settings.cost_info_real">With 3+ months of activity, 20+ loads and 3+ months of expenses (including fuel) in Finances, it uses your real costs instead. The panel shows which one it is using.</span>
                 </div>
                 <div class="flex items-start gap-2">
                   <span class="text-yellow-600 mt-0.5">💡</span>
@@ -2369,6 +2384,23 @@
               <input type="number" id="targetProfit" name="targetProfit" step="1" value="30" min="0" max="100"
                 class="border p-3 w-full rounded-lg">
               <p class="text-xs text-gray-500 mt-1">Net profit target</p>
+            </div>
+
+            <div>
+              <label for="ownerPayMonthly" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings.label_owner_pay">
+                Your monthly pay ($)
+              </label>
+              <input type="number" id="ownerPayMonthly" name="ownerPayMonthly" step="50" min="0" value="" placeholder="0"
+                class="border p-3 w-full rounded-lg">
+              <p class="text-xs text-gray-500 mt-1" data-i18n="settings.owner_pay_hint">Optional. What you need to take home each month. It is split per working day: each load must cover its costs plus your pay for the days it takes. If set, it replaces the target margin in the accept/reject signal.</p>
+            </div>
+
+            <div>
+              <label for="workDaysPerMonth" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings.label_work_days">
+                Working days per month
+              </label>
+              <input type="number" id="workDaysPerMonth" name="workDaysPerMonth" step="1" min="1" max="31" value="22"
+                class="border p-3 w-full rounded-lg">
             </div>
           </div>
         </div>
@@ -2546,7 +2578,7 @@
                 class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
             </div>
             <div>
-              <label for="editOtherCosts" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="edit_modal.label_other_costs">Other Costs ($)</label>
+              <label for="editOtherCosts" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="edit_modal.label_other_costs">Extra Charges to Customer ($)</label>
               <input type="number" id="editOtherCosts" name="editOtherCosts" placeholder="15.00" step="0.01" min="0"
                 class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
             </div>
@@ -2644,24 +2676,27 @@
 
   <!-- New modules - Load first -->\r <!-- MOCK DATA removed: file is entirely commented out, no need to load -->
 
-  <script src="js/security.js"></script>
-  <script src="js/ui-feedback.js"></script>
+  <script src="js/security.js?v=20261112"></script>
+  <script src="js/ui-feedback.js?v=20261112"></script>
 
   <!-- Existing scripts -->
-  <script src="js/helpers.js"></script>
-  <script src="js/config.js?v=2.1.0"></script>
+  <script src="js/helpers.js?v=20261112"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-check-compat.js"></script>
+  <script src="js/weather-app-check.js?v=weather1"></script>
+  <script src="js/config.js?v=2.2.0"></script>
   <script src="js/i18n/language-manager.js?v=1.0.0"></script>
 
   <!-- 🍪 Cookie Consent + Analytics (después de config.js para que Firebase esté inicializado) -->
   <script src="js/cookie-consent.js?v=1.0.0"></script>
   <script src="js/analytics-manager.js?v=1.0.0"></script>
-  <script src="js/settings.js"></script>
-  <script src="js/calculator.js?v=2.1.2"></script>
-  <script src="js/custom-categories.js"></script>
-  <script src="js/cpm-engine.js"></script>
+  <script src="js/settings.js?v=20261113b"></script>
+  <script src="js/weather-client.js?v=weather1"></script>
+  <script src="js/calculator.js?v=2.3.2-weather1"></script>
+  <script src="js/custom-categories.js?v=20261112b"></script>
+  <script src="js/cpm-engine.js?v=20261113f"></script>
 
   <!-- 🎯 SEQUENTIAL DESTINATIONS - Google Maps Style -->
-  <script src="js/sequential-destinations.js"></script>
+  <script src="js/sequential-destinations.js?v=1.0.2"></script>
 
   <!-- 🚀 Calculator Lazy Loading System (NEW) - Loads modules on demand -->
   <script src="js/calculator-lazy-loader.js?v=1.0.0"></script>
@@ -2684,55 +2719,55 @@
   <script src="js/stripe-config.js?v=3.5.3"></script>
   <script src="js/upgrade-modal.js?v=1.0.0"></script>
 
-  <script src="js/userPlans.js?v=1.1.0"></script>
-  <script src="js/history.js?v=2.0.1"></script>
+  <script src="js/userPlans.js?v=1.2.0"></script>
+  <script src="js/history.js?v=2.0.5"></script>
 
   <!-- 💰 Finances modules - Load in order (refactored) -->
   <script src="js/finances-core.js?v=2.0.0"></script>
   <script src="js/finances-data.js?v=2.0.0"></script>
-  <script src="js/finances.js?v=4.0.0"></script>
+  <script src="js/finances.js?v=4.0.3"></script>
   <script src="js/finances-ui.js?v=2.0.0"></script>
 
   <!-- 🚀 Lazy Loading System (NEW) - Loads charts/reports/expenses on demand -->
-  <script src="js/lazy-loader.js?v=1.0.0"></script>
+  <script src="js/lazy-loader.js?v=1.0.3"></script>
 
   <!-- 🎯 Lazy Loading Override - Forces lazy for expenses/reports -->
   <script src="js/finances-lazy-override.js?v=1.0.0"></script>
 
-  <script src="js/zones.js"></script>
+  <script src="js/zones.js?v=20261112"></script>
   <script src="js/core/roles-manager.js?v=1.0.0"></script>
-  <script src="js/admin-panel.js"></script>
+  <script src="js/admin-panel.js?v=20261112"></script>
   <script src="js/role-badge-display.js?v=2.0.7"></script>
-  <script src="js/onboarding-manager.js?v=1.0.3"></script>
-  <script src="js/main.js"></script>
-  <script src="js/core/agent-base.js"></script>
-  <script src="js/core/event-bus.js"></script>
-  <script src="js/core/conversation-memory.js"></script>
-  <script src="js/core/pronoun-resolver.js"></script>
-  <script src="js/core/response-builders.js"></script>
-  <script src="js/core/sentiment-analyzer.js"></script>
-  <script src="js/core/insights-analyzer.js"></script>
-  <script src="js/core/decisions-tracker.js"></script>
-  <script src="js/core/pattern-learner.js"></script>
-  <script src="js/core/lex-master.js"></script>
-  <script src="js/core/lex-modals.js"></script>
-  <script src="js/lex-analysis-ui.js"></script>
-  <script src="js/lex-learning.js"></script>
-  <script src="js/lex.js"></script>
-  <script src="js/lex-intents.js"></script>
-  <script src="js/lex-router.js"></script>
-  <script src="js/lex-ai-engine.js"></script>
+  <script src="js/onboarding-manager.js?v=1.0.4"></script>
+  <script src="js/main.js?v=20261112"></script>
+  <script src="js/core/agent-base.js?v=20261112"></script>
+  <script src="js/core/event-bus.js?v=20261112"></script>
+  <script src="js/core/conversation-memory.js?v=20261112"></script>
+  <script src="js/core/pronoun-resolver.js?v=20261112"></script>
+  <script src="js/core/response-builders.js?v=20261112"></script>
+  <script src="js/core/sentiment-analyzer.js?v=20261112"></script>
+  <script src="js/core/insights-analyzer.js?v=20261112"></script>
+  <script src="js/core/decisions-tracker.js?v=20261112"></script>
+  <script src="js/core/pattern-learner.js?v=20261112"></script>
+  <script src="js/core/lex-master.js?v=20261112"></script>
+  <script src="js/core/lex-modals.js?v=20261112"></script>
+  <script src="js/lex-analysis-ui.js?v=20261112"></script>
+  <script src="js/lex-learning.js?v=20261112"></script>
+  <script src="js/lex.js?v=20261112"></script>
+  <script src="js/lex-intents.js?v=20261112"></script>
+  <script src="js/lex-router.js?v=20261112"></script>
+  <script src="js/lex-ai-engine.js?v=2.0.0"></script>
 
   <!-- Agentes -->
-  <script src="js/agents/calculator-agent.js"></script>
-  <script src="js/agents/history-agent.js"></script>
-  <script src="js/agents/zones-agent.js"></script>
-  <script src="js/agents/finances-agent.js"></script>
+  <script src="js/agents/calculator-agent.js?v=20261112"></script>
+  <script src="js/agents/history-agent.js?v=20261112"></script>
+  <script src="js/agents/zones-agent.js?v=20261112"></script>
+  <script src="js/agents/finances-agent.js?v=20261112"></script>
 
-  <script src="js/mobile.js"></script>
+  <script src="js/mobile.js?v=20261112"></script>
   <script src="js/mobile-menu.js?v=1.0.0"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="js/zones-print.js"></script>
+  <script src="js/zones-print.js?v=20261112"></script>
 
   <!-- 🔍 Modal de Notas -->
   <div id="notesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
@@ -2798,7 +2833,7 @@
 
 
   <!-- 🔧 WORKAROUND: Modal de categorías creado dinámicamente por caché de Firebase -->
-  <script src="js/theme-manager.js"></script>
+  <script src="js/theme-manager.js?v=20261112"></script>
   <script src="js/theme-fix-core.js?v=5.21.0"></script>
 
   <script>
