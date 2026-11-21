@@ -992,6 +992,16 @@ RESPONSE FORMAT:
             if (inputEl) inputEl.disabled = false;
             if (btnEl) btnEl.disabled = false;
 
+            // Limite diario de mensajes alcanzado (servidor): avisar, sin fallback
+            if (err && err.code === 'functions/resource-exhausted') {
+                const lim = err.details?.limit;
+                const isEsLim = (window.i18n?.currentLang || 'en') === 'es';
+                if (replyFn) replyFn(isEsLim
+                    ? `Llegaste al límite de mensajes de Lex por hoy${lim ? ` (${lim})` : ''}. Vuelve mañana y seguimos. 🙌`
+                    : `You've reached today's Lex message limit${lim ? ` (${lim})` : ''}. Come back tomorrow and we'll keep going. 🙌`);
+                return;
+            }
+
             // Si falla la AI, caer al handler original silenciosamente
             if (typeof originalHandler === 'function') {
                 debugLog('[LEX-AI] Fallback al sistema anterior por error:', err.message);

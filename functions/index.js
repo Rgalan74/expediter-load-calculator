@@ -783,15 +783,45 @@ async function _getLexConfig() {
 
 // El trial se calcula desde la fecha de creacion de la cuenta en Firebase Auth
 // (no falsificable), no desde users/{uid}.lexTrialEndsAt, que escribe el cliente.
-async function _userHasLexAccess(uid) {
+// Devuelve 'admin' | 'premium' | 'trial' | null (sin acceso)
+async function _lexAccessTier(uid) {
     const userSnap = await db.collection('users').doc(uid).get();
     const userData = userSnap.exists ? userSnap.data() : {};
     const planId = await _resolveUserPlan(uid, userData);
-    if (planId === 'premium' || planId === 'admin') return true;
+    if (planId === 'premium' || planId === 'admin') return planId;
 
     const authUser = await admin.auth().getUser(uid);
     const createdMs = new Date(authUser.metadata.creationTime).getTime();
-    return !!createdMs && Date.now() < createdMs + LEX_TRIAL_DAYS * 86400000;
+    return (!!createdMs && Date.now() < createdMs + LEX_TRIAL_DAYS * 86400000) ? 'trial' : null;
+}
+
+// Limite diario de mensajes por usuario (control de costo y abuso).
+// Dia segun hora de Nueva York; admin sin limite.
+const LEX_DAILY_LIMITS = { trial: 25, premium: 150 };
+
+function _lexDayKey(now = new Date()) {
+    return now.toLocaleDateString('en-CA', { timeZone: 'America/New_York' }); // YYYY-MM-DD
+}
+
+async function _consumeLexDailyQuota(uid, tier) {
+    const limit = LEX_DAILY_LIMITS[tier];
+    if (!limit) return { limit: null, used: null };
+    const day = _lexDayKey();
+    const ref = db.collection('lexUsage').doc(`${uid}_${day}`);
+    return db.runTransaction(async (tx) => {
+        const snap = await tx.get(ref);
+        const used = snap.exists ? Number(snap.data().count) || 0 : 0;
+        if (used >= limit) {
+            throw new HttpsError('resource-exhausted', 'lex-daily-limit', { limit, tier });
+        }
+        tx.set(ref, {
+            uid, day, tier, count: used + 1,
+            updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+            // Para una politica TTL opcional: se puede borrar a los 30 dias
+            expireAt: admin.firestore.Timestamp.fromMillis(Date.now() + 30 * 86400000)
+        }, { merge: true });
+        return { limit, used: used + 1 };
+    });
 }
 
 async function _callOpenRouter(apiKey, model, messages, maxTokens, temperature) {
@@ -841,9 +871,11 @@ exports.lexChat = onCall(
         const tempNum = Number(data.temperature);
         const temperature = Number.isFinite(tempNum) ? Math.min(1, Math.max(0, tempNum)) : 0.4;
 
-        if (!(await _userHasLexAccess(uid))) {
+        const tier = await _lexAccessTier(uid);
+        if (!tier) {
             throw new HttpsError('permission-denied', 'Lex AI requires the Premium plan or an active trial');
         }
+        await _consumeLexDailyQuota(uid, tier);
 
         const cfg = await _getLexConfig();
         const apiKey = cfg.apiKey;
