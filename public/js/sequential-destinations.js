@@ -199,11 +199,34 @@ function calculateRoute() {
                 debugLog('[DESTINATIONS] 📍 Google optimized waypoint order:', result.routes[0].waypoint_order);
             }
             updateMileage(result);
+            storeRouteStateMiles(origin, finalDestination, result);
             renderMapRoute(result); // Render route on map
         } else {
             debugLog(`[DESTINATIONS] ❌ Route calculation failed: ${status}`);
         }
     });
+}
+
+// Millas por estado de la ruta (avisos "Entering X" de Google) para el precio
+// del combustible de la carga. Se guarda con la clave origen|destino final.
+function routeKeyForFuel(origin, destination) {
+    const norm = (v) => String(v || '').toUpperCase().replace(/[^A-Z0-9]+/g, '');
+    return norm(origin) + '|' + norm(destination);
+}
+window.routeKeyForFuel = routeKeyForFuel;
+
+function storeRouteStateMiles(origin, destination, result) {
+    try {
+        const F = window.SLSFuelPrices;
+        const stateOf = typeof window.getStateFromLocation === 'function' ? window.getStateFromLocation : null;
+        window._lastRouteStateMiles = {
+            key: routeKeyForFuel(origin, destination),
+            miles: F && stateOf ? F.stateMilesFromDirections(result, stateOf) : null
+        };
+        debugLog('[DESTINATIONS] Millas por estado:', window._lastRouteStateMiles.miles);
+    } catch (e) {
+        window._lastRouteStateMiles = null;
+    }
 }
 
 /**

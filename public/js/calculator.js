@@ -211,8 +211,16 @@ function renderCpmBreakdown() {
   const _fr = window._lastLoadExp && window._lastLoadExp.fuelRoute;
   if (_fr) {
     const fuelName = _fr.fuelType === 'diesel' ? (isEs ? 'Diésel' : 'Diesel') : (isEs ? 'Gasolina' : 'Gasoline');
-    const partsTxt = _fr.parts.map(p => `${p.name} $${p.price.toFixed(2)}`).join(', ');
-    addRow(isEs ? `${fuelName} de esta ruta (EIA, semana ${_fr.period || '—'}): ${partsTxt}` : `${fuelName} on this route (EIA, week ${_fr.period || '—'}): ${partsTxt}`,
+    // Agrupar por serie de precio (varios estados comparten región), sumando millas
+    const groups = [];
+    for (const p of _fr.parts) {
+      const g = groups.find(x => x.code === p.code);
+      if (g) g.miles += p.miles || 0;
+      else groups.push({ code: p.code, name: p.name, price: p.price, miles: p.miles || 0 });
+    }
+    groups.sort((a, b) => b.miles - a.miles);
+    const partsTxt = groups.map(g => `${g.name}${g.miles ? ' ' + g.miles + ' mi' : ''} $${g.price.toFixed(2)}`).join(', ');
+    addRow(isEs ? `${fuelName} de esta ruta${_fr.weighted ? ', ponderada por millas' : ''} (EIA, semana ${_fr.period || '—'}): ${partsTxt}` : `${fuelName} on this route${_fr.weighted ? ', weighted by miles' : ''} (EIA, week ${_fr.period || '—'}): ${partsTxt}`,
       `$${_fr.base.toFixed(2)}/gal`);
     if (_fr.adjust) addRow(isEs ? 'Tu ajuste sobre el promedio' : 'Your adjustment to the average', `${_fr.adjust > 0 ? '+' : '−'}$${Math.abs(_fr.adjust).toFixed(2)}/gal`);
     addRow(isEs ? `Combustible de esta carga: $${_fr.price.toFixed(2)}/gal ÷ ${_fr.mpg} MPG` : `Fuel for this load: $${_fr.price.toFixed(2)}/gal ÷ ${_fr.mpg} MPG`,
@@ -315,6 +323,19 @@ function loadRouteStates(origin, destination, stopDestinations = []) {
 }
 window.loadRouteStates = loadRouteStates;
 
+// Ruta para el combustible: estados (respaldo) y, si la ruta de Google de esta
+// misma carga ya se calculó, las millas recorridas en cada estado.
+function loadRoute(origin, destination, stopDestinations = []) {
+  const route = { states: loadRouteStates(origin, destination, stopDestinations), stateMiles: null };
+  const last = window._lastRouteStateMiles;
+  if (last && last.miles && typeof window.routeKeyForFuel === 'function' &&
+      last.key === window.routeKeyForFuel(origin, destination)) {
+    route.stateMiles = last.miles;
+  }
+  return route;
+}
+window.loadRoute = loadRoute;
+
 // Combustible de ESTA ruta con los precios semanales de la EIA, el tipo de
 // combustible, el ajuste y las MPG del usuario. null si falta algo o los precios
 // tienen mas de 3 semanas: entonces se usa el precio de Configuracion.
@@ -324,12 +345,12 @@ function routeFuel(route) {
   const p = window.currentUser?.profileData || {};
   const mpg = Number(p.fuelMPG);
   const fuelType = getUserFuelType();
-  if (!route || !route.states || !route.states.length || !prices || !(mpg > 0) || !F.isFresh(prices, fuelType)) return null;
-  const rp = F.routePrice(prices, route.states, fuelType);
+  if (!route || ((!route.states || !route.states.length) && !route.stateMiles) || !prices || !(mpg > 0) || !F.isFresh(prices, fuelType)) return null;
+  const rp = F.routePrice(prices, route.states, fuelType, route.stateMiles);
   if (!rp) return null;
   const adjust = Number(p.fuelPriceAdjust) || 0;
   const price = Math.max(0.5, rp.price + adjust);
-  return { cpm: price / mpg, price, base: rp.price, adjust, mpg, fuelType, parts: rp.parts, period: rp.period };
+  return { cpm: price / mpg, price, base: rp.price, adjust, mpg, fuelType, parts: rp.parts, period: rp.period, weighted: rp.weighted };
 }
 
 // UNICA formula del costo de una carga (pantalla, panel, guardado e Historial):
@@ -1094,7 +1115,7 @@ async function calculate() {
 
     // Use shared expense calculation function — usar combinedMiles (todas las paradas del viaje)
     if (window.SLSFuelPrices) await window.SLSFuelPrices.load();
-    const _route = { states: loadRouteStates(origin, destination, stops.map(s => s.destination)) };
+    const _route = loadRoute(origin, destination, stops.map(s => s.destination));
     window._lastLoadRoute = _route;
     const expenseBreakdown = calculateTotalExpenses(combinedMiles, tolls, _route);
     const { fuelCost, maintenanceCost, foodCost, fixedCosts } = expenseBreakdown;
@@ -1742,7 +1763,10 @@ function showDecisionPanel(calculationData = {}) {
       profitBg.includes('rgb(2') ||
       profitBg.includes('rgb(1');
     const textColor = isLightBg ? '#1a1a1a' : '#ffffff';
-    const amountColor = isLightBg ? '#166534' : '#FFD700';
+    // Pérdida en rojo; ganancia en verde (o dorado sobre fondo oscuro)
+    const amountColor = netProfit < 0
+      ? (isLightBg ? '#b91c1c' : '#f87171')
+      : (isLightBg ? '#166534' : '#FFD700');
 
     profit.querySelectorAll('*').forEach(el => {
       el.style.setProperty('color', textColor, 'important');
@@ -2381,7 +2405,7 @@ async function saveLoad(existingLoadId = null) {
 
     // Misma formula que la pantalla (calculateTotalExpenses). "Otros" es ingreso.
     if (window.SLSFuelPrices) await window.SLSFuelPrices.load();
-    const _exp = calculateTotalExpenses(totalMiles, Number(tolls), { states: loadRouteStates(origin, destination, stops.map(s => s.destination)) });
+    const _exp = calculateTotalExpenses(totalMiles, Number(tolls), loadRoute(origin, destination, stops.map(s => s.destination)));
     const fuelCost = _exp.fuelCost;
     const operatingCost = _exp.maintenanceCost + _exp.foodCost + _exp.fixedCosts;
     const totalExpenses = _exp.total;

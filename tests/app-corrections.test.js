@@ -469,3 +469,103 @@ test('calculator: fuel from route prices + user adjustment / MPG, fallback when 
   // Sin ruta -> precio de Configuración
   assert.equal(w.calculateTotalExpenses(500, 0).fuelCost, 100);
 });
+
+// Combustible ponderado por millas en cada estado (avisos "Entering X" de Google).
+function directionsRoute(stepsSpec, start = 'Miami, FL, USA', end = 'Dallas, TX, USA') {
+  return { routes: [{ legs: [{ start_address: start, end_address: end,
+    steps: stepsSpec.map(([miles, instructions]) => ({ distance: { value: miles * 1609.34 }, instructions })) }] }] };
+}
+function fuelModule() {
+  const w = { console };
+  w.window = w;
+  vm.runInContext(fs.readFileSync(path.join(root, 'public/js/fuel-prices.js'), 'utf8'), vm.createContext(w), { filename: 'fuel-prices.js' });
+  return w.SLSFuelPrices;
+}
+const stateOfAddress = (a) => (String(a).match(/,\s*([A-Z]{2})\s*,/) || [])[1] || '';
+
+test('route miles per state from Google "Entering X" notes (English and Spanish)', () => {
+  const F = fuelModule();
+  const en = F.stateMilesFromDirections(directionsRoute([
+    [300, 'Merge onto I-75 N'],
+    [100, 'Continue on I-10 W<div style="font-size:0.9em">Entering Alabama</div>'],
+    [60, 'Continue<div style="font-size:0.9em">Entering Mississippi</div>'],
+    [80, 'Keep left<div style="font-size:0.9em">Entering Louisiana</div>'],
+    [260, 'Continue on I-20 W<div style="font-size:0.9em">Entering Texas</div>'],
+    [190, 'Take exit 470 toward Dallas']
+  ]), stateOfAddress);
+  // El tramo donde se cruza la frontera se reparte mitad y mitad
+  assert.deepEqual({ ...en }, { FL: 350, AL: 80, MS: 70, LA: 170, TX: 320 });
+  const es = F.stateMilesFromDirections(directionsRoute([
+    [300, 'Incorpórate a I-75 N'],
+    [100, 'Continúa por I-10 O<div>Entrando a Alabama</div>'],
+    [140, 'Mantente a la izquierda<div>Entrando a Luisiana</div>'],
+    [450, 'Continúa por I-20 O<div>Entrando a Texas</div>']
+  ]), stateOfAddress);
+  assert.deepEqual({ ...es }, { FL: 350, AL: 120, LA: 295, TX: 225 });
+  // Origen y destino en estados distintos sin ningún aviso: sin datos fiables
+  assert.equal(F.stateMilesFromDirections(directionsRoute([[990, 'Head west']]), stateOfAddress), null);
+  // Mismo estado sin avisos: todo en ese estado
+  assert.deepEqual({ ...F.stateMilesFromDirections(directionsRoute([[200, 'Head north']], 'Miami, FL, USA', 'Orlando, FL, USA'), stateOfAddress) }, { FL: 200 });
+});
+
+test('route miles per state from REAL Google directions text (Miami -> Dallas, en/es)', () => {
+  const F = fuelModule();
+  // Pasos reales devueltos por Google el 2026-11-21 (millas redondeadas)
+  const real = (enter) => [
+    [8, 'Keep <b>left</b> to continue on <b>I-95Exp</b><div style="font-size:0.9em">Toll road</div>'],
+    [195, 'Take the ramp onto <b>Florida\'s Tpke</b>'], [67, 'Continue onto <b>Florida\'s Tpke</b>'],
+    [107, 'Merge onto <b>I-75 N</b>'],
+    [336, `Take exit <b>435</b> to merge onto <b>I-10 W</b><div style="font-size:0.9em">${enter} Alabama</div>`],
+    [25, 'Continue onto <b>I-165 N</b>'],
+    [65, `Continue onto <b>US-98 W</b><div style="font-size:0.9em">${enter} ${enter === 'Entering' ? 'Mississippi' : 'Misisipi'}</div>`],
+    [9, 'Slight right to merge onto <b>I-59 N</b>'],
+    [213, `Keep <b>left</b> to stay on <b>I-20 W</b><div style="font-size:0.9em">${enter} ${enter === 'Entering' ? 'Louisiana' : 'Luisiana'}</div>`],
+    [174, `Keep <b>left</b> to stay on <b>I-20 W</b><div style="font-size:0.9em">${enter} Texas</div>`],
+    [40, 'Turn <b>right</b> onto <b>S Akard St</b>']
+  ];
+  const en = F.stateMilesFromDirections(directionsRoute(real('Entering')), stateOfAddress);
+  const es = F.stateMilesFromDirections(directionsRoute(real('Entrando en'), 'Miami, Florida, EE. UU.', 'Dallas, Texas, EE. UU.'),
+    (a) => ({ 'Miami, Florida, EE. UU.': 'FL', 'Dallas, Texas, EE. UU.': 'TX' })[a]);
+  for (const r of [en, es]) {
+    assert.deepEqual(Object.keys(r).sort(), ['AL', 'FL', 'LA', 'MS', 'TX']);
+    assert.equal(Math.round(r.FL), 8 + 195 + 67 + 107 + 168);
+    assert.equal(Math.round(r.TX), 87 + 40);
+  }
+});
+
+test('route miles per state with "Passing through" notes (real Miami -> Los Angeles step)', () => {
+  const F = fuelModule();
+  for (const [pass, enter, la] of [['Passing through Alabama, Mississippi', 'Entering', 'Louisiana'], ['Pasando por Alabama, Misisipi', 'Entrando en', 'Luisiana']]) {
+    const r = F.stateMilesFromDirections(directionsRoute([
+      [270, 'Florida\'s Tpke'],
+      [444, `Take exit <b>435</b> to merge onto <b>I-10 W</b><div style="font-size:0.9em">${pass}</div><div style="font-size:0.9em">${enter} ${la}</div>`],
+      [272, `Take the ramp onto <b>I-10 W</b><div style="font-size:0.9em">${enter} Texas</div>`]
+    ], 'Miami, FL, USA', 'Houston, TX, USA'), stateOfAddress);
+    // El tramo de 444 mi se reparte entre FL, AL, MS y LA (111 cada uno)
+    assert.deepEqual({ ...r }, { FL: 381, AL: 111, MS: 111, LA: 247, TX: 136 });
+  }
+});
+
+test('route fuel price weighted by miles per state', () => {
+  const F = fuelModule();
+  const r = F.routePrice(EIA_WEEK, ['FL', 'TX'], 'gasoline', { FL: 300, AL: 100, MS: 60, LA: 80, TX: 450 });
+  // FL 3.525, AL/MS/LA Costa del Golfo 3.293, TX 3.216
+  const expected = (300 * 3.525 + 240 * 3.293 + 450 * 3.216) / 990;
+  assert.ok(r.weighted);
+  assert.ok(Math.abs(r.price - expected) < 0.001, `${r.price} vs ${expected}`);
+  assert.equal(r.parts[0].state, 'TX', 'largest share first');
+  // Sin millas por estado: promedio simple de origen y destino
+  const simple = F.routePrice(EIA_WEEK, ['FL', 'TX'], 'gasoline', null);
+  assert.equal(simple.weighted, false);
+  assert.equal(simple.price, Math.round(((3.525 + 3.216) / 2) * 1000) / 1000);
+});
+
+test('calculator uses state miles only for the same origin and destination', () => {
+  const f = fixture();
+  const w = f.w;
+  vm.runInContext(fs.readFileSync(path.join(root, 'public/js/fuel-prices.js'), 'utf8'), w, { filename: 'fuel-prices.js' });
+  vm.runInContext(fs.readFileSync(path.join(root, 'public/js/sequential-destinations.js'), 'utf8'), w, { filename: 'sequential-destinations.js' });
+  w._lastRouteStateMiles = { key: w.routeKeyForFuel('Miami, FL', 'Dallas, TX'), miles: { FL: 300, TX: 690 } };
+  assert.deepEqual({ ...w.loadRoute('Miami, FL', 'Dallas, TX').stateMiles }, { FL: 300, TX: 690 });
+  assert.equal(w.loadRoute('Miami, FL', 'Atlanta, GA').stateMiles, null, 'another load: no stale miles');
+});
