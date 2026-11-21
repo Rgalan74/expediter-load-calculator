@@ -98,7 +98,7 @@
     "decision_profit": "Profit",
     "variable_costs_label": "💸 Variable Costs",
     "tolls_other_label": "💵 Tolls + Other:",
-    "fixed_costs_label": "🔧 Fixed Costs included",
+    "fixed_costs_label": "🔧 Other costs (incl. food & lodging)",
     "total_expenses_label": "Total Expenses:",
     "net_loss_label": "💀 Net Loss",
     "margin_short": "margin",

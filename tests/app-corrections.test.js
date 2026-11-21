@@ -337,3 +337,69 @@ test('weather modal: Spanish, no removed sections, escapes provider and user tex
   for (const removed of ['Share Forecast', 'UV Index', 'Visibility', 'Humidity', 'Current Weather', 'View Route'])
     assert.doesNotMatch(html, new RegExp(removed), removed);
 });
+
+// Costos actuales (aprobado 2026-11-21): gasolina con el precio actual de
+// Configuración; comida y hospedaje como promedio real por día de viaje.
+test('real CPM: current fuel price, food/lodging per travel day, rest per mile', async () => {
+  const months = ['2032-01', '2032-02', '2032-03', '2032-04'];
+  const loads = months.map(m => ({ date: `${m}-10`, totalMiles: 2000, userId: 'u' }));
+  const expenses = months.flatMap(m => [
+    { date: `${m}-12`, category: 'fuel', amount: 600 },
+    { date: `${m}-12`, category: 'insurance', amount: 600 },
+    { date: `${m}-13`, category: 'food', amount: 200 },
+    { date: `${m}-14`, category: 'lodging', amount: 100 }
+  ]);
+  const snap = rows => ({ forEach: fn => rows.forEach(r => fn({ data: () => r })) });
+  const query = rows => { const q = { where: () => q, get: async () => snap(rows) }; return q; };
+  const w = {
+    console, debugLog() {}, document: { addEventListener() {} },
+    firebase: { firestore: () => ({ collection: n => query(n === 'loads' ? loads : expenses) }) },
+    CustomCategories: { getAllCategories: async () => [] },
+    currentUser: { profileData: { fuelPricePerGallon: 3.8, fuelMPG: 19, fuelPriceUpdatedAt: '2032-05-01T00:00:00Z' } }
+  };
+  w.window = w;
+  vm.runInContext(fs.readFileSync(path.join(root, 'public/js/cpm-engine.js'), 'utf8'), vm.createContext(w), { filename: 'cpm-engine.js' });
+  const r = await w.CPMEngine._fromRealData('u', 4, 4);
+  const days = w.CPMEngine.estimateTripDays(2000);
+  assert.equal(Math.round(days * 1000) / 1000, Math.round(((2000 / 60 + 6 * 0.5) / 10) * 1000) / 1000);
+  assert.equal(r.fuelSource, 'price');
+  assert.equal(r.fuelCpm, 0.2, '3.80 / 19, not receipts (2400 / 8000 = 0.30)');
+  assert.equal(r.breakdown.receiptsFuelCpm, 0.3);
+  assert.equal(r.otherCpm, 0.3, 'insurance 2400 / 8000 mi, without food/lodging');
+  assert.equal(r.foodPerDay, Math.round((1200 / (4 * days)) * 100) / 100, 'food+lodging 1200 / travel days');
+
+  // Sin precio en Configuración: vuelve a los recibos
+  delete w.currentUser.profileData.fuelPricePerGallon;
+  const r2 = await w.CPMEngine._fromRealData('u', 4, 4);
+  assert.equal(r2.fuelSource, 'receipts');
+  assert.equal(r2.fuelCpm, 0.3);
+});
+
+test('calculator: one cost formula for screen and save, food charged per trip day', async () => {
+  const f = fixture();
+  const w = f.w;
+  w.CPMEngine = {
+    current: () => ({ source: 'real', cpm: 0.7, fuelCpm: 0.2, otherCpm: 0.3, foodPerDay: 50 }),
+    getCPM: async () => ({ source: 'real', cpm: 0.7 }),
+    estimateTripDays: () => 2
+  };
+  await w.calculate();
+  await w.saveLoad();
+  const saved = f.writes.find(x => x.name === 'loads')?.data;
+  assert.ok(saved, 'save completed');
+  // 500 mi x (0.20 + 0.30) + 50/día x 2 días + 10 peajes
+  assert.equal(saved.totalExpenses, 360);
+  assert.equal(f.w.visible.totalExpenses, 360);
+  assert.equal(saved.netProfit, f.w.visible.netProfit);
+  const e = w.calculateTotalExpenses(500, 0);
+  assert.equal(e.foodCost, 100);
+  assert.equal(e.costPerMile, 0.7, '(100 + 250) / 500 for this load');
+});
+
+test('fuel price age is reported in days', () => {
+  const f = fixture();
+  f.w.currentUser.profileData = { fuelPriceUpdatedAt: new Date(Date.now() - 40 * 86400000).toISOString() };
+  assert.equal(f.w.fuelPriceAgeDays(), 40);
+  f.w.currentUser.profileData = {};
+  assert.equal(f.w.fuelPriceAgeDays(), null);
+});

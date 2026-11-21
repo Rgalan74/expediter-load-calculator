@@ -333,6 +333,14 @@ function saveUserConfiguration() {
         const fixedCPM          = config.monthlyMilesGoal > 0 ? totalFixedMonthly / config.monthlyMilesGoal : 0;
         const totalCPM          = fuelCostPerMile + variableCPMExFuel + fixedCPM;
 
+        // Fecha del precio de la gasolina: cambia solo cuando cambia el precio,
+        // para que la Calculadora avise si lleva mas de 30 dias sin actualizar.
+        const prevProfile = window.currentUser?.profileData || {};
+        const priceChanged = Number(prevProfile.fuelPricePerGallon) !== config.fuelPricePerGallon;
+        config.fuelPriceUpdatedAt = (priceChanged || !prevProfile.fuelPriceUpdatedAt)
+            ? new Date().toISOString()
+            : prevProfile.fuelPriceUpdatedAt;
+
         config.costs = {
             combustible:   parseFloat(fuelCostPerMile.toFixed(4)),
             mantenimiento: parseFloat(variableCPMExFuel.toFixed(4)), // mant+tires+repairs en USD/milla
@@ -375,7 +383,11 @@ function saveUserConfiguration() {
                 targetProfit: config.targetProfit,
                 monthlyMilesGoal: config.monthlyMilesGoal,
                 ownerPayMonthly: config.ownerPayMonthly,
-                workDaysPerMonth: config.workDaysPerMonth
+                workDaysPerMonth: config.workDaysPerMonth,
+                targetRPM: config.targetRPM,
+                fuelPricePerGallon: config.fuelPricePerGallon,
+                fuelMPG: config.fuelMPG,
+                fuelPriceUpdatedAt: config.fuelPriceUpdatedAt
             };
             document.dispatchEvent(new Event('configSaved'));
         }
