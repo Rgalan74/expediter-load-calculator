@@ -150,6 +150,36 @@
         }
 
         const isEsCtx = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+
+        // Costos EXACTOS del panel para esta carga (misma formula que la pantalla)
+        const e = window._lastLoadExp;
+        const money = (v) => '$' + (Number(v) || 0).toFixed(2);
+        let costLines = '';
+        if (e && Number.isFinite(Number(e.total)) && Number.isFinite(Number(d.netProfit))) {
+            const other = (Number(e.maintenanceCost) || 0) + (Number(e.fixedCosts) || 0);
+            const days = Number(e.tripDays) || 0;
+            const target = Number(d.thresholds?.acceptThreshold) || 0;
+            costLines = isEsCtx
+                ? `- Costos de esta carga (cifras del panel, NO las recalcules):
+  - Combustible: ${money(e.fuelCost)}
+  - Otros costos por milla (variables + fijos mensuales de Configuración): ${money(other)}
+  - Comida y hospedaje: ${money(e.foodCost)} (${days.toFixed(1)} días de viaje)
+  - Peajes: ${money(e.tolls)}
+  - Total gastos: ${money(e.total)}
+- Ganancia neta: ${money(d.netProfit)}
+- Costo por milla de esta carga (sin peajes): $${(Number(d.thresholds?.cpm) || 0).toFixed(3)}/mi${target ? `
+- Objetivo del panel: $${target.toFixed(3)}/mi = ${money(target * d.totalMiles)} total` : ''}`
+                : `- Costs of this load (panel figures, do NOT recompute them):
+  - Fuel: ${money(e.fuelCost)}
+  - Other per-mile costs (variable + monthly fixed from Settings): ${money(other)}
+  - Food and lodging: ${money(e.foodCost)} (${days.toFixed(1)} travel days)
+  - Tolls: ${money(e.tolls)}
+  - Total expenses: ${money(e.total)}
+- Net profit: ${money(d.netProfit)}
+- Cost per mile of this load (without tolls): $${(Number(d.thresholds?.cpm) || 0).toFixed(3)}/mi${target ? `
+- Panel target: $${target.toFixed(3)}/mi = ${money(target * d.totalMiles)} total` : ''}`;
+        }
+
         if (isEsCtx) {
             return `
 CARGA ACTIVA EN EL CALCULADOR (el usuario ya tiene esta carga en pantalla):
@@ -159,8 +189,11 @@ CARGA ACTIVA EN EL CALCULADOR (el usuario ya tiene esta carga en pantalla):
 - RPM: $${d.actualRPM.toFixed(3)}/mi
 - Margen actual: ${margen}%
 - Decisión del panel: ${d.decision}
+${costLines}
 ${weatherLine}
-Si el usuario pregunta "¿la acepto?", "¿qué opinas?" o "analízala" sin dar datos, se refiere a ESTA carga.`;
+Si el usuario pregunta "¿la acepto?", "¿qué opinas?" o "analízala" sin dar datos, se refiere a ESTA carga.
+Para ESTA carga usa exactamente los costos, la ganancia y el objetivo de arriba; el desglose histórico es solo referencia y no sirve para calcularla.
+Tu decisión para ESTA carga es la del panel (${d.decision}); puedes aconsejar cómo negociarla o aprovecharla, pero no la cambies.`;
         } else {
             return `
 ACTIVE LOAD IN CALCULATOR (user has this load on screen):
@@ -170,8 +203,11 @@ ACTIVE LOAD IN CALCULATOR (user has this load on screen):
 - RPM: $${d.actualRPM.toFixed(3)}/mi
 - Current margin: ${margen}%
 - Panel decision: ${d.decision}
+${costLines}
 ${weatherLine}
-If the user asks "should I take it?", "what do you think?" or "analyze it" without giving data, they mean THIS load.`;
+If the user asks "should I take it?", "what do you think?" or "analyze it" without giving data, they mean THIS load.
+For THIS load use exactly the costs, profit and target above; the historical breakdown is reference only and must not be used to compute it.
+Your decision for THIS load is the panel's (${d.decision}); you may advise how to negotiate or make the most of it, but do not change it.`;
         }
     }
 
@@ -205,7 +241,14 @@ If the user asks "should I take it?", "what do you think?" or "analyze it" witho
         // Thresholds dinamicos — igual que getDecisionInteligente
         const targetRPM_margen = cpm / (1 - targetProfitPct);
         // D5: RPM historico solo referencia. RPM minimo de Configuracion = piso.
-        const acceptThreshold = Math.max(targetRPM_margen, Number(userConfig.targetRPM) || 0);
+        let acceptThreshold = Math.max(targetRPM_margen, Number(userConfig.targetRPM) || 0);
+        // Con una carga activa en la calculadora: los mismos umbrales que el panel
+        // (costo por milla de ESA carga con gasolina de la ruta y fijos actuales)
+        const _panelT = window._lastDecisionData?.thresholds;
+        if (Number(_panelT?.cpm) > 0 && Number(_panelT?.acceptThreshold) > 0) {
+            cpm = Number(_panelT.cpm);
+            acceptThreshold = Number(_panelT.acceptThreshold);
+        }
         const midThreshold = acceptThreshold;
 
         // Estados buenos/malos desde historial REAL — sin repetir
@@ -233,8 +276,8 @@ If the user asks "should I take it?", "what do you think?" or "analyze it" witho
         if (p.currentCosts) {
             const c = p.currentCosts;
             costsText = isEs
-                ? `\nDESGLOSE DE COSTOS REALES:\n  - Combustible: $${(c.combustible || 0).toFixed(3)}/mi\n  - Mantenimiento: $${(c.mantenimiento || 0).toFixed(3)}/mi\n  - Costos fijos: $${(c.costosFijos || 0).toFixed(3)}/mi\n  - Comida/varios: $${(c.comida || 0).toFixed(3)}/mi`
-                : `\nREAL COST BREAKDOWN:\n  - Fuel: $${(c.combustible || 0).toFixed(3)}/mi\n  - Maintenance: $${(c.mantenimiento || 0).toFixed(3)}/mi\n  - Fixed costs: $${(c.costosFijos || 0).toFixed(3)}/mi\n  - Food/misc: $${(c.comida || 0).toFixed(3)}/mi`;
+                ? `\nDESGLOSE HISTÓRICO DE COSTOS (solo referencia, no para la carga activa):\n  - Combustible: $${(c.combustible || 0).toFixed(3)}/mi\n  - Mantenimiento: $${(c.mantenimiento || 0).toFixed(3)}/mi\n  - Costos fijos: $${(c.costosFijos || 0).toFixed(3)}/mi\n  - Comida/varios: $${(c.comida || 0).toFixed(3)}/mi`
+                : `\nHISTORICAL COST BREAKDOWN (reference only, not for the active load):\n  - Fuel: $${(c.combustible || 0).toFixed(3)}/mi\n  - Maintenance: $${(c.mantenimiento || 0).toFixed(3)}/mi\n  - Fixed costs: $${(c.costosFijos || 0).toFixed(3)}/mi\n  - Food/misc: $${(c.comida || 0).toFixed(3)}/mi`;
         }
 
         // Contexto financiero — mes actual y mes anterior
@@ -303,6 +346,10 @@ ${prevMonthName.toUpperCase()} (previous month):
 
         // Contexto de carga activa — async, debe resolverse antes del template string
         const activeLoadContext = await getActiveLoadContext() || '';
+        // Decision del panel para la carga activa, con los mismos terminos que usa Lex
+        const _pd = activeLoadContext ? String(window._lastDecisionData?.decision || '') : '';
+        const panelDecisionEs = { 'ACCEPT': 'ACEPTA', 'ALMOST ACCEPT': 'CASI ACEPTA', 'EVALUATE': 'EVALÚA CON CUIDADO', 'REJECT': 'RECHAZA' }[_pd] || '';
+        const panelDecisionEn = { 'ACCEPT': 'ACCEPT', 'ALMOST ACCEPT': 'ALMOST ACCEPT', 'EVALUATE': 'EVALUATE CAREFULLY', 'REJECT': 'REJECT' }[_pd] || '';
 
         const langInstruction = isEs
             ? 'Responde SIEMPRE en español. Sé directo, práctico y usa números concretos.'
@@ -348,6 +395,7 @@ REGLAS DE ANÁLISIS:
 3. Un estado difícil es el que históricamente da mal RPM A ESTE conductor específico
 4. Margen real = (RPM - CPM) / RPM × 100
 5. Contraoferta sugerida = $${acceptThreshold.toFixed(3)} × millas totales
+${panelDecisionEs ? `6. OBLIGATORIO: para la CARGA ACTIVA tu recomendación es "${panelDecisionEs}" (la del panel), aunque el usuario diga que la acepta o insista. Nunca escribas "ACEPTA" ni "SÍ, ACEPTA" si el panel no dice ACCEPT. Puedes decirle qué negociar y cómo aprovecharla si decide tomarla, pero la recomendación no cambia.` : ''}
 
 ${activeLoadContext}
 ${financeContext}
@@ -392,6 +440,7 @@ ANALYSIS RULES:
 3. A difficult state is one that historically gives bad RPM for THIS specific driver
 4. Real margin = (RPM - CPM) / RPM × 100
 5. Suggested counteroffer = $${acceptThreshold.toFixed(3)} × total miles
+${panelDecisionEn ? `6. MANDATORY: for the ACTIVE LOAD your recommendation is "${panelDecisionEn}" (the panel's), even if the user says they accept it or insists. Never write "ACCEPT" or "YES, ACCEPT" unless the panel says ACCEPT. You may tell them what to negotiate and how to make the most of it if they take it, but the recommendation does not change.` : ''}
 
 ${activeLoadContext}
 ${financeContext}
