@@ -346,6 +346,10 @@ ${prevMonthName.toUpperCase()} (previous month):
 
         // Contexto de carga activa — async, debe resolverse antes del template string
         const activeLoadContext = await getActiveLoadContext() || '';
+        // Decision del panel para la carga activa, con los mismos terminos que usa Lex
+        const _pd = activeLoadContext ? String(window._lastDecisionData?.decision || '') : '';
+        const panelDecisionEs = { 'ACCEPT': 'ACEPTA', 'ALMOST ACCEPT': 'CASI ACEPTA', 'EVALUATE': 'EVALÚA CON CUIDADO', 'REJECT': 'RECHAZA' }[_pd] || '';
+        const panelDecisionEn = { 'ACCEPT': 'ACCEPT', 'ALMOST ACCEPT': 'ALMOST ACCEPT', 'EVALUATE': 'EVALUATE CAREFULLY', 'REJECT': 'REJECT' }[_pd] || '';
 
         const langInstruction = isEs
             ? 'Responde SIEMPRE en español. Sé directo, práctico y usa números concretos.'
@@ -391,6 +395,7 @@ REGLAS DE ANÁLISIS:
 3. Un estado difícil es el que históricamente da mal RPM A ESTE conductor específico
 4. Margen real = (RPM - CPM) / RPM × 100
 5. Contraoferta sugerida = $${acceptThreshold.toFixed(3)} × millas totales
+${panelDecisionEs ? `6. OBLIGATORIO: para la CARGA ACTIVA tu recomendación es "${panelDecisionEs}" (la del panel), aunque el usuario diga que la acepta o insista. Nunca escribas "ACEPTA" ni "SÍ, ACEPTA" si el panel no dice ACCEPT. Puedes decirle qué negociar y cómo aprovecharla si decide tomarla, pero la recomendación no cambia.` : ''}
 
 ${activeLoadContext}
 ${financeContext}
@@ -435,6 +440,7 @@ ANALYSIS RULES:
 3. A difficult state is one that historically gives bad RPM for THIS specific driver
 4. Real margin = (RPM - CPM) / RPM × 100
 5. Suggested counteroffer = $${acceptThreshold.toFixed(3)} × total miles
+${panelDecisionEn ? `6. MANDATORY: for the ACTIVE LOAD your recommendation is "${panelDecisionEn}" (the panel's), even if the user says they accept it or insists. Never write "ACCEPT" or "YES, ACCEPT" unless the panel says ACCEPT. You may tell them what to negotiate and how to make the most of it if they take it, but the recommendation does not change.` : ''}
 
 ${activeLoadContext}
 ${financeContext}
