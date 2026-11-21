@@ -5067,7 +5067,8 @@ async function saveCustomCategory() {
   const name = document.getElementById('categoryName').value.trim();
   const icon = document.getElementById('selectedIcon').value;
   const color = document.getElementById('categoryColor').value;
-  const isOperational = document.getElementById('isOperationalYes').checked;
+  const isFixed = document.getElementById('isFixedMonthly')?.checked === true;
+  const isOperational = isFixed || document.getElementById('isOperationalYes').checked;
 
   if (!name) {
     showFinancesMessage(window.i18n?.t('finances.category_name_required') || 'Category name is required', 'error');
@@ -5075,7 +5076,7 @@ async function saveCustomCategory() {
   }
 
   try {
-    const newCategory = await window.CustomCategories.createCustomCategory(name, icon, color, isOperational);
+    const newCategory = await window.CustomCategories.createCustomCategory(name, icon, color, isOperational, isFixed);
     const _isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
     showFinancesMessage(_isEs ? `✅ Categoría "${name}" creada exitosamente` : `✅ Category "${name}" created`, 'success');
     if (window.showToast) showToast(_isEs ? `✅ Categoría "${name}" creada` : `✅ Category "${name}" created`, 'success');
@@ -5106,6 +5107,7 @@ async function saveCustomCategory() {
 async function loadCustomCategoriesList() {
   const container = document.getElementById('customCategoriesList');
   if (!container) return;
+  const t = (k, fb) => { const v = window.i18n?.t(k); return (v && v !== k) ? v : fb; };
 
   try {
     const categories = await window.CustomCategories.getAllCategories();
@@ -5126,6 +5128,11 @@ async function loadCustomCategoriesList() {
           \u003cspan class="text-2xl"\u003e${cat.icon}\u003c/span\u003e
           \u003cspan class="text-sm font-medium" style="color: ${cat.color}"\u003e${cat.name}\u003c/span\u003e
         \u003c/div\u003e
+        \u003cbutton onclick="toggleCategoryFixed('${cat.id}', ${cat.isFixed ? 'false' : 'true'})"
+                class="text-xs px-2 py-1 rounded border ${cat.isFixed ? 'border-purple-500 text-purple-700' : 'border-gray-300 text-gray-500'}"
+                title="${t('finances.category_fixed_hint', 'Fixed monthly cost already in Settings')}"\u003e
+          ${cat.isFixed ? t('finances.category_fixed_on', '📅 Fixed') : t('finances.category_fixed_off', 'Variable')}
+        \u003c/button\u003e
         \u003cbutton onclick="deleteCategory('${cat.id}')" 
                 class="text-red-500 hover:text-red-700 text-sm"
                 title="Eliminar categoría"\u003e
@@ -5139,6 +5146,20 @@ async function loadCustomCategoriesList() {
     container.innerHTML = '';
   }
 }
+
+/**
+ * Marcar/desmarcar una categoría personalizada como gasto fijo mensual
+ */
+async function toggleCategoryFixed(categoryId, isFixed) {
+  try {
+    await window.CustomCategories.setCustomCategoryFixed(categoryId, isFixed);
+    await loadCustomCategoriesList();
+  } catch (error) {
+    debugLog('❌ Error updating category:', error);
+    showFinancesMessage(window.i18n?.t('finances.error_update_category') || 'Error updating category', 'error');
+  }
+}
+window.toggleCategoryFixed = toggleCategoryFixed;
 
 /**
  * Eliminar categoría personalizada
@@ -5270,6 +5291,10 @@ function createCategoryModalIfNeeded() {
                 <label class="flex items-center gap-2 cursor-pointer">
                   <input type="radio" name="isOperational" id="isOperationalNo" value="false" class="text-purple-600">
                   <span class="text-sm">\ud83d\udce6 ${t('finances.modal_type_general', "General (doesn't affect CPM)")}</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="isOperational" id="isFixedMonthly" value="fixed" class="text-purple-600">
+                  <span class="text-sm">\ud83d\udcc5 ${t('finances.modal_type_fixed', 'Fixed monthly (already in Settings)')}</span>
                 </label>
               </div>
             </div>

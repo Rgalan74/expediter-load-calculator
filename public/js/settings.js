@@ -392,6 +392,10 @@ function saveUserConfiguration() {
                 fuelMPG: config.fuelMPG,
                 fuelType: config.fuelType,
                 fuelPriceAdjust: config.fuelPriceAdjust,
+                vehiclePayment: config.vehiclePayment,
+                insurance: config.insurance,
+                licenses: config.licenses,
+                otherFixed: config.otherFixed,
                 vehicleType: config.vehicleType,
                 fuelPriceUpdatedAt: config.fuelPriceUpdatedAt
             };

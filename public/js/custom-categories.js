@@ -54,7 +54,7 @@ async function getAllCategories() {
  * @param {string} color - Color hexadecimal
  * @returns {Promise<Object>} Nueva categoría creada
  */
-async function createCustomCategory(name, icon, color, isOperational = false) {
+async function createCustomCategory(name, icon, color, isOperational = false, isFixed = false) {
     const user = firebase.auth().currentUser;
     if (!user) throw new Error('Usuario no autenticado');
 
@@ -68,7 +68,9 @@ async function createCustomCategory(name, icon, color, isOperational = false) {
         icon: icon || '📌',
         color: color || '#6b7280',
         isSystem: false,
-        isOperational: isOperational === true || isOperational === 'true',
+        isOperational: isOperational === true || isOperational === 'true' || isFixed === true,
+        // Gasto fijo mensual: ya incluido en Configuracion; no entra en el promedio por milla
+        isFixed: isFixed === true,
         createdAt: new Date().toISOString()
     };
 
@@ -86,6 +88,25 @@ async function createCustomCategory(name, icon, color, isOperational = false) {
         debugLog('❌ Error creating custom category:', error);
         throw error;
     }
+}
+
+/**
+ * Marcar o desmarcar una categoría personalizada como gasto fijo mensual
+ * (ya incluido en Configuración, para no contarlo dos veces en la Calculadora).
+ */
+async function setCustomCategoryFixed(categoryId, isFixed) {
+    const user = firebase.auth().currentUser;
+    if (!user) throw new Error('Usuario no autenticado');
+    const ref = firebase.firestore().collection('users').doc(user.uid);
+    const snap = await ref.get();
+    const list = (snap.exists && Array.isArray(snap.data().customExpenseCategories)) ? snap.data().customExpenseCategories : [];
+    if (!list.some(c => c && c.id === categoryId)) throw new Error('Categoría no encontrada');
+    const updated = list.map(c => (c && c.id === categoryId)
+        ? { ...c, isFixed: isFixed === true, isOperational: isFixed === true ? true : c.isOperational }
+        : c);
+    await ref.set({ customExpenseCategories: updated }, { merge: true });
+    if (window.CPMEngine) window.CPMEngine.clearCache();
+    return true;
 }
 
 /**
@@ -207,6 +228,7 @@ window.CustomCategories = {
     getAllCategories,
     createCustomCategory,
     deleteCustomCategory,
+    setCustomCategoryFixed,
     populateExpenseCategoriesSelect,
     getCategoryLabels,
     getCategoryName,

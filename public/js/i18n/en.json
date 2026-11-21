@@ -480,6 +480,11 @@
     "modal_category_type_label": "Expense Type?",
     "modal_type_operational": "Operational (affects CPM)",
     "modal_type_general": "General (doesn't affect CPM)",
+    "modal_type_fixed": "Fixed monthly (already in Settings)",
+    "category_fixed_hint": "Fixed monthly cost already included in Settings: not counted again per mile",
+    "category_fixed_on": "📅 Fixed",
+    "category_fixed_off": "Variable",
+    "error_update_category": "Error updating category",
     "manage_categories_title": "⚙️ Manage Expense Categories",
     "create_new_category_title": "➕ Create New Category",
     "btn_close_categories": "Close"

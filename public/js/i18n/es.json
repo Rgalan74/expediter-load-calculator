@@ -480,6 +480,11 @@
     "modal_category_type_label": "¿Tipo de gasto?",
     "modal_type_operational": "Operacional (afecta CPM)",
     "modal_type_general": "General (no afecta CPM)",
+    "modal_type_fixed": "Fijo mensual (ya está en Configuración)",
+    "category_fixed_hint": "Gasto fijo mensual ya incluido en Configuración: no se cuenta otra vez por milla",
+    "category_fixed_on": "📅 Fijo",
+    "category_fixed_off": "Variable",
+    "error_update_category": "Error al actualizar la categoría",
     "manage_categories_title": "⚙️ Gestión de Categorías de Gastos",
     "create_new_category_title": "➕ Crear Nueva Categoría",
     "btn_close_categories": "Cerrar"
