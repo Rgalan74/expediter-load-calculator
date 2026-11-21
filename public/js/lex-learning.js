@@ -543,6 +543,13 @@ async function analyzeLoadWithLearning(loadData) {
     const vsStateAvg = stateStats ?
       ((rpm - stateStats.avgRPM) / stateStats.avgRPM * 100) : null;
 
+    // Carga activa del panel: misma ganancia y mismo objetivo que el panel
+    const panel = window._lastDecisionData;
+    const isPanelLoad = !!panel && Math.abs(panel.actualRPM - rpm) < 0.05 &&
+      Math.abs(Number(panel.totalMiles || 0) - totalMiles) < 1 && Number.isFinite(Number(panel.netProfit));
+    const panelTargetRPM = isPanelLoad && Number(panel.thresholds?.acceptThreshold) > 0
+      ? Number(panel.thresholds.acceptThreshold) : null;
+
     // Decisión inteligente con textos mejorados
     let recommendation = '';
     let reasons = [];
@@ -584,7 +591,9 @@ async function analyzeLoadWithLearning(loadData) {
     } else {
       recommendation = 'NEGOTIATE ⚠️';
       color = 'yellow';
-      reasons.push(window.i18n?.t('lex.reason_caution', { pct: Math.abs(vsYourAvg).toFixed(1), avg: profile.avgRPM.toFixed(2) }) || `Caution: The rate is ${Math.abs(vsYourAvg).toFixed(1)}% below your average. Try to negotiate at least $${profile.avgRPM.toFixed(2)}/mi to make the route worth it.`);
+      reasons.push(panelTargetRPM
+        ? (window.i18n?.t('lex.reason_caution_target', { pct: Math.abs(vsYourAvg).toFixed(1), avg: profile.avgRPM.toFixed(2), target: panelTargetRPM.toFixed(2) }) || `Caution: The rate is ${Math.abs(vsYourAvg).toFixed(1)}% below your average ($${profile.avgRPM.toFixed(2)}/mi). To reach your target on this load, ask for at least $${panelTargetRPM.toFixed(2)}/mi.`)
+        : (window.i18n?.t('lex.reason_caution', { pct: Math.abs(vsYourAvg).toFixed(1), avg: profile.avgRPM.toFixed(2) }) || `Caution: The rate is ${Math.abs(vsYourAvg).toFixed(1)}% below your average. Try to negotiate at least $${profile.avgRPM.toFixed(2)}/mi to make the route worth it.`));
     }
 
     // 🔄 SINCRONIZACIÓN ABSOLUTA CON CALCULADORA
@@ -640,8 +649,11 @@ async function analyzeLoadWithLearning(loadData) {
       reasons.push(window.i18n?.t('lex.reason_new_territory', { state: destState }) || `New territory: You've never logged a load ending in ${destState}. Make sure to review return metrics before jumping into this new zone.`);
     }
 
-    // Calcular ganancia estimada
-    const estimatedProfit = (rpm * totalMiles) - (profile.avgCPM * totalMiles);
+    // Calcular ganancia estimada: si es la carga del panel, la misma cifra del panel
+    // (costos actuales de esa carga); si no, el promedio historico de Lex.
+    const estimatedProfit = isPanelLoad
+      ? Number(panel.netProfit)
+      : (rpm * totalMiles) - (profile.avgCPM * totalMiles);
 
     return {
       recommendation,
@@ -657,6 +669,7 @@ async function analyzeLoadWithLearning(loadData) {
         : (window.i18n?.t('lex.first_time') || 'First time'),
       reasons,
       estimatedProfit: estimatedProfit.toFixed(2),
+      targetRPM: panelTargetRPM,
       destState,
       profileLoaded: true
     };

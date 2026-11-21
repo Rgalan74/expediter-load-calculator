@@ -645,3 +645,24 @@ test('custom category: create as fixed and toggle an existing one', async () => 
   await w.CustomCategories.setCustomCategoryFixed('custom-phone', false);
   assert.equal(stored.find(c => c.id === 'custom-phone').isFixed, false);
 });
+
+// Lex = panel (2026-11-21): misma ganancia y mismo objetivo que el panel para la carga activa.
+test('Lex uses the panel profit and target for the active load', async () => {
+  const profile = { version: '1.2', avgRPM: 1.2, avgCPM: 0.4, minSafeRPM: 0.6, stateStats: {} };
+  const w = {
+    console, debugLog() {}, document: { addEventListener() {}, getElementById: () => null },
+    currentUser: { uid: 'u' },
+    firebase: { firestore: () => ({ collection: () => ({ doc: () => ({ get: async () => ({ exists: true, data: () => profile }) }) }) }) }
+  };
+  w.window = w;
+  vm.runInContext(fs.readFileSync(path.join(root, 'public/js/lex-learning.js'), 'utf8'), vm.createContext(w), { filename: 'lex-learning.js' });
+  w._lastDecisionData = { decision: 'EVALUATE', actualRPM: 0.9, totalMiles: 1000, netProfit: 215.5, thresholds: { cpm: 0.685, acceptThreshold: 0.98 }, reasons: {} };
+  const a = await w.analyzeLoadWithLearning({ rpm: 0.9, totalMiles: 1000, destinationState: 'TX' });
+  assert.equal(a.estimatedProfit, '215.50', 'same net profit as the panel');
+  assert.equal(a.targetRPM, 0.98, 'same target as the panel');
+  assert.ok(a.reasons.some(r => r.includes('$0.98/mi') && r.includes('target')), 'caution text asks for the panel target');
+  // Otra carga (no la del panel): promedio historico de Lex
+  const b = await w.analyzeLoadWithLearning({ rpm: 1.5, totalMiles: 500, destinationState: 'TX' });
+  assert.equal(b.estimatedProfit, ((1.5 - 0.4) * 500).toFixed(2));
+  assert.equal(b.targetRPM, null);
+});

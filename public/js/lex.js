@@ -802,7 +802,8 @@ window.openLexChatModal = function () {
 
           let actionLine = '';
           if (isBad) {
-            const minRPM = Number(analysis.yourAvgRPM || cargaActiva.actualRPM * 1.3).toFixed(2);
+            // Mismo objetivo que el panel (Objetivo / umbral); si no, el promedio de Lex
+            const minRPM = Number(analysis.targetRPM || analysis.yourAvgRPM || cargaActiva.actualRPM * 1.3).toFixed(2);
             const minTotal = Math.ceil(minRPM * cargaActiva.totalMiles);
             actionLine = isEs
               ? `\n\n💡 **Contraoferta mínima:** $${minRPM}/mi (~$${minTotal.toLocaleString()} total). ¿Quieres el script exacto para el dispatcher?`
