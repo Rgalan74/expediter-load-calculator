@@ -403,3 +403,69 @@ test('fuel price age is reported in days', () => {
   f.w.currentUser.profileData = {};
   assert.equal(f.w.fuelPriceAgeDays(), null);
 });
+
+// Combustible por ruta (EIA): precios reales de la semana 2026-11-16.
+const EIA_WEEK = {
+  periods: { gasoline: '2026-11-16', diesel: '2026-11-16' },
+  gasoline: { NUS: 3.805, R1X: 3.908, R1Y: 4.064, R1Z: 3.436, R20: 3.604, R30: 3.293, R40: 3.696, R5XCA: 4.405, SCA: 5.387, SFL: 3.525, STX: 3.216, SNY: 4.063, SOH: 3.396, SCO: 3.513, SMA: 3.872, SMN: 3.608, SWA: 4.714 },
+  diesel: { NUS: 5.937, R1X: 6.225, R1Y: 6.309, R1Z: 5.541, R20: 5.967, R30: 5.547, R40: 6.011, R5XCA: 6.269, SCA: 7.733 }
+};
+
+test('server: EIA rows -> latest week only, plausible prices', () => {
+  const { parseEia } = require(path.join(root, 'functions/fuel-prices.js'));
+  const out = parseEia([
+    { period: '2026-11-16', product: 'EPMR', duoarea: 'STX', value: '3.216' },
+    { period: '2026-11-09', product: 'EPMR', duoarea: 'STX', value: '3.100' },
+    { period: '2026-11-16', product: 'EPD2D', duoarea: 'R30', value: 5.547 },
+    { period: '2026-11-16', product: 'EPMR', duoarea: 'SCA', value: '99' },
+    { period: '2026-11-16', product: 'EPMM', duoarea: 'NUS', value: '4.2' }
+  ]);
+  assert.deepEqual(out.gasoline, { STX: 3.216 });
+  assert.deepEqual(out.diesel, { R30: 5.547 });
+  assert.deepEqual(out.periods, { gasoline: '2026-11-16', diesel: '2026-11-16' });
+});
+
+test('route fuel price: state series for gasoline, regions for diesel', () => {
+  const w = { console };
+  w.window = w;
+  vm.runInContext(fs.readFileSync(path.join(root, 'public/js/fuel-prices.js'), 'utf8'), vm.createContext(w), { filename: 'fuel-prices.js' });
+  const F = w.SLSFuelPrices;
+  assert.equal(F.priceForState(EIA_WEEK, 'TX', 'gasoline').price, 3.216);
+  assert.equal(F.priceForState(EIA_WEEK, 'TX', 'diesel').price, 5.547);
+  assert.equal(F.priceForState(EIA_WEEK, 'GA', 'gasoline').code, 'R1Z');
+  assert.equal(F.priceForState(EIA_WEEK, 'CA', 'diesel').price, 7.733);
+  assert.equal(F.priceForState(EIA_WEEK, 'AZ', 'gasoline').code, 'R5XCA');
+  assert.equal(F.priceForState(EIA_WEEK, 'XX', 'gasoline'), null);
+  const r = F.routePrice(EIA_WEEK, ['FL', 'GA', 'FL'], 'gasoline');
+  assert.equal(r.price, Math.round(((3.525 + 3.436) / 2) * 1000) / 1000, 'each state once');
+  assert.equal(r.parts.length, 2);
+  assert.ok(F.isFresh(EIA_WEEK, 'gasoline', Date.parse('2026-11-21T12:00:00Z')));
+  assert.ok(!F.isFresh(EIA_WEEK, 'gasoline', Date.parse('2026-12-20T12:00:00Z')), 'older than 3 weeks');
+});
+
+test('calculator: fuel from route prices + user adjustment / MPG, fallback when stale', () => {
+  const f = fixture();
+  const w = f.w;
+  vm.runInContext(fs.readFileSync(path.join(root, 'public/js/fuel-prices.js'), 'utf8'), w, { filename: 'fuel-prices.js' });
+  w.currentUser.profileData = { fuelMPG: 20, fuelPriceAdjust: -0.2, fuelType: 'gasoline' };
+  w.SLSFuelPrices.set({ ...EIA_WEEK, periods: { gasoline: new Date().toISOString().slice(0, 10), diesel: new Date().toISOString().slice(0, 10) } });
+  const route = { states: ['FL', 'TX'] };
+  const e = w.calculateTotalExpenses(500, 0, route);
+  const price = (3.525 + 3.216) / 2 - 0.2;
+  assert.ok(e.fuelRoute, 'route price used');
+  assert.ok(Math.abs(e.fuelCost - 500 * price / 20) < 0.02, `fuel ${e.fuelCost} vs ${500 * price / 20}`);
+  assert.ok(Math.abs(e.fuelRoute.price - price) < 0.001);
+  // Diésel con el mismo usuario
+  w.currentUser.profileData.fuelType = 'diesel';
+  assert.equal(w.calculateTotalExpenses(500, 0, route).fuelRoute.base, Math.round(((5.541 + 5.547) / 2) * 1000) / 1000);
+  // Precios viejos -> precio de Configuración (costs.combustible = 0.2 en el fixture)
+  w.SLSFuelPrices.set(EIA_WEEK);
+  w.currentUser.profileData.fuelType = 'gasoline';
+  const old = w.calculateTotalExpenses(500, 0, route);
+  if (!w.SLSFuelPrices.isFresh(EIA_WEEK, 'gasoline')) {
+    assert.equal(old.fuelRoute, null);
+    assert.equal(old.fuelCost, 100);
+  }
+  // Sin ruta -> precio de Configuración
+  assert.equal(w.calculateTotalExpenses(500, 0).fuelCost, 100);
+});
