@@ -16,5 +16,14 @@ function summary(d){
  lines.push('Checkpoints: observaciones actuales en puntos muestreados, no pronóstico de llegada.');
  return '<section aria-label="Resumen meteorológico">'+lines.map(t=>'<p>'+escape(t)+'</p>').join('')+'</section>';
 }
-w.SLSWeather=Object.freeze({request,summary,condition,escape});
+// Spanish label for each WeatherAPI condition code (the provider returns English text).
+const ES={1000:'Despejado',1003:'Parcialmente nublado',1006:'Nublado',1009:'Cubierto',1030:'Neblina',1063:'Lluvia dispersa',1066:'Nieve dispersa',1069:'Aguanieve dispersa',1072:'Llovizna helada dispersa',1087:'Posibles tormentas',1114:'Ventisca',1117:'Tormenta de nieve',1135:'Niebla',1147:'Niebla helada',1150:'Llovizna ligera',1153:'Llovizna',1168:'Llovizna helada',1171:'Llovizna helada fuerte',1180:'Lluvia ligera',1183:'Lluvia ligera',1186:'Lluvia moderada',1189:'Lluvia moderada',1192:'Lluvia fuerte',1195:'Lluvia fuerte',1198:'Lluvia helada ligera',1201:'Lluvia helada',1204:'Aguanieve ligera',1207:'Aguanieve',1210:'Nieve ligera',1213:'Nieve ligera',1216:'Nieve moderada',1219:'Nieve moderada',1222:'Nieve fuerte',1225:'Nieve fuerte',1237:'Granizo',1240:'Chubascos ligeros',1243:'Chubascos',1246:'Chubascos torrenciales',1249:'Chubascos de aguanieve',1252:'Chubascos de aguanieve',1255:'Chubascos de nieve',1258:'Chubascos de nieve fuertes',1261:'Granizo ligero',1264:'Granizo',1273:'Lluvia con tormenta',1276:'Tormenta fuerte con lluvia',1279:'Nieve con tormenta',1282:'Tormenta fuerte con nieve'};
+function conditionEs(c){return ES[Number(c?.code)]||c?.text||'No disponible';}
+// One category per condition, same code lists as condition(): storm, snow (incl. ice), rain or other.
+function kind(c){const t=condition(c);return t==='Tormentas'?'storm':t==='Nieve o precipitación helada'?'snow':t==='Lluvia'?'rain':'other';}
+// Counts over checkpoints that returned data ({code} or null for a failed point).
+function routeCounts(points){const ok=(points||[]).filter(p=>p&&Number.isFinite(Number(p.code)));const n=k=>ok.filter(p=>kind(p)===k).length;return {total:ok.length,rain:n('rain'),snow:n('snow'),storm:n('storm')};}
+// Active alerts, most severe first (Extreme, Severe, Moderate, other).
+function activeAlerts(d,now=Date.now()){return (d?.alerts?.alert||[]).filter(a=>!a.expires||!Number.isFinite(Date.parse(a.expires))||Date.parse(a.expires)>now).sort((a,b)=>({Extreme:0,Severe:1,Moderate:2}[a.severity]??3)-({Extreme:0,Severe:1,Moderate:2}[b.severity]??3));}
+w.SLSWeather=Object.freeze({request,summary,condition,escape,conditionEs,kind,routeCounts,activeAlerts});
 })(window);

@@ -279,3 +279,61 @@ test('finances margin card shows profit margin with the real script load order',
   if (typeof w.updateBusinessMetrics === 'function') w.updateBusinessMetrics();
   assert.equal(byId(cardId).textContent, '25.0%', `card #${cardId} must show (1000-750)/1000`);
 });
+
+// Clima: etiquetas en español, conteos honestos y alertas vigentes.
+function weatherClient() {
+  const w = { console };
+  w.window = w;
+  vm.runInContext(fs.readFileSync(path.join(root, 'public/js/weather-client.js'), 'utf8'), vm.createContext(w), { filename: 'weather-client.js' });
+  return w.SLSWeather;
+}
+
+test('weather helpers: Spanish labels, categories and route counts', () => {
+  const W = weatherClient();
+  assert.equal(W.conditionEs({ code: 1003, text: 'Partly cloudy' }), 'Parcialmente nublado');
+  assert.equal(W.conditionEs({ code: 1063, text: 'Patchy rain nearby' }), 'Lluvia dispersa');
+  assert.equal(W.conditionEs({ code: 9999, text: 'Unknown' }), 'Unknown', 'unknown code keeps provider text');
+  assert.equal(W.kind({ code: 1063 }), 'rain');
+  assert.equal(W.kind({ code: 1210 }), 'snow');
+  assert.equal(W.kind({ code: 1201 }), 'snow', 'freezing rain counts as snow/ice');
+  assert.equal(W.kind({ code: 1276 }), 'storm');
+  assert.equal(W.kind({ code: 1003 }), 'other');
+  const n = W.routeCounts([{ code: 1063 }, { code: 1183 }, null, { code: 1003 }, { code: 1276 }]);
+  assert.deepEqual({ ...n }, { total: 4, rain: 2, snow: 0, storm: 1 }, 'failed points are not counted');
+  const now = Date.parse('2032-05-10T12:00:00Z');
+  const alerts = W.activeAlerts({ alerts: { alert: [
+    { event: 'Old', severity: 'Severe', expires: '2032-05-09T00:00:00Z' },
+    { event: 'Moderate one', severity: 'Moderate', expires: '2032-05-11T00:00:00Z' },
+    { event: 'Extreme one', severity: 'Extreme', expires: '2032-05-11T00:00:00Z' }
+  ] } }, now);
+  assert.deepEqual(alerts.map(a => a.event), ['Extreme one', 'Moderate one']);
+});
+
+test('weather modal: Spanish, no removed sections, escapes provider and user text', async () => {
+  const f = fixture();
+  const w = f.w;
+  let html = '';
+  w.document.body.insertAdjacentHTML = (_pos, h) => { html += h; };
+  w.crypto = { randomUUID: () => 'synthetic-request' };
+  w.SLSWeatherAppCheck = { ensure: async () => {} };
+  vm.runInContext(fs.readFileSync(path.join(root, 'public/js/weather-client.js'), 'utf8'), w, { filename: 'weather-client.js' });
+  const day = (date, max, min, rain, snow) => ({ date, day: { maxtemp_f: max, mintemp_f: min, daily_chance_of_rain: rain, daily_chance_of_snow: snow, condition: { code: 1003 } } });
+  w.firebase.app = () => ({ functions: () => ({ httpsCallable: () => async () => ({ data: {
+    location: { name: 'Atlanta<img src=x onerror=alert(1)>', region: 'Georgia' },
+    current: { temp_f: 57.8, wind_mph: 7, condition: { code: 1003, text: 'Partly cloudy', icon: '//cdn.weatherapi.com/x.png' } },
+    forecast: { forecastday: [day('2032-05-10', 68, 49, 4, 0), day('2032-05-11', 68, 52, 10, 0), day('2032-05-12', 66, 53, 8, 30)] },
+    alerts: { alert: [{ event: 'Winter Storm Warning', severity: 'Severe', areas: 'Fulton <b>County</b>', effective: '2032-05-10T06:00:00Z', expires: '2099-05-11T18:00:00Z' }] }
+  } }) }) });
+  await w.showWeatherModal('Atlanta<img src=x onerror=alert(1)>, GA', 'Miami, FL');
+  assert.match(html, /Clima de la ruta/);
+  assert.match(html, /Parcialmente nublado/);
+  assert.match(html, />Hoy</);
+  assert.match(html, /58°F/);
+  assert.match(html, /Nieve 30%/, 'snow chance shown only when above zero');
+  assert.match(html, /Alerta: Winter Storm Warning/);
+  assert.match(html, /Zona: Fulton &lt;b&gt;County&lt;\/b&gt;/);
+  assert.match(html, /Atlanta&lt;img/, 'location name is escaped');
+  assert.doesNotMatch(html, /<img src=x/);
+  for (const removed of ['Share Forecast', 'UV Index', 'Visibility', 'Humidity', 'Current Weather', 'View Route'])
+    assert.doesNotMatch(html, new RegExp(removed), removed);
+});
