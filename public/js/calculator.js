@@ -394,7 +394,7 @@ async function getWeatherForDestination(destination) {
       condition,
       emoji,
       badgeClass,
-      text: `${emoji} ${temp}°F • ${condition}`
+      text: `${emoji} ${temp}°F • ${window.SLSWeather.conditionEs(data.current.condition)}`
     };
 
   } catch (error) {
@@ -580,7 +580,6 @@ function toggleRadarLayer() {
 }
 
 // Exponer funciones globalmente
-window.switchWeatherTab = switchWeatherTab;
 window.loadRouteMap = loadRouteMap;
 window.toggleRadarLayer = toggleRadarLayer;
 
@@ -3740,216 +3739,255 @@ let weatherModalDirections = null;
 // ========================================
 //  FUNCIÓN: Modal de clima MEJORADO - Mobile First
 // ========================================
+// ========================================
+//  CLIMA DE LA RUTA — paleta de la "Guía de color — Clima de la ruta"
+//  (un solo lugar para los colores; el resto usa var(--wx-*)).
+// ========================================
+const WX_PALETTE = {
+  bg: '#081735',        // fondo principal
+  bg2: '#0D2352',       // fondo secundario
+  card: '#112B67',      // tarjeta principal
+  highlight: '#1E56D9', // tarjeta resaltada / botón activo
+  glow: '#33A2FF',      // borde activo, línea de checkpoints
+  text: '#F5F8FF',      // texto principal
+  text2: '#B8C8E6',     // texto secundario
+  text3: '#8097BF',     // texto tenue
+  rain: '#54C8FF',
+  snow: '#7FD6FF',
+  ok: '#34D399',        // condición segura
+  warn: '#F6B24A',      // advertencia
+  danger: '#D94A6A',    // alerta severa
+  storm: '#FFD447'
+};
+const WX_STATE = {
+  rain: WX_PALETTE.rain,
+  snow: WX_PALETTE.snow,
+  storm: WX_PALETTE.storm,
+  other: WX_PALETTE.ok,
+  none: WX_PALETTE.text3
+};
+const WX_CSS_VARS = Object.entries({
+  '--wx-bg': WX_PALETTE.bg, '--wx-bg2': WX_PALETTE.bg2, '--wx-card': WX_PALETTE.card,
+  '--wx-hl': WX_PALETTE.highlight, '--wx-glow': WX_PALETTE.glow, '--wx-t1': WX_PALETTE.text,
+  '--wx-t2': WX_PALETTE.text2, '--wx-t3': WX_PALETTE.text3, '--wx-rain': WX_PALETTE.rain,
+  '--wx-snow': WX_PALETTE.snow, '--wx-ok': WX_PALETTE.ok, '--wx-warn': WX_PALETTE.warn,
+  '--wx-danger': WX_PALETTE.danger, '--wx-storm': WX_PALETTE.storm
+}).map(([k, v]) => `${k}:${v}`).join(';');
+
+const WX_PATHS = {
+  drop: '<path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"></path>',
+  flake: '<path d="M12 2v20M3.5 7l17 10M3.5 17l17-10"></path>',
+  bolt: '<path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"></path>',
+  check: '<path d="M5 12l4 4 10-10"></path>',
+  dash: '<path d="M6 12h12"></path>',
+  pin: '<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle>',
+  cal: '<rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path>',
+  okCircle: '<circle cx="12" cy="12" r="9"></circle><path d="M8 12l3 3 5-6"></path>',
+  warn: '<path d="M12 3l9 16H3L12 3z"></path><path d="M12 10v4"></path><path d="M12 17h.01"></path>'
+};
+const WX_KIND_PATH = { rain: WX_PATHS.drop, snow: WX_PATHS.flake, storm: WX_PATHS.bolt, other: WX_PATHS.check, none: WX_PATHS.dash };
+
+function wxLineIcon(path, color, size = 16, width = 2.2) {
+  return `<svg aria-hidden="true" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">${path}</svg>`;
+}
+// Círculo del checkpoint: verde con check blanco si está despejado; azul intenso con
+// borde blanco y el icono del estado (gota, copo, rayo) en su color si no.
+function wxCheckpointCircle(kind) {
+  const P = WX_PALETTE;
+  const color = WX_STATE[kind] || WX_STATE.other;
+  const fill = kind === 'other' ? P.ok : kind === 'none' ? P.bg2 : P.highlight;
+  const iconColor = kind === 'other' ? P.text : color;
+  return `<div style="width:36px;height:36px;border-radius:18px;background:${fill};border:3px solid ${P.text};box-shadow:0 0 16px ${color}99;display:flex;align-items:center;justify-content:center">${wxLineIcon(WX_KIND_PATH[kind] || '', iconColor, 18, 2.8)}</div>`;
+}
+
 async function showWeatherModal(destination, origin = null) {
-
   try {
-    const data = await window.SLSWeather.request('forecast',{query:destination});
+    const W = window.SLSWeather;
+    const esc = W.escape;
+    const P = WX_PALETTE;
+    const data = await W.request('forecast', { query: destination });
     const current = data.current;
-    const forecast = data.forecast.forecastday;
-    const alerts = data.alerts?.alert || [];
+    const forecast = (data.forecast && data.forecast.forecastday) || [];
+    const today = forecast[0] ? forecast[0].day : {};
+    const alerts = W.activeAlerts(data);
     const originCity = origin || document.getElementById('origin')?.value || '';
-
-    // Determinar color del fondo según temperatura
+    // "Miami, FL, USA" -> "Miami, FL"; sin coma, el nombre tal cual
+    const cityState = (s) => String(s || '').split(',').map((x) => x.trim()).filter(Boolean).slice(0, 2).join(', ');
+    const short = (s) => String(s || '').split(',')[0].trim();
+    const pct = (v) => Number.isFinite(Number(v)) ? Math.round(Number(v)) + '%' : '—';
     const tempF = Math.round(current.temp_f);
-    let headerGradient = 'from-blue-500 to-blue-700'; // Normal
-    if (tempF <= 32) headerGradient = 'from-blue-800 to-indigo-900'; // Frío
-    else if (tempF >= 90) headerGradient = 'from-orange-500 to-red-600'; // Calor
-    else if (tempF >= 75) headerGradient = 'from-yellow-500 to-orange-500'; // Cálido
+    const destLabel = cityState(destination) || [data.location.name, data.location.region].filter(Boolean).join(', ');
+    const icon = (c, size) => c && c.icon ? `<img src="https:${esc(c.icon)}" alt="" width="${size}" height="${size}" style="width:${size}px;height:${size}px;flex-shrink:0">` : '';
+    const title = (path, text) => `<div class="wx-h">${wxLineIcon(path, P.glow, 22)}<span>${text}</span></div>`;
 
-    let modalHTML = `
-  <div id="weatherModal" class="fixed inset-0 z-50 overflow-y-auto" style="display: flex; align-items: flex-start; justify-content: center; background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); animation: fadeIn 0.3s ease; padding: 1rem;" onclick="if(event.target.id==='weatherModal') { closeWeatherModal(); }">
-    
-    <!-- Modal Container - Scrollable on mobile -->
-    <div class="bg-white shadow-2xl w-full md:max-w-3xl md:rounded-2xl overflow-hidden flex flex-col my-auto" style="animation: slideUp 0.3s ease; max-height: 95vh;" onclick="event.stopPropagation()">
-      
-      <!-- Header con temperatura - Colores dinámicos -->
-      <div class="bg-gradient-to-r ${headerGradient} text-white p-4 md:p-6 md:rounded-t-2xl relative overflow-hidden" style="flex-shrink: 0; padding: 0.75rem 1rem;">
+    const dayLabel = (d, i) => {
+      if (i === 0) return 'Hoy';
+      const s = new Date(d.date + 'T12:00:00').toLocaleDateString('es-ES', { weekday: 'short' }).replace('.', '');
+      return s.charAt(0).toUpperCase() + s.slice(1);
+    };
+    const daysHTML = forecast.slice(0, 3).map((d, i) => `
+      <div class="wx-day${i === 0 ? ' wx-today' : ''}">
+        <div style="font-size:16px;font-weight:800;color:var(--wx-t1)">${dayLabel(d, i)}</div>
+        ${icon(d.day.condition, 38)}
+        <div class="wx-day-temp" style="font-size:19px;font-weight:800"><span style="color:var(--wx-t1)">${Math.round(d.day.maxtemp_f)}°</span> <span style="color:var(--wx-t2);font-weight:600">/ ${Math.round(d.day.mintemp_f)}°</span></div>
+        <div style="font-size:14px;color:var(--wx-rain);margin-top:4px">Lluvia ${pct(d.day.daily_chance_of_rain)}</div>
+        ${Number(d.day.daily_chance_of_snow) > 0 ? `<div style="font-size:14px;color:var(--wx-snow);margin-top:2px">Nieve ${pct(d.day.daily_chance_of_snow)}</div>` : ''}
+      </div>`).join('');
 
-        
-        <div class="relative z-10">
-          <div class="flex justify-between items-start">
-            <div>
-              <h2 class="text-xl md:text-2xl font-bold flex items-center gap-2">
-                📍 ${data.location.name}
-              </h2>
-              <p class="text-white/80 text-sm mt-1">${data.location.region}, ${data.location.country}</p>
-              <p class="text-white/60 text-xs mt-1">${new Date().toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' })}</p>
-            </div>
-            <button onclick="closeWeatherModal()" class="text-white/80 hover:text-white w-10 h-10 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition text-xl">&times;</button>
-          </div>
-          
-          <div class="flex items-center gap-4 mt-4">
-            <img src="https:${current.condition.icon}" alt="${current.condition.text}" class="drop-shadow-lg" style="width:48px;height:48px;">
-            <div>
-              <div class="text-3xl font-bold">${tempF}°F</div>
-              <div class="text-lg text-white/90">${current.condition.text}</div>
-              <div class="text-sm text-white/70 mt-1">Feels like: ${Math.round(current.feelslike_f)}°F</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Tabs mejorados -->
-      <div class="flex border-b bg-gray-50" style="flex-shrink: 0;">
-        <button onclick="switchWeatherTab('current')" id="tabCurrent" class="flex-1 px-4 py-4 text-sm font-bold border-b-3 border-blue-600 text-blue-600 flex items-center justify-center gap-2 transition-all">
-          <span class="text-lg">🌤️</span>
-          <span class="hidden sm:inline">Current Weather</span>
-          <span class="sm:hidden">Current</span>
-        </button>
-        ${originCity ? `
-          <button onclick="switchWeatherTab('route')" id="tabRoute" class="flex-1 px-4 py-4 text-sm font-bold border-b-3 border-transparent text-gray-500 hover:text-blue-600 flex items-center justify-center gap-2 transition-all">
-            <span class="text-lg">🗺️</span>
-            <span class="hidden sm:inline">View Route</span>
-            <span class="sm:hidden">Route</span>
-          </button>
-        ` : ''}
-      </div>
-      
-      <!-- Tab: Clima Actual -->
-      <div id="tabContentCurrent" style="flex: 1; overflow-y: auto; min-height: 0;">
-        
-        ${window.SLSWeather.summary(data)}
-        <!-- Grid de métricas mejorado -->
-        <div class="p-4 bg-gradient-to-b from-gray-50 to-white">
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center hover:shadow-md transition">
-              <div class="text-2xl mb-1">💨</div>
-              <div class="text-xl font-bold text-gray-900">${Math.round(current.wind_mph)} mph</div>
-              <div class="text-xs text-gray-500">Wind ${current.wind_dir}</div>
-            </div>
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center hover:shadow-md transition">
-              <div class="text-2xl mb-1">💧</div>
-              <div class="text-xl font-bold text-gray-900">${current.humidity}%</div>
-              <div class="text-xs text-gray-500">Humidity</div>
-            </div>
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center hover:shadow-md transition">
-              <div class="text-2xl mb-1">☀️</div>
-              <div class="text-xl font-bold text-gray-900">${current.uv}</div>
-              <div class="text-xs text-gray-500">UV Index</div>
-            </div>
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center hover:shadow-md transition">
-              <div class="text-2xl mb-1">👁️</div>
-              <div class="text-xl font-bold text-gray-900">${current.vis_miles} mi</div>
-              <div class="text-xs text-gray-500">Visibility</div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Pronóstico 3 días mejorado -->
-        <div class="p-4">
-          <h3 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
-            <span class="text-xl">📅</span> 3-Day Forecast
-          </h3>
-          <div class="space-y-2">
-            ${forecast.map((day, i) => {
-      const date = new Date(day.date + 'T12:00:00');
-      const dayName = i === 0 ? 'Today' : date.toLocaleDateString('en-US', { weekday: 'short' });
+    const when = (v) => {
+      const t = Date.parse(v);
+      return Number.isFinite(t) ? new Date(t).toLocaleString('es-ES', { weekday: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : '—';
+    };
+    const alertsHTML = alerts.length ? alerts.map((a) => {
+      const severe = a.severity === 'Extreme' || a.severity === 'Severe';
+      const base = severe ? P.danger : P.warn;
+      const fg = severe ? P.text : P.bg;
       return `
-                <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:0.75rem;padding:0.5rem 0.75rem;" class="flex items-center justify-between transition">
-                  <div class="flex items-center gap-3">
-                    <img src="https:${day.day.condition.icon}" alt="${day.day.condition.text}" class="w-8 h-8">
-                    <div>
-                      <p class="font-bold" style="color:#ffffff">${dayName}</p>
-                      <p class="text-sm" style="color:rgba(255,255,255,0.6)">${day.day.condition.text}</p>
-                    </div>
-                  </div>
-                  <div class="text-right">
-                    <div class="font-bold text-lg">
-                      <span class="text-red-500">${Math.round(day.day.maxtemp_f)}°</span>
-                      <span class="text-gray-400">/</span>
-                      <span class="text-blue-500">${Math.round(day.day.mintemp_f)}°</span>
-                    </div>
-                    <div class="flex gap-2 text-xs mt-1">
-                      ${day.day.daily_chance_of_rain > 20 ? `<span class="text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">🌧️ ${day.day.daily_chance_of_rain}%</span>` : ''}
-                      ${day.day.daily_chance_of_snow > 20 ? `<span class="text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full">❄️ ${day.day.daily_chance_of_snow}%</span>` : ''}
-                    </div>
-                  </div>
-                </div>
-              `;
-    }).join('')}
+      <div class="wx-alert" style="background:linear-gradient(90deg, ${base} 0%, ${base}B3 100%);border:1px solid ${base};color:${fg};box-shadow:0 0 22px ${base}66">
+        ${wxLineIcon(WX_PATHS.warn, fg, 34, 2.4)}
+        <div>
+          <div style="font-size:18px;font-weight:800">Alerta: ${esc(a.event || a.headline || 'meteorológica')}</div>
+          ${a.areas ? `<div style="font-size:14px;margin-top:4px">Zona: ${esc(a.areas)}</div>` : ''}
+          <div style="font-size:14px;margin-top:2px">Vigencia: ${esc(when(a.effective))} – ${esc(when(a.expires))}</div>
+        </div>
+      </div>`;
+    }).join('') : `
+      <div class="wx-alert wx-ok">
+        ${wxLineIcon(WX_PATHS.okCircle, P.ok, 22)}
+        <span>Sin alertas meteorológicas vigentes del proveedor</span>
+      </div>`;
+
+    const routeBlocks = originCity ? `
+      <div class="wx-box">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+          ${title(WX_PATHS.pin, 'Checkpoints')}
+          <span id="wxRoutePill" class="wx-pill" style="border-color:var(--wx-t3)">Consultando…</span>
+        </div>
+        <div id="wxCheckpoints"><div style="font-size:14px;color:var(--wx-t2);padding:6px 0">Consultando el clima en la ruta…</div></div>
+        <div style="font-size:12px;color:var(--wx-t3);margin-top:10px">Clima actual en cada punto, no a la hora de paso · Destino: pronóstico · Fuente: WeatherAPI</div>
+      </div>` : '';
+    const countCell = (path, color, label, id) => `
+        <div class="wx-count-cell">${wxLineIcon(path, color, 28, 2.2)}<div style="text-align:left"><div class="wx-count-label">${label}</div><div id="${id}" class="wx-count">–</div></div></div>`;
+    const countsHTML = originCity ? `
+      <div id="wxCounts" class="wx-counts">
+        ${countCell(WX_PATHS.drop, P.rain, 'Lluvia', 'wxCountRain')}
+        ${countCell(WX_PATHS.flake, P.snow, 'Nieve o hielo', 'wxCountSnow')}
+        ${countCell(WX_PATHS.bolt, P.storm, 'Tormenta', 'wxCountStorm')}
+      </div>` : '';
+    const mapHTML = originCity ? `
+      <details id="wxMapDetails">
+        <summary class="wx-btn">Ver mapa de la ruta</summary>
+        <div id="routeMap" style="width:100%;height:340px;margin-top:12px;border-radius:12px;overflow:hidden;background:var(--wx-bg2)"></div>
+      </details>` : '';
+
+    const modalHTML = `
+  <div id="weatherModal" onclick="if (event.target === this) closeWeatherModal()" style="position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.65);padding:16px;animation:fadeIn 0.2s ease">
+    <div role="dialog" aria-label="Clima de la ruta" class="wx-modal" style="${WX_CSS_VARS}">
+      <div class="wx-header">
+        ${icon(current.condition, 40)}
+        <div style="flex:1;min-width:0;font-size:22px;font-weight:800;color:var(--wx-t1)">Clima de la ruta</div>
+        <button type="button" onclick="closeWeatherModal()" aria-label="Cerrar" style="width:44px;height:44px;border:0;background:transparent;color:var(--wx-t1);font-size:28px;cursor:pointer">×</button>
+      </div>
+      <div class="wx-body">
+        <div style="display:flex;align-items:center;gap:12px">
+          ${wxLineIcon(WX_PATHS.pin, P.glow, 26)}
+          <div style="min-width:0">
+            <div class="wx-route">${originCity ? esc(cityState(originCity)) + ' <span style="color:var(--wx-glow)">→</span> ' : ''}${esc(destLabel)}</div>
+            <div id="wxRouteMeta" style="font-size:14px;color:var(--wx-t2);margin-top:2px">${originCity ? 'Calculando la ruta…' : 'Clima del destino'}</div>
           </div>
         </div>
-        
-        <!-- Botón compartir -->
-        <div class="p-4 border-t bg-gray-50">
-          <button onclick="shareWeatherInfo('${data.location.name}', ${tempF}, '${current.condition.text}')" class="w-full py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-blue-700 transition flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
-            <span>📤</span> Share Forecast
-          </button>
-        </div>
-      </div>
-      
-      <!-- Tab: Ver Ruta (se mantiene igual) -->
-      <div id="tabContentRoute" class="hidden" style="flex: 1; overflow-y: auto; min-height: 0;">
-        <div class="p-4 space-y-3">
-          
-          <div id="routeMap" class="w-full rounded-xl bg-gray-200 relative border-2 border-gray-300" style="height: 280px;">
-            <div id="mapLoading" class="absolute inset-0 flex items-center justify-center text-gray-600 bg-gray-100 z-10">
-              <div class="text-center">
-                <div class="text-4xl mb-2 animate-bounce">🗺️</div>
-                <div class="text-sm">Loading map...</div>
+        <div class="wx-top">
+          <div class="wx-box wx-hero">
+            ${title(WX_PATHS.pin, 'Destino ahora')}
+            <div style="font-size:17px;font-weight:700;color:var(--wx-t1);margin:4px 0 0 28px">${esc(destLabel)}</div>
+            <div style="display:flex;align-items:center;gap:16px;margin-top:2px;flex-wrap:wrap">
+              <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:220px">
+                ${icon(current.condition, 76)}
+                <div><div class="wx-temp">${tempF}°F</div><div style="font-size:16px;color:var(--wx-t2);margin-top:6px">${esc(W.conditionEs(current.condition))}</div></div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:12px;font-size:16px;color:var(--wx-t1);padding-left:16px;border-left:1px solid rgba(51,162,255,0.35)">
+                <div style="display:flex;align-items:center;gap:10px">${wxLineIcon(WX_PATHS.drop, P.rain, 24)}<span><b>${pct(today.daily_chance_of_rain)}</b> Lluvia hoy</span></div>
+                <div style="display:flex;align-items:center;gap:10px">${wxLineIcon(WX_PATHS.flake, P.snow, 24)}<span><b>${pct(today.daily_chance_of_snow)}</b> Nieve hoy</span></div>
+                ${Number(current.wind_mph) >= 25 ? `<div style="display:flex;align-items:center;gap:10px;color:var(--wx-warn)"><b>${Math.round(current.wind_mph)} mph</b> Viento fuerte</div>` : ''}
               </div>
             </div>
           </div>
-          
-          <div class="bg-white rounded-xl border-2 border-gray-200 overflow-hidden">
-            <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-3">
-              <h3 class="font-bold flex items-center gap-2">
-                <span>📍</span> Route Checkpoints
-              </h3>
-            </div>
-            <div id="waypointWeather" class="p-4 space-y-2">
-              <div class="text-center text-gray-500 text-sm py-4 flex items-center justify-center gap-2">
-                <span class="animate-spin">⏳</span> Loading weather at key points...
-              </div>
-            </div>
+          <div class="wx-box">
+            <div style="margin-bottom:10px">${title(WX_PATHS.cal, 'Próximos 3 días')}</div>
+            <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">${daysHTML}</div>
           </div>
-          
         </div>
+        ${routeBlocks}
+        <div class="wx-status${countsHTML ? ' wx-status-2' : ''}">
+          <div style="display:flex;flex-direction:column;gap:12px;min-width:0">${alertsHTML}</div>
+          ${countsHTML}
+        </div>
+        ${mapHTML}
+        ${originCity ? '' : '<div style="font-size:12px;color:var(--wx-t3)">Destino: pronóstico · Fuente: WeatherAPI</div>'}
       </div>
-      
     </div>
   </div>
-  
   <style>
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    @keyframes slideDown {
-      from { transform: translateY(0); opacity: 1; }
-      to { transform: translateY(20px); opacity: 0; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .wx-modal { width: 100%; min-width: 0; max-width: 1080px; max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); display: flex; flex-direction: column; margin: auto; background: var(--wx-bg); border: 1px solid var(--wx-glow); border-radius: 20px; overflow: hidden; color: var(--wx-t1); box-shadow: 0 0 44px rgba(51,162,255,0.35), 0 24px 60px rgba(0,0,0,0.55); animation: slideUp 0.3s ease; }
+    .wx-header { flex-shrink: 0; display: flex; align-items: center; gap: 12px; padding: 6px 10px 6px 22px; background: linear-gradient(90deg, var(--wx-hl) 0%, var(--wx-card) 100%); border-bottom: 1px solid var(--wx-glow); }
+    .wx-body { flex: 1; min-height: 0; overflow-y: auto; padding: 14px 22px 16px; display: flex; flex-direction: column; gap: 12px; }
+    .wx-route { font-size: 22px; font-weight: 800; color: var(--wx-t1); line-height: 1.15; }
+    .wx-top { display: grid; grid-template-columns: minmax(0,1fr); gap: 12px; }
+    @media (min-width: 900px) { .wx-top { grid-template-columns: minmax(0,1fr) minmax(0,1fr); } }
+    .wx-box { padding: 14px 18px; border-radius: 16px; background: var(--wx-card); border: 1px solid rgba(51,162,255,0.35); box-shadow: inset 0 1px 0 rgba(245,248,255,0.06); }
+    .wx-hero { background: linear-gradient(135deg, var(--wx-hl) 0%, var(--wx-card) 75%); border-color: var(--wx-glow); box-shadow: 0 0 24px rgba(51,162,255,0.35); }
+    .wx-h { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 800; color: var(--wx-t1); }
+    .wx-temp { font-size: 54px; font-weight: 800; line-height: 1; color: var(--wx-t1); }
+    .wx-day { padding: 8px 6px; border-radius: 14px; text-align: center; background: var(--wx-bg2); border: 1px solid rgba(51,162,255,0.3); display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .wx-day.wx-today { background: var(--wx-hl); border-color: var(--wx-glow); box-shadow: 0 0 20px rgba(51,162,255,0.6); }
+    .wx-day.wx-today div, .wx-day.wx-today span { color: var(--wx-t1) !important; }
+    .wx-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; border: 1.5px solid; background: var(--wx-bg2); color: var(--wx-t1); font-size: 15px; font-weight: 700; }
+    .wx-alert { display: flex; gap: 14px; align-items: center; padding: 10px 18px; border-radius: 16px; }
+    .wx-alert.wx-ok { background: rgba(52,211,153,0.12); border: 1px solid var(--wx-ok); color: var(--wx-t1); font-size: 16px; font-weight: 700; }
+    .wx-counts { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); border-radius: 16px; background: var(--wx-card); border: 1px solid rgba(51,162,255,0.35); overflow: hidden; }
+    .wx-count-cell { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 10px; }
+    .wx-count-cell + .wx-count-cell { border-left: 1px solid rgba(51,162,255,0.3); }
+    .wx-count-label { font-size: 15px; color: var(--wx-t2); }
+    .wx-count { font-size: 24px; font-weight: 800; line-height: 1.1; color: var(--wx-t3); }
+    .wx-btn { cursor: pointer; display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px; border-radius: 999px; background: var(--wx-hl); border: 1px solid var(--wx-glow); box-shadow: 0 0 16px rgba(51,162,255,0.5); color: var(--wx-t1); font-size: 16px; font-weight: 700; list-style: none; }
+    .wx-btn::-webkit-details-marker { display: none; }
+    .wx-status { display: grid; grid-template-columns: minmax(0,1fr); gap: 12px; }
+    @media (min-width: 900px) { .wx-status.wx-status-2 { grid-template-columns: minmax(0,1fr) minmax(0,1.4fr); align-items: stretch; } .wx-status .wx-alert { height: 100%; box-sizing: border-box; } }
+    @media (max-height: 780px) and (min-width: 641px) { .wx-cp-cond { display: none; } }
+    @media (max-width: 640px) {
+      .wx-body { padding: 16px; gap: 14px; }
+      .wx-route { font-size: 20px; }
+      .wx-temp { font-size: 48px; }
+      .wx-h { font-size: 17px; }
+      .wx-count-cell { flex-direction: column; gap: 6px; }
+      .wx-count-cell > div { text-align: center !important; }
+      .wx-count { font-size: 22px; }
+      .wx-box { padding: 14px; }
+      .wx-day { padding: 10px 4px; }
+      .wx-day-temp { font-size: 15px !important; white-space: nowrap; }
+      .wx-pill { font-size: 13px; padding: 6px 12px; }
+      .wx-alert.wx-ok { font-size: 14px; }
     }
   </style>
 `;
 
+    document.getElementById('weatherModal')?.remove();
     document.body.insertAdjacentHTML('beforeend', modalHTML);
-
-    // Bloquear scroll del body
     document.body.style.overflow = 'hidden';
 
-    // Restaurar scroll al cerrar modal
-    const modal = document.getElementById('weatherModal');
-    modal.addEventListener('click', (e) => {
-      if (e.target.id === 'weatherModal') {
-        document.body.style.overflow = '';
-      }
-    });
-
-    // Restaurar scroll al cerrar con X
-    const closeBtn = modal.querySelector('button');
-    closeBtn.addEventListener('click', () => {
-      document.body.style.overflow = '';
-    });
-
     if (originCity) {
-      window.weatherModalData = {
-        origin: originCity,
-        destination: destination
-      };
+      window.weatherModalData = { origin: originCity, destination: destination };
+      weatherModalRouteLoaded = false;
+      const details = document.getElementById('wxMapDetails');
+      details?.addEventListener('toggle', () => {
+        if (details.open && weatherModalMap && window.google?.maps) {
+          google.maps.event.trigger(weatherModalMap, 'resize');
+          if (window._wxRouteBounds) weatherModalMap.fitBounds(window._wxRouteBounds);
+        }
+      });
+      loadRouteMapWithWeather();
     }
 
   } catch (error) {
@@ -3958,220 +3996,148 @@ async function showWeatherModal(destination, origin = null) {
   }
 }
 
-function switchWeatherTab(tab) {
-  document.getElementById('tabCurrent').className = tab === 'current'
-    ? 'flex-1 px-4 py-3 text-sm font-semibold border-b-2 border-blue-600 text-blue-600'
-    : 'flex-1 px-4 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-600 hover:text-blue-600';
-
-  if (document.getElementById('tabRoute')) {
-    document.getElementById('tabRoute').className = tab === 'route'
-      ? 'flex-1 px-4 py-3 text-sm font-semibold border-b-2 border-blue-600 text-blue-600'
-      : 'flex-1 px-4 py-3 text-sm font-semibold border-b-2 border-transparent text-gray-600 hover:text-blue-600';
-  }
-
-  // PRIMERO mostrar el tab
-  document.getElementById('tabContentCurrent').className = tab === 'current' ? 'flex-1 overflow-y-auto' : 'hidden';
-  document.getElementById('tabContentRoute').className = tab === 'route' ? 'flex-1 overflow-hidden flex flex-col' : 'hidden';
-
-  // DESPUÉS cargar el mapa (con más tiempo)
-  if (tab === 'route' && !weatherModalRouteLoaded) {
-    debugLog('🔄 Cargando mapa de ruta...');
-    setTimeout(() => {
-      loadRouteMapWithWeather();
-    }, 300); // Más tiempo para que el DOM se actualice
-  }
-}
-
-// ========================================
-//  MEJORAS: Mapa + Markers + Waypoints Dinámicos
-//  INSTRUCCIONES: REEMPLAZA loadRouteMapWithWeather en calculator.js
-// ========================================
-
+// Ruta del modal de clima: checkpoints repartidos por la ruta de Google,
+// clima ACTUAL en cada uno, resumen "Lluvia en X de N puntos" y mapa plegado.
 async function loadRouteMapWithWeather() {
   if (!window.weatherModalData) return;
-
   const { origin, destination } = window.weatherModalData;
+  const W = window.SLSWeather;
+  const esc = W.escape;
+  const P = WX_PALETTE;
+  const cpBox = document.getElementById('wxCheckpoints');
+  const pill = document.getElementById('wxRoutePill');
+  const setPill = (text, color, path) => {
+    if (!pill) return;
+    pill.innerHTML = (path ? wxLineIcon(path, color, 18) : '') + `<span>${esc(text)}</span>`;
+    pill.style.borderColor = color;
+    pill.style.boxShadow = `0 0 12px ${color}55`;
+  };
+  const setMsg = (text) => {
+    if (cpBox) cpBox.innerHTML = `<div style="font-size:14px;color:var(--wx-t2);padding:6px 0">${esc(text)}</div>`;
+    setPill('Sin datos de la ruta', P.text3);
+  };
+  if (!window.google?.maps) { setMsg('No se pudo cargar el mapa para consultar la ruta.'); return; }
+
   const mapDiv = document.getElementById('routeMap');
-
-  // Crear mapa
   weatherModalMap = new google.maps.Map(mapDiv, {
-    zoom: 6,
-    center: { lat: 40.5, lng: -86.5 },
-    mapTypeId: 'roadmap'
+    zoom: 5,
+    center: { lat: 39, lng: -95 },
+    mapTypeId: 'roadmap',
+    streetViewControl: false
   });
-
   const directionsService = new google.maps.DirectionsService();
   weatherModalDirections = new google.maps.DirectionsRenderer({
     map: weatherModalMap,
     suppressMarkers: true,
-    polylineOptions: {
-      strokeColor: '#ef4444',
-      strokeWeight: 7,
-      strokeOpacity: 0.9
-    }
+    polylineOptions: { strokeColor: P.highlight, strokeWeight: 6, strokeOpacity: 0.9 }
   });
-
-  const request = {
-    origin: origin,
-    destination: destination,
-    travelMode: 'DRIVING'
-  };
-
-  directionsService.route(request, async (result, status) => {
-    if (status === 'OK') {
-      weatherModalDirections.setDirections(result);
-
-      setTimeout(() => {
-        google.maps.event.trigger(weatherModalMap, 'resize');
-        weatherModalMap.setCenter({ lat: 40.5, lng: -86.5 });
-      }, 500);
-
-      const loading = document.getElementById('mapLoading');
-      if (loading) loading.remove();
-
-      const route = result.routes[0];
-      const leg = route.legs[0];
-      const totalMiles = leg.distance.value * 0.000621371; // metros a millas
-
-      // ✨ CALCULAR WAYPOINTS DINÁMICOS según distancia
-      let numWaypoints = 3; // Default
-      if (totalMiles >= 900) {
-        numWaypoints = 6; // Muy largo
-      } else if (totalMiles >= 600) {
-        numWaypoints = 5;
-      } else if (totalMiles >= 300) {
-        numWaypoints = 4;
-      }
-
-      debugLog(`📏 Distancia: ${totalMiles.toFixed(0)} mi → ${numWaypoints} puntos`);
-
-      // Crear waypoints distribuidos equitativamente
-      const waypoints = [];
-      const pathLength = route.overview_path.length;
-
-      for (let i = 0; i < numWaypoints; i++) {
-        let position, name, type;
-
-        if (i === 0) {
-          // Origen
-          position = leg.start_location;
-          name = origin;
-          type = 'origin';
-        } else if (i === numWaypoints - 1) {
-          // Destino
-          position = leg.end_location;
-          name = destination;
-          type = 'destination';
-        } else {
-          // Puntos intermedios distribuidos equitativamente
-          const fraction = i / (numWaypoints - 1);
-          const index = Math.floor(fraction * (pathLength - 1));
-          position = route.overview_path[index];
-          name = `Punto ${i}`;
-          type = 'mid';
-        }
-
-        waypoints.push({ position, name, type });
-      }
-
-      const waypointContainer = document.getElementById('waypointWeather');
-      waypointContainer.innerHTML = `
-        <div class="text-sm font-bold text-gray-700 mb-2">
-          📍 Clima en Ruta (${totalMiles.toFixed(0)} mi • ${numWaypoints} puntos)
-        </div>
-      `;
-
-      for (const wp of waypoints) {
-        const lat = wp.position.lat();
-        const lng = wp.position.lng();
-
-        const weatherData = await getWeatherByCoords(lat, lng);
-
-        if (weatherData) {
-          const markerColor = wp.type === 'origin' ? '#f97316' : wp.type === 'destination' ? '#6b7280' : '#3b82f6';
-
-          // ✨ MARKER SOLO CON TEMPERATURA GRANDE (sin círculo)
-          const marker = new google.maps.Marker({
-            position: wp.position,
-            map: weatherModalMap,
-            title: `${wp.name}: ${weatherData.temp}°F - ${weatherData.condition}`,
-            label: {
-              text: `${weatherData.temp}°`,
-              color: 'white',
-              fontSize: '16px',
-              fontWeight: 'bold'
-            },
-            icon: {
-              path: google.maps.SymbolPath.CIRCLE,
-              scale: 20, // Más grande
-              fillColor: markerColor,
-              fillOpacity: 0.95,
-              strokeColor: 'white',
-              strokeWeight: 3
-            }
-          });
-
-          // Info Window al hacer click
-          const infowindow = new google.maps.InfoWindow({
-            content: `
-              <div style="padding: 8px; min-width: 150px;">
-                <div style="font-weight: bold; font-size: 14px; margin-bottom: 4px;">${wp.name}</div>
-                <div style="font-size: 24px; font-weight: bold; color: ${markerColor};">${weatherData.temp}°F</div>
-                <div style="font-size: 12px; color: #666; margin-top: 4px;">
-                  ${getWeatherEmoji(weatherData.condition)} ${weatherData.condition}<br>
-                  💨 ${weatherData.wind} mph viento
-                </div>
-              </div>
-            `
-          });
-
-          marker.addListener('click', () => {
-            infowindow.open(weatherModalMap, marker);
-          });
-
-          // Lista de ciudades
-          const bgColor = wp.type === 'origin' ? 'bg-orange-50 border-orange-300' :
-            wp.type === 'destination' ? 'bg-gray-50 border-gray-300' :
-              'bg-blue-50 border-blue-300';
-
-          waypointContainer.innerHTML += `
-            <div class="${bgColor} rounded-lg p-2 flex items-center justify-between border-2">
-              <div class="flex items-center gap-2">
-                <span class="text-xl">${getWeatherEmoji(weatherData.condition)}</span>
-                <div>
-                  <div class="font-semibold text-xs">${wp.name}</div>
-                  <div class="text-xs text-gray-600">${weatherData.condition}</div>
-                </div>
-              </div>
-              <div class="text-right">
-                <div class="text-xl font-bold" style="color: ${markerColor}">${weatherData.temp}°F</div>
-                <div class="text-xs text-gray-600">${weatherData.wind} mph</div>
-              </div>
-            </div>
-          `;
-        }
-      }
-
-      debugLog('✅ Mapa completo con', numWaypoints, 'puntos');
-
-    } else {
-      debugLog('❌ Error de ruta:', status);
-      const loading = document.getElementById('mapLoading');
-      if (loading) loading.innerHTML = '<div class="text-center text-red-600">Error cargando ruta: ' + status + '</div>';
-    }
-  });
-
   weatherModalRouteLoaded = true;
+
+  directionsService.route({ origin, destination, travelMode: 'DRIVING' }, async (result, status) => {
+    if (status !== 'OK') {
+      debugLog('Error de ruta:', status);
+      setMsg('No se pudo calcular la ruta.');
+      return;
+    }
+    weatherModalDirections.setDirections(result);
+    const route = result.routes[0];
+    const leg = route.legs[0];
+    window._wxRouteBounds = route.bounds;
+    const totalMiles = leg.distance.value * 0.000621371;
+
+    // Puntos según la distancia: 3 a 6, origen y destino incluidos.
+    let numWaypoints = 3;
+    if (totalMiles >= 900) numWaypoints = 6;
+    else if (totalMiles >= 600) numWaypoints = 5;
+    else if (totalMiles >= 300) numWaypoints = 4;
+
+    const cityState = (s) => String(s || '').split(',').map((x) => x.trim()).filter(Boolean).slice(0, 2).join(', ');
+    const pathLength = route.overview_path.length;
+    const waypoints = [];
+    for (let i = 0; i < numWaypoints; i++) {
+      const fraction = i / (numWaypoints - 1);
+      if (i === 0) waypoints.push({ position: leg.start_location, label: cityState(origin) });
+      else if (i === numWaypoints - 1) waypoints.push({ position: leg.end_location, label: cityState(destination) });
+      else waypoints.push({
+        position: route.overview_path[Math.floor(fraction * (pathLength - 1))],
+        label: 'Milla ' + Math.round(fraction * totalMiles)
+      });
+    }
+
+    const meta = document.getElementById('wxRouteMeta');
+    if (meta) {
+      const secs = Number(leg.duration?.value) || 0;
+      const time = secs > 0 ? ` · ${Math.floor(secs / 3600)} h ${Math.round((secs % 3600) / 60)} min` : '';
+      meta.textContent = `${Math.round(totalMiles)} mi · ${numWaypoints} checkpoints${time}`;
+    }
+
+    const results = await Promise.all(waypoints.map((wp) => getWeatherByCoords(wp.position.lat(), wp.position.lng())));
+    if (!document.getElementById('weatherModal')) return; // el modal se cerró mientras se consultaba
+
+    const cells = waypoints.map((wp, i) => {
+      const r = results[i];
+      const k = r ? W.kind(r) : 'none';
+      const color = WX_STATE[k] || WX_STATE.other;
+      if (r) {
+        new google.maps.Marker({
+          position: wp.position,
+          map: weatherModalMap,
+          title: `${wp.label}: ${r.temp}°F · ${W.conditionEs(r)}`,
+          label: { text: `${r.temp}°`, color: P.text, fontSize: '13px', fontWeight: 'bold' },
+          icon: { path: google.maps.SymbolPath.CIRCLE, scale: 16, fillColor: k === 'other' ? P.ok : P.highlight, fillOpacity: 1, strokeColor: P.text, strokeWeight: 2 }
+        });
+      }
+      return `
+        <div title="${esc(r ? W.conditionEs(r) : 'Sin datos')}" style="display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;min-width:0">
+          ${wxCheckpointCircle(k)}
+          <div class="wx-cp-label">${esc(wp.label)}</div>
+          <div class="wx-cp-temp">${r && r.icon ? `<img class="wx-cp-img" src="https:${esc(r.icon)}" alt="" width="28" height="28" style="width:28px;height:28px">` : ''}${r ? r.temp + '°F' : '—'}</div>
+          <div class="wx-cp-cond" style="color:${color}">${esc(r ? W.conditionEs(r) : 'Sin datos')}</div>
+        </div>`;
+    }).join('');
+
+    if (cpBox) {
+      cpBox.innerHTML = `
+        <style>
+          .wx-cp-label{font-size:16px;font-weight:800;color:var(--wx-t1);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+          .wx-cp-temp{display:flex;align-items:center;gap:4px;font-size:17px;font-weight:700;color:var(--wx-t1)}
+          .wx-cp-cond{font-size:12px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+          @media (max-width:640px){.wx-cp-label{font-size:11px}.wx-cp-temp{font-size:13px}.wx-cp-img,.wx-cp-cond{display:none}}
+        </style>
+        <div style="position:relative">
+          <div style="position:absolute;left:${50 / numWaypoints}%;right:${50 / numWaypoints}%;top:16px;height:4px;border-radius:2px;background:var(--wx-glow);box-shadow:0 0 12px rgba(51,162,255,0.8)"></div>
+          <div style="position:relative;display:grid;grid-template-columns:repeat(${numWaypoints},minmax(0,1fr))">${cells}</div>
+        </div>`;
+    }
+
+    const n = W.routeCounts(results);
+    if (!n.total) setPill('Sin datos de la ruta', P.text3);
+    else if (n.storm) setPill(`Tormenta en ${n.storm} de ${n.total} checkpoints`, P.storm, WX_PATHS.bolt);
+    else if (n.snow) setPill(`Nieve o hielo en ${n.snow} de ${n.total} checkpoints`, P.snow, WX_PATHS.flake);
+    else if (n.rain) setPill(`Lluvia en ${n.rain} de ${n.total} checkpoints`, P.rain, WX_PATHS.drop);
+    else setPill('Sin lluvia ni nieve en la ruta', P.ok, WX_PATHS.check);
+
+    const put = (id, v, color) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = n.total ? `${v}/${n.total}` : '–';
+      el.style.color = n.total && v > 0 ? color : P.text3;
+    };
+    put('wxCountRain', n.rain, P.text);
+    put('wxCountSnow', n.snow, P.text);
+    put('wxCountStorm', n.storm, P.storm);
+  });
 }
 async function getWeatherByCoords(lat, lng) {
-
   try {
-    const data = await window.SLSWeather.request('current',{lat,lng});
-
+    const data = await window.SLSWeather.request('current', { lat, lng });
     return {
       temp: Math.round(data.current.temp_f),
       condition: data.current.condition.text,
-      wind: Math.round(data.current.wind_mph)
+      code: data.current.condition.code,
+      text: data.current.condition.text,
+      wind: Math.round(data.current.wind_mph),
+      icon: data.current.condition.icon
     };
   } catch (error) {
     debugLog('Error clima:', error);
@@ -4332,34 +4298,8 @@ function closeWeatherModal() {
   }
 }
 
-// Función para compartir pronóstico del clima
-function shareWeatherInfo(location, temp, condition) {
-  const text = `🌤️ Weather in ${location}: ${temp}°F - ${condition}`;
-
-  if (navigator.share) {
-    navigator.share({
-      title: 'Weather Forecast',
-      text: text,
-      url: window.location.href
-    }).catch(console.error);
-  } else {
-    // Fallback: copy to clipboard
-    navigator.clipboard.writeText(text).then(() => {
-      if (typeof showToast === 'function') {
-        showToast('📋 Forecast copied to clipboard', 'success');
-      } else {
-        alert('Copied: ' + text);
-      }
-    }).catch(() => {
-      prompt('Copy this text:', text);
-    });
-  }
-}
-
 window.closeWeatherModal = closeWeatherModal;
-window.shareWeatherInfo = shareWeatherInfo;
 window.showWeatherModal = showWeatherModal;
-window.switchWeatherTab = switchWeatherTab;
 window.loadRouteMapWithWeather = loadRouteMapWithWeather;
 window.getWeatherByCoords = getWeatherByCoords;
 window.getWeatherEmoji = getWeatherEmoji;
