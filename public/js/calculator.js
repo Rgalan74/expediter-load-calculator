@@ -1516,6 +1516,8 @@ function showDecisionPanel(calculationData = {}) {
 
   window._lastDecisionData = {
     decision, actualRPM, totalMiles, originState, destinationState,
+    // Para que Lex muestre la misma ganancia que el panel
+    netProfit, totalCharge,
     thresholds: { cpm: _cpm, midThreshold: _midThreshold, acceptThreshold: _acceptThreshold },
     reasons: {
       lowDailyProfit: _lowDailyProfit,

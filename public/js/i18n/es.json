@@ -907,6 +907,7 @@
     "reason_solid_load": "Carga sólida: La tarifa cumple tu estándar habitual (${{avg}}/mi). Es una ruta segura para mantener tu margen de ganancia.",
     "load_calculated_hint": "Carga calculada. Si quieres mi recomendación, haz clic en mi",
     "reason_caution": "Precaución: La tarifa está {{pct}}% por debajo de tu promedio. Intenta negociar al menos ${{avg}}/mi para que valga la pena.",
+    "reason_caution_target": "Precaución: La tarifa está {{pct}}% por debajo de tu promedio (${{avg}}/mi). Para llegar a tu objetivo en esta carga, pide al menos ${{target}}/mi.",
     "reason_low_daily_profit": "Buen RPM pero solo ~${{daily}}/día por {{days}} día(s) invertido(s). No es suficiente para justificar el tiempo. Mínimo recomendado: ${{min}}/día.",
     "reason_good_zone": "Buena zona: Históricamente te ha ido muy bien en {{state}}, y esta oferta supera el promedio de tus {{count}} cargas previas allí.",
     "reason_zone_warning": "Alerta de zona: Ten en cuenta que la tarifa ofrecida está por debajo de lo que sueles obtener yendo a {{state}} (${{avg}}/mi).",

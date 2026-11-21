@@ -880,6 +880,7 @@
     "reason_excellent_opp": "Excellent opportunity: This load performs {{pct}}% better than your consolidated historical average of ${{avg}}/mi.",
     "reason_solid_load": "Solid load: The rate meets your usual standard (${{avg}}/mi). This is a safe route to maintain your profit margin.",
     "reason_caution": "Caution: The rate is {{pct}}% below your average. Try to negotiate at least ${{avg}}/mi to make the route worth it.",
+    "reason_caution_target": "Caution: The rate is {{pct}}% below your average (${{avg}}/mi). To reach your target on this load, ask for at least ${{target}}/mi.",
     "reason_low_daily_profit": "Good RPM but only ~${{daily}}/day for {{days}} day(s) invested. Not enough to justify the time. Minimum recommended: ${{min}}/day.",
     "reason_good_zone": "Good zone: Historically you've done very well in {{state}}, and this offer beats the average of your {{count}} previous loads there.",
     "reason_zone_warning": "Zone warning: Keep in mind the rate offered is below what you usually get going to {{state}} (${{avg}}/mi).",
