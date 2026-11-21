@@ -208,12 +208,22 @@ function renderCpmBreakdown() {
       `${money(b.foodPerDay)}/${isEs ? 'día' : 'day'}`, true);
   }
 
+  const _fr = window._lastLoadExp && window._lastLoadExp.fuelRoute;
+  if (_fr) {
+    const fuelName = _fr.fuelType === 'diesel' ? (isEs ? 'Diésel' : 'Diesel') : (isEs ? 'Gasolina' : 'Gasoline');
+    const partsTxt = _fr.parts.map(p => `${p.name} $${p.price.toFixed(2)}`).join(', ');
+    addRow(isEs ? `${fuelName} de esta ruta (EIA, semana ${_fr.period || '—'}): ${partsTxt}` : `${fuelName} on this route (EIA, week ${_fr.period || '—'}): ${partsTxt}`,
+      `$${_fr.base.toFixed(2)}/gal`);
+    if (_fr.adjust) addRow(isEs ? 'Tu ajuste sobre el promedio' : 'Your adjustment to the average', `${_fr.adjust > 0 ? '+' : '−'}$${Math.abs(_fr.adjust).toFixed(2)}/gal`);
+    addRow(isEs ? `Combustible de esta carga: $${_fr.price.toFixed(2)}/gal ÷ ${_fr.mpg} MPG` : `Fuel for this load: $${_fr.price.toFixed(2)}/gal ÷ ${_fr.mpg} MPG`,
+      `$${_fr.cpm.toFixed(3)}/mi`, true);
+  }
   if (b.fuelSource === 'price') {
     const age = typeof window.fuelPriceAgeDays === 'function' ? window.fuelPriceAgeDays() : null;
     const ageTxt = age === null ? (isEs ? 'fecha no registrada' : 'date not recorded')
       : (isEs ? `actualizado hace ${age} días` : `updated ${age} days ago`);
-    addRow(isEs ? `Gasolina: $${Number(b.fuelPrice).toFixed(2)}/gal ÷ ${b.fuelMPG} MPG (${ageTxt})` : `Fuel: $${Number(b.fuelPrice).toFixed(2)}/gal ÷ ${b.fuelMPG} MPG (${ageTxt})`,
-      `$${(b.fuelPrice / b.fuelMPG).toFixed(3)}/mi`, true);
+    addRow(isEs ? `${_fr ? 'Precio de Configuración (respaldo)' : 'Gasolina'}: $${Number(b.fuelPrice).toFixed(2)}/gal ÷ ${b.fuelMPG} MPG (${ageTxt})` : `${_fr ? 'Settings price (fallback)' : 'Fuel'}: $${Number(b.fuelPrice).toFixed(2)}/gal ÷ ${b.fuelMPG} MPG (${ageTxt})`,
+      `$${(b.fuelPrice / b.fuelMPG).toFixed(3)}/mi`, !_fr);
     if (Number(b.receiptsFuelCpm) > 0) {
       addNote(isEs ? `Tus recibos de gasolina del periodo daban $${Number(b.receiptsFuelCpm).toFixed(3)}/mi.` : `Your fuel receipts in the period gave $${Number(b.receiptsFuelCpm).toFixed(3)}/mi.`);
     }
@@ -290,13 +300,46 @@ function estimateTripDays(miles) {
 }
 window.estimateTripDays = estimateTripDays;
 
+// Tipo de combustible del usuario (por defecto segun su vehiculo).
+function getUserFuelType() {
+  const p = window.currentUser?.profileData || {};
+  if (p.fuelType === 'gasoline' || p.fuelType === 'diesel') return p.fuelType;
+  const v = p.vehicleType || window._userVehicleType || 'van';
+  return ['boxtruck', 'semi', 'hotshot'].includes(v) ? 'diesel' : 'gasoline';
+}
+window.getUserFuelType = getUserFuelType;
+
+// Estados de la ruta de una carga: origen, paradas y destino.
+function loadRouteStates(origin, destination, stopDestinations = []) {
+  return [origin, ...stopDestinations, destination].map(getStateFromLocation).filter(Boolean);
+}
+window.loadRouteStates = loadRouteStates;
+
+// Combustible de ESTA ruta con los precios semanales de la EIA, el tipo de
+// combustible, el ajuste y las MPG del usuario. null si falta algo o los precios
+// tienen mas de 3 semanas: entonces se usa el precio de Configuracion.
+function routeFuel(route) {
+  const F = window.SLSFuelPrices;
+  const prices = F && F.current();
+  const p = window.currentUser?.profileData || {};
+  const mpg = Number(p.fuelMPG);
+  const fuelType = getUserFuelType();
+  if (!route || !route.states || !route.states.length || !prices || !(mpg > 0) || !F.isFresh(prices, fuelType)) return null;
+  const rp = F.routePrice(prices, route.states, fuelType);
+  if (!rp) return null;
+  const adjust = Number(p.fuelPriceAdjust) || 0;
+  const price = Math.max(0.5, rp.price + adjust);
+  return { cpm: price / mpg, price, base: rp.price, adjust, mpg, fuelType, parts: rp.parts, period: rp.period };
+}
+
 // UNICA formula del costo de una carga (pantalla, panel, guardado e Historial):
-//   gasolina actual por milla + otros costos por milla
+//   combustible (precio de la ruta o de Configuracion) + otros costos por milla
 //   + comida/hospedaje por dia de viaje (promedio real) + peajes de la carga.
-function calculateTotalExpenses(totalMiles, tolls = 0) {
+function calculateTotalExpenses(totalMiles, tolls = 0, route = null) {
   const miles = Math.max(0, Number(totalMiles) || 0);
   const costs = getUsersCosts();
-  const fuelCost = miles * (Number(costs.combustible) || 0);
+  const fuelRoute = routeFuel(route);
+  const fuelCost = miles * (fuelRoute ? fuelRoute.cpm : (Number(costs.combustible) || 0));
   const maintenanceCost = miles * (Number(costs.mantenimiento) || 0);
   const foodPerDay = Number(costs.comidaPorDia) || 0;
   const tripDays = miles > 0 ? estimateTripDays(miles) : 0;
@@ -312,6 +355,7 @@ function calculateTotalExpenses(totalMiles, tolls = 0) {
     tripDays,
     fixedCosts,
     tolls,
+    fuelRoute,
     // Costo por milla de ESTA carga sin peajes (umbrales del panel)
     costPerMile: miles > 0 ? (fuelCost + maintenanceCost + foodCost + fixedCosts) / miles : 0,
     // Mismo total que guarda saveLoad(): combustible + operativos (incl. comida) + tolls.
@@ -1049,7 +1093,10 @@ async function calculate() {
     debugLog('[DEBUG] totalCharge:', totalCharge);
 
     // Use shared expense calculation function — usar combinedMiles (todas las paradas del viaje)
-    const expenseBreakdown = calculateTotalExpenses(combinedMiles, tolls);
+    if (window.SLSFuelPrices) await window.SLSFuelPrices.load();
+    const _route = { states: loadRouteStates(origin, destination, stops.map(s => s.destination)) };
+    window._lastLoadRoute = _route;
+    const expenseBreakdown = calculateTotalExpenses(combinedMiles, tolls, _route);
     const { fuelCost, maintenanceCost, foodCost, fixedCosts } = expenseBreakdown;
     const totalExpenses = expenseBreakdown.total;
 
@@ -1327,7 +1374,7 @@ function showDecisionPanel(calculationData = {}) {
 
   // Thresholds reales del usuario (sincrono desde cache si está disponible)
   // Costo por milla de ESTA carga (gasolina actual, otros por milla, comida por dia)
-  const _cpm = (Number(totalMiles) > 0 ? calculateTotalExpenses(totalMiles, 0).costPerMile : 0) || window._userCPM || TU_COSTO_REAL.TOTAL;
+  const _cpm = (Number(totalMiles) > 0 ? calculateTotalExpenses(totalMiles, 0, window._lastLoadRoute).costPerMile : 0) || window._userCPM || TU_COSTO_REAL.TOTAL;
   const _avgRPM = window._userAvgRPM || 0;
   const _targetProfitPct = ((window.currentUser?.profileData?.targetProfit) || 20) / 100;
 
@@ -1515,7 +1562,8 @@ function showDecisionPanel(calculationData = {}) {
   // ========== ACTUALIZAR COSTOS ==========
   const tolls = Number(document.getElementById('tolls')?.value || 0);
   const others = Number(document.getElementById('otherCosts')?.value || 0);
-  const _exp = calculateTotalExpenses(totalMiles, tolls);
+  const _exp = calculateTotalExpenses(totalMiles, tolls, window._lastLoadRoute);
+  window._lastLoadExp = _exp;
   const fuelCost = _exp.fuelCost;
 
   if (document.getElementById('totalMilesForFuel')) {
@@ -1549,7 +1597,12 @@ function showDecisionPanel(calculationData = {}) {
     const _isEs = (window.i18n?.currentLang || 'en') === 'es';
     _cpmNoteEl.textContent = `${_text} · $${(_exp.costPerMile || _info.cpm).toFixed(3)}/mi ${_isEs ? 'en esta carga' : 'on this load'}`;
     const _fuelAge = fuelPriceAgeDays();
-    if (_info.source !== 'default' && (_fuelAge === null || _fuelAge > 30)) {
+    if (_exp.fuelRoute) {
+      const _fr = _exp.fuelRoute;
+      _cpmNoteEl.textContent += _isEs
+        ? ` · ${_fr.fuelType === 'diesel' ? 'Diésel' : 'Gasolina'} $${_fr.price.toFixed(2)}/gal (promedio de tu ruta, EIA ${_fr.period || ''})`
+        : ` · ${_fr.fuelType === 'diesel' ? 'Diesel' : 'Gasoline'} $${_fr.price.toFixed(2)}/gal (your route average, EIA ${_fr.period || ''})`;
+    } else if (_info.source !== 'default' && (_fuelAge === null || _fuelAge > 30)) {
       _cpmNoteEl.textContent += _isEs
         ? (_fuelAge === null ? ' · Actualiza el precio de la gasolina en Configuración' : ` · Precio de gasolina de hace ${_fuelAge} días: actualízalo en Configuración`)
         : (_fuelAge === null ? ' · Update the fuel price in Settings' : ` · Fuel price is ${_fuelAge} days old: update it in Settings`);
@@ -2327,7 +2380,8 @@ async function saveLoad(existingLoadId = null) {
     const _cpmInfo = getActiveCpmInfo();
 
     // Misma formula que la pantalla (calculateTotalExpenses). "Otros" es ingreso.
-    const _exp = calculateTotalExpenses(totalMiles, Number(tolls));
+    if (window.SLSFuelPrices) await window.SLSFuelPrices.load();
+    const _exp = calculateTotalExpenses(totalMiles, Number(tolls), { states: loadRouteStates(origin, destination, stops.map(s => s.destination)) });
     const fuelCost = _exp.fuelCost;
     const operatingCost = _exp.maintenanceCost + _exp.foodCost + _exp.fixedCosts;
     const totalExpenses = _exp.total;

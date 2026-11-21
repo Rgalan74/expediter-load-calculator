@@ -783,7 +783,9 @@ function updateEditCalculations() {
   // Misma formula que saveEditedLoad(): la vista previa debe mostrar lo que se guarda
   // (antes sumaba totalCPM + mantenimiento + costos fijos, contando costos dos veces).
   // Misma formula que la Calculadora (calculateTotalExpenses) cuando esta cargada.
-  const _exp = typeof window.calculateTotalExpenses === 'function' ? window.calculateTotalExpenses(totalMiles, tolls) : null;
+  const _route = typeof window.loadRouteStates === 'function'
+    ? { states: window.loadRouteStates(document.getElementById('editOrigin')?.value || '', document.getElementById('editDestination')?.value || '') } : null;
+  const _exp = typeof window.calculateTotalExpenses === 'function' ? window.calculateTotalExpenses(totalMiles, tolls, _route) : null;
   const cpm = Number(window.TU_COSTO_REAL?.TOTAL || costs.totalCPM || 0.534);
   const fuelCPM = Number(window.TU_COSTO_REAL?.combustible || costs.combustible || costs.fuelCost || 0.195);
   const fuelCost = _exp ? _exp.fuelCost : totalMiles * fuelCPM;
@@ -870,7 +872,9 @@ async function saveEditedLoad() {
 
     // Costos y ganancias — usar CPM real del usuario
     const costs = window.currentUser?.costs || {};
-    const _exp = typeof window.calculateTotalExpenses === 'function' ? window.calculateTotalExpenses(totalMiles, tolls) : null;
+    const _route = typeof window.loadRouteStates === 'function' ? { states: window.loadRouteStates(origin, destination) } : null;
+    if (window.SLSFuelPrices) await window.SLSFuelPrices.load();
+    const _exp = typeof window.calculateTotalExpenses === 'function' ? window.calculateTotalExpenses(totalMiles, tolls, _route) : null;
     const cpm = Number(window.TU_COSTO_REAL?.TOTAL || costs.totalCPM || 0.534);
     const fuelCPM = Number(window.TU_COSTO_REAL?.combustible || costs.combustible || costs.fuelCost || 0.195);
     const fuelCost = _exp ? _exp.fuelCost : totalMiles * fuelCPM;

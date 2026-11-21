@@ -304,6 +304,9 @@ function saveUserConfiguration() {
             // Costos variables por milla
             fuelMPG: parseFloat(document.getElementById('fuelMPG')?.value) || 18,
             fuelPricePerGallon: parseFloat(document.getElementById('fuelPricePerGallon')?.value) || 3.50,
+            // Combustible por ruta (EIA): tipo y ajuste propio sobre el promedio
+            fuelType: document.getElementById('fuelType')?.value === 'diesel' ? 'diesel' : 'gasoline',
+            fuelPriceAdjust: Math.max(-2, Math.min(2, Number(document.getElementById('fuelPriceAdjust')?.value) || 0)),
             maintenancePerMile: Number(document.getElementById('maintenancePerMile')?.value ?? 0.080),
             tiresPerMile: Number(document.getElementById('tiresPerMile')?.value ?? 0.060),
             repairsPerMile: Number(document.getElementById('repairsPerMile')?.value ?? 0.040),
@@ -387,6 +390,9 @@ function saveUserConfiguration() {
                 targetRPM: config.targetRPM,
                 fuelPricePerGallon: config.fuelPricePerGallon,
                 fuelMPG: config.fuelMPG,
+                fuelType: config.fuelType,
+                fuelPriceAdjust: config.fuelPriceAdjust,
+                vehicleType: config.vehicleType,
                 fuelPriceUpdatedAt: config.fuelPriceUpdatedAt
             };
             document.dispatchEvent(new Event('configSaved'));
@@ -523,6 +529,8 @@ function applyConfigurationToForm(config) {
             ['otherFixed', config.otherFixed],
             ['fuelMPG', config.fuelMPG],
             ['fuelPricePerGallon', config.fuelPricePerGallon],
+            ['fuelType', config.fuelType || (['boxtruck', 'semi', 'hotshot'].includes(config.vehicleType) ? 'diesel' : 'gasoline')],
+            ['fuelPriceAdjust', config.fuelPriceAdjust ?? 0],
             ['maintenancePerMile', config.maintenancePerMile],
             ['tiresPerMile', config.tiresPerMile],
             ['repairsPerMile', config.repairsPerMile],

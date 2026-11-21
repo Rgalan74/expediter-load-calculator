@@ -1913,3 +1913,6 @@ exports.adminUpdateUser = onCall(
 
 // Weather proxy: additive integration; reuse Admin and the existing server plan resolver.
 exports.getWeather = require('./get-weather').buildGetWeather({ admin, db, resolveUserPlan: _resolveUserPlan });
+
+// Precios semanales de combustible por region (EIA) para el costo de cada carga.
+exports.updateFuelPrices = require('./fuel-prices').buildUpdateFuelPrices({ db });
