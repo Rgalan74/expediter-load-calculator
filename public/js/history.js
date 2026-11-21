@@ -782,10 +782,12 @@ function updateEditCalculations() {
   const costs = window.currentUser?.costs || {};
   // Misma formula que saveEditedLoad(): la vista previa debe mostrar lo que se guarda
   // (antes sumaba totalCPM + mantenimiento + costos fijos, contando costos dos veces).
+  // Misma formula que la Calculadora (calculateTotalExpenses) cuando esta cargada.
+  const _exp = typeof window.calculateTotalExpenses === 'function' ? window.calculateTotalExpenses(totalMiles, tolls) : null;
   const cpm = Number(window.TU_COSTO_REAL?.TOTAL || costs.totalCPM || 0.534);
   const fuelCPM = Number(window.TU_COSTO_REAL?.combustible || costs.combustible || costs.fuelCost || 0.195);
-  const fuelCost = totalMiles * fuelCPM;
-  const operatingCost = totalMiles * (cpm - fuelCPM);
+  const fuelCost = _exp ? _exp.fuelCost : totalMiles * fuelCPM;
+  const operatingCost = _exp ? _exp.maintenanceCost + _exp.foodCost + _exp.fixedCosts : totalMiles * (cpm - fuelCPM);
   // Tolls son gasto de la carga; "otros" es ingreso (ya esta en totalCharge)
   const totalExpenses = fuelCost + operatingCost + tolls;
   const netProfit = totalCharge - totalExpenses;
@@ -868,10 +870,11 @@ async function saveEditedLoad() {
 
     // Costos y ganancias — usar CPM real del usuario
     const costs = window.currentUser?.costs || {};
+    const _exp = typeof window.calculateTotalExpenses === 'function' ? window.calculateTotalExpenses(totalMiles, tolls) : null;
     const cpm = Number(window.TU_COSTO_REAL?.TOTAL || costs.totalCPM || 0.534);
     const fuelCPM = Number(window.TU_COSTO_REAL?.combustible || costs.combustible || costs.fuelCost || 0.195);
-    const fuelCost = totalMiles * fuelCPM;
-    const operatingCost = totalMiles * (cpm - fuelCPM);
+    const fuelCost = _exp ? _exp.fuelCost : totalMiles * fuelCPM;
+    const operatingCost = _exp ? _exp.maintenanceCost + _exp.foodCost + _exp.fixedCosts : totalMiles * (cpm - fuelCPM);
     // Tolls son gasto de la carga; "otros" es ingreso (ya esta en totalCharge)
     const totalExpenses = fuelCost + operatingCost + tolls;
     const netProfit = totalCharge - totalExpenses;

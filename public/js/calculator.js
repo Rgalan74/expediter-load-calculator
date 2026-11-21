@@ -93,12 +93,15 @@ function getUsersCosts() {
     : null;
 
   if (engine && engine.source === 'real' && engine.cpm > 0) {
-    const fuel = Math.min(Number(engine.fuelCpm) || 0, engine.cpm);
+    const fuel = Math.max(0, Number(engine.fuelCpm) || 0);
+    const hasSplit = Number.isFinite(Number(engine.otherCpm));
     return {
       combustible: fuel,
       mantenimiento: 0,
       comida: 0,
-      costosFijos: engine.cpm - fuel,
+      // Sin comida/hospedaje: esos van por dia de viaje (comidaPorDia)
+      costosFijos: hasSplit ? Math.max(0, Number(engine.otherCpm)) : Math.max(0, engine.cpm - fuel),
+      comidaPorDia: hasSplit ? Math.max(0, Number(engine.foodPerDay) || 0) : 0,
       TOTAL: engine.cpm
     };
   }
@@ -191,21 +194,40 @@ function renderCpmBreakdown() {
     ? `Gastos registrados en ese periodo: ${b.countExpenses}, en ${b.monthsWithExpenses} meses distintos.`
     : `Expenses recorded in that period: ${b.countExpenses}, across ${b.monthsWithExpenses} different months.`);
 
+  const isFoodLodging = (id) => id === 'food' || id === 'lodging';
   b.byCategory.forEach(c => {
-    if (c.id === 'fuel') return;
+    if (c.id === 'fuel' || isFoodLodging(c.id)) return;
     addRow(c.name, `${money(c.total)}  →  ${perMile(c.total, b.milesLong)}`);
   });
-  addRow(isEs ? 'Resto de gastos (todo el periodo)' : 'Other expenses (whole period)',
-    `${money(b.nonFuelTotal)}  →  ${perMile(b.nonFuelTotal, b.milesLong)}`, true);
+  const otherTotal = Number.isFinite(b.otherTotal) ? b.otherTotal : b.nonFuelTotal;
+  addRow(isEs ? 'Otros costos por milla (todo el periodo)' : 'Other per-mile costs (whole period)',
+    `${money(otherTotal)}  →  ${perMile(otherTotal, b.milesLong)}`, true);
 
-  if (b.useRecentFuel) {
+  if (Number(b.foodLodgingTotal) > 0 && Number(b.travelDays) > 0) {
+    addRow(isEs ? `Comida y hospedaje (${money(b.foodLodgingTotal)} en ${b.travelDays} días de viaje)` : `Food and lodging (${money(b.foodLodgingTotal)} over ${b.travelDays} travel days)`,
+      `${money(b.foodPerDay)}/${isEs ? 'día' : 'day'}`, true);
+  }
+
+  if (b.fuelSource === 'price') {
+    const age = typeof window.fuelPriceAgeDays === 'function' ? window.fuelPriceAgeDays() : null;
+    const ageTxt = age === null ? (isEs ? 'fecha no registrada' : 'date not recorded')
+      : (isEs ? `actualizado hace ${age} días` : `updated ${age} days ago`);
+    addRow(isEs ? `Gasolina: $${Number(b.fuelPrice).toFixed(2)}/gal ÷ ${b.fuelMPG} MPG (${ageTxt})` : `Fuel: $${Number(b.fuelPrice).toFixed(2)}/gal ÷ ${b.fuelMPG} MPG (${ageTxt})`,
+      `$${(b.fuelPrice / b.fuelMPG).toFixed(3)}/mi`, true);
+    if (Number(b.receiptsFuelCpm) > 0) {
+      addNote(isEs ? `Tus recibos de gasolina del periodo daban $${Number(b.receiptsFuelCpm).toFixed(3)}/mi.` : `Your fuel receipts in the period gave $${Number(b.receiptsFuelCpm).toFixed(3)}/mi.`);
+    }
+  } else if (b.useRecentFuel) {
     addRow(isEs ? `Gasolina (recibos de ${(b.fuelMonths || []).join(', ')}; ${b.milesRecent.toLocaleString()} mi)` : `Fuel (receipts from ${(b.fuelMonths || []).join(', ')}; ${b.milesRecent.toLocaleString()} mi)`,
       `${money(b.fuelRecent)}  →  ${perMile(b.fuelRecent, b.milesRecent)}`, true);
   } else {
     addRow(isEs ? 'Gasolina (todo el periodo)' : 'Fuel (whole period)',
       `${money(b.fuelLong)}  →  ${perMile(b.fuelLong, b.milesLong)}`, true);
   }
-  addRow(isEs ? 'Costo por milla' : 'Cost per mile', '$' + Number(engine.cpm).toFixed(3) + '/mi', true);
+  addRow(isEs ? 'Costo por milla de referencia (comida promediada por milla)' : 'Reference cost per mile (food averaged per mile)', '$' + Number(engine.cpm).toFixed(3) + '/mi', true);
+  addNote(isEs
+    ? 'En cada carga: gasolina y otros costos por milla + comida y hospedaje por los días que dura + peajes de esa carga.'
+    : 'Per load: fuel and other per-mile costs + food and lodging for the days it takes + that load’s tolls.');
 
   // Para cuadrar contra Finanzas
   addNote(isEs ? 'Para comparar con Finanzas:' : 'To compare with Finances:');
@@ -257,18 +279,41 @@ const TU_COSTO_REAL = new Proxy(DEFAULT_COSTS, {
 //  SHARED FUNCTION: Calculate Total Expenses
 // ========================================
 // Used by both Decision Panel and Lex for consistent calculations
+// Dias de viaje de una carga (misma regla que el promedio historico de comida).
+function estimateTripDays(miles) {
+  if (window.CPMEngine && typeof window.CPMEngine.estimateTripDays === 'function') {
+    return window.CPMEngine.estimateTripDays(miles, getVehicleProfile());
+  }
+  const pr = getVehicleProfile();
+  const m = Math.max(0, Number(miles) || 0);
+  return Math.max(1, (m / pr.speedAvg + Math.floor(m / 300) * 0.5) / pr.horasManejoPorDia);
+}
+window.estimateTripDays = estimateTripDays;
+
+// UNICA formula del costo de una carga (pantalla, panel, guardado e Historial):
+//   gasolina actual por milla + otros costos por milla
+//   + comida/hospedaje por dia de viaje (promedio real) + peajes de la carga.
 function calculateTotalExpenses(totalMiles, tolls = 0) {
-  const fuelCost = totalMiles * TU_COSTO_REAL.combustible;
-  const maintenanceCost = totalMiles * TU_COSTO_REAL.mantenimiento;
-  const foodCost = totalMiles * TU_COSTO_REAL.comida;
-  const fixedCosts = totalMiles * TU_COSTO_REAL.costosFijos;
+  const miles = Math.max(0, Number(totalMiles) || 0);
+  const costs = getUsersCosts();
+  const fuelCost = miles * (Number(costs.combustible) || 0);
+  const maintenanceCost = miles * (Number(costs.mantenimiento) || 0);
+  const foodPerDay = Number(costs.comidaPorDia) || 0;
+  const tripDays = miles > 0 ? estimateTripDays(miles) : 0;
+  const foodCost = miles * (Number(costs.comida) || 0) + foodPerDay * tripDays;
+  const fixedCosts = miles * (Number(costs.costosFijos) || 0);
+  tolls = Number(tolls) || 0;
 
   return {
     fuelCost,
     maintenanceCost,
     foodCost,
+    foodPerDay,
+    tripDays,
     fixedCosts,
     tolls,
+    // Costo por milla de ESTA carga sin peajes (umbrales del panel)
+    costPerMile: miles > 0 ? (fuelCost + maintenanceCost + foodCost + fixedCosts) / miles : 0,
     // Mismo total que guarda saveLoad(): combustible + operativos (incl. comida) + tolls.
     // "Otros" NO es gasto: es un cargo extra cobrado al cliente (ingreso).
     total: fuelCost + maintenanceCost + foodCost + fixedCosts + tolls
@@ -277,6 +322,14 @@ function calculateTotalExpenses(totalMiles, tolls = 0) {
 
 // Expose globally for use by Lex and other modules
 window.calculateTotalExpenses = calculateTotalExpenses;
+
+// Dias desde la ultima actualizacion del precio de la gasolina (null si no consta).
+function fuelPriceAgeDays() {
+  const t = Date.parse(window.currentUser?.profileData?.fuelPriceUpdatedAt || '');
+  if (!Number.isFinite(t)) return null;
+  return Math.max(0, Math.floor((Date.now() - t) / 86400000));
+}
+window.fuelPriceAgeDays = fuelPriceAgeDays;
 
 
 // ======== DECISION 2025 (realista) ========
@@ -1205,7 +1258,7 @@ function updateMainResults(data) {
     baseIncome: '$' + data.baseIncome.toFixed(2),
     additionalCosts: '$' + (data.tolls + data.others).toFixed(2),
     totalCharge: '$' + data.totalCharge.toFixed(2),
-    operatingCost: '$' + (data.totalMiles * (TU_COSTO_REAL.mantenimiento + TU_COSTO_REAL.comida + TU_COSTO_REAL.costosFijos)).toFixed(2),
+    operatingCost: '$' + ((data.maintenanceCost || 0) + (data.foodCost || 0) + (data.fixedCosts || 0)).toFixed(2),
     fuelCost: '$' + data.fuelCost.toFixed(2),
     maintenanceCost: '$' + data.maintenanceCost.toFixed(2),
     tollsCost: '$' + data.tolls.toFixed(2),
@@ -1231,11 +1284,15 @@ function updateMainResults(data) {
 // Parámetros de decisión por tipo de vehículo
 // horasManejoPorDia = horas reales al volante por día (vans: sin logbook, realista 10h; hotshot/boxtruck: HOS 11h pero más breaks)
 const VEHICLE_PROFILES = {
-  'van':      { shortHopMin: 150, shortHopMinTrap: 250, speedAvg: 52, horasManejoPorDia: 10, minDailyProfit: 100 },
+  'van':      { shortHopMin: 150, shortHopMinTrap: 250, speedAvg: 60, horasManejoPorDia: 10, minDailyProfit: 100 },
   'hotshot':  { shortHopMin: 300, shortHopMinTrap: 450, speedAvg: 62, horasManejoPorDia: 9,  minDailyProfit: 150 },
   'boxtruck': { shortHopMin: 350, shortHopMinTrap: 500, speedAvg: 58, horasManejoPorDia: 9,  minDailyProfit: 200 },
 };
 const _DEFAULT_VEHICLE_PROFILE = VEHICLE_PROFILES['van'];
+function getVehicleProfile() {
+  return VEHICLE_PROFILES[window._userVehicleType] || _DEFAULT_VEHICLE_PROFILE;
+}
+window.getVehicleProfile = getVehicleProfile;
 
 //  FUNCIÓN: Panel de decisión con header dinámico
 function showDecisionPanel(calculationData = {}) {
@@ -1269,7 +1326,8 @@ function showDecisionPanel(calculationData = {}) {
   let profitClass = 'profit-section-warning';
 
   // Thresholds reales del usuario (sincrono desde cache si está disponible)
-  const _cpm = window._userCPM || TU_COSTO_REAL.TOTAL;
+  // Costo por milla de ESTA carga (gasolina actual, otros por milla, comida por dia)
+  const _cpm = (Number(totalMiles) > 0 ? calculateTotalExpenses(totalMiles, 0).costPerMile : 0) || window._userCPM || TU_COSTO_REAL.TOTAL;
   const _avgRPM = window._userAvgRPM || 0;
   const _targetProfitPct = ((window.currentUser?.profileData?.targetProfit) || 20) / 100;
 
@@ -1455,9 +1513,10 @@ function showDecisionPanel(calculationData = {}) {
   }
 
   // ========== ACTUALIZAR COSTOS ==========
-  const fuelCost = totalMiles * TU_COSTO_REAL.combustible;
   const tolls = Number(document.getElementById('tolls')?.value || 0);
   const others = Number(document.getElementById('otherCosts')?.value || 0);
+  const _exp = calculateTotalExpenses(totalMiles, tolls);
+  const fuelCost = _exp.fuelCost;
 
   if (document.getElementById('totalMilesForFuel')) {
     document.getElementById('totalMilesForFuel').textContent = totalMiles.toFixed(0);
@@ -1470,7 +1529,7 @@ function showDecisionPanel(calculationData = {}) {
     document.getElementById('tollsAndOthers').textContent = `$${tolls.toFixed(2)}`;
   }
 
-  const fixedCostsValue = totalMiles * (TU_COSTO_REAL.mantenimiento + TU_COSTO_REAL.comida + TU_COSTO_REAL.costosFijos);
+  const fixedCostsValue = _exp.maintenanceCost + _exp.foodCost + _exp.fixedCosts;
   if (document.getElementById('fixedCosts')) {
     document.getElementById('fixedCosts').textContent = `$${fixedCostsValue.toFixed(2)}`;
   }
@@ -1487,7 +1546,14 @@ function showDecisionPanel(calculationData = {}) {
       default: 'Cost per mile: industry average — set up your costs'
     }[_info.source];
     const _text = window.i18n?.t('calculator.cpm_source_' + _info.source) || _fallbackText;
-    _cpmNoteEl.textContent = `${_text} · $${_info.cpm.toFixed(3)}/mi`;
+    const _isEs = (window.i18n?.currentLang || 'en') === 'es';
+    _cpmNoteEl.textContent = `${_text} · $${(_exp.costPerMile || _info.cpm).toFixed(3)}/mi ${_isEs ? 'en esta carga' : 'on this load'}`;
+    const _fuelAge = fuelPriceAgeDays();
+    if (_info.source !== 'default' && (_fuelAge === null || _fuelAge > 30)) {
+      _cpmNoteEl.textContent += _isEs
+        ? (_fuelAge === null ? ' · Actualiza el precio de la gasolina en Configuración' : ` · Precio de gasolina de hace ${_fuelAge} días: actualízalo en Configuración`)
+        : (_fuelAge === null ? ' · Update the fuel price in Settings' : ` · Fuel price is ${_fuelAge} days old: update it in Settings`);
+    }
   }
   renderCpmBreakdown();
   if (document.getElementById('totalExpenses')) {
@@ -2260,14 +2326,11 @@ async function saveLoad(existingLoadId = null) {
     await refreshActiveCpm();
     const _cpmInfo = getActiveCpmInfo();
 
-    const fuelCost = totalMiles * TU_COSTO_REAL.combustible;
-    const operatingCost = totalMiles * (
-      TU_COSTO_REAL.mantenimiento +
-      TU_COSTO_REAL.comida +
-      TU_COSTO_REAL.costosFijos
-    );
-    // Tolls son gasto de la carga, igual que el combustible. "Otros" es ingreso.
-    const totalExpenses = fuelCost + operatingCost + Number(tolls);
+    // Misma formula que la pantalla (calculateTotalExpenses). "Otros" es ingreso.
+    const _exp = calculateTotalExpenses(totalMiles, Number(tolls));
+    const fuelCost = _exp.fuelCost;
+    const operatingCost = _exp.maintenanceCost + _exp.foodCost + _exp.fixedCosts;
+    const totalExpenses = _exp.total;
     const netProfit = totalCharge - totalExpenses;
     const profitMargin = totalCharge > 0 ? (netProfit / totalCharge) * 100 : 0;
 

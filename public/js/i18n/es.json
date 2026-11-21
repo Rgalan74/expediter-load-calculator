@@ -98,7 +98,7 @@
     "decision_profit": "Ganancia",
     "variable_costs_label": "💸 Costos Variables",
     "tolls_other_label": "💵 Peajes + Otros:",
-    "fixed_costs_label": "🔧 Costos Fijos incluidos",
+    "fixed_costs_label": "🔧 Otros costos (incl. comida y hospedaje)",
     "total_expenses_label": "Total Gastos:",
     "net_loss_label": "💀 Pérdida Neta",
     "margin_short": "margen",

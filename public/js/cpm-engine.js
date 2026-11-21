@@ -118,6 +118,7 @@ const CPMEngine = {
 
     const milesByMonth = {};
     const loadsByMonth = {};
+    const daysByMonth = {};
     loadsSnap.forEach(doc => {
       const load = doc.data();
       const dateStr = rowDate(load);
@@ -125,6 +126,7 @@ const CPMEngine = {
       const ym = dateStr.slice(0, 7);
       milesByMonth[ym] = (milesByMonth[ym] || 0) + loadMiles(load);
       loadsByMonth[ym] = (loadsByMonth[ym] || 0) + 1;
+      if (loadMiles(load) > 0) daysByMonth[ym] = (daysByMonth[ym] || 0) + this.estimateTripDays(loadMiles(load));
     });
 
     const monthsWithMiles = Object.keys(milesByMonth).filter(ym => milesByMonth[ym] > 0);
@@ -151,10 +153,12 @@ const CPMEngine = {
     const fuelFirstMonth = fuelMonthsList[fuelMonthsList.length - 1];
 
     let milesLong = 0;
+    let travelDays = 0;
     let milesRecent = 0;
     let loadsInWindow = 0;
     activeMonths.forEach(ym => {
       milesLong += milesByMonth[ym];
+      travelDays += daysByMonth[ym] || 0;
       loadsInWindow += loadsByMonth[ym];
       if (fuelSet.has(ym)) milesRecent += milesByMonth[ym];
     });
@@ -177,6 +181,7 @@ const CPMEngine = {
       .get();
 
     let nonFuelTotal = 0;
+    let foodLodgingTotal = 0;   // comida + hospedaje: por dia de viaje
     let fuelLong = 0;
     let fuelRecent = 0;
     let countExpenses = 0;
@@ -214,6 +219,7 @@ const CPMEngine = {
         if (ym >= fuelFirstMonth) fuelRecent += amount;
       } else {
         nonFuelTotal += amount;
+        if (cat === 'food' || cat === 'lodging') foodLodgingTotal += amount;
       }
       monthsWithExpenses.add(ym);
     });
@@ -233,9 +239,16 @@ const CPMEngine = {
     const fuelCpmLong = fuelLong / milesLong;
     const fuelCpmRecent = milesRecent >= this.MIN_RECENT_FUEL_MILES ? fuelRecent / milesRecent : 0;
     const useRecentFuel = fuelCpmRecent >= fuelCpmLong * 0.5 && fuelCpmRecent > 0;
-    const fuelCpm = useRecentFuel ? fuelCpmRecent : fuelCpmLong;
+    const receiptsFuelCpm = useRecentFuel ? fuelCpmRecent : fuelCpmLong;
+    const current = this.currentFuel();
+    const fuelCpm = current ? current.cpm : receiptsFuelCpm;
+
+    // Comida y hospedaje: promedio real por dia de viaje; el resto, por milla.
+    const foodPerDay = travelDays > 0 ? foodLodgingTotal / travelDays : 0;
+    const otherCpm = (nonFuelTotal - foodLodgingTotal) / milesLong;
 
     const nonFuelCpm = nonFuelTotal / milesLong;
+    // Costo por milla de referencia (Lex, notas): comida/hospedaje convertidos a su promedio por milla.
     const realCPM = fuelCpm + nonFuelCpm;
     const avgMonthlyMiles = milesLong / activeMonths.length;
 
@@ -260,6 +273,9 @@ const CPMEngine = {
       source: 'real',
       fuelCpm: parseFloat(fuelCpm.toFixed(4)),
       nonFuelCpm: parseFloat(nonFuelCpm.toFixed(4)),
+      otherCpm: parseFloat(otherCpm.toFixed(4)),
+      foodPerDay: parseFloat(foodPerDay.toFixed(2)),
+      fuelSource: current ? 'price' : 'receipts',
       fuelWindow: useRecentFuel ? 'recent' : 'long',
       avgMonthlyMiles: Math.round(avgMonthlyMiles),
       label: `Basado en ${loadsInWindow} cargas reales (${activeMonths.length} meses con actividad)`,
@@ -287,6 +303,15 @@ const CPMEngine = {
         outsideCount,
         outsideTotal,
         useRecentFuel,
+        fuelSource: current ? 'price' : 'receipts',
+        fuelPrice: current ? current.price : null,
+        fuelMPG: current ? current.mpg : null,
+        fuelPriceUpdatedAt: current ? current.updatedAt : null,
+        receiptsFuelCpm,
+        foodLodgingTotal,
+        travelDays: Math.round(travelDays * 10) / 10,
+        foodPerDay,
+        otherTotal: nonFuelTotal - foodLodgingTotal,
         byCategory: Object.keys(byCategory)
           .map(id => {
             const def = allCategories.find(c => c.id === id);
@@ -300,6 +325,27 @@ const CPMEngine = {
   // ============================================================
   // ⚙️ CAPA 1 — CPM desde Configuración del usuario
   // ============================================================
+  // Precio actual del galon y MPG de Configuracion (users/{uid}). null si faltan.
+  currentFuel() {
+    const p = window.currentUser?.profileData || {};
+    const price = Number(p.fuelPricePerGallon);
+    const mpg = Number(p.fuelMPG);
+    if (!(price > 0) || !(mpg > 0)) return null;
+    return { price, mpg, cpm: price / mpg, updatedAt: p.fuelPriceUpdatedAt || null };
+  },
+
+  // Dias de viaje de una carga segun sus millas: horas de manejo + 30 min por
+  // parada cada 300 mi, entre las horas de manejo por dia (minimo 1 dia).
+  // Misma regla para el promedio historico y para cada carga nueva.
+  estimateTripDays(miles, profile) {
+    const pr = profile || (typeof window.getVehicleProfile === 'function' ? window.getVehicleProfile() : null) || {};
+    const speed = Number(pr.speedAvg) || 60;
+    const hoursPerDay = Number(pr.horasManejoPorDia) || 10;
+    const m = Math.max(0, Number(miles) || 0);
+    const hours = m / speed + Math.floor(m / 300) * 0.5;
+    return Math.max(1, hours / hoursPerDay);
+  },
+
   _fromConfig(months = 0, loads = 0) {
     const costs = window.currentUser?.costs;
 
