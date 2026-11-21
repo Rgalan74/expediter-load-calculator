@@ -171,6 +171,9 @@ const CPMEngine = {
     // el peaje es costo de cada carga y la calculadora ya lo suma por carga;
     // dentro del CPM se contaria dos veces.
     const allCategories = await window.CustomCategories.getAllCategories();
+    // Fijos mensuales: cubiertos por Configuracion (importe actual), no por el historial
+    const fixedIds = new Set(['insurance', 'carpayment', 'permits']);
+    allCategories.forEach(c => { if (c && c.isFixed === true) fixedIds.add(c.id); });
     const excludedIds = allCategories
       .filter(c => c.isOperational === false)
       .map(c => c.id);
@@ -182,6 +185,7 @@ const CPMEngine = {
 
     let nonFuelTotal = 0;
     let foodLodgingTotal = 0;   // comida + hospedaje: por dia de viaje
+    let fixedHistTotal = 0;     // fijos mensuales registrados (solo para comparar)
     let fuelLong = 0;
     let fuelRecent = 0;
     let countExpenses = 0;
@@ -220,6 +224,7 @@ const CPMEngine = {
       } else {
         nonFuelTotal += amount;
         if (cat === 'food' || cat === 'lodging') foodLodgingTotal += amount;
+        else if (fixedIds.has(cat)) fixedHistTotal += amount;
       }
       monthsWithExpenses.add(ym);
     });
@@ -246,6 +251,12 @@ const CPMEngine = {
     // Comida y hospedaje: promedio real por dia de viaje; el resto, por milla.
     const foodPerDay = travelDays > 0 ? foodLodgingTotal / travelDays : 0;
     const otherCpm = (nonFuelTotal - foodLodgingTotal) / milesLong;
+    // Sin los fijos mensuales (los pone Configuracion, sin contarlos dos veces)
+    const otherVarCpm = (nonFuelTotal - foodLodgingTotal - fixedHistTotal) / milesLong;
+    // Meses del periodo (primero a ultimo activo, pausas incluidas): para el promedio mensual
+    const [fy, fm] = firstMonth.split('-').map(Number);
+    const [ly, lm] = lastMonth.split('-').map(Number);
+    const spanMonths = Math.max(1, (ly - fy) * 12 + (lm - fm) + 1);
 
     const nonFuelCpm = nonFuelTotal / milesLong;
     // Costo por milla de referencia (Lex, notas): comida/hospedaje convertidos a su promedio por milla.
@@ -274,6 +285,8 @@ const CPMEngine = {
       fuelCpm: parseFloat(fuelCpm.toFixed(4)),
       nonFuelCpm: parseFloat(nonFuelCpm.toFixed(4)),
       otherCpm: parseFloat(otherCpm.toFixed(4)),
+      otherVarCpm: parseFloat(otherVarCpm.toFixed(4)),
+      realMonthlyMiles: Math.round(milesLong / spanMonths),
       foodPerDay: parseFloat(foodPerDay.toFixed(2)),
       fuelSource: current ? 'price' : 'receipts',
       fuelWindow: useRecentFuel ? 'recent' : 'long',
@@ -312,6 +325,12 @@ const CPMEngine = {
         travelDays: Math.round(travelDays * 10) / 10,
         foodPerDay,
         otherTotal: nonFuelTotal - foodLodgingTotal,
+        otherVarTotal: nonFuelTotal - foodLodgingTotal - fixedHistTotal,
+        fixedIds: Array.from(fixedIds),
+        fixedHistTotal,
+        fixedHistMonthly: fixedHistTotal / spanMonths,
+        spanMonths,
+        realMonthlyMiles: Math.round(milesLong / spanMonths),
         byCategory: Object.keys(byCategory)
           .map(id => {
             const def = allCategories.find(c => c.id === id);

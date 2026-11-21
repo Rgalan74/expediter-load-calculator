@@ -569,3 +569,79 @@ test('calculator uses state miles only for the same origin and destination', () 
   assert.deepEqual({ ...w.loadRoute('Miami, FL', 'Dallas, TX').stateMiles }, { FL: 300, TX: 690 });
   assert.equal(w.loadRoute('Miami, FL', 'Atlanta, GA').stateMiles, null, 'another load: no stale miles');
 });
+
+// Costos fijos (aprobado 2026-11-21): importe mensual ACTUAL de Configuración /
+// millas reales al mes del historial; las categorías fijas salen del promedio.
+function realEngine(expenses, categories, profileData = {}) {
+  const months = ['2032-01', '2032-02', '2032-04'];            // 2032-03 en pausa
+  const loads = months.map(m => ({ date: `${m}-10`, totalMiles: 3000, userId: 'u' }));
+  const snap = rows => ({ forEach: fn => rows.forEach(r => fn({ data: () => r })) });
+  const query = rows => { const q = { where: () => q, get: async () => snap(rows) }; return q; };
+  const w = {
+    console, debugLog() {}, document: { addEventListener() {} },
+    firebase: { firestore: () => ({ collection: n => query(n === 'loads' ? loads : expenses) }) },
+    CustomCategories: { getAllCategories: async () => categories },
+    currentUser: { profileData }
+  };
+  w.window = w;
+  vm.runInContext(fs.readFileSync(path.join(root, 'public/js/cpm-engine.js'), 'utf8'), vm.createContext(w), { filename: 'cpm-engine.js' });
+  return w.CPMEngine;
+}
+
+test('real CPM: fixed monthly categories leave the per-mile average', async () => {
+  const exp = ['2032-01', '2032-02', '2032-03', '2032-04'].flatMap(m => [
+    { date: `${m}-05`, category: 'fuel', amount: 600 },
+    { date: `${m}-05`, category: 'insurance', amount: 1200 },
+    { date: `${m}-05`, category: 'carpayment', amount: 800 },
+    { date: `${m}-06`, category: 'custom-phone', amount: 100 },
+    { date: `${m}-07`, category: 'maintenance', amount: 90 }
+  ]);
+  const engine = realEngine(exp, [{ id: 'custom-phone', isFixed: true, isOperational: true }]);
+  const r = await engine._fromRealData('u', 4, 3);
+  assert.equal(r.realMonthlyMiles, 9000 / 4, '9000 mi over 4 calendar months (pause month included)');
+  assert.equal(r.otherVarCpm, Math.round((4 * 90 / 9000) * 10000) / 10000, 'only maintenance stays per mile');
+  assert.equal(r.breakdown.fixedHistTotal, 4 * (1200 + 800 + 100));
+  assert.equal(r.breakdown.fixedHistMonthly, 2100);
+  assert.ok(r.breakdown.fixedIds.includes('custom-phone'));
+});
+
+test('calculator: fixed per mile = Settings monthly / real monthly miles; fallback without Settings', () => {
+  const f = fixture();
+  const w = f.w;
+  w.CPMEngine = {
+    current: () => ({ source: 'real', cpm: 0.9, fuelCpm: 0.2, otherCpm: 0.5, otherVarCpm: 0.05, realMonthlyMiles: 5000, foodPerDay: 0 }),
+    getCPM: async () => ({ source: 'real', cpm: 0.9 }),
+    estimateTripDays: () => 1
+  };
+  w.currentUser.profileData = { vehiclePayment: 900, insurance: 1250, licenses: 10, otherFixed: 150 };
+  const c = w.getUsersCosts();
+  assert.equal(c.fixedFromConfig, true);
+  assert.equal(c.fixedMonthly, 2310);
+  assert.ok(Math.abs(c.costosFijos - (0.05 + 2310 / 5000)) < 1e-9);
+  // Sin importes fijos en Configuración: promedio de Finanzas como antes
+  w.currentUser.profileData = {};
+  const c2 = w.getUsersCosts();
+  assert.equal(c2.fixedFromConfig, false);
+  assert.equal(c2.costosFijos, 0.5);
+});
+
+test('custom category: create as fixed and toggle an existing one', async () => {
+  let stored = [{ id: 'custom-phone', name: 'Telefono', isOperational: false }];
+  const ref = {
+    get: async () => ({ exists: true, data: () => ({ customExpenseCategories: stored }) }),
+    set: async (data) => { if (data.customExpenseCategories && !data.customExpenseCategories.__union) stored = data.customExpenseCategories; }
+  };
+  const fsStub = () => ({ collection: () => ({ doc: () => ref }) });
+  fsStub.FieldValue = { arrayUnion: (x) => { stored = [...stored, x]; return { __union: true }; } };
+  const w = { console, debugLog() {}, document: { addEventListener() {}, getElementById: () => null },
+    firebase: { auth: () => ({ currentUser: { uid: 'u' } }), firestore: fsStub } };
+  w.window = w;
+  vm.runInContext(fs.readFileSync(path.join(root, 'public/js/custom-categories.js'), 'utf8'), vm.createContext(w), { filename: 'custom-categories.js' });
+  const created = await w.CustomCategories.createCustomCategory('Internet', '🌐', '#000000', false, true);
+  assert.equal(created.isFixed, true);
+  assert.equal(created.isOperational, true, 'fixed implies operational');
+  await w.CustomCategories.setCustomCategoryFixed('custom-phone', true);
+  assert.equal(stored.find(c => c.id === 'custom-phone').isFixed, true);
+  await w.CustomCategories.setCustomCategoryFixed('custom-phone', false);
+  assert.equal(stored.find(c => c.id === 'custom-phone').isFixed, false);
+});

@@ -87,6 +87,15 @@ window.getConfigCosts = getConfigCosts;
 //   default -> promedio de industria (perfil sin configurar)
 // En "real" solo se conoce el combustible aparte; el resto va agrupado.
 // ------------------------------------------------------------------
+// Costos fijos mensuales actuales de Configuracion (pago del vehiculo, seguro,
+// permisos y otros fijos como telefono/internet).
+function configFixedMonthly() {
+  const p = window.currentUser?.profileData || {};
+  return ['vehiclePayment', 'insurance', 'licenses', 'otherFixed']
+    .reduce((sum, k) => sum + (Number(p[k]) > 0 ? Number(p[k]) : 0), 0);
+}
+window.configFixedMonthly = configFixedMonthly;
+
 function getUsersCosts() {
   const engine = window.CPMEngine && typeof window.CPMEngine.current === 'function'
     ? window.CPMEngine.current()
@@ -95,13 +104,25 @@ function getUsersCosts() {
   if (engine && engine.source === 'real' && engine.cpm > 0) {
     const fuel = Math.max(0, Number(engine.fuelCpm) || 0);
     const hasSplit = Number.isFinite(Number(engine.otherCpm));
+    // Fijos mensuales: importe ACTUAL de Configuracion / millas reales al mes del
+    // historial (incluye meses y dias parados). Se quitan del promedio de Finanzas.
+    const cfgFixed = configFixedMonthly();
+    const monthlyMiles = Number(engine.realMonthlyMiles) || 0;
+    const useConfigFixed = cfgFixed > 0 && monthlyMiles > 0 && Number.isFinite(Number(engine.otherVarCpm));
+    const fixedPerMile = useConfigFixed ? cfgFixed / monthlyMiles : 0;
+    const perMile = useConfigFixed
+      ? Math.max(0, Number(engine.otherVarCpm)) + fixedPerMile
+      : (hasSplit ? Math.max(0, Number(engine.otherCpm)) : Math.max(0, engine.cpm - fuel));
     return {
       combustible: fuel,
       mantenimiento: 0,
       comida: 0,
       // Sin comida/hospedaje: esos van por dia de viaje (comidaPorDia)
-      costosFijos: hasSplit ? Math.max(0, Number(engine.otherCpm)) : Math.max(0, engine.cpm - fuel),
+      costosFijos: perMile,
       comidaPorDia: hasSplit ? Math.max(0, Number(engine.foodPerDay) || 0) : 0,
+      fixedFromConfig: useConfigFixed,
+      fixedMonthly: useConfigFixed ? cfgFixed : 0,
+      fixedPerMile,
       TOTAL: engine.cpm
     };
   }
@@ -195,13 +216,37 @@ function renderCpmBreakdown() {
     : `Expenses recorded in that period: ${b.countExpenses}, across ${b.monthsWithExpenses} different months.`);
 
   const isFoodLodging = (id) => id === 'food' || id === 'lodging';
+  const _uc = getUsersCosts();
+  const fixedIds = new Set(_uc.fixedFromConfig ? (b.fixedIds || []) : []);
   b.byCategory.forEach(c => {
-    if (c.id === 'fuel' || isFoodLodging(c.id)) return;
+    if (c.id === 'fuel' || isFoodLodging(c.id) || fixedIds.has(c.id)) return;
     addRow(c.name, `${money(c.total)}  →  ${perMile(c.total, b.milesLong)}`);
   });
-  const otherTotal = Number.isFinite(b.otherTotal) ? b.otherTotal : b.nonFuelTotal;
-  addRow(isEs ? 'Otros costos por milla (todo el periodo)' : 'Other per-mile costs (whole period)',
+  const otherTotal = _uc.fixedFromConfig && Number.isFinite(b.otherVarTotal) ? b.otherVarTotal
+    : (Number.isFinite(b.otherTotal) ? b.otherTotal : b.nonFuelTotal);
+  addRow(_uc.fixedFromConfig
+      ? (isEs ? 'Otros costos variables por milla (todo el periodo)' : 'Other variable per-mile costs (whole period)')
+      : (isEs ? 'Otros costos por milla (todo el periodo)' : 'Other per-mile costs (whole period)'),
     `${money(otherTotal)}  →  ${perMile(otherTotal, b.milesLong)}`, true);
+
+  if (_uc.fixedFromConfig) {
+    addRow(isEs
+      ? `Fijos de Configuración: ${money(_uc.fixedMonthly)}/mes ÷ ${Number(b.realMonthlyMiles).toLocaleString()} mi/mes (tu promedio real)`
+      : `Fixed costs from Settings: ${money(_uc.fixedMonthly)}/mo ÷ ${Number(b.realMonthlyMiles).toLocaleString()} mi/mo (your real average)`,
+      `$${_uc.fixedPerMile.toFixed(3)}/mi`, true);
+    const hist = Number(b.fixedHistMonthly) || 0;
+    addNote(isEs
+      ? `Millas al mes: ${Number(b.milesLong).toLocaleString()} mi ÷ ${b.spanMonths} meses de calendario (incluye meses sin cargas: los fijos se pagan igual).`
+      : `Miles per month: ${Number(b.milesLong).toLocaleString()} mi ÷ ${b.spanMonths} calendar months (includes months without loads: fixed costs are still paid).`);
+    addNote(isEs
+      ? `Fijos registrados en Finanzas: ${money(hist)}/mes de promedio (${b.spanMonths} meses).`
+      : `Fixed costs recorded in Finances: ${money(hist)}/mo on average (${b.spanMonths} months).`);
+    if (hist > 0 && Math.abs(hist - _uc.fixedMonthly) / _uc.fixedMonthly > 0.2) {
+      addNote(isEs
+        ? '⚠ Difieren más de un 20%: revisa los importes fijos en Configuración.'
+        : '⚠ They differ by more than 20%: check the fixed amounts in Settings.');
+    }
+  }
 
   if (Number(b.foodLodgingTotal) > 0 && Number(b.travelDays) > 0) {
     addRow(isEs ? `Comida y hospedaje (${money(b.foodLodgingTotal)} en ${b.travelDays} días de viaje)` : `Food and lodging (${money(b.foodLodgingTotal)} over ${b.travelDays} travel days)`,
