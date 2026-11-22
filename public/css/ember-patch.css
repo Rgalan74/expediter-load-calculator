@@ -349,3 +349,17 @@ header .tab-link.tab-active {
     border-bottom: none !important;
     box-shadow: none !important;
 }
+/* FIX — Pestaña activa invisible con el ratón encima: la regla de hover
+   (html[data-theme] nav .tab-link:hover, más específica) quitaba el degradado
+   del texto activo, que tiene -webkit-text-fill-color: transparent. */
+html[data-theme="dark"] nav .tab-link.tab-pill-active:hover,
+html[data-theme="dark"] nav .tab-link.tab-active:hover {
+  background-image: linear-gradient(90deg, #00D9FF 0%, #3b82f6 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+html[data-theme="light"] nav .tab-link.tab-pill-active:hover,
+html[data-theme="light"] nav .tab-link.tab-active:hover {
+  -webkit-text-fill-color: currentColor !important;
+}

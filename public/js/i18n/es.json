@@ -1799,5 +1799,23 @@
     "complete_body": "Todos tus datos estan actualizados",
     "failed_title": "Error de sincronizacion",
     "failed_body": "Se reintentara mas tarde"
+  },
+  "settings_ui": {
+    "vehicle_type": "Tipo de vehículo",
+    "vehicle_type_hint": "Carga una plantilla de costos típicos",
+    "business_name": "Nombre del negocio",
+    "home_state": "Estado de residencia",
+    "other_fixed_hint": "Teléfono, internet, etc.",
+    "auto_summary": "🧮 Resumen automático",
+    "monthly_fixed_total": "Total fijo mensual:",
+    "fixed_cost_per_mile": "Costo fijo por milla:",
+    "mpg_hint": "MPG (tu vehículo)",
+    "calculated_cost": "Costo calculado: ",
+    "keep_updated": "Mantén estos valores al día para que la ganancia de cada carga sea exacta.",
+    "min_rate_hint": "Tarifa mínima que aceptas",
+    "monthly_miles_hint": "Meta de millas al mes",
+    "profit_target_hint": "Meta de ganancia neta",
+    "vehicle_type_ph": "Escribe el tipo de vehículo",
+    "business_name_ph": "Tu LLC"
   }
 }
