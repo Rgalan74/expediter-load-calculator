@@ -1,0 +1,542 @@
+/* ============================================================
+   SMART LOAD — Sistema de diseño (Fase 2, paso 1: base)
+   Dirección "v3": acento cian sobre azul noche.
+   Se carga la ÚLTIMA en app.html y se impone a los estilos
+   anteriores (theme-tokens, ember-green, ember-patch, inline).
+   Solo aspecto: no cambia estructura ni lógica.
+   ============================================================ */
+
+:root {
+  --sls-bg: #060A12;
+  --sls-surface: #0A101C;
+  --sls-surface-2: #0D1525;
+  --sls-raised: #122038;
+  --sls-line: #18243A;
+  --sls-line-2: #22314C;
+  --sls-text: #ECEEF2;
+  --sls-muted: #8D95A5;
+  --sls-accent: #22D3EE;
+  --sls-accent-text: #67E8F9;
+  --sls-on-accent: #06222A;
+  --sls-accent-soft: rgba(34, 211, 238, 0.12);
+  --sls-amber: #F5B03A;
+  --sls-green: #3DDC97;
+  --sls-red: #F26D6D;
+  --sls-font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --sls-font-title: 'Barlow Condensed', 'Inter', sans-serif;
+  --sls-font-mono: 'JetBrains Mono', ui-monospace, 'Consolas', monospace;
+  --sls-radius: 8px;
+}
+
+/* ---------- Fondo y texto base ---------- */
+html, :root:not(#sls) body {
+  background: var(--sls-bg) !important;
+  background-image: none !important;
+  color: var(--sls-text) !important;
+  font-family: var(--sls-font-body) !important;
+}
+:root:not(#sls) body ::selection { background: rgba(34, 211, 238, 0.3); }
+
+/* ---------- Títulos ---------- */
+:root:not(#sls) body .section-header h2,
+:root:not(#sls) body .tab-content > div > .section-header h2,
+:root:not(#sls) body section.tab-content h2.font-bold {
+  font-family: var(--sls-font-title) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.02em !important;
+  color: var(--sls-text) !important;
+  -webkit-text-fill-color: var(--sls-text) !important;
+  background: none !important;
+  text-shadow: none !important;
+}
+:root:not(#sls) body .section-header .subtitle,
+:root:not(#sls) body .section-header p {
+  color: var(--sls-muted) !important;
+  font-family: var(--sls-font-body) !important;
+}
+:root:not(#sls) body .card-section h3,
+:root:not(#sls) body .card-section h4 {
+  font-family: var(--sls-font-title) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: var(--sls-text) !important;
+  -webkit-text-fill-color: var(--sls-text) !important;
+  background: none !important;
+}
+
+/* ---------- Barra superior ---------- */
+:root:not(#sls) body header.header-n8n {
+  background: var(--sls-surface) !important;
+  background-image: none !important;
+  border-bottom: 1px solid var(--sls-line) !important;
+  box-shadow: none !important;
+}
+:root:not(#sls) body header.header-n8n * { text-shadow: none !important; }
+:root:not(#sls) body .n8n-nav-link,
+:root:not(#sls) body header .tab-link {
+  font-family: var(--sls-font-mono) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: var(--sls-muted) !important;
+  -webkit-text-fill-color: currentColor !important;
+  background: none !important;
+  background-image: none !important;
+}
+:root:not(#sls) body .n8n-nav-link:hover,
+:root:not(#sls) body header .tab-link:hover { color: var(--sls-text) !important; }
+:root:not(#sls) body .n8n-nav-link.tab-pill-active,
+:root:not(#sls) body header .tab-link.tab-pill-active,
+:root:not(#sls) body header .tab-link.tab-active,
+html[data-theme="dark"] body nav .tab-link.tab-pill-active,
+html[data-theme="dark"] body nav .tab-link.tab-pill-active:hover {
+  color: var(--sls-accent) !important;
+  -webkit-text-fill-color: var(--sls-accent) !important;
+  background: none !important;
+  background-image: none !important;
+  border-bottom: 2px solid var(--sls-accent) !important;
+}
+
+/* ---------- Tarjetas ---------- */
+:root:not(#sls) body .card-section,
+:root:not(#sls) body .fin-kpi-card,
+:root:not(#sls) body .bg-white,
+:root:not(#sls) body .bg-gray-50,
+:root:not(#sls) body .bg-gray-100,
+:root:not(#sls) body .decision-info-block {
+  background: var(--sls-surface) !important;
+  background-image: none !important;
+  border: 1px solid var(--sls-line) !important;
+  border-radius: var(--sls-radius) !important;
+  box-shadow: none !important;
+  color: var(--sls-text) !important;
+}
+:root:not(#sls) body .card-section::before,
+:root:not(#sls) body .card-section::after { display: none !important; }
+
+/* KPIs */
+:root:not(#sls) body .fin-kpi-label {
+  font-family: var(--sls-font-mono) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: var(--sls-muted) !important;
+  -webkit-text-fill-color: var(--sls-muted) !important;
+}
+:root:not(#sls) body .fin-kpi-value {
+  font-family: var(--sls-font-title) !important;
+  font-weight: 700 !important;
+  font-size: 34px !important;
+  letter-spacing: 0 !important;
+  color: var(--sls-text) !important;
+  -webkit-text-fill-color: var(--sls-text) !important;
+  background: none !important;
+}
+:root:not(#sls) body .fin-kpi-card { border-top: 1px solid var(--sls-line) !important; }
+
+/* ---------- Texto secundario de Tailwind ---------- */
+:root:not(#sls) body .text-gray-400,
+:root:not(#sls) body .text-gray-500,
+:root:not(#sls) body .text-gray-600 { color: var(--sls-muted) !important; }
+:root:not(#sls) body .text-gray-700,
+:root:not(#sls) body .text-gray-800,
+:root:not(#sls) body .text-gray-900 { color: var(--sls-text) !important; }
+
+/* ---------- Campos ---------- */
+:root:not(#sls) body input[type="text"],
+:root:not(#sls) body input[type="number"],
+:root:not(#sls) body input[type="email"],
+:root:not(#sls) body input[type="password"],
+:root:not(#sls) body input[type="date"],
+:root:not(#sls) body input[type="tel"],
+:root:not(#sls) body input[type="search"],
+:root:not(#sls) body select,
+:root:not(#sls) body textarea {
+  background: var(--sls-bg) !important;
+  border: 1px solid var(--sls-line-2) !important;
+  border-radius: 6px !important;
+  color: var(--sls-text) !important;
+  -webkit-text-fill-color: var(--sls-text) !important;
+  font-family: var(--sls-font-body) !important;
+  box-shadow: none !important;
+}
+:root:not(#sls) body input::placeholder,
+:root:not(#sls) body textarea::placeholder {
+  color: #5B6577 !important;
+  -webkit-text-fill-color: #5B6577 !important;
+  font-style: normal !important;
+}
+:root:not(#sls) body input:focus,
+:root:not(#sls) body select:focus,
+:root:not(#sls) body textarea:focus {
+  outline: none !important;
+  border-color: var(--sls-accent) !important;
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.18) !important;
+}
+:root:not(#sls) body input[type="number"],
+:root:not(#sls) body #loadedMiles, :root:not(#sls) body #deadheadMiles, :root:not(#sls) body #rpm, :root:not(#sls) body #rate,
+:root:not(#sls) body #tolls, :root:not(#sls) body #otherCosts {
+  font-family: var(--sls-font-mono) !important;
+}
+:root:not(#sls) body label {
+  color: var(--sls-muted) !important;
+  -webkit-text-fill-color: var(--sls-muted) !important;
+}
+
+/* ---------- Botones ---------- */
+/* Principal: cian con texto oscuro */
+:root:not(#sls) body #saveBtn,
+:root:not(#sls) body .btn-primary,
+:root:not(#sls) body .btn-success,
+:root:not(#sls) body button.bg-blue-600, :root:not(#sls) body a.bg-blue-600,
+:root:not(#sls) body button.bg-green-600, :root:not(#sls) body a.bg-green-600,
+:root:not(#sls) body button.bg-orange-500, :root:not(#sls) body a.bg-orange-500,
+:root:not(#sls) body button.bg-purple-600, :root:not(#sls) body a.bg-purple-600 {
+  background: var(--sls-accent) !important;
+  background-image: none !important;
+  color: var(--sls-on-accent) !important;
+  -webkit-text-fill-color: var(--sls-on-accent) !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  font-family: var(--sls-font-title) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+:root:not(#sls) body #saveBtn *,
+:root:not(#sls) body .btn-primary *,
+:root:not(#sls) body .btn-success * { color: inherit !important; -webkit-text-fill-color: inherit !important; }
+/* Secundarios: contorno */
+:root:not(#sls) body #copyPriceBtn,
+:root:not(#sls) body #clearBtn,
+:root:not(#sls) body .btn-secondary,
+:root:not(#sls) body #addDestinationBtn {
+  background: transparent !important;
+  background-image: none !important;
+  color: var(--sls-text) !important;
+  -webkit-text-fill-color: var(--sls-text) !important;
+  border: 1px solid var(--sls-line-2) !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  font-family: var(--sls-font-title) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+:root:not(#sls) body #copyPriceBtn *, :root:not(#sls) body #clearBtn *, :root:not(#sls) body #addDestinationBtn * {
+  color: inherit !important; -webkit-text-fill-color: inherit !important;
+}
+:root:not(#sls) body #saveBtn:hover, :root:not(#sls) body .btn-primary:hover { filter: brightness(1.08); }
+
+/* ---------- Tablas ---------- */
+:root:not(#sls) body table { border-color: var(--sls-line) !important; }
+:root:not(#sls) body thead, :root:not(#sls) body thead tr, :root:not(#sls) body thead th,
+:root:not(#sls) body .bg-gray-100 th {
+  background: var(--sls-surface-2) !important;
+  color: var(--sls-muted) !important;
+  font-family: var(--sls-font-mono) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  border-color: var(--sls-line) !important;
+}
+:root:not(#sls) body tbody tr { border-color: var(--sls-line) !important; }
+:root:not(#sls) body tbody tr:hover { background: var(--sls-surface-2) !important; }
+:root:not(#sls) body td { border-color: var(--sls-line) !important; }
+
+/* ---------- Panel de decisión (estilo provisional hasta el paso 2) ---------- */
+:root:not(#sls) body #decisionPanel {
+  background: var(--sls-surface) !important;
+  background-image: none !important;
+  border: 1px solid var(--sls-line) !important;
+  box-shadow: none !important;
+}
+:root:not(#sls) body #quickRPM, :root:not(#sls) body #quickNetProfit, :root:not(#sls) body #quickMargin,
+:root:not(#sls) body #quickProfitPerMile, :root:not(#sls) body #quickPrice, :root:not(#sls) body #netProfit,
+:root:not(#sls) body #totalExpenses {
+  font-family: var(--sls-font-title) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+}
+
+/* ---------- Modales ---------- */
+:root:not(#sls) body .modal-content:not(.onboarding-modal .modal-content),
+:root:not(#sls) body [id$="Modal"] > div {
+  background: var(--sls-surface) !important;
+  border: 1px solid var(--sls-line) !important;
+  color: var(--sls-text) !important;
+}
+
+/* ---------- Barras de desplazamiento ---------- */
+:root:not(#sls) body ::-webkit-scrollbar { width: 10px; height: 10px; }
+:root:not(#sls) body ::-webkit-scrollbar-track { background: var(--sls-bg); }
+:root:not(#sls) body ::-webkit-scrollbar-thumb { background: var(--sls-line-2); border-radius: 6px; }
+
+/* ---------- Enlaces ---------- */
+:root:not(#sls) body main a:not([class*="btn"]):not(.tab-link) { color: var(--sls-accent-text); }
+
+/* ---------- Navegación: sin cortes de línea ---------- */
+:root:not(#sls) body .n8n-nav-link,
+:root:not(#sls) body header .tab-link { letter-spacing: 0.08em !important; white-space: nowrap !important; }
+:root:not(#sls) body .header-title,
+:root:not(#sls) body header .gradient-text {
+  background: none !important;
+  -webkit-text-fill-color: var(--sls-text) !important;
+  color: var(--sls-text) !important;
+  font-family: var(--sls-font-title) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+/* ---------- Botones que llevaban estilo propio ---------- */
+:root:not(#sls) body #filterBtn,
+:root:not(#sls) body button[onclick^="applyPeriod"],
+:root:not(#sls) body #filterBtn * {
+  background: var(--sls-accent) !important;
+  background-image: none !important;
+  color: var(--sls-on-accent) !important;
+  -webkit-text-fill-color: var(--sls-on-accent) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  font-family: var(--sls-font-title) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+:root:not(#sls) body #filterBtn * { background: none !important; }
+:root:not(#sls) body #exportExcelBtn,
+:root:not(#sls) body button[onclick="updateMap()"],
+:root:not(#sls) body button[onclick="openGoogleMapsDirections()"],
+:root:not(#sls) body button[onclick="window.openLexChatModal()"] {
+  background: transparent !important;
+  background-image: none !important;
+  border: 1px solid var(--sls-line-2) !important;
+  box-shadow: none !important;
+  font-family: var(--sls-font-title) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+:root:not(#sls) body button[onclick="window.openLexChatModal()"] {
+  border-color: var(--sls-accent) !important;
+  color: var(--sls-accent-text) !important;
+  -webkit-text-fill-color: var(--sls-accent-text) !important;
+}
+:root:not(#sls) body button[onclick="window.openLexChatModal()"] * { color: inherit !important; -webkit-text-fill-color: inherit !important; }
+
+/* Subpestañas de Finanzas */
+:root:not(#sls) body .fin-subtab {
+  font-family: var(--sls-font-mono) !important;
+  font-size: 12px !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: var(--sls-muted) !important;
+  background: transparent !important;
+}
+:root:not(#sls) body .fin-subtab.active,
+:root:not(#sls) body .fin-subtab[aria-selected="true"],
+:root:not(#sls) body .fin-subtab.bg-white {
+  color: var(--sls-accent) !important;
+  background: var(--sls-accent-soft) !important;
+  border: 0 !important;
+}
+
+/* Cabeceras de tabla más contenidas */
+:root:not(#sls) body thead th, :root:not(#sls) body thead th * {
+  font-size: 11px !important;
+  letter-spacing: 0.1em !important;
+}
+
+/* ---------- Panel de decisión: neutralizar el estilo anterior ---------- */
+:root:not(#sls) body #decisionHeader,
+:root:not(#sls) body #decisionHeader.decision-header-accept,
+:root:not(#sls) body #decisionHeader.decision-header-warning,
+:root:not(#sls) body #decisionHeader.decision-header-warning-high,
+:root:not(#sls) body #decisionHeader.decision-header-warning-low,
+:root:not(#sls) body #decisionHeader.decision-header-reject {
+  background: var(--sls-surface) !important;
+  background-image: none !important;
+  color: var(--sls-text) !important;
+  border-left: 4px solid var(--sls-muted) !important;
+  animation: none !important;
+  box-shadow: none !important;
+}
+:root:not(#sls) body #decisionHeader.decision-header-accept { border-left-color: var(--sls-green) !important; }
+:root:not(#sls) body #decisionHeader.decision-header-warning,
+:root:not(#sls) body #decisionHeader.decision-header-warning-high,
+:root:not(#sls) body #decisionHeader.decision-header-warning-low { border-left-color: var(--sls-amber) !important; }
+:root:not(#sls) body #decisionHeader.decision-header-reject { border-left-color: var(--sls-red) !important; }
+:root:not(#sls) body #decisionTitle {
+  font-family: var(--sls-font-title) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+:root:not(#sls) body #decisionHeader.decision-header-accept #decisionTitle { color: var(--sls-green) !important; }
+:root:not(#sls) body #decisionHeader[class*="decision-header-warning"] #decisionTitle { color: var(--sls-amber) !important; }
+:root:not(#sls) body #decisionHeader.decision-header-reject #decisionTitle { color: var(--sls-red) !important; }
+:root:not(#sls) body #decisionHeader .grid > div {
+  background: var(--sls-surface-2) !important;
+  border: 1px solid var(--sls-line) !important;
+  backdrop-filter: none !important;
+}
+:root:not(#sls) body #decisionHeader .grid > div > div:first-child {
+  color: var(--sls-muted) !important;
+  font-family: var(--sls-font-mono) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+}
+:root:not(#sls) body #decisionHeader .grid > div > div:last-child { color: var(--sls-text) !important; font-size: 26px !important; }
+:root:not(#sls) body #decisionBadges > span {
+  background: var(--sls-surface-2) !important;
+  border: 1px solid var(--sls-line) !important;
+  color: var(--sls-muted) !important;
+  font-family: var(--sls-font-mono) !important;
+}
+:root:not(#sls) body #decisionPanel.pulse-glow-green,
+:root:not(#sls) body #decisionPanel [class*="pulse-glow"] { animation: none !important; box-shadow: none !important; }
+:root:not(#sls) body #profitSection,
+:root:not(#sls) body #profitSection.profit-section-positive,
+:root:not(#sls) body #profitSection.profit-section-warning,
+:root:not(#sls) body #profitSection.profit-section-negative {
+  background: var(--sls-surface-2) !important;
+  background-image: none !important;
+  border: 1px solid var(--sls-line) !important;
+}
+:root:not(#sls) body #profitSection #profitLabel,
+:root:not(#sls) body #profitSection .text-right div,
+:root:not(#sls) body #profitSection #profitDetails { color: var(--sls-muted) !important; }
+:root:not(#sls) body #profitSection.profit-section-positive #netProfit { color: var(--sls-green) !important; }
+:root:not(#sls) body #profitSection.profit-section-warning #netProfit { color: var(--sls-amber) !important; }
+:root:not(#sls) body #profitSection.profit-section-negative #netProfit { color: var(--sls-red) !important; }
+:root:not(#sls) body #netProfit { font-size: 48px !important; line-height: 1.05 !important; }
+
+/* ---------- Logo de texto de la cabecera ---------- */
+html[data-theme] body .header-title,
+html[data-theme] body header .gradient-text,
+:root:not(#sls) body header span.header-title {
+  background: none !important;
+  background-image: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: var(--sls-text) !important;
+  color: var(--sls-text) !important;
+}
+
+/* ---------- Cajas de color de Tailwind -> superficies neutras ---------- */
+:root:not(#sls) body .bg-blue-50, :root:not(#sls) body .bg-yellow-50, :root:not(#sls) body .bg-green-50,
+:root:not(#sls) body .bg-orange-50, :root:not(#sls) body .bg-purple-50, :root:not(#sls) body .bg-indigo-50,
+:root:not(#sls) body .bg-amber-50, :root:not(#sls) body .bg-cyan-50, :root:not(#sls) body .bg-teal-50 {
+  background: var(--sls-surface-2) !important;
+  background-image: none !important;
+  border-color: var(--sls-line) !important;
+}
+:root:not(#sls) body .bg-red-50 {
+  background: rgba(242, 109, 109, 0.08) !important;
+  border-color: rgba(242, 109, 109, 0.35) !important;
+}
+/* Textos de color: un solo acento (cian); ámbar solo como aviso */
+:root:not(#sls) body .text-blue-500, :root:not(#sls) body .text-blue-600, :root:not(#sls) body .text-blue-700, :root:not(#sls) body .text-blue-800,
+:root:not(#sls) body .text-indigo-600, :root:not(#sls) body .text-indigo-700, :root:not(#sls) body .text-purple-600, :root:not(#sls) body .text-purple-700,
+:root:not(#sls) body .text-cyan-600, :root:not(#sls) body .text-teal-600, :root:not(#sls) body .text-orange-500, :root:not(#sls) body .text-orange-600 {
+  color: var(--sls-accent-text) !important;
+  -webkit-text-fill-color: var(--sls-accent-text) !important;
+}
+:root:not(#sls) body .text-yellow-600, :root:not(#sls) body .text-yellow-700, :root:not(#sls) body .text-yellow-800,
+:root:not(#sls) body .text-amber-600, :root:not(#sls) body .text-amber-700 {
+  color: var(--sls-amber) !important;
+  -webkit-text-fill-color: var(--sls-amber) !important;
+}
+:root:not(#sls) body #tripMiles, :root:not(#sls) body #tripMiles + * {
+  color: var(--sls-accent) !important;
+  -webkit-text-fill-color: var(--sls-accent) !important;
+  font-family: var(--sls-font-title) !important;
+}
+
+/* ---------- Botones de Configuración ---------- */
+:root:not(#sls) body button[onclick="saveUserConfiguration()"] {
+  background: var(--sls-accent) !important;
+  background-image: none !important;
+  color: var(--sls-on-accent) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  font-family: var(--sls-font-title) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+:root:not(#sls) body button[onclick="loadUserConfiguration()"],
+:root:not(#sls) body button[onclick^="loadVehicleTemplate"],
+:root:not(#sls) body #upgradePlanLink {
+  background: transparent !important;
+  background-image: none !important;
+  color: var(--sls-text) !important;
+  -webkit-text-fill-color: var(--sls-text) !important;
+  border: 1px solid var(--sls-line-2) !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  font-family: var(--sls-font-title) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+:root:not(#sls) body #upgradePlanLink { border-color: var(--sls-accent) !important; }
+
+/* ---------- Restos naranjas (Zonas y Configuración) ---------- */
+/* Píldoras de filtro de notas */
+:root:not(#sls) body #zones .market-filter-pill-active {
+  background: var(--sls-accent) !important;
+  color: var(--sls-on-accent) !important;
+  -webkit-text-fill-color: var(--sls-on-accent) !important;
+  border: 1px solid var(--sls-accent) !important;
+}
+:root:not(#sls) body #zones .market-filter-pill {
+  background: transparent !important;
+  color: var(--sls-muted) !important;
+  -webkit-text-fill-color: var(--sls-muted) !important;
+  border: 1px solid var(--sls-line-2) !important;
+}
+:root:not(#sls) body #zones .market-filter-pill:hover {
+  color: var(--sls-text) !important;
+  -webkit-text-fill-color: var(--sls-text) !important;
+  border-color: var(--sls-accent) !important;
+}
+/* Botón Imprimir reporte (estilo en línea naranja) */
+:root:not(#sls) body button[onclick="printZonesReport()"] {
+  background: transparent !important;
+  color: var(--sls-text) !important;
+  -webkit-text-fill-color: var(--sls-text) !important;
+  border: 1px solid var(--sls-line-2) !important;
+  font-family: var(--sls-font-title) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+/* Textos de tabla vacía / cargando */
+:root:not(#sls) body td.text-gray-500,
+:root:not(#sls) body td.text-gray-400 {
+  color: var(--sls-muted) !important;
+  -webkit-text-fill-color: var(--sls-muted) !important;
+}
+/* Leyendas de zonas: tinte semántico suave */
+:root:not(#sls) body #zones .bg-yellow-50 {
+  background: rgba(245, 176, 58, 0.07) !important;
+  border-color: rgba(245, 176, 58, 0.30) !important;
+}
+:root:not(#sls) body #zones .bg-green-50 {
+  background: rgba(61, 220, 151, 0.07) !important;
+  border-color: rgba(61, 220, 151, 0.30) !important;
+  color: inherit !important;
+  -webkit-text-fill-color: initial !important;
+}
+:root:not(#sls) body .text-green-600, :root:not(#sls) body .text-green-700,
+:root:not(#sls) body .text-green-800 {
+  color: var(--sls-green) !important;
+  -webkit-text-fill-color: var(--sls-green) !important;
+}

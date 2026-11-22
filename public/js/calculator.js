@@ -1639,14 +1639,10 @@ function showDecisionPanel(calculationData = {}) {
     const isEvalua = _decisionVal === 'EVALUATE';
     const isCasiAcepta = _decisionVal === 'ALMOST ACCEPT';
     const isAccept = _decisionVal === 'ACCEPT';
-    const bg = isAccept ? 'rgba(34, 197, 94, 0.25)' :   // 🟢 Verde
-      isCasiAcepta ? 'rgba(234, 179, 8, 0.25)' :   // 🟡 Amarillo
-        isEvalua ? 'rgba(251, 146, 60, 0.25)' :   // 🟠 Naranja
-          'rgba(239, 68, 68, 0.25)';                    // 🔴 Rojo
-    const border = isAccept ? '1px solid rgba(34, 197, 94, 0.5)' :
-      isCasiAcepta ? '1px solid rgba(234, 179, 8, 0.5)' :
-        isEvalua ? '1px solid rgba(251, 146, 60, 0.5)' :
-          '1px solid rgba(239, 68, 68, 0.5)';
+    // Sistema de diseño v3: tarjetas neutras; el estado se ve en el titulo y el borde lateral
+    const bg = '#0D1525';
+    const border = '1px solid #18243A';
+    void isReject; void isEvalua; void isCasiAcepta; void isAccept;
     metricCards.forEach(card => {
       card.style.setProperty('background', bg, 'important');
       card.style.setProperty('border', border, 'important');
@@ -1673,9 +1669,11 @@ function showDecisionPanel(calculationData = {}) {
         isEvalua ? 'rgba(251, 146, 60, 0.6)' :
           'rgba(239, 68, 68, 0.6)';
 
-    decisionPanel.style.setProperty('box-shadow', glow, 'important');
-    decisionPanel.style.setProperty('border', `2px solid ${borderColor}`, 'important');
-    decisionPanel.style.setProperty('transform', 'scale(1.01)', 'important');
+    // Sistema de diseño v3: sin brillo ni escala; borde fino neutro
+    void glow; void borderColor;
+    decisionPanel.style.setProperty('box-shadow', 'none', 'important');
+    decisionPanel.style.setProperty('border', '1px solid #18243A', 'important');
+    decisionPanel.style.setProperty('transform', 'none', 'important');
   }, 150);
 
   // Centrar y colorear sección de Ganancia Neta
@@ -1685,16 +1683,11 @@ function showDecisionPanel(calculationData = {}) {
     profit.style.setProperty('display', 'flex', 'important');
     profit.style.setProperty('flex-direction', 'column', 'important');
     profit.style.setProperty('justify-content', 'center', 'important');
-    // Detectar si fondo es claro u oscuro
-    const profitBg = window.getComputedStyle(profit).backgroundColor;
-    const isLightBg = profitBg.includes('rgba(0, 0, 0, 0)') ||
-      profitBg.includes('rgb(2') ||
-      profitBg.includes('rgb(1');
-    const textColor = isLightBg ? '#1a1a1a' : '#ffffff';
-    // Pérdida en rojo; ganancia en verde (o dorado sobre fondo oscuro)
-    const amountColor = netProfit < 0
-      ? (isLightBg ? '#b91c1c' : '#f87171')
-      : (isLightBg ? '#166534' : '#FFD700');
+    // Sistema de diseño v3: el fondo siempre es oscuro (azul noche).
+    // (La deteccion anterior tomaba rgb(13,...) por fondo claro y ponia texto negro.)
+    const textColor = '#8D95A5';
+    // Pérdida en rojo; ganancia en verde
+    const amountColor = netProfit < 0 ? '#F26D6D' : '#3DDC97';
 
     profit.querySelectorAll('*').forEach(el => {
       el.style.setProperty('color', textColor, 'important');
