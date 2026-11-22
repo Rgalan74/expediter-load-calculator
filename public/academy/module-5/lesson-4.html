@@ -1,94 +1,36 @@
 <!DOCTYPE html><html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forecasting y Planificación: Predecir Ingresos Futuros | Smart Load Academia</title>
-    <meta name="description" content="El poder del forecasting NO es predecir con 100% precisión. Es eliminar sorpresas.">
+    <title>Planificar el mes | Smart Load Academia</title>
+    <meta name="description" content="Una fórmula simple para planear la ganancia del mes y cómo cambian los números en distintos escenarios.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: .875rem
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: .75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all .3s ease
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #F5B03A 0%, #F5B03A 100%);
-            color: #000
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, .1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .2)
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-  
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/academy/module-5/lesson-4.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-5/lesson-4.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-5/lesson-4.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-5/lesson-4.html">
+    <link rel="canonical" href="https://smartloadsolution.com/academy/module-5/lesson-4.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-5/lesson-4.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-5/lesson-4.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-5/lesson-4.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Volver a la App</a></nav>
-    <aside class="lesson-sidebar" id="lessonSidebar">
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Volver a la App</a></nav>
+
+<aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
         <div>
             <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
@@ -98,406 +40,193 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
-        <nav class="breadcrumb">
-            <a href="/academy.html">← Academia</a> → <a href="index.html">Módulo 5 [PRO]</a> → Lección 4
-        </nav>
-        
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/academy.html">Academia</a> / <a href="index.html">Módulo 5</a> / Lección 4</nav>
 
-
-        <div style="display: inline-block; background: linear-gradient(90deg, #F5B03A, #F5B03A); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
-            🔒 CONTENIDO PRO</div>
-
-        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
-            <h1>Forecasting y Planificación: Predecir Ingresos Futuros</h1>
-            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
-                <span>📖 13 min lectura</span>
-                <span>🎓 Módulo 5 - Lección 4</span>
-                <span>🔮 Forecasting</span>
-            </div>
-        </header>
-
-        <div class="lesson-content">
-
-            <section>
-                <h2>El poder de predicción</h2>
-
-                <div class="note warning">
-                    <span class="note-label">Chofer reactivo</span>
-                    <p>"Espero que este mes sea bueno. No sé cuánto ganaré. Vivo mes a mes."</p>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">Chofer proactivo</span>
-                    <p>"Basado en mis últimos 6 meses, proyección para diciembre es $4,800-5,200. Si está bajo $4,500 a mitad de mes, sé que necesito 2-3 cargas más."</p>
-                </div>
-
-                <p><strong>La diferencia: forecasting.</strong></p>
-            </section>
-
-            <section>
-                <h2>Métodos de forecasting</h2>
-
-                <p><strong>Método #1: Promedio Móvil (Simple)</strong></p>
-                <p>Concepto: promedio de últimos 3-6 meses predice próximo mes. Cálculo: suma ganancia últimos 6 meses ÷ 6 = Proyección.</p>
-
-                <div class="compare-table">
-                    <div class="compare-title">Ganancia mensual (6 meses)</div>
-                    <div class="compare-row"><span class="label">Julio</span><span class="value">$4,200</span></div>
-                    <div class="compare-row"><span class="label">Agosto</span><span class="value">$4,650</span></div>
-                    <div class="compare-row"><span class="label">Septiembre</span><span class="value">$3,900</span></div>
-                    <div class="compare-row"><span class="label">Octubre</span><span class="value">$4,850</span></div>
-                    <div class="compare-row"><span class="label">Noviembre</span><span class="value">$4,400</span></div>
-                    <div class="compare-row"><span class="label">Diciembre</span><span class="value">$4,600</span></div>
-                </div>
-
-                <div class="formula">SUMA: $26,600 ÷ 6 = $4,433 promedio<br>
-PROYECCIÓN ENERO 2025: $4,400-4,500</div>
-                <ul>
-                    <li>Precisión: 70-80%</li>
-                    <li>Ventaja: simple, rápido</li>
-                    <li>Desventaja: no cuenta tendencias</li>
-                </ul>
-
-                <p><strong>Método #2: Tendencia Lineal (Intermedio)</strong></p>
-                <p>Concepto: considera si estás mejorando/empeorando con tiempo.</p>
-
-                <div class="formula">Julio → Diciembre (6 meses)<br>
-Empezaste: $4,200<br>
-Terminaste: $4,600<br>
-Crecimiento: +$400 en 6 meses<br>
-Tendencia: +$67/mes promedio<br>
-<br>
-PROYECCIÓN ENERO: $4,600 (dic) + $67 (tendencia) = $4,667<br>
-PROYECCIÓN FEBRERO: $4,667 + $67 = $4,734</div>
-                <ul>
-                    <li>Precisión: 75-85%</li>
-                    <li>Ventaja: cuenta momentum</li>
-                    <li>Desventaja: asume tendencia continúa</li>
-                </ul>
-
-                <p><strong>Método #3: Estacionalidad (Avanzado)</strong></p>
-                <p>Concepto: ciertos meses son mejores/peores consistentemente.</p>
-
-                <div class="compare-table">
-                    <div class="compare-title">Enero</div>
-                    <div class="compare-row"><span class="label">2023</span><span class="value">$3,800</span></div>
-                    <div class="compare-row"><span class="label">2024</span><span class="value">$4,100</span></div>
-                    <div class="compare-row"><span class="label">Promedio</span><span class="value">$3,950 ⚠️</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">Febrero</div>
-                    <div class="compare-row"><span class="label">2023</span><span class="value">$3,600</span></div>
-                    <div class="compare-row"><span class="label">2024</span><span class="value">$3,900</span></div>
-                    <div class="compare-row"><span class="label">Promedio</span><span class="value">$3,750 🔴</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">Marzo</div>
-                    <div class="compare-row"><span class="label">2023</span><span class="value">$4,200</span></div>
-                    <div class="compare-row"><span class="label">2024</span><span class="value">$4,500</span></div>
-                    <div class="compare-row"><span class="label">Promedio</span><span class="value">$4,350 🟡</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">Octubre</div>
-                    <div class="compare-row"><span class="label">2023</span><span class="value">$5,200</span></div>
-                    <div class="compare-row"><span class="label">2024</span><span class="value">$5,400</span></div>
-                    <div class="compare-row"><span class="label">Promedio</span><span class="value accent">$5,300 🟢🟢</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">Noviembre</div>
-                    <div class="compare-row"><span class="label">2023</span><span class="value">$5,600</span></div>
-                    <div class="compare-row"><span class="label">2024</span><span class="value">$5,800</span></div>
-                    <div class="compare-row"><span class="label">Promedio</span><span class="value accent">$5,700 🟢🟢</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">Diciembre</div>
-                    <div class="compare-row"><span class="label">2023</span><span class="value">$5,400</span></div>
-                    <div class="compare-row"><span class="label">2024</span><span class="value">$5,600</span></div>
-                    <div class="compare-row"><span class="label">Promedio</span><span class="value accent">$5,500 🟢🟢</span></div>
-                </div>
-
-                <p><strong>Patrones identificados:</strong></p>
-                <ul>
-                    <li>Q1 (Ene-Mar): -15% bajo promedio</li>
-                    <li>Q2 (Abr-Jun): +5% sobre promedio</li>
-                    <li>Q3 (Jul-Sep): Promedio</li>
-                    <li>Q4 (Oct-Dic): +25% sobre promedio</li>
-                </ul>
-
-                <div class="formula">PROYECCIÓN ENERO 2025:<br>
-Base tendencia: $4,667<br>
-Ajuste estacional: -15%<br>
-= $4,667 × 0.85 = $3,967</div>
-                <ul>
-                    <li>Precisión: 85-90% (con 2+ años datos)</li>
-                    <li>Ventaja: muy preciso</li>
-                    <li>Desventaja: necesita historial largo</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>Forecasting engine en Smart Load</h2>
-
-                <div class="formula">PROYECCIÓN DE GANANCIA<br>
-<br>
-Modelo: Estacionalidad + Tendencia<br>
-Basado en: 18 meses historial<br>
-<br>
-PRÓXIMOS 3 MESES:<br>
-<br>
-ENERO 2025<br>
-├─ Proyección: $4,100-4,400<br>
-├─ Confianza: 87% 🟢<br>
-├─ Factores:<br>
-│ • Mes históricamente bajo<br>
-│ • Pero tendencia mejorando<br>
-└─ Cargas necesarias: 22-24<br>
-<br>
-FEBRERO 2025<br>
-├─ Proyección: $3,900-4,200<br>
-├─ Confianza: 85% 🟢<br>
-├─ Factores:<br>
-│ • Mes más bajo del año<br>
-│ • Plan contingencia necesario<br>
-└─ Cargas necesarias: 20-22<br>
-<br>
-MARZO 2025<br>
-├─ Proyección: $4,500-4,800<br>
-├─ Confianza: 88% 🟢<br>
-├─ Factores:<br>
-│ • Rebote post-febrero<br>
-│ • Preparando Q2 fuerte<br>
-└─ Cargas necesarias: 24-26<br>
-<br>
-RIESGOS IDENTIFICADOS:<br>
-• Febrero bajo - asegura gastos<br>
-están cubiertos<br>
-• Evita gastos grandes en Q1<br>
-<br>
-OPORTUNIDADES:<br>
-• Q4 2025 proyecta $6,200-6,800<br>
-• Perfecto para expansion/van #2</div>
-            </section>
-
-            <section>
-                <h2>Tracking en tiempo real vs forecast</h2>
-
-                <p><strong>Sistema "Pace Tracking":</strong></p>
-
-                <div class="formula">PROGRESO DICIEMBRE<br>
-<br>
-HOY: 15 de diciembre<br>
-Días transcurridos: 15/31 (48%)<br>
-<br>
-FORECAST MES COMPLETO:<br>
-└─ $5,500 (optimista)<br>
-<br>
-GANANCIA HASTA HOY:<br>
-└─ $2,850<br>
-<br>
-PACE (¿Vas bien?):<br>
-Deberías tener: $5,500 × 48% = $2,640<br>
-Tienes: $2,850<br>
-Diferencia: +$210 🟢 (8% adelante)<br>
-<br>
-PROYECCIÓN REVISADA:<br>
-Si continúas este pace:<br>
-$2,850 ÷ 0.48 = $5,938 🚀<br>
-<br>
-INSIGHT:<br>
-Vas 8% adelante del forecast.<br>
-Si mantienes pace, superarás meta<br>
-por $438. ¡Sigue así!</div>
-
-                <p><strong>Alertas de pace:</strong></p>
-                <ul>
-                    <li>🟢 +5% o más adelante: Excelente</li>
-                    <li>🟡 ±5% de forecast: En camino</li>
-                    <li>🔴 -5% o más atrás: Necesitas acelerar</li>
-                </ul>
-
-                <div class="note warning">
-                    <span class="note-label">Si a mitad de mes estás -10% atrás</span>
-                    <p>Necesitas 2-3 cargas extra para compensar. Actúa YA, no esperes fin de mes.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Escenarios "qué pasa si"</h2>
-
-                <div class="compare-table">
-                    <div class="compare-title">Escenario base (más probable — 70%)</div>
-                    <div class="compare-row"><span class="label">Cargas/mes</span><span class="value">24</span></div>
-                    <div class="compare-row"><span class="label">RPM promedio</span><span class="value">$1.58/mi</span></div>
-                    <div class="compare-row"><span class="label">Millas/mes</span><span class="value">7,200</span></div>
-                    <div class="compare-row"><span class="label">Ganancia</span><span class="value accent">$4,500</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">Escenario optimista (15%)</div>
-                    <div class="compare-row"><span class="label">Cargas/mes</span><span class="value">28 (+4)</span></div>
-                    <div class="compare-row"><span class="label">RPM promedio</span><span class="value">$1.68/mi (+$0.10)</span></div>
-                    <div class="compare-row"><span class="label">Ganancia</span><span class="value accent">$6,100 (+$1,600)</span></div>
-                    <div class="compare-row"><span class="label">Razón</span><span class="value">Todos brokers Tier 1 tienen mucho trabajo</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">Escenario pesimista (15%)</div>
-                    <div class="compare-row"><span class="label">Cargas/mes</span><span class="value">18 (-6)</span></div>
-                    <div class="compare-row"><span class="label">RPM promedio</span><span class="value">$1.45/mi (-$0.13)</span></div>
-                    <div class="compare-row"><span class="label">Ganancia</span><span class="value">$2,800 (-$1,700)</span></div>
-                    <div class="compare-row"><span class="label">Razón</span><span class="value">Mercado lento, competencia alta</span></div>
-                </div>
-
-                <p><strong>Plan de acción por escenario:</strong></p>
-                <ul>
-                    <li><strong>Si Base (70%):</strong> continúa plan normal</li>
-                    <li><strong>Si Optimista (15%):</strong> ahorra extra para meses lentos, considera expansión</li>
-                    <li><strong>Si Pesimista (15%):</strong> reduce gastos no esenciales, activa búsqueda agresiva de cargas</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>Conclusión clave</h2>
-
-                <p><strong>3 métodos principales:</strong></p>
-                <ol>
-                    <li><strong>Promedio Simple</strong> (70-80% precisión) — rápido pero no cuenta tendencias</li>
-                    <li><strong>Tendencia Lineal</strong> (75-85% precisión) — mejor, cuenta momentum</li>
-                    <li><strong>Estacionalidad + Tendencia</strong> (85-90% precisión) — más preciso, necesita historial largo</li>
-                </ol>
-
-                <p><strong>Aplicaciones prácticas:</strong></p>
-                <ul>
-                    <li>Decisiones de gastos grandes</li>
-                    <li>Timing de expansión</li>
-                    <li>Tamaño de reserva de emergencia</li>
-                    <li>Planificación de vacaciones</li>
-                </ul>
-
-                <div class="note tip">
-                    <span class="note-label">Sistema "Pace Tracking"</span>
-                    <ul>
-                        <li>Compara progreso actual vs forecast</li>
-                        <li>A mitad de mes sabes si vas bien</li>
-                        <li>Tiempo para corregir si necesario</li>
-                        <li>No esperas fin de mes</li>
-                    </ul>
-                </div>
-
-                <div class="conclusion">
-                    <p class="lead">El poder del forecasting NO es predecir con 100% precisión. Es <span class="accent">eliminar sorpresas</span>.</p>
-                    <p class="sub">La diferencia entre "Espero que mes sea bueno" y "Proyecto $4,200-4,600, voy en camino" es la diferencia entre adivinar y SABER.</p>
-                </div>
-            </section>
-
+    <header>
+        <div class="al-kicker">Módulo 5 · Lección 4</div>
+        <h1 class="al-title">Planificar el mes: escenarios</h1>
+        <div class="al-meta">
+            <span class="al-chip">8 min de lectura</span>
+            <span class="al-chip">Finanzas</span>
+            <span class="al-chip">Pro</span>
         </div>
+    </header>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+    <section class="al-learn">
+        <div class="al-learn-title">Lo que vas a aprender</div>
+        <ol>
+            <li>La fórmula para planear tu mes.</li>
+            <li>Cómo cambia la ganancia con RPM, vacío, gasolina y millas.</li>
+            <li>Cómo medir el mes mientras pasa.</li>
+        </ol>
+    </section>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como
-                completada</button>
-            <nav class="lesson-nav">
-                <a href="lesson-3.html" class="btn btn-secondary">← Lección anterior</a>
-                <a href="index.html" class="btn btn-primary">Volver al módulo →</a>
-            </nav>
-        </footer>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>Una fórmula basta</h2>
+        <p>No necesitas un modelo complicado para planear el mes. Con tres números tienes una buena idea de lo que viene:</p>
+        <div class="al-formula">Ganancia del mes = millas × (RPM − costo por milla)</div>
+        <p>Con 8,000 millas, RPM de $0.96 y costo de $0.59: 8,000 × $0.37 = <strong>$2,960</strong>.</p>
+    </section>
 
-        
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>Tu escenario</h2>
+        <div class="al-calc" id="alCalc">
+            <div class="al-calc-grid">
+                <div class="al-field"><label for="pMi">Millas al mes</label><input id="pMi" type="number" inputmode="decimal" step="any" value="8000"></div>
+                <div class="al-field"><label for="pRpm">RPM promedio ($)</label><input id="pRpm" type="number" inputmode="decimal" step="any" value="0.96"></div>
+                <div class="al-field"><label for="pCosto">Costo por milla ($)</label><input id="pCosto" type="number" inputmode="decimal" step="any" value="0.59"></div>
+            </div>
+            <div class="al-calc-out">
+                <div class="al-out">Ingresos<b id="oIng">—</b></div>
+                <div class="al-out">Gastos<b id="oGas">—</b></div>
+                <div class="al-calc-total"><span>Ganancia del mes</span><b id="oGan">—</b></div>
+            </div>
+        </div>
+    </section>
 
-        
-    </article>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>¿Qué pasa si…?</h2>
+        <table class="al-table">
+            <caption>Sobre 8,000 millas al mes</caption>
+            <tr><td>Subes el RPM $0.10<span class="al-sub">Negociando mejor (módulo 4)</span></td><td class="al-num-cell al-green">+$800</td></tr>
+            <tr><td>Bajas el vacío 400 millas<span class="al-sub">Mismos ingresos, menos costo a $0.59</span></td><td class="al-num-cell al-green">+$236</td></tr>
+            <tr><td>La gasolina sube $0.50 por galón<span class="al-sub">Con 19 MPG: $0.026 más por milla</span></td><td class="al-num-cell al-red">-$211</td></tr>
+            <tr><td>Haces 10% menos millas<span class="al-sub">Los fijos siguen igual: el costo por milla sube</span></td><td class="al-num-cell al-red">-$296 o más</td></tr>
+        </table>
+        <div class="al-callout">
+            <div class="al-callout-label">Dónde está el dinero</div>
+            <p>Diez centavos más de RPM valen más que casi cualquier ahorro. Por eso negociar bien es la palanca más grande.</p>
+        </div>
+    </section>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 5, LESSON_NUM = 4;
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>Mide el mes mientras pasa</h2>
+        <ul class="al-checklist">
+            <li><strong>Cada viernes:</strong> mira en Finanzas cuánto llevas y cuántas millas faltan para tu número.</li>
+            <li><strong>A mitad de mes:</strong> si vas atrás, prioriza cargas largas en tu circuito.</li>
+            <li><strong>Temporadas:</strong> anota qué meses fueron flojos este año para planear el siguiente.</li>
+        </ul>
+        <div class="al-callout is-app">
+            <div class="al-callout-label">Pregúntale a Lex</div>
+            <p>"¿Cómo voy este mes?" Lex te dice cuánto llevas con tus datos de Finanzas.</p>
+        </div>
+    </section>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'Más Allá de "Cuánto Gané": Tracking Financiero Real', time: '12 min' },
-            { num: 2, title: 'KPIs que Predicen Éxito o Fracaso', time: '15 min' },
-            { num: 3, title: 'Análisis de Rentabilidad por Ruta', time: '14 min' },
-            { num: 4, title: 'Forecasting y Planificación: Predecir Ingresos Futuros', time: '13 min' },
-            { num: 5, title: 'Cuándo Expandir: Segunda Van y Escalamiento', time: '16 min' }
-        ];
+    <section class="al-summary">
+        <h2>En resumen</h2>
+        <ul>
+            <li>Ganancia = millas × (RPM − costo por milla).</li>
+            <li>Diez centavos de RPM pesan más que casi cualquier ahorro.</li>
+            <li>Revisa cada semana cuánto llevas contra tu número.</li>
+        </ul>
+    </section>
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: 'Según el Método #1 (Promedio Móvil) con ganancias de julio-diciembre sumando $26,600, ¿cuál fue el promedio mensual proyectado?',
-                options: ['$4,600', '$4,433', '$4,200', '$5,000'],
-                correctIndex: 1
-            },
-            {
-                question: 'Según el Método #2 (Tendencia Lineal), con una tendencia de +$67/mes y diciembre en $4,600, ¿cuál fue la proyección de enero?',
-                options: ['$4,600', '$4,433', '$4,667', '$4,734'],
-                correctIndex: 2
-            },
-            {
-                question: 'Según el Método #3 (Estacionalidad), ¿qué trimestre mostró un +25% sobre el promedio?',
-                options: ['Q1 (Ene-Mar)', 'Q2 (Abr-Jun)', 'Q3 (Jul-Sep)', 'Q4 (Oct-Dic)'],
-                correctIndex: 3
-            },
-            {
-                question: '¿Cuál es la ventaja principal del Método #3 (Estacionalidad) sobre los otros dos métodos?',
-                options: [
-                    'Es el más simple de calcular',
-                    'No necesita ningún historial',
-                    'Mayor precisión (85-90%) porque considera patrones consistentes por mes',
-                    'No tiene ninguna desventaja'
-                ],
-                correctIndex: 2
-            }
-        ];
+    <section class="lesson-quiz" id="lessonQuiz"></section>
 
-function markLessonComplete() {
-    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress) {
-        window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-            btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-            btn.style.background = 'linear-gradient(135deg, #F5B03A, #F5B03A)';
-            btn.classList.remove('quiz-locked');
-            btn.removeAttribute('title');
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
+        <nav class="lesson-nav">
+            <a href="lesson-3.html" class="al-btn al-btn-ghost">← Lección anterior</a>
+            <a href="lesson-5.html" class="al-btn al-btn-primary">Siguiente: segunda van →</a>
+        </nav>
+    </footer>
+</article>
+
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 5;
+    const LESSON_NUM = 4;
+    const LESSON_LIST = [
+        { num: 1, title: "Más allá de \"cuánto gané\"", time: '8 min' },
+        { num: 2, title: "Los KPIs que importan", time: '9 min' },
+        { num: 3, title: "Rentabilidad por ruta, zona y broker", time: '8 min' },
+        { num: 4, title: "Planificar el mes: escenarios", time: '8 min' },
+        { num: 5, title: "Cuándo pensar en una segunda van", time: '9 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+  {
+    "question": "8,000 millas, RPM $0.96 y costo $0.59. ¿Ganancia del mes?",
+    "options": [
+      "$7,680",
+      "$4,720",
+      "$2,960",
+      "$1,976"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "question": "¿Cuánto vale subir el RPM $0.10 en 8,000 millas?",
+    "options": [
+      "$80",
+      "$800",
+      "$8,000",
+      "$10"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "Con 19 MPG, ¿cuánto sube tu costo por milla si la gasolina sube $0.50 por galón?",
+    "options": [
+      "$0.50",
+      "$0.026",
+      "$0.19",
+      "$0.10"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "¿Por qué hacer menos millas sube tu costo por milla?",
+    "options": [
+      "Porque sube la gasolina",
+      "Porque los costos fijos se reparten entre menos millas",
+      "No lo sube",
+      "Por los peajes"
+    ],
+    "correctIndex": 1
+  }
+];
+
+    (function () {
+        const v = (id) => Math.max(0, parseFloat(document.getElementById(id).value) || 0);
+        const $ = (n) => (n < 0 ? '-$' : '$') + Math.abs(Math.round(n)).toLocaleString('en-US');
+        function calc() {
+            const mi = v('pMi'), rpm = v('pRpm'), c = v('pCosto');
+            document.getElementById('oIng').textContent = $(mi * rpm);
+            document.getElementById('oGas').textContent = $(mi * c);
+            document.getElementById('oGan').textContent = $(mi * (rpm - c));
+        }
+        document.querySelectorAll('#alCalc input').forEach(i => i.addEventListener('input', calc));
+        calc();
+    })();
+
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada";
             btn.disabled = true;
-            btn.dataset.lessonDone = 'true';
-        });
-        alert(isEs ? '¡Lección PRO completada! 🔮\nAhora sabes 3 métodos de forecasting.\nPace tracking elimina sorpresas.' : 'PRO Lesson completed! 🔮\n3 forecasting methods mastered.\nPace tracking eliminates surprises.');
-    }
-}
-
-document.addEventListener('DOMContentLoaded', async () => {
-    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-
-    if (window.AcademySidebar) {
-        await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Análisis Financiero & KPIs', LESSON_LIST);
+        }
     }
 
-    const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-    if (alreadyDone) {
-        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-            btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-            btn.style.background = 'linear-gradient(135deg, #F5B03A, #F5B03A)';
-            btn.classList.remove('quiz-locked');
-            btn.removeAttribute('title');
-            btn.disabled = true;
-            btn.dataset.lessonDone = 'true';
-        });
-        const quizEl = document.getElementById('lessonQuiz');
-        if (quizEl) quizEl.style.display = 'none';
-    } else if (window.AcademyQuiz) {
-        await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-    }
-});
-    </script>
-
-  
-
-
-
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, "Análisis financiero y KPIs", LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada"; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>
