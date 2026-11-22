@@ -1,94 +1,36 @@
 <!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lex AI: Your Decision Copilot | Smart Load Academy</title>
-    <meta name="description" content="You have successfully completed Module 2.">
+    <title>Lex: your decision copilot | Smart Load Academy</title>
+    <meta name="description" content="What to ask Lex, how to paste an offer to fill in the calculator and how to read its verdicts.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: .875rem
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: .75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all .3s ease
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
-            color: #fff
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, .1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .2)
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/en/academy/module-2/lesson-6.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-6.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-6.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-6.html">
+    <link rel="canonical" href="https://smartloadsolution.com/en/academy/module-2/lesson-6.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-6.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-6.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-6.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Back to App</a></nav>
-    <aside class="lesson-sidebar" id="lessonSidebar">
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Back to App</a></nav>
+
+<aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
         <div>
             <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
@@ -98,267 +40,199 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Module lessons">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Module lessons">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
-        <nav class="breadcrumb">
-            <a href="/en/academy.html">← Academy</a> → <a href="index.html">Module 2</a> → Lesson 6
-        </nav>
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/en/academy.html">Academy</a> / <a href="index.html">Module 2</a> / Lesson 6</nav>
 
-        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
-            <h1>Lex AI: Your Decision Copilot</h1>
-            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
-                <span>📖 8 min read</span>
-                <span>🎓 Module 2 - Lesson 6</span>
-                <span>🧠 New</span>
-            </div>
-        </header>
-
-        <div class="lesson-content">
-
-            <section>
-                <h2>What is Lex AI?</h2>
-                <p>Lex is the AI assistant built into Smart Load Solution. You'll find it as a chat icon inside the app. The difference from a generic chatbot: Lex doesn't improvise generic answers — it uses <strong>your real data</strong>: your calculated CPM, your historical average RPM, your target margin, your registered loads by state, and even the weather at your destination.</p>
-                <p>That means when you ask "should I take this load?", you don't get a generic industry opinion. You get an answer calculated against <strong>your</strong> cost structure and <strong>your</strong> history.</p>
-            </section>
-
-            <section>
-                <h2>What to ask it</h2>
-
-                <p><strong>1. About the load on your screen</strong></p>
-                <p>If you already entered the data in the Calculator, you don't need to repeat it to Lex. Just ask:</p>
-                <ul>
-                    <li>"should I take it?"</li>
-                    <li>"what do you think of this load?"</li>
-                    <li>"analyze it"</li>
-                </ul>
-                <p>Lex already knows the route, miles, rate, and RPM you have on the panel — it answers about <strong>that</strong> load automatically.</p>
-
-                <p><strong>2. Pasting raw load board text</strong></p>
-                <p>Copy the text exactly as it appears on the load board or in the broker's message (with price, miles, and cities) and paste it into the chat. Lex parses it and can fill the Calculator for you — no manual transcribing.</p>
-
-                <p><strong>3. About a state or lane</strong></p>
-                <ul>
-                    <li>"how has Ohio worked out for me?"</li>
-                    <li>"is Chicago worth it for me?"</li>
-                </ul>
-                <p>It answers using data from <strong>your</strong> past loads in that zone, not generic industry averages.</p>
-
-                <p><strong>4. About your finances this month</strong></p>
-                <ul>
-                    <li>"how am I doing this month?"</li>
-                    <li>"compare me to last month"</li>
-                </ul>
-
-                <p><strong>5. To save operational experience</strong></p>
-                <p>You can tell it something like:</p>
-                <ul>
-                    <li>"save a note for Ohio: brokers pay late, negotiate before accepting"</li>
-                </ul>
-                <p>That note gets attached to that state, and Lex will automatically bring it up next time you analyze a load heading there.</p>
-            </section>
-
-            <section>
-                <h2>How to read its answers</h2>
-                <p>When Lex analyzes a load, it ends its answer with one of four verdicts:</p>
-
-                <div class="compare-table">
-                    <div class="compare-row"><span class="label">Accept</span><span class="value accent">RPM at or above your acceptance threshold</span></div>
-                    <div class="compare-row"><span class="label">Almost accept</span><span class="value">Close to your threshold — worth negotiating a bit more</span></div>
-                    <div class="compare-row"><span class="label">Evaluate carefully</span><span class="value">Above your cost but with a thin margin</span></div>
-                    <div class="compare-row"><span class="label">Reject</span><span class="value">RPM below your real CPM — you'd be losing money</span></div>
-                </div>
-
-                <p>Before giving you the verdict, Lex shows the numbers it used (RPM, cost, profit) so you can verify the calculation yourself — it's not a black box.</p>
-
-                <div class="note tip">
-                    <span class="note-label">Tip</span>
-                    <p>If the load is heading into snow, ice, or a thunderstorm, Lex will flag it directly in its answer — it factors destination weather into the analysis.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>3 real cases</h2>
-
-                <div class="note tip">
-                    <span class="note-label">Case 1: "Lex, should I take this load?"</span>
-                    <p><strong>Situation:</strong> You have a Detroit → Nashville load loaded in the Calculator: $900, 550 miles.</p>
-                    <p><strong>You:</strong> "should I take it?"</p>
-                    <p><strong>Lex:</strong> "RPM: $1.59/mi. Your real CPM is $1.10/mi, so your profit is $296 (33% margin). That's above your acceptance threshold of $1.35/mi. <strong>ACCEPT</strong>."</p>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">Case 2: load pasted from the board</span>
-                    <p><strong>Situation:</strong> The broker texts you: "Nashville, TN to Laredo, TX – $1,400 – 1240 miles".</p>
-                    <p><strong>You:</strong> paste that exact text into Lex's chat.</p>
-                    <p><strong>Lex:</strong> detects route, rate, and miles, fills the Calculator automatically, and gives you the analysis: "RPM: $1.13/mi. With your CPM of $1.10/mi the margin is only 7% ($98 profit). <strong>EVALUATE CAREFULLY</strong> — I'd suggest countering at $1,550."</p>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">Case 3: decision with saved notes</span>
-                    <p><strong>Situation:</strong> Weeks ago you saved: "save a note for Ohio: brokers pay late, negotiate before accepting". Now you're offered a load heading to Ohio.</p>
-                    <p><strong>You:</strong> "what do you think of this load to Ohio?"</p>
-                    <p><strong>Lex:</strong> analyzes the RPM as usual, but also reminds you: "Note: in your past experience in Ohio, brokers have paid late — negotiate payment terms before accepting."</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Limits to keep in mind</h2>
-                <ul>
-                    <li>Lex has a daily message limit — use it for decisions that actually need it, not for purposeless chat.</li>
-                    <li>Its financial answers depend on you having loads and expenses logged in the app — if you don't enter data, it has nothing real to pull your context from.</li>
-                    <li>Lex helps you decide faster, it doesn't replace your judgment. The final call is always yours.</li>
-                </ul>
-            </section>
-
-            <section>
-                <div class="conclusion">
-                    <p class="lead">You have successfully completed <span class="accent">Module 2</span>.</p>
-                    <p class="sub">You now command the Calculator, deadhead thinking, the accept/negotiate/decline framework, and have Lex AI as your copilot.</p>
-                </div>
-
-                <p><strong>What you just mastered:</strong></p>
-                <div class="checklist">
-                    <span class="checklist-label">Mastered</span>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Basic and advanced load calculations</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Deadhead vs loaded miles (thinking in complete cycles)</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">The Accept/Negotiate/Decline decision framework</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Dodging the most common, costly data entry errors</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Learning from Carlos's real-world breakthrough</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Lex AI as your decision copilot</span></div>
-                </div>
-
-                <p><strong>Your new superpowers:</strong></p>
-                <div class="checklist">
-                    <span class="checklist-label">Superpowers</span>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Evaluating complex loads in under 30 seconds</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Operating with 99% financial accuracy</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Spotting phantom profits BEFORE you sign a rate con</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Negotiating like an absolute pro, backed by real math</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Protecting $200-$500 per load from stupid mistakes</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Asking Lex before deciding on borderline loads</span></div>
-                </div>
-
-                <div class="pull-number">
-                    <div class="value">40%</div>
-                    <p class="context">of the entire course complete.</p>
-                </div>
-            </section>
-
+    <header>
+        <div class="al-kicker">Module 2 · Lesson 6</div>
+        <h1 class="al-title">Lex: your decision copilot</h1>
+        <div class="al-meta">
+            <span class="al-chip">7 min read</span>
+            <span class="al-chip">Practice</span>
+            <span class="al-chip is-free">Free</span>
         </div>
+    </header>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+    <section class="al-learn">
+        <div class="al-learn-title">What you will learn</div>
+        <ol>
+            <li>What to ask Lex and which data it uses.</li>
+            <li>How to paste the text of an offer to fill in the calculator.</li>
+            <li>How to read its verdicts and what its limits are.</li>
+        </ol>
+    </section>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Complete Module 2</button>
-            <nav class="lesson-nav">
-                <a href="lesson-5.html" class="btn btn-secondary">← Previous Lesson</a>
-                <a href="../../academy.html" class="btn btn-primary">Back to Academy Hub →</a>
-            </nav>
-        </footer>
-            </article>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>What Lex is</h2>
+        <p>Lex is the app assistant. You open it with the chat button. Unlike a generic chatbot, it answers with <strong>your</strong> data: your cost per mile, your target margin, your saved loads, your notes and, when available, the weather at the destination.</p>
+    </section>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 2, LESSON_NUM = 6;
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>What to ask</h2>
+        <table class="al-table">
+            <tr><td><strong>The load on your screen</strong><span class="al-sub">"Should I take it?", "analyze it". Lex uses the panel numbers: you do not have to repeat them</span></td></tr>
+            <tr><td><strong>A state or zone</strong><span class="al-sub">"How have I done in Ohio?" It answers with your loads saved there</span></td></tr>
+            <tr><td><strong>Your month</strong><span class="al-sub">"How am I doing this month?" It uses what you have in Finances</span></td></tr>
+            <tr><td><strong>Saving a note</strong><span class="al-sub">In Spanish, Lex recognizes "guarda una nota para Laredo: poca carga de salida" and saves it for that place</span></td></tr>
+        </table>
+    </section>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'How to Use the Calculator Correctly', time: '10 min' },
-            { num: 2, title: 'Loaded Miles vs Deadhead Miles: How to Think About Both Together', time: '9 min' },
-            { num: 3, title: 'Interpreting the Result: Accept, Negotiate, or Decline', time: '8 min' },
-            { num: 4, title: 'Common Data Entry Mistakes (And How to Avoid Them)', time: '8 min' },
-            { num: 5, title: 'Case Study: Carlos\'s Transformation', time: '10 min' },
-            { num: 6, title: 'Lex AI: Your Decision Copilot', time: '8 min' }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>Paste the text of an offer</h2>
+        <p>Copy the offer text from the load board or the broker message and paste it in the chat. Lex reads the rate, the miles and, if it is there, the deadhead, and puts them in the calculator.</p>
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: 'Per the lesson, what makes Lex AI different from a generic chatbot?',
-                options: [
-                    'It only responds in English',
-                    'It uses your real data: CPM, historical RPM, target margin, state history',
-                    'It only works if you pay for the Premium plan',
-                    'It can\'t analyze loads, only answer general questions'
-                ],
-                correctIndex: 1
-            },
-            {
-                question: 'If you already have a load loaded in the Calculator, what do you need to do for Lex to analyze it?',
-                options: [
-                    'Manually copy and paste all the data into the chat',
-                    'Nothing special — just ask "should I take it?" and Lex already knows that load\'s data',
-                    'Close the Calculator first',
-                    'Turn on a special mode in Settings'
-                ],
-                correctIndex: 1
-            },
-            {
-                question: 'Per Lex\'s verdict table, what does "EVALUATE CAREFULLY" mean?',
-                options: [
-                    'RPM below your real CPM, you\'re losing money',
-                    'Above your cost but with a thin margin — depends on your context',
-                    'RPM at or above your acceptance threshold',
-                    'Close to the threshold, worth negotiating'
-                ],
-                correctIndex: 1
-            },
-            {
-                question: 'What happens if you tell Lex "save a note for Ohio: brokers pay late"?',
-                options: [
-                    'Nothing, Lex can\'t save information',
-                    'That note gets attached to Ohio and Lex will automatically bring it up in future analyses heading there',
-                    'A report gets sent to Smart Load Solution support',
-                    'It only works if you write it in Spanish'
-                ],
-                correctIndex: 1
-            }
-        ];
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Lex · Chat</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/lex-pegar-oferta-movil-en.png" width="780" height="1386"><img src="/academy/img/app/lex-pegar-oferta-en.png" alt="Lex chat that detected a 722-mile load for 1,350 dollars with 30 miles of deadhead." loading="lazy" width="840" height="1107"></picture>
+            </div>
+            <figcaption><b>Lex fills in the calculator</b> with miles, rate and deadhead. Reading pasted text does not use AI messages.</figcaption>
+        </figure>        <div class="al-callout is-warn">
+            <div class="al-callout-label">Check two things</div>
+            <p>The RPM Lex shows in this message is rate ÷ loaded miles. The panel RPM uses total miles, empty miles included. And type or check the origin and destination in the calculator: without a route, the panel does not calculate.</p>
+        </div>
+    </section>
 
-        function markLessonComplete() {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress) {
-                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Módulo 2 Completado' : '✓ Module 2 Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                alert(isEs ? '¡Módulo 2 completado! 🎉\nHas dominado el Calculator y a Lex AI.\n¿Listo para el Módulo 3?' : 'Module 2 completed! 🎉\nYou have mastered the Calculator and Lex AI.\nReady for Module 3?');
-            }
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>How to read its answers</h2>
+        <p>When it analyzes a load, Lex ends with one of these verdicts and shows you the numbers it used:</p>
+        <table class="al-table">
+            <tr><td><span class="al-green"><strong>ACCEPT</strong></span><span class="al-sub">RPM reaches your threshold</span></td></tr>
+            <tr><td><span class="al-amber"><strong>ALMOST ACCEPT / EVALUATE CAREFULLY</strong></span><span class="al-sub">It covers your cost, but the margin is thin: negotiate</span></td></tr>
+            <tr><td><span class="al-red"><strong>REJECT</strong></span><span class="al-sub">RPM is below your cost: you would lose money</span></td></tr>
+        </table>
+        <p>For the load on your screen, Lex follows the panel verdict. If there is snow, ice or a storm at the destination, it warns you.</p>
+    </section>
+
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">05</span>Three real uses</h2>
+        <div class="al-callout">
+            <div class="al-callout-label">1 · Should I take it?</div>
+            <p>With Detroit → Nashville for $900 on screen, you ask "should I take it?". Lex gives you the RPM ($1.63), your cost, the profit (about $596) and its verdict: ACCEPT.</p>
+        </div>        <div class="al-callout">
+            <div class="al-callout-label">2 · Pasted offer</div>
+            <p>You paste "Load to Atlanta: $1,350 for 722 miles, DH 30mi". Lex fills in the calculator and asks whether to analyze it.</p>
+        </div>        <div class="al-callout">
+            <div class="al-callout-label">3 · Your notes</div>
+            <p>Weeks ago you saved a note for Laredo: little outbound freight. When you analyze another load into Laredo, Lex reminds you.</p>
+        </div>
+    </section>
+
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">06</span>Limits</h2>
+        <ul class="al-checklist">
+            <li>Lex has a daily message limit depending on your plan. Use it for decisions, not for chatting.</li>
+            <li>Its answers about your business depend on you saving your loads and expenses.</li>
+            <li>Lex helps you decide faster. The final decision is yours.</li>
+        </ul>
+    </section>
+
+    <section class="al-summary">
+        <h2>In summary</h2>
+        <ul>
+            <li>Lex answers with your costs, your loads and your notes.</li>
+            <li>Paste an offer and Lex fills in miles, rate and deadhead.</li>
+            <li>For the load on screen, Lex follows the panel verdict.</li>
+        </ul>
+    </section>
+    <section class="al-done">
+        <h2>Module 2 complete</h2>
+        <p>You now know how to fill in the calculator without mistakes, count empty miles, read the verdict, negotiate with the suggested price and use Lex to decide.</p>
+        <p><a class="al-btn al-btn-primary" href="/en/academy/module-3/index.html">Go to module 3 →</a></p>
+    </section>
+    <section class="lesson-quiz" id="lessonQuiz"></section>
+
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as complete</button>
+        <nav class="lesson-nav">
+            <a href="lesson-5.html" class="al-btn al-btn-ghost">← Previous lesson</a>
+            <a href="/en/academy/module-3/index.html" class="al-btn al-btn-primary">Go to module 3 →</a>
+        </nav>
+    </footer>
+</article>
+
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 2;
+    const LESSON_NUM = 6;
+    const LESSON_LIST = [
+        { num: 1, title: "How to use the calculator step by step", time: '9 min' },
+        { num: 2, title: "Loaded and empty miles: one single trip", time: '8 min' },
+        { num: 3, title: "Reading the result: accept, negotiate or reject", time: '9 min' },
+        { num: 4, title: "7 mistakes when filling in the calculator", time: '8 min' },
+        { num: 5, title: "Case study: two loads with the numbers", time: '8 min' },
+        { num: 6, title: "Lex: your decision copilot", time: '7 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+  {
+    "question": "You have a load in the calculator. What do you ask Lex?",
+    "options": [
+      "You have to repeat all the data",
+      "\"Should I take it?\" is enough: it uses the panel numbers",
+      "Lex cannot see the calculator",
+      "You must save the load first"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "You paste the text of an offer. What does Lex do?",
+    "options": [
+      "Nothing",
+      "Fills in miles, rate and deadhead in the calculator",
+      "Accepts the load",
+      "Calls the broker"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "Where does Lex get its answers about your business?",
+    "options": [
+      "From industry averages only",
+      "From your saved loads, expenses and notes",
+      "From the broker",
+      "It makes them up"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "The RPM Lex shows when you paste an offer…",
+    "options": [
+      "Is the same as the panel",
+      "Uses only loaded miles; the panel uses total miles",
+      "Includes tolls",
+      "Is the minimum RPM"
+    ],
+    "correctIndex": 1
+  }
+];
+
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completed";
+            btn.disabled = true;
         }
+    }
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-
-            if (window.AcademySidebar) {
-                await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Mastering the Numbers', LESSON_LIST);
-            }
-
-            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-
-            if (alreadyDone) {
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Módulo 2 Completado' : '✓ Module 2 Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                const quizEl = document.getElementById('lessonQuiz');
-                if (quizEl) quizEl.style.display = 'none';
-            } else if (window.AcademyQuiz) {
-                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-            }
-        });
-    </script>
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, "Mastering the numbers", LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completed"; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>

@@ -1,95 +1,36 @@
 <!DOCTYPE html><html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loaded Miles vs Deadhead Miles: Cómo Pensar Ambos Juntos | Smart Load Academia</title>
-    <meta name="description" content="Un load con alto pago + alto deadhead puede ser peor que un load con pago moderado + bajo deadhead.">
+    <title>Millas cargadas y en vacío | Smart Load Academia</title>
+    <meta name="description" content="Por qué las millas en vacío son parte del mismo viaje, cómo medir el porcentaje de vacío y cuánto pedir por él.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: .875rem
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: .75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all .3s ease
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
-            color: #fff
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, .1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .2)
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-  
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/academy/module-2/lesson-2.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-2.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-2.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-2.html">
+    <link rel="canonical" href="https://smartloadsolution.com/academy/module-2/lesson-2.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-2.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-2.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-2.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Volver a la App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Volver a la App</a></nav>
 
-    <aside class="lesson-sidebar" id="lessonSidebar">
+<aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
         <div>
             <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
@@ -99,278 +40,234 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/academy.html">Academia</a> / <a href="index.html">Módulo 2</a> / Lección 2</nav>
 
-        <!-- ========== ESPAÑOL ========== -->
-        
-        <nav class="breadcrumb">
-            <a href="/academy.html">← Academia</a> → <a href="index.html">Módulo 2</a> → Lección 2
-        </nav>
-
-        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
-            <h1>Loaded Miles vs Deadhead Miles: Cómo Pensar Ambos Juntos</h1>
-            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
-                <span>📖 9 min lectura</span>
-                <span>🎓 Módulo 2 - Lección 2</span>
-            </div>
-        </header>
-
-        <div class="lesson-content">
-
-            <section>
-                <h2>El concepto fundamental</h2>
-                <p>Loaded miles y deadhead miles no son dos cosas separadas. <strong>Son UN SOLO ciclo de trabajo.</strong></p>
-
-                <div class="note warning">
-                    <span class="note-label">Error común</span>
-                    <p>"Este load paga $1.50/milla por las loaded miles. El deadhead es solo 50 millas, no es gran cosa." Estás pensando en loaded como el "trabajo real" y deadhead como "extra menor".</p>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">Pensamiento correcto</span>
-                    <p>"Este load requiere que maneje 800 millas TOTAL para ganar $1,200."</p>
-                    <ul>
-                        <li>50 millas deadhead (no pagadas)</li>
-                        <li>750 millas loaded (pagadas)</li>
-                        <li>= 800 millas de trabajo REAL</li>
-                    </ul>
-                    <p>RPM del trabajo completo: <strong>$1.50/milla</strong></p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Deadhead ratio: la métrica crítica</h2>
-
-                <div class="formula">Deadhead Ratio = (Deadhead Miles ÷ Total Miles) × 100</div>
-                <p>Ejemplo: 50 deadhead ÷ 800 total = 6.25%</p>
-
-                <p><strong>Targets de deadhead ratio:</strong></p>
-                <div class="compare-table">
-                    <div class="compare-row"><span class="label">0-8%</span><span class="value accent">✅✅ Excellent</span></div>
-                    <div class="compare-row"><span class="label">8-12%</span><span class="value">✅ Good</span></div>
-                    <div class="compare-row"><span class="label">12-18%</span><span class="value">⚠️ Acceptable</span></div>
-                    <div class="compare-row"><span class="label">18-25%</span><span class="value">❌ Poor</span></div>
-                    <div class="compare-row"><span class="label">&gt;25%</span><span class="value">🚨 Terrible</span></div>
-                </div>
-
-                <p>Smart Load Solution te alerta con colores: Verde si &lt;12%, Amarillo si 12-18%, Rojo si &gt;18%.</p>
-            </section>
-
-            <section>
-                <h2>Caso comparativo</h2>
-
-                <div class="compare-grid">
-                    <div class="compare-table">
-                        <div class="compare-title">Load A</div>
-                        <div class="compare-row"><span class="label">Payment</span><span class="value">$1,500</span></div>
-                        <div class="compare-row"><span class="label">Loaded miles</span><span class="value">800</span></div>
-                        <div class="compare-row"><span class="label">Deadhead</span><span class="value">250</span></div>
-                        <div class="compare-row"><span class="label">Total miles</span><span class="value">1,050</span></div>
-                        <div class="compare-row"><span class="label">Deadhead ratio</span><span class="value">23.8%</span></div>
-                        <div class="compare-row"><span class="label">RPM real</span><span class="value">$1.43/mi</span></div>
-                    </div>
-                    <div class="compare-table">
-                        <div class="compare-title">Load B</div>
-                        <div class="compare-row"><span class="label">Payment</span><span class="value">$1,200</span></div>
-                        <div class="compare-row"><span class="label">Loaded miles</span><span class="value">750</span></div>
-                        <div class="compare-row"><span class="label">Deadhead</span><span class="value">50</span></div>
-                        <div class="compare-row"><span class="label">Total miles</span><span class="value">800</span></div>
-                        <div class="compare-row"><span class="label">Deadhead ratio</span><span class="value accent">6.25%</span></div>
-                        <div class="compare-row"><span class="label">RPM real</span><span class="value accent">$1.50/mi</span></div>
-                    </div>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">Veredicto</span>
-                    <p>Load B paga $300 menos pero genera $0.07/milla más de RPM y requiere 250 millas menos de trabajo. Load B es objetivamente mejor.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Regla rápida de compensación</h2>
-                <p><strong>Por cada 50 millas de deadhead adicional, necesitas $0.15-0.20 más por milla loaded para compensar.</strong></p>
-
-                <p><strong>Ejemplo:</strong></p>
-                <ul>
-                    <li>Deadhead normal en tu zona: 50 millas</li>
-                    <li>Load te requiere: 150 millas (100 extra)</li>
-                </ul>
-
-                <div class="formula">Compensación necesaria: 100 extra ÷ 50 = 2<br>2 × $0.15 = $0.30/milla adicional</div>
-
-                <p>Si tu rate normal es $1.50/milla, este load debería pagar <strong>$1.80/milla loaded</strong> para valer la pena.</p>
-            </section>
-
-            <section>
-                <h2>Estrategias para minimizar deadhead</h2>
-
-                <p><strong>1. Posicionamiento inteligente</strong></p>
-                <div class="compare-grid">
-                    <div class="compare-table">
-                        <div class="compare-title">Mala estrategia</div>
-                        <div class="compare-row"><span class="label">Resultado</span><span class="value">Zona muerta</span></div>
-                        <div class="compare-row"><span class="label">Espera típica</span><span class="value">48-72 horas</span></div>
-                        <div class="compare-row"><span class="label">Deadhead típico</span><span class="value">200-300 mi</span></div>
-                    </div>
-                    <div class="compare-table">
-                        <div class="compare-title">Buena estrategia</div>
-                        <div class="compare-row"><span class="label">Resultado</span><span class="value accent">Zonas premium</span></div>
-                        <div class="compare-row"><span class="label">Espera típica</span><span class="value accent">8-12 horas</span></div>
-                        <div class="compare-row"><span class="label">Deadhead típico</span><span class="value accent">30-80 mi</span></div>
-                    </div>
-                </div>
-
-                <p><strong>2. Aceptar loads "cerca de casa"</strong></p>
-                <p>Si estás en Detroit y tienes dos opciones con similar RPM loaded:</p>
-                <ul>
-                    <li>Load A: Pickup en Chicago (280 mi deadhead)</li>
-                    <li>Load B: Pickup en Toledo (65 mi deadhead)</li>
-                </ul>
-                <p>Load B es <strong>MUCHO mejor</strong> (ahorras 215 millas deadhead).</p>
-
-                <p><strong>3. Usar Zone Heat Map de la app</strong></p>
-                <p>Dashboard → Zones → Heat Map te muestra:</p>
-                <ul>
-                    <li>Tu deadhead promedio por zona</li>
-                    <li>Zonas con típicamente &lt;50 mi deadhead</li>
-                    <li>Zonas con &gt;150 mi deadhead</li>
-                </ul>
-                <p>Favorece zonas con bajo deadhead histórico.</p>
-            </section>
-
-            <section>
-                <div class="conclusion">
-                    <p class="lead">Un load con <span class="accent">alto pago + alto deadhead</span> puede ser peor que un load con pago moderado + bajo deadhead.</p>
-                    <p class="sub">Deadhead no es "extra" ni algo sin importancia — es parte del ciclo de trabajo real.</p>
-                </div>
-                <div class="checklist">
-                    <span class="checklist-label">Recuerda</span>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Piensa en ciclos completos</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Usa deadhead ratio como métrica clave</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Target: &lt;12% deadhead ratio consistentemente</span></div>
-                </div>
-            </section>
-
+    <header>
+        <div class="al-kicker">Módulo 2 · Lección 2</div>
+        <h1 class="al-title">Millas cargadas y en vacío: un solo viaje</h1>
+        <div class="al-meta">
+            <span class="al-chip">8 min de lectura</span>
+            <span class="al-chip">Práctica</span>
+            <span class="al-chip is-free">Gratis</span>
         </div>
+    </header>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+    <section class="al-learn">
+        <div class="al-learn-title">Lo que vas a aprender</div>
+        <ol>
+            <li>Por qué las millas en vacío cuentan igual que las cargadas.</li>
+            <li>Cómo calcular el porcentaje de vacío.</li>
+            <li>Cuánto pago extra pedir por más millas en vacío.</li>
+        </ol>
+    </section>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
-            <nav class="lesson-nav">
-                <a href="index.html" class="btn btn-secondary">← Volver al módulo</a>
-                <a href="lesson-3.html" class="btn btn-primary">Siguiente: Decisiones →</a>
-            </nav>
-        </footer>
-        
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>Un solo viaje, no dos</h2>
+        <p>Las millas en vacío no son un "extra". Son parte del mismo trabajo: para ganar la tarifa tienes que manejarlas, gastar gasolina y usar horas de tu día.</p>
+        <div class="al-compare">
+            <div class="al-callout is-error"><div class="al-callout-label">Pensamiento común</div><p>"Paga $700 por 356 millas: casi $2 por milla. El vacío es aparte."</p></div>
+            <div class="al-callout is-app"><div class="al-callout-label">Pensamiento correcto</div><p>"Para ganar $700 tengo que manejar 639 millas. Eso es $1.10 por milla."</p></div>
+        </div>
+    </section>
 
-        <!-- ========== ENGLISH ========== -->
-        
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>El porcentaje de vacío</h2>
+        <div class="al-formula">% de vacío = millas en vacío ÷ millas totales × 100</div>
+        <p>No hay un número mágico, pero sirve de alerta: por debajo de 10–15% es normal; por encima de 25% la tarifa tiene que compensar mucho vacío. La calculadora no te da este porcentaje; lo que sí hace es meter todas las millas en el RPM y en los costos.</p>
+    </section>
 
-    </article>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>Dos ofertas desde Detroit</h2>
+        <p>Costo de $0.55 por milla, como la cuenta de ejemplo.</p>
+        <div class="al-compare">
+            <table class="al-table">
+                <caption>A · pickup en Chicago → Columbus</caption>
+                <tr><td>Pago</td><td class="al-num-cell">$700</td></tr>
+                <tr><td>Vacío hasta Chicago</td><td class="al-num-cell">283 mi</td></tr>
+                <tr><td>Cargadas</td><td class="al-num-cell">356 mi</td></tr>
+                <tr><td>% de vacío</td><td class="al-num-cell">44%</td></tr>
+                <tr><td>RPM aparente</td><td class="al-num-cell">$1.97</td></tr>
+                <tr><td>RPM real</td><td class="al-num-cell">$1.10</td></tr>
+                <tr><td>Ganancia neta</td><td class="al-num-cell">$349</td></tr>
+                <tr class="al-total"><td>Por hora de manejo<span class="al-sub">~10.7 h</span></td><td class="al-num-cell">$33</td></tr>
+            </table>
+            <table class="al-table">
+                <caption>B · Detroit → Indianapolis</caption>
+                <tr><td>Pago</td><td class="al-num-cell">$480</td></tr>
+                <tr><td>Vacío hasta el pickup</td><td class="al-num-cell">20 mi</td></tr>
+                <tr><td>Cargadas</td><td class="al-num-cell">287 mi</td></tr>
+                <tr><td>% de vacío</td><td class="al-num-cell">6.5%</td></tr>
+                <tr><td>RPM aparente</td><td class="al-num-cell">$1.67</td></tr>
+                <tr><td>RPM real</td><td class="al-num-cell">$1.56</td></tr>
+                <tr><td>Ganancia neta</td><td class="al-num-cell">$311</td></tr>
+                <tr class="al-total"><td>Por hora de manejo<span class="al-sub">~5.1 h</span></td><td class="al-num-cell">$61</td></tr>
+            </table>
+        </div>
+        <div class="al-stack">
+            <div class="al-stack-bar"><span style="width:44%;background:var(--al-red)"></span><span style="width:56%;background:var(--al-accent)"></span></div>
+            <div class="al-stack-legend"><span><i style="background:var(--al-red)"></i>A · vacío 44%</span><span><i style="background:var(--al-accent)"></i>A · cargadas 56%</span></div>
+        </div>
+        <div class="al-stack">
+            <div class="al-stack-bar"><span style="width:6.5%;background:var(--al-red)"></span><span style="width:93.5%;background:var(--al-accent)"></span></div>
+            <div class="al-stack-legend"><span><i style="background:var(--al-red)"></i>B · vacío 6.5%</span><span><i style="background:var(--al-accent)"></i>B · cargadas 93.5%</span></div>
+        </div>
+        <p>A deja $38 más en total, pero te ocupa el doble de horas. B te deja casi el doble por hora y te queda medio día libre para otra carga.</p>
+    </section>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 2, LESSON_NUM = 2;
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>Cuánto más pedir por el vacío extra</h2>
+        <p>Cada milla en vacío te cuesta lo mismo que una cargada. Para que no te baje del objetivo, cada milla extra debería pagarse al menos a tu <strong>RPM objetivo</strong>:</p>
+        <div class="al-formula">Pago extra mínimo = millas en vacío extra × RPM objetivo</div>
+        <p>Con un costo de $0.55 y un margen del 20%, el RPM objetivo es $0.55 ÷ 0.80 = <strong>$0.69</strong>. Si el pickup queda 100 millas más lejos de lo normal, pide <strong>al menos $69 más</strong>.</p>
+    </section>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'Cómo Usar la Calculadora Correctamente', time: '10 min' },
-            { num: 2, title: 'Loaded Miles vs Deadhead Miles: Cómo Pensar Ambos Juntos', time: '9 min' },
-            { num: 3, title: 'Interpretar el Resultado: Aceptar, Negociar o Rechazar', time: '8 min' },
-            { num: 4, title: 'Errores Comunes al Introducir Datos (Y Cómo Evitarlos)', time: '8 min' },
-            { num: 5, title: 'Caso de Estudio: La Transformación de Carlos', time: '10 min' },
-            { num: 6, title: 'Lex AI: Tu Copiloto de Decisiones', time: '8 min' }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">05</span>Calcula tu carga</h2>
+        <div class="al-calc" id="alCalc">
+            <div class="al-calc-grid">
+                <div class="al-field"><label for="dPago">Pago total ($)</label><input id="dPago" type="number" inputmode="decimal" step="any" value="700"></div>
+                <div class="al-field"><label for="dCarg">Millas cargadas</label><input id="dCarg" type="number" inputmode="decimal" step="any" value="356"></div>
+                <div class="al-field"><label for="dVac">Millas en vacío</label><input id="dVac" type="number" inputmode="decimal" step="any" value="283"></div>
+                <div class="al-field"><label for="dCosto">Tu costo por milla ($)</label><input id="dCosto" type="number" inputmode="decimal" step="any" value="0.55"></div>
+                <div class="al-field"><label for="dMargen">Margen objetivo (%)</label><input id="dMargen" type="number" inputmode="decimal" step="any" value="20"></div>
+            </div>
+            <div class="al-calc-out">
+                <div class="al-out">% de vacío<b id="oRatio">—</b></div>
+                <div class="al-out">RPM real<b id="oRpm">—</b></div>
+                <div class="al-out">Ganancia neta<b id="oNeta">—</b></div>
+                <div class="al-calc-total"><span>Pago para tu objetivo</span><b id="oMin">—</b></div>
+            </div>
+        </div>
+    </section>
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: '¿Cuál es la fórmula del Deadhead Ratio?',
-                options: [
-                    'Loaded Miles ÷ Total Miles × 100',
-                    'Deadhead Miles ÷ Total Miles × 100',
-                    'Payment ÷ Total Miles',
-                    'Deadhead Miles ÷ Loaded Miles'
-                ],
-                correctIndex: 1
-            },
-            {
-                question: 'En el caso comparativo (Load A: $1,500, 1,050 mi totales, 23.8% deadhead ratio vs Load B: $1,200, 800 mi totales, 6.25% deadhead ratio), ¿cuál es objetivamente mejor?',
-                options: [
-                    'Load A, porque paga más',
-                    'Load B, porque genera más RPM real ($1.50 vs $1.43) con menos millas totales',
-                    'Son iguales',
-                    'Load A, porque tiene más loaded miles'
-                ],
-                correctIndex: 1
-            },
-            {
-                question: 'Según la "regla rápida de compensación", si tu deadhead normal es 50 millas y un load requiere 150 millas (100 extra), ¿cuánto más debe pagar por milla loaded?',
-                options: [
-                    '$0.15/milla adicional',
-                    '$0.30/milla adicional',
-                    '$0.05/milla adicional',
-                    'No hace falta compensación'
-                ],
-                correctIndex: 1
-            },
-            {
-                question: 'Según los targets de deadhead ratio de la lección, ¿qué rango se considera "Excellent"?',
-                options: ['8-12%', '12-18%', '0-8%', '18-25%'],
-                correctIndex: 2
-            }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">06</span>Cómo bajar el vacío</h2>
+        <ul class="al-checklist">
+            <li><strong>Entrega donde hay carga de salida.</strong> Una tarifa un poco menor hacia una buena zona puede dejarte mejor que una alta hacia una zona sin carga.</li>
+            <li><strong>Prefiere pickups cerca.</strong> Con RPM parecido, la carga con menos vacío casi siempre gana.</li>
+            <li><strong>Mira Zonas.</strong> Ahí ves qué estados te han dado mejor RPM y ganancia según tu historial.</li>
+            <li><strong>Mete siempre el vacío en la calculadora.</strong> Si lo dejas en 0, el panel te muestra una carga mejor de lo que es.</li>
+        </ul>
+    </section>
 
-        function markLessonComplete() {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress) {
-                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
-            }
+    <section class="al-summary">
+        <h2>En resumen</h2>
+        <ul>
+            <li>Vacío y cargadas son un solo viaje: el RPM real usa las dos.</li>
+            <li>Una carga con mucho vacío puede dejar menos por hora aunque pague más.</li>
+            <li>Por cada milla en vacío extra, pide al menos tu RPM objetivo.</li>
+        </ul>
+    </section>
+
+    <section class="lesson-quiz" id="lessonQuiz"></section>
+
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
+        <nav class="lesson-nav">
+            <a href="lesson-1.html" class="al-btn al-btn-ghost">← Lección anterior</a>
+            <a href="lesson-3.html" class="al-btn al-btn-primary">Siguiente: leer el resultado →</a>
+        </nav>
+    </footer>
+</article>
+
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 2;
+    const LESSON_NUM = 2;
+    const LESSON_LIST = [
+        { num: 1, title: "Cómo usar la calculadora paso a paso", time: '9 min' },
+        { num: 2, title: "Millas cargadas y en vacío: un solo viaje", time: '8 min' },
+        { num: 3, title: "Leer el resultado: aceptar, negociar o rechazar", time: '9 min' },
+        { num: 4, title: "7 errores al llenar la calculadora", time: '8 min' },
+        { num: 5, title: "Caso de estudio: dos cargas con los números", time: '8 min' },
+        { num: 6, title: "Lex: tu copiloto para decidir", time: '7 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+  {
+    "question": "283 millas en vacío y 356 cargadas. ¿Cuál es el porcentaje de vacío?",
+    "options": [
+      "28%",
+      "44%",
+      "56%",
+      "79%"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "Paga $700 por 356 cargadas con 283 en vacío. ¿Cuál es el RPM real?",
+    "options": [
+      "$1.97",
+      "$1.56",
+      "$1.10",
+      "$0.89"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "question": "Tu RPM objetivo es $0.69. El pickup queda 100 millas más lejos. ¿Cuánto más deberías pedir como mínimo?",
+    "options": [
+      "$20",
+      "$55",
+      "$69",
+      "$100"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "question": "En el ejemplo, ¿por qué B es mejor aunque deja $38 menos en total?",
+    "options": [
+      "Porque paga más",
+      "Porque deja casi el doble por hora y te deja tiempo para otra carga",
+      "Porque tiene más millas",
+      "No es mejor"
+    ],
+    "correctIndex": 1
+  }
+];
+
+    (function () {
+        const v = (id) => Math.max(0, parseFloat(document.getElementById(id).value) || 0);
+        const $ = (n) => (n < 0 ? '-$' : '$') + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        function calc() {
+            const pago = v('dPago'), carg = v('dCarg'), vac = v('dVac'), costo = v('dCosto'), m = Math.min(v('dMargen'), 95) / 100;
+            const tot = carg + vac;
+            document.getElementById('oRatio').textContent = tot > 0 ? (vac / tot * 100).toFixed(1) + '%' : '—';
+            document.getElementById('oRpm').textContent = tot > 0 ? '$' + (pago / tot).toFixed(2) + ' /mi' : '—';
+            document.getElementById('oNeta').textContent = $(pago - tot * costo);
+            document.getElementById('oMin').textContent = '$' + Math.ceil(tot * costo / (1 - m)).toLocaleString('en-US');
         }
-        document.addEventListener('DOMContentLoaded', async () => {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+        document.querySelectorAll('#alCalc input').forEach(i => i.addEventListener('input', calc));
+        calc();
+    })();
 
-            if (window.AcademySidebar) {
-                await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Dominando los Números', LESSON_LIST);
-            }
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada";
+            btn.disabled = true;
+        }
+    }
 
-            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-
-            if (alreadyDone) {
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                const quizEl = document.getElementById('lessonQuiz');
-                if (quizEl) quizEl.style.display = 'none';
-            } else if (window.AcademyQuiz) {
-                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-            }
-        });
-    </script>
-
-  
-
-
-
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, "Dominando los números", LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada"; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>

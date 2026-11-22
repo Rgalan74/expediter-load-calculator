@@ -1,94 +1,36 @@
 <!DOCTYPE html><html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cómo Usar la Calculadora Correctamente | Smart Load Academia</title>
-    <meta name="description" content="El Calculator no es complicado — son 4 campos esenciales: current location, pickup, delivery, payment.">
+    <title>Cómo usar la calculadora paso a paso | Smart Load Academia</title>
+    <meta name="description" content="Los campos reales de la calculadora de Smart Load: ruta, millas, tarifa, peajes, cargos extra y botones.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: .875rem
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: .75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all .3s ease
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
-            color: #fff
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, .1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .2)
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-  
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/academy/module-2/lesson-1.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-1.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-1.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-1.html">
+    <link rel="canonical" href="https://smartloadsolution.com/academy/module-2/lesson-1.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-1.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-1.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-1.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Volver a la App</a></nav>
-    <aside class="lesson-sidebar" id="lessonSidebar">
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Volver a la App</a></nav>
+
+<aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
         <div>
             <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
@@ -98,323 +40,209 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
-        <nav class="breadcrumb">
-            <a href="/academy.html">← Academia</a> → <a href="index.html">Módulo 2</a> → Lección 1
-        </nav>
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/academy.html">Academia</a> / <a href="index.html">Módulo 2</a> / Lección 1</nav>
 
-        <!-- ===== SPANISH VERSION ===== -->
-        
-        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
-            <h1>Cómo Usar la Calculadora Correctamente</h1>
-            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
-                <span>📖 10 min lectura</span>
-                <span>🎓 Módulo 2 - Lección 1</span>
-            </div>
-        </header>
-
-        <div class="lesson-content">
-
-            <section>
-                <h2>De Excel/papel a Smart Load Solution</h2>
-
-                <p><strong>Antes (método tradicional):</strong></p>
-                <ol>
-                    <li>Abrir calculadora del teléfono</li>
-                    <li>Buscar distancia en Google Maps</li>
-                    <li>Sumar millas manualmente</li>
-                    <li>Dividir pago entre millas</li>
-                    <li>Comparar con notas de costos</li>
-                    <li>Decidir (esperando no haber cometido errores)</li>
-                </ol>
-
-                <p><strong>Ahora (con Smart Load Solution):</strong></p>
-                <ol>
-                    <li>Abrir app</li>
-                    <li>Ingresar origen, pickup, delivery</li>
-                    <li>Ingresar pago</li>
-                    <li>Ver resultado instantáneo</li>
-                </ol>
-
-                <div class="compare-grid">
-                    <div class="compare-table">
-                        <div class="compare-title">Antes</div>
-                        <div class="compare-row"><span class="label">Tiempo</span><span class="value">8-12 minutos</span></div>
-                        <div class="compare-row"><span class="label">Margen de error</span><span class="value">20-30%</span></div>
-                    </div>
-                    <div class="compare-table">
-                        <div class="compare-title">Ahora</div>
-                        <div class="compare-row"><span class="label">Tiempo</span><span class="value accent">30 segundos</span></div>
-                        <div class="compare-row"><span class="label">Margen de error</span><span class="value accent">&lt;1%</span></div>
-                    </div>
-                </div>
-            </section>
-
-            <section>
-                <h2>1. Current Location (tu posición actual)</h2>
-                <div class="formula">📍 Current Location<br>┌─────────────────────────┐<br>│ Toledo, OH │<br>└─────────────────────────┘</div>
-                <p><strong>Correcto:</strong> "Toledo, OH" o "43604" (ZIP code)<br>
-                    <strong>Incorrecto:</strong> "toledo" (falta estado) o "Somewhere in Ohio"
-                </p>
-
-                <div class="note tip">
-                    <span class="note-label">Tip pro</span>
-                    <p>La app usa tu GPS si das permiso. O ingresa manualmente. Sé específico: "Downtown Detroit" vs
-                        "Detroit Metro Area" hace diferencia en millas.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>2. Pickup Location (dónde recoges)</h2>
-                <p><strong>Correcto:</strong> Dirección completa si la tienes<br>
-                    <strong>Incorrecto:</strong> Dejar en blanco. Si pickup = current location, ingresa la MISMA
-                    dirección. La app calculará 0 millas deadhead automáticamente.
-                </p>
-            </section>
-
-            <section>
-                <h2>3. Delivery Location (destino final)</h2>
-                <p><strong>Correcto:</strong> Ciudad y estado siempre<br>
-                    <strong>Mejor:</strong> Dirección completa si la sabes
-                </p>
-            </section>
-
-            <section>
-                <h2>4. Load Payment (cuánto te pagan)</h2>
-                <div class="note warning">
-                    <span class="note-label">Casos especiales</span>
-                    <p><strong>Si hay FSC separado:</strong> Base rate $1,000 + FSC $200 = ingresa <strong>$1,200</strong> (total combinado)</p>
-                    <p><strong>Si hay detention pay:</strong> Load $1,000 + Detention $50 = ingresa <strong>$1,050</strong> (total que recibirás)</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>5. Loaded Miles (opcional — la app lo calcula)</h2>
-                <p><strong>¿Cuándo usarlo?</strong></p>
-                <ul>
-                    <li><strong>Dejar en blanco (recomendado):</strong> La app calcula ruta real via Google Maps con
-                        truck routing</li>
-                    <li><strong>Ingresar manualmente:</strong> Solo si el broker te dio millas exactas</li>
-                </ul>
-                <p><strong>Tip:</strong> 99% del tiempo, déjalo en blanco y deja que la app calcule.</p>
-            </section>
-
-            <section>
-                <h2>6. Repositioning (opcional pero crítico)</h2>
-                <div class="note warning">
-                    <span class="note-label">Esto es crítico — no lo ignores</span>
-                    <p><strong>Escenario 1:</strong> Delivery en zona premium (Atlanta) → Repositioning: dejar vacío — hay freight, esperas ahí.</p>
-                    <p><strong>Escenario 2:</strong> Delivery en zona muerta (Laredo) → Repositioning: San Antonio, TX — necesitas moverte 280 millas.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>7. Your Cost per Mile (tu configuración personal)</h2>
-                <p>Viene del Módulo 1, Lección 2. Lo configuras UNA VEZ en Settings y la app lo usa en todos los
-                    cálculos.</p>
-            </section>
-
-            <section>
-                <h2>Flujo completo de cálculo</h2>
-                <p><strong>Ejemplo real paso a paso — situación:</strong></p>
-                <ul>
-                    <li>Estás en: Toledo, OH</li>
-                    <li>Load pickup: Detroit, MI</li>
-                    <li>Delivery: Atlanta, GA</li>
-                    <li>Pago: $1,200</li>
-                    <li>Tu CPM: $1.05/milla</li>
-                </ul>
-
-                <ol>
-                    <li>Abrir Calculator → Home → Calculator</li>
-                    <li>Ingresar datos (todos los campos)</li>
-                    <li>Tap "CALCULATE" → la app procesa en &lt;1 segundo</li>
-                    <li>Ver resultados</li>
-                </ol>
-
-                <div class="formula">MILLAS: Deadhead 65 + Loaded 735 + Repositioning 0 = TOTAL 800 mi<br>FINANZAS: Payment $1,200.00 − Total Cost $840.00 = Profit $360.00 (margen 30%)<br>RATES: RPM aparente $1.63/mi — RPM REAL $1.50/mi — Profit/Mile $0.45/mi<br>RECOMENDACIÓN: ACCEPT</div>
-            </section>
-
-            <section>
-                <h2>Código de colores</h2>
-                <p>La app usa colores para decisión rápida:</p>
-
-                <div class="compare-table">
-                    <div class="compare-row"><span class="label">Margen &gt;25%, RPM real &gt;$1.40/mi</span><span class="value accent">Aceptar con confianza</span></div>
-                    <div class="compare-row"><span class="label">Margen 15-25%, RPM cerca de break-even</span><span class="value">Negociar o analizar</span></div>
-                    <div class="compare-row"><span class="label">Margen &lt;15%, RPM bajo break-even</span><span class="value">Rechazar</span></div>
-                </div>
-            </section>
-
-            <section>
-                <h2>Save to History</h2>
-                <p>Después de calcular, tap [SAVE TO HISTORY] para:</p>
-                <ul>
-                    <li>Guardar todos los detalles del load</li>
-                    <li>Tu decisión (accept/reject)</li>
-                    <li>Build tu database personal</li>
-                    <li>Lex AI aprende de tus patterns</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>Compare Loads</h2>
-                <p>¿Tienes 2 load offers simultáneas? Calculator → [Compare Mode]<br>
-                    App muestra side-by-side con recomendación: "Load B es 23% mejor"</p>
-            </section>
-
-            <section>
-                <h2>Quick Recalculate</h2>
-                <p>¿Broker contraoferta? En resultados: [Edit Payment] → Nuevo número → Recalcula<br>
-                    No necesitas re-ingresar todo.</p>
-            </section>
-
-            <section>
-                <h2>Checklist: antes de calcular</h2>
-                <div class="checklist">
-                    <span class="checklist-label">Antes de calcular</span>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Current location está correcto</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Tengo dirección completa de pickup</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Tengo dirección de delivery</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Payment incluye TODO (base + FSC + tolls)</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Sé si delivery zone necesita repositioning</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Mi CPM está actualizado</span></div>
-                </div>
-                <p><strong>Si todos ✓ → CALCULATE con confianza.</strong></p>
-            </section>
-
-            <section>
-                <h2>Acción inmediata (3 minutos)</h2>
-                <div class="checklist">
-                    <span class="checklist-label">3 minutos</span>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Abre Smart Load Solution</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Ve a Calculator</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Ingresa un load real que estés considerando</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Tap Calculate</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Observa el resultado</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Save to History</span></div>
-                </div>
-                <p><strong>Meta:</strong> Familiarizarte con el flow básico.</p>
-            </section>
-
-            <section>
-                <div class="conclusion">
-                    <p class="lead">El Calculator no es complicado — son <span class="accent">4 campos esenciales</span>: current location, pickup, delivery, payment.</p>
-                    <p class="sub">El resto la app lo hace por ti en menos de 1 segundo. Dominar el Calculator = decisiones en 30 segundos.</p>
-                </div>
-            </section>
-
+    <header>
+        <div class="al-kicker">Módulo 2 · Lección 1</div>
+        <h1 class="al-title">Cómo usar la calculadora paso a paso</h1>
+        <div class="al-meta">
+            <span class="al-chip">9 min de lectura</span>
+            <span class="al-chip">Práctica</span>
+            <span class="al-chip is-free">Gratis</span>
         </div>
+    </header>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+    <section class="al-learn">
+        <div class="al-learn-title">Lo que vas a aprender</div>
+        <ol>
+            <li>Qué va en cada campo de la calculadora.</li>
+            <li>La diferencia entre peajes (gasto) y cargos extra (ingreso).</li>
+            <li>Qué hace cada botón y por qué conviene guardar tus cargas.</li>
+        </ol>
+    </section>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como
-                completada</button>
-            <nav class="lesson-nav">
-                <a href="index.html" class="btn btn-secondary">← Volver al módulo</a>
-                <a href="lesson-2.html" class="btn btn-primary">Siguiente: Deadhead vs Loaded →</a>
-            </nav>
-        </footer>
-        
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>Antes de empezar: tus costos</h2>
+        <p>La calculadora decide con <strong>tus</strong> costos. Si Configuración está vacía o vieja, el veredicto también lo estará. Revisa una vez al mes tus costos fijos (pago del vehículo, seguro, permisos), tu MPG, tu mantenimiento por milla, tus millas por mes y tu margen objetivo.</p>
+        <div class="al-callout is-app">
+            <div class="al-callout-label">Sobre los ejemplos de este módulo</div>
+            <p>Las capturas vienen de una cuenta de ejemplo con un costo de unos <strong>$0.55 por milla</strong> y un margen objetivo del <strong>20%</strong>. Con tus costos, los números serán otros, pero se leen igual.</p>
+        </div>
+    </section>
 
-        <!-- ===== ENGLISH VERSION ===== -->
-        
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>Paso 1: la ruta</h2>
+        <p>En <strong>Información de ruta</strong> escribe el <strong>Origen</strong> (donde recoges) y el <strong>Destino</strong> (donde entregas). Elige la sugerencia de la lista: así Google calcula las millas exactas. Si la carga tiene más entregas, usa <strong>Agregar parada</strong>.</p>
+        <p><strong>Empresa</strong> y <strong>Carga #</strong> son opcionales, pero te ayudan a encontrar la carga después en Historial.</p>
 
-    </article>
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Calculadora · Información de ruta</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/calc-ruta-movil.png" width="740" height="562"><img src="/academy/img/app/calc-ruta.png" alt="Información de ruta con origen Fort Worth, destino Houston, empresa y número de carga." loading="lazy" width="1380" height="480"></picture>
+            </div>
+            <figcaption><b>Ejemplo:</b> recoges en Fort Worth y entregas en Houston. Empresa y número de carga quedan guardados con la carga.</figcaption>
+        </figure>
+    </section>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 2, LESSON_NUM = 1;
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>Paso 2: las millas</h2>
+        <table class="al-table">
+            <tr><td><strong>Millas cargadas</strong><span class="al-sub">Se llenan solas con la ruta de Google, del origen al destino</span></td></tr>
+            <tr><td><strong>Millas en vacío</strong><span class="al-sub">Las que manejas sin carga: hasta el pickup y, si hace falta, para reposicionarte después de entregar</span></td></tr>
+            <tr><td><strong>Millas totales</strong><span class="al-sub">La suma de las dos. Con este número se calcula el RPM y los costos</span></td></tr>
+        </table>
+        <p>En el ejemplo estás en Dallas: hay <strong>33 millas en vacío</strong> hasta Fort Worth y <strong>262 cargadas</strong> hasta Houston. Total: <strong>295 millas</strong>.</p>
+    </section>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'Cómo Usar la Calculadora Correctamente', time: '10 min' },
-            { num: 2, title: 'Loaded Miles vs Deadhead Miles: Cómo Pensar Ambos Juntos', time: '9 min' },
-            { num: 3, title: 'Interpretar el Resultado: Aceptar, Negociar o Rechazar', time: '8 min' },
-            { num: 4, title: 'Errores Comunes al Introducir Datos (Y Cómo Evitarlos)', time: '8 min' },
-            { num: 5, title: 'Caso de Estudio: La Transformación de Carlos', time: '10 min' },
-            { num: 6, title: 'Lex AI: Tu Copiloto de Decisiones', time: '8 min' }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>Paso 3: el dinero</h2>
+        <table class="al-table">
+            <tr><td><strong>Tarifa total</strong><span class="al-sub">Lo que te paga el broker por la carga (incluye el fuel surcharge si viene aparte)</span></td></tr>
+            <tr><td><strong>RPM</strong><span class="al-sub">Si escribes la tarifa, el RPM se calcula sobre las millas totales. También puedes escribir el RPM y la app calcula la tarifa</span></td></tr>
+            <tr><td><strong>Peajes</strong><span class="al-sub">Un gasto de esta carga: se resta de tu ganancia</span></td></tr>
+            <tr><td><strong>Cargos extra al cliente</strong><span class="al-sub">Un ingreso extra: descarga, tiempo de espera o detención que te pagan aparte</span></td></tr>
+        </table>
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: '¿Cuántos son los campos ESENCIALES del Calculator según la conclusión de la lección?',
-                options: ['7', '4', '3', '5'],
-                correctIndex: 1
-            },
-            {
-                question: 'En el ejemplo paso a paso (Toledo → Detroit → Atlanta, pago $1,200, CPM $1.05/milla), ¿cuál es el RPM REAL resultante?',
-                options: ['$1.63/milla', '$1.50/milla', '$0.45/milla', '$1.05/milla'],
-                correctIndex: 1
-            },
-            {
-                question: 'Si hay FSC separado del base rate ($1,000 base + $200 FSC), ¿qué debes ingresar en Load Payment?',
-                options: ['Solo $1,000 (el base rate)', 'Solo $200 (el FSC)', '$1,200 (el total combinado)', 'El promedio de ambos'],
-                correctIndex: 2
-            },
-            {
-                question: 'Según el código de colores de la app, ¿qué indica el color AMARILLO?',
-                options: [
-                    'Profit margin >25%, aceptar con confianza',
-                    'Profit margin 15-25%, negociar o analizar',
-                    'Profit margin <15%, rechazar',
-                    'Error en los datos ingresados'
-                ],
-                correctIndex: 1
-            }
-        ];
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Calculadora · Información financiera</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/calc-financiera-movil.png" width="740" height="616"><img src="/academy/img/app/calc-financiera.png" alt="Información financiera: RPM 1.90, tarifa total 560 dólares y peajes de 12 dólares." loading="lazy" width="672" height="771"></picture>
+            </div>
+            <figcaption><b>$560 ÷ 295 millas = $1.90 por milla.</b> Los $12 de peajes se restan como gasto.</figcaption>
+        </figure>
+    </section>
 
-        function markLessonComplete() {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress) {
-                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
-            }
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">05</span>Paso 4: el panel y los botones</h2>
+        <p>El panel de la derecha (abajo en el celular) se actualiza solo. En el ejemplo dice <strong>ACEPTAR</strong>, con <strong>$385.75</strong> de ganancia neta, un margen del <strong>68.9%</strong> y unos <strong>$386 por día</strong>. En la lección 3 aprendes a leer cada parte.</p>
+
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Calculadora · Acciones</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/calc-botones-movil.png" width="740" height="308"><img src="/academy/img/app/calc-botones.png" alt="Botones Aceptar y guardar, Copiar precio y Limpiar." loading="lazy" width="1380" height="318"></picture>
+            </div>
+            <figcaption><b>Tres botones:</b> guardar la carga en Historial, copiar el precio para el broker o limpiar el formulario.</figcaption>
+        </figure>
+        <table class="al-table">
+            <tr><td><strong>Aceptar y guardar</strong><span class="al-sub">Guarda la carga en Historial. Con tus cargas guardadas se alimentan Zonas, Finanzas y Lex</span></td></tr>
+            <tr><td><strong>Copiar precio</strong><span class="al-sub">Copia el cobro total para pegarlo en tu mensaje al broker</span></td></tr>
+            <tr><td><strong>Limpiar</strong><span class="al-sub">Borra el formulario para la siguiente oferta</span></td></tr>
+        </table>
+    </section>
+
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">06</span>Practica en la app</h2>
+        <div class="al-callout is-app">
+            <div class="al-callout-label">Tu turno</div>
+            <p>Abre la calculadora y mete la última oferta que te hicieron: ruta, millas en vacío y tarifa. Mira qué veredicto te da antes de seguir con la lección 2.</p>
+            <p><a class="al-btn al-btn-primary" href="/app.html#calculator">Abrir la calculadora →</a></p>
+        </div>
+    </section>
+
+    <section class="al-summary">
+        <h2>En resumen</h2>
+        <ul>
+            <li>Primero Configuración: la calculadora decide con tus costos.</li>
+            <li>Millas totales = cargadas + en vacío; con ellas se calcula el RPM.</li>
+            <li>Peajes es un gasto; cargos extra al cliente es un ingreso.</li>
+            <li>Guarda tus cargas para que Zonas, Finanzas y Lex tengan datos reales.</li>
+        </ul>
+    </section>
+
+    <section class="lesson-quiz" id="lessonQuiz"></section>
+
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
+        <nav class="lesson-nav">
+            <a href="index.html" class="al-btn al-btn-ghost">← Volver al módulo</a>
+            <a href="lesson-2.html" class="al-btn al-btn-primary">Siguiente: millas cargadas y en vacío →</a>
+        </nav>
+    </footer>
+</article>
+
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 2;
+    const LESSON_NUM = 1;
+    const LESSON_LIST = [
+        { num: 1, title: "Cómo usar la calculadora paso a paso", time: '9 min' },
+        { num: 2, title: "Millas cargadas y en vacío: un solo viaje", time: '8 min' },
+        { num: 3, title: "Leer el resultado: aceptar, negociar o rechazar", time: '9 min' },
+        { num: 4, title: "7 errores al llenar la calculadora", time: '8 min' },
+        { num: 5, title: "Caso de estudio: dos cargas con los números", time: '8 min' },
+        { num: 6, title: "Lex: tu copiloto para decidir", time: '7 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+  {
+    "question": "¿Cómo se llenan las millas cargadas?",
+    "options": [
+      "Las escribes siempre a mano",
+      "Se llenan solas con la ruta de Google entre origen y destino",
+      "Las pone el broker en la app",
+      "Son las millas del mes"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "El broker te paga $40 por tiempo de espera, aparte de la tarifa. ¿Dónde lo pones?",
+    "options": [
+      "En Peajes",
+      "En Millas en vacío",
+      "En Cargos extra al cliente",
+      "No se pone en ningún lado"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "question": "Tarifa $560, 262 millas cargadas y 33 en vacío. ¿Qué RPM muestra la app?",
+    "options": [
+      "$2.14",
+      "$1.90",
+      "$1.70",
+      "$2.00"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "¿Para qué sirve guardar tus cargas con \"Aceptar y guardar\"?",
+    "options": [
+      "Solo para imprimirlas",
+      "Para que Historial, Zonas, Finanzas y Lex usen tus datos reales",
+      "Para enviarlas al broker",
+      "No sirve para nada"
+    ],
+    "correctIndex": 1
+  }
+];
+
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada";
+            btn.disabled = true;
         }
-        document.addEventListener('DOMContentLoaded', async () => {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    }
 
-            if (window.AcademySidebar) {
-                await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Dominando los Números', LESSON_LIST);
-            }
-
-            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-
-            if (alreadyDone) {
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                const quizEl = document.getElementById('lessonQuiz');
-                if (quizEl) quizEl.style.display = 'none';
-            } else if (window.AcademyQuiz) {
-                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-            }
-        });
-    </script>
-
-  
-
-
-
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, "Dominando los números", LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada"; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>

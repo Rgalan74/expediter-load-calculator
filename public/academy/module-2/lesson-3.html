@@ -1,94 +1,36 @@
 <!DOCTYPE html><html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interpretar el Resultado: Aceptar, Negociar o Rechazar | Smart Load Academia</title>
-    <meta name="description" content="No todos los loads merecen el mismo trato.">
+    <title>Leer el resultado: aceptar, negociar o rechazar | Smart Load Academia</title>
+    <meta name="description" content="Cómo decide la calculadora entre ACEPTAR, EVALUAR y RECHAZAR, y cómo negociar con el precio sugerido.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: .875rem
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: .75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all .3s ease
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
-            color: #fff
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, .1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .2)
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-  
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/academy/module-2/lesson-3.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-3.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-3.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-3.html">
+    <link rel="canonical" href="https://smartloadsolution.com/academy/module-2/lesson-3.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-3.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-3.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-3.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Volver a la App</a></nav>
-    <aside class="lesson-sidebar" id="lessonSidebar">
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Volver a la App</a></nav>
+
+<aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
         <div>
             <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
@@ -98,276 +40,225 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
-        <nav class="breadcrumb">
-            <a href="/academy.html">← Academia</a> → <a href="index.html">Módulo 2</a> → Lección 3
-        </nav>
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/academy.html">Academia</a> / <a href="index.html">Módulo 2</a> / Lección 3</nav>
 
-
-        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
-            <h1>Interpretar el Resultado: Aceptar, Negociar o Rechazar</h1>
-            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
-                <span>📖 8 min lectura</span>
-                <span>🎓 Módulo 2 - Lección 3</span>
-            </div>
-        </header>
-
-        <div class="lesson-content">
-
-            <section>
-                <h2>Las 3 decisiones posibles</h2>
-                <p>Después de calcular un load, solo hay 3 outcomes:</p>
-
-                <div class="compare-table">
-                    <div class="compare-row"><span class="label">✅ Aceptar</span><span class="value">Load cumple o supera tus targets</span></div>
-                    <div class="compare-row"><span class="label">⚠️ Negociar</span><span class="value">Load está cerca pero necesita ajuste</span></div>
-                    <div class="compare-row"><span class="label">❌ Rechazar</span><span class="value">Load no es rentable, punto</span></div>
-                </div>
-            </section>
-
-            <section>
-                <h2>Cuándo aceptar inmediatamente</h2>
-
-                <p><strong>Criterios de "Green Light" — auto-accept si TODAS son true:</strong></p>
-                <div class="checklist">
-                    <span class="checklist-label">Green light</span>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Profit margin &gt;25%</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">RPM real &gt;$1.40/mi</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Deadhead ratio &lt;15%</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Delivery en zona buena</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Hourly rate &gt;$40/hr</span></div>
-                </div>
-                <p>Si cumple los 5, no pierdas tiempo. <strong>ACEPTA.</strong></p>
-            </section>
-
-            <section>
-                <h2>Cuándo negociar</h2>
-
-                <p><strong>Zona de negociación:</strong></p>
-                <ul>
-                    <li>Profit margin: 15-25% (borderline)</li>
-                    <li>RPM real: $1.20-$1.40/mi</li>
-                    <li>O algún factor negativo que podría compensarse con más pago</li>
-                </ul>
-
-                <p><strong>Scripts de negociación</strong></p>
-
-                <p><strong>Script #1: Deadhead alto</strong><br>"El load paga bien, pero tengo 150 millas de deadhead. Para que funcione con mis números, necesitaría $1,250 en lugar de $1,100. ¿Es posible?"</p>
-
-                <p><strong>Script #2: Zona de delivery mala</strong><br>"Veo que delivery es en [Zona Muerta]. Típicamente me toma 48 horas conseguir reload de ahí. ¿Hay flexibilidad en el rate? Pensaba en $1,350 en lugar de $1,200."</p>
-
-                <p><strong>Script #3: Múltiples stops</strong><br>"Veo que tiene 3 stops. Eso añade 2-3 horas. Mi rate base sería $1,300, pero con los stops necesitaría $1,450. ¿Podemos trabajar con ese número?"</p>
-
-                <div class="note tip">
-                    <span class="note-label">Clave</span>
-                    <p>Justifica el incremento con factor específico. No solo "quiero más dinero".</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Cuándo rechazar sin negociar</h2>
-
-                <p><strong>Red Flags absolutos — instant decline si:</strong></p>
-                <div class="checklist">
-                    <span class="checklist-label">Instant decline</span>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Profit margin &lt;10% o negativo</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">RPM real &lt;$1.10/mi</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Deadhead ratio &gt;25%</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Delivery en zona muerta + no hay compensación</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Load requiere equipamiento que no tienes</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Broker es shady/no confiable</span></div>
-                </div>
-                <p>No hay negociación posible. <strong>DECLINE educadamente.</strong></p>
-            </section>
-
-            <section>
-                <h2>Matriz de decisión completa</h2>
-
-                <div class="compare-table">
-                    <div class="compare-title">✅ Accept instantly</div>
-                    <div class="compare-row"><span class="label">Profit margin</span><span class="value accent">&gt;30%</span></div>
-                    <div class="compare-row"><span class="label">RPM real</span><span class="value accent">&gt;$1.50</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">✅ Accept</div>
-                    <div class="compare-row"><span class="label">Profit margin</span><span class="value">25-30%</span></div>
-                    <div class="compare-row"><span class="label">RPM real</span><span class="value">$1.40-1.50</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">⚠️ Accept/negotiate</div>
-                    <div class="compare-row"><span class="label">Profit margin</span><span class="value">20-25%</span></div>
-                    <div class="compare-row"><span class="label">RPM real</span><span class="value">$1.30-1.40</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">⚠️ Negotiate hard</div>
-                    <div class="compare-row"><span class="label">Profit margin</span><span class="value">15-20%</span></div>
-                    <div class="compare-row"><span class="label">RPM real</span><span class="value">$1.20-1.30</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">❌ Likely decline</div>
-                    <div class="compare-row"><span class="label">Profit margin</span><span class="value">10-15%</span></div>
-                    <div class="compare-row"><span class="label">RPM real</span><span class="value">$1.10-1.20</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">❌ Instant decline</div>
-                    <div class="compare-row"><span class="label">Profit margin</span><span class="value">&lt;10%</span></div>
-                    <div class="compare-row"><span class="label">RPM real</span><span class="value">&lt;$1.10</span></div>
-                </div>
-            </section>
-
-            <section>
-                <h2>Factores adicionales</h2>
-
-                <p><strong>1. Contexto de tiempo</strong></p>
-                <p><strong>Mismo load, diferentes contextos:</strong></p>
-                <ul>
-                    <li><strong>Lunes 9AM:</strong> Load paga 20% margin → Espera algo mejor ⚠️</li>
-                    <li><strong>Viernes 5PM:</strong> Load paga 20% margin → Acéptalo ✅ (weekend se acerca)</li>
-                </ul>
-
-                <p><strong>2. Tu situación financiera</strong></p>
-                <ul>
-                    <li>Semana excelente (ya $2,000 profit) → Sé selectivo</li>
-                    <li>Semana mala (solo $600 profit) → Considera marginal loads</li>
-                    <li>Fin de mes (necesitas cash) → Más flexible</li>
-                </ul>
-                <p><strong>PERO:</strong> Nunca aceptes loads que PIERDEN dinero, sin importar situación.</p>
-
-                <p><strong>3. Condiciones del mercado</strong></p>
-                <ul>
-                    <li><strong>Mercado saturado:</strong> Margins serán más ajustados (20-22% puede ser "bueno")</li>
-                    <li><strong>Mercado apretado:</strong> Puedes pedir premium rates (30-35% margins razonables)</li>
-                </ul>
-            </section>
-
-            <section>
-                <div class="conclusion">
-                    <p class="lead">No todos los loads merecen el mismo <span class="accent">trato</span>.</p>
-                    <p class="sub">Tu tiempo vale dinero. No lo gastes negociando lo imposible. Trust the numbers — si la app dice RED, casi siempre es RED.</p>
-                </div>
-                <div class="checklist">
-                    <span class="checklist-label">Regla rápida</span>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Excellent loads → Accept en &lt;30 seg</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Borderline loads → Negotiate con confidence</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Bad loads → Decline sin remordimiento</span></div>
-                </div>
-            </section>
-
+    <header>
+        <div class="al-kicker">Módulo 2 · Lección 3</div>
+        <h1 class="al-title">Leer el resultado: aceptar, negociar o rechazar</h1>
+        <div class="al-meta">
+            <span class="al-chip">9 min de lectura</span>
+            <span class="al-chip">Práctica</span>
+            <span class="al-chip is-free">Gratis</span>
         </div>
+    </header>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+    <section class="al-learn">
+        <div class="al-learn-title">Lo que vas a aprender</div>
+        <ol>
+            <li>Las reglas exactas que usa el panel para cada veredicto.</li>
+            <li>Por qué una carga corta con RPM alto puede salir EVALUAR.</li>
+            <li>Cómo usar Equilibrio, Objetivo y Contraoferta para negociar.</li>
+        </ol>
+    </section>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como
-                completada</button>
-            <nav class="lesson-nav">
-                <a href="lesson-2.html" class="btn btn-secondary">← Lección anterior</a>
-                <a href="lesson-4.html" class="btn btn-primary">Siguiente: Errores comunes →</a>
-            </nav>
-        </footer>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>Cómo decide la app</h2>
+        <p>El panel revisa la carga en este orden. La primera regla que se cumple da el veredicto:</p>
+        <table class="al-table">
+            <tr><td><span class="al-red"><strong>RECHAZAR</strong></span><span class="al-sub">El RPM está por debajo de tu costo por milla, o la ganancia neta es negativa. Pierdes dinero.</span></td></tr>
+            <tr><td><span class="al-amber"><strong>EVALUAR</strong></span><span class="al-sub">Carga corta (150 millas o menos) que deja menos de $150, o una ganancia por día menor a $100. Aunque el RPM se vea bien.</span></td></tr>
+            <tr><td><span class="al-green"><strong>ACEPTAR</strong></span><span class="al-sub">El RPM llega a tu umbral: costo ÷ (1 − margen objetivo), o tu RPM mínimo de Configuración si es más alto.</span></td></tr>
+            <tr><td><span class="al-amber"><strong>EVALUAR</strong></span><span class="al-sub">Todo lo demás: cubre tu costo, pero no llega a tu objetivo.</span></td></tr>
+        </table>
+        <div class="al-callout">
+            <div class="al-callout-label">En la cuenta de ejemplo</div>
+            <p>Costo de $0.55 y margen del 20%: el umbral para ACEPTAR es $0.55 ÷ 0.80 = <strong>$0.69 por milla</strong>. Debajo de $0.55 es RECHAZAR. En medio, EVALUAR.</p>
+        </div>
+    </section>
 
-        
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>Tres tarifas para la misma ruta</h2>
+        <p>Detroit → Atlanta: 722 millas cargadas y 30 en vacío, 752 en total.</p>
 
-            </article>
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Panel · $1,000</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/panel-acepta-movil.png" width="652" height="840"><img src="/academy/img/app/panel-acepta.png" alt="Panel con veredicto ACEPTAR, RPM 1.33 y ganancia neta de 586 dólares." loading="lazy" width="1320" height="621"></picture>
+            </div>
+            <figcaption><b>$1,000 → ACEPTAR.</b> RPM $1.33, muy por encima de $0.69. Ganancia neta $586.40, unos $293 por día.</figcaption>
+        </figure>
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Panel · $480</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/panel-evalua-movil.png" width="652" height="840"><img src="/academy/img/app/panel-evalua.png" alt="Panel con veredicto EVALUAR, RPM 0.64 y ganancia neta de 66 dólares." loading="lazy" width="1320" height="621"></picture>
+            </div>
+            <figcaption><b>$480 → EVALUAR.</b> RPM $0.64: cubre el costo, pero no llega a $0.69. Solo $66.40 de ganancia, unos $33 por día.</figcaption>
+        </figure>
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Panel · $380</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/panel-rechaza-movil.png" width="652" height="840"><img src="/academy/img/app/panel-rechaza.png" alt="Panel con veredicto RECHAZAR, RPM 0.51 y ganancia neta negativa." loading="lazy" width="1320" height="621"></picture>
+            </div>
+            <figcaption><b>$380 → RECHAZAR.</b> RPM $0.51, debajo del costo de $0.55. Pierdes $33.60.</figcaption>
+        </figure>
+    </section>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 2, LESSON_NUM = 3;
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>Cuando el RPM alto no basta</h2>
+        <p>Fort Worth → Dallas, 33 millas por $120. El RPM es <strong>$3.64</strong>, pero el panel dice <strong>EVALUAR</strong>: es una carga corta que deja $101.85, menos de los $150 que pide la app para una carga de 150 millas o menos.</p>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'Cómo Usar la Calculadora Correctamente', time: '10 min' },
-            { num: 2, title: 'Loaded Miles vs Deadhead Miles: Cómo Pensar Ambos Juntos', time: '9 min' },
-            { num: 3, title: 'Interpretar el Resultado: Aceptar, Negociar o Rechazar', time: '8 min' },
-            { num: 4, title: 'Errores Comunes al Introducir Datos (Y Cómo Evitarlos)', time: '8 min' },
-            { num: 5, title: 'Caso de Estudio: La Transformación de Carlos', time: '10 min' },
-            { num: 6, title: 'Lex AI: Tu Copiloto de Decisiones', time: '8 min' }
-        ];
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Panel · carga corta</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/panel-corta-movil.png" width="652" height="840"><img src="/academy/img/app/panel-corta.png" alt="Panel con veredicto EVALUAR para una carga de 33 millas con RPM de 3.64." loading="lazy" width="1320" height="621"></picture>
+            </div>
+            <figcaption><b>RPM alto, ganancia chica.</b> Una carga corta puede ocuparte medio día y dejarte poco. Por eso la app pide revisarla.</figcaption>
+        </figure>
+    </section>
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: 'Según los criterios "Green Light" de auto-aceptar, ¿cuál de estos NO es uno de los 5 criterios?',
-                options: [
-                    'Profit margin >25%',
-                    'RPM real >$1.40/mi',
-                    'El broker debe estar en la lista Fortune 500',
-                    'Hourly rate >$40/hr'
-                ],
-                correctIndex: 2
-            },
-            {
-                question: 'Según la matriz de decisión, un load con profit margin 15-20% y RPM real $1.20-1.30, ¿qué decisión corresponde?',
-                options: ['ACCEPT INSTANTLY', 'NEGOTIATE HARD', 'INSTANT DECLINE', 'ACCEPT/NEGOTIATE'],
-                correctIndex: 1
-            },
-            {
-                question: 'Según los "Red Flags Absolutos", ¿a partir de qué deadhead ratio se recomienda INSTANT DECLINE (sin negociar)?',
-                options: ['>15%', '>20%', '>25%', '>10%'],
-                correctIndex: 2
-            },
-            {
-                question: 'Según la lección, ¿por qué el MISMO load (20% margin) podría aceptarse un viernes 5PM pero rechazarse un lunes 9AM?',
-                options: [
-                    'Los brokers pagan mejor los viernes',
-                    'El contexto de tiempo importa: viernes se acerca el weekend, lunes hay más tiempo para esperar algo mejor',
-                    'No hay ninguna razón válida, siempre debe tratarse igual',
-                    'Los precios de combustible cambian según el día'
-                ],
-                correctIndex: 1
-            }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>Si dice EVALUAR: negocia con el precio sugerido</h2>
+        <p>Cuando la carga no llega a ACEPTAR, el bloque <strong>Precio sugerido</strong> te da tres números para esa misma ruta:</p>
+        <table class="al-table">
+            <tr><td>Equilibrio<span class="al-sub">Tu costo × millas totales. Debajo de esto pierdes</span></td><td class="al-num-cell">$414</td></tr>
+            <tr><td>Objetivo<span class="al-sub">Lo que necesitas para tu margen</span></td><td class="al-num-cell">$517</td></tr>
+            <tr class="al-total"><td>Contraoferta<span class="al-sub">Objetivo + 8%: deja espacio para que el broker baje</span></td><td class="al-num-cell">$559</td></tr>
+        </table>
 
-        function markLessonComplete() {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress) {
-                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
-            }
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Panel · Precio sugerido</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/panel-contraoferta-movil.png" width="652" height="286"><img src="/academy/img/app/panel-contraoferta.png" alt="Bloque de precio sugerido con equilibrio 414, objetivo 517 y contraoferta 559 dólares." loading="lazy" width="1320" height="194"></picture>
+            </div>
+            <figcaption><b>Oferta de $480:</b> pide $559, acepta desde $517, y no bajes de $414.</figcaption>
+        </figure>
+        <h3 class="al-h3">Qué decir</h3>
+        <div class="al-callout">
+            <div class="al-callout-label">Con millas en vacío</div>
+            <p>"La carga me sirve, pero tengo 30 millas en vacío hasta el pickup y son 752 millas en total. Para que me funcione necesito $559. ¿Lo puedes mejorar?"</p>
+        </div>        <div class="al-callout">
+            <div class="al-callout-label">Hacia una mala zona</div>
+            <p>"Después de entregar tengo que manejar vacío para encontrar la siguiente carga. Con esas millas, mi número es $559."</p>
+        </div>        <div class="al-callout">
+            <div class="al-callout-label">Con paradas extra</div>
+            <p>"Son dos paradas y eso me suma horas. Puedo hacerla por $559."</p>
+        </div>
+        <p>Justifica siempre con un dato concreto: millas, paradas o zona. "Quiero más" no convence a nadie.</p>
+    </section>
+
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">05</span>Antes de decir sí: Tenlo en cuenta</h2>
+        <p>Debajo del precio sugerido, el panel puede mostrar avisos: entrega en fin de semana, zonas donde es difícil conseguir carga de salida, tus notas guardadas para ese lugar o una ganancia por día baja. No cambian el veredicto, pero te dicen qué revisar.</p>
+        <div class="al-callout is-warn">
+            <div class="al-callout-label">La regla que no se rompe</div>
+            <p>Por debajo del <strong>Equilibrio</strong> pierdes dinero. Solo tiene sentido si esa carga te saca de una mala zona y sabes exactamente cuánto te cuesta.</p>
+        </div>
+    </section>
+
+    <section class="al-summary">
+        <h2>En resumen</h2>
+        <ul>
+            <li>RECHAZAR: RPM bajo tu costo o ganancia negativa.</li>
+            <li>ACEPTAR: RPM en tu umbral, costo ÷ (1 − margen) o tu RPM mínimo.</li>
+            <li>EVALUAR: entre los dos, o carga corta / poca ganancia por día.</li>
+            <li>Negocia con Contraoferta, acepta desde Objetivo, nunca bajo Equilibrio.</li>
+        </ul>
+    </section>
+
+    <section class="lesson-quiz" id="lessonQuiz"></section>
+
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
+        <nav class="lesson-nav">
+            <a href="lesson-2.html" class="al-btn al-btn-ghost">← Lección anterior</a>
+            <a href="lesson-4.html" class="al-btn al-btn-primary">Siguiente: errores comunes →</a>
+        </nav>
+    </footer>
+</article>
+
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 2;
+    const LESSON_NUM = 3;
+    const LESSON_LIST = [
+        { num: 1, title: "Cómo usar la calculadora paso a paso", time: '9 min' },
+        { num: 2, title: "Millas cargadas y en vacío: un solo viaje", time: '8 min' },
+        { num: 3, title: "Leer el resultado: aceptar, negociar o rechazar", time: '9 min' },
+        { num: 4, title: "7 errores al llenar la calculadora", time: '8 min' },
+        { num: 5, title: "Caso de estudio: dos cargas con los números", time: '8 min' },
+        { num: 6, title: "Lex: tu copiloto para decidir", time: '7 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+  {
+    "question": "Tu costo es $0.55 por milla y tu margen objetivo 20%. ¿Desde qué RPM dice ACEPTAR?",
+    "options": [
+      "$0.55",
+      "$0.66",
+      "$0.69",
+      "$0.75"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "question": "Una carga de 33 millas con RPM $3.64 deja $101.85. ¿Qué dice el panel?",
+    "options": [
+      "ACEPTAR, por el RPM alto",
+      "EVALUAR, porque es corta y deja menos de $150",
+      "RECHAZAR",
+      "Nada"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "Equilibrio $414, Objetivo $517, Contraoferta $559. ¿Qué pides primero?",
+    "options": [
+      "$414",
+      "$480",
+      "$517",
+      "$559"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "question": "¿Cuál es una buena forma de pedir más?",
+    "options": [
+      "\"Quiero más dinero\"",
+      "\"Son 752 millas con 30 en vacío; para que me funcione necesito $559\"",
+      "No responder",
+      "Aceptar y quejarse después"
+    ],
+    "correctIndex": 1
+  }
+];
+
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada";
+            btn.disabled = true;
         }
+    }
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-
-            if (window.AcademySidebar) {
-                await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Dominando los Números', LESSON_LIST);
-            }
-
-            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-
-            if (alreadyDone) {
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                const quizEl = document.getElementById('lessonQuiz');
-                if (quizEl) quizEl.style.display = 'none';
-            } else if (window.AcademyQuiz) {
-                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-            }
-        });
-    </script>
-
-  
-
-
-
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, "Dominando los números", LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada"; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>

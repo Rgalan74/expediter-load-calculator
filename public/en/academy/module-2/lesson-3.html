@@ -1,94 +1,36 @@
 <!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interpreting the Result: Accept, Negotiate, or Decline | Smart Load Academy</title>
-    <meta name="description" content="Not every load deserves the same energy or treatment.">
+    <title>Reading the result: accept, negotiate or reject | Smart Load Academy</title>
+    <meta name="description" content="How the calculator decides between ACCEPT, EVALUATE and REJECT, and how to negotiate with the suggested price.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: .875rem
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: .75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all .3s ease
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
-            color: #fff
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, .1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .2)
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-  
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/en/academy/module-2/lesson-3.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-3.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-3.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-3.html">
+    <link rel="canonical" href="https://smartloadsolution.com/en/academy/module-2/lesson-3.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-3.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-3.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-3.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Back to App</a></nav>
-    <aside class="lesson-sidebar" id="lessonSidebar">
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Back to App</a></nav>
+
+<aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
         <div>
             <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
@@ -98,275 +40,225 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Module lessons">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Module lessons">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
-        <nav class="breadcrumb">
-            <a href="/en/academy.html">← Academy</a> → <a href="index.html">Module 2</a> → Lesson 3
-        </nav>
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/en/academy.html">Academy</a> / <a href="index.html">Module 2</a> / Lesson 3</nav>
 
-
-
-        
-        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
-            <h1>Interpreting the Result: Accept, Negotiate, or Decline</h1>
-            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
-                <span>📖 8 min read</span>
-                <span>🎓 Module 2 - Lesson 3</span>
-            </div>
-        </header>
-
-        <div class="lesson-content">
-
-            <section>
-                <h2>The 3 possible outcomes</h2>
-                <p>After running the numbers on a load, there are really only three paths you can take:</p>
-
-                <div class="compare-table">
-                    <div class="compare-row"><span class="label">✅ Accept</span><span class="value">The load meets or exceeds your targets</span></div>
-                    <div class="compare-row"><span class="label">⚠️ Negotiate</span><span class="value">The load is close, but needs a little push</span></div>
-                    <div class="compare-row"><span class="label">❌ Decline</span><span class="value">The load simply isn't profitable</span></div>
-                </div>
-            </section>
-
-            <section>
-                <h2>When to accept immediately</h2>
-
-                <p><strong>The "Green Light" criteria — auto-accept if ALL of these are true:</strong></p>
-                <div class="checklist">
-                    <span class="checklist-label">Green light</span>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Profit margin &gt; 25%</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Real RPM &gt; $1.40/mile</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Deadhead ratio &lt; 15%</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Delivery is in a strong freight zone</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Hourly rate &gt; $40/hr</span></div>
-                </div>
-                <p>If it checks all 5 boxes, don't overthink it. <strong>ACCEPT.</strong></p>
-            </section>
-
-            <section>
-                <h2>When to negotiate</h2>
-
-                <p><strong>The negotiation zone:</strong></p>
-                <ul>
-                    <li>Profit margin: 15-25% (borderline)</li>
-                    <li>Real RPM: $1.20 - $1.40/mile</li>
-                    <li>Or there's a specific negative factor that could easily be offset by a higher payout</li>
-                </ul>
-
-                <p><strong>Powerful negotiation scripts</strong></p>
-
-                <p><strong>Script #1: High deadhead</strong><br>"Hey, the load pays well, but I've got about 150 miles of deadhead to get to you. To make the numbers work on my end, I'd need to be closer to $1,250 instead of $1,100. Can we make that happen?"</p>
-
-                <p><strong>Script #2: Weak delivery zone</strong><br>"I see this delivers right into [Dead Zone]. It typically takes me 48 hours just to find a reload out of there. Is there any flexibility on the rate? I was thinking $1,350 rather than $1,200."</p>
-
-                <p><strong>Script #3: Multiple stops</strong><br>"I noticed this run has 3 stops. That easily adds 2-3 hours to my day. My base rate would be $1,300, but with the extra stops, I'd need $1,450. Can we work with that number?"</p>
-
-                <div class="note tip">
-                    <span class="note-label">The secret sauce</span>
-                    <p>Always justify your counter-offer with a specific, logical reason. Never just say "I want more money."</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>When to walk away without negotiating</h2>
-
-                <p><strong>Absolute red flags — instant decline if:</strong></p>
-                <div class="checklist">
-                    <span class="checklist-label">Instant decline</span>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Profit margin &lt; 10% or negative</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Real RPM &lt; $1.10/mile</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Deadhead ratio &gt; 25%</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Delivery in a dead zone with zero added compensation</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Load requires gear or equipment you don't carry</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Broker seems shady or untrustworthy</span></div>
-                </div>
-                <p>There is no point negotiating these. <strong>Politely DECLINE and move on.</strong></p>
-            </section>
-
-            <section>
-                <h2>The complete decision matrix</h2>
-
-                <div class="compare-table">
-                    <div class="compare-title">✅ Accept instantly</div>
-                    <div class="compare-row"><span class="label">Profit margin</span><span class="value accent">&gt; 30%</span></div>
-                    <div class="compare-row"><span class="label">Real RPM</span><span class="value accent">&gt; $1.50</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">✅ Accept</div>
-                    <div class="compare-row"><span class="label">Profit margin</span><span class="value">25-30%</span></div>
-                    <div class="compare-row"><span class="label">Real RPM</span><span class="value">$1.40 - 1.50</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">⚠️ Accept/negotiate</div>
-                    <div class="compare-row"><span class="label">Profit margin</span><span class="value">20-25%</span></div>
-                    <div class="compare-row"><span class="label">Real RPM</span><span class="value">$1.30 - 1.40</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">⚠️ Negotiate hard</div>
-                    <div class="compare-row"><span class="label">Profit margin</span><span class="value">15-20%</span></div>
-                    <div class="compare-row"><span class="label">Real RPM</span><span class="value">$1.20 - 1.30</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">❌ Likely decline</div>
-                    <div class="compare-row"><span class="label">Profit margin</span><span class="value">10-15%</span></div>
-                    <div class="compare-row"><span class="label">Real RPM</span><span class="value">$1.10 - 1.20</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">❌ Instant decline</div>
-                    <div class="compare-row"><span class="label">Profit margin</span><span class="value">&lt; 10%</span></div>
-                    <div class="compare-row"><span class="label">Real RPM</span><span class="value">&lt; $1.10</span></div>
-                </div>
-            </section>
-
-            <section>
-                <h2>Additional factors to consider</h2>
-
-                <p><strong>1. Context and timing</strong></p>
-                <p><strong>The exact same load hits differently depending on the context:</strong></p>
-                <ul>
-                    <li><strong>Monday 9 AM:</strong> A load giving a 20% margin → Wait for something better ⚠️</li>
-                    <li><strong>Friday 5 PM:</strong> A load giving a 20% margin → Accept it! ✅ (The weekend is starting soon)</li>
-                </ul>
-
-                <p><strong>2. Your financial reality</strong></p>
-                <ul>
-                    <li>Having a phenomenal week (already at $2,000 profit) → Be picky and selective</li>
-                    <li>Having a miserable week (only $600 profit) → You might need to take borderline loads</li>
-                    <li>End of the month (bills are due) → Be more flexible</li>
-                </ul>
-                <p><strong>HOWEVER:</strong> Never accept a load that actively loses you money. Ever.</p>
-
-                <p><strong>3. Market conditions</strong></p>
-                <ul>
-                    <li><strong>Saturated market (too many vans):</strong> Margins get tighter. A 20-22% margin might actually be "great."</li>
-                    <li><strong>Tight market (lots of freight):</strong> You have the leverage. Demand premium rates (30-35% margins are reachable).</li>
-                </ul>
-            </section>
-
-            <section>
-                <div class="conclusion">
-                    <p class="lead">Not every load deserves the same <span class="accent">energy or treatment</span>.</p>
-                    <p class="sub">Your time is your most precious asset. Don't waste it trying to negotiate the impossible. Trust your numbers — if the app shows a RED alert, it almost always means RED.</p>
-                </div>
-                <div class="checklist">
-                    <span class="checklist-label">Quick rule</span>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Truly great loads → Accept in under 30 seconds</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Borderline loads → Negotiate with total confidence</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Terrible loads → Decline without a single ounce of regret</span></div>
-                </div>
-            </section>
-
+    <header>
+        <div class="al-kicker">Module 2 · Lesson 3</div>
+        <h1 class="al-title">Reading the result: accept, negotiate or reject</h1>
+        <div class="al-meta">
+            <span class="al-chip">9 min read</span>
+            <span class="al-chip">Practice</span>
+            <span class="al-chip is-free">Free</span>
         </div>
+    </header>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+    <section class="al-learn">
+        <div class="al-learn-title">What you will learn</div>
+        <ol>
+            <li>The exact rules the panel uses for each verdict.</li>
+            <li>Why a short load with a high RPM can come out EVALUATE.</li>
+            <li>How to use Break-even, Target and Counter-offer to negotiate.</li>
+        </ol>
+    </section>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as
-                Complete</button>
-            <nav class="lesson-nav">
-                <a href="lesson-2.html" class="btn btn-secondary">← Previous Lesson</a>
-                <a href="lesson-4.html" class="btn btn-primary">Next: Most Common Mistakes →</a>
-            </nav>
-        </footer>
-            </article>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>How the app decides</h2>
+        <p>The panel checks the load in this order. The first rule that applies gives the verdict:</p>
+        <table class="al-table">
+            <tr><td><span class="al-red"><strong>REJECT</strong></span><span class="al-sub">RPM is below your cost per mile, or net profit is negative. You lose money.</span></td></tr>
+            <tr><td><span class="al-amber"><strong>EVALUATE</strong></span><span class="al-sub">A short load (150 miles or less) that leaves under $150, or profit per day under $100. Even if the RPM looks good.</span></td></tr>
+            <tr><td><span class="al-green"><strong>ACCEPT</strong></span><span class="al-sub">RPM reaches your threshold: cost ÷ (1 − target margin), or your minimum RPM from Settings if that is higher.</span></td></tr>
+            <tr><td><span class="al-amber"><strong>EVALUATE</strong></span><span class="al-sub">Everything else: it covers your cost but does not reach your target.</span></td></tr>
+        </table>
+        <div class="al-callout">
+            <div class="al-callout-label">In the example account</div>
+            <p>Cost of $0.55 and a 20% margin: the ACCEPT threshold is $0.55 ÷ 0.80 = <strong>$0.69 per mile</strong>. Below $0.55 is REJECT. In between, EVALUATE.</p>
+        </div>
+    </section>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 2, LESSON_NUM = 3;
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>Three rates for the same route</h2>
+        <p>Detroit → Atlanta: 722 loaded miles and 30 empty, 752 in total.</p>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'How to Use the Calculator Correctly', time: '10 min' },
-            { num: 2, title: 'Loaded Miles vs Deadhead Miles: How to Think About Both Together', time: '9 min' },
-            { num: 3, title: 'Interpreting the Result: Accept, Negotiate, or Decline', time: '8 min' },
-            { num: 4, title: 'Common Data Entry Mistakes (And How to Avoid Them)', time: '8 min' },
-            { num: 5, title: 'Case Study: Carlos\'s Transformation', time: '10 min' },
-            { num: 6, title: 'Lex AI: Your Decision Copilot', time: '8 min' }
-        ];
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Panel · $1,000</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/panel-acepta-movil-en.png" width="652" height="840"><img src="/academy/img/app/panel-acepta-en.png" alt="Panel with ACCEPT verdict, RPM 1.33 and 586 dollars net profit." loading="lazy" width="1320" height="621"></picture>
+            </div>
+            <figcaption><b>$1,000 → ACCEPT.</b> RPM $1.33, well above $0.69. Net profit $586.40, about $293 per day.</figcaption>
+        </figure>
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Panel · $480</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/panel-evalua-movil-en.png" width="652" height="840"><img src="/academy/img/app/panel-evalua-en.png" alt="Panel with EVALUATE verdict, RPM 0.64 and 66 dollars net profit." loading="lazy" width="1320" height="621"></picture>
+            </div>
+            <figcaption><b>$480 → EVALUATE.</b> RPM $0.64: it covers the cost but does not reach $0.69. Only $66.40 profit, about $33 per day.</figcaption>
+        </figure>
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Panel · $380</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/panel-rechaza-movil-en.png" width="652" height="840"><img src="/academy/img/app/panel-rechaza-en.png" alt="Panel with REJECT verdict, RPM 0.51 and negative net profit." loading="lazy" width="1320" height="621"></picture>
+            </div>
+            <figcaption><b>$380 → REJECT.</b> RPM $0.51, below the $0.55 cost. You lose $33.60.</figcaption>
+        </figure>
+    </section>
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: 'Per the "Green Light" auto-accept criteria, which of these is NOT one of the 5 criteria?',
-                options: [
-                    'Profit margin >25%',
-                    'Real RPM >$1.40/mi',
-                    'The broker must be on the Fortune 500 list',
-                    'Hourly rate >$40/hr'
-                ],
-                correctIndex: 2
-            },
-            {
-                question: 'Per the decision matrix, a load with 15-20% profit margin and $1.20-1.30 real RPM — which decision applies?',
-                options: ['ACCEPT INSTANTLY', 'NEGOTIATE HARD', 'INSTANT DECLINE', 'ACCEPT/NEGOTIATE'],
-                correctIndex: 1
-            },
-            {
-                question: 'Per the "Absolute Red Flags", above what deadhead ratio is INSTANT DECLINE (no negotiation) recommended?',
-                options: ['>15%', '>20%', '>25%', '>10%'],
-                correctIndex: 2
-            },
-            {
-                question: 'Per the lesson, why might the SAME load (20% margin) be accepted on a Friday 5PM but declined on a Monday 9AM?',
-                options: [
-                    'Brokers pay better on Fridays',
-                    'Timing context matters: Friday the weekend is close, Monday there\'s more time to wait for something better',
-                    'There is no valid reason, it should always be treated the same',
-                    'Fuel prices change by day of the week'
-                ],
-                correctIndex: 1
-            }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>When a high RPM is not enough</h2>
+        <p>Fort Worth → Dallas, 33 miles for $120. The RPM is <strong>$3.64</strong>, but the panel says <strong>EVALUATE</strong>: it is a short load that leaves $101.85, less than the $150 the app asks for on a load of 150 miles or less.</p>
 
-        function markLessonComplete() {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress) {
-                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
-            }
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Panel · short load</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/panel-corta-movil-en.png" width="652" height="840"><img src="/academy/img/app/panel-corta-en.png" alt="Panel with EVALUATE verdict for a 33-mile load with a 3.64 RPM." loading="lazy" width="1320" height="621"></picture>
+            </div>
+            <figcaption><b>High RPM, small profit.</b> A short load can take half your day and leave you little. That is why the app asks you to review it.</figcaption>
+        </figure>
+    </section>
+
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>If it says EVALUATE: negotiate with the suggested price</h2>
+        <p>When the load does not reach ACCEPT, the <strong>Suggested price</strong> block gives you three numbers for that same route:</p>
+        <table class="al-table">
+            <tr><td>Break-even<span class="al-sub">Your cost × total miles. Below this you lose</span></td><td class="al-num-cell">$414</td></tr>
+            <tr><td>Target<span class="al-sub">What you need for your margin</span></td><td class="al-num-cell">$517</td></tr>
+            <tr class="al-total"><td>Counter-offer<span class="al-sub">Target + 8%: leaves room for the broker to come down</span></td><td class="al-num-cell">$559</td></tr>
+        </table>
+
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Panel · Suggested price</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/panel-contraoferta-movil-en.png" width="652" height="286"><img src="/academy/img/app/panel-contraoferta-en.png" alt="Suggested price block with break-even 414, target 517 and counter-offer 559 dollars." loading="lazy" width="1320" height="194"></picture>
+            </div>
+            <figcaption><b>$480 offer:</b> ask for $559, accept from $517, and do not go below $414.</figcaption>
+        </figure>
+        <h3 class="al-h3">What to say</h3>
+        <div class="al-callout">
+            <div class="al-callout-label">With empty miles</div>
+            <p>"The load works for me, but I have 30 empty miles to the pickup and it is 752 miles in total. To make it work I need $559. Can you do better?"</p>
+        </div>        <div class="al-callout">
+            <div class="al-callout-label">Into a bad zone</div>
+            <p>"After delivery I have to drive empty to find the next load. With those miles, my number is $559."</p>
+        </div>        <div class="al-callout">
+            <div class="al-callout-label">With extra stops</div>
+            <p>"It has two stops and that adds hours. I can do it for $559."</p>
+        </div>
+        <p>Always back it up with a concrete fact: miles, stops or zone. "I want more" convinces nobody.</p>
+    </section>
+
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">05</span>Before you say yes: Keep in mind</h2>
+        <p>Below the suggested price, the panel can show warnings: weekend delivery, zones where outbound freight is hard to find, your saved notes for that place or a low profit per day. They do not change the verdict, but they tell you what to check.</p>
+        <div class="al-callout is-warn">
+            <div class="al-callout-label">The rule you do not break</div>
+            <p>Below <strong>Break-even</strong> you lose money. It only makes sense if that load gets you out of a bad zone and you know exactly what it costs you.</p>
+        </div>
+    </section>
+
+    <section class="al-summary">
+        <h2>In summary</h2>
+        <ul>
+            <li>REJECT: RPM below your cost or negative profit.</li>
+            <li>ACCEPT: RPM at your threshold, cost ÷ (1 − margin) or your minimum RPM.</li>
+            <li>EVALUATE: in between, or a short load / low profit per day.</li>
+            <li>Negotiate with Counter-offer, accept from Target, never below Break-even.</li>
+        </ul>
+    </section>
+
+    <section class="lesson-quiz" id="lessonQuiz"></section>
+
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as complete</button>
+        <nav class="lesson-nav">
+            <a href="lesson-2.html" class="al-btn al-btn-ghost">← Previous lesson</a>
+            <a href="lesson-4.html" class="al-btn al-btn-primary">Next: common mistakes →</a>
+        </nav>
+    </footer>
+</article>
+
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 2;
+    const LESSON_NUM = 3;
+    const LESSON_LIST = [
+        { num: 1, title: "How to use the calculator step by step", time: '9 min' },
+        { num: 2, title: "Loaded and empty miles: one single trip", time: '8 min' },
+        { num: 3, title: "Reading the result: accept, negotiate or reject", time: '9 min' },
+        { num: 4, title: "7 mistakes when filling in the calculator", time: '8 min' },
+        { num: 5, title: "Case study: two loads with the numbers", time: '8 min' },
+        { num: 6, title: "Lex: your decision copilot", time: '7 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+  {
+    "question": "Your cost is $0.55 per mile and your target margin 20%. From what RPM does it say ACCEPT?",
+    "options": [
+      "$0.55",
+      "$0.66",
+      "$0.69",
+      "$0.75"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "question": "A 33-mile load with a $3.64 RPM leaves $101.85. What does the panel say?",
+    "options": [
+      "ACCEPT, because of the high RPM",
+      "EVALUATE, because it is short and leaves less than $150",
+      "REJECT",
+      "Nothing"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "Break-even $414, Target $517, Counter-offer $559. What do you ask for first?",
+    "options": [
+      "$414",
+      "$480",
+      "$517",
+      "$559"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "question": "What is a good way to ask for more?",
+    "options": [
+      "\"I want more money\"",
+      "\"It is 752 miles with 30 empty; to make it work I need $559\"",
+      "Not answering",
+      "Accept and complain later"
+    ],
+    "correctIndex": 1
+  }
+];
+
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completed";
+            btn.disabled = true;
         }
+    }
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-
-            if (window.AcademySidebar) {
-                await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Mastering the Numbers', LESSON_LIST);
-            }
-
-            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-
-            if (alreadyDone) {
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                const quizEl = document.getElementById('lessonQuiz');
-                if (quizEl) quizEl.style.display = 'none';
-            } else if (window.AcademyQuiz) {
-                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-            }
-        });
-    </script>
-
-  
-
-
-
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, "Mastering the numbers", LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completed"; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>
