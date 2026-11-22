@@ -134,7 +134,7 @@ class LexModals {
         <!-- Header -->
         <div class="text-white p-4 rounded-t-2xl flex-shrink-0" style="background: linear-gradient(to right, #059669, #2563eb) !important;">
           <div class="flex items-center gap-3">
-            <img src="img/lex/lex-thinking.png" alt="Lex AI" class="w-10 h-10 rounded-full bg-white/10 p-1">
+            <img src="img/lex-thinking.webp" alt="Lex AI" class="w-10 h-10 rounded-full bg-white/10 p-1">
             <div>
               <h3 class="text-lg font-bold">${isEs ? 'Análisis de Zonas' : 'Zone Analysis'}</h3>
               <p class="text-xs text-emerald-100">${isEs ? 'Tu rendimiento geográfico' : 'Your geographic performance'}</p>
