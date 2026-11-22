@@ -422,66 +422,25 @@ async function updateSummaryStats() {
 
     debugLog('📊 Calculado revenue:', totalRevenue, 'miles:', totalMiles);
 
-    // Cargar gastos del mismo periodo que las cargas filtradas
-    let totalExpenses = 0;
-
-    if (window.currentUser && filteredData.length > 0) {
-      try {
-        debugLog('📊 Cargando gastos...');
-
-        // Obtener rango de fechas de las cargas filtradas
-        const dates = filteredData.map(load => load.date).filter(d => d);
-        const minDate = dates.length > 0 ? dates.reduce((a, b) => a < b ? a : b) : null;
-        const maxDate = dates.length > 0 ? dates.reduce((a, b) => a > b ? a : b) : null;
-
-        debugLog('📊 Rango de fechas:', minDate, 'a', maxDate);
-
-        if (minDate && maxDate) {
-          // Verificar que Firebase esté disponible
-          if (typeof firebase === 'undefined' || !firebase.firestore) {
-            debugLog('⚠️ Firebase no disponible, usando totalExpenses = 0');
-          } else {
-            // Cargar todos los gastos del usuario
-            const expensesSnapshot = await firebase.firestore()
-              .collection("expenses")
-              .where("userId", "==", window.currentUser.uid)
-              .get();
-
-            debugLog('📊 Gastos encontrados:', expensesSnapshot.docs.length);
-
-
-            // Filtrar gastos por el mismo rango de fechas que las cargas
-            expensesSnapshot.docs.forEach(doc => {
-              const expense = doc.data();
-              const expDate = expense.date || '';
-              const selectedYear = document.getElementById('historyYearSelect')?.value || 'all';
-              const expMinDate = selectedYear !== 'all' ? `${selectedYear}-01-01` : '2000-01-01';
-              const expMaxDate = selectedYear !== 'all' ? `${selectedYear}-12-31` : '2099-12-31';
-              if (expDate >= expMinDate && expDate <= expMaxDate) {
-                totalExpenses += Number(expense.amount || 0);
-              }
-            });
-            debugLog('📊 Total gastos (filtrados por fecha):', totalExpenses);
-
-
-
-          }
-        }
-      } catch (error) {
-        debugLog("❌ Error cargando gastos para History:", error);
-        // Si hay error, totalExpenses queda en 0
+    // Ganancia estimada de las cargas filtradas: suma de la ganancia neta de cada
+    // carga (la misma de la Calculadora y de cada fila). Funciona con cualquier
+    // filtro (mes, origen, destino). La ganancia real con los gastos registrados
+    // esta en Finanzas.
+    let totalProfit = 0;
+    filteredData.forEach(load => {
+      const np = Number(load.netProfit) || 0;
+      if (np === 0 && Number(load.totalExpenses) > 0) {
+        // Cargas antiguas sin netProfit guardado: ingreso - gastos guardados de la carga
+        totalProfit += Number(load.totalCharge || 0) - Number(load.totalExpenses);
+      } else {
+        totalProfit += np;
       }
-    } else {
-      debugLog('📊 Sin usuario, totalExpenses = 0');
-    }
-
-    // Ganancia neta REAL (igual que Finances): Ingresos - Gastos
-    const totalProfit = totalRevenue - totalExpenses;
+    });
 
     // RPM ponderado por millas (igual que Finances) - más preciso
     const avgRpm = totalMiles > 0 ? totalRevenue / totalMiles : 0;
 
-    debugLog('📊 KPIs finales:', { totalProfit, avgRpm, totalExpenses });
+    debugLog('📊 KPIs finales:', { totalProfit, avgRpm });
 
     updateElement('sumTotal', filteredData.length);
     updateElement('sumMiles', totalMiles.toLocaleString());
