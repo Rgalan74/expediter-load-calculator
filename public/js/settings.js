@@ -334,11 +334,7 @@ function saveUserConfiguration() {
             // Metas de negocio
             targetRPM: parseFloat(document.getElementById('targetRPM')?.value) || 1.25,
             monthlyMilesGoal: parseFloat(document.getElementById('monthlyMilesGoal')?.value) || 8000,
-            targetProfit: parseFloat(document.getElementById('targetProfit')?.value) || 30,
-            // Sueldo mensual que el dueño necesita sacar (0 = no usar)
-            ownerPayMonthly: Math.max(0, parseFloat(document.getElementById('ownerPayMonthly')?.value) || 0),
-            // Dias de trabajo al mes: el sueldo se reparte por dia (1-31, por defecto 22)
-            workDaysPerMonth: Math.min(31, Math.max(1, parseFloat(document.getElementById('workDaysPerMonth')?.value) || 22))
+            targetProfit: parseFloat(document.getElementById('targetProfit')?.value) || 30
         };
 
         debugLog(" Configuration to save:", config);
@@ -401,8 +397,6 @@ function saveUserConfiguration() {
                 ...(window.currentUser.profileData || {}),
                 targetProfit: config.targetProfit,
                 monthlyMilesGoal: config.monthlyMilesGoal,
-                ownerPayMonthly: config.ownerPayMonthly,
-                workDaysPerMonth: config.workDaysPerMonth,
                 targetRPM: config.targetRPM,
                 fuelPricePerGallon: config.fuelPricePerGallon,
                 fuelMPG: config.fuelMPG,
@@ -556,9 +550,7 @@ function applyConfigurationToForm(config) {
             ['repairsPerMile', config.repairsPerMile],
             ['targetRPM', config.targetRPM],
             ['monthlyMilesGoal', config.monthlyMilesGoal],
-            ['targetProfit', config.targetProfit],
-            ['ownerPayMonthly', config.ownerPayMonthly || ''],
-            ['workDaysPerMonth', config.workDaysPerMonth || 22]
+            ['targetProfit', config.targetProfit]
         ];
 
         let fieldsLoaded = 0;

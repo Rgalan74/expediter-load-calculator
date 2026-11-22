@@ -60,7 +60,7 @@ function addDestination() {
 /**
  * Initialize Google autocomplete for a destination field
  */
-function initializeDestinationAutocomplete(destId) {
+function initializeDestinationAutocomplete(destId, attempt = 0) {
     const input = document.getElementById(`${destId}-input`);
 
     if (!input) {
@@ -68,10 +68,19 @@ function initializeDestinationAutocomplete(destId) {
         return;
     }
 
+    // Ya configurado para este mismo campo: no duplicar
+    if (destinationAutocompletes[destId] && input.dataset.acReady === '1') return;
+
     if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
-        debugLog('[DESTINATIONS] Google Maps not loaded');
+        // Google Maps carga en segundo plano: reintentar hasta que esté listo (máx. ~60 s)
+        if (attempt < 200) {
+            setTimeout(() => initializeDestinationAutocomplete(destId, attempt + 1), 300);
+        } else {
+            debugLog('[DESTINATIONS] Google Maps not loaded');
+        }
         return;
     }
+    input.dataset.acReady = '1';
 
     const autocomplete = new google.maps.places.Autocomplete(input, {
         types: ['(cities)'],
