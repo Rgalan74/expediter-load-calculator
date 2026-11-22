@@ -1,94 +1,36 @@
 <!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Using the Zone Heat Map (A Visual Guide) | Smart Load Academy</title>
-    <meta name="description" content="The Heat Map is NOT just a pretty graph. It is your #1 strategic weapon.">
+    <title>How to use the Zones tab | Smart Load Academy</title>
+    <meta name="description" content="Guide to the Zones tab: heat map, state table, destination cities and market notes.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: .875rem
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: .75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all .3s ease
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
-            color: #fff
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, .1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .2)
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-  
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/en/academy/module-3/lesson-3.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/lesson-3.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/lesson-3.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/lesson-3.html">
+    <link rel="canonical" href="https://smartloadsolution.com/en/academy/module-3/lesson-3.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/lesson-3.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/lesson-3.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/lesson-3.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Back to App</a></nav>
-    <aside class="lesson-sidebar" id="lessonSidebar">
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Back to App</a></nav>
+
+<aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
         <div>
             <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
@@ -98,374 +40,198 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Module lessons">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Module lessons">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
-        <nav class="breadcrumb">
-            <a href="/en/academy.html">← Academy</a> → <a href="index.html">Module 3</a> → Lesson 3
-        </nav>
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/en/academy.html">Academy</a> / <a href="index.html">Module 3</a> / Lesson 3</nav>
 
-
-
-        
-        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
-            <h1>Using the Zone Heat Map (A Visual Guide)</h1>
-            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
-                <span>📖 9 min read</span>
-                <span>🎓 Module 3 - Lesson 3</span>
-            </div>
-        </header>
-
-        <div class="lesson-content">
-
-            <section>
-                <h2>What is the Zone Heat Map?</h2>
-                <p><strong>It is your visual GPS for profitability.</strong></p>
-                <p>Instead of struggling to read massive tables and numbers, you INSTANTLY see:</p>
-                <ul>
-                    <li>Exactly where you are making the most money</li>
-                    <li>Where you are burning precious time waiting</li>
-                    <li>Where you should immediately position your van</li>
-                    <li>Where you should NEVER go</li>
-                </ul>
-                <p><strong>And the best part? It's all based purely on YOUR personal history, not industry averages.</strong></p>
-            </section>
-
-            <section>
-                <h2>Accessing the Heat Map</h2>
-
-                <div class="formula">Smart Load Solution<br>
-Home → Zones → Heat Map<br>
-<br>
-Display Options:<br>
-○ Profit per Mile<br>
-○ Average Wait Time<br>
-○ Load Count<br>
-○ Success Rate<br>
-● Combined Score<br>
-<br>
-Time Period:<br>
-○ Last 30 days<br>
-○ Last 90 days<br>
-● Last 6 months (highly recommended)<br>
-○ All time</div>
-            </section>
-
-            <section>
-                <h2>Interpreting the colors</h2>
-
-                <div class="compare-table">
-                    <div class="compare-title">View: Profit Per Mile</div>
-                    <div class="compare-row"><span class="label">🟢🟢 $1.60+/mi</span><span class="value">Your gold mines</span></div>
-                    <div class="compare-row"><span class="label">🟢 $1.40-1.60/mi</span><span class="value">Solid, reliable zones</span></div>
-                    <div class="compare-row"><span class="label">🟡 $1.20-1.40/mi</span><span class="value">Acceptable</span></div>
-                    <div class="compare-row"><span class="label">🟠 $1.00-1.20/mi</span><span class="value">Marginal at best</span></div>
-                    <div class="compare-row"><span class="label">🔴 &lt;$1.00/mi</span><span class="value">Avoid like the plague</span></div>
-                </div>
-
-                <div class="compare-table">
-                    <div class="compare-title">View: Average Wait Time</div>
-                    <div class="compare-row"><span class="label">🟢🟢 &lt;12 hrs</span><span class="value">Excellent velocity</span></div>
-                    <div class="compare-row"><span class="label">🟢 12-24 hrs</span><span class="value">Good velocity</span></div>
-                    <div class="compare-row"><span class="label">🟡 24-36 hrs</span><span class="value">Slow</span></div>
-                    <div class="compare-row"><span class="label">🟠 36-48 hrs</span><span class="value">Very slow</span></div>
-                    <div class="compare-row"><span class="label">🔴 &gt;48 hrs</span><span class="value">Straight up dead zone</span></div>
-                </div>
-            </section>
-
-            <section>
-                <h2>The Combined Score</h2>
-                <p>This is where the real power lives: the "Combined Score" view.</p>
-
-                <div class="formula">ZONE HEAT MAP<br>
-View: Combined Score<br>
-────────────────────────────────<br>
-The Combined Score factors in:<br>
-• Profit per mile (40% weight)<br>
-• Wait time (30% weight)<br>
-• Load availability (20% weight)<br>
-• Your success rate (10% weight)<br>
-<br>
-[INTERACTIVE MAP DISPLAY]<br>
-<br>
-Detroit Metro: ███████ 94/100 🟢<br>
-Chicago: ██████ 89/100 🟢<br>
-Atlanta: ██████ 91/100 🟢<br>
-Nashville: █████ 82/100 🟢<br>
-Indianapolis: █████ 80/100 🟡<br>
-Phoenix: ███ 58/100 🟡<br>
-El Paso: █ 22/100 🔴<br>
-Laredo: █ 18/100 🔴</div>
-
-                <p><strong>How to use the score:</strong></p>
-                <ul>
-                    <li>Score 80+: Build your core driving circuit around these.</li>
-                    <li>Score 60-79: Perfectly fine for occasional visits.</li>
-                    <li>Score &lt;60: Avoid utterly, unless there are extreme premium circumstances.</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>Drilling down: the zone details</h2>
-                <p>Just tap on any zone on the map to pull up the full breakdown:</p>
-
-                <div class="formula">DETROIT METRO DETAILED REPORT<br>
-Combined Score: 94/100 🟢🟢<br>
-<br>
-YOUR PERFORMANCE HERE:<br>
-├─ Loads completed: 24<br>
-├─ Avg profit/mile: $1.72<br>
-├─ Avg wait time: 9.2 hrs<br>
-├─ Success rate: 96%<br>
-└─ Total net profit: $6,840<br>
-<br>
-TIMING PATTERNS:<br>
-Best days: Mon-Wed (11 loads)<br>
-Slow days: Fri-Sun (3 loads)<br>
-Peak hours: 6am - 10am<br>
-<br>
-HOTTEST LANES OUT OF HERE:<br>
-1. Detroit → Chicago: $1.68/mi<br>
-2. Detroit → Atlanta: $1.65/mi<br>
-3. Detroit → Charlotte: $1.58/mi<br>
-<br>
-YOUR BEST CONTACTS HERE:<br>
-• Broker: John @ XYZ (5 loads)<br>
-• Broker: Sarah @ ABC (4 loads)<br>
-<br>
-NEXT RECOMMENDED VISIT:<br>
-Mon-Tue of next week<br>
-(Historical pattern: high volume of profitable loads)</div>
-
-                <p><strong>This is PURE GOLD for planning your week.</strong></p>
-            </section>
-
-            <section>
-                <h2>Bonus feature: the Route Planner</h2>
-
-                <div class="formula">SMART ROUTE PLANNER<br>
-Current location: Toledo, OH<br>
-<br>
-I want to:<br>
-○ Find best zone within 200 mi<br>
-● Plan profitable circuit<br>
-○ Return home profitably<br>
-<br>
-[CALCULATE BEST ROUTE]<br>
-<br>
-RECOMMENDED CIRCUIT:<br>
-<br>
-Toledo → Detroit (65 mi) 🟢🟢<br>
-├─ Score: 94/100<br>
-├─ Expected wait: 9 hrs<br>
-└─ Avg rate out: $1.65/mi<br>
-<br>
-Detroit → Chicago (280 mi) 🟢🟢<br>
-├─ Score: 89/100<br>
-├─ Expected wait: 12 hrs<br>
-└─ Avg rate out: $1.58/mi<br>
-<br>
-Chicago → Indianapolis (185 mi) 🟢<br>
-├─ Score: 80/100<br>
-├─ Expected wait: 18 hrs<br>
-└─ Avg rate out: $1.52/mi<br>
-<br>
-Indianapolis → Toledo (280 mi) 🟢<br>
-└─ Completing the circuit<br>
-<br>
-CIRCUIT SUMMARY:<br>
-├─ Total miles: ~810 mi<br>
-├─ Estimated days: 3-4 days<br>
-├─ Projected net profit: $850-1,100<br>
-├─ All zones score 80+<br>
-└─ High confidence route ✅</div>
-            </section>
-
-            <section>
-                <h2>The Zone Alert protection</h2>
-
-                <div class="note warning">
-                    <span class="note-label">Zone alert</span>
-                    <p>You're currently calculating a load to: <strong>El Paso, TX</strong></p>
-                    <p><strong>WARNING: Historically low-performing zone 🔴</strong></p>
-                    <p>Your personal history in El Paso:</p>
-                    <ul>
-                        <li>Loads taken: 2</li>
-                        <li>Avg RPM out: $1.05/mi</li>
-                        <li>Avg wait time: 54 hours</li>
-                        <li>Overall Zone score: 22/100</li>
-                        <li>Last visit result: Lost $120</li>
-                    </ul>
-                    <p><strong>Our recommendation:</strong> This load needs to pay you at least <strong>$2.00/mi</strong> just to compensate for the brutal wait time, expensive repositioning, and historically terrible backhaul rates.</p>
-                    <p>Broker offer right now: $1.30/mi ❌<br>
-                        Suggested counter-offer: <strong>Ask for $2.10/mi</strong></p>
-                </div>
-
-                <p><strong>The app acts like your personal dispatcher, refusing to let you repeat past mistakes.</strong></p>
-            </section>
-
-            <section>
-                <h2>Pro tricks to master the Heat Map</h2>
-
-                <p><strong>1. The 15-minute weekly planning session</strong></p>
-                <p>Every Sunday, dedicate 15 minutes to planning. This small habit translates to roughly +$200-$400 more per week.</p>
-                <ul>
-                    <li>Open up your Heat Map.</li>
-                    <li>Check out your current location.</li>
-                    <li>Identify 3 target "Dark Green" zones for the week.</li>
-                    <li>Set alerts specifically for loads heading to those zones.</li>
-                    <li>Track your performance against your plan.</li>
-                </ul>
-
-                <p><strong>2. The seasonal master adjustment</strong></p>
-                <p>Right before the start of every quarter (Q1, Q2, Q3, Q4):</p>
-                <ul>
-                    <li>Change your view to "Last 3 months."</li>
-                    <li>Compare it with the exact same quarter from last year.</li>
-                    <li>Adjust your driving circuit based on emerging patterns.</li>
-                    <li>Update your primary target zones.</li>
-                </ul>
-                <p><strong>For example:</strong><br>
-                    Q4 → Add more Florida routes (the snowbirds are flocking south)<br>
-                    Q2 → Heavily reduce Phoenix (summer is totally dead)</p>
-
-                <p><strong>3. The broker overlay trick</strong></p>
-                <p>Combine your Heat Map with your Broker Performance metrics:</p>
-                <p>"Show me zones where Broker John is highly active."</p>
-                <p><strong>Strategy:</strong> When you're sitting in Detroit or Chicago, you prioritize John's offers first.</p>
-            </section>
-
-            <section>
-                <p><strong>What used to take you:</strong></p>
-                <ul>
-                    <li>Complex, messy spreadsheets</li>
-                    <li>Trying to memorize dozens of past loads</li>
-                    <li>Blindly guessing at market patterns</li>
-                    <li>Weeks of financial analysis</li>
-                </ul>
-                <p><strong>Now only takes you:</strong></p>
-                <ul>
-                    <li>Exactly 30 seconds</li>
-                    <li>A visually obvious map</li>
-                    <li>Data updated in real-time</li>
-                    <li>Decisions based entirely on YOUR personal business data</li>
-                </ul>
-
-                <div class="conclusion">
-                    <p class="lead">The Heat Map is NOT just a pretty graph. It is your <span class="accent">#1 strategic weapon</span>.</p>
-                    <p class="sub">Use it WEEKLY. Your profits will naturally increase 15-25% simply by positioning yourself better.</p>
-                </div>
-            </section>
-
+    <header>
+        <div class="al-kicker">Module 3 · Lesson 3</div>
+        <h1 class="al-title">How to use the Zones tab</h1>
+        <div class="al-meta">
+            <span class="al-chip">8 min read</span>
+            <span class="al-chip">Strategy</span>
+            <span class="al-chip is-free">Free</span>
         </div>
+    </header>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+    <section class="al-learn">
+        <div class="al-learn-title">What you will learn</div>
+        <ol>
+            <li>What each part of Zones shows.</li>
+            <li>How to read the state table.</li>
+            <li>How to save market notes and where they show up again.</li>
+        </ol>
+    </section>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as
-                Complete</button>
-            <nav class="lesson-nav">
-                <a href="lesson-2.html" class="btn btn-secondary">← Previous Lesson</a>
-                <a href="lesson-4.html" class="btn btn-primary">Next: Strategic Deadhead →</a>
-            </nav>
-        </footer>
-            </article>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>What the Zones tab has</h2>
+        <table class="al-table">
+            <tr><td><strong>Heat map</strong><span class="al-sub">Each state in green, yellow or red. Hover to see its data</span></td></tr>
+            <tr><td><strong>State zone table</strong><span class="al-sub">Loads, RPM, profit and level of each state</span></td></tr>
+            <tr><td><strong>Destination cities map</strong><span class="al-sub">The cities where you delivered, with their RPM, and the most frequent ones</span></td></tr>
+            <tr><td><strong>Market notes</strong><span class="al-sub">What you learned about each place, so you do not forget it</span></td></tr>
+        </table>
+    </section>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 3, LESSON_NUM = 3;
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>The state table</h2>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'What Are Profitable Zones (And How to Identify Yours)', time: '12 min' },
-            { num: 2, title: 'Great States to Enter vs Great States to Exit', time: '11 min' },
-            { num: 3, title: 'Using the Zone Heat Map (A Visual Guide)', time: '9 min' },
-            { num: 4, title: 'Strategic Deadhead: When It Actually Pays to Drive Empty', time: '9 min' },
-            { num: 5, title: 'Smart Positioning: Thinking 2-3 Loads Ahead', time: '10 min' }
-        ];
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Zones · State table</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/zonas-tabla-movil-en.png" width="740" height="862"><img src="/academy/img/app/zonas-tabla-en.png" alt="Zone table with Georgia, Florida, Michigan, Texas, Ohio and Tennessee, with loads, RPM, profit and score." loading="lazy" width="1380" height="813"></picture>
+            </div>
+            <figcaption><b>Example account.</b> Michigan: 4 loads at $1.30 and $927 profit. Florida: 2 loads at $0.50 and a loss.</figcaption>
+        </figure>
+        <table class="al-table">
+            <tr><td><strong>Loads</strong><span class="al-sub">How many loads you took leaving that state</span></td></tr>
+            <tr><td><strong>RPM</strong><span class="al-sub">The average of those loads</span></td></tr>
+            <tr><td><strong>Profit</strong><span class="al-sub">The net profit of those loads added up</span></td></tr>
+            <tr><td><strong>Score and performance</strong><span class="al-sub">The level as a number: 75 green, 37 yellow, 10 red</span></td></tr>
+        </table>
+        <p>Tap a column header to sort. <strong>Print report</strong> gives you a version to save or share.</p>
+    </section>
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: 'What weights does the Heat Map\'s "Combined Score" use?',
-                options: [
-                    '40% profit/mile, 30% wait time, 20% load availability, 10% success rate',
-                    '100% profit per mile only',
-                    '50% wait time, 50% profit',
-                    'Equal weight (25%) for all 4 metrics'
-                ],
-                correctIndex: 0
-            },
-            {
-                question: 'Per the Combined Score scoring guide, what score range is recommended for building your circuit around?',
-                options: ['60-79', 'Below 60', '80+', 'Any score works'],
-                correctIndex: 2
-            },
-            {
-                question: 'In the El Paso Zone Alert example (history: 2 loads, avg RPM $1.05/mi, avg wait 54 hrs, score 22/100), how much does the app suggest countering at?',
-                options: ['$1.30/mi (the original offer)', '$1.50/mi', '$2.10/mi', 'It doesn\'t suggest any counter'],
-                correctIndex: 2
-            },
-            {
-                question: 'Per the "Pro Tricks", what is recommended every Sunday?',
-                options: [
-                    'Not using the app that day',
-                    '15 minutes of weekly planning to identify 3 target zones',
-                    'Only checking the weather',
-                    'Completely changing your circuit'
-                ],
-                correctIndex: 1
-            }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>Destination cities</h2>
 
-        function markLessonComplete() {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress) {
-                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
-            }
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Zones · Destination cities</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/zonas-ciudades-movil-en.png" width="740" height="2256"><img src="/academy/img/app/zonas-ciudades-en.png" alt="Destination cities map with colored markers and a table of cities with the most loads." loading="lazy" width="1380" height="1554"></picture>
+            </div>
+            <figcaption><b>Where your loads end.</b> The marker color shows the profitability of the loads you delivered in that city.</figcaption>
+        </figure>
+        <p>Use it to see which cities your brokers send you to and which ones pay best. If a city keeps coming up and pays little, that is a conversation to have with that broker.</p>
+    </section>
+
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>Market notes</h2>
+        <p>Type the place, choose whether the note applies when it is the <strong>destination</strong>, the <strong>origin</strong> or <strong>both</strong>, and write what you learned: long waits, difficult docks, little outbound freight, a broker who pays late.</p>
+
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Zones · Market notes</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/zonas-notas-movil-en.png" width="772" height="6986"><img src="/academy/img/app/zonas-notas-en.png" alt="Market notes form with a note for Laredo, Texas, about little outbound freight." loading="lazy" width="1452" height="5337"></picture>
+            </div>
+            <figcaption><b>A note for Laredo.</b> From now on it shows up when you quote a load going there.</figcaption>
+        </figure>        <div class="al-callout is-app">
+            <div class="al-callout-label">Where they show up again</div>
+            <p>When you quote a load to that place, the note appears in <strong>Keep in mind</strong>, below the panel. Lex also uses it to back up a counter-offer.</p>
+        </div>
+    </section>
+
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">05</span>10-minute monthly routine</h2>
+        <ul class="al-checklist">
+            <li>Check which states changed color.</li>
+            <li>Sort the table by profit: are your best states the ones you visit most?</li>
+            <li>Review the cities that keep coming up and pay little.</li>
+            <li>Write a note for every place that gave you trouble this month.</li>
+        </ul>
+        <p><a class="al-btn al-btn-primary" href="/app.html#zones">Open Zones →</a></p>
+    </section>
+
+    <section class="al-summary">
+        <h2>In summary</h2>
+        <ul>
+            <li>The table sums up outbound loads, RPM and profit by state.</li>
+            <li>The cities map shows where your loads end and how much they pay.</li>
+            <li>Notes show up in Keep in mind and Lex uses them.</li>
+        </ul>
+    </section>
+
+    <section class="lesson-quiz" id="lessonQuiz"></section>
+
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as complete</button>
+        <nav class="lesson-nav">
+            <a href="lesson-2.html" class="al-btn al-btn-ghost">← Previous lesson</a>
+            <a href="lesson-4.html" class="al-btn al-btn-primary">Next: strategic empty miles →</a>
+        </nav>
+    </footer>
+</article>
+
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 3;
+    const LESSON_NUM = 3;
+    const LESSON_LIST = [
+        { num: 1, title: "What a profitable zone is (and how to find yours)", time: '7 min' },
+        { num: 2, title: "States to go into and states to get out of", time: '8 min' },
+        { num: 3, title: "How to use the Zones tab", time: '8 min' },
+        { num: 4, title: "Strategic empty miles: when repositioning pays", time: '8 min' },
+        { num: 5, title: "Thinking two or three loads ahead", time: '8 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+  {
+    "question": "In the state table, what does the Loads column count?",
+    "options": [
+      "The loads you delivered there",
+      "The loads you took leaving that state",
+      "The loads available today",
+      "This month's loads"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "What does a score of 37 mean?",
+    "options": [
+      "Green",
+      "Yellow",
+      "Red",
+      "No data"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "You saved a note for Laredo as a destination. Where does it show up again?",
+    "options": [
+      "Nowhere",
+      "In Keep in mind when quoting a load to Laredo",
+      "Only in Finances",
+      "In My Account"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "What does the destination cities map show you?",
+    "options": [
+      "The weather",
+      "The cities where you delivered and their profitability",
+      "Fuel prices",
+      "Other drivers' routes"
+    ],
+    "correctIndex": 1
+  }
+];
+
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completed";
+            btn.disabled = true;
         }
+    }
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-
-            if (window.AcademySidebar) {
-                await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Route & Zone Strategy', LESSON_LIST);
-            }
-
-            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-
-            if (alreadyDone) {
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                const quizEl = document.getElementById('lessonQuiz');
-                if (quizEl) quizEl.style.display = 'none';
-            } else if (window.AcademyQuiz) {
-                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-            }
-        });
-    </script>
-
-  
-
-
-
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, "Route and zone strategy", LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completed"; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>

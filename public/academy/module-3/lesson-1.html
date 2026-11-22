@@ -1,94 +1,36 @@
 <!DOCTYPE html><html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Qué Son las Zonas Rentables (Y Cómo Identificar las Tuyas) | Smart Load Academia</title>
-    <meta name="description" content="Las zonas rentables NO son universales. Son personales.">
+    <title>Qué es una zona rentable | Smart Load Academia</title>
+    <meta name="description" content="Qué hace rentable una zona y cómo clasifica la app tus estados con tus propias cargas.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: .875rem
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: .75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all .3s ease
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
-            color: #fff
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, .1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .2)
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-  
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/academy/module-3/lesson-1.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/lesson-1.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/lesson-1.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/lesson-1.html">
+    <link rel="canonical" href="https://smartloadsolution.com/academy/module-3/lesson-1.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/lesson-1.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/lesson-1.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/lesson-1.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Volver a la App</a></nav>
-    <aside class="lesson-sidebar" id="lessonSidebar">
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Volver a la App</a></nav>
+
+<aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
         <div>
             <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
@@ -98,375 +40,181 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
-        <nav class="breadcrumb">
-            <a href="/academy.html">← Academia</a> → <a href="index.html">Módulo 3</a> → Lección 1
-        </nav>
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/academy.html">Academia</a> / <a href="index.html">Módulo 3</a> / Lección 1</nav>
 
-        <!-- SPANISH -->
-        
-
-        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
-            <h1>Qué Son las Zonas Rentables (Y Cómo Identificar las Tuyas)</h1>
-            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
-                <span>📖 12 min lectura</span>
-                <span>🎓 Módulo 3 - Lección 1</span>
-            </div>
-        </header>
-
-        <div class="lesson-content">
-
-            <section>
-                <h2>La verdad sobre geografía</h2>
-                <p><strong>No todas las millas valen lo mismo.</strong><br>
-                    1 milla en Detroit ≠ 1 milla en Montana</p>
-
-                <div class="compare-grid">
-                    <div class="compare-table">
-                        <div class="compare-title">Detroit 🟢</div>
-                        <div class="compare-row"><span class="label">Shippers en 50-mi radius</span><span class="value">1,000+</span></div>
-                        <div class="compare-row"><span class="label">Load-to-truck ratio</span><span class="value">4:1</span></div>
-                        <div class="compare-row"><span class="label">Avg wait</span><span class="value">8-12 horas</span></div>
-                        <div class="compare-row"><span class="label">Rates</span><span class="value">$1.50-1.80/mi</span></div>
-                        <div class="compare-row"><span class="label">Backhaul</span><span class="value">Excelente</span></div>
-                    </div>
-                    <div class="compare-table">
-                        <div class="compare-title">Montana 🔴</div>
-                        <div class="compare-row"><span class="label">Shippers en 200-mi radius</span><span class="value">&lt;50</span></div>
-                        <div class="compare-row"><span class="label">Load-to-truck ratio</span><span class="value">1:3</span></div>
-                        <div class="compare-row"><span class="label">Avg wait</span><span class="value">48-72 horas</span></div>
-                        <div class="compare-row"><span class="label">Rates</span><span class="value">$1.10-1.30/mi</span></div>
-                        <div class="compare-row"><span class="label">Backhaul</span><span class="value">Pobre</span></div>
-                    </div>
-                </div>
-            </section>
-
-            <section>
-                <h2>Los 5 factores críticos</h2>
-                <p><strong>¿Qué hace a una zona "rentable"?</strong></p>
-
-                <ol>
-                    <li><strong>Freight density</strong> = Número de loads disponibles por día</li>
-                    <li><strong>Load-to-truck ratio</strong> = Más loads que trucks = mejor para ti</li>
-                    <li><strong>Average wait time</strong> = Cuánto tardas en conseguir siguiente load</li>
-                    <li><strong>Rate quality</strong> = RPM típico de loads en esa zona</li>
-                    <li><strong>Backhaul availability</strong> = Probabilidad de encontrar load de regreso</li>
-                </ol>
-            </section>
-
-            <section>
-                <h2>Sistema de clasificación</h2>
-
-                <div class="compare-table">
-                    <div class="compare-title">S-Tier 🟢</div>
-                    <div class="compare-row"><span class="label">Freight</span><span class="value">Muy alta</span></div>
-                    <div class="compare-row"><span class="label">Wait</span><span class="value">&lt;12 hrs</span></div>
-                    <div class="compare-row"><span class="label">Rates</span><span class="value accent">$1.60-2.00/mi</span></div>
-                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">90%+</span></div>
-                    <p>Ejemplos: Detroit, Chicago, Atlanta, Dallas, Charlotte</p>
-                </div>
-
-                <div class="compare-table">
-                    <div class="compare-title">A-Tier 🟢</div>
-                    <div class="compare-row"><span class="label">Freight</span><span class="value">Alta</span></div>
-                    <div class="compare-row"><span class="label">Wait</span><span class="value">12-24 hrs</span></div>
-                    <div class="compare-row"><span class="label">Rates</span><span class="value">$1.40-1.70/mi</span></div>
-                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">70-90%</span></div>
-                    <p>Ejemplos: Indianapolis, Nashville, Memphis, Columbus</p>
-                </div>
-
-                <div class="compare-table">
-                    <div class="compare-title">B-Tier 🟡</div>
-                    <div class="compare-row"><span class="label">Freight</span><span class="value">Moderada</span></div>
-                    <div class="compare-row"><span class="label">Wait</span><span class="value">24-48 hrs</span></div>
-                    <div class="compare-row"><span class="label">Rates</span><span class="value">$1.20-1.50/mi</span></div>
-                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">50-70%</span></div>
-                    <p>Ejemplos: Louisville, Kansas City, Minneapolis, Phoenix</p>
-                </div>
-
-                <div class="compare-table">
-                    <div class="compare-title">C-Tier 🟠</div>
-                    <div class="compare-row"><span class="label">Freight</span><span class="value">Baja</span></div>
-                    <div class="compare-row"><span class="label">Wait</span><span class="value">48-72 hrs</span></div>
-                    <div class="compare-row"><span class="label">Rates</span><span class="value">$1.00-1.30/mi</span></div>
-                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">30-50%</span></div>
-                    <p>Ejemplos: Albuquerque, Little Rock, Boise</p>
-                </div>
-
-                <div class="compare-table">
-                    <div class="compare-title">D-Tier 🔴</div>
-                    <div class="compare-row"><span class="label">Freight</span><span class="value">Muy baja</span></div>
-                    <div class="compare-row"><span class="label">Wait</span><span class="value">72+ hrs</span></div>
-                    <div class="compare-row"><span class="label">Rates</span><span class="value">$0.90-1.20/mi</span></div>
-                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">&lt;30%</span></div>
-                    <p>Ejemplos: Laredo, El Paso, Montana, Wyoming</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Cómo identificar tus zonas de oro</h2>
-
-                <p><strong>Método 1: Análisis en Smart Load Solution</strong></p>
-                <p>Dashboard → Zones → My Top Zones</p>
-                <p>La app analiza tu historial y muestra automáticamente:</p>
-                <ul>
-                    <li>🥇 Top 5 zones con mejor performance</li>
-                    <li>Avg RPM por zona</li>
-                    <li>Avg wait time</li>
-                    <li>Success rate</li>
-                    <li>⚠️ Bottom 3 zones para evitar</li>
-                </ul>
-
-                <p><strong>Método 2: El test de 4 preguntas</strong></p>
-                <p>Para cualquier zona:</p>
-                <ol>
-                    <li>¿Cuánto esperé mi último load aquí?<br>
-                        &lt;12 hrs=🟢 | 12-24 hrs=🟡 | &gt;24 hrs = 🔴
-                    </li>
-
-                    <li>¿Qué RPM logré en promedio?<br>
-                        &gt;$1.50 = 🟢 | $1.30-1.50 = 🟡 | &lt;$1.30=🔴</li>
-
-                    <li>¿Conseguí backhaul fácilmente?<br>
-                        Sí = 🟢 | A veces = 🟡 | No = 🔴</li>
-
-                    <li>¿Tengo contacts/brokers confiables aquí?<br>
-                        Sí = 🟢 | Algunos = 🟡 | No = 🔴</li>
-                </ol>
-
-                <div class="compare-table">
-                    <div class="compare-title">Scoring</div>
-                    <div class="compare-row"><span class="label">4 verdes</span><span class="value accent">S-Tier para TI</span></div>
-                    <div class="compare-row"><span class="label">3 verdes</span><span class="value">A-Tier</span></div>
-                    <div class="compare-row"><span class="label">2 verdes</span><span class="value">B-Tier</span></div>
-                    <div class="compare-row"><span class="label">≤1 verde</span><span class="value">Evitar</span></div>
-                </div>
-            </section>
-
-            <section>
-                <h2>El concepto de "Home Circuit"</h2>
-                <p>En lugar de rodar por todo USA aleatoriamente, construye un CIRCUITO de 4-6 zonas premium.</p>
-
-                <p><strong>Ejemplo de circuit exitoso:</strong></p>
-                <div class="formula">DETROIT (Home)<br>
-↓↑<br>
-CHICAGO (2 hrs)<br>
-↓↑<br>
-INDIANAPOLIS (3 hrs)<br>
-↓↑<br>
-NASHVILLE (4 hrs)<br>
-↓↑<br>
-ATLANTA (6 hrs)<br>
-↓↑<br>
-CHARLOTTE (5 hrs)<br>
-↑<br>
-[vuelta a DETROIT]</div>
-
-                <p><strong>Beneficios:</strong></p>
-                <ul>
-                    <li>Conoces cada área perfectamente</li>
-                    <li>Tienes contacts en cada stop</li>
-                    <li>Sabes mejores fuel stops y parking</li>
-                    <li>Familiarity = efficiency</li>
-                    <li>Predictable income patterns</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>Patrones estacionales</h2>
-                <p>Las zonas cambian valor por temporada:</p>
-
-                <div class="compare-table">
-                    <div class="compare-title">Detroit (Auto)</div>
-                    <div class="compare-row"><span class="label">Q1</span><span class="value accent">Peak</span></div>
-                    <div class="compare-row"><span class="label">Q2</span><span class="value">Slow</span></div>
-                    <div class="compare-row"><span class="label">Q3</span><span class="value">Good</span></div>
-                    <div class="compare-row"><span class="label">Q4</span><span class="value accent">Peak</span></div>
-                </div>
-
-                <div class="compare-table">
-                    <div class="compare-title">Atlanta (Dist.)</div>
-                    <div class="compare-row"><span class="label">Q1</span><span class="value">Good</span></div>
-                    <div class="compare-row"><span class="label">Q2</span><span class="value">Good</span></div>
-                    <div class="compare-row"><span class="label">Q3</span><span class="value">Good</span></div>
-                    <div class="compare-row"><span class="label">Q4</span><span class="value accent">Peak</span></div>
-                </div>
-
-                <div class="compare-table">
-                    <div class="compare-title">Phoenix (Tourism)</div>
-                    <div class="compare-row"><span class="label">Q1</span><span class="value">Slow</span></div>
-                    <div class="compare-row"><span class="label">Q2</span><span class="value accent">Peak</span></div>
-                    <div class="compare-row"><span class="label">Q3</span><span class="value">Dead</span></div>
-                    <div class="compare-row"><span class="label">Q4</span><span class="value">Slow</span></div>
-                </div>
-
-                <div class="compare-table">
-                    <div class="compare-title">Florida (Snowbirds)</div>
-                    <div class="compare-row"><span class="label">Q1</span><span class="value accent">Peak</span></div>
-                    <div class="compare-row"><span class="label">Q2</span><span class="value">Slow</span></div>
-                    <div class="compare-row"><span class="label">Q3</span><span class="value">Dead</span></div>
-                    <div class="compare-row"><span class="label">Q4</span><span class="value">Good</span></div>
-                </div>
-
-                <p>Q1: Auto retooling | Q2: Construction | Q3: Vacation slow | Q4: Holiday retail</p>
-            </section>
-
-            <section>
-                <h2>Plan de 90 días</h2>
-
-                <p><strong>Semana 1-4: Discovery</strong></p>
-                <ul>
-                    <li>Track TODAS tus zonas en la app</li>
-                    <li>Note wait times, RPM, ease of reload</li>
-                    <li>Identifica top 3 best performers</li>
-                </ul>
-
-                <p><strong>Semana 5-8: Focus</strong></p>
-                <ul>
-                    <li>Pasa 60% del tiempo en top 3 zones</li>
-                    <li>Desarrolla contacts con brokers locales</li>
-                    <li>Aprende el área (parking, fuel, etc)</li>
-                </ul>
-
-                <p><strong>Semana 9-12: Optimization</strong></p>
-                <ul>
-                    <li>Refina tu circuit (añade 2-3 zonas más)</li>
-                    <li>Establece "no-go zones"</li>
-                    <li>Compara profit mes 1 vs mes 3</li>
-                </ul>
-
-                <div class="pull-number">
-                    <div class="value">+28.5%</div>
-                    <p class="context">objetivo de mejora en 90 días: Mes 1 $3,500 → Mes 3 $4,500.</p>
-                </div>
-            </section>
-
-            <section>
-                <div class="checklist">
-                    <span class="checklist-label">Para aplicar esto</span>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Analiza tu historial</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Aplica el test de 4 preguntas</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Construye un circuit enfocado</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Evita zonas C/D-tier</span></div>
-                </div>
-
-                <div class="conclusion">
-                    <p class="lead">Las zonas rentables NO son universales. Son <span class="accent">personales</span>.</p>
-                    <p class="sub">Tu Detroit ≠ Mi Detroit — depende de tus contactos, timing y experiencia. En 90 días, tu profit aumentará 20-30% solo por geographic optimization.</p>
-                </div>
-            </section>
-
+    <header>
+        <div class="al-kicker">Módulo 3 · Lección 1</div>
+        <h1 class="al-title">Qué es una zona rentable (y cómo encontrar las tuyas)</h1>
+        <div class="al-meta">
+            <span class="al-chip">7 min de lectura</span>
+            <span class="al-chip">Estrategia</span>
+            <span class="al-chip is-free">Gratis</span>
         </div>
+    </header>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+    <section class="al-learn">
+        <div class="al-learn-title">Lo que vas a aprender</div>
+        <ol>
+            <li>Los cuatro factores que hacen rentable una zona.</li>
+            <li>Cómo pinta la app cada estado con tus cargas.</li>
+            <li>Qué es tu circuito de casa.</li>
+        </ol>
+    </section>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como
-                completada</button>
-            <nav class="lesson-nav">
-                <a href="index.html" class="btn btn-secondary">← Volver al módulo</a>
-                <a href="lesson-2.html" class="btn btn-primary">Siguiente: Estados &amp; Flujo →</a>
-            </nav>
-        </footer>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>Lo que hace rentable una zona</h2>
+        <p>Una zona rentable no es la que mejor paga por llegar. Es la que te deja <strong>salir rápido con una buena carga</strong>. Cuatro cosas lo deciden:</p>
+        <table class="al-table">
+            <tr><td><strong>Carga de salida</strong><span class="al-sub">Cuántas cargas para tu tipo de vehículo salen de ahí</span></td></tr>
+            <tr><td><strong>Tarifa de salida</strong><span class="al-sub">Cuánto pagan esas cargas por milla</span></td></tr>
+            <tr><td><strong>Espera</strong><span class="al-sub">Cuántas horas pasas parado hasta conseguir la siguiente</span></td></tr>
+            <tr><td><strong>Vacío</strong><span class="al-sub">Cuántas millas manejas sin carga hasta el siguiente pickup</span></td></tr>
+        </table>
+    </section>
 
-        
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>Tus zonas, no las de otro</h2>
+        <p>Las listas de "mejores estados" sirven poco. Tu vehículo, tu base, tus brokers y tu horario cambian el resultado. La fuente más confiable son <strong>tus propias cargas</strong>: por eso conviene guardarlas todas con Aceptar y guardar.</p>
+    </section>
 
-        <!-- ENGLISH -->
-        
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>Cómo las clasifica la app</h2>
+        <p>La pestaña <strong>Zonas</strong> pinta cada estado según el RPM promedio de las cargas que tomaste <strong>saliendo</strong> de ese estado, comparado con tus propios números:</p>
+        <table class="al-table">
+            <tr><td><span class="al-green"><strong>Verde</strong></span><span class="al-sub">RPM igual o mayor a tu umbral para ACEPTAR (en la cuenta de ejemplo, $0.69)</span></td></tr>
+            <tr><td><span class="al-amber"><strong>Amarillo</strong></span><span class="al-sub">Cubre tu costo, pero no llega al umbral ($0.55 a $0.69)</span></td></tr>
+            <tr><td><span class="al-red"><strong>Rojo</strong></span><span class="al-sub">Por debajo de tu costo por milla</span></td></tr>
+        </table>
+        <div class="al-callout is-warn">
+            <div class="al-callout-label">Menos de 3 cargas</div>
+            <p>Si un estado tiene menos de 3 cargas, la app lo baja un nivel: de verde a amarillo, de amarillo a rojo. Con una o dos cargas todavía no hay suficiente información.</p>
+        </div>
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Zonas · Mapa</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/zonas-mapa-movil.png" width="740" height="1204"><img src="/academy/img/app/zonas-mapa.png" alt="Mapa de Estados Unidos con Michigan, Ohio y Georgia en verde, Texas y Tennessee en amarillo y Florida en rojo." loading="lazy" width="1380" height="699"></picture>
+            </div>
+            <figcaption><b>Cuenta de ejemplo con 16 cargas.</b> Tennessee sale amarillo aunque su RPM es $1.33: solo tiene una carga.</figcaption>
+        </figure>
+    </section>
 
-    </article>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>Tu circuito de casa</h2>
+        <p>Con el tiempo vas a ver 3 o 4 estados verdes conectados entre sí. Ese es tu <strong>circuito</strong>: zonas donde entras, sales rápido y vuelves cerca de casa. En el ejemplo, Michigan, Ohio y Georgia.</p>
+        <ul class="al-checklist">
+            <li>Guarda todas tus cargas durante 90 días.</li>
+            <li>Cada mes, mira qué estados son verdes y cuáles bajaron.</li>
+            <li>Busca cargas que te dejen dentro de tu circuito.</li>
+        </ul>
+        <div class="al-callout is-app">
+            <div class="al-callout-label">Míralo en la app</div>
+            <p>Abre Zonas y fíjate qué estados ya tienen color.</p>
+            <p><a class="al-btn al-btn-primary" href="/app.html#zones">Abrir Zonas →</a></p>
+        </div>
+    </section>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 3, LESSON_NUM = 1;
+    <section class="al-summary">
+        <h2>En resumen</h2>
+        <ul>
+            <li>Una zona es rentable si sales rápido con buena carga.</li>
+            <li>Zonas colorea cada estado con el RPM de tus cargas de salida.</li>
+            <li>Con menos de 3 cargas, el estado baja un nivel.</li>
+        </ul>
+    </section>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'Qué Son las Zonas Rentables (Y Cómo Identificar las Tuyas)', time: '12 min' },
-            { num: 2, title: 'Estados Buenos Para Entrar vs Estados Buenos Para Salir', time: '11 min' },
-            { num: 3, title: 'Usando el Zone Heat Map (Guía Visual)', time: '9 min' },
-            { num: 4, title: 'Deadhead Estratégico: Cuándo Vale la Pena "Pagar" por Posicionarte', time: '9 min' },
-            { num: 5, title: 'Posicionamiento Inteligente: Pensar 2-3 Loads Adelante', time: '10 min' }
-        ];
+    <section class="lesson-quiz" id="lessonQuiz"></section>
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: 'Según el sistema de clasificación, ¿qué tier corresponde a zonas como Detroit, Chicago, Atlanta con rates $1.60-2.00/mi y backhaul 90%+?',
-                options: ['A-Tier', 'S-Tier', 'B-Tier', 'C-Tier'],
-                correctIndex: 1
-            },
-            {
-                question: 'Según el "Test de 4 Preguntas", si obtienes 4 respuestas verdes, ¿cómo se clasifica esa zona para ti?',
-                options: ['A-Tier', 'B-Tier', 'S-Tier para TI', 'Evitar'],
-                correctIndex: 2
-            },
-            {
-                question: '¿Cuál es el concepto de "Home Circuit"?',
-                options: [
-                    'Manejar aleatoriamente por todo USA para maximizar variedad',
-                    'Construir un circuito de 4-6 zonas premium que conoces bien',
-                    'Quedarte siempre en tu ciudad de origen',
-                    'Cambiar de zona cada semana sin patrón'
-                ],
-                correctIndex: 1
-            },
-            {
-                question: 'Según los patrones estacionales, Phoenix (Tourism) tiene su PEAK en Q2 pero está "🔴 Dead" en...',
-                options: ['Q1', 'Q3', 'Q4', 'Nunca está dead'],
-                correctIndex: 1
-            }
-        ];
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
+        <nav class="lesson-nav">
+            <a href="index.html" class="al-btn al-btn-ghost">← Volver al módulo</a>
+            <a href="lesson-2.html" class="al-btn al-btn-primary">Siguiente: entrar y salir →</a>
+        </nav>
+    </footer>
+</article>
 
-        function markLessonComplete() {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress) {
-                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
-            }
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 3;
+    const LESSON_NUM = 1;
+    const LESSON_LIST = [
+        { num: 1, title: "Qué es una zona rentable (y cómo encontrar las tuyas)", time: '7 min' },
+        { num: 2, title: "Estados para entrar y estados para salir", time: '8 min' },
+        { num: 3, title: "Cómo usar la pestaña Zonas", time: '8 min' },
+        { num: 4, title: "Vacío estratégico: cuándo vale la pena posicionarte", time: '8 min' },
+        { num: 5, title: "Pensar dos o tres cargas adelante", time: '8 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+  {
+    "question": "¿Qué hace rentable a una zona?",
+    "options": [
+      "Que pague mucho llegar",
+      "Que salgas rápido con una buena carga",
+      "Que esté lejos",
+      "Que tenga muchos peajes"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "¿Con qué RPM pinta la app cada estado?",
+    "options": [
+      "El de las cargas que entregas allí",
+      "El de las cargas que tomas saliendo de ese estado",
+      "Un promedio nacional",
+      "El RPM mínimo"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "Un estado tiene una sola carga con RPM $1.33 (sobre tu umbral). ¿De qué color sale?",
+    "options": [
+      "Verde",
+      "Amarillo, porque tiene menos de 3 cargas",
+      "Rojo",
+      "Gris"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "Tu costo es $0.55 y tu umbral $0.69. Un estado con RPM de salida $0.60 sale…",
+    "options": [
+      "Verde",
+      "Amarillo",
+      "Rojo",
+      "Sin color"
+    ],
+    "correctIndex": 1
+  }
+];
+
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada";
+            btn.disabled = true;
         }
-        document.addEventListener('DOMContentLoaded', async () => {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    }
 
-            if (window.AcademySidebar) {
-                await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Estrategia de Rutas & Zonas', LESSON_LIST);
-            }
-
-            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-
-            if (alreadyDone) {
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                const quizEl = document.getElementById('lessonQuiz');
-                if (quizEl) quizEl.style.display = 'none';
-            } else if (window.AcademyQuiz) {
-                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-            }
-        });
-    </script>
-
-  
-
-
-
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, "Estrategia de rutas y zonas", LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada"; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>
