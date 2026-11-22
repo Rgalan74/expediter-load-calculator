@@ -126,7 +126,7 @@ async function loadExpensesModule() {
     debugLog("💰 Cargando Expenses module...");
 
     try {
-        await loadScript('js/finances-expenses.js?v=1.0.1', 'FinancesExpenses');
+        await loadScript('js/finances-expenses.js?v=1.0.2', 'FinancesExpenses');
 
         // Verificar que se cargó correctamente
         if (!window.FinancesExpenses) {

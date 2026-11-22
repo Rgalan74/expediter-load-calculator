@@ -157,6 +157,11 @@ function updateFinancialKPIs() {
     updateElementSafe("totalExpensesSummary", formatCurrency(kpis.totalExpenses));
     updateElementSafe("netProfit", formatCurrency(kpis.netProfit));
     updateElementSafe("profitMarginPercent", kpis.margin.toFixed(1) + "%");
+
+    // "Actualizado:" hora de la ultima actualizacion de estos datos
+    const _isEsUpd = (window.i18n?.currentLang || 'en') === 'es';
+    updateElementSafe("lastUpdated", new Date().toLocaleString(_isEsUpd ? 'es-US' : 'en-US',
+        { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }));
     updateElementSafe("totalMiles", kpis.totalMiles.toLocaleString());
     updateElementSafe("avgRpm", formatCurrency(kpis.avgRpm));
 

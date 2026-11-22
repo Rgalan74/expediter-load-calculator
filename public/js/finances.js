@@ -459,7 +459,7 @@ function renderExpensesList(filteredExpenses = []) {
   const rows = sortedExpenses.map(expense => `
         <tr class="bg-red-50 hover:bg-red-100 transition-colors">
             <td class="px-4 py-3 text-sm whitespace-nowrap">${expense.date || "-"}</td>
-            <td class="px-4 py-3 text-sm whitespace-nowrap">${categoryIcons[expense.type] || ""} ${expense.type}</td>
+            <td class="px-4 py-3 text-sm whitespace-nowrap">${(expense.type && document.querySelector(`#expenseType option[value="${CSS.escape(expense.type)}"]`)?.textContent?.trim()) || ((categoryIcons[expense.type] || "") + " " + expense.type)}</td>
             <td class="px-4 py-3 text-sm whitespace-nowrap">${expense.description || "-"}</td>
             <td class="px-4 py-3 text-sm font-semibold text-red-700 whitespace-nowrap">${formatCurrency(expense.amount)}</td>
             <td class="px-4 py-3 text-sm whitespace-nowrap">

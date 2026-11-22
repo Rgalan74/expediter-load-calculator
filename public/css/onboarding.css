@@ -481,3 +481,16 @@
     white-space: nowrap !important;
     border-width: 0 !important;
 }
+/* Contraste: la regla global del tema oscuro de app.html pinta h1-h6, p, span y
+   label de blanco con !important. La ventana de bienvenida tiene fondo claro, asi
+   que aqui se restauran sus colores con mas especificidad. */
+:root .onboarding-modal .modal-header h2 { color: #1e293b !important; }
+:root .onboarding-modal .modal-body p,
+:root .onboarding-modal .modal-body span,
+:root .onboarding-modal .modal-body label { color: #374151 !important; }
+:root .onboarding-modal .setup-benefits li,
+:root .onboarding-modal .setup-benefits li span { color: #212529 !important; }
+:root .onboarding-modal .info-box strong { color: #1e40af !important; }
+:root .onboarding-modal .info-box p { color: #374151 !important; }
+:root .onboarding-modal .btn-secondary,
+:root .onboarding-modal .btn-secondary span { color: #1e40af !important; }

@@ -836,10 +836,17 @@ async function saveEditedLoad() {
     const _exp = typeof window.calculateTotalExpenses === 'function' ? window.calculateTotalExpenses(totalMiles, tolls, _route) : null;
     const cpm = Number(window.TU_COSTO_REAL?.TOTAL || costs.totalCPM || 0.534);
     const fuelCPM = Number(window.TU_COSTO_REAL?.combustible || costs.combustible || costs.fuelCost || 0.195);
-    const fuelCost = _exp ? _exp.fuelCost : totalMiles * fuelCPM;
-    const operatingCost = _exp ? _exp.maintenanceCost + _exp.foodCost + _exp.fixedCosts : totalMiles * (cpm - fuelCPM);
+    // Si no cambian millas, peajes ni ruta, se conservan los costos guardados de la carga
+    // (editar empresa, notas o tarifa no debe recalcular con los precios de hoy).
+    const prev = currentEditingLoad;
+    const keepCosts = Number(prev.totalMiles) === totalMiles && Number(prev.tolls || 0) === tolls &&
+      (prev.origin || '') === origin && (prev.destination || '') === destination &&
+      Number.isFinite(Number(prev.totalExpenses)) && Number(prev.totalExpenses) > 0;
+    const fuelCost = keepCosts ? Number(prev.fuelCost || 0) : (_exp ? _exp.fuelCost : totalMiles * fuelCPM);
+    const operatingCost = keepCosts ? Number(prev.totalExpenses) - Number(prev.fuelCost || 0) - tolls
+      : (_exp ? _exp.maintenanceCost + _exp.foodCost + _exp.fixedCosts : totalMiles * (cpm - fuelCPM));
     // Tolls son gasto de la carga; "otros" es ingreso (ya esta en totalCharge)
-    const totalExpenses = fuelCost + operatingCost + tolls;
+    const totalExpenses = keepCosts ? Number(prev.totalExpenses) : fuelCost + operatingCost + tolls;
     const netProfit = totalCharge - totalExpenses;
     const profitMargin = totalCharge > 0 ? (netProfit / totalCharge) * 100 : 0;
 
