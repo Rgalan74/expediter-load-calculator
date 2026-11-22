@@ -1,100 +1,36 @@
 <!DOCTYPE html><html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Break-Even: Tu Número de Supervivencia | Smart Load Academia</title>
-    <meta name="description" content="Tu break-even es tu &quot;línea de vida&quot;.">
+    <title>Break-even: tu número de supervivencia | Smart Load Academia</title>
+    <meta name="description" content="Qué es el break-even, cómo pasar a tu precio objetivo con un margen y cómo lo usa la app para decidir.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/academy.css">
+    <link rel="stylesheet" href="/academy/css/academy.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: .875rem
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none
-        }
-
-        .lesson-header {
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: .75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all .3s ease
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
-            color: #fff
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, .1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .2)
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-  
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/academy/module-1/lesson-3.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/lesson-3.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/lesson-3.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/lesson-3.html">
+    <link rel="canonical" href="https://smartloadsolution.com/academy/module-1/lesson-3.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/lesson-3.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/lesson-3.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/lesson-3.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Volver a la App</a></nav>
-    <aside class="lesson-sidebar" id="lessonSidebar">
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Volver a la App</a></nav>
+
+<aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
         <div>
             <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
@@ -104,343 +40,243 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
-        <nav class="breadcrumb">
-            <a href="/academy.html">← Academia</a> → <a href="index.html">Módulo 1</a> → Lección 3
-        </nav>
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/academy.html">Academia</a> / <a href="index.html">Módulo 1</a> / Lección 3</nav>
 
-        <!-- ===== SPANISH VERSION ===== -->
-        
-        <header class="lesson-header">
-            <h1>Break-Even: Tu Número de Supervivencia</h1>
-            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
-                <span>📖 8 min lectura</span>
-                <span>🎓 Módulo 1 - Lección 3</span>
-            </div>
-        </header>
-
-        <div class="lesson-content">
-
-            <section>
-                <h2>¿Qué es break-even?</h2>
-
-                <p><strong>Break-even RPM</strong> = el mínimo absoluto que necesitas ganar por milla para NO PERDER dinero.</p>
-                <ul>
-                    <li>❌ Por debajo de break-even = <strong>PIERDES dinero</strong></li>
-                    <li>⚠️ En break-even = No ganas, no pierdes (trabajas gratis)</li>
-                    <li>✅ Sobre break-even = <strong>GANAS dinero real</strong></li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>La fórmula</h2>
-                <div class="formula">Break-Even RPM = Costo Fijo/Milla + Costo Variable/Milla</div>
-                <p>Esto te vino de la Lección 2:</p>
-                <ul>
-                    <li><strong>Costo Fijo/Milla</strong> → Lo calculaste en PASO 3</li>
-                    <li><strong>Costo Variable/Milla</strong> → Lo calculaste en PASO 4</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>Ejemplo completo paso a paso</h2>
-
-                <p><strong>Paso 1: Calcula costos fijos mensuales</strong></p>
-                <ul>
-                    <li>Pago de van: $1,500</li>
-                    <li>Seguro: $900 ($10,800/año ÷ 12)</li>
-                    <li>Licencias/permisos: $125 ($1,500/año ÷ 12)</li>
-                    <li>Celular + apps: $115</li>
-                    <li><strong>Total costos fijos: $2,740/mes</strong></li>
-                </ul>
-
-                <p><strong>Paso 2: Estima tus millas mensuales</strong></p>
-                <p>Promedio realista: <strong>8,000 millas/mes</strong></p>
-
-                <p><strong>Paso 3: Calcula costo fijo por milla</strong></p>
-                <div class="formula">$2,740 ÷ 8,000 millas = $0.34/milla</div>
-
-                <p><strong>Paso 4: Suma costos variables</strong></p>
-                <ul>
-                    <li>Combustible: $0.39/milla</li>
-                    <li>DEF: $0.04/milla</li>
-                    <li>Mantenimiento: $0.10/milla</li>
-                    <li>Llantas: $0.03/milla</li>
-                    <li>Tolls/parking: $0.04/milla</li>
-                    <li><strong>Total variable: $0.60/milla</strong></li>
-                </ul>
-
-                <div class="pull-number">
-                    <div class="value">$0.94</div>
-                    <p class="context">Break-Even RPM: $0.34 (costo fijo) + $0.60 (costo variable) = $0.94/milla.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>¿Qué significa este número?</h2>
-
-                <div class="note warning">
-                    <span class="note-label">Cualquier load por debajo de $0.94/milla te hace perder dinero</span>
-                    <ul>
-                        <li>Load a $0.85/milla: Pierdes $0.09/milla → En 500 millas = <strong>-$45 de pérdida</strong></li>
-                        <li>Load a $0.94/milla: Ganancia $0 → Cubriste costos pero trabajaste GRATIS</li>
-                        <li>Load a $1.20/milla: Ganancia $0.26/milla → En 500 millas = <strong>$130 de profit real</strong></li>
-                    </ul>
-                </div>
-            </section>
-
-            <section>
-                <h2>La trampa del "algo es mejor que nada"</h2>
-
-                <p><strong>Pensamiento común:</strong> "No tengo nada, este load paga $0.80/milla, al menos es algo..."</p>
-
-                <div class="note warning">
-                    <span class="note-label">Error</span>
-                    <p>Si tu break-even es $0.94/milla:</p>
-                    <ul>
-                        <li>Load de $0.80/milla</li>
-                        <li>Pierdes $0.14/milla</li>
-                        <li>En 600 millas = <strong>-$84</strong></li>
-                    </ul>
-                    <p>Literalmente pagaste $84 de tu bolsillo para "trabajar" ese día.</p>
-                </div>
-
-                <p><strong>Mejor opción:</strong> esperar un load rentable o reposicionarte a mejor zona.</p>
-            </section>
-
-            <section>
-                <h2>Pero espera... break-even no es tu target</h2>
-
-                <p>Break-even es tu mínimo absoluto de supervivencia. Tu target real debe ser:</p>
-
-                <div class="formula">TARGET RPM = Break-Even × 1.30 a 1.40</div>
-
-                <p>Si tu break-even es $0.94:</p>
-                <div class="compare-table">
-                    <div class="compare-row"><span class="label">Target mínimo ($0.94 × 1.30)</span><span class="value">$1.22/milla</span></div>
-                    <div class="compare-row"><span class="label">Target ideal ($0.94 × 1.40)</span><span class="value accent">$1.32/milla</span></div>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">¿Por qué este margen extra?</span>
-                    <p>El 30-40% sobre break-even te da:</p>
-                    <ul>
-                        <li>Profit real (no solo cubrir costos)</li>
-                        <li>Cushion para meses lentos</li>
-                        <li>Fondos para emergencias</li>
-                        <li>Dinero para crecer el negocio</li>
-                        <li>Pago para ti (no solo para el negocio)</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section>
-                <h2>Impacto de millas mensuales en break-even</h2>
-
-                <p>Costos fijos: $2,740/mes | Costos variables: $0.60/milla</p>
-
-                <div class="compare-table">
-                    <div class="compare-title">Break-even según millas mensuales</div>
-                    <div class="compare-row"><span class="label">6,000 millas/mes ($0.46 fijo/milla)</span><span class="value">$1.06/milla</span></div>
-                    <div class="compare-row"><span class="label">8,000 millas/mes ($0.34 fijo/milla)</span><span class="value">$0.94/milla</span></div>
-                    <div class="compare-row"><span class="label">10,000 millas/mes ($0.27 fijo/milla)</span><span class="value accent">$0.87/milla</span></div>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">Conclusión</span>
-                    <p>Más millas rentables = menor break-even por milla. Esto te hace más competitivo en pricing.</p>
-                    <p><strong>Pero:</strong> solo si esas millas extras son sobre tu break-even. No tiene sentido hacer 10,000 millas a $0.80/milla.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Calcula tu break-even personal</h2>
-
-                <div class="worksheet">
-                    <div class="worksheet-row"><span class="label">Pago de van</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Seguro (mensual)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Licencias (÷12 si anual)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Tecnología/apps</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Otros fijos</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Total costos fijos (A)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Millas mensuales realistas (B)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Costo fijo por milla: (A) ÷ (B) (C)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Costo variable, de Lección 2 (D)</span><span class="line"></span></div>
-                    <div class="worksheet-row highlight"><span class="label">Tu Break-Even RPM: (C) + (D)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Tu target mínimo (Break-even × 1.30)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Tu target ideal (Break-even × 1.40)</span><span class="line"></span></div>
-                </div>
-
-                <div class="note warning">
-                    <span class="note-label">Guarda estos números en un lugar visible</span>
-                    <ul>
-                        <li>En tu teléfono</li>
-                        <li>En Smart Load Solution (la app los guarda automáticamente)</li>
-                        <li>En un post-it en tu dashboard</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section>
-                <h2>Cómo usa Smart Load Solution tu break-even</h2>
-
-                <ol>
-                    <li><strong>Ingresas tu break-even una vez en Settings</strong></li>
-                    <li><strong>Cada vez que analizas un load, la app:</strong>
-                        <ul>
-                            <li>Calcula RPM real automáticamente</li>
-                            <li>Compara vs tu break-even</li>
-                            <li>Te muestra:
-                                <ul>
-                                    <li>✅ Verde: Sobre target (acepta)</li>
-                                    <li>⚠️ Amarillo: Sobre break-even pero bajo target (negocia)</li>
-                                    <li>❌ Rojo: Bajo break-even (rechaza)</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><strong>Dashboard te muestra:</strong>
-                        <ul>
-                            <li>% de loads sobre break-even</li>
-                            <li>Profit real después de costos</li>
-                            <li>Alertas si estás trending bajo break-even</li>
-                        </ul>
-                    </li>
-                </ol>
-            </section>
-
-            <section>
-                <div class="conclusion">
-                    <p class="lead">Tu break-even es tu <span class="accent">"línea de vida"</span>.</p>
-                    <p class="sub">Por debajo, pierdes dinero aunque te paguen. En break-even, trabajas gratis. Sobre break-even, finalmente ganas. Target: break-even + 30-40% mínimo.</p>
-                </div>
-            </section>
-
+    <header>
+        <div class="al-kicker">Módulo 1 · Lección 3</div>
+        <h1 class="al-title">Break-even: tu número de supervivencia</h1>
+        <div class="al-meta">
+            <span class="al-chip">8 min de lectura</span>
+            <span class="al-chip">Fundamentos</span>
+            <span class="al-chip is-free">Gratis</span>
         </div>
+    </header>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+    <section class="al-learn">
+        <div class="al-learn-title">Lo que vas a aprender</div>
+        <ol>
+            <li>Qué es el break-even y por qué es tu mínimo.</li>
+            <li>Cómo pasar del break-even a tu objetivo con un margen.</li>
+            <li>Cómo lo usa la app para decirte aceptar, evaluar o rechazar.</li>
+        </ol>
+    </section>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como
-                completada</button>
-            <nav class="lesson-nav">
-                <a href="lesson-2.html" class="btn btn-secondary">← Lección anterior</a>
-                <a href="lesson-4.html" class="btn btn-primary">Siguiente: Ganancia por hora →</a>
-            </nav>
-        </footer>
-        
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>Qué es el break-even</h2>
+        <p>El <strong>break-even</strong> es lo mínimo que necesitas cobrar por milla para no perder dinero. Es tu <strong>costo real por milla</strong>, el que calculaste en la lección 2.</p>
+        <table class="al-table">
+            <tr><td><span class="al-red">Por debajo del break-even</span></td><td class="al-num-cell">pierdes dinero</td></tr>
+            <tr><td><span class="al-amber">Justo en el break-even</span></td><td class="al-num-cell">trabajas gratis</td></tr>
+            <tr><td><span class="al-green">Por encima del break-even</span></td><td class="al-num-cell">ganas dinero</td></tr>
+        </table>
+    </section>
 
-        <!-- ===== ENGLISH VERSION ===== -->
-        
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>Con el ejemplo de la lección 2</h2>
+        <p>La van del ejemplo tiene un costo real de <strong>$0.634 por milla</strong>. Ese es su break-even. Tres cargas de 500 millas:</p>
+        <table class="al-table">
+            <tr><td>A $0.55 por milla</td><td class="al-num-cell al-red">−$42</td></tr>
+            <tr><td>A $0.634 por milla</td><td class="al-num-cell al-amber">$0</td></tr>
+            <tr><td>A $0.95 por milla</td><td class="al-num-cell al-green">+$158</td></tr>
+        </table>
+    </section>
 
-    </article>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>La trampa de "algo es mejor que nada"</h2>
+        <div class="al-callout is-error">
+            <div class="al-callout-label">El error común</div>
+            <p>"No tengo nada; esta carga paga $0.55 por milla, al menos es algo". Con un break-even de $0.634, pierdes $0.084 por milla: en 600 millas son <strong>$50 que pagas de tu bolsillo</strong> por trabajar ese día.</p>
+        </div>
+        <p>Muchas veces es mejor esperar una carga que pague o reposicionarte hacia una zona mejor.</p>
+    </section>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 1, LESSON_NUM = 3;
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>El break-even no es tu objetivo</h2>
+        <p>El break-even es tu mínimo para sobrevivir. Tu objetivo tiene que dejarte un margen de ganancia:</p>
+        <div class="al-formula">Objetivo = break-even ÷ (1 − margen)</div>
+        <table class="al-table">
+            <caption>Objetivo con un break-even de $0.634</caption>
+            <tr><td>Margen del 20%</td><td class="al-num-cell">$0.793 /mi</td></tr>
+            <tr class="al-total"><td>Margen del 30%</td><td class="al-num-cell">$0.906 /mi</td></tr>
+            <tr><td>Margen del 40%</td><td class="al-num-cell">$1.057 /mi</td></tr>
+        </table>
+        <div class="al-callout is-warn">
+            <div class="al-callout-label">Ojo</div>
+            <p>No es lo mismo que multiplicar por 1.30. Con un margen del 30%, de cada $100 que cobras te quedan $30 de ganancia. Si multiplicas el costo por 1.30, tu margen real es solo del 23%.</p>
+        </div>
+        <p>Ese margen es tu ganancia de verdad, tu colchón para los meses flojos y las emergencias, y el dinero para hacer crecer el negocio.</p>
+    </section>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'Qué es el RPM Real (y por qué el 90% lo calcula mal)', time: '6 min' },
-            { num: 2, title: 'Costos Visibles vs Costos Invisibles', time: '7 min' },
-            { num: 3, title: 'Break-Even: Tu Número de Supervivencia', time: '8 min' },
-            { num: 4, title: 'Ganancia Bruta vs Ganancia Real (Y el Factor Tiempo)', time: '7 min' },
-            { num: 5, title: 'Por Qué "Carga Pagada" NO Significa "Carga Rentable"', time: '8 min' }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">05</span>Las millas cambian tu break-even</h2>
+        <p>Con los costos fijos del ejemplo ($1,910 al mes) y la comida y el hotel ($1,200 al mes) repartidos entre las millas:</p>
+        <div class="al-bars">
+            <div class="al-bar-row"><span class="al-bar-label">6,000 mi/mes</span><div class="al-bar-track"><div class="al-bar-fill" style="width:100%"></div></div><span class="al-bar-value">$0.764</span></div>
+            <div class="al-bar-row"><span class="al-bar-label">8,000 mi/mes</span><div class="al-bar-track"><div class="al-bar-fill" style="width:83%"></div></div><span class="al-bar-value">$0.634</span></div>
+            <div class="al-bar-row"><span class="al-bar-label">10,000 mi/mes</span><div class="al-bar-track"><div class="al-bar-fill" style="width:73%"></div></div><span class="al-bar-value">$0.557</span></div>
+        </div>
+        <p>Más millas que paguen bajan tu break-even y te hacen más competitivo. Hacer más millas por debajo del break-even solo te hace perder más.</p>
+    </section>
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: '¿Cuál es la fórmula del Break-Even RPM?',
-                options: [
-                    'Costo Variable/Milla - Costo Fijo/Milla',
-                    'Costo Fijo/Milla + Costo Variable/Milla',
-                    'Pago Total ÷ Millas totales',
-                    'RPM real × 1.30'
-                ],
-                correctIndex: 1
-            },
-            {
-                question: 'En el ejemplo de la lección (costos fijos $2,740/mes, 8,000 millas/mes, variable $0.60/milla), ¿cuál es el break-even RPM?',
-                options: [
-                    '$0.60/milla',
-                    '$0.34/milla',
-                    '$0.94/milla',
-                    '$1.22/milla'
-                ],
-                correctIndex: 2
-            },
-            {
-                question: 'Si tu break-even es $0.94/milla, ¿cuál es tu TARGET mínimo recomendado (break-even × 1.30)?',
-                options: [
-                    '$0.94/milla',
-                    '$1.06/milla',
-                    '$1.22/milla',
-                    '$1.32/milla'
-                ],
-                correctIndex: 2
-            },
-            {
-                question: 'Según la lección, si haces MÁS millas mensuales manteniendo los mismos costos fijos, ¿qué pasa con tu break-even?',
-                options: [
-                    'Sube porque hay más desgaste',
-                    'Baja, porque el costo fijo se reparte entre más millas',
-                    'Se mantiene igual siempre',
-                    'Solo cambia si cambias de van'
-                ],
-                correctIndex: 1
-            }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">06</span>Calcula tu break-even y tu objetivo</h2>
+        <div class="al-calc" id="alCalc">
+            <div class="al-calc-grid">
+                <div class="al-field"><label for="bCost">Tu costo real por milla ($)</label><input id="bCost" type="number" inputmode="decimal" step="0.001" value="0.634"></div>
+                <div class="al-field"><label for="bMargen">Margen objetivo (%)</label><input id="bMargen" type="number" inputmode="decimal" step="any" value="30"></div>
+                <div class="al-field"><label for="bRpm">RPM de la carga que te ofrecen ($)</label><input id="bRpm" type="number" inputmode="decimal" step="0.01" value="0.8"></div>
+            </div>
+            <div class="al-calc-out">
+                <div class="al-out">Break-even<b id="oBe">—</b></div>
+                <div class="al-out">Objetivo<b id="oObj">—</b></div>
+                <div class="al-out">Contraoferta (+8%)<b id="oCo">—</b></div>
+                <div class="al-calc-msg" id="oMsg">—</div>
+            </div>
+        </div>
+    </section>
 
-        function markLessonComplete() {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress) {
-                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
-            }
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">07</span>Cómo lo usa la app</h2>
+        <div class="al-callout is-app">
+            <div class="al-callout-label">Aplícalo en la app</div>
+            <p>En <strong>Configuración</strong> pones tu margen de ganancia objetivo y, si quieres, un RPM mínimo. Con tu costo por milla, la app calcula el objetivo de cada carga y te dice:</p>
+            <ul class="al-checklist">
+                <li><strong class="al-green">ACEPTAR</strong> si la carga llega a tu objetivo.</li>
+                <li><strong class="al-amber">EVALUAR</strong> si cubre tus costos pero no llega al objetivo.</li>
+                <li><strong class="al-red">RECHAZAR</strong> si no cubre tus costos.</li>
+            </ul>
+            <p><a class="al-btn al-btn-primary" href="/app.html#settings">Abrir Configuración →</a></p>
+        </div>
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Calculadora · Precio sugerido</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/panel-precio-sugerido-movil.png" width="652" height="286"><img src="/academy/img/app/panel-precio-sugerido.png" alt="Precio sugerido para una carga Detroit a Atlanta: equilibrio 398 dólares, objetivo 497 y contraoferta 537." loading="lazy" width="1320" height="194"></picture>
+            </div>
+            <figcaption><b>Ejemplo en la app:</b> Detroit → Atlanta (722 mi) por $450. La carga cubre costos pero no llega al objetivo, así que la app dice EVALUAR y te propone pedir $537. <b>Equilibrio</b> es tu break-even para esa carga.</figcaption>
+        </figure>
+    </section>
+
+    <section class="al-summary">
+        <h2>En resumen</h2>
+        <ul>
+            <li>El break-even es tu costo real por milla: por debajo, pierdes dinero.</li>
+            <li>Tu objetivo es break-even ÷ (1 − margen), no break-even × 1.30.</li>
+            <li>En la app, el semáforo y el precio sugerido salen de tu costo y tu margen.</li>
+        </ul>
+    </section>
+
+    <section class="lesson-quiz" id="lessonQuiz"></section>
+
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
+        <nav class="lesson-nav">
+            <a href="lesson-2.html" class="al-btn al-btn-ghost">← Lección anterior</a>
+            <a href="lesson-4.html" class="al-btn al-btn-primary">Siguiente: ganancia real y el factor tiempo →</a>
+        </nav>
+    </footer>
+</article>
+
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 1;
+    const LESSON_NUM = 3;
+    const LESSON_LIST = [
+        { num: 1, title: "Qué es el RPM real (y por qué casi todos lo calculan mal)", time: '6 min' },
+        { num: 2, title: "Costos visibles y costos invisibles", time: '7 min' },
+        { num: 3, title: "Break-even: tu número de supervivencia", time: '8 min' },
+        { num: 4, title: "Ganancia bruta, ganancia real y el factor tiempo", time: '7 min' },
+        { num: 5, title: "Por qué \"carga pagada\" no significa \"carga rentable\"", time: '8 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+  {
+    "question": "¿Qué es el break-even?",
+    "options": [
+      "Lo que cobras por milla",
+      "Lo mínimo que necesitas cobrar por milla para no perder dinero",
+      "Tu ganancia por milla",
+      "El RPM promedio del mercado"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "Tu break-even es $0.634 y quieres un margen del 30%. ¿Cuál es tu objetivo?",
+    "options": [
+      "$0.824",
+      "$0.906",
+      "$1.057",
+      "$0.634"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "Con un break-even de $0.634, aceptas una carga a $0.55 por milla de 600 millas. ¿Qué pasa?",
+    "options": [
+      "Ganas $50",
+      "No ganas ni pierdes",
+      "Pierdes unos $50",
+      "Pierdes $330"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "question": "En la app, ¿qué significa EVALUAR?",
+    "options": [
+      "Que la carga no cubre tus costos",
+      "Que cubre tus costos pero no llega a tu objetivo",
+      "Que llega a tu objetivo",
+      "Que falta información"
+    ],
+    "correctIndex": 1
+  }
+];
+
+    const MSG = { red: 'RECHAZAR: a ese RPM pierdes $' + '{x} por milla.', amber: 'EVALUAR: cubres costos, pero te faltan $' + '{x} por milla para tu objetivo.', green: 'ACEPTAR: llegas a tu objetivo.' };
+    (function () {
+        const v = (id) => Math.max(0, parseFloat(document.getElementById(id).value) || 0);
+        const M = MSG;
+        function calc() {
+            const cost = v('bCost'), m = Math.min(95, v('bMargen')), rpm = v('bRpm');
+            const obj = cost / (1 - m / 100);
+            document.getElementById('oBe').textContent = '$' + cost.toFixed(3);
+            document.getElementById('oObj').textContent = '$' + obj.toFixed(3);
+            document.getElementById('oCo').textContent = '$' + (obj * 1.08).toFixed(3);
+            const el = document.getElementById('oMsg');
+            if (rpm < cost) { el.className = 'al-calc-msg is-red'; el.textContent = M.red.replace('{x}', (cost - rpm).toFixed(3)); }
+            else if (rpm < obj) { el.className = 'al-calc-msg is-amber'; el.textContent = M.amber.replace('{x}', (obj - rpm).toFixed(3)); }
+            else { el.className = 'al-calc-msg is-green'; el.textContent = M.green; }
         }
-        document.addEventListener('DOMContentLoaded', async () => {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+        document.querySelectorAll('#alCalc input').forEach(i => i.addEventListener('input', calc));
+        calc();
+    })();
 
-            if (window.AcademySidebar) {
-                await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Mentalidad & Fundamentos', LESSON_LIST);
-            }
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada";
+            btn.disabled = true;
+        }
+    }
 
-            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-
-            if (alreadyDone) {
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                const quizEl = document.getElementById('lessonQuiz');
-                if (quizEl) quizEl.style.display = 'none';
-            } else if (window.AcademyQuiz) {
-                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-            }
-        });
-    </script>
-
-  
-
-
-
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, "Mentalidad y fundamentos", LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada"; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>

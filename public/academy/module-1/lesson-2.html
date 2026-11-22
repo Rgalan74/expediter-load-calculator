@@ -1,101 +1,36 @@
 <!DOCTYPE html><html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Costos Visibles vs Costos Invisibles | Smart Load Academia</title>
-    <meta name="description" content="Los costos invisibles son REALES.">
+    <title>Costos visibles y costos invisibles | Smart Load Academia</title>
+    <meta name="description" content="Qué costos ves cada día, cuáles se te escapan y cómo calcular tu costo real por milla.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/academy.css">
+    <link rel="stylesheet" href="/academy/css/academy.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7;
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: 0.875rem;
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none;
-        }
-
-        .lesson-header {
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: 0.75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
-            color: white;
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-  
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/academy/module-1/lesson-2.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/lesson-2.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/lesson-2.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/lesson-2.html">
+    <link rel="canonical" href="https://smartloadsolution.com/academy/module-1/lesson-2.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/lesson-2.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/lesson-2.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/lesson-2.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Volver a la App</a></nav>
-    <aside class="lesson-sidebar" id="lessonSidebar">
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Volver a la App</a></nav>
+
+<aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
         <div>
             <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
@@ -105,301 +40,294 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
-        <nav class="breadcrumb">
-            <a href="/academy.html">← Academia</a> →
-            <a href="index.html">Módulo 1</a> →
-            Lección 2
-        </nav>
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/academy.html">Academia</a> / <a href="index.html">Módulo 1</a> / Lección 2</nav>
 
-        
-        <header class="lesson-header">
-            <h1>Costos Visibles vs Costos Invisibles</h1>
-            <div style="display: flex; gap: 1.5rem; font-size: 0.875rem; color: #888;">
-                <span>📖 7 min lectura</span>
-                <span>🎓 Módulo 1 - Lección 2</span>
-            </div>
-        </header>
+    <header>
+        <div class="al-kicker">Módulo 1 · Lección 2</div>
+        <h1 class="al-title">Costos visibles y costos invisibles</h1>
+        <div class="al-meta">
+            <span class="al-chip">7 min de lectura</span>
+            <span class="al-chip">Fundamentos</span>
+            <span class="al-chip is-free">Gratis</span>
+        </div>
+    </header>
 
-        <div class="lesson-content">
+    <section class="al-learn">
+        <div class="al-learn-title">Lo que vas a aprender</div>
+        <ol>
+            <li>Qué costos ves cada día y cuáles se te escapan.</li>
+            <li>Por qué tu costo por milla cambia según las millas que haces al mes.</li>
+            <li>Cómo calcular tu costo real por milla y ponerlo en la app.</li>
+        </ol>
+    </section>
 
-            <section>
-                <h2>El problema</h2>
-                <p>La mayoría solo piensa en:</p>
-                <ul>
-                    <li>Gasolina</li>
-                    <li>Tolls (cuando los hay)</li>
-                </ul>
+    <!-- 01 -->
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>El problema</h2>
+        <p>Casi todos los conductores cuentan la gasolina y los peajes, porque son lo que pagan con la tarjeta cada día. Pero el pago de la van, el seguro, el desgaste y la comida en la carretera también salen de cada carga, aunque no los veas en el momento.</p>
 
-                <div class="note warning">
-                    <span class="note-label">Error grave</span>
-                    <p>Hay costos invisibles que están comiendo tus ganancias en silencio. Los costos visibles
-                        representan solo el 60-70% de tus costos totales.</p>
-                </div>
-            </section>
+        <figure class="al-figure">
+            <svg viewBox="0 0 720 340" role="img" aria-label="Costos visibles: gasolina y peajes. Costos invisibles: pago del vehículo, seguro, permisos, mantenimiento, llantas y reparaciones, depreciación, comida y hotel.">
+                <defs>
+                    <linearGradient id="alWater" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22D3EE" stop-opacity="0.16"/><stop offset="1" stop-color="#22D3EE" stop-opacity="0.02"/></linearGradient>
+                </defs>
+                <rect x="0" y="96" width="720" height="244" fill="url(#alWater)"/>
+                <line x1="0" y1="96" x2="720" y2="96" stroke="#22D3EE" stroke-width="1.5" stroke-dasharray="6 6"/>
+                <path d="M300 96 L340 30 L372 52 L404 18 L440 96 Z" fill="#ECEEF2" fill-opacity="0.92"/>
+                <path d="M300 96 L440 96 L520 170 L560 250 L470 318 L330 322 L220 270 L190 190 Z" fill="#ECEEF2" fill-opacity="0.16" stroke="#67E8F9" stroke-opacity="0.5"/>
+                <text x="470" y="40" fill="#ECEEF2" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="1.5">LO QUE VES CADA DÍA</text>
+                <text x="470" y="62" fill="#B8BFCC" font-family="Inter, sans-serif" font-size="15">Gasolina · Peajes</text>
+                <text x="24" y="122" fill="#67E8F9" font-family="JetBrains Mono, monospace" font-size="12" letter-spacing="1.5">LO QUE PAGAS AUNQUE NO LO VEAS</text>
+                <g font-family="Inter, sans-serif" font-size="15" fill="#ECEEF2">
+                    <text x="250" y="160">Pago del vehículo</text>
+                    <text x="395" y="160">Seguro</text>
+                    <text x="236" y="198">Permisos</text>
+                    <text x="340" y="198">Mantenimiento</text>
+                    <text x="250" y="236">Llantas y reparaciones</text>
+                    <text x="300" y="274">Depreciación</text>
+                    <text x="320" y="306">Comida y hotel</text>
+                </g>
+            </svg>
+            <figcaption>Lo que pagas cada día es solo la punta. El resto también sale de cada carga.</figcaption>
+        </figure>
 
-            <section>
-                <h2>Tabla de costos reales</h2>
-                <p><strong>Straight Truck / Sprinter Van (por milla)</strong></p>
+        <div class="al-callout is-error">
+            <div class="al-callout-label">El error común</div>
+            <p>Poner precio a una carga pensando solo en la gasolina. Una carga que parece rentable puede no cubrir el resto de tus costos.</p>
+        </div>
+    </section>
 
-                <div class="compare-grid">
-                    <div class="compare-table">
-                        <div class="compare-title">Costos variables</div>
-                        <div class="compare-row"><span class="label">Combustible</span><span class="value">$0.42 – $0.50</span></div>
-                        <div class="compare-row"><span class="label">DEF (Diesel Exhaust Fluid)</span><span class="value">$0.03 – $0.05</span></div>
-                        <div class="compare-row"><span class="label">Mantenimiento programado</span><span class="value">$0.08 – $0.12</span></div>
-                        <div class="compare-row"><span class="label">Desgaste de llantas</span><span class="value">$0.03 – $0.04</span></div>
-                        <div class="compare-row"><span class="label">Tolls/Parking (promedio)</span><span class="value">$0.02 – $0.05</span></div>
-                        <div class="compare-row"><span class="label">Subtotal variable</span><span class="value accent">$0.58 – $0.76</span></div>
-                    </div>
-                    <div class="compare-table">
-                        <div class="compare-title">Costos fijos</div>
-                        <div class="compare-row"><span class="label">Pago de van/lease</span><span class="value">$0.15 – $0.25</span></div>
-                        <div class="compare-row"><span class="label">Seguro (liability + cargo)</span><span class="value">$0.08 – $0.12</span></div>
-                        <div class="compare-row"><span class="label">Licencias/permits anuales</span><span class="value">$0.01 – $0.02</span></div>
-                        <div class="compare-row"><span class="label">Depreciación del vehículo</span><span class="value">$0.05 – $0.08</span></div>
-                        <div class="compare-row"><span class="label">Celular/apps/tecnología</span><span class="value">$0.01 – $0.02</span></div>
-                        <div class="compare-row"><span class="label">Subtotal fijo</span><span class="value accent">$0.30 – $0.49</span></div>
-                    </div>
-                </div>
+    <!-- 02 -->
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>Un ejemplo con números</h2>
+        <p>Una van de carga a gasolina que hace <strong>8,000 millas al mes</strong>. Son números de ejemplo: los tuyos serán distintos, y al final de la lección calculas los tuyos.</p>
 
-                <div class="pull-number">
-                    <div class="value">$0.88–$1.25</div>
-                    <p class="context">costo operativo total por milla — basado en 100,000 millas anuales.</p>
-                </div>
-            </section>
+        <table class="al-table">
+            <caption>Costos que dependen de las millas</caption>
+            <tr><td>Gasolina<span class="al-sub">19 MPG a $3.70 el galón</span></td><td class="al-num-cell">$0.195 /mi</td></tr>
+            <tr><td>Mantenimiento<span class="al-sub">Aceite y filtros</span></td><td class="al-num-cell">$0.014 /mi</td></tr>
+            <tr><td>Llantas</td><td class="al-num-cell">$0.012 /mi</td></tr>
+            <tr><td>Reparaciones<span class="al-sub">Reserva para lo inesperado</span></td><td class="al-num-cell">$0.025 /mi</td></tr>
+            <tr class="al-total"><td>Subtotal por milla</td><td class="al-num-cell">$0.246 /mi</td></tr>
+        </table>
 
-            <section>
-                <h2>Los costos invisibles más importantes</h2>
+        <table class="al-table">
+            <caption>Costos fijos del mes (se pagan aunque no ruedes)</caption>
+            <tr><td>Pago del vehículo</td><td class="al-num-cell">$900</td></tr>
+            <tr><td>Seguro</td><td class="al-num-cell">$850</td></tr>
+            <tr><td>Permisos y licencias</td><td class="al-num-cell">$40</td></tr>
+            <tr><td>Teléfono, internet y apps</td><td class="al-num-cell">$120</td></tr>
+            <tr><td><strong>Total al mes</strong></td><td class="al-num-cell">$1,910</td></tr>
+            <tr class="al-total"><td>Por milla<span class="al-sub">$1,910 ÷ 8,000 millas</span></td><td class="al-num-cell">$0.239 /mi</td></tr>
+        </table>
 
-                <p><strong>1. Depreciación ($0.05-$0.08/milla)</strong> — el más "invisible" pero muy real:</p>
-                <ul>
-                    <li>Compra de van: $80,000</li>
-                    <li>Valor en 5 años: $30,000</li>
-                    <li>Pérdida de valor: $50,000</li>
-                    <li><strong>= $0.10/milla de pérdida</strong></li>
-                </ul>
-                <p>No ves esta salida de dinero diariamente, pero cuando vendas tu van, sentirás el impacto.</p>
+        <table class="al-table">
+            <caption>En la carretera</caption>
+            <tr class="al-total"><td>Comida y hotel<span class="al-sub">$1,200 al mes ÷ 8,000 millas</span></td><td class="al-num-cell">$0.150 /mi</td></tr>
+        </table>
 
-                <p><strong>2. Pago de van ($0.15-$0.25/milla)</strong></p>
-                <div class="note warning">
-                    <span class="note-label">Ojo</span>
-                    <p>Si haces MENOS millas, este costo POR MILLA sube:</p>
-                    <ul>
-                        <li>6,000 millas/mes: $1,800 ÷ 6,000 = <strong>$0.30/milla</strong></li>
-                        <li>10,000 millas/mes: $1,800 ÷ 10,000 = <strong>$0.18/milla</strong></li>
-                    </ul>
-                    <p>Tu costo fijo por milla mejora haciendo MÁS millas (si mantienes la rentabilidad).</p>
-                </div>
-
-                <p><strong>3. Seguro ($0.08-$0.12/milla)</strong> — seguro anual típico:</p>
-                <ul>
-                    <li>Liability: $6,000</li>
-                    <li>Physical damage: $3,000</li>
-                    <li>Cargo: $1,500</li>
-                    <li><strong>Total: $10,500/año = $0.105/milla</strong></li>
-                </ul>
-                <p><strong>Pagas esto AUNQUE NO RUEDES.</strong> Por eso necesitas maximizar tus millas rentables.</p>
-            </section>
-
-            <section>
-                <h2>La regla de los costos invisibles</h2>
-
-                <div class="note warning">
-                    <span class="note-label">Sin días libres</span>
-                    <p>Si tu van está RODANDO, está generando costos. Si tu van está PARADA, algunos costos siguen corriendo.</p>
-                    <p>NO existe "día libre" para: Seguro, Pago de van, Depreciación, Licencias.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Calcula tus costos reales</h2>
-
-                <p><strong>Paso 1: Costos fijos mensuales</strong></p>
-                <div class="worksheet">
-                    <div class="worksheet-row"><span class="label">Pago de van/lease</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Seguro (÷ 12 si es anual)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Licencias/permisos (÷ 12)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Celular/apps</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Total fijo mensual (A)</span><span class="line"></span></div>
-                </div>
-
-                <p><strong>Paso 2: Millas mensuales promedio</strong></p>
-                <div class="worksheet">
-                    <div class="worksheet-row"><span class="label">Millas que haces al mes (B)</span><span class="line"></span></div>
-                </div>
-
-                <p><strong>Paso 3: Costo fijo por milla</strong></p>
-                <div class="worksheet">
-                    <div class="worksheet-row"><span class="label">(A) ÷ (B) = Costo fijo/milla (C)</span><span class="line"></span></div>
-                </div>
-
-                <p><strong>Paso 4: Costos variables</strong></p>
-                <div class="worksheet">
-                    <div class="worksheet-row"><span class="label">Combustible (tu MPG real)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">DEF</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Mantenimiento</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Llantas</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Tolls/parking promedio</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Total variable (D)</span><span class="line"></span></div>
-                </div>
-
-                <p><strong>Paso 5: Tu costo total por milla</strong></p>
-                <div class="worksheet">
-                    <div class="worksheet-row highlight"><span class="label">(C) + (D) = Costo total/milla</span><span class="line"></span></div>
-                </div>
-
-                <p>Guarda este número. Lo necesitarás en la siguiente lección.</p>
-            </section>
-
-            <section>
-                <h2>Red flags de costos</h2>
-
-                <div class="note warning">
-                    <span class="note-label">Señales de alerta</span>
-                    <ul>
-                        <li>Combustible &gt;$0.55/milla → Revisa driving style</li>
-                        <li>Mantenimiento &gt;$0.15/milla → Tu van necesita atención NOW</li>
-                        <li>Costos fijos &gt;$0.50/milla → Necesitas más millas o reducir pagos</li>
-                        <li>Costo total &gt;$1.30/milla → Difícil ser rentable, revisa operación</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section>
-                <div class="conclusion">
-                    <p class="lead">Los costos invisibles son <span class="accent">REALES</span>.</p>
-                    <p class="sub">Solo porque no los ves cada día no significa que no existan. Tu van SIEMPRE cuesta dinero — la pregunta es si estás ganando MÁS de lo que cuesta.</p>
-                </div>
-            </section>
-
+        <div class="al-stat">
+            <div class="al-stat-value">$0.634</div>
+            <div class="al-stat-label">costo real por milla en este ejemplo</div>
         </div>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+        <div class="al-stack" aria-label="Reparto del costo por milla">
+            <div class="al-stack-bar">
+                <span class="al-c1" style="width:30.7%"></span>
+                <span class="al-c2" style="width:8.0%"></span>
+                <span class="al-c3" style="width:37.6%"></span>
+                <span class="al-c4" style="width:23.7%"></span>
+            </div>
+            <div class="al-stack-legend">
+                <span><i class="al-c1"></i>Gasolina 31%</span>
+                <span><i class="al-c2"></i>Mantenimiento, llantas y reparaciones 8%</span>
+                <span><i class="al-c3"></i>Costos fijos 38%</span>
+                <span><i class="al-c4"></i>Comida y hotel 24%</span>
+            </div>
+        </div>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">
-                ✓ Marcar como completada
-            </button>
+        <p>La gasolina, que es lo que todos miran, <strong>es menos de un tercio</strong> del costo real. Si cobras pensando en $0.20 por milla, en realidad estás gastando $0.63.</p>
+    </section>
 
-            <nav class="lesson-nav">
-                <a href="lesson-1.html" class="btn btn-secondary">← Lección anterior</a>
-                <a href="lesson-3.html" class="btn btn-primary">Siguiente: Break-even →</a>
-            </nav>
-        </footer>
-        
+    <!-- 03 -->
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>Las millas cambian tu costo</h2>
+        <p>Los costos fijos se reparten entre las millas que haces. Con los mismos <strong>$1,910 al mes</strong>:</p>
 
-        
-    </article>
+        <div class="al-bars">
+            <div class="al-bar-row"><span class="al-bar-label">6,000 mi/mes</span><div class="al-bar-track"><div class="al-bar-fill" style="width:100%"></div></div><span class="al-bar-value">$0.318</span></div>
+            <div class="al-bar-row"><span class="al-bar-label">8,000 mi/mes</span><div class="al-bar-track"><div class="al-bar-fill" style="width:75%"></div></div><span class="al-bar-value">$0.239</span></div>
+            <div class="al-bar-row"><span class="al-bar-label">10,000 mi/mes</span><div class="al-bar-track"><div class="al-bar-fill" style="width:60%"></div></div><span class="al-bar-value">$0.191</span></div>
+        </div>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 1;
-        const LESSON_NUM = 2;
+        <div class="al-callout is-warn">
+            <div class="al-callout-label">Ojo</div>
+            <p>Hacer más millas baja tu costo por milla <strong>solo si son millas que pagan</strong>. Las millas vacías también gastan gasolina y desgaste.</p>
+        </div>
+    </section>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'Qué es el RPM Real (y por qué el 90% lo calcula mal)', time: '6 min' },
-            { num: 2, title: 'Costos Visibles vs Costos Invisibles', time: '7 min' },
-            { num: 3, title: 'Break-Even: Tu Número de Supervivencia', time: '8 min' },
-            { num: 4, title: 'Ganancia Bruta vs Ganancia Real (Y el Factor Tiempo)', time: '7 min' },
-            { num: 5, title: 'Por Qué "Carga Pagada" NO Significa "Carga Rentable"', time: '8 min' }
-        ];
+    <!-- 04 -->
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>La depreciación</h2>
+        <p>Es el costo que no ves hasta que vendes la van. Si la compras en <strong>$55,000</strong> y en 5 años vale <strong>$25,000</strong>, perdió $30,000 en 60 meses: <strong>$500 al mes</strong>. A 8,000 millas al mes son <strong>$0.063 por milla</strong>.</p>
+        <div class="al-callout">
+            <div class="al-callout-label">Consejo</div>
+            <p>Si tu van ya está pagada, el pago desaparece, pero la depreciación no. Súmala en el campo <strong>Otros Costos</strong> de Configuración. Si todavía la estás pagando, el pago mensual ya cubre buena parte de esa pérdida: no la cuentes dos veces.</p>
+        </div>
+    </section>
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: 'Según la tabla de la lección, ¿cuál es el rango total de costo operativo por milla (variable + fijo)?',
-                options: [
-                    '$0.42 - $0.50/milla',
-                    '$0.58 - $0.76/milla',
-                    '$0.88 - $1.25/milla',
-                    '$1.30 - $1.50/milla'
-                ],
-                correctIndex: 2
-            },
-            {
-                question: 'Si tu pago de van es $1,800/mes, ¿qué pasa con tu costo fijo por milla si pasas de 6,000 a 10,000 millas/mes?',
-                options: [
-                    'Sube de $0.18 a $0.30/milla',
-                    'Se mantiene igual en $0.25/milla',
-                    'Baja de $0.30 a $0.18/milla',
-                    'Sube a $0.35/milla por más desgaste'
-                ],
-                correctIndex: 2
-            },
-            {
-                question: 'Según el ejemplo de depreciación (van comprada en $80,000, valor en 5 años $30,000, sobre 100,000 millas/año), ¿cuál es el costo por milla?',
-                options: [
-                    '$0.10/milla',
-                    '$0.06/milla',
-                    '$0.16/milla',
-                    'No hay costo real, es solo contable'
-                ],
-                correctIndex: 0
-            },
-            {
-                question: 'Según los "red flags" de costos de la lección, ¿a partir de qué costo TOTAL por milla es difícil ser rentable?',
-                options: [
-                    '>$0.55/milla',
-                    '>$0.88/milla',
-                    '>$1.15/milla',
-                    '>$1.30/milla'
-                ],
-                correctIndex: 3
-            }
-        ];
+    <!-- 05 -->
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">05</span>Calcula tu costo real</h2>
+        <p>Cambia los números por los tuyos. El resultado se actualiza al momento.</p>
 
-        function markLessonComplete() {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress) {
-                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
-            }
+        <div class="al-calc" id="alCalc">
+            <div class="al-calc-grid">
+                <div class="al-calc-group">Costos fijos del mes</div>
+                <div class="al-field"><label for="cPago">Pago de auto ($/mes)</label><input id="cPago" type="number" inputmode="decimal" value="900"></div>
+                <div class="al-field"><label for="cSeguro">Seguro ($/mes)</label><input id="cSeguro" type="number" inputmode="decimal" value="850"></div>
+                <div class="al-field"><label for="cPermisos">Permisos y licencias ($/mes)</label><input id="cPermisos" type="number" inputmode="decimal" value="40"></div>
+                <div class="al-field"><label for="cOtros">Otros costos: teléfono, depreciación… ($/mes)</label><input id="cOtros" type="number" inputmode="decimal" value="120"></div>
+                <div class="al-calc-group">Tu operación</div>
+                <div class="al-field"><label for="cMillas">Millas al mes</label><input id="cMillas" type="number" inputmode="decimal" value="8000"></div>
+                <div class="al-field"><label for="cMpg">MPG de tu van</label><input id="cMpg" type="number" inputmode="decimal" value="19"></div>
+                <div class="al-field"><label for="cGalon">Precio del galón ($)</label><input id="cGalon" type="number" inputmode="decimal" step="0.01" value="3.70"></div>
+                <div class="al-field"><label for="cDesgaste">Mantenimiento, llantas y reparaciones ($/mi)</label><input id="cDesgaste" type="number" inputmode="decimal" step="0.001" value="0.051"></div>
+                <div class="al-field"><label for="cComida">Comida y hotel ($/mes)</label><input id="cComida" type="number" inputmode="decimal" value="1200"></div>
+            </div>
+            <div class="al-calc-out">
+                <div class="al-out">Gasolina<b id="oGas">—</b></div>
+                <div class="al-out">Costos fijos<b id="oFijo">—</b></div>
+                <div class="al-out">Comida y hotel<b id="oComida">—</b></div>
+                <div class="al-calc-total"><span>Tu costo real por milla</span><b id="oTotal">—</b></div>
+            </div>
+        </div>
+
+        <div class="al-callout is-app">
+            <div class="al-callout-label">Aplícalo en la app</div>
+            <p>Pon estos mismos números en <strong>Configuración</strong>. La calculadora los usa en cada carga, con el precio real de la gasolina en los estados de tu ruta. Cuando tengas unos meses de gastos registrados en Finanzas, usará tus costos reales.</p>
+            <p><a class="al-btn al-btn-primary" href="/app.html#settings">Abrir Configuración →</a></p>
+        </div>
+
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Configuración · Costos operativos</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/config-costos-fijos-movil.png" width="740" height="1082"><img src="/academy/img/app/config-costos-fijos.png" alt="Sección Costos operativos de Configuración con pago de auto 900, seguro 850, permisos 40 y otros costos 120; el resumen muestra total fijo mensual de 1,910 dólares y costo fijo por milla de 0.239." loading="lazy" width="1428" height="771"></picture>
+            </div>
+            <figcaption><b>Costos fijos del mes.</b> Con los datos del ejemplo, el resumen automático te da el mismo resultado de la lección: <b>$1,910 al mes y $0.239 por milla</b>.</figcaption>
+        </figure>
+
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Configuración · Costos variables por milla</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/config-costos-variables-movil.png" width="740" height="2194"><img src="/academy/img/app/config-costos-variables.png" alt="Sección Costos variables por milla: MPG 19, precio por galón 3.70, mantenimiento 0.014, llantas 0.012 y reparaciones 0.025; costo de gasolina calculado 0.195 por milla." loading="lazy" width="1428" height="1257"></picture>
+            </div>
+            <figcaption><b>Gasolina y desgaste.</b> Pon el MPG real de tu van. El precio por galón es solo de respaldo: en cada carga la app usa el precio de la semana en los estados de tu ruta.</figcaption>
+        </figure>
+    </section>
+
+    <!-- 06 -->
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">06</span>Señales de alerta</h2>
+        <p>Valores orientativos para una van de carga a gasolina:</p>
+        <ul class="al-checklist">
+            <li><strong>Gasolina por encima de $0.25 por milla:</strong> revisa tu MPG (presión de llantas, velocidad, motor encendido en paradas).</li>
+            <li><strong>Mantenimiento, llantas y reparaciones por encima de $0.10 por milla:</strong> tu van necesita una revisión.</li>
+            <li><strong>Costos fijos por encima de $0.35 por milla:</strong> necesitas más millas que paguen o bajar tus pagos.</li>
+            <li><strong>Costo total cerca de tu RPM promedio:</strong> no te queda margen; cada carga floja te cuesta dinero.</li>
+        </ul>
+    </section>
+
+    <section class="al-summary">
+        <h2>En resumen</h2>
+        <ul>
+            <li>La gasolina es solo una parte de tu costo; en el ejemplo, menos de un tercio.</li>
+            <li>Los costos fijos se reparten entre tus millas: con menos millas, cada milla sale más cara.</li>
+            <li>Tu número clave es el costo real por milla. Guárdalo: lo usarás en la lección de break-even.</li>
+        </ul>
+    </section>
+
+    <section class="lesson-quiz" id="lessonQuiz"></section>
+
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
+        <nav class="lesson-nav">
+            <a href="lesson-1.html" class="al-btn al-btn-ghost">← Lección anterior</a>
+            <a href="lesson-3.html" class="al-btn al-btn-primary">Siguiente: break-even →</a>
+        </nav>
+    </footer>
+</article>
+
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 1;
+    const LESSON_NUM = 2;
+    const LESSON_LIST = [
+        { num: 1, title: 'Qué es el RPM real (y por qué el 90% lo calcula mal)', time: '6 min' },
+        { num: 2, title: 'Costos visibles y costos invisibles', time: '7 min' },
+        { num: 3, title: 'Break-even: tu número de supervivencia', time: '8 min' },
+        { num: 4, title: 'Ganancia bruta y ganancia real (y el factor tiempo)', time: '7 min' },
+        { num: 5, title: 'Por qué "carga pagada" no significa "carga rentable"', time: '8 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+        { question: 'En el ejemplo de la lección, ¿qué parte del costo real por milla es la gasolina?',
+          options: ['Casi todo, alrededor del 90%', 'Alrededor de la mitad', 'Menos de un tercio (31%)', 'Menos del 10%'], correctIndex: 2 },
+        { question: 'Con $1,910 de costos fijos al mes, ¿qué pasa con el costo fijo por milla si pasas de 6,000 a 10,000 millas al mes?',
+          options: ['Sube de $0.19 a $0.32', 'Se queda igual', 'Baja de $0.32 a $0.19', 'Depende del precio de la gasolina'], correctIndex: 2 },
+        { question: 'Compras la van en $55,000 y en 5 años vale $25,000. ¿Cuánto te cuesta la depreciación al mes?',
+          options: ['$300', '$500', '$917', 'Nada, no es un gasto real'], correctIndex: 1 },
+        { question: 'Tu van ya está pagada. ¿Qué haces con la depreciación?',
+          options: ['Nada, ya no pago la van', 'La sumo en "Otros Costos" de Configuración', 'La sumo a la gasolina', 'La cuento dos veces para ir seguro'], correctIndex: 1 }
+    ];
+
+    // Calculadora de la lección
+    (function () {
+        const v = (id) => Math.max(0, parseFloat(document.getElementById(id).value) || 0);
+        const fmt = (n) => '$' + n.toFixed(3);
+        function calc() {
+            const millas = v('cMillas');
+            const fijoMes = v('cPago') + v('cSeguro') + v('cPermisos') + v('cOtros');
+            const gas = v('cMpg') > 0 ? v('cGalon') / v('cMpg') : 0;
+            const fijo = millas > 0 ? fijoMes / millas : 0;
+            const comida = millas > 0 ? v('cComida') / millas : 0;
+            const total = gas + v('cDesgaste') + fijo + comida;
+            document.getElementById('oGas').textContent = fmt(gas);
+            document.getElementById('oFijo').textContent = fmt(fijo);
+            document.getElementById('oComida').textContent = fmt(comida);
+            document.getElementById('oTotal').textContent = millas > 0 ? fmt(total) + ' /mi' : '—';
         }
+        document.querySelectorAll('#alCalc input').forEach(i => i.addEventListener('input', calc));
+        calc();
+    })();
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = '✓ Completada';
+            btn.disabled = true;
+        }
+    }
 
-            if (window.AcademySidebar) {
-                await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Mentalidad & Fundamentos', LESSON_LIST);
-            }
-
-            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-
-            if (alreadyDone) {
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                const quizEl = document.getElementById('lessonQuiz');
-                if (quizEl) quizEl.style.display = 'none';
-            } else if (window.AcademyQuiz) {
-                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-            }
-        });
-    </script>
-
-  
-
-
-
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Mentalidad y fundamentos', LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = '✓ Completada'; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>
