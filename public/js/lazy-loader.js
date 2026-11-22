@@ -94,7 +94,7 @@ async function loadReportsModule() {
     debugLog("📄 Cargando Reports module...");
 
     try {
-        await loadScript('js/finances-reports-v2.js?v=1.1.2', 'FinancesReports');
+        await loadScript('js/finances-reports-v2.js?v=1.1.3', 'FinancesReports');
 
         // Verificar que se cargó correctamente
         if (!window.FinancesReports) {

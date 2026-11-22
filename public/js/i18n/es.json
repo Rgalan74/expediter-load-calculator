@@ -34,7 +34,7 @@
     "section_load": "📦 Detalles de la Carga",
     "rate_label": "Tarifa Total ($)",
     "rate_placeholder": "ej. 850",
-    "miles_label": "Millas Totales",
+    "miles_label": "Millas Cargadas",
     "miles_placeholder": "ej. 650",
     "deadhead_label": "Millas en Vacío",
     "deadhead_placeholder": "ej. 45",

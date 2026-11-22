@@ -501,7 +501,7 @@ window.openLexChatModal = function () {
           overflow: hidden;
           box-shadow: 0 0 10px rgba(251,146,60,0.3);
         ">
-          <img src="img/lex/lex-neutral.png" alt="Lex"
+          <img src="img/lex-neutral.webp" alt="Lex"
             style="width: 100%; height: 100%; object-fit: contain;">
         </div>
         <div style="flex: 1;">
@@ -616,7 +616,7 @@ window.openLexChatModal = function () {
             flex-shrink: 0;
             overflow: hidden;
           ">
-            <img src="img/lex/lex-neutral.png" alt="Lex"
+            <img src="img/lex-neutral.webp" alt="Lex"
               style="width: 100%; height: 100%; object-fit: contain;">
           </div>
           <div style="
@@ -1127,9 +1127,9 @@ window.openLexChatModal = function () {
         background: #0f172a; display: flex; align-items: center;
         justify-content: center; flex-shrink: 0; overflow: hidden;
       ">
-        <img src="img/lex/lex-neutral.png" alt="Lex"
+        <img src="img/lex-neutral.webp" alt="Lex"
           style="width: 100%; height: 100%; object-fit: contain;"
-          onerror="this.src='img/lex/lex-neutral.png'">
+          onerror="this.src='img/lex-neutral.webp'">
       </div>
       <div class="lex-msg-bubble" style="
         position: relative;

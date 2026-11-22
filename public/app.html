@@ -354,7 +354,7 @@
       </div>
       <div
         style="position:absolute;inset:7px;border-radius:50%;background:rgba(255,109,74,0.07);border:1px solid rgba(255,109,74,0.15);display:flex;align-items:center;justify-content:center;">
-        <img src="img/logo-app.png" alt="SmartLoad" style="width:42px;height:42px;border-radius:50%;object-fit:cover;">
+        <img src="img/logo-app.webp" alt="SmartLoad" style="width:42px;height:42px;border-radius:50%;object-fit:cover;">
       </div>
     </div>
 
@@ -619,7 +619,7 @@
               <h3 class="text-2xl font-bold mb-4" data-i18n="calculator.section_miles">📏 Miles Information</h3>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label class="block text-base font-medium mb-2" data-i18n="calculator.miles_label">Total Miles *</label>
+                  <label class="block text-base font-medium mb-2" data-i18n="calculator.miles_label">Loaded Miles</label>
                   <input type="number" id="loadedMiles" placeholder="644"
                     class="border p-3 w-full rounded-lg text-base">
                 </div>
@@ -798,7 +798,7 @@
                 <div id="lexInsightSection" class="hidden mt-3 space-y-2">
                   <!-- Avatar Lex + título -->
                   <div class="flex items-center gap-2 mb-2">
-                    <img src="img/lex/lex-thinking.png" alt="Lex AI" class="w-7 h-7 rounded-full"
+                    <img src="img/lex-thinking.webp" alt="Lex AI" class="w-7 h-7 rounded-full"
                       style="border:1px solid rgba(0,217,255,0.4);">
                     <span data-i18n="lex.analysis_title" style="font-size:1rem;font-weight:700;color:#00D9FF;letter-spacing:0.05em;">LEX ANALYSIS</span>
                   </div>
@@ -2711,16 +2711,16 @@
   <!-- 💰 Finances modules - Load in order (refactored) -->
   <script src="js/finances-core.js?v=2.0.0"></script>
   <script src="js/finances-data.js?v=2.0.0"></script>
-  <script src="js/finances.js?v=4.0.5"></script>
+  <script src="js/finances.js?v=4.0.6"></script>
   <script src="js/finances-ui.js?v=2.0.1"></script>
 
   <!-- 🚀 Lazy Loading System (NEW) - Loads charts/reports/expenses on demand -->
-  <script src="js/lazy-loader.js?v=1.0.4"></script>
+  <script src="js/lazy-loader.js?v=1.0.5"></script>
 
   <!-- 🎯 Lazy Loading Override - Forces lazy for expenses/reports -->
   <script src="js/finances-lazy-override.js?v=1.0.0"></script>
 
-  <script src="js/zones.js?v=20261122a"></script>
+  <script src="js/zones.js?v=20261122b"></script>
   <script src="js/core/roles-manager.js?v=1.0.0"></script>
   <script src="js/admin-panel.js?v=20261112"></script>
   <script src="js/role-badge-display.js?v=2.0.7"></script>
@@ -2736,13 +2736,13 @@
   <script src="js/core/decisions-tracker.js?v=20261112"></script>
   <script src="js/core/pattern-learner.js?v=20261112"></script>
   <script src="js/core/lex-master.js?v=20261112"></script>
-  <script src="js/core/lex-modals.js?v=20261112"></script>
-  <script src="js/lex-analysis-ui.js?v=20261112"></script>
+  <script src="js/core/lex-modals.js?v=20261122a"></script>
+  <script src="js/lex-analysis-ui.js?v=20261122a"></script>
   <script src="js/lex-learning.js?v=20261121b"></script>
-  <script src="js/lex.js?v=20261122a"></script>
+  <script src="js/lex.js?v=20261122b"></script>
   <script src="js/lex-intents.js?v=20261112"></script>
   <script src="js/lex-router.js?v=20261112"></script>
-  <script src="js/lex-ai-engine.js?v=2.0.5"></script>
+  <script src="js/lex-ai-engine.js?v=2.0.6"></script>
 
   <!-- Agentes -->
   <script src="js/agents/calculator-agent.js?v=20261112"></script>
@@ -2752,7 +2752,21 @@
 
   <script src="js/mobile.js?v=20261112"></script>
   <script src="js/mobile-menu.js?v=1.0.0"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    // Carga bajo demanda de html2pdf (solo al exportar un reporte a PDF)
+    window.ensureHtml2Pdf = function () {
+      if (typeof window.html2pdf !== 'undefined') return Promise.resolve();
+      if (window._html2pdfLoading) return window._html2pdfLoading;
+      window._html2pdfLoading = new Promise(function (resolve, reject) {
+        var s = document.createElement('script');
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+        s.onload = function () { resolve(); };
+        s.onerror = function (e) { window._html2pdfLoading = null; reject(e); };
+        document.head.appendChild(s);
+      });
+      return window._html2pdfLoading;
+    };
+  </script>
   <script src="js/zones-print.js?v=20261112"></script>
 
   <!-- 🔍 Modal de Notas -->
@@ -2804,7 +2818,7 @@
       <div
         class="lex-avatar-shell w-16 h-16 rounded-full border shadow-2xl flex items-center justify-center overflow-hidden"
         style="background:linear-gradient(135deg,#fb923c 0%,#a3e635 100%);border-color:rgba(251,146,60,0.5);">
-        <img id="lexAvatarImg" src="img/lex/lex-neutral.png" alt="Lex AI Assistant"
+        <img id="lexAvatarImg" src="img/lex-neutral.webp" alt="Lex AI Assistant"
           class="w-14 h-14 object-contain lex-avatar-img">
       </div>
 

@@ -34,7 +34,7 @@
     "section_load": "📦 Load Details",
     "rate_label": "Total Rate ($)",
     "rate_placeholder": "e.g. 850",
-    "miles_label": "Total Miles",
+    "miles_label": "Loaded Miles",
     "miles_placeholder": "e.g. 650",
     "deadhead_label": "Deadhead Miles",
     "deadhead_placeholder": "e.g. 45",

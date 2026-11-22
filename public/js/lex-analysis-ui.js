@@ -134,7 +134,7 @@ window.lexAI.showHistoryAnalysisModal = function (analysis) {
     <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full flex flex-col" style="max-height: 90vh;">
       <div class="text-white p-4 rounded-t-2xl flex-shrink-0" style="background: linear-gradient(to right, #2563eb, #7c3aed) !important;">
         <div class="flex items-center gap-3">
-          <img src="img/lex/lex-thinking.png" class="w-10 h-10 rounded-full bg-white/10 p-1">
+          <img src="img/lex-thinking.webp" class="w-10 h-10 rounded-full bg-white/10 p-1">
           <div>
             <h3 class="text-lg font-bold">History Analysis</h3>
             <p class="text-xs text-blue-100">
@@ -280,7 +280,7 @@ window.lexAI.showFinanceAnalysisModal = function (analysis) {
       <!-- Header -->
       <div class="text-white p-4 rounded-t-2xl flex-shrink-0" style="background: linear-gradient(to right, #059669, #1d4ed8) !important;">
         <div class="flex items-center gap-3">
-          <img src="img/lex/lex-thinking.png" class="w-10 h-10 rounded-full bg-white/10 p-1">
+          <img src="img/lex-thinking.webp" class="w-10 h-10 rounded-full bg-white/10 p-1">
           <div>
             <h3 class="text-lg font-bold">Financial Analysis</h3>
             <p class="text-xs text-emerald-100">

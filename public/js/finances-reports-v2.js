@@ -607,7 +607,7 @@ function _reportCategoryLabel(id, withIcon) {
 }
 
 // 📄 Exportar Reporte a PDF
-function exportReportToPDF() {
+async function exportReportToPDF() {
   debugLog("📄 Exportando reporte a PDF...");
 
   const reportContent = document.getElementById('reportContent');
@@ -618,10 +618,12 @@ function exportReportToPDF() {
     return;
   }
 
-  // Verificar que html2pdf esté disponible
-  if (typeof html2pdf === 'undefined') {
-    alert('Error: Librería html2pdf no está cargada');
-    debugLog("❌ html2pdf no disponible");
+  // html2pdf se carga solo cuando se exporta (antes se descargaba siempre: 885 KB)
+  try {
+    await window.ensureHtml2Pdf();
+  } catch (e) {
+    alert('Error: no se pudo cargar el generador de PDF. Revisa tu conexión e intenta de nuevo.');
+    debugLog("❌ html2pdf no disponible", e);
     return;
   }
 

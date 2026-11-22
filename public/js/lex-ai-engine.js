@@ -672,9 +672,9 @@ RESPONSE FORMAT:
         el.innerHTML = `
       <div style="width:20px;height:20px;border-radius:9999px;background:#0f172a;
         display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;">
-        <img src="img/lex/lex-thinking.png" alt="Lex"
+        <img src="img/lex-thinking.webp" alt="Lex"
           style="width:100%;height:100%;object-fit:contain;"
-          onerror="this.src='img/lex/lex-neutral.png'">
+          onerror="this.src='img/lex-neutral.webp'">
       </div>
       <div style="background:#030712;border:1px solid #1f2937;
         border-radius:12px 12px 12px 4px;padding:8px 12px;
