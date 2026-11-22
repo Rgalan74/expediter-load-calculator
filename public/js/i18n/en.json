@@ -192,7 +192,7 @@
     "stats_distance": "Distance traveled",
     "stats_revenue": "Total Revenue",
     "stats_gross": "Gross accumulated",
-    "stats_net_profit": "Net Profit",
+    "stats_net_profit": "Estimated profit (loads)",
     "stats_after_expenses": "After expenses",
     "stats_avg_rpm": "Avg RPM",
     "stats_per_mile": "Dollars per mile",
