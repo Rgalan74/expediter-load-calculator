@@ -431,12 +431,12 @@ window.openLexChatModal = function () {
               : `${_trialDays} day${_trialDays !== 1 ? 's' : ''} left`;
           _trialBannerHtml = `<div style="background:rgba(34,197,94,0.08);border-bottom:1px solid rgba(34,197,94,0.2);padding:5px 14px;font-size:11px;color:#4ade80;display:flex;align-items:center;justify-content:space-between;">
               <span>🧪 ${_isEsTrial ? 'Trial gratuito' : 'Free trial'} — ${_daysLabel}</span>
-              <a href="plans.html" style="color:#fb923c;text-decoration:none;font-weight:600;">${_isEsTrial ? 'Ver Premium →' : 'Upgrade →'}</a>
+              <a href="plans.html" style="color:#22D3EE;text-decoration:none;font-weight:600;">${_isEsTrial ? 'Ver Premium →' : 'Upgrade →'}</a>
           </div>`;
       } else {
-          _trialBannerHtml = `<div style="background:rgba(251,146,60,0.08);border-bottom:1px solid rgba(251,146,60,0.2);padding:5px 14px;font-size:11px;color:#fb923c;display:flex;align-items:center;justify-content:space-between;">
+          _trialBannerHtml = `<div style="background:rgba(34,211,238,0.08);border-bottom:1px solid rgba(34,211,238,0.2);padding:5px 14px;font-size:11px;color:#22D3EE;display:flex;align-items:center;justify-content:space-between;">
               <span>⏱️ ${_isEsTrial ? 'Tu trial de 14 días ha vencido' : 'Your 14-day trial has expired'}</span>
-              <a href="plans.html" style="color:#fb923c;text-decoration:none;font-weight:700;">${_isEsTrial ? 'Upgrade →' : 'Upgrade →'}</a>
+              <a href="plans.html" style="color:#22D3EE;text-decoration:none;font-weight:700;">${_isEsTrial ? 'Upgrade →' : 'Upgrade →'}</a>
           </div>`;
       }
   }
@@ -477,8 +477,8 @@ window.openLexChatModal = function () {
       display: flex;
       flex-direction: column;
       border-bottom: 1px solid #1f2937;
-      background: linear-gradient(135deg, #0f172a 0%, #1a0a00 100%);
-      border-bottom: 1px solid rgba(251,146,60,0.2);
+      background: linear-gradient(180deg, #132036 0%, #0B1320 100%);
+      border-bottom: 1px solid rgba(34,211,238,0.2);
     ">
       <!-- Top header info -->
       <div style="
@@ -486,20 +486,20 @@ window.openLexChatModal = function () {
         align-items: center;
         gap: 10px;
         padding: 12px 14px;
-        border-bottom: 1px solid rgba(251,146,60,0.15);
+        border-bottom: 1px solid rgba(34,211,238,0.15);
       ">
         <div style="
           width: 36px;
           height: 36px;
           border-radius: 50%;
           background: #0f172a;
-          border: 2px solid #fb923c;
+          border: 2px solid #22D3EE;
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
           overflow: hidden;
-          box-shadow: 0 0 10px rgba(251,146,60,0.3);
+          box-shadow: 0 0 10px rgba(34,211,238,0.3);
         ">
           <img src="img/lex-neutral.webp" alt="Lex"
             style="width: 100%; height: 100%; object-fit: contain;">
@@ -508,7 +508,7 @@ window.openLexChatModal = function () {
           <div style="font-size: 15px; font-weight: 700; color: #f9fafb; letter-spacing: 0.3px;">
             Lex AI
           </div>
-          <div style="font-size: 11px; color: #fb923c; display: flex; align-items: center; gap: 4px;">
+          <div style="font-size: 11px; color: #22D3EE; display: flex; align-items: center; gap: 4px;">
             <span style="width:6px; height:6px; border-radius:50%; background:#22c55e; display:inline-block;"></span>
             ${window.i18n?.t('lex.status_active') || 'Asistente activo'}
           </div>
@@ -537,9 +537,9 @@ window.openLexChatModal = function () {
       <div style="display:flex;gap:2px;padding:4px 8px 0;background:#020617;">
         <button id="lexTabChat" onclick="window.switchLexTab('chat')" style="
           flex:1;padding:8px 12px;border:none;background:transparent;
-          color:#fb923c;font-size:14px;font-weight:600;cursor:pointer;
+          color:#22D3EE;font-size:14px;font-weight:600;cursor:pointer;
           border-top-left-radius:6px;border-top-right-radius:6px;
-          border-bottom:2px solid #fb923c;font-family:Inter,sans-serif;
+          border-bottom:2px solid #22D3EE;font-family:Inter,sans-serif;
         ">💬 Chat</button>
         <button id="lexTabAnalisis" onclick="window.switchLexTab('analisis')" style="
           flex:1;padding:8px 12px;border:none;background:transparent;
@@ -668,12 +668,12 @@ window.openLexChatModal = function () {
             padding: ${isMobile ? '6px 12px' : '8px 18px'};
             border-radius: 9999px;
             border: none;
-            background: linear-gradient(135deg, #fb923c, #ea580c);
-            color: white;
+            background: #22D3EE;
+            color: #06222A;
             font-size: ${isMobile ? '11px' : '13px'};
             font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 2px 6px rgba(251,146,60,0.3);
+            box-shadow: 0 2px 6px rgba(34,211,238,0.3);
           "
         >
           ${window.i18n?.t('lex.btn_send') || 'Enviar'}
@@ -723,8 +723,8 @@ window.openLexChatModal = function () {
 
       <button onclick="window.submitLexFeedback()" style="
         width: 100%;
-        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-        color: white;
+        background: #22D3EE;
+        color: #06222A;
         border: none;
         padding: 10px 16px;
         border-radius: 6px;
@@ -1020,7 +1020,8 @@ window.openLexChatModal = function () {
     wrapper.innerHTML = `
       <div
         style="
-          background: linear-gradient(135deg, #fb923c, #ea580c);
+          background: #0F4C5C;
+          border: 1px solid rgba(34,211,238,0.35);
           border-radius: 12px 12px 4px 12px;
           padding: 7px 12px;
           color: #f9fafb;
@@ -1187,7 +1188,7 @@ window.openLexChatModal = function () {
         'transition:all 0.15s', 'font-family:Inter,sans-serif',
         'white-space:nowrap'
       ].join(';');
-      chip.onmouseenter = () => { chip.style.borderColor = '#fb923c'; chip.style.color = '#fb923c'; };
+      chip.onmouseenter = () => { chip.style.borderColor = '#22D3EE'; chip.style.color = '#22D3EE'; };
       chip.onmouseleave = () => { chip.style.borderColor = '#374151'; chip.style.color = '#9ca3af'; };
       chip.addEventListener('click', async () => {
         chipsRow.style.display = 'none';
@@ -1345,13 +1346,13 @@ window.openLexChatModal = function () {
 
         <!-- Goal tracking card -->
         ${goal > 0 ? `
-        <div style="background:#080f1f;border:1px solid rgba(251,146,60,0.25);border-radius:10px;padding:12px;margin-bottom:10px;">
+        <div style="background:#080f1f;border:1px solid rgba(34,211,238,0.25);border-radius:10px;padding:12px;margin-bottom:10px;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-            <div style="color:#fb923c;font-weight:600;font-size:13px;">🎯 ${isEs ? 'Meta mensual' : 'Monthly goal'}</div>
+            <div style="color:#22D3EE;font-weight:600;font-size:13px;">🎯 ${isEs ? 'Meta mensual' : 'Monthly goal'}</div>
             <div style="color:#9ca3af;font-size:12px;">$${Math.round(curRev).toLocaleString()} / $${goal.toLocaleString()}</div>
           </div>
           <div style="background:#1f2937;border-radius:4px;height:8px;margin-bottom:8px;overflow:hidden;">
-            <div style="background:linear-gradient(90deg,#f59e0b,#fb923c);height:100%;width:${goalPct}%;border-radius:4px;"></div>
+            <div style="background:linear-gradient(90deg,#22D3EE,#67E8F9);height:100%;width:${goalPct}%;border-radius:4px;"></div>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:5px;">
             <div style="color:${onTrack ? '#4ade80' : '#f87171'};">
@@ -1363,7 +1364,7 @@ window.openLexChatModal = function () {
           </div>
           <div style="font-size:12px;color:#6b7280;">
             ${isEs ? 'Proyección' : 'Projection'}: <strong style="color:${onTrack ? '#4ade80' : '#f87171'};">$${projection.toLocaleString()}</strong>
-            &nbsp;·&nbsp; ${isEs ? 'Meta' : 'Goal'}: <strong style="color:#fb923c;">$${goal.toLocaleString()}</strong>
+            &nbsp;·&nbsp; ${isEs ? 'Meta' : 'Goal'}: <strong style="color:#22D3EE;">$${goal.toLocaleString()}</strong>
           </div>
         </div>` : `
         <div onclick="window.switchLexTab('chat')" style="background:#080f1f;border:1px dashed #374151;border-radius:8px;padding:10px 13px;margin-bottom:10px;font-size:12px;color:#6b7280;text-align:center;cursor:pointer;">
@@ -1387,7 +1388,7 @@ window.openLexChatModal = function () {
           ${curRPM > 0 ? `
           <div style="background:#020617;border-radius:6px;padding:10px 12px;font-size:13px;">
             <div style="color:#6b7280;margin-bottom:4px;">RPM ${isEs?'este mes':'this month'}</div>
-            <div style="font-weight:700;color:#fb923c;font-size:17px;">$${curRPM.toFixed(3)}/mi
+            <div style="font-weight:700;color:#22D3EE;font-size:17px;">$${curRPM.toFixed(3)}/mi
               ${rpmVsPrev !== null ? `<span style="font-size:12px;color:${rpmColor};margin-left:6px;">${rpmSign}${rpmVsPrev}% ${isEs?'vs mes ant.':'vs last month'}</span>` : ''}
             </div>
           </div>` : ''}
@@ -1396,7 +1397,7 @@ window.openLexChatModal = function () {
         <!-- Proyección -->
         ${pace > 0 ? `
         <div style="background:#080f1f;border:1px solid rgba(96,165,250,0.15);border-radius:8px;padding:11px 13px;margin-bottom:10px;font-size:13px;">
-          <div style="color:#60a5fa;font-weight:600;margin-bottom:4px;">🎯 ${isEs?'Proyección del mes':'Month projection'}</div>
+          <div style="color:#67E8F9;font-weight:600;margin-bottom:4px;">🎯 ${isEs?'Proyección del mes':'Month projection'}</div>
           <div style="color:#e5e7eb;">
             ${isEs?'Al ritmo actual terminas en':'At current pace you finish at'}
             <strong style="color:${projColor};">$${projection.toLocaleString()}</strong>
@@ -1459,13 +1460,13 @@ window.openLexChatModal = function () {
             <div>
               <span style="color:#6b7280;font-size:12px;">${isEs?'Mejor día':'Best day'}</span><br>
               <strong style="color:#e5e7eb;">${isEs ? DOW_ES[bestDow[0]] : DOW_EN[bestDow[0]]}</strong>
-              <span style="color:#fb923c;margin-left:6px;">$${bestDow[1].avgRPM.toFixed(2)}/mi</span>
+              <span style="color:#22D3EE;margin-left:6px;">$${bestDow[1].avgRPM.toFixed(2)}/mi</span>
               <span style="color:#6b7280;font-size:12px;"> (${bestDow[1].loads} ${isEs?'cargas':'loads'})</span>
             </div>` : '';
 
           return `
-          <div style="background:#080f1f;border:1px solid rgba(251,146,60,0.15);border-radius:8px;padding:11px 13px;font-size:13px;">
-            <div style="color:#fb923c;font-weight:600;margin-bottom:8px;">🧠 ${isEs?'Patrones inteligentes':'Smart patterns'}</div>
+          <div style="background:#080f1f;border:1px solid rgba(34,211,238,0.15);border-radius:8px;padding:11px 13px;font-size:13px;">
+            <div style="color:#22D3EE;font-weight:600;margin-bottom:8px;">🧠 ${isEs?'Patrones inteligentes':'Smart patterns'}</div>
             ${topLaneHtml}${worstLaneHtml}${bestDowHtml}
           </div>`;
         })()}
@@ -1594,8 +1595,8 @@ window.switchLexTab = function (tab) {
     if (t === tab) {
       // Active tab
       btn.style.background = 'transparent';
-      btn.style.color = '#fb923c';
-      btn.style.borderBottom = '2px solid #fb923c';
+      btn.style.color = '#22D3EE';
+      btn.style.borderBottom = '2px solid #22D3EE';
       content.style.display = 'flex';
     } else {
       // Inactive tab
