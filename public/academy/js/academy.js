@@ -13,7 +13,7 @@ const AcademyProgress = {
         1: { lessons: 5, name: 'Mentalidad & Fundamentos', time: '35 min', difficulty: 'Fácil' },
         2: { lessons: 6, name: 'Dominando los Números', time: '49 min', difficulty: 'Fácil' },
         3: { lessons: 5, name: 'Estrategia de Rutas & Zonas', time: '39 min', difficulty: 'Intermedio' },
-        4: { lessons: 5, name: 'Negociación & Relaciones con Brokers', time: '50 min', difficulty: 'Intermedio', locked: true },
+        4: { lessons: 5, name: 'Negociación & Relaciones con Brokers', time: '43 min', difficulty: 'Intermedio', locked: true },
         5: { lessons: 5, name: 'Análisis Financiero & KPIs', time: '45 min', difficulty: 'Intermedio', locked: true },
         6: { lessons: 5, name: 'Optimización Operativa Avanzada', time: '58 min', difficulty: 'Avanzado', locked: true },
         7: { lessons: 5, name: 'Estrategias de Crecimiento Sostenible', time: '90 min', difficulty: 'Avanzado', locked: true },
