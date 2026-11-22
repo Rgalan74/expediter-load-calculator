@@ -371,8 +371,8 @@ const AcademyAccess = {
 
         // 5. Restaurar estilo de botones btn-module en cards desbloqueados
         document.querySelectorAll('.module-card:not(.locked) .btn-module').forEach(btn => {
-            btn.style.background = 'linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%)';
-            btn.style.color = '#ffffff';
+            btn.style.background = '#22D3EE'; btn.style.color = '#06222A';
+            btn.style.color = '#06222A';
             btn.style.textAlign = 'center';
             btn.style.display = 'block';
             btn.style.padding = '1rem';

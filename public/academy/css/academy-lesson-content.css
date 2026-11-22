@@ -81,7 +81,7 @@
   content: counter(lesson-ol) '.';
   position: absolute;
   left: 0;
-  color: #00D9FF;
+  color: #22D3EE;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
@@ -90,8 +90,8 @@
 .formula {
   font-family: 'Courier New', monospace;
   font-size: 0.95rem;
-  color: #00D9FF;
-  border-left: 2px solid #00D9FF;
+  color: #22D3EE;
+  border-left: 2px solid #22D3EE;
   padding: 0.2rem 0 0.2rem 1.25rem;
   margin: 1.75rem 0;
   line-height: 1.6;
@@ -109,7 +109,7 @@
 .pull-number .value {
   font-size: clamp(2.75rem, 6vw, 3.5rem);
   font-weight: 900;
-  color: #FF6B35;
+  color: #67E8F9;
   line-height: 1;
   letter-spacing: -0.02em;
 }
@@ -163,7 +163,7 @@
 }
 
 .compare-row .value.accent {
-  color: #00D9FF;
+  color: #22D3EE;
 }
 
 .compare-grid {
@@ -181,11 +181,11 @@
 }
 
 .note.warning {
-  border-left-color: #FF6B35;
+  border-left-color: #F5B03A;
 }
 
 .note.tip {
-  border-left-color: #00D9FF;
+  border-left-color: #22D3EE;
 }
 
 .note-label {
@@ -199,11 +199,11 @@
 }
 
 .note.warning .note-label {
-  color: #FF6B35;
+  color: #F5B03A;
 }
 
 .note.tip .note-label {
-  color: #00D9FF;
+  color: #22D3EE;
 }
 
 .note p:last-child,
@@ -245,11 +245,11 @@
 }
 
 .worksheet-row.highlight .line {
-  border-bottom: 1px solid #00D9FF;
+  border-bottom: 1px solid #22D3EE;
 }
 
 .worksheet-row.highlight .label {
-  color: #00D9FF;
+  color: #22D3EE;
   font-weight: 700;
 }
 
@@ -317,7 +317,7 @@
 }
 
 .conclusion .accent {
-  color: #00D9FF;
+  color: #22D3EE;
 }
 
 @media (max-width: 640px) {

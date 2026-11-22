@@ -13,12 +13,12 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background: #0a0a0f;
+            background: #060A12;
             color: white;
         }
 
         .lesson-card {
-            background: rgba(20, 20, 20, 0.8);
+            background: rgba(15, 24, 40, 0.92);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 1rem;
             padding: 1.5rem;
@@ -33,8 +33,8 @@
 
         .lesson-card:hover {
             transform: translateY(-2px);
-            border-color: rgba(0, 217, 255, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.2);
+            border-color: rgba(34, 211, 238, 0.3);
+            box-shadow: 0 10px 30px rgba(34, 211, 238, 0.2);
         }
 
         .lesson-card.completed {
@@ -87,7 +87,7 @@
         }
 
         .breadcrumb a {
-            color: #00D9FF;
+            color: #22D3EE;
             text-decoration: none;
         }
     </style>
@@ -104,7 +104,7 @@
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">← Back to App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Back to App</a></nav>
     <div class="container">
         <!-- Breadcrumb -->
         <div class="breadcrumb">
@@ -131,7 +131,7 @@
                     <span id="moduleProgressText-en" style="font-size: 0.875rem; color: #888;">0/5 lessons</span>
                 </div>
                 <div style="height: 12px; background: rgba(255,255,255,0.1); border-radius: 1rem; overflow: hidden;">
-                    <div id="moduleProgressBar-en" style="height: 100%; width: 0%; background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%); transition: width 0.5s ease;">
+                    <div id="moduleProgressBar-en" style="height: 100%; width: 0%; background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%); transition: width 0.5s ease;">
                     </div>
                 </div>
             </div>

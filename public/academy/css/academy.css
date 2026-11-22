@@ -1,10 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 /* =============================================
    SMART LOAD ACADEMY - STYLES
    ============================================= */
 
 /* Hero Section */
 .academy-hero {
-  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
+  background: linear-gradient(135deg, #060A12 0%, #0F1828 50%, #060A12 100%);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -20,7 +21,7 @@
 }
 
 .stat-card {
-  background: rgba(20, 20, 20, 0.8);
+  background: rgba(15, 24, 40, 0.92);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 1rem;
@@ -31,14 +32,14 @@
 
 .stat-card:hover {
   transform: translateY(-5px);
-  border-color: rgba(0, 217, 255, 0.3);
-  box-shadow: 0 10px 30px rgba(0, 217, 255, 0.2);
+  border-color: rgba(34, 211, 238, 0.3);
+  box-shadow: 0 10px 30px rgba(34, 211, 238, 0.2);
 }
 
 .stat-value {
   font-size: 2.5rem;
   font-weight: 900;
-  background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+  background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -68,7 +69,7 @@
 /* Module Card */
 .module-card {
   position: relative;
-  background: rgba(20, 20, 20, 0.8);
+  background: rgba(15, 24, 40, 0.92);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 1rem;
@@ -79,8 +80,8 @@
 
 .module-card.free:hover {
   transform: translateY(-5px);
-  border-color: rgba(0, 217, 255, 0.3);
-  box-shadow: 0 10px 30px rgba(0, 217, 255, 0.2);
+  border-color: rgba(34, 211, 238, 0.3);
+  box-shadow: 0 10px 30px rgba(34, 211, 238, 0.2);
 }
 
 .module-card.locked {
@@ -89,7 +90,7 @@
 
 .module-card.locked:hover {
   opacity: 1;
-  border-color: rgba(255, 107, 53, 0.3);
+  border-color: rgba(34, 211, 238, 0.3);
 }
 
 /* Module Badge */
@@ -106,7 +107,7 @@
 }
 
 .module-badge.free {
-  background: linear-gradient(90deg, #00D9FF 0%, #00B8FF 100%);
+  background: linear-gradient(90deg, #22D3EE 0%, #00B8FF 100%);
   color: white;
 }
 
@@ -116,7 +117,7 @@
 }
 
 .module-badge.premium {
-  background: linear-gradient(90deg, #FF6B35 0%, #FF8C35 100%);
+  background: linear-gradient(90deg, #22D3EE 0%, #FF8C35 100%);
   color: white;
 }
 
@@ -168,7 +169,7 @@
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+  background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
   border-radius: 1rem;
   transition: width 0.5s ease;
 }
@@ -193,13 +194,13 @@
 }
 
 .module-card.free .btn-module {
-  background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+  background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
   color: white;
 }
 
 .module-card.free .btn-module:hover {
   transform: scale(1.02);
-  box-shadow: 0 10px 20px rgba(0, 217, 255, 0.3);
+  box-shadow: 0 10px 20px rgba(34, 211, 238, 0.3);
 }
 
 .module-card.locked .btn-module {
@@ -209,7 +210,7 @@
 }
 
 .module-card.locked .btn-module:hover {
-  background: rgba(255, 107, 53, 0.2);
+  background: rgba(34, 211, 238, 0.2);
   border-color: var(--primary-orange);
   color: var(--primary-orange);
 }
@@ -236,7 +237,7 @@
 
 /* Animated Background */
 .bg-animated {
-  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
+  background: linear-gradient(135deg, #060A12 0%, #0F1828 50%, #060A12 100%);
   background-size: 400% 400%;
   animation: gradientShift 15s ease infinite;
 }
@@ -268,3 +269,38 @@
     font-size: 1.25rem;
   }
 }
+
+
+/* =====================================================================
+   Sistema de diseño Smart Load (azul noche + cian) — capa común de la
+   Academia. academy.css lo cargan todas las páginas (ES y EN).
+   ===================================================================== */
+:root:not(#sls) body { background: #060A12 !important; }
+:root:not(#sls) body h1,
+:root:not(#sls) body .academy-hero h1,
+:root:not(#sls) body h2 {
+  font-family: 'Barlow Condensed', 'Inter', sans-serif !important;
+  letter-spacing: 0.02em !important;
+}
+:root:not(#sls) body h1 { text-transform: uppercase !important; font-weight: 700 !important; }
+/* Botón principal: texto oscuro sobre cian (y sobre ámbar en Premium) */
+:root:not(#sls) body .btn-primary { color: #06222A !important; -webkit-text-fill-color: #06222A !important; }
+/* Tarjetas con volumen suave, como en la app */
+:root:not(#sls) body .stat-card,
+:root:not(#sls) body .module-card,
+:root:not(#sls) body .lesson-item,
+:root:not(#sls) body .lesson-card,
+:root:not(#sls) body .quiz-question,
+:root:not(#sls) body .plan-card {
+  background: linear-gradient(180deg, #132036 0%, #0E1726 55%, #0B1320 100%) !important;
+  border-color: rgba(34, 211, 238, 0.22) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 2px 4px rgba(0, 0, 0, 0.35), 0 14px 30px rgba(0, 0, 0, 0.45) !important;
+  backdrop-filter: none !important;
+}
+:root:not(#sls) body .stat-card:hover,
+:root:not(#sls) body .module-card:hover,
+:root:not(#sls) body .lesson-item:hover { border-color: rgba(34, 211, 238, 0.45) !important; }
+:root:not(#sls) body code, :root:not(#sls) body pre, :root:not(#sls) body .mono { font-family: 'JetBrains Mono', ui-monospace, monospace !important; }
+
+/* "Volver a la App" en una sola línea en el móvil */
+:root:not(#sls) body nav a[href*="app.html"] { white-space: nowrap !important; font-size: 0.8rem !important; }
