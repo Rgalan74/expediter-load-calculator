@@ -666,3 +666,28 @@ test('Lex uses the panel profit and target for the active load', async () => {
   assert.equal(b.estimatedProfit, ((1.5 - 0.4) * 500).toFixed(2));
   assert.equal(b.targetRPM, null);
 });
+
+// Zonas dificiles de salir segun el historial de CADA usuario (sin listas fijas de estados).
+test('hard-to-leave zones come from the user history, not fixed states', () => {
+  const { w } = fixture();
+  assert.equal(typeof w.userTrapInfo, 'function');
+  assert.equal(w.ZONAS_TRAP, undefined, 'no fixed trap state list in the client');
+  w._userExitStats = {
+    avgRPM: 1.0,
+    byState: {
+      TX: { loads: 4, miles: 2000, revenue: 1400, avgRPM: 0.70, avgMiles: 500 }, // 30% bajo su promedio
+      FL: { loads: 2, miles: 1000, revenue: 500, avgRPM: 0.50, avgMiles: 500 },  // pocas cargas: sin datos
+      GA: { loads: 5, miles: 2500, revenue: 2375, avgRPM: 0.95, avgMiles: 500 }  // normal
+    }
+  };
+  assert.ok(w.userTrapInfo('TX', 0.6), 'TX pays 30% below the user average');
+  assert.equal(w.userTrapInfo('FL', 0.6), null, 'fewer than 3 loads: no verdict');
+  assert.equal(w.userTrapInfo('GA', 0.6), null);
+  assert.ok(w.userTrapInfo('GA', 1.0), 'below the user cost per mile is also hard to leave');
+  const t = w.analizarTrapPenalty('GA', 'TX', 500, 1.2, 0.6);
+  assert.equal(t.esTrampa, true);
+  assert.equal(t.millasSalida, 500);
+  assert.ok(Math.abs(t.rpmRealCiclo - (1.2 * 500 + 0.7 * 500) / 1000) < 1e-9);
+  assert.ok(Math.abs(t.gananciaCiclo - (1.2 * 500 + 0.7 * 500 - 1000 * 0.6)) < 1e-9);
+  assert.equal(w.analizarTrapPenalty('TX', 'GA', 500, 1.2, 0.6).esTrampa, false);
+});

@@ -450,78 +450,85 @@ const FLOOR_ESCAPE = 0.55;
 const FLOOR_ACCEPT = 0.75;
 
 // ============================================================
-// CLASIFICACION DE ZONAS — basada en datos reales del mercado
-// Fuente: 86 cargas 2025 + estrategia hub Chicago
+// ZONAS DIFICILES DE SALIR — segun el historial de CADA usuario
+// Un estado es "dificil de salir" si las cargas del usuario que SALEN de ese
+// estado (minimo 3) pagan menos que su costo por milla o un 15% menos que su
+// RPM promedio. No hay listas fijas de estados.
 // ============================================================
+window._userExitStats = null;
 
-// PREMIUM: Mercado excelente, RPM alto, cargas fluyen bien
-const ZONAS_PREMIUM = new Set(['IL', 'WI', 'MI']);
-
-// MEDIO: Mercado aceptable, RPM moderado
-const ZONAS_MEDIO = new Set(['MN', 'IN', 'OH', 'PA', 'AR', 'TN', 'GA', 'KY', 'MO', 'IA', 'KS', 'VA', 'WV']);
-
-// MEDIO DIFICIL: paga bajo localmente, difícil de salir
-const ZONAS_MEDIO_DIFICIL = new Set(['GA', 'TN', 'KY']);
-
-// TRAP: Evitar desde PREMIUM
-const ZONAS_TRAP = new Set(['FL', 'TX', 'NM', 'AZ', 'NV', 'CA', 'OR', 'WA',
-  'ID', 'MT', 'WY', 'UT', 'CO', 'ND', 'SD', 'NE',
-  'NC', 'SC', 'MD', 'DE', 'NJ', 'NY', 'CT', 'MA', 'RI', 'NH', 'VT', 'ME',
-  'AL', 'MS', 'LA', 'OK']);
-
-// Compatibilidad con código existente — NO BORRAR
-const ZONAS_CORE_MIDWEST = new Set([...ZONAS_PREMIUM, ...ZONAS_MEDIO]);
-const ZONAS_EXTENDED_MIDWEST = new Set(['PA', 'KY', 'AR', 'OK', 'AL']);
-const ZONAS_SALIDA_OK = new Set(['NC', 'SC', 'GA', 'WV', 'VA', 'MD', 'DE', 'NJ', 'NY']);
-const ZONAS_VERDES = new Set([...ZONAS_PREMIUM, ...ZONAS_MEDIO]);
-const ZONAS_AMAR = ZONAS_SALIDA_OK;
-const ZONAS_ROJAS = ZONAS_TRAP;
-
-// Clasificar zona nueva nomenclatura
-function clasificarZonaNueva(state) {
-  if (!state) return 'DESCONOCIDA';
-  if (ZONAS_PREMIUM.has(state)) return 'PREMIUM';
-  if (ZONAS_MEDIO_DIFICIL.has(state)) return 'MEDIO_DIFICIL';
-  if (ZONAS_MEDIO.has(state)) return 'MEDIO';
-  if (ZONAS_TRAP.has(state)) return 'TRAP';
-  return 'DESCONOCIDA';
+async function loadUserExitStats() {
+  try {
+    const uid = firebase.auth().currentUser?.uid;
+    if (!uid) return;
+    const since = new Date(); since.setMonth(since.getMonth() - 12);
+    const sinceStr = `${since.getFullYear()}-${String(since.getMonth() + 1).padStart(2, '0')}-01`;
+    const snap = await firebase.firestore().collection('loads')
+      .where('userId', '==', uid).where('date', '>=', sinceStr).get();
+    const byState = {};
+    let miles = 0, revenue = 0;
+    snap.forEach(doc => {
+      const d = doc.data();
+      const m = Number(d.totalMiles) || 0;
+      const r = Number(d.rpm) > 0 ? Number(d.rpm) * m : (Number(d.totalCharge) || 0) - (Number(d.otherCosts) || 0);
+      if (m <= 0 || r <= 0) return;
+      miles += m; revenue += r;
+      const st = d.originState || (typeof window.getStateCode === 'function' ? window.getStateCode(d.origin || '') : '');
+      if (!st) return;
+      const e = byState[st] || (byState[st] = { loads: 0, miles: 0, revenue: 0 });
+      e.loads++; e.miles += m; e.revenue += r;
+    });
+    Object.values(byState).forEach(e => { e.avgRPM = e.revenue / e.miles; e.avgMiles = e.miles / e.loads; });
+    window._userExitStats = { byState, avgRPM: miles > 0 ? revenue / miles : 0, loads: snap.size };
+  } catch (e) {
+    debugLog('loadUserExitStats:', e);
+  }
 }
+window.loadUserExitStats = loadUserExitStats;
 
-// Umbrales RPM por zona origen + zona destino + distancia
-function getUmbrales(origenZona, destinoZona, millas) {
-  const _isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-  const r = (es, en) => _isEs ? es : en;
-  if (origenZona === 'PREMIUM' && destinoZona === 'TRAP') {
-    return { acepta: Infinity, evalua: Infinity, razon: r('Zona TRAP — perderás días reposicionando', 'TRAP zone — you will lose days repositioning') };
-  }
-  if (origenZona === 'PREMIUM') {
-    if (destinoZona === 'MEDIO_DIFICIL')
-      return { acepta: 1.26, evalua: null, razon: r('Zona difícil de salir, paga $0.80-0.90 local', 'Hard zone to exit, local loads pay $0.80-0.90') };
-    if (destinoZona === 'TRAP')
-      return { acepta: 1.50, evalua: null, razon: r('Zona TRAP — necesitas premium para compensar regreso', 'TRAP zone — need premium to compensate return trip') };
-    if (millas < 100) return { acepta: 3.75, evalua: 2.50, pisoAbsoluto: 375, razon: r('Carga muy corta — piso $375', 'Very short load — floor $375') };
-    if (millas < 200) return { acepta: 2.00, evalua: 1.50, pisoAbsoluto: 400, razon: r('Carga corta — piso $400', 'Short load — floor $400') };
-    if (millas < 400) return { acepta: 1.30, evalua: 1.13, pisoAbsoluto: 450, razon: r('Carga media desde zona Premium', 'Medium load from Premium zone') };
-    if (millas < 600) return { acepta: 1.10, evalua: 0.92, pisoAbsoluto: 550, razon: r('Carga larga desde zona Premium', 'Long load from Premium zone') };
-    return { acepta: 1.00, evalua: 0.88, pisoAbsoluto: 700, razon: r('Carga muy larga desde zona Premium', 'Very long load from Premium zone') };
-  }
-  if ((origenZona === 'MEDIO' || origenZona === 'MEDIO_DIFICIL') && destinoZona === 'PREMIUM') {
-    if (millas < 300) return { acepta: 1.43, evalua: 1.09, pisoAbsoluto: 250, razon: r('Corta hacia zona Premium', 'Short load toward Premium zone') };
-    return { acepta: 1.07, evalua: 0.90, razon: r('Te reposicionas en zona Premium', 'Repositions you in Premium zone') };
-  }
-  if (origenZona === 'MEDIO' || origenZona === 'MEDIO_DIFICIL') {
-    if (destinoZona === 'TRAP')
-      return { acepta: 1.25, evalua: 1.00, razon: r('Zona TRAP destino — cobra premium', 'TRAP destination — charge premium') };
-    if (millas < 300) return { acepta: 1.43, evalua: 1.09, pisoAbsoluto: 250, razon: r('Carga corta desde zona Media', 'Short load from Medium zone') };
-    return { acepta: 1.00, evalua: 0.85, razon: r('Carga desde zona Media', 'Load from Medium zone') };
-  }
-  if (origenZona === 'TRAP') {
-    if (destinoZona === 'PREMIUM' || destinoZona === 'MEDIO')
-      return { acepta: 0.87, evalua: 0.69, razon: r('Saliendo de TRAP — acepta para reposicionarte', 'Exiting TRAP — accept to reposition') };
-    return { acepta: 0.90, evalua: 0.80, razon: r('Dentro de zona TRAP', 'Within TRAP zone') };
-  }
-  return { acepta: 1.00, evalua: 0.80, razon: r('Umbral general', 'General threshold') };
+function userTrapInfo(state, cpm) {
+  const st = window._userExitStats;
+  const e = st?.byState?.[state];
+  if (!e || e.loads < 3) return null;
+  const isTrap = (cpm > 0 && e.avgRPM < cpm) || (st.avgRPM > 0 && e.avgRPM < st.avgRPM * 0.85);
+  return isTrap ? e : null;
 }
+window.userTrapInfo = userTrapInfo;
+
+// Ciclo ida + salida: esta carga + una carga de salida tipica del usuario desde ese estado
+function analizarTrapPenalty(origenState, destinoState, millas, rpm, cpm) {
+  const e = userTrapInfo(destinoState, cpm);
+  if (!e) return { esTrampa: false };
+  const millasSalida = Math.round(e.avgMiles);
+  const revenueTotal = rpm * millas + e.avgRPM * millasSalida;
+  const millasTotal = millas + millasSalida;
+  return {
+    esTrampa: true,
+    cargasSalida: e.loads,
+    rpmSalida: e.avgRPM,
+    millasSalida,
+    rpmRealCiclo: revenueTotal / millasTotal,
+    gananciaCiclo: revenueTotal - millasTotal * (cpm || 0)
+  };
+}
+window.analizarTrapPenalty = analizarTrapPenalty;
+
+// Esperar a que Firebase este inicializado (config.js carga despues de este archivo)
+(function initUserExitStats(tries = 0) {
+  try {
+    if (typeof firebase === 'undefined' || !firebase.apps || !firebase.apps.length) {
+      if (tries < 60) setTimeout(() => initUserExitStats(tries + 1), 500);
+      return;
+    }
+    firebase.auth().onAuthStateChanged(u => { if (u) loadUserExitStats(); });
+    document.addEventListener('loadSaved', () => loadUserExitStats());
+  } catch (e) {
+    debugLog('initUserExitStats:', e);
+  }
+})();
+
+
+
 
 // ========================================
 //  FUNCIÓN: Obtener clima del destino
@@ -753,109 +760,7 @@ function getDecisionMode() {
   return (typeof window !== 'undefined' && window.DECISION_MODE) || DECISION_MODE || 'realista2025';
 }
 
-// NUEVA FUNCION: Clasificar zona segun experiencia real
-function clasificarZonaReal(state) {
-  if (!state) return 'DESCONOCIDA';
-  if (ZONAS_CORE_MIDWEST.has(state)) return 'CORE_MIDWEST';
-  if (ZONAS_EXTENDED_MIDWEST.has(state)) return 'EXTENDED_MIDWEST';
-  if (ZONAS_SALIDA_OK.has(state)) return 'SALIDA_OK';
-  if (ZONAS_TRAP.has(state)) return 'TRAP';
-  return 'DESCONOCIDA';
-}
 
-// NUEVA FUNCION: Analizar trap penalty y calcular RPM real del ciclo
-function analizarTrapPenalty(origenState, destinoState, millas, rpm) {
-  const zonaOrigen = clasificarZonaReal(origenState);
-  const zonaDestino = clasificarZonaReal(destinoState);
-
-  // CASO 1: Sales del Midwest (Core o Extended) hacia TRAP
-  if ((zonaOrigen === 'CORE_MIDWEST' || zonaOrigen === 'EXTENDED_MIDWEST') &&
-    zonaDestino === 'TRAP') {
-
-    // Costos de salir del TRAP (basado en experiencia real)
-    const millasRegreso = 2200; // Promedio West/Texas al Midwest
-    const rpmSalida = 0.65; // RPM promedio que pagan para salir de TRAP
-    const costoPorMilla = 0.526; // Tu costo operativo real
-
-    // Revenue del ciclo completo
-    const revenueIda = rpm * millas;
-    const revenueSalida = rpmSalida * millasRegreso;
-    const revenueTotal = revenueIda + revenueSalida;
-
-    // Costo del ciclo completo
-    const millasTotal = millas + millasRegreso;
-    const costoTotal = millasTotal * costoPorMilla;
-
-    // RPM real y ganancia del ciclo
-    const rpmRealCiclo = revenueTotal / millasTotal;
-    const gananciaCiclo = revenueTotal - costoTotal;
-    const diasEstimados = Math.ceil(millasTotal / 600); // ~600 mi/di­a promedio
-    const gananciaPorDia = gananciaCiclo / diasEstimados;
-
-    return {
-      esTrampa: true,
-      rpmOfrecido: rpm,
-      rpmRealCiclo: rpmRealCiclo,
-      millasTotal: millasTotal,
-      revenueTotal: revenueTotal,
-      costoTotal: costoTotal,
-      gananciaCiclo: gananciaCiclo,
-      diasEstimados: diasEstimados,
-      gananciaPorDia: gananciaPorDia,
-      advertencia: `TRAMPA: Te saca del Midwest al ${destinoState}. Costo de regresar incluido.`,
-      detalles: {
-        ida: { millas, rpm, revenue: revenueIda },
-        regreso: { millas: millasRegreso, rpm: rpmSalida, revenue: revenueSalida }
-      }
-    };
-  }
-
-  // CASO 2: Movimiento dentro del Midwest (Core o Extended)
-  if ((zonaOrigen === 'CORE_MIDWEST' || zonaOrigen === 'EXTENDED_MIDWEST') &&
-    (zonaDestino === 'CORE_MIDWEST' || zonaDestino === 'EXTENDED_MIDWEST')) {
-    return {
-      esTrampa: false,
-      rpmRealCiclo: rpm,
-      nivel: 'OPTIMO',
-      advertencia: `PERFECTO: Te mantienes en zona operativa rentable`,
-      zonaOrigen: zonaOrigen,
-      zonaDestino: zonaDestino
-    };
-  }
-
-  // CASO 3: Midwest core Salida OK (Carolinas, Atlanta, etc.)
-  if ((zonaOrigen === 'CORE_MIDWEST' || zonaOrigen === 'EXTENDED_MIDWEST') &&
-    zonaDestino === 'SALIDA_OK') {
-    return {
-      esTrampa: false,
-      rpmRealCiclo: rpm,
-      nivel: 'EVALUAR',
-      advertencia: `EVALUAR: Sales del Midwest a ${destinoState}. Sale razonable pero menos cargas cortas.`,
-      minimumRPM: 0.95 // Requiere premium moderado
-    };
-  }
-
-  // CASO 4: Estas en TRAP y Regresando a Midwest (relocalizacion necesaria)
-  if (zonaOrigen === 'TRAP' &&
-    (zonaDestino === 'CORE_MIDWEST' || zonaDestino === 'EXTENDED_MIDWEST')) {
-    return {
-      esTrampa: false,
-      rpmRealCiclo: rpm,
-      nivel: 'RELOCALIZACION',
-      advertencia: `RELOCALIZACION: Regresando del ${origenState} al Midwest. Necesario para volver a zona rentable.`,
-      minimumRPM: 0.70 // Mas flexible, necesitas salir
-    };
-  }
-
-  // CASO 5: Dentro de TRAP o entre zonas no ideales
-  return {
-    esTrampa: zonaDestino === 'TRAP',
-    rpmRealCiclo: rpm,
-    nivel: 'NORMAL',
-    zonaOrigen: zonaOrigen,
-    zonaDestino: zonaDestino
-  };
-}
 
 
 
@@ -1007,30 +912,6 @@ function obtenerRazonDetallada(nivel, rpm, millas, factores, razonesEspeciales =
   return razon;
 }
 
-//  FUNCION: Detectar factores especiales automaticamente
-function detectarFactoresEspeciales(origin, destination, { diasSinCarga = 0 } = {}) {
-  const sO = getStateFromPlace(origin || '');
-  const sD = getStateFromPlace(destination || '');
-  const zonaO = categorizeZone(sO);
-  const zonaD = categorizeZone(sD);
-
-  const areaMala = (zonaO === 'ROJA');
-  const destinoMejorQueOrigen = (
-    (zonaO === 'ROJA' && (zonaD === 'AMARILLA' || zonaD === 'VERDE')) ||
-    (zonaO === 'AMARILLA' && zonaD === 'VERDE')
-  );
-
-  return {
-    areaMala,
-    relocalizaBuena: destinoMejorQueOrigen,
-    zonaOrigen: zonaO,
-    zonaDestino: zonaD,
-    origenState: sO,      // âœ… NUEVO: Pasar estado origen
-    destinoState: sD,     // âœ… NUEVO: Pasar estado destino
-    tiempoSinCarga: diasSinCarga,
-    alternativasLimitadas: false
-  };
-}
 
 //  FUNCIÓN PRINCIPAL: Calculate con costos reales
 let _isCalculating = false;
@@ -1483,7 +1364,7 @@ function showDecisionPanel(calculationData = {}) {
   const _lowDailyProfit = _gananciaDia < _vp.minDailyProfit;
 
   // Short-hop filter — trap zones raise the minimum (you're still stuck there after)
-  const _destinoEsTrampa = window.ZONAS_TRAP?.has(destinationState);
+  const _destinoEsTrampa = !!userTrapInfo(destinationState, _cpm);
   const _shortHopMinimo = _destinoEsTrampa ? _vp.shortHopMinTrap : _vp.shortHopMin;
   const _isShortHop = totalMiles > 0 && totalMiles <= 150 && netProfit < _shortHopMinimo;
 
@@ -1959,13 +1840,15 @@ function showDecisionPanel(calculationData = {}) {
       }
 
       // Trap penalty — auto-trigger si el destino es zona trampa
-      if (_destinoEsTrampa && destinationState && typeof window.analizarTrapPenalty === 'function') {
-        const _trap = window.analizarTrapPenalty(originState, destinationState, totalMiles, actualRPM);
+      if (_destinoEsTrampa && destinationState) {
+        const _trap = analizarTrapPenalty(originState, destinationState, totalMiles, actualRPM, _cpm);
         if (_trap?.esTrampa) {
-          const _escapeMi = _trap.detalles?.regreso?.millas || 0;
+          const _isEsT = (window.i18n?.currentLang || 'en') === 'es';
           html += `<div class="decision-info-block">
-            <div class="decision-info-label">🪤 ${_t('calculator.trap_zone_label') || 'Trap Zone'} — ${destinationState}</div>
-            <div class="decision-info-text">${_t('calculator.trap_cycle_rpm') || 'Real cycle RPM'}: <strong>$${_trap.rpmRealCiclo.toFixed(3)}/mi</strong> &nbsp;·&nbsp; ${_t('calculator.trap_cycle_profit') || 'Cycle profit'}: $${Math.round(_trap.gananciaCiclo)} &nbsp;·&nbsp; ~${_escapeMi}mi ${_t('calculator.trap_escape') || 'escape to safe zone'}</div>
+            <div class="decision-info-label">🪤 ${_isEsT ? 'Zona difícil de salir' : 'Hard-to-leave zone'} — ${destinationState}</div>
+            <div class="decision-info-text">${_isEsT
+              ? `Tus ${_trap.cargasSalida} cargas saliendo de ${destinationState} pagaron <strong>$${_trap.rpmSalida.toFixed(2)}/mi</strong> de promedio. Esta carga más una de salida típica (~${_trap.millasSalida} mi): <strong>$${_trap.rpmRealCiclo.toFixed(2)}/mi</strong>, ganancia del ciclo $${Math.round(_trap.gananciaCiclo)}.`
+              : `Your ${_trap.cargasSalida} loads leaving ${destinationState} paid <strong>$${_trap.rpmSalida.toFixed(2)}/mi</strong> on average. This load plus a typical outbound one (~${_trap.millasSalida} mi): <strong>$${_trap.rpmRealCiclo.toFixed(2)}/mi</strong>, cycle profit $${Math.round(_trap.gananciaCiclo)}.`}</div>
           </div>`;
         }
       }
@@ -3538,34 +3421,6 @@ function getStateFromPlace(placeStr = '') {
   for (const t of tokens) { if (t.length === 2) return t; }
   return '';
 }
-function categorizeZone(state) {
-  if (!state) return 'DESCONOCIDA';
-  if (ZONAS_VERDES.has(state)) return 'VERDE';
-  if (ZONAS_AMAR.has(state)) return 'AMARILLA';
-  if (ZONAS_ROJAS.has(state)) return 'ROJA';
-  return 'DESCONOCIDA';
-}
-function createZoneBadgeHTML(fx) {
-  function zonaClaseTexto(z) {
-    switch (z) {
-      case 'VERDE': return 'zone-text-green';
-      case 'AMARILLA': return 'zone-text-yellow';
-      case 'ROJA': return 'zone-text-red';
-      default: return 'zone-text-gray';
-    }
-  }
-  const clsO = zonaClaseTexto(fx.zonaOrigen);
-  const clsD = zonaClaseTexto(fx.zonaDestino);
-
-  return `
-    <div class="zone-badge px-4 py-2 rounded-xl flex items-center gap-2">
-      <span class="zone-label">🏷️ Origen:</span>
-      <span class="${clsO} font-semibold">${fx.zonaOrigen}</span>
-      <span class="zone-label">• Destino:</span>
-      <span class="${clsD} font-semibold">${fx.zonaDestino}</span>
-    </div>
-  `;
-}
 
 
 // =========================================================
@@ -3696,184 +3551,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// ==========================================================
-//  BID CALCULATOR - Estrategia de ofertas en zona trap
-// ==========================================================
-
-// Hubs de escape desde zonas trap
-const HUBS_ESCAPE = {
-  'NV': [
-    { ciudad: 'Wichita, KS', distancia: 1400, costo: 350, rating: 5, zona: 'CORE_MIDWEST' },
-    { ciudad: 'Oklahoma City, OK', distancia: 1500, costo: 365, rating: 5, zona: 'EXTENDED_MIDWEST' },
-    { ciudad: 'Dallas, TX', distancia: 1700, costo: 420, rating: 4, zona: 'EXTENDED_MIDWEST' }
-  ],
-  'CA': [
-    { ciudad: 'Phoenix, AZ', distancia: 400, costo: 150, rating: 2, zona: 'TRAP' },
-    { ciudad: 'Albuquerque, NM', distancia: 800, costo: 250, rating: 3, zona: 'TRAP' },
-    { ciudad: 'Dallas, TX', distancia: 1400, costo: 350, rating: 4, zona: 'EXTENDED_MIDWEST' }
-  ],
-  'AZ': [
-    { ciudad: 'Dallas, TX', distancia: 1000, costo: 280, rating: 4, zona: 'EXTENDED_MIDWEST' },
-    { ciudad: 'Oklahoma City, OK', distancia: 1100, costo: 300, rating: 5, zona: 'EXTENDED_MIDWEST' }
-  ],
-  'OR': [
-    { ciudad: 'Boise, ID', distancia: 400, costo: 150, rating: 2, zona: 'TRAP' },
-    { ciudad: 'Salt Lake City, UT', distancia: 700, costo: 220, rating: 3, zona: 'TRAP' },
-    { ciudad: 'Denver, CO', distancia: 1200, costo: 320, rating: 3, zona: 'TRAP' }
-  ],
-  'WA': [
-    { ciudad: 'Boise, ID', distancia: 500, costo: 170, rating: 2, zona: 'TRAP' },
-    { ciudad: 'Salt Lake City, UT', distancia: 900, costo: 260, rating: 3, zona: 'TRAP' }
-  ]
-};
-
-/**
- * Calcular oferta estratégica basada en situación actual
- * @param {string} origenState - Estado origen (ej: 'NV')
- * @param {string} destinoState - Estado destino (ej: 'KS')
- * @param {number} millas - Distancia de la carga
- * @param {number} diasEnTrap - Días que llevas en zona trap
- * @param {number} profitAcumulado - Profit generado en la zona trap
- * @returns {object} Recomendación de oferta
- */
-function calcularOfertaEstrategica(origenState, destinoState, millas, diasEnTrap = 0, profitAcumulado = 0) {
-  const zonaOrigen = clasificarZonaReal(origenState);
-  const zonaDestino = clasificarZonaReal(destinoState);
-
-  let resultado = {
-    ofertaMinima: 0.60,
-    ofertaRecomendada: 0.75,
-    ofertaMaxima: 0.90,
-    estrategia: 'NORMAL',
-    mensaje: '',
-    razon: '',
-    urgencia: 'BAJA'
-  };
-
-  // CASO 1: Sales de TRAP hacia MIDWEST (tu prioridad)
-  if (zonaOrigen === 'TRAP' && (zonaDestino === 'CORE_MIDWEST' || zonaDestino === 'EXTENDED_MIDWEST')) {
-
-    // Urgencia según días en trap
-    if (diasEnTrap >= 5) {
-      resultado.urgencia = 'CRÍTICA';
-      resultado.estrategia = 'ESCAPE_AGRESIVO';
-      resultado.ofertaMinima = 0.55;
-      resultado.ofertaRecomendada = 0.60;
-      resultado.ofertaMaxima = 0.70;
-      resultado.mensaje = `ESCAPE CRÍTICO - ${diasEnTrap} días en trap`;
-      resultado.razon = `Llevas ${diasEnTrap} días en zona trap. Prioridad: SALIR YA.\n` +
-        `Has generado $${profitAcumulado} - puedes "gastar" $300-400 en escape.\n` +
-        `Oferta agresiva $0.60/mi para competir y SALIR.`;
-    } else if (diasEnTrap >= 3) {
-      resultado.urgencia = 'ALTA';
-      resultado.estrategia = 'ESCAPE_MODERADO';
-      resultado.ofertaMinima = 0.60;
-      resultado.ofertaRecomendada = 0.65;
-      resultado.ofertaMaxima = 0.75;
-      resultado.mensaje = `ESCAPE PRIORITARIO - ${diasEnTrap} días en trap`;
-      resultado.razon = `${diasEnTrap} días en trap - tiempo de salir.\n` +
-        `Oferta $0.65/mi es competitiva y te saca.\n` +
-        `Pérdida pequeña (~$200) se recupera en 2 días en Midwest.`;
-    } else {
-      resultado.urgencia = 'MEDIA';
-      resultado.estrategia = 'ESCAPE_SELECTIVO';
-      resultado.ofertaMinima = 0.70;
-      resultado.ofertaRecomendada = 0.75;
-      resultado.ofertaMaxima = 0.85;
-      resultado.mensaje = 'ESCAPE SELECTIVO - Buena oportunidad';
-      resultado.razon = `Aún estás generando profit en trap.\n` +
-        `Oferta $0.75/mi es razonable para salir sin perder mucho.\n` +
-        `Solo acepta si quieres reposicionarte al Midwest.`;
-    }
-
-    // Ajuste por profit acumulado
-    if (profitAcumulado >= 600) {
-      resultado.ofertaRecomendada -= 0.05;
-      resultado.razon += `\n\nTienes $${profitAcumulado} de colchón - puedes ser más agresivo.`;
-    }
-
-  }
-
-  // CASO 2: Sales de TRAP hacia otro TRAP (no recomendado)
-  else if (zonaOrigen === 'TRAP' && zonaDestino === 'TRAP') {
-    resultado.urgencia = 'BAJA';
-    resultado.estrategia = 'EVITAR';
-    resultado.ofertaMinima = 1.20;
-    resultado.ofertaRecomendada = 1.30;
-    resultado.ofertaMaxima = 1.50;
-    resultado.mensaje = '⚠️ NO RECOMENDADO - Te mete más profundo';
-    resultado.razon = `Te mueves de trap a trap (${origenState} → ${destinoState}).\n` +
-      `Solo acepta si RPM es excepcional (>$1.20/mi).\n` +
-      `Mejor esperar carga hacia Midwest.`;
-  }
-
-  // CASO 3: Dentro de TRAP (movimiento local)
-  else if (zonaOrigen === 'TRAP' && origenState === destinoState) {
-    resultado.urgencia = 'BAJA';
-    resultado.estrategia = 'LOCAL_TRAP';
-    resultado.ofertaMinima = 1.15;
-    resultado.ofertaRecomendada = 1.25;
-    resultado.ofertaMaxima = 1.50;
-    resultado.mensaje = 'Movimiento local en trap';
-    resultado.razon = `Movimiento dentro de ${origenState}.\n` +
-      `Requiere RPM premium ($1.20+) para que valga la pena.\n` +
-      `Genera profit mientras esperas escape al Midwest.`;
-  }
-
-  // CASO 4: Desde MIDWEST hacia TRAP (trap load)
-  else if ((zonaOrigen === 'CORE_MIDWEST' || zonaOrigen === 'EXTENDED_MIDWEST') && zonaDestino === 'TRAP') {
-    resultado.urgencia = 'BAJA';
-    resultado.estrategia = 'TRAP_LOAD';
-    resultado.ofertaMinima = 1.25;
-    resultado.ofertaRecomendada = 1.35;
-    resultado.ofertaMaxima = 1.50;
-    resultado.mensaje = '🚨 TRAP LOAD - Requiere premium';
-    resultado.razon = `Te saca del Midwest hacia trap (${destinoState}).\n` +
-      `Necesitas $1.25+/mi para compensar costo de regresar.\n` +
-      `Mejor: Esperar cargas dentro del Midwest.`;
-  }
-
-  return resultado;
-}
-
-/**
- * Obtener hubs de escape recomendados desde estado actual
- * @param {string} estadoActual - Estado donde estás (ej: 'NV')
- * @returns {array} Lista de hubs ordenados por rating
- */
-function obtenerHubsDeEscape(estadoActual) {
-  const hubs = HUBS_ESCAPE[estadoActual] || [];
-  return hubs.sort((a, b) => b.rating - a.rating);
-}
-
-/**
- * Calcular costo de deadhead a hub específico
- * @param {number} distancia - Distancia en millas
- * @param {number} mpg - Millas por galón (default 17)
- * @param {number} precioGalon - Precio del galón (default 3.00)
- * @returns {object} Desglose de costos
- */
-function calcularCostoDeadhead(distancia, mpg = 17, precioGalon = 3.00) {
-  const galones = distancia / mpg;
-  const combustible = galones * precioGalon;
-  const comida = Math.ceil(distancia / 600) * 50; // $50 por día de viaje
-  const total = combustible + comida;
-
-  return {
-    distancia,
-    galones: Math.round(galones),
-    combustible: Math.round(combustible),
-    comida,
-    total: Math.round(total),
-    diasViaje: Math.ceil(distancia / 600)
-  };
-}
-
-// Exportar funciones globalmente
-window.calcularOfertaEstrategica = calcularOfertaEstrategica;
-window.obtenerHubsDeEscape = obtenerHubsDeEscape;
-window.calcularCostoDeadhead = calcularCostoDeadhead;
-window.HUBS_ESCAPE = HUBS_ESCAPE;
 
 // ========================================
 //  EXPOSICION DE FUNCIONES GLOBALES (MANTENER TODAS)
@@ -3912,11 +3589,9 @@ window.acceptAndSave = acceptAndSave;
 window.TU_COSTO_REAL = TU_COSTO_REAL;
 window.calcularTiempoReal = calcularTiempoReal;
 window.getDecisionInteligente = getDecisionInteligente;
-window.detectarFactoresEspeciales = detectarFactoresEspeciales;
 
 // Funciones de deteccion de trap loads (NUEVAS)
 window.analizarTrapPenalty = analizarTrapPenalty;
-window.clasificarZonaReal = clasificarZonaReal;
 
 // ========================================
 //  CLIMA CON RUTA - VERSION SIN CONFLICTOS
