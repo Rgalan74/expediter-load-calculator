@@ -757,19 +757,15 @@ RESPONSE FORMAT:
         // Soporta: "City, ST - City, ST", "City ST to City ST",
         //          "City ST → City ST", "City ST | City ST"
         let origin = '', destination = '';
-        const routePatterns = [
-            // "City, ST - City, ST"  o  "City ST → City ST"
-            /([A-Za-z][\w\s\-\.]+?,?\s*[A-Z]{2})\s*(?:[-–—→>to|]+)\s*([A-Za-z][\w\s\-\.]+?,?\s*[A-Z]{2})/i,
-            // "City ST to City ST" sin coma
-            /([A-Za-z][\w\s]+\s+[A-Z]{2})\s+(?:to|→|-{1,2}|–)\s+([A-Za-z][\w\s]+\s+[A-Z]{2})/i,
-        ];
-        for (const p of routePatterns) {
-            const m = t.match(p);
-            if (m) {
-                origin      = m[1].trim();
-                destination = m[2].trim();
-                break;
-            }
+        // Estado = 2 mayúsculas seguidas de límite de palabra (sin flag /i, para no
+        // cortar "Atlanta" en "Atla"). Separadores: - – — → -> > | to
+        const CITY_ST = "([A-Za-z][A-Za-z.' -]*?,?\\s+[A-Z]{2})\\b";
+        const routeRe = new RegExp(CITY_ST + "\\s*(?:->|→|–|—|-|\\||>|\\b[Tt][Oo]\\b)\\s*" + CITY_ST);
+        const m = t.match(routeRe);
+        if (m) {
+            const limpiar = s => s.replace(/^(?:pick\s*up|pickup|pu|from|origin|load|carga|desde|de)\s*:?\s+/i, '').trim();
+            origin      = limpiar(m[1]);
+            destination = limpiar(m[2]);
         }
 
         // ── 4. DETECTAR RPM EXPLÍCITO ────────────────────────────────
@@ -810,17 +806,41 @@ RESPONSE FORMAT:
             el.dispatchEvent(new Event('change', { bubbles: true }));
         };
 
-        if (data.origin)      setVal('origin', data.origin);
-        if (data.destination) setVal('destination', data.destination);
-        if (data.miles)       setVal('loadedMiles', data.miles);
-        if (data.deadhead)    setVal('deadheadMiles', data.deadhead);
-        if (data.rate)        setVal('rate', data.rate);
-        if (data.rpm && !data.rate) setVal('rpm', data.rpm);
+        // Tarifa y vacío van DESPUÉS de las millas: si la tarifa entra con solo el
+        // vacío como millas totales, el RPM sale inflado y la tarifa se recalcula mal.
+        const llenarDinero = () => {
+            const rpmEl = document.getElementById('rpm');
+            if (rpmEl && data.rate) rpmEl.value = '';
+            if (data.deadhead)    setVal('deadheadMiles', data.deadhead);
+            if (data.rate)        setVal('rate', data.rate);
+            if (data.rpm && !data.rate) setVal('rpm', data.rpm);
+            if (typeof window.calculate === 'function') setTimeout(() => window.calculate(), 100);
+        };
 
-        // Disparar cálculo automático
-        if (typeof window.calculate === 'function') {
-            setTimeout(() => window.calculate(), 100);
+        const loadedEl = document.getElementById('loadedMiles');
+        const hayRuta = !!(data.origin && data.destination && document.getElementById('dest-1-input')
+                           && typeof window.calculateRoute === 'function');
+        if (!hayRuta) {
+            if (data.miles) setVal('loadedMiles', data.miles);
+            llenarDinero();
+            return;
         }
+        // Campo visible del primer destino; la ruta de Google llena las millas cargadas
+        if (loadedEl) loadedEl.value = '';
+        setVal('origin', data.origin);
+        setVal('dest-1-input', data.destination);
+        if (typeof window.updateLastDestination === 'function') window.updateLastDestination();
+        window.calculateRoute();
+        const inicio = Date.now();
+        (function esperar() {
+            if (Number(loadedEl?.value) > 0) return llenarDinero();
+            if (Date.now() - inicio > 15000) {
+                // Google no respondió: usar las millas del texto
+                if (data.miles) setVal('loadedMiles', data.miles);
+                return llenarDinero();
+            }
+            setTimeout(esperar, 300);
+        })();
     }
 
     // ============================================================
