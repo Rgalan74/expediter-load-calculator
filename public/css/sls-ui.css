@@ -251,12 +251,13 @@ html[data-theme="dark"] body nav .tab-link.tab-pill-active:hover {
 :root:not(#sls) body tbody tr:hover { background: var(--sls-surface-2) !important; }
 :root:not(#sls) body td { border-color: var(--sls-line) !important; }
 
-/* ---------- Panel de decisión (estilo provisional hasta el paso 2) ---------- */
+/* ---------- Panel de decisión: contenedor ---------- */
 :root:not(#sls) body #decisionPanel {
-  background: var(--sls-surface) !important;
+  background: transparent !important;
   background-image: none !important;
-  border: 1px solid var(--sls-line) !important;
+  border: 0 !important;
   box-shadow: none !important;
+  counter-reset: slssec;
 }
 :root:not(#sls) body #quickRPM, :root:not(#sls) body #quickNetProfit, :root:not(#sls) body #quickMargin,
 :root:not(#sls) body #quickProfitPerMile, :root:not(#sls) body #quickPrice, :root:not(#sls) body #netProfit,
@@ -355,70 +356,301 @@ html[data-theme="dark"] body nav .tab-link.tab-pill-active:hover {
   letter-spacing: 0.1em !important;
 }
 
-/* ---------- Panel de decisión: neutralizar el estilo anterior ---------- */
+/* ---------- Panel de decisión (paso 2): visor, número grande, secciones numeradas ---------- */
+:root:not(#sls) body #decisionPanel > .decision-panel {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+:root:not(#sls) body #decisionPanel.pulse-glow-green,
+:root:not(#sls) body #decisionPanel [class*="pulse-glow"] { animation: none !important; box-shadow: none !important; }
+
+/* Etiquetas de sección con número automático (01, 02...) */
+:root:not(#sls) body .sls-sec-label {
+  font-family: var(--sls-font-mono) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase !important;
+  color: var(--sls-muted) !important;
+  -webkit-text-fill-color: var(--sls-muted) !important;
+  margin: 0 0 10px !important;
+  text-align: left !important;
+}
+:root:not(#sls) body .sls-sec-label::before {
+  counter-increment: slssec;
+  content: "0" counter(slssec) " · ";
+}
+:root:not(#sls) body .sls-sec-label:has(+ .hidden),
+:root:not(#sls) body .sls-sec-label:has(+ #decisionExtraInfo:empty) { display: none !important; }
+:root:not(#sls) body .sls-sec-notes { margin-top: 18px !important; }
+
+/* Visor */
 :root:not(#sls) body #decisionHeader,
 :root:not(#sls) body #decisionHeader.decision-header-accept,
 :root:not(#sls) body #decisionHeader.decision-header-warning,
 :root:not(#sls) body #decisionHeader.decision-header-warning-high,
 :root:not(#sls) body #decisionHeader.decision-header-warning-low,
 :root:not(#sls) body #decisionHeader.decision-header-reject {
+  position: relative !important;
   background: var(--sls-surface) !important;
   background-image: none !important;
   color: var(--sls-text) !important;
-  border-left: 4px solid var(--sls-muted) !important;
+  border: 1px solid var(--sls-line) !important;
+  border-radius: 4px !important;
+  padding: 24px 26px !important;
   animation: none !important;
   box-shadow: none !important;
 }
-:root:not(#sls) body #decisionHeader.decision-header-accept { border-left-color: var(--sls-green) !important; }
-:root:not(#sls) body #decisionHeader.decision-header-warning,
-:root:not(#sls) body #decisionHeader.decision-header-warning-high,
-:root:not(#sls) body #decisionHeader.decision-header-warning-low { border-left-color: var(--sls-amber) !important; }
-:root:not(#sls) body #decisionHeader.decision-header-reject { border-left-color: var(--sls-red) !important; }
+:root:not(#sls) body #decisionHeader::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--sls-accent), var(--sls-accent)) left top / 26px 2px no-repeat,
+    linear-gradient(var(--sls-accent), var(--sls-accent)) left top / 2px 26px no-repeat,
+    linear-gradient(var(--sls-accent), var(--sls-accent)) right top / 26px 2px no-repeat,
+    linear-gradient(var(--sls-accent), var(--sls-accent)) right top / 2px 26px no-repeat,
+    linear-gradient(var(--sls-accent), var(--sls-accent)) left bottom / 26px 2px no-repeat,
+    linear-gradient(var(--sls-accent), var(--sls-accent)) left bottom / 2px 26px no-repeat,
+    linear-gradient(var(--sls-accent), var(--sls-accent)) right bottom / 26px 2px no-repeat,
+    linear-gradient(var(--sls-accent), var(--sls-accent)) right bottom / 2px 26px no-repeat;
+}
+
+/* Estado: insignia con borde y punto del color del semáforo */
+:root:not(#sls) body #decisionHeader #decisionIcon { display: none !important; }
 :root:not(#sls) body #decisionTitle {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 5px 12px !important;
+  border: 1px solid currentColor !important;
   font-family: var(--sls-font-title) !important;
+  font-size: 20px !important;
   font-weight: 700 !important;
-  letter-spacing: 0.08em !important;
+  line-height: 1.1 !important;
+  letter-spacing: 0.12em !important;
   text-transform: uppercase !important;
+  color: var(--sls-text) !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+:root:not(#sls) body #decisionTitle::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: 0 0 auto;
 }
 :root:not(#sls) body #decisionHeader.decision-header-accept #decisionTitle { color: var(--sls-green) !important; }
 :root:not(#sls) body #decisionHeader[class*="decision-header-warning"] #decisionTitle { color: var(--sls-amber) !important; }
 :root:not(#sls) body #decisionHeader.decision-header-reject #decisionTitle { color: var(--sls-red) !important; }
-:root:not(#sls) body #decisionHeader .grid > div {
-  background: var(--sls-surface-2) !important;
-  border: 1px solid var(--sls-line) !important;
-  backdrop-filter: none !important;
+:root:not(#sls) body #decisionRoute {
+  margin-top: 10px !important;
+  color: var(--sls-muted) !important;
+  -webkit-text-fill-color: var(--sls-muted) !important;
+  font-family: var(--sls-font-mono) !important;
+  font-size: 12px !important;
+  letter-spacing: 0.06em !important;
 }
+
+/* Cotización (arriba a la derecha) */
+:root:not(#sls) body #decisionHeader .text-right > .text-xs {
+  color: var(--sls-muted) !important;
+  font-family: var(--sls-font-mono) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase !important;
+}
+:root:not(#sls) body #quickPrice {
+  font-family: var(--sls-font-title) !important;
+  font-size: 40px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  color: var(--sls-text) !important;
+  -webkit-text-fill-color: var(--sls-text) !important;
+}
+
+/* Ganancia neta: el número grande dentro del visor */
+:root:not(#sls) body #decisionHeader #profitSection,
+:root:not(#sls) body #decisionHeader #profitSection.profit-section-positive,
+:root:not(#sls) body #decisionHeader #profitSection.profit-section-warning,
+:root:not(#sls) body #decisionHeader #profitSection.profit-section-negative {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 14px 0 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+}
+:root:not(#sls) body #decisionPanel #profitLabel {
+  font-family: var(--sls-font-mono) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase !important;
+}
+:root:not(#sls) body #decisionPanel #netProfit {
+  font-family: var(--sls-font-title) !important;
+  font-size: 96px !important;
+  font-weight: 700 !important;
+  line-height: 0.95 !important;
+  letter-spacing: -0.01em !important;
+  margin: 4px 0 6px !important;
+}
+:root:not(#sls) body #decisionPanel #profitDetails { font-size: 14px !important; font-weight: 500 !important; }
+:root:not(#sls) body #decisionPanel #profitSection #profitLabel,
+:root:not(#sls) body #decisionPanel #profitSection .text-right div,
+:root:not(#sls) body #decisionPanel #profitSection #profitDetails,
+:root:not(#sls) body #decisionPanel #profitSection #afterPayNote { color: var(--sls-muted) !important; }
+:root:not(#sls) body #decisionPanel #profitSection .text-right div { font-family: var(--sls-font-mono) !important; font-size: 12px !important; }
+:root:not(#sls) body #decisionPanel #profitSection.profit-section-positive #netProfit { color: var(--sls-green) !important; }
+:root:not(#sls) body #decisionPanel #profitSection.profit-section-warning #netProfit { color: var(--sls-amber) !important; }
+:root:not(#sls) body #decisionPanel #profitSection.profit-section-negative #netProfit { color: var(--sls-red) !important; }
+
+/* Lecturas: RPM, margen, $/mi en una fila sin cajas */
+:root:not(#sls) body #decisionHeader .grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 0 12px !important;
+  margin: 18px 0 16px !important;
+  padding-top: 14px !important;
+  border-top: 1px solid var(--sls-line) !important;
+}
+:root:not(#sls) body #decisionHeader .grid > div {
+  background: transparent !important;
+  border: 0 !important;
+  backdrop-filter: none !important;
+  padding: 0 !important;
+  text-align: left !important;
+}
+:root:not(#sls) body #decisionHeader .grid > div:has(#quickNetProfit) { display: none !important; }
 :root:not(#sls) body #decisionHeader .grid > div > div:first-child {
   color: var(--sls-muted) !important;
   font-family: var(--sls-font-mono) !important;
   font-size: 11px !important;
-  letter-spacing: 0.12em !important;
+  letter-spacing: 0.14em !important;
   text-transform: uppercase !important;
 }
-:root:not(#sls) body #decisionHeader .grid > div > div:last-child { color: var(--sls-text) !important; font-size: 26px !important; }
+:root:not(#sls) body #decisionHeader .grid > div > div:last-child {
+  color: var(--sls-text) !important;
+  font-family: var(--sls-font-title) !important;
+  font-size: 34px !important;
+  font-weight: 600 !important;
+  line-height: 1.1 !important;
+}
+
+/* Chips: ruta, tiempo, clima */
 :root:not(#sls) body #decisionBadges > span {
-  background: var(--sls-surface-2) !important;
-  border: 1px solid var(--sls-line) !important;
+  background: var(--sls-raised) !important;
+  border: 1px solid var(--sls-line-2) !important;
+  border-radius: 2px !important;
   color: var(--sls-muted) !important;
+  -webkit-text-fill-color: var(--sls-muted) !important;
   font-family: var(--sls-font-mono) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.06em !important;
+  padding: 4px 10px !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
 }
-:root:not(#sls) body #decisionPanel.pulse-glow-green,
-:root:not(#sls) body #decisionPanel [class*="pulse-glow"] { animation: none !important; box-shadow: none !important; }
-:root:not(#sls) body #profitSection,
-:root:not(#sls) body #profitSection.profit-section-positive,
-:root:not(#sls) body #profitSection.profit-section-warning,
-:root:not(#sls) body #profitSection.profit-section-negative {
-  background: var(--sls-surface-2) !important;
-  background-image: none !important;
+:root:not(#sls) body #decisionBadges > #weatherBadge {
+  background: transparent !important;
+  border-color: var(--sls-accent) !important;
+  color: var(--sls-accent-text) !important;
+  -webkit-text-fill-color: var(--sls-accent-text) !important;
+  cursor: pointer !important;
+}
+:root:not(#sls) body #decisionBadges > #weatherBadge:hover { background: rgba(34, 211, 238, 0.08) !important; }
+
+/* Cuerpo del panel debajo del visor */
+:root:not(#sls) body #decisionPanel > .decision-panel > div:not(#decisionHeader) { padding: 22px 0 0 !important; }
+:root:not(#sls) body #decisionPanel .costs-section > h4 { display: none !important; }
+:root:not(#sls) body #decisionPanel .costs-section {
+  background: var(--sls-surface) !important;
   border: 1px solid var(--sls-line) !important;
+  border-radius: 6px !important;
+  padding: 16px 18px !important;
 }
-:root:not(#sls) body #profitSection #profitLabel,
-:root:not(#sls) body #profitSection .text-right div,
-:root:not(#sls) body #profitSection #profitDetails { color: var(--sls-muted) !important; }
-:root:not(#sls) body #profitSection.profit-section-positive #netProfit { color: var(--sls-green) !important; }
-:root:not(#sls) body #profitSection.profit-section-warning #netProfit { color: var(--sls-amber) !important; }
-:root:not(#sls) body #profitSection.profit-section-negative #netProfit { color: var(--sls-red) !important; }
-:root:not(#sls) body #netProfit { font-size: 48px !important; line-height: 1.05 !important; }
+
+/* 03 · Precio sugerido */
+:root:not(#sls) body #counterOfferInner {
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+:root:not(#sls) body #counterOfferInner > div:first-child { display: none !important; }
+:root:not(#sls) body #counterOfferInner > div:nth-child(2) { gap: 10px !important; }
+:root:not(#sls) body #counterOfferInner > div:nth-child(2) > div {
+  background: var(--sls-surface) !important;
+  border: 1px solid var(--sls-line) !important;
+  border-radius: 6px !important;
+  padding: 10px 14px !important;
+  min-height: 0 !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+}
+:root:not(#sls) body #counterOfferInner > div:nth-child(2) > div > div:first-child {
+  font-family: var(--sls-font-mono) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: var(--sls-muted) !important;
+}
+:root:not(#sls) body #coBreakeven, :root:not(#sls) body #coTarget, :root:not(#sls) body #coIdeal {
+  font-family: var(--sls-font-title) !important;
+  font-size: 28px !important;
+  font-weight: 600 !important;
+  line-height: 1.1 !important;
+}
+:root:not(#sls) body #coBreakeven { color: var(--sls-muted) !important; }
+:root:not(#sls) body #coTarget { color: var(--sls-text) !important; }
+:root:not(#sls) body #counterOfferInner > div:nth-child(2) > div:has(#coIdeal) {
+  background: var(--sls-accent) !important;
+  border-color: var(--sls-accent) !important;
+}
+:root:not(#sls) body #counterOfferInner > div:nth-child(2) > div:has(#coIdeal) > div:first-child,
+:root:not(#sls) body #coIdeal { color: var(--sls-on-accent) !important; -webkit-text-fill-color: var(--sls-on-accent) !important; }
+:root:not(#sls) body #coIdeal { font-weight: 700 !important; }
+:root:not(#sls) body #counterOfferDetail {
+  margin-top: 10px !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  color: var(--sls-muted) !important;
+}
+
+/* 04 · Tenlo en cuenta */
+:root:not(#sls) body #decisionPanel #decisionExtraInfo:not(:empty) {
+  margin-top: 0 !important;
+  background: var(--sls-surface) !important;
+  border: 1px solid var(--sls-line) !important;
+  border-left: 2px solid var(--sls-accent) !important;
+  border-radius: 6px !important;
+  padding: 14px 18px !important;
+}
+:root:not(#sls) body #decisionPanel #decisionExtraInfo .decision-info-block {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 0 12px !important;
+}
+:root:not(#sls) body #decisionPanel #decisionExtraInfo .decision-info-block:last-child { margin-bottom: 0 !important; }
+
+@media (max-width: 767px) {
+  :root:not(#sls) body #decisionHeader { padding: 18px 16px !important; }
+  :root:not(#sls) body #decisionPanel #netProfit { font-size: 64px !important; }
+  :root:not(#sls) body #quickPrice { font-size: 28px !important; }
+  :root:not(#sls) body #decisionHeader .grid > div > div:last-child { font-size: 26px !important; }
+  :root:not(#sls) body #coBreakeven, :root:not(#sls) body #coTarget, :root:not(#sls) body #coIdeal { font-size: 22px !important; }
+  :root:not(#sls) body #counterOfferInner > div:nth-child(2) > div { padding: 8px 10px !important; }
+}
 
 /* ---------- Logo de texto de la cabecera ---------- */
 html[data-theme] body .header-title,
@@ -564,3 +796,24 @@ html[data-theme] body header .gradient-text,
   font-style: italic !important;
   opacity: 1 !important;
 }
+
+/* Estado del semáforo según data-decision (el JS no aplica clases al encabezado) */
+:root:not(#sls) body #decisionTitle[data-decision="ACCEPT"] { color: var(--sls-green) !important; }
+:root:not(#sls) body #decisionTitle[data-decision="ALMOST ACCEPT"],
+:root:not(#sls) body #decisionTitle[data-decision="EVALUATE"] { color: var(--sls-amber) !important; }
+:root:not(#sls) body #decisionTitle[data-decision="REJECT"] { color: var(--sls-red) !important; }
+
+/* Cifras del bloque de costos y resaltados de las notas */
+:root:not(#sls) body #decisionPanel #fuelCost,
+:root:not(#sls) body #decisionPanel #totalExpenses {
+  color: var(--sls-text) !important;
+  -webkit-text-fill-color: var(--sls-text) !important;
+  -webkit-text-stroke: 0 !important;
+  text-shadow: none !important;
+}
+:root:not(#sls) body #decisionPanel #totalExpenses { font-size: 22px !important; font-weight: 600 !important; }
+:root:not(#sls) body #decisionExtraInfo strong {
+  color: var(--sls-accent-text) !important;
+  -webkit-text-fill-color: var(--sls-accent-text) !important;
+}
+:root:not(#sls) body #decisionPanel .costs-section { margin-left: 0 !important; margin-right: 0 !important; width: auto !important; }
