@@ -153,6 +153,7 @@ html[data-theme="dark"] body nav .tab-link.tab-pill-active:hover {
 :root:not(#sls) body input[type="date"],
 :root:not(#sls) body input[type="tel"],
 :root:not(#sls) body input[type="search"],
+:root:not(#sls) body input:not([type]),
 :root:not(#sls) body select,
 :root:not(#sls) body textarea {
   background: var(--sls-bg) !important;
@@ -165,9 +166,11 @@ html[data-theme="dark"] body nav .tab-link.tab-pill-active:hover {
 }
 :root:not(#sls) body input::placeholder,
 :root:not(#sls) body textarea::placeholder {
-  color: #5B6577 !important;
-  -webkit-text-fill-color: #5B6577 !important;
-  font-style: normal !important;
+  color: #4A5468 !important;
+  -webkit-text-fill-color: #4A5468 !important;
+  font-family: var(--sls-font-body) !important;
+  font-style: italic !important;
+  opacity: 1 !important;
 }
 :root:not(#sls) body input:focus,
 :root:not(#sls) body select:focus,
@@ -539,4 +542,25 @@ html[data-theme] body header .gradient-text,
 :root:not(#sls) body .text-green-800 {
   color: var(--sls-green) !important;
   -webkit-text-fill-color: var(--sls-green) !important;
+}
+
+/* ---------- Campos de la calculadora (gana a mobile-calculator-fix.css) ---------- */
+:root:not(#sls) body #calculator input[type="text"],
+:root:not(#sls) body #calculator input[type="number"],
+:root:not(#sls) body #calculator input[type="email"],
+:root:not(#sls) body #calculator input:not([type]),
+:root:not(#sls) body #calculator select,
+:root:not(#sls) body #calculator textarea {
+  background-color: var(--sls-bg) !important;
+  color: var(--sls-text) !important;
+  -webkit-text-fill-color: var(--sls-text) !important;
+  border-color: var(--sls-line-2) !important;
+}
+:root:not(#sls) body #calculator input::placeholder,
+:root:not(#sls) body #calculator textarea::placeholder {
+  color: #4A5468 !important;
+  -webkit-text-fill-color: #4A5468 !important;
+  font-family: var(--sls-font-body) !important;
+  font-style: italic !important;
+  opacity: 1 !important;
 }
