@@ -149,6 +149,10 @@ function updateZoneLegend() {
     set('zoneLegendGreen', `RPM ≥ $${t.green.toFixed(2)}`);
     set('zoneLegendYellow', `$${t.yellow.toFixed(2)} - $${t.green.toFixed(2)} RPM`);
     set('zoneLegendRed', `RPM < $${t.yellow.toFixed(2)}`);
+    // Leyenda del mapa de calor: mismos umbrales que los colores de los estados
+    set('zoneHeatLegendGreen', `RPM ≥ $${t.green.toFixed(2)}`);
+    set('zoneHeatLegendYellow', `$${t.yellow.toFixed(2)} - $${t.green.toFixed(2)} RPM`);
+    set('zoneHeatLegendRed', `RPM < $${t.yellow.toFixed(2)}`);
 }
 window.updateZoneLegend = updateZoneLegend;
 
