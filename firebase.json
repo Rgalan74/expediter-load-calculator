@@ -19,7 +19,20 @@
       { "source": "/es/blog/costos-ocultos-operacion.html", "destination": "/blog/costos-ocultos-operacion.html", "type": 301 },
       { "source": "/es/blog/decidir-carga-en-30-segundos.html", "destination": "/blog/decidir-carga-en-30-segundos.html", "type": 301 },
       { "source": "/es/blog/llc-vs-propietario-unico.html", "destination": "/blog/llc-vs-propietario-unico.html", "type": 301 },
-      { "source": "/es/blog/zonas-rentables-expediters.html", "destination": "/blog/zonas-rentables-expediters.html", "type": 301 }
+      { "source": "/es/blog/zonas-rentables-expediters.html", "destination": "/blog/zonas-rentables-expediters.html", "type": 301 },
+      { "source": "/app", "destination": "/app.html", "type": 301 },
+      { "source": "/login", "destination": "/auth.html", "type": 301 },
+      { "source": "/signup", "destination": "/auth.html", "type": 301 },
+      { "source": "/register", "destination": "/auth.html", "type": 301 },
+      { "source": "/plans", "destination": "/plans.html", "type": 301 },
+      { "source": "/pricing", "destination": "/plans.html", "type": 301 },
+      { "source": "/precios", "destination": "/plans.html", "type": 301 },
+      { "source": "/contact", "destination": "/contact.html", "type": 301 },
+      { "source": "/blog", "destination": "/blog.html", "type": 301 },
+      { "source": "/academy", "destination": "/academy.html", "type": 301 },
+      { "source": "/es", "destination": "/", "type": 301 },
+      { "source": "/es/", "destination": "/", "type": 301 },
+      { "source": "/index", "destination": "/", "type": 301 }
     ],
     "ignore": [
       "firebase.json",
@@ -108,10 +121,6 @@
       {
         "source": "/landing/**",
         "destination": "/landing/index.html"
-      },
-      {
-        "source": "!/@(img|css|js|landing|en|es)/**",
-        "destination": "/index.html"
       }
     ]
   }
