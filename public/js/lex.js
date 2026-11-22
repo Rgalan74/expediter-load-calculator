@@ -1620,23 +1620,23 @@ window.submitLexFeedback = async function () {
   }
 
   try {
+    // Se envia por correo a soporte con la misma funcion del formulario de Contacto.
+    // (Antes se guardaba en la coleccion "feedback", que las reglas de Firestore
+    // bloquean y que nadie leia: el mensaje se perdia.)
     const user = firebase.auth().currentUser;
-    const feedbackData = {
-      type,
-      message: message.trim(),
-      email: user ? user.email : 'anonymous',
-      userId: user ? user.uid : 'anonymous',
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      userAgent: navigator.userAgent,
-      url: window.location.href,
-      screenSize: `${window.innerWidth}x${window.innerHeight}`,
-      status: 'new',
-      source: 'lex_tab'
-    };
-
-    await firebase.firestore()
-      .collection('feedback')
-      .add(feedbackData);
+    if (!user || !user.email) throw new Error('not-signed-in');
+    const subjectByType = { bug: 'support', feature: 'feature', question: 'general', other: 'general' };
+    const lang = (window.i18n?.currentLang || 'en') === 'es' ? 'es' : 'en';
+    const name = window.currentUser?.profileData?.fullName || window.currentUser?.displayName || user.email.split('@')[0];
+    const context = `\n\n---\nLex feedback (${type}) · ${window.location.pathname} · ${window.innerWidth}x${window.innerHeight} · ${navigator.userAgent}`;
+    const sendFn = firebase.app().functions('us-central1').httpsCallable('sendContactMessage');
+    await sendFn({
+      name: String(name).slice(0, 100),
+      email: user.email,
+      subject: subjectByType[type] || 'general',
+      message: (message.trim() + context).slice(0, 5000),
+      lang
+    });
 
     // Track event
     if (window.analyticsManager) {
