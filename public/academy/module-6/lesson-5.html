@@ -1,94 +1,36 @@
 <!DOCTYPE html><html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Optimización Continua: El Sistema de Mejora 1% | Smart Load Academia</title>
-    <meta name="description" content="No es sobre trabajar más horas. Es sobre mejorar 1% cada semana.">
+    <title>Mejora continua | Smart Load Academia</title>
+    <meta name="description" content="Un ciclo simple para mejorar un poco cada semana y una revisión mensual con tus números de la app.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: .875rem
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: .75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all .3s ease
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #F5B03A 0%, #F5B03A 100%);
-            color: #000
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, .1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .2)
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-  
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/academy/module-6/lesson-5.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-6/lesson-5.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-6/lesson-5.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-6/lesson-5.html">
+    <link rel="canonical" href="https://smartloadsolution.com/academy/module-6/lesson-5.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-6/lesson-5.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-6/lesson-5.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-6/lesson-5.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Volver a la App</a></nav>
-    <aside class="lesson-sidebar" id="lessonSidebar">
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Volver a la App</a></nav>
+
+<aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
         <div>
             <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
@@ -98,285 +40,174 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/academy.html">Academia</a> / <a href="index.html">Módulo 6</a> / Lección 5</nav>
 
-<!-- ==================== ESPAÑOL ==================== -->
-
-        <nav class="breadcrumb">
-            <a href="/academy.html">← Academia</a> → <a href="index.html">Módulo 6 [PRO]</a> → Lección 5
-        </nav>
-
-        <div style="display: inline-block; background: linear-gradient(90deg, #F5B03A, #F5B03A); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
-            🔒 CONTENIDO PRO</div>
-
-        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
-            <h1>Optimización Continua: El Sistema de Mejora 1%</h1>
-            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
-                <span>📖 15 min lectura</span>
-                <span>🎓 Módulo 6 - Lección 5</span>
-                <span>📈 Mejora Continua</span>
-            </div>
-        </header>
-
-        <div class="lesson-content">
-
-            <section>
-                <h2>La filosofía Kaizen</h2>
-
-                <p><strong>Kaizen (改善) = mejora continua.</strong></p>
-                <p><strong>Concepto japonés:</strong> mejorar 1% cada día/semana equivale a una mejora masiva en un año.</p>
-
-                <div class="formula">Mejora 1% semanal<br>
-Semana 1:  100% baseline<br>
-Semana 52: 167.7% de capacidad original<br>
-<br>
-Mejora 1% mensual<br>
-Mes 1:  100% baseline<br>
-Mes 12: 112.7% de capacidad</div>
-
-                <div class="note tip">
-                    <span class="note-label">Lección</span>
-                    <p>Pequeñas mejoras consistentes superan a los grandes cambios esporádicos.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>El ciclo PDCA (Plan-Do-Check-Act)</h2>
-
-                <div class="formula">PLAN  → identifica área de mejora, define objetivo específico, crea plan de acción<br>
-DO    → implementa el cambio, registra el proceso, documenta resultados<br>
-CHECK → mide resultados, compara vs objetivo, analiza qué funcionó<br>
-ACT   → si funcionó: estandariza. Si no: ajusta y repite. Vuelve a PLAN</div>
-            </section>
-
-            <section>
-                <h2>El calendario de optimización</h2>
-
-                <div class="note tip">
-                    <span class="note-label">Revisión semanal — 15 minutos cada domingo</span>
-                    <p><strong>Domingo 7pm — rutina:</strong></p>
-                    <ol>
-                        <li><strong>Revisar números (5 min):</strong> ganancia de la semana, RPM, cargas, problemas</li>
-                        <li><strong>Identificar UNA mejora (3 min):</strong> "¿Qué única cosa podría mejorar 1% la próxima semana?"</li>
-                        <li><strong>Crear plan (3 min):</strong> mi mejora, cómo medirla, meta específica</li>
-                        <li><strong>Revisar semana pasada (4 min):</strong> ¿logré el objetivo? ¿continuar o ajustar?</li>
-                    </ol>
-                    <p><strong>Ejemplos de mejoras semanales:</strong></p>
-                    <ul>
-                        <li>Reducir idle 10 min/día</li>
-                        <li>Usar Waze en todas las rutas</li>
-                        <li>Revisar presión de llantas 2x esta semana</li>
-                        <li>Responder brokers en menos de 15 min siempre</li>
-                        <li>Documentar todas las cargas el mismo día</li>
-                    </ul>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">Revisión mensual — 45 minutos</span>
-                    <p><strong>Último domingo del mes:</strong></p>
-                    <ol>
-                        <li><strong>Análisis financiero completo (15 min):</strong> ingresos, gastos, ganancia, margen, tendencia</li>
-                        <li><strong>Revisión de KPIs (10 min):</strong> RPM, CPM, deadhead, utilización, margen, ganancia/día</li>
-                        <li><strong>Análisis de rutas (10 min):</strong> top 3 más rentables, rutas a eliminar</li>
-                        <li><strong>Proyectos mayores (10 min):</strong> próximo mes, impacto esperado, tiempo requerido</li>
-                    </ol>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">Revisión trimestral — 2 horas</span>
-                    <p><strong>Cada 3 meses:</strong></p>
-                    <ol>
-                        <li><strong>Análisis de tendencias (30 min):</strong> últimos 3 meses, causas de mejora/declive</li>
-                        <li><strong>Auditoría de gastos (30 min):</strong> revisar cada categoría, oportunidades de ahorro</li>
-                        <li><strong>Revisión de relaciones (30 min):</strong> brokers Tier 1, cargas/mes, tendencias</li>
-                        <li><strong>Establecer objetivos (30 min):</strong> próximo trimestre, financiero + operativo</li>
-                    </ol>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">Revisión anual — 4 horas</span>
-                    <p><strong>Fin de año:</strong></p>
-                    <ol>
-                        <li><strong>Análisis del año completo (1 hr):</strong> ganancia total, mejor/peor mes, victorias, desafíos</li>
-                        <li><strong>Proyección del año siguiente (1 hr):</strong> objetivos financieros, operativos, expansión</li>
-                        <li><strong>Lecciones aprendidas (1 hr):</strong> qué funcionó, qué no, cambios para el próximo año</li>
-                        <li><strong>Planificación estratégica (1 hr):</strong> roadmap trimestral para el año completo</li>
-                    </ol>
-                </div>
-            </section>
-
-            <section>
-                <h2>El sistema de 52 mejoras</h2>
-
-                <p><strong>Concepto:</strong> 52 semanas = 52 mejoras pequeñas. Cada una mejora la operación 1%.</p>
-                <p><strong>Ejemplo de estructura anual:</strong></p>
-
-                <div class="compare-table">
-                    <div class="compare-row"><span class="label">Q1 (semanas 1-13) — fundamentos</span><span class="value">Setup Smart Load, templates, digital docs, calendario mantenimiento, velocidad óptima, apps descuento...</span></div>
-                    <div class="compare-row"><span class="label">Q2 (semanas 14-26) — optimización</span><span class="value">Cotizar seguro, negociar shop, llantas low-resistance, dash cam, curso safety, cancelar suscripciones...</span></div>
-                    <div class="compare-row"><span class="label">Q3 (semanas 27-39) — perfeccionamiento</span><span class="value">Eliminar rutas malas, maximizar rutas top, check-ins Tier 1, forecast, preparar Q4...</span></div>
-                    <div class="compare-row"><span class="label">Q4 (semanas 40-52) — consolidación</span><span class="value">Evaluar expansión, negociar contratos anuales, preparar impuestos, documentar procesos, planificar próximo año...</span></div>
-                </div>
-
-                <div class="pull-number">
-                    <div class="value">+20-35%</div>
-                    <p class="context">de ganancia sobre el punto de partida al completar las 52 mejoras — fundamentos sólidos para escalar.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Métricas de progreso</h2>
-
-                <div class="compare-table">
-                    <div class="compare-title">Baseline → 6 meses → 12 meses</div>
-                    <div class="compare-row"><span class="label">Ganancia/mes</span><span class="value">$3,850 → $4,680 (+21.6%) → $5,400 (+40%)</span></div>
-                    <div class="compare-row"><span class="label">Margen</span><span class="value">34.2% → 41.2% (+7) → 44%</span></div>
-                    <div class="compare-row"><span class="label">RPM</span><span class="value">$1.45/mi → $1.64 (+13.1%) → $1.75/mi</span></div>
-                    <div class="compare-row"><span class="label">CPM</span><span class="value">$0.95/mi → $0.81 (-14.7%) → $0.75/mi</span></div>
-                    <div class="compare-row"><span class="label">Tiempo admin</span><span class="value">24 hrs → 7 hrs (-71%) → 5 hrs</span></div>
-                    <div class="compare-row"><span class="label">Mejora promedio</span><span class="value accent">+3.5% por mes (compuesto)</span></div>
-                </div>
-            </section>
-
-            <section>
-                <p><strong>Has completado el Módulo 6 y aprendiste:</strong></p>
-                <ol>
-                    <li><strong>Combustible:</strong> $300-500/mes de ahorro (10 tácticas)</li>
-                    <li><strong>Mantenimiento:</strong> $200-400/mes de ahorro (preventivo vs reactivo)</li>
-                    <li><strong>Proveedores:</strong> $300-570/mes de ahorro (negociar todo)</li>
-                    <li><strong>Automatización:</strong> 5-8 hrs/semana (8 áreas)</li>
-                    <li><strong>Mejora continua:</strong> +67.7% anual (1% semanal)</li>
-                </ol>
-
-                <div class="compare-table">
-                    <div class="compare-title">Transformación total</div>
-                    <div class="compare-row"><span class="label">Antes</span><span class="value">CPM $0.95, ganancia $3,800, margen 34%, admin 22 hrs</span></div>
-                    <div class="compare-row"><span class="label">Después</span><span class="value accent">CPM $0.78, ganancia $5,200, margen 43%, admin 7 hrs</span></div>
-                </div>
-
-                <div class="pull-number">
-                    <div class="value">+$1,400/mes</div>
-                    <p class="context">de impacto = +$16,800/año.</p>
-                </div>
-
-                <p><strong>El sistema completo:</strong></p>
-                <ul>
-                    <li><strong>Semanal (15 min):</strong> 1 mejora pequeña</li>
-                    <li><strong>Mensual (45 min):</strong> análisis + proyectos mayores</li>
-                    <li><strong>Trimestral (2 hrs):</strong> tendencias + objetivos</li>
-                    <li><strong>Anual (4 hrs):</strong> reflexión + estrategia</li>
-                </ul>
-
-                <div class="conclusion">
-                    <p class="lead">No es sobre trabajar más horas. Es sobre <span class="accent">mejorar 1% cada semana</span>.</p>
-                    <p class="sub">En 1 año: operación irreconocible. En 3 años: operador elite. La elección es tuya — el sistema está probado. Solo necesitas empezar.</p>
-                </div>
-            </section>
-
+    <header>
+        <div class="al-kicker">Módulo 6 · Lección 5</div>
+        <h1 class="al-title">Mejora continua: un ajuste por semana</h1>
+        <div class="al-meta">
+            <span class="al-chip">7 min de lectura</span>
+            <span class="al-chip">Operación</span>
+            <span class="al-chip">Premium</span>
         </div>
+    </header>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+    <section class="al-learn">
+        <div class="al-learn-title">Lo que vas a aprender</div>
+        <ol>
+            <li>El ciclo planear, probar, medir y decidir.</li>
+            <li>Ideas concretas para empezar.</li>
+            <li>Qué números revisar cada mes.</li>
+        </ol>
+    </section>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
-            <nav class="lesson-nav">
-                <a href="lesson-4.html" class="btn btn-secondary">← Lección anterior</a>
-                <a href="index.html" class="btn btn-primary">🎉 Módulo completado →</a>
-            </nav>
-        </footer>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>Pequeño y constante</h2>
+        <p>No necesitas cambiar todo de golpe. Un ajuste pequeño cada semana, medido y mantenido, suma mucho en un año. La idea es simple: <strong>planear, probar, medir y quedarte con lo que funciona</strong>.</p>
+    </section>
 
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>El ciclo</h2>
+        <table class="al-table">
+            <tr><td><strong>1 · Planear</strong><span class="al-sub">Elige una sola cosa: "voy a manejar a 62 mph en carretera"</span></td></tr>
+            <tr><td><strong>2 · Probar</strong><span class="al-sub">Hazlo durante dos semanas, sin cambiar nada más</span></td></tr>
+            <tr><td><strong>3 · Medir</strong><span class="al-sub">Compara el número que querías mover: MPG, costo por milla, RPM o vacío</span></td></tr>
+            <tr><td><strong>4 · Decidir</strong><span class="al-sub">Si funcionó, se queda como hábito. Si no, lo dejas y pruebas otra cosa</span></td></tr>
+        </table>
+    </section>
 
-<!-- ==================== ENGLISH ==================== -->
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>Ideas para empezar</h2>
+        <ul class="al-checklist">
+            <li>Pedir la contraoferta en todas las cargas que digan EVALUAR.</li>
+            <li>Bajar la velocidad de crucero y medir el MPG.</li>
+            <li>Rechazar cargas con más de 25% de vacío salvo que el pago lo cubra.</li>
+            <li>Llamar a un broker preferido cada semana sin pedir carga.</li>
+            <li>Cancelar una suscripción que no usas.</li>
+            <li>Escribir una nota de mercado por cada problema en ruta.</li>
+        </ul>
+    </section>
 
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>Tu revisión mensual</h2>
+        <table class="al-table">
+            <tr><td><strong>Costo por milla</strong><span class="al-sub">Finanzas. ¿Bajó frente al mes pasado?</span></td></tr>
+            <tr><td><strong>RPM promedio</strong><span class="al-sub">Finanzas. ¿Está sobre tu umbral para ACEPTAR?</span></td></tr>
+            <tr><td><strong>Margen</strong><span class="al-sub">Finanzas. ¿Llega a tu objetivo?</span></td></tr>
+            <tr><td><strong>Estados verdes</strong><span class="al-sub">Zonas. ¿Tu circuito creció?</span></td></tr>
+        </table>
+        <div class="al-callout is-app">
+            <div class="al-callout-label">Pregúntale a Lex</div>
+            <p>"Compárame con el mes pasado." Lex te dice qué mejoró y qué empeoró con tus datos.</p>
+        </div>
+    </section>
 
-    </article>
+    <section class="al-summary">
+        <h2>En resumen</h2>
+        <ul>
+            <li>Un ajuste a la vez, durante dos semanas.</li>
+            <li>Mide el número que querías mover antes de decidir.</li>
+            <li>Revisa cada mes costo por milla, RPM, margen y estados verdes.</li>
+        </ul>
+    </section>
+    <section class="al-done">
+        <h2>Módulo 6 completado</h2>
+        <p>Ya sabes bajar tu costo de combustible, planear el mantenimiento, recortar costos fijos, trabajar con un sistema y mejorar un poco cada semana.</p>
+        <p><a class="al-btn al-btn-primary" href="/academy/module-7/index.html">Ir al módulo 7 →</a></p>
+    </section>
+    <section class="lesson-quiz" id="lessonQuiz"></section>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 6, LESSON_NUM = 5;
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
+        <nav class="lesson-nav">
+            <a href="lesson-4.html" class="al-btn al-btn-ghost">← Lección anterior</a>
+            <a href="/academy/module-7/index.html" class="al-btn al-btn-primary">Ir al módulo 7 →</a>
+        </nav>
+    </footer>
+</article>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'Maestría en Eficiencia de Combustible', time: '10 min' },
-            { num: 2, title: 'Mantenimiento Preventivo vs Reactivo', time: '9 min' },
-            { num: 3, title: 'Negociación con Proveedores y Reducción de Gastos Fijos', time: '13 min' },
-            { num: 4, title: 'Sistemas y Automatización', time: '13 min' },
-            { num: 5, title: 'Optimización Continua: El Sistema de Mejora 1%', time: '15 min' }
-        ];
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 6;
+    const LESSON_NUM = 5;
+    const LESSON_LIST = [
+        { num: 1, title: "Combustible: tu gasto variable más grande", time: '9 min' },
+        { num: 2, title: "Mantenimiento preventivo", time: '8 min' },
+        { num: 3, title: "Bajar tus costos fijos", time: '8 min' },
+        { num: 4, title: "Sistemas: menos papeleo, más control", time: '8 min' },
+        { num: 5, title: "Mejora continua: un ajuste por semana", time: '7 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+  {
+    "question": "¿Cuántos cambios pruebas a la vez?",
+    "options": [
+      "Todos",
+      "Uno",
+      "Cinco",
+      "Ninguno"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "¿Qué haces después de probar un cambio dos semanas?",
+    "options": [
+      "Olvidarlo",
+      "Medir el número que querías mover y decidir",
+      "Probar otro sin medir",
+      "Nada"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "¿Dónde ves tu costo por milla real del mes?",
+    "options": [
+      "En Zonas",
+      "En Finanzas",
+      "En la calculadora",
+      "En Mi cuenta"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "¿Qué le preguntas a Lex para comparar meses?",
+    "options": [
+      "\"¿Qué hora es?\"",
+      "\"Compárame con el mes pasado\"",
+      "\"Cuéntame un chiste\"",
+      "Nada"
+    ],
+    "correctIndex": 1
+  }
+];
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: 'Según las matemáticas de Kaizen, mejorando 1% cada semana, ¿a qué porcentaje de capacidad llegas en la semana 52?',
-                options: ['112.7%', '152%', '167.7%', '200%'],
-                correctIndex: 2
-            },
-            {
-                question: '¿Qué significa cada letra del ciclo PDCA?',
-                options: ['Plan, Do, Check, Act', 'Plan, Design, Create, Adjust', 'Prepare, Deliver, Confirm, Adapt', 'Practice, Do, Compare, Advance'],
-                correctIndex: 0
-            },
-            {
-                question: 'Según la "Revisión Semanal" (15 min cada domingo), ¿cuántas mejoras se identifican cada vez?',
-                options: ['5 mejoras', '10 mejoras', 'UNA mejora', 'Ninguna, solo se revisan números'],
-                correctIndex: 2
-            },
-            {
-                question: 'Según la tabla de "Métricas de Progreso" a 12 meses, ¿cuál fue el cambio en el tiempo administrativo (baseline 24 hrs)?',
-                options: ['Subió a 30 hrs', 'Se mantuvo igual', 'Bajó a 5 hrs', 'Bajó a 15 hrs'],
-                correctIndex: 2
-            }
-        ];
-
-        function markLessonComplete() {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress) {
-                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                alert(isEs ? '🎉 ¡MÓDULO 6 COMPLETADO! 🎉\nHas dominado Optimización Operativa Avanzada.\nKaizen: 1% semanal = 67.7% anual\nCalendario: Semanal/Mensual/Trimestral/Anual\nSistema: PDCA (Plan-Do-Check-Act)\n52 mejoras = Transformación total\nAhorro total: $1,100-1,845/mes\n+ 12-15 hrs/semana ahorradas' : '🎉 MODULE 6 COMPLETE! 🎉\nYou have mastered Advanced Operational Optimization.\nKaizen: 1% weekly = 67.7% annual\nCalendar: Weekly/Monthly/Quarterly/Annual\nSystem: PDCA (Plan-Do-Check-Act)\n52 improvements = Total transformation\nTotal savings: $1,100-1,845/month\n+ 12-15 hrs/week saved');
-            }
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada";
+            btn.disabled = true;
         }
-        document.addEventListener('DOMContentLoaded', async () => {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    }
 
-            if (window.AcademySidebar) {
-                await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Optimización Operativa Avanzada', LESSON_LIST);
-            }
-
-            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-
-            if (alreadyDone) {
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                const quizEl = document.getElementById('lessonQuiz');
-                if (quizEl) quizEl.style.display = 'none';
-            } else if (window.AcademyQuiz) {
-                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-            }
-        });
-    </script>
-
-  
-
-
-
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, "Optimización operativa", LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada"; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>

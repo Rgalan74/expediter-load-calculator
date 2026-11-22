@@ -1,94 +1,36 @@
 <!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fuel Efficiency Mastery | Smart Load Academy</title>
-    <meta name="description" content="Fuel is not a &quot;fixed cost&quot;. It's your biggest optimization opportunity.">
+    <title>Fuel: your biggest variable cost | Smart Load Academy</title>
+    <meta name="description" content="How to measure your real MPG, what improves it, how to enter your per-gallon discount and what each improvement is worth.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: .875rem
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: .75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all .3s ease
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
-            color: #fff
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, .1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .2)
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-  
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/en/academy/module-6/lesson-1.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-6/lesson-1.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-6/lesson-1.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-6/lesson-1.html">
+    <link rel="canonical" href="https://smartloadsolution.com/en/academy/module-6/lesson-1.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-6/lesson-1.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-6/lesson-1.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-6/lesson-1.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Back to App</a></nav>
-    <aside class="lesson-sidebar" id="lessonSidebar">
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Back to App</a></nav>
+
+<aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
         <div>
             <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
@@ -98,254 +40,204 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Module lessons">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Module lessons">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
-        <nav class="breadcrumb">
-            <a href="/en/academy.html">← Academy</a> → <a href="index.html">Module 6 [PRO]</a> → Lesson 1
-        </nav>
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/en/academy.html">Academy</a> / <a href="index.html">Module 6</a> / Lesson 1</nav>
 
-        <div style="display: inline-block; background: linear-gradient(90deg, #22D3EE, #22D3EE); color: #fff; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
-            🔒 PRO CONTENT</div>
-
-        <!-- ===== SPANISH ===== -->
-        <!-- end es -->
-
-        <!-- ===== ENGLISH ===== -->
-        
-        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
-            <h1>Fuel Efficiency Mastery</h1>
-            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
-                <span>📖 10 min read</span>
-                <span>🎓 Module 6 - Lesson 1</span>
-                <span>⛽ Fuel</span>
-            </div>
-        </header>
-
-        <div class="lesson-content">
-
-            <section>
-                <h2>The truth about fuel</h2>
-
-                <p><strong>Reality:</strong> Fuel is your #1 expense. Typically 28-32% of gross revenue.</p>
-
-                <p><strong>In a cargo van (17-20 MPG):</strong></p>
-                <div class="formula">7,500 miles/month<br>
-÷ 18.5 MPG average = 405 gallons/month<br>
-× $3.50/gal = $1,418/month in fuel</div>
-
-                <div class="note tip">
-                    <span class="note-label">But... with optimization</span>
-                    <ul>
-                        <li>Gain 2 MPG (18.5 → 20.5) = -30 gal/month</li>
-                        <li>Better prices ($3.50 → $3.35) = -$61/month</li>
-                        <li><strong>Total savings: $166/month ($2,000/year)</strong></li>
-                    </ul>
-                </div>
-            </section>
-
-            <section>
-                <h2>The 10 efficiency tactics</h2>
-
-                <p><strong>Tactic #1: Optimal speed</strong></p>
-                <div class="compare-table">
-                    <div class="compare-row"><span class="label">55 mph</span><span class="value">21.2 MPG — $16.51/100mi</span></div>
-                    <div class="compare-row"><span class="label">60 mph</span><span class="value">20.3 MPG — $17.24/100mi</span></div>
-                    <div class="compare-row"><span class="label">65 mph</span><span class="value accent">19.1 MPG — $18.32/100mi 👈 OK</span></div>
-                    <div class="compare-row"><span class="label">70 mph</span><span class="value">17.8 MPG — $19.66/100mi</span></div>
-                    <div class="compare-row"><span class="label">75 mph</span><span class="value">16.2 MPG — $21.60/100mi</span></div>
-                    <div class="compare-row"><span class="label">80 mph</span><span class="value">14.5 MPG — $24.14/100mi ❌</span></div>
-                </div>
-
-                <div class="pull-number">
-                    <div class="value">$80-120/mo</div>
-                    <p class="context">savings at the 65-68 mph sweet spot. 80 mph vs 65 mph wastes +$488/month.</p>
-                </div>
-
-                <p><strong>Tactic #2: MPG-focused maintenance</strong></p>
-                <ul>
-                    <li><strong>Clean air filter:</strong> Dirty = -10% MPG (Savings: $40/month)</li>
-                    <li><strong>Properly inflated tires:</strong> -5 PSI = -3% MPG (Savings: $30-45/month)</li>
-                    <li><strong>Wheel alignment:</strong> Misaligned = -5% MPG (Savings: $60/month)</li>
-                    <li><strong>Low-rolling-resistance tires:</strong> +8.3% MPG (Savings: $110/month)</li>
-                    <li><strong>Synthetic oil:</strong> +1-2% MPG (Savings: $15-25/month)</li>
-                </ul>
-                <p><strong>Combined savings: $100-150/month</strong></p>
-
-                <p><strong>Tactic #3: Purchase strategy</strong></p>
-                <p><strong>4 layers of savings:</strong></p>
-                <ol>
-                    <li><strong>Chain memberships</strong> (Pilot, Loves, Speedway): $0.08-0.12/gal = $36/month</li>
-                    <li><strong>Cash back apps</strong> (GetUpside, GasBuddy): 5-25¢/gal = $20-35/month</li>
-                    <li><strong>Strategic timing</strong> (Monday-Wednesday, not weekends): $15-25/month</li>
-                    <li><strong>Route planning</strong> (Fill up in cheaper states): $42/month</li>
-                </ol>
-                <p><strong>Total savings: $100-140/month</strong></p>
-
-                <div class="note warning">
-                    <span class="note-label">Tactic #4: Idle reduction</span>
-                    <p><strong>Idle burns 0.5-0.8 gallons/hour = $1.75-2.80/hour wasted</strong></p>
-                    <ul>
-                        <li>Waiting at pickup/delivery: 45 min/day = $49/month</li>
-                        <li>Lunches with engine running: 30 min/day = $32/month</li>
-                        <li>Warming/cooling van: 15 min/day = $18/month</li>
-                        <li><strong>Total waste: $99/month</strong></li>
-                    </ul>
-                    <p><strong>Simple rule:</strong> if you'll be stopped &gt;3 minutes, shut it off. <strong>Savings: $60-80/month</strong></p>
-                </div>
-
-                <p><strong>Tactics #5-10: Additional optimizations</strong></p>
-                <ul>
-                    <li><strong>#5 Weight and load:</strong> Remove 125 lbs of unnecessary gear = $15-25/month</li>
-                    <li><strong>#6 Aerodynamics:</strong> Close windows, remove roof rack = $20-30/month</li>
-                    <li><strong>#7 Anticipation:</strong> Maintain momentum, brake less = $25-40/month</li>
-                    <li><strong>#8 Strategic A/C:</strong> &lt;45 mph windows open, &gt;45 mph A/C = $30-50/month</li>
-                    <li><strong>#9 Smart GPS:</strong> Avoid traffic/idle = $15-25/month</li>
-                    <li><strong>#10 Morning fuel:</strong> Denser in the morning = $5-10/month</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>Total savings summary</h2>
-
-                <div class="compare-table">
-                    <div class="compare-row"><span class="label">Optimal speed (65-67 mph)</span><span class="value">$80-120</span></div>
-                    <div class="compare-row"><span class="label">MPG maintenance</span><span class="value">$100-150</span></div>
-                    <div class="compare-row"><span class="label">Purchase strategy</span><span class="value">$100-140</span></div>
-                    <div class="compare-row"><span class="label">Reduce idle</span><span class="value">$60-80</span></div>
-                    <div class="compare-row"><span class="label">Additional tactics (5-10)</span><span class="value">$110-180</span></div>
-                    <div class="compare-row"><span class="label">Total potential</span><span class="value">$450-670/month</span></div>
-                    <div class="compare-row"><span class="label">Realistic goal (6-7 tactics)</span><span class="value accent">$300-500/month</span></div>
-                </div>
-
-                <div class="pull-number">
-                    <div class="value">$3,600-6,000</div>
-                    <p class="context">annual savings — the ROI of learning this is infinite.</p>
-                </div>
-            </section>
-
-            <section>
-                <p><strong>Top 3 priority (80% of savings):</strong></p>
-                <ol>
-                    <li><strong>Speed 65-67 mph</strong> (easy, big impact)</li>
-                    <li><strong>Discount apps</strong> (5 min setup, permanent savings)</li>
-                    <li><strong>Weekly tire pressure check</strong> (5 min/week, massive ROI)</li>
-                </ol>
-
-                <div class="compare-table">
-                    <div class="compare-row"><span class="label">Average operator</span><span class="value">$1,470/month fuel</span></div>
-                    <div class="compare-row"><span class="label">Optimized operator</span><span class="value">$1,170/month fuel</span></div>
-                    <div class="compare-row"><span class="label">Difference</span><span class="value accent">$300/month = $3,600/year</span></div>
-                </div>
-
-                <p>Investment: 30 min to learn + 10 min/week. Return: $300-500/month forever.</p>
-
-                <div class="conclusion">
-                    <p class="lead">Fuel is not a "fixed cost". It's your <span class="accent">biggest optimization opportunity</span>.</p>
-                    <p class="sub">30 minutes to learn and 10 minutes a week can generate $300-500/month in permanent savings.</p>
-                </div>
-            </section>
-
+    <header>
+        <div class="al-kicker">Module 6 · Lesson 1</div>
+        <h1 class="al-title">Fuel: your biggest variable cost</h1>
+        <div class="al-meta">
+            <span class="al-chip">9 min read</span>
+            <span class="al-chip">Operations</span>
+            <span class="al-chip">Premium</span>
         </div>
+    </header>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+    <section class="al-learn">
+        <div class="al-learn-title">What you will learn</div>
+        <ol>
+            <li>How to calculate your fuel cost per mile.</li>
+            <li>How to measure your real MPG and what improves it.</li>
+            <li>How to enter your per-gallon discount in the app.</li>
+        </ol>
+    </section>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as Complete</button>
-            <nav class="lesson-nav">
-                <a href="index.html" class="btn btn-secondary">← Back to Module</a>
-                <a href="lesson-2.html" class="btn btn-primary">Next: Maintenance →</a>
-            </nav>
-        </footer>
-        <!-- end en -->
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>What each mile of fuel costs you</h2>
+        <div class="al-formula">Fuel cost per mile = price per gallon ÷ MPG</div>
+        <p>At $3.70 a gallon and 19 MPG: <strong>$0.195 per mile</strong>. Over 8,000 miles a month that is about <strong>$1,558</strong>. That is why every MPG you gain shows.</p>
+    </section>
 
-    </article>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>Measure your real MPG</h2>
+        <ul class="al-checklist">
+            <li>Fill the tank and write down the odometer.</li>
+            <li>Next time, fill up again and write down gallons and miles.</li>
+            <li>MPG = miles driven ÷ gallons pumped. Average it over several weeks.</li>
+            <li>Enter that number in Settings → <strong>MPG (your vehicle)</strong>.</li>
+        </ul>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 6, LESSON_NUM = 1;
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Settings · Variable costs</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/config-costos-variables-movil-en.png" width="740" height="2194"><img src="/academy/img/app/config-costos-variables-en.png" alt="Fuel settings with 19 MPG, 3.70 fallback price, fuel type and adjustment versus average." loading="lazy" width="1428" height="1257"></picture>
+            </div>
+            <figcaption><b>How the app calculates fuel.</b> It uses this week's average price in the regions of your route and your MPG. The price per gallon is only a fallback.</figcaption>
+        </figure>
+    </section>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'Fuel Efficiency Mastery', time: '10 min' },
-            { num: 2, title: 'Preventive vs Reactive Maintenance', time: '9 min' },
-            { num: 3, title: 'Vendor Negotiation and Reducing Fixed Expenses', time: '13 min' },
-            { num: 4, title: 'Systems and Automation', time: '13 min' },
-            { num: 5, title: 'Continuous Optimization: The 1% Improvement System', time: '15 min' }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>What moves your MPG the most</h2>
+        <table class="al-table">
+            <tr><td><strong>Speed</strong><span class="al-sub">More speed means more air resistance and more fuel. Going from 70 to 62 mph usually shows in your MPG and barely changes arrival time on a one-day trip</span></td></tr>
+            <tr><td><strong>Smooth driving</strong><span class="al-sub">Hard acceleration and braking burn fuel. Anticipate traffic and use cruise control on flat highway</span></td></tr>
+            <tr><td><strong>Idling</strong><span class="al-sub">Waiting with the engine running also burns fuel. Turn it off on long waits when the weather allows</span></td></tr>
+            <tr><td><strong>Tire pressure</strong><span class="al-sub">Low tires burn more fuel and wear faster. Check them cold every week</span></td></tr>
+            <tr><td><strong>Weight and roof</strong><span class="al-sub">Do not carry what you do not need and avoid accessories that add drag</span></td></tr>
+        </table>
+    </section>
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: 'Per the lesson, what is the "sweet spot" speed for fuel efficiency?',
-                options: ['55 mph', '65-68 mph', '75 mph', '80 mph'],
-                correctIndex: 1
-            },
-            {
-                question: 'In the fuel calculation example (7,500 mi/month ÷ 18.5 MPG × $3.50/gal), how much is spent per month?',
-                options: ['$1,000/month', '$1,418/month', '$2,000/month', '$800/month'],
-                correctIndex: 1
-            },
-            {
-                question: 'Per the "Simple Rule" for reducing idle time, when should you turn off the engine?',
-                options: ['Never, always leave it running', 'If you\'ll be stopped more than 3 minutes', 'Only in summer', 'Only if required by law'],
-                correctIndex: 1
-            },
-            {
-                question: 'Per the total savings summary, what is the realistic goal applying 6-7 tactics?',
-                options: ['$80-120/month', '$450-670/month (total potential)', '$300-500/month', '$3,600-6,000/month'],
-                correctIndex: 2
-            }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>Pay less per gallon</h2>
+        <p>If your fuel card or discount app gets you, say, 20 cents below average, type <strong>-0.20</strong> in <strong>Your price vs. average</strong>. The calculator applies it to every load.</p>
+    </section>
 
-        function markLessonComplete() {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress) {
-                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
-            }
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">05</span>What improving is worth</h2>
+        <div class="al-calc" id="alCalc">
+            <div class="al-calc-grid">
+                <div class="al-field"><label for="fMi">Miles per month</label><input id="fMi" type="number" inputmode="decimal" step="any" value="8000"></div>
+                <div class="al-field"><label for="fPrecio">Price per gallon ($)</label><input id="fPrecio" type="number" inputmode="decimal" step="any" value="3.7"></div>
+                <div class="al-field"><label for="fMpg">Current MPG</label><input id="fMpg" type="number" inputmode="decimal" step="any" value="19"></div>
+                <div class="al-field"><label for="fMpg2">Improved MPG</label><input id="fMpg2" type="number" inputmode="decimal" step="any" value="21"></div>
+                <div class="al-field"><label for="fDesc">Discount per gallon ($)</label><input id="fDesc" type="number" inputmode="decimal" step="any" value="0.2"></div>
+            </div>
+            <div class="al-calc-out">
+                <div class="al-out">Cost per mile today<b id="oCpm">—</b></div>
+                <div class="al-out">Fuel per month today<b id="oMes">—</b></div>
+                <div class="al-out">Monthly savings<b id="oAhorro">—</b></div>
+                <div class="al-calc-total"><span>Yearly savings</span><b id="oAnio">—</b></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="al-summary">
+        <h2>In summary</h2>
+        <ul>
+            <li>Cost per mile = price per gallon ÷ MPG.</li>
+            <li>Measure your real MPG and enter it in Settings.</li>
+            <li>Speed, smooth driving and tires move MPG the most.</li>
+        </ul>
+    </section>
+
+    <section class="lesson-quiz" id="lessonQuiz"></section>
+
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as complete</button>
+        <nav class="lesson-nav">
+            <a href="index.html" class="al-btn al-btn-ghost">← Back to module</a>
+            <a href="lesson-2.html" class="al-btn al-btn-primary">Next: maintenance →</a>
+        </nav>
+    </footer>
+</article>
+
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 6;
+    const LESSON_NUM = 1;
+    const LESSON_LIST = [
+        { num: 1, title: "Fuel: your biggest variable cost", time: '9 min' },
+        { num: 2, title: "Preventive maintenance", time: '8 min' },
+        { num: 3, title: "Cutting your fixed costs", time: '8 min' },
+        { num: 4, title: "Systems: less paperwork, more control", time: '8 min' },
+        { num: 5, title: "Continuous improvement: one tweak a week", time: '7 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+  {
+    "question": "$3.70 a gallon and 19 MPG. Fuel cost per mile?",
+    "options": [
+      "$0.37",
+      "$0.195",
+      "$0.07",
+      "$1.90"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "How do you measure your real MPG?",
+    "options": [
+      "The dealer tells you",
+      "Miles driven ÷ gallons pumped between two fill-ups",
+      "Price ÷ miles",
+      "You cannot"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "Your card gives you 20 cents off per gallon. What do you enter in the app?",
+    "options": [
+      "Nothing",
+      "-0.20 in Your price vs. average",
+      "You change the MPG",
+      "You put it in Tolls"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "Which fuel price does the app use for each load?",
+    "options": [
+      "Always the fallback",
+      "This week's average in the route regions, plus your adjustment",
+      "A fixed national one",
+      "The broker's"
+    ],
+    "correctIndex": 1
+  }
+];
+
+    (function () {
+        const v = (id) => Math.max(0, parseFloat(document.getElementById(id).value) || 0);
+        const $ = (n) => (n < 0 ? '-$' : '$') + Math.abs(Math.round(n)).toLocaleString('en-US');
+        function calc() {
+            const mi = v('fMi'), p = v('fPrecio'), a = v('fMpg'), b = v('fMpg2'), d = v('fDesc');
+            const galA = a > 0 ? mi / a : 0, galB = b > 0 ? mi / b : 0;
+            const ahorroMpg = (galA - galB) * p, ahorroDesc = (b > 0 ? galB : galA) * d;
+            document.getElementById('oCpm').textContent = a > 0 ? '$' + (p / a).toFixed(3) + ' /mi' : '—';
+            document.getElementById('oMes').textContent = $(galA * p);
+            document.getElementById('oAhorro').textContent = $(ahorroMpg + ahorroDesc);
+            document.getElementById('oAnio').textContent = $((ahorroMpg + ahorroDesc) * 12);
         }
+        document.querySelectorAll('#alCalc input').forEach(i => i.addEventListener('input', calc));
+        calc();
+    })();
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completed";
+            btn.disabled = true;
+        }
+    }
 
-            if (window.AcademySidebar) {
-                await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Advanced Operational Optimization', LESSON_LIST);
-            }
-
-            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-
-            if (alreadyDone) {
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                const quizEl = document.getElementById('lessonQuiz');
-                if (quizEl) quizEl.style.display = 'none';
-            } else if (window.AcademyQuiz) {
-                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-            }
-        });
-    </script>
-
-  
-
-
-
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, "Operational optimization", LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completed"; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>
