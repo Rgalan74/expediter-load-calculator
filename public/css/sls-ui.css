@@ -1245,3 +1245,8 @@ html[data-theme] body header .gradient-text,
   :root:not(#sls) body .fin-kpi-grid .fin-kpi-label { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; letter-spacing: 0.08em !important; }
   :root:not(#sls) body .fin-kpi-grid .fin-kpi-value { font-size: 26px !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; }
 }
+
+/* Chat de Lex: negritas en cian claro (antes azul) */
+:root:not(#sls) body #lexChatMessages strong,
+:root:not(#sls) body #lexChatMessages b,
+:root:not(#sls) body #lexAnalysisContent strong { color: var(--sls-accent-text) !important; -webkit-text-fill-color: var(--sls-accent-text) !important; }

@@ -3671,20 +3671,21 @@ let weatherModalDirections = null;
 //  (un solo lugar para los colores; el resto usa var(--wx-*)).
 // ========================================
 const WX_PALETTE = {
-  bg: '#081735',        // fondo principal
-  bg2: '#0D2352',       // fondo secundario
-  card: '#112B67',      // tarjeta principal
-  highlight: '#1E56D9', // tarjeta resaltada / botón activo
-  glow: '#33A2FF',      // borde activo, línea de checkpoints
-  text: '#F5F8FF',      // texto principal
-  text2: '#B8C8E6',     // texto secundario
-  text3: '#8097BF',     // texto tenue
-  rain: '#54C8FF',
-  snow: '#7FD6FF',
-  ok: '#34D399',        // condición segura
-  warn: '#F6B24A',      // advertencia
-  danger: '#D94A6A',    // alerta severa
-  storm: '#FFD447'
+  // Sistema de diseño azul noche + cian
+  bg: '#0A101C',        // fondo principal
+  bg2: '#0F1828',       // fondo secundario
+  card: '#142036',      // tarjeta principal
+  highlight: '#0F4C5C', // tarjeta resaltada / botón activo (cian oscuro)
+  glow: '#22D3EE',      // borde activo, línea de checkpoints
+  text: '#ECEEF2',      // texto principal
+  text2: '#B8BFCC',     // texto secundario
+  text3: '#8D95A5',     // texto tenue
+  rain: '#67E8F9',
+  snow: '#B8E9F5',
+  ok: '#3DDC97',        // condición segura
+  warn: '#F5B03A',      // advertencia
+  danger: '#F26D6D',    // alerta severa
+  storm: '#F5B03A'
 };
 const WX_STATE = {
   rain: WX_PALETTE.rain,
@@ -3832,7 +3833,7 @@ async function showWeatherModal(destination, origin = null) {
                 ${icon(current.condition, 76)}
                 <div><div class="wx-temp">${tempF}°F</div><div style="font-size:16px;color:var(--wx-t2);margin-top:6px">${esc(W.conditionEs(current.condition))}</div></div>
               </div>
-              <div style="display:flex;flex-direction:column;gap:12px;font-size:16px;color:var(--wx-t1);padding-left:16px;border-left:1px solid rgba(51,162,255,0.35)">
+              <div style="display:flex;flex-direction:column;gap:12px;font-size:16px;color:var(--wx-t1);padding-left:16px;border-left:1px solid rgba(34,211,238,0.35)">
                 <div style="display:flex;align-items:center;gap:10px">${wxLineIcon(WX_PATHS.drop, P.rain, 24)}<span><b>${pct(today.daily_chance_of_rain)}</b> Lluvia hoy</span></div>
                 <div style="display:flex;align-items:center;gap:10px">${wxLineIcon(WX_PATHS.flake, P.snow, 24)}<span><b>${pct(today.daily_chance_of_snow)}</b> Nieve hoy</span></div>
                 ${Number(current.wind_mph) >= 25 ? `<div style="display:flex;align-items:center;gap:10px;color:var(--wx-warn)"><b>${Math.round(current.wind_mph)} mph</b> Viento fuerte</div>` : ''}
@@ -3857,28 +3858,28 @@ async function showWeatherModal(destination, origin = null) {
   <style>
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    .wx-modal { width: 100%; min-width: 0; max-width: 1080px; max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); display: flex; flex-direction: column; margin: auto; background: var(--wx-bg); border: 1px solid var(--wx-glow); border-radius: 20px; overflow: hidden; color: var(--wx-t1); box-shadow: 0 0 44px rgba(51,162,255,0.35), 0 24px 60px rgba(0,0,0,0.55); animation: slideUp 0.3s ease; }
+    .wx-modal { width: 100%; min-width: 0; max-width: 1080px; max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); display: flex; flex-direction: column; margin: auto; background: var(--wx-bg); border: 1px solid var(--wx-glow); border-radius: 20px; overflow: hidden; color: var(--wx-t1); box-shadow: 0 0 44px rgba(34,211,238,0.35), 0 24px 60px rgba(0,0,0,0.55); animation: slideUp 0.3s ease; }
     .wx-header { flex-shrink: 0; display: flex; align-items: center; gap: 12px; padding: 6px 10px 6px 22px; background: linear-gradient(90deg, var(--wx-hl) 0%, var(--wx-card) 100%); border-bottom: 1px solid var(--wx-glow); }
     .wx-body { flex: 1; min-height: 0; overflow-y: auto; padding: 14px 22px 16px; display: flex; flex-direction: column; gap: 12px; }
     .wx-route { font-size: 22px; font-weight: 800; color: var(--wx-t1); line-height: 1.15; }
     .wx-top { display: grid; grid-template-columns: minmax(0,1fr); gap: 12px; }
     @media (min-width: 900px) { .wx-top { grid-template-columns: minmax(0,1fr) minmax(0,1fr); } }
-    .wx-box { padding: 14px 18px; border-radius: 16px; background: var(--wx-card); border: 1px solid rgba(51,162,255,0.35); box-shadow: inset 0 1px 0 rgba(245,248,255,0.06); }
-    .wx-hero { background: linear-gradient(135deg, var(--wx-hl) 0%, var(--wx-card) 75%); border-color: var(--wx-glow); box-shadow: 0 0 24px rgba(51,162,255,0.35); }
+    .wx-box { padding: 14px 18px; border-radius: 16px; background: var(--wx-card); border: 1px solid rgba(34,211,238,0.35); box-shadow: inset 0 1px 0 rgba(245,248,255,0.06); }
+    .wx-hero { background: linear-gradient(135deg, var(--wx-hl) 0%, var(--wx-card) 75%); border-color: var(--wx-glow); box-shadow: 0 0 24px rgba(34,211,238,0.35); }
     .wx-h { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 800; color: var(--wx-t1); }
     .wx-temp { font-size: 54px; font-weight: 800; line-height: 1; color: var(--wx-t1); }
-    .wx-day { padding: 8px 6px; border-radius: 14px; text-align: center; background: var(--wx-bg2); border: 1px solid rgba(51,162,255,0.3); display: flex; flex-direction: column; align-items: center; gap: 2px; }
-    .wx-day.wx-today { background: var(--wx-hl); border-color: var(--wx-glow); box-shadow: 0 0 20px rgba(51,162,255,0.6); }
+    .wx-day { padding: 8px 6px; border-radius: 14px; text-align: center; background: var(--wx-bg2); border: 1px solid rgba(34,211,238,0.3); display: flex; flex-direction: column; align-items: center; gap: 2px; }
+    .wx-day.wx-today { background: var(--wx-hl); border-color: var(--wx-glow); box-shadow: 0 0 20px rgba(34,211,238,0.6); }
     .wx-day.wx-today div, .wx-day.wx-today span { color: var(--wx-t1) !important; }
     .wx-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; border: 1.5px solid; background: var(--wx-bg2); color: var(--wx-t1); font-size: 15px; font-weight: 700; }
     .wx-alert { display: flex; gap: 14px; align-items: center; padding: 10px 18px; border-radius: 16px; }
     .wx-alert.wx-ok { background: rgba(52,211,153,0.12); border: 1px solid var(--wx-ok); color: var(--wx-t1); font-size: 16px; font-weight: 700; }
-    .wx-counts { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); border-radius: 16px; background: var(--wx-card); border: 1px solid rgba(51,162,255,0.35); overflow: hidden; }
+    .wx-counts { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); border-radius: 16px; background: var(--wx-card); border: 1px solid rgba(34,211,238,0.35); overflow: hidden; }
     .wx-count-cell { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 10px; }
-    .wx-count-cell + .wx-count-cell { border-left: 1px solid rgba(51,162,255,0.3); }
+    .wx-count-cell + .wx-count-cell { border-left: 1px solid rgba(34,211,238,0.3); }
     .wx-count-label { font-size: 15px; color: var(--wx-t2); }
     .wx-count { font-size: 24px; font-weight: 800; line-height: 1.1; color: var(--wx-t3); }
-    .wx-btn { cursor: pointer; display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px; border-radius: 999px; background: var(--wx-hl); border: 1px solid var(--wx-glow); box-shadow: 0 0 16px rgba(51,162,255,0.5); color: var(--wx-t1); font-size: 16px; font-weight: 700; list-style: none; }
+    .wx-btn { cursor: pointer; display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px; border-radius: 999px; background: var(--wx-hl); border: 1px solid var(--wx-glow); box-shadow: 0 0 16px rgba(34,211,238,0.5); color: var(--wx-t1); font-size: 16px; font-weight: 700; list-style: none; }
     .wx-btn::-webkit-details-marker { display: none; }
     .wx-status { display: grid; grid-template-columns: minmax(0,1fr); gap: 12px; }
     @media (min-width: 900px) { .wx-status.wx-status-2 { grid-template-columns: minmax(0,1fr) minmax(0,1.4fr); align-items: stretch; } .wx-status .wx-alert { height: 100%; box-sizing: border-box; } }
@@ -4032,7 +4033,7 @@ async function loadRouteMapWithWeather() {
           @media (max-width:640px){.wx-cp-label{font-size:11px}.wx-cp-temp{font-size:13px}.wx-cp-img,.wx-cp-cond{display:none}}
         </style>
         <div style="position:relative">
-          <div style="position:absolute;left:${50 / numWaypoints}%;right:${50 / numWaypoints}%;top:16px;height:4px;border-radius:2px;background:var(--wx-glow);box-shadow:0 0 12px rgba(51,162,255,0.8)"></div>
+          <div style="position:absolute;left:${50 / numWaypoints}%;right:${50 / numWaypoints}%;top:16px;height:4px;border-radius:2px;background:var(--wx-glow);box-shadow:0 0 12px rgba(34,211,238,0.8)"></div>
           <div style="position:relative;display:grid;grid-template-columns:repeat(${numWaypoints},minmax(0,1fr))">${cells}</div>
         </div>`;
     }
