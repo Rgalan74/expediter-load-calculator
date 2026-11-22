@@ -47,19 +47,41 @@
     // =========================================================
     // Crear banner
     // =========================================================
+    // Idioma del aviso: páginas /en/ en inglés; en la app, el idioma elegido;
+    // en el resto, el lang de la página.
+    function bannerLang() {
+        if (location.pathname.indexOf('/en/') === 0) return 'en';
+        const docLang = (document.documentElement.lang || 'es').toLowerCase().indexOf('en') === 0 ? 'en' : 'es';
+        // Páginas de la app (app, auth, account): lang="en" por defecto y el
+        // idioma real es el que eligió el usuario.
+        if (docLang === 'en' || document.getElementById('htmlRoot')) {
+            try {
+                const saved = localStorage.getItem('app_language');
+                if (saved === 'en' || saved === 'es') return saved;
+            } catch (e) { /* sin localStorage */ }
+        }
+        return docLang;
+    }
+
+    const TEXTS = {
+        es: { msg: 'Usamos cookies y analytics (Google Analytics) para mejorar tu experiencia.', link: 'Política de Privacidad', href: '/privacy.html', reject: 'Rechazar', accept: 'Aceptar' },
+        en: { msg: 'We use cookies and analytics (Google Analytics) to improve your experience.', link: 'Privacy Policy', href: '/en/privacy.html', reject: 'Reject', accept: 'Accept' }
+    };
+
     function createBanner() {
+        const t = TEXTS[bannerLang()];
         const banner = document.createElement('div');
         banner.id = 'cookie-consent-banner';
         banner.innerHTML = `
       <div class="cc-content">
         <div class="cc-text">
           <span class="cc-icon">🍪</span>
-          <p>Usamos cookies y analytics (Google Analytics) para mejorar tu experiencia. 
-          <a href="privacy.html" class="cc-link">Política de Privacidad</a></p>
+          <p>${t.msg}
+          <a href="${t.href}" class="cc-link">${t.link}</a></p>
         </div>
         <div class="cc-buttons">
-          <button id="cc-reject" class="cc-btn cc-btn-reject">Rechazar</button>
-          <button id="cc-accept" class="cc-btn cc-btn-accept">Aceptar</button>
+          <button id="cc-reject" class="cc-btn cc-btn-reject">${t.reject}</button>
+          <button id="cc-accept" class="cc-btn cc-btn-accept">${t.accept}</button>
         </div>
       </div>
     `;
