@@ -283,7 +283,8 @@
       debugLog("🚀 Auth page loaded");
 
       firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
+        // Durante el registro no redirigir: handleRegisterSubmit redirige al terminar de guardar
+        if (user && !window._slsRegistering) {
           debugLog("✅ User already authenticated:", user.email);
           const hasPendingPlan = localStorage.getItem('pendingPlan');
           if (hasPendingPlan) {
@@ -332,6 +333,7 @@
         }
         try {
           showMessage(t('auth.registering'), "info");
+          window._slsRegistering = true;
           const userCred = await firebase.auth().createUserWithEmailAndPassword(email, password);
           debugLog("✅ Registration successful:", userCred.user.email);
 
@@ -350,8 +352,8 @@
           // Apply the chosen language immediately
           if (window.i18n) window.i18n.setLanguage(selectedLang);
 
-          // Welcome email (non-blocking)
-          firebase.firestore().collection("mail").add({
+          // Welcome email: se espera a que quede en cola antes de redirigir (un fallo no bloquea)
+          await firebase.firestore().collection("mail").add({
             to: [userCred.user.email],
             message: {
               subject: selectedLang === 'en'
@@ -494,7 +496,10 @@
           return;
         } catch (error) {
           debugLog("❌ Error en registro:", error);
+          window._slsRegistering = false;
           showMessage("❌ " + formatFirebaseError(error), "error");
+          // Si la cuenta se creo pero fallo un paso posterior, entrar igualmente a la app
+          if (firebase.auth().currentUser) setTimeout(() => { redirectAfterAuth(); }, 2500);
         }
       }
 
@@ -517,10 +522,11 @@
           case "auth/weak-password":           return t('auth.error_weak_password');
           case "auth/user-not-found":          return t('auth.error_user_not_found');
           case "auth/wrong-password":          return t('auth.error_wrong_password');
-          case "auth/invalid-credential":      return t('auth.error_invalid_credential');
+          case "auth/invalid-credential":
+          case "auth/invalid-login-credentials": return t('auth.error_invalid_credential');
           case "auth/too-many-requests":       return t('auth.error_too_many_requests');
           case "auth/network-request-failed":  return t('auth.error_network');
-          default:                             return error.message || t('auth.error_unknown');
+          default:                             return t('auth.error_unknown');
         }
       }
 
