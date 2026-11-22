@@ -16,7 +16,7 @@ const AcademyProgress = {
         4: { lessons: 5, name: 'Negociación & Relaciones con Brokers', time: '43 min', difficulty: 'Intermedio', locked: true },
         5: { lessons: 5, name: 'Análisis Financiero & KPIs', time: '42 min', difficulty: 'Intermedio', locked: true },
         6: { lessons: 5, name: 'Optimización Operativa Avanzada', time: '40 min', difficulty: 'Avanzado', locked: true },
-        7: { lessons: 5, name: 'Estrategias de Crecimiento Sostenible', time: '90 min', difficulty: 'Avanzado', locked: true },
+        7: { lessons: 5, name: 'Estrategias de Crecimiento Sostenible', time: '41 min', difficulty: 'Avanzado', locked: true },
         8: { lessons: 5, name: 'Sustentabilidad y Balance Vida-Trabajo', time: '45 min', difficulty: 'Avanzado', locked: true }
     },
 
