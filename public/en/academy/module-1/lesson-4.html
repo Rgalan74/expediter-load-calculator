@@ -1,94 +1,36 @@
 <!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gross Profit vs Real Profit (And the Time Factor) | Smart Load Academy</title>
-    <meta name="description" content="Total profit matters. Real profit matters more. Profit PER HOUR is what truly counts.">
+    <title>Gross Profit, Real Profit and the Time Factor | Smart Load Academy</title>
+    <meta name="description" content="Why profit per hour or per day is what tells you whether a load is worth it.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: .875rem
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: .75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all .3s ease
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
-            color: #fff
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, .1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .2)
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-  
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/en/academy/module-1/lesson-4.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/lesson-4.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/lesson-4.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/lesson-4.html">
+    <link rel="canonical" href="https://smartloadsolution.com/en/academy/module-1/lesson-4.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/lesson-4.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/lesson-4.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/lesson-4.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Back to App</a></nav>
-    <aside class="lesson-sidebar" id="lessonSidebar">
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Back to App</a></nav>
+
+<aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
         <div>
             <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
@@ -98,347 +40,248 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Module lessons">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Module lessons">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
-        <nav class="breadcrumb">
-            <a href="/en/academy.html">← Academy</a> → <a href="index.html">Module 1</a> → Lesson 4
-        </nav>
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/en/academy.html">Academy</a> / <a href="index.html">Module 1</a> / Lesson 4</nav>
 
-        <!-- ===== SPANISH VERSION ===== -->
-        
-
-        <!-- ===== ENGLISH VERSION ===== -->
-        
-        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
-            <h1>Gross Profit vs Real Profit (And the Time Factor)</h1>
-            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
-                <span>📖 7 min read</span>
-                <span>🎓 Module 1 - Lesson 4</span>
-            </div>
-        </header>
-
-        <div class="lesson-content">
-
-            <section>
-                <h2>The three layers of profit</h2>
-                <p>Most operators only see the first one:</p>
-                <ol>
-                    <li><strong>Gross profit</strong> = What you see in the offer</li>
-                    <li><strong>Real profit</strong> = What remains after ALL costs</li>
-                    <li><strong>Profit per hour</strong> = Real profit ÷ Time invested</li>
-                </ol>
-
-                <div class="note tip">
-                    <span class="note-label">Only #3 tells you the truth</span>
-                    <p>Only profit per hour tells you if a load is actually worth it.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Real case: the load that "paid well"</h2>
-
-                <p><strong>Load offer:</strong></p>
-                <ul>
-                    <li>Origin: Dallas, TX</li>
-                    <li>Destination: Chicago, IL</li>
-                    <li>Pay: $1,200</li>
-                    <li>Loaded miles: 900</li>
-                </ul>
-
-                <div class="note warning">
-                    <span class="note-label">Surface-level analysis</span>
-                    <p>$1,200 ÷ 900 miles = $1.33/mile</p>
-                    <p>"$1.33/mile! Good rate, I'll take it."</p>
-                </div>
-
-                <p><strong>Level 1 analysis: real profit</strong></p>
-                <p>Revenue: $1,200</p>
-                <div class="compare-table">
-                    <div class="compare-row"><span class="label">Deadhead (50 mi × $0.94)</span><span class="value">$47</span></div>
-                    <div class="compare-row"><span class="label">Loaded (900 mi × $0.94)</span><span class="value">$846</span></div>
-                    <div class="compare-row"><span class="label">Repositioning (100 mi × $0.94)</span><span class="value">$94</span></div>
-                    <div class="compare-row"><span class="label">Total costs</span><span class="value">$987</span></div>
-                </div>
-                <div class="formula">Real profit: $1,200 − $987 = $213</div>
-                <p>"$213 profit, not bad..."</p>
-
-                <div class="note tip">
-                    <span class="note-label">Level 2 analysis: profit per hour (the truth)</span>
-                    <p><strong>Time invested:</strong></p>
-                    <ul>
-                        <li>Deadhead drive: 1 hour</li>
-                        <li>Loading time: 1.5 hours</li>
-                        <li>Drive time (900 mi @ 60 mph): 15 hours</li>
-                        <li>Unloading time: 1 hour</li>
-                        <li>Mandatory breaks (HOS): 2 hours</li>
-                        <li>Repositioning drive: 2 hours</li>
-                        <li><strong>Total time: 22.5 hours</strong></li>
-                    </ul>
-                </div>
-
-                <div class="pull-number">
-                    <div class="value">$9.47</div>
-                    <p class="context">per hour ($213 ÷ 22.5 hours) — below minimum wage. You worked almost a full day for less than a job at McDonald's.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Comparison with another load</h2>
-
-                <p><strong>Alternative load:</strong></p>
-                <ul>
-                    <li>Origin: Dallas, TX</li>
-                    <li>Destination: Houston, TX</li>
-                    <li>Pay: $400</li>
-                    <li>Loaded miles: 250</li>
-                </ul>
-
-                <div class="compare-table">
-                    <div class="compare-row"><span class="label">Revenue</span><span class="value">$400</span></div>
-                    <div class="compare-row"><span class="label">Costs (30 DH + 250 loaded + 0 repos)</span><span class="value">$263</span></div>
-                    <div class="compare-row"><span class="label">Real profit</span><span class="value">$137</span></div>
-                    <div class="compare-row"><span class="label">Time</span><span class="value">5.5 hours</span></div>
-                    <div class="compare-row"><span class="label">Profit/hour</span><span class="value accent">$24.91/hour</span></div>
-                </div>
-            </section>
-
-            <section>
-                <h2>Final comparison</h2>
-
-                <div class="compare-grid">
-                    <div class="compare-table">
-                        <div class="compare-title">Load A: Dallas → Chicago</div>
-                        <div class="compare-row"><span class="label">Total pay</span><span class="value">$1,200</span></div>
-                        <div class="compare-row"><span class="label">Real profit</span><span class="value">$213</span></div>
-                        <div class="compare-row"><span class="label">Time invested</span><span class="value">22.5 hrs</span></div>
-                        <div class="compare-row"><span class="label">Profit/hour</span><span class="value">$9.47/hr</span></div>
-                    </div>
-                    <div class="compare-table">
-                        <div class="compare-title">Load B: Dallas → Houston (x2)</div>
-                        <div class="compare-row"><span class="label">Total pay</span><span class="value">$400</span></div>
-                        <div class="compare-row"><span class="label">Real profit</span><span class="value">$137</span></div>
-                        <div class="compare-row"><span class="label">Time invested</span><span class="value">5.5 hrs</span></div>
-                        <div class="compare-row"><span class="label">Profit/hour</span><span class="value accent">$24.91/hr</span></div>
-                    </div>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">Best strategy: run Load B twice (11 hours total)</span>
-                    <ul>
-                        <li>Profit: $137 × 2 = $274</li>
-                        <li>Time: 11 hours</li>
-                        <li>Rate: $24.91/hour</li>
-                    </ul>
-                    <p><strong>vs. Load A once (22.5 hours):</strong></p>
-                    <ul>
-                        <li>Profit: $213</li>
-                        <li>Time: 22.5 hours</li>
-                        <li>Rate: $9.47/hour</li>
-                    </ul>
-                </div>
-
-                <div class="pull-number">
-                    <div class="value">+$61</div>
-                    <p class="context">more profit running Load B twice, in half the time of running Load A once.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Profit-per-hour targets</h2>
-
-                <div class="compare-table">
-                    <div class="compare-title">Beginner / Survival</div>
-                    <div class="compare-row"><span class="label">Range</span><span class="value">$20-30/hour</span></div>
-                    <div class="compare-row"><span class="label">Description</span><span class="value">You're learning — acceptable at first</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">Competent</div>
-                    <div class="compare-row"><span class="label">Range</span><span class="value">$35-45/hour</span></div>
-                    <div class="compare-row"><span class="label">Description</span><span class="value">You're running a decent business</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">Professional</div>
-                    <div class="compare-row"><span class="label">Range</span><span class="value accent">$50-65/hour</span></div>
-                    <div class="compare-row"><span class="label">Description</span><span class="value">You've mastered the game</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">Elite (top 5%)</div>
-                    <div class="compare-row"><span class="label">Range</span><span class="value accent">$70+/hour</span></div>
-                    <div class="compare-row"><span class="label">Description</span><span class="value">Top 5% of expediters</span></div>
-                </div>
-
-                <p><strong>Where are YOU?</strong></p>
-            </section>
-
-            <section>
-                <h2>Analyze your last complete load</h2>
-
-                <div class="worksheet">
-                    <div class="worksheet-row"><span class="label">Total pay received</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Deadhead miles × $/mi</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Loaded miles × $/mi</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Repositioning miles × $/mi</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Total costs (A)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Real profit: Pay − Costs (B)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Deadhead drive (hrs)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Loading/wait time (hrs)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Drive time (hrs)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Unloading (hrs)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Breaks/delays (hrs)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Repositioning (hrs)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Total hours (C)</span><span class="line"></span></div>
-                    <div class="worksheet-row highlight"><span class="label">Your profit per hour: (B) ÷ (C)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Does it beat your $40/hour target? (Yes/No)</span><span class="line"></span></div>
-                </div>
-            </section>
-
-            <section>
-                <h2>Strategies to maximize $/hour</h2>
-
-                <p><strong>1. Prioritize turnaround speed</strong></p>
-                <p>Fast load (4-6 hrs) at $1.30/mile &gt; Long load (18-20 hrs) at $1.40/mile</p>
-
-                <p><strong>2. Avoid "loading hell"</strong></p>
-                <p>Customers with 3+ hours of wait time — even if they pay $0.10-0.15 more — are NOT worth it</p>
-
-                <p><strong>3. Favor zones with quick reload</strong></p>
-                <p>Zone B: Load pays $1.35, reload in 8 hrs &gt; Zone A: Load pays $1.50, wait time 48 hrs</p>
-
-                <p><strong>4. Consider "short premium loads"</strong></p>
-                <div class="compare-table">
-                    <div class="compare-row"><span class="label">300-mile load at $1.60/mi, 5 hrs</span><span class="value accent">$36/hour</span></div>
-                    <div class="compare-row"><span class="label">1,000-mile load at $1.40/mi, 18 hrs</span><span class="value">$22/hour</span></div>
-                </div>
-                <p>The "small" load pays 64% better per hour.</p>
-            </section>
-
-            <section>
-                <div class="conclusion">
-                    <p class="lead">Total profit matters. Real profit matters more. <span class="accent">Profit PER HOUR</span> is what truly counts.</p>
-                    <p class="sub">Think in time, not just in money. A load that pays "a lot" but takes "a long time" can be worse than a small, fast load.</p>
-                </div>
-            </section>
-
+    <header>
+        <div class="al-kicker">Module 1 · Lesson 4</div>
+        <h1 class="al-title">Gross profit, real profit and the time factor</h1>
+        <div class="al-meta">
+            <span class="al-chip">7 min read</span>
+            <span class="al-chip">Fundamentals</span>
+            <span class="al-chip is-free">Free</span>
         </div>
+    </header>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+    <section class="al-learn">
+        <div class="al-learn-title">What you will learn</div>
+        <ol>
+            <li>The three layers: gross, real and per time.</li>
+            <li>Why a load that pays more can leave you less per hour.</li>
+            <li>Where to see your profit per day in the app.</li>
+        </ol>
+    </section>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as Complete</button>
-            <nav class="lesson-nav">
-                <a href="lesson-3.html" class="btn btn-secondary">← Previous Lesson</a>
-                <a href="lesson-5.html" class="btn btn-primary">Next: Strategy vs Transaction →</a>
-            </nav>
-        </footer>
-        
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>The three layers of profit</h2>
+        <table class="al-table">
+            <tr><td><strong>Gross profit</strong><span class="al-sub">What you see on the offer</span></td></tr>
+            <tr><td><strong>Real profit</strong><span class="al-sub">What is left after all your costs</span></td></tr>
+            <tr class="al-total"><td><strong>Profit per time</strong><span class="al-sub">Real profit ÷ hours or days the load takes</span></td></tr>
+        </table>
+        <div class="al-callout">
+            <div class="al-callout-label">The one that matters</div>
+            <p>Only the third one tells you whether the load is worth your time. A long load can leave you a lot of profit and still pay you little per hour.</p>
+        </div>
+    </section>
 
-    </article>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>Case: the load that "paid well"</h2>
+        <p><strong>Dallas → Chicago</strong> for <strong>$1,200</strong>: 927 loaded miles, 50 empty to the pickup and 100 to reposition. Quick look: $1,200 ÷ 927 = <strong>$1.29 per mile</strong>. Looks good.</p>
+        <table class="al-table">
+            <caption>Real profit ($0.634 cost per mile)</caption>
+            <tr><td>Pay</td><td class="al-num-cell">$1,200</td></tr>
+            <tr><td>Costs: 1,077 miles × $0.634</td><td class="al-num-cell">−$683</td></tr>
+            <tr class="al-total"><td>Real profit</td><td class="al-num-cell">$517</td></tr>
+        </table>
+        <table class="al-table">
+            <caption>Time it takes</caption>
+            <tr><td>Empty to pickup</td><td class="al-num-cell">1 h</td></tr>
+            <tr><td>Loading</td><td class="al-num-cell">1.5 h</td></tr>
+            <tr><td>Driving: 927 miles at 60 mph</td><td class="al-num-cell">15.5 h</td></tr>
+            <tr><td>Unloading</td><td class="al-num-cell">1 h</td></tr>
+            <tr><td>Breaks and stops</td><td class="al-num-cell">2 h</td></tr>
+            <tr><td>Repositioning</td><td class="al-num-cell">2 h</td></tr>
+            <tr class="al-total"><td>Total</td><td class="al-num-cell">23 h</td></tr>
+        </table>
+        <div class="al-stat">
+            <div class="al-stat-value">$22.50</div>
+            <div class="al-stat-label">per hour ($517 ÷ 23 hours)</div>
+        </div>
+    </section>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 1, LESSON_NUM = 4;
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>The other option</h2>
+        <p><strong>Dallas → Houston</strong> for <strong>$400</strong>: 239 loaded miles and 30 empty. Costs: 269 × $0.634 = $171. Real profit: <strong>$229</strong> in 6.5 hours (0.5 empty, 1 loading, 4 driving, 1 unloading).</p>
+        <div class="al-compare">
+            <table class="al-table">
+                <caption>A · Dallas → Chicago</caption>
+                <tr><td>Real profit</td><td class="al-num-cell">$517</td></tr>
+                <tr><td>Time</td><td class="al-num-cell">23 h</td></tr>
+                <tr class="al-total"><td>Per hour</td><td class="al-num-cell">$22.50</td></tr>
+            </table>
+            <table class="al-table">
+                <caption>B · Dallas → Houston, twice</caption>
+                <tr><td>Real profit</td><td class="al-num-cell">$459</td></tr>
+                <tr><td>Time</td><td class="al-num-cell">13 h</td></tr>
+                <tr class="al-total"><td>Per hour</td><td class="al-num-cell">$35.30</td></tr>
+            </table>
+        </div>
+        <p>Doing B twice you make almost the same ($459 vs $517) <strong>in 10 fewer hours</strong>, which you can use to rest or for another load.</p>
+    </section>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'What Real RPM Is (and Why 90% Calculate It Wrong)', time: '6 min' },
-            { num: 2, title: 'Visible Costs vs Hidden Costs', time: '7 min' },
-            { num: 3, title: 'Break-Even: Your Survival Number', time: '8 min' },
-            { num: 4, title: 'Gross Profit vs Real Profit (And the Time Factor)', time: '7 min' },
-            { num: 5, title: 'Why a "Paid Load" Does NOT Mean a "Profitable Load"', time: '8 min' }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>Profit per day and your minimum</h2>
+        <p>For a van, the app counts <strong>10 driving hours per day</strong>. With that it estimates your profit per day and warns you with <strong>"Low daily profit"</strong> when a load leaves less than <strong>$100 per day</strong>.</p>
+        <div class="al-callout">
+            <div class="al-callout-label">Set your own minimum</div>
+            <p>Think about what you need to make each month. If you want $4,000 clear working 22 days, you need about <strong>$182 per day</strong>. Compare every load with that number.</p>
+        </div>
+    </section>
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: 'According to the lesson, what are the "three layers of profit"?',
-                options: [
-                    'Gross, Net, Tax',
-                    'Gross, Real, Hourly',
-                    'Revenue, Costs, Miles',
-                    'Deadhead, Loaded, Repositioning'
-                ],
-                correctIndex: 1
-            },
-            {
-                question: 'For the Dallas → Chicago load ($1,200, real profit $213, 22.5 hours invested), what is the profit per hour?',
-                options: [
-                    '$24.91/hour',
-                    '$53.33/hour',
-                    '$9.47/hour',
-                    '$13.33/hour'
-                ],
-                correctIndex: 2
-            },
-            {
-                question: 'Comparing Load A (Chicago: $213 in 22.5 hrs) vs running Load B (Houston) TWICE (11 hrs, $274 total), which option is better and why?',
-                options: [
-                    'Load A, because it pays more in total',
-                    'Load B x2, because it generates $61 more in half the time',
-                    'They are exactly equal',
-                    'Load A, because it has less deadhead'
-                ],
-                correctIndex: 1
-            },
-            {
-                question: 'Per the "Hourly Profit Targets" table, which range corresponds to the "Professional" level?',
-                options: [
-                    '$20-30/hour',
-                    '$35-45/hour',
-                    '$50-65/hour',
-                    '$70+/hour'
-                ],
-                correctIndex: 2
-            }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">05</span>Calculate your profit per hour</h2>
+        <div class="al-calc" id="alCalc">
+            <div class="al-calc-grid">
+                <div class="al-field"><label for="gPago">Total pay ($)</label><input id="gPago" type="number" inputmode="decimal" step="any" value="1200"></div>
+                <div class="al-field"><label for="gMillas">Total miles (with empty and repositioning)</label><input id="gMillas" type="number" inputmode="decimal" step="any" value="1077"></div>
+                <div class="al-field"><label for="gCost">Your real cost per mile ($)</label><input id="gCost" type="number" inputmode="decimal" step="0.001" value="0.634"></div>
+                <div class="al-field"><label for="gHoras">Total hours (driving, loading, waiting…)</label><input id="gHoras" type="number" inputmode="decimal" step="0.5" value="23"></div>
+            </div>
+            <div class="al-calc-out">
+                <div class="al-out">Real profit<b id="oReal">—</b></div>
+                <div class="al-out">Per 10-hour day<b id="oDia">—</b></div>
+                <div class="al-out">&nbsp;<b>&nbsp;</b></div>
+                <div class="al-calc-total"><span>Your profit per hour</span><b id="oHora">—</b></div>
+            </div>
+        </div>
+    </section>
 
-        function markLessonComplete() {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress) {
-                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
-            }
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">06</span>How to make more per hour</h2>
+        <ul class="al-checklist">
+            <li><strong>Look for loads with fast loading and unloading.</strong> A 4 to 6-hour load at $1.30 per mile can beat an 18 to 20-hour load at $1.40.</li>
+            <li><strong>Avoid long waits.</strong> A customer who makes you wait 3 hours or more is not worth it even if they pay $0.10 or $0.15 more per mile.</li>
+            <li><strong>Prefer zones where you reload fast.</strong> $1.35 per mile with a reload in 8 hours usually beats $1.50 with a 48-hour wait.</li>
+            <li><strong>Consider well-paid short loads.</strong> 300 miles at $1.60 in 6 hours leaves about $48 per hour; 1,000 miles at $1.40 in 19 hours, about $40.</li>
+        </ul>
+    </section>
+
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">07</span>In the app</h2>
+
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Calculator · Result</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/panel-ganancia-dia-movil-en.png" width="652" height="840"><img src="/academy/img/app/panel-ganancia-dia-en.png" alt="Result panel with net profit, profit per mile, margin and approximate profit per day." loading="lazy" width="1320" height="621"></picture>
+            </div>
+            <figcaption><b>Below net profit</b> the app shows profit per mile, margin and approximate profit per day. If a load leaves less than $100 per day, you will see it under "Keep in mind".</figcaption>
+        </figure>
+    </section>
+
+    <section class="al-summary">
+        <h2>In summary</h2>
+        <ul>
+            <li>Gross profit misleads; real profit subtracts all your costs.</li>
+            <li>Profit per hour or per day tells you whether the load is worth your time.</li>
+            <li>Set your minimum per day and compare every load with it.</li>
+        </ul>
+    </section>
+
+    <section class="lesson-quiz" id="lessonQuiz"></section>
+
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as complete</button>
+        <nav class="lesson-nav">
+            <a href="lesson-3.html" class="al-btn al-btn-ghost">← Previous lesson</a>
+            <a href="lesson-5.html" class="al-btn al-btn-primary">Next: paid load is not a profitable load →</a>
+        </nav>
+    </footer>
+</article>
+
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 1;
+    const LESSON_NUM = 4;
+    const LESSON_LIST = [
+        { num: 1, title: "What real RPM is (and why most drivers get it wrong)", time: '6 min' },
+        { num: 2, title: "Visible costs vs hidden costs", time: '7 min' },
+        { num: 3, title: "Break-even: your survival number", time: '8 min' },
+        { num: 4, title: "Gross profit, real profit and the time factor", time: '7 min' },
+        { num: 5, title: "Why a \"paid load\" is not a \"profitable load\"", time: '8 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+  {
+    "question": "Which of the three layers tells you whether a load is worth your time?",
+    "options": [
+      "Gross profit",
+      "Real profit",
+      "Profit per hour or per day",
+      "RPM"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "question": "Dallas → Chicago leaves $517 in real profit over 23 hours. How much is that per hour?",
+    "options": [
+      "$52.17",
+      "$22.50",
+      "$15.50",
+      "$35.30"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "When does the app warn \"Low daily profit\" for a van?",
+    "options": [
+      "When the load leaves less than $100 per day",
+      "When RPM drops below $1.00",
+      "When the load takes more than a day",
+      "Never"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "You want $4,000 clear per month working 22 days. What daily minimum do you need?",
+    "options": [
+      "About $100",
+      "About $182",
+      "About $250",
+      "About $400"
+    ],
+    "correctIndex": 1
+  }
+];
+
+    (function () {
+        const v = (id) => Math.max(0, parseFloat(document.getElementById(id).value) || 0);
+        function calc() {
+            const real = v('gPago') - v('gMillas') * v('gCost'), h = v('gHoras');
+            document.getElementById('oReal').textContent = (real < 0 ? '−$' : '$') + Math.abs(real).toFixed(0);
+            document.getElementById('oHora').textContent = h > 0 ? '$' + (real / h).toFixed(2) : '—';
+            document.getElementById('oDia').textContent = h > 0 ? '$' + (real / h * 10).toFixed(0) : '—';
         }
-        document.addEventListener('DOMContentLoaded', async () => {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+        document.querySelectorAll('#alCalc input').forEach(i => i.addEventListener('input', calc));
+        calc();
+    })();
 
-            if (window.AcademySidebar) {
-                await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Mindset & Fundamentals', LESSON_LIST);
-            }
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completed";
+            btn.disabled = true;
+        }
+    }
 
-            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-
-            if (alreadyDone) {
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                const quizEl = document.getElementById('lessonQuiz');
-                if (quizEl) quizEl.style.display = 'none';
-            } else if (window.AcademyQuiz) {
-                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-            }
-        });
-    </script>
-
-  
-
-
-
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, "Mindset and fundamentals", LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completed"; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>

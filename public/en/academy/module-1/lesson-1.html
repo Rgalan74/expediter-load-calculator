@@ -1,127 +1,34 @@
 <!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>What Real RPM Is (and Why 90% Calculate It Wrong) | Smart Load Academy</title>
-    <meta name="description" content="If you don't count all the miles, you're making decisions blind.">
+    <title>What Real RPM Is | Smart Load Academy</title>
+    <meta name="description" content="Why the RPM on the offer is not what you make, and how to calculate real RPM with all your miles.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7;
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: 0.875rem;
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none;
-        }
-
-        .lesson-header {
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .lesson-meta {
-            display: flex;
-            gap: 1.5rem;
-            font-size: 0.875rem;
-            color: #888;
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: 0.75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(34, 211, 238, 0.3);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        @media (max-width: 640px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            .lesson-nav {
-                flex-direction: column;
-            }
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-  
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/en/academy/module-1/lesson-1.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/lesson-1.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/lesson-1.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/lesson-1.html">
+    <link rel="canonical" href="https://smartloadsolution.com/en/academy/module-1/lesson-1.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-1/lesson-1.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-1/lesson-1.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-1/lesson-1.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Back to App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Back to App</a></nav>
 
 <aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
@@ -133,316 +40,255 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Module lessons">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Module lessons">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
-        <nav class="breadcrumb">
-            <a href="/en/academy.html">← Academy</a> →
-            <a href="index.html">Module 1</a> →
-            Lesson 1
-        </nav>
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/en/academy.html">Academy</a> / <a href="index.html">Module 1</a> / Lesson 1</nav>
 
-        
-
-        
-        <header class="lesson-header">
-            <h1>What Real RPM Is (and Why 90% Calculate It Wrong)</h1>
-            <div class="lesson-meta">
-                <span>📖 6 min read</span>
-                <span>🎓 Module 1 - Lesson 1</span>
-            </div>
-        </header>
-
-        <div class="lesson-content">
-
-            <section>
-                <h2>The most common mistake</h2>
-                <p>Most expediters calculate RPM like this:</p>
-
-                <div class="formula">Total Pay ÷ Loaded Miles = RPM</div>
-
-                <div class="note warning">
-                    <span class="note-label">This is wrong</span>
-                    <p>Why? Because you're ignoring the miles you don't get paid for but that still cost you money.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>The correct formula</h2>
-                <div class="formula">REAL RPM = Total Pay ÷ (Deadhead + Loaded + Repositioning)</div>
-
-                <p><strong>Where:</strong></p>
-                <ul>
-                    <li><strong>Deadhead</strong> = Miles from your position to pickup</li>
-                    <li><strong>Loaded</strong> = Miles you get paid for (pickup → delivery)</li>
-                    <li><strong>Repositioning</strong> = Miles from delivery to your next freight zone</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>Full example</h2>
-
-                <p><strong>Situation:</strong></p>
-                <ul>
-                    <li>Your position: Toledo, OH</li>
-                    <li>Pickup: Detroit, MI (65 miles deadhead)</li>
-                    <li>Delivery: Laredo, TX (1,000 loaded miles)</li>
-                    <li>Offered pay: $1,500</li>
-                </ul>
-
-                <div class="compare-table">
-                    <div class="compare-row">
-                        <span class="label">Wrong calculation #1 (how 70% do it)</span>
-                        <span class="value">$1.50/mile</span>
-                    </div>
-                    <div class="compare-row">
-                        <span class="label">Wrong calculation #2 (how 25% do it)</span>
-                        <span class="value">$1.41/mile</span>
-                    </div>
-                    <div class="compare-row">
-                        <span class="label">Correct calculation (only the top 5%)</span>
-                        <span class="value accent">$1.12/mile</span>
-                    </div>
-                </div>
-
-                <p><strong>The real breakdown:</strong></p>
-                <ul>
-                    <li>Deadhead (Toledo → Detroit): 65 miles</li>
-                    <li>Loaded miles (Detroit → Laredo): 1,000 miles</li>
-                    <li>Repositioning (Laredo → San Antonio): 280 miles</li>
-                    <li><strong>Total REAL miles: 1,345 miles</strong></li>
-                </ul>
-
-                <div class="formula">REAL RPM: $1,500 ÷ 1,345 = $1.12/mile</div>
-            </section>
-
-            <section>
-                <h2>Impact analysis</h2>
-
-                <div class="compare-table">
-                    <div class="compare-row">
-                        <span class="label">Wrong calculation</span>
-                        <span class="value">$1.50/mile</span>
-                    </div>
-                    <div class="compare-row">
-                        <span class="label">Correct calculation</span>
-                        <span class="value accent">$1.12/mile</span>
-                    </div>
-                </div>
-
-                <div class="pull-number">
-                    <div class="value">$511</div>
-                    <p class="context">in imaginary earnings over 1,345 miles — a $0.38/mile (34%) error in your RPM calculation.</p>
-                </div>
-
-                <p>If your break-even is $1.10/mile, you think you're making $0.40/mile when you're actually only making $0.02/mile.</p>
-            </section>
-
-            <section>
-                <h2>How to determine repositioning miles</h2>
-
-                <p><strong>Key question:</strong> "Where do I need to be for my next load?"</p>
-
-                <div class="note tip">
-                    <span class="note-label">Smart Load Solution helps you</span>
-                    <p>The app shows a "hot zones" map based on your history:</p>
-                    <ul>
-                        <li>How many miles to the nearest zone with good freight?</li>
-                        <li>What's your average wait time in that zone?</li>
-                        <li>What average RPM do you get there?</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section>
-                <h2>Zone comparison</h2>
-                <p><strong>Example: two loads, same pay.</strong></p>
-
-                <div class="compare-grid">
-                    <div class="compare-table">
-                        <div class="compare-title">Load A: Detroit → El Paso, TX</div>
-                        <div class="compare-row"><span class="label">Pay</span><span class="value">$1,400</span></div>
-                        <div class="compare-row"><span class="label">Loaded</span><span class="value">1,200 mi</span></div>
-                        <div class="compare-row"><span class="label">Deadhead</span><span class="value">50 mi</span></div>
-                        <div class="compare-row"><span class="label">Repositioning</span><span class="value">350 mi</span></div>
-                        <div class="compare-row"><span class="label">Total miles</span><span class="value">1,600 mi</span></div>
-                        <div class="compare-row"><span class="label">Real RPM</span><span class="value">$0.875/mi</span></div>
-                    </div>
-                    <div class="compare-table">
-                        <div class="compare-title">Load B: Detroit → Atlanta, GA</div>
-                        <div class="compare-row"><span class="label">Pay</span><span class="value">$1,400</span></div>
-                        <div class="compare-row"><span class="label">Loaded</span><span class="value">700 mi</span></div>
-                        <div class="compare-row"><span class="label">Deadhead</span><span class="value">50 mi</span></div>
-                        <div class="compare-row"><span class="label">Repositioning</span><span class="value">0 mi</span></div>
-                        <div class="compare-row"><span class="label">Total miles</span><span class="value">750 mi</span></div>
-                        <div class="compare-row"><span class="label">Real RPM</span><span class="value accent">$1.87/mi</span></div>
-                    </div>
-                </div>
-
-                <div class="pull-number">
-                    <div class="value">114%</div>
-                    <p class="context">better RPM on Load B ($0.995/mile difference) — same pay, completely different results.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Hands-on exercise</h2>
-                <p>Recalculate your last load:</p>
-
-                <div class="worksheet">
-                    <div class="worksheet-row"><span class="label">Pay received</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Loaded miles</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">My previous calculation ($/mile)</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Real deadhead</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Real repositioning</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Real total miles</span><span class="line"></span></div>
-                    <div class="worksheet-row highlight"><span class="label">Correct REAL RPM</span><span class="line"></span></div>
-                    <div class="worksheet-row"><span class="label">Difference</span><span class="line"></span></div>
-                </div>
-            </section>
-
-            <section>
-                <h2>Immediate action</h2>
-
-                <div class="checklist">
-                    <span class="checklist-label">Before continuing — 2 minutes</span>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Open Smart Load Solution</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Go to your last recorded load</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Recalculate the RPM including all miles</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Did the number change? Write it down</span></div>
-                </div>
-            </section>
-
-            <section>
-                <div class="conclusion">
-                    <p class="lead">If you don't count <span class="accent">all the miles</span>, you're making decisions blind.</p>
-                    <p class="sub">Real RPM is the only number that matters — "apparent" RPM only fools you.</p>
-                </div>
-            </section>
-
+    <header>
+        <div class="al-kicker">Module 1 · Lesson 1</div>
+        <h1 class="al-title">What real RPM is (and why most drivers get it wrong)</h1>
+        <div class="al-meta">
+            <span class="al-chip">6 min read</span>
+            <span class="al-chip">Fundamentals</span>
+            <span class="al-chip is-free">Free</span>
         </div>
+    </header>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+    <section class="al-learn">
+        <div class="al-learn-title">What you will learn</div>
+        <ol>
+            <li>The difference between apparent RPM and real RPM.</li>
+            <li>Which miles count: empty, loaded and repositioning.</li>
+            <li>How the app calculator handles it.</li>
+        </ol>
+    </section>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">
-                ✓ Mark as Complete
-            </button>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>The most common mistake</h2>
+        <p>Almost everyone calculates RPM like this:</p>
+        <div class="al-formula is-wrong">Total pay ÷ loaded miles = RPM</div>
+        <div class="al-callout is-error">
+            <div class="al-callout-label">Why it is wrong</div>
+            <p>It only counts the miles that pay you. The miles you drive empty also cost you fuel, wear and time.</p>
+        </div>
+    </section>
 
-            <nav class="lesson-nav">
-                <a href="index.html" class="btn btn-secondary">← Back to Module</a>
-                <a href="lesson-2.html" class="btn btn-primary">Next: Visible vs Hidden Costs →</a>
-            </nav>
-        </footer>
-        
-    </article>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>The correct formula</h2>
+        <div class="al-formula">Real RPM = total pay ÷ (empty miles + loaded miles + repositioning miles)</div>
+        <table class="al-table">
+            <tr><td><strong>Empty miles</strong> (deadhead)<span class="al-sub">From where you are to the pickup</span></td></tr>
+            <tr><td><strong>Loaded miles</strong><span class="al-sub">From pickup to delivery: the only ones that pay</span></td></tr>
+            <tr><td><strong>Repositioning</strong><span class="al-sub">From delivery to the next zone with good freight</span></td></tr>
+        </table>
+    </section>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 1;
-        const LESSON_NUM = 1;
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>An example with real miles</h2>
+        <p>You are in <strong>Toledo, OH</strong>. You are offered a pickup in <strong>Detroit</strong> (59 empty miles) and a delivery in <strong>Oklahoma City</strong> (1,027 loaded miles) for <strong>$1,500</strong>. Oklahoma City has little outbound freight, so afterwards you move to <strong>Dallas</strong> (206 miles).</p>
+        <table class="al-table">
+            <caption>Three ways to calculate the same RPM</caption>
+            <tr><td>Loaded miles only<span class="al-sub">$1,500 ÷ 1,027</span></td><td class="al-num-cell">$1.46 /mi</td></tr>
+            <tr><td>Loaded + empty<span class="al-sub">$1,500 ÷ 1,086</span></td><td class="al-num-cell">$1.38 /mi</td></tr>
+            <tr class="al-total"><td>Real RPM: all miles<span class="al-sub">$1,500 ÷ 1,292</span></td><td class="al-num-cell">$1.16 /mi</td></tr>
+        </table>
+        <div class="al-stat">
+            <div class="al-stat-value">$0.30</div>
+            <div class="al-stat-label">per mile between what you think you make and what you make: about $387 on this load</div>
+        </div>
+        <div class="al-callout is-warn">
+            <div class="al-callout-label">Watch out</div>
+            <p>If your real cost is $0.63 per mile (you calculate it in lesson 2), the apparent RPM makes you think you keep $0.83 per mile. You actually keep $0.53.</p>
+        </div>
+    </section>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'What Real RPM Is (and Why 90% Calculate It Wrong)', time: '5 min' },
-            { num: 2, title: 'Visible Costs vs Hidden Costs', time: '6 min' },
-            { num: 3, title: 'Break-Even: Your Survival Number', time: '7 min' },
-            { num: 4, title: 'Gross Profit vs Real Profit', time: '6 min' },
-            { num: 5, title: 'Why "Paid Load" Doesn\'t Mean "Profitable Load"', time: '5 min' }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>Same pay is not the same result</h2>
+        <p>Two loads out of Detroit, both with 50 empty miles to the pickup:</p>
+        <div class="al-compare">
+            <table class="al-table">
+                <caption>A · Detroit → El Paso, TX</caption>
+                <tr><td>Pay</td><td class="al-num-cell">$2,000</td></tr>
+                <tr><td>Loaded</td><td class="al-num-cell">1,719 mi</td></tr>
+                <tr><td>Reposition to Dallas</td><td class="al-num-cell">635 mi</td></tr>
+                <tr><td>Total miles</td><td class="al-num-cell">2,404 mi</td></tr>
+                <tr><td>Apparent RPM</td><td class="al-num-cell">$1.16</td></tr>
+                <tr class="al-total"><td>Real RPM</td><td class="al-num-cell">$0.83</td></tr>
+            </table>
+            <table class="al-table">
+                <caption>B · Detroit → Atlanta, GA</caption>
+                <tr><td>Pay</td><td class="al-num-cell">$1,100</td></tr>
+                <tr><td>Loaded</td><td class="al-num-cell">722 mi</td></tr>
+                <tr><td>Reposition</td><td class="al-num-cell">0 mi</td></tr>
+                <tr><td>Total miles</td><td class="al-num-cell">772 mi</td></tr>
+                <tr><td>Apparent RPM</td><td class="al-num-cell">$1.52</td></tr>
+                <tr class="al-total"><td>Real RPM</td><td class="al-num-cell">$1.42</td></tr>
+            </table>
+        </div>
+        <div class="al-bars">
+            <div class="al-bar-row"><span class="al-bar-label">A · El Paso</span><div class="al-bar-track"><div class="al-bar-fill" style="width:58%"></div></div><span class="al-bar-value">$0.83</span></div>
+            <div class="al-bar-row"><span class="al-bar-label">B · Atlanta</span><div class="al-bar-track"><div class="al-bar-fill" style="width:100%"></div></div><span class="al-bar-value">$1.42</span></div>
+        </div>
+        <p>The load that pays more, <strong>$2,000</strong>, is the one that leaves you the least per mile. Atlanta leaves you <strong>71% more</strong> for every mile you drive.</p>
+    </section>
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: 'What is the correct formula for real RPM?',
-                options: [
-                    'Total Pay ÷ Loaded Miles',
-                    'Total Pay ÷ (Deadhead + Loaded + Repositioning)',
-                    'Loaded Miles ÷ Total Pay',
-                    'Total Pay ÷ Round-trip miles'
-                ],
-                correctIndex: 1
-            },
-            {
-                question: 'In the lesson\'s example (Toledo → Detroit: 65 mi deadhead, Detroit → Laredo: 1,000 mi loaded, Laredo → San Antonio: 280 mi repositioning, pay $1,500), what is the real RPM?',
-                options: [
-                    '$1.50/mile',
-                    '$1.41/mile',
-                    '$1.12/mile',
-                    '$0.98/mile'
-                ],
-                correctIndex: 2
-            },
-            {
-                question: 'What are "repositioning miles"?',
-                options: [
-                    'The miles from your current position to pickup',
-                    'The miles the broker pays you directly for',
-                    'The miles from delivery to your next good-freight zone',
-                    'Miles lost to traffic or detours'
-                ],
-                correctIndex: 2
-            },
-            {
-                question: 'Load A (Detroit → El Paso, 1,600 total miles, $1,400) vs Load B (Detroit → Atlanta, 750 total miles, $1,400). Why is Load B better if they pay the same?',
-                options: [
-                    'Because El Paso has better market rates',
-                    'Because Load B has fewer real total miles, giving a higher real RPM ($1.87 vs $0.875)',
-                    'Because Load A has more deadhead than loaded miles',
-                    'There is no real difference between the two loads'
-                ],
-                correctIndex: 1
-            }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">05</span>Calculate your real RPM</h2>
+        <p>Enter the data from your last load.</p>
+        <div class="al-calc" id="alCalc">
+            <div class="al-calc-grid">
+                <div class="al-field"><label for="rPago">Total pay ($)</label><input id="rPago" type="number" inputmode="decimal" step="any" value="1500"></div>
+                <div class="al-field"><label for="rCarg">Loaded miles</label><input id="rCarg" type="number" inputmode="decimal" step="any" value="1027"></div>
+                <div class="al-field"><label for="rVac">Empty miles to pickup</label><input id="rVac" type="number" inputmode="decimal" step="any" value="59"></div>
+                <div class="al-field"><label for="rRepo">Repositioning miles</label><input id="rRepo" type="number" inputmode="decimal" step="any" value="206"></div>
+            </div>
+            <div class="al-calc-out">
+                <div class="al-out">Apparent RPM<b id="oAp">—</b></div>
+                <div class="al-out">Total miles<b id="oMi">—</b></div>
+                <div class="al-out">Difference<b id="oDif">—</b></div>
+                <div class="al-calc-total"><span>Your real RPM</span><b id="oReal">—</b></div>
+            </div>
+        </div>
+    </section>
 
-        function markLessonComplete() {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress) {
-                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
-            }
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">06</span>In the app</h2>
+        <div class="al-callout is-app">
+            <div class="al-callout-label">Apply it in the app</div>
+            <p>The calculator already counts all miles. Enter the miles to the pickup in <strong>Empty Miles</strong> and, if you know you will have to move empty after delivery, add those too. The panel RPM uses total miles.</p>
+            <p><a class="al-btn al-btn-primary" href="/app.html#calculator">Open the calculator →</a></p>
+        </div>
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Calculator · Mileage information</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/calc-millas-movil-en.png" width="740" height="558"><img src="/academy/img/app/calc-millas-en.png" alt="Mileage information: 1,027 loaded miles, 265 empty miles and 1,292 total miles." loading="lazy" width="672" height="771"></picture>
+            </div>
+            <figcaption><b>With the lesson example.</b> 1,027 loaded miles and 265 empty miles (59 before the pickup and 206 to reposition) add up to 1,292 miles.</figcaption>
+        </figure>
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Calculator · Result</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/panel-visor-rpm-movil-en.png" width="652" height="840"><img src="/academy/img/app/panel-visor-rpm-en.png" alt="Result panel with an RPM of 1.16 dollars over 1,292 miles for a 1,500 dollar rate." loading="lazy" width="1320" height="621"></picture>
+            </div>
+            <figcaption><b>The panel shows the real RPM:</b> $1,500 ÷ 1,292 miles = $1.16. Net profit depends on your costs in Settings.</figcaption>
+        </figure>
+        <p>To decide where to reposition, open <strong>Zones</strong>: it shows which states have given you the best RPM and profit based on your history.</p>
+    </section>
+
+    <section class="al-summary">
+        <h2>In summary</h2>
+        <ul>
+            <li>Real RPM divides the pay by all miles, not just loaded miles.</li>
+            <li>Empty and repositioning miles change the result more than it seems.</li>
+            <li>A load that pays more can leave you less per mile.</li>
+        </ul>
+    </section>
+
+    <section class="lesson-quiz" id="lessonQuiz"></section>
+
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as complete</button>
+        <nav class="lesson-nav">
+            <a href="index.html" class="al-btn al-btn-ghost">← Back to module</a>
+            <a href="lesson-2.html" class="al-btn al-btn-primary">Next: visible vs hidden costs →</a>
+        </nav>
+    </footer>
+</article>
+
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 1;
+    const LESSON_NUM = 1;
+    const LESSON_LIST = [
+        { num: 1, title: "What real RPM is (and why most drivers get it wrong)", time: '6 min' },
+        { num: 2, title: "Visible costs vs hidden costs", time: '7 min' },
+        { num: 3, title: "Break-even: your survival number", time: '8 min' },
+        { num: 4, title: "Gross profit, real profit and the time factor", time: '7 min' },
+        { num: 5, title: "Why a \"paid load\" is not a \"profitable load\"", time: '8 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+  {
+    "question": "What is the real RPM formula?",
+    "options": [
+      "Total pay ÷ loaded miles",
+      "Total pay ÷ (empty + loaded + repositioning miles)",
+      "Loaded miles ÷ total pay",
+      "Total pay ÷ round-trip miles"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "Toledo → Detroit (59 empty mi), Detroit → Oklahoma City (1,027 loaded mi), then to Dallas (206 mi). Pay $1,500. What is the real RPM?",
+    "options": [
+      "$1.46",
+      "$1.38",
+      "$1.16",
+      "$0.98"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "question": "What are repositioning miles?",
+    "options": [
+      "The miles to the pickup",
+      "The miles the broker pays you",
+      "The miles from delivery to the next zone with good freight",
+      "Miles lost to traffic"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "question": "Out of Detroit: A pays $2,000 to El Paso and then you reposition 635 mi; B pays $1,100 to Atlanta with no repositioning. Which leaves you more per mile?",
+    "options": [
+      "A, because it pays more",
+      "B, about $1.42 per mile vs $0.83",
+      "Both the same",
+      "There is no way to know"
+    ],
+    "correctIndex": 1
+  }
+];
+
+    (function () {
+        const v = (id) => Math.max(0, parseFloat(document.getElementById(id).value) || 0);
+        function calc() {
+            const pago = v('rPago'), carg = v('rCarg'), tot = carg + v('rVac') + v('rRepo');
+            const ap = carg > 0 ? pago / carg : 0, real = tot > 0 ? pago / tot : 0;
+            document.getElementById('oAp').textContent = '$' + ap.toFixed(2);
+            document.getElementById('oMi').textContent = tot.toLocaleString('en-US');
+            document.getElementById('oDif').textContent = '$' + (ap - real).toFixed(2) + ' /mi';
+            document.getElementById('oReal').textContent = '$' + real.toFixed(2) + ' /mi';
         }
+        document.querySelectorAll('#alCalc input').forEach(i => i.addEventListener('input', calc));
+        calc();
+    })();
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completed";
+            btn.disabled = true;
+        }
+    }
 
-            if (window.AcademySidebar) {
-                await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Mindset & Fundamentals', LESSON_LIST);
-            }
-
-            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-
-            if (alreadyDone) {
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                const quizEl = document.getElementById('lessonQuiz');
-                if (quizEl) quizEl.style.display = 'none';
-            } else if (window.AcademyQuiz) {
-                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-            }
-        });
-    </script>
-
-  
-
-
-
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, "Mindset and fundamentals", LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completed"; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>
