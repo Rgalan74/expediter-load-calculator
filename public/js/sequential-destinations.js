@@ -302,14 +302,26 @@ function renderMapRoute(directionsResult, retryCount = 0) {
             map: window.googleMap,
             suppressMarkers: false,
             polylineOptions: {
-                strokeColor: '#4285F4',
-                strokeWeight: 5
+                strokeColor: '#22D3EE',
+                strokeWeight: 4,
+                strokeOpacity: 1,
+                zIndex: 2
             }
         });
     }
 
     // Render the route
     window.directionsRenderer.setDirections(directionsResult);
+
+    // Halo brillante bajo la ruta (linea ancha y suave del mismo cian)
+    try {
+        if (window._slsRouteGlow) window._slsRouteGlow.forEach(l => l.setMap(null));
+        const path = directionsResult.routes[0].overview_path;
+        window._slsRouteGlow = [
+            new google.maps.Polyline({ path, map: window.googleMap, strokeColor: '#22D3EE', strokeOpacity: 0.12, strokeWeight: 16, zIndex: 0, clickable: false }),
+            new google.maps.Polyline({ path, map: window.googleMap, strokeColor: '#22D3EE', strokeOpacity: 0.28, strokeWeight: 8, zIndex: 1, clickable: false })
+        ];
+    } catch (e) { /* el halo es decorativo */ }
 
     // Fit map bounds to show entire route
     const bounds = new google.maps.LatLngBounds();

@@ -441,6 +441,27 @@ function fuelPriceAgeDays() {
 window.fuelPriceAgeDays = fuelPriceAgeDays;
 
 
+
+// Estilo de mapa "azul noche" del sistema de diseño (solo mapa de carreteras)
+const SLS_MAP_STYLE = [
+  { elementType: 'geometry', stylers: [{ color: '#0A101C' }] },
+  { elementType: 'labels.text.fill', stylers: [{ color: '#8D95A5' }] },
+  { elementType: 'labels.text.stroke', stylers: [{ color: '#060A12' }] },
+  { featureType: 'administrative', elementType: 'geometry.stroke', stylers: [{ color: '#22314C' }] },
+  { featureType: 'administrative.province', elementType: 'geometry.stroke', stylers: [{ color: '#2A3B5A' }] },
+  { featureType: 'administrative.locality', elementType: 'labels.text.fill', stylers: [{ color: '#B8BFCC' }] },
+  { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+  { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+  { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#18243A' }] },
+  { featureType: 'road', elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
+  { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#22314C' }] },
+  { featureType: 'road.highway', elementType: 'labels.text.fill', stylers: [{ color: '#8D95A5' }] },
+  { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#060A12' }] },
+  { featureType: 'water', elementType: 'labels.text.fill', stylers: [{ color: '#3A4660' }] },
+  { featureType: 'landscape.natural', elementType: 'geometry', stylers: [{ color: '#0D1525' }] }
+];
+window.SLS_MAP_STYLE = SLS_MAP_STYLE;
+
 // ======== DECISION 2025 (realista) ========
 let DECISION_MODE = (typeof window !== 'undefined' && window.DECISION_MODE) || 'realista2025';
 
@@ -2791,7 +2812,9 @@ function initGoogleMaps() {
     googleMap = new google.maps.Map(mapElement, {
       zoom: 5,
       center: { lat: 39.8283, lng: -98.5795 }, // Centro de EE.UU.
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      backgroundColor: '#060A12',
+      styles: SLS_MAP_STYLE // azul noche (sistema de diseño)
     });
 
     // Expose globally for sequential-destinations.js
@@ -2802,7 +2825,8 @@ function initGoogleMaps() {
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer({
       draggable: false,
-      panel: null
+      panel: null,
+      polylineOptions: { strokeColor: '#22D3EE', strokeWeight: 4, strokeOpacity: 1, zIndex: 2 }
     });
 
     directionsRenderer.setMap(googleMap);

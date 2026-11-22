@@ -1030,3 +1030,61 @@ html[data-theme] body header .gradient-text,
   }
   :root:not(#sls) body header.header-n8n > div:first-child > div:last-child { gap: 6px !important; }
 }
+
+/* =====================================================================
+   PASO 4 — Cinta de datos en vivo y mapa
+   ===================================================================== */
+:root:not(#sls) body .sls-ticker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 22px;
+  padding: 10px 16px;
+  background: var(--sls-surface);
+  border: 1px solid var(--sls-line);
+  border-radius: 6px;
+  font-family: var(--sls-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sls-muted);
+}
+:root:not(#sls) body .sls-ticker .sls-tk-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--sls-text);
+}
+:root:not(#sls) body .sls-ticker .sls-tk-live svg { color: var(--sls-green); animation: slsPulse 2.4s ease-in-out infinite; }
+:root:not(#sls) body .sls-ticker .sls-tk-item,
+:root:not(#sls) body .sls-ticker .sls-tk-live { white-space: nowrap; flex: 0 0 auto; }
+:root:not(#sls) body .sls-ticker b {
+  margin-left: 6px;
+  padding: 2px 6px;
+  font-weight: 500;
+  color: var(--sls-text);
+  background: var(--sls-raised);
+  border: 1px solid var(--sls-line-2);
+}
+@keyframes slsPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+@media (prefers-reduced-motion: reduce) { :root:not(#sls) body .sls-ticker .sls-tk-live svg { animation: none; } }
+@media (max-width: 767px) {
+  :root:not(#sls) body .sls-ticker {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    font-size: 11px;
+    gap: 16px;
+    margin: 0 -8px;
+  }
+  :root:not(#sls) body .sls-ticker::-webkit-scrollbar { display: none; }
+}
+
+/* Mapa de ruta: marco oscuro */
+:root:not(#sls) body #calculator #map {
+  background: var(--sls-bg) !important;
+  border: 1px solid var(--sls-line) !important;
+  border-radius: 6px !important;
+}
+:root:not(#sls) body #mapLoading { background: rgba(6, 10, 18, 0.75) !important; }
