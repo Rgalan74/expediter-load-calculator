@@ -116,10 +116,10 @@ function getUsersCosts() {
     return {
       combustible: fuel,
       mantenimiento: 0,
-      comida: 0,
-      // Sin comida/hospedaje: esos van por dia de viaje (comidaPorDia)
+      // Comida y hospedaje: promedio del mes POR MILLA (no por dia de viaje)
+      comida: hasSplit ? Math.max(0, Number(engine.foodLodgingCpm) || 0) : 0,
       costosFijos: perMile,
-      comidaPorDia: hasSplit ? Math.max(0, Number(engine.foodPerDay) || 0) : 0,
+      comidaPorDia: 0,
       fixedFromConfig: useConfigFixed,
       fixedMonthly: useConfigFixed ? cfgFixed : 0,
       fixedPerMile,
@@ -247,9 +247,9 @@ function renderCpmBreakdown() {
     }
   }
 
-  if (Number(b.foodLodgingTotal) > 0 && Number(b.travelDays) > 0) {
-    addRow(isEs ? `Comida y hospedaje (${money(b.foodLodgingTotal)} en ${b.travelDays} días de viaje)` : `Food and lodging (${money(b.foodLodgingTotal)} over ${b.travelDays} travel days)`,
-      `${money(b.foodPerDay)}/${isEs ? 'día' : 'day'}`, true);
+  if (Number(b.foodLodgingTotal) > 0 && Number(b.milesLong) > 0) {
+    addRow(isEs ? `Comida y hospedaje (${money(b.foodLodgingTotal)} ÷ ${Number(b.milesLong).toLocaleString()} mi)` : `Food and lodging (${money(b.foodLodgingTotal)} ÷ ${Number(b.milesLong).toLocaleString()} mi)`,
+      `$${(Number(b.foodLodgingCpm) || 0).toFixed(3)}/mi`, true);
   }
 
   const _fr = window._lastLoadExp && window._lastLoadExp.fuelRoute;
@@ -1526,8 +1526,15 @@ function showDecisionPanel(calculationData = {}) {
   }
 
   const fixedCostsValue = _exp.maintenanceCost + _exp.foodCost + _exp.fixedCosts;
+  // Costos del vehiculo (sin comida/hotel) y comida+hotel en linea aparte
   if (document.getElementById('fixedCosts')) {
-    document.getElementById('fixedCosts').textContent = `$${fixedCostsValue.toFixed(2)}`;
+    document.getElementById('fixedCosts').textContent = `$${(_exp.maintenanceCost + _exp.fixedCosts).toFixed(2)}`;
+  }
+  const _foodRow = document.getElementById('foodLodgingRow');
+  if (_foodRow) {
+    const _foodEl = document.getElementById('foodLodgingCost');
+    if (_foodEl) _foodEl.textContent = `$${_exp.foodCost.toFixed(2)}`;
+    _foodRow.style.display = _exp.foodCost > 0 ? '' : 'none';
   }
 
   const totalExp = fuelCost + tolls + fixedCostsValue; // misma formula que calculate() y saveLoad()

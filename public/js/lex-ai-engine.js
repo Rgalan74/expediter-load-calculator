@@ -157,13 +157,12 @@
         let costLines = '';
         if (e && Number.isFinite(Number(e.total)) && Number.isFinite(Number(d.netProfit))) {
             const other = (Number(e.maintenanceCost) || 0) + (Number(e.fixedCosts) || 0);
-            const days = Number(e.tripDays) || 0;
             const target = Number(d.thresholds?.acceptThreshold) || 0;
             costLines = isEsCtx
                 ? `- Costos de esta carga (cifras del panel, NO las recalcules):
   - Combustible: ${money(e.fuelCost)}
   - Otros costos por milla (variables + fijos mensuales de Configuración): ${money(other)}
-  - Comida y hospedaje: ${money(e.foodCost)} (${days.toFixed(1)} días de viaje)
+  - Comida y hospedaje (promedio del mes por milla): ${money(e.foodCost)}
   - Peajes: ${money(e.tolls)}
   - Total gastos: ${money(e.total)}
 - Ganancia neta: ${money(d.netProfit)}
@@ -172,7 +171,7 @@
                 : `- Costs of this load (panel figures, do NOT recompute them):
   - Fuel: ${money(e.fuelCost)}
   - Other per-mile costs (variable + monthly fixed from Settings): ${money(other)}
-  - Food and lodging: ${money(e.foodCost)} (${days.toFixed(1)} travel days)
+  - Food and lodging (monthly average per mile): ${money(e.foodCost)}
   - Tolls: ${money(e.tolls)}
   - Total expenses: ${money(e.total)}
 - Net profit: ${money(d.netProfit)}

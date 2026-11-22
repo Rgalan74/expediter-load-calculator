@@ -248,8 +248,12 @@ const CPMEngine = {
     const current = this.currentFuel();
     const fuelCpm = current ? current.cpm : receiptsFuelCpm;
 
-    // Comida y hospedaje: promedio real por dia de viaje; el resto, por milla.
+    // Comida y hospedaje: gasto general del mes repartido POR MILLA (decision
+    // de Ricardo, 2026-11-22). No dependen de una carga concreta (el hotel se paga
+    // sobre todo esperando carga), asi que cada milla paga su parte.
+    // foodPerDay se conserva solo como dato informativo.
     const foodPerDay = travelDays > 0 ? foodLodgingTotal / travelDays : 0;
+    const foodLodgingCpm = foodLodgingTotal / milesLong;
     const otherCpm = (nonFuelTotal - foodLodgingTotal) / milesLong;
     // Sin los fijos mensuales (los pone Configuracion, sin contarlos dos veces)
     const otherVarCpm = (nonFuelTotal - foodLodgingTotal - fixedHistTotal) / milesLong;
@@ -288,6 +292,7 @@ const CPMEngine = {
       otherVarCpm: parseFloat(otherVarCpm.toFixed(4)),
       realMonthlyMiles: Math.round(milesLong / spanMonths),
       foodPerDay: parseFloat(foodPerDay.toFixed(2)),
+      foodLodgingCpm: parseFloat(foodLodgingCpm.toFixed(4)),
       fuelSource: current ? 'price' : 'receipts',
       fuelWindow: useRecentFuel ? 'recent' : 'long',
       avgMonthlyMiles: Math.round(avgMonthlyMiles),
@@ -324,6 +329,7 @@ const CPMEngine = {
         foodLodgingTotal,
         travelDays: Math.round(travelDays * 10) / 10,
         foodPerDay,
+        foodLodgingCpm,
         otherTotal: nonFuelTotal - foodLodgingTotal,
         otherVarTotal: nonFuelTotal - foodLodgingTotal - fixedHistTotal,
         fixedIds: Array.from(fixedIds),
