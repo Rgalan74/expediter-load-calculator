@@ -718,6 +718,37 @@ exports.cancelUserSubscription = onCall(
 // pagando por una cuenta que ya no existe.
 const DELETE_ACCOUNT_MAX_AUTH_AGE_SEC = 10 * 60;
 
+// Colecciones con un documento por usuario (id = uid)
+const USER_DOC_COLLECTIONS = ['lexProfiles', 'academyProgress', 'userPlans', 'alerts'];
+// Colecciones donde cada documento lleva el campo userId (o uid)
+const USER_FIELD_COLLECTIONS = [
+    ['loads', 'userId'], ['expenses', 'userId'], ['notes', 'userId'],
+    ['lexAnalyses', 'userId'], ['lexConversations', 'userId'], ['analytics', 'userId'],
+    ['lexUsage', 'uid']
+];
+
+async function _deleteUserData(uid, email) {
+    const writer = db.bulkWriter();
+    const removed = {};
+    for (const [col, field] of USER_FIELD_COLLECTIONS) {
+        const snap = await db.collection(col).where(field, '==', uid).get();
+        snap.forEach(d => writer.delete(d.ref));
+        removed[col] = snap.size;
+    }
+    if (email) {
+        const mailSnap = await db.collection('mail').where('to', 'array-contains', email).get();
+        mailSnap.forEach(d => writer.delete(d.ref));
+        removed.mail = mailSnap.size;
+    }
+    for (const col of USER_DOC_COLLECTIONS) {
+        writer.delete(db.collection(col).doc(uid));
+    }
+    await writer.close();
+    // users/{uid} con sus subcolecciones (p. ej. checkout_sessions)
+    await db.recursiveDelete(db.collection('users').doc(uid));
+    return removed;
+}
+
 exports.deleteUserAccount = onCall(
     { region: 'us-central1', secrets: ["STRIPE_SECRET_KEY"] },
     async (request) => {
@@ -750,9 +781,12 @@ exports.deleteUserAccount = onCall(
             }
         }
 
-        await db.collection('users').doc(uid).delete();
+        // Borrar TODOS los datos del usuario (lo que promete la pantalla de Mi Cuenta).
+        // customers/{uid} y el cliente de Stripe los borra la extension al borrar Auth.
+        const email = (await admin.auth().getUser(uid).catch(() => null))?.email || null;
+        const removed = await _deleteUserData(uid, email);
         await admin.auth().deleteUser(uid);
-        logger.info(`[deleteUserAccount] ✅ Cuenta eliminada: ${uid}`);
+        logger.info(`[deleteUserAccount] ✅ Cuenta eliminada: ${uid}`, removed);
         return { success: true };
     }
 );

@@ -988,9 +988,20 @@
         : (isEs ? 'Renovación mensual' : 'Monthly renewal');
     }
 
+    // Prueba gratis de Lex: 14 dias desde la creacion de la cuenta (mismo criterio que el servidor)
+    let features = config.features;
+    const createdMs = new Date(user.metadata?.creationTime || 0).getTime();
+    const trialEndMs = createdMs ? createdMs + 14 * 86400000 : 0;
+    if ((planId === 'free' || planId === 'professional') && trialEndMs > Date.now()) {
+      const endTxt = new Date(trialEndMs).toLocaleDateString(isEs ? 'es-US' : 'en-US', { month: 'long', day: 'numeric' });
+      features = features.map(f => f.label === 'Lex AI'
+        ? { label: isEs ? `Lex AI — prueba gratis hasta el ${endTxt}` : `Lex AI — free trial until ${endTxt}`, active: true }
+        : f);
+    }
+
     // Features
     const grid = document.getElementById('featuresGrid');
-    grid.innerHTML = config.features.map(f => `
+    grid.innerHTML = features.map(f => `
       <div class="feature-item ${f.active ? 'active' : ''}">
         <span class="${f.active ? 'check' : 'cross'}">${f.active ? '✓' : '○'}</span>
         ${f.label}
@@ -1013,7 +1024,10 @@
         <button class="btn btn-danger" onclick="confirmCancel()">${isEs ? '✕ Cancelar Suscripción' : '✕ Cancel Subscription'}</button>
       `;
     } else if (planId === 'admin') {
-      btns.innerHTML = '';
+      // Acceso al panel de administracion (antes estaba en Configuracion de la app)
+      btns.innerHTML = `
+        <a class="btn btn-primary" href="admin-users.html" target="_blank" rel="noopener">${isEs ? '👥 Panel de administración' : '👥 Admin panel'}</a>
+      `;
     }
 
     // Upgrade banner
