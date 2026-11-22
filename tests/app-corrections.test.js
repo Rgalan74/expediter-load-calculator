@@ -375,11 +375,12 @@ test('real CPM: current fuel price, food/lodging per travel day, rest per mile',
   assert.equal(r2.fuelCpm, 0.3);
 });
 
-test('calculator: one cost formula for screen and save, food charged per trip day', async () => {
+test('calculator: one cost formula for screen and save, food & lodging charged per mile', async () => {
   const f = fixture();
   const w = f.w;
   w.CPMEngine = {
-    current: () => ({ source: 'real', cpm: 0.7, fuelCpm: 0.2, otherCpm: 0.3, foodPerDay: 50 }),
+    // foodPerDay queda solo informativo: comida+hotel se cobran por milla (foodLodgingCpm)
+    current: () => ({ source: 'real', cpm: 0.7, fuelCpm: 0.2, otherCpm: 0.3, foodPerDay: 50, foodLodgingCpm: 0.2 }),
     getCPM: async () => ({ source: 'real', cpm: 0.7 }),
     estimateTripDays: () => 2
   };
@@ -387,7 +388,7 @@ test('calculator: one cost formula for screen and save, food charged per trip da
   await w.saveLoad();
   const saved = f.writes.find(x => x.name === 'loads')?.data;
   assert.ok(saved, 'save completed');
-  // 500 mi x (0.20 + 0.30) + 50/día x 2 días + 10 peajes
+  // 500 mi x (0.20 + 0.30) + 500 mi x 0.20 comida/hotel + 10 peajes
   assert.equal(saved.totalExpenses, 360);
   assert.equal(f.w.visible.totalExpenses, 360);
   assert.equal(saved.netProfit, f.w.visible.netProfit);
