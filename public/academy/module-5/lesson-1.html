@@ -1,94 +1,36 @@
 <!DOCTYPE html><html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Más Allá de "Cuánto Gané": Tracking Financiero Real | Smart Load Academia</title>
-    <meta name="description" content="Un mes sin tracking es un mes volando a ciegas.">
+    <title>Más allá de "cuánto gané" | Smart Load Academia</title>
+    <meta name="description" content="La diferencia entre ingresos, gastos y ganancia real, a dónde se va el dinero y cómo calcular tu número mínimo.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: .875rem
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: .75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all .3s ease
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
-            color: #fff
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, .1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .2)
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-  
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/academy/module-5/lesson-1.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-5/lesson-1.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-5/lesson-1.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-5/lesson-1.html">
+    <link rel="canonical" href="https://smartloadsolution.com/academy/module-5/lesson-1.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-5/lesson-1.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-5/lesson-1.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-5/lesson-1.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Volver a la App</a></nav>
-    <aside class="lesson-sidebar" id="lessonSidebar">
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Volver a la App</a></nav>
+
+<aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
         <div>
             <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
@@ -98,352 +40,209 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/academy.html">Academia</a> / <a href="index.html">Módulo 5</a> / Lección 1</nav>
 
-        <div style="display: inline-block; background: linear-gradient(90deg, #22D3EE, #22D3EE); color: #fff; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
-            🔒 PRO</div>
-
-        
-        <nav class="breadcrumb">
-            <a href="/academy.html">← Academia</a> → <a href="index.html">Módulo 5 [PRO]</a> → Lección 1
-        </nav>
-
-        <header class="lesson-header" style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
-            <h1>Más Allá de "Cuánto Gané": Tracking Financiero Real</h1>
-            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
-                <span>📖 12 min lectura</span>
-                <span>🎓 Módulo 5 - Lección 1</span>
-                <span>📊 Análisis</span>
-            </div>
-        </header>
-
-        <div class="lesson-content">
-
-            <section>
-                <h2>La ilusión de ingresos</h2>
-
-                <p><strong>Escenario común:</strong> Chofer A dice "¡Gané $12,000 este mes!" Chofer B dice "Yo solo gané $9,000." ¿Quién está mejor? <strong>Respuesta: depende.</strong></p>
-
-                <div class="compare-grid">
-                    <div class="compare-table">
-                        <div class="compare-title">Chofer A</div>
-                        <div class="compare-row"><span class="label">Ingresos</span><span class="value">$12,000</span></div>
-                        <div class="compare-row"><span class="label">Millas</span><span class="value">9,500</span></div>
-                        <div class="compare-row"><span class="label">Combustible</span><span class="value">$4,200</span></div>
-                        <div class="compare-row"><span class="label">Mantenimiento</span><span class="value">$1,100</span></div>
-                        <div class="compare-row"><span class="label">Otros gastos</span><span class="value">$2,800</span></div>
-                        <div class="compare-row"><span class="label">Ganancia</span><span class="value">$3,900</span></div>
-                        <div class="compare-row"><span class="label">Margen</span><span class="value">32.5%</span></div>
-                    </div>
-                    <div class="compare-table">
-                        <div class="compare-title">Chofer B</div>
-                        <div class="compare-row"><span class="label">Ingresos</span><span class="value">$9,000</span></div>
-                        <div class="compare-row"><span class="label">Millas</span><span class="value">6,200</span></div>
-                        <div class="compare-row"><span class="label">Combustible</span><span class="value">$2,400</span></div>
-                        <div class="compare-row"><span class="label">Mantenimiento</span><span class="value">$550</span></div>
-                        <div class="compare-row"><span class="label">Otros gastos</span><span class="value">$1,850</span></div>
-                        <div class="compare-row"><span class="label">Ganancia</span><span class="value accent">$4,200</span></div>
-                        <div class="compare-row"><span class="label">Margen</span><span class="value accent">46.7%</span></div>
-                    </div>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">La razón: eficiencia</span>
-                    <p>Chofer B gana MENOS pero se lleva MÁS a casa.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Las 3 capas de números</h2>
-
-                <p><strong>Capa 1: ingresos brutos (lo que cobras)</strong></p>
-                <ul>
-                    <li>Total pagos de cargas</li>
-                    <li>FSC (Fuel Surcharge)</li>
-                    <li>Detention pay</li>
-                    <li>Bonos/incentivos</li>
-                </ul>
-                <div class="formula">Ejemplo: $10,500/mes</div>
-
-                <p><strong>Capa 2: gastos operativos (lo que pagas)</strong></p>
-                <p><strong>Variables:</strong></p>
-                <ul>
-                    <li>Combustible, DEF, Peajes</li>
-                    <li>Comidas en ruta</li>
-                    <li>Mantenimiento preventivo</li>
-                </ul>
-                <p><strong>Fijos:</strong></p>
-                <ul>
-                    <li>Pago de van, Seguro</li>
-                    <li>Licencias/placas</li>
-                    <li>Suscripciones, Teléfono</li>
-                </ul>
-                <div class="formula">Ejemplo: $6,800/mes</div>
-
-                <p><strong>Capa 3: ganancia neta (lo que realmente ganas)</strong></p>
-                <div class="formula">Ingresos - Gastos: $10,500 - $6,800</div>
-                <div class="pull-number">
-                    <div class="value">$3,700</div>
-                    <p class="context">ganancia neta del mes — un margen del 35.2%.</p>
-                </div>
-
-                <div class="note warning">
-                    <span class="note-label">El error común</span>
-                    <p>La mayoría solo mira Capa 1. Tú necesitas dominar las 3.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Desglose detallado de gastos</h2>
-
-                <p><strong>Gastos variables (por milla)</strong></p>
-                <div class="formula">
-                    COMBUSTIBLE:<br>
-                    ├─ Precio promedio: $3.50/gal<br>
-                    ├─ Consumo van: 17-20 MPG<br>
-                    ├─ Costo por milla: $0.18-0.21<br>
-                    └─ % de ingresos: 28-32%<br>
-                    <br>
-                    DEF (Diesel Exhaust Fluid):<br>
-                    ├─ Costo: ~$0.03-0.05/mi<br>
-                    └─ % de ingresos: 2-3%<br>
-                    <br>
-                    MANTENIMIENTO:<br>
-                    ├─ Aceite/filtros: $0.04/mi<br>
-                    ├─ Llantas: $0.03/mi<br>
-                    ├─ Frenos/suspensión: $0.03/mi<br>
-                    ├─ Reparaciones inesperadas: $0.02/mi<br>
-                    └─ TOTAL: $0.12-0.15/mi<br>
-                    <br>
-                    PEAJES:<br>
-                    ├─ Depende de ruta<br>
-                    └─ Promedio: $0.02-0.08/mi<br>
-                    <br>
-                    COMIDAS:<br>
-                    ├─ Si manejas lejos de casa<br>
-                    └─ $20-30/día en ruta<br>
-                    <br>
-                    ═══════════════════════════<br>
-                    TOTAL VARIABLE: $0.58-0.76/mi
-                </div>
-
-                <p><strong>Gastos fijos (por mes)</strong></p>
-                <div class="formula">
-                    VAN:<br>
-                    ├─ Pago de préstamo: $800-1,200<br>
-                    │ (O depreciación si es tuya)<br>
-                    └─ % de ingresos: 8-12%<br>
-                    <br>
-                    SEGURO:<br>
-                    ├─ Responsabilidad: $300-500<br>
-                    ├─ Cargo: $200-300<br>
-                    ├─ Daño físico: $150-250<br>
-                    └─ TOTAL: $650-1,050/mes<br>
-                    % de ingresos: 6-10%<br>
-                    <br>
-                    LICENCIAS/PLACAS:<br>
-                    ├─ Placas comerciales: $100-150/año<br>
-                    ├─ Permisos varios: $50-100/año<br>
-                    └─ Promedio mensual: $15-25<br>
-                    <br>
-                    TECNOLOGÍA:<br>
-                    ├─ Smart Load Solution Pro: $15<br>
-                    ├─ Load boards: $30-50<br>
-                    ├─ GPS/ELD: $25-40<br>
-                    ├─ Teléfono: $60-80<br>
-                    └─ TOTAL: $130-185/mes<br>
-                    <br>
-                    CONTABILIDAD/ADMIN:<br>
-                    ├─ Contador: $100-200/mes<br>
-                    ├─ Software contable: $30-50<br>
-                    └─ TOTAL: $130-250/mes<br>
-                    <br>
-                    ═══════════════════════════<br>
-                    TOTAL FIJOS: $1,725-2,710/mes<br>
-                    <br>
-                    Si manejas 8,000 mi/mes:<br>
-                    = $0.22-0.34/mi en fijos
-                </div>
-            </section>
-
-            <section>
-                <h2>El sistema de tracking simple</h2>
-
-                <p><strong>Mínimo absoluto — registra diario:</strong></p>
-                <ol>
-                    <li><strong>Ingresos hoy:</strong> Carga #1: $XXX, Carga #2: $XXX, Total: $XXX</li>
-                    <li><strong>Millas hoy:</strong> Deadhead: XXX, Loaded: XXX, Total: XXX</li>
-                    <li><strong>Gastos hoy:</strong> Combustible: $XXX (XX galones), Peajes: $XXX, Comida: $XXX</li>
-                    <li><strong>Notas:</strong> Cualquier cosa inusual</li>
-                </ol>
-
-                <div class="note tip">
-                    <span class="note-label">Tiempo requerido: 3-5 minutos/día</span>
-                    <p>Beneficio: claridad total de tu negocio.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Estableciendo tu "número mínimo"</h2>
-
-                <div class="formula">Gastos fijos mensuales ÷ Margen objetivo (35-40%) = Ingresos mínimos necesarios</div>
-
-                <p><strong>Ejemplo:</strong></p>
-                <div class="formula">Gastos fijos: $2,200/mes ÷ 0.40 (40% margen objetivo) = $5,500 ingresos mínimos</div>
-
-                <p><strong>Significa:</strong></p>
-                <ul>
-                    <li>Necesitas cobrar mínimo $5,500/mes</li>
-                    <li>Para cubrir fijos y tener profit</li>
-                    <li>Menos que esto = perdiendo dinero</li>
-                    <li>Más que esto = construyendo negocio</li>
-                </ul>
-
-                <div class="worksheet">
-                    <div class="worksheet-row highlight"><span class="label">Tu número mínimo mensual</span><span class="line"></span></div>
-                </div>
-
-                <p>Memorízalo. Si un mes ves que vas abajo, sabes que necesitas más cargas ya.</p>
-            </section>
-
-            <section>
-                <h2>Conclusión clave</h2>
-
-                <p><strong>"Cuánto gané" es la pregunta equivocada.</strong></p>
-
-                <div class="note warning">
-                    <span class="note-label">Pregunta incorrecta</span>
-                    <p>"¿Cuánto gané este mes?"</p>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">Preguntas correctas</span>
-                    <ul>
-                        <li>¿Cuánto COBRÉ? (ingresos brutos)</li>
-                        <li>¿Cuánto GASTÉ? (gastos totales)</li>
-                        <li>¿Cuánto me QUEDÓ? (ganancia neta)</li>
-                        <li>¿Cuál fue mi MARGEN? (%)</li>
-                        <li>¿Cómo COMPARA con meses anteriores? (tendencia)</li>
-                    </ul>
-                </div>
-
-                <p><strong>Los 3 números que debes saber:</strong></p>
-                <ol>
-                    <li>Tu número mínimo mensual (break-even con margen saludable)</li>
-                    <li>Tu margen objetivo (35-45% es saludable en expediting)</li>
-                    <li>Tu tendencia (¿mejorando o empeorando?)</li>
-                </ol>
-
-                <div class="conclusion">
-                    <p class="lead">Un mes sin <span class="accent">tracking</span> es un mes volando a ciegas.</p>
-                    <p class="sub">Tracking financiero no es complicado — son 3-5 minutos al día. La diferencia entre hacerlo y no hacerlo es la diferencia entre adivinar si ganaste dinero y SABER exactamente tu rentabilidad.</p>
-                </div>
-            </section>
-
+    <header>
+        <div class="al-kicker">Módulo 5 · Lección 1</div>
+        <h1 class="al-title">Más allá de "cuánto gané"</h1>
+        <div class="al-meta">
+            <span class="al-chip">8 min de lectura</span>
+            <span class="al-chip">Finanzas</span>
+            <span class="al-chip">Pro</span>
         </div>
+    </header>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+    <section class="al-learn">
+        <div class="al-learn-title">Lo que vas a aprender</div>
+        <ol>
+            <li>La diferencia entre ingresos y ganancia real.</li>
+            <li>Cómo se reparten tus gastos por milla.</li>
+            <li>Cómo calcular cuántas millas necesitas al mes.</li>
+        </ol>
+    </section>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
-            <nav class="lesson-nav">
-                <a href="index.html" class="btn btn-secondary">← Volver al módulo</a>
-                <a href="lesson-2.html" class="btn btn-primary">Siguiente: KPIs →</a>
-            </nav>
-        </footer>
-        
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>La ilusión de los ingresos</h2>
+        <p>"Este mes facturé $5,066" suena bien. Pero lo que pagas en casa sale de lo que queda después de todos los gastos. Hay tres números distintos y conviene no mezclarlos:</p>
+        <table class="al-table">
+            <tr><td><strong>Ingresos</strong><span class="al-sub">Todo lo que te pagaron por tus cargas</span></td><td class="al-num-cell">$5,066</td></tr>
+            <tr><td><strong>Gastos</strong><span class="al-sub">Gasolina, vehículo, seguro, permisos, mantenimiento, comida, hotel, peajes</span></td><td class="al-num-cell">$3,090</td></tr>
+            <tr class="al-total"><td><strong>Ganancia real</strong><span class="al-sub">Lo que de verdad te queda: 39% de los ingresos</span></td><td class="al-num-cell">$1,976</td></tr>
+        </table>
 
-        
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Finanzas · Resumen</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/finanzas-kpis-movil.png" width="740" height="776"><img src="/academy/img/app/finanzas-kpis.png" alt="Tarjetas de Finanzas: ingresos 5,066, gastos 3,090, ganancia 1,976 dólares, 5,262 millas, RPM 0.96, costo por milla 0.59 y margen 39 por ciento." loading="lazy" width="2010" height="138"></picture>
+            </div>
+            <figcaption><b>Cuenta de ejemplo, noviembre.</b> 16 cargas y 8 gastos registrados.</figcaption>
+        </figure>
+    </section>
 
-    </article>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>A dónde se va el dinero</h2>
+        <table class="al-table">
+            <caption>Gastos de noviembre · 5,262 millas</caption>
+            <tr><td>Gasolina</td><td class="al-num-cell">$1,025</td><td class="al-num-cell">$0.195/mi</td></tr>
+            <tr><td>Pago de la van</td><td class="al-num-cell">$650</td><td class="al-num-cell">$0.124/mi</td></tr>
+            <tr><td>Seguro</td><td class="al-num-cell">$520</td><td class="al-num-cell">$0.099/mi</td></tr>
+            <tr><td>Comida</td><td class="al-num-cell">$380</td><td class="al-num-cell">$0.072/mi</td></tr>
+            <tr><td>Hotel</td><td class="al-num-cell">$260</td><td class="al-num-cell">$0.049/mi</td></tr>
+            <tr><td>Mantenimiento</td><td class="al-num-cell">$120</td><td class="al-num-cell">$0.023/mi</td></tr>
+            <tr><td>Permisos</td><td class="al-num-cell">$90</td><td class="al-num-cell">$0.017/mi</td></tr>
+            <tr><td>Peajes</td><td class="al-num-cell">$45</td><td class="al-num-cell">$0.009/mi</td></tr>
+            <tr class="al-total"><td>Total</td><td class="al-num-cell">$3,090</td><td class="al-num-cell">$0.587/mi</td></tr>
+        </table>
+        <div class="al-callout is-warn">
+            <div class="al-callout-label">Ojo con los meses de pocas millas</div>
+            <p>El pago de la van, el seguro y los permisos son fijos: se pagan aunque no manejes. Si un mes haces menos millas, tu costo por milla sube.</p>
+        </div>
+    </section>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 5, LESSON_NUM = 1;
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>Un sistema simple</h2>
+        <ul class="al-checklist">
+            <li><strong>Cada carga:</strong> Aceptar y guardar en la calculadora. Los ingresos se suman solos.</li>
+            <li><strong>Cada gasto:</strong> Finanzas → Agregar gasto, con su categoría, el mismo día.</li>
+            <li><strong>Cada semana:</strong> mira el resumen de Finanzas.</li>
+            <li><strong>Cada mes:</strong> compara el costo por milla de Finanzas con el de Configuración y ajusta.</li>
+        </ul>
+    </section>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'Más Allá de "Cuánto Gané": Tracking Financiero Real', time: '12 min' },
-            { num: 2, title: 'KPIs que Predicen Éxito o Fracaso', time: '15 min' },
-            { num: 3, title: 'Análisis de Rentabilidad por Ruta', time: '14 min' },
-            { num: 4, title: 'Forecasting y Planificación: Predecir Ingresos Futuros', time: '13 min' },
-            { num: 5, title: 'Cuándo Expandir: Segunda Van y Escalamiento', time: '16 min' }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>Tu número mínimo</h2>
+        <p>Antes de mirar si un mes fue bueno, necesitas saber cuánto tienes que ganar. Suma tus costos fijos del negocio y lo que necesitas para tu casa, y divide entre lo que te queda por milla.</p>
+        <div class="al-calc" id="alCalc">
+            <div class="al-calc-grid">
+                <div class="al-field"><label for="mFijos">Costos fijos del negocio al mes ($)</label><input id="mFijos" type="number" inputmode="decimal" step="any" value="1260"></div>
+                <div class="al-field"><label for="mCasa">Lo que necesitas para tu casa al mes ($)</label><input id="mCasa" type="number" inputmode="decimal" step="any" value="3000"></div>
+                <div class="al-field"><label for="mGpm">Te queda por milla, antes de fijos ($)</label><input id="mGpm" type="number" inputmode="decimal" step="any" value="0.61"></div>
+            </div>
+            <div class="al-calc-out">
+                <div class="al-out">Necesitas ganar<b id="oNec">—</b></div>
+                <div class="al-out">Por semana<b id="oSemana">—</b></div>
+                <div class="al-calc-total"><span>Millas al mes</span><b id="oMillas">—</b></div>
+            </div>
+        </div>
+        <p class="al-sub">En el ejemplo: RPM de $0.96 menos $0.35 de costos variables por milla (gasolina, comida, hotel, mantenimiento, peajes) deja $0.61 para cubrir fijos y tu casa.</p>
+    </section>
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: 'Comparando Chofer A ($12,000 ingresos, $3,900 ganancia, 32.5% margen) vs Chofer B ($9,000 ingresos, $4,200 ganancia, 46.7% margen), ¿quién se lleva más dinero a casa?',
-                options: ['Chofer A, porque ingresó más', 'Chofer B, aunque ganó menos ingresos brutos', 'Ambos ganan lo mismo', 'No se puede saber sin más datos'],
-                correctIndex: 1
-            },
-            {
-                question: '¿Cuáles son las "3 Capas de Números" según la lección?',
-                options: ['Ingresos, Millas, Gastos', 'Ingresos Brutos, Gastos Operativos, Ganancia Neta', 'Fijo, Variable, Total', 'Diario, Semanal, Mensual'],
-                correctIndex: 1
-            },
-            {
-                question: 'En el ejemplo del "Número Mínimo" (gastos fijos $2,200/mes, margen objetivo 40%), ¿cuáles son los ingresos mínimos necesarios?',
-                options: ['$2,200/mes', '$3,700/mes', '$5,500/mes', '$6,800/mes'],
-                correctIndex: 2
-            },
-            {
-                question: 'Según el "Sistema de Tracking Simple", ¿cuánto tiempo al día se recomienda dedicar al registro diario?',
-                options: ['3-5 minutos', '30 minutos', '1 hora', 'No es necesario hacerlo diario'],
-                correctIndex: 0
-            }
-        ];
+    <section class="al-summary">
+        <h2>En resumen</h2>
+        <ul>
+            <li>Lo que pagas en casa sale de la ganancia real, no de los ingresos.</li>
+            <li>Registra cada carga y cada gasto en la app el mismo día.</li>
+            <li>Calcula tu número mínimo de millas al mes.</li>
+        </ul>
+    </section>
 
-        function markLessonComplete() {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress) {
-                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
-            }
+    <section class="lesson-quiz" id="lessonQuiz"></section>
+
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
+        <nav class="lesson-nav">
+            <a href="index.html" class="al-btn al-btn-ghost">← Volver al módulo</a>
+            <a href="lesson-2.html" class="al-btn al-btn-primary">Siguiente: los KPIs →</a>
+        </nav>
+    </footer>
+</article>
+
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 5;
+    const LESSON_NUM = 1;
+    const LESSON_LIST = [
+        { num: 1, title: "Más allá de \"cuánto gané\"", time: '8 min' },
+        { num: 2, title: "Los KPIs que importan", time: '9 min' },
+        { num: 3, title: "Rentabilidad por ruta, zona y broker", time: '8 min' },
+        { num: 4, title: "Planificar el mes: escenarios", time: '8 min' },
+        { num: 5, title: "Cuándo pensar en una segunda van", time: '9 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+  {
+    "question": "Ingresos $5,066 y gastos $3,090. ¿Ganancia real?",
+    "options": [
+      "$5,066",
+      "$3,090",
+      "$1,976",
+      "$2,500"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "question": "¿Qué pasa con tu costo por milla en un mes de pocas millas?",
+    "options": [
+      "Baja",
+      "Sube, porque los fijos se reparten entre menos millas",
+      "No cambia",
+      "Desaparece"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "¿Dónde registras un gasto?",
+    "options": [
+      "En la calculadora",
+      "En Finanzas → Agregar gasto",
+      "En Zonas",
+      "En Lex"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "Necesitas $4,260 al mes y te quedan $0.61 por milla. ¿Cuántas millas necesitas?",
+    "options": [
+      "Unas 4,260",
+      "Unas 6,984",
+      "Unas 2,600",
+      "Unas 10,000"
+    ],
+    "correctIndex": 1
+  }
+];
+
+    (function () {
+        const v = (id) => Math.max(0, parseFloat(document.getElementById(id).value) || 0);
+        const $ = (n) => (n < 0 ? '-$' : '$') + Math.abs(Math.round(n)).toLocaleString('en-US');
+        function calc() {
+            const fijos = v('mFijos'), casa = v('mCasa'), gpm = v('mGpm');
+            const necesitas = fijos + casa;
+            document.getElementById('oNec').textContent = $(necesitas);
+            document.getElementById('oMillas').textContent = gpm > 0 ? Math.ceil(necesitas / gpm).toLocaleString('en-US') + ' mi' : '—';
+            document.getElementById('oSemana').textContent = gpm > 0 ? Math.ceil(necesitas / gpm / 4.33).toLocaleString('en-US') + ' mi' : '—';
         }
+        document.querySelectorAll('#alCalc input').forEach(i => i.addEventListener('input', calc));
+        calc();
+    })();
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada";
+            btn.disabled = true;
+        }
+    }
 
-            if (window.AcademySidebar) {
-                await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Análisis Financiero & KPIs', LESSON_LIST);
-            }
-
-            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-
-            if (alreadyDone) {
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                const quizEl = document.getElementById('lessonQuiz');
-                if (quizEl) quizEl.style.display = 'none';
-            } else if (window.AcademyQuiz) {
-                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-            }
-        });
-    </script>
-
-  
-
-
-
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, "Análisis financiero y KPIs", LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada"; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>

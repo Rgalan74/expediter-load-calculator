@@ -1,94 +1,36 @@
 <!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Route Profitability Analysis | Smart Load Academy</title>
-    <meta name="description" content="Not all routes are created equal. The secret is not working more hours — it is working the right routes.">
+    <title>Profitability by route, zone and broker | Smart Load Academy</title>
+    <meta name="description" content="How to find which routes, zones and brokers make you money with Zones and the Finances reports.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: .875rem
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: .75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all .3s ease
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #F5B03A 0%, #F5B03A 100%);
-            color: #000
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, .1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .2)
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-  
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/en/academy/module-5/lesson-3.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-5/lesson-3.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-5/lesson-3.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-5/lesson-3.html">
+    <link rel="canonical" href="https://smartloadsolution.com/en/academy/module-5/lesson-3.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-5/lesson-3.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-5/lesson-3.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-5/lesson-3.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Back to App</a></nav>
-    <aside class="lesson-sidebar" id="lessonSidebar">
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Back to App</a></nav>
+
+<aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
         <div>
             <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
@@ -98,324 +40,174 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Module lessons">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Module lessons">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
-        <nav class="breadcrumb">
-            <a href="/en/academy.html">← Academy</a> → <a href="index.html">Module 5 [PRO]</a> → Lesson 3
-        </nav>
-        
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/en/academy.html">Academy</a> / <a href="index.html">Module 5</a> / Lesson 3</nav>
 
-        
-        <div style="display: inline-block; background: linear-gradient(90deg, #F5B03A, #F5B03A); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700; margin-top:2rem">
-            🔒 PRO CONTENT</div>
-
-        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
-            <h1>Route Profitability Analysis</h1>
-            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
-                <span>📖 14 min read</span>
-                <span>🎓 Module 5 - Lesson 3</span>
-                <span>🗺 Routes</span>
-            </div>
-        </header>
-
-        <div class="lesson-content">
-
-            <section>
-                <h2>The uncomfortable truth</h2>
-
-                <p>"I thought all my loads were profitable. After analyzing my routes one by one, I discovered:</p>
-                <ul>
-                    <li>20% of my routes generated 60% of my total profit.</li>
-                    <li>30% of my routes were barely breaking even.</li>
-                    <li>15% of my routes were ACTIVELY LOSING money.</li>
-                </ul>
-                <p>I was grinding hard on BAD routes while completely ignoring the GOOD ones."</p>
-                <p>— Ricardo, after 3 months of proper tracking</p>
-            </section>
-
-            <section>
-                <h2>The concept: not all miles are equal</h2>
-
-                <div class="compare-grid">
-                    <div class="compare-table">
-                        <div class="compare-title">Route A: Detroit → Chicago</div>
-                        <div class="compare-row"><span class="label">Distance</span><span class="value">280 miles</span></div>
-                        <div class="compare-row"><span class="label">Average payment</span><span class="value">$520</span></div>
-                        <div class="compare-row"><span class="label">Real RPM</span><span class="value">$1.86/mi</span></div>
-                        <div class="compare-row"><span class="label">Average deadhead</span><span class="value">15 mi</span></div>
-                        <div class="compare-row"><span class="label">Total time</span><span class="value">5 hours</span></div>
-                        <div class="compare-row"><span class="label">Average net profit</span><span class="value">$245</span></div>
-                        <div class="compare-row"><span class="label">Profit/hour</span><span class="value accent">$49/hr ✅</span></div>
-                    </div>
-                    <div class="compare-table">
-                        <div class="compare-title">Route B: Detroit → Laredo</div>
-                        <div class="compare-row"><span class="label">Distance</span><span class="value">1,600 miles</span></div>
-                        <div class="compare-row"><span class="label">Average payment</span><span class="value">$1,800</span></div>
-                        <div class="compare-row"><span class="label">Real RPM</span><span class="value">$1.12/mi</span></div>
-                        <div class="compare-row"><span class="label">Average deadhead</span><span class="value">280 mi</span></div>
-                        <div class="compare-row"><span class="label">Total time</span><span class="value">26 hours</span></div>
-                        <div class="compare-row"><span class="label">Average net profit</span><span class="value">$280</span></div>
-                        <div class="compare-row"><span class="label">Profit/hour</span><span class="value">$10.77/hr ❌</span></div>
-                    </div>
-                </div>
-
-                <p>Route B pays MORE money upfront ($1,800 vs $520). But Route A generates FAR MORE profit per hour. Which one would you rather run twice a week?</p>
-            </section>
-
-            <section>
-                <h2>The route classification system</h2>
-
-                <div class="compare-table">
-                    <div class="compare-title">S-Tier 🟢🟢 (Elite)</div>
-                    <div class="compare-row"><span class="label">RPM</span><span class="value accent">&gt; $1.70/mi consistently</span></div>
-                    <div class="compare-row"><span class="label">Net margin</span><span class="value">&gt; 40%</span></div>
-                    <div class="compare-row"><span class="label">Profit/hour</span><span class="value">&gt; $45</span></div>
-                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">Easy, available</span></div>
-                    <div class="compare-row"><span class="label">Frequency</span><span class="value">High availability</span></div>
-                    <div class="compare-row"><span class="label">Action</span><span class="value accent">Maximize — actively pursue aggressively</span></div>
-                </div>
-
-                <div class="compare-table">
-                    <div class="compare-title">A-Tier 🟢 (Preferred)</div>
-                    <div class="compare-row"><span class="label">RPM</span><span class="value">$1.50-1.70/mi</span></div>
-                    <div class="compare-row"><span class="label">Net margin</span><span class="value">35-40%</span></div>
-                    <div class="compare-row"><span class="label">Profit/hour</span><span class="value">$35-45</span></div>
-                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">Moderate, reliable</span></div>
-                    <div class="compare-row"><span class="label">Action</span><span class="value">Prioritize — always accept without hesitation</span></div>
-                </div>
-
-                <div class="compare-table">
-                    <div class="compare-title">B-Tier 🟡 (Acceptable)</div>
-                    <div class="compare-row"><span class="label">RPM</span><span class="value">$1.30-1.50/mi</span></div>
-                    <div class="compare-row"><span class="label">Net margin</span><span class="value">25-35%</span></div>
-                    <div class="compare-row"><span class="label">Profit/hour</span><span class="value">$25-35</span></div>
-                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">Variable, unreliable</span></div>
-                    <div class="compare-row"><span class="label">Action</span><span class="value">Accept — only if it fits your circuit strategy</span></div>
-                </div>
-
-                <div class="compare-table">
-                    <div class="compare-title">C-Tier 🟠 (Avoid)</div>
-                    <div class="compare-row"><span class="label">RPM</span><span class="value">$1.10-1.30/mi</span></div>
-                    <div class="compare-row"><span class="label">Net margin</span><span class="value">15-25%</span></div>
-                    <div class="compare-row"><span class="label">Profit/hour</span><span class="value">$15-25</span></div>
-                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">Difficult or non-existent</span></div>
-                    <div class="compare-row"><span class="label">Action</span><span class="value">Avoid — only if financially desperate</span></div>
-                </div>
-
-                <div class="compare-table">
-                    <div class="compare-title">D-Tier 🔴 (Reject)</div>
-                    <div class="compare-row"><span class="label">RPM</span><span class="value">&lt; $1.10/mi</span></div>
-                    <div class="compare-row"><span class="label">Net margin</span><span class="value">&lt; 15%</span></div>
-                    <div class="compare-row"><span class="label">Profit/hour</span><span class="value">&lt; $15</span></div>
-                    <div class="compare-row"><span class="label">Backhaul</span><span class="value">Virtually none</span></div>
-                    <div class="compare-row"><span class="label">Action</span><span class="value">Always reject — never accept under any circumstances</span></div>
-                </div>
-            </section>
-
-            <section>
-                <h2>Route analysis inside Smart Load</h2>
-
-                <div class="formula">ROUTE ANALYSIS - YOUR PERSONAL TOP 10<br>
-<br>
-Data based on 6 months of your loaded history<br>
-<br>
-#1: DETROIT → CHICAGO<br>
-├─ Total Loads Run: 18<br>
-├─ Average RPM: $1.86/mi<br>
-├─ Average Net Margin: 44.2%<br>
-├─ Profit Per Hour: $49<br>
-├─ Tier Classification: S 🟢🟢<br>
-└─ AI RECOMMENDATION: Run this more often.<br>
-<br>
-#2: CHICAGO → INDIANAPOLIS<br>
-├─ Total Loads Run: 12<br>
-├─ Average RPM: $1.72/mi<br>
-├─ Average Net Margin: 41.8%<br>
-├─ Profit Per Hour: $46<br>
-├─ Tier Classification: S 🟢🟢<br>
-└─ AI RECOMMENDATION: Maintain current frequency.<br>
-<br>
-#3: INDIANAPOLIS → NASHVILLE<br>
-├─ Total Loads Run: 10<br>
-├─ Average RPM: $1.65/mi<br>
-├─ Average Net Margin: 38.5%<br>
-├─ Profit Per Hour: $42<br>
-├─ Tier Classification: A 🟢<br>
-└─ AI RECOMMENDATION: High priority lane.<br>
-<br>
-YOUR 3 WORST PERFORMING ROUTES:<br>
-├─ Detroit → Laredo: Only $10.77/hr<br>
-├─ Toledo → El Paso: Only $9.25/hr<br>
-└─ Chicago → Phoenix: Only $12.80/hr<br>
-<br>
-YOUR OPTIMIZATION OPPORTUNITY:<br>
-If you eliminate your worst 3 routes and<br>
-increase your top 3 routes by just 20%:<br>
-Monthly profit increase: +$1,240 🚀</div>
-            </section>
-
-            <section>
-                <h2>Building your optimal weekly circuit</h2>
-
-                <div class="compare-table">
-                    <div class="compare-title">Optimal weekly circuit — live example</div>
-                    <div class="compare-row"><span class="label">Monday: Detroit → Chicago (Tier S)</span><span class="value">+$245 profit, 5 hrs</span></div>
-                    <div class="compare-row"><span class="label">Tuesday: Chicago → Indianapolis (Tier S)</span><span class="value">+$220 profit, 4 hrs</span></div>
-                    <div class="compare-row"><span class="label">Wednesday: Indianapolis → Nashville (Tier A)</span><span class="value">+$280 profit, 5 hrs</span></div>
-                    <div class="compare-row"><span class="label">Thursday: Nashville → Atlanta (Tier A)</span><span class="value">+$320 profit, 4 hrs</span></div>
-                    <div class="compare-row"><span class="label">Friday: Atlanta → Detroit (Tier S)</span><span class="value">+$680 profit, 11 hrs</span></div>
-                </div>
-
-                <div class="compare-table">
-                    <div class="compare-title">Weekly totals</div>
-                    <div class="compare-row"><span class="label">Total miles</span><span class="value">~1,950</span></div>
-                    <div class="compare-row"><span class="label">Drive time</span><span class="value">29 hrs active driving</span></div>
-                    <div class="compare-row"><span class="label">Net profit</span><span class="value accent">$1,745</span></div>
-                    <div class="compare-row"><span class="label">Profit/hour</span><span class="value accent">$60.17 ✅</span></div>
-                    <div class="compare-row"><span class="label">Routes</span><span class="value">ONLY Tier S &amp; A</span></div>
-                </div>
-
-                <div class="pull-number">
-                    <div class="value">+66%</div>
-                    <p class="context">monthly: $6,980 (optimized circuit) vs $4,200 (random circuit) = +$2,780/month.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>The core takeaway</h2>
-
-                <p><strong>Route analysis consistently reveals:</strong></p>
-                <ul>
-                    <li>20% of your routes generate 60% of all profit (Tier S/A).</li>
-                    <li>50% of your routes are just "okay" (Tier B).</li>
-                    <li>30% of your routes are actively destroying profitability (Tier C/D).</li>
-                </ul>
-
-                <p><strong>The metrics that matter most, per route:</strong></p>
-                <ol>
-                    <li><strong>Profit Per Hour</strong> (the #1 metric, always)</li>
-                    <li>Net Margin (measures business sustainability)</li>
-                    <li>RPM (measures rate efficiency)</li>
-                    <li>Backhaul Rate (measures load continuity)</li>
-                    <li>Load Frequency (measures operational consistency)</li>
-                </ol>
-
-                <div class="note tip">
-                    <span class="note-label">The optimization process</span>
-                    <p>Weeks 1-2: identify your unprofitable bad routes. Weeks 3-6: test replacement routes strategically. Weeks 7-10: gradually replace the bad with the good. Weeks 11-12: evaluate your total financial results.</p>
-                    <p>Typical real-world outcome: +30-50% increase in monthly net profit.</p>
-                </div>
-
-                <div class="conclusion">
-                    <p class="lead">Not all routes are created equal. The secret is not working more hours — it is working the <span class="accent">right routes</span>.</p>
-                    <p class="sub">Eliminate 2-3 of your worst routes. Maximize 2-3 of your best routes. = Transform your business completely in 90 days.</p>
-                </div>
-            </section>
-
+    <header>
+        <div class="al-kicker">Module 5 · Lesson 3</div>
+        <h1 class="al-title">Profitability by route, zone and broker</h1>
+        <div class="al-meta">
+            <span class="al-chip">8 min read</span>
+            <span class="al-chip">Finance</span>
+            <span class="al-chip">Pro</span>
         </div>
+    </header>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+    <section class="al-learn">
+        <div class="al-learn-title">What you will learn</div>
+        <ol>
+            <li>Why the average RPM hides differences.</li>
+            <li>Which report to use for each question.</li>
+            <li>How to classify your routes.</li>
+        </ol>
+    </section>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as Complete</button>
-            <nav class="lesson-nav">
-                <a href="lesson-2.html" class="btn btn-secondary">← Previous Lesson</a>
-                <a href="lesson-4.html" class="btn btn-primary">Next: Forecasting →</a>
-            </nav>
-        </footer>
-        
-    </article>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>Not every mile is worth the same</h2>
+        <p>Your average RPM hides big differences. In the example account the average is $0.96, but loads leaving Michigan pay $1.30 and loads leaving Florida $0.50, below cost.</p>
+        <table class="al-table">
+            <tr><td>Out of Michigan<span class="al-sub">4 loads</span></td><td class="al-num-cell">$1.30</td><td class="al-num-cell">$927</td></tr>
+            <tr><td>Out of Ohio<span class="al-sub">3 loads</span></td><td class="al-num-cell">$1.01</td><td class="al-num-cell">$461</td></tr>
+            <tr><td>Out of Texas<span class="al-sub">3 loads</span></td><td class="al-num-cell">$0.60</td><td class="al-num-cell">$49</td></tr>
+            <tr class="al-total"><td>Out of Florida<span class="al-sub">2 loads</span></td><td class="al-num-cell">$0.50</td><td class="al-num-cell">-$34</td></tr>
+        </table>
+    </section>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 5, LESSON_NUM = 3;
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>Where to see it in the app</h2>
+        <table class="al-table">
+            <tr><td><strong>Zones</strong><span class="al-sub">RPM and profit by outbound state, plus destination cities</span></td></tr>
+            <tr><td><strong>Finances → Reports → Zone profitability</strong><span class="al-sub">Best and worst routes by RPM, with recommendations</span></td></tr>
+            <tr><td><strong>Finances → Reports → Company report</strong><span class="al-sub">Income, loads and RPM by broker</span></td></tr>
+            <tr><td><strong>Finances → Reports → P&amp;L statement</strong><span class="al-sub">The whole month: income, expenses by category and profit</span></td></tr>
+        </table>
+    </section>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'Beyond "How Much Did I Make": Real Financial Tracking', time: '12 min' },
-            { num: 2, title: 'KPIs That Predict Success or Failure', time: '15 min' },
-            { num: 3, title: 'Route Profitability Analysis', time: '14 min' },
-            { num: 4, title: 'Forecasting &amp; Planning: Predict Your Future Income', time: '13 min' },
-            { num: 5, title: 'When to Expand: Second Van and Scaling Up', time: '16 min' }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>Classify your routes</h2>
+        <table class="al-table">
+            <tr><td><span class="al-green"><strong>Keep</strong></span><span class="al-sub">RPM above your threshold. Look for them and look after those brokers</span></td></tr>
+            <tr><td><span class="al-amber"><strong>Negotiate</strong></span><span class="al-sub">They cover cost but not your target. Ask for the counter-offer or use them only to reposition</span></td></tr>
+            <tr><td><span class="al-red"><strong>Avoid</strong></span><span class="al-sub">Below your cost. Only if they get you out of a bad zone and you know what you lose</span></td></tr>
+        </table>
+    </section>
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: 'Comparing Route A (Detroit→Chicago, $245 profit, 5 hrs, $49/hr) vs Route B (Detroit→Laredo, $280 profit, 26 hrs, $10.77/hr), which is better and why?',
-                options: [
-                    'Route B, because it generates more total profit',
-                    'Route A, because it generates much more per hour ($49 vs $10.77)',
-                    'They are equally profitable',
-                    'Route B, because it has better RPM'
-                ],
-                correctIndex: 1
-            },
-            {
-                question: 'Per the route classification system, what characterizes "S-Tier"?',
-                options: ['RPM >$1.70/mi, margin >40%, profit/hr >$45', 'RPM <$1.10/mi, always decline', 'RPM $1.30-1.50/mi, accept if it fits', 'No backhaul available'],
-                correctIndex: 0
-            },
-            {
-                question: 'In the optimal weekly circuit example (only Tier S and A routes), what was the monthly difference vs a random circuit?',
-                options: ['+$1,240/month', '+$2,780/month (+66%)', 'No significant difference', '-$500/month (worse result)'],
-                correctIndex: 1
-            },
-            {
-                question: 'Per the lesson\'s conclusion, what percentage of routes generate 60% of the profit?',
-                options: ['50%', '30%', '20%', '100%'],
-                correctIndex: 2
-            }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>Build your circuit with data</h2>
+        <ul class="al-checklist">
+            <li>Once a month, open Zone profitability and write down your 5 best routes.</li>
+            <li>Look for loads that connect those routes.</li>
+            <li>Talk to the brokers who give you those routes (module 4).</li>
+            <li>For the red routes, save a market note with the reason.</li>
+        </ul>
+        <div class="al-callout is-app">
+            <div class="al-callout-label">Open your reports</div>
+            <p>Pick the month and generate Zone profitability.</p>
+            <p><a class="al-btn al-btn-primary" href="/app.html#finances">Open Finances →</a></p>
+        </div>
+    </section>
 
-function markLessonComplete() {
-    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-    if (window.AcademyProgress) {
-        window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-            btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-            btn.style.background = 'linear-gradient(135deg, #F5B03A, #F5B03A)';
-            btn.classList.remove('quiz-locked');
-            btn.removeAttribute('title');
+    <section class="al-summary">
+        <h2>In summary</h2>
+        <ul>
+            <li>The average hides very good routes and routes that lose money.</li>
+            <li>Zones and the Finances reports tell you which ones.</li>
+            <li>Keep the green ones, negotiate the yellow ones and avoid the red ones.</li>
+        </ul>
+    </section>
+
+    <section class="lesson-quiz" id="lessonQuiz"></section>
+
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as complete</button>
+        <nav class="lesson-nav">
+            <a href="lesson-2.html" class="al-btn al-btn-ghost">← Previous lesson</a>
+            <a href="lesson-4.html" class="al-btn al-btn-primary">Next: planning the month →</a>
+        </nav>
+    </footer>
+</article>
+
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 5;
+    const LESSON_NUM = 3;
+    const LESSON_LIST = [
+        { num: 1, title: "Beyond \"how much did I make\"", time: '8 min' },
+        { num: 2, title: "The KPIs that matter", time: '9 min' },
+        { num: 3, title: "Profitability by route, zone and broker", time: '8 min' },
+        { num: 4, title: "Planning the month: scenarios", time: '8 min' },
+        { num: 5, title: "When to think about a second van", time: '9 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+  {
+    "question": "Your average RPM is $0.96. Does it mean all your routes are profitable?",
+    "options": [
+      "Yes",
+      "No: some routes may be below your cost",
+      "Only in summer",
+      "It depends on Lex"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "Which report shows the best and worst routes by RPM?",
+    "options": [
+      "Tax report",
+      "Zone profitability",
+      "Expense breakdown",
+      "None"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "A route covers your cost but not your target. What do you do?",
+    "options": [
+      "Always avoid it",
+      "Negotiate it or use it to reposition",
+      "Accept it without looking",
+      "Delete it"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "Where do you see income and RPM by broker?",
+    "options": [
+      "In the Company report",
+      "In Settings",
+      "In the calculator",
+      "In My Account"
+    ],
+    "correctIndex": 0
+  }
+];
+
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completed";
             btn.disabled = true;
-            btn.dataset.lessonDone = 'true';
-        });
-        alert(isEs ? '¡Lección PRO completada! ✅\nAhora sabes clasificar rutas por tier.\nGanancia/hora es la métrica #1.' : 'PRO Lesson completed! ✅\nYou now classify routes by tier.\nProfit/hour is your #1 metric.');
-    }
-}
-
-document.addEventListener('DOMContentLoaded', async () => {
-    const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-
-    if (window.AcademySidebar) {
-        await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Financial Analysis & KPIs', LESSON_LIST);
+        }
     }
 
-    const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-    if (alreadyDone) {
-        document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-            btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-            btn.style.background = 'linear-gradient(135deg, #F5B03A, #F5B03A)';
-            btn.classList.remove('quiz-locked');
-            btn.removeAttribute('title');
-            btn.disabled = true;
-            btn.dataset.lessonDone = 'true';
-        });
-        const quizEl = document.getElementById('lessonQuiz');
-        if (quizEl) quizEl.style.display = 'none';
-    } else if (window.AcademyQuiz) {
-        await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-    }
-});
-    </script>
-
-  
-
-
-
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, "Financial analysis and KPIs", LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completed"; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>
