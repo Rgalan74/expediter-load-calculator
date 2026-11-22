@@ -250,6 +250,7 @@
     "lex_unavailable": "No pude acceder al análisis de historial de Lex ⚙️"
   },
   "finances": {
+    "kpi_cost_per_mile": "Costo/mi",
     "label_home_state": "🏠 Estado de residencia (para el reporte de impuestos)",
     "expense_description_placeholder": "Descripción del gasto",
     "title": "💰 Gestión Financiera",

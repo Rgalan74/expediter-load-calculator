@@ -250,6 +250,7 @@
     "lex_unavailable": "Could not access Lex history analysis ⚙️"
   },
   "finances": {
+    "kpi_cost_per_mile": "Cost/mi",
     "label_home_state": "🏠 Home State (for Tax Report)",
     "expense_description_placeholder": "Expense description",
     "title": "💰 Financial Management",

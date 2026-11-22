@@ -1119,7 +1119,12 @@ html[data-theme] body header .gradient-text,
 /* Configuración está fuera de #appContent en el HTML (hijo directo de body):
    recibe el mismo espacio para el menú lateral y la barra inferior. */
 @media (min-width: 1024px) {
-  :root:not(#sls) body > #settings { margin-left: 232px !important; }
+  :root:not(#sls) body > #settings {
+    margin-left: 232px !important;
+    width: calc(100% - 232px) !important;
+    max-width: calc(100% - 232px) !important;
+    box-sizing: border-box !important;
+  }
 }
 @media (max-width: 767px) {
   :root:not(#sls) body > #settings { padding-bottom: calc(72px + env(safe-area-inset-bottom)) !important; }
