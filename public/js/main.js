@@ -53,6 +53,7 @@ function openTab(tabId) {
             targetTab.classList.add('tab-active');
             targetTab.classList.remove('hidden');
             appState.currentTab = tabId;
+            syncNavButtons(tabId);
             if (tabId !== 'zones' && typeof svgMapLoaded !== 'undefined') svgMapLoaded = false;
             debugLog(` [MAIN] Tab ${tabId} activated`);
         } else {
@@ -273,10 +274,23 @@ function updateTabButtonState(activeButton) {
         b.classList.remove("text-blue-600", "font-bold", "bg-blue-100", "shadow-sm");
     });
 
-    // Activar el botón seleccionado
+    // Activar el botón seleccionado y sus gemelos (menú lateral, menú móvil, barra inferior)
     activeButton.classList.remove("tab-pill-inactive");
     activeButton.classList.add("tab-pill-active");
+    syncNavButtons(activeButton.getAttribute("data-tab"));
 }
+
+// Marca como activos todos los botones de navegación de una pestaña
+function syncNavButtons(tabId) {
+    if (!tabId) return;
+    document.querySelectorAll(".tab-link[data-tab]").forEach((b) => {
+        const on = b.getAttribute("data-tab") === tabId;
+        b.classList.toggle("tab-pill-active", on);
+        b.classList.toggle("tab-pill-inactive", !on);
+        if (on) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
+    });
+}
+window.syncNavButtons = syncNavButtons;
 
 //  Setup del logout button
 function setupLogout() {

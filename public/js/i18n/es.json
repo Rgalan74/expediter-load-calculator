@@ -5,6 +5,11 @@
     "app": "Smart Load Solution"
   },
   "nav": {
+    "short_calculator": "Calcular",
+    "short_history": "Historial",
+    "short_finances": "Finanzas",
+    "short_zones": "Zonas",
+    "short_settings": "Ajustes",
     "calculator": "Calculadora",
     "history": "Historial",
     "finances": "Finanzas",

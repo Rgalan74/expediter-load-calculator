@@ -833,3 +833,200 @@ html[data-theme] body header .gradient-text,
   color: var(--sls-muted) !important;
   -webkit-text-fill-color: var(--sls-muted) !important;
 }
+
+/* =====================================================================
+   PASO 3 — Navegación: menú lateral (escritorio) y barra inferior (móvil)
+   ===================================================================== */
+:root:not(#sls) body #slsBottomNav { display: none; }
+
+/* ---------- Escritorio: menú lateral fijo ---------- */
+@media (min-width: 1024px) {
+  :root:not(#sls) body #appContent { padding-left: 232px !important; }
+  :root:not(#sls) body #appContent > header.header-n8n {
+    position: fixed !important;
+    top: 0 !important; left: 0 !important; bottom: 0 !important;
+    width: 232px !important;
+    height: 100vh !important;
+    z-index: 60 !important;
+    border-bottom: 0 !important;
+    border-right: 1px solid var(--sls-line) !important;
+    overflow-y: auto !important;
+  }
+  :root:not(#sls) body #appContent > header.header-n8n > div:first-child {
+    max-width: none !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 22px 14px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    gap: 26px !important;
+  }
+  :root:not(#sls) body header.header-n8n > div:first-child > div:first-child { padding: 0 8px !important; }
+  :root:not(#sls) body header.header-n8n .header-title { font-size: 19px !important; }
+  :root:not(#sls) body header.header-n8n nav {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 2px !important;
+    margin: 0 !important;
+    counter-reset: slsnav;
+  }
+  :root:not(#sls) body header.header-n8n nav .n8n-nav-link {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    height: 44px !important;
+    padding: 0 12px !important;
+    border-radius: 6px !important;
+    border: 0 !important;
+    border-bottom: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    font-size: 12px !important;
+    letter-spacing: 0.14em !important;
+    text-align: left !important;
+    color: var(--sls-muted) !important;
+    -webkit-text-fill-color: var(--sls-muted) !important;
+  }
+  :root:not(#sls) body header.header-n8n nav .n8n-nav-link::before {
+    counter-increment: slsnav;
+    content: "0" counter(slsnav) !important;
+    display: inline !important;
+    position: static !important;
+    width: auto !important; height: auto !important;
+    background: none !important;
+    opacity: 0.55 !important;
+  }
+  :root:not(#sls) body header.header-n8n nav .n8n-nav-link::after { display: none !important; content: none !important; }
+  :root:not(#sls) body header.header-n8n nav .n8n-nav-link:hover {
+    background: var(--sls-surface-2) !important;
+    color: var(--sls-text) !important;
+    -webkit-text-fill-color: var(--sls-text) !important;
+  }
+  :root:not(#sls) body header.header-n8n nav .n8n-nav-link.tab-pill-active {
+    background: var(--sls-raised) !important;
+    color: var(--sls-text) !important;
+    -webkit-text-fill-color: var(--sls-text) !important;
+    box-shadow: inset 2px 0 0 var(--sls-accent) !important;
+  }
+  /* Acciones al pie del menú */
+  :root:not(#sls) body header.header-n8n > div:first-child > div:last-child {
+    margin: auto 0 0 !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    padding: 12px 8px 0 !important;
+    border-top: 1px solid var(--sls-line) !important;
+  }
+}
+
+/* ---------- Móvil: barra inferior ---------- */
+@media (max-width: 767px) {
+  :root:not(#sls) body #slsBottomNav {
+    position: fixed !important;
+    left: 0 !important; right: 0 !important; bottom: 0 !important; top: auto !important;
+    z-index: 9000 !important;
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 2px !important;
+    width: auto !important;
+    margin: 0 !important;
+    background: var(--sls-surface) !important;
+    background-image: none !important;
+    backdrop-filter: none !important;
+    border: 0 !important;
+    border-top: 1px solid var(--sls-line) !important;
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.45) !important;
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom)) !important;
+  }
+  :root:not(#sls) body #slsBottomNav .sls-bn-item {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    min-height: 52px !important;
+    padding: 4px 2px !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 6px !important;
+    box-shadow: none !important;
+    color: var(--sls-muted) !important;
+    -webkit-text-fill-color: var(--sls-muted) !important;
+    font-family: var(--sls-font-body) !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  :root:not(#sls) body #slsBottomNav .sls-bn-item::after { display: none !important; content: none !important; }
+  :root:not(#sls) body #slsBottomNav .sls-bn-item span {
+    display: block !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-family: var(--sls-font-body) !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  :root:not(#sls) body #slsBottomNav .sls-bn-item svg { width: 22px !important; height: 22px !important; flex: 0 0 auto !important; }
+  :root:not(#sls) body #slsBottomNav .sls-bn-item.tab-pill-active {
+    color: var(--sls-accent-text) !important;
+    -webkit-text-fill-color: var(--sls-accent-text) !important;
+    background: rgba(34, 211, 238, 0.08) !important;
+    box-shadow: inset 0 2px 0 var(--sls-accent) !important;
+  }
+  /* Espacio para que la barra no tape el contenido */
+  :root:not(#sls) body #appContent { padding-bottom: calc(72px + env(safe-area-inset-bottom)) !important; }
+  /* Las pestañas ya están abajo: el menú ☰ queda para Academia, Sitio web, idioma y cuenta */
+  :root:not(#sls) body #mobileMenu .tab-link[data-tab] { display: none !important; }
+  /* Lex y el aviso de cookies por encima de la barra */
+  :root:not(#sls) body #lexAssistant { bottom: calc(80px + env(safe-area-inset-bottom)) !important; }
+  :root:not(#sls) body #cookie-consent-banner { bottom: calc(64px + env(safe-area-inset-bottom)) !important; }
+}
+
+/* ---------- Aviso de cookies con el estilo nuevo ---------- */
+:root:not(#sls) body #cookie-consent-banner {
+  background: var(--sls-surface) !important;
+  border-top: 1px solid var(--sls-line) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+:root:not(#sls) body #cookie-consent-banner .cc-btn-accept {
+  background: var(--sls-accent) !important;
+  background-image: none !important;
+  color: var(--sls-on-accent) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+:root:not(#sls) body #cookie-consent-banner .cc-btn-reject {
+  background: transparent !important;
+  color: var(--sls-text) !important;
+  border: 1px solid var(--sls-line-2) !important;
+}
+:root:not(#sls) body #cookie-consent-banner .cc-link { color: var(--sls-accent-text) !important; }
+
+/* ---------- Tableta: barra superior compacta para que quepa todo ---------- */
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root:not(#sls) body header.header-n8n .header-title { display: none !important; }
+  :root:not(#sls) body header.header-n8n > div:first-child { padding-left: 12px !important; padding-right: 12px !important; }
+  :root:not(#sls) body header.header-n8n nav { gap: 14px !important; margin-left: 14px !important; }
+  :root:not(#sls) body header.header-n8n nav .n8n-nav-link {
+    font-size: 11px !important;
+    letter-spacing: 0.06em !important;
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+  }
+  :root:not(#sls) body header.header-n8n > div:first-child > div:last-child { gap: 6px !important; }
+}
