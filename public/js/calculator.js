@@ -1863,6 +1863,11 @@ function showDecisionPanel(calculationData = {}) {
         </div>`;
       }
 
+      // Notas para el precio (lugar + viajes anteriores); tambien las usa Lex
+      let _placeNotesDest = [], _placeNotesOrig = [], _tripNotes = [];
+      const _escN = (t) => String(t || '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+      window._lastLoadNotes = { destination: destinationState || '', origin: originState || '', place: [], trips: [] };
+
       // 2) Notas de origen y destino — el usuario marca cada nota "Como Destino",
       // "Como Origen" o "Ambos" al guardarla (ver app.html #noteZoneType), asi que
       // hay que comparar cada lado por separado en vez de solo contra destination.
@@ -1897,18 +1902,8 @@ function showDecisionPanel(calculationData = {}) {
           const badge = typeBadge[n.type] || '🔵';
           return `<div style="margin-bottom:6px">${badge} ${n.note}</div>`;
         }).join('');
-        if (notasDestino.length > 0) {
-          html += `<div class="decision-info-block decision-info-nota">
-    <div class="decision-info-label">📍 ${_t('calculator.notes_for')} ${destinationState || destination.split(',')[0]} (${notasDestino.length})</div>
-    <div class="decision-info-text">${renderNotas(notasDestino)}</div>
-  </div>`;
-        }
-        if (notasOrigen.length > 0) {
-          html += `<div class="decision-info-block decision-info-nota">
-    <div class="decision-info-label">📍 ${_t('calculator.notes_for')} ${originState || origin.split(',')[0]} (${notasOrigen.length})</div>
-    <div class="decision-info-text">${renderNotas(notasOrigen)}</div>
-  </div>`;
-        }
+        _placeNotesDest = notasDestino;
+        _placeNotesOrig = notasOrigen;
       } catch (err) {
         debugLog('Error cargando notas del panel de decision:', err);
       }
@@ -1942,6 +1937,47 @@ function showDecisionPanel(calculationData = {}) {
         }
       } catch (err) {
         debugLog('Error cargando historial de ruta del panel de decision:', err);
+      }
+
+      // 3b) Notas de viajes anteriores al mismo destino (campo "Notas" de cada carga)
+      try {
+        if (destinationState) {
+          const tripSnap = await window.db.collection('loads')
+            .where('userId', '==', uid)
+            .where('destinationState', '==', destinationState)
+            .limit(50).get();
+          tripSnap.forEach(doc => {
+            const d = doc.data();
+            const n = String(d.notes || '').trim();
+            if (n) _tripNotes.push({ date: d.date || '', origin: (d.origin || '').split(',')[0], destination: (d.destination || '').split(',')[0], note: n });
+          });
+          _tripNotes.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+          _tripNotes = _tripNotes.slice(0, 5);
+        }
+      } catch (err) {
+        debugLog('Error cargando notas de viajes anteriores:', err);
+      }
+
+      // Bloque unico: todo lo que conviene tener en cuenta al dar el precio
+      {
+        const _isEsN = (window.i18n?.currentLang || 'en') === 'es';
+        const typeBadge = { destino: '🔵', origen: '🟢', ambos: '🟣' };
+        const placeRows = [..._placeNotesDest.map(n => ({ n, where: destinationState || destination.split(',')[0] })),
+                           ..._placeNotesOrig.map(n => ({ n, where: originState || origin.split(',')[0] }))];
+        window._lastLoadNotes.place = placeRows.map(r => `${r.where}: ${r.n.note}`);
+        window._lastLoadNotes.trips = _tripNotes.map(t => `${t.date} ${t.origin} → ${t.destination}: ${t.note}`);
+        if (placeRows.length || _tripNotes.length) {
+          const placeHtml = placeRows.map(r => `<div style="margin-bottom:6px">${typeBadge[r.n.type] || '🔵'} <strong>${_escN(r.where)}:</strong> ${_escN(r.n.note)}</div>`).join('');
+          const tripHtml = _tripNotes.map(t => `<div style="margin-bottom:6px">🚚 <span style="opacity:.75">${_escN(t.date)} · ${_escN(t.origin)} → ${_escN(t.destination)}:</span> ${_escN(t.note)}</div>`).join('');
+          html += `<div class="decision-info-block decision-info-nota">
+            <div class="decision-info-label">📝 ${_isEsN ? 'Tenlo en cuenta al dar el precio' : 'Keep in mind when quoting'}</div>
+            <div class="decision-info-text">${placeHtml}${tripHtml}
+              <div style="margin-top:4px;opacity:.75;font-size:12px">${_isEsN
+                ? 'Si alguna nota habla de esperas, muelles difíciles o poca carga de salida, úsala para pedir más. Lex te ayuda con la frase para el dispatcher.'
+                : 'If a note mentions waiting time, difficult docks or few outbound loads, use it to ask for more. Lex can help with the line for the dispatcher.'}</div>
+            </div>
+          </div>`;
+        }
       }
 
       // 4) Día y hora (sin I/O, no necesita su propio try/catch)

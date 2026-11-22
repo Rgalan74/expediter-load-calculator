@@ -180,6 +180,15 @@
 - Panel target: $${target.toFixed(3)}/mi = ${money(target * d.totalMiles)} total` : ''}`;
         }
 
+
+        // Notas del lugar y de viajes anteriores (las mismas del panel)
+        const _ln = window._lastLoadNotes || {};
+        const _noteList = [...(_ln.place || []), ...(_ln.trips || [])].slice(0, 8);
+        const notesLines = _noteList.length
+            ? (isEsCtx
+                ? `- Notas del conductor para esta carga (lugar y viajes anteriores):\n${_noteList.map(n => `  - "${n}"`).join('\n')}\n- Si alguna nota describe un problema (esperas, muelle difícil, poca carga de salida, peajes, clima, zona peligrosa), úsala como razón concreta para subir el precio en la contraoferta y dale al usuario la frase exacta para el dispatcher mencionando ese motivo.`
+                : `- Driver notes for this load (place and previous trips):\n${_noteList.map(n => `  - "${n}"`).join('\n')}\n- If a note describes a problem (waiting time, difficult dock, few outbound loads, tolls, weather, unsafe area), use it as a concrete reason to raise the price in the counteroffer and give the user the exact line for the dispatcher mentioning that reason.`)
+            : '';
         if (isEsCtx) {
             return `
 CARGA ACTIVA EN EL CALCULADOR (el usuario ya tiene esta carga en pantalla):
@@ -190,6 +199,7 @@ CARGA ACTIVA EN EL CALCULADOR (el usuario ya tiene esta carga en pantalla):
 - Margen actual: ${margen}%
 - Decisión del panel: ${d.decision}
 ${costLines}
+${notesLines}
 ${weatherLine}
 Si el usuario pregunta "¿la acepto?", "¿qué opinas?" o "analízala" sin dar datos, se refiere a ESTA carga.
 Para ESTA carga usa exactamente los costos, la ganancia y el objetivo de arriba; el desglose histórico es solo referencia y no sirve para calcularla.
@@ -204,6 +214,7 @@ ACTIVE LOAD IN CALCULATOR (user has this load on screen):
 - Current margin: ${margen}%
 - Panel decision: ${d.decision}
 ${costLines}
+${notesLines}
 ${weatherLine}
 If the user asks "should I take it?", "what do you think?" or "analyze it" without giving data, they mean THIS load.
 For THIS load use exactly the costs, profit and target above; the historical breakdown is reference only and must not be used to compute it.
