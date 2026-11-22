@@ -8,7 +8,7 @@
   left: 0;
   width: 280px;
   height: calc(100vh - 52px);
-  background: rgba(15, 15, 20, 0.97);
+  background: rgba(10, 16, 28, 0.97);
   backdrop-filter: blur(20px);
   border-right: 1px solid rgba(255, 255, 255, 0.1);
   overflow-y: auto;
@@ -86,8 +86,8 @@
 }
 
 .lesson-sidebar-item.active {
-  background: rgba(0, 217, 255, 0.1);
-  border-color: rgba(0, 217, 255, 0.4);
+  background: rgba(34, 211, 238, 0.1);
+  border-color: rgba(34, 211, 238, 0.4);
   color: #ffffff;
 }
 
@@ -106,14 +106,14 @@
 }
 
 .lesson-sidebar-item.active .lesson-sidebar-marker {
-  border-color: #00D9FF;
-  color: #00D9FF;
+  border-color: #22D3EE;
+  color: #22D3EE;
 }
 
 .lesson-sidebar-item.completed .lesson-sidebar-marker {
-  border-color: #64C864;
-  background: rgba(100, 200, 100, 0.15);
-  color: #64C864;
+  border-color: #3DDC97;
+  background: rgba(61, 220, 151, 0.15);
+  color: #3DDC97;
 }
 
 .lesson-sidebar-item-title {
@@ -138,7 +138,7 @@
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #00D9FF, #FF6B35);
+  background: linear-gradient(135deg, #22D3EE, #22D3EE);
   color: #000;
   border: none;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);

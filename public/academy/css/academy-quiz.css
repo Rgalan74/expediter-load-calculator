@@ -22,7 +22,7 @@
 }
 
 .quiz-question {
-  background: rgba(20, 20, 20, 0.8);
+  background: rgba(15, 24, 40, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 0.75rem;
   padding: 1.5rem;
@@ -56,8 +56,8 @@
 }
 
 .quiz-option:hover {
-  border-color: rgba(0, 217, 255, 0.4);
-  background: rgba(0, 217, 255, 0.05);
+  border-color: rgba(34, 211, 238, 0.4);
+  background: rgba(34, 211, 238, 0.05);
 }
 
 .quiz-option-marker {
@@ -70,12 +70,12 @@
 }
 
 .quiz-option.selected {
-  border-color: #00D9FF;
-  background: rgba(0, 217, 255, 0.1);
+  border-color: #22D3EE;
+  background: rgba(34, 211, 238, 0.1);
 }
 
 .quiz-option.selected .quiz-option-marker {
-  border-color: #00D9FF;
+  border-color: #22D3EE;
 }
 
 .quiz-option.selected .quiz-option-marker::after {
@@ -83,17 +83,17 @@
   position: absolute;
   inset: 3px;
   border-radius: 50%;
-  background: #00D9FF;
+  background: #22D3EE;
 }
 
 .quiz-option.correct {
-  border-color: #64C864;
-  background: rgba(100, 200, 100, 0.12);
+  border-color: #3DDC97;
+  background: rgba(61, 220, 151, 0.12);
   color: #ffffff;
 }
 
 .quiz-option.correct .quiz-option-marker {
-  border-color: #64C864;
+  border-color: #3DDC97;
 }
 
 .quiz-option.correct .quiz-option-marker::after {
@@ -105,17 +105,17 @@
   justify-content: center;
   font-size: 12px;
   font-weight: 900;
-  color: #64C864;
+  color: #3DDC97;
 }
 
 .quiz-option.incorrect {
-  border-color: #FF6B35;
-  background: rgba(255, 107, 53, 0.1);
+  border-color: #F26D6D;
+  background: rgba(242, 109, 109, 0.1);
   color: #ffffff;
 }
 
 .quiz-option.incorrect .quiz-option-marker {
-  border-color: #FF6B35;
+  border-color: #F26D6D;
 }
 
 .quiz-option.incorrect .quiz-option-marker::after {
@@ -127,7 +127,7 @@
   justify-content: center;
   font-size: 11px;
   font-weight: 900;
-  color: #FF6B35;
+  color: #F26D6D;
 }
 
 .quiz-option.disabled {
@@ -165,21 +165,21 @@
 }
 
 .quiz-result-pass {
-  background: rgba(100, 200, 100, 0.12);
-  border: 1px solid rgba(100, 200, 100, 0.4);
+  background: rgba(61, 220, 151, 0.12);
+  border: 1px solid rgba(61, 220, 151, 0.4);
 }
 
 .quiz-result-pass strong {
-  color: #64C864;
+  color: #3DDC97;
 }
 
 .quiz-result-fail {
-  background: rgba(255, 107, 53, 0.1);
-  border: 1px solid rgba(255, 107, 53, 0.3);
+  background: rgba(242, 109, 109, 0.1);
+  border: 1px solid rgba(242, 109, 109, 0.35);
 }
 
 .quiz-result-fail strong {
-  color: #FF6B35;
+  color: #F26D6D;
 }
 
 /* Locked "mark complete" button, pending quiz pass */

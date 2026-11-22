@@ -5,12 +5,13 @@
     <meta name="description" content="The #1 mistake most expediters make — and exactly how to fix it on your very next load.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
+    <link rel="stylesheet" href="/academy/css/academy.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
 
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background: #0a0a0f;
+            background: #060A12;
             color: #e0e0e0;
             line-height: 1.7;
         }
@@ -28,13 +29,13 @@
         }
 
         .breadcrumb a {
-            color: #00D9FF;
+            color: #22D3EE;
             text-decoration: none;
         }
 
         .quick-win-badge {
             display: inline-block;
-            background: linear-gradient(90deg, #FFD700, #FFA500);
+            background: linear-gradient(90deg, #F5B03A, #FFA500);
             color: #000;
             padding: 0.5rem 1.5rem;
             border-radius: 2rem;
@@ -101,7 +102,7 @@
             font-size: 1.5rem;
             font-weight: 800;
             margin-bottom: 0.75rem;
-            color: #FFD700;
+            color: #F5B03A;
             margin-top: 0;
         }
 
@@ -113,18 +114,18 @@
         }
 
         .callout.tip {
-            background: rgba(0, 217, 255, 0.1);
-            border-color: #00D9FF;
+            background: rgba(34, 211, 238, 0.1);
+            border-color: #22D3EE;
         }
 
         .callout.warning {
-            background: rgba(255, 107, 53, 0.1);
-            border-color: #FF6B35;
+            background: rgba(34, 211, 238, 0.1);
+            border-color: #67E8F9;
         }
 
         .callout.win {
             background: rgba(255, 215, 0, 0.1);
-            border-color: #FFD700;
+            border-color: #F5B03A;
         }
 
         .callout strong {
@@ -134,14 +135,14 @@
         }
 
         .comparison-box {
-            background: rgba(20, 20, 20, 0.8);
+            background: rgba(15, 24, 40, 0.92);
             padding: 1.5rem;
             border-radius: 0.75rem;
             margin: 2rem 0;
         }
 
         .highlight-box {
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(255, 215, 0, 0.15));
+            background: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(255, 215, 0, 0.15));
             padding: 1.5rem;
             border-radius: 0.75rem;
             text-align: center;
@@ -150,12 +151,12 @@
         }
 
         .cta-box {
-            background: linear-gradient(135deg, rgba(0, 217, 255, 0.2), rgba(255, 107, 53, 0.2));
+            background: linear-gradient(135deg, rgba(34, 211, 238, 0.2), rgba(34, 211, 238, 0.2));
             padding: 2rem;
             border-radius: 1rem;
             text-align: center;
             margin: 3rem 0;
-            border: 2px solid rgba(0, 217, 255, 0.4);
+            border: 2px solid rgba(34, 211, 238, 0.4);
         }
 
         .lesson-footer {
@@ -174,7 +175,7 @@
         }
 
         .btn-gold {
-            background: linear-gradient(90deg, #FFD700, #FFA500);
+            background: linear-gradient(90deg, #F5B03A, #FFA500);
             color: #000;
         }
 
@@ -184,20 +185,20 @@
         }
 
         .btn-primary {
-            background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+            background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
             color: white;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 217, 255, 0.3);
+            box-shadow: 0 10px 20px rgba(34, 211, 238, 0.3);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 2rem 0;
-            background: rgba(20, 20, 20, 0.8);
+            background: rgba(15, 24, 40, 0.92);
             border-radius: 0.75rem;
             overflow: hidden;
         }
@@ -210,8 +211,8 @@
         }
 
         th {
-            background: rgba(0, 217, 255, 0.1);
-            color: #00D9FF;
+            background: rgba(34, 211, 238, 0.1);
+            color: #22D3EE;
             font-weight: 700;
         }
 
@@ -235,7 +236,7 @@
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,15,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#FF6D4A;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(255,109,74,0.12);color:#FF6D4A;border:1px solid rgba(255,109,74,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(255,109,74,0.2)'" onmouseout="this.style.background='rgba(255,109,74,0.12)'">← Back to App</a></nav>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Back to App</a></nav>
     <article class="lesson-container">
         <nav class="breadcrumb">
             <a href="/en/academy.html">← Academy</a> → START HERE
@@ -312,8 +313,8 @@
                         <li style="border-top: 1px solid rgba(255,255,255,0.2); margin-top: 0.5rem; padding-top: 0.5rem;">
                             <strong>TOTAL REAL MILES: 1,100</strong></li>
                     </ul>
-                    <div style="background: rgba(255, 107, 53, 0.2); padding: 1rem; border-radius: 0.5rem; text-align: center; margin-top: 1rem;">
-                        <p style="font-size: 1.5rem; font-weight: 900; margin: 0; color: #FF6B35;">REAL RPM: $1,200 ÷
+                    <div style="background: rgba(34, 211, 238, 0.2); padding: 1rem; border-radius: 0.5rem; text-align: center; margin-top: 1rem;">
+                        <p style="font-size: 1.5rem; font-weight: 900; margin: 0; color: #67E8F9;">REAL RPM: $1,200 ÷
                             1,100 = $1.09/mile</p>
                     </div>
                 </div>
@@ -322,7 +323,7 @@
                     <p style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">😱 WAIT... WHAT?</p>
                     <p>What you thought: <strong>$1.50/mile</strong><br>
                         The reality: <strong>$1.09/mile</strong></p>
-                    <p style="border-top: 2px solid rgba(255, 215, 0, 0.4); margin-top: 1rem; padding-top: 1rem; font-size: 1.3rem; font-weight: 900; color: #FFD700;">
+                    <p style="border-top: 2px solid rgba(255, 215, 0, 0.4); margin-top: 1rem; padding-top: 1rem; font-size: 1.3rem; font-weight: 900; color: #F5B03A;">
                         THE DIFFERENCE: $0.41/mile</p>
                     <p style="margin: 0;">Calculation error: <strong>38%</strong></p>
                 </div>
@@ -341,15 +342,15 @@
                     <tbody>
                         <tr>
                             <td><strong>Per week</strong><br>(4,000 miles × $0.41)</td>
-                            <td style="color: #FF6B35; font-weight: 700;">$1,640/week</td>
+                            <td style="color: #67E8F9; font-weight: 700;">$1,640/week</td>
                         </tr>
                         <tr>
                             <td><strong>Per month</strong><br>($1,640 × 4 weeks)</td>
-                            <td style="color: #FF6B35; font-weight: 700;">$6,560/month</td>
+                            <td style="color: #67E8F9; font-weight: 700;">$6,560/month</td>
                         </tr>
-                        <tr style="background: rgba(255, 107, 53, 0.1);">
+                        <tr style="background: rgba(34, 211, 238, 0.1);">
                             <td><strong>Per year</strong><br>($6,560 × 12 months)</td>
-                            <td style="color: #FF6B35; font-weight: 900; font-size: 1.2rem;">$78,720/year</td>
+                            <td style="color: #67E8F9; font-weight: 900; font-size: 1.2rem;">$78,720/year</td>
                         </tr>
                     </tbody>
                 </table>
@@ -373,8 +374,8 @@
                     </ul>
 
                     <p style="margin-top: 1.5rem;"><strong>STEP 2:</strong> Calculate your REAL RPM:</p>
-                    <div style="background: rgba(0, 217, 255, 0.1); padding: 1rem; border-radius: 0.5rem; text-align: center;">
-                        <code style="color: #00D9FF; font-size: 1.1rem;">REAL RPM = Total Pay ÷ (Deadhead + Loaded + Repositioning)</code>
+                    <div style="background: rgba(34, 211, 238, 0.1); padding: 1rem; border-radius: 0.5rem; text-align: center;">
+                        <code style="color: #22D3EE; font-size: 1.1rem;">REAL RPM = Total Pay ÷ (Deadhead + Loaded + Repositioning)</code>
                     </div>
 
                     <p style="margin-top: 1.5rem;"><strong>STEP 3:</strong> Compare it against your true costs:</p>
@@ -402,13 +403,13 @@
                     <p><strong>4️⃣</strong> How many deadhead miles? ____________</p>
                     <p><strong>5️⃣</strong> How many repositioning miles? ____________</p>
                     <p><strong>6️⃣</strong> Total REAL miles: ____________</p>
-                    <p><strong>7️⃣</strong> REAL RPM: $_______ ÷ _______ = <strong style="color: #00D9FF;">$_______/mile</strong></p>
+                    <p><strong>7️⃣</strong> REAL RPM: $_______ ÷ _______ = <strong style="color: #22D3EE;">$_______/mile</strong></p>
 
                     <div style="background: rgba(255, 215, 0, 0.1); border: 2px solid rgba(255, 215, 0, 0.3); padding: 1rem; border-radius: 0.5rem; margin-top: 1.5rem;">
                         <p style="font-weight: 700; text-align: center;">THE DIFFERENCE:</p>
                         <p>Your original calculation: $____________/mile<br>
                             Your REAL RPM: $____________/mile<br>
-                            <strong style="color: #FFD700;">The Error: $____________/mile</strong>
+                            <strong style="color: #F5B03A;">The Error: $____________/mile</strong>
                         </p>
                     </div>
                 </div>
@@ -416,7 +417,7 @@
                 <div class="callout warning">
                     <strong>😱 HOW DRASTICALLY DID YOUR NUMBERS CHANGE?</strong>
                     <p>If the difference is &gt;$0.20/mile:</p>
-                    <p style="color: #FF6B35; font-weight: 700;">🚨 You've been making major decisions with 20-40%
+                    <p style="color: #67E8F9; font-weight: 700;">🚨 You've been making major decisions with 20-40%
                         inaccurate information.</p>
                     <p>This explains why:</p>
                     <ul>
@@ -460,11 +461,11 @@
                         </tr>
                         <tr>
                             <td><strong>Next month</strong></td>
-                            <td style="color: #64C864; font-weight: 700;">Take home $800-$1,200 MORE in real profits!<br>Make choices based on real data.</td>
+                            <td style="color: #3DDC97; font-weight: 700;">Take home $800-$1,200 MORE in real profits!<br>Make choices based on real data.</td>
                         </tr>
-                        <tr style="background: rgba(100, 200, 100, 0.1);">
+                        <tr style="background: rgba(61, 220, 151, 0.1);">
                             <td><strong>Next year</strong></td>
-                            <td style="color: #64C864; font-weight: 900;">An extra $9,600-$14,400 in your pocket<br>Complete business transformation!</td>
+                            <td style="color: #3DDC97; font-weight: 900;">An extra $9,600-$14,400 in your pocket<br>Complete business transformation!</td>
                         </tr>
                     </tbody>
                 </table>
@@ -527,7 +528,7 @@
                         <li>☐ I'm only accepting if Real RPM &gt; my cost + 20% minimum</li>
                     </ul>
 
-                    <div style="background: rgba(100, 200, 100, 0.1); border: 2px solid #64C864; padding: 1rem; border-radius: 0.5rem; margin-top: 1.5rem; text-align: center;">
+                    <div style="background: rgba(61, 220, 151, 0.1); border: 2px solid #3DDC97; padding: 1rem; border-radius: 0.5rem; margin-top: 1.5rem; text-align: center;">
                         <p style="margin: 0; font-weight: 700;">If you check off these 7 boxes, you're already doing better than 80% of expediters out there.</p>
                     </div>
                 </div>
@@ -536,7 +537,7 @@
             <section>
                 <h2>💡 QUICK WIN WRAP-UP</h2>
 
-                <div style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(255, 107, 53, 0.1)); padding: 2rem; border-radius: 1rem; text-align: center; margin: 2rem 0;">
+                <div style="background: linear-gradient(135deg, rgba(34, 211, 238, 0.1), rgba(34, 211, 238, 0.1)); padding: 2rem; border-radius: 1rem; text-align: center; margin: 2rem 0;">
                     <p style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">In just 5 minutes, you've completely unlocked:</p>
                     <ul style="text-align: left; max-width: 500px; margin: 1rem auto;">
                         <li>✅ The hidden trap costing you $400-$600/week</li>
@@ -548,7 +549,7 @@
                     <p style="margin-top: 1.5rem; font-weight: 700;">The ultimate value of this quick win:</p>
                     <p style="font-size: 1.1rem;">→ Up to $800 saved this week<br>
                         → Thousands protected this month<br>
-                        <span style="color: #FFD700; font-size: 1.3rem; font-weight: 900;">→ A staggering $24,000-$36,000 completely reframed this year!</span>
+                        <span style="color: #F5B03A; font-size: 1.3rem; font-weight: 900;">→ A staggering $24,000-$36,000 completely reframed this year!</span>
                     </p>
                     <p style="margin-top: 1rem;">All because you decided to calculate your RPM the right way.</p>
                 </div>
@@ -566,19 +567,19 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td style="background: rgba(255, 107, 53, 0.1);">
+                            <td style="background: rgba(34, 211, 238, 0.1);">
                                 ❌ Keep bleeding $500+/week<br>
                                 ❌ Make blind decisions<br>
                                 ❌ Wonder why the savings account never grows
                             </td>
-                            <td style="background: rgba(100, 200, 100, 0.1);">
+                            <td style="background: rgba(61, 220, 151, 0.1);">
                                 ✅ Module 1 (50 min) → Ironclad Fundamentals<br>
                                 ✅ Module 2 (40 min) → The Ultimate Calculator<br>
                                 ✅ Module 3 (50 min) → Pro Zone Strategies<br>
                                 ✅ +5 More Modules → Total Transformation
                             </td>
                         </tr>
-                        <tr style="background: rgba(100, 200, 100, 0.05);">
+                        <tr style="background: rgba(61, 220, 151, 0.05);">
                             <td colspan="2" style="text-align: center;">
                                 <strong>Total Time: ~6 Hours | ROI: An extra $2,000-$4,000+/month</strong>
                             </td>

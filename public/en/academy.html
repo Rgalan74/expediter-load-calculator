@@ -43,14 +43,14 @@
 
   <style>
     :root {
-      --bg-dark: #0a0a0f;
+      --bg-dark: #060A12;
       --bg-darker: #050508;
       --bg-card: #141414;
       --text-primary: #ffffff;
       --text-secondary: #b0b0b0;
-      --primary-cyan: #00D9FF;
-      --primary-orange: #FF6B35;
-      --gradient-primary: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+      --primary-cyan: #22D3EE;
+      --primary-orange: #22D3EE;
+      --gradient-primary: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg-dark); color: var(--text-primary); }
@@ -64,7 +64,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(10, 10, 15, 0.82);
+      background: rgba(6, 10, 18, 0.82);
       z-index: 0;
     }
 
@@ -136,11 +136,11 @@
     }
 
     .module-card.free:hover {
-      border-color: rgba(0, 217, 255, 0.28);
+      border-color: rgba(34, 211, 238, 0.28);
       box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.08),
         0 24px 48px -24px rgba(0, 0, 0, 0.7),
-        0 0 40px rgba(0, 217, 255, 0.1);
+        0 0 40px rgba(34, 211, 238, 0.1);
     }
 
     /* Ícono de línea (reemplaza emoji) */
@@ -179,16 +179,16 @@
 
     /* CTA: un solo acento — cyan sólido para lo neutral/interactivo */
     .module-card.free .btn-module {
-      background: rgba(0, 217, 255, 0.12);
-      border: 1px solid rgba(0, 217, 255, 0.4);
+      background: rgba(34, 211, 238, 0.12);
+      border: 1px solid rgba(34, 211, 238, 0.4);
       color: #7fe9ff;
     }
 
     .module-card.free .btn-module:hover {
-      background: rgba(0, 217, 255, 0.2);
-      border-color: rgba(0, 217, 255, 0.6);
+      background: rgba(34, 211, 238, 0.2);
+      border-color: rgba(34, 211, 238, 0.6);
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0, 217, 255, 0.18);
+      box-shadow: 0 8px 20px rgba(34, 211, 238, 0.18);
     }
 
     /* Progress ring (reemplaza la barra horizontal) */
@@ -246,7 +246,7 @@
       font-size: 5rem;
       font-weight: 900;
       line-height: 1;
-      color: rgba(100, 200, 100, 0.14);
+      color: rgba(61, 220, 151, 0.14);
       pointer-events: none;
       z-index: 0;
     }
@@ -257,41 +257,41 @@
 
     /* Estado: siguiente — halo suave y difuso, sin borde duro */
     .module-card.is-next {
-      border-color: rgba(0, 217, 255, 0.22);
+      border-color: rgba(34, 211, 238, 0.22);
       box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.08),
         0 24px 48px -28px rgba(0, 0, 0, 0.65),
-        0 0 70px 6px rgba(0, 217, 255, 0.16),
-        0 0 140px 24px rgba(0, 217, 255, 0.07);
+        0 0 70px 6px rgba(34, 211, 238, 0.16),
+        0 0 140px 24px rgba(34, 211, 238, 0.07);
     }
 
     .module-card.is-next:hover {
       box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.08),
         0 24px 48px -24px rgba(0, 0, 0, 0.7),
-        0 0 80px 8px rgba(0, 217, 255, 0.2),
-        0 0 150px 26px rgba(0, 217, 255, 0.09);
+        0 0 80px 8px rgba(34, 211, 238, 0.2),
+        0 0 150px 26px rgba(34, 211, 238, 0.09);
     }
 
     /* El CTA del módulo "siguiente" es el único naranja de la página —
        lo único que debe saltar a la vista primero */
     .module-card.is-next .btn-module {
-      background: rgba(255, 107, 53, 0.14);
-      border: 1px solid rgba(255, 107, 53, 0.55);
-      color: #ffb491;
+      background: rgba(34, 211, 238, 0.14);
+      border: 1px solid rgba(34, 211, 238, 0.55);
+      color: #67E8F9;
     }
 
     .module-card.is-next .btn-module:hover {
-      background: rgba(255, 107, 53, 0.24);
-      border-color: rgba(255, 107, 53, 0.75);
-      box-shadow: 0 8px 24px rgba(255, 107, 53, 0.25);
+      background: rgba(34, 211, 238, 0.24);
+      border-color: rgba(34, 211, 238, 0.75);
+      box-shadow: 0 8px 24px rgba(34, 211, 238, 0.25);
     }
 
     /* Card "Start Here": mismo tratamiento naranja, sin el hover cyan heredado de .free */
     .modules-section .start-here-card .btn-module:hover {
-      background: rgba(255, 107, 53, 0.24);
-      border-color: rgba(255, 107, 53, 0.75);
-      box-shadow: 0 8px 24px rgba(255, 107, 53, 0.25);
+      background: rgba(34, 211, 238, 0.24);
+      border-color: rgba(34, 211, 238, 0.75);
+      box-shadow: 0 8px 24px rgba(34, 211, 238, 0.25);
       transform: translateY(-2px);
     }
 
@@ -393,14 +393,14 @@
       font-weight: 700;
       font-size: 0.95rem;
       text-decoration: none;
-      background: linear-gradient(90deg, #00D9FF, #0096C8);
+      background: linear-gradient(90deg, #22D3EE, #0096C8);
       color: #000;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .hero-cta:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 217, 255, 0.3);
+      box-shadow: 0 8px 24px rgba(34, 211, 238, 0.3);
     }
 
     /* ---- Bloque de credibilidad ---- */
@@ -637,8 +637,8 @@
     }
 
     .plan-compare-card.recommended {
-      border-color: rgba(255, 107, 53, 0.4);
-      box-shadow: 0 0 0 1px rgba(255, 107, 53, 0.12), 0 0 50px rgba(255, 107, 53, 0.1);
+      border-color: rgba(34, 211, 238, 0.4);
+      box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.12), 0 0 50px rgba(34, 211, 238, 0.1);
     }
 
     .plan-badge-recommended {
@@ -647,9 +647,9 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.04em;
-      color: #ffb491;
-      background: rgba(255, 107, 53, 0.14);
-      border: 1px solid rgba(255, 107, 53, 0.4);
+      color: #67E8F9;
+      background: rgba(34, 211, 238, 0.14);
+      border: 1px solid rgba(34, 211, 238, 0.4);
       padding: 0.3rem 0.7rem;
       border-radius: 999px;
       margin-bottom: 1rem;
@@ -702,26 +702,26 @@
       font-weight: 700;
       text-decoration: none;
       font-size: 0.9rem;
-      border: 1px solid rgba(0, 217, 255, 0.4);
-      background: rgba(0, 217, 255, 0.12);
+      border: 1px solid rgba(34, 211, 238, 0.4);
+      background: rgba(34, 211, 238, 0.12);
       color: #7fe9ff;
       transition: all 0.25s ease;
     }
 
     .plan-compare-cta:hover {
-      background: rgba(0, 217, 255, 0.2);
-      border-color: rgba(0, 217, 255, 0.6);
+      background: rgba(34, 211, 238, 0.2);
+      border-color: rgba(34, 211, 238, 0.6);
     }
 
     .plan-compare-card.recommended .plan-compare-cta {
-      border-color: rgba(255, 107, 53, 0.55);
-      background: rgba(255, 107, 53, 0.14);
-      color: #ffb491;
+      border-color: rgba(34, 211, 238, 0.55);
+      background: rgba(34, 211, 238, 0.14);
+      color: #67E8F9;
     }
 
     .plan-compare-card.recommended .plan-compare-cta:hover {
-      background: rgba(255, 107, 53, 0.24);
-      border-color: rgba(255, 107, 53, 0.75);
+      background: rgba(34, 211, 238, 0.24);
+      border-color: rgba(34, 211, 238, 0.75);
     }
 
     /* ---- FAQ ---- */
@@ -834,7 +834,7 @@
 
         <div class="hidden md:flex items-center gap-3">
           <div style="display:flex;align-items:center;gap:0.25rem;font-size:0.8rem;font-weight:600;">
-        <button id="btn-en" style="background:none;border:none;cursor:default;padding:0.2rem 0.4rem;border-radius:4px;color:#00D9FF;font-weight:700;" aria-current="true">EN</button>
+        <button id="btn-en" style="background:none;border:none;cursor:default;padding:0.2rem 0.4rem;border-radius:4px;color:#22D3EE;font-weight:700;" aria-current="true">EN</button>
         <span style="color:#4b5563;">|</span>
         <a id="btn-es" href="../academy.html" onclick="localStorage.setItem('app_language','es')" style="text-decoration:none;cursor:pointer;padding:0.2rem 0.4rem;border-radius:4px;color:#9ca3af;transition:color 0.2s;">ES</a>
       </div>
@@ -855,7 +855,7 @@
         <a href="academy.html" class="block text-white" data-i18n="academy.nav_academy">Academy</a>
         <a href="../app.html" class="block text-white bg-orange-500 hover:bg-orange-600 transition px-4 py-2 rounded-lg font-semibold text-center" data-i18n="academy.nav_back_app">← Back to App</a>
         <div class="flex items-center gap-2 px-2 py-2 mt-2 border-t border-gray-700">
-        <button id="btn-en-mobile" style="background:none;border:none;cursor:default;padding:0.2rem 0.5rem;border-radius:4px;color:#00D9FF;font-weight:700;font-size:0.875rem;" aria-current="true">EN</button>
+        <button id="btn-en-mobile" style="background:none;border:none;cursor:default;padding:0.2rem 0.5rem;border-radius:4px;color:#22D3EE;font-weight:700;font-size:0.875rem;" aria-current="true">EN</button>
         <span style="color:#4b5563;">|</span>
         <a id="btn-es-mobile" href="../academy.html" onclick="localStorage.setItem('app_language','es')" style="text-decoration:none;cursor:pointer;padding:0.2rem 0.5rem;border-radius:4px;color:#9ca3af;font-weight:600;font-size:0.875rem;">ES</a>
       </div>
@@ -974,17 +974,17 @@
 
         <!-- APP TOUR - Featured -->
         <div class="module-card free"
-          style="grid-column: 1 / -1; background: linear-gradient(135deg, rgba(0,217,255,0.1), rgba(0,150,200,0.1)); border: 2px solid rgba(0,217,255,0.3);">
-          <span class="module-badge" style="background: linear-gradient(90deg, #00D9FF, #0096C8); color: #000;">🗺️
+          style="grid-column: 1 / -1; background: linear-gradient(135deg, rgba(34, 211, 238,0.1), rgba(0,150,200,0.1)); border: 2px solid rgba(34, 211, 238,0.3);">
+          <span class="module-badge" style="background: linear-gradient(90deg, #22D3EE, #0096C8); color: #000;">🗺️
             BEFORE MODULE 1</span>
           <div class="featured-card-grid">
             <div style="text-align: center;">
-              <div style="width: 3.5rem; height: 3.5rem; margin: 0 auto 1rem; color: #00D9FF;" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M12 18h.01"/></svg></div>
+              <div style="width: 3.5rem; height: 3.5rem; margin: 0 auto 1rem; color: #22D3EE;" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M12 18h.01"/></svg></div>
               <div style="font-size: 0.875rem; color: #888; text-transform: uppercase; letter-spacing: 1px;">Guided
                 Tour</div>
             </div>
             <div>
-              <h3 style="font-size: 1.75rem; font-weight: 900; margin-bottom: 0.75rem; color: #00D9FF;">App Tour</h3>
+              <h3 style="font-size: 1.75rem; font-weight: 900; margin-bottom: 0.75rem; color: #22D3EE;">App Tour</h3>
               <p style="color: #d0d0d0; margin-bottom: 1rem; font-size: 1.1rem;">📱 Get to know every screen in
                 10-15 minutes, before you start</p>
               <div class="module-meta" style="margin-bottom: 1.5rem;">
@@ -993,18 +993,18 @@
                 <span>📖 6 screens</span>
               </div>
               <a href="/en/academy/tour/" class="btn-module"
-                style="background: linear-gradient(90deg, #00D9FF, #0096C8); color: #000; max-width: 300px;">Start
+                style="background: linear-gradient(90deg, #22D3EE, #0096C8); color: #000; max-width: 300px;">Start
                 Tour →</a>
             </div>
           </div>
         </div>
 
         <!-- START HERE - QUICK WIN (Featured) -->
-        <div class="module-card free start-here-card" style="grid-column: 1 / -1; border-color: rgba(255,107,53,0.3); box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 24px 48px -28px rgba(0,0,0,0.65), 0 0 60px rgba(255,107,53,0.1);">
-          <span class="module-badge" style="border-color: rgba(255,107,53,0.35); color: #ffb491;" data-i18n="academy.start_badge">💥 START HERE</span>
+        <div class="module-card free start-here-card" style="grid-column: 1 / -1; border-color: rgba(34, 211, 238,0.3); box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 24px 48px -28px rgba(0,0,0,0.65), 0 0 60px rgba(34, 211, 238,0.1);">
+          <span class="module-badge" style="border-color: rgba(34, 211, 238,0.35); color: #67E8F9;" data-i18n="academy.start_badge">💥 START HERE</span>
           <div class="featured-card-grid">
             <div style="text-align: center;">
-              <div style="width: 3.5rem; height: 3.5rem; margin: 0 auto 1rem; color: #00D9FF;" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="2"/></svg></div>
+              <div style="width: 3.5rem; height: 3.5rem; margin: 0 auto 1rem; color: #22D3EE;" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><circle cx="12" cy="12" r="2"/></svg></div>
               <div style="font-size: 0.875rem; color: #888; text-transform: uppercase; letter-spacing: 1px;" data-i18n="academy.start_label">Quick Win</div>
             </div>
             <div>
@@ -1015,7 +1015,7 @@
                 <span data-i18n="academy.start_diff">🟢 Very easy</span>
                 <span data-i18n="academy.start_lessons">📖 1 lesson</span>
               </div>
-              <a href="/en/academy/start-here/" class="btn-module" style="background: rgba(255,107,53,0.14); border: 1px solid rgba(255,107,53,0.55); color: #ffb491; max-width: 300px;" data-i18n="academy.start_btn">Start Now →</a>
+              <a href="/en/academy/start-here/" class="btn-module" style="background: rgba(34, 211, 238,0.14); border: 1px solid rgba(34, 211, 238,0.55); color: #67E8F9; max-width: 300px;" data-i18n="academy.start_btn">Start Now →</a>
             </div>
           </div>
         </div>
