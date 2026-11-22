@@ -1239,6 +1239,13 @@ html[data-theme] body header .gradient-text,
 /* Subpestañas de Finanzas: la activa con raya cian inferior */
 :root:not(#sls) body .fin-subtab.bg-white { box-shadow: inset 0 -2px 0 var(--sls-accent) !important; }
 
+/* Finanzas en tableta y laptop: 7 tarjetas en una fila cortaban las cifras
+   ("$5,06…"); entre 640 y 1535 px van en 4 columnas. */
+@media (min-width: 640px) and (max-width: 1535px) {
+  :root:not(#sls) body .fin-kpi-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+  :root:not(#sls) body .fin-kpi-grid .fin-kpi-value { font-size: 28px !important; }
+}
+
 /* Finanzas en móvil: 2 columnas para que las cifras no se corten */
 @media (max-width: 639px) {
   :root:not(#sls) body .fin-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px !important; }
