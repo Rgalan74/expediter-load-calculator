@@ -1,94 +1,36 @@
 <!DOCTYPE html><html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Errores Comunes al Introducir Datos (Y Cómo Evitarlos) | Smart Load Academia</title>
-    <meta name="description" content="Garbage in = Garbage out.">
+    <title>7 errores al llenar la calculadora | Smart Load Academia</title>
+    <meta name="description" content="Los errores que más dinero cuestan al usar la calculadora y cómo evitarlos.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: .875rem
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: .75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all .3s ease
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
-            color: #fff
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, .1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .2)
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-  
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/academy/module-2/lesson-4.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-4.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-4.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-4.html">
+    <link rel="canonical" href="https://smartloadsolution.com/academy/module-2/lesson-4.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-2/lesson-4.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-2/lesson-4.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-2/lesson-4.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Volver a la App</a></nav>
-    <aside class="lesson-sidebar" id="lessonSidebar">
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Volver a la App</a></nav>
+
+<aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
         <div>
             <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
@@ -98,256 +40,210 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
-        <nav class="breadcrumb">
-            <a href="/academy.html">← Academia</a> → <a href="index.html">Módulo 2</a> → Lección 4
-        </nav>
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/academy.html">Academia</a> / <a href="index.html">Módulo 2</a> / Lección 4</nav>
 
-
-        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
-            <h1>Errores Comunes al Introducir Datos (Y Cómo Evitarlos)</h1>
-            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
-                <span>📖 8 min lectura</span>
-                <span>🎓 Módulo 2 - Lección 4</span>
-            </div>
-        </header>
-
-        <div class="lesson-content">
-
-            <section>
-                <h2>Los 7 errores más costosos</h2>
-
-                <p><strong>Error #1: Ignorar repositioning</strong></p>
-                <div class="note warning">
-                    <span class="note-label">El error</span>
-                    <p>Dejar el campo "Repositioning" vacío cuando delivery es en zona muerta.</p>
-                    <p><strong>La realidad:</strong> Load en Laredo requiere 280 millas a San Antonio. RPM mostrado: $1.60/mi → RPM REAL: $1.25/mi. <strong>Diferencia: $0.35/mi de error = $448 de "ganancia fantasma".</strong></p>
-                    <p><strong>La solución:</strong> Siempre pregúntate "¿Hay freight donde entrego?" Si NO → ingresar repositioning.</p>
-                </div>
-
-                <p><strong>Error #2: Usar direcciones incompletas</strong></p>
-                <div class="note warning">
-                    <span class="note-label">El error</span>
-                    <p>Ingresar solo "Chicago" (ciudad es enorme: 100+ millas).</p>
-                    <p><strong>La realidad:</strong> "Chicago" puede ser Downtown, O'Hare (15mi), Joliet (40mi), Aurora (45mi). <strong>Error potencial: 40-80 millas.</strong></p>
-                    <p><strong>La solución:</strong> Malo: "Chicago" — Mejor: "Chicago, IL" — Best: "1234 Main St, Chicago, IL 60601".</p>
-                </div>
-
-                <p><strong>Error #3: No actualizar Current Location</strong></p>
-                <div class="note warning">
-                    <span class="note-label">El error</span>
-                    <p>Lunes estabas en Detroit, martes viajaste a Atlanta, pero la app sigue mostrando Detroit.</p>
-                    <p><strong>La realidad:</strong> El cálculo de deadhead queda completamente equivocado.</p>
-                    <p><strong>La solución:</strong> Cada vez que abres el calculator, verifica tu ubicación. Activa GPS auto-update en Settings.</p>
-                </div>
-
-                <p><strong>Error #4: Olvidar tolls y fees en payment</strong></p>
-                <div class="note warning">
-                    <span class="note-label">El error</span>
-                    <p>Broker: "$1,200 base + $60 tolls" → usuario ingresa: $1,200.</p>
-                    <p><strong>La realidad:</strong> Si el broker reembolsa tolls, eso es revenue adicional.</p>
-                    <p><strong>La solución:</strong> Suma TODO: Base $1,200 + FSC $150 + Tolls $60 + Detention $50 = <strong>$1,460 total</strong>.</p>
-                </div>
-
-                <p><strong>Error #5: Confundir "Loaded Miles" con "Total Miles"</strong></p>
-                <div class="note warning">
-                    <span class="note-label">El error</span>
-                    <p>Broker dice "800 millas" → usuario piensa "total" → ingresa en campo incorrecto.</p>
-                    <p><strong>La realidad:</strong> Los brokers casi siempre quotean solo loaded miles. El deadhead es tu responsabilidad.</p>
-                    <p><strong>La solución:</strong> 99% del tiempo, deja "Loaded Miles" en blanco. La app calculará el routing completo.</p>
-                </div>
-
-                <p><strong>Error #6: No guardar loads rechazados</strong></p>
-                <div class="note warning">
-                    <span class="note-label">El error</span>
-                    <p>Calculas load → malo → cierras app (no hay record).</p>
-                    <p><strong>La realidad:</strong> Lex AI no aprende, no tienes reference para loads similares futuros.</p>
-                    <p><strong>La solución:</strong> Siempre guarda en History, aunque sea DECLINE. Lex aprende tus preferencias.</p>
-                </div>
-
-                <p><strong>Error #7: Usar CPM incorrecto o desactualizado</strong></p>
-                <div class="note warning">
-                    <span class="note-label">El error</span>
-                    <p>CPM configurado hace 6 meses: $0.95/mi. Fuel subió, seguro aumentó → CPM real: $1.15/mi.</p>
-                    <p><strong>La realidad:</strong> La app muestra loads como "profitable" cuando NO lo son.</p>
-                    <p><strong>La solución:</strong> Revisa tu CPM mensualmente. Settings → Cost Per Mile → Update.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Checklist: antes de calcular cualquier load</h2>
-
-                <div class="checklist">
-                    <span class="checklist-label">Pre-calculation checklist</span>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Current location está correcto (o actualizado)</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Tengo dirección completa de pickup (no solo "Chicago")</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Tengo dirección de delivery</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Payment incluye TODO (base + FSC + tolls + fees)</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Sé si delivery zone necesita repositioning</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Mi CPM está actualizado (revisado este mes)</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Entendí si broker dio "loaded" o "total" millas</span></div>
-                </div>
-                <p>Si todos ✓ → CALCULATE con confianza. Si alguno falta → consigue info primero.</p>
-            </section>
-
-            <section>
-                <h2>Feature: error detection</h2>
-                <p>La app detecta errores comunes automáticamente:</p>
-
-                <div class="formula">⚠️ POSSIBLE ERROR DETECTED<br><br>You entered:<br>Current: Dallas, TX<br>Pickup: Dallas, TX<br>Delivery: Laredo, TX<br>Repositioning: [BLANK]<br><br>⚠️ Warning:<br>Laredo is historically a low-freight zone.<br><br>Typical repositioning needed:<br>• San Antonio: 280 mi<br>• Corpus Christi: 220 mi<br>• Austin: 320 mi<br><br>Include repositioning?<br>[YES, add San Antonio] [NO, I have backhaul plan]</div>
-
-                <p><strong>La app te protege de olvidos.</strong></p>
-            </section>
-
-            <section>
-                <h2>Acción inmediata (5 minutos)</h2>
-                <ol>
-                    <li>Abre Settings en la app</li>
-                    <li>Verifica tu CPM actual</li>
-                    <li>¿Cuándo fue la última vez que lo actualizaste? ______</li>
-                    <li>Si fue hace &gt;30 días, recalcula usando Módulo 1</li>
-                    <li>Enable GPS auto-location si no está habilitado</li>
-                    <li>Revisa tus últimos 3 loads guardados: ¿Alguno tiene estos errores?</li>
-                </ol>
-            </section>
-
-            <section>
-                <div class="conclusion">
-                    <p class="lead">Garbage in = <span class="accent">Garbage out</span>.</p>
-                    <p class="sub">La app es perfecta calculando... pero solo si le das data correcta. Evita estos errores → tus números serán 99% precisos.</p>
-                </div>
-                <p><strong>Los 7 errores más comunes:</strong></p>
-                <ol>
-                    <li>Ignorar repositioning</li>
-                    <li>Direcciones vagas</li>
-                    <li>Current location desactualizado</li>
-                    <li>Olvidar tolls/fees en payment</li>
-                    <li>Confundir loaded vs total miles</li>
-                    <li>No guardar loads rechazados</li>
-                    <li>CPM desactualizado</li>
-                </ol>
-            </section>
-
+    <header>
+        <div class="al-kicker">Módulo 2 · Lección 4</div>
+        <h1 class="al-title">7 errores al llenar la calculadora</h1>
+        <div class="al-meta">
+            <span class="al-chip">8 min de lectura</span>
+            <span class="al-chip">Práctica</span>
+            <span class="al-chip is-free">Gratis</span>
         </div>
+    </header>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+    <section class="al-learn">
+        <div class="al-learn-title">Lo que vas a aprender</div>
+        <ol>
+            <li>Los errores que hacen que una carga mala parezca buena.</li>
+            <li>Qué va en Peajes, Cargos extra y Tarifa total.</li>
+            <li>Una lista rápida para revisar antes de decidir.</li>
+        </ol>
+    </section>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como
-                completada</button>
-            <nav class="lesson-nav">
-                <a href="lesson-3.html" class="btn btn-secondary">← Lección anterior</a>
-                <a href="lesson-5.html" class="btn btn-primary">Siguiente: Caso Carlos →</a>
-            </nav>
-        </footer>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>Error 1: Dejar en 0 las millas en vacío</h2>
+        <p>Nashville → Laredo, 1,094 millas por $850. Sin vacío, el panel dice <strong>ACEPTAR</strong>: RPM $0.78 y $248 de ganancia. Pero en Laredo casi no hay carga de salida y tienes que ir a San Antonio: <strong>157 millas</strong> más.</p>
+            <p>Con esas millas en <strong>Millas en vacío</strong>, el panel cambia a <strong>EVALUAR</strong>: RPM $0.68, $162 de ganancia y unos <strong>$54 por día</strong>.</p>
+        <div class="al-callout is-app">
+            <div class="al-callout-label">Cómo evitarlo</div>
+            <p>Pregúntate siempre: "¿hay carga donde entrego?". Si no, suma el reposicionamiento a las millas en vacío.</p>
+        </div>
+    </section>
 
-        
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>Error 2: Escribir solo la ciudad</h2>
+        <p>"Chicago" puede ser el centro, O'Hare o Joliet. Entre una y otra hay decenas de millas que cambian el RPM.</p>
+        <div class="al-callout is-app">
+            <div class="al-callout-label">Cómo evitarlo</div>
+            <p>Escribe ciudad y estado y elige la sugerencia de la lista. Si tienes la dirección exacta, úsala.</p>
+        </div>
+    </section>
 
-            </article>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>Error 3: Confundir peajes con cargos extra</h2>
+        <p>Poner un pago extra del broker en <strong>Peajes</strong> lo resta en vez de sumarlo. Y poner peajes en <strong>Cargos extra</strong> los cuenta como ingreso.</p>
+        <div class="al-callout is-app">
+            <div class="al-callout-label">Cómo evitarlo</div>
+            <p>Peajes = lo que tú pagas en la carretera. Cargos extra al cliente = lo que te pagan aparte (espera, descarga, detención o el reembolso de peajes).</p>
+        </div>
+    </section>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 2, LESSON_NUM = 4;
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>Error 4: Dejar fuera parte del pago</h2>
+        <p>El broker dice "$1,200 más $150 de fuel surcharge". Si escribes $1,200, el panel te muestra una carga peor de lo que es.</p>
+        <div class="al-callout is-app">
+            <div class="al-callout-label">Cómo evitarlo</div>
+            <p>En Tarifa total va todo lo que te pagan por mover la carga, con el fuel surcharge incluido.</p>
+        </div>
+    </section>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'Cómo Usar la Calculadora Correctamente', time: '10 min' },
-            { num: 2, title: 'Loaded Miles vs Deadhead Miles: Cómo Pensar Ambos Juntos', time: '9 min' },
-            { num: 3, title: 'Interpretar el Resultado: Aceptar, Negociar o Rechazar', time: '8 min' },
-            { num: 4, title: 'Errores Comunes al Introducir Datos (Y Cómo Evitarlos)', time: '8 min' },
-            { num: 5, title: 'Caso de Estudio: La Transformación de Carlos', time: '10 min' },
-            { num: 6, title: 'Lex AI: Tu Copiloto de Decisiones', time: '8 min' }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">05</span>Error 5: Configuración desactualizada</h2>
+        <p>Subió el seguro, cambió el pago del vehículo o haces menos millas al mes. Si Configuración no lo sabe, tu costo por milla es más bajo en la app que en la vida real. Las millas por mes importan: tus costos fijos se reparten entre ellas.</p>
+        <div class="al-callout is-app">
+            <div class="al-callout-label">Cómo evitarlo</div>
+            <p>Revisa Configuración una vez al mes. El precio de la gasolina se actualiza solo por ruta; tu MPG y tus costos fijos no.</p>
+        </div>
+    </section>
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: 'En el Error #1 (ignorar repositioning) del load a Laredo (280 mi a San Antonio), ¿cuál fue la diferencia entre el RPM mostrado y el RPM real?',
-                options: [
-                    '$0.35/mi de error = $448 de ganancia fantasma',
-                    '$0.10/mi, prácticamente sin impacto',
-                    '$1.60/mi de error',
-                    'No hubo diferencia, solo cambió el tiempo'
-                ],
-                correctIndex: 0
-            },
-            {
-                question: 'Según el Error #5, cuando un broker dice "800 millas", ¿a qué se refiere normalmente?',
-                options: [
-                    'Al total de millas incluyendo deadhead',
-                    'Solo a las loaded miles — el deadhead es responsabilidad del conductor',
-                    'Solo al repositioning',
-                    'A las millas de ida y vuelta'
-                ],
-                correctIndex: 1
-            },
-            {
-                question: '¿Por qué es un error NO guardar los loads que rechazaste (Error #6)?',
-                options: [
-                    'Porque pierdes puntos de fidelidad con el broker',
-                    'Porque Lex AI no aprende tus preferencias sin ese historial',
-                    'Porque la app requiere un mínimo de loads guardados por semana',
-                    'No es realmente un error, es opcional'
-                ],
-                correctIndex: 1
-            },
-            {
-                question: 'Según la lección, ¿con qué frecuencia se recomienda revisar y actualizar tu CPM (Error #7)?',
-                options: ['Una vez al año', 'Mensualmente', 'Solo cuando compras una van nueva', 'Nunca, se actualiza automáticamente'],
-                correctIndex: 1
-            }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">06</span>Error 6: No guardar las cargas que haces</h2>
+        <p>Si calculas, aceptas y cierras, la carga no existe para la app. Historial, Zonas, Finanzas y Lex se quedan sin tus datos reales.</p>
+        <div class="al-callout is-app">
+            <div class="al-callout-label">Cómo evitarlo</div>
+            <p>Cuando aceptes una carga, usa Aceptar y guardar.</p>
+        </div>
+    </section>
 
-        function markLessonComplete() {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress) {
-                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
-            }
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">07</span>Error 7: Mirar solo el RPM</h2>
+        <p>Una carga corta puede tener un RPM de $3 y dejarte $100 por medio día. Una larga hacia una zona sin carga puede tener buen RPM y dejarte pocos dólares por día.</p>
+        <div class="al-callout is-app">
+            <div class="al-callout-label">Cómo evitarlo</div>
+            <p>Mira también la ganancia neta y la ganancia por día que te muestra el panel.</p>
+        </div>
+    </section>
+
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">08</span>Checklist antes de calcular</h2>
+        <ul class="al-checklist">
+            <li>Origen y destino con estado, elegidos de la lista.</li>
+            <li>Millas en vacío hasta el pickup, más reposicionamiento si la entrega es en una zona sin carga.</li>
+            <li>Tarifa total con todo lo que te pagan por la carga.</li>
+            <li>Peajes como gasto; pagos aparte del broker en Cargos extra al cliente.</li>
+            <li>Configuración revisada este mes.</li>
+        </ul>
+        <div class="al-callout is-app">
+            <div class="al-callout-label">Hazlo ahora</div>
+            <p>Abre Configuración y revisa tus costos fijos, tu MPG y tus millas por mes. Tarda cinco minutos.</p>
+            <p><a class="al-btn al-btn-primary" href="/app.html#settings">Abrir Configuración →</a></p>
+        </div>
+    </section>
+
+    <section class="al-summary">
+        <h2>En resumen</h2>
+        <ul>
+            <li>Suma el reposicionamiento a las millas en vacío cuando entregas en una zona sin carga.</li>
+            <li>Peajes es un gasto; lo que te pagan aparte va en Cargos extra.</li>
+            <li>Revisa Configuración cada mes y guarda las cargas que haces.</li>
+        </ul>
+    </section>
+
+    <section class="lesson-quiz" id="lessonQuiz"></section>
+
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
+        <nav class="lesson-nav">
+            <a href="lesson-3.html" class="al-btn al-btn-ghost">← Lección anterior</a>
+            <a href="lesson-5.html" class="al-btn al-btn-primary">Siguiente: caso de estudio →</a>
+        </nav>
+    </footer>
+</article>
+
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 2;
+    const LESSON_NUM = 4;
+    const LESSON_LIST = [
+        { num: 1, title: "Cómo usar la calculadora paso a paso", time: '9 min' },
+        { num: 2, title: "Millas cargadas y en vacío: un solo viaje", time: '8 min' },
+        { num: 3, title: "Leer el resultado: aceptar, negociar o rechazar", time: '9 min' },
+        { num: 4, title: "7 errores al llenar la calculadora", time: '8 min' },
+        { num: 5, title: "Caso de estudio: dos cargas con los números", time: '8 min' },
+        { num: 6, title: "Lex: tu copiloto para decidir", time: '7 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+  {
+    "question": "Nashville → Laredo por $850. ¿Qué pasa al sumar las 157 millas hasta San Antonio?",
+    "options": [
+      "Nada",
+      "Pasa de ACEPTAR a EVALUAR",
+      "Pasa a RECHAZAR",
+      "Sube la ganancia"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "El broker te reembolsa $25 de peajes. ¿Dónde los pones?",
+    "options": [
+      "En Peajes",
+      "En Cargos extra al cliente",
+      "En Millas en vacío",
+      "En ningún lado"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "El broker ofrece \"$1,200 más $150 de fuel surcharge\". ¿Qué escribes en Tarifa total?",
+    "options": [
+      "$1,200",
+      "$150",
+      "$1,350",
+      "$1,050"
+    ],
+    "correctIndex": 2
+  },
+  {
+    "question": "¿Qué pasa si en Configuración pones más millas por mes de las que haces?",
+    "options": [
+      "Nada",
+      "Tu costo por milla sale más bajo de lo real",
+      "Tu costo por milla sale más alto",
+      "La app no calcula"
+    ],
+    "correctIndex": 1
+  }
+];
+
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada";
+            btn.disabled = true;
         }
+    }
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-
-            if (window.AcademySidebar) {
-                await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Dominando los Números', LESSON_LIST);
-            }
-
-            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-
-            if (alreadyDone) {
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                const quizEl = document.getElementById('lessonQuiz');
-                if (quizEl) quizEl.style.display = 'none';
-            } else if (window.AcademyQuiz) {
-                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-            }
-        });
-    </script>
-
-  
-
-
-
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, "Dominando los números", LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada"; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>
