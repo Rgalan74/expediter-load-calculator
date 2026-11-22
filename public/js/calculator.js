@@ -1614,7 +1614,7 @@ function showDecisionPanel(calculationData = {}) {
     _detailsEl.setAttribute('data-profit-per-mile', profitPerMile.toFixed(2));
     _detailsEl.setAttribute('data-margin', margin.toFixed(1));
     _detailsEl.setAttribute('data-ganancia-dia', Math.round(_gananciaDia));
-    _detailsEl.textContent = `$${profitPerMile.toFixed(2)}/mi • ${margin.toFixed(1)}% ${_marginWord} • ~$${Math.round(_gananciaDia)}/day`;
+    _detailsEl.textContent = `$${profitPerMile.toFixed(2)}/mi • ${margin.toFixed(1)}% ${_marginWord} • ~$${Math.round(_gananciaDia)}/${window.i18n?.t('calculator.per_day_short') || 'day'}`;
   }
 
   // Linea aparte: lo que queda despues del sueldo del dueño (si lo configuro).
@@ -2061,7 +2061,7 @@ document.addEventListener('languageChanged', () => {
   const detailsEl = document.getElementById('profitDetails');
   if (detailsEl && detailsEl.dataset.profitPerMile) {
     const marginWord = window.i18n?.t('calculator.margin_short') || 'margin';
-    detailsEl.textContent = `$${detailsEl.dataset.profitPerMile}/mi • ${detailsEl.dataset.margin}% ${marginWord} • ~$${detailsEl.dataset.gananciaDia}/day`;
+    detailsEl.textContent = `$${detailsEl.dataset.profitPerMile}/mi • ${detailsEl.dataset.margin}% ${marginWord} • ~$${detailsEl.dataset.gananciaDia}/${window.i18n?.t('calculator.per_day_short') || 'day'}`;
   }
   // fuelStopsShort
   const stopsEl = document.getElementById('fuelStopsShort');

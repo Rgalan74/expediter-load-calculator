@@ -119,6 +119,7 @@
     "total_expenses_label": "Total Gastos:",
     "net_loss_label": "💀 Pérdida Neta",
     "margin_short": "margen",
+    "per_day_short": "día",
     "stops_short": "paradas",
     "decision_thresholds_label": "Tus umbrales de decisión",
     "threshold_reject": "Rechazar",
