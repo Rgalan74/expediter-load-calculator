@@ -535,8 +535,11 @@ async function analyzeLoadWithLearning(loadData) {
     const destState = extractStateFromDestination(loadData.destinationState || loadData.destination) || '';
     const totalMiles = Number(loadData.totalMiles || 0);
 
-    // Comparar con promedio real del usuario
-    const vsYourAvg = ((rpm - profile.avgRPM) / profile.avgRPM * 100);
+    // Comparar con promedio real del usuario (solo si hay historial: sin cargas
+    // guardadas el promedio es 0/0 y salia "NaN%" en el chat)
+    const hasAvg = Number.isFinite(profile.avgRPM) && profile.avgRPM > 0;
+    const vsYourAvg = hasAvg ? ((rpm - profile.avgRPM) / profile.avgRPM * 100) : null;
+    const minSafe = Number.isFinite(profile.minSafeRPM) && profile.minSafeRPM > 0 ? profile.minSafeRPM : null;
 
     // Comparar con historia en ese estado
     const stateStats = destState ? profile.stateStats[destState] : null;
@@ -576,10 +579,17 @@ async function analyzeLoadWithLearning(loadData) {
     })();
     if (shortLoadAlert) reasons.unshift(shortLoadAlert);
 
-    if (rpm < profile.minSafeRPM) {
+    if (minSafe !== null && rpm < minSafe) {
       recommendation = 'REJECT ❌';
       color = 'red';
       reasons.push(window.i18n?.t('lex.reason_financial_risk', { rpm: rpm.toFixed(2), diff: (profile.minSafeRPM - rpm).toFixed(2), min: profile.minSafeRPM.toFixed(2) }) || `Financial risk: RPM of $${rpm.toFixed(2)} is $${(profile.minSafeRPM - rpm).toFixed(2)} below your operational survival line ($${profile.minSafeRPM.toFixed(2)}/mi). Accepting this means paying to work.`);
+    } else if (!hasAvg) {
+      // Sin historial todavia: no se compara con un promedio que no existe
+      recommendation = 'FEASIBLE 👍';
+      color = 'green';
+      reasons.push(panelTargetRPM
+        ? (window.i18n?.t('lex.reason_no_history_target', { target: panelTargetRPM.toFixed(2) }) || `You don't have enough history yet to compare with your average. To reach your target on this load, ask for at least $${panelTargetRPM.toFixed(2)}/mi.`)
+        : (window.i18n?.t('lex.reason_no_history') || `You don't have enough history yet to compare with your average. Save a few loads and I'll compare each offer with your own numbers.`));
     } else if (rpm >= profile.avgRPM * 1.1) {
       recommendation = 'ACCEPT ✅';
       color = 'green';
@@ -653,7 +663,7 @@ async function analyzeLoadWithLearning(loadData) {
     // (costos actuales de esa carga); si no, el promedio historico de Lex.
     const estimatedProfit = isPanelLoad
       ? Number(panel.netProfit)
-      : (rpm * totalMiles) - (profile.avgCPM * totalMiles);
+      : (rpm * totalMiles) - ((Number.isFinite(profile.avgCPM) ? profile.avgCPM : (Number(window.getActiveCpmInfo?.().cpm) || 0)) * totalMiles);
 
     return {
       recommendation,
@@ -661,7 +671,7 @@ async function analyzeLoadWithLearning(loadData) {
       rpm,
       yourAvgRPM: profile.avgRPM,
       minSafeRPM: profile.minSafeRPM,
-      vsYourAvg: vsYourAvg.toFixed(1),
+      vsYourAvg: vsYourAvg === null ? null : vsYourAvg.toFixed(1),
       vsStateAvg: vsStateAvg ? vsStateAvg.toFixed(1) : null,
       stateAvgRPM: stateStats?.avgRPM || null,
       stateExperience: stateStats
@@ -967,3 +977,20 @@ window.lexAI.analyzeFinanceLoads = async function (financeData) {
 };
 
 debugLog('[LEX] Lex Learning System cargado');
+
+// Etiqueta de la recomendacion de Lex en el idioma de la app
+// ("ACCEPT ✅" -> "ACEPTAR ✅", "NEGOTIATE ⚠️" -> "NEGOCIAR ⚠️"...)
+window.lexRecLabel = function (rec) {
+  const r = String(rec || '');
+  const map = [
+    ['ALMOST ACCEPT', 'lex.almost_accept'], ['ACCEPT', 'lex.accept'], ['REJECT', 'lex.reject'],
+    ['NEGOTIATE', 'lex.negotiate'], ['FEASIBLE', 'lex.feasible'], ['EVALUATE', 'lex.evaluate']
+  ];
+  for (const [en, key] of map) {
+    if (r.startsWith(en)) {
+      const tr = window.i18n?.t(key);
+      return tr && tr !== key ? r.replace(en, tr) : r;
+    }
+  }
+  return r;
+};
