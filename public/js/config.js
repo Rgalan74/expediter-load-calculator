@@ -55,15 +55,8 @@ function initializeFirebaseAuth() {
     auth = firebase.auth();
     db = firebase.firestore();
 
-    // ✅ Inicializar Analytics
-    let analytics = null;
-    try {
-      analytics = firebase.analytics();
-      window.analytics = analytics;
-      debugLog('✅ Firebase Analytics inicializado');
-    } catch (error) {
-      debugLog('⚠️ Analytics no disponible:', error.message);
-    }
+    // Analytics: solo Google Analytics (consent-mode.js). Firebase Analytics
+    // se quito porque enviaba todo a una segunda propiedad que no se usa.
 
     // ✅ CONFIGURAR PERSISTENCIA EXPLÍCITAMENTE
     auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
@@ -89,16 +82,14 @@ function trackEvent(eventName, params = {}) {
     userId: window.currentUser?.uid || 'anonymous'
   };
 
-  if (window.analytics) {
-    try {
-      window.analytics.logEvent(eventName, enrichedParams);
-      debugLog('📊 Analytics:', eventName, enrichedParams);
-    } catch (error) {
-      debugLog('📊 Event (fallback):', eventName, enrichedParams);
-    }
-  } else {
-    debugLog('📊 Event:', eventName, enrichedParams);
+  // Un solo destino: Google Analytics G-EK7NM7PJE2 (consent-mode.js define gtag).
+  // Antes iba a Firebase Analytics (otra propiedad, G-RQTWNERHYF) y no llegaba
+  // al panel que se usa. Sin uid ni timestamp: GA no admite datos personales.
+  const { userId: _omitUid, timestamp: _omitTs, ...gaParams } = enrichedParams;
+  if (typeof window.gtag === 'function') {
+    try { window.gtag('event', eventName, gaParams); } catch (e) { /* bloqueado */ }
   }
+  debugLog('📊 Event:', eventName, gaParams);
 }
 
 window.trackEvent = trackEvent;
