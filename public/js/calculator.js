@@ -3888,6 +3888,12 @@ window.clearForm = clearForm;
 window.updateMap = updateMap;
 window.openGoogleMapsDirections = openGoogleMapsDirections;
 window.initGoogleMaps = initGoogleMaps;
+// Si Google Maps termino de cargar antes que este archivo, su callback dejo un
+// aviso (ver app.html): iniciar ahora el mapa y el autocompletado.
+if (window.__mapsCallbackPending && window.google && window.google.maps) {
+  window.__mapsCallbackPending = false;
+  try { initGoogleMaps(); } catch (e) { debugLog('initGoogleMaps tardio:', e); }
+}
 window.setupGoogleAutocomplete = setupGoogleAutocomplete;
 window.setupLegacyAutocomplete = setupLegacyAutocomplete;
 window.calculateDistanceAutomatically = calculateDistanceAutomatically;
