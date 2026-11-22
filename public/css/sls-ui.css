@@ -1124,3 +1124,112 @@ html[data-theme] body header .gradient-text,
 @media (max-width: 767px) {
   :root:not(#sls) body > #settings { padding-bottom: calc(72px + env(safe-area-inset-bottom)) !important; }
 }
+
+/* =====================================================================
+   PASO 5 — Resto de pantallas
+   ===================================================================== */
+/* Bordes grises de Tailwind (separadores de modales, tablas) -> línea del sistema */
+:root:not(#sls) body .border-gray-100,
+:root:not(#sls) body .border-gray-200,
+:root:not(#sls) body .border-gray-300 { border-color: var(--sls-line) !important; }
+
+/* Modales: cabecera, pie y botones */
+:root:not(#sls) body #editModal > div,
+:root:not(#sls) body #expenseModal .modal-content,
+:root:not(#sls) body #expenseModal > div > div {
+  background: var(--sls-card-grad) !important;
+  border: 1px solid var(--sls-card-border) !important;
+  box-shadow: var(--sls-card-shadow) !important;
+}
+:root:not(#sls) body #editModal .bg-white { background: transparent !important; }
+:root:not(#sls) body button[onclick="closeEditModal()"]:not(.text-gray-400),
+:root:not(#sls) body button[onclick="closeExpenseModal()"]:not(.text-gray-400) {
+  background: transparent !important;
+  background-image: none !important;
+  color: var(--sls-text) !important;
+  -webkit-text-fill-color: var(--sls-text) !important;
+  border: 1px solid var(--sls-line-2) !important;
+  box-shadow: none !important;
+}
+:root:not(#sls) body button[onclick="saveEditedLoad()"],
+:root:not(#sls) body button[onclick="saveExpenseToFirebase()"] {
+  background: var(--sls-accent) !important;
+  background-image: none !important;
+  color: var(--sls-on-accent) !important;
+  -webkit-text-fill-color: var(--sls-on-accent) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  font-family: var(--sls-font-title) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+/* Burbuja de Lex */
+:root:not(#sls) body #lexBubble {
+  background: var(--sls-surface) !important;
+  border: 1px solid var(--sls-card-border) !important;
+  box-shadow: var(--sls-card-shadow) !important;
+  backdrop-filter: none !important;
+}
+:root:not(#sls) body #lexBubble, :root:not(#sls) body #lexBubble p { color: var(--sls-text) !important; -webkit-text-fill-color: var(--sls-text) !important; }
+:root:not(#sls) body #lexBubble .lex-action-btn,
+:root:not(#sls) body #lexBubble .lex-btn-chat {
+  background: var(--sls-accent) !important;
+  background-image: none !important;
+  color: var(--sls-on-accent) !important;
+  -webkit-text-fill-color: var(--sls-on-accent) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Aviso de configuración de la calculadora */
+:root:not(#sls) body #configStatusIndicator .sls-cfg-status {
+  background: var(--sls-surface) !important;
+  border: 1px solid var(--sls-line) !important;
+  border-left: 3px solid var(--sls-green) !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  padding: 10px 16px !important;
+}
+:root:not(#sls) body #configStatusIndicator .sls-cfg-default { border-left-color: var(--sls-amber) !important; }
+:root:not(#sls) body #configStatusIndicator .sls-cfg-status,
+:root:not(#sls) body #configStatusIndicator .sls-cfg-status span {
+  color: var(--sls-muted) !important;
+  -webkit-text-fill-color: var(--sls-muted) !important;
+  font-size: 13px !important;
+}
+:root:not(#sls) body #configStatusIndicator .sls-cfg-status span[style*="font-weight"] { color: var(--sls-text) !important; -webkit-text-fill-color: var(--sls-text) !important; }
+:root:not(#sls) body #configStatusIndicator .sls-cfg-status a { color: var(--sls-accent-text) !important; -webkit-text-fill-color: var(--sls-accent-text) !important; }
+
+/* Banner del plan en Historial */
+:root:not(#sls) body #historyPlanBanner {
+  background: var(--sls-surface) !important;
+  border: 1px solid var(--sls-line) !important;
+  border-left: 3px solid var(--sls-accent) !important;
+}
+:root:not(#sls) body #historyPlanBanner strong { color: var(--sls-text) !important; -webkit-text-fill-color: var(--sls-text) !important; }
+:root:not(#sls) body #historyPlanBanner .sls-plan-cta {
+  background: var(--sls-accent) !important;
+  color: var(--sls-on-accent) !important;
+  -webkit-text-fill-color: var(--sls-on-accent) !important;
+  font-family: var(--sls-font-title) !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+/* Nota del mapa ("Mapa interactivo") */
+:root:not(#sls) body .sls-map-hint {
+  background: transparent !important;
+  border: 0 !important;
+  padding: 8px 0 0 !important;
+}
+:root:not(#sls) body .sls-map-hint, :root:not(#sls) body .sls-map-hint * {
+  color: var(--sls-muted) !important;
+  -webkit-text-fill-color: var(--sls-muted) !important;
+  font-size: 13px !important;
+}
+:root:not(#sls) body .sls-map-hint strong { color: var(--sls-text) !important; -webkit-text-fill-color: var(--sls-text) !important; }
+
+/* Subpestañas de Finanzas: la activa con raya cian inferior */
+:root:not(#sls) body .fin-subtab.bg-white { box-shadow: inset 0 -2px 0 var(--sls-accent) !important; }

@@ -585,6 +585,13 @@ document.addEventListener("DOMContentLoaded", () => {
         document.addEventListener("financesOpened", () => {
             activateSubtab("summary");
         });
+        // Estado inicial: solo marcar "Resumen" como activo (antes ninguna se veía
+        // activa). No llama a activateSubtab para no cargar datos antes del login.
+        const _summaryBtn = document.querySelector(".fin-subtab[data-subtab='summary']");
+        if (_summaryBtn) {
+            _summaryBtn.classList.remove("text-gray-600", "hover:text-gray-900");
+            _summaryBtn.classList.add("bg-white", "text-blue-600", "shadow-sm", "font-bold");
+        }
     });
 });
 

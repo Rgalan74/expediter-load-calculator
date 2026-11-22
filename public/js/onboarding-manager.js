@@ -549,12 +549,12 @@ class OnboardingManager {
         if (this.isUsingDefaults()) {
             // Usando valores por defecto
             indicator.innerHTML = `
-                <div style="background: rgba(255, 193, 7, 0.15); border-left: 4px solid #FFC107; padding: 0.875rem 1.25rem; margin-bottom: 1.5rem; border-radius: 0.75rem; box-shadow: 0 2px 8px rgba(255, 193, 7, 0.1);">
+                <div class="sls-cfg-status sls-cfg-default" style="background: rgba(255, 193, 7, 0.15); border-left: 4px solid #FFC107; padding: 0.875rem 1.25rem; margin-bottom: 1.5rem; border-radius: 0.75rem; box-shadow: 0 2px 8px rgba(255, 193, 7, 0.1);">
                     <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
                         <span style="font-size: 1.25rem;">⚠️</span>
                         <span style="flex: 1; font-size: 0.9375rem; color: #78350f; font-weight: 500;">
                             Usando valores promedio de industria (CPM $${this.userProfile.costs.totalCPM}/mi). 
-                            <a href="./config.html" style="color: #92400e; text-decoration: underline; font-weight: 700; text-decoration-thickness: 2px; text-underline-offset: 2px;">Configura tu operación →</a> 
+                            <a href="#" onclick="event.preventDefault(); (document.querySelector('.tab-link[data-tab=settings]') || {}).click && document.querySelector('.tab-link[data-tab=settings]').click();" style="color: #92400e; text-decoration: underline; font-weight: 700; text-decoration-thickness: 2px; text-underline-offset: 2px;">Configura tu operación →</a> 
                             para cálculos precisos.
                         </span>
                     </div>
@@ -564,7 +564,7 @@ class OnboardingManager {
             // Configuración personalizada
             const cpm = this.userProfile.costs?.totalCPM || 0.55;
             indicator.innerHTML = `
-                <div style="background: rgba(76, 175, 80, 0.15); border-left: 4px solid #4CAF50; padding: 0.75rem 1.25rem; margin-bottom: 1.5rem; border-radius: 0.75rem; font-size: 0.875rem; color: #1b5e20; box-shadow: 0 2px 8px rgba(76, 175, 80, 0.1);">
+                <div class="sls-cfg-status sls-cfg-custom" style="background: rgba(76, 175, 80, 0.15); border-left: 4px solid #4CAF50; padding: 0.75rem 1.25rem; margin-bottom: 1.5rem; border-radius: 0.75rem; font-size: 0.875rem; color: #1b5e20; box-shadow: 0 2px 8px rgba(76, 175, 80, 0.1);">
                     <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <span>✓</span>
                         <span style="font-weight: 600;">Usando tu configuración personalizada</span>

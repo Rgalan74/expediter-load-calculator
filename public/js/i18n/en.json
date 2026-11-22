@@ -250,6 +250,8 @@
     "lex_unavailable": "Could not access Lex history analysis ⚙️"
   },
   "finances": {
+    "label_home_state": "🏠 Home State (for Tax Report)",
+    "expense_description_placeholder": "Expense description",
     "title": "💰 Financial Management",
     "subtitle": "Full control of your income, expenses and profitability",
     "tab_summary": "🧮 Summary",

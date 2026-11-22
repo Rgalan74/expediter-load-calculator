@@ -180,6 +180,12 @@ class LanguageManager {
             el.innerHTML = translation;
         });
 
+        // data-i18n-placeholder: traduce el placeholder (campos con texto de ejemplo)
+        rootNode.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const val = this.translate(el.getAttribute('data-i18n-placeholder'));
+            if (val) el.placeholder = val;
+        });
+
         // data-i18n-title: traduce el atributo title
         rootNode.querySelectorAll('[data-i18n-title]').forEach(el => {
             const val = this.translate(el.getAttribute('data-i18n-title'));

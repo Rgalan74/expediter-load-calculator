@@ -316,7 +316,7 @@ function showHistoryPlanBanner(historyDays, cutoffDateStr) {
   banner.style.cssText = 'margin:0 0 12px;padding:12px 16px;background:rgba(255,109,74,0.08);border:1px solid rgba(255,109,74,0.35);border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;';
   banner.innerHTML = `
     <span style="font-size:13px;color:#94a3b8;">🔒 ${message}</span>
-    <button onclick="window.location.href='plans.html'"
+    <button class="sls-plan-cta" onclick="window.location.href='plans.html'"
       style="background:#FF6D4A;color:#fff;border:none;padding:8px 16px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">
       ${ctaText}
     </button>`;

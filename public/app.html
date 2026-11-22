@@ -329,7 +329,7 @@
   <link rel="stylesheet" href="css/ember-patch.css?v=7">
   <!-- Sistema de diseño (v3: cian sobre azul noche) — siempre el último -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
-  <link rel="stylesheet" href="css/sls-ui.css?v=1.4.1">
+  <link rel="stylesheet" href="css/sls-ui.css?v=1.5.0">
 
   <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
   <script src="js/consent-mode.js?v=1.0.0"></script>
@@ -912,7 +912,7 @@
               </div>
             </div>
 
-            <div class="mt-3 text-sm text-gray-600 bg-blue-50 p-3 rounded">
+            <div class="mt-3 text-sm text-gray-600 bg-blue-50 p-3 rounded sls-map-hint">
               <p class="flex items-center gap-2">
                 <span>🗺️</span>
                 <span data-i18n-html="calculator.map_hint"><strong>Interactive map:</strong> The calculated route is displayed automatically</span>
@@ -1790,7 +1790,7 @@
               <!-- Description -->
               <div>
                 <label for="expenseDescription" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="finances.expense_description">Description</label>
-                <input type="text" id="expenseDescription" name="expenseDescription" placeholder="Expense description"
+                <input type="text" id="expenseDescription" name="expenseDescription" placeholder="Expense description" data-i18n-placeholder="finances.expense_description_placeholder"
                   class="border border-gray-300 rounded px-3 py-2 w-full focus:border-blue-500 focus:outline-none">
               </div>
 
@@ -2688,7 +2688,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-check-compat.js"></script>
   <script src="js/weather-app-check.js?v=weather1"></script>
   <script src="js/config.js?v=2.2.1"></script>
-  <script src="js/i18n/language-manager.js?v=1.0.0"></script>
+  <script src="js/i18n/language-manager.js?v=1.0.1"></script>
 
   <!-- 🍪 Cookie Consent + Analytics (después de config.js para que Firebase esté inicializado) -->
   <script src="js/cookie-consent.js?v=1.0.0"></script>
@@ -2725,7 +2725,7 @@
   <script src="js/upgrade-modal.js?v=1.0.0"></script>
 
   <script src="js/userPlans.js?v=1.2.0"></script>
-  <script src="js/history.js?v=2.0.7"></script>
+  <script src="js/history.js?v=2.0.8"></script>
 
   <!-- 💰 Finances modules - Load in order (refactored) -->
   <script src="js/finances-core.js?v=2.0.0"></script>
@@ -2743,8 +2743,8 @@
   <script src="js/core/roles-manager.js?v=1.0.0"></script>
   <script src="js/admin-panel.js?v=20261112"></script>
   <script src="js/role-badge-display.js?v=2.0.7"></script>
-  <script src="js/onboarding-manager.js?v=1.0.5"></script>
-  <script src="js/main.js?v=20261122"></script>
+  <script src="js/onboarding-manager.js?v=1.0.6"></script>
+  <script src="js/main.js?v=20261122c"></script>
   <script src="js/core/conversation-memory.js?v=20261112"></script>
   <script src="js/core/response-builders.js?v=20261112"></script>
   <script src="js/core/sentiment-analyzer.js?v=20261112"></script>
