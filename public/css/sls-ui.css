@@ -1233,3 +1233,10 @@ html[data-theme] body header .gradient-text,
 
 /* Subpestañas de Finanzas: la activa con raya cian inferior */
 :root:not(#sls) body .fin-subtab.bg-white { box-shadow: inset 0 -2px 0 var(--sls-accent) !important; }
+
+/* Finanzas en móvil: 2 columnas para que las cifras no se corten */
+@media (max-width: 639px) {
+  :root:not(#sls) body .fin-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px !important; }
+  :root:not(#sls) body .fin-kpi-grid .fin-kpi-label { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; letter-spacing: 0.08em !important; }
+  :root:not(#sls) body .fin-kpi-grid .fin-kpi-value { font-size: 26px !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+}

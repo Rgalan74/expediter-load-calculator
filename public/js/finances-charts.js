@@ -24,9 +24,9 @@
 function getChartThemeColors() {
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     return {
-        tickColor: isDark ? '#e2e8f0' : '#475569',
-        gridColor: isDark ? 'rgba(59,130,246,0.1)' : 'rgba(0,0,0,0.07)',
-        legendColor: isDark ? '#e2e8f0' : '#334155'
+        tickColor: isDark ? '#B8BFCC' : '#475569',
+        gridColor: isDark ? 'rgba(34,211,238,0.1)' : 'rgba(0,0,0,0.07)',
+        legendColor: isDark ? '#B8BFCC' : '#334155'
     };
 }
 
@@ -122,9 +122,9 @@ function updateCashFlowChart() {
             data: {
                 labels: formattedLabels,
                 datasets: [
-                    { label: window.i18n?.t('finances.chart_revenue') || 'Revenue', data: revenues, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.2)', tension: 0.3, fill: true },
-                    { label: window.i18n?.t('finances.chart_expenses_label') || 'Expenses', data: expenses, borderColor: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.2)', tension: 0.3, fill: true },
-                    { label: window.i18n?.t('finances.chart_profit') || 'Profit', data: profits, borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.2)', tension: 0.3, fill: true }
+                    { label: window.i18n?.t('finances.chart_revenue') || 'Revenue', data: revenues, borderColor: '#3DDC97', backgroundColor: 'rgba(61, 220, 151, 0.2)', tension: 0.3, fill: true },
+                    { label: window.i18n?.t('finances.chart_expenses_label') || 'Expenses', data: expenses, borderColor: '#F26D6D', backgroundColor: 'rgba(242, 109, 109, 0.2)', tension: 0.3, fill: true },
+                    { label: window.i18n?.t('finances.chart_profit') || 'Profit', data: profits, borderColor: '#22D3EE', backgroundColor: 'rgba(34, 211, 238, 0.2)', tension: 0.3, fill: true }
                 ]
             },
             options: {
@@ -208,14 +208,14 @@ function updateExpenseBreakdownChart() {
     ];
 
     const colors = [
-        '#f97316', // Combustible (naranja)
-        '#3b82f6', // Mantenimiento (azul)
-        '#facc15', // Comida (amarillo)
-        '#a855f7', // Hospedaje (morado)
-        '#10b981', // Peajes (verde)
-        '#ef4444', // Seguros (rojo)
-        '#6366f1', // Permisos (indigo)
-        '#6b7280'  // Otros (gris)
+        '#22D3EE', // Combustible (cian)
+        '#2DD4BF', // Mantenimiento (turquesa)
+        '#F5B03A', // Comida (ámbar)
+        '#A78BFA', // Hospedaje (violeta)
+        '#3DDC97', // Peajes (verde)
+        '#F26D6D', // Seguros (coral)
+        '#60A5FA', // Permisos (azul cielo)
+        '#8D95A5'  // Otros (gris)
     ];
 
     const totalExpenses = data.reduce((a, b) => a + b, 0);
@@ -271,7 +271,7 @@ function updateExpenseBreakdownChart() {
                     data: data,
                     backgroundColor: colors,
                     borderWidth: 2,
-                    borderColor: '#ffffff'
+                    borderColor: '#0F1828'
                 }]
             },
             options: {
@@ -354,12 +354,12 @@ function updateLoadDistributionChart() {
             datasets: [{
                 data: [shortHauls, mediumHauls, longHauls],
                 backgroundColor: [
-                    '#fbbf24',
-                    '#3b82f6',
-                    '#10b981'
+                    '#F5B03A',
+                    '#22D3EE',
+                    '#3DDC97'
                 ],
                 borderWidth: 2,
-                borderColor: '#ffffff'
+                borderColor: '#0F1828'
             }]
         },
         options: {

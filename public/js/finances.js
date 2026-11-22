@@ -3399,8 +3399,8 @@ function updateCashFlowChartEnhanced() {
         {
           label: window.i18n?.t('finances.chart_revenue') || 'Revenue',
           data: revenues,
-          borderColor: '#10b981',
-          backgroundColor: chartType === 'bar' ? 'rgba(16, 185, 129, 0.8)' : 'rgba(16, 185, 129, 0.1)',
+          borderColor: '#3DDC97',
+          backgroundColor: chartType === 'bar' ? 'rgba(61, 220, 151, 0.8)' : 'rgba(61, 220, 151, 0.1)',
           tension: 0.3,
           fill: chartType === 'line',
           borderWidth: chartType === 'bar' ? 2 : 3
@@ -3408,8 +3408,8 @@ function updateCashFlowChartEnhanced() {
         {
           label: window.i18n?.t('finances.chart_expenses_label') || 'Expenses',
           data: expenses,
-          borderColor: '#ef4444',
-          backgroundColor: chartType === 'bar' ? 'rgba(239, 68, 68, 0.8)' : 'rgba(239, 68, 68, 0.1)',
+          borderColor: '#F26D6D',
+          backgroundColor: chartType === 'bar' ? 'rgba(242, 109, 109, 0.8)' : 'rgba(242, 109, 109, 0.1)',
           tension: 0.3,
           fill: chartType === 'line',
           borderWidth: chartType === 'bar' ? 2 : 3
@@ -3417,8 +3417,8 @@ function updateCashFlowChartEnhanced() {
         {
           label: window.i18n?.t('finances.chart_profit') || 'Profit',
           data: profits,
-          borderColor: '#3b82f6',
-          backgroundColor: chartType === 'bar' ? 'rgba(59, 130, 246, 0.8)' : 'rgba(59, 130, 246, 0.1)',
+          borderColor: '#22D3EE',
+          backgroundColor: chartType === 'bar' ? 'rgba(34, 211, 238, 0.8)' : 'rgba(34, 211, 238, 0.1)',
           tension: 0.3,
           fill: chartType === 'line',
           borderWidth: chartType === 'bar' ? 2 : 3
@@ -3434,19 +3434,19 @@ function updateCashFlowChartEnhanced() {
           labels: {
             usePointStyle: true,
             padding: 20,
-            color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#e2e8f0' : '#334155'
+            color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#B8BFCC' : '#334155'
           }
         }
       },
       scales: {
-        x: { ticks: { color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#e2e8f0' : '#475569' }, grid: { color: document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(59,130,246,0.1)' : 'rgba(0,0,0,0.07)' } },
+        x: { ticks: { color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#B8BFCC' : '#475569' }, grid: { color: document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(34,211,238,0.1)' : 'rgba(0,0,0,0.07)' } },
         y: {
           beginAtZero: true,
           ticks: {
             callback: function (value) {
               return '$' + value.toLocaleString();
             },
-            color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#e2e8f0' : '#475569'
+            color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#B8BFCC' : '#475569'
           }
         }
       }
@@ -3497,8 +3497,8 @@ function updateRpmTrendChart() {
       datasets: [{
         label: 'RPM Promedio',
         data: rpmValues,
-        borderColor: '#3b82f6',
-        backgroundColor: chartType === 'bar' ? 'rgba(59, 130, 246, 0.8)' : 'rgba(59, 130, 246, 0.1)',
+        borderColor: '#22D3EE',
+        backgroundColor: chartType === 'bar' ? 'rgba(34, 211, 238, 0.8)' : 'rgba(34, 211, 238, 0.1)',
         tension: 0.3,
         fill: chartType === 'line',
         borderWidth: chartType === 'bar' ? 2 : 3
@@ -3510,15 +3510,15 @@ function updateRpmTrendChart() {
       plugins: {
         legend: {
           position: 'top',
-          labels: { color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#e2e8f0' : '#334155' }
+          labels: { color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#B8BFCC' : '#334155' }
         }
       },
       scales: {
-        x: { ticks: { color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#e2e8f0' : '#475569' }, grid: { color: document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(59,130,246,0.1)' : 'rgba(0,0,0,0.07)' } },
+        x: { ticks: { color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#B8BFCC' : '#475569' }, grid: { color: document.documentElement.getAttribute('data-theme') === 'dark' ? 'rgba(34,211,238,0.1)' : 'rgba(0,0,0,0.07)' } },
         y: {
           beginAtZero: true,
           ticks: {
-            color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#e2e8f0' : '#475569',
+            color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#B8BFCC' : '#475569',
             callback: function (value) {
               return '$' + value.toFixed(2);
             }
@@ -3567,12 +3567,12 @@ function updateLoadDistributionChart() {
       datasets: [{
         data: [shortHauls, mediumHauls, longHauls],
         backgroundColor: [
-          '#fbbf24', // Amarillo para cortas
-          '#3b82f6', // Azul para medianas  
-          '#10b981'  // Verde para largas
+          '#F5B03A', // Amarillo para cortas
+          '#22D3EE', // Azul para medianas  
+          '#3DDC97'  // Verde para largas
         ],
         borderWidth: 2,
-        borderColor: '#ffffff'
+        borderColor: '#0F1828'
       }]
     },
     options: {
