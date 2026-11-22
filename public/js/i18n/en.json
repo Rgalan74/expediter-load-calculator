@@ -1800,5 +1800,23 @@
     "complete_body": "All your data is up to date",
     "failed_title": "Sync error",
     "failed_body": "Will retry later"
+  },
+  "settings_ui": {
+    "vehicle_type": "Vehicle Type",
+    "vehicle_type_hint": "Loads typical cost template",
+    "business_name": "Business Name",
+    "home_state": "Home State",
+    "other_fixed_hint": "Phone, internet, etc.",
+    "auto_summary": "🧮 Auto Summary",
+    "monthly_fixed_total": "Monthly Fixed Total:",
+    "fixed_cost_per_mile": "Fixed Cost per Mile:",
+    "mpg_hint": "MPG (your vehicle)",
+    "calculated_cost": "Calculated cost: ",
+    "keep_updated": "Keep these values updated to get accurate profit calculations on every load.",
+    "min_rate_hint": "Minimum rate you accept",
+    "monthly_miles_hint": "Monthly miles goal",
+    "profit_target_hint": "Net profit target",
+    "vehicle_type_ph": "Enter vehicle type",
+    "business_name_ph": "Your LLC"
   }
 }

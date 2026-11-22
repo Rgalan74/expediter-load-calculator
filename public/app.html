@@ -326,7 +326,7 @@
     }
   </style>
   <link rel="stylesheet" href="css/ember-green.css?v=6">
-  <link rel="stylesheet" href="css/ember-patch.css?v=6">
+  <link rel="stylesheet" href="css/ember-patch.css?v=7">
 
   <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
   <script src="js/consent-mode.js?v=1.0.0"></script>
@@ -1904,21 +1904,21 @@
                 <div class="w-4 h-4 bg-green-600 rounded-full mr-3"></div>
                 <div>
                   <p class="font-medium text-green-800" data-i18n="zones.cities_high_profit">High Profitability</p>
-                  <p class="text-sm text-green-600">RPM &gt; $1.05</p>
+                  <p id="zoneLegendGreen" class="text-sm text-green-600">RPM &gt; $1.05</p>
                 </div>
               </div>
               <div class="flex items-center p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
                 <div class="w-4 h-4 bg-yellow-500 rounded-full mr-3"></div>
                 <div>
                   <p class="font-medium text-yellow-800" data-i18n="zones.cities_med_profit">Medium Profitability</p>
-                  <p class="text-sm text-yellow-600">$0.75 - $1.05 RPM</p>
+                  <p id="zoneLegendYellow" class="text-sm text-yellow-600">$0.75 - $1.05 RPM</p>
                 </div>
               </div>
               <div class="flex items-center p-3 bg-red-50 border border-red-200 rounded-lg">
                 <div class="w-4 h-4 bg-red-600 rounded-full mr-3"></div>
                 <div>
                   <p class="font-medium text-red-800" data-i18n="zones.cities_low_profit">Low Profitability</p>
-                  <p class="text-sm text-red-600">RPM &lt; $0.75</p>
+                  <p id="zoneLegendRed" class="text-sm text-red-600">RPM &lt; $0.75</p>
                 </div>
               </div>
             </div>
@@ -2093,7 +2093,7 @@
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <label for="vehicleType" class="block text-sm font-medium text-gray-700 mb-2">
+              <label for="vehicleType" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings_ui.vehicle_type">
                 Vehicle Type
               </label>
               <select id="vehicleType" name="vehicleType" onchange="loadVehicleTemplate(this.value)"
@@ -2104,21 +2104,21 @@
                 <option value="hotshot">Hotshot Pickup</option>
                 <option value="custom">Custom</option>
               </select>
-              <input type="text" id="customVehicleType" name="customVehicleType" placeholder="Enter vehicle type"
+              <input type="text" id="customVehicleType" name="customVehicleType" placeholder="Enter vehicle type" data-i18n="settings_ui.vehicle_type_ph"
                 class="hidden border p-3 w-full rounded-lg mt-2" />
-              <p class="text-xs text-gray-500 mt-1">Loads typical cost template</p>
+              <p class="text-xs text-gray-500 mt-1" data-i18n="settings_ui.vehicle_type_hint">Loads typical cost template</p>
             </div>
 
             <div>
-              <label for="businessName" class="block text-sm font-medium text-gray-700 mb-2">
+              <label for="businessName" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings_ui.business_name">
                 Business Name
               </label>
-              <input type="text" id="businessName" name="businessName" placeholder="Your LLC"
+              <input type="text" id="businessName" name="businessName" placeholder="Your LLC" data-i18n="settings_ui.business_name_ph"
                 class="border p-3 w-full rounded-lg">
             </div>
 
             <div>
-              <label for="operatingState" class="block text-sm font-medium text-gray-700 mb-2">
+              <label for="operatingState" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings_ui.home_state">
                 Home State
               </label>
               <select id="operatingState" name="operatingState" class="border p-3 w-full rounded-lg">
@@ -2213,25 +2213,25 @@
                 </label>
                 <input type="number" id="otherFixed" name="otherFixed" step="1" value="" placeholder="0" oninput="calculateTotals()"
                   class="border p-3 w-full rounded-lg">
-                <p class="text-xs text-gray-500 mt-1">Phone, internet, etc.</p>
+                <p class="text-xs text-gray-500 mt-1" data-i18n="settings_ui.other_fixed_hint">Phone, internet, etc.</p>
               </div>
             </div>
 
             <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h4 class="font-semibold text-blue-800 mb-3">🧮 Auto Summary</h4>
+              <h4 class="font-semibold text-blue-800 mb-3" data-i18n="settings_ui.auto_summary">🧮 Auto Summary</h4>
 
               <div class="space-y-2 text-sm">
                 <div class="flex justify-between">
-                  <span>Monthly Fixed Total:</span>
+                  <span data-i18n="settings_ui.monthly_fixed_total">Monthly Fixed Total:</span>
                   <span id="totalFixed" class="font-bold">$2,400</span>
                 </div>
 
                 <div class="flex justify-between">
-                  <span>Fixed Cost per Mile:</span>
+                  <span data-i18n="settings_ui.fixed_cost_per_mile">Fixed Cost per Mile:</span>
                   <span id="fixedCostPerMile" class="font-bold text-blue-600">$0.300</span>
                 </div>
 
-                <div class="text-xs text-blue-600 mt-2">
+                <div id="fixedPerMileNote" class="text-xs text-blue-600 mt-2">
                   * Based on your monthly miles target
                 </div>
               </div>
@@ -2250,7 +2250,7 @@
 
                 <div class="grid grid-cols-2 gap-3">
                   <div>
-                    <label for="fuelMPG" class="block text-xs font-medium text-gray-700 mb-1">
+                    <label for="fuelMPG" class="block text-xs font-medium text-gray-700 mb-1" data-i18n="settings_ui.mpg_hint">
                       MPG (your vehicle)
                     </label>
                     <input type="number" id="fuelMPG" name="fuelMPG" step="0.1" value="19" oninput="calculateFuelCost()"
@@ -2282,7 +2282,7 @@
                 <p class="text-xs text-gray-500 mt-2" data-i18n="settings.fuel_route_help">Each load uses this week's average fuel price for the regions on its route (EIA), plus your adjustment (e.g. -0.20 if your fuel card saves 20¢). The price per gallon is used only when route prices are not available.</p>
 
                 <div class="mt-2 text-center">
-                  <span class="text-xs text-yellow-700">Calculated cost: </span>
+                  <span class="text-xs text-yellow-700" data-i18n="settings_ui.calculated_cost">Calculated cost: </span>
                   <span id="calculatedFuelCost" class="font-bold text-yellow-800">$0.194/mi</span>
                 </div>
               </div>
@@ -2328,7 +2328,7 @@
                 </div>
                 <div class="flex items-start gap-2">
                   <span class="text-yellow-600 mt-0.5">💡</span>
-                  <span>Keep these values updated to get accurate profit calculations on every load.</span>
+                  <span data-i18n="settings_ui.keep_updated">Keep these values updated to get accurate profit calculations on every load.</span>
                 </div>
               </div>
               <input type="checkbox" id="useRealCosts" name="useRealCosts" class="hidden" checked>
@@ -2350,7 +2350,7 @@
               </label>
               <input type="number" id="targetRPM" name="targetRPM" step="0.01" value="1.25"
                 class="border p-3 w-full rounded-lg">
-              <p class="text-xs text-gray-500 mt-1">Minimum rate you accept</p>
+              <p class="text-xs text-gray-500 mt-1" data-i18n="settings_ui.min_rate_hint">Minimum rate you accept</p>
             </div>
 
             <div>
@@ -2359,7 +2359,7 @@
               </label>
               <input type="number" id="monthlyMilesGoal" name="monthlyMilesGoal" step="100" value="8000"
                 oninput="calculateTotals()" class="border p-3 w-full rounded-lg">
-              <p class="text-xs text-gray-500 mt-1">Monthly miles goal</p>
+              <p class="text-xs text-gray-500 mt-1" data-i18n="settings_ui.monthly_miles_hint">Monthly miles goal</p>
             </div>
 
             <div>
@@ -2368,7 +2368,7 @@
               </label>
               <input type="number" id="targetProfit" name="targetProfit" step="1" value="30" min="0" max="100"
                 class="border p-3 w-full rounded-lg">
-              <p class="text-xs text-gray-500 mt-1">Net profit target</p>
+              <p class="text-xs text-gray-500 mt-1" data-i18n="settings_ui.profit_target_hint">Net profit target</p>
             </div>
 
             <div>
@@ -2674,7 +2674,7 @@
   <!-- 🍪 Cookie Consent + Analytics (después de config.js para que Firebase esté inicializado) -->
   <script src="js/cookie-consent.js?v=1.0.0"></script>
   <script src="js/analytics-manager.js?v=1.0.0"></script>
-  <script src="js/settings.js?v=20261121a"></script>
+  <script src="js/settings.js?v=20261122a"></script>
   <script src="js/weather-client.js?v=weather1"></script>
   <script src="js/fuel-prices.js?v=2"></script>
   <script src="js/calculator.js?v=2.5.2-lex"></script>
@@ -2720,7 +2720,7 @@
   <!-- 🎯 Lazy Loading Override - Forces lazy for expenses/reports -->
   <script src="js/finances-lazy-override.js?v=1.0.0"></script>
 
-  <script src="js/zones.js?v=20261112"></script>
+  <script src="js/zones.js?v=20261122a"></script>
   <script src="js/core/roles-manager.js?v=1.0.0"></script>
   <script src="js/admin-panel.js?v=20261112"></script>
   <script src="js/role-badge-display.js?v=2.0.7"></script>
@@ -2785,7 +2785,7 @@
     <!-- Globito de mensaje de Lex (encima del avatar) -->
     <div id="lexBubble"
       class="hidden max-w-xs text-xs rounded-2xl shadow-lg px-3 py-2 mb-2 bg-slate-900/95 border border-slate-700">
-      <p id="lexBubbleText" class="font-medium text-slate-50">
+      <p id="lexBubbleText" class="font-medium text-slate-50" data-i18n="lex.welcome_bubble">
         Hola, soy Lex. Te ayudaré con tus decisiones de carga. 👋
       </p>
 

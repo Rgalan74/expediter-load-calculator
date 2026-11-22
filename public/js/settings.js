@@ -174,8 +174,21 @@ function calculateTotals() {
             return { totalFixed: 0, fixedCostPerMile: 0 };
         }
 
-        // Costo fijo por milla
-        const fixedCostPerMile = totalFixed / monthlyMiles;
+        // Costo fijo por milla: igual que la Calculadora. Con historial real se divide
+        // entre tus millas reales al mes; si no, entre tu meta de millas.
+        const _eng = window.CPMEngine?.current?.();
+        const realMiles = (_eng && _eng.source === 'real') ? Number(_eng.realMonthlyMiles) || 0 : 0;
+        const milesForFixed = realMiles > 0 ? realMiles : monthlyMiles;
+        const fixedCostPerMile = totalFixed / milesForFixed;
+        const noteEl = document.getElementById('fixedPerMileNote');
+        if (noteEl) {
+            const _isEsN = (window.i18n?.currentLang || 'en') === 'es';
+            noteEl.textContent = realMiles > 0
+                ? (_isEsN ? `* Con tus millas reales: ${Math.round(realMiles).toLocaleString()} mi/mes (lo mismo que usa la Calculadora)`
+                          : `* Using your real miles: ${Math.round(realMiles).toLocaleString()} mi/mo (same as the Calculator)`)
+                : (_isEsN ? `* Con tu meta de ${Math.round(monthlyMiles).toLocaleString()} mi/mes (cuando tengas historial se usarán tus millas reales)`
+                          : `* Using your goal of ${Math.round(monthlyMiles).toLocaleString()} mi/mo (your real miles will be used once you have history)`);
+        }
 
         // Costos variables YA expresados en USD/milla; no dividir entre millas mensuales
         const maintenanceMonthly = parseFloat(document.getElementById('maintenancePerMile')?.value) || 0;
@@ -252,7 +265,10 @@ function loadVehicleTemplate(vehicleType) {
             calculateTotals();
         }, 100);
 
-        showConfigMessage(` Plantilla ${template.name} aplicada (${fieldsApplied} campos)`, "success");
+        const _isEsTpl = (window.i18n?.currentLang || 'en') === 'es';
+        showConfigMessage(_isEsTpl
+            ? `Plantilla ${template.name} aplicada. Revisa los valores y guarda.`
+            : `${template.name} template applied. Review the values and save.`, "success");
 
         return template;
 
@@ -575,7 +591,13 @@ function applyConfigurationToForm(config) {
             calculateTotals();
         }, 100);
 
-        showConfigMessage(` Configuración cargada (${fieldsLoaded} campos)`, "success");
+        // Cuando el motor de costos termine, recalcular el resumen con las millas reales
+        if (window.CPMEngine?.getCPM) {
+            window.CPMEngine.getCPM().then(() => calculateTotals()).catch(() => {});
+        }
+
+        // Sin aviso al usuario: era un mensaje tecnico en cada visita
+        debugLog(`Configuracion cargada (${fieldsLoaded} campos)`);
 
     } catch (error) {
         debugLog(" Error applying configuration to form:", error);

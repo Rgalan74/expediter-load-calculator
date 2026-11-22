@@ -127,12 +127,39 @@ function calcularEstadisticas(loads) {
     return resumenPorEstado;
 }
 
+// Umbrales de color de Zonas segun los numeros de CADA usuario (no fijos):
+//   rojo  = no cubre su costo por milla
+//   verde = llega a su RPM objetivo (costo / (1 - margen objetivo), o su RPM minimo si es mayor)
+// Sin datos del usuario se usan los valores por defecto anteriores.
+function zoneThresholds() {
+    const eng = window.CPMEngine?.current?.();
+    const cpm = Number(eng?.cpm) || Number(window._userCPM) || 0;
+    const prof = window.currentUser?.profileData || {};
+    const tp = Math.min(0.9, Math.max(0, (Number(prof.targetProfit) || 20) / 100));
+    const target = Math.max(cpm > 0 ? cpm / (1 - tp) : 0, Number(prof.targetRPM) || 0);
+    if (cpm > 0 && target > cpm) return { green: Math.round(target * 100) / 100, yellow: Math.round(cpm * 100) / 100 };
+    return { green: 0.90, yellow: 0.75 };
+}
+window.zoneThresholds = zoneThresholds;
+
+// Leyenda del mapa con los umbrales del usuario
+function updateZoneLegend() {
+    const t = zoneThresholds();
+    const set = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+    set('zoneLegendGreen', `RPM ≥ $${t.green.toFixed(2)}`);
+    set('zoneLegendYellow', `$${t.yellow.toFixed(2)} - $${t.green.toFixed(2)} RPM`);
+    set('zoneLegendRed', `RPM < $${t.yellow.toFixed(2)}`);
+}
+window.updateZoneLegend = updateZoneLegend;
+
 // Zona por reglas directas: RPM + confianza por volumen
-// Regla 1: zona base del RPM (usa los mismos umbrales del usuario: $0.75 / $0.90)
+// Regla 1: zona base del RPM (umbrales del usuario, ver zoneThresholds)
 // Regla 2: si < 3 cargas → bajar un nivel (verde→amarillo, amarillo→rojo)
 //   Razón: con 1-2 cargas no hay suficiente muestra para confiar en el dato
 function calcularScoreCompuesto() {
     scorePorEstado = {};
+    const T = zoneThresholds();
+    updateZoneLegend();
 
     Object.keys(rpmPorEstado).forEach(code => {
         const rpm    = rpmPorEstado[code] || 0;
@@ -140,8 +167,8 @@ function calcularScoreCompuesto() {
 
         // Zona base del precio (RPM)
         let score;
-        if      (rpm >= 0.90) score = 75;  // Verde
-        else if (rpm >= 0.75) score = 37;  // Amarillo
+        if      (rpm >= T.green) score = 75;  // Verde
+        else if (rpm >= T.yellow) score = 37;  // Amarillo
         else                  score = 10;  // Rojo
 
         // Penalización por muestra insuficiente (< 3 cargas)
@@ -419,7 +446,8 @@ function showStateInfo(stateCode, rpm, resumen, isClick = false) {
     }
 
     const cargas = resumen?.count || 0;
-    const rpmBase = rpm >= 0.90 ? 75 : rpm >= 0.75 ? 37 : 10;
+    const _T = zoneThresholds();
+    const rpmBase = rpm >= _T.green ? 75 : rpm >= _T.yellow ? 37 : 10;
     const pocaMuestra = cargas < 3;
 
     const zone      = getZoneFromScore(score);
@@ -924,7 +952,8 @@ function geocodeCity(city, geocoder) {
 
 // Crear marcador de ciudad
 function createCityMarker(location, data) {
-    const color = data.avgRPM >= 1.05 ? 'green' : data.avgRPM >= 0.75 ? 'yellow' : 'red';
+    const _T = zoneThresholds();
+    const color = data.avgRPM >= _T.green ? 'green' : data.avgRPM >= _T.yellow ? 'yellow' : 'red';
 
     const marker = new google.maps.Marker({
         position: location,
@@ -955,9 +984,10 @@ function createCityMarker(location, data) {
 
 // Crear contenido del InfoWindow
 function createInfoWindowContent(data) {
-    const zoneLabel = data.avgRPM >= 1.05 ?
+    const _T = zoneThresholds();
+    const zoneLabel = data.avgRPM >= _T.green ?
         ` ${window.i18n?.t('zones.zone_green') || 'Green Zone'}` :
-        data.avgRPM >= 0.75 ?
+        data.avgRPM >= _T.yellow ?
         ` ${window.i18n?.t('zones.zone_yellow') || 'Yellow Zone'}` :
         ` ${window.i18n?.t('zones.zone_red') || 'Red Zone'}`;
 
@@ -979,6 +1009,7 @@ function createInfoWindowContent(data) {
 
 // Mostrar modal con cargas de la ciudad
 function showCityLoadsModal(data) {
+    const _T = zoneThresholds();
     const modal = document.createElement('div');
     modal.className = 'fixed inset-0 flex items-center justify-center z-50 p-6';
     modal.style.cssText = 'background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px);';
@@ -993,7 +1024,7 @@ function showCityLoadsModal(data) {
                     <span class="font-semibold text-gray-800">#${i + 1}</span>
                     <span class="text-sm text-gray-600 ml-2">${load.origin || 'N/A'}  ${load.destination}</span>
                 </div>
-                <span class="text-sm font-semibold ${load.rpm >= 1.05 ? 'text-green-600' : load.rpm >= 0.75 ? 'text-yellow-600' : 'text-red-600'}">
+                <span class="text-sm font-semibold ${load.rpm >= _T.green ? 'text-green-600' : load.rpm >= _T.yellow ? 'text-yellow-600' : 'text-red-600'}">
                     $${(load.rpm || 0).toFixed(2)}/mi
                 </span>
             </div>
@@ -1068,9 +1099,10 @@ function renderCitiesTable() {
         });
 
     tbody.innerHTML = sortedCities.map((data, i) => {
-        const zoneColor = data.avgRPM >= 1.05 ? 'text-green-600' :
-            data.avgRPM >= 0.75 ? 'text-yellow-600' : 'text-red-600';
-        const zoneIcon = data.avgRPM >= 1.05 ? '' : data.avgRPM >= 0.75 ? '' : '';
+        const _Tz = zoneThresholds();
+        const zoneColor = data.avgRPM >= _Tz.green ? 'text-green-600' :
+            data.avgRPM >= _Tz.yellow ? 'text-yellow-600' : 'text-red-600';
+        const zoneIcon = '';
 
         return `
             <tr class="hover:bg-gray-50 cursor-pointer" onclick="focusCityOnMap('${data.city}')">
@@ -1285,6 +1317,7 @@ window.analyzeLexZones = async function () {
 // Preparar análisis para Lex (helper interno)
 // ======================================================
 function prepararAnalisisZonas(stats) {
+    const _Ti = zoneThresholds();
     let totalMiles = 0;
     let totalRevenue = 0;
     let totalProfit = 0;
@@ -1306,8 +1339,8 @@ function prepararAnalisisZonas(stats) {
         const avg = miles > 0 ? revenue / miles : 0;
 
         let zona = 'amarilla';
-        if (avg >= 1.05) zona = 'verde';
-        else if (avg < 0.75) zona = 'roja';
+        if (avg >= _Ti.green) zona = 'verde';
+        else if (avg < _Ti.yellow) zona = 'roja';
 
         return {
             state,
@@ -1338,8 +1371,8 @@ function prepararAnalisisZonas(stats) {
 
     if (verdes > 0) {
         insights.push(_isEs
-            ? `Tienes ${verdes} zonas verdes con buen RPM (>$1.05/mi)`
-            : `You have ${verdes} green zones with good RPM (>$1.05/mi)`);
+            ? `Tienes ${verdes} zonas verdes con buen RPM (≥$${_Ti.green.toFixed(2)}/mi)`
+            : `You have ${verdes} green zones with good RPM (≥$${_Ti.green.toFixed(2)}/mi)`);
     }
     if (top.length > 0) {
         insights.push(_isEs
@@ -1354,8 +1387,8 @@ function prepararAnalisisZonas(stats) {
 
     if (rojas > 0) {
         alerts.push(_isEs
-            ? `Tienes ${rojas} zonas rojas con RPM bajo (<$0.75/mi)`
-            : `You have ${rojas} red zones with low RPM (<$0.75/mi)`);
+            ? `Tienes ${rojas} zonas rojas con RPM bajo (<$${_Ti.yellow.toFixed(2)}/mi)`
+            : `You have ${rojas} red zones with low RPM (<$${_Ti.yellow.toFixed(2)}/mi)`);
     }
     if (amarillas > verdes) {
         alerts.push(_isEs
