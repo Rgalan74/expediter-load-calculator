@@ -57,6 +57,8 @@
   </style>
 
   <link rel="stylesheet" href="css/ember-patch.css?v=2">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/sls-pages.css?v=1.0.2">
 
   <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
   <script src="/js/consent-mode.js?v=1.0.0"></script>
@@ -66,7 +68,7 @@
 
 </head>
 
-<body class="bg-gray-900 text-white min-h-screen overflow-hidden" style="margin:0;padding:0;">
+<body class="bg-gray-900 text-white min-h-screen overflow-hidden sls-auth" style="margin:0;padding:0;">
 
   <!-- Background image -->
   <div class="absolute inset-0 z-0">
@@ -603,6 +605,9 @@
         if (btnEs) { btnEs.style.borderColor='#3b82f6'; btnEs.style.background='#eff6ff'; btnEs.style.color='#1d4ed8'; }
         if (btnEn) { btnEn.style.borderColor='#d1d5db'; btnEn.style.background='white'; btnEn.style.color='#6b7280'; }
       }
+      // Clase para el estilo nuevo (css/sls-pages.css)
+      if (btnEn) btnEn.classList.toggle('sls-on', lang === 'en');
+      if (btnEs) btnEs.classList.toggle('sls-on', lang === 'es');
       // Also update the UI language preview immediately
       if (window.i18n) window.i18n.setLanguage(lang);
     };
@@ -610,6 +615,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       const initLang = localStorage.getItem('app_language') || 'en';
       if (initLang === 'es') window.selectRegLang?.('es');
+      document.getElementById(initLang === 'es' ? 'reg-lang-es' : 'reg-lang-en')?.classList.add('sls-on');
     });
 
 

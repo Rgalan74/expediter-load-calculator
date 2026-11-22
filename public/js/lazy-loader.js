@@ -62,7 +62,7 @@ async function loadChartsModule() {
     debugLog("📊 Cargando Charts module...");
 
     try {
-        await loadScript('js/finances-charts.js?v=1.1.1', 'FinancesCharts');
+        await loadScript('js/finances-charts.js?v=1.2.0', 'FinancesCharts');
 
         // Verificar que se cargó correctamente
         if (!window.FinancesCharts) {

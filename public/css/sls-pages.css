@@ -1,0 +1,168 @@
+/* =====================================================================
+   Smart Load — sistema de diseño para páginas fuera de la app
+   (inicio de sesión y Mi cuenta). Mismos tokens que css/sls-ui.css.
+   ===================================================================== */
+:root {
+  --sls-bg: #060A12;
+  --sls-surface: #0F1828;
+  --sls-surface-2: #142036;
+  --sls-raised: #122038;
+  --sls-line: #26375A;
+  --sls-line-2: #31466D;
+  --sls-text: #ECEEF2;
+  --sls-muted: #8D95A5;
+  --sls-accent: #22D3EE;
+  --sls-accent-text: #67E8F9;
+  --sls-on-accent: #06222A;
+  --sls-amber: #F5B03A;
+  --sls-green: #3DDC97;
+  --sls-red: #F26D6D;
+  --sls-font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --sls-font-title: 'Barlow Condensed', 'Inter', sans-serif;
+  --sls-font-mono: 'JetBrains Mono', ui-monospace, 'Consolas', monospace;
+  --sls-card-grad: linear-gradient(180deg, #132036 0%, #0E1726 55%, #0B1320 100%);
+  --sls-card-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), inset 0 -1px 0 rgba(0, 0, 0, 0.35), 0 2px 4px rgba(0, 0, 0, 0.35), 0 14px 30px rgba(0, 0, 0, 0.45);
+  --sls-card-border: rgba(34, 211, 238, 0.22);
+}
+
+/* ----------------------------- Inicio de sesión ----------------------------- */
+html body.sls-auth { background: var(--sls-bg) !important; font-family: var(--sls-font-body) !important; }
+html body.sls-auth .bg-black.bg-opacity-60 { background: rgba(6, 10, 18, 0.78) !important; }
+html body.sls-auth .logo-text {
+  background: none !important;
+  -webkit-text-fill-color: var(--sls-text) !important;
+  color: var(--sls-text) !important;
+  font-family: var(--sls-font-title) !important;
+  font-weight: 700 !important;
+  font-size: 1.4rem !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+html body.sls-auth main > div.bg-white {
+  background: var(--sls-card-grad) !important;
+  border: 1px solid var(--sls-card-border) !important;
+  box-shadow: var(--sls-card-shadow) !important;
+  color: var(--sls-text) !important;
+  border-radius: 10px !important;
+  backdrop-filter: none !important;
+}
+html body.sls-auth main h1 {
+  color: var(--sls-text) !important;
+  font-family: var(--sls-font-title) !important;
+  font-weight: 700 !important;
+  font-size: 2rem !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+}
+html body.sls-auth main p, html body.sls-auth main label,
+html body.sls-auth main .text-gray-500, html body.sls-auth main .text-gray-700 { color: var(--sls-muted) !important; }
+html body.sls-auth #btn-en, html body.sls-auth #btn-es,
+html body.sls-auth #reg-lang-en, html body.sls-auth #reg-lang-es { font-family: var(--sls-font-mono) !important; }
+html body.sls-auth .tab-btn {
+  background: transparent !important;
+  color: var(--sls-muted) !important;
+  border: 1px solid var(--sls-line-2) !important;
+  font-family: var(--sls-font-title) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+html body.sls-auth .tab-btn.active {
+  background: var(--sls-accent) !important;
+  background-image: none !important;
+  color: var(--sls-on-accent) !important;
+  border-color: var(--sls-accent) !important;
+}
+html body.sls-auth main input[type="email"],
+html body.sls-auth main input[type="password"],
+html body.sls-auth main input[type="text"] {
+  background: var(--sls-bg) !important;
+  border: 1px solid var(--sls-line-2) !important;
+  color: var(--sls-text) !important;
+  -webkit-text-fill-color: var(--sls-text) !important;
+  border-radius: 6px !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.45) !important;
+}
+html body.sls-auth main input::placeholder { color: #4A5468 !important; -webkit-text-fill-color: #4A5468 !important; }
+html body.sls-auth main input:focus {
+  outline: none !important;
+  border-color: var(--sls-accent) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.45), 0 0 0 3px rgba(34, 211, 238, 0.18) !important;
+}
+html body.sls-auth main button[type="submit"] {
+  background: var(--sls-accent) !important;
+  background-image: none !important;
+  color: var(--sls-on-accent) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  font-family: var(--sls-font-title) !important;
+  font-weight: 700 !important;
+  font-size: 1.05rem !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+html body.sls-auth main a { color: var(--sls-accent-text) !important; }
+html body.sls-auth #authMessage { color: var(--sls-red) !important; }
+
+/* --------------------------------- Mi cuenta -------------------------------- */
+html body.sls-account {
+  --bg: #060A12;
+  --bg2: #0F1828;
+  --bg3: #142036;
+  --bg4: #1A2944;
+  --border: #26375A;
+  --border-hover: rgba(34, 211, 238, 0.35);
+  --orange: #22D3EE;
+  --orange-dim: rgba(34, 211, 238, 0.12);
+  --cyan: #22D3EE;
+  --cyan-dim: rgba(34, 211, 238, 0.1);
+  --green: #3DDC97;
+  --red: #F26D6D;
+  --yellow: #F5B03A;
+  --text: #ECEEF2;
+  --text-dim: #8D95A5;
+  --text-muted: #6B7385;
+  font-family: var(--sls-font-body) !important;
+  background: var(--sls-bg) !important;
+}
+html body.sls-account::before { background: none !important; }
+html body.sls-account .page-title h1 {
+  font-family: var(--sls-font-title) !important;
+  font-weight: 700 !important;
+  font-size: 2.2rem !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+}
+html body.sls-account .profile-hero,
+html body.sls-account .section {
+  background: var(--sls-card-grad) !important;
+  border: 1px solid var(--sls-card-border) !important;
+  box-shadow: var(--sls-card-shadow) !important;
+}
+html body.sls-account .btn-primary {
+  background: var(--sls-accent) !important;
+  background-image: none !important;
+  color: var(--sls-on-accent) !important;
+  font-weight: 700 !important;
+}
+html body.sls-account .btn-primary:hover { background: #3EDCF2 !important; }
+html body.sls-account .avatar { background: var(--sls-accent) !important; background-image: none !important; color: var(--sls-on-accent) !important; }
+html body.sls-account input { background: var(--sls-bg) !important; border-color: var(--sls-line-2) !important; }
+html body.sls-account .section-title { font-family: var(--sls-font-title) !important; font-size: 1.15rem !important; letter-spacing: 0.06em !important; text-transform: uppercase !important; }
+html body.sls-account .upgrade-banner { background: var(--sls-surface) !important; border: 1px solid var(--sls-line) !important; border-left: 3px solid var(--sls-accent) !important; }
+/* Enlaces e idioma de inicio de sesión (ganan a ember-patch.css) */
+html body.sls-auth:not(#sls) main a,
+html body.sls-auth:not(#sls) main a:visited { color: var(--sls-accent-text) !important; -webkit-text-fill-color: var(--sls-accent-text) !important; }
+html body.sls-auth:not(#sls) #btn-en, html body.sls-auth:not(#sls) #btn-es { color: var(--sls-muted) !important; }
+html body.sls-auth:not(#sls) #btn-en.active, html body.sls-auth:not(#sls) #btn-es.active,
+html body.sls-auth:not(#sls) #btn-en[aria-pressed="true"], html body.sls-auth:not(#sls) #btn-es[aria-pressed="true"] { color: var(--sls-accent-text) !important; }
+html body.sls-auth:not(#sls) #reg-lang-en, html body.sls-auth:not(#sls) #reg-lang-es {
+  background: transparent !important;
+  border: 1px solid var(--sls-line-2) !important;
+  color: var(--sls-muted) !important;
+}
+html body.sls-auth:not(#sls) #reg-lang-en.sls-on, html body.sls-auth:not(#sls) #reg-lang-es.sls-on {
+  background: rgba(34, 211, 238, 0.10) !important;
+  border-color: var(--sls-accent) !important;
+  color: var(--sls-accent-text) !important;
+}
