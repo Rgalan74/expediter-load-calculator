@@ -1503,7 +1503,7 @@ function showDecisionPanel(calculationData = {}) {
     badgesHTML += `<span class="px-2 md:px-3 py-1 rounded-full backdrop-blur whitespace-nowrap">⏱️ ${estimatedTime}</span>`;
 
     // Badge de clima (se actualizará con API) - ESTILO DISTINTIVO CON !important
-    badgesHTML += `<span id="weatherBadge" class="px-3 py-1.5 rounded-full font-semibold whitespace-nowrap cursor-pointer" onclick="showWeatherModal('${destination}')" style="background: linear-gradient(to right, #38bdf8, #3b82f6) !important; color: white !important; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 2px solid rgba(255,255,255,0.5); text-shadow: 0 1px 2px rgba(0,0,0,0.2);">🌤️ Loading...</span>`;
+    badgesHTML += `<span id="weatherBadge" class="px-3 py-1.5 rounded-full font-semibold whitespace-nowrap cursor-pointer" onclick="showWeatherModal('${destination}')">🌤️ Loading...</span>`;
 
     badgesContainer.innerHTML = badgesHTML;
   }
@@ -1640,8 +1640,8 @@ function showDecisionPanel(calculationData = {}) {
     const isCasiAcepta = _decisionVal === 'ALMOST ACCEPT';
     const isAccept = _decisionVal === 'ACCEPT';
     // Sistema de diseño v3: tarjetas neutras; el estado se ve en el titulo y el borde lateral
-    const bg = '#0D1525';
-    const border = '1px solid #18243A';
+    const bg = 'transparent';
+    const border = '0';
     void isReject; void isEvalua; void isCasiAcepta; void isAccept;
     metricCards.forEach(card => {
       card.style.setProperty('background', bg, 'important');
@@ -1672,7 +1672,7 @@ function showDecisionPanel(calculationData = {}) {
     // Sistema de diseño v3: sin brillo ni escala; borde fino neutro
     void glow; void borderColor;
     decisionPanel.style.setProperty('box-shadow', 'none', 'important');
-    decisionPanel.style.setProperty('border', '1px solid #18243A', 'important');
+    decisionPanel.style.setProperty('border', '0', 'important');
     decisionPanel.style.setProperty('transform', 'none', 'important');
   }, 150);
 
@@ -1697,7 +1697,6 @@ function showDecisionPanel(calculationData = {}) {
 
     // Agrandar textos solo en desktop
     if (window.innerWidth >= 768) {
-      if (amount) amount.style.setProperty('font-size', '2.5rem', 'important');
       const label = profit.querySelector('#profitLabel, .text-xs, .text-sm');
       if (label) label.style.setProperty('font-size', '0.85rem', 'important');
       const subtext = profit.querySelectorAll('p, div, span');
@@ -2003,7 +2002,7 @@ function showDecisionPanel(calculationData = {}) {
       if (weatherBadge && weather) {
         weatherBadge.textContent = weather.text;
         // Mantener estilo azul siempre - usar style para forzar
-        weatherBadge.style.cssText = 'background: linear-gradient(to right, #38bdf8, #3b82f6) !important; color: white !important; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 2px solid rgba(255,255,255,0.5); text-shadow: 0 1px 2px rgba(0,0,0,0.2); padding: 0.375rem 0.75rem; border-radius: 9999px; font-weight: 600; white-space: nowrap; cursor: pointer;';
+        weatherBadge.style.cssText = ''; // estilo en sls-ui.css (#weatherBadge)
         // Actualizar onclick con destino correcto
         weatherBadge.onclick = () => {
           const hasWeatherAccess = typeof window.canAccessFeature === 'function'
@@ -2124,7 +2123,7 @@ function copyPriceToClipboard() {
       if (weatherBadge && weather) {
         weatherBadge.textContent = weather.text;
         // Mantener estilo azul siempre
-        weatherBadge.style.cssText = 'background: linear-gradient(to right, #38bdf8, #3b82f6) !important; color: white !important; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 2px solid rgba(255,255,255,0.5); text-shadow: 0 1px 2px rgba(0,0,0,0.2); padding: 0.375rem 0.75rem; border-radius: 9999px; font-weight: 600; white-space: nowrap; cursor: pointer;';
+        weatherBadge.style.cssText = ''; // estilo en sls-ui.css (#weatherBadge)
       }
     });
   }

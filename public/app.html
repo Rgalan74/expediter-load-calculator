@@ -329,7 +329,7 @@
   <link rel="stylesheet" href="css/ember-patch.css?v=7">
   <!-- Sistema de diseño (v3: cian sobre azul noche) — siempre el último -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
-  <link rel="stylesheet" href="css/sls-ui.css?v=1.0.4">
+  <link rel="stylesheet" href="css/sls-ui.css?v=1.1.0">
 
   <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
   <script src="js/consent-mode.js?v=1.0.0"></script>
@@ -669,6 +669,7 @@
 
           <!-- Panel de Decisión Nuevo -->
           <div id="decisionPanel" class="hidden mt-6">
+            <div class="sls-sec-label" data-i18n="calculator.sec_decision">Decision</div>
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden decision-panel">
 
               <!-- HEADER DINÁMICO -->
@@ -686,6 +687,22 @@
                     <div id="quickPrice" class="text-2xl md:text-3xl font-bold">$0</div>
                   </div>
                 </div>
+
+                  <!-- Ganancia Final -->
+                  <div id="profitSection" class="border-2 rounded-lg p-3 md:p-4">
+                    <div class="flex items-center justify-between">
+                      <div class="flex-1">
+                        <div class="text-xs mb-1" id="profitLabel">💰 Net Profit</div>
+                        <div id="netProfit" class="text-2xl md:text-3xl font-bold">$0.00</div>
+                        <div id="profitDetails" class="text-xs mt-1 font-semibold">$0.00/mi • 0% margin</div>
+                        <div id="afterPayNote" class="text-xs mt-1" style="display:none;"></div>
+                      </div>
+                      <div class="text-right text-xs flex-shrink-0">
+                        <div id="estimatedTimeShort" class="text-white font-semibold">⏱️ 0h</div>
+                        <div id="fuelStopsShort" class="text-white font-semibold">⛽ 0 stops</div>
+                      </div>
+                    </div>
+                  </div>
 
                 <!-- Grid métricas -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-3">
@@ -713,8 +730,9 @@
 
               <!-- CONTENIDO -->
               <div class="p-4 md:p-5">
-                <div class="md:grid md:grid-cols-2 md:gap-4 mb-3 md:mb-4">
+                <div class="mb-3 md:mb-4">
                   <!-- Costos Variables -->
+                  <div class="sls-sec-label" data-i18n="calculator.sec_costs">Load costs</div>
                   <div class="bg-gray-50 border border-gray-200 rounded-lg p-3 md:p-4 mb-3 md:mb-0 costs-section">
                     <h4 class="font-bold text-gray-800 mb-2 md:mb-3 text-sm" data-i18n="calculator.variable_costs_label">💸 Variable Costs</h4>
                     <div class="space-y-1.5 md:space-y-2 text-sm">
@@ -739,25 +757,11 @@
                     </div>
                   </div>
 
-                  <!-- Ganancia Final -->
-                  <div id="profitSection" class="border-2 rounded-lg p-3 md:p-4">
-                    <div class="flex items-center justify-between">
-                      <div class="flex-1">
-                        <div class="text-xs mb-1" id="profitLabel">💰 Net Profit</div>
-                        <div id="netProfit" class="text-2xl md:text-3xl font-bold">$0.00</div>
-                        <div id="profitDetails" class="text-xs mt-1 font-semibold">$0.00/mi • 0% margin</div>
-                        <div id="afterPayNote" class="text-xs mt-1" style="display:none;"></div>
-                      </div>
-                      <div class="text-right text-xs flex-shrink-0">
-                        <div id="estimatedTimeShort" class="text-white font-semibold">⏱️ 0h</div>
-                        <div id="fuelStopsShort" class="text-white font-semibold">⛽ 0 stops</div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
 
                 <!-- 💡 Sugerencia de Contraoferta (visible solo cuando no es ACCEPT) -->
                 <div id="counterOfferBlock" class="hidden mt-3">
+                  <div class="sls-sec-label" data-i18n="calculator.sec_price">Suggested price</div>
                   <div id="counterOfferInner"
                     style="border-radius:0.875rem;padding:0.75rem;border:1px solid rgba(251,146,60,0.4);background:rgba(251,146,60,0.08);">
                     <div class="flex items-center gap-2 mb-2">
@@ -795,6 +799,7 @@
                 </div>
 
                 <!-- Info extra: umbrales, notas, historial -->
+                <div class="sls-sec-label sls-sec-notes" data-i18n="calculator.sec_notes">Keep in mind</div>
                 <div id="decisionExtraInfo" class="hidden mt-3 space-y-2"></div>
 
                 <!-- Lex Insight integrado -->
@@ -2684,7 +2689,7 @@
   <script src="js/settings.js?v=20261122a"></script>
   <script src="js/weather-client.js?v=weather1"></script>
   <script src="js/fuel-prices.js?v=2"></script>
-  <script src="js/calculator.js?v=2.7.0-diseno"></script>
+  <script src="js/calculator.js?v=2.7.1-diseno"></script>
   <script src="js/custom-categories.js?v=20261121a"></script>
   <script src="js/cpm-engine.js?v=20261121a"></script>
 
