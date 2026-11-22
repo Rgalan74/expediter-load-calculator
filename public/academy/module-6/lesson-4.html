@@ -1,94 +1,36 @@
 <!DOCTYPE html><html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistemas y Automatización | Smart Load Academia</title>
-    <meta name="description" content="Tiempo = dinero. Literalmente.">
+    <title>Sistemas: menos papeleo, más control | Smart Load Academia</title>
+    <meta name="description" content="Una rutina simple para cada carga, recibos y gastos, y lo que la app ya hace por ti.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: .875rem
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: .75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all .3s ease
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #F5B03A 0%, #F5B03A 100%);
-            color: #000
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, .1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .2)
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-  
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/academy/module-6/lesson-4.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-6/lesson-4.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-6/lesson-4.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-6/lesson-4.html">
+    <link rel="canonical" href="https://smartloadsolution.com/academy/module-6/lesson-4.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-6/lesson-4.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-6/lesson-4.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-6/lesson-4.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Volver a la App</a></nav>
-    <aside class="lesson-sidebar" id="lessonSidebar">
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academia</span></span></div><a href="../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Volver a la App</a></nav>
+
+<aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
         <div>
             <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
@@ -98,296 +40,178 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Lecciones del módulo">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/academy.html">Academia</a> / <a href="index.html">Módulo 6</a> / Lección 4</nav>
 
-<!-- ==================== ESPAÑOL ==================== -->
-
-        <nav class="breadcrumb">
-            <a href="/academy.html">← Academia</a> → <a href="index.html">Módulo 6 [PRO]</a> → Lección 4
-        </nav>
-
-        <div style="display: inline-block; background: linear-gradient(90deg, #F5B03A, #F5B03A); color: #000; padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.75rem; margin-bottom: 1rem; font-weight: 700;">
-            🔒 CONTENIDO PRO</div>
-
-        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
-            <h1>Sistemas y Automatización</h1>
-            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
-                <span>📖 13 min lectura</span>
-                <span>🎓 Módulo 6 - Lección 4</span>
-                <span>⏰ Automatización</span>
-            </div>
-        </header>
-
-        <div class="lesson-content">
-
-            <section>
-                <h2>El valor de tu tiempo</h2>
-
-                <div class="formula">Ganancia mensual: $4,500<br>
-÷ Horas trabajadas: 180 hrs/mes<br>
-= Valor por hora: $25/hr</div>
-
-                <div class="note tip">
-                    <span class="note-label">Pero no todas las horas son iguales</span>
-                    <ul>
-                        <li>Horas productivas (manejando cargado): $40-60/hr</li>
-                        <li>Horas administrativas: $0/hr directamente</li>
-                    </ul>
-                </div>
-
-                <p><strong>Objetivo:</strong> minimizar horas admin, maximizar horas productivas.</p>
-            </section>
-
-            <section>
-                <h2>Las 8 áreas de automatización</h2>
-
-                <div class="compare-table">
-                    <div class="compare-title">Área 1 — tracking financiero</div>
-                    <div class="compare-row"><span class="label">Manual: cuaderno papel, Excel fin de mes</span><span class="value">15 hrs/mes</span></div>
-                    <div class="compare-row"><span class="label">Automatizado: Smart Load auto-registra, reportes automáticos</span><span class="value">3 hrs/mes</span></div>
-                    <div class="compare-row"><span class="label">Ahorro</span><span class="value accent">12 hrs/mes × $25 = $300/mes</span></div>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">Área 2 — comunicación con brokers</span>
-                    <p><strong>Método manual:</strong> 20 min por carga × 24 cargas = 8 hrs/mes</p>
-                    <p><strong>Método con templates:</strong> 5 min por carga × 24 cargas = 2 hrs/mes</p>
-                    <p><strong>6 templates esenciales:</strong></p>
-                    <ol>
-                        <li>"Confirmado. Recojo en [HORA]. ETA entrega [HORA]."</li>
-                        <li>"En recogida. Cargando. Update en 30 min."</li>
-                        <li>"Cargado. En ruta. ETA [HORA]."</li>
-                        <li>"A mitad. Todo OK. ETA sin cambios."</li>
-                        <li>"30 min de entrega."</li>
-                        <li>"Entregado. BOL adjunto. Gracias."</li>
-                    </ol>
-                    <p><strong>Ahorro: 6 hrs/mes</strong></p>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">Área 3 — documentación digital</span>
-                    <p><strong>Setup (1 hora, una vez):</strong></p>
-                    <ol>
-                        <li>Instala app scanner gratis (Adobe Scan, Microsoft Lens)</li>
-                        <li>Crea estructura Google Drive: /2024/01-Enero/BOLs/Receipts</li>
-                        <li>Nombra archivos: "2024-12-15_BOL_Detroit-Chicago_ABC.pdf"</li>
-                    </ol>
-                    <p><strong>Proceso diario:</strong> foto BOL (3 min) → auto-upload → done</p>
-                    <p><strong>Ahorro: 4 hrs/mes</strong> (vs buscar documentos perdidos)</p>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">Área 4 — planificación de rutas</span>
-                    <ul>
-                        <li><strong>Waze optimizado:</strong> set arrival time, evita tráfico proactivamente</li>
-                        <li>Ahorro: 30-45 min/día = 15 hrs/mes</li>
-                        <li><strong>Valor: 15 hrs × $25 = $375/mes</strong></li>
-                    </ul>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">Área 5 — mantenimiento tracking</span>
-                    <ul>
-                        <li><strong>Smart Load:</strong> auto-registra millas, calcula próximo servicio, notifica 500 millas antes</li>
-                        <li><strong>Alternativa gratis:</strong> Car Minder App</li>
-                        <li><strong>Ahorro: 1-2 hrs/mes + $100-200/mes</strong> (evitando mantenimiento tardío)</li>
-                    </ul>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">Área 6 — expense tracking</span>
-                    <p><strong>Setup crítico:</strong></p>
-                    <ol>
-                        <li><strong>Tarjeta de crédito solo negocio</strong> (Chase Ink 5% gas, todo auto-categorizado)</li>
-                        <li><strong>App expenses:</strong> QuickBooks Self-Employed ($15/mes), Wave (gratis), o Smart Load</li>
-                        <li><strong>Regla simple:</strong> todo gasto de negocio en tarjeta de negocio. Sin excepciones.</li>
-                    </ol>
-                    <p><strong>Beneficios:</strong></p>
-                    <ul>
-                        <li>Cero recibos perdidos</li>
-                        <li>Categorización automática</li>
-                        <li>Reportes de impuestos: 1 click</li>
-                        <li><strong>Ahorro: 8-10 hrs/mes + $500-1,000/año en impuestos</strong></li>
-                    </ul>
-                </div>
-
-                <div class="note warning">
-                    <span class="note-label">Área 7 — comunicación de emergencia</span>
-                    <p><strong>Preparación (30 min):</strong> crea "Contactos de emergencia" en tu teléfono:</p>
-                    <ul>
-                        <li>⚠️ Emergency — broker principal</li>
-                        <li>⚠️ Emergency — AAA</li>
-                        <li>⚠️ Emergency — shop 24hr</li>
-                        <li>⚠️ Emergency — seguro claim</li>
-                    </ul>
-                    <p><strong>Valor en emergencia:</strong> invaluable</p>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">Área 8 — facturación y cobros</span>
-                    <p><strong>Smart Load:</strong> auto-registra entrega, calcula fecha de pago esperada (30 días), alerta si no pagado en 35 días.</p>
-                    <p><strong>Ahorro: 2-3 hrs/mes</strong> (no persiguiendo pagos perdidos)</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Resumen de ahorro total</h2>
-
-                <div class="compare-table">
-                    <div class="compare-row"><span class="label">Tracking financiero</span><span class="value">12 hrs — $300</span></div>
-                    <div class="compare-row"><span class="label">Comunicación (templates)</span><span class="value">6 hrs — $150</span></div>
-                    <div class="compare-row"><span class="label">Documentación digital</span><span class="value">4 hrs — $100</span></div>
-                    <div class="compare-row"><span class="label">Planificación rutas</span><span class="value">15 hrs — $375</span></div>
-                    <div class="compare-row"><span class="label">Mantenimiento tracking</span><span class="value">1-2 hrs — $25-50</span></div>
-                    <div class="compare-row"><span class="label">Expense tracking</span><span class="value">8-10 hrs — $200-250</span></div>
-                    <div class="compare-row"><span class="label">Facturación</span><span class="value">2-3 hrs — $50-75</span></div>
-                    <div class="compare-row"><span class="label">Total</span><span class="value accent">48-52 hrs/mes — $1,200-1,300/mes</span></div>
-                </div>
-
-                <div class="pull-number">
-                    <div class="value">25-35 hrs/mes</div>
-                    <p class="context">ahorradas automatizando 50-70% — valor $625-875/mes. Setup inicial: 3-4 horas una vez.</p>
-                </div>
-            </section>
-
-            <section>
-                <div class="compare-table">
-                    <div class="compare-row"><span class="label">Operador promedio</span><span class="value">18-22 hrs/mes en admin</span></div>
-                    <div class="compare-row"><span class="label">Operador automatizado</span><span class="value">5-7 hrs/mes</span></div>
-                    <div class="compare-row"><span class="label">Diferencia</span><span class="value accent">12-15 horas/mes ahorradas</span></div>
-                </div>
-
-                <p><strong>Las 8 áreas de automatización:</strong></p>
-                <ol>
-                    <li>Tracking financiero (Smart Load)</li>
-                    <li>Comunicación (templates)</li>
-                    <li>Documentación (digital/cloud)</li>
-                    <li>Planificación de rutas (Waze optimizado)</li>
-                    <li>Mantenimiento tracking (auto-alertas)</li>
-                    <li>Expense tracking (apps/tarjeta de negocio)</li>
-                    <li>Emergencias (contactos preconfigurados)</li>
-                    <li>Facturación (auto-tracking de pagos)</li>
-                </ol>
-
-                <div class="note tip">
-                    <span class="note-label">Cada hora en admin manual es una hora que no estás</span>
-                    <ul>
-                        <li>Manejando cargado ($40-60/hr)</li>
-                        <li>Con familia</li>
-                        <li>Descansando</li>
-                    </ul>
-                </div>
-
-                <div class="conclusion">
-                    <p class="lead">Tiempo = <span class="accent">dinero</span>. Literalmente.</p>
-                    <p class="sub">Automatiza para vivir. No vivas para administrar. Setup inicial: 3-4 horas una vez — beneficio: 12-15 hrs/mes por siempre.</p>
-                </div>
-            </section>
-
+    <header>
+        <div class="al-kicker">Módulo 6 · Lección 4</div>
+        <h1 class="al-title">Sistemas: menos papeleo, más control</h1>
+        <div class="al-meta">
+            <span class="al-chip">8 min de lectura</span>
+            <span class="al-chip">Operación</span>
+            <span class="al-chip">Premium</span>
         </div>
+    </header>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+    <section class="al-learn">
+        <div class="al-learn-title">Lo que vas a aprender</div>
+        <ol>
+            <li>La rutina de cada carga, de la oferta al cobro.</li>
+            <li>Cómo manejar recibos y gastos sin perder nada.</li>
+            <li>Qué hace la app sola y qué te toca a ti.</li>
+        </ol>
+    </section>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
-            <nav class="lesson-nav">
-                <a href="lesson-3.html" class="btn btn-secondary">← Lección anterior</a>
-                <a href="index.html" class="btn btn-primary">Volver al módulo →</a>
-            </nav>
-        </footer>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>Tu tiempo también cuesta</h2>
+        <p>Cada hora buscando un recibo o rehaciendo cuentas es una hora que no manejas ni descansas. Un sistema simple, siempre igual, te devuelve esas horas y evita errores caros.</p>
+    </section>
 
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>La rutina de cada carga</h2>
+        <table class="al-table">
+            <tr><td><strong>Al recibir la oferta</strong><span class="al-sub">Pásala por la calculadora (o pégala en Lex) antes de contestar</span></td></tr>
+            <tr><td><strong>Al aceptarla</strong><span class="al-sub">Aceptar y guardar, con Empresa y Carga #</span></td></tr>
+            <tr><td><strong>Al entregar</strong><span class="al-sub">Foto del BOL firmado y envío al broker el mismo día</span></td></tr>
+            <tr><td><strong>Al cobrar</strong><span class="al-sub">Finanzas → Cuentas → Marcar pagada</span></td></tr>
+        </table>
+    </section>
 
-<!-- ==================== ENGLISH ==================== -->
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>Recibos y gastos</h2>
+        <ul class="al-checklist">
+            <li>Escanea cada recibo con el teléfono el mismo día (apps como Adobe Scan o Microsoft Lens).</li>
+            <li>Guárdalos en una carpeta por mes en la nube.</li>
+            <li>Registra el gasto en Finanzas → Agregar gasto, con su categoría.</li>
+        </ul>
+    </section>
 
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>Lo que la app ya hace por ti</h2>
+        <table class="al-table">
+            <tr><td><strong>Ingresos y millas del mes</strong><span class="al-sub">Se suman solos con cada carga guardada</span></td></tr>
+            <tr><td><strong>Fecha de pago esperada</strong><span class="al-sub">Cada carga queda pendiente con fecha a 15 días; en Cuentas ves pendientes y vencidas</span></td></tr>
+            <tr><td><strong>Reportes</strong><span class="al-sub">Estado de resultados, por compañías, desglose de gastos y rentabilidad por zona, listos para imprimir</span></td></tr>
+            <tr><td><strong>Impuestos</strong><span class="al-sub">El reporte alineado al Schedule C (plan Premium) organiza ingresos y gastos para tu contador</span></td></tr>
+            <tr><td><strong>Historial en Excel</strong><span class="al-sub">Exporta tus cargas con sus costos cuando lo necesites</span></td></tr>
+        </table>
+    </section>
 
-    </article>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">05</span>La revisión del domingo</h2>
+        <ul class="al-checklist">
+            <li>¿Están guardadas todas las cargas de la semana?</li>
+            <li>¿Están registrados todos los gastos?</li>
+            <li>¿Hay cargas vencidas en Cuentas? Escribe o llama ese lunes.</li>
+            <li>¿Aprendiste algo de un lugar? Guárdalo como nota de mercado.</li>
+        </ul>
+        <div class="al-callout">
+            <div class="al-callout-label">Quince minutos</div>
+            <p>Esta revisión toma unos quince minutos y te ahorra el caos de fin de mes y de la temporada de impuestos.</p>
+        </div>
+    </section>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 6, LESSON_NUM = 4;
+    <section class="al-summary">
+        <h2>En resumen</h2>
+        <ul>
+            <li>Cada carga: calcular, guardar, BOL, marcar pagada.</li>
+            <li>Cada recibo: escanear y registrar el mismo día.</li>
+            <li>Cada domingo: quince minutos de revisión.</li>
+        </ul>
+    </section>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'Maestría en Eficiencia de Combustible', time: '10 min' },
-            { num: 2, title: 'Mantenimiento Preventivo vs Reactivo', time: '9 min' },
-            { num: 3, title: 'Negociación con Proveedores y Reducción de Gastos Fijos', time: '13 min' },
-            { num: 4, title: 'Sistemas y Automatización', time: '13 min' },
-            { num: 5, title: 'Optimización Continua: El Sistema de Mejora 1%', time: '15 min' }
-        ];
+    <section class="lesson-quiz" id="lessonQuiz"></section>
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: 'En el "Área #1: Tracking Financiero", ¿cuántas horas al mes se ahorran automatizando (Smart Load) vs manual?',
-                options: ['3 hrs/mes', '12 hrs/mes', '15 hrs/mes', '0, no hay diferencia'],
-                correctIndex: 1
-            },
-            {
-                question: 'Según el "Área #2: Comunicación con Brokers", usando templates en vez de escribir manualmente, ¿cuántas horas al mes se ahorran?',
-                options: ['2 hrs/mes', '6 hrs/mes', '8 hrs/mes', '20 hrs/mes'],
-                correctIndex: 1
-            },
-            {
-                question: 'Según el resumen de ahorro total (8 áreas), ¿cuál es la meta realista automatizando 50-70%?',
-                options: ['48-52 hrs/mes (el potencial total)', '25-35 hrs/mes ahorradas', '12-15 hrs/mes', '3-4 horas (solo el setup inicial)'],
-                correctIndex: 1
-            },
-            {
-                question: 'Según la conclusión, ¿cuál es la diferencia de horas administrativas entre un operador promedio y uno automatizado?',
-                options: ['5-7 horas/mes', '18-22 horas/mes', '12-15 horas/mes ahorradas', 'No hay diferencia real'],
-                correctIndex: 2
-            }
-        ];
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Aprueba el quiz para continuar" onclick="markLessonComplete()">✓ Marcar como completada</button>
+        <nav class="lesson-nav">
+            <a href="lesson-3.html" class="al-btn al-btn-ghost">← Lección anterior</a>
+            <a href="lesson-5.html" class="al-btn al-btn-primary">Siguiente: mejora continua →</a>
+        </nav>
+    </footer>
+</article>
 
-        function markLessonComplete() {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress) {
-                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                alert(isEs ? '¡Lección PRO completada! ⏰\n8 áreas de automatización.\nAhorro realista: 12-15 hrs/mes.\nValor: $300-375/mes.\nPrioridad: Templates comunicación + Scanner digital + Tarjeta negocio.\nSetup: 3-4 horas una vez.\nROI: Masivo.' : 'PRO Lesson complete! ⏰\n8 areas of automation.\nRealistic savings: 12-15 hrs/month.\nValue: $300-375/month.\nPriority: Communication templates + Digital scanner + Business card.\nSetup: 3-4 hours one time.\nROI: Massive.');
-            }
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 6;
+    const LESSON_NUM = 4;
+    const LESSON_LIST = [
+        { num: 1, title: "Combustible: tu gasto variable más grande", time: '9 min' },
+        { num: 2, title: "Mantenimiento preventivo", time: '8 min' },
+        { num: 3, title: "Bajar tus costos fijos", time: '8 min' },
+        { num: 4, title: "Sistemas: menos papeleo, más control", time: '8 min' },
+        { num: 5, title: "Mejora continua: un ajuste por semana", time: '7 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+  {
+    "question": "¿Qué haces al aceptar una carga?",
+    "options": [
+      "Nada",
+      "Aceptar y guardar, con Empresa y Carga #",
+      "Esperar al fin de mes",
+      "Mandar un correo"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "¿Cuándo registras un gasto?",
+    "options": [
+      "A fin de año",
+      "El mismo día",
+      "Cuando lo pida el contador",
+      "Nunca"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "¿Qué fecha de pago asigna la app a cada carga guardada?",
+    "options": [
+      "El mismo día",
+      "A 15 días",
+      "A 90 días",
+      "Ninguna"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "¿Qué revisas el domingo?",
+    "options": [
+      "Nada",
+      "Cargas y gastos registrados, cargas vencidas y notas de mercado",
+      "Solo el clima",
+      "Solo Lex"
+    ],
+    "correctIndex": 1
+  }
+];
+
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada";
+            btn.disabled = true;
         }
-        document.addEventListener('DOMContentLoaded', async () => {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    }
 
-            if (window.AcademySidebar) {
-                await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Optimización Operativa Avanzada', LESSON_LIST);
-            }
-
-            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-
-            if (alreadyDone) {
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                const quizEl = document.getElementById('lessonQuiz');
-                if (quizEl) quizEl.style.display = 'none';
-            } else if (window.AcademyQuiz) {
-                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-            }
-        });
-    </script>
-
-  
-
-
-
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, "Optimización operativa", LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completada"; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>
