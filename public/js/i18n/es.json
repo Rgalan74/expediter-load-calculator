@@ -241,7 +241,7 @@
     "confirm_delete_action": "¿Estás seguro de que deseas eliminar esta carga? Esta acción no se puede deshacer.",
     "origin_dest_required": "Origen y destino son requeridos",
     "total_miles_required": "Las millas totales deben ser mayores a 0",
-    "csv_headers": "Fecha,Número de Carga,Origen,Destino,Millas,RPM,Tarifa,Empresa",
+    "csv_headers": "Fecha,Número de Carga,Origen,Destino,Millas,RPM,Tarifa,Empresa,Combustible,Peajes,Otros gastos,Total gastos,Ganancia neta",
     "lex_no_loads_state": "No tengo cargas en el historial para analizar todavía 😕",
     "lex_no_loads_alert": "No hay cargas en el historial para analizar con Lex.",
     "no_months_registered": "No hay meses con cargas registradas",

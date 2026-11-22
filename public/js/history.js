@@ -578,22 +578,37 @@ function exportToCSV() {
   }
 
   try {
-    const headers = (window.i18n?.t('history.csv_headers') || 'Date,Load #,Origin,Destination,Miles,RPM,Rate,Company').split(',');
+    const headers = (window.i18n?.t('history.csv_headers') || 'Date,Load #,Origin,Destination,Miles,RPM,Rate,Company,Fuel,Tolls,Other expenses,Total expenses,Net profit').split(',');
+    const money = (v) => (Number(v) || 0).toFixed(2);
     const csvContent = [
       headers.join(','),
-      ...filteredData.map(load => [
-        load.date || '',
-        load.loadNumber || '',
-        `"${(load.origin || '').replace(/"/g, '""')}"`,
-        `"${(load.destination || '').replace(/"/g, '""')}"`,
-        load.totalMiles || 0,
-        load.rpm || 0,
-        load.totalCharge || 0,
-        `"${(load.companyName || '').replace(/"/g, '""')}"`
-      ].join(','))
+      ...filteredData.map(load => {
+        // Costos guardados con la carga (los mismos que muestra Historial)
+        const fuel = Number(load.fuelCost) || 0;
+        const tolls = Number(load.tolls) || 0;
+        const totalExp = Number(load.totalExpenses) || 0;
+        const other = Math.max(0, totalExp - fuel - tolls);
+        const profit = Number.isFinite(Number(load.netProfit)) ? Number(load.netProfit) : (Number(load.totalCharge) || 0) - totalExp;
+        return [
+          load.date || '',
+          load.loadNumber || '',
+          `"${(load.origin || '').replace(/"/g, '""')}"`,
+          `"${(load.destination || '').replace(/"/g, '""')}"`,
+          load.totalMiles || 0,
+          (Number(load.rpm) || 0).toFixed(3),
+          money(load.totalCharge),
+          `"${(load.companyName || '').replace(/"/g, '""')}"`,
+          money(fuel),
+          money(tolls),
+          money(other),
+          money(totalExp),
+          money(profit)
+        ].join(',');
+      })
     ].join('\n');
 
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    // BOM UTF-8 para que Excel muestre bien acentos (Número, Compañía)
+    const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -698,7 +713,15 @@ function populateEditForm(load) {
   document.getElementById('editTotalMiles').value = load.totalMiles || 0;
 
   // Financiero
-  document.getElementById('editRpm').value = load.rpm || 0;
+  // RPM: se muestra redondeado a 3 decimales; si no se toca, al guardar se usa
+  // el valor exacto (redondear cambiaria la tarifa: 1.36 x 664 = 903.04, no 900).
+  {
+    const _rpmEl = document.getElementById('editRpm');
+    const _r = Number(load.rpm) || 0;
+    _rpmEl.value = _r ? String(Math.round(_r * 1000) / 1000) : 0;
+    _rpmEl.dataset.orig = String(_r);
+    _rpmEl.dataset.shown = _rpmEl.value;
+  }
   document.getElementById('editTotalCharge').value = load.totalCharge || 0;
   document.getElementById('editTolls').value = load.tolls || 0;
   document.getElementById('editOtherCosts').value = load.otherCosts || 0;
@@ -716,11 +739,19 @@ function populateEditForm(load) {
 
 let lastEditedField = null; // variable global dentro de history.js
 
+// RPM del modal: el exacto original si el campo no se cambio, si no lo escrito
+function readEditRpm() {
+  const el = document.getElementById('editRpm');
+  if (!el) return 0;
+  if (el.dataset.shown !== undefined && el.value === el.dataset.shown) return Number(el.dataset.orig) || 0;
+  return parseFloat(el.value) || 0;
+}
+
 // Actualizar cálculos en tiempo real (flexible)
 function updateEditCalculations() {
   const loadedMiles = parseFloat(document.getElementById('editLoadedMiles')?.value) || 0;
   const deadheadMiles = parseFloat(document.getElementById('editDeadheadMiles')?.value) || 0;
-  let rpm = parseFloat(document.getElementById('editRpm')?.value) || 0;
+  let rpm = readEditRpm();
   let totalCharge = parseFloat(document.getElementById('editTotalCharge')?.value) || 0;
   const tolls = parseFloat(document.getElementById('editTolls')?.value) || 0;
   const otherCosts = parseFloat(document.getElementById('editOtherCosts')?.value) || 0;
@@ -802,7 +833,7 @@ async function saveEditedLoad() {
     const deadheadMiles = parseFloat(document.getElementById('editDeadheadMiles')?.value) || 0;
     const totalMiles = loadedMiles + deadheadMiles;
 
-    let rpm = parseFloat(document.getElementById('editRpm')?.value) || 0;
+    let rpm = readEditRpm();
     let totalCharge = parseFloat(document.getElementById('editTotalCharge')?.value) || 0;
     const tolls = parseFloat(document.getElementById('editTolls')?.value) || 0;
     const otherCosts = parseFloat(document.getElementById('editOtherCosts')?.value) || 0;
