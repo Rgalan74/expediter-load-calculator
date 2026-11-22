@@ -142,14 +142,13 @@ function getActiveCpmInfo() {
 }
 window.getActiveCpmInfo = getActiveCpmInfo;
 
-// Sueldo del dueño POR DIA de trabajo (0 si no esta configurado):
-// sueldo mensual / dias de trabajo al mes. Cada carga "cuesta" los dias que
-// ocupa. No depende de cuantas millas haya guardadas.
+// Sueldo del dueño: DESACTIVADO (decision de Ricardo, 2026-11-22).
+// Lo que queda despues de los costos es la ganancia del dueño; el sueldo no se
+// suma al costo ni al precio objetivo. Se devuelve 0 para que el objetivo sea
+// siempre costo + margen objetivo y no salga la linea "despues de tu sueldo".
+// (Los valores guardados antes en Configuracion se ignoran; no se borran.)
 function getOwnerPayPerDay() {
-  const pay = Number(window.currentUser?.profileData?.ownerPayMonthly) || 0;
-  if (!(pay > 0)) return 0;
-  const days = Number(window.currentUser?.profileData?.workDaysPerMonth) || 22;
-  return pay / Math.min(31, Math.max(1, days));
+  return 0;
 }
 window.getOwnerPayPerDay = getOwnerPayPerDay;
 
