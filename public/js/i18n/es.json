@@ -221,7 +221,7 @@
     "empty_history": "No hay cargas para analizar. ¡Crea algunas cargas primero!",
     "no_data_filters": "No hay datos disponibles con los filtros actuales.",
     "no_loads_create": "No hay cargas guardadas. Crea tu primera carga en la calculadora.",
-    "loads_loaded_count": "{{count}} cargas cargadas exitosamente",
+    "loads_loaded_count": "Historial actualizado: {{count}} carga(s)",
     "retry": "Reintentar",
     "all_months": "Todos los Meses",
     "all_years": "Todos los años",
@@ -250,6 +250,8 @@
     "lex_unavailable": "No pude acceder al análisis de historial de Lex ⚙️"
   },
   "finances": {
+    "label_home_state": "🏠 Estado de residencia (para el reporte de impuestos)",
+    "expense_description_placeholder": "Descripción del gasto",
     "title": "💰 Gestión Financiera",
     "subtitle": "Control total de tus ingresos, gastos y rentabilidad",
     "tab_summary": "🧮 Resumen",
