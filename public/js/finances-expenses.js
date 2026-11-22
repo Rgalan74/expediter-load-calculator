@@ -26,6 +26,24 @@
 // Estado de ordenamiento para gastos
 window.currentExpenseSort = { column: 'date', asc: false }; // Default: ms recientes primero
 
+// Fecha de hoy en hora LOCAL (toISOString usa UTC: de noche proponia el dia siguiente)
+function localToday() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+// Recarga los datos (opcionalmente desde Firestore) y repinta Finanzas con el
+// periodo elegido (KPIs, lista de gastos y graficos).
+async function refreshFinancesView(forceReload = false) {
+    try {
+        if (forceReload && typeof loadFinancesData === 'function') await loadFinancesData('all', true);
+        if (typeof window.applyFilter === 'function') window.applyFilter('global');
+        else if (typeof loadFinancesData === 'function') await loadFinancesData();
+    } catch (e) {
+        debugLog('refreshFinancesView error:', e);
+    }
+}
+
 async function saveExpenseToFirebase() {
     // ✅ VERIFICAR QUE LOS ELEMENTOS EXISTEN PRIMERO
     const amountEl = document.getElementById("expenseAmount");
@@ -98,7 +116,7 @@ async function saveExpenseToFirebase() {
         if (window.CPMEngine) window.CPMEngine.clearCache();
         if (modal) modal.dataset.editId = ""; // reset
         closeExpenseModal();
-        loadFinancesData('all', true); // forceReload: sin esto la lista seguia mostrando el gasto viejo
+        await refreshFinancesView(true); // recargar y repintar con el periodo elegido
     } catch (error) {
         debugFinances("❌ Error guardando gasto:", error);
         showFinancesMessage(window.i18n?.t('finances.expense_save_error') || "❌ Could not save expense", "error");
@@ -156,7 +174,7 @@ async function deleteExpense(id) {
         if (window.showToast) {
             showToast(window.i18n?.t('finances.expense_deleted_ok') || '✅ Expense deleted successfully', 'success');
         }
-        loadFinancesData(); // Refresh
+        await refreshFinancesView(true); // recargar y repintar
     } catch (error) {
         debugFinances("❌ Error eliminando gasto:", error);
         showFinancesMessage(window.i18n?.t('finances.expense_delete_error') || "❌ Could not delete expense", "error");
@@ -195,13 +213,13 @@ async function openExpenseModal(expense = null) {
 
     if (expense) {
         // 📝 Editar gasto existente
-        dateEl.value = expense.date || new Date().toISOString().split('T')[0];
+        dateEl.value = expense.date || localToday();
         typeEl.value = expense.category || expense.type || "";
         descEl.value = expense.description || "";
         amountEl.value = expense.amount || 0;
     } else {
         // ➕ Nuevo gasto
-        dateEl.value = new Date().toISOString().split('T')[0];
+        dateEl.value = localToday();
         typeEl.value = "";
         descEl.value = "";
         amountEl.value = "";
@@ -289,9 +307,10 @@ async function renderExpensesList(filteredExpenses = []) {
         if (expense.type && expense.type.startsWith('custom-') && window.CustomCategories) {
             categoryDisplay = await window.CustomCategories.getCategoryName(expense.type);
         } else {
-            // Categorías del sistema
+            // Categorías del sistema: mismo texto traducido que el selector del formulario
+            const opt = expense.type ? document.querySelector(`#expenseType option[value="${CSS.escape(expense.type)}"]`) : null;
             const icon = categoryIcons[expense.type] || "📌";
-            categoryDisplay = `${icon} ${expense.type}`;
+            categoryDisplay = opt?.textContent?.trim() || `${icon} ${expense.type}`;
         }
 
         return `
@@ -376,11 +395,7 @@ function sortExpensesBy(column) {
     // Necesitamos los gastos actuales para re-renderizar. 
     // Como no tenemos variable global de gastos filtrados aqu, 
     // recargamos los datos (que activar renderExpensesList)
-    if (typeof loadFinancesData === 'function') {
-        loadFinancesData();
-    } else {
-        debugLog("loadFinancesData no disponible para re-renderizar gastos");
-    }
+    refreshFinancesView(false);
 }
 
 function updateExpenseSortIcons() {

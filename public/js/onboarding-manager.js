@@ -297,6 +297,12 @@ class OnboardingManager {
      * Determina si el usuario necesita onboarding completo
      */
     needsOnboarding() {
+        // Solo cuentas creadas hace menos de 7 dias: los usuarios que ya usaban
+        // la app no deben ver de pronto la bienvenida.
+        const created = new Date(firebase.auth().currentUser?.metadata?.creationTime || 0).getTime();
+        if (!created || Date.now() - created > 7 * 86400000) {
+            return false;
+        }
         if (!this.userProfile || !this.userProfile.onboarding) {
             return true;
         }
@@ -592,7 +598,9 @@ function initOnboardingWhenReady() {
 
     // Usar el auth ya inicializado por config.js
     window.auth.onAuthStateChanged(async (user) => {
-        if (user && window.currentUser) {
+        // init() ya espera a que window.currentUser este listo; exigirlo aqui hacia
+        // que en produccion la bienvenida no apareciera a veces (carrera de carga).
+        if (user) {
             debugLog('👤 OnboardingManager: Usuario detectado, esperando antes de iniciar...');
 
             // Delay adicional para asegurar que todo está cargado
