@@ -241,7 +241,7 @@
     "confirm_delete_action": "Are you sure you want to delete this load? This action cannot be undone.",
     "origin_dest_required": "Origin and destination are required",
     "total_miles_required": "Total miles must be greater than 0",
-    "csv_headers": "Date,Load #,Origin,Destination,Miles,RPM,Rate,Company",
+    "csv_headers": "Date,Load #,Origin,Destination,Miles,RPM,Rate,Company,Fuel,Tolls,Other expenses,Total expenses,Net profit",
     "lex_no_loads_state": "No history loads to analyze yet 😕",
     "lex_no_loads_alert": "No history loads to analyze with Lex.",
     "no_months_registered": "No months with registered loads",
