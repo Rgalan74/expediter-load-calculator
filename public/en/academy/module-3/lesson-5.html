@@ -1,94 +1,36 @@
 <!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Positioning: Thinking 2-3 Loads Ahead | Smart Load Academy</title>
-    <meta name="description" content="You have conquered Module 3 — now you think in chains, not individual loads.">
+    <title>Thinking two or three loads ahead | Smart Load Academy</title>
+    <meta name="description" content="How to compare load chains by profit per day, with two real weeks out of Detroit.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: .875rem
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: .75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all .3s ease
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
-            color: #fff
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, .1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .2)
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-  
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/en/academy/module-3/lesson-5.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/lesson-5.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/lesson-5.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/lesson-5.html">
+    <link rel="canonical" href="https://smartloadsolution.com/en/academy/module-3/lesson-5.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/lesson-5.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/lesson-5.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/lesson-5.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Back to App</a></nav>
-    <aside class="lesson-sidebar" id="lessonSidebar">
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Back to App</a></nav>
+
+<aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
         <div>
             <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
@@ -98,429 +40,185 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Module lessons">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Module lessons">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
-        <nav class="breadcrumb">
-            <a href="/en/academy.html">← Academy</a> → <a href="index.html">Module 3</a> → Lesson 5
-        </nav>
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/en/academy.html">Academy</a> / <a href="index.html">Module 3</a> / Lesson 5</nav>
 
-
-
-        
-        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
-            <h1>Smart Positioning: Thinking 2-3 Loads Ahead</h1>
-            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
-                <span>📖 10 min read</span>
-                <span>🎓 Module 3 - Lesson 5</span>
-                <span>⭐ Strategic</span>
-            </div>
-        </header>
-
-        <div class="lesson-content">
-
-            <section>
-                <h2>Playing chess, not checkers</h2>
-
-                <div class="note warning">
-                    <span class="note-label">The Novice Driver</span>
-                    <p>"I got a load offer, should I accept it?"</p>
-                    <p><strong>Only thinks 1 move ahead.</strong></p>
-                </div>
-
-                <div class="note tip">
-                    <span class="note-label">The Pro Driver</span>
-                    <p>"This load leaves me at X, from X I can go to Y, from Y I can safely return to Z. Is the entire cycle profitable?"</p>
-                    <p><strong>Always thinks 3 moves ahead.</strong></p>
-                </div>
-            </section>
-
-            <section>
-                <h2>The concept of "Load Chains"</h2>
-                <p>A single freight load does NOT exist in a vacuum.</p>
-
-                <div class="compare-grid">
-                    <div class="compare-table">
-                        <div class="compare-title">Load #1: Detroit → Atlanta</div>
-                        <div class="compare-row"><span class="label">Payment</span><span class="value">$1,200</span></div>
-                        <div class="compare-row"><span class="label">RPM</span><span class="value">$1.60</span></div>
-                        <div class="compare-row"><span class="label">Delivery</span><span class="value">Atlanta (Zone score 91)</span></div>
-                        <div class="compare-row"><span class="label">Result</span><span class="value accent">Opens up great opportunities ✅</span></div>
-                    </div>
-                    <div class="compare-table">
-                        <div class="compare-title">Load #2: Detroit → Laredo</div>
-                        <div class="compare-row"><span class="label">Payment</span><span class="value">$1,600 (more raw cash upfront)</span></div>
-                        <div class="compare-row"><span class="label">RPM</span><span class="value">$1.55</span></div>
-                        <div class="compare-row"><span class="label">Delivery</span><span class="value">Laredo (Zone score 18)</span></div>
-                        <div class="compare-row"><span class="label">Result</span><span class="value">Closes doors and creates traps ❌</span></div>
-                    </div>
-                </div>
-
-                <p>From the same origin, Load #2 pays MORE upfront... But Load #1 is VASTLY superior strategically. Why?</p>
-            </section>
-
-            <section>
-                <h2>The 3-load chain analysis</h2>
-
-                <p><strong>Chain A: Detroit → Atlanta → Charlotte → Detroit</strong></p>
-
-                <div class="compare-table">
-                    <div class="compare-title">Load 1: Detroit → Atlanta</div>
-                    <div class="compare-row"><span class="label">Payment</span><span class="value">$1,200</span></div>
-                    <div class="compare-row"><span class="label">Profit</span><span class="value">$360</span></div>
-                    <div class="compare-row"><span class="label">Time</span><span class="value">13 hrs drive + 11 hrs wait</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">Load 2: Atlanta → Charlotte</div>
-                    <div class="compare-row"><span class="label">Payment</span><span class="value">$650</span></div>
-                    <div class="compare-row"><span class="label">Profit</span><span class="value">$245</span></div>
-                    <div class="compare-row"><span class="label">Time</span><span class="value">7 hrs drive + 14 hrs wait</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">Load 3: Charlotte → Detroit</div>
-                    <div class="compare-row"><span class="label">Payment</span><span class="value">$1,100</span></div>
-                    <div class="compare-row"><span class="label">Profit</span><span class="value">$318</span></div>
-                    <div class="compare-row"><span class="label">Time</span><span class="value">11 hrs drive</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">Totals Chain A</div>
-                    <div class="compare-row"><span class="label">Payment</span><span class="value">$2,950</span></div>
-                    <div class="compare-row"><span class="label">Profit</span><span class="value accent">$923</span></div>
-                    <div class="compare-row"><span class="label">Time</span><span class="value">56 hrs (2.3 days)</span></div>
-                </div>
-                <div class="formula">$923 ÷ 31 active hrs = $29.77/hr ✅</div>
-
-                <p><strong>Chain B: Detroit → Laredo → San Antonio → Detroit</strong></p>
-
-                <div class="compare-table">
-                    <div class="compare-title">Load 1: Detroit → Laredo</div>
-                    <div class="compare-row"><span class="label">Payment</span><span class="value">$1,600</span></div>
-                    <div class="compare-row"><span class="label">Profit</span><span class="value">$235</span></div>
-                    <div class="compare-row"><span class="label">Time</span><span class="value">20 hrs drive + 68 hrs wait 🚨</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">Load 2: Laredo → SA (reposition)</div>
-                    <div class="compare-row"><span class="label">Payment</span><span class="value">$350</span></div>
-                    <div class="compare-row"><span class="label">Profit</span><span class="value">$56</span></div>
-                    <div class="compare-row"><span class="label">Time</span><span class="value">5 hrs drive + 18 hrs wait</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">Load 3: San Antonio → Detroit</div>
-                    <div class="compare-row"><span class="label">Payment</span><span class="value">$1,450</span></div>
-                    <div class="compare-row"><span class="label">Profit</span><span class="value">$190</span></div>
-                    <div class="compare-row"><span class="label">Time</span><span class="value">19 hrs drive</span></div>
-                </div>
-                <div class="compare-table">
-                    <div class="compare-title">Totals Chain B</div>
-                    <div class="compare-row"><span class="label">Payment</span><span class="value">$3,400</span></div>
-                    <div class="compare-row"><span class="label">Profit</span><span class="value">$481</span></div>
-                    <div class="compare-row"><span class="label">Time</span><span class="value">130 hrs (5.4 days)</span></div>
-                </div>
-                <div class="formula">$481 ÷ 44 active hrs = $10.93/hr ❌</div>
-
-                <div class="compare-table">
-                    <div class="compare-title">Chain A vs Chain B</div>
-                    <div class="compare-row"><span class="label">Chain A</span><span class="value accent">$923 net profit in 2.3 days = $401/day</span></div>
-                    <div class="compare-row"><span class="label">Chain B</span><span class="value">$481 net profit in 5.4 days = $89/day</span></div>
-                </div>
-
-                <div class="pull-number">
-                    <div class="value">4.5X</div>
-                    <p class="context">better per day is Chain A compared to Chain B.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Building profitable circuits</h2>
-                <p><strong>The Golden Triangle Concept:</strong></p>
-
-                <div class="formula" style="white-space: pre;">        DETROIT
-         /    \
-        /      \
-       /        \
-  CHICAGO    NASHVILLE
-       \        /
-        \      /
-         \    /
-        ATLANTA</div>
-
-                <p><strong>The 4-Zone Circuit:</strong></p>
-                <ul>
-                    <li>All included zones score 85+ on your map.</li>
-                    <li>Each individual leg is around 600-750 miles.</li>
-                    <li>Consistent wait times of &lt; 16 hrs everywhere.</li>
-                    <li>Takes about 6-7 days to run the full circuit.</li>
-                    <li><strong>Net Profit: $1,800-$2,200 per circuit.</strong></li>
-                </ul>
-
-                <div class="note tip">
-                    <span class="note-label">Repeat this exactly weekly</span>
-                    <p>$7,200-$8,800/month consistently ✅✅</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Exclusive feature: the Load Chain Simulator</h2>
-
-                <div class="formula">LOAD CHAIN SIMULATOR<br>
-Current Offer:<br>
-Detroit → Miami<br>
-Payment: $2,400<br>
-<br>
-[SIMULATE 3-LOAD CHAIN OPTIONS]<br>
-<br>
-SIMULATION RESULTS:<br>
-<br>
-BEST CASE (30% probability):<br>
-├─ Load 1: Detroit→Miami $650<br>
-├─ Load 2: Miami→Atlanta $420<br>
-├─ Load 3: Atlanta→Detroit $580<br>
-└─ Total: $1,650 / 5 days<br>
-($330/day) ✅<br>
-<br>
-LIKELY CASE (50% probability):<br>
-├─ Load 1: Detroit→Miami $650<br>
-├─ Wait 28 nervous hrs in Miami<br>
-├─ Load 2: Miami→Atlanta $320<br>
-├─ Load 3: Atlanta→Detroit $580<br>
-└─ Total: $1,550 / 6 days<br>
-($258/day) ⚠️<br>
-<br>
-WORST CASE (20% probability):<br>
-├─ Load 1: Detroit→Miami $650<br>
-├─ Wait 48+ hrs, panic accept low rate<br>
-├─ Load 2: Miami→anywhere $180<br>
-├─ Reposition, take another low load<br>
-└─ Total: $1,100 / 7 miserable days<br>
-($157/day) ❌<br>
-<br>
-EXPECTED VALUE (Averaged Out):<br>
-└─ $1,482 / 5.9 days = $251/day<br>
-<br>
-ALTERNATIVE SIMULATION WE FOUND:<br>
-Detroit → Atlanta → Charlotte<br>
-Expected Value: $1,550 / 4.2 days<br>
-= $369/day pure profit ✅✅<br>
-<br>
-EXPERT VERDICT:<br>
-The Miami load has a 47% lower daily<br>
-profit rate versus the Atlanta alternative.<br>
-Recommend: Reject Miami, Wait for Atlanta.</div>
-            </section>
-
-            <section>
-                <h2>Chain thinking: the 4 required questions</h2>
-                <p>Before you accept absolutely ANY load, ask yourself:</p>
-
-                <ol>
-                    <li><strong>Exactly where does this drop me off?</strong> What is the Zone Score? What is the expected wait time?</li>
-                    <li><strong>What are my realistic options from there?</strong> Are there multiple high-quality outbound lanes? Or am I effectively trapped?</li>
-                    <li><strong>Does this drive me TOWARDS my home circuit or PULL ME AWAY from it?</strong> Drawing me into profitability? Or pulling me toward a desert?</li>
-                    <li><strong>What is my honest 3-load chain projection?</strong> Total net profit? Daily average profit?</li>
-                </ol>
-
-                <div class="compare-table">
-                    <div class="compare-title">How to decide</div>
-                    <div class="compare-row"><span class="label">4/4 positive</span><span class="value accent">Accept instantly</span></div>
-                    <div class="compare-row"><span class="label">3/4 positive</span><span class="value">Probably accept</span></div>
-                    <div class="compare-row"><span class="label">2/4 positive</span><span class="value">Negotiate fiercely or pause to analyze</span></div>
-                    <div class="compare-row"><span class="label">≤1 positive</span><span class="value">Automatically decline</span></div>
-                </div>
-            </section>
-
-            <section>
-                <h2>Advanced tactics: the sacrificial prawn</h2>
-                <p>Sometimes you willingly take a "mediocre" load simply to SET UP an incredibly profitable chain.</p>
-
-                <p><strong>The Situation:</strong></p>
-                <p>Current Location: Louisville (Zone score 68)<br>
-                    Broker Offer: Louisville → Detroit</p>
-                <ul>
-                    <li>Payment: $550</li>
-                    <li>Total Miles: 360</li>
-                    <li>Net Profit: $172</li>
-                    <li>Real RPM: $1.53</li>
-                    <li><strong>Mediocre if viewed as a standalone load ⚠️</strong></li>
-                </ul>
-
-                <p><strong>BUT WAIT:</strong></p>
-                <ul>
-                    <li>Detroit has a Zone Score of 94 for you.</li>
-                    <li>Your expected next load out of Detroit: $1.70/mi</li>
-                    <li>Your average wait time there: only 9 hrs</li>
-                </ul>
-
-                <div class="note tip">
-                    <span class="note-label">Your strategy</span>
-                    <p>Accept the "mediocre" Louisville → Detroit run, BECAUSE it specifically transports you into a premium profit zone.</p>
-                    <ul>
-                        <li>1-load view: "Meh" ⚠️</li>
-                        <li>2-load chain: Extremely solid ✅</li>
-                        <li>3-load chain: Flawless execution ✅✅</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section>
-                <h2>Major red flags in chain planning</h2>
-
-                <div class="checklist">
-                    <span class="checklist-label">Imminent warning signs — hit 3+ and completely reconsider your plan</span>
-                    <div class="checklist-item"><span class="box"></span><span class="text">The entire chain drags you &gt;800 miles away from your established home circuit</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">ANY expected drop-off zone in the chain has a score &lt; 60</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Multiple legs project wait times exceeding 24 hours</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">Your daily average net profit dips below $200</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">There is absolutely no clear "return path" to favorable zones</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">You realize you're blindly chasing "one massive payload" directly into a dead zone</span></div>
-                    <div class="checklist-item"><span class="box"></span><span class="text">The survival of your profit margin relies entirely on "hoping and praying" for a good backhaul</span></div>
-                </div>
-            </section>
-
-            <section>
-                <h2>Wrapping up Module 3</h2>
-
-                <p><strong>What you have totally mastered:</strong></p>
-                <ul>
-                    <li>✅ Identifying YOUR unique financial gold mines.</li>
-                    <li>✅ Understanding the macro flow of freight state-by-state.</li>
-                    <li>✅ Utilizing the Heat Map as your ultimate strategic GPS.</li>
-                    <li>✅ Recognizing exactly when deadhead is a lucrative investment.</li>
-                    <li>✅ Thinking heavily in chains, abandoning the "one load at a time" mindset.</li>
-                </ul>
-
-                <p><strong>The business transformation:</strong></p>
-                <ul>
-                    <li>From: "I randomly accept whatever decent load pops up." → To: "I ruthlessly execute strategic circuits with clear 3-load vision."</li>
-                    <li>From: "Why is there no money left over?" → To: "My business generates a predictable profit of $1,500-$2,500/week."</li>
-                    <li>From: "Aimlessly wandering the USA hoping for luck." → To: "Operating within a locked home circuit of heavily optimized zones."</li>
-                </ul>
-
-                <p><strong>Your expected results:</strong></p>
-                <ul>
-                    <li>+30-40% direct net profit increase.</li>
-                    <li>-20% overall lifestyle stress.</li>
-                    <li>+50% consistency in your bank account month-to-month.</li>
-                </ul>
-
-                <div class="conclusion">
-                    <p class="lead">You have conquered Module 3 — now you think in <span class="accent">chains, not individual loads</span>.</p>
-                    <p class="sub">Course progress: 60% of the entire FREE Academy complete. START HERE + Modules 1-3 fully completed.</p>
-                </div>
-            </section>
-
+    <header>
+        <div class="al-kicker">Module 3 · Lesson 5</div>
+        <h1 class="al-title">Thinking two or three loads ahead</h1>
+        <div class="al-meta">
+            <span class="al-chip">8 min read</span>
+            <span class="al-chip">Strategy</span>
+            <span class="al-chip is-free">Free</span>
         </div>
+    </header>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+    <section class="al-learn">
+        <div class="al-learn-title">What you will learn</div>
+        <ol>
+            <li>Why the first load decides your week.</li>
+            <li>How to compare two chains by profit per day.</li>
+            <li>The four questions before accepting.</li>
+        </ol>
+    </section>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Complete Module 3</button>
-            <nav class="lesson-nav">
-                <a href="lesson-4.html" class="btn btn-secondary">← Previous Lesson</a>
-                <a href="../../academy.html" class="btn btn-primary">Back to Academy Hub →</a>
-            </nav>
-        </footer>
-            </article>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>A load is a move, not the game</h2>
+        <p>The first load of the week decides where you will be for the rest of the week. That is why you should look at the whole chain: this load, the next one and the one back home.</p>
+    </section>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 3, LESSON_NUM = 5;
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>Two weeks out of Detroit</h2>
+        <p>Cost of $0.55 per mile. Driving days based on miles (about 600 per day).</p>
+        <div class="al-compare">
+            <table class="al-table">
+                <caption>Chain 1 · starts with the big load</caption>
+                <tr><td>Detroit → Laredo<span class="al-sub">1,616 mi · $1,800 · 3 days</span></td><td class="al-num-cell">$911</td></tr>
+                <tr><td>Laredo → Dallas<span class="al-sub">430 mi · $258 · 1 day</span></td><td class="al-num-cell">$22</td></tr>
+                <tr><td>Dallas → Detroit<span class="al-sub">1,186 mi · $1,300 · 2 days</span></td><td class="al-num-cell">$648</td></tr>
+                <tr><td>Days</td><td class="al-num-cell">6</td></tr>
+                <tr class="al-total"><td>Profit · per day</td><td class="al-num-cell">$1,580 · $263</td></tr>
+            </table>
+            <table class="al-table">
+                <caption>Chain 2 · circuit</caption>
+                <tr><td>Detroit → Atlanta<span class="al-sub">722 mi · $1,000 · 2 days</span></td><td class="al-num-cell">$603</td></tr>
+                <tr><td>Atlanta → Charlotte<span class="al-sub">245 mi · $350 · 1 day</span></td><td class="al-num-cell">$215</td></tr>
+                <tr><td>Charlotte → Detroit<span class="al-sub">625 mi · $850 · 2 days</span></td><td class="al-num-cell">$506</td></tr>
+                <tr><td>Days</td><td class="al-num-cell">5</td></tr>
+                <tr class="al-total"><td>Profit · per day</td><td class="al-num-cell">$1,324 · $265</td></tr>
+            </table>
+        </div>
+        <p>The Laredo load pays <strong>$800 more</strong> than the Atlanta one, but over the whole week both chains leave almost the same per day. And chain 2 gets you home a day earlier, without depending on finding freight in Laredo.</p>
+        <div class="al-callout is-warn">
+            <div class="al-callout-label">The hidden risk</div>
+            <p>Chain 1 assumes you get a load out of Laredo fast. If you wait one more day, it drops to about $226 per day. Chain 2 only goes through green states.</p>
+        </div>
+    </section>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'What Are Profitable Zones (And How to Identify Yours)', time: '12 min' },
-            { num: 2, title: 'Great States to Enter vs Great States to Exit', time: '11 min' },
-            { num: 3, title: 'Using the Zone Heat Map (A Visual Guide)', time: '9 min' },
-            { num: 4, title: 'Strategic Deadhead: When It Actually Pays to Drive Empty', time: '9 min' },
-            { num: 5, title: 'Smart Positioning: Thinking 2-3 Loads Ahead', time: '10 min' }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>The four questions before accepting</h2>
+        <ul class="al-checklist">
+            <li><strong>Where does this load leave me?</strong> Check the state color in Zones.</li>
+            <li><strong>What leaves from there and at what rate?</strong> Check your state table and the hard-to-leave warning.</li>
+            <li><strong>How many empty miles to the next one?</strong> Add them in the calculator.</li>
+            <li><strong>How much does the chain leave per day?</strong> Compare per day, not per load.</li>
+        </ul>
+    </section>
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: 'Comparing Chain A (Detroit→Atlanta→Charlotte→Detroit, $923 profit in 2.3 days) vs Chain B (Detroit→Laredo→San Antonio→Detroit, $481 profit in 5.4 days), how much better is Chain A per day?',
-                options: ['2X better', '4.5X better', 'They are equal', 'Chain B is better'],
-                correctIndex: 1
-            },
-            {
-                question: 'Load #2 (Detroit→Laredo, $1,600) pays MORE than Load #1 (Detroit→Atlanta, $1,200), but Load #1 is strategically better. Why?',
-                options: [
-                    'Because Laredo has better weather',
-                    'Because Atlanta opens opportunities (zone score 91) while Laredo closes them (zone score 18)',
-                    'Because Load #2 has more miles',
-                    'There is no real reason, it\'s just personal preference'
-                ],
-                correctIndex: 1
-            },
-            {
-                question: 'Per the Load Chain Simulator (Detroit→Miami), what was the final verdict of the simulation?',
-                options: [
-                    'Accept the Miami load immediately',
-                    'Wait for the alternative Atlanta load, since Miami has 47% lower daily profit',
-                    'Both routes are identical in outcome',
-                    'Decline both options'
-                ],
-                correctIndex: 1
-            },
-            {
-                question: 'Per the "4 Questions" to ask before accepting a load, which of these is NOT one of them?',
-                options: [
-                    'Where does this load leave me?',
-                    'What options will I have from there?',
-                    'What color is the broker\'s van?',
-                    'What is my 3-load chain projection?'
-                ],
-                correctIndex: 2
-            }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>Sacrifice moves</h2>
+        <p>Sometimes it pays to accept a load that leaves little because it puts you in your circuit. A Louisville to Detroit load (363 miles) that barely clears your threshold can be worth more than a better paid one that takes you away from home. The condition: the next load from there has to make up for it.</p>
+        <div class="al-callout">
+            <div class="al-callout-label">Rule of thumb</div>
+            <p>Accept a weak load only if it moves you to a green state and you know which loads leave from there. Never below your Break-even.</p>
+        </div>
+    </section>
 
-        function markLessonComplete() {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress) {
-                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Módulo 3 Completado' : '✓ Module 3 Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                alert(isEs ? '¡Módulo 3 completado! 🎉\nDominaste la estrategia de zonas.\nMódulo 4 es PRO content.' : 'Module 3 completed! 🎉\nYou mastered zone strategy.\nModule 4 is PRO content.');
-            }
+    <section class="al-summary">
+        <h2>In summary</h2>
+        <ul>
+            <li>Compare whole chains, not single loads.</li>
+            <li>A load that pays more can leave the same per day with more risk.</li>
+            <li>Accept a weak load only if it takes you to your circuit.</li>
+        </ul>
+    </section>
+    <section class="al-done">
+        <h2>Module 3 complete</h2>
+        <p>You now know what makes a zone profitable, how to read Zones, when to charge more to go in, when empty miles pay off and how to think about the whole week.</p>
+        <p><a class="al-btn al-btn-primary" href="/en/academy/module-4/index.html">Go to module 4 →</a></p>
+    </section>
+    <section class="lesson-quiz" id="lessonQuiz"></section>
+
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as complete</button>
+        <nav class="lesson-nav">
+            <a href="lesson-4.html" class="al-btn al-btn-ghost">← Previous lesson</a>
+            <a href="/en/academy/module-4/index.html" class="al-btn al-btn-primary">Go to module 4 →</a>
+        </nav>
+    </footer>
+</article>
+
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 3;
+    const LESSON_NUM = 5;
+    const LESSON_LIST = [
+        { num: 1, title: "What a profitable zone is (and how to find yours)", time: '7 min' },
+        { num: 2, title: "States to go into and states to get out of", time: '8 min' },
+        { num: 3, title: "How to use the Zones tab", time: '8 min' },
+        { num: 4, title: "Strategic empty miles: when repositioning pays", time: '8 min' },
+        { num: 5, title: "Thinking two or three loads ahead", time: '8 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+  {
+    "question": "The Laredo load pays $800 more. What happens over the week?",
+    "options": [
+      "It leaves $800 more",
+      "Both chains leave almost the same per day",
+      "It loses money",
+      "You cannot know"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "What is the risk of chain 1?",
+    "options": [
+      "None",
+      "It depends on getting a load out of Laredo fast",
+      "It has many tolls",
+      "It is too short"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "How do you compare two chains?",
+    "options": [
+      "By the pay of the first load",
+      "By profit per day of the whole chain",
+      "By miles",
+      "By number of loads"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "When do you accept a load that leaves little?",
+    "options": [
+      "Never",
+      "If it moves you to a green state, and never below your Break-even",
+      "Always",
+      "Only on weekends"
+    ],
+    "correctIndex": 1
+  }
+];
+
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completed";
+            btn.disabled = true;
         }
+    }
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-
-            if (window.AcademySidebar) {
-                await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Route & Zone Strategy', LESSON_LIST);
-            }
-
-            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-
-            if (alreadyDone) {
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Módulo 3 Completado' : '✓ Module 3 Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                const quizEl = document.getElementById('lessonQuiz');
-                if (quizEl) quizEl.style.display = 'none';
-            } else if (window.AcademyQuiz) {
-                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-            }
-        });
-    </script>
-
-  
-
-
-
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, "Route and zone strategy", LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completed"; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>

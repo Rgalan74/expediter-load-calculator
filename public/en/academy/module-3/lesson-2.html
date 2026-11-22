@@ -1,94 +1,36 @@
 <!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Great States to Enter vs Great States to Exit | Smart Load Academy</title>
-    <meta name="description" content="Not all states are created equal. Some are highways to wealth; others are complete dead-ends.">
+    <title>States to go into and states to get out of | Smart Load Academy</title>
+    <meta name="description" content="Why freight direction matters, how to measure cycle RPM and how the app warns you about a hard-to-leave zone.">
     <link rel="icon" type="image/png" href="/img/logo-app.png">
     <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/academy/css/academy-quiz.css">
     <link rel="stylesheet" href="/academy/css/academy-sidebar.css">
-    <link rel="stylesheet" href="/academy/css/academy-lesson-content.css">
+    <link rel="stylesheet" href="/academy/css/academy-lesson-v2.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #060A12;
-            color: #e0e0e0;
-            line-height: 1.7
-        }
-
-        .lesson-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem
-        }
-
-        .breadcrumb {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: .875rem
-        }
-
-        .breadcrumb a {
-            color: #22D3EE;
-            text-decoration: none
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: .75rem;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: all .3s ease
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, #22D3EE 0%, #22D3EE 100%);
-            color: #fff
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, .1);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, .2)
-        }
-
-        .lesson-footer {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, .1)
-        }
-
-        .lesson-nav {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            margin-top: 2rem
-        }
+        body { font-family: 'Inter', sans-serif; background: #060A12; margin: 0; }
+        .lesson-footer { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #26375A; display: flex; flex-direction: column; gap: 1.25rem; }
+        .lesson-nav { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        #markCompleteBtn { align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 6px; background: transparent; border: 1px solid #31466D; color: #ECEEF2; font-weight: 600; }
+        #markCompleteBtn[disabled] { opacity: 0.55; }
     </style>
-  
-  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+    <script src="/js/consent-mode.js?v=1.0.0"></script>
     <!-- Metricool Tracker -->
   <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
   <!-- End Metricool Tracker -->
-<link rel="canonical" href="https://smartloadsolution.com/en/academy/module-3/lesson-2.html">
-<link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/lesson-2.html">
-<link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/lesson-2.html">
-<link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/lesson-2.html">
+    <link rel="canonical" href="https://smartloadsolution.com/en/academy/module-3/lesson-2.html">
+    <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/academy/module-3/lesson-2.html">
+    <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/academy/module-3/lesson-2.html">
+    <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/academy/module-3/lesson-2.html">
 </head>
 
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(6, 10, 18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#e2e8f0;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34, 211, 238,0.12);color:#22D3EE;border:1px solid rgba(34, 211, 238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;" onmouseover="this.style.background='rgba(34, 211, 238,0.2)'" onmouseout="this.style.background='rgba(34, 211, 238,0.12)'">← Back to App</a></nav>
-    <aside class="lesson-sidebar" id="lessonSidebar">
+<nav style="position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #26375A;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;gap:10px;"><img src="/img/logo-app.webp" onerror="this.src='/img/logo-app.png'" style="width:28px;height:28px;border-radius:6px;" alt="SmartLoad"><span style="font-weight:700;font-size:15px;color:#ECEEF2;">Smart Load <span style="color:#22D3EE;">Academy</span></span></div><a href="../../../app.html" style="display:flex;align-items:center;gap:6px;background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3);padding:7px 14px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">← Back to App</a></nav>
+
+<aside class="lesson-sidebar" id="lessonSidebar">
     <div class="lesson-sidebar-header">
         <div>
             <div class="lesson-sidebar-module" id="lessonSidebarModuleLabel"></div>
@@ -98,298 +40,202 @@
     </div>
     <nav class="lesson-sidebar-list" id="lessonSidebarList"></nav>
 </aside>
-<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Module lessons">📚</button>
+<button class="lesson-sidebar-toggle" id="lessonSidebarToggle" aria-label="Module lessons">☰</button>
 <div class="lesson-sidebar-overlay" id="lessonSidebarOverlay"></div>
 
-    <article class="lesson-container">
-        <nav class="breadcrumb">
-            <a href="/en/academy.html">← Academy</a> → <a href="index.html">Module 3</a> → Lesson 2
-        </nav>
+<article class="lesson-container al-lesson">
+    <nav class="al-crumbs"><a href="/en/academy.html">Academy</a> / <a href="index.html">Module 3</a> / Lesson 2</nav>
 
-
-
-        
-        <header style="margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.1)">
-            <h1>Great States to Enter vs Great States to Exit</h1>
-            <div style="display:flex;gap:1.5rem;font-size:.875rem;color:#888">
-                <span>📖 11 min read</span>
-                <span>🎓 Module 3 - Lesson 2</span>
-            </div>
-        </header>
-
-        <div class="lesson-content">
-
-            <section>
-                <h2>The concept of "freight direction"</h2>
-                <p>Not all states are created equal. Some places are:</p>
-                <ul>
-                    <li>✅ Amazing to drive INTO (High rates on the way there)</li>
-                    <li>❌ Absolutely terrible to drive OUT OF (Trash rates, zero freight leaving)</li>
-                </ul>
-                <p>And exactly the reverse is true for others.</p>
-            </section>
-
-            <section>
-                <h2>The freight flow matrix</h2>
-
-                <div class="compare-table">
-                    <div class="compare-title">Balanced 🟢🟢</div>
-                    <p>Strong freight IN &amp; OUT — the ultimate best case scenario.</p>
-                    <p>Examples: Illinois (Chicago), Georgia (Atlanta), Texas (Dallas/Houston), Michigan (Detroit), Ohio</p>
-                </div>
-
-                <div class="compare-table">
-                    <div class="compare-title">Import-Heavy 🟢🔴</div>
-                    <p>Good freight paying well to go IN. Very poor freight trying to leave.</p>
-                    <p>Examples: California (LA ports), Florida (consumer goods), Arizona (Phoenix distribution)</p>
-                </div>
-
-                <div class="compare-table">
-                    <div class="compare-title">Dead Zones 🔴🔴</div>
-                    <p>Poor freight going IN &amp; OUT. Avoid unless they pay a massive premium.</p>
-                    <p>Examples: Montana, Wyoming, West Texas (Laredo, El Paso), Rural Midwest</p>
-                </div>
-
-                <p><strong>Your playbook strategy:</strong></p>
-                <ul>
-                    <li><strong>Balanced:</strong> Build your primary driving circuits around these states.</li>
-                    <li><strong>Import-heavy:</strong> Charge a massive premium to go IN, and have your backhaul plan ready before you accept.</li>
-                    <li><strong>Dead zones:</strong> Only go if the rate fully covers your crazy repositioning and wait time.</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>Mastering freight flow patterns</h2>
-
-                <p><strong>West → East (The Import Dominance)</strong></p>
-                <ul>
-                    <li>LA/Long Beach ports moving goods → Midwest/East Coast</li>
-                    <li>High rates heading westbound (brokers need vans to take empties back)</li>
-                    <li>Lower rates heading eastbound (hyper-competitive market)</li>
-                    <li><strong>Strategy:</strong> Position yourself to ride the eastbound wave when possible.</li>
-                </ul>
-
-                <p><strong>The Major Hubs (Balanced in all directions)</strong></p>
-                <ul>
-                    <li>Chicago, Atlanta, Dallas</li>
-                    <li>Consistent, reliable freight 360° around the compass.</li>
-                    <li>These are your "Safe Haven" zones.</li>
-                    <li><strong>Strategy:</strong> It is almost always a profitable move to reposition yourself towards a hub.</li>
-                </ul>
-            </section>
-
-            <section>
-                <h2>State-by-state breakdown</h2>
-
-                <p><strong>Tier 1: The Balanced States 🟢🟢</strong></p>
-
-                <div class="compare-table">
-                    <div class="compare-title">Illinois (Chicago Area)</div>
-                    <div class="compare-row"><span class="label">IN</span><span class="value">🟢🟢 Heavy manufacturing, agriculture, distribution</span></div>
-                    <div class="compare-row"><span class="label">OUT</span><span class="value">🟢🟢 Consumer goods and auto parts</span></div>
-                    <div class="compare-row"><span class="label">Average rate IN</span><span class="value">$1.55/mi</span></div>
-                    <div class="compare-row"><span class="label">Average rate OUT</span><span class="value">$1.50/mi</span></div>
-                    <p>Note: freight slows down considerably over the weekend.</p>
-                </div>
-
-                <div class="compare-table">
-                    <div class="compare-title">Georgia (Atlanta Area)</div>
-                    <div class="compare-row"><span class="label">IN</span><span class="value">🟢🟢 Distribution hub, imports via Savannah</span></div>
-                    <div class="compare-row"><span class="label">OUT</span><span class="value">🟢🟢 Manufacturing and distribution</span></div>
-                    <div class="compare-row"><span class="label">Average rate IN</span><span class="value">$1.60/mi</span></div>
-                    <div class="compare-row"><span class="label">Average rate OUT</span><span class="value">$1.55/mi</span></div>
-                    <p>Note: Q4 (holidays) is absolutely insane for outbound freight.</p>
-                </div>
-
-                <div class="compare-table">
-                    <div class="compare-title">Michigan (Detroit Area)</div>
-                    <div class="compare-row"><span class="label">IN</span><span class="value">🟢🟢 Auto parts, just-in-time delivery</span></div>
-                    <div class="compare-row"><span class="label">OUT</span><span class="value">🟢🟢 Automotive assembly, agriculture</span></div>
-                    <div class="compare-row"><span class="label">Average rate IN</span><span class="value">$1.65/mi</span></div>
-                    <div class="compare-row"><span class="label">Average rate OUT</span><span class="value">$1.60/mi</span></div>
-                    <p>Note: Q1 factory retooling is the golden period here.</p>
-                </div>
-
-                <p><strong>Tier 2: Import-Heavy Traps 🟢🔴</strong></p>
-
-                <div class="compare-table">
-                    <div class="compare-title">California (LA/Oakland)</div>
-                    <div class="compare-row"><span class="label">IN</span><span class="value">🟢🟢 Extremely high demand, ports bustling</span></div>
-                    <div class="compare-row"><span class="label">OUT</span><span class="value">🔴 Very expensive, hyper-competitive</span></div>
-                    <div class="compare-row"><span class="label">Average rate IN</span><span class="value">$1.70/mi</span></div>
-                    <div class="compare-row"><span class="label">Average rate OUT</span><span class="value">$1.10/mi (ouch)</span></div>
-                    <p>Note: always charge a heavy premium to go IN, unless you have a guaranteed backhaul to AZ/NV waiting.</p>
-                </div>
-
-                <div class="compare-table">
-                    <div class="compare-title">Florida (Miami/Orlando/Tampa)</div>
-                    <div class="compare-row"><span class="label">IN</span><span class="value">🟢 Lots of consumer goods, very seasonal</span></div>
-                    <div class="compare-row"><span class="label">OUT</span><span class="value">🔴 Barely any outbound manufacturing</span></div>
-                    <div class="compare-row"><span class="label">Average rate IN</span><span class="value">$1.50/mi (jumps to $1.80+ in winter)</span></div>
-                    <div class="compare-row"><span class="label">Average rate OUT</span><span class="value">$1.05/mi</span></div>
-                    <p>Note: snowbird season (Q1) brings fantastic inbound rates.</p>
-                </div>
-
-                <p><strong>Tier 3: The Dead Zones 🔴🔴</strong></p>
-
-                <div class="compare-table">
-                    <div class="compare-title">West Texas (Laredo, El Paso)</div>
-                    <div class="compare-row"><span class="label">IN</span><span class="value">🔴 Border towns, low inbound demand</span></div>
-                    <div class="compare-row"><span class="label">OUT</span><span class="value">🔴🔴 Nightmare backhaul market</span></div>
-                    <div class="compare-row"><span class="label">Average rate OUT</span><span class="value">$0.85-$1.10/mi</span></div>
-                    <div class="compare-row"><span class="label">Wait time</span><span class="value">48-96 hours</span></div>
-                    <p><strong>Strategy:</strong> demand $1.80+/mi just to go there, and financially plan for your long repositioning drive.</p>
-                </div>
-            </section>
-
-            <section>
-                <h2>Smart pricing based on direction</h2>
-
-                <div class="compare-table">
-                    <div class="compare-row"><span class="label">Balanced → Balanced</span><span class="value">Standard rates ($1.40-$1.60/mi)</span></div>
-                    <div class="compare-row"><span class="label">Balanced → Import-Heavy</span><span class="value">Premium +$0.20/mi</span></div>
-                    <div class="compare-row"><span class="label">Import-Heavy → Balanced</span><span class="value">Can accept lower ($1.20-$1.35)</span></div>
-                    <div class="compare-row"><span class="label">Balanced → Dead Zone</span><span class="value accent">Premium +$0.35-$0.50/mi</span></div>
-                    <div class="compare-row"><span class="label">Dead Zone → Anywhere</span><span class="value">Break-even acceptable</span></div>
-                </div>
-                <p>Import-Heavy → Balanced: you're paying to escape a dead zone. Balanced → Dead Zone: covers your idle wait and repositioning costs. Dead Zone → Anywhere: just get out of there.</p>
-            </section>
-
-            <section>
-                <h2>Building your lane strategy</h2>
-                <p>Stop thinking just in zones. Start thinking in balanced lanes:</p>
-
-                <div class="compare-table">
-                    <div class="compare-row"><span class="label">Detroit ↔ Chicago</span><span class="value">Both ways ✅ — $1.60/mi</span></div>
-                    <div class="compare-row"><span class="label">Chicago ↔ Atlanta</span><span class="value">Both ways ✅ — $1.55/mi</span></div>
-                    <div class="compare-row"><span class="label">Atlanta ↔ Charlotte</span><span class="value">Both ways ✅ — $1.50/mi</span></div>
-                    <div class="compare-row"><span class="label">Detroit → LA</span><span class="value">One way 🔴 — $1.75/mi IN</span></div>
-                    <div class="compare-row"><span class="label">LA → Detroit</span><span class="value">One way ✅ — $1.20/mi OUT</span></div>
-                    <div class="compare-row"><span class="label">Anywhere → Laredo</span><span class="value">One way ⚠️ — $1.80/mi IN</span></div>
-                    <div class="compare-row"><span class="label">Laredo → Anywhere</span><span class="value">One way 🔴 — $0.95/mi OUT</span></div>
-                </div>
-            </section>
-
-            <section>
-                <div class="conclusion">
-                    <p class="lead">Not all states are created equal. Some are <span class="accent">highways</span> to wealth; others are complete dead-ends.</p>
-                    <p class="sub">The golden rule: build your driving circuits around BALANCED states, charge a heavy premium to drive into import-heavy states, always have an exit plan before entering a dead zone, and favor balanced lanes over one-off destinations. Think in full cycles, not just one-way trips.</p>
-                </div>
-            </section>
-
+    <header>
+        <div class="al-kicker">Module 3 · Lesson 2</div>
+        <h1 class="al-title">States to go into and states to get out of</h1>
+        <div class="al-meta">
+            <span class="al-chip">8 min read</span>
+            <span class="al-chip">Strategy</span>
+            <span class="al-chip is-free">Free</span>
         </div>
+    </header>
 
-        <section class="lesson-quiz" id="lessonQuiz"></section>
+    <section class="al-learn">
+        <div class="al-learn-title">What you will learn</div>
+        <ol>
+            <li>Why some zones are easy to get into and hard to get out of.</li>
+            <li>How to calculate cycle RPM.</li>
+            <li>When the app warns you about a hard-to-leave zone.</li>
+        </ol>
+    </section>
 
-        <footer class="lesson-footer">
-            <button id="markCompleteBtn" class="btn btn-secondary quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as
-                Complete</button>
-            <nav class="lesson-nav">
-                <a href="lesson-1.html" class="btn btn-secondary">← Previous Lesson</a>
-                <a href="lesson-3.html" class="btn btn-primary">Next: The Heat Map →</a>
-            </nav>
-        </footer>
-            </article>
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">01</span>Direction matters</h2>
+        <p>Many places receive more freight than they send. Delivering there is easy; getting out is not. It is common in border cities like Laredo and in end-of-the-road areas like South Florida. The opposite happens in industrial areas: more freight leaves than comes in.</p>
+    </section>
 
-    <script src="/academy/js/academy.js"></script>
-    <script src="/academy/js/academy-quiz.js"></script>
-    <script src="/academy/js/academy-sidebar.js"></script>
-    <script>
-        const MODULE_NUM = 3, LESSON_NUM = 2;
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">02</span>The in-and-out matrix</h2>
+        <table class="al-table">
+            <tr><td><span class="al-green"><strong>Good to get in and out</strong></span><span class="al-sub">Your circuit. Accept normal rates</span></td></tr>
+            <tr><td><span class="al-amber"><strong>Good to get in, bad to get out</strong></span><span class="al-sub">Charge more to go in: the way back will cost you</span></td></tr>
+            <tr><td><span class="al-amber"><strong>Bad to get in, good to get out</strong></span><span class="al-sub">You can accept a bit less to get there: it positions you well</span></td></tr>
+            <tr><td><span class="al-red"><strong>Bad both ways</strong></span><span class="al-sub">Avoid it unless the pay covers everything</span></td></tr>
+        </table>
+    </section>
 
-        const LESSON_LIST = [
-            { num: 1, title: 'What Are Profitable Zones (And How to Identify Yours)', time: '12 min' },
-            { num: 2, title: 'Great States to Enter vs Great States to Exit', time: '11 min' },
-            { num: 3, title: 'Using the Zone Heat Map (A Visual Guide)', time: '9 min' },
-            { num: 4, title: 'Strategic Deadhead: When It Actually Pays to Drive Empty', time: '9 min' },
-            { num: 5, title: 'Smart Positioning: Thinking 2-3 Loads Ahead', time: '10 min' }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">03</span>Cycle RPM</h2>
+        <p>When you deliver into a hard zone, the load does not end at delivery. It ends when you leave with the next one. That is why you should measure <strong>the cycle</strong>: this load plus a typical outbound one.</p>
+        <div class="al-formula">Cycle RPM = (inbound pay + typical outbound pay) ÷ (inbound miles + outbound miles)</div>
+    </section>
 
-        const QUIZ_QUESTIONS = [
-            {
-                question: 'What characterizes an "IMPORT-HEAVY" state like California?',
-                options: [
-                    'Good freight IN and OUT equally',
-                    'Good freight IN but poor freight OUT',
-                    'Poor freight in both directions',
-                    'It only has freight on weekends'
-                ],
-                correctIndex: 1
-            },
-            {
-                question: 'Per the California (LA/Oakland) table, what is the avg rate comparing IN vs OUT?',
-                options: [
-                    'IN $1.10/mi, OUT $1.70/mi',
-                    'IN $1.70/mi, OUT $1.10/mi',
-                    'Both are equal at $1.40/mi',
-                    'There is no OUT data for California'
-                ],
-                correctIndex: 1
-            },
-            {
-                question: 'Per the directional pricing strategy, how much premium should you charge to go from a Balanced state to a Dead Zone?',
-                options: ['+$0.20/mi', '+$0.35-0.50/mi', 'No premium needed', '-$0.20/mi'],
-                correctIndex: 1
-            },
-            {
-                question: 'What is the "GOLDEN RULE" from the lesson\'s conclusion?',
-                options: [
-                    'Always go wherever pays the most regardless of anything else',
-                    'Build your circuit around Balanced states, charge premium to import-heavy states, have an exit plan for dead zones',
-                    'Completely avoid import-heavy states',
-                    'Only work in one fixed state all year'
-                ],
-                correctIndex: 1
-            }
-        ];
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">04</span>The app warns you</h2>
+        <p>If you have <strong>3 or more loads leaving</strong> a state in the last 12 months and their average RPM is below your cost, or below 85% of your overall average, the calculator flags it as a <strong>hard-to-leave zone</strong> when you deliver there. It shows you the cycle RPM and profit.</p>
 
-        function markLessonComplete() {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
-            if (window.AcademyProgress) {
-                window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                alert(isEs ? '¡Lección completada! 🎉' : 'Lesson completed! 🎉');
-            }
+        <figure class="al-shot">
+            <div class="al-shot-frame">
+                <div class="al-shot-bar">Panel · Keep in mind</div>
+                <picture><source media="(max-width: 640px)" srcset="/academy/img/app/panel-zona-dificil-movil-en.png" width="652" height="902"><img src="/academy/img/app/panel-zona-dificil-en.png" alt="Hard-to-leave zone warning for Texas with the cycle RPM and a market note for Laredo." loading="lazy" width="1320" height="497"></picture>
+            </div>
+            <figcaption><b>Nashville → Laredo for $1,000.</b> The example loads leaving Texas paid $0.59 per mile. With a typical outbound load of about 360 miles, the cycle gives $0.84 per mile and $414 profit.</figcaption>
+        </figure>
+        <p>That warning also raises the minimum for short loads delivering into that zone: from $150 to $250 profit for a van.</p>
+    </section>
+
+    <section class="al-section">
+        <h2 class="al-h2"><span class="al-num">05</span>Calculate your cycle</h2>
+        <div class="al-calc" id="alCalc">
+            <div class="al-calc-grid">
+                <div class="al-field"><label for="cPago">Inbound pay ($)</label><input id="cPago" type="number" inputmode="decimal" step="any" value="1000"></div>
+                <div class="al-field"><label for="cMi">Inbound miles</label><input id="cMi" type="number" inputmode="decimal" step="any" value="1094"></div>
+                <div class="al-field"><label for="cRpmSal">Typical outbound RPM ($)</label><input id="cRpmSal" type="number" inputmode="decimal" step="any" value="0.595"></div>
+                <div class="al-field"><label for="cMiSal">Outbound load miles</label><input id="cMiSal" type="number" inputmode="decimal" step="any" value="360"></div>
+                <div class="al-field"><label for="cCosto">Your cost per mile ($)</label><input id="cCosto" type="number" inputmode="decimal" step="any" value="0.55"></div>
+            </div>
+            <div class="al-calc-out">
+                <div class="al-out">Inbound RPM<b id="oRpmIda">—</b></div>
+                <div class="al-out">Cycle income<b id="oIngreso">—</b></div>
+                <div class="al-out">Cycle profit<b id="oGan">—</b></div>
+                <div class="al-calc-total"><span>Cycle RPM</span><b id="oCiclo">—</b></div>
+            </div>
+        </div>
+        <div class="al-callout">
+            <div class="al-callout-label">To negotiate</div>
+            <p>"Laredo leaves me with little outbound freight. For the whole trip to work I need more on the way in." If the cycle RPM does not reach your threshold, ask for the difference on the inbound load.</p>
+        </div>
+    </section>
+
+    <section class="al-summary">
+        <h2>In summary</h2>
+        <ul>
+            <li>A load ends when you leave with the next one, not at delivery.</li>
+            <li>Measure the cycle: inbound + a typical outbound load.</li>
+            <li>The app flags a hard zone when your outbound loads pay little.</li>
+        </ul>
+    </section>
+
+    <section class="lesson-quiz" id="lessonQuiz"></section>
+
+    <footer class="lesson-footer">
+        <button id="markCompleteBtn" class="quiz-locked" disabled title="Pass the quiz to continue" onclick="markLessonComplete()">✓ Mark as complete</button>
+        <nav class="lesson-nav">
+            <a href="lesson-1.html" class="al-btn al-btn-ghost">← Previous lesson</a>
+            <a href="lesson-3.html" class="al-btn al-btn-primary">Next: the Zones tab →</a>
+        </nav>
+    </footer>
+</article>
+
+<script src="/academy/js/academy.js"></script>
+<script src="/academy/js/academy-quiz.js"></script>
+<script src="/academy/js/academy-sidebar.js"></script>
+<script>
+    const MODULE_NUM = 3;
+    const LESSON_NUM = 2;
+    const LESSON_LIST = [
+        { num: 1, title: "What a profitable zone is (and how to find yours)", time: '7 min' },
+        { num: 2, title: "States to go into and states to get out of", time: '8 min' },
+        { num: 3, title: "How to use the Zones tab", time: '8 min' },
+        { num: 4, title: "Strategic empty miles: when repositioning pays", time: '8 min' },
+        { num: 5, title: "Thinking two or three loads ahead", time: '8 min' }
+    ];
+    const QUIZ_QUESTIONS = [
+  {
+    "question": "A zone is good to get into but bad to get out of. What do you do?",
+    "options": [
+      "Accept less",
+      "Charge more to go in",
+      "Never go",
+      "Nothing special"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "Inbound $1,000 for 1,000 mi; typical outbound 400 mi at $0.50. Cycle RPM?",
+    "options": [
+      "$1.00",
+      "$0.86",
+      "$0.50",
+      "$0.71"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "When does the app flag a hard-to-leave zone?",
+    "options": [
+      "Every time you deliver in Texas",
+      "With 3+ outbound loads whose RPM is below your cost or below 85% of your average",
+      "When it rains",
+      "When the broker says so"
+    ],
+    "correctIndex": 1
+  },
+  {
+    "question": "If the cycle RPM does not reach your threshold…",
+    "options": [
+      "You accept anyway",
+      "You ask for the difference on the inbound load",
+      "You always reject",
+      "You lower your cost"
+    ],
+    "correctIndex": 1
+  }
+];
+
+    (function () {
+        const v = (id) => Math.max(0, parseFloat(document.getElementById(id).value) || 0);
+        const $ = (n) => (n < 0 ? '-$' : '$') + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        function calc() {
+            const pago = v('cPago'), mi = v('cMi'), rs = v('cRpmSal'), ms = v('cMiSal'), costo = v('cCosto');
+            const ingreso = pago + rs * ms, tot = mi + ms;
+            document.getElementById('oRpmIda').textContent = mi > 0 ? '$' + (pago / mi).toFixed(2) + ' /mi' : '—';
+            document.getElementById('oIngreso').textContent = $(ingreso);
+            document.getElementById('oGan').textContent = $(ingreso - tot * costo);
+            document.getElementById('oCiclo').textContent = tot > 0 ? '$' + (ingreso / tot).toFixed(2) + ' /mi' : '—';
         }
+        document.querySelectorAll('#alCalc input').forEach(i => i.addEventListener('input', calc));
+        calc();
+    })();
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const isEs = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+    function markLessonComplete() {
+        if (window.AcademyProgress) {
+            window.AcademyProgress.completeLesson(MODULE_NUM, LESSON_NUM);
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completed";
+            btn.disabled = true;
+        }
+    }
 
-            if (window.AcademySidebar) {
-                await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, 'Route & Zone Strategy', LESSON_LIST);
-            }
-
-            const alreadyDone = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
-
-            if (alreadyDone) {
-                document.querySelectorAll('#markCompleteBtn, #markCompleteBtn-en').forEach(btn => {
-                    btn.textContent = isEs ? '✓ Completada' : '✓ Completed';
-                    btn.style.background = 'linear-gradient(135deg, #00C896, #00B482)';
-                    btn.classList.remove('quiz-locked');
-                    btn.removeAttribute('title');
-                    btn.disabled = true;
-                    btn.dataset.lessonDone = 'true';
-                });
-                const quizEl = document.getElementById('lessonQuiz');
-                if (quizEl) quizEl.style.display = 'none';
-            } else if (window.AcademyQuiz) {
-                await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
-            }
-        });
-    </script>
-
-  
-
-
-
-
-  <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (window.AcademySidebar) {
+            await window.AcademySidebar.init(MODULE_NUM, LESSON_NUM, "Route and zone strategy", LESSON_LIST);
+        }
+        const done = window.AcademyProgress && await window.AcademyProgress.isLessonComplete(MODULE_NUM, LESSON_NUM);
+        if (done) {
+            const btn = document.getElementById('markCompleteBtn');
+            btn.textContent = "✓ Completed"; btn.disabled = true;
+            const q = document.getElementById('lessonQuiz'); if (q) q.style.display = 'none';
+        } else if (window.AcademyQuiz) {
+            await window.AcademyQuiz.init(MODULE_NUM, LESSON_NUM, QUIZ_QUESTIONS);
+        }
+    });
+</script>
+<script src="/js/cookie-consent.js?v=1.0.0"></script>
 </body></html>
