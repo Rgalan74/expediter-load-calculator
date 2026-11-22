@@ -870,6 +870,10 @@
     "footer_copyright": "© 2026 Smart Load Solution. All rights reserved."
   },
   "lex": {
+    "negotiate": "NEGOTIATE",
+    "feasible": "FEASIBLE",
+    "reason_no_history": "You don't have enough history yet to compare with your average. Save a few loads and I'll compare each offer with your own numbers.",
+    "reason_no_history_target": "You don't have enough history yet to compare with your average. To reach your target on this load, ask for at least ${{target}}/mi.",
     "title": "Lex AI",
     "subtitle": "Your intelligent load advisor",
     "placeholder": "Ask Lex something...",

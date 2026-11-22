@@ -897,6 +897,10 @@
     "footer_copyright": "© 2026 Smart Load Solution. Todos los derechos reservados."
   },
   "lex": {
+    "negotiate": "NEGOCIAR",
+    "feasible": "VIABLE",
+    "reason_no_history": "Aún no tienes historial suficiente para compararla con tu promedio. Guarda algunas cargas y compararé cada oferta con tus propios números.",
+    "reason_no_history_target": "Aún no tienes historial suficiente para compararla con tu promedio. Para llegar a tu objetivo en esta carga, pide al menos ${{target}}/mi.",
     "title": "Lex AI",
     "subtitle": "Tu asesor inteligente de cargas",
     "placeholder": "Pregúntale algo a Lex...",

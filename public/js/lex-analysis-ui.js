@@ -51,9 +51,9 @@ window.lexAI.showLexInsightInPanel = function (analysis, options = {}) {
   let msg = '';
 
   if (isEs) {
-    msg += `${recIcon} **${analysis.recommendation}**\n`;
+    msg += `${recIcon} **${(window.lexRecLabel || String)(analysis.recommendation)}**\n`;
     msg += `📊 RPM: **$${Number(analysis.rpm).toFixed(3)}/mi**`;
-    msg += ` — ${vsSign}${analysis.vsYourAvg}% vs tu promedio ($${Number(analysis.yourAvgRPM).toFixed(3)}/mi)\n`;
+    msg += analysis.vsYourAvg === null ? `\n` : ` — ${vsSign}${analysis.vsYourAvg}% vs tu promedio ($${Number(analysis.yourAvgRPM).toFixed(3)}/mi)\n`;
     if (vsStateNum !== null && analysis.destState) {
       const stSign = vsStateNum >= 0 ? '+' : '';
       msg += `📍 En **${analysis.destState}**: ${stSign}${analysis.vsStateAvg}% vs tu histórico en esa zona (${analysis.stateExperience})\n`;
@@ -65,9 +65,9 @@ window.lexAI.showLexInsightInPanel = function (analysis, options = {}) {
     }
     msg += `\n_¿Quieres que negocie o compare con otra oferta? Escríbeme._`;
   } else {
-    msg += `${recIcon} **${analysis.recommendation}**\n`;
+    msg += `${recIcon} **${(window.lexRecLabel || String)(analysis.recommendation)}**\n`;
     msg += `📊 RPM: **$${Number(analysis.rpm).toFixed(3)}/mi**`;
-    msg += ` — ${vsSign}${analysis.vsYourAvg}% vs your average ($${Number(analysis.yourAvgRPM).toFixed(3)}/mi)\n`;
+    msg += analysis.vsYourAvg === null ? `\n` : ` — ${vsSign}${analysis.vsYourAvg}% vs your average ($${Number(analysis.yourAvgRPM).toFixed(3)}/mi)\n`;
     if (vsStateNum !== null && analysis.destState) {
       const stSign = vsStateNum >= 0 ? '+' : '';
       msg += `📍 **${analysis.destState}**: ${stSign}${analysis.vsStateAvg}% vs your history there (${analysis.stateExperience})\n`;

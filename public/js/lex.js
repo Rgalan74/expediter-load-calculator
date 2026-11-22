@@ -819,8 +819,8 @@ window.openLexChatModal = function () {
           }
 
           const msg = isEs
-            ? `Veo que estás evaluando${routeStr ? ' ' + routeStr : ''} a **$${rpm}/mi** (${cargaActiva.totalMiles} mi).${stateCtx}\n\n**${analysis.recommendation}** — Ganancia estimada: **$${profit}**${reasonText}${actionLine}`
-            : `I see you're evaluating${routeStr ? ' ' + routeStr : ''} at **$${rpm}/mi** (${cargaActiva.totalMiles} mi).${stateCtx}\n\n**${analysis.recommendation}** — Est. profit: **$${profit}**${reasonText}${actionLine}`;
+            ? `Veo que estás evaluando${routeStr ? ' ' + routeStr : ''} a **$${rpm}/mi** (${cargaActiva.totalMiles} mi).${stateCtx}\n\n**${(window.lexRecLabel || String)(analysis.recommendation)}** — Ganancia estimada: **$${profit}**${reasonText}${actionLine}`
+            : `I see you're evaluating${routeStr ? ' ' + routeStr : ''} at **$${rpm}/mi** (${cargaActiva.totalMiles} mi).${stateCtx}\n\n**${(window.lexRecLabel || String)(analysis.recommendation)}** — Est. profit: **$${profit}**${reasonText}${actionLine}`;
 
           if (typeof appendLexMessage === 'function') appendLexMessage(msg);
         }
