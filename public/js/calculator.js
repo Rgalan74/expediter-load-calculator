@@ -55,7 +55,9 @@ function getConfigCosts() {
     // Esquema A — configurado por el usuario en Configuración
     combustible = cfgFuel;
     mantenimiento = _costNum(costs.mantenimiento) ?? 0;
-    comida = _costNum(costs.comida) ?? 0;
+    // La comida es gasto personal y no entra en el costo por milla (2026-11-23);
+    // algunos perfiles viejos aun guardan costs.comida = 0.028.
+    comida = 0;
     costosFijos = _costNum(costs.costosFijos) ?? 0;
   } else if (defFuel !== null && defFuel > 0) {
     // Esquema B — perfil default del onboarding (promedio de industria, $0.55/mi)
@@ -116,7 +118,7 @@ function getUsersCosts() {
     return {
       combustible: fuel,
       mantenimiento: 0,
-      // Comida y hospedaje: promedio del mes POR MILLA (no por dia de viaje)
+      // Hospedaje: promedio del mes POR MILLA (la comida ya no entra: gasto personal)
       comida: hasSplit ? Math.max(0, Number(engine.foodLodgingCpm) || 0) : 0,
       costosFijos: perMile,
       comidaPorDia: 0,
@@ -248,8 +250,13 @@ function renderCpmBreakdown() {
   }
 
   if (Number(b.foodLodgingTotal) > 0 && Number(b.milesLong) > 0) {
-    addRow(isEs ? `Comida y hospedaje (${money(b.foodLodgingTotal)} ÷ ${Number(b.milesLong).toLocaleString()} mi)` : `Food and lodging (${money(b.foodLodgingTotal)} ÷ ${Number(b.milesLong).toLocaleString()} mi)`,
+    addRow(isEs ? `Hospedaje (${money(b.foodLodgingTotal)} ÷ ${Number(b.milesLong).toLocaleString()} mi)` : `Lodging (${money(b.foodLodgingTotal)} ÷ ${Number(b.milesLong).toLocaleString()} mi)`,
       `$${(Number(b.foodLodgingCpm) || 0).toFixed(3)}/mi`, true);
+  }
+  if (Number(b.foodTotal) > 0) {
+    addNote(isEs
+      ? `Comida (${money(b.foodTotal)}): no entra en el costo por milla, es un gasto personal. La ves en Finanzas.`
+      : `Food (${money(b.foodTotal)}): not included in cost per mile, it is a personal expense. You see it in Finances.`);
   }
 
   const _fr = window._lastLoadExp && window._lastLoadExp.fuelRoute;
@@ -286,10 +293,10 @@ function renderCpmBreakdown() {
     addRow(isEs ? 'Gasolina (todo el periodo)' : 'Fuel (whole period)',
       `${money(b.fuelLong)}  →  ${perMile(b.fuelLong, b.milesLong)}`, true);
   }
-  addRow(isEs ? 'Costo por milla de referencia (comida promediada por milla)' : 'Reference cost per mile (food averaged per mile)', '$' + Number(engine.cpm).toFixed(3) + '/mi', true);
+  addRow(isEs ? 'Costo por milla de referencia (hospedaje promediado por milla)' : 'Reference cost per mile (lodging averaged per mile)', '$' + Number(engine.cpm).toFixed(3) + '/mi', true);
   addNote(isEs
-    ? 'En cada carga: gasolina y otros costos por milla + comida y hospedaje por los días que dura + peajes de esa carga.'
-    : 'Per load: fuel and other per-mile costs + food and lodging for the days it takes + that load’s tolls.');
+    ? 'En cada carga: gasolina, otros costos y hospedaje por milla + peajes de esa carga.'
+    : 'Per load: fuel, other costs and lodging per mile + that load’s tolls.');
 
   // Para cuadrar contra Finanzas
   addNote(isEs ? 'Para comparar con Finanzas:' : 'To compare with Finances:');

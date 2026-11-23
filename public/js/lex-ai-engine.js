@@ -162,7 +162,7 @@
                 ? `- Costos de esta carga (cifras del panel, NO las recalcules):
   - Combustible: ${money(e.fuelCost)}
   - Otros costos por milla (variables + fijos mensuales de Configuración): ${money(other)}
-  - Comida y hospedaje (promedio del mes por milla): ${money(e.foodCost)}
+  - Hospedaje (promedio del mes por milla): ${money(e.foodCost)}
   - Peajes: ${money(e.tolls)}
   - Total gastos: ${money(e.total)}
 - Ganancia neta: ${money(d.netProfit)}
@@ -171,7 +171,7 @@
                 : `- Costs of this load (panel figures, do NOT recompute them):
   - Fuel: ${money(e.fuelCost)}
   - Other per-mile costs (variable + monthly fixed from Settings): ${money(other)}
-  - Food and lodging (monthly average per mile): ${money(e.foodCost)}
+  - Lodging (monthly average per mile): ${money(e.foodCost)}
   - Tolls: ${money(e.tolls)}
   - Total expenses: ${money(e.total)}
 - Net profit: ${money(d.netProfit)}

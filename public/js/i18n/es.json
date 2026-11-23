@@ -115,7 +115,7 @@
     "variable_costs_label": "💸 Costos Variables",
     "tolls_other_label": "💵 Peajes + Otros:",
     "fixed_costs_label": "🔧 Costos del vehículo",
-    "food_lodging_label": "🍔 Comida y hotel (promedio del mes por milla)",
+    "food_lodging_label": "🏨 Hotel (promedio del mes por milla)",
     "total_expenses_label": "Total Gastos:",
     "net_loss_label": "💀 Pérdida Neta",
     "margin_short": "margen",
