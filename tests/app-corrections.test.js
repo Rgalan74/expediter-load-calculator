@@ -187,6 +187,33 @@ test('real CPM excludes registered tolls (no double count with load tolls)', asy
   assert.equal(r.cpm, 0.5, '(fuel 1600 + insurance 2400) / 8000 mi; tolls 1200 excluded');
 });
 
+// Decision 2026-11-23: food is a personal expense (stays in Finanzas only);
+// lodging is a trip cost and stays in the per-mile cost.
+test('real CPM excludes food but keeps lodging', async () => {
+  const months = ['2032-01', '2032-02', '2032-03', '2032-04'];
+  const loads = months.map(m => ({ date: `${m}-10`, totalMiles: 2000, userId: 'u' }));
+  const expenses = months.flatMap(m => [
+    { date: `${m}-12`, category: 'fuel', amount: 400 },
+    { date: `${m}-12`, category: 'insurance', amount: 600 },
+    { date: `${m}-14`, category: 'food', amount: 500 },
+    { date: `${m}-15`, category: 'lodging', amount: 200 }
+  ]);
+  const snap = rows => ({ forEach: fn => rows.forEach(r => fn({ data: () => r })) });
+  const query = rows => { const q = { where: () => q, get: async () => snap(rows) }; return q; };
+  const w = {
+    console, debugLog() {}, document: { addEventListener() {} },
+    firebase: { firestore: () => ({ collection: n => query(n === 'loads' ? loads : expenses) }) },
+    CustomCategories: { getAllCategories: async () => [] }
+  };
+  w.window = w;
+  vm.runInContext(fs.readFileSync(path.join(root, 'public/js/cpm-engine.js'), 'utf8'), vm.createContext(w), { filename: 'cpm-engine.js' });
+  const r = await w.CPMEngine._fromRealData('u', 4, 4);
+  assert.equal(r.source, 'real');
+  assert.equal(r.cpm, 0.6, '(fuel 1600 + insurance 2400 + lodging 800) / 8000 mi; food 2000 excluded');
+  assert.equal(r.foodLodgingCpm, 0.1, 'lodging only: 800 / 8000');
+  assert.equal(r.breakdown.foodTotal, 2000, 'food reported for information');
+});
+
 // D5 (approved 2026-11-14): historical average RPM is only a commercial
 // reference; it must not raise the ACCEPT threshold of the live panel.
 test('decision panel thresholds ignore historical average RPM (D5)', () => {
@@ -366,7 +393,8 @@ test('real CPM: current fuel price, food/lodging per travel day, rest per mile',
   assert.equal(r.fuelCpm, 0.2, '3.80 / 19, not receipts (2400 / 8000 = 0.30)');
   assert.equal(r.breakdown.receiptsFuelCpm, 0.3);
   assert.equal(r.otherCpm, 0.3, 'insurance 2400 / 8000 mi, without food/lodging');
-  assert.equal(r.foodPerDay, Math.round((1200 / (4 * days)) * 100) / 100, 'food+lodging 1200 / travel days');
+  // Desde 2026-11-23 la comida no entra: solo hospedaje (400) / días de viaje
+  assert.equal(r.foodPerDay, Math.round((400 / (4 * days)) * 100) / 100, 'lodging 400 / travel days (food excluded)');
 
   // Sin precio en Configuración: vuelve a los recibos
   delete w.currentUser.profileData.fuelPricePerGallon;

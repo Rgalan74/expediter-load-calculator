@@ -184,7 +184,10 @@ const CPMEngine = {
       .get();
 
     let nonFuelTotal = 0;
-    let foodLodgingTotal = 0;   // comida + hospedaje: por dia de viaje
+    // Hospedaje (hotel) por milla. El nombre "foodLodging" se conserva por
+    // compatibilidad; desde 2026-11-23 la comida ya no entra (ver foodTotal).
+    let foodLodgingTotal = 0;
+    let foodTotal = 0;          // comida: gasto personal, solo informativo
     let fixedHistTotal = 0;     // fijos mensuales registrados (solo para comparar)
     let fuelLong = 0;
     let fuelRecent = 0;
@@ -216,6 +219,10 @@ const CPMEngine = {
       if (String(cat).toLowerCase() === 'tolls') return;
 
       countExpenses++;
+      monthsWithExpenses.add(ym);
+      // Comida: gasto personal (decision de Ricardo, 2026-11-23). Se ve en
+      // Finanzas, pero no entra en el costo por milla de las cargas.
+      if (cat === 'food') { foodTotal += amount; return; }
       const catKey = cat || 'other';
       byCategory[catKey] = (byCategory[catKey] || 0) + amount;
       if (cat === 'fuel') {
@@ -223,10 +230,9 @@ const CPMEngine = {
         if (ym >= fuelFirstMonth) fuelRecent += amount;
       } else {
         nonFuelTotal += amount;
-        if (cat === 'food' || cat === 'lodging') foodLodgingTotal += amount;
+        if (cat === 'lodging') foodLodgingTotal += amount;
         else if (fixedIds.has(cat)) fixedHistTotal += amount;
       }
-      monthsWithExpenses.add(ym);
     });
 
     // Gastos insuficientes para confiar en ellos: seguir con la estimacion
@@ -248,9 +254,10 @@ const CPMEngine = {
     const current = this.currentFuel();
     const fuelCpm = current ? current.cpm : receiptsFuelCpm;
 
-    // Comida y hospedaje: gasto general del mes repartido POR MILLA (decision
-    // de Ricardo, 2026-11-22). No dependen de una carga concreta (el hotel se paga
-    // sobre todo esperando carga), asi que cada milla paga su parte.
+    // Hospedaje: gasto general del mes repartido POR MILLA (decision de Ricardo,
+    // 2026-11-22). No depende de una carga concreta (el hotel se paga sobre todo
+    // esperando carga), asi que cada milla paga su parte. La comida no entra
+    // (gasto personal, decision 2026-11-23).
     // foodPerDay se conserva solo como dato informativo.
     const foodPerDay = travelDays > 0 ? foodLodgingTotal / travelDays : 0;
     const foodLodgingCpm = foodLodgingTotal / milesLong;
@@ -327,6 +334,7 @@ const CPMEngine = {
         fuelPriceUpdatedAt: current ? current.updatedAt : null,
         receiptsFuelCpm,
         foodLodgingTotal,
+        foodTotal,
         travelDays: Math.round(travelDays * 10) / 10,
         foodPerDay,
         foodLodgingCpm,
