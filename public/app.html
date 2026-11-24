@@ -1259,7 +1259,7 @@
               <!-- $/Mile -->
               <div class="fin-kpi-card fin-kpi-slate">
                 <span class="fin-kpi-icon">🎯</span>
-                <h4 class="fin-kpi-label" data-i18n="finances.kpi_cost_per_mile">Cost/mi</h4>
+                <h4 class="fin-kpi-label" data-i18n="finances.kpi_cost_per_mile">Cost/mi excl. food</h4>
                 <p class="fin-kpi-value" id="costPerMile">$0.00</p>
               </div>
 
@@ -2245,6 +2245,15 @@
                 <input type="number" id="otherFixed" name="otherFixed" step="1" value="" placeholder="0" oninput="calculateTotals()"
                   class="border p-3 w-full rounded-lg">
                 <p class="text-xs text-gray-500 mt-1" data-i18n="settings_ui.other_fixed_hint">Phone, internet, etc.</p>
+              </div>
+
+              <div>
+                <label for="lodgingMonthly" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="settings.label_lodging">
+                  Lodging — Monthly ($)
+                </label>
+                <input type="number" id="lodgingMonthly" name="lodgingMonthly" step="1" value="" placeholder="0"
+                  class="border p-3 w-full rounded-lg">
+                <p class="text-xs text-gray-500 mt-1" data-i18n="settings_ui.lodging_hint">Hotel on the road. 0 if you sleep in the van. Once you have real history, the app uses your average from Finances.</p>
               </div>
             </div>
 

@@ -90,7 +90,9 @@ function updateBusinessMetrics() {
     const totalRevenue = financesData.reduce((sum, load) => sum + Number(load.totalCharge || 0), 0);
     const totalExpenses = expensesData.reduce((sum, expense) => sum + Number(expense.amount || 0), 0);
 
-    const costPerMile = totalMiles > 0 ? totalExpenses / totalMiles : 0;
+    // Costo del negocio por milla: sin la comida (gasto personal), igual que la calculadora
+    const businessExp = typeof window.businessExpensesTotal === 'function' ? window.businessExpensesTotal(expensesData) : totalExpenses;
+    const costPerMile = totalMiles > 0 ? businessExp / totalMiles : 0;
     const averageRPM = totalMiles > 0 ? totalRevenue / totalMiles : 0;
     const efficiency = totalMiles > 0 ? (totalLoadedMiles / totalMiles) * 100 : 0;
 

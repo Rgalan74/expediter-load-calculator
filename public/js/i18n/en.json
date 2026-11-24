@@ -251,7 +251,7 @@
     "lex_unavailable": "Could not access Lex history analysis ⚙️"
   },
   "finances": {
-    "kpi_cost_per_mile": "Cost/mi",
+    "kpi_cost_per_mile": "Cost/mi excl. food",
     "label_home_state": "🏠 Home State (for Tax Report)",
     "expense_description_placeholder": "Expense description",
     "title": "💰 Financial Management",
@@ -597,6 +597,7 @@
     "cost_info_real": "With 3+ months of activity, 20+ loads and 3+ months of expenses (including fuel) in Finances, it uses your real costs instead. The panel shows which one it is using.",
     "label_insurance": "Insurance — Monthly ($)",
     "label_other_costs": "Other Costs — Monthly ($)",
+    "label_lodging": "Lodging — Monthly ($)",
     "label_total_cpm": "Total CPM (Cost per Mile)",
     "section_preferences": "🎯 Preferences",
     "label_min_rpm": "Minimum RPM ($)",
@@ -1832,6 +1833,7 @@
     "business_name": "Business Name",
     "home_state": "Home State",
     "other_fixed_hint": "Phone, internet, etc.",
+    "lodging_hint": "Hotel on the road. 0 if you sleep in the van. Once you have real history, the app uses your average from Finances.",
     "auto_summary": "🧮 Auto Summary",
     "monthly_fixed_total": "Monthly Fixed Total:",
     "fixed_cost_per_mile": "Fixed Cost per Mile:",
