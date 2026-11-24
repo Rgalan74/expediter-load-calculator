@@ -288,6 +288,15 @@ function saveUserConfiguration() {
         return;
     }
 
+    // No guardar antes de que el formulario tenga los datos del usuario: si no,
+    // los campos vacios sobrescriben sus costos con ceros.
+    if (!window._settingsFormLoaded) {
+        const _esL = (window.i18n?.currentLang || 'en') === 'es';
+        showConfigMessage(_esL ? 'Espera un momento: estamos cargando tu configuración.' : 'One moment: your settings are still loading.', 'error');
+        if (!window._settingsLoading) loadUserConfiguration();
+        return;
+    }
+
     if (!validateVariableCosts(true)) return;
 
     // ✅ OBTENER BOTÓN DE GUARDAR
@@ -334,9 +343,11 @@ function saveUserConfiguration() {
             realCostsPeriod: document.getElementById('realCostsPeriod')?.value || '3',
 
             // Metas de negocio
-            targetRPM: parseFloat(document.getElementById('targetRPM')?.value) || 1.25,
+            // RPM minimo vacio o 0 = sin piso (antes se guardaba $1.25 sin avisar).
+            targetRPM: Math.max(0, parseFloat(document.getElementById('targetRPM')?.value) || 0),
             monthlyMilesGoal: parseFloat(document.getElementById('monthlyMilesGoal')?.value) || 8000,
-            targetProfit: parseFloat(document.getElementById('targetProfit')?.value) || 30
+            // Margen vacio = 20%, el mismo valor que usa la calculadora por defecto (antes 30%).
+            targetProfit: parseFloat(document.getElementById('targetProfit')?.value) || 20
         };
 
         debugLog(" Configuration to save:", config);
@@ -485,6 +496,7 @@ function loadUserConfiguration() {
 
     // Primero intentar cargar desde Firestore
     const userRef = firebase.firestore().collection("users").doc(window.currentUser.uid);
+    window._settingsLoading = true;
 
     return userRef.get()
         .then((doc) => {
@@ -502,12 +514,15 @@ function loadUserConfiguration() {
                 } else {
                     debugLog(" No saved configuration found");
                     showConfigMessage("No hay configuración guardada", "error");
+                    // Usuario nuevo: no hay nada que sobrescribir, puede guardar
+                    window._settingsFormLoaded = true;
                     return;
                 }
             }
 
             // Aplicar configuración a los campos
             applyConfigurationToForm(config);
+            window._settingsFormLoaded = true;
 
             return config;
         })
@@ -521,6 +536,7 @@ function loadUserConfiguration() {
                     const config = JSON.parse(backupConfig);
                     debugLog(" Configuration loaded from localStorage backup:", config);
                     applyConfigurationToForm(config);
+                    window._settingsFormLoaded = true;
                     return config;
                 } else {
                     showConfigMessage("No hay configuración guardada", "error");
@@ -529,7 +545,8 @@ function loadUserConfiguration() {
                 debugLog(" Error loading backup configuration:", backupError);
                 showConfigMessage(" Error al cargar configuración", "error");
             }
-        });
+        })
+        .finally(() => { window._settingsLoading = false; });
 }
 
 // 8. FUNCION AUXILIAR PARA APLICAR CONFIGURACIÃ“N AL FORMULARIO

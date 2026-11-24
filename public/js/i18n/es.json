@@ -1839,7 +1839,7 @@
     "mpg_hint": "MPG (tu vehículo)",
     "calculated_cost": "Costo calculado: ",
     "keep_updated": "Mantén estos valores al día para que la ganancia de cada carga sea exacta.",
-    "min_rate_hint": "Tarifa mínima que aceptas",
+    "min_rate_hint": "Tarifa mínima que aceptas. Déjalo en 0 si no quieres un mínimo.",
     "monthly_miles_hint": "Meta de millas al mes",
     "profit_target_hint": "Meta de ganancia neta",
     "vehicle_type_ph": "Escribe el tipo de vehículo",

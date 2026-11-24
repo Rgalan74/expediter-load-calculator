@@ -1786,6 +1786,12 @@ function showDecisionPanel(calculationData = {}) {
           _coDetailEl.textContent = _lang === 'es'
             ? `Esta carga pierde dinero. Necesitas mínimo $${_breakevenRate.toLocaleString()} para cubrir costos. Contraoferta en $${_idealRate.toLocaleString()} o rechaza.`
             : `This load loses money. You need at least $${_breakevenRate.toLocaleString()} to cover costs. Counter at $${_idealRate.toLocaleString()} or pass.`;
+        } else if (_gapAmount <= 0) {
+          // La tarifa ya llega al objetivo: EVALUAR viene de la ganancia por dia
+          // o de ser carga corta (antes decia "faltan $-32").
+          _coDetailEl.textContent = _lang === 'es'
+            ? `La tarifa ya cubre tu objetivo de $${_targetRate.toLocaleString()}. Revisa "Tenlo en cuenta": la ganancia por día o la carga corta.`
+            : `The rate already covers your $${_targetRate.toLocaleString()} target. Check "Keep in mind": profit per day or short load.`;
         } else {
           // Misma regla que el semaforo: con sueldo configurado, el objetivo
           // es costo + sueldo de los dias de la carga; sin sueldo, el margen.
