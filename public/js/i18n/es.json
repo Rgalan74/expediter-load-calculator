@@ -159,6 +159,7 @@
     "total_miles_label": "Millas Totales",
     "financial_info_title": "💰 Información Financiera",
     "tolls_usd_label": "Peajes ($)",
+    "calc_tolls_btn": "🛣️ Calcular peaje",
     "other_costs_usd_label": "Cargos Extra al Cliente ($)",
     "calculating": "Calculando...",
     "rpm_short": "RPM",

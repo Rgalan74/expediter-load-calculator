@@ -677,6 +677,9 @@
                 <div>
                   <label class="block text-base font-medium mb-2" data-i18n="calculator.tolls_usd_label">Tolls ($)</label>
                   <input type="number" id="tolls" placeholder="0" class="border p-3 w-full rounded-lg text-base">
+                  <button type="button" id="calcTollsBtn" onclick="calculateRouteTolls()" class="btn-secondary mt-2"
+                    style="min-height:36px;padding:0 14px;font-size:14px;" data-i18n="calculator.calc_tolls_btn">🛣️ Calculate toll</button>
+                  <p id="calcTollsMsg" class="text-xs text-gray-500 mt-1" style="display:none;"></p>
                 </div>
                 <div>
                   <label class="block text-base font-medium mb-2" data-i18n="calculator.other_costs_usd_label">Extra Charges to Customer ($)</label>
