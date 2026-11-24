@@ -1840,7 +1840,7 @@
     "mpg_hint": "MPG (your vehicle)",
     "calculated_cost": "Calculated cost: ",
     "keep_updated": "Keep these values updated to get accurate profit calculations on every load.",
-    "min_rate_hint": "Minimum rate you accept",
+    "min_rate_hint": "Minimum rate you accept. Leave it at 0 if you do not want a minimum.",
     "monthly_miles_hint": "Monthly miles goal",
     "profit_target_hint": "Net profit target",
     "vehicle_type_ph": "Enter vehicle type",

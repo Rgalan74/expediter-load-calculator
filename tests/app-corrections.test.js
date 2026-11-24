@@ -84,8 +84,30 @@ test('settings UI consistently declares per-mile decimal costs', () => {
   }
 });
 
+// Guard (2026-11-23): saving before the form has the user's data would
+// overwrite their costs with empty fields.
+test('settings does not save before the user configuration is loaded', async () => {
+  const f = fixture();
+  f.w._settingsFormLoaded = false;
+  f.w._settingsLoading = true; // ya cargando: no relanza la lectura
+  await f.w.saveUserConfiguration();
+  assert.equal(f.writes.length, 0, 'nothing saved while loading');
+  assert.ok(f.messages.length > 0, 'user is told to wait');
+});
+
+test('settings: empty minimum RPM means no floor, empty margin means 20%', async () => {
+  const f = fixture();
+  f.w._settingsFormLoaded = true;
+  f.el('targetRPM').value = '';
+  f.el('targetProfit').value = '';
+  await f.w.saveUserConfiguration();
+  assert.equal(f.writes[0].data.targetRPM, 0, 'not the old silent $1.25');
+  assert.equal(f.writes[0].data.targetProfit, 20, 'same default as the calculator');
+});
+
 test('settings preserves decimal/zero values and blocks ambiguous historical amounts', async () => {
   const f = fixture();
+  f.w._settingsFormLoaded = true;
   await f.w.saveUserConfiguration();
   assert.equal(f.writes[0].data.costs.totalCPM, .45);
   f.el('maintenancePerMile').value = '0';
