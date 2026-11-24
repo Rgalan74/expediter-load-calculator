@@ -207,13 +207,36 @@ function calculateRoute() {
             if (result.routes[0].waypoint_order) {
                 debugLog('[DESTINATIONS] 📍 Google optimized waypoint order:', result.routes[0].waypoint_order);
             }
+            storeRouteTolls(result); // antes del calculo del panel
             updateMileage(result);
             storeRouteStateMiles(origin, finalDestination, result);
             renderMapRoute(result); // Render route on map
         } else {
+            window._lastRouteTolls = null;
             debugLog(`[DESTINATIONS] ❌ Route calculation failed: ${status}`);
         }
     });
+}
+
+// Peajes de la ruta (aprobado 2026-11-24): Google no da el monto en esta ruta,
+// pero las instrucciones marcan los tramos "Toll road" / "peaje". Sin costo extra.
+function storeRouteTolls(result) {
+    try {
+        const roads = [];
+        let hasTolls = false;
+        (result.routes[0].legs || []).forEach(leg => (leg.steps || []).forEach(step => {
+            const html = String(step.instructions || '');
+            if (!/toll|peaje/i.test(html)) return;
+            hasTolls = true;
+            const nombres = [...html.matchAll(/<b>([^<]+)<\/b>/g)].map(m => m[1].trim())
+                .filter(n => /^(I|US|SR|NJ|NY|PA|FL|IL|IN|OH|MA|TX|CA)[- ]\d|turnpike|tpke|toll|expy|express|pkwy|parkway|bridge|tunnel|puente|túnel|autopista/i.test(n));
+            const nombre = nombres[0];
+            if (nombre && !roads.includes(nombre)) roads.push(nombre);
+        }));
+        window._lastRouteTolls = { hasTolls, roads: roads.slice(0, 3) };
+    } catch (e) {
+        window._lastRouteTolls = null;
+    }
 }
 
 // Millas por estado de la ruta (avisos "Entering X" de Google) para el precio

@@ -279,6 +279,21 @@ test('decision panel adds the load tolls to cost and thresholds', () => {
   assert.equal(sin.thresholds.tolls, 0);
 });
 
+// Route toll memory (approved 2026-11-24): exact city pair first, then same states.
+test('suggests the toll paid before on the same route or a similar one', () => {
+  const f = fixture();
+  const w = f.w;
+  w._userRouteTolls = {
+    byCity: { 'newark, nj>boston, ma': { tolls: 45, date: '2026-10-12' } },
+    byStates: { 'NJ>MA': { tolls: 45, date: '2026-10-12' }, 'PA>OH': { tolls: 30, date: '2026-09-01' } }
+  };
+  const exacta = w.userRouteToll('Newark, NJ, USA', 'Boston, MA, USA', 'NJ', 'MA');
+  assert.equal(exacta.tolls, 45); assert.equal(exacta.exact, true);
+  const parecida = w.userRouteToll('Pittsburgh, PA, USA', 'Columbus, OH, USA', 'PA', 'OH');
+  assert.equal(parecida.tolls, 30); assert.equal(parecida.exact, false);
+  assert.equal(w.userRouteToll('Dallas, TX, USA', 'Houston, TX, USA', 'TX', 'TX'), null);
+});
+
 // Minimum RPM from Configuración (approved 2026-11-13) is a floor for ACCEPT.
 test('decision panel uses configured minimum RPM as floor for ACCEPT', () => {
   const f = fixture();
