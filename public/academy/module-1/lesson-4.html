@@ -82,10 +82,10 @@
         <h2 class="al-h2"><span class="al-num">02</span>Caso: la carga que "pagaba bien"</h2>
         <p><strong>Dallas → Chicago</strong> por <strong>$1,200</strong>: 927 millas cargadas, 50 en vacío hasta el pickup y 100 para reposicionarte. Mirada rápida: $1,200 ÷ 927 = <strong>$1.29 por milla</strong>. Parece buena.</p>
         <table class="al-table">
-            <caption>Ganancia real (costo de $0.634 por milla)</caption>
+            <caption>Ganancia real (costo de $0.534 por milla)</caption>
             <tr><td>Pago</td><td class="al-num-cell">$1,200</td></tr>
-            <tr><td>Costos: 1,077 millas × $0.634</td><td class="al-num-cell">−$683</td></tr>
-            <tr class="al-total"><td>Ganancia real</td><td class="al-num-cell">$517</td></tr>
+            <tr><td>Costos: 1,077 millas × $0.534</td><td class="al-num-cell">−$575</td></tr>
+            <tr class="al-total"><td>Ganancia real</td><td class="al-num-cell">$625</td></tr>
         </table>
         <table class="al-table">
             <caption>Tiempo que te ocupa</caption>
@@ -98,29 +98,29 @@
             <tr class="al-total"><td>Total</td><td class="al-num-cell">23 h</td></tr>
         </table>
         <div class="al-stat">
-            <div class="al-stat-value">$22.50</div>
-            <div class="al-stat-label">por hora ($517 ÷ 23 horas)</div>
+            <div class="al-stat-value">$27.17</div>
+            <div class="al-stat-label">por hora ($625 ÷ 23 horas)</div>
         </div>
     </section>
 
     <section class="al-section">
         <h2 class="al-h2"><span class="al-num">03</span>La otra opción</h2>
-        <p><strong>Dallas → Houston</strong> por <strong>$400</strong>: 239 millas cargadas y 30 en vacío. Costos: 269 × $0.634 = $171. Ganancia real: <strong>$229</strong> en 6.5 horas (0.5 vacío, 1 carga, 4 manejo, 1 descarga).</p>
+        <p><strong>Dallas → Houston</strong> por <strong>$400</strong>: 239 millas cargadas y 30 en vacío. Costos: 269 × $0.534 = $144. Ganancia real: <strong>$256</strong> en 6.5 horas (0.5 vacío, 1 carga, 4 manejo, 1 descarga).</p>
         <div class="al-compare">
             <table class="al-table">
                 <caption>A · Dallas → Chicago</caption>
-                <tr><td>Ganancia real</td><td class="al-num-cell">$517</td></tr>
+                <tr><td>Ganancia real</td><td class="al-num-cell">$625</td></tr>
                 <tr><td>Tiempo</td><td class="al-num-cell">23 h</td></tr>
-                <tr class="al-total"><td>Por hora</td><td class="al-num-cell">$22.50</td></tr>
+                <tr class="al-total"><td>Por hora</td><td class="al-num-cell">$27.17</td></tr>
             </table>
             <table class="al-table">
                 <caption>B · Dallas → Houston, dos veces</caption>
-                <tr><td>Ganancia real</td><td class="al-num-cell">$459</td></tr>
+                <tr><td>Ganancia real</td><td class="al-num-cell">$512</td></tr>
                 <tr><td>Tiempo</td><td class="al-num-cell">13 h</td></tr>
-                <tr class="al-total"><td>Por hora</td><td class="al-num-cell">$35.30</td></tr>
+                <tr class="al-total"><td>Por hora</td><td class="al-num-cell">$39.38</td></tr>
             </table>
         </div>
-        <p>Haciendo B dos veces ganas casi lo mismo ($459 frente a $517) <strong>en 10 horas menos</strong>, que puedes usar para descansar o para otra carga.</p>
+        <p>Haciendo B dos veces ganas un poco menos ($512 frente a $625) <strong>en 10 horas menos</strong>, que puedes usar para descansar o para otra carga.</p>
     </section>
 
     <section class="al-section">
@@ -138,7 +138,7 @@
             <div class="al-calc-grid">
                 <div class="al-field"><label for="gPago">Pago total ($)</label><input id="gPago" type="number" inputmode="decimal" step="any" value="1200"></div>
                 <div class="al-field"><label for="gMillas">Millas totales (con vacío y reposicionamiento)</label><input id="gMillas" type="number" inputmode="decimal" step="any" value="1077"></div>
-                <div class="al-field"><label for="gCost">Tu costo real por milla ($)</label><input id="gCost" type="number" inputmode="decimal" step="0.001" value="0.634"></div>
+                <div class="al-field"><label for="gCost">Tu costo real por milla ($)</label><input id="gCost" type="number" inputmode="decimal" step="0.001" value="0.534"></div>
                 <div class="al-field"><label for="gHoras">Horas totales (manejo, carga, esperas…)</label><input id="gHoras" type="number" inputmode="decimal" step="0.5" value="23"></div>
             </div>
             <div class="al-calc-out">
@@ -217,12 +217,12 @@
     "correctIndex": 2
   },
   {
-    "question": "Dallas → Chicago deja $517 de ganancia real en 23 horas. ¿Cuánto es por hora?",
+    "question": "Dallas → Chicago deja $625 de ganancia real en 23 horas. ¿Cuánto es por hora?",
     "options": [
-      "$52.17",
-      "$22.50",
+      "$62.50",
+      "$27.17",
       "$15.50",
-      "$35.30"
+      "$39.38"
     ],
     "correctIndex": 1
   },

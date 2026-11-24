@@ -82,10 +82,10 @@
         <h2 class="al-h2"><span class="al-num">02</span>Case: the load that "paid well"</h2>
         <p><strong>Dallas → Chicago</strong> for <strong>$1,200</strong>: 927 loaded miles, 50 empty to the pickup and 100 to reposition. Quick look: $1,200 ÷ 927 = <strong>$1.29 per mile</strong>. Looks good.</p>
         <table class="al-table">
-            <caption>Real profit ($0.634 cost per mile)</caption>
+            <caption>Real profit ($0.534 cost per mile)</caption>
             <tr><td>Pay</td><td class="al-num-cell">$1,200</td></tr>
-            <tr><td>Costs: 1,077 miles × $0.634</td><td class="al-num-cell">−$683</td></tr>
-            <tr class="al-total"><td>Real profit</td><td class="al-num-cell">$517</td></tr>
+            <tr><td>Costs: 1,077 miles × $0.534</td><td class="al-num-cell">−$575</td></tr>
+            <tr class="al-total"><td>Real profit</td><td class="al-num-cell">$625</td></tr>
         </table>
         <table class="al-table">
             <caption>Time it takes</caption>
@@ -98,29 +98,29 @@
             <tr class="al-total"><td>Total</td><td class="al-num-cell">23 h</td></tr>
         </table>
         <div class="al-stat">
-            <div class="al-stat-value">$22.50</div>
-            <div class="al-stat-label">per hour ($517 ÷ 23 hours)</div>
+            <div class="al-stat-value">$27.17</div>
+            <div class="al-stat-label">per hour ($625 ÷ 23 hours)</div>
         </div>
     </section>
 
     <section class="al-section">
         <h2 class="al-h2"><span class="al-num">03</span>The other option</h2>
-        <p><strong>Dallas → Houston</strong> for <strong>$400</strong>: 239 loaded miles and 30 empty. Costs: 269 × $0.634 = $171. Real profit: <strong>$229</strong> in 6.5 hours (0.5 empty, 1 loading, 4 driving, 1 unloading).</p>
+        <p><strong>Dallas → Houston</strong> for <strong>$400</strong>: 239 loaded miles and 30 empty. Costs: 269 × $0.534 = $144. Real profit: <strong>$256</strong> in 6.5 hours (0.5 empty, 1 loading, 4 driving, 1 unloading).</p>
         <div class="al-compare">
             <table class="al-table">
                 <caption>A · Dallas → Chicago</caption>
-                <tr><td>Real profit</td><td class="al-num-cell">$517</td></tr>
+                <tr><td>Real profit</td><td class="al-num-cell">$625</td></tr>
                 <tr><td>Time</td><td class="al-num-cell">23 h</td></tr>
-                <tr class="al-total"><td>Per hour</td><td class="al-num-cell">$22.50</td></tr>
+                <tr class="al-total"><td>Per hour</td><td class="al-num-cell">$27.17</td></tr>
             </table>
             <table class="al-table">
                 <caption>B · Dallas → Houston, twice</caption>
-                <tr><td>Real profit</td><td class="al-num-cell">$459</td></tr>
+                <tr><td>Real profit</td><td class="al-num-cell">$512</td></tr>
                 <tr><td>Time</td><td class="al-num-cell">13 h</td></tr>
-                <tr class="al-total"><td>Per hour</td><td class="al-num-cell">$35.30</td></tr>
+                <tr class="al-total"><td>Per hour</td><td class="al-num-cell">$39.38</td></tr>
             </table>
         </div>
-        <p>Doing B twice you make almost the same ($459 vs $517) <strong>in 10 fewer hours</strong>, which you can use to rest or for another load.</p>
+        <p>Doing B twice you make a bit less ($512 vs $625) <strong>in 10 fewer hours</strong>, which you can use to rest or for another load.</p>
     </section>
 
     <section class="al-section">
@@ -138,7 +138,7 @@
             <div class="al-calc-grid">
                 <div class="al-field"><label for="gPago">Total pay ($)</label><input id="gPago" type="number" inputmode="decimal" step="any" value="1200"></div>
                 <div class="al-field"><label for="gMillas">Total miles (with empty and repositioning)</label><input id="gMillas" type="number" inputmode="decimal" step="any" value="1077"></div>
-                <div class="al-field"><label for="gCost">Your real cost per mile ($)</label><input id="gCost" type="number" inputmode="decimal" step="0.001" value="0.634"></div>
+                <div class="al-field"><label for="gCost">Your real cost per mile ($)</label><input id="gCost" type="number" inputmode="decimal" step="0.001" value="0.534"></div>
                 <div class="al-field"><label for="gHoras">Total hours (driving, loading, waiting…)</label><input id="gHoras" type="number" inputmode="decimal" step="0.5" value="23"></div>
             </div>
             <div class="al-calc-out">
@@ -217,12 +217,12 @@
     "correctIndex": 2
   },
   {
-    "question": "Dallas → Chicago leaves $517 in real profit over 23 hours. How much is that per hour?",
+    "question": "Dallas → Chicago leaves $625 in real profit over 23 hours. How much is that per hour?",
     "options": [
-      "$52.17",
-      "$22.50",
+      "$62.50",
+      "$27.17",
       "$15.50",
-      "$35.30"
+      "$39.38"
     ],
     "correctIndex": 1
   },
