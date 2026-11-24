@@ -159,6 +159,7 @@
     "total_miles_label": "Total Miles",
     "financial_info_title": "💰 Financial Information",
     "tolls_usd_label": "Tolls ($)",
+    "calc_tolls_btn": "🛣️ Calculate toll",
     "other_costs_usd_label": "Extra Charges to Customer ($)",
     "calculating": "Calculating...",
     "rpm_short": "RPM",

@@ -218,6 +218,100 @@ function calculateRoute() {
     });
 }
 
+// ============================================================
+// BOTON "CALCULAR PEAJE" (aprobado 2026-11-24): Routes API de Google, solo
+// cuando el usuario lo pide. Cada consulta se cobra en el nivel Enterprise
+// (1,000 gratis al mes), asi que se guarda el resultado por ruta 30 dias y
+// hay un tope de 30 consultas al dia por dispositivo.
+// ============================================================
+const TOLL_CACHE_KEY = 'sls_toll_cache_v1';
+const TOLL_CACHE_DAYS = 30;
+const TOLL_DAILY_MAX = 30;
+
+function _tollCacheRead() {
+    try { return JSON.parse(localStorage.getItem(TOLL_CACHE_KEY) || '{}') || {}; } catch (e) { return {}; }
+}
+function _tollCacheWrite(c) {
+    try { localStorage.setItem(TOLL_CACHE_KEY, JSON.stringify(c)); } catch (e) { /* sin localStorage */ }
+}
+
+async function calculateRouteTolls() {
+    const es = (window.i18n?.currentLang || 'en') === 'es';
+    const btn = document.getElementById('calcTollsBtn');
+    const msg = document.getElementById('calcTollsMsg');
+    const tollsEl = document.getElementById('tolls');
+    const say = (texto) => { if (msg) { msg.textContent = texto; msg.style.display = ''; } };
+    const origin = document.getElementById('origin')?.value?.trim();
+    const dests = getAllDestinations();
+    if (!origin || !dests.length) {
+        say(es ? 'Primero escribe el origen y el destino.' : 'Enter the origin and destination first.');
+        return;
+    }
+    const key = [origin, ...dests].map(s => s.toLowerCase().replace(/\s+/g, ' ')).join('>');
+    const cache = _tollCacheRead();
+    const hoy = new Date().toISOString().slice(0, 10);
+    const poner = (r, desdeCache) => {
+        if (r.amount > 0) {
+            tollsEl.value = String(r.amount);
+            tollsEl.dispatchEvent(new Event('input', { bubbles: true }));
+            tollsEl.dispatchEvent(new Event('change', { bubbles: true }));
+            say(es
+                ? `Google estima $${r.amount.toFixed(2)} (tarifa de auto, pago en efectivo).${desdeCache ? ' Guardado de una consulta anterior.' : ''} Corrígelo si tu van paga como comercial o tienes E-ZPass.`
+                : `Google estimates $${r.amount.toFixed(2)} (car rate, cash).${desdeCache ? ' Saved from an earlier lookup.' : ''} Adjust it if your van pays a commercial rate or you have E-ZPass.`);
+        } else if (r.hasTolls) {
+            say(es ? 'Google sabe que esta ruta tiene peajes, pero no tiene el monto. Escríbelo tú.' : 'Google knows this route has tolls but has no amount. Enter it yourself.');
+        } else {
+            say(es ? 'Google no encuentra peajes en esta ruta.' : 'Google finds no tolls on this route.');
+        }
+    };
+
+    // Resultado guardado de esta misma ruta
+    const guardado = cache.routes && cache.routes[key];
+    if (guardado && (Date.now() - guardado.ts) < TOLL_CACHE_DAYS * 86400000) {
+        poner(guardado, true);
+        return;
+    }
+    // Tope diario por dispositivo
+    const usados = cache.day === hoy ? (cache.count || 0) : 0;
+    if (usados >= TOLL_DAILY_MAX) {
+        say(es ? 'Llegaste al máximo de cálculos de peaje de hoy. Escríbelo a mano.' : 'You reached today\'s toll lookup limit. Enter it manually.');
+        return;
+    }
+
+    const textoBtn = btn ? btn.textContent : '';
+    if (btn) { btn.disabled = true; btn.textContent = es ? 'Calculando…' : 'Calculating…'; }
+    try {
+        const { Route } = await google.maps.importLibrary('routes');
+        const peticion = {
+            origin, destination: dests[dests.length - 1], travelMode: 'DRIVING',
+            extraComputations: ['TOLLS'],
+            routeModifiers: { vehicleInfo: { emissionType: 'GASOLINE' } },
+            fields: ['travelAdvisory']
+        };
+        if (dests.length > 1) peticion.intermediates = dests.slice(0, -1).map(location => ({ location }));
+        const { routes } = await Route.computeRoutes(peticion);
+        const info = routes && routes[0] && routes[0].travelAdvisory && routes[0].travelAdvisory.tollInfo;
+        const usd = info && (info.estimatedPrices || []).find(p => (p.currencyCode || 'USD') === 'USD');
+        const amount = usd ? Math.round((Number(usd.units || 0) + Number(usd.nanos || 0) / 1e9) * 100) / 100 : 0;
+        const r = { hasTolls: !!info, amount, ts: Date.now() };
+        cache.routes = cache.routes || {};
+        cache.routes[key] = r;
+        cache.day = hoy;
+        cache.count = usados + 1;
+        // No dejar crecer el guardado sin limite
+        const claves = Object.keys(cache.routes);
+        if (claves.length > 200) claves.sort((a, b) => cache.routes[a].ts - cache.routes[b].ts).slice(0, claves.length - 200).forEach(k => delete cache.routes[k]);
+        _tollCacheWrite(cache);
+        poner(r, false);
+    } catch (e) {
+        debugLog('[PEAJES] Routes API:', e);
+        say(es ? 'No se pudo calcular el peaje ahora. Escríbelo a mano.' : 'Could not calculate the toll right now. Enter it manually.');
+    } finally {
+        if (btn) { btn.disabled = false; btn.textContent = textoBtn; }
+    }
+}
+window.calculateRouteTolls = calculateRouteTolls;
+
 // Peajes de la ruta (aprobado 2026-11-24): Google no da el monto en esta ruta,
 // pero las instrucciones marcan los tramos "Toll road" / "peaje". Sin costo extra.
 function storeRouteTolls(result) {
