@@ -629,7 +629,7 @@ function updateBusinessMetrics() {
   const totalRevenue = financesData.reduce((sum, load) => sum + Number(load.totalCharge || 0), 0);
   const totalExpenses = expensesData.reduce((sum, expense) => sum + Number(expense.amount || 0), 0);
 
-  const costPerMile = totalMiles > 0 ? totalExpenses / totalMiles : 0;
+  const costPerMile = totalMiles > 0 ? businessExpensesTotal(expensesData) / totalMiles : 0;
   const averageRPM = totalMiles > 0 ? totalRevenue / totalMiles : 0;
   const efficiency = totalMiles > 0 ? (totalLoadedMiles / totalMiles) * 100 : 0;
 
@@ -2204,6 +2204,17 @@ function debugFinancesElements() {
 }
 
 
+// Gastos del NEGOCIO: todos menos la comida, que es un gasto personal (decision
+// 2026-11-23). Lo usa la tarjeta Costo/mi para coincidir con la calculadora;
+// Gastos y Ganancia siguen incluyendo todo.
+function businessExpensesTotal(expenses) {
+  return (expenses || []).reduce((sum, e) => {
+    const cat = String(e.category || e.type || '').toLowerCase();
+    return cat === 'food' ? sum : sum + (Number(e.amount) || 0);
+  }, 0);
+}
+window.businessExpensesTotal = businessExpensesTotal;
+
 //  FUNCIN updateFinancialKPIs LIMPIA
 // ==============================
 function updateFinancialKPIs() {
@@ -2215,7 +2226,7 @@ function updateFinancialKPIs() {
   const netProfit = totalRevenue - totalExpenses;
   const totalMiles = financesData.reduce((sum, load) => sum + (load.totalMiles || 0), 0);
   const avgRpm = totalMiles > 0 ? totalRevenue / totalMiles : 0;
-  const costPerMile = totalMiles > 0 ? totalExpenses / totalMiles : 0;
+  const costPerMile = totalMiles > 0 ? businessExpensesTotal(expensesData) / totalMiles : 0;
   const margin = totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0;
 
   // Actualizar elementos existentes usando selectores especficos

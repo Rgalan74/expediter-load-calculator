@@ -166,7 +166,7 @@
   - Peajes: ${money(e.tolls)}
   - Total gastos: ${money(e.total)}
 - Ganancia neta: ${money(d.netProfit)}
-- Costo por milla de esta carga (sin peajes): $${(Number(d.thresholds?.cpm) || 0).toFixed(3)}/mi${target ? `
+- Costo por milla de esta carga (incluye sus peajes): $${(Number(d.thresholds?.cpm) || 0).toFixed(3)}/mi${target ? `
 - Objetivo del panel: $${target.toFixed(3)}/mi = ${money(target * d.totalMiles)} total` : ''}`
                 : `- Costs of this load (panel figures, do NOT recompute them):
   - Fuel: ${money(e.fuelCost)}
@@ -175,7 +175,7 @@
   - Tolls: ${money(e.tolls)}
   - Total expenses: ${money(e.total)}
 - Net profit: ${money(d.netProfit)}
-- Cost per mile of this load (without tolls): $${(Number(d.thresholds?.cpm) || 0).toFixed(3)}/mi${target ? `
+- Cost per mile of this load (including its tolls): $${(Number(d.thresholds?.cpm) || 0).toFixed(3)}/mi${target ? `
 - Panel target: $${target.toFixed(3)}/mi = ${money(target * d.totalMiles)} total` : ''}`;
         }
 

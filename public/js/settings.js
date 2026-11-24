@@ -316,6 +316,8 @@ function saveUserConfiguration() {
             insurance: parseFloat(document.getElementById('insurance')?.value) || 0,
             licenses: parseFloat(document.getElementById('licenses')?.value) || 0,
             otherFixed: parseFloat(document.getElementById('otherFixed')?.value) || 0,
+            // Hotel en la carretera al mes (sin historial real). La comida no: es personal.
+            lodgingMonthly: Math.max(0, parseFloat(document.getElementById('lodgingMonthly')?.value) || 0),
 
             // Costos variables por milla
             fuelMPG: parseFloat(document.getElementById('fuelMPG')?.value) || 18,
@@ -346,7 +348,8 @@ function saveUserConfiguration() {
         const variableCPMExFuel = variableMonthly;
         const totalFixedMonthly = config.vehiclePayment + config.insurance + config.licenses + config.otherFixed;
         const fixedCPM          = config.monthlyMilesGoal > 0 ? totalFixedMonthly / config.monthlyMilesGoal : 0;
-        const totalCPM          = fuelCostPerMile + variableCPMExFuel + fixedCPM;
+        const lodgingCPM        = config.monthlyMilesGoal > 0 ? config.lodgingMonthly / config.monthlyMilesGoal : 0;
+        const totalCPM          = fuelCostPerMile + variableCPMExFuel + fixedCPM + lodgingCPM;
 
         // Fecha del precio de la gasolina: cambia solo cuando cambia el precio,
         // para que la Calculadora avise si lleva mas de 30 dias sin actualizar.
@@ -360,6 +363,7 @@ function saveUserConfiguration() {
             combustible:   parseFloat(fuelCostPerMile.toFixed(4)),
             mantenimiento: parseFloat(variableCPMExFuel.toFixed(4)), // mant+tires+repairs en USD/milla
             comida:        0,
+            hospedaje:     parseFloat(lodgingCPM.toFixed(4)), // hotel por milla
             costosFijos:   parseFloat(fixedCPM.toFixed(4)),
             TOTAL:         parseFloat(totalCPM.toFixed(4)),
             totalCPM:      parseFloat(totalCPM.toFixed(4)),
@@ -406,6 +410,7 @@ function saveUserConfiguration() {
                 insurance: config.insurance,
                 licenses: config.licenses,
                 otherFixed: config.otherFixed,
+                lodgingMonthly: config.lodgingMonthly,
                 vehicleType: config.vehicleType,
                 fuelPriceUpdatedAt: config.fuelPriceUpdatedAt
             };
@@ -541,6 +546,7 @@ function applyConfigurationToForm(config) {
             ['insurance', config.insurance],
             ['licenses', config.licenses],
             ['otherFixed', config.otherFixed],
+            ['lodgingMonthly', config.lodgingMonthly ?? 0],
             ['fuelMPG', config.fuelMPG],
             ['fuelPricePerGallon', config.fuelPricePerGallon],
             ['fuelType', config.fuelType || (['boxtruck', 'semi', 'hotshot'].includes(config.vehicleType) ? 'diesel' : 'gasoline')],

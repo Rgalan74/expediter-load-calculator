@@ -236,6 +236,27 @@ test('decision panel thresholds ignore historical average RPM (D5)', () => {
   assert.equal(conHistorialAlto.decision, sinHistorial.decision);
 });
 
+// Tolls of the load (approved 2026-11-23) are part of that load's cost: they
+// raise break-even and target by tolls / miles, at cost (no margin).
+test('decision panel adds the load tolls to cost and thresholds', () => {
+  const f = fixture();
+  const w = f.w;
+  const orig = w.document.getElementById;
+  w.document.getElementById = id => orig(id) || f.el(id);
+  const run = tolls => {
+    w._userAvgRPM = 0; w._userCPM = 0.5;
+    w.__realShowDecisionPanel({ totalCharge: 700, netProfit: 450 - tolls, totalMiles: 500, tolls,
+      actualRPM: 1.4, profitMargin: 64, profitPerMile: 0.9, origin: 'Newark NJ', destination: 'Boston MA',
+      originState: 'NJ', destinationState: 'MA' });
+    return w._lastDecisionData;
+  };
+  const sin = run(0), con = run(150);
+  assert.ok(Math.abs((con.thresholds.cpm - sin.thresholds.cpm) - 0.3) < 1e-9, '150 / 500 mi = $0.30 more per mile');
+  assert.ok(Math.abs((con.thresholds.acceptThreshold - sin.thresholds.acceptThreshold) - 0.3) < 1e-9, 'tolls at cost, no margin');
+  assert.equal(con.thresholds.tolls, 150);
+  assert.equal(sin.thresholds.tolls, 0);
+});
+
 // Minimum RPM from Configuración (approved 2026-11-13) is a floor for ACCEPT.
 test('decision panel uses configured minimum RPM as floor for ACCEPT', () => {
   const f = fixture();

@@ -56,8 +56,9 @@ function getConfigCosts() {
     combustible = cfgFuel;
     mantenimiento = _costNum(costs.mantenimiento) ?? 0;
     // La comida es gasto personal y no entra en el costo por milla (2026-11-23);
-    // algunos perfiles viejos aun guardan costs.comida = 0.028.
-    comida = 0;
+    // algunos perfiles viejos aun guardan costs.comida = 0.028. En ese lugar va
+    // el hotel por milla del campo "Hotel — Mensual" de Configuracion.
+    comida = _costNum(costs.hospedaje) ?? 0;
     costosFijos = _costNum(costs.costosFijos) ?? 0;
   } else if (defFuel !== null && defFuel > 0) {
     // Esquema B — perfil default del onboarding (promedio de industria, $0.55/mi)
@@ -1387,6 +1388,14 @@ function showDecisionPanel(calculationData = {}) {
   const _minRPM = Number(window.currentUser?.profileData?.targetRPM) || 0;
   const _acceptThreshold = Math.max(_targetRPM_margen, _minRPM);
   const _midThreshold = _acceptThreshold;
+  // Peajes de ESTA carga (aprobado 2026-11-23): entran al costo de la carga y al
+  // precio sugerido, a costo y sin margen. Una carga con un puente caro pide mas;
+  // una sin peajes no carga nada.
+  const _tollsCarga = Math.max(0, Number(calculationData.tolls) || 0);
+  const _tollsPerMile = totalMiles > 0 ? _tollsCarga / totalMiles : 0;
+  const _cpmCarga = _cpm + _tollsPerMile;
+  const _acceptCarga = _acceptThreshold + _tollsPerMile;
+  const _midCarga = _midThreshold + _tollsPerMile;
   const _gananciaDia = Math.max(0, netProfit) / _diasInvertidos;
   const _lowDailyProfit = _gananciaDia < _vp.minDailyProfit;
 
@@ -1395,7 +1404,7 @@ function showDecisionPanel(calculationData = {}) {
   const _shortHopMinimo = _destinoEsTrampa ? _vp.shortHopMinTrap : _vp.shortHopMin;
   const _isShortHop = totalMiles > 0 && totalMiles <= 150 && netProfit < _shortHopMinimo;
 
-  if (actualRPM < _cpm || netProfit < 0) {
+  if (actualRPM < _cpmCarga || netProfit < 0) {
     decision = 'REJECT';
     decisionClasses = ['decision-header-reject'];
     decisionIcon = '❌';
@@ -1405,12 +1414,12 @@ function showDecisionPanel(calculationData = {}) {
     decisionClasses = ['decision-header-warning-low'];
     decisionIcon = '🟠';
     profitClass = 'profit-section-warning';
-  } else if (actualRPM >= _acceptThreshold) {
+  } else if (actualRPM >= _acceptCarga) {
     decision = 'ACCEPT';
     decisionClasses = ['decision-header-accept', 'pulse-glow-green'];
     decisionIcon = '✅';
     profitClass = 'profit-section-positive';
-  } else if (actualRPM >= _midThreshold) {
+  } else if (actualRPM >= _midCarga) {
     decision = 'ALMOST ACCEPT';
     decisionClasses = ['decision-header-warning-high'];
     decisionIcon = '🟡';
@@ -1426,7 +1435,7 @@ function showDecisionPanel(calculationData = {}) {
     decision, actualRPM, totalMiles, originState, destinationState,
     // Para que Lex muestre la misma ganancia que el panel
     netProfit, totalCharge,
-    thresholds: { cpm: _cpm, midThreshold: _midThreshold, acceptThreshold: _acceptThreshold },
+    thresholds: { cpm: _cpmCarga, midThreshold: _midCarga, acceptThreshold: _acceptCarga, tolls: _tollsCarga },
     reasons: {
       lowDailyProfit: _lowDailyProfit,
       isShortHop: _isShortHop,
@@ -1751,9 +1760,10 @@ function showDecisionPanel(calculationData = {}) {
       _coBlock.classList.add('hidden');
     } else {
       // Calcular las 3 tasas clave usando valores reales del usuario
-      const _breakevenRate  = Math.ceil(_cpm * totalMiles);                      // Piso: cubre costos exacto
-      const _targetRate     = Math.ceil(_acceptThreshold * totalMiles);          // Target: margen objetivo
-      const _idealRate      = Math.ceil(_acceptThreshold * totalMiles * 1.08);   // Contraoferta: +8% sobre target
+      // Los peajes de la carga se suman a costo (sin margen ni +8%)
+      const _breakevenRate  = Math.ceil(_cpm * totalMiles + _tollsCarga);                      // Piso: cubre costos exacto
+      const _targetRate     = Math.ceil(_acceptThreshold * totalMiles + _tollsCarga);          // Target: margen objetivo
+      const _idealRate      = Math.ceil(_acceptThreshold * totalMiles * 1.08 + _tollsCarga);   // Contraoferta: +8% sobre target
 
       // Actualizar los 3 valores en el panel
       const _coBreakevenEl = document.getElementById('coBreakeven');
@@ -1789,6 +1799,11 @@ function showDecisionPanel(calculationData = {}) {
               : `For your ${_targetPctLabel}% target margin, you need $${_targetRate.toLocaleString()} ($${_gapAmount.toLocaleString()} short). Counter at $${_idealRate.toLocaleString()} and negotiate.`;
           }
         }
+        if (_tollsCarga > 0) {
+          _coDetailEl.textContent += _lang === 'es'
+            ? ` Incluye $${Math.round(_tollsCarga).toLocaleString()} de peajes de esta carga.`
+            : ` Includes $${Math.round(_tollsCarga).toLocaleString()} in tolls for this load.`;
+        }
       }
 
       // Cambiar color del bloque según severidad
@@ -1823,7 +1838,7 @@ function showDecisionPanel(calculationData = {}) {
       destination,
       originState,
       destinationState,
-      thresholds: { cpm: _cpm, midThreshold: _midThreshold, acceptThreshold: _acceptThreshold },
+      thresholds: { cpm: _cpmCarga, midThreshold: _midCarga, acceptThreshold: _acceptCarga, tolls: _tollsCarga },
       lowDailyProfit: _lowDailyProfit,
       isShortHop: _isShortHop
     }
@@ -1880,12 +1895,12 @@ function showDecisionPanel(calculationData = {}) {
       }
 
       // Counter-offer — solo cuando el RPM es el factor limitante (no cuando es ganancia diaria baja)
-      const _rpmEsElProblema = actualRPM < _acceptThreshold;
+      const _rpmEsElProblema = actualRPM < _acceptCarga;
       if (_rpmEsElProblema && (decision === 'ALMOST ACCEPT' || decision === 'EVALUATE') && !_isShortHop) {
-        const _targetTotal = Math.ceil(_acceptThreshold * totalMiles);
+        const _targetTotal = Math.ceil(_acceptThreshold * totalMiles + _tollsCarga);
         html += `<div class="decision-info-block">
           <div class="decision-info-label">💬 ${_t('calculator.counter_offer_label') || 'Counter-offer'}</div>
-          <div class="decision-info-text">${_t('calculator.counter_offer_ask') || 'Ask for'} <strong>$${_acceptThreshold.toFixed(2)}/mi ($${_targetTotal.toLocaleString()} ${_t('calculator.total_label') || 'total'})</strong> ${_t('calculator.counter_offer_reason') || 'to hit your threshold'}</div>
+          <div class="decision-info-text">${_t('calculator.counter_offer_ask') || 'Ask for'} <strong>$${_acceptCarga.toFixed(2)}/mi ($${_targetTotal.toLocaleString()} ${_t('calculator.total_label') || 'total'})</strong> ${_t('calculator.counter_offer_reason') || 'to hit your threshold'}</div>
         </div>`;
       }
 
