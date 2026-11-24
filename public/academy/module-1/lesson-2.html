@@ -68,10 +68,10 @@
     <!-- 01 -->
     <section class="al-section">
         <h2 class="al-h2"><span class="al-num">01</span>El problema</h2>
-        <p>Casi todos los conductores cuentan la gasolina y los peajes, porque son lo que pagan con la tarjeta cada día. Pero el pago de la van, el seguro, el desgaste y la comida en la carretera también salen de cada carga, aunque no los veas en el momento.</p>
+        <p>Casi todos los conductores cuentan la gasolina y los peajes, porque son lo que pagan con la tarjeta cada día. Pero el pago de la van, el seguro, el desgaste y el hotel en la carretera también salen de cada carga, aunque no los veas en el momento.</p>
 
         <figure class="al-figure">
-            <svg viewBox="0 0 720 340" role="img" aria-label="Costos visibles: gasolina y peajes. Costos invisibles: pago del vehículo, seguro, permisos, mantenimiento, llantas y reparaciones, depreciación, comida y hotel.">
+            <svg viewBox="0 0 720 340" role="img" aria-label="Costos visibles: gasolina y peajes. Costos invisibles: pago del vehículo, seguro, permisos, mantenimiento, llantas y reparaciones, depreciación y hotel.">
                 <defs>
                     <linearGradient id="alWater" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22D3EE" stop-opacity="0.16"/><stop offset="1" stop-color="#22D3EE" stop-opacity="0.02"/></linearGradient>
                 </defs>
@@ -89,7 +89,7 @@
                     <text x="340" y="198">Mantenimiento</text>
                     <text x="250" y="236">Llantas y reparaciones</text>
                     <text x="300" y="274">Depreciación</text>
-                    <text x="320" y="306">Comida y hotel</text>
+                    <text x="320" y="306">Hotel</text>
                 </g>
             </svg>
             <figcaption>Lo que pagas cada día es solo la punta. El resto también sale de cada carga.</figcaption>
@@ -127,30 +127,34 @@
 
         <table class="al-table">
             <caption>En la carretera</caption>
-            <tr class="al-total"><td>Comida y hotel<span class="al-sub">$1,200 al mes ÷ 8,000 millas</span></td><td class="al-num-cell">$0.150 /mi</td></tr>
+            <tr class="al-total"><td>Hotel<span class="al-sub">$400 al mes ÷ 8,000 millas</span></td><td class="al-num-cell">$0.050 /mi</td></tr>
         </table>
+        <div class="al-callout">
+            <div class="al-callout-label">¿Y la comida?</div>
+            <p>La comida la pagarías igual en casa, así que es un gasto personal: regístrala en Finanzas, pero no la sumes a tu costo por milla. El hotel sí se suma, porque lo pagas solo porque la carga te dejó lejos de casa. Si duermes en la van, tu hotel es $0.</p>
+        </div>
 
         <div class="al-stat">
-            <div class="al-stat-value">$0.634</div>
+            <div class="al-stat-value">$0.534</div>
             <div class="al-stat-label">costo real por milla en este ejemplo</div>
         </div>
 
         <div class="al-stack" aria-label="Reparto del costo por milla">
             <div class="al-stack-bar">
-                <span class="al-c1" style="width:30.7%"></span>
-                <span class="al-c2" style="width:8.0%"></span>
-                <span class="al-c3" style="width:37.6%"></span>
-                <span class="al-c4" style="width:23.7%"></span>
+                <span class="al-c1" style="width:36.4%"></span>
+                <span class="al-c2" style="width:9.5%"></span>
+                <span class="al-c3" style="width:44.7%"></span>
+                <span class="al-c4" style="width:9.4%"></span>
             </div>
             <div class="al-stack-legend">
-                <span><i class="al-c1"></i>Gasolina 31%</span>
-                <span><i class="al-c2"></i>Mantenimiento, llantas y reparaciones 8%</span>
-                <span><i class="al-c3"></i>Costos fijos 38%</span>
-                <span><i class="al-c4"></i>Comida y hotel 24%</span>
+                <span><i class="al-c1"></i>Gasolina 36%</span>
+                <span><i class="al-c2"></i>Mantenimiento, llantas y reparaciones 10%</span>
+                <span><i class="al-c3"></i>Costos fijos 45%</span>
+                <span><i class="al-c4"></i>Hotel 9%</span>
             </div>
         </div>
 
-        <p>La gasolina, que es lo que todos miran, <strong>es menos de un tercio</strong> del costo real. Si cobras pensando en $0.20 por milla, en realidad estás gastando $0.63.</p>
+        <p>La gasolina, que es lo que todos miran, <strong>es poco más de un tercio</strong> del costo real. Si cobras pensando en $0.20 por milla, en realidad estás gastando $0.53.</p>
     </section>
 
     <!-- 03 -->
@@ -197,12 +201,12 @@
                 <div class="al-field"><label for="cMpg">MPG de tu van</label><input id="cMpg" type="number" inputmode="decimal" value="19"></div>
                 <div class="al-field"><label for="cGalon">Precio del galón ($)</label><input id="cGalon" type="number" inputmode="decimal" step="0.01" value="3.70"></div>
                 <div class="al-field"><label for="cDesgaste">Mantenimiento, llantas y reparaciones ($/mi)</label><input id="cDesgaste" type="number" inputmode="decimal" step="0.001" value="0.051"></div>
-                <div class="al-field"><label for="cComida">Comida y hotel ($/mes)</label><input id="cComida" type="number" inputmode="decimal" value="1200"></div>
+                <div class="al-field"><label for="cComida">Hotel ($/mes)</label><input id="cComida" type="number" inputmode="decimal" value="400"></div>
             </div>
             <div class="al-calc-out">
                 <div class="al-out">Gasolina<b id="oGas">—</b></div>
                 <div class="al-out">Costos fijos<b id="oFijo">—</b></div>
-                <div class="al-out">Comida y hotel<b id="oComida">—</b></div>
+                <div class="al-out">Hotel<b id="oComida">—</b></div>
                 <div class="al-calc-total"><span>Tu costo real por milla</span><b id="oTotal">—</b></div>
             </div>
         </div>
@@ -245,7 +249,7 @@
     <section class="al-summary">
         <h2>En resumen</h2>
         <ul>
-            <li>La gasolina es solo una parte de tu costo; en el ejemplo, menos de un tercio.</li>
+            <li>La gasolina es solo una parte de tu costo; en el ejemplo, poco más de un tercio.</li>
             <li>Los costos fijos se reparten entre tus millas: con menos millas, cada milla sale más cara.</li>
             <li>Tu número clave es el costo real por milla. Guárdalo: lo usarás en la lección de break-even.</li>
         </ul>
@@ -277,7 +281,7 @@
     ];
     const QUIZ_QUESTIONS = [
         { question: 'En el ejemplo de la lección, ¿qué parte del costo real por milla es la gasolina?',
-          options: ['Casi todo, alrededor del 90%', 'Alrededor de la mitad', 'Menos de un tercio (31%)', 'Menos del 10%'], correctIndex: 2 },
+          options: ['Casi todo, alrededor del 90%', 'Alrededor de la mitad', 'Poco más de un tercio (36%)', 'Menos del 10%'], correctIndex: 2 },
         { question: 'Con $1,910 de costos fijos al mes, ¿qué pasa con el costo fijo por milla si pasas de 6,000 a 10,000 millas al mes?',
           options: ['Sube de $0.19 a $0.32', 'Se queda igual', 'Baja de $0.32 a $0.19', 'Depende del precio de la gasolina'], correctIndex: 2 },
         { question: 'Compras la van en $55,000 y en 5 años vale $25,000. ¿Cuánto te cuesta la depreciación al mes?',
