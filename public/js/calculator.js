@@ -494,9 +494,24 @@ async function loadUserExitStats() {
     const snap = await firebase.firestore().collection('loads')
       .where('userId', '==', uid).where('date', '>=', sinceStr).get();
     const byState = {};
+    // Peajes que el usuario pago en cada ruta (aprobado 2026-11-24): el mas
+    // reciente por par de ciudades y por par de estados, para sugerirlo.
+    const tollsByCity = {}, tollsByStates = {};
     let miles = 0, revenue = 0;
     snap.forEach(doc => {
       const d = doc.data();
+      const t = Number(d.tolls) || 0;
+      if (t > 0 && d.origin && d.destination) {
+        const rec = { tolls: t, date: d.date || '', origin: d.origin, destination: d.destination };
+        const kc = _routeKey(d.origin, d.destination);
+        if (!tollsByCity[kc] || rec.date > tollsByCity[kc].date) tollsByCity[kc] = rec;
+        const so = d.originState || (typeof window.getStateCode === 'function' ? window.getStateCode(d.origin) : '');
+        const sd = d.destinationState || (typeof window.getStateCode === 'function' ? window.getStateCode(d.destination) : '');
+        if (so && sd) {
+          const ks = `${so}>${sd}`;
+          if (!tollsByStates[ks] || rec.date > tollsByStates[ks].date) tollsByStates[ks] = rec;
+        }
+      }
       const m = Number(d.totalMiles) || 0;
       const r = Number(d.rpm) > 0 ? Number(d.rpm) * m : (Number(d.totalCharge) || 0) - (Number(d.otherCosts) || 0);
       if (m <= 0 || r <= 0) return;
@@ -508,11 +523,40 @@ async function loadUserExitStats() {
     });
     Object.values(byState).forEach(e => { e.avgRPM = e.revenue / e.miles; e.avgMiles = e.miles / e.loads; });
     window._userExitStats = { byState, avgRPM: miles > 0 ? revenue / miles : 0, loads: snap.size };
+    window._userRouteTolls = { byCity: tollsByCity, byStates: tollsByStates };
   } catch (e) {
     debugLog('loadUserExitStats:', e);
   }
 }
 window.loadUserExitStats = loadUserExitStats;
+
+// "Newark, NJ, USA" -> "newark, nj"
+function _routeCity(s) {
+  return String(s || '').toLowerCase().replace(/,?\s*(usa|united states|estados unidos)\s*$/, '').replace(/\s+/g, ' ').trim();
+}
+function _routeKey(origin, destination) {
+  return `${_routeCity(origin)}>${_routeCity(destination)}`;
+}
+
+// Peaje que el usuario pago la ultima vez en esta ruta (exacta o, si no, mismo par de estados)
+function userRouteToll(origin, destination, originState, destinationState) {
+  const t = window._userRouteTolls;
+  if (!t || !origin || !destination) return null;
+  const exacta = t.byCity[_routeKey(origin, destination)];
+  if (exacta) return { ...exacta, exact: true };
+  const parecida = originState && destinationState ? t.byStates[`${originState}>${destinationState}`] : null;
+  return parecida ? { ...parecida, exact: false } : null;
+}
+window.userRouteToll = userRouteToll;
+
+// Boton "Usar $X" del panel: pone el peaje sugerido en el campo y recalcula
+window.useSuggestedTolls = function (amount) {
+  const el = document.getElementById('tolls');
+  if (!el) return;
+  el.value = String(Math.round(Number(amount) * 100) / 100);
+  el.dispatchEvent(new Event('input', { bubbles: true }));
+  el.dispatchEvent(new Event('change', { bubbles: true }));
+};
 
 function userTrapInfo(state, cpm) {
   const st = window._userExitStats;
@@ -1869,6 +1913,44 @@ function showDecisionPanel(calculationData = {}) {
       let html = '';
 
       const _t = (k, p) => window.i18n?.t(k, p) || k;
+
+      // Peajes de la ruta (aprobado 2026-11-24): aviso de Google + lo que el
+      // usuario pago antes en esta ruta. Gratis: no hace consultas nuevas.
+      {
+        const _esP = (window.i18n?.currentLang || 'en') === 'es';
+        const _escP = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        const _rt = window._lastRouteTolls;
+        const _hist = typeof userRouteToll === 'function' ? userRouteToll(origin, destination, originState, destinationState) : null;
+        if ((_rt && _rt.hasTolls) || _hist) {
+          const lineas = [];
+          if (_rt && _rt.hasTolls) {
+            const vias = _rt.roads.length ? _rt.roads.map(_escP).join(', ') : '';
+            lineas.push(_esP
+              ? (vias ? `Google indica peajes en: <strong>${vias}</strong>.` : 'Google indica que esta ruta tiene peajes.')
+              : (vias ? `Google shows tolls on: <strong>${vias}</strong>.` : 'Google shows this route has tolls.'));
+          }
+          if (_hist) {
+            const monto = `$${Number(_hist.tolls).toLocaleString('en-US', { maximumFractionDigits: 2 })}`;
+            const fecha = _hist.date ? ` (${_escP(_hist.date)})` : '';
+            lineas.push(_hist.exact
+              ? (_esP ? `La última vez en esta ruta pagaste <strong>${monto}</strong>${fecha}.` : `Last time on this route you paid <strong>${monto}</strong>${fecha}.`)
+              : (_esP ? `En una ruta parecida (${_escP(originState)} → ${_escP(destinationState)}) pagaste <strong>${monto}</strong>${fecha}.`
+                      : `On a similar route (${_escP(originState)} → ${_escP(destinationState)}) you paid <strong>${monto}</strong>${fecha}.`));
+          }
+          if (_tollsCarga > 0) {
+            lineas.push(_esP ? `Incluidos $${Math.round(_tollsCarga).toLocaleString()} en el precio sugerido.` : `$${Math.round(_tollsCarga).toLocaleString()} included in the suggested price.`);
+          } else {
+            lineas.push(_esP ? 'Escribe el monto en <strong>Peajes</strong> para incluirlo en el precio sugerido.' : 'Enter the amount in <strong>Tolls</strong> to include it in the suggested price.');
+          }
+          const boton = (_hist && Math.abs(Number(_hist.tolls) - _tollsCarga) > 0.009)
+            ? `<button type="button" class="btn-secondary" style="margin-top:8px;min-height:36px;padding:0 14px;" onclick="useSuggestedTolls(${Number(_hist.tolls)})">${_esP ? 'Usar' : 'Use'} $${Number(_hist.tolls).toLocaleString('en-US', { maximumFractionDigits: 2 })}</button>`
+            : '';
+          html += `<div class="decision-info-block">
+          <div class="decision-info-label">🛣️ ${_esP ? 'Peajes de esta ruta' : 'Tolls on this route'}</div>
+          <div class="decision-info-text">${lineas.join('<br>')}</div>${boton}
+        </div>`;
+        }
+      }
 
       // Low daily profit warning — buen RPM pero ganancia diaria insuficiente
       if (_lowDailyProfit && !_isShortHop && netProfit >= 0) {
