@@ -1224,21 +1224,21 @@
 
     if (isAppInfo) {
       const ACADEMY_RESOURCES = _isEs ? {
-        rpm: { title: 'Entender el RPM real', url: 'academy/module-1/lesson-1.html', description: 'Aprende qué es el RPM y por qué el 90% lo calcula mal' },
-        costos: { title: 'Costos y Break-even', url: 'academy/module-1/lesson-2.html', description: 'Costos visibles vs invisibles y tu número de supervivencia' },
-        ganancia: { title: 'Ganancia bruta vs real', url: 'academy/module-1/lesson-4.html', description: 'Por qué "carga pagada" no significa "carga rentable"' },
-        zonas: { title: 'Análisis de zonas y rutas', url: 'academy/module-2/index.html', description: 'Aprende a evaluar zonas geográficas y rutas rentables' },
-        negociacion: { title: 'Negociación y rates', url: 'academy/module-3/index.html', description: 'Técnicas de negociación y cómo defender tu rate' },
-        deadhead: { title: 'Deadhead calculation', url: 'academy/module-1/lesson-3.html', description: 'Cómo calcular y considerar millas vacías en tus decisiones' },
-        finanzas: { title: 'Finanzas del negocio', url: 'academy/module-4/index.html', description: 'Manejo financiero y contable de tu operación' }
+        rpm: { title: 'Qué es el RPM real', url: 'academy/module-1/lesson-1.html', description: 'Qué es el RPM y por qué casi todos lo calculan mal' },
+        costos: { title: 'Costos visibles y costos invisibles', url: 'academy/module-1/lesson-2.html', description: 'Todos tus costos por milla y tu número de supervivencia' },
+        ganancia: { title: 'Carga pagada no es carga rentable', url: 'academy/module-1/lesson-5.html', description: 'Por qué "carga pagada" no significa "carga rentable"' },
+        zonas: { title: 'Estrategia de rutas y zonas', url: 'academy/module-3/index.html', description: 'Cómo evaluar zonas y rutas rentables' },
+        negociacion: { title: 'Negociación y relaciones con brokers', url: 'academy/module-4/index.html', description: 'Técnicas de negociación y cómo defender tu tarifa' },
+        deadhead: { title: 'Millas cargadas y en vacío', url: 'academy/module-2/lesson-2.html', description: 'Cómo contar las millas vacías en tus decisiones' },
+        finanzas: { title: 'Análisis financiero y KPIs', url: 'academy/module-5/index.html', description: 'Los números de tu negocio mes a mes' }
       } : {
-        rpm: { title: 'Understanding Real RPM', url: 'academy/module-1/lesson-1.html', description: 'Learn what RPM is and why 90% of drivers calculate it wrong' },
-        costos: { title: 'Costs & Break-even', url: 'academy/module-1/lesson-2.html', description: 'Visible vs hidden costs and your survival number' },
-        ganancia: { title: 'Gross vs Real Profit', url: 'academy/module-1/lesson-4.html', description: 'Why "paid load" doesn\'t mean "profitable load"' },
-        zonas: { title: 'Zone & Route Analysis', url: 'academy/module-2/index.html', description: 'How to evaluate geographic zones and profitable routes' },
-        negociacion: { title: 'Negotiation & Rates', url: 'academy/module-3/index.html', description: 'Negotiation techniques and how to defend your rate' },
-        deadhead: { title: 'Deadhead Calculation', url: 'academy/module-1/lesson-3.html', description: 'How to calculate and factor in empty miles' },
-        finanzas: { title: 'Business Finances', url: 'academy/module-4/index.html', description: 'Financial and accounting management for your operation' }
+        rpm: { title: 'What Real RPM Is', url: 'en/academy/module-1/lesson-1.html', description: 'What RPM is and why most drivers calculate it wrong' },
+        costos: { title: 'Visible Costs vs Hidden Costs', url: 'en/academy/module-1/lesson-2.html', description: 'All your per-mile costs and your survival number' },
+        ganancia: { title: 'A Paid Load Is Not a Profitable Load', url: 'en/academy/module-1/lesson-5.html', description: 'Why "paid load" does not mean "profitable load"' },
+        zonas: { title: 'Route & Zone Strategy', url: 'en/academy/module-3/index.html', description: 'How to evaluate profitable zones and routes' },
+        negociacion: { title: 'Negotiation & Broker Relationships', url: 'en/academy/module-4/index.html', description: 'Negotiation techniques and how to defend your rate' },
+        deadhead: { title: 'Loaded and Empty Miles', url: 'en/academy/module-2/lesson-2.html', description: 'How to factor empty miles into your decisions' },
+        finanzas: { title: 'Financial Analysis & KPIs', url: 'en/academy/module-5/index.html', description: 'Your business numbers month by month' }
       };
 
       function findAcademyResources(text) {
@@ -1271,7 +1271,7 @@
       } else {
         response = _isEs
           ? 'No tengo información específica sobre eso aún, pero puedo ayudarte con:\n• Análisis de cargas y RPM\n• Información de zonas trap (CA, FL, NV)\n• Comparación con tu historial\n• Sugerencias de negociación\n\n📚 También puedes explorar la [Academia](academy/start-here/index.html) para aprender más sobre trucking. 🎓'
-          : 'I don\'t have specific info on that yet, but I can help you with:\n• Load and RPM analysis\n• Trap zone info (CA, FL, NV)\n• Comparison with your history\n• Negotiation suggestions\n\n📚 You can also explore the [Academy](academy/start-here/index.html) to learn more about trucking. 🎓';
+          : 'I don\'t have specific info on that yet, but I can help you with:\n• Load and RPM analysis\n• Trap zone info (CA, FL, NV)\n• Comparison with your history\n• Negotiation suggestions\n\n📚 You can also explore the [Academy](en/academy/start-here/index.html) to learn more about trucking. 🎓';
       }
 
       replyFn && replyFn(response);
