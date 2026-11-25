@@ -27,6 +27,8 @@ class LanguageManager {
         await this.loadTranslations(this.currentLang);
         this.applyTranslationsToDOM();
         this.initialized = true;
+        // Aviso para lo que se dibujó antes de tener traducciones (ej. categorías de gasto)
+        document.dispatchEvent(new CustomEvent('i18nReady', { detail: { lang: this.currentLang } }));
     }
 
     /**
