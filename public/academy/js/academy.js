@@ -281,7 +281,7 @@ const AcademyAccess = {
             if (window.AcademyProgress) {
                 window.AcademyProgress.setUser(user ? user.uid : null);
             }
-            if (!user) return;
+            if (!user) { AcademyGate.resolve(false, false); return; }
             try {
                 const doc = await firebase.firestore()
                     .collection('users').doc(user.uid).get();
@@ -293,6 +293,7 @@ const AcademyAccess = {
 
                 console.log(`[ACADEMY] planId: ${planId} | pro: ${isPro} | premium: ${isPremium}`);
 
+                AcademyGate.resolve(isPro, isPremium);
                 this.unlockModuleCards(isPro, isPremium);
                 if (isPro || isPremium) this.unlockPage();
 
@@ -333,10 +334,8 @@ const AcademyAccess = {
     unlockPage() {
         // 1. Ocultar sección candado principal
         document.querySelectorAll('section').forEach(s => {
-            if (s.innerHTML.includes('Contenido Premium') ||
-                s.innerHTML.includes('Contenido Pro') ||
-                s.innerHTML.includes('CONTENIDO PRO') ||
-                s.innerHTML.includes('Contenido Elite')) {
+            if (s.closest('.al-lesson')) return; // las lecciones v2 usan AcademyGate
+            if (/contenido (pro|premium|elite)|(pro|premium|elite) content/i.test(s.innerHTML)) {
                 s.style.display = 'none';
                 console.log('[ACADEMY] Lock section ocultada ✅');
             }
@@ -345,16 +344,16 @@ const AcademyAccess = {
         // 2. Ocultar badge header 🔒 CONTENIDO PRO
         document.querySelectorAll('div').forEach(div => {
             if (div.style.display === 'inline-block' &&
-                (div.innerHTML.includes('🔒 CONTENIDO PRO') ||
-                    div.innerHTML.includes('🔒 CONTENIDO PREMIUM'))) {
+                /🔒 (contenido (pro|premium)|(pro|premium) content)/i.test(div.innerHTML)) {
                 div.style.display = 'none';
                 console.log('[ACADEMY] Badge header ocultado ✅');
             }
         });
 
         // 3. Ocultar badges 🔒 PRO/PREMIUM en lecciones individuales
+        // (sin distinguir mayusculas: los indices dicen "🔒 Premium" desde PR #53)
         document.querySelectorAll('div').forEach(div => {
-            const txt = div.textContent?.trim();
+            const txt = (div.textContent || '').trim().toUpperCase();
             if (div.style.position === 'absolute' &&
                 (txt === '🔒 PRO' || txt === '🔒 PREMIUM')) {
                 div.style.display = 'none';
@@ -404,7 +403,97 @@ const AcademyAccess = {
     }
 };
 
+// ===============================
+// BLOQUEO SUAVE DE LECCIONES DE PAGO (aprobado 2026-11-24)
+// Modulos 4-6 = Pro, 7-8 = Premium (pagina de planes y userPlans.js). La leccion 1 de cada modulo queda abierta.
+// Sin el plan se ve el titulo, "Lo que vas a aprender" y la primera seccion;
+// el resto se oculta y aparece un recuadro con "Ver planes". Quien paga lo ve
+// todo. El plan conocido se recuerda en el dispositivo para no mostrar el
+// recuadro un instante a quien ya pago.
+// ===============================
+const AcademyGate = {
+    PLAN_KEY: 'sls_academy_plan_v1',
+
+    _tier() {
+        if (typeof MODULE_NUM === 'undefined' || typeof LESSON_NUM === 'undefined') return null;
+        if (Number(LESSON_NUM) === 1) return null;
+        const m = Number(MODULE_NUM);
+        return m >= 7 ? 'premium' : (m >= 4 ? 'pro' : null); // planes: Pro = modulos 1-6
+    },
+
+    _hasAccess(tier, isPro, isPremium) {
+        return tier === 'premium' ? !!isPremium : !!(isPro || isPremium);
+    },
+
+    _cached() {
+        try { return JSON.parse(localStorage.getItem(this.PLAN_KEY) || 'null'); } catch (e) { return null; }
+    },
+
+    init() {
+        const tier = this._tier();
+        const lesson = document.querySelector('.al-lesson');
+        if (!tier || !lesson) return;
+        this._addSchema(lesson);
+        const c = this._cached();
+        if (c && this._hasAccess(tier, c.isPro, c.isPremium)) return; // pagado: sin parpadeo
+        this.lock();
+    },
+
+    lock() {
+        const tier = this._tier();
+        const lesson = document.querySelector('.al-lesson');
+        if (!tier || !lesson || lesson.classList.contains('al-gated')) return;
+        lesson.classList.add('al-gated');
+        const es = document.documentElement.lang !== 'en';
+        const plan = tier === 'premium' ? 'Premium' : 'Pro';
+        const plansUrl = es ? '/plans.html' : '/en/plans.html';
+        const box = document.createElement('section');
+        box.className = 'al-gate';
+        box.id = 'alGate';
+        box.innerHTML = `
+            <div class="al-gate-label">🔒 ${es ? 'Lección del plan' : 'Lesson in the'} ${plan}${es ? '' : ' plan'}</div>
+            <p>${es
+                ? `Ya leíste el comienzo. Con el plan ${plan} ves la lección completa, sus calculadoras y el quiz, y todos los módulos de tu plan.`
+                : `You have read the beginning. With the ${plan} plan you get the full lesson, its calculators and quiz, and every module in your plan.`}</p>
+            <div class="al-gate-actions">
+                <a class="al-btn al-btn-primary" href="${plansUrl}">${es ? 'Ver planes →' : 'See plans →'}</a>
+                <a class="al-btn al-btn-ghost" href="/auth.html">${es ? 'Ya tengo el plan: iniciar sesión' : 'I have the plan: sign in'}</a>
+            </div>`;
+        const first = lesson.querySelector('.al-section');
+        if (first) first.after(box); else lesson.appendChild(box);
+    },
+
+    unlock() {
+        const lesson = document.querySelector('.al-lesson');
+        if (lesson) lesson.classList.remove('al-gated');
+        document.getElementById('alGate')?.remove();
+    },
+
+    resolve(isPro, isPremium) {
+        try { localStorage.setItem(this.PLAN_KEY, JSON.stringify({ isPro: !!isPro, isPremium: !!isPremium })); } catch (e) { /* sin localStorage */ }
+        const tier = this._tier();
+        if (!tier) return;
+        if (this._hasAccess(tier, isPro, isPremium)) this.unlock(); else this.lock();
+    },
+
+    // Google: contenido de suscripcion (no es "cloaking")
+    _addSchema(lesson) {
+        lesson.querySelectorAll('.al-section').forEach((s, i) => { if (i > 0) s.classList.add('al-pago'); });
+        const ld = document.createElement('script');
+        ld.type = 'application/ld+json';
+        ld.textContent = JSON.stringify({
+            '@context': 'https://schema.org', '@type': 'Article',
+            headline: document.querySelector('.al-title')?.textContent?.trim() || document.title,
+            isAccessibleForFree: false,
+            hasPart: { '@type': 'WebPageElement', isAccessibleForFree: false, cssSelector: '.al-pago' }
+        });
+        document.head.appendChild(ld);
+    }
+};
+window.AcademyGate = AcademyGate;
+
 document.addEventListener('DOMContentLoaded', () => {
+    AcademyGate.init();
     // Delay para asegurar que el DOM esté completamente renderizado
     setTimeout(() => {
         AcademyAccess.checkAndUnlock();
