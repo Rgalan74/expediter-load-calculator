@@ -817,7 +817,8 @@ async function _getLexConfig() {
 
 // El trial se calcula desde la fecha de creacion de la cuenta en Firebase Auth
 // (no falsificable), no desde users/{uid}.lexTrialEndsAt, que escribe el cliente.
-// Devuelve 'admin' | 'premium' | 'trial' | null (sin acceso)
+// Devuelve 'admin' | 'premium' | 'trial' | 'pro' | null (sin acceso).
+// Pro tiene Lex con limite diario pequeno; durante el trial conserva el limite del trial.
 async function _lexAccessTier(uid) {
     const userSnap = await db.collection('users').doc(uid).get();
     const userData = userSnap.exists ? userSnap.data() : {};
@@ -826,12 +827,13 @@ async function _lexAccessTier(uid) {
 
     const authUser = await admin.auth().getUser(uid);
     const createdMs = new Date(authUser.metadata.creationTime).getTime();
-    return (!!createdMs && Date.now() < createdMs + LEX_TRIAL_DAYS * 86400000) ? 'trial' : null;
+    if (!!createdMs && Date.now() < createdMs + LEX_TRIAL_DAYS * 86400000) return 'trial';
+    return planId === 'professional' ? 'pro' : null;
 }
 
 // Limite diario de mensajes por usuario (control de costo y abuso).
 // Dia segun hora de Nueva York; admin sin limite.
-const LEX_DAILY_LIMITS = { trial: 25, premium: 150 };
+const LEX_DAILY_LIMITS = { trial: 25, pro: 10, premium: 150 };
 
 function _lexDayKey(now = new Date()) {
     return now.toLocaleDateString('en-CA', { timeZone: 'America/New_York' }); // YYYY-MM-DD
@@ -907,7 +909,7 @@ exports.lexChat = onCall(
 
         const tier = await _lexAccessTier(uid);
         if (!tier) {
-            throw new HttpsError('permission-denied', 'Lex AI requires the Premium plan or an active trial');
+            throw new HttpsError('permission-denied', 'Lex AI requires the Pro or Premium plan, or an active trial');
         }
         await _consumeLexDailyQuota(uid, tier);
 

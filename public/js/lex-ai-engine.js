@@ -496,7 +496,7 @@ RESPONSE FORMAT:
     }
 
     // ============================================================
-    //  DAILY MESSAGE CAP — trial: 25/día, premium: ilimitado
+    //  DAILY MESSAGE CAP — trial: 25/día, pro: 10/día, premium: lo controla el servidor
     // ============================================================
     const TRIAL_DAILY_LIMIT = 25;
 
@@ -523,9 +523,20 @@ RESPONSE FORMAT:
         } catch (_) {}
     }
 
+    // Límite diario que aplica en el navegador (el servidor lo vuelve a comprobar)
+    function getDailyLimit() {
+        const limits = window.userPlan?.limits || {};
+        const trialEnd = window.userPlan?.lexTrialEndsAt;
+        const planLimit = Number(limits.lexDailyLimit) > 0 ? Number(limits.lexDailyLimit) : null;
+        if (limits.hasLex === true && planLimit === null) return null; // premium: lo controla el servidor
+        if (trialEnd && new Date(trialEnd) > new Date()) return TRIAL_DAILY_LIMIT;
+        if (limits.hasLex === true) return planLimit; // pro
+        return TRIAL_DAILY_LIMIT;
+    }
+
     function isDailyLimitReached() {
-        if (window.userPlan?.limits?.hasLex === true) return false; // premium: ilimitado
-        return getDailyCount() >= TRIAL_DAILY_LIMIT;
+        const lim = getDailyLimit();
+        return lim !== null && getDailyCount() >= lim;
     }
 
     async function callOpenRouter(userMessage, conversationHistory = []) {
@@ -958,8 +969,8 @@ RESPONSE FORMAT:
             debugLog('[LEX-AI] Daily limit reached:', getDailyCount());
             const isEs = (window.i18n?.currentLang || 'en') === 'es';
             if (replyFn) replyFn(isEs
-                ? `⚡ Alcanzaste el límite de ${TRIAL_DAILY_LIMIT} mensajes diarios del trial. Vuelve mañana o mejora tu plan.\n\n<a href="plans.html" style="display:inline-block;margin-top:6px;padding:6px 14px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-radius:6px;font-weight:600;text-decoration:none;font-size:12px;">👑 Ver Premium →</a>`
-                : `⚡ You've reached the ${TRIAL_DAILY_LIMIT} daily message limit for your trial. Come back tomorrow or upgrade.\n\n<a href="plans.html" style="display:inline-block;margin-top:6px;padding:6px 14px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-radius:6px;font-weight:600;text-decoration:none;font-size:12px;">👑 Upgrade to Premium →</a>`
+                ? `⚡ Alcanzaste el límite de ${getDailyLimit()} mensajes diarios de Lex. Vuelve mañana o mejora a Premium (150 al día).\n\n<a href="plans.html" style="display:inline-block;margin-top:6px;padding:6px 14px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-radius:6px;font-weight:600;text-decoration:none;font-size:12px;">👑 Ver Premium →</a>`
+                : `⚡ You've reached your ${getDailyLimit()} daily Lex messages. Come back tomorrow or upgrade to Premium (150 a day).\n\n<a href="plans.html" style="display:inline-block;margin-top:6px;padding:6px 14px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-radius:6px;font-weight:600;text-decoration:none;font-size:12px;">👑 Upgrade to Premium →</a>`
             );
             return;
         }
@@ -1027,8 +1038,8 @@ RESPONSE FORMAT:
                 const lim = err.details?.limit;
                 const isEsLim = (window.i18n?.currentLang || 'en') === 'es';
                 if (replyFn) replyFn(isEsLim
-                    ? `Llegaste al límite de mensajes de Lex por hoy${lim ? ` (${lim})` : ''}. Vuelve mañana y seguimos. 🙌`
-                    : `You've reached today's Lex message limit${lim ? ` (${lim})` : ''}. Come back tomorrow and we'll keep going. 🙌`);
+                    ? `Llegaste al límite de mensajes de Lex por hoy${lim ? ` (${lim})` : ''}. Vuelve mañana y seguimos. 🙌${err.details?.tier === 'pro' ? '\n\nCon Premium tienes 150 mensajes al día. <a href="plans.html">Ver planes →</a>' : ''}`
+                    : `You've reached today's Lex message limit${lim ? ` (${lim})` : ''}. Come back tomorrow and we'll keep going. 🙌${err.details?.tier === 'pro' ? '\n\nPremium gives you 150 messages a day. <a href="plans.html">See plans →</a>' : ''}`);
                 return;
             }
 
