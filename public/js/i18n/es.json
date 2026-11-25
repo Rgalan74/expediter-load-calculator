@@ -121,6 +121,8 @@
     "margin_short": "margen",
     "per_day_short": "día",
     "stops_short": "paradas",
+    "stop_short_one": "parada",
+    "fuel_row": "Gasolina",
     "decision_thresholds_label": "Tus umbrales de decisión",
     "threshold_reject": "Rechazar",
     "threshold_evaluate": "Evaluar",

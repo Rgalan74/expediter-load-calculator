@@ -1,0 +1,108 @@
+/* ============================================================
+   Portada v2: secciones nuevas (prefijo .hv-). Autocontenido.
+   ============================================================ */
+.hv-sec { padding: 88px 20px; position: relative; }
+.hv-sec--alt { background: #070b14; }
+.hv-wrap { max-width: 1160px; margin: 0 auto; }
+.hv-eyebrow { display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #22D3EE; margin-bottom: 12px; }
+.hv-h2 { font-size: clamp(1.7rem, 3.4vw, 2.6rem); font-weight: 900; line-height: 1.15; color: #fff; margin: 0 0 14px; letter-spacing: -0.01em; }
+.hv-h2 em { font-style: normal; color: #22D3EE; }
+.hv-lead { font-size: 1.08rem; color: #94a3b8; line-height: 1.65; max-width: 640px; margin: 0 0 40px; }
+.hv-center { text-align: center; }
+.hv-center .hv-lead { margin-left: auto; margin-right: auto; }
+
+.hv-btn { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1rem; padding: 14px 26px; border-radius: 12px; text-decoration: none; transition: transform .15s, box-shadow .15s, background .15s; }
+.hv-btn--cyan { background: #22D3EE; color: #06101c; box-shadow: 0 8px 26px rgba(34, 211, 238, .25); }
+.hv-btn--cyan:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(34, 211, 238, .4); }
+.hv-btn--ghost { background: rgba(255, 255, 255, .06); color: #fff; border: 1px solid rgba(255, 255, 255, .16); }
+.hv-btn--ghost:hover { background: rgba(255, 255, 255, .1); }
+
+/* ---- Hero: tres veredictos ---- */
+.hv-verdicts { position: relative; z-index: 1; display: flex; justify-content: center; align-items: center; gap: 0; padding: 8px 16px 28px; }
+.hv-verdict { margin: 0; width: 300px; flex-shrink: 0; transition: transform .3s; }
+.hv-verdict img { width: 100%; height: auto; display: block; border-radius: 6px; box-shadow: 0 30px 70px rgba(0, 0, 0, .65); }
+.hv-verdict figcaption { text-align: center; margin-top: 12px; font-size: 13px; color: #cbd5e1; font-weight: 600; }
+.hv-verdict figcaption b { display: block; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 2px; }
+.hv-verdict--ok b { color: #34d399; } .hv-verdict--mid b { color: #fbbf24; } .hv-verdict--no b { color: #f87171; }
+.hv-verdict--side { transform: scale(.86); opacity: .82; }
+.hv-verdict--left { margin-right: -36px; transform: scale(.86) rotate(-3deg); }
+.hv-verdict--right { margin-left: -36px; transform: scale(.86) rotate(3deg); }
+.hv-verdict--main { position: relative; z-index: 2; width: 330px; }
+@media (max-width: 860px) {
+  .hv-verdicts { justify-content: flex-start; overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px; padding: 8px 20px 24px; -webkit-overflow-scrolling: touch; }
+  .hv-verdict, .hv-verdict--main { width: 78vw; max-width: 320px; scroll-snap-align: center; margin: 0 !important; transform: none !important; opacity: 1 !important; }
+  .hv-verdict--main { order: -1; }
+}
+
+/* ---- Cómo funciona ---- */
+.hv-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; counter-reset: paso; }
+.hv-step { background: linear-gradient(180deg, #0e1628, #0a101d); border: 1px solid rgba(34, 211, 238, .14); border-radius: 18px; padding: 28px 24px; position: relative; }
+.hv-step__n { width: 40px; height: 40px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; background: rgba(34, 211, 238, .12); color: #22D3EE; font-weight: 900; font-size: 18px; margin-bottom: 16px; }
+.hv-step h3 { color: #fff; font-size: 1.15rem; font-weight: 800; margin: 0 0 8px; }
+.hv-step p { color: #94a3b8; line-height: 1.6; margin: 0; font-size: .98rem; }
+
+/* ---- Funciones ---- */
+.hv-feats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.hv-feat { background: #0b1220; border: 1px solid rgba(255, 255, 255, .07); border-radius: 16px; padding: 24px; transition: border-color .2s, transform .2s; }
+.hv-feat:hover { border-color: rgba(34, 211, 238, .35); transform: translateY(-3px); }
+.hv-feat__ico { font-size: 26px; line-height: 1; margin-bottom: 14px; }
+.hv-feat h3 { color: #fff; font-size: 1.08rem; font-weight: 800; margin: 0 0 8px; }
+.hv-feat p { color: #94a3b8; line-height: 1.6; margin: 0; font-size: .95rem; }
+.hv-feat__tag { display: inline-block; margin-top: 12px; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #22D3EE; }
+
+/* ---- Banda: calculadora gratis ---- */
+.hv-band { display: grid; grid-template-columns: 1.3fr 1fr; gap: 36px; align-items: center; background: radial-gradient(120% 140% at 0% 0%, rgba(34, 211, 238, .14), transparent 55%), #0b1322; border: 1px solid rgba(34, 211, 238, .25); border-radius: 22px; padding: 44px; }
+.hv-band .hv-lead { margin-bottom: 24px; }
+.hv-band ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.hv-band li { color: #e2e8f0; display: flex; gap: 10px; align-items: flex-start; line-height: 1.5; }
+.hv-band li::before { content: '✓'; color: #22D3EE; font-weight: 900; }
+
+/* ---- Academia ---- */
+.hv-acad { display: grid; grid-template-columns: 1fr 1.1fr; gap: 44px; align-items: center; }
+.hv-mods { display: grid; gap: 10px; }
+.hv-mod { display: flex; align-items: center; gap: 14px; background: #0b1220; border: 1px solid rgba(255, 255, 255, .07); border-radius: 12px; padding: 13px 16px; color: #e2e8f0; font-weight: 600; text-decoration: none; }
+.hv-mod:hover { border-color: rgba(34, 211, 238, .35); }
+.hv-mod__n { width: 30px; height: 30px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, .06); color: #94a3b8; font-weight: 800; font-size: 13px; flex-shrink: 0; }
+.hv-mod__t { flex: 1; }
+.hv-mod__b { font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 4px 8px; border-radius: 6px; }
+.hv-mod__b--free { color: #34d399; background: rgba(52, 211, 153, .1); }
+.hv-mod__b--pro { color: #22D3EE; background: rgba(34, 211, 238, .1); }
+.hv-mod__b--prem { color: #c084fc; background: rgba(192, 132, 252, .1); }
+.hv-stats { display: flex; gap: 28px; margin: 0 0 28px; flex-wrap: wrap; }
+.hv-stats div { color: #94a3b8; font-size: .9rem; }
+.hv-stats b { display: block; color: #fff; font-size: 1.9rem; font-weight: 900; line-height: 1.1; }
+
+/* ---- Quién la hizo ---- */
+.hv-founder { display: grid; grid-template-columns: 340px 1fr; gap: 48px; align-items: center; }
+.hv-founder__img { position: relative; }
+.hv-founder__img img { width: 100%; border-radius: 22px; display: block; object-fit: cover; aspect-ratio: 1 / 1; border: 1px solid rgba(34, 211, 238, .25); }
+.hv-founder__badge { position: absolute; left: 16px; bottom: 16px; background: rgba(6, 10, 18, .88); border: 1px solid rgba(34, 211, 238, .3); color: #fff; padding: 10px 14px; border-radius: 12px; font-size: 13px; font-weight: 700; }
+.hv-founder__badge span { display: block; color: #22D3EE; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+.hv-founder blockquote { margin: 0 0 20px; color: #e2e8f0; font-size: 1.12rem; line-height: 1.75; }
+.hv-founder blockquote p { margin: 0 0 14px; }
+.hv-founder__facts { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
+.hv-founder__facts span { font-size: 13px; color: #cbd5e1; background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .08); padding: 7px 12px; border-radius: 999px; }
+.hv-founder__sig { color: #fff; font-weight: 800; }
+.hv-founder__sig a { color: #22D3EE; text-decoration: none; font-weight: 600; margin-left: 6px; }
+
+/* ---- Preguntas cortas ---- */
+.hv-faq { max-width: 820px; margin: 0 auto; }
+.hv-faq details { border-bottom: 1px solid rgba(255, 255, 255, .08); padding: 18px 4px; }
+.hv-faq summary { cursor: pointer; color: #fff; font-weight: 700; font-size: 1.05rem; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+.hv-faq summary::-webkit-details-marker { display: none; }
+.hv-faq summary::after { content: '+'; color: #22D3EE; font-size: 1.4rem; line-height: 1; }
+.hv-faq details[open] summary::after { content: '–'; }
+.hv-faq details p { color: #94a3b8; line-height: 1.65; margin: 12px 0 0; }
+.hv-faq__more { text-align: center; margin-top: 26px; }
+.hv-faq__more a { color: #22D3EE; font-weight: 700; text-decoration: none; }
+
+@media (max-width: 900px) {
+  .hv-sec { padding: 64px 18px; }
+  .hv-steps, .hv-feats { grid-template-columns: 1fr; }
+  .hv-band, .hv-acad, .hv-founder { grid-template-columns: 1fr; }
+  .hv-band { padding: 28px 22px; }
+  .hv-founder__img { max-width: 320px; }
+}
+@media (min-width: 640px) and (max-width: 900px) {
+  .hv-feats { grid-template-columns: 1fr 1fr; }
+}

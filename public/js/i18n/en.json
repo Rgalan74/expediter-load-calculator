@@ -121,6 +121,8 @@
     "margin_short": "margin",
     "per_day_short": "day",
     "stops_short": "stops",
+    "stop_short_one": "stop",
+    "fuel_row": "Fuel",
     "decision_thresholds_label": "Your decision thresholds",
     "threshold_reject": "Reject",
     "threshold_evaluate": "Evaluate",
