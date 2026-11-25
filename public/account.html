@@ -891,7 +891,7 @@
           { label: isEs ? 'Análisis de zonas' : 'Zone analysis', active: true },
           { label: isEs ? 'Reportes avanzados' : 'Advanced reports', active: true },
           { label: 'Smart Load Academy', active: true },
-          { label: 'Lex AI', active: false },
+          { label: isEs ? 'Lex AI — 10 mensajes al día' : 'Lex AI — 10 messages a day', active: true },
         ]
       },
       premium: {
@@ -996,7 +996,7 @@
     const trialEndMs = createdMs ? createdMs + 14 * 86400000 : 0;
     if ((planId === 'free' || planId === 'professional') && trialEndMs > Date.now()) {
       const endTxt = new Date(trialEndMs).toLocaleDateString(isEs ? 'es-US' : 'en-US', { month: 'long', day: 'numeric' });
-      features = features.map(f => f.label === 'Lex AI'
+      features = features.map(f => f.label.startsWith('Lex AI')
         ? { label: isEs ? `Lex AI — prueba gratis hasta el ${endTxt}` : `Lex AI — free trial until ${endTxt}`, active: true }
         : f);
     }
