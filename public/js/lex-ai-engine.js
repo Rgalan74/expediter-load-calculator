@@ -60,15 +60,25 @@
     //  DETECTAR Y GUARDAR NOTAS DESDE EL CHAT
     // ============================================================
     function detectSaveNote(text) {
-        const savePatterns = [
-            /agrega?\s+(?:una\s+)?nota\s+(?:para|de|en|sobre)\s+(.+?)[:,]\s*(.+)/i,
-            /guarda?\s+(?:una\s+)?nota\s+(?:para|de|en|sobre)\s+(.+?)[:,]\s*(.+)/i,
-            /anota\s+(?:para|en|sobre)\s+(.+?)[:,]\s*(.+)/i,
-            /nota\s+(?:para|de|en)\s+(.+?)[:,]\s*(.+)/i,
+        // Español e inglés. El lugar termina en ":" si lo hay (así "Atlanta, GA: ..."
+        // conserva el estado); si no, en la primera coma.
+        const inicios = [
+            /\bagrega(?:r)?\s+(?:una\s+)?nota\s+(?:para|de|en|sobre)\s+/i,
+            /\bguarda(?:r)?\s+(?:una\s+)?nota\s+(?:para|de|en|sobre)\s+/i,
+            /\banota\s+(?:para|en|sobre)\s+/i,
+            /\bnota\s+(?:para|de|en)\s+/i,
+            /\b(?:add|save|make|leave)\s+(?:a\s+)?note\s+(?:for|about|on|in)\s+/i,
+            /\bnote\s+(?:for|about|on)\s+/i,
         ];
-        for (const pattern of savePatterns) {
-            const match = text.match(pattern);
-            if (match) return { lugar: match[1].trim(), nota: match[2].trim() };
+        for (const inicio of inicios) {
+            const m = text.match(inicio);
+            if (!m) continue;
+            const resto = text.slice(m.index + m[0].length);
+            const corte = resto.indexOf(':') > 0 ? resto.indexOf(':') : resto.indexOf(',');
+            if (corte <= 0) continue;
+            const lugar = resto.slice(0, corte).trim();
+            const nota = resto.slice(corte + 1).trim();
+            if (lugar && nota) return { lugar, nota };
         }
         return null;
     }
