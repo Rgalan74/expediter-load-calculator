@@ -173,3 +173,14 @@
 @media (max-width: 640px) {
   .al-compare { grid-template-columns: 1fr; }
 }
+
+/* Bloqueo suave de lecciones de pago (AcademyGate, 2026-11-24) */
+.al-gated .al-section ~ .al-section,
+.al-gated .al-summary,
+.al-gated .al-done,
+.al-gated .lesson-quiz,
+.al-gated #markCompleteBtn { display: none !important; }
+.al-gate { margin: 1.5rem 0 2rem; padding: 1.5rem; border: 1px solid rgba(245, 176, 58, 0.45); border-radius: 8px; background: linear-gradient(180deg, rgba(245, 176, 58, 0.10), var(--al-surface)); }
+.al-gate-label { font-family: var(--al-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--al-amber); margin-bottom: 0.5rem; }
+.al-gate p { margin: 0 0 1rem; color: var(--al-body); }
+.al-gate-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
