@@ -133,6 +133,8 @@ async function setupAuthListener() {
     authInitialized = true;
 
     debugLog("🔄 Auth state changed", user ? `Usuario: ${user.email}` : "No usuario");
+    // Marca para la web pública: con sesión, su menú muestra "Ir a la app"
+    try { if (user) localStorage.setItem('sls_session', '1'); else localStorage.removeItem('sls_session'); } catch (_) {}
 
     if (user) {
       debugLog("✅ Usuario autenticado encontrado", {
