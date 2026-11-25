@@ -993,10 +993,13 @@
 
         <!-- PLAN PROFESSIONAL ($14.99) -->
         <div
-          class="glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/20"
-          style="border: 1px solid rgba(59, 130, 246, 0.3);">
+          class="relative glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-orange-500/30"
+          style="position:relative;border: 2px solid var(--primary-orange,#f97316);">
 
-          <div class="mb-6">
+          <div style="position:absolute;top:-16px;left:50%;transform:translateX(-50%);">
+            <span style="display:inline-block;background:var(--primary-orange,#f97316);color:#fff;padding:6px 20px;border-radius:999px;font-size:13px;font-weight:700;white-space:nowrap;box-shadow:0 6px 18px rgba(0,0,0,.35);" data-i18n="landing.plan_pro_badge">⭐ RECOMMENDED</span>
+          </div>
+          <div class="mb-6 mt-4">
             <h3 class="text-2xl font-bold mb-2">Professional</h3>
             <div class="flex items-baseline gap-2">
               <span class="text-4xl md:text-5xl font-black" style="color: #60a5fa;">$14.99</span>
@@ -1050,17 +1053,10 @@
           </a>
         </div>
 
-        <!-- PLAN PREMIUM + AI ($29.99) - MÁS POPULAR -->
+        <!-- PLAN PREMIUM + AI ($29.99) -->
         <div
-          class="relative glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-orange-500/30"
-          style="border: 2px solid var(--accent-orange);">
-
-          <!-- Most Popular Badge -->
-          <div class="absolute -top-4 left-1/2 -translate-x-1/2">
-            <span
-              class="bg-gradient-to-r from-orange-500 to-pink-500 px-6 py-2 rounded-full text-sm font-bold text-white shadow-lg whitespace-nowrap"
-              data-i18n="landing.plan_premium_badge">⭐ MOST POPULAR</span>
-          </div>
+          class="relative glass rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-500/30"
+          style="border: 2px solid rgba(168, 85, 247, 0.5);">
 
           <div class="mb-6 mt-4">
             <h3 class="text-2xl font-bold mb-2">Premium + AI</h3>
@@ -1114,7 +1110,7 @@
           </a>
 
           <p class="text-center text-sm text-gray-400 mt-4" data-i18n="landing.plan_premium_guarantee">✓ Cancel anytime
-            • ✓ 30-day guarantee</p>
+            • ✓ 14-day guarantee</p>
         </div>
 
       </div>
@@ -1123,8 +1119,7 @@
       <div class="mt-12 glass rounded-xl p-6 max-w-3xl mx-auto">
         <p class="text-lg text-gray-200" data-i18n-html="landing.pricing_roi"><strong class="text-white">Is it worth
             it?</strong> If you optimize just <strong class="gradient-text">2-3 loads per month</strong> and avoid
-          accepting bad loads that cost you money, the Pro Plan pays for itself. Most of our users report <strong
-            class="text-green-400">+$300-500/mo</strong> in additional profit.</p>
+          accepting bad loads that cost you money, the Pro Plan pays for itself.</p>
       </div>
 
     </div>
@@ -1245,8 +1240,7 @@
                   style="background: rgba(0, 217, 255, 0.1); color: var(--primary-cyan);">
                   ✓
                 </div>
-                <span class="text-lg font-medium" data-i18n="landing.final_cta_b3">Immediate access to all
-                  features</span>
+                <span class="text-lg font-medium" data-i18n="landing.final_cta_b3">Free plan with no time limit</span>
               </div>
             </div>
 
@@ -1298,7 +1292,7 @@
             <li><a href="plans.html" class="text-gray-400 hover:text-white transition"
                 data-i18n="landing.footer_plans">Plans &amp; Pricing</a></li>
             <li><a href="#testimonials" class="text-gray-400 hover:text-white transition"
-                data-i18n="landing.footer_testimonials">Testimonials</a></li>
+                data-i18n="landing.footer_testimonials">Why it works</a></li>
             <li><a href="contact.html" class="text-gray-400 hover:text-white transition"
                 data-i18n="landing.footer_contact">Contact</a></li>
           </ul>
