@@ -140,10 +140,15 @@ function getEffectiveLoadsThisMonth(userData) {
 
 async function getUserPlan(userId) {
     try {
-        const userDoc = await firebase.firestore()
-            .collection('users')
-            .doc(userId)
-            .get();
+        const userRef = firebase.firestore().collection('users').doc(userId);
+        let userDoc = await userRef.get();
+        // Si hay un guardado pendiente en este documento (ej. el idioma al iniciar
+        // sesion), la lectura puede traer solo ese campo y perder "plan".
+        // Esperar a que se confirme y leer de nuevo.
+        if (userDoc.metadata && userDoc.metadata.hasPendingWrites) {
+            try { await firebase.firestore().waitForPendingWrites(); } catch (_) {}
+            userDoc = await userRef.get();
+        }
 
         const userData = userDoc.exists ? userDoc.data() : {};
 
