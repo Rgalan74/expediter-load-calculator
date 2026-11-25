@@ -10,7 +10,7 @@ const AcademyProgress = {
 
     MODULES: {
         0: { lessons: 1, name: 'START HERE', time: '5 min', difficulty: 'Muy fácil' },
-        1: { lessons: 5, name: 'Mentalidad & Fundamentos', time: '35 min', difficulty: 'Fácil' },
+        1: { lessons: 5, name: 'Mentalidad & Fundamentos', time: '36 min', difficulty: 'Fácil' },
         2: { lessons: 6, name: 'Dominando los Números', time: '49 min', difficulty: 'Fácil' },
         3: { lessons: 5, name: 'Estrategia de Rutas & Zonas', time: '39 min', difficulty: 'Intermedio' },
         4: { lessons: 5, name: 'Negociación & Relaciones con Brokers', time: '43 min', difficulty: 'Intermedio', locked: true },
