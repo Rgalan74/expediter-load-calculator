@@ -96,9 +96,13 @@ class LanguageManager {
     saveLanguageToFirebase(lang) {
         if (window.currentUser && window.db) {
             try {
-                window.db.collection('users').doc(window.currentUser.uid).set({
-                    preferredLanguage: lang
-                }, { merge: true });
+                // update() y no set(merge): set(merge) sobre un documento que aun no
+                // esta en cache deja una copia local con solo este campo, y las
+                // lecturas simultaneas del perfil (plan, rol, categorias) la reciben.
+                const ref = window.db.collection('users').doc(window.currentUser.uid);
+                ref.update({ preferredLanguage: lang })
+                    .catch(() => ref.set({ preferredLanguage: lang }, { merge: true }))
+                    .catch(err => debugLog('❌ [I18N] Error guardando idioma', err));
                 debugLog(`[I18N] Preferencia guardada en Firestore`);
             } catch (err) {
                 debugLog(`❌ [I18N] Error guardando preferencia de idioma en Firestore`, err);
