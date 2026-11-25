@@ -369,6 +369,9 @@ function getUserFuelType() {
 }
 window.getUserFuelType = getUserFuelType;
 
+// Dinero con el signo delante: -$0.03 (no $-0.03)
+function _usd2(n) { const v = Number(n) || 0; return (v < 0 ? '-$' : '$') + Math.abs(v).toFixed(2); }
+
 // Estados de la ruta de una carga: origen, paradas y destino.
 function loadRouteStates(origin, destination, stopDestinations = []) {
   return [origin, ...stopDestinations, destination].map(getStateFromLocation).filter(Boolean);
@@ -1331,7 +1334,7 @@ function updateMainResults(data) {
     otherCost: '$' + data.others.toFixed(2),
     totalExpenses: '$' + data.totalExpenses.toFixed(2),
     netProfit: '$' + data.netProfit.toFixed(2),
-    profitPerMile: '$' + data.profitPerMile.toFixed(2),
+    profitPerMile: _usd2(data.profitPerMile),
     profitMargin: data.margin.toFixed(1) + '%',
     actualRPM: '$' + data.actualRPM.toFixed(2),
     estimatedTime: calcularTiempoReal(data.totalMiles).formato,
@@ -1548,7 +1551,7 @@ function showDecisionPanel(calculationData = {}) {
   if (quickRPM) quickRPM.textContent = `$${actualRPM.toFixed(2)}`;
   if (quickNetProfit) quickNetProfit.textContent = `$${Math.round(netProfit).toLocaleString()}`;
   if (quickMargin) quickMargin.textContent = `${margin.toFixed(1)}%`;
-  if (quickProfitPerMile) quickProfitPerMile.textContent = `$${profitPerMile.toFixed(2)}`;
+  if (quickProfitPerMile) quickProfitPerMile.textContent = _usd2(profitPerMile);
 
   // ========== CREAR BADGES DINÁMICOS ==========
   const badgesContainer = document.getElementById('decisionBadges');
@@ -1674,7 +1677,7 @@ function showDecisionPanel(calculationData = {}) {
     _detailsEl.setAttribute('data-profit-per-mile', profitPerMile.toFixed(2));
     _detailsEl.setAttribute('data-margin', margin.toFixed(1));
     _detailsEl.setAttribute('data-ganancia-dia', Math.round(_gananciaDia));
-    _detailsEl.textContent = `$${profitPerMile.toFixed(2)}/mi • ${margin.toFixed(1)}% ${_marginWord} • ~$${Math.round(_gananciaDia)}/${window.i18n?.t('calculator.per_day_short') || 'day'}`;
+    _detailsEl.textContent = `${_usd2(profitPerMile)}/mi • ${margin.toFixed(1)}% ${_marginWord} • ~$${Math.round(_gananciaDia)}/${window.i18n?.t('calculator.per_day_short') || 'day'}`;
   }
 
   // Linea aparte: lo que queda despues del sueldo del dueño (si lo configuro).
@@ -1709,7 +1712,7 @@ function showDecisionPanel(calculationData = {}) {
   }
 
   if (document.getElementById('fuelStopsShort')) {
-    const _stopsWord = window.i18n?.t('calculator.stops_short') || 'stops';
+    const _stopsWord = fuelStops === 1 ? (window.i18n?.t('calculator.stop_short_one') || 'stop') : (window.i18n?.t('calculator.stops_short') || 'stops');
     const _stopsEl = document.getElementById('fuelStopsShort');
     _stopsEl.setAttribute('data-fuel-stops', fuelStops);
     _stopsEl.textContent = `⛽ ${fuelStops} ${_stopsWord}`;
@@ -2171,12 +2174,12 @@ document.addEventListener('languageChanged', () => {
   const detailsEl = document.getElementById('profitDetails');
   if (detailsEl && detailsEl.dataset.profitPerMile) {
     const marginWord = window.i18n?.t('calculator.margin_short') || 'margin';
-    detailsEl.textContent = `$${detailsEl.dataset.profitPerMile}/mi • ${detailsEl.dataset.margin}% ${marginWord} • ~$${detailsEl.dataset.gananciaDia}/${window.i18n?.t('calculator.per_day_short') || 'day'}`;
+    detailsEl.textContent = `${_usd2(Number(detailsEl.dataset.profitPerMile))}/mi • ${detailsEl.dataset.margin}% ${marginWord} • ~$${detailsEl.dataset.gananciaDia}/${window.i18n?.t('calculator.per_day_short') || 'day'}`;
   }
   // fuelStopsShort
   const stopsEl = document.getElementById('fuelStopsShort');
   if (stopsEl && stopsEl.dataset.fuelStops) {
-    const stopsWord = window.i18n?.t('calculator.stops_short') || 'stops';
+    const stopsWord = stopsEl.dataset.fuelStops === '1' ? (window.i18n?.t('calculator.stop_short_one') || 'stop') : (window.i18n?.t('calculator.stops_short') || 'stops');
     stopsEl.textContent = `⛽ ${stopsEl.dataset.fuelStops} ${stopsWord}`;
   }
 });
