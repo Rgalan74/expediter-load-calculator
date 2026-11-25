@@ -16,6 +16,17 @@ const AcademyQuiz = {
         const container = document.getElementById('lessonQuiz');
         if (!container) return;
 
+        // Mezclar las opciones de cada pregunta (2026-11-24): en la mayoria de
+        // las lecciones la respuesta correcta era la segunda y se adivinaba.
+        questions = (questions || []).map((q) => {
+            const orden = q.options.map((_, i) => i);
+            for (let i = orden.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [orden[i], orden[j]] = [orden[j], orden[i]];
+            }
+            return { ...q, options: orden.map((i) => q.options[i]), correctIndex: orden.indexOf(q.correctIndex) };
+        });
+
         this._state = {
             moduleNum,
             lessonNum,
