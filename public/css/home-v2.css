@@ -106,3 +106,6 @@
 @media (min-width: 640px) and (max-width: 900px) {
   .hv-feats { grid-template-columns: 1fr 1fr; }
 }
+
+/* Títulos de sección sin texto introductorio: aire antes de las tarjetas */
+.hv-center > .hv-h2:last-child { margin-bottom: 40px; }
