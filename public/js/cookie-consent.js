@@ -64,8 +64,8 @@
     }
 
     const TEXTS = {
-        es: { msg: 'Usamos cookies y analytics (Google Analytics) para mejorar tu experiencia.', link: 'Política de Privacidad', href: '/privacy.html', reject: 'Rechazar', accept: 'Aceptar' },
-        en: { msg: 'We use cookies and analytics (Google Analytics) to improve your experience.', link: 'Privacy Policy', href: '/en/privacy.html', reject: 'Reject', accept: 'Accept' }
+        es: { msg: 'Usamos cookies de análisis (Google Analytics, Meta Pixel y Metricool) para mejorar la web. Solo se activan si aceptas.', link: 'Política de Privacidad', href: '/privacy.html', reject: 'Rechazar', accept: 'Aceptar' },
+        en: { msg: 'We use analytics cookies (Google Analytics, Meta Pixel and Metricool) to improve the site. They only turn on if you accept.', link: 'Privacy Policy', href: '/en/privacy.html', reject: 'Reject', accept: 'Accept' }
     };
 
     function createBanner() {

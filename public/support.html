@@ -8,7 +8,7 @@
   <meta charset="UTF-8">
 
   <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+  <script src="/js/consent-mode.js?v=1.1.0"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Encuentra tutoriales, guías y asistencia técnica para configurar y usar tu calculadora de cargas para cargo van, box truck y sprinter.">
   
@@ -16,13 +16,13 @@
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://smartloadsolution.com/support.html">
-  <meta property="og:title" content="Support | Smart Load Solution">
-  <meta property="og:description" content="SmartLoad Solution support center. We're here to help you.">
+  <meta property="og:title" content="Centro de Soporte y Ayuda — Smart Load Solution">
+  <meta property="og:description" content="Encuentra tutoriales, guías y asistencia técnica para configurar y usar tu calculadora de cargas para cargo van, box truck y sprinter.">
   <meta property="og:image" content="https://smartloadsolution.com/img/og-image-es.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://smartloadsolution.com/support.html">
-  <meta name="twitter:title" content="Support | Smart Load Solution">
-  <meta name="twitter:description" content="SmartLoad Solution support center. We're here to help you.">
+  <meta name="twitter:title" content="Centro de Soporte y Ayuda — Smart Load Solution">
+  <meta name="twitter:description" content="Encuentra tutoriales, guías y asistencia técnica para configurar y usar tu calculadora de cargas para cargo van, box truck y sprinter.">
   <meta name="twitter:image" content="https://smartloadsolution.com/img/og-image-es.png">
 
   <link rel="icon" type="image/png" href="img/logo-app.png">
@@ -37,11 +37,11 @@
     :root {
       --bg-dark: #0a0a0f;
       --primary-cyan: #00D9FF;
-      --primary-orange: #FF6B35;
+      --primary-orange: #22D3EE;
     }
     body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: white; overflow-x: hidden; }
     .gradient-text {
-      background: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+      background: linear-gradient(90deg, #22D3EE 0%, #A5F3FC 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -76,9 +76,6 @@
     .lang-toggle button.active { color: var(--primary-cyan); }
     .lang-toggle .sep { color: #4b5563; }
   </style>
-    <!-- Metricool Tracker -->
-  <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
-  <!-- End Metricool Tracker -->
 
 
 
@@ -138,12 +135,12 @@
 
             <div>
               <label for="name" data-i18n="support.label_name">Nombre</label>
-              <input type="text" id="name" name="name" placeholder="Your full name" required="">
+              <input type="text" id="name" name="name" placeholder="Tu nombre completo" required="">
             </div>
 
             <div>
               <label for="email" data-i18n="support.label_email">Correo electrónico</label>
-              <input type="email" id="email" name="email" placeholder="you@email.com" required="">
+              <input type="email" id="email" name="email" placeholder="tu@correo.com" required="">
             </div>
 
             <div>
@@ -159,14 +156,14 @@
 
             <div>
               <label for="message" data-i18n="support.label_message">Mensaje</label>
-              <textarea id="message" name="message" rows="5" placeholder="Describe your problem or question in as much detail as possible..." required="" style="resize: vertical;"></textarea>
+              <textarea id="message" name="message" rows="5" placeholder="Describe tu problema o pregunta con el mayor detalle posible..." required="" style="resize: vertical;"></textarea>
             </div>
 
             <button type="submit" id="submitBtn" class="w-full font-bold py-3 px-6 rounded-lg transition" style="background: var(--primary-cyan); color: #0a0a0f; cursor: pointer; border: none; font-size: 1rem;" data-i18n="support.btn_send">Enviar Mensaje</button>
 
             <div id="formSuccess" class="hidden text-center py-3 rounded-lg" style="background: rgba(0,217,255,0.1); border: 1px solid rgba(0,217,255,0.3); color: var(--primary-cyan);">
             </div>
-            <div id="formError" class="hidden text-center py-3 rounded-lg" style="background: rgba(255,107,53,0.1); border: 1px solid rgba(255,107,53,0.3); color: var(--primary-orange);">
+            <div id="formError" class="hidden text-center py-3 rounded-lg" style="background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.3); color: #f87171;">
             </div>
 
           </div>
@@ -184,7 +181,7 @@
 
 
   <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+  <script src="/js/cookie-consent.js?v=1.1.0"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-functions-compat.js"></script>
 <script src="/js/support-form.js?v=20261125"></script>

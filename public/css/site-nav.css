@@ -117,3 +117,7 @@ footer.sls-foot { margin: 0 !important; padding: 0 !important; width: 100% !impo
   .sls-foot__grid { grid-template-columns: 1fr 1fr; }
   .sls-foot__brand { grid-column: 1 / -1; }
 }
+
+/* Botones viejos de Tailwind (celeste a naranja) -> cyan v3 en toda la web pública */
+.from-cyan-400.to-orange-500 { background: #22D3EE !important; color: #06101c !important; box-shadow: 0 8px 26px rgba(34, 211, 238, .28); }
+.from-cyan-400.to-orange-500:hover { background: #67E8F9 !important; }

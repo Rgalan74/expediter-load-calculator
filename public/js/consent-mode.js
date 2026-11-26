@@ -1,5 +1,5 @@
 /**
- * CONSENT MODE — Google Consent Mode v2 + Meta Pixel consent gate
+ * CONSENT MODE — Google Consent Mode v2 + Meta Pixel + Metricool consent gate
  *
  * Fuente unica para inicializar GA4 y Meta Pixel en todo el sitio.
  * Por defecto todo arranca "denied" (sin cookies, sin datos personales) y
@@ -70,6 +70,16 @@
             'analytics_storage': 'granted'
         });
         fbq('consent', 'grant');
+
+        // Metricool: solo se carga con consentimiento (antes se cargaba siempre)
+        if (!window.__slsMetricool) {
+            window.__slsMetricool = true;
+            var mc = document.createElement('script');
+            mc.async = true;
+            mc.src = 'https://tracker.metricool.com/resources/be.js';
+            mc.onload = function () { try { window.beTracker && window.beTracker.t({ hash: '7da74d6dfb9767939b3eb010fa322db6' }); } catch (e) {} };
+            document.head.appendChild(mc);
+        }
 
         if (typeof window.debugLog === 'function') {
             window.debugLog('[CONSENT] ✅ Tracking consent granted (GA4 + Meta Pixel)');

@@ -8,20 +8,20 @@
   <meta charset="UTF-8">
 
   <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+  <script src="/js/consent-mode.js?v=1.1.0"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="¿Tienes preguntas sobre nuestra calculadora de cargas o Lex AI? Ponte en contacto con el equipo de soporte de Smart Load Solution. Estamos para ayudarte.">
+  <meta name="description" content="¿Preguntas sobre la calculadora de cargas o Lex AI? Escribe al equipo de Smart Load Solution. Respondemos en 1 a 2 días hábiles.">
   
   
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://smartloadsolution.com/contact.html">
-  <meta property="og:title" content="Contact | Smart Load Solution">
-  <meta property="og:description" content="Contact Smart Load Solution. We're here to help you.">
+  <meta property="og:title" content="Contacto y Soporte — Smart Load Solution | Escríbenos">
+  <meta property="og:description" content="¿Preguntas sobre la calculadora de cargas o Lex AI? Escribe al equipo de Smart Load Solution. Respondemos en 1 a 2 días hábiles.">
   <meta property="og:image" content="https://smartloadsolution.com/img/og-image-es.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://smartloadsolution.com/contact.html">
-  <meta name="twitter:title" content="Contact | Smart Load Solution">
-  <meta name="twitter:description" content="Contact Smart Load Solution. We're here to help you.">
+  <meta name="twitter:title" content="Contacto y Soporte — Smart Load Solution | Escríbenos">
+  <meta name="twitter:description" content="¿Preguntas sobre la calculadora de cargas o Lex AI? Escribe al equipo de Smart Load Solution. Respondemos en 1 a 2 días hábiles.">
   <meta name="twitter:image" content="https://smartloadsolution.com/img/og-image-es.png">
 
   <link rel="icon" type="image/webp" href="img/logo-app.webp">
@@ -36,8 +36,8 @@
       --bg-dark: #0a0a0f;
       --bg-darker: #050508;
       --primary-cyan: #00D9FF;
-      --primary-orange: #FF6B35;
-      --gradient-primary: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+      --primary-orange: #22D3EE;
+      --gradient-primary: linear-gradient(90deg, #22D3EE 0%, #A5F3FC 100%);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: white; overflow-x: hidden; }
@@ -47,8 +47,8 @@
     .glass { background: rgba(15,15,25,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.1); position: sticky; top: 0; z-index: 50; padding: 1rem 0; }
     .gradient-text { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .section { padding: 5rem 0; }
-    .btn-primary { background: var(--primary-orange); color: white; padding: 1rem 2rem; border-radius: 50px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.3s; box-shadow: 0 10px 20px rgba(255,107,53,0.3); border: none; cursor: pointer; width: 100%; justify-content: center; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(255,107,53,0.4); }
+    .btn-primary { background: var(--primary-orange); color: #06101c; padding: 1rem 2rem; border-radius: 50px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.3s; box-shadow: 0 10px 20px rgba(34,211,238,0.3); border: none; cursor: pointer; width: 100%; justify-content: center; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(34,211,238,0.4); }
     .btn-secondary { background: rgba(255,255,255,0.1); color: white; padding: 0.75rem 1.5rem; border-radius: 0.75rem; font-weight: 600; text-decoration: none; border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s; }
     .btn-secondary:hover { background: rgba(0,217,255,0.05); border-color: var(--primary-cyan); color: var(--primary-cyan); }
     .contact-card { background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 1rem; padding: 2rem; transition: all 0.3s; text-align: center; }
@@ -63,9 +63,6 @@
     footer a { color: #9ca3af; text-decoration: none; transition: color 0.3s; }
     footer a:hover { color: white; }
   </style>
-    <!-- Metricool Tracker -->
-  <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
-  <!-- End Metricool Tracker -->
 
 
 
@@ -124,12 +121,12 @@
           <form id="contactForm" class="space-y-6">
             <div>
               <label for="name" class="block text-sm font-semibold mb-2" data-i18n="contact.label_name">Nombre Completo</label>
-              <input type="text" id="name" name="name" required="" class="form-input" placeholder="Your name">
+              <input type="text" id="name" name="name" required="" class="form-input" placeholder="Tu nombre">
             </div>
 
             <div>
               <label for="email" class="block text-sm font-semibold mb-2" data-i18n="contact.label_email">Email</label>
-              <input type="email" id="email" name="email" required="" class="form-input" placeholder="you@email.com">
+              <input type="email" id="email" name="email" required="" class="form-input" placeholder="tu@correo.com">
             </div>
 
             <div>
@@ -146,7 +143,7 @@
 
             <div>
               <label for="message" class="block text-sm font-semibold mb-2" data-i18n="contact.label_message">Mensaje</label>
-              <textarea id="message" name="message" required="" class="form-input" placeholder="Tell us how we can help you..."></textarea>
+              <textarea id="message" name="message" required="" class="form-input" placeholder="Cuéntanos cómo podemos ayudarte..."></textarea>
             </div>
 
             <button type="submit" id="submitBtn" class="btn-primary">
@@ -184,7 +181,7 @@
 
 
   <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+  <script src="/js/cookie-consent.js?v=1.1.0"></script>
 
   <script>
     (function () {

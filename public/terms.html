@@ -8,15 +8,15 @@
   <meta charset="UTF-8">
 
   <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+  <script src="/js/consent-mode.js?v=1.1.0"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Términos y condiciones legales de uso de la plataforma de cálculo de cargas Smart Load Solution para transportistas y dueños-operadores.">
   
   
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://smartloadsolution.com/terms.html">
-  <meta property="og:title" content="Terms &amp; Conditions | Smart Load Solution">
-  <meta property="og:description" content="Read our terms of service and refund policy.">
+  <meta property="og:title" content="Términos de Servicio — Smart Load Solution">
+  <meta property="og:description" content="Términos y condiciones legales de uso de la plataforma de cálculo de cargas Smart Load Solution para transportistas y dueños-operadores.">
   <meta property="og:image" content="https://smartloadsolution.com/img/og-image-es.png">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -30,8 +30,8 @@
       --bg-dark: #0a0a0f;
       --bg-darker: #050508;
       --primary-cyan: #00D9FF;
-      --primary-orange: #FF6B35;
-      --gradient-primary: linear-gradient(90deg, #00D9FF 0%, #FF6B35 100%);
+      --primary-orange: #22D3EE;
+      --gradient-primary: linear-gradient(90deg, #22D3EE 0%, #A5F3FC 100%);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: white; overflow-x: hidden; }
@@ -47,9 +47,6 @@
     footer a { color: #9ca3af; text-decoration: none; transition: color 0.3s; }
     footer a:hover { color: white; }
   </style>
-    <!-- Metricool Tracker -->
-  <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
-  <!-- End Metricool Tracker -->
 
 
 
@@ -110,9 +107,10 @@
               <h4 class="font-semibold mb-2">Starter</h4>
               <p class="text-2xl font-bold mb-2">$0/mo</p>
               <ul class="text-sm text-gray-400 space-y-1">
-                <li data-i18n="terms.starter_f1">✓ Hasta 30 cargas/mes</li>
-                <li data-i18n="terms.starter_f2">✓ Calculadora de RPM real</li>
+                <li data-i18n="terms.starter_f1">✓ 30 cargas al mes</li>
+                <li data-i18n="terms.starter_f2">✓ Calculadora de RPM real con veredicto</li>
                 <li data-i18n="terms.starter_f3">✓ Historial de 30 días</li>
+                <li data-i18n-html="terms.starter_f4">✓ Lex AI: 14 días de prueba</li>
               </ul>
             </div>
             <div class="bg-blue-500/10 p-4 rounded-lg border border-blue-500/30">
@@ -120,8 +118,9 @@
               <p class="text-2xl font-bold mb-2">$14.99/mo</p>
               <ul class="text-sm text-gray-400 space-y-1">
                 <li data-i18n="terms.pro_f1">✓ Cargas ilimitadas</li>
-                <li data-i18n="terms.pro_f2">✓ Sistema financiero completo</li>
-                <li data-i18n="terms.pro_f3">✓ Lex AI: 10 mensajes al día</li>
+                <li data-i18n="terms.pro_f2">✓ Finanzas completas y cuentas por cobrar</li>
+                <li data-i18n="terms.pro_f3">✓ Historial de 90 días</li>
+                <li data-i18n-html="terms.pro_f4">✓ Lex AI: 10 mensajes al día</li>
               </ul>
             </div>
             <div class="bg-purple-500/10 p-4 rounded-lg border border-purple-500/30">
@@ -130,12 +129,13 @@
               <ul class="text-sm text-gray-400 space-y-1">
                 <li data-i18n="terms.premium_f1">✓ Todo lo de Professional</li>
                 <li data-i18n="terms.premium_f2">✓ Lex AI: 150 mensajes al día</li>
-                <li data-i18n="terms.premium_f3">✓ Soporte prioritario</li>
+                <li data-i18n="terms.premium_f3">✓ Historial ilimitado</li>
+                <li data-i18n-html="terms.premium_f4">✓ Soporte prioritario</li>
               </ul>
             </div>
           </div>
           <h3 class="text-lg font-semibold text-blue-400 mt-6 mb-3" data-i18n="terms.sec2_2_heading">2.2 Renovación Automática</h3>
-          <p class="text-gray-300 leading-relaxed mb-4" data-i18n="terms.sec2_2_desc">Las suscripciones se renuevan automáticamente cada mes. El cargo se realizará en la misma fecha cada mes usando el método de pago registrado.</p>
+          <p class="text-gray-300 leading-relaxed mb-4" data-i18n="terms.sec2_2_desc">Las suscripciones se renuevan automáticamente cada mes, en la misma fecha, con el método de pago registrado. Los pagos los procesa Stripe. Si un precio cambia, te avisamos por email antes de tu siguiente cobro.</p>
         </div>
 
         <!-- Section 3 -->
@@ -151,7 +151,7 @@
           <h3 class="text-lg font-semibold mb-3" data-i18n="terms.sec3_1_heading">3.1 Condiciones de Reembolso</h3>
           <ul class="list-disc ml-6 text-gray-300 space-y-2 mb-4">
             <li data-i18n-html="terms.sec3_li1">Tienes <strong>14 días</strong> desde tu primer pago para solicitar un reembolso completo</li>
-            <li data-i18n="terms.sec3_li2">El reembolso es 100% sin preguntas ni justificaciones</li>
+            <li data-i18n="terms.sec3_li2">El reembolso es sin preguntas ni justificaciones, una vez por cuenta</li>
             <li data-i18n="terms.sec3_li3">Se procesa en el método de pago original</li>
             <li data-i18n="terms.sec3_li4">El reembolso se refleja en tu cuenta en 5 a 10 días hábiles, según tu banco</li>
           </ul>
@@ -175,7 +175,8 @@
           <ul class="list-disc ml-6 text-gray-300 space-y-2">
             <li data-i18n="terms.sec4_li1">Tu acceso continuará hasta el final del período pagado</li>
             <li data-i18n="terms.sec4_li2">No se realizarán cargos futuros</li>
-            <li data-i18n="terms.sec4_li3">Tus datos se mantendrán por 30 días por si decides regresar</li>
+            <li data-i18n="terms.sec4_li3">Tu cuenta pasa al plan Starter (gratis) y tus datos se quedan guardados</li>
+            <li data-i18n-html="terms.sec4_li4">Si quieres borrar tu cuenta y todos tus datos, puedes hacerlo desde Mi cuenta</li>
           </ul>
         </div>
 
@@ -193,6 +194,7 @@
             <li data-i18n="terms.sec5_li4">Realizar ingeniería inversa del software</li>
             <li data-i18n="terms.sec5_li5">Reproducir, distribuir o revender el servicio sin autorización</li>
           </ul>
+          <p class="text-gray-300 leading-relaxed mt-4" data-i18n-html="terms.sec5_suspend">Si no cumples estos términos, podemos suspender o cerrar tu cuenta. Si eso pasa, te avisamos por email.</p>
         </div>
 
         <!-- Section 6 -->
@@ -206,10 +208,11 @@
           </div>
           <p class="text-gray-300 leading-relaxed mb-4" data-i18n-html="terms.sec6_intro"><strong>Smart Load Solution</strong> no será responsable por:</p>
           <ul class="list-disc ml-6 text-gray-300 space-y-2 mb-4">
-            <li data-i18n="terms.sec6_li1">Decisiones de negocio tomadas basándose en información de la aplicación</li>
+            <li data-i18n="terms.sec6_li1">Decisiones de negocio tomadas con la información de la app. Los cálculos son estimaciones basadas en los datos que tú ingresas y en datos de terceros (rutas y millas de Google Maps, precios de combustible de la EIA, y peajes y clima estimados)</li>
             <li data-i18n="terms.sec6_li2">Pérdida de ganancias o ingresos</li>
             <li data-i18n="terms.sec6_li3">Pérdida de datos</li>
             <li data-i18n="terms.sec6_li4">Interrupciones del servicio por mantenimiento</li>
+            <li data-i18n-html="terms.sec6_li5">Las respuestas de Lex AI, que genera una inteligencia artificial y pueden tener errores. Nada en la app, la Academia o el blog es asesoría financiera, legal ni de impuestos; para eso consulta a un profesional</li>
           </ul>
           <p class="text-gray-300 leading-relaxed" data-i18n="terms.sec6_max">Nuestra responsabilidad total no excederá el monto que hayas pagado en los últimos 12 meses.</p>
         </div>
@@ -275,6 +278,6 @@
 
 
   <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+  <script src="/js/cookie-consent.js?v=1.1.0"></script>
 <script src="/js/site-nav.js?v=20261124" defer></script>
 </body></html>
