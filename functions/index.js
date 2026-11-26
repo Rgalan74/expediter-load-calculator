@@ -801,7 +801,8 @@ const LEX_MAX_MESSAGES = 12;
 const LEX_MAX_TOTAL_CHARS = 60000;
 const LEX_MAX_TOKENS = 600;
 const LEX_DEFAULT_MODEL = 'deepseek/deepseek-chat';
-const LEX_FALLBACK_MODEL = 'openrouter/free';
+// Respaldo de pago (EE. UU.). Los modelos gratis de OpenRouter pueden guardar o entrenar con los mensajes.
+const LEX_FALLBACK_MODEL = 'google/gemini-2.5-flash-lite';
 const LEX_CONFIG_TTL_MS = 5 * 60 * 1000;
 let _lexConfigCache = { at: 0, data: null };
 
@@ -869,7 +870,8 @@ async function _callOpenRouter(apiKey, model, messages, maxTokens, temperature) 
             'HTTP-Referer': 'https://smartloadsolution.com',
             'X-Title': 'SmartLoad Lex AI',
         },
-        body: JSON.stringify({ model, messages, max_tokens: maxTokens, temperature }),
+        // data_collection 'deny': OpenRouter solo usa proveedores que no guardan ni entrenan con los datos.
+        body: JSON.stringify({ model, messages, max_tokens: maxTokens, temperature, provider: { data_collection: 'deny' } }),
     });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data = await response.json();
