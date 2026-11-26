@@ -1579,9 +1579,9 @@
     "btn_sent": "✓ Mensaje Enviado",
     "msg_error": "Error al enviar. Por favor escríbenos directamente a support@smartloadsolution.com",
     "respond_note": "Respondemos todos los mensajes en 1 a 2 días hábiles.",
-    "hours_heading": "🕐 Horario de Atención",
-    "hours_weekdays": "Lunes a Viernes: 9:00 AM – 6:00 PM EST",
-    "hours_weekends": "Sábados y Domingos: Cerrado (respondemos emails el siguiente día hábil)",
+    "hours_heading": "🕐 Tiempo de respuesta",
+    "hours_weekdays": "Respondemos todos los mensajes en 1 a 2 días hábiles.",
+    "hours_weekends": "Si escribes el fin de semana, te respondemos a partir del lunes.",
     "hours_pro": "💡 Los usuarios de Premium + AI reciben respuesta prioritaria."
   },
   "privacy": {
