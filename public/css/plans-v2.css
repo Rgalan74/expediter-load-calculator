@@ -1,0 +1,57 @@
+/* ============================================================
+   Página de planes v2 (prefijo .pv-). Usa también css/home-v2.css (.hv-*).
+   ============================================================ */
+.pv-hero { padding: 72px 20px 36px; text-align: center; background: radial-gradient(70% 90% at 50% 0%, rgba(34, 211, 238, .12), transparent 70%); }
+.pv-hero h1 { font-size: clamp(2rem, 4.4vw, 3.2rem); font-weight: 900; line-height: 1.1; color: #fff; margin: 0 0 14px; letter-spacing: -0.015em; }
+.pv-hero h1 em { font-style: normal; color: #22D3EE; }
+.pv-hero p { color: #94a3b8; font-size: 1.1rem; line-height: 1.6; max-width: 620px; margin: 0 auto 22px; }
+.pv-chip { display: inline-block; line-height: 1.5; background: rgba(192, 132, 252, .1); border: 1px solid rgba(192, 132, 252, .35); color: #e9d5ff; padding: 9px 18px; border-radius: 999px; font-size: 14px; font-weight: 600; }
+.pv-chip strong { color: #fff; }
+
+.pv-plans { max-width: 1160px; margin: 0 auto; padding: 20px 20px 72px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; }
+.pv-plan { position: relative; display: flex; flex-direction: column; background: #0b1220; border: 1px solid rgba(255, 255, 255, .09); border-radius: 22px; padding: 30px 26px 26px; }
+.pv-plan--pro { border: 2px solid #22D3EE; background: linear-gradient(180deg, #0e1a2e, #0b1220); box-shadow: 0 20px 60px rgba(34, 211, 238, .12); }
+.pv-plan--prem { border-color: rgba(192, 132, 252, .45); }
+.pv-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: #22D3EE; color: #06101c; font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; padding: 6px 16px; border-radius: 999px; white-space: nowrap; }
+.pv-name { color: #fff; font-size: 1.3rem; font-weight: 800; margin: 0 0 4px; }
+.pv-for { color: #94a3b8; font-size: .95rem; margin: 0 0 18px; min-height: 2.6em; line-height: 1.35; }
+.pv-price { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; }
+.pv-price b { color: #fff; font-size: 3rem; font-weight: 900; line-height: 1; letter-spacing: -0.02em; }
+.pv-plan--pro .pv-price b { color: #22D3EE; }
+.pv-plan--prem .pv-price b { color: #d8b4fe; }
+.pv-price span { color: #94a3b8; font-size: 1rem; }
+.pv-note { color: #64748b; font-size: 13px; margin: 0 0 22px; }
+.pv-list { list-style: none; margin: 0 0 26px; padding: 0; display: grid; gap: 11px; flex: 1; }
+.pv-list li { display: flex; gap: 10px; color: #e2e8f0; line-height: 1.45; font-size: .97rem; }
+.pv-list li::before { content: '✓'; color: #34d399; font-weight: 900; flex-shrink: 0; }
+.pv-list li.no { color: #64748b; }
+.pv-list li.no::before { content: '–'; color: #475569; }
+.pv-list li.lex::before { content: '✦'; color: #c084fc; }
+.pv-list strong { color: #fff; }
+.pv-btn { display: block; width: 100%; text-align: center; font-weight: 800; font-size: 1rem; padding: 14px 18px; border-radius: 12px; text-decoration: none; cursor: pointer; border: 0; font-family: inherit; transition: transform .15s, box-shadow .15s, background .15s; }
+.pv-btn--free { background: rgba(255, 255, 255, .07); color: #fff; border: 1px solid rgba(255, 255, 255, .16); }
+.pv-btn--free:hover { background: rgba(255, 255, 255, .12); }
+.pv-btn--pro { background: #22D3EE; color: #06101c; box-shadow: 0 8px 26px rgba(34, 211, 238, .28); }
+.pv-btn--pro:hover { transform: translateY(-2px); }
+.pv-btn--prem { background: #a855f7; color: #fff; box-shadow: 0 8px 26px rgba(168, 85, 247, .28); }
+.pv-btn--prem:hover { transform: translateY(-2px); }
+.pv-fine { text-align: center; color: #64748b; font-size: 12.5px; margin: 12px 0 0; }
+
+/* Tabla de comparación */
+.pv-table-wrap { max-width: 1000px; margin: 0 auto; overflow-x: auto; border: 1px solid rgba(255, 255, 255, .08); border-radius: 18px; }
+.pv-table { width: 100%; border-collapse: collapse; min-width: 620px; font-size: .95rem; }
+.pv-table th, .pv-table td { padding: 14px 16px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, .06); color: #cbd5e1; }
+.pv-table th:first-child, .pv-table td:first-child { text-align: left; color: #e2e8f0; font-weight: 600; }
+.pv-table thead th { background: #0b1220; color: #fff; font-weight: 800; font-size: 1rem; position: sticky; top: 0; }
+.pv-table thead th.pro { color: #22D3EE; }
+.pv-table thead th.prem { color: #d8b4fe; }
+.pv-table td.pro { background: rgba(34, 211, 238, .05); }
+.pv-table tbody tr:last-child td { border-bottom: 0; }
+.pv-table .si { color: #34d399; font-weight: 900; }
+.pv-table .no { color: #475569; }
+
+@media (max-width: 960px) {
+  .pv-plans { grid-template-columns: 1fr; max-width: 480px; gap: 30px; }
+  .pv-plan--pro { order: -1; }
+  .pv-for { min-height: 0; }
+}
