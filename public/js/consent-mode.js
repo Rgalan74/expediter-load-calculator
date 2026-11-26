@@ -42,22 +42,29 @@
     gtag('config', GA4_ID);
 
     // =========================================================
-    // 2. Meta Pixel — consent revocado por defecto
+    // 2. Meta Pixel — cola local; el script (~200 KB) solo se descarga
+    //    al aceptar cookies. Las llamadas a fbq() se guardan hasta entonces.
     // =========================================================
-    !function (f, b, e, v, n, t, s) {
-        if (f.fbq) return; n = f.fbq = function () {
+    !function (f) {
+        if (f.fbq) return; var n = f.fbq = function () {
             n.callMethod ?
                 n.callMethod.apply(n, arguments) : n.queue.push(arguments)
         };
         if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
-        n.queue = []; t = b.createElement(e); t.async = !0;
-        t.src = v; s = b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t, s)
-    }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+        n.queue = [];
+    }(window);
 
     fbq('init', FB_PIXEL_ID);
     fbq('consent', 'revoke');
     fbq('track', 'PageView');
+
+    function cargarMetaPixel() {
+        if (window.__slsFbq) return;
+        window.__slsFbq = true;
+        var t = document.createElement('script'); t.async = true;
+        t.src = 'https://connect.facebook.net/en_US/fbevents.js';
+        document.head.appendChild(t);
+    }
 
     // =========================================================
     // 3. Otorgar consentimiento (llamado por cookie-consent.js)
@@ -70,6 +77,7 @@
             'analytics_storage': 'granted'
         });
         fbq('consent', 'grant');
+        cargarMetaPixel();
 
         // Metricool: solo se carga con consentimiento (antes se cargaba siempre)
         if (!window.__slsMetricool) {
