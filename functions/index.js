@@ -800,7 +800,7 @@ const LEX_TRIAL_DAYS = 14;
 const LEX_MAX_MESSAGES = 12;
 const LEX_MAX_TOTAL_CHARS = 60000;
 const LEX_MAX_TOKENS = 600;
-const LEX_DEFAULT_MODEL = 'deepseek/deepseek-chat';
+const LEX_DEFAULT_MODEL = 'google/gemini-2.5-flash-lite'; // antes deepseek/deepseek-chat
 // Respaldo de pago (EE. UU.). Los modelos gratis de OpenRouter pueden guardar o entrenar con los mensajes.
 const LEX_FALLBACK_MODEL = 'google/gemini-2.5-flash-lite';
 const LEX_CONFIG_TTL_MS = 5 * 60 * 1000;
