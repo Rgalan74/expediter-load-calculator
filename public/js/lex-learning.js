@@ -295,10 +295,13 @@ async function initializeLexProfile() {
       dayOfWeekStats
     };
 
-    await firebase.firestore()
-      .collection('lexProfiles')
-      .doc(uid)
-      .set(profile);
+    // Conservar la meta mensual (vive en el mismo documento) al recalcular el resumen
+    const lexRef = firebase.firestore().collection('lexProfiles').doc(uid);
+    try {
+      const prev = await lexRef.get();
+      if (prev.exists && prev.data().monthlyGoal) profile.monthlyGoal = prev.data().monthlyGoal;
+    } catch (e) { /* sin documento previo */ }
+    await lexRef.set(profile);
 
     debugLog('[LEX] Perfil de Lex inicializado');
     return profile;
@@ -510,6 +513,14 @@ async function getLexProfile() {
     }
 
     const profileData = profileDoc.data();
+    // El resumen se calcula con las cargas reales; si tiene más de 1 hora, se rehace
+    // (antes se creaba una sola vez y Lex veía "0 cargas" aunque hubiera muchas).
+    const lu = profileData.lastUpdated && typeof profileData.lastUpdated.toDate === 'function'
+      ? profileData.lastUpdated.toDate().getTime() : 0;
+    if (!lu || Date.now() - lu > 60 * 60 * 1000) {
+      debugLog('[LEX] Perfil con más de 1 hora. Recalculando con las cargas reales...');
+      return await initializeLexProfile();
+    }
     if (profileData.version !== '1.2') {
       debugLog('[LEX] Versión antigua de perfil detectada. Actualizando a 1.2...');
       return await initializeLexProfile();
