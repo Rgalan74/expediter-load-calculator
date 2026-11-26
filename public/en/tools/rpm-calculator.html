@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Firebase SDKs (para captura de lead a Firestore) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-functions-compat.js"></script>
+  <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
+  <script src="/js/consent-mode.js?v=1.0.0"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free RPM Calculator for Cargo Van | Smart Load Solution</title>
+  <link rel="canonical" href="https://smartloadsolution.com/en/tools/rpm-calculator.html">
+  <link rel="alternate" hreflang="es" href="https://smartloadsolution.com/herramientas/calculadora-rpm.html">
+  <link rel="alternate" hreflang="en" href="https://smartloadsolution.com/en/tools/rpm-calculator.html">
+  <link rel="alternate" hreflang="x-default" href="https://smartloadsolution.com/en/tools/rpm-calculator.html">
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Free rate per mile (RPM) calculator for cargo van and sprinter, with deadhead miles included. See your real RPM before you accept a load. No sign-up.">
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://smartloadsolution.com/en/tools/rpm-calculator.html">
+  <meta property="og:title" content="Free Rate Per Mile (RPM) Calculator for Cargo Van">
+  <meta property="og:description" content="Calculate your real RPM including deadhead miles before you accept a load. Free, no sign-up.">
+  <meta property="og:image" content="https://smartloadsolution.com/img/og-image-en.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://smartloadsolution.com/en/tools/rpm-calculator.html">
+  <meta name="twitter:title" content="Free Rate Per Mile (RPM) Calculator for Cargo Van">
+  <meta name="twitter:description" content="Calculate your real RPM including deadhead miles before you accept a load. Free, no sign-up.">
+  <meta name="twitter:image" content="https://smartloadsolution.com/img/og-image-en.png">
+  <!-- Styles -->
+  <link rel="icon" type="image/webp" href="/img/logo-app.webp">
+  <link href="/css/tailwind-built.css?v=1" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0a0a0f;
+      --bg-glass: rgba(15, 15, 25, 0.7);
+      --primary-cyan: #00D9FF;
+      --primary-orange: #22D3EE;
+      --border-glass: rgba(255, 255, 255, 0.08);
+      --verde: #22c55e;
+      --amarillo: #eab308;
+      --rojo: #ef4444;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: #e2e8f0;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+    .gradient-text {
+      background: linear-gradient(90deg, #22D3EE 0%, #A5F3FC 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .glass-card {
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-glass);
+      border-radius: 16px;
+    }
+    .road-divider {
+      height: 2px;
+      background-image: repeating-linear-gradient(90deg, var(--primary-cyan) 0, var(--primary-cyan) 24px, transparent 24px, transparent 44px);
+      opacity: 0.5;
+      margin: 3rem 0;
+    }
+    .calc-input {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      color: #ffffff;
+      padding: 0.9rem 1rem;
+      width: 100%;
+      font-size: 1.05rem;
+      font-weight: 600;
+      transition: border-color 0.2s;
+    }
+    .calc-input:focus {
+      outline: none;
+      border-color: var(--primary-cyan);
+    }
+    .calc-input::placeholder { color: #6b7280; font-weight: 400; }
+    /* Ocultar spinners de inputs numéricos */
+    .calc-input::-webkit-outer-spin-button,
+    .calc-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .calc-input[type=number] { -moz-appearance: textfield; }
+    .verdict-card {
+      border-radius: 16px;
+      border: 2px solid transparent;
+      transition: all 0.3s;
+    }
+    .verdict-verde { background: rgba(34, 197, 94, 0.10); border-color: var(--verde); }
+    .verdict-amarillo { background: rgba(234, 179, 8, 0.10); border-color: var(--amarillo); }
+    .verdict-rojo { background: rgba(239, 68, 68, 0.10); border-color: var(--rojo); }
+    .lang-toggle button {
+      background: none; border: none; cursor: pointer;
+      padding: 0.2rem 0.4rem; border-radius: 4px;
+      color: #9ca3af; transition: color 0.2s;
+    }
+    .lang-toggle button.active { color: var(--primary-cyan); }
+    .screenshot-card img {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      width: 100%;
+      height: auto;
+    }
+    /* Barra flotante de "Iniciar Sesion" -- solo movil, el header desktop
+       (sticky) ya tiene el boton visible via hidden md:inline-block. */
+    .mobile-sticky-cta {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 200;
+      padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+      background: rgba(10, 10, 15, 0.97);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-glass);
+    }
+    .mobile-sticky-cta a {
+      display: block;
+      text-align: center;
+      background: linear-gradient(90deg, #22D3EE 0%, #A5F3FC 100%);
+      color: #000;
+      font-weight: 700;
+      padding: 0.85rem 1.5rem;
+      border-radius: 10px;
+      text-decoration: none;
+    }
+    @media (min-width: 768px) {
+      .mobile-sticky-cta { display: none; }
+    }
+    @media (max-width: 767px) {
+      /* Espacio para que la barra flotante no tape el final del contenido */
+      body { padding-bottom: 4.5rem; }
+    }
+  </style>
+  <!-- Metricool Tracker -->
+  <script>function loadScript(a) { var b = document.getElementsByTagName("head")[0], c = document.createElement("script"); c.type = "text/javascript", c.src = "https://tracker.metricool.com/resources/be.js", c.onreadystatechange = a, c.onload = a, b.appendChild(c) } loadScript(function () { beTracker.t({ hash: "7da74d6dfb9767939b3eb010fa322db6" }) });</script>
+  <!-- End Metricool Tracker -->
+  <!-- WebApplication Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Rate Per Mile (RPM) Calculator for Cargo Van",
+    "url": "https://smartloadsolution.com/en/tools/rpm-calculator.html",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Free real RPM calculator for cargo van and sprinter that includes deadhead miles in the calculation.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Smart Load Solution",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://smartloadsolution.com/img/logo-app.webp"
+      }
+    }
+  }
+  </script>
+  <!-- FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is this rate per mile calculator free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, it is 100% free and needs no sign-up. It calculates your real RPM, deadhead included, right in your browser."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between gross RPM and real RPM?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Gross RPM divides the pay by the loaded miles only — the number you see on the load board. Real RPM divides the same pay by ALL the miles you drive, including the deadhead to the pickup. Real RPM is always lower, and it is the only number that reflects what you really earn."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are deadhead miles?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "They are the miles you drive without a paid load — from where you are to the pickup. Nobody pays you for them, but they burn fuel, wear and time, so they must be part of your real RPM."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does this basic calculator NOT include?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It does not include your real fixed and variable costs (insurance, maintenance, fuel for your van), repositioning miles to get out of dead zones, or net profit. Smart Load Solution calculates all of that automatically and gives you an accept or reject verdict in seconds."
+        }
+      }
+    ]
+  }
+  </script>
+    <link rel="stylesheet" href="/css/site-nav.css?v=20261124">
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="sls-nav" id="slsNav"><div class="sls-nav__in"><a class="sls-nav__brand" href="/en/"><img src="/img/logo-app.webp" alt="" width="34" height="34"><span>Smart Load Solution</span></a><nav class="sls-nav__links" aria-label="Main"><a href="/en/tools/rpm-calculator.html" class="sls-nav__free" aria-current="page">Free calculator</a><a href="/en/academy.html">Academy</a><a href="/en/plans.html">Plans</a><a href="/en/blog.html">Blog</a><a href="/en/resources.html">Resources</a></nav><div class="sls-nav__right"><div class="sls-nav__lang"><span aria-current="true">EN</span><span aria-hidden="true">|</span><a href="/herramientas/calculadora-rpm.html" data-lang="es" hreflang="es">ES</a></div><a class="sls-nav__login" href="/auth.html" data-lang="en">Log in</a><a class="sls-nav__cta" href="/auth.html?tab=register" data-lang="en">Start free</a><a class="sls-nav__cta sls-nav__app" href="/app.html">Go to app →</a><button class="sls-nav__burger" type="button" aria-expanded="false" aria-controls="slsNavMenu" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div></div><div class="sls-nav__menu" id="slsNavMenu"><a href="/en/tools/rpm-calculator.html" class="sls-nav__free" aria-current="page">Free calculator</a><a href="/en/academy.html">Academy</a><a href="/en/plans.html">Plans</a><a href="/en/blog.html">Blog</a><a href="/en/resources.html">Resources</a><div class="sls-nav__menu-actions"><a class="sls-nav__login" href="/auth.html" data-lang="en">Log in</a><a class="sls-nav__cta" href="/auth.html?tab=register" data-lang="en">Start free</a><a class="sls-nav__cta sls-nav__app" href="/app.html">Go to app →</a></div><div class="sls-nav__lang"><span aria-current="true">EN</span><span aria-hidden="true">|</span><a href="/herramientas/calculadora-rpm.html" data-lang="es" hreflang="es">ES</a></div></div></header>
+
+  <!-- MAIN -->
+  <main class="max-w-4xl mx-auto px-6 py-12">
+
+    <!-- Encabezado -->
+    <div class="text-center mb-10">
+      <span class="text-cyan-400 font-bold text-sm tracking-wide uppercase">Free tool</span>
+      <h1 class="text-3xl md:text-5xl font-black text-white leading-tight mt-3 mb-4">Cargo Van <span class="gradient-text">Real RPM</span> Calculator</h1>
+      <p class="text-gray-400 text-base md:text-lg max-w-2xl mx-auto">Calculate your real rate per mile including deadhead — the number the load board does not show you. Free, no sign-up.</p>
+    </div>
+
+    <!-- CALCULADORA -->
+    <div class="glass-card p-6 md:p-8 mb-4">
+      <div class="grid md:grid-cols-3 gap-5 mb-6">
+        <div>
+          <label for="pago" class="block text-sm font-semibold text-gray-300 mb-2">💵 Total load pay ($)</label>
+          <input type="number" id="pago" class="calc-input" placeholder="e.g. 700" min="0" inputmode="decimal">
+          <p class="text-xs text-gray-600 mt-1">What the broker offers in total</p>
+        </div>
+        <div>
+          <label for="millas" class="block text-sm font-semibold text-gray-300 mb-2">🛣️ Loaded miles</label>
+          <input type="number" id="millas" class="calc-input" placeholder="e.g. 682" min="0" inputmode="decimal">
+          <p class="text-xs text-gray-600 mt-1">From pickup to delivery</p>
+        </div>
+        <div>
+          <label for="deadhead" class="block text-sm font-semibold text-gray-300 mb-2">👻 Deadhead miles</label>
+          <input type="number" id="deadhead" class="calc-input" placeholder="e.g. 45" min="0" inputmode="decimal">
+          <p class="text-xs text-gray-600 mt-1">Driving empty to the pickup</p>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button id="btn-calcular" class="flex-1 bg-gradient-to-r from-cyan-400 to-orange-500 hover:from-cyan-500 hover:to-orange-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg border border-white/10 transform hover:-translate-y-0.5 transition duration-300 text-lg">
+          Calculate my real RPM
+        </button>
+        <button id="btn-limpiar" class="sm:w-auto bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white font-semibold py-4 px-6 rounded-xl border border-white/10 transition duration-300">
+          Clear
+        </button>
+      </div>
+
+      <!-- Resultado -->
+      <div id="resultado" class="hidden mt-6">
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div class="glass-card p-4 text-center">
+            <p class="text-xs text-gray-500 uppercase font-semibold mb-1">Gross RPM (load board)</p>
+            <p id="rpm-bruto" class="text-2xl md:text-3xl font-black text-gray-400">—</p>
+          </div>
+          <div class="glass-card p-4 text-center" style="border-color: rgba(0,217,255,0.3);">
+            <p class="text-xs text-cyan-400 uppercase font-semibold mb-1">Real RPM (with deadhead)</p>
+            <p id="rpm-real" class="text-2xl md:text-3xl font-black text-white">—</p>
+          </div>
+        </div>
+        <div id="verdict" class="verdict-card p-5 text-center">
+          <p id="verdict-title" class="text-xl md:text-2xl font-black mb-1">—</p>
+          <p id="verdict-text" class="text-sm md:text-base text-gray-300">—</p>
+        </div>
+        <p id="diferencia" class="text-center text-sm text-gray-500 mt-3"></p>
+      </div>
+    </div>
+    <p class="text-xs text-gray-600 text-center mb-2">General reference for cargo van / sprinter: under $0.90/mi usually does not cover costs · $0.90–$1.19 depends on context · $1.20+ real margin.</p>
+
+    <div class="road-divider"></div>
+
+    <!-- EL GANCHO -->
+    <div class="text-center mb-10">
+      <h2 class="text-2xl md:text-4xl font-black text-white leading-tight mb-4">Your result is only <span class="gradient-text">half the picture</span></h2>
+      <p class="text-gray-400 text-base md:text-lg max-w-2xl mx-auto">This calculator does not know your <strong class="text-white">fixed costs</strong>, your <strong class="text-white">real fuel spend</strong>, or what it will cost you to <strong class="text-white">get out of the delivery zone</strong>. An RPM that looks good here can still be a load that loses money.</p>
+    </div>
+
+    <!-- SCREENSHOTS DE LA APP -->
+    <div class="mb-4">
+      <p class="text-center text-cyan-400 font-bold text-sm tracking-wide uppercase mb-2">Three loads, three decisions</p>
+      <h3 class="text-center text-xl md:text-2xl font-bold text-white mb-8">This is the full calculation in Smart Load Solution</h3>
+      <div class="grid md:grid-cols-3 gap-6">
+      <div class="screenshot-card">
+        <img src="/img/home/decision-en-evaluate.webp" alt="App panel flagging EVALUATE on a load" loading="lazy" width="732" height="738">
+        <p class="text-center text-sm mt-3"><span class="font-bold" style="color: var(--amarillo);">🟡 EVALUATE</span><br><span class="text-gray-500">Tells you what to ask for before accepting</span></p>
+      </div>
+      <div class="screenshot-card">
+        <img src="/img/home/decision-en-accept.webp" alt="App panel recommending ACCEPT on a Dallas to Memphis load" loading="lazy" width="732" height="738">
+        <p class="text-center text-sm mt-3"><span class="font-bold" style="color: var(--verde);">✅ ACCEPT</span><br><span class="text-gray-500">Net profit after your costs</span></p>
+      </div>
+      <div class="screenshot-card">
+        <img src="/img/home/decision-en-reject.webp" alt="App panel recommending REJECT on a money-losing load" loading="lazy" width="732" height="738">
+        <p class="text-center text-sm mt-3"><span class="font-bold" style="color: var(--rojo);">❌ REJECT</span><br><span class="text-gray-500">This load loses money</span></p>
+      </div>
+      </div>
+    </div>
+
+    <!-- LO QUE LA APP HACE Y ESTA CALCULADORA NO -->
+    <div class="glass-card p-6 md:p-8 my-10">
+      <h3 class="text-xl md:text-2xl font-bold text-white mb-5 text-center">What the app calculates automatically (and this calculator can't):</h3>
+      <div class="grid md:grid-cols-2 gap-x-8 gap-y-3 text-gray-300 text-sm md:text-base">
+        <p>⛽ <strong class="text-white">Real fuel cost</strong> from the prices in the states on your route</p>
+        <p>🔧 <strong class="text-white">Fixed costs included</strong> — insurance, maintenance, payments</p>
+        <p>💰 <strong class="text-white">Net profit</strong> in dollars, not just RPM</p>
+        <p>💬 <strong class="text-white">Suggested counteroffer</strong> — the exact number to ask for</p>
+        <p>📍 <strong class="text-white">Hard zones</strong> — warns you when the delivery zone is hard to leave</p>
+        <p>📅 <strong class="text-white">Context alerts</strong> — weekends and weather on the route</p>
+      </div>
+    </div>
+
+    <!-- Y ESO ES SOLO LA CALCULADORA -->
+    <div class="my-10">
+      <p class="text-center text-cyan-400 font-bold text-sm tracking-wide uppercase mb-2">And that is just one load</p>
+      <h3 class="text-center text-xl md:text-2xl font-bold text-white mb-8">Smart Load Solution also includes:</h3>
+      <div class="grid md:grid-cols-2 gap-5">
+        <div class="glass-card p-6">
+          <p class="text-lg font-bold text-white mb-1">📊 Load history</p>
+          <p class="text-gray-400 text-sm">Save every load you evaluate and see your real numbers over time — with data, not memory.</p>
+        </div>
+        <div class="glass-card p-6">
+          <p class="text-lg font-bold text-white mb-1">🗺️ Zone map</p>
+          <p class="text-gray-400 text-sm">Spot the zones that pay best and the ones that leave you stuck without outbound freight, before you accept a load there.</p>
+        </div>
+        <div class="glass-card p-6">
+          <p class="text-lg font-bold text-white mb-1">💹 Finance dashboard</p>
+          <p class="text-gray-400 text-sm">Your income, costs and net profit in one place — to run your van like the business it is.</p>
+        </div>
+        <div class="glass-card p-6">
+          <p class="text-lg font-bold text-white mb-1">🎓 Academy</p>
+          <p class="text-gray-400 text-sm">Lessons on RPM, deadhead, costs and load strategy — from one driver to another.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAPTURA DE EMAIL (lead) -->
+    <div id="lead-capture" class="glass-card p-8 my-12" style="border: 1px solid rgba(0,217,255,0.2);">
+      <div class="text-center mb-6">
+        <span class="sls-badge-inline inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3" style="background: rgba(0,217,255,0.1); color: var(--primary-cyan);">🆓 Free plan</span>
+        <h3 class="text-2xl md:text-3xl font-black text-white leading-tight mb-2">Stop guessing. <span class="gradient-text">Know your number.</span></h3>
+        <p class="text-gray-400 text-sm md:text-base max-w-lg mx-auto">Leave your email and create your free account to evaluate loads with the full calculation. No credit card.</p>
+      </div>
+      <div id="leadFormContent" class="max-w-md mx-auto">
+        <div class="flex flex-col gap-3">
+          <input type="text" id="leadName" class="calc-input" placeholder="Your name" autocomplete="given-name" maxlength="50">
+          <input type="email" id="leadEmail" class="calc-input" placeholder="Your email" autocomplete="email">
+          <div id="leadError" class="text-sm text-center hidden" style="color: var(--rojo);"></div>
+          <label style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.8rem;color:#9ca3af;cursor:pointer;">
+            <input type="checkbox" id="leadMarketingConsent" style="margin-top:2px;flex-shrink:0;">
+            <span>Send me tips and updates by email (optional)</span>
+          </label>
+          <button id="leadSubmit" class="w-full bg-gradient-to-r from-cyan-400 to-orange-500 hover:from-cyan-500 hover:to-orange-600 text-white font-bold py-4 px-8 rounded-xl shadow-lg border border-white/10 transform hover:-translate-y-0.5 transition duration-300 text-lg">
+            Get Free Access →
+          </button>
+        </div>
+        <p class="text-xs text-gray-600 text-center mt-3">No spam. Unsubscribe anytime.</p>
+      </div>
+      <div id="leadSuccess" class="hidden text-center">
+        <div class="text-4xl mb-3">✅</div>
+        <h4 class="text-xl font-bold text-white mb-1">You're in!</h4>
+        <p class="text-gray-400 text-sm mb-4">Taking you to create your account...</p>
+        <a href="/auth.html?tab=register" class="text-cyan-400 hover:underline font-semibold">Go to sign up →</a>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="glass-card p-8 text-center my-12 border-cyan-500/20 border">
+      <h3 class="text-2xl font-bold text-white mb-3">Stop deciding with half the numbers</h3>
+      <p class="text-gray-400 mb-6 max-w-lg mx-auto text-sm md:text-base">Create your free account and evaluate up to 30 loads a month with the full calculation: real costs, net profit and a verdict in seconds.</p>
+      <a href="/auth.html?tab=register" class="inline-block bg-gradient-to-r from-cyan-400 to-orange-500 hover:from-cyan-500 hover:to-orange-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg transform hover:-translate-y-0.5 transition duration-300">
+        Try It Free — 30 Loads a Month →
+      </a>
+    </div>
+
+    <!-- FAQ -->
+    <div class="mt-12 pt-8 border-t border-white/10">
+      <h2 class="text-xl md:text-2xl font-bold text-white mb-6">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        <div class="glass-card p-5">
+          <h3 class="text-base md:text-lg font-semibold text-white mb-2">Is this rate per mile calculator free?</h3>
+          <p class="text-gray-300 text-sm md:text-base">Yes, it is 100% free and needs no sign-up. It calculates your real RPM, deadhead included, right in your browser.</p>
+        </div>
+        <div class="glass-card p-5">
+          <h3 class="text-base md:text-lg font-semibold text-white mb-2">What is the difference between gross RPM and real RPM?</h3>
+          <p class="text-gray-300 text-sm md:text-base">Gross RPM divides the pay by the loaded miles only — the number you see on the load board. Real RPM divides the same pay by ALL the miles you drive, including the deadhead to the pickup. Real RPM is always lower, and it is the only number that reflects what you really earn.</p>
+        </div>
+        <div class="glass-card p-5">
+          <h3 class="text-base md:text-lg font-semibold text-white mb-2">What are deadhead miles?</h3>
+          <p class="text-gray-300 text-sm md:text-base">They are the miles you drive without a paid load — from where you are to the pickup. Nobody pays you for them, but they burn fuel, wear and time, so they must be part of your real RPM. <a href="/en/blog/deadhead-miles-what-are-they.html" class="text-cyan-400 hover:underline">Read the full deadhead guide →</a></p>
+        </div>
+        <div class="glass-card p-5">
+          <h3 class="text-base md:text-lg font-semibold text-white mb-2">What does this basic calculator NOT include?</h3>
+          <p class="text-gray-300 text-sm md:text-base">It does not include your real fixed and variable costs (insurance, maintenance, fuel for your van), repositioning miles to get out of dead zones, or net profit. Smart Load Solution calculates all of that automatically and gives you an accept or reject verdict in seconds. <a href="/en/blog/how-much-per-mile-cargo-van-2026.html" class="text-cyan-400 hover:underline">See the real per-mile pay ranges for 2026 →</a></p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="sls-foot"><div class="sls-foot__in"><div class="sls-foot__grid"><div class="sls-foot__brand"><a href="/en/"><img src="/img/logo-app.webp" alt="" width="32" height="32">Smart Load Solution</a><p>Calculate the real RPM of every load and learn to run your cargo van or sprinter as a profitable business.</p><div class="sls-foot__social"><a href="https://www.facebook.com/galan.expediter" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h3V4h-3c-2.8 0-4 1.7-4 4.3V10H7v4h3v8h4v-8h3l1-4h-4V8.6c0-.4.3-.6.6-.6z" fill="currentColor"/></svg></a><a href="https://www.tiktok.com/@galan.expediter" aria-label="TikTok" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 3c.4 2.3 1.8 3.8 4 4v3.3c-1.5 0-2.9-.4-4-1.2V15a6 6 0 1 1-6-6c.3 0 .7 0 1 .1v3.4a2.7 2.7 0 1 0 1.8 2.5V3h3.2z" fill="currentColor"/></svg></a><a href="https://www.instagram.com/galan.expediter/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></a><a href="https://www.youtube.com/@galan.expediter" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 8.2a3 3 0 0 0-2.1-2.1C18 5.6 12 5.6 12 5.6s-6 0-7.9.5A3 3 0 0 0 2 8.2 31 31 0 0 0 1.6 12 31 31 0 0 0 2 15.8a3 3 0 0 0 2.1 2.1c1.9.5 7.9.5 7.9.5s6 0 7.9-.5a3 3 0 0 0 2.1-2.1c.3-1.2.4-2.5.4-3.8s-.1-2.6-.4-3.8zM10 15V9l5.2 3L10 15z" fill="currentColor"/></svg></a></div></div><div><h4>Product</h4><ul><li><a href="/en/tools/rpm-calculator.html">Free RPM calculator</a></li><li><a href="/en/academy.html">Academy</a></li><li><a href="/en/plans.html">Plans</a></li><li><a href="/auth.html?tab=register">Create free account</a></li></ul></div><div><h4>Resources</h4><ul><li><a href="/en/blog.html">Blog</a></li><li><a href="/en/resources.html">Resources</a></li><li><a href="/en/faq.html">FAQ</a></li><li><a href="/en/support.html">Support</a></li></ul></div><div><h4>Company</h4><ul><li><a href="/en/about.html">About</a></li><li><a href="/en/contact.html">Contact</a></li></ul></div><div><h4>Legal</h4><ul><li><a href="/en/privacy.html">Privacy</a></li><li><a href="/en/terms.html">Terms of use</a></li><li><a href="/en/refund.html">Refunds</a></li></ul></div></div><div class="sls-foot__bottom"><span>© 2026 Smart Load Solution. All rights reserved.</span><span>Built by an owner-operator for owner-operators.</span></div></div></footer>
+
+  <!-- CALCULADORA JS -->
+  <script>
+    (function () {
+      var btn = document.getElementById('btn-calcular');
+      var inputs = ['pago', 'millas', 'deadhead'].map(function (id) { return document.getElementById(id); });
+
+      function calcular() {
+        var pago = parseFloat(document.getElementById('pago').value) || 0;
+        var millas = parseFloat(document.getElementById('millas').value) || 0;
+        var deadhead = parseFloat(document.getElementById('deadhead').value) || 0;
+
+        if (pago <= 0 || millas <= 0) {
+          alert('Enter the total pay and the loaded miles to calculate.');
+          return;
+        }
+
+        var millasTotales = millas + deadhead;
+        var rpmBruto = pago / millas;
+        var rpmReal = pago / millasTotales;
+
+        document.getElementById('rpm-bruto').textContent = '$' + rpmBruto.toFixed(2) + '/mi';
+        document.getElementById('rpm-real').textContent = '$' + rpmReal.toFixed(2) + '/mi';
+
+        var verdict = document.getElementById('verdict');
+        var title = document.getElementById('verdict-title');
+        var text = document.getElementById('verdict-text');
+        verdict.classList.remove('verdict-verde', 'verdict-amarillo', 'verdict-rojo');
+
+        if (rpmReal >= 1.20) {
+          verdict.classList.add('verdict-verde');
+          title.textContent = '✅ RPM in a good range';
+          title.style.color = 'var(--verde)';
+          text.textContent = 'This real RPM is in the range with margin for most cargo van operators. Now confirm it against YOUR real costs.';
+        } else if (rpmReal >= 0.90) {
+          verdict.classList.add('verdict-amarillo');
+          title.textContent = '🟡 RPM in the gray zone';
+          title.style.color = 'var(--amarillo)';
+          text.textContent = 'It can work or it can lose money — it depends on your fixed costs, real fuel and where the load takes you. This is where guesswork fails the most.';
+        } else {
+          verdict.classList.add('verdict-rojo');
+          title.textContent = '❌ RPM in a low range';
+          title.style.color = 'var(--rojo)';
+          text.textContent = 'This real RPM rarely covers the full cost of running a cargo van. Before accepting, calculate your net profit with real costs.';
+        }
+
+        if (deadhead > 0) {
+          var perdida = ((rpmBruto - rpmReal) / rpmBruto * 100).toFixed(0);
+          document.getElementById('diferencia').textContent = 'Deadhead is cutting your RPM by ' + perdida + '% compared to the load board number.';
+        } else {
+          document.getElementById('diferencia').textContent = 'With no deadhead, your real RPM matches the gross — but remember almost no load starts at your door.';
+        }
+
+        document.getElementById('resultado').classList.remove('hidden');
+        document.getElementById('resultado').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      function limpiar() {
+        inputs.forEach(function (input) { input.value = ''; });
+        document.getElementById('resultado').classList.add('hidden');
+        document.getElementById('pago').focus();
+      }
+
+      btn.addEventListener('click', calcular);
+      document.getElementById('btn-limpiar').addEventListener('click', limpiar);
+      inputs.forEach(function (input) {
+        input.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') calcular();
+        });
+      });
+    })();
+
+    // ── CAPTURA DE LEAD (Firebase + Brevo) ────────────────────────────
+    (function () {
+      // Inicializar Firebase (sin auto-redirect — esta es una landing pública)
+      var firebaseConfig = {
+        apiKey: "AIzaSyAkEYDbxkjXJx5wNh_7wMdIqmklOMCIyHY",
+        authDomain: "expediter-dev.firebaseapp.com",
+        projectId: "expediter-dev",
+        storageBucket: "expediter-dev.appspot.com",
+        messagingSenderId: "447653997176",
+        appId: "1:447653997176:web:4e356867bb64b488ab5b8d"
+      };
+      if (typeof firebase !== 'undefined' && !firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
+
+      var LEAD_CONFIG = {
+        brevoListId: 2,
+        redirectUrl: "/auth.html?tab=register"
+      };
+
+      // ── UTM Tracking ──
+      function getUTMs() {
+        var p = new URLSearchParams(window.location.search);
+        return {
+          utm_source: p.get("utm_source") || "direct",
+          utm_medium: p.get("utm_medium") || "none",
+          utm_campaign: p.get("utm_campaign") || "none",
+          utm_content: p.get("utm_content") || "none",
+          landing_page: window.location.pathname,
+          referrer: document.referrer || "direct"
+        };
+      }
+      (function () {
+        var utms = getUTMs();
+        if (utms.utm_source !== "direct") {
+          sessionStorage.setItem("sls_utms", JSON.stringify(utms));
+        }
+      })();
+      function storedUTMs() {
+        try {
+          var s = sessionStorage.getItem("sls_utms");
+          return s ? JSON.parse(s) : getUTMs();
+        } catch (e) { return getUTMs(); }
+      }
+
+      // ── Guardar en Firestore ──
+      async function saveFirestore(lead) {
+        try {
+          var db = firebase.firestore();
+          await db.collection("leads").add(Object.assign({}, lead, {
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            trial_start: new Date().toISOString(),
+            status: "lead",
+            plan_type: "none",
+            converted: false,
+            loads_calculated: 0,
+            engagement_score: 0,
+            engagement_tag: "cold"
+          }));
+          return true;
+        } catch (err) {
+          console.error("[Lead] Firestore error:", err);
+          return false;
+        }
+      }
+
+      // ── Guardar en Brevo (via Cloud Function segura) ──
+      async function saveBrevo(name, email, utms) {
+        try {
+          var functions = firebase.app().functions('us-central1');
+          var subscribeLead = functions.httpsCallable('subscribeLead');
+          var result = await subscribeLead({
+            name: name,
+            email: email,
+            utm_source: utms.utm_source,
+            utm_medium: utms.utm_medium,
+            utm_campaign: utms.utm_campaign,
+            landing_page: utms.landing_page,
+            listId: LEAD_CONFIG.brevoListId
+          });
+          return !!(result && result.data && result.data.success);
+        } catch (err) {
+          console.error("[Lead] Brevo error:", err);
+          return false;
+        }
+      }
+
+      // ── Submit ──
+      async function submitLead() {
+        var name = document.getElementById("leadName").value.trim();
+        var email = document.getElementById("leadEmail").value.trim().toLowerCase();
+        var marketingConsent = document.getElementById("leadMarketingConsent").checked;
+        var btn = document.getElementById("leadSubmit");
+        var errDiv = document.getElementById("leadError");
+
+        if (!name || !email) {
+          errDiv.textContent = "Enter your name and your email.";
+          errDiv.classList.remove("hidden");
+          return;
+        }
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+          errDiv.textContent = "That email doesn't look valid. Please check it.";
+          errDiv.classList.remove("hidden");
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = "Saving your spot...";
+        errDiv.classList.add("hidden");
+
+        var utms = storedUTMs();
+        var lead = {
+          name: name,
+          email: email,
+          language: "en",
+          marketingConsent: marketingConsent,
+          utm_source: utms.utm_source,
+          utm_medium: utms.utm_medium,
+          utm_campaign: utms.utm_campaign,
+          utm_content: utms.utm_content,
+          landing_page: utms.landing_page,
+          referrer: utms.referrer,
+          device: /Mobi|Android/i.test(navigator.userAgent) ? "mobile" : "desktop"
+        };
+
+        var tasks = [saveFirestore(lead)];
+        if (marketingConsent) tasks.push(saveBrevo(name, email, utms));
+        var results = await Promise.all(tasks);
+        if (results[0] || results[1]) {
+          document.getElementById("leadFormContent").style.display = "none";
+          document.getElementById("leadSuccess").classList.remove("hidden");
+          try { sessionStorage.setItem('slsLeadPrefill', JSON.stringify({ name: name, email: email })); } catch (_) {}
+          setTimeout(function () { window.location.href = LEAD_CONFIG.redirectUrl; }, 3000);
+        } else {
+          errDiv.textContent = "Something went wrong. Please try again.";
+          errDiv.classList.remove("hidden");
+          btn.disabled = false;
+          btn.textContent = "Get Free Access →";
+        }
+      }
+
+      document.getElementById("leadSubmit").addEventListener("click", submitLead);
+      document.getElementById("leadEmail").addEventListener("keydown", function (e) {
+        if (e.key === "Enter") submitLead();
+      });
+    })();
+  </script>
+
+  <!-- Barra flotante movil: el header desktop ya tiene "Iniciar Sesion"
+       siempre visible (sticky), pero esa version esta oculta en movil
+       (hidden md:inline-block) -- esto le da a movil su propio boton
+       siempre a la vista mientras se hace scroll. -->
+  <div class="mobile-sticky-cta">
+    <a href="/auth.html">Log In →</a>
+  </div>
+  <!-- 🍪 Cookie Consent Banner -->
+  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+<script src="/js/site-nav.js?v=20261124" defer></script>
+</body>
+</html>
