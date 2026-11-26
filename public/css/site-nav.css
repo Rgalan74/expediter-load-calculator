@@ -82,8 +82,12 @@ footer.sls-foot { margin: 0 !important; padding: 0 !important; width: 100% !impo
 }
 @media (max-width: 520px) {
   .sls-nav__right .sls-nav__cta { display: none; }
-  .sls-nav.is-session .sls-nav__right .sls-nav__app { display: none !important; }
+  /* Con sesión: la salida a la app siempre visible en la barra (no escondida en ☰) */
+  .sls-nav.is-session .sls-nav__right .sls-nav__app { display: inline-block !important; padding: 7px 11px; font-size: 12.5px; }
   .sls-nav__brand span { font-size: 16px; }
+}
+@media (max-width: 430px) {
+  .sls-nav.is-session .sls-nav__brand span { display: none; }
 }
 
 /* ------------------------- Pie de página ------------------------- */

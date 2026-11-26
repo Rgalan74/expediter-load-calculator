@@ -21,6 +21,22 @@
       });
     });
     try { if (localStorage.getItem('sls_session') === '1') nav.classList.add('is-session'); } catch (e) {}
+    // Si la página carga Firebase (Academia, app), preguntar directamente si hay sesión
+    vigilarSesion(nav, 0);
+  }
+
+  function vigilarSesion(nav, intento) {
+    var fb = window.firebase;
+    if (fb && typeof fb.auth === 'function' && fb.apps && fb.apps.length) {
+      try {
+        fb.auth().onAuthStateChanged(function (u) {
+          nav.classList.toggle('is-session', !!u);
+          try { if (u) localStorage.setItem('sls_session', '1'); else localStorage.removeItem('sls_session'); } catch (e) {}
+        });
+      } catch (e) {}
+      return;
+    }
+    if (intento < 20) setTimeout(function () { vigilarSesion(nav, intento + 1); }, 300);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
