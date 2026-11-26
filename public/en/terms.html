@@ -30,7 +30,7 @@
   <meta charset="UTF-8">
 
   <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.0.0"></script>
+  <script src="/js/consent-mode.js?v=1.1.0"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Read the terms and conditions governing your use of the Smart Load Solution load calculator and Lex AI services.">
   
@@ -69,9 +69,6 @@
     footer a { color: #9ca3af; text-decoration: none; transition: color 0.3s; }
     footer a:hover { color: white; }
   </style>
-    <!-- Metricool Tracker -->
-  <script>function loadScript(a){var b=document.getElementsByTagName("head")[0],c=document.createElement("script");c.type="text/javascript",c.src="https://tracker.metricool.com/resources/be.js",c.onreadystatechange=a,c.onload=a,b.appendChild(c)}loadScript(function(){beTracker.t({hash:"7da74d6dfb9767939b3eb010fa322db6"})});</script>
-  <!-- End Metricool Tracker -->
 
 
 
@@ -132,9 +129,10 @@
               <h4 class="font-semibold mb-2">Starter</h4>
               <p class="text-2xl font-bold mb-2">$0/mo</p>
               <ul class="text-sm text-gray-400 space-y-1">
-                <li data-i18n="terms.starter_f1">✓ Up to 30 loads/mo</li>
-                <li data-i18n="terms.starter_f2">✓ Real RPM calculator</li>
+                <li data-i18n="terms.starter_f1">✓ 30 loads a month</li>
+                <li data-i18n="terms.starter_f2">✓ Real RPM calculator with verdict</li>
                 <li data-i18n="terms.starter_f3">✓ 30-day history</li>
+                <li data-i18n-html="terms.starter_f4">✓ Lex AI: 14-day trial</li>
               </ul>
             </div>
             <div class="bg-blue-500/10 p-4 rounded-lg border border-blue-500/30">
@@ -142,8 +140,9 @@
               <p class="text-2xl font-bold mb-2">$14.99/mo</p>
               <ul class="text-sm text-gray-400 space-y-1">
                 <li data-i18n="terms.pro_f1">✓ Unlimited loads</li>
-                <li data-i18n="terms.pro_f2">✓ Full financial system</li>
-                <li data-i18n="terms.pro_f3">✓ Lex AI: 10 messages a day</li>
+                <li data-i18n="terms.pro_f2">✓ Full finances and receivables</li>
+                <li data-i18n="terms.pro_f3">✓ 90-day history</li>
+                <li data-i18n-html="terms.pro_f4">✓ Lex AI: 10 messages a day</li>
               </ul>
             </div>
             <div class="bg-purple-500/10 p-4 rounded-lg border border-purple-500/30">
@@ -152,12 +151,13 @@
               <ul class="text-sm text-gray-400 space-y-1">
                 <li data-i18n="terms.premium_f1">✓ Everything in Professional</li>
                 <li data-i18n="terms.premium_f2">✓ Lex AI: 150 messages a day</li>
-                <li data-i18n="terms.premium_f3">✓ Priority support</li>
+                <li data-i18n="terms.premium_f3">✓ Unlimited history</li>
+                <li data-i18n-html="terms.premium_f4">✓ Priority support</li>
               </ul>
             </div>
           </div>
           <h3 class="text-lg font-semibold text-blue-400 mt-6 mb-3" data-i18n="terms.sec2_2_heading">2.2 Automatic Renewal</h3>
-          <p class="text-gray-300 leading-relaxed mb-4" data-i18n="terms.sec2_2_desc">Subscriptions renew automatically each month. The charge will be made on the same date each month using the registered payment method.</p>
+          <p class="text-gray-300 leading-relaxed mb-4" data-i18n="terms.sec2_2_desc">Subscriptions renew automatically every month, on the same date, using your payment method on file. Payments are processed by Stripe. If a price changes, we will email you before your next charge.</p>
         </div>
 
         <!-- Section 3 -->
@@ -173,7 +173,7 @@
           <h3 class="text-lg font-semibold mb-3" data-i18n="terms.sec3_1_heading">3.1 Refund Conditions</h3>
           <ul class="list-disc ml-6 text-gray-300 space-y-2 mb-4">
             <li data-i18n-html="terms.sec3_li1">You have <strong>14 days</strong> from your first payment to request a full refund</li>
-            <li data-i18n="terms.sec3_li2">The refund is 100% no-questions-asked</li>
+            <li data-i18n="terms.sec3_li2">The refund requires no questions or explanations, once per account</li>
             <li data-i18n="terms.sec3_li3">It is processed to the original payment method</li>
             <li data-i18n="terms.sec3_li4">The refund shows in your account within 5 to 10 business days, depending on your bank</li>
           </ul>
@@ -197,7 +197,8 @@
           <ul class="list-disc ml-6 text-gray-300 space-y-2">
             <li data-i18n="terms.sec4_li1">Your access will continue until the end of the paid period</li>
             <li data-i18n="terms.sec4_li2">No future charges will be made</li>
-            <li data-i18n="terms.sec4_li3">Your data will be kept for 30 days in case you decide to return</li>
+            <li data-i18n="terms.sec4_li3">Your account moves to the Starter (free) plan and your data stays saved</li>
+            <li data-i18n-html="terms.sec4_li4">If you want to delete your account and all your data, you can do it from My Account</li>
           </ul>
         </div>
 
@@ -215,6 +216,7 @@
             <li data-i18n="terms.sec5_li4">Reverse-engineer the software</li>
             <li data-i18n="terms.sec5_li5">Reproduce, distribute, or resell the service without authorization</li>
           </ul>
+          <p class="text-gray-300 leading-relaxed mt-4" data-i18n-html="terms.sec5_suspend">If you break these terms, we may suspend or close your account. If that happens, we will let you know by email.</p>
         </div>
 
         <!-- Section 6 -->
@@ -228,10 +230,11 @@
           </div>
           <p class="text-gray-300 leading-relaxed mb-4" data-i18n-html="terms.sec6_intro"><strong>Smart Load Solution</strong> shall not be liable for:</p>
           <ul class="list-disc ml-6 text-gray-300 space-y-2 mb-4">
-            <li data-i18n="terms.sec6_li1">Business decisions made based on information from the application</li>
+            <li data-i18n="terms.sec6_li1">Business decisions made with information from the app. Calculations are estimates based on the data you enter and on third-party data (Google Maps routes and miles, EIA fuel prices, and estimated tolls and weather)</li>
             <li data-i18n="terms.sec6_li2">Loss of profits or revenue</li>
             <li data-i18n="terms.sec6_li3">Loss of data</li>
             <li data-i18n="terms.sec6_li4">Service interruptions due to maintenance</li>
+            <li data-i18n-html="terms.sec6_li5">Answers from Lex AI, which are generated by artificial intelligence and may contain errors. Nothing in the app, the Academy or the blog is financial, legal or tax advice; for that, consult a professional</li>
           </ul>
           <p class="text-gray-300 leading-relaxed" data-i18n="terms.sec6_max">Our total liability shall not exceed the amount you have paid in the last 12 months.</p>
         </div>
@@ -297,6 +300,6 @@
 
 
   <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.0.0"></script>
+  <script src="/js/cookie-consent.js?v=1.1.0"></script>
 <script src="/js/site-nav.js?v=20261124" defer></script>
 </body></html>
