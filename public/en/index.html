@@ -130,7 +130,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/img/icons/ios/180.png">
   <link href="../css/tailwind-built.css?v=1" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap"
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=Barlow+Condensed:wght@700;800&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap"
     rel="stylesheet">
   <link rel="preload" as="image" href="../img/hero-bg2.webp" fetchpriority="high">
 
@@ -414,6 +414,7 @@
   <title>Cargo Van Load Calculator — Expedited Freight RPM | Smart Load</title>
     <link rel="stylesheet" href="/css/site-nav.css?v=20261124">
     <link rel="stylesheet" href="/css/home-v2.css?v=20261124">
+    <link rel="stylesheet" href="/css/home-hero.css?v=20261126">
 </head>
 
 <body class="bg-animated">
@@ -422,64 +423,43 @@
   <header class="sls-nav" id="slsNav"><div class="sls-nav__in"><a class="sls-nav__brand" href="/en/"><img src="/img/logo-app.webp" alt="" width="34" height="34"><span>Smart Load Solution</span></a><nav class="sls-nav__links" aria-label="Main"><a href="/en/tools/rpm-calculator.html" class="sls-nav__free">Free calculator</a><a href="/en/academy.html">Academy</a><a href="/en/plans.html">Plans</a><a href="/en/blog.html">Blog</a><a href="/en/resources.html">Resources</a></nav><div class="sls-nav__right"><div class="sls-nav__lang"><span aria-current="true">EN</span><span aria-hidden="true">|</span><a href="/" data-lang="es" hreflang="es">ES</a></div><a class="sls-nav__login" href="/auth.html" data-lang="en">Log in</a><a class="sls-nav__cta" href="/auth.html?tab=register" data-lang="en">Start free</a><a class="sls-nav__cta sls-nav__app" href="/app.html">Go to app →</a><button class="sls-nav__burger" type="button" aria-expanded="false" aria-controls="slsNavMenu" aria-label="Open menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div></div><div class="sls-nav__menu" id="slsNavMenu"><a href="/en/tools/rpm-calculator.html" class="sls-nav__free">Free calculator</a><a href="/en/academy.html">Academy</a><a href="/en/plans.html">Plans</a><a href="/en/blog.html">Blog</a><a href="/en/resources.html">Resources</a><div class="sls-nav__menu-actions"><a class="sls-nav__login" href="/auth.html" data-lang="en">Log in</a><a class="sls-nav__cta" href="/auth.html?tab=register" data-lang="en">Start free</a><a class="sls-nav__cta sls-nav__app" href="/app.html">Go to app →</a></div><div class="sls-nav__lang"><span aria-current="true">EN</span><span aria-hidden="true">|</span><a href="/" data-lang="es" hreflang="es">ES</a></div></div></header>
 
   <!-- 🌟 HERO SECTION — Fondo degradado + Texto centrado + Carrusel abajo -->
-  <section class="relative border-b border-light" id="hero-section"
-    style="min-height: calc(100vh - 64px); display: flex; flex-direction: column; justify-content: center; gap: 1.5rem; overflow: hidden; background: var(--bg-darker);">
-
-    <!-- ░░ FONDO: imagen + gradiente oscuro ░░ -->
-    <div style="position:absolute;inset:0;z-index:0;">
-      <img src="../img/hero-bg2.webp" alt=""
-        style="width:100%;height:100%;object-fit:cover;object-position:70% center;opacity:0.55;" loading="eager"
-        fetchpriority="high">
-      <!-- Gradiente: muy oscuro arriba-centro, se aclara un poco abajo para el carrusel -->
-      <div style="position:absolute;inset:0;background:linear-gradient(180deg,
-        rgba(5,5,8,0.75) 0%,
-        rgba(5,5,8,0.60) 45%,
-        rgba(5,5,8,0.55) 100%);"></div>
-      <!-- Glow cyan arriba izquierda -->
-      <div
-        style="position:absolute;top:-60px;left:-80px;width:700px;height:500px;background:radial-gradient(ellipse at 30% 30%, rgba(0,217,255,0.09) 0%, transparent 65%);pointer-events:none;">
+  <section class="hh" id="hero-section">
+    <div class="hh__bg" aria-hidden="true"><img src="/img/hero-bg2.webp" alt="" width="1024" height="1024" fetchpriority="high"></div>
+    <div class="hh__in">
+      <div>
+        <div class="hh__eyebrow">For cargo van and sprinter</div>
+        <p class="hh__hook">$780 for 452 miles. <b>How much do you actually keep?</b></p>
+        <h1>Know exactly <em>which loads to accept</em></h1>
+        <p class="hh__lead">Paste the broker’s offer. The app gets the miles, the fuel price in every state on the route, the tolls and your costs, and tells you in seconds whether to accept or reject.</p>
+        <div class="hh__ctas">
+          <a class="hh__btn hh__btn--c" href="/auth.html?tab=register">Start free →</a>
+          <a class="hh__btn hh__btn--g" href="/en/tools/rpm-calculator.html">Try the free calculator</a>
+        </div>
+        <div class="hh__steps" aria-hidden="true"><span id="hhS1"><i>1</i>The offer comes in</span><span id="hhS2"><i>2</i>The app calculates</span><span id="hhS3"><i>3</i>You decide with numbers</span></div>
       </div>
-      <!-- Glow naranja abajo derecha -->
-      <div
-        style="position:absolute;bottom:-40px;right:-60px;width:600px;height:400px;background:radial-gradient(ellipse at 70% 70%, rgba(194,65,12,0.08) 0%, transparent 65%);pointer-events:none;">
+      <div class="hh__scene" role="img" aria-label="Example: a load offer and the app’s verdict">
+        <div class="hh__card hh__msg" id="hhMsg">
+          <div class="hh__msg-h"><span class="hh__av">📩</span><span><b>Broker</b> · now</span></div>
+          <div class="hh__msg-b" id="hhMsgBody">Dallas, TX → Memphis, TN<br>452 mi<br>$780 all-in</div>
+        </div>
+        <div class="hh__card hh__calc" id="hhCalc">
+          <div class="hh__calc-t"><span>● Smart Load · calculation</span><span id="hhCalcId"></span></div>
+          <div class="hh__row"><span>Route</span><b id="hhRuta">Dallas → Memphis · $780</b></div>
+          <div class="hh__row"><span>Miles (Google)</span><b>452 mi</b></div>
+          <div class="hh__row"><span>Fuel on the route</span><b>TX · AR · TN<small>✓</small></b></div>
+          <div class="hh__row"><span>Tolls</span><b>No tolls<small>✓</small></b></div>
+          <div class="hh__row"><span>Your costs for the load</span><b>$208.69</b></div>
+          <div class="hh__res" id="hhRes"><div><small>RPM</small><b id="hhRpm">$1.73</b></div><div><small>Margin</small><b id="hhMar">73.2%</b></div><div><small>$/mi</small><b id="hhMi">$1.26</b></div></div>
+          <div class="hh__net" id="hhNetBox"><small>Net profit</small><b id="hhNet">$571.31</b></div>
+          <div class="hh__stamp" id="hhStamp"></div>
+        </div>
+        <p class="hh__note">Example with real numbers from the app · Dallas → Memphis</p>
       </div>
     </div>
-
-    <!-- ░░ TEXTO CENTRADO ░░ -->
-    <div
-      style="position:relative;z-index:1;text-align:center;padding:0.5rem 1.5rem 0.25rem;max-width:860px;margin:0 auto;width:100%;">
-
-      <!-- H1 visible (SEO) -->
-      <h1 style="font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:900;line-height:1.2;color:#fff;margin-bottom:0.6rem;">
-        <span style="color:#fff;">Know Exactly</span><br>
-        <span
-          style="background:linear-gradient(90deg, #22D3EE 0%, #A5F3FC 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Which
-          Loads to Take</span>
-      </h1>
-
-      <!-- Descripción -->
-      <p data-i18n="landing.hero_desc"
-        style="font-size:1rem;color:#9ca3af;line-height:1.6;margin-bottom:1rem;max-width:540px;margin-left:auto;margin-right:auto;">
-        Calculate your real RPM as a cargo van or sprinter expediter — fuel, deadhead, and expenses included, in 30 seconds.</p>
-
-      <!-- CTAs -->
-      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem;">
-        <a href="/auth.html" data-i18n="landing.hero_cta_primary"
-          style="display:inline-block;background:#C2410C;color:#fff;font-weight:700;font-size:1rem;padding:0.85rem 2rem;border-radius:10px;text-decoration:none;transition:opacity 0.2s,transform 0.15s;box-shadow:0 4px 24px rgba(194,65,12,0.45);">Calculate
-          your first load free →</a>
-        <a href="plans.html" data-i18n="landing.hero_cta_secondary"
-          style="display:inline-block;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);color:#fff;font-weight:600;font-size:1rem;padding:0.85rem 2rem;border-radius:10px;text-decoration:none;transition:background 0.2s;backdrop-filter:blur(8px);">View
-          Plans</a>
-      </div>
-
-    </div>
-
-    <div class="hv-verdicts"><figure class="hv-verdict hv-verdict--side hv-verdict--left hv-verdict--mid"><img src="/img/home/decision-en-evaluate.webp" alt="App panel flagging EVALUATE on a load" width="732" height="738" loading="eager"><figcaption><b>Evaluate</b>Negotiate before accepting</figcaption></figure><figure class="hv-verdict hv-verdict--main hv-verdict--ok"><img src="/img/home/decision-en-accept.webp" alt="App panel recommending ACCEPT on a Dallas to Memphis load" width="732" height="738" loading="eager"><figcaption><b>Accept</b>Leaves you $571 net</figcaption></figure><figure class="hv-verdict hv-verdict--side hv-verdict--right hv-verdict--no"><img src="/img/home/decision-en-reject.webp" alt="App panel recommending REJECT on a money-losing load" width="732" height="738" loading="eager"><figcaption><b>Reject</b>You lose money</figcaption></figure></div>
-  
   </section>
 
   <!-- 🎁 FEATURES SECTION - Will be added next -->
-<section class="hv-sec" id="como-funciona"><div class="hv-wrap"><div class="hv-center"><span class="hv-eyebrow">How it works</span><h2 class="hv-h2">From the broker's offer to a <em>decision backed by numbers</em></h2><p class="hv-lead">Three steps. The first time takes 5 minutes; after that, each load takes 30 seconds.</p></div><div class="hv-steps"><div class="hv-step"><div class="hv-step__n">1</div><h3>Set your costs once</h3><p>Van payment, insurance, maintenance and the miles you run per month. The app works out your real cost per mile.</p></div><div class="hv-step"><div class="hv-step__n">2</div><h3>Type or paste the load</h3><p>Origin, destination and the rate. The app gets the miles, the fuel price on that route and the tolls.</p></div><div class="hv-step"><div class="hv-step__n">3</div><h3>Decide with numbers</h3><p>It tells you Accept, Evaluate or Reject, what you keep net, and what to ask for if you counter-offer.</p></div></div></div></section>
+<section class="hv-sec" id="como-funciona"><div class="hv-wrap"><div class="hv-center"><span class="hv-eyebrow">How it works</span><h2 class="hv-h2">From the broker's offer to a <em>decision backed by numbers</em></h2><p class="hv-lead">Three steps. The first time takes 5 minutes; after that, each load takes 30 seconds.</p></div><div class="hv-steps"><div class="hv-step"><div class="hv-step__n">1</div><h3>Set your costs once</h3><p>Van payment, insurance, maintenance and the miles you run per month. The app works out your real cost per mile.</p></div><div class="hv-step"><div class="hv-step__n">2</div><h3>Type or paste the load</h3><p>Origin, destination and the rate. The app gets the miles, the fuel price on that route and the tolls.</p></div><div class="hv-step"><div class="hv-step__n">3</div><h3>Decide with numbers</h3><p>It tells you Accept, Evaluate or Reject, what you keep net, and what to ask for if you counter-offer.</p></div></div><div class="hr"><div class="hr__txt"><span class="hv-eyebrow">The route, mile by mile</span><h3>The app follows <em>the real route</em> of the load</h3><p>No national averages. It calculates with what actually happens on the road:</p><ul class="hr__list"><li><i class="amb"></i><span>The <b>empty miles</b> to the pickup (deadhead).</span></li><li><i></i><span>The <b>fuel price in every state</b> you drive through.</span></li><li><i></i><span>The <b>tolls</b> on the route, so you add them to your ask.</span></li><li><i></i><span>Then the verdict: <b>accept, evaluate or reject</b>.</span></li></ul></div><div class="hr__mapwrap"><div class="hr__map" role="img" aria-label="Example map: route from Miami to Atlanta"><svg id="hrSvg" aria-hidden="true"></svg><div class="hr__tag hr__tag--amb" id="hrDead"><small>Deadhead</small><b>45 empty mi</b></div><div class="hr__tag" id="hrToll"><small>Toll</small><b>Florida Turnpike</b></div><div class="hr__tag" id="hrFL"><small>Fuel · FL</small><b>State price</b></div><div class="hr__tag" id="hrGA"><small>Fuel · GA</small><b>State price</b></div></div><div class="hr__verdict" id="hrVerdict"><div class="hr__verdict-h"><span class="hr__pill">EVALUATE</span><small>Miami → Atlanta · 682 mi</small></div><small>Real RPM with deadhead</small><div class="hr__big">$0.96/mi</div><p>The load board says $1.03. With your costs, <b>ask for more before accepting</b>: the app tells you how much.</p></div><p class="hr__note">Illustrative example. The real verdict depends on your costs.</p></div></div></div></section>
 <section class="hv-sec hv-sec--alt" id="features"><div class="hv-wrap"><div class="hv-center"><span class="hv-eyebrow">Features</span><h2 class="hv-h2">Your whole business in <em>one app</em></h2><p class="hv-lead">Built for cargo vans and sprinters, not adapted from a semi-truck app.</p></div><div class="hv-feats"><div class="hv-feat"><div class="hv-feat__ico" aria-hidden="true">🧮</div><h3>Real RPM calculator</h3><p>Includes empty miles, the route's fuel price and your costs. You see net profit before you say yes.</p></div><div class="hv-feat"><div class="hv-feat__ico" aria-hidden="true">🤖</div><h3>Lex AI</h3><p>Analyzes each load with your history and notes, and tells you what to negotiate. Paste the broker's offer and Lex fills in the calculator.</p><span class="hv-feat__tag">Pro & Premium</span></div><div class="hv-feat"><div class="hv-feat__ico" aria-hidden="true">🛣️</div><h3>Route tolls</h3><p>Warns you when the route has tolls and adds them to the price you should ask, so you don't give them away to the broker.</p></div><div class="hv-feat"><div class="hv-feat__ico" aria-hidden="true">🗺️</div><h3>Zone map</h3><p>A heat map of what you've been paid in each state. You know where it pays to go and where it pays to leave from.</p></div><div class="hv-feat"><div class="hv-feat__ico" aria-hidden="true">💰</div><h3>Business finances</h3><p>Revenue, expenses, net profit and your real cost per mile, month by month. With receivables and PDF reports.</p></div><div class="hv-feat"><div class="hv-feat__ico" aria-hidden="true">📋</div><h3>History & export</h3><p>Every load saved and editable. Export to Excel or CSV for your accountant.</p></div></div></div></section>
 <section class="hv-sec"><div class="hv-wrap"><div class="hv-band"><div><span class="hv-eyebrow">Free, no sign-up</span><h2 class="hv-h2">Try the <em>RPM calculator</em> now</h2><p class="hv-lead">Enter what the load pays, the loaded miles and the empty miles. In seconds you see your real RPM, the one the load board doesn't show you.</p><a class="hv-btn hv-btn--cyan" href="/en/tools/rpm-calculator.html">Open the free calculator →</a></div><ul><li>No account needed</li><li>Includes empty miles (deadhead)</li><li>Tells you if the rate covers your costs</li></ul></div></div></section>
 <section class="hv-sec hv-sec--alt" id="academia"><div class="hv-wrap hv-acad"><div><span class="hv-eyebrow">Smart Load Academy</span><h2 class="hv-h2">Learn to run your van <em>like a business</em></h2><p class="hv-lead">Short lessons built on real load numbers: costs, RPM, negotiation, zones and finances. The first 3 modules are free.</p><div class="hv-stats"><div><b>8</b>modules</div><div><b>41</b>lessons</div><div><b>3</b>free modules</div></div><a class="hv-btn hv-btn--cyan" href="/en/academy.html">Start the Academy free →</a></div><div class="hv-mods"><a class="hv-mod" href="/en/academy/module-1/"><span class="hv-mod__n">1</span><span class="hv-mod__t">Mindset & fundamentals</span><span class="hv-mod__b hv-mod__b--free">Free</span></a><a class="hv-mod" href="/en/academy/module-2/"><span class="hv-mod__n">2</span><span class="hv-mod__t">Mastering the numbers</span><span class="hv-mod__b hv-mod__b--free">Free</span></a><a class="hv-mod" href="/en/academy/module-3/"><span class="hv-mod__n">3</span><span class="hv-mod__t">Route & zone strategy</span><span class="hv-mod__b hv-mod__b--free">Free</span></a><a class="hv-mod" href="/en/academy/module-4/"><span class="hv-mod__n">4</span><span class="hv-mod__t">Negotiation & broker relationships</span><span class="hv-mod__b hv-mod__b--pro">Pro</span></a><a class="hv-mod" href="/en/academy/module-5/"><span class="hv-mod__n">5</span><span class="hv-mod__t">Financial analysis & KPIs</span><span class="hv-mod__b hv-mod__b--pro">Pro</span></a><a class="hv-mod" href="/en/academy/module-7/"><span class="hv-mod__n">7</span><span class="hv-mod__t">Sustainable growth</span><span class="hv-mod__b hv-mod__b--prem">Premium</span></a></div></div></section>
@@ -1088,6 +1068,7 @@
 
 
 
+<script src="/js/home-hero.js?v=20261126" defer></script>
 <script src="/js/site-nav.js?v=20261124" defer></script>
 </body>
 
