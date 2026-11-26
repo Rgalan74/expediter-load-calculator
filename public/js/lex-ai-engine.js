@@ -296,8 +296,8 @@ Your decision for THIS load is the panel's (${d.decision}); you may advise how t
         if (p.currentCosts) {
             const c = p.currentCosts;
             costsText = isEs
-                ? `\nDESGLOSE HISTÓRICO DE COSTOS (solo referencia, no para la carga activa):\n  - Combustible: $${(c.combustible || 0).toFixed(3)}/mi\n  - Mantenimiento: $${(c.mantenimiento || 0).toFixed(3)}/mi\n  - Costos fijos: $${(c.costosFijos || 0).toFixed(3)}/mi\n  - Comida/varios: $${(c.comida || 0).toFixed(3)}/mi`
-                : `\nHISTORICAL COST BREAKDOWN (reference only, not for the active load):\n  - Fuel: $${(c.combustible || 0).toFixed(3)}/mi\n  - Maintenance: $${(c.mantenimiento || 0).toFixed(3)}/mi\n  - Fixed costs: $${(c.costosFijos || 0).toFixed(3)}/mi\n  - Food/misc: $${(c.comida || 0).toFixed(3)}/mi`;
+                ? `\nDESGLOSE HISTÓRICO DE COSTOS (solo referencia, no para la carga activa):\n  - Combustible: $${(c.combustible || 0).toFixed(3)}/mi\n  - Mantenimiento: $${(c.mantenimiento || 0).toFixed(3)}/mi\n  - Costos fijos: $${(c.costosFijos || 0).toFixed(3)}/mi`
+                : `\nHISTORICAL COST BREAKDOWN (reference only, not for the active load):\n  - Fuel: $${(c.combustible || 0).toFixed(3)}/mi\n  - Maintenance: $${(c.mantenimiento || 0).toFixed(3)}/mi\n  - Fixed costs: $${(c.costosFijos || 0).toFixed(3)}/mi`;
         }
 
         // Contexto financiero — mes actual y mes anterior
@@ -336,8 +336,8 @@ Your decision for THIS load is the panel's (${d.decision}); you may advise how t
 
             const actual = calcMes(loadsActual, expActual);
             const anterior = calcMes(loadsAnterior, expAnterior);
-            const rpmDiffActual = avgRPM > 0 ? (((actual.rpm - avgRPM) / avgRPM) * 100).toFixed(1) : null;
-            const rpmDiffAnterior = avgRPM > 0 ? (((anterior.rpm - avgRPM) / avgRPM) * 100).toFixed(1) : null;
+            const rpmDiffActual = (avgRPM > 0 && actual.loads > 0) ? (((actual.rpm - avgRPM) / avgRPM) * 100).toFixed(1) : null;
+            const rpmDiffAnterior = (avgRPM > 0 && anterior.loads > 0) ? (((anterior.rpm - avgRPM) / avgRPM) * 100).toFixed(1) : null;
 
             if (isEs) {
                 financeContext = `
@@ -348,7 +348,7 @@ ${currentMonthName.toUpperCase()} (mes actual):
 
 ${prevMonthName.toUpperCase()} (mes anterior):
 - Cargas: ${anterior.loads} | Ingresos: $${anterior.revenue.toFixed(2)} | Gastos: $${anterior.expenses.toFixed(2)}
-- Ganancia neta: $${(anterior.revenue - anterior.expenses).toFixed(2)} | RPM: $${anterior.rpm.toFixed(3)}/mi${rpmDiffAnterior !== null ? ` (${parseFloat(rpmDiffAnterior) >= 0 ? '+' : ''}${rpmDiffAnterior}% vs historical)` : ''}`;
+- Ganancia neta: $${(anterior.revenue - anterior.expenses).toFixed(2)} | RPM: $${anterior.rpm.toFixed(3)}/mi${rpmDiffAnterior !== null ? ` (${parseFloat(rpmDiffAnterior) >= 0 ? '+' : ''}${rpmDiffAnterior}% vs histórico)` : ''}`;
             } else {
                 financeContext = `
 FINANCIAL CONTEXT:
@@ -376,8 +376,8 @@ ${prevMonthName.toUpperCase()} (previous month):
             : 'IMPORTANT: Always respond in English. Never switch to Spanish. Be direct, practical, and use concrete numbers.';
 
         const decisionTerms = isEs
-            ? 'ACEPTA / CASI ACEPTA / EVALÚA CON CUIDADO / RECHAZA'
-            : 'ACCEPT / ALMOST ACCEPT / EVALUATE CAREFULLY / REJECT';
+            ? 'ACEPTA / EVALÚA CON CUIDADO / RECHAZA'
+            : 'ACCEPT / EVALUATE CAREFULLY / REJECT';
 
         if (isEs) {
             return `Eres Lex, asistente de IA experto en expediting (camionería express en USA).
@@ -388,16 +388,16 @@ IMPORTANTE: Tienes datos financieros REALES del conductor en la sección CONTEXT
 
 PERFIL REAL DEL CONDUCTOR:
 - CPM real (costo por milla): $${cpm.toFixed(3)}/mi
-- RPM promedio histórico: $${avgRPM.toFixed(3)}/mi
+- RPM promedio histórico: ${avgRPM > 0 ? '$' + avgRPM.toFixed(3) + '/mi' : 'sin datos todavía'}
 - Margen objetivo: ${(targetProfitPct * 100).toFixed(0)}%
 - Cargas registradas: ${totalLoads}
 ${costsText}
 
 UMBRALES DE DECISIÓN DE ESTE CONDUCTOR:
-- RECHAZA si RPM < $${cpm.toFixed(3)} (pierde dinero)
-- EVALÚA CON CUIDADO si $${cpm.toFixed(3)} ≤ RPM < $${midThreshold.toFixed(3)}
-- CASI ACEPTA si $${midThreshold.toFixed(3)} ≤ RPM < $${acceptThreshold.toFixed(3)}
-- ACEPTA si RPM ≥ $${acceptThreshold.toFixed(3)}
+- RECHAZA si el RPM es MENOR que $${cpm.toFixed(3)} (no cubre su costo: pierde dinero)
+- EVALÚA CON CUIDADO si el RPM está entre $${cpm.toFixed(3)} y $${acceptThreshold.toFixed(3)} (cubre el costo pero no llega a su margen objetivo: conviene negociar)
+- ACEPTA si el RPM es IGUAL O MAYOR que $${acceptThreshold.toFixed(3)} (cubre el costo y su margen objetivo)
+- Compara número contra número antes de decidir (por ejemplo, $0.73 es MAYOR que $0.61).
 
 HISTORIAL POR ESTADO (${totalLoads} cargas reales):
 MEJORES estados para este conductor:
@@ -414,7 +414,7 @@ REGLAS DE ANÁLISIS:
 2. Evalúa cada carga por su propio mérito — no asumas regreso a ningún hub fijo
 3. Un estado difícil es el que históricamente da mal RPM A ESTE conductor específico
 4. Margen real = (RPM - CPM) / RPM × 100
-5. Contraoferta sugerida = $${acceptThreshold.toFixed(3)} × millas totales
+5. Contraoferta: solo si el RPM está por debajo de $${acceptThreshold.toFixed(3)}. Entonces pide al menos $${acceptThreshold.toFixed(3)} × millas totales, redondeado hacia arriba. Si la oferta ya llega o pasa de esa cifra, NUNCA sugieras pedir menos de lo que ofrecen: la carga ya cumple su objetivo (como mucho, pide algo más si hay una razón concreta: peajes, zona difícil, esperas).
 ${panelDecisionEs ? `6. OBLIGATORIO: para la CARGA ACTIVA tu recomendación es "${panelDecisionEs}" (la del panel), aunque el usuario diga que la acepta o insista. Nunca escribas "ACEPTA" ni "SÍ, ACEPTA" si el panel no dice ACCEPT. Puedes decirle qué negociar y cómo aprovecharla si decide tomarla, pero la recomendación no cambia.` : ''}
 
 ${activeLoadContext}
@@ -433,16 +433,16 @@ IMPORTANT: You have the driver's REAL financial data in the FINANCIAL CONTEXT se
 
 DRIVER REAL PROFILE:
 - Real CPM (cost per mile): $${cpm.toFixed(3)}/mi
-- Historical average RPM: $${avgRPM.toFixed(3)}/mi
+- Historical average RPM: ${avgRPM > 0 ? '$' + avgRPM.toFixed(3) + '/mi' : 'no data yet'}
 - Target profit margin: ${(targetProfitPct * 100).toFixed(0)}%
 - Registered loads: ${totalLoads}
 ${costsText}
 
 THIS DRIVER'S DECISION THRESHOLDS:
-- REJECT if RPM < $${cpm.toFixed(3)} (losing money)
-- EVALUATE CAREFULLY if $${cpm.toFixed(3)} ≤ RPM < $${midThreshold.toFixed(3)}
-- ALMOST ACCEPT if $${midThreshold.toFixed(3)} ≤ RPM < $${acceptThreshold.toFixed(3)}
-- ACCEPT if RPM ≥ $${acceptThreshold.toFixed(3)}
+- REJECT if RPM is LOWER than $${cpm.toFixed(3)} (does not cover their cost: losing money)
+- EVALUATE CAREFULLY if RPM is between $${cpm.toFixed(3)} and $${acceptThreshold.toFixed(3)} (covers cost but misses their target margin: worth negotiating)
+- ACCEPT if RPM is EQUAL TO OR HIGHER than $${acceptThreshold.toFixed(3)} (covers cost and their target margin)
+- Compare number against number before deciding (for example, $0.73 is HIGHER than $0.61).
 
 STATE HISTORY (${totalLoads} real loads):
 BEST states for this driver:
@@ -459,7 +459,7 @@ ANALYSIS RULES:
 2. Evaluate each load on its own merits — do not assume return to any fixed hub
 3. A difficult state is one that historically gives bad RPM for THIS specific driver
 4. Real margin = (RPM - CPM) / RPM × 100
-5. Suggested counteroffer = $${acceptThreshold.toFixed(3)} × total miles
+5. Counteroffer: only if RPM is below $${acceptThreshold.toFixed(3)}. Then ask for at least $${acceptThreshold.toFixed(3)} × total miles, rounded up. If the offer already meets or exceeds that amount, NEVER suggest asking for less than they offer: the load already meets their target (at most, ask for a bit more if there is a concrete reason: tolls, difficult zone, waiting time).
 ${panelDecisionEn ? `6. MANDATORY: for the ACTIVE LOAD your recommendation is "${panelDecisionEn}" (the panel's), even if the user says they accept it or insists. Never write "ACCEPT" or "YES, ACCEPT" unless the panel says ACCEPT. You may tell them what to negotiate and how to make the most of it if they take it, but the recommendation does not change.` : ''}
 
 ${activeLoadContext}
