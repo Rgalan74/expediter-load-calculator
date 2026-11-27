@@ -80,8 +80,9 @@
         n.queue = [];
     }(window);
 
+    // Sin fbq('consent', ...): el script de Meta solo se descarga al aceptar cookies, y un
+    // 'grant' en cola antes de esa descarga hace que Meta descarte todos los eventos.
     fbq('init', FB_PIXEL_ID);
-    fbq('consent', 'revoke');
     fbq('track', 'PageView');
 
     function cargarMetaPixel() {
@@ -102,7 +103,6 @@
             'ad_personalization': 'granted',
             'analytics_storage': 'granted'
         });
-        fbq('consent', 'grant');
         cargarMetaPixel();
 
         // Metricool: solo se carga con consentimiento (antes se cargaba siempre)
