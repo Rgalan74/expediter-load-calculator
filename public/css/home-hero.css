@@ -118,3 +118,35 @@
   .hh__card, .hh__row, .hh__stamp, .hh__res, .hh__net, .hr__tag, .hr__verdict, .hr__city, .hr__st { transition: none; }
   .hr__city .pulse { animation: none; }
 }
+
+
+/* ===== Van de fondo + móvil más limpio (2026-11-27) ===== */
+/* Toda la portada sobre el mismo azul marino: sin corte morado entre secciones */
+body.bg-animated { background: #060b16; animation: none; }
+.hh { border-bottom: 0; }
+/* PC: la van se ve detrás de las tarjetas; el texto queda sobre la zona oscura */
+.hh__bg img { opacity: .5; filter: saturate(.8) brightness(.9); object-position: 50% 62%; }
+@media (min-width: 901px) { .hh__bg img { position: absolute; top: 0; right: 0; width: 72%; height: 100%; } }
+.hh__bg::after { background:
+  linear-gradient(90deg, #060b16 0%, #060b16 30%, rgba(6,11,22,.75) 44%, rgba(6,11,22,.35) 62%, rgba(6,11,22,.4) 100%),
+  linear-gradient(0deg, #060b16 0%, rgba(6,11,22,0) 38%),
+  linear-gradient(180deg, rgba(6,11,22,.6) 0%, rgba(6,11,22,0) 22%); }
+
+@media (max-width: 900px) {
+  /* Franja de foto arriba que se funde con el fondo; el texto empieza debajo de la van */
+  .hh { padding: 0 18px 40px; }
+  .hh__bg { bottom: auto; height: 400px; }
+  .hh__bg img { opacity: .85; object-position: 38% 50%; filter: saturate(.85) brightness(.85); }
+  .hh__bg::after { background: linear-gradient(180deg, rgba(6,11,22,.35) 0%, rgba(6,11,22,.15) 30%, rgba(6,11,22,.7) 62%, #060b16 100%); }
+  .hh__in { padding-top: 250px; gap: 34px; }
+  .hh__eyebrow { font-size: 11.5px; letter-spacing: .14em; }
+  .hh__hook { font-size: 1.12rem; margin: 10px 0 4px; line-height: 1.3; }
+  .hh h1 { font-size: 2.05rem; line-height: 1.08; margin: 4px 0 12px; }
+  .hh__lead { font-size: .98rem; line-height: 1.55; margin-bottom: 20px; }
+  .hh__ctas { flex-direction: column; gap: 10px; }
+  .hh__btn { justify-content: center; width: 100%; padding: 14px 18px; }
+  .hh__steps { display: none; }
+  /* Sello: en el hueco entre la oferta y el cálculo, sin tapar texto */
+  .hh__stamp { top: -54px; right: 2px; font-size: 20px; padding: 6px 12px; }
+  .hh__stamp small { font-size: 11px; }
+}
