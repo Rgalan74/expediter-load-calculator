@@ -13,6 +13,32 @@
 (function () {
     'use strict';
 
+    // =========================================================
+    // 0. Origen del visitante (atribución de campañas)
+    //    sls_attr_first: primera visita (no se sobrescribe en 180 días)
+    //    sls_attr_last:  última llegada desde una campaña o desde otra web
+    //    Se guarda en este navegador y se copia al perfil al registrarse.
+    // =========================================================
+    try {
+        var q = new URLSearchParams(location.search);
+        var ref = '';
+        try { ref = document.referrer ? new URL(document.referrer).hostname : ''; } catch (e) {}
+        if (ref && /(^|\.)smartloadsolution\.com$|^expediter-dev\.(web\.app|firebaseapp\.com)$|^checkout\.stripe\.com$|^billing\.stripe\.com$/.test(ref)) ref = '';
+        var campos = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid'];
+        var a = {};
+        campos.forEach(function (k) { var v = q.get(k); if (v) a[k] = String(v).slice(0, 120); });
+        var hayCampania = Object.keys(a).length > 0;
+        if (ref) a.referrer = ref;
+        a.landing = location.pathname.slice(0, 120);
+        a.at = new Date().toISOString();
+        if (!a.utm_source) a.utm_source = a.gclid ? 'google' : (a.fbclid ? 'facebook' : (ref || 'direct'));
+        var primera = null;
+        try { primera = JSON.parse(localStorage.getItem('sls_attr_first') || 'null'); } catch (e) {}
+        var vieja = primera && primera.at && (Date.now() - new Date(primera.at).getTime() > 180 * 24 * 3600 * 1000);
+        if (!primera || vieja) localStorage.setItem('sls_attr_first', JSON.stringify(a));
+        if (hayCampania || ref) localStorage.setItem('sls_attr_last', JSON.stringify(a));
+    } catch (e) { /* sin localStorage */ }
+
     var GA4_ID = 'G-EK7NM7PJE2';
     var FB_PIXEL_ID = '2077223159668765';
 

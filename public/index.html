@@ -2,7 +2,7 @@
   <meta charset="UTF-8">
 
   <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="js/consent-mode.js?v=1.2.0"></script>
+  <script src="js/consent-mode.js?v=1.3.0"></script>
 
   <!-- Ahrefs Analytics -->
   <script>
@@ -1012,6 +1012,7 @@
       if (marketingConsent) tasks.push(slsSaveBrevo(name, email, utms));
       var results = await Promise.all(tasks);
       if (results[0] || results[1]) {
+        try { if (typeof gtag === 'function') gtag('event', 'generate_lead', { form: 'portada_es' }); if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'portada_es' }); } catch (_) {}
         document.getElementById("slsFormContent").style.display = "none";
         document.getElementById("slsSuccess").style.display = "block";
         // Prellenar el registro con lo que ya escribio (auth.html lo lee y lo borra)
