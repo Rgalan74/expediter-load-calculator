@@ -199,7 +199,7 @@ async function setupAuthListener() {
           // Ruta de respaldo (no pasa por auth.html): usa fbq directo, trackMeta
           // no esta definido fuera de auth.html.
           if (typeof window.fbq === 'function') {
-            window.fbq('track', 'StartTrial', { method: 'email' });
+            window.fbq('track', 'StartTrial', { method: 'email', value: 0.00, currency: 'USD' });
           }
         }
 
