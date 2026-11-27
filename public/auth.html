@@ -61,7 +61,7 @@
   <link rel="stylesheet" href="css/sls-pages.css?v=1.0.2">
 
   <!-- Consent Mode (GA4 + Meta Pixel, gated por consentimiento) -->
-  <script src="/js/consent-mode.js?v=1.2.0"></script>
+  <script src="/js/consent-mode.js?v=1.3.0"></script>
 
 </head>
 
@@ -356,6 +356,15 @@
           }, { merge: true });
           // Apply the chosen language immediately
           if (window.i18n) window.i18n.setLanguage(selectedLang);
+
+          // Origen del usuario (campaña / web / directo) para saber qué marketing trae clientes
+          try {
+            const leer = (k) => { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (_) { return null; } };
+            const origen = { first: leer('sls_attr_first'), last: leer('sls_attr_last') || leer('sls_attr_first') };
+            if (origen.first || origen.last) {
+              await firebase.firestore().collection('users').doc(userCred.user.uid).set({ acquisition: origen }, { merge: true });
+            }
+          } catch (e) { debugLog('[auth] Origen no guardado:', e.message); }
 
           // Tips por email (opcional): guardar la preferencia y, si aceptó, añadir a la lista de Brevo
           const quiereTips = !!(form.marketingOptIn && form.marketingOptIn.checked);
