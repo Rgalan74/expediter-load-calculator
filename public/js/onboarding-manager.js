@@ -388,35 +388,47 @@ class OnboardingManager {
         return new Promise((resolve) => {
             const modal = document.createElement('div');
             modal.className = 'onboarding-modal';
+            const en = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') !== 'es';
+            const T = en ? {
+                h: 'Welcome to Smart Load Solution!', p: 'Before your first load, let\'s set up your operation (2 minutes):',
+                b1: 'Vehicle type and fuel use', b2: 'Monthly fixed costs', b3: 'Your operating profile',
+                ib: 'Accurate numbers from day one', ip: 'The app calculates your real cost per mile with YOUR expenses, not an industry average.',
+                skip: 'Later', setup: 'Set up now'
+            } : {
+                h: '¡Bienvenido a Smart Load Solution!', p: 'Antes de calcular tu primera carga, configuremos tu operación (2 minutos):',
+                b1: 'Tipo de vehículo y consumo', b2: 'Costos fijos mensuales', b3: 'Tu perfil operativo',
+                ib: 'Números exactos desde el primer día', ip: 'La app calcula tu costo real por milla con TUS gastos, no con un promedio de la industria.',
+                skip: 'Más tarde', setup: 'Configurar ahora'
+            };
             modal.innerHTML = `
                 <div class="modal-overlay"></div>
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="icon">🚐</div>
-                        <h2>¡Bienvenido a Smart Load Solution!</h2>
+                        <h2>${T.h}</h2>
                     </div>
                     
                     <div class="modal-body">
-                        <p>Antes de calcular tu primera carga, configuremos tu operación (2 minutos):</p>
+                        <p>${T.p}</p>
                         
                         <ul class="setup-benefits">
-                            <li>✅ Tipo de vehículo y consumo</li>
-                            <li>✅ Costos fijos mensuales</li>
-                            <li>✅ Tu perfil operativo</li>
+                            <li>✅ ${T.b1}</li>
+                            <li>✅ ${T.b2}</li>
+                            <li>✅ ${T.b3}</li>
                         </ul>
                         
                         <div class="info-box">
-                            <strong>📊 Cálculos precisos desde el inicio</strong>
-                            <p>Esto asegura que TODOS los cálculos sean precisos para TU operación específica.</p>
+                            <strong>📊 ${T.ib}</strong>
+                            <p>${T.ip}</p>
                         </div>
                     </div>
                     
                     <div class="modal-footer">
                         <button class="btn-secondary" data-action="skip">
-                            Después (no recomendado)
+                            ${T.skip}
                         </button>
                         <button class="btn-primary" data-action="setup">
-                            Configurar Ahora
+                            ${T.setup}
                         </button>
                     </div>
                 </div>

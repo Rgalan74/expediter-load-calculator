@@ -96,7 +96,7 @@
         <button id="btn-es" onclick="window.i18n.setLanguage('es')" style="background:none;border:none;cursor:pointer;padding:0.2rem 0.5rem;border-radius:4px;color:#9ca3af;transition:color 0.2s;">ES</button>
       </div>
 
-      <div class="text-center mb-6">
+      <div class="text-center mb-6" style="padding-top:1.5rem;">
         <h1 class="text-2xl font-bold text-gray-900" data-i18n="auth.welcome">Welcome</h1>
         <p class="text-sm text-gray-500" data-i18n="auth.tagline">Turn your van into a profit machine 🚐💰</p>
       </div>
@@ -491,6 +491,12 @@
 
     // ✅ FASE 3: Language selector helper
     window.selectRegLang = function(lang) {
+      window.marcarRegLang(lang);
+      // Also update the UI language preview immediately
+      if (window.i18n) window.i18n.setLanguage(lang);
+    };
+    // Solo marca el botón (sin cambiar el idioma de la página)
+    window.marcarRegLang = function(lang) {
       const hiddenInput = document.getElementById('reg-language');
       const btnEn = document.getElementById('reg-lang-en');
       const btnEs = document.getElementById('reg-lang-es');
@@ -505,15 +511,10 @@
       // Clase para el estilo nuevo (css/sls-pages.css)
       if (btnEn) btnEn.classList.toggle('sls-on', lang === 'en');
       if (btnEs) btnEs.classList.toggle('sls-on', lang === 'es');
-      // Also update the UI language preview immediately
-      if (window.i18n) window.i18n.setLanguage(lang);
     };
-    // Initialize selector to match current i18n language on page load
-    document.addEventListener('DOMContentLoaded', () => {
-      const initLang = localStorage.getItem('app_language') || 'en';
-      if (initLang === 'es') window.selectRegLang?.('es');
-      document.getElementById(initLang === 'es' ? 'reg-lang-es' : 'reg-lang-en')?.classList.add('sls-on');
-    });
+    // El selector sigue al idioma real de la página: al cargar (i18nReady) y al cambiarlo con EN | ES
+    document.addEventListener('i18nReady', (e) => window.marcarRegLang(e.detail?.lang === 'es' ? 'es' : 'en'));
+    document.addEventListener('languageChanged', (e) => window.marcarRegLang(e.detail?.lang === 'es' ? 'es' : 'en'));
 
 
     let _redirecting = false;
@@ -554,7 +555,7 @@
   </script>
 
   <!-- 🍪 Cookie Consent Banner -->
-  <script src="/js/cookie-consent.js?v=1.1.0"></script>
+  <script src="/js/cookie-consent.js?v=1.2.0"></script>
 </body>
 
 </html>

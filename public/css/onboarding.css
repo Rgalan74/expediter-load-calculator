@@ -494,3 +494,23 @@
 :root .onboarding-modal .info-box p { color: #374151 !important; }
 :root .onboarding-modal .btn-secondary,
 :root .onboarding-modal .btn-secondary span { color: #1e40af !important; }
+
+
+/* ===== Asistente de bienvenida con el diseño oscuro de la app (2026-11-26) ===== */
+:root:not(#sls) body .onboarding-modal .modal-content { background: #0b1526 !important; border: 1px solid rgba(148,163,184,.2) !important; color: #e2e8f0 !important; box-shadow: 0 30px 80px rgba(0,0,0,.6) !important; }
+:root:not(#sls) body .onboarding-modal .modal-header { background: transparent !important; border-bottom: 2px solid #22D3EE !important; }
+:root:not(#sls) body .onboarding-modal .modal-header h2 { color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; }
+:root:not(#sls) body .onboarding-modal .modal-body, :root:not(#sls) body .onboarding-modal .modal-body p { color: #cbd5e1 !important; }
+:root:not(#sls) body .onboarding-modal .setup-benefits { background: rgba(255,255,255,.04) !important; border: 1px solid rgba(148,163,184,.14) !important; }
+:root:not(#sls) body .onboarding-modal .setup-benefits li { color: #e2e8f0 !important; border-color: rgba(148,163,184,.14) !important; }
+:root:not(#sls) body .onboarding-modal .info-box { background: rgba(34,211,238,.08) !important; border-left-color: #22D3EE !important; }
+:root:not(#sls) body .onboarding-modal .info-box strong { color: #22D3EE !important; }
+:root:not(#sls) body .onboarding-modal .info-box p { color: #cbd5e1 !important; }
+:root:not(#sls) body .onboarding-modal .modal-footer { background: transparent !important; border-top: 1px solid rgba(148,163,184,.14) !important; }
+:root:not(#sls) body .onboarding-modal .btn-secondary { background: transparent !important; color: #e2e8f0 !important; -webkit-text-fill-color: #e2e8f0 !important; border: 1px solid rgba(148,163,184,.4) !important; opacity: 1 !important; }
+:root:not(#sls) body .onboarding-modal .btn-secondary:hover { background: rgba(255,255,255,.06) !important; }
+/* cuerpo y cajas: sin fondos claros heredados */
+:root:not(#sls) body .onboarding-modal .modal-body { background: #0b1526 !important; background-image: none !important; }
+:root:not(#sls) body .onboarding-modal .setup-benefits { background-color: rgba(255,255,255,.04) !important; background-image: none !important; }
+:root:not(#sls) body .onboarding-modal .info-box { background-color: rgba(34,211,238,.08) !important; background-image: none !important; }
+:root:not(#sls) body .onboarding-modal .modal-content { overflow: hidden !important; }
