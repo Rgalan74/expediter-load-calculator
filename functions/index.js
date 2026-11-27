@@ -900,7 +900,7 @@ async function _lexAccessTier(uid) {
 
 // Limite diario de mensajes por usuario (control de costo y abuso).
 // Dia segun hora de Nueva York; admin sin limite.
-const LEX_DAILY_LIMITS = { trial: 25, pro: 10, premium: 150 };
+const LEX_DAILY_LIMITS = { trial: 10, pro: 10, premium: 150 }; // la prueba = Pro (antes 25/día)
 
 function _lexDayKey(now = new Date()) {
     return now.toLocaleDateString('en-CA', { timeZone: 'America/New_York' }); // YYYY-MM-DD

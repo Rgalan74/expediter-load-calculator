@@ -506,9 +506,9 @@ RESPONSE FORMAT:
     }
 
     // ============================================================
-    //  DAILY MESSAGE CAP — trial: 25/día, pro: 10/día, premium: lo controla el servidor
+    //  DAILY MESSAGE CAP — trial: 10/día (igual que Pro), pro: 10/día, premium: lo controla el servidor
     // ============================================================
-    const TRIAL_DAILY_LIMIT = 25;
+    const TRIAL_DAILY_LIMIT = 10;
 
     function _dailyKey() {
         const uid = window.currentUser?.uid || 'anon';
@@ -974,7 +974,7 @@ RESPONSE FORMAT:
             return;
         }
 
-        // Daily cap — trial: 25 mensajes/día
+        // Daily cap — trial: 10 mensajes/día
         if (isDailyLimitReached()) {
             debugLog('[LEX-AI] Daily limit reached:', getDailyCount());
             const isEs = (window.i18n?.currentLang || 'en') === 'es';
