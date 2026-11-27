@@ -159,17 +159,9 @@ app.post("/", async (req, res) => {
                         // Solo en el primer pago: en subscription_cycle (renovacion
                         // mensual) este mismo email de "Bienvenido" se mandaba cada mes.
                         if (invoice.billing_reason === "subscription_create" && userEmail && planMeta[planId]) {
-                            const { name: planName, price: planPrice } = planMeta[planId];
                             const lang = await getUserLang(firebaseId);
-                            await db.collection("mail").add({
-                                to: [userEmail],
-                                message: {
-                                    subject: lang === 'en'
-                                        ? `Welcome to the ${planName} Plan! 🎉`
-                                        : `¡Bienvenido al Plan ${planName}! 🎉`,
-                                    html: buildActivationEmail(planName, planPrice, lang),
-                                },
-                            }).catch(e => logger.warn("[stripeWebhook] Email no enviado:", e.message));
+                            await queueEmail(userEmail, EMAILS.planActivated(planId, lang))
+                                .catch(e => logger.warn("[stripeWebhook] Email no enviado:", e.message));
                         }
                     } else {
                         logger.warn("[stripeWebhook] No se activó — priceId:", priceId, "planId:", planId, "firebaseId:", firebaseId);
@@ -209,12 +201,7 @@ app.post("/", async (req, res) => {
                     const fechaFin = periodEnd
                         ? periodEnd.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' })
                         : (lang === 'en' ? 'the end date' : 'la fecha de vencimiento');
-                    await sendEmailByUid(firebaseUid, {
-                        subject: lang === 'en'
-                            ? '📋 Plan change scheduled — Smart Load Solution'
-                            : '📋 Cambio de plan programado — Smart Load Solution',
-                        html: buildDowngradeScheduledEmail(fechaFin, lang)
-                    });
+                    await sendEmailByUid(firebaseUid, EMAILS.downgradeScheduled(fechaFin, lang));
                     logger.info("[stripeWebhook] ✅ Email downgrade programado uid:", firebaseUid);
                 }
 
@@ -233,12 +220,7 @@ app.post("/", async (req, res) => {
                     const fechaFin = periodEnd
                         ? periodEnd.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' })
                         : (lang === 'en' ? 'the end date' : 'la fecha de vencimiento');
-                    await sendEmailByUid(firebaseUid, {
-                        subject: lang === 'en'
-                            ? '😔 Your subscription will be cancelled soon — Smart Load Solution'
-                            : '😔 Tu suscripción se cancelará pronto — Smart Load Solution',
-                        html: buildCancellationScheduledEmail(fechaFin, lang)
-                    });
+                    await sendEmailByUid(firebaseUid, EMAILS.cancellationScheduled(fechaFin, newPlanId || oldPlanId || 'professional', lang));
                     logger.info("[stripeWebhook] ✅ Email cancelación programada uid:", firebaseUid);
                 }
 
@@ -247,16 +229,7 @@ app.post("/", async (req, res) => {
                     const planName = PLAN_NAMES[newPlanId];
                     const planPrice = newPlanId === 'premium' ? '29.99' : '14.99';
                     const lang = await getUserLang(firebaseUid);
-                    await sendEmailByUid(firebaseUid, {
-                        subject: lang === 'en'
-                            ? (isDowngrade
-                                ? `Your plan changed to ${planName} — Smart Load Solution`
-                                : `Welcome to the ${planName} Plan! 🎉`)
-                            : (isDowngrade
-                                ? `Tu plan cambió a ${planName} — Smart Load Solution`
-                                : `¡Bienvenido al Plan ${planName}! 🎉`),
-                        html: buildPlanChangedEmail(planName, planPrice, isDowngrade, lang)
-                    });
+                    await sendEmailByUid(firebaseUid, isDowngrade ? EMAILS.planDowngraded(lang) : EMAILS.planActivated(newPlanId, lang));
                     logger.info("[stripeWebhook] ✅ Email cambio de plan enviado:", planName, "uid:", firebaseUid);
                 }
                 break;
@@ -268,8 +241,34 @@ app.post("/", async (req, res) => {
 
                 const firebaseId = await getFirebaseIdFromCustomer(sub.customer);
                 if (firebaseId) {
-                    await downgradeUserPlan(firebaseId, sub.customer, sub.id);
+                    const bajado = await downgradeUserPlan(firebaseId, sub.customer, sub.id);
+                    if (bajado) {
+                        const lang = await getUserLang(firebaseId);
+                        await sendEmailByUid(firebaseId, EMAILS.planEnded(lang))
+                            .catch(e => logger.warn("[stripeWebhook] Email plan terminado no enviado:", e.message));
+                    }
                 }
+                break;
+            }
+
+            case "invoice.payment_failed": {
+                const invoice = event.data.object;
+                logger.info("[stripeWebhook] Pago fallido:", invoice.id, "reason:", invoice.billing_reason, "intento:", invoice.attempt_count);
+                // Solo renovaciones: en el primer pago el usuario ve el error en el checkout
+                if (invoice.billing_reason !== "subscription_cycle") break;
+                const firebaseId = await getFirebaseIdFromCustomer(invoice.customer);
+                if (!firebaseId) break;
+                const uref = db.collection("users").doc(firebaseId);
+                const udata = (await uref.get()).data() || {};
+                // Un aviso cada 48 h como máximo (Stripe reintenta varias veces)
+                const ultimo = udata.paymentFailedEmailAt?.toDate?.() || null;
+                if (ultimo && Date.now() - ultimo.getTime() < 48 * 3600 * 1000) break;
+                const lineItem = invoice.lines?.data?.[0];
+                const priceId = lineItem?.pricing?.price_details?.price || lineItem?.price?.id || null;
+                const planId = PRICE_TO_PLAN[priceId] || udata.plan || 'professional';
+                const lang = await getUserLang(firebaseId);
+                await sendEmailByUid(firebaseId, EMAILS.paymentFailed(planId, lang));
+                await uref.set({ paymentFailedEmailAt: admin.firestore.FieldValue.serverTimestamp() }, { merge: true });
                 break;
             }
 
@@ -579,10 +578,77 @@ exports.createLoad = onCall(
                 }, { merge: true });
             }
 
-            return { id: newLoadRef.id };
+            return { id: newLoadRef.id, newCount: currentCount + 1 };
         });
 
-        return result;
+        if (maxLoads !== -1 && result.newCount >= maxLoads) {
+            const mes = new Date().toISOString().slice(0, 7);
+            if (preUserData.limitEmailMonth !== mes) {
+                try {
+                    await userRef.set({ limitEmailMonth: mes }, { merge: true });
+                    const lang = preUserData.preferredLanguage === 'en' ? 'en' : 'es';
+                    await sendEmailByUid(uid, EMAILS.loadLimit(lang, maxLoads));
+                } catch (e) { logger.warn('[createLoad] Aviso de límite no enviado:', e.message); }
+            }
+        }
+
+        return { id: result.id };
+    }
+);
+
+// ============================================================
+// sendWelcomeEmail — la app lo llama justo después de registrarse.
+// El correo se arma en el servidor y sale una sola vez por cuenta.
+// ============================================================
+exports.sendWelcomeEmail = onCall(
+    { region: 'us-central1' },
+    async (request) => {
+        if (!request.auth) throw new HttpsError('unauthenticated', 'Authentication required');
+        const uid = request.auth.uid;
+        const email = request.auth.token.email;
+        if (!email) return { sent: false };
+        const ref = db.collection('users').doc(uid);
+        const enviar = await db.runTransaction(async (tx) => {
+            const snap = await tx.get(ref);
+            if (snap.exists && snap.data().welcomeEmailSentAt) return null;
+            tx.set(ref, { welcomeEmailSentAt: admin.firestore.FieldValue.serverTimestamp() }, { merge: true });
+            return snap.exists ? snap.data() : {};
+        });
+        if (!enviar) return { sent: false };
+        const lang = (request.data && request.data.lang === 'en') || enviar.preferredLanguage === 'en' ? 'en' : 'es';
+        await queueEmail(email, EMAILS.welcome(lang, enviar.fullName || ''));
+        return { sent: true };
+    }
+);
+
+// ============================================================
+// lifecycleEmails — diario. Avisa 2 días antes de que termine la prueba
+// de 14 días de Lex a quien sigue en el plan gratis (una vez por cuenta).
+// ============================================================
+exports.lifecycleEmails = onSchedule(
+    { schedule: '0 15 * * *', timeZone: 'America/New_York', region: 'us-central1' },
+    async () => {
+        const ahora = Date.now();
+        const desde = new Date(ahora + 1 * 24 * 3600 * 1000).toISOString();
+        const hasta = new Date(ahora + 3 * 24 * 3600 * 1000).toISOString();
+        const snap = await db.collection('users')
+            .where('lexTrialEndsAt', '>=', desde)
+            .where('lexTrialEndsAt', '<=', hasta)
+            .get();
+        let enviados = 0;
+        for (const d of snap.docs) {
+            const u = d.data() || {};
+            if (u.lexTrialEndingEmailAt) continue;
+            if (['professional', 'premium', 'admin'].includes(u.plan) || u.role === 'admin') continue;
+            try {
+                const lang = u.preferredLanguage === 'en' ? 'en' : 'es';
+                const fecha = new Date(u.lexTrialEndsAt).toLocaleDateString(lang === 'en' ? 'en-US' : 'es-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                await d.ref.set({ lexTrialEndingEmailAt: admin.firestore.FieldValue.serverTimestamp() }, { merge: true });
+                await sendEmailByUid(d.id, EMAILS.lexTrialEnding(lang, fecha));
+                enviados++;
+            } catch (e) { logger.warn('[lifecycleEmails] Error con', d.id, e.message); }
+        }
+        logger.info(`[lifecycleEmails] Aviso de fin de prueba de Lex: ${enviados} de ${snap.size}`);
     }
 );
 
@@ -982,7 +1048,7 @@ async function downgradeUserPlan(firebaseId, customerId, deletedSubId) {
         });
         if (activeSubs.data.length > 0) {
             logger.info(`[downgradeUserPlan] ${firebaseId} aún tiene ${activeSubs.data.length} sub(s) activa(s) — no se baja a free`);
-            return;
+            return false;
         }
     }
 
@@ -994,6 +1060,7 @@ async function downgradeUserPlan(firebaseId, customerId, deletedSubId) {
         planCanceledAt: admin.firestore.FieldValue.serverTimestamp(),
     }, { merge: true });
     logger.info("[downgradeUserPlan] ✅ Plan bajado a free:", firebaseId);
+    return true;
 }
 
 // ─── Obtener Firebase UID desde Stripe Customer ID ────────────────────────────
@@ -1131,6 +1198,19 @@ async function sendMetaPurchaseEvent(session) {
     }
 }
 
+// ─── Correos: plantillas en ./emails.js; todos salen por la colección 'mail' ───
+const EMAILS = require('./emails');
+async function queueEmail(to, msg) {
+    const dest = String(to || '').trim().toLowerCase();
+    if (!dest || dest.endsWith('@example.com')) return false; // cuentas de prueba: no enviar
+    await db.collection('mail').add({
+        to: [dest],
+        replyTo: 'support@smartloadsolution.com',
+        message: { subject: msg.subject, html: msg.html },
+    });
+    return true;
+}
+
 // ─── Obtener idioma preferido del usuario ───────────────────────────────────────────────
 async function getUserLang(uid) {
     try {
@@ -1154,191 +1234,12 @@ async function sendEmailByUid(uid, { subject, html }) {
         email = userDoc.data()?.email;
     }
     if (!email) { logger.warn("[sendEmailByUid] No email para uid:", uid); return; }
-    await db.collection('mail').add({ to: [email], message: { subject, html } });
+    await queueEmail(email, { subject, html });
     logger.info("[sendEmailByUid] ✅ Email enviado a:", email);
 }
 
 // ─── Template: activación de plan (NUEVO — faltaba) ──────────────────────────
-function buildActivationEmail(planName, planPrice, lang = 'es') {
-    const isEn = lang === 'en';
-    const title    = isEn ? `Welcome to the ${planName} Plan! 🎉` : `¡Bienvenido al Plan ${planName}! 🎉`;
-    const body     = isEn
-        ? `You now have full access to the <strong style="color:#fff;">${planName}</strong> plan at $${planPrice}/month.`
-        : `Ahora tienes acceso completo al Plan <strong style="color:#fff;">${planName}</strong> por $${planPrice}/mes.`;
-    const f1 = isEn ? 'Unlimited loads' : 'Cargas ilimitadas';
-    const f2 = isEn ? 'Full financial system' : 'Sistema financiero completo';
-    const f3 = isEn ? 'Advanced zone analysis' : 'Análisis de zonas avanzado';
-    const f4 = 'Smart Load Academy';
-    const btn = isEn ? 'Go to App →' : 'Ir a la App →';
-    return `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
-<body style="margin:0;padding:0;background:#0f172a;font-family:'Segoe UI',Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;padding:40px 20px;">
-    <tr><td align="center">
-      <table width="600" cellpadding="0" cellspacing="0" style="background:#1e293b;border-radius:16px;overflow:hidden;max-width:600px;">
-        <tr><td style="background:linear-gradient(135deg,#1e293b,#0f172a);padding:40px;text-align:center;border-bottom:2px solid #FF6D4A;">
-          <h1 style="margin:0;font-size:28px;font-weight:800;color:#fff;">Smart<span style="color:#FF6D4A;">Load</span> Solution</h1>
-        </td></tr>
-        <tr><td style="padding:40px;">
-          <div style="text-align:center;margin-bottom:24px;">
-            <div style="display:inline-block;background:#FF6D4A;color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;font-weight:700;">PLAN ${planName.toUpperCase()} ${isEn ? 'ACTIVE' : 'ACTIVO'}</div>
-          </div>
-          <h2 style="margin:0 0 16px;color:#fff;font-size:22px;text-align:center;">${title}</h2>
-          <p style="margin:0 0 28px;color:#94a3b8;font-size:15px;line-height:1.6;text-align:center;">${body}</p>
-          <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px;">
-            <tr><td style="padding:12px;background:#0f172a;border-radius:8px;"><table width="100%"><tr><td width="32" style="font-size:18px;">✅</td><td><p style="margin:0;color:#fff;font-size:14px;font-weight:600;">${f1}</p></td></tr></table></td></tr>
-            <tr><td style="padding:4px 0;"></td></tr>
-            <tr><td style="padding:12px;background:#0f172a;border-radius:8px;"><table width="100%"><tr><td width="32" style="font-size:18px;">✅</td><td><p style="margin:0;color:#fff;font-size:14px;font-weight:600;">${f2}</p></td></tr></table></td></tr>
-            <tr><td style="padding:4px 0;"></td></tr>
-            <tr><td style="padding:12px;background:#0f172a;border-radius:8px;"><table width="100%"><tr><td width="32" style="font-size:18px;">✅</td><td><p style="margin:0;color:#fff;font-size:14px;font-weight:600;">${f3}</p></td></tr></table></td></tr>
-            <tr><td style="padding:4px 0;"></td></tr>
-            <tr><td style="padding:12px;background:#0f172a;border-radius:8px;"><table width="100%"><tr><td width="32" style="font-size:18px;">✅</td><td><p style="margin:0;color:#fff;font-size:14px;font-weight:600;">${f4}</p></td></tr></table></td></tr>
-          </table>
-          <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
-            <a href="https://app.smartloadsolution.com/app.html" style="display:inline-block;background:#FF6D4A;color:#fff;text-decoration:none;padding:14px 36px;border-radius:8px;font-weight:700;font-size:15px;">${btn}</a>
-          </td></tr></table>
-        </td></tr>
-        <tr><td style="padding:24px 40px;border-top:1px solid #334155;text-align:center;">
-          <p style="margin:0;color:#94a3b8;font-size:12px;">Smart Load Solution · <a href="https://smartloadsolution.com" style="color:#FF6D4A;text-decoration:none;">smartloadsolution.com</a></p>
-        </td></tr>
-      </table>
-    </td></tr>
-  </table>
-</body></html>`;
-}
-
-// ─── Template: downgrade programado ──────────────────────────────────────────
-function buildDowngradeScheduledEmail(fechaFin, lang = 'es') {
-    const isEn = lang === 'en';
-    return `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
-<body style="margin:0;padding:0;background:#0f172a;font-family:'Segoe UI',Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;padding:40px 20px;">
-    <tr><td align="center">
-      <table width="600" cellpadding="0" cellspacing="0" style="background:#1e293b;border-radius:16px;overflow:hidden;max-width:600px;">
-        <tr><td style="background:linear-gradient(135deg,#1e293b,#0f172a);padding:40px;text-align:center;border-bottom:2px solid #FF6D4A;">
-          <h1 style="margin:0;font-size:28px;font-weight:800;color:#fff;">Smart<span style="color:#FF6D4A;">Load</span> Solution</h1>
-        </td></tr>
-        <tr><td style="padding:40px;">
-          <h2 style="margin:0 0 16px;color:#fff;font-size:22px;text-align:center;">${isEn ? 'Plan change scheduled 📋' : 'Cambio de plan programado 📋'}</h2>
-          <p style="margin:0 0 20px;color:#94a3b8;font-size:15px;line-height:1.6;text-align:center;">
-            ${isEn
-                ? `Your plan will change to <strong style="color:#fff;">Professional</strong> on <strong style="color:#FF6D4A;">${fechaFin}</strong>.<br>Until then you still have full access to Premium + AI.`
-                : `Tu plan cambiará a <strong style="color:#fff;">Professional</strong> el <strong style="color:#FF6D4A;">${fechaFin}</strong>.<br>Hasta entonces sigues teniendo acceso completo a Premium + AI.`}
-          </p>
-          <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;border-radius:12px;padding:24px;margin-bottom:28px;">
-            <tr><td>
-              <p style="margin:0 0 12px;color:#FF6D4A;font-size:13px;font-weight:700;text-transform:uppercase;">${isEn ? `What you'll lose on ${fechaFin}` : `Lo que perderás el ${fechaFin}`}</p>
-              <p style="margin:4px 0;color:#94a3b8;font-size:14px;">⚠️&nbsp;Lex AI Assistant</p>
-              <p style="margin:4px 0;color:#94a3b8;font-size:14px;">⚠️&nbsp;${isEn ? 'Unlimited history' : 'Historial ilimitado'}</p>
-              <p style="margin:4px 0;color:#94a3b8;font-size:14px;">⚠️&nbsp;${isEn ? 'Tax reports' : 'Reportes de impuestos'}</p>
-              <p style="margin:4px 0;color:#94a3b8;font-size:14px;">⚠️&nbsp;${isEn ? 'Full Academy' : 'Academia completa'}</p>
-            </td></tr>
-          </table>
-          <p style="margin:0 0 24px;color:#94a3b8;font-size:14px;text-align:center;">${isEn ? 'Changed your mind? You can keep Premium and keep making better decisions on the road.' : '¿Cambiaste de opinión? Puedes mantener Premium y seguir tomando mejores decisiones en la carretera.'}</p>
-          <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;"><tr><td align="center">
-            <a href="https://app.smartloadsolution.com/account.html" style="display:inline-block;background:#FF6D4A;color:#fff;text-decoration:none;padding:14px 36px;border-radius:8px;font-weight:700;font-size:15px;">${isEn ? 'Keep Premium →' : 'Mantener Premium →'}</a>
-          </td></tr></table>
-        </td></tr>
-        <tr><td style="padding:24px 40px;border-top:1px solid #334155;text-align:center;">
-          <p style="margin:0;color:#94a3b8;font-size:12px;">Smart Load Solution · <a href="https://smartloadsolution.com" style="color:#FF6D4A;text-decoration:none;">smartloadsolution.com</a></p>
-        </td></tr>
-      </table>
-    </td></tr>
-  </table>
-</body></html>`;
-}
-
-// ─── Template: cancelación programada ────────────────────────────────────────
-function buildCancellationScheduledEmail(fechaFin, lang = 'es') {
-    const isEn = lang === 'en';
-    return `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
-<body style="margin:0;padding:0;background:#0f172a;font-family:'Segoe UI',Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;padding:40px 20px;">
-    <tr><td align="center">
-      <table width="600" cellpadding="0" cellspacing="0" style="background:#1e293b;border-radius:16px;overflow:hidden;max-width:600px;">
-        <tr><td style="background:linear-gradient(135deg,#1e293b,#0f172a);padding:40px;text-align:center;border-bottom:2px solid #FF6D4A;">
-          <h1 style="margin:0;font-size:28px;font-weight:800;color:#fff;">Smart<span style="color:#FF6D4A;">Load</span> Solution</h1>
-        </td></tr>
-        <tr><td style="padding:40px;">
-          <div style="text-align:center;font-size:48px;margin-bottom:16px;">😔</div>
-          <h2 style="margin:0 0 16px;color:#fff;font-size:22px;text-align:center;">${isEn ? 'Subscription cancelled' : 'Suscripción cancelada'}</h2>
-          <p style="margin:0 0 20px;color:#94a3b8;font-size:15px;line-height:1.6;text-align:center;">
-            ${isEn
-                ? `Your subscription will be cancelled on <strong style="color:#FF6D4A;">${fechaFin}</strong>.<br>Until then you still have full access to your current plan.`
-                : `Tu suscripción se cancelará el <strong style="color:#FF6D4A;">${fechaFin}</strong>.<br>Hasta entonces sigues teniendo acceso completo a tu plan actual.`}
-          </p>
-          <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;border-radius:12px;padding:24px;margin-bottom:28px;">
-            <tr><td>
-              <p style="margin:0 0 12px;color:#FF6D4A;font-size:13px;font-weight:700;text-transform:uppercase;">${isEn ? `What you'll lose on ${fechaFin}` : `Lo que perderás el ${fechaFin}`}</p>
-              <p style="margin:4px 0;color:#94a3b8;font-size:14px;">⚠️&nbsp;${isEn ? 'Unlimited loads' : 'Cargas ilimitadas'}</p>
-              <p style="margin:4px 0;color:#94a3b8;font-size:14px;">⚠️&nbsp;${isEn ? 'Full financial dashboard' : 'Dashboard financiero completo'}</p>
-              <p style="margin:4px 0;color:#94a3b8;font-size:14px;">⚠️&nbsp;${isEn ? 'Advanced zone analysis' : 'Análisis de zonas avanzado'}</p>
-              <p style="margin:4px 0;color:#94a3b8;font-size:14px;">⚠️&nbsp;${isEn ? 'Reports & exports' : 'Reportes y exportaciones'}</p>
-              <p style="margin:4px 0;color:#94a3b8;font-size:14px;">⚠️&nbsp;Lex AI Assistant</p>
-            </td></tr>
-          </table>
-          <p style="margin:0 0 24px;color:#94a3b8;font-size:14px;text-align:center;">${isEn ? `Was this a mistake? You can reactivate your subscription any time before ${fechaFin}.` : `¿Fue un error? Puedes reactivar tu suscripción en cualquier momento antes del ${fechaFin}.`}</p>
-          <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;"><tr><td align="center">
-            <a href="https://app.smartloadsolution.com/account.html" style="display:inline-block;background:#FF6D4A;color:#fff;text-decoration:none;padding:14px 36px;border-radius:8px;font-weight:700;font-size:15px;">${isEn ? 'Reactivate Subscription →' : 'Reactivar Suscripción →'}</a>
-          </td></tr></table>
-          <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td align="center">
-            <a href="https://app.smartloadsolution.com/plans.html" style="display:inline-block;background:transparent;color:#FF6D4A;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:600;font-size:14px;border:1px solid #FF6D4A;">${isEn ? 'View Plans →' : 'Ver Planes →'}</a>
-          </td></tr></table>
-        </td></tr>
-        <tr><td style="padding:24px 40px;border-top:1px solid #334155;text-align:center;">
-          <p style="margin:0;color:#94a3b8;font-size:12px;">Smart Load Solution · <a href="https://smartloadsolution.com" style="color:#FF6D4A;text-decoration:none;">smartloadsolution.com</a></p>
-          <p style="margin:8px 0 0;color:#64748b;font-size:11px;">${isEn ? 'Sorry to see you go. If you have feedback, <a href="mailto:support@smartloadsolution.com" style="color:#FF6D4A;text-decoration:none;">let us know</a>.' : 'Lamentamos verte partir. Si tienes alguna sugerencia para mejorar, <a href="mailto:support@smartloadsolution.com" style="color:#FF6D4A;text-decoration:none;">escríbenos</a>.'}</p>
-        </td></tr>
-      </table>
-    </td></tr>
-  </table>
-</body></html>`;
-}
-
-// ─── Template: cambio de plan efectivo ───────────────────────────────────────
-function buildPlanChangedEmail(planName, planPrice, isDowngrade, lang = 'es') {
-    const isEn = lang === 'en';
-    const heading = isDowngrade
-        ? (isEn ? `Your plan is now ${planName}` : `Tu plan es ahora ${planName}`)
-        : (isEn ? `${planName} Plan activated! 🚀` : `¡Plan ${planName} activado! 🚀`);
-    const body = isDowngrade
-        ? (isEn
-            ? `Your account is now on the <strong style="color:#fff;">Professional</strong> plan at $${planPrice}/month.`
-            : `Tu cuenta ahora está en el plan <strong style="color:#fff;">Professional</strong> a $${planPrice}/mes.`)
-        : (isEn
-            ? `You have full access to <strong style="color:#fff;">${planName}</strong> at $${planPrice}/month.`
-            : `Tienes acceso completo a <strong style="color:#fff;">${planName}</strong> por $${planPrice}/mes.`);
-    const btnLabel  = isEn ? 'Go to App →' : 'Ir a la App →';
-    const upgradeLbl = isEn ? 'Go back to Premium + AI →' : 'Volver a Premium + AI →';
-    return `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
-<body style="margin:0;padding:0;background:#0f172a;font-family:'Segoe UI',Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;padding:40px 20px;">
-    <tr><td align="center">
-      <table width="600" cellpadding="0" cellspacing="0" style="background:#1e293b;border-radius:16px;overflow:hidden;max-width:600px;">
-        <tr><td style="background:linear-gradient(135deg,#1e293b,#0f172a);padding:40px;text-align:center;border-bottom:2px solid #FF6D4A;">
-          <h1 style="margin:0;font-size:28px;font-weight:800;color:#fff;">Smart<span style="color:#FF6D4A;">Load</span> Solution</h1>
-        </td></tr>
-        <tr><td style="padding:40px;">
-          <div style="text-align:center;margin-bottom:24px;">
-            <div style="display:inline-block;background:#FF6D4A;color:#fff;padding:8px 20px;border-radius:20px;font-size:13px;font-weight:700;">PLAN ${planName.toUpperCase()} ${isEn ? 'ACTIVE' : 'ACTIVO'}</div>
-          </div>
-          <h2 style="margin:0 0 16px;color:#fff;font-size:22px;text-align:center;">${heading}</h2>
-          <p style="margin:0 0 28px;color:#94a3b8;font-size:15px;line-height:1.6;text-align:center;">${body}</p>
-          <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;"><tr><td align="center">
-            <a href="https://app.smartloadsolution.com/app.html" style="display:inline-block;background:#FF6D4A;color:#fff;text-decoration:none;padding:14px 36px;border-radius:8px;font-weight:700;font-size:15px;">${btnLabel}</a>
-          </td></tr></table>
-          ${isDowngrade ? `
-          <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td align="center">
-            <a href="https://app.smartloadsolution.com/plans.html" style="display:inline-block;background:transparent;color:#FF6D4A;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:600;font-size:14px;border:1px solid #FF6D4A;">${upgradeLbl}</a>
-          </td></tr></table>` : ''}
-        </td></tr>
-        <tr><td style="padding:24px 40px;border-top:1px solid #334155;text-align:center;">
-          <p style="margin:0;color:#94a3b8;font-size:12px;">Smart Load Solution · <a href="https://smartloadsolution.com" style="color:#FF6D4A;text-decoration:none;">smartloadsolution.com</a></p>
-        </td></tr>
-      </table>
-    </td></tr>
-  </table>
-</body></html>`;
-}
+// (Plantillas de correo: ver ./emails.js)
 
 
 // ============================================================
