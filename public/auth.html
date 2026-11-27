@@ -171,6 +171,12 @@
               <span data-i18n-html="auth.terms_agree">I accept the <a href="terms.html" class="text-blue-600 hover:text-blue-800 hover:underline" target="_blank">Terms of Use</a> and the <a href="privacy.html" class="text-blue-600 hover:text-blue-800 hover:underline" target="_blank">Privacy Policy</a></span>
             </label>
           </div>
+          <div>
+            <label class="flex items-start space-x-2 text-sm text-gray-700 cursor-pointer">
+              <input type="checkbox" name="marketingOptIn" id="reg-marketing" class="form-checkbox h-4 w-4 mt-0.5 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+              <span data-i18n="auth.marketing_optin">Send me tips by email to earn more per mile (optional — unsubscribe anytime)</span>
+            </label>
+          </div>
           <div style="background:linear-gradient(135deg,rgba(124,58,237,0.08),rgba(168,85,247,0.08));border:1px solid rgba(168,85,247,0.3);border-radius:0.75rem;padding:0.65rem 1rem;display:flex;align-items:center;gap:0.625rem;">
             <span style="font-size:1.25rem;flex-shrink:0;">🎁</span>
             <p class="text-sm font-semibold" style="color:#6d28d9;" data-i18n="auth.lex_trial">Sign up and get 14 days of Lex AI free</p>
@@ -350,6 +356,17 @@
           }, { merge: true });
           // Apply the chosen language immediately
           if (window.i18n) window.i18n.setLanguage(selectedLang);
+
+          // Tips por email (opcional): guardar la preferencia y, si aceptó, añadir a la lista de Brevo
+          const quiereTips = !!(form.marketingOptIn && form.marketingOptIn.checked);
+          try {
+            await firebase.firestore().collection('users').doc(userCred.user.uid).set({ marketingConsent: quiereTips }, { merge: true });
+            if (quiereTips) {
+              await firebase.app().functions('us-central1').httpsCallable('subscribeLead')({
+                name: fullName, email: email, lang: selectedLang, landing_page: '/auth.html', utm_source: 'registro'
+              });
+            }
+          } catch (e) { debugLog('[auth] Preferencia de tips no guardada:', e.message); }
 
           // Bienvenida: la arma y la envía el servidor, una sola vez por cuenta
           try {

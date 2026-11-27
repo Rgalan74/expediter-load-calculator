@@ -773,6 +773,7 @@
     "tagline": "Convierte tu van en una máquina de ganancias 🚐💰",
     "back_home": "← Volver al inicio",
     "terms_agree": "Acepto los <a href=\"terms.html\" class=\"text-blue-600 hover:text-blue-800 hover:underline\" target=\"_blank\">Términos de Uso</a> y la <a href=\"privacy.html\" class=\"text-blue-600 hover:text-blue-800 hover:underline\" target=\"_blank\">Política de Privacidad</a>",
+    "marketing_optin": "Quiero recibir por email tips para ganar más por milla (opcional; puedes darte de baja cuando quieras)",
     "msg_session_active": "Sesión activa, iniciando checkout...",
     "msg_session_user": "Sesión activa: {{email}}. Haz clic en Iniciar Sesión para continuar.",
     "err_enter_email": "⚠️ Ingresa tu correo electrónico primero",

@@ -1269,29 +1269,36 @@ exports.subscribeLead = onCall(
             throw new HttpsError('internal', 'Brevo no configurado');
         }
 
+        // Idioma del contacto (para que Brevo mande la versión ES o EN)
+        const idioma = (String(data.lang || '').toLowerCase() === 'en' || landingPage.startsWith('/en/') || landingPage === '/en') ? 'EN' : 'ES';
+        const enviar = (conIdioma) => fetch("https://api.brevo.com/v3/contacts", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "api-key": BREVO_API_KEY },
+            body: JSON.stringify({
+                email: email,
+                attributes: Object.assign({
+                    FIRSTNAME: name,
+                    UTM_SOURCE: utmSource,
+                    UTM_MEDIUM: utmMedium,
+                    UTM_CAMPAIGN: utmCampaign,
+                    LANDING_PAGE: landingPage
+                }, conIdioma ? { LANGUAGE: idioma } : {}),
+                listIds: [listId],
+                updateEnabled: true
+            })
+        });
+
         try {
-            const res = await fetch("https://api.brevo.com/v3/contacts", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "api-key": BREVO_API_KEY
-                },
-                body: JSON.stringify({
-                    email: email,
-                    attributes: {
-                        FIRSTNAME: name,
-                        UTM_SOURCE: utmSource,
-                        UTM_MEDIUM: utmMedium,
-                        UTM_CAMPAIGN: utmCampaign,
-                        LANDING_PAGE: landingPage
-                    },
-                    listIds: [listId],
-                    updateEnabled: true
-                })
-            });
+            let res = await enviar(true);
+            if (res.status === 400) {
+                // Si el atributo LANGUAGE no existe en Brevo, no perder el contacto: reintentar sin él
+                const txt = await res.text();
+                logger.warn(`[subscribeLead] Brevo 400 con LANGUAGE (${txt.slice(0, 160)}) — reintento sin idioma`);
+                res = await enviar(false);
+            }
 
             if (res.status === 201 || res.status === 204) {
-                logger.info(`[subscribeLead] Lead agregado a Brevo: ${email}`);
+                logger.info(`[subscribeLead] Lead agregado a Brevo: ${email} (${idioma})`);
                 return { success: true };
             }
 

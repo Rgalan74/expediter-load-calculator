@@ -746,6 +746,7 @@
     "tagline": "Turn your van into a profit machine 🚐💰",
     "back_home": "← Back to Home",
     "terms_agree": "I accept the <a href=\"terms.html\" class=\"text-blue-600 hover:text-blue-800 hover:underline\" target=\"_blank\">Terms of Use</a> and the <a href=\"privacy.html\" class=\"text-blue-600 hover:text-blue-800 hover:underline\" target=\"_blank\">Privacy Policy</a>",
+    "marketing_optin": "Send me tips by email to earn more per mile (optional; unsubscribe anytime)",
     "msg_session_active": "Active session, starting checkout...",
     "msg_session_user": "Active session: {{email}}. Click Log In to continue.",
     "err_enter_email": "⚠️ Enter your email first",
