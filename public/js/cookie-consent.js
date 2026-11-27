@@ -59,6 +59,7 @@
                 const saved = localStorage.getItem('app_language');
                 if (saved === 'en' || saved === 'es') return saved;
             } catch (e) { /* sin localStorage */ }
+            if (String(navigator.language || '').toLowerCase().indexOf('es') === 0) return 'es';
         }
         return docLang;
     }

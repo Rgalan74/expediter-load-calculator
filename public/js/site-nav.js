@@ -15,6 +15,13 @@
         if (e.target.closest('a')) { menu.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); }
       });
     }
+    // Sin idioma elegido todavía: recordar el de la página (así el registro y la app salen en ese idioma)
+    try {
+      if (!localStorage.getItem('app_language')) {
+        var pl = (document.documentElement.lang || '').toLowerCase().indexOf('en') === 0 || location.pathname.indexOf('/en/') === 0 ? 'en' : 'es';
+        localStorage.setItem('app_language', pl);
+      }
+    } catch (e) {}
     nav.querySelectorAll('[data-lang]').forEach(function (a) {
       a.addEventListener('click', function () {
         try { localStorage.setItem('app_language', a.getAttribute('data-lang')); } catch (e) {}

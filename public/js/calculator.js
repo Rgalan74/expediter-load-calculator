@@ -3598,15 +3598,16 @@ function notifyLexCalculatorReady() {
   lexNotifiedForCurrentCalc = true;
 
   // 2) Mensajes y tono segun la zona
-  let mensajeSorpresa = 'Oye Ricardo… esta carga se ve interesante 🚐';
-  let mensajeAlerta = '¿Quieres que la revise por ti? Haz clic en mí 🧠✨';
+  const _esLex = (window.i18n?.currentLang || localStorage.getItem('app_language') || 'en') === 'es';
+  let mensajeSorpresa = _esLex ? 'Oye… esta carga se ve interesante 🚐' : 'Hey… this load looks interesting 🚐';
+  let mensajeAlerta = _esLex ? '¿Quieres que la revise por ti? Haz clic en mí 🧠✨' : 'Want me to review it for you? Tap me 🧠✨';
 
   if (zonaTipo === 'mala' && destinoEstado) {
-    mensajeSorpresa = `Hmm… ${destinoEstado} suele ser complicado para salir 😬`;
-    mensajeAlerta = 'Mejor la revisamos bien antes de decir que sí. Haz clic en mí 🧠⚠️';
+    mensajeSorpresa = _esLex ? `Hmm… ${destinoEstado} suele ser complicado para salir 😬` : `Hmm… ${destinoEstado} is usually hard to get out of 😬`;
+    mensajeAlerta = _esLex ? 'Mejor la revisamos bien antes de decir que sí. Haz clic en mí 🧠⚠️' : 'Let\'s review it before saying yes. Tap me 🧠⚠️';
   } else if (zonaTipo === 'buena' && destinoEstado) {
-    mensajeSorpresa = `Oye, ${destinoEstado} suele ser buena zona para ti ✅`;
-    mensajeAlerta = 'Si quieres, la analizo y vemos si está a la altura de tus números 📊✨';
+    mensajeSorpresa = _esLex ? `Oye, ${destinoEstado} suele ser buena zona para ti ✅` : `Hey, ${destinoEstado} is usually a good zone for you ✅`;
+    mensajeAlerta = _esLex ? 'Si quieres, la analizo y vemos si está a la altura de tus números 📊✨' : 'If you want, I\'ll analyze it against your numbers 📊✨';
   }
 
   // 3) Cara de sorpresa segun la zona
